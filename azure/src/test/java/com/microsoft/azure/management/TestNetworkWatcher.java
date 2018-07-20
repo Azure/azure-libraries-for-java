@@ -27,7 +27,7 @@ import java.util.List;
  */
 public class TestNetworkWatcher extends TestTemplate<NetworkWatcher, NetworkWatchers> {
     private static String TEST_ID = "";
-    private static Region REGION = Region.US_NORTH_CENTRAL;
+    private static Region REGION = Region.US_SOUTH_CENTRAL;
     private String groupName;
     private String nwName;
 

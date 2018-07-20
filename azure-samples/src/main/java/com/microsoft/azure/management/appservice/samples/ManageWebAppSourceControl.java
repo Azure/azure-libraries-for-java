@@ -11,6 +11,7 @@ import com.microsoft.azure.management.appservice.AppServicePlan;
 import com.microsoft.azure.management.appservice.JavaVersion;
 import com.microsoft.azure.management.appservice.PricingTier;
 import com.microsoft.azure.management.appservice.PublishingProfile;
+import com.microsoft.azure.management.appservice.RuntimeStack;
 import com.microsoft.azure.management.appservice.WebApp;
 import com.microsoft.azure.management.appservice.WebContainer;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
@@ -37,6 +38,7 @@ import java.util.concurrent.TimeUnit;
  *    - Deploy to 4 using a GitHub repository with continuous integration
  *    - Deploy to 5 using Web deploy
  *    - Deploy to 6 using WAR deploy
+ *    - Deploy to 7 using ZIP deploy
  */
 public final class ManageWebAppSourceControl {
 
@@ -56,14 +58,16 @@ public final class ManageWebAppSourceControl {
         final String app4Name       = SdkContext.randomResourceName("webapp4-", 20);
         final String app5Name       = SdkContext.randomResourceName("webapp5-", 20);
         final String app6Name       = SdkContext.randomResourceName("webapp5-", 20);
+        final String app7Name       = SdkContext.randomResourceName("webapp7-", 20);
         final String app1Url        = app1Name + suffix;
         final String app2Url        = app2Name + suffix;
         final String app3Url        = app3Name + suffix;
         final String app4Url        = app4Name + suffix;
         final String app5Url        = app5Name + suffix;
         final String app6Url        = app6Name + suffix;
+        final String app7Url        = app7Name + suffix;
         final String rgName         = SdkContext.randomResourceName("rg1NEMV_", 24);
-
+        final String rg7Name         = SdkContext.randomResourceName("rg7NEMV_", 24);
         try {
 
 
@@ -215,14 +219,14 @@ public final class ManageWebAppSourceControl {
             System.out.println("Deploying helloworld.war to " + app5Name + " through web deploy...");
 
             app5.deploy()
-                    .withPackageUri("https://github.com/Azure/azure-sdk-for-java/raw/master/azure-samples/src/main/resources/helloworld.zip")
+                    .withPackageUri("https://github.com/Azure/azure-libraries-for-java/raw/master/azure-samples/src/main/resources/helloworld.zip")
                     .withExistingDeploymentsDeleted(true)
                     .execute();
 
             System.out.println("Deploying coffeeshop.war to " + app5Name + " through web deploy...");
 
             app5.deploy()
-                    .withPackageUri("https://github.com/Azure/azure-sdk-for-java/raw/master/azure-samples/src/main/resources/coffeeshop.zip")
+                    .withPackageUri("https://github.com/Azure/azure-libraries-for-java/raw/master/azure-samples/src/main/resources/coffeeshop.zip")
                     .withExistingDeploymentsDeleted(false)
                     .execute();
 
@@ -279,6 +283,43 @@ public final class ManageWebAppSourceControl {
             System.out.println("CURLing " + app6Url + "/coffeeshop...");
             System.out.println(curl("http://" + app6Url + "/coffeeshop"));
 
+            //============================================================
+            // Create a 7th web app with the existing app service plan
+
+
+
+            System.out.println("Creating web app " + app7Name + " in resource group " + rgName + "...");
+
+            WebApp app7 = azure.webApps().define(app7Name)
+                    .withRegion(Region.US_WEST)
+                    .withNewResourceGroup(rg7Name)
+                    .withNewLinuxPlan(PricingTier.STANDARD_S2)
+                    .withBuiltInImage(RuntimeStack.JAVA_8_JRE8)
+                    .withAppSetting("JAVA_OPTS", "-Djava.security.egd=file:/dev/./urandom")
+                    .create();
+
+            System.out.println("Created web app " + app7.name());
+            Utils.print(app7);
+
+            //============================================================
+            // Deploy to the 7th web app through ZIP deploy
+
+            System.out.println("Deploying app.zip to " + app7Name + " through ZIP deploy...");
+
+            for (int i = 0; i < 5; i++) {
+                try {
+                    app7.zipDeploy(new File(ManageWebAppSourceControl.class.getResource("/app.zip").getPath()));
+                    break;
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+            System.out.println("Deployments to web app " + app7.name() + " completed");
+            Utils.print(app7);
+
+            // warm up
+            System.out.println("Warming up " + app7Url);
+            curl("http://" + app7Url);
             return true;
         } catch (Exception e) {
             System.err.println(e.getMessage());
@@ -287,6 +328,7 @@ public final class ManageWebAppSourceControl {
             try {
                 System.out.println("Deleting Resource Group: " + rgName);
                 azure.resourceGroups().beginDeleteByName(rgName);
+                azure.resourceGroups().beginDeleteByName(rg7Name);
                 System.out.println("Deleted Resource Group: " + rgName);
             } catch (NullPointerException npe) {
                 System.out.println("Did not create any resources in Azure. No clean up is necessary");

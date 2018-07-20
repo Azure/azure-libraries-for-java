@@ -18,12 +18,6 @@ import com.microsoft.azure.management.appservice.ProxyOnlyResource;
 @JsonFlatten
 public class UserInner extends ProxyOnlyResource {
     /**
-     * Username.
-     */
-    @JsonProperty(value = "properties.name")
-    private String userName;
-
-    /**
      * Username used for publishing.
      */
     @JsonProperty(value = "properties.publishingUserName", required = true)
@@ -48,27 +42,13 @@ public class UserInner extends ProxyOnlyResource {
     private String publishingPasswordHashSalt;
 
     /**
-     * Get the userName value.
-     *
-     * @return the userName value
+     * Url of SCM site.
      */
-    public String userName() {
-        return this.userName;
-    }
+    @JsonProperty(value = "properties.scmUri")
+    private String scmUri;
 
     /**
-     * Set the userName value.
-     *
-     * @param userName the userName value to set
-     * @return the UserInner object itself.
-     */
-    public UserInner withUserName(String userName) {
-        this.userName = userName;
-        return this;
-    }
-
-    /**
-     * Get the publishingUserName value.
+     * Get username used for publishing.
      *
      * @return the publishingUserName value
      */
@@ -77,7 +57,7 @@ public class UserInner extends ProxyOnlyResource {
     }
 
     /**
-     * Set the publishingUserName value.
+     * Set username used for publishing.
      *
      * @param publishingUserName the publishingUserName value to set
      * @return the UserInner object itself.
@@ -88,7 +68,7 @@ public class UserInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the publishingPassword value.
+     * Get password used for publishing.
      *
      * @return the publishingPassword value
      */
@@ -97,7 +77,7 @@ public class UserInner extends ProxyOnlyResource {
     }
 
     /**
-     * Set the publishingPassword value.
+     * Set password used for publishing.
      *
      * @param publishingPassword the publishingPassword value to set
      * @return the UserInner object itself.
@@ -108,7 +88,7 @@ public class UserInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the publishingPasswordHash value.
+     * Get password hash used for publishing.
      *
      * @return the publishingPasswordHash value
      */
@@ -117,7 +97,7 @@ public class UserInner extends ProxyOnlyResource {
     }
 
     /**
-     * Set the publishingPasswordHash value.
+     * Set password hash used for publishing.
      *
      * @param publishingPasswordHash the publishingPasswordHash value to set
      * @return the UserInner object itself.
@@ -128,7 +108,7 @@ public class UserInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the publishingPasswordHashSalt value.
+     * Get password hash salt used for publishing.
      *
      * @return the publishingPasswordHashSalt value
      */
@@ -137,13 +117,33 @@ public class UserInner extends ProxyOnlyResource {
     }
 
     /**
-     * Set the publishingPasswordHashSalt value.
+     * Set password hash salt used for publishing.
      *
      * @param publishingPasswordHashSalt the publishingPasswordHashSalt value to set
      * @return the UserInner object itself.
      */
     public UserInner withPublishingPasswordHashSalt(String publishingPasswordHashSalt) {
         this.publishingPasswordHashSalt = publishingPasswordHashSalt;
+        return this;
+    }
+
+    /**
+     * Get url of SCM site.
+     *
+     * @return the scmUri value
+     */
+    public String scmUri() {
+        return this.scmUri;
+    }
+
+    /**
+     * Set url of SCM site.
+     *
+     * @param scmUri the scmUri value to set
+     * @return the UserInner object itself.
+     */
+    public UserInner withScmUri(String scmUri) {
+        this.scmUri = scmUri;
         return this;
     }
 

@@ -10,15 +10,18 @@ package com.microsoft.azure.management.appservice;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.List;
+
 /**
  * Managed service identity.
  */
 public class ManagedServiceIdentity {
     /**
-     * Type of managed service identity.
+     * Type of managed service identity. Possible values include:
+     * 'SystemAssigned', 'UserAssigned'.
      */
     @JsonProperty(value = "type")
-    private Object type;
+    private ManagedServiceIdentityType type;
 
     /**
      * Tenant of managed service identity.
@@ -33,27 +36,33 @@ public class ManagedServiceIdentity {
     private String principalId;
 
     /**
-     * Get the type value.
+     * Array of UserAssigned managed service identities.
+     */
+    @JsonProperty(value = "identityIds")
+    private List<String> identityIds;
+
+    /**
+     * Get type of managed service identity. Possible values include: 'SystemAssigned', 'UserAssigned'.
      *
      * @return the type value
      */
-    public Object type() {
+    public ManagedServiceIdentityType type() {
         return this.type;
     }
 
     /**
-     * Set the type value.
+     * Set type of managed service identity. Possible values include: 'SystemAssigned', 'UserAssigned'.
      *
      * @param type the type value to set
      * @return the ManagedServiceIdentity object itself.
      */
-    public ManagedServiceIdentity withType(Object type) {
+    public ManagedServiceIdentity withType(ManagedServiceIdentityType type) {
         this.type = type;
         return this;
     }
 
     /**
-     * Get the tenantId value.
+     * Get tenant of managed service identity.
      *
      * @return the tenantId value
      */
@@ -62,12 +71,32 @@ public class ManagedServiceIdentity {
     }
 
     /**
-     * Get the principalId value.
+     * Get principal Id of managed service identity.
      *
      * @return the principalId value
      */
     public String principalId() {
         return this.principalId;
+    }
+
+    /**
+     * Get array of UserAssigned managed service identities.
+     *
+     * @return the identityIds value
+     */
+    public List<String> identityIds() {
+        return this.identityIds;
+    }
+
+    /**
+     * Set array of UserAssigned managed service identities.
+     *
+     * @param identityIds the identityIds value to set
+     * @return the ManagedServiceIdentity object itself.
+     */
+    public ManagedServiceIdentity withIdentityIds(List<String> identityIds) {
+        this.identityIds = identityIds;
+        return this;
     }
 
 }

@@ -29,7 +29,7 @@ import rx.Observable;
 import rx.functions.Func1;
 
 import java.io.IOException;
-import java.util.Map;
+import java.util.Iterator;
 import java.util.Set;
 
 public class VirtualMachineScaleSetEMSILMSIOperationsTests  extends TestBase {
@@ -56,7 +56,7 @@ public class VirtualMachineScaleSetEMSILMSIOperationsTests  extends TestBase {
     }
 
     @Test
-    public void canCreateVirtualMachineScaleSetWithEMSI() throws Exception {
+    public void canCreateUpdateVirtualMachineScaleSetWithEMSI() throws Exception {
         RG_NAME = generateRandomResourceName("java-ems-c-rg", 15);
         String identityName1 = generateRandomResourceName("msi-id", 15);
         String identityName2 = generateRandomResourceName("msi-id", 15);
@@ -132,19 +132,6 @@ public class VirtualMachineScaleSetEMSILMSIOperationsTests  extends TestBase {
         Assert.assertNull(virtualMachineScaleSet.systemAssignedManagedServiceIdentityPrincipalId()); // No Local MSI enabled
         Assert.assertNull(virtualMachineScaleSet.systemAssignedManagedServiceIdentityTenantId());    // No Local MSI enabled
 
-        // Ensure the MSI extension is set
-        //
-        Map<String, VirtualMachineScaleSetExtension> extensions = virtualMachineScaleSet.extensions();
-        VirtualMachineScaleSetExtension msiExtension = null;
-        for (VirtualMachineScaleSetExtension extension : extensions.values()) {
-            if (extension.publisherName().equalsIgnoreCase("Microsoft.ManagedIdentity")
-                    && extension.typeName().equalsIgnoreCase("ManagedIdentityExtensionForLinux")) {
-                msiExtension = extension;
-                break;
-            }
-        }
-        Assert.assertNotNull(msiExtension);
-
         // Ensure the "User Assigned (External) MSI" id can be retrieved from the virtual machine scale set
         //
         Set<String> emsiIds = virtualMachineScaleSet.userAssignedManagedServiceIdentityIds();
@@ -209,9 +196,91 @@ public class VirtualMachineScaleSetEMSILMSIOperationsTests  extends TestBase {
                 .last();
 
         Assert.assertNotNull("Expected role assignment with ROLE not found for the resource group for identity", assignment);
+
+
+        emsiIds = virtualMachineScaleSet.userAssignedManagedServiceIdentityIds();
+        Iterator<String> itr = emsiIds.iterator();
+        // Remove both (all) identities
+        virtualMachineScaleSet.update()
+                .withoutUserAssignedManagedServiceIdentity(itr.next())
+                .withoutUserAssignedManagedServiceIdentity(itr.next())
+                .apply();
+
+        //
+        Assert.assertEquals(0, virtualMachineScaleSet.userAssignedManagedServiceIdentityIds().size());
+        if (virtualMachineScaleSet.managedServiceIdentityType() != null) {
+            Assert.assertTrue(virtualMachineScaleSet.managedServiceIdentityType().equals(ResourceIdentityType.NONE));
+        }
+        // fetch vm again and validate
+        virtualMachineScaleSet.refresh();
+        //
+        Assert.assertEquals(0, virtualMachineScaleSet.userAssignedManagedServiceIdentityIds().size());
+        if (virtualMachineScaleSet.managedServiceIdentityType() != null) {
+            Assert.assertTrue(virtualMachineScaleSet.managedServiceIdentityType().equals(ResourceIdentityType.NONE));
+        }
+        //
+        //
+        itr = emsiIds.iterator();
+        Identity identity1 = msiManager.identities().getById(itr.next());
+        Identity identity2 = msiManager.identities().getById(itr.next());
+        //
+        // Update VM by enabling System-MSI and add two identities
+        virtualMachineScaleSet.update()
+                .withSystemAssignedManagedServiceIdentity()
+                .withExistingUserAssignedManagedServiceIdentity(identity1)
+                .withExistingUserAssignedManagedServiceIdentity(identity2)
+                .apply();
+
+        Assert.assertNotNull(virtualMachineScaleSet.userAssignedManagedServiceIdentityIds());
+        Assert.assertEquals(2, virtualMachineScaleSet.userAssignedManagedServiceIdentityIds().size());
+        Assert.assertNotNull(virtualMachineScaleSet.managedServiceIdentityType());
+        Assert.assertTrue(virtualMachineScaleSet.managedServiceIdentityType().equals(ResourceIdentityType.SYSTEM_ASSIGNED_USER_ASSIGNED));
+        //
+        Assert.assertNotNull(virtualMachineScaleSet.systemAssignedManagedServiceIdentityPrincipalId());
+        Assert.assertNotNull(virtualMachineScaleSet.systemAssignedManagedServiceIdentityTenantId());
+        //
+        virtualMachineScaleSet.refresh();
+        Assert.assertNotNull(virtualMachineScaleSet.userAssignedManagedServiceIdentityIds());
+        Assert.assertEquals(2, virtualMachineScaleSet.userAssignedManagedServiceIdentityIds().size());
+        Assert.assertNotNull(virtualMachineScaleSet.managedServiceIdentityType());
+        Assert.assertTrue(virtualMachineScaleSet.managedServiceIdentityType().equals(ResourceIdentityType.SYSTEM_ASSIGNED_USER_ASSIGNED));
+        //
+        Assert.assertNotNull(virtualMachineScaleSet.systemAssignedManagedServiceIdentityPrincipalId());
+        Assert.assertNotNull(virtualMachineScaleSet.systemAssignedManagedServiceIdentityTenantId());
+        //
+        itr = emsiIds.iterator();
+        // Remove identities one by one (first one)
+        virtualMachineScaleSet.update()
+                .withoutUserAssignedManagedServiceIdentity(itr.next())
+                .apply();
+        //
+        Assert.assertNotNull(virtualMachineScaleSet.userAssignedManagedServiceIdentityIds());
+        Assert.assertEquals(1, virtualMachineScaleSet.userAssignedManagedServiceIdentityIds().size());
+        Assert.assertNotNull(virtualMachineScaleSet.managedServiceIdentityType());
+        Assert.assertTrue(virtualMachineScaleSet.managedServiceIdentityType().equals(ResourceIdentityType.SYSTEM_ASSIGNED_USER_ASSIGNED));
+        Assert.assertNotNull(virtualMachineScaleSet.systemAssignedManagedServiceIdentityPrincipalId());
+        Assert.assertNotNull(virtualMachineScaleSet.systemAssignedManagedServiceIdentityTenantId());
+        // Remove identities one by one (second one)
+        virtualMachineScaleSet
+                .update()
+                .withoutUserAssignedManagedServiceIdentity(itr.next())
+                .apply();
+        //
+        Assert.assertEquals(0, virtualMachineScaleSet.userAssignedManagedServiceIdentityIds().size());
+        Assert.assertNotNull(virtualMachineScaleSet.managedServiceIdentityType());
+        Assert.assertTrue(virtualMachineScaleSet.managedServiceIdentityType().equals(ResourceIdentityType.SYSTEM_ASSIGNED));
+        //
+        virtualMachineScaleSet
+                .update()
+                .withoutSystemAssignedManagedServiceIdentity()
+                .apply();
+        Assert.assertEquals(0, virtualMachineScaleSet.userAssignedManagedServiceIdentityIds().size());
+        if (virtualMachineScaleSet.managedServiceIdentityType() != null) {
+            Assert.assertTrue(virtualMachineScaleSet.managedServiceIdentityType().equals(ResourceIdentityType.NONE));
+        }
+        Assert.assertNull(virtualMachineScaleSet.systemAssignedManagedServiceIdentityPrincipalId());
+        Assert.assertNull(virtualMachineScaleSet.systemAssignedManagedServiceIdentityTenantId());
     }
-
-
 
     @Test
     public void canCreateVirtualMachineScaleSetWithLMSIAndEMSI() throws Exception {
@@ -282,19 +351,6 @@ public class VirtualMachineScaleSetEMSILMSIOperationsTests  extends TestBase {
         Assert.assertTrue(virtualMachineScaleSet.isManagedServiceIdentityEnabled());
         Assert.assertNotNull(virtualMachineScaleSet.systemAssignedManagedServiceIdentityPrincipalId());
         Assert.assertNotNull(virtualMachineScaleSet.systemAssignedManagedServiceIdentityTenantId());
-
-        // Ensure the MSI extension is set
-        //
-        Map<String, VirtualMachineScaleSetExtension> extensions = virtualMachineScaleSet.extensions();
-        VirtualMachineScaleSetExtension msiExtension = null;
-        for (VirtualMachineScaleSetExtension extension : extensions.values()) {
-            if (extension.publisherName().equalsIgnoreCase("Microsoft.ManagedIdentity")
-                    && extension.typeName().equalsIgnoreCase("ManagedIdentityExtensionForLinux")) {
-                msiExtension = extension;
-                break;
-            }
-        }
-        Assert.assertNotNull(msiExtension);
 
         // Ensure the "User Assigned (External) MSI" id can be retrieved from the virtual machine
         //
@@ -407,21 +463,6 @@ public class VirtualMachineScaleSetEMSILMSIOperationsTests  extends TestBase {
         virtualMachineScaleSet = virtualMachineScaleSet.update()
                 .withNewUserAssignedManagedServiceIdentity(creatableIdentity)
                 .apply();
-
-        // Ensure the MSI extension is set
-        //
-        Map<String, VirtualMachineScaleSetExtension> extensions = virtualMachineScaleSet.extensions();
-        VirtualMachineScaleSetExtension msiExtension = null;
-        for (VirtualMachineScaleSetExtension extension : extensions.values()) {
-            if (extension.publisherName().equalsIgnoreCase("Microsoft.ManagedIdentity")
-                    && extension.typeName().equalsIgnoreCase("ManagedIdentityExtensionForLinux")) {
-                msiExtension = extension;
-                break;
-            }
-        }
-        Assert.assertNotNull(msiExtension);
-
-        Assert.assertNotNull("Expected MSI extension not found in the virtual machine ", msiExtension);
 
         // Ensure the "User Assigned (External) MSI" id can be retrieved from the virtual machine
         //

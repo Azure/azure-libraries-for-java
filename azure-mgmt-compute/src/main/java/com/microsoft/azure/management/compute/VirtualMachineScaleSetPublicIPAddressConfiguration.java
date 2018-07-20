@@ -8,6 +8,7 @@
 
 package com.microsoft.azure.management.compute;
 
+import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 
@@ -36,7 +37,13 @@ public class VirtualMachineScaleSetPublicIPAddressConfiguration {
     private VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings dnsSettings;
 
     /**
-     * Get the name value.
+     * The list of IP tags associated with the public IP address.
+     */
+    @JsonProperty(value = "properties.ipTags")
+    private List<VirtualMachineScaleSetIpTag> ipTags;
+
+    /**
+     * Get the publicIP address configuration name.
      *
      * @return the name value
      */
@@ -45,7 +52,7 @@ public class VirtualMachineScaleSetPublicIPAddressConfiguration {
     }
 
     /**
-     * Set the name value.
+     * Set the publicIP address configuration name.
      *
      * @param name the name value to set
      * @return the VirtualMachineScaleSetPublicIPAddressConfiguration object itself.
@@ -56,7 +63,7 @@ public class VirtualMachineScaleSetPublicIPAddressConfiguration {
     }
 
     /**
-     * Get the idleTimeoutInMinutes value.
+     * Get the idle timeout of the public IP address.
      *
      * @return the idleTimeoutInMinutes value
      */
@@ -65,7 +72,7 @@ public class VirtualMachineScaleSetPublicIPAddressConfiguration {
     }
 
     /**
-     * Set the idleTimeoutInMinutes value.
+     * Set the idle timeout of the public IP address.
      *
      * @param idleTimeoutInMinutes the idleTimeoutInMinutes value to set
      * @return the VirtualMachineScaleSetPublicIPAddressConfiguration object itself.
@@ -76,7 +83,7 @@ public class VirtualMachineScaleSetPublicIPAddressConfiguration {
     }
 
     /**
-     * Get the dnsSettings value.
+     * Get the dns settings to be applied on the publicIP addresses .
      *
      * @return the dnsSettings value
      */
@@ -85,13 +92,33 @@ public class VirtualMachineScaleSetPublicIPAddressConfiguration {
     }
 
     /**
-     * Set the dnsSettings value.
+     * Set the dns settings to be applied on the publicIP addresses .
      *
      * @param dnsSettings the dnsSettings value to set
      * @return the VirtualMachineScaleSetPublicIPAddressConfiguration object itself.
      */
     public VirtualMachineScaleSetPublicIPAddressConfiguration withDnsSettings(VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings dnsSettings) {
         this.dnsSettings = dnsSettings;
+        return this;
+    }
+
+    /**
+     * Get the list of IP tags associated with the public IP address.
+     *
+     * @return the ipTags value
+     */
+    public List<VirtualMachineScaleSetIpTag> ipTags() {
+        return this.ipTags;
+    }
+
+    /**
+     * Set the list of IP tags associated with the public IP address.
+     *
+     * @param ipTags the ipTags value to set
+     * @return the VirtualMachineScaleSetPublicIPAddressConfiguration object itself.
+     */
+    public VirtualMachineScaleSetPublicIPAddressConfiguration withIpTags(List<VirtualMachineScaleSetIpTag> ipTags) {
+        this.ipTags = ipTags;
         return this;
     }
 

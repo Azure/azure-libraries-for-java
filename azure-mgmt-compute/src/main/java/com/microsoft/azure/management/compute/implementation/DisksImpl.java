@@ -10,6 +10,7 @@ import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.compute.AccessLevel;
 import com.microsoft.azure.management.compute.Disk;
 import com.microsoft.azure.management.compute.Disks;
+import com.microsoft.azure.management.compute.GrantAccessData;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
@@ -46,7 +47,7 @@ class DisksImpl
 
     @Override
     public Observable<String> grantAccessAsync(String resourceGroupName, String diskName, AccessLevel accessLevel, int accessDuration) {
-        GrantAccessDataInner grantAccessDataInner = new GrantAccessDataInner();
+        GrantAccessData grantAccessDataInner = new GrantAccessData();
         grantAccessDataInner.withAccess(accessLevel)
                 .withDurationInSeconds(accessDuration);
         return this.inner().grantAccessAsync(resourceGroupName, diskName, grantAccessDataInner)

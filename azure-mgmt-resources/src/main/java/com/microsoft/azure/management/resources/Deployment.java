@@ -12,17 +12,17 @@ import com.microsoft.azure.management.apigeneration.LangMethodDefinition.LangMet
 import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
+import com.microsoft.azure.management.resources.fluentcore.arm.models.HasId;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasManager;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasName;
 import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
+import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
 import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.management.resources.implementation.DeploymentExtendedInner;
 import com.microsoft.azure.management.resources.implementation.ResourceManager;
-
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
 import org.joda.time.DateTime;
@@ -42,7 +42,8 @@ public interface Deployment extends
         Updatable<Deployment.Update>,
         HasInner<DeploymentExtendedInner>,
         HasManager<ResourceManager>,
-        HasName {
+        HasName,
+        HasId {
 
     /**
      * @return the name of this deployment's resource group
@@ -281,6 +282,9 @@ public interface Deployment extends
         interface WithCreate extends Creatable<Deployment> {
             @Method
             Deployment beginCreate();
+
+            @Method
+            Observable<Deployment> beginCreateAsync();
         }
     }
 

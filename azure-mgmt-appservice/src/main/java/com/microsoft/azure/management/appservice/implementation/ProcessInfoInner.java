@@ -23,14 +23,14 @@ public class ProcessInfoInner extends ProxyOnlyResource {
     /**
      * ARM Identifier for deployment.
      */
-    @JsonProperty(value = "properties.id")
-    private Integer processInfoId;
+    @JsonProperty(value = "properties.identifier", access = JsonProperty.Access.WRITE_ONLY)
+    private Integer identifier;
 
     /**
      * Deployment name.
      */
-    @JsonProperty(value = "properties.name")
-    private String processInfoName;
+    @JsonProperty(value = "properties.deployment_name")
+    private String deploymentName;
 
     /**
      * HRef URI.
@@ -41,25 +41,25 @@ public class ProcessInfoInner extends ProxyOnlyResource {
     /**
      * Minidump URI.
      */
-    @JsonProperty(value = "properties.miniDump")
-    private String miniDump;
+    @JsonProperty(value = "properties.minidump")
+    private String minidump;
 
     /**
      * Is profile running?.
      */
-    @JsonProperty(value = "properties.isProfileRunning")
+    @JsonProperty(value = "properties.is_profile_running")
     private Boolean isProfileRunning;
 
     /**
      * Is the IIS Profile running?.
      */
-    @JsonProperty(value = "properties.isIisProfileRunning")
+    @JsonProperty(value = "properties.is_iis_profile_running")
     private Boolean isIisProfileRunning;
 
     /**
      * IIS Profile timeout (seconds).
      */
-    @JsonProperty(value = "properties.iisProfileTimeoutInSeconds")
+    @JsonProperty(value = "properties.iis_profile_timeout_in_seconds")
     private Double iisProfileTimeoutInSeconds;
 
     /**
@@ -83,7 +83,7 @@ public class ProcessInfoInner extends ProxyOnlyResource {
     /**
      * List of open files.
      */
-    @JsonProperty(value = "properties.openFileHandles")
+    @JsonProperty(value = "properties.open_file_handles")
     private List<String> openFileHandles;
 
     /**
@@ -95,140 +95,140 @@ public class ProcessInfoInner extends ProxyOnlyResource {
     /**
      * File name of this process.
      */
-    @JsonProperty(value = "properties.fileName")
+    @JsonProperty(value = "properties.file_name")
     private String fileName;
 
     /**
      * Command line.
      */
-    @JsonProperty(value = "properties.commandLine")
+    @JsonProperty(value = "properties.command_line")
     private String commandLine;
 
     /**
      * User name.
      */
-    @JsonProperty(value = "properties.userName")
+    @JsonProperty(value = "properties.user_name")
     private String userName;
 
     /**
      * Handle count.
      */
-    @JsonProperty(value = "properties.handleCount")
+    @JsonProperty(value = "properties.handle_count")
     private Integer handleCount;
 
     /**
      * Module count.
      */
-    @JsonProperty(value = "properties.moduleCount")
+    @JsonProperty(value = "properties.module_count")
     private Integer moduleCount;
 
     /**
      * Thread count.
      */
-    @JsonProperty(value = "properties.threadCount")
+    @JsonProperty(value = "properties.thread_count")
     private Integer threadCount;
 
     /**
      * Start time.
      */
-    @JsonProperty(value = "properties.startTime")
+    @JsonProperty(value = "properties.start_time")
     private DateTime startTime;
 
     /**
      * Total CPU time.
      */
-    @JsonProperty(value = "properties.totalProcessorTime")
-    private String totalProcessorTime;
+    @JsonProperty(value = "properties.total_cpu_time")
+    private String totalCpuTime;
 
     /**
      * User CPU time.
      */
-    @JsonProperty(value = "properties.userProcessorTime")
-    private String userProcessorTime;
+    @JsonProperty(value = "properties.user_cpu_time")
+    private String userCpuTime;
 
     /**
      * Privileged CPU time.
      */
-    @JsonProperty(value = "properties.privilegedProcessorTime")
-    private String privilegedProcessorTime;
+    @JsonProperty(value = "properties.privileged_cpu_time")
+    private String privilegedCpuTime;
 
     /**
      * Working set.
      */
-    @JsonProperty(value = "properties.workingSet64")
-    private Long workingSet64;
+    @JsonProperty(value = "properties.working_set")
+    private Long workingSet;
 
     /**
      * Peak working set.
      */
-    @JsonProperty(value = "properties.peakWorkingSet64")
-    private Long peakWorkingSet64;
+    @JsonProperty(value = "properties.peak_working_set")
+    private Long peakWorkingSet;
 
     /**
      * Private memory size.
      */
-    @JsonProperty(value = "properties.privateMemorySize64")
-    private Long privateMemorySize64;
+    @JsonProperty(value = "properties.private_memory")
+    private Long privateMemory;
 
     /**
      * Virtual memory size.
      */
-    @JsonProperty(value = "properties.virtualMemorySize64")
-    private Long virtualMemorySize64;
+    @JsonProperty(value = "properties.virtual_memory")
+    private Long virtualMemory;
 
     /**
      * Peak virtual memory usage.
      */
-    @JsonProperty(value = "properties.peakVirtualMemorySize64")
-    private Long peakVirtualMemorySize64;
+    @JsonProperty(value = "properties.peak_virtual_memory")
+    private Long peakVirtualMemory;
 
     /**
      * Paged system memory.
      */
-    @JsonProperty(value = "properties.pagedSystemMemorySize64")
-    private Long pagedSystemMemorySize64;
+    @JsonProperty(value = "properties.paged_system_memory")
+    private Long pagedSystemMemory;
 
     /**
      * Non-paged system memory.
      */
-    @JsonProperty(value = "properties.nonpagedSystemMemorySize64")
-    private Long nonpagedSystemMemorySize64;
+    @JsonProperty(value = "properties.non_paged_system_memory")
+    private Long nonPagedSystemMemory;
 
     /**
      * Paged memory.
      */
-    @JsonProperty(value = "properties.pagedMemorySize64")
-    private Long pagedMemorySize64;
+    @JsonProperty(value = "properties.paged_memory")
+    private Long pagedMemory;
 
     /**
      * Peak paged memory.
      */
-    @JsonProperty(value = "properties.peakPagedMemorySize64")
-    private Long peakPagedMemorySize64;
+    @JsonProperty(value = "properties.peak_paged_memory")
+    private Long peakPagedMemory;
 
     /**
      * Time stamp.
      */
-    @JsonProperty(value = "properties.timeStamp")
+    @JsonProperty(value = "properties.time_stamp")
     private DateTime timeStamp;
 
     /**
      * List of environment variables.
      */
-    @JsonProperty(value = "properties.environmentVariables")
+    @JsonProperty(value = "properties.environment_variables")
     private Map<String, String> environmentVariables;
 
     /**
      * Is this the SCM site?.
      */
-    @JsonProperty(value = "properties.isScmSite")
+    @JsonProperty(value = "properties.is_scm_site")
     private Boolean isScmSite;
 
     /**
      * Is this a Web Job?.
      */
-    @JsonProperty(value = "properties.isWebJob")
-    private Boolean isWebJob;
+    @JsonProperty(value = "properties.is_webjob")
+    private Boolean isWebjob;
 
     /**
      * Description of process.
@@ -237,47 +237,36 @@ public class ProcessInfoInner extends ProxyOnlyResource {
     private String description;
 
     /**
-     * Get the processInfoId value.
+     * Get aRM Identifier for deployment.
      *
-     * @return the processInfoId value
+     * @return the identifier value
      */
-    public Integer processInfoId() {
-        return this.processInfoId;
+    public Integer identifier() {
+        return this.identifier;
     }
 
     /**
-     * Set the processInfoId value.
+     * Get deployment name.
      *
-     * @param processInfoId the processInfoId value to set
+     * @return the deploymentName value
+     */
+    public String deploymentName() {
+        return this.deploymentName;
+    }
+
+    /**
+     * Set deployment name.
+     *
+     * @param deploymentName the deploymentName value to set
      * @return the ProcessInfoInner object itself.
      */
-    public ProcessInfoInner withProcessInfoId(Integer processInfoId) {
-        this.processInfoId = processInfoId;
+    public ProcessInfoInner withDeploymentName(String deploymentName) {
+        this.deploymentName = deploymentName;
         return this;
     }
 
     /**
-     * Get the processInfoName value.
-     *
-     * @return the processInfoName value
-     */
-    public String processInfoName() {
-        return this.processInfoName;
-    }
-
-    /**
-     * Set the processInfoName value.
-     *
-     * @param processInfoName the processInfoName value to set
-     * @return the ProcessInfoInner object itself.
-     */
-    public ProcessInfoInner withProcessInfoName(String processInfoName) {
-        this.processInfoName = processInfoName;
-        return this;
-    }
-
-    /**
-     * Get the href value.
+     * Get hRef URI.
      *
      * @return the href value
      */
@@ -286,7 +275,7 @@ public class ProcessInfoInner extends ProxyOnlyResource {
     }
 
     /**
-     * Set the href value.
+     * Set hRef URI.
      *
      * @param href the href value to set
      * @return the ProcessInfoInner object itself.
@@ -297,27 +286,27 @@ public class ProcessInfoInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the miniDump value.
+     * Get minidump URI.
      *
-     * @return the miniDump value
+     * @return the minidump value
      */
-    public String miniDump() {
-        return this.miniDump;
+    public String minidump() {
+        return this.minidump;
     }
 
     /**
-     * Set the miniDump value.
+     * Set minidump URI.
      *
-     * @param miniDump the miniDump value to set
+     * @param minidump the minidump value to set
      * @return the ProcessInfoInner object itself.
      */
-    public ProcessInfoInner withMiniDump(String miniDump) {
-        this.miniDump = miniDump;
+    public ProcessInfoInner withMinidump(String minidump) {
+        this.minidump = minidump;
         return this;
     }
 
     /**
-     * Get the isProfileRunning value.
+     * Get is profile running?.
      *
      * @return the isProfileRunning value
      */
@@ -326,7 +315,7 @@ public class ProcessInfoInner extends ProxyOnlyResource {
     }
 
     /**
-     * Set the isProfileRunning value.
+     * Set is profile running?.
      *
      * @param isProfileRunning the isProfileRunning value to set
      * @return the ProcessInfoInner object itself.
@@ -337,7 +326,7 @@ public class ProcessInfoInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the isIisProfileRunning value.
+     * Get is the IIS Profile running?.
      *
      * @return the isIisProfileRunning value
      */
@@ -346,7 +335,7 @@ public class ProcessInfoInner extends ProxyOnlyResource {
     }
 
     /**
-     * Set the isIisProfileRunning value.
+     * Set is the IIS Profile running?.
      *
      * @param isIisProfileRunning the isIisProfileRunning value to set
      * @return the ProcessInfoInner object itself.
@@ -357,7 +346,7 @@ public class ProcessInfoInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the iisProfileTimeoutInSeconds value.
+     * Get iIS Profile timeout (seconds).
      *
      * @return the iisProfileTimeoutInSeconds value
      */
@@ -366,7 +355,7 @@ public class ProcessInfoInner extends ProxyOnlyResource {
     }
 
     /**
-     * Set the iisProfileTimeoutInSeconds value.
+     * Set iIS Profile timeout (seconds).
      *
      * @param iisProfileTimeoutInSeconds the iisProfileTimeoutInSeconds value to set
      * @return the ProcessInfoInner object itself.
@@ -377,7 +366,7 @@ public class ProcessInfoInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the parent value.
+     * Get parent process.
      *
      * @return the parent value
      */
@@ -386,7 +375,7 @@ public class ProcessInfoInner extends ProxyOnlyResource {
     }
 
     /**
-     * Set the parent value.
+     * Set parent process.
      *
      * @param parent the parent value to set
      * @return the ProcessInfoInner object itself.
@@ -397,7 +386,7 @@ public class ProcessInfoInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the children value.
+     * Get child process list.
      *
      * @return the children value
      */
@@ -406,7 +395,7 @@ public class ProcessInfoInner extends ProxyOnlyResource {
     }
 
     /**
-     * Set the children value.
+     * Set child process list.
      *
      * @param children the children value to set
      * @return the ProcessInfoInner object itself.
@@ -417,7 +406,7 @@ public class ProcessInfoInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the threads value.
+     * Get thread list.
      *
      * @return the threads value
      */
@@ -426,7 +415,7 @@ public class ProcessInfoInner extends ProxyOnlyResource {
     }
 
     /**
-     * Set the threads value.
+     * Set thread list.
      *
      * @param threads the threads value to set
      * @return the ProcessInfoInner object itself.
@@ -437,7 +426,7 @@ public class ProcessInfoInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the openFileHandles value.
+     * Get list of open files.
      *
      * @return the openFileHandles value
      */
@@ -446,7 +435,7 @@ public class ProcessInfoInner extends ProxyOnlyResource {
     }
 
     /**
-     * Set the openFileHandles value.
+     * Set list of open files.
      *
      * @param openFileHandles the openFileHandles value to set
      * @return the ProcessInfoInner object itself.
@@ -457,7 +446,7 @@ public class ProcessInfoInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the modules value.
+     * Get list of modules.
      *
      * @return the modules value
      */
@@ -466,7 +455,7 @@ public class ProcessInfoInner extends ProxyOnlyResource {
     }
 
     /**
-     * Set the modules value.
+     * Set list of modules.
      *
      * @param modules the modules value to set
      * @return the ProcessInfoInner object itself.
@@ -477,7 +466,7 @@ public class ProcessInfoInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the fileName value.
+     * Get file name of this process.
      *
      * @return the fileName value
      */
@@ -486,7 +475,7 @@ public class ProcessInfoInner extends ProxyOnlyResource {
     }
 
     /**
-     * Set the fileName value.
+     * Set file name of this process.
      *
      * @param fileName the fileName value to set
      * @return the ProcessInfoInner object itself.
@@ -497,7 +486,7 @@ public class ProcessInfoInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the commandLine value.
+     * Get command line.
      *
      * @return the commandLine value
      */
@@ -506,7 +495,7 @@ public class ProcessInfoInner extends ProxyOnlyResource {
     }
 
     /**
-     * Set the commandLine value.
+     * Set command line.
      *
      * @param commandLine the commandLine value to set
      * @return the ProcessInfoInner object itself.
@@ -517,7 +506,7 @@ public class ProcessInfoInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the userName value.
+     * Get user name.
      *
      * @return the userName value
      */
@@ -526,7 +515,7 @@ public class ProcessInfoInner extends ProxyOnlyResource {
     }
 
     /**
-     * Set the userName value.
+     * Set user name.
      *
      * @param userName the userName value to set
      * @return the ProcessInfoInner object itself.
@@ -537,7 +526,7 @@ public class ProcessInfoInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the handleCount value.
+     * Get handle count.
      *
      * @return the handleCount value
      */
@@ -546,7 +535,7 @@ public class ProcessInfoInner extends ProxyOnlyResource {
     }
 
     /**
-     * Set the handleCount value.
+     * Set handle count.
      *
      * @param handleCount the handleCount value to set
      * @return the ProcessInfoInner object itself.
@@ -557,7 +546,7 @@ public class ProcessInfoInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the moduleCount value.
+     * Get module count.
      *
      * @return the moduleCount value
      */
@@ -566,7 +555,7 @@ public class ProcessInfoInner extends ProxyOnlyResource {
     }
 
     /**
-     * Set the moduleCount value.
+     * Set module count.
      *
      * @param moduleCount the moduleCount value to set
      * @return the ProcessInfoInner object itself.
@@ -577,7 +566,7 @@ public class ProcessInfoInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the threadCount value.
+     * Get thread count.
      *
      * @return the threadCount value
      */
@@ -586,7 +575,7 @@ public class ProcessInfoInner extends ProxyOnlyResource {
     }
 
     /**
-     * Set the threadCount value.
+     * Set thread count.
      *
      * @param threadCount the threadCount value to set
      * @return the ProcessInfoInner object itself.
@@ -597,7 +586,7 @@ public class ProcessInfoInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the startTime value.
+     * Get start time.
      *
      * @return the startTime value
      */
@@ -606,7 +595,7 @@ public class ProcessInfoInner extends ProxyOnlyResource {
     }
 
     /**
-     * Set the startTime value.
+     * Set start time.
      *
      * @param startTime the startTime value to set
      * @return the ProcessInfoInner object itself.
@@ -617,247 +606,247 @@ public class ProcessInfoInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the totalProcessorTime value.
+     * Get total CPU time.
      *
-     * @return the totalProcessorTime value
+     * @return the totalCpuTime value
      */
-    public String totalProcessorTime() {
-        return this.totalProcessorTime;
+    public String totalCpuTime() {
+        return this.totalCpuTime;
     }
 
     /**
-     * Set the totalProcessorTime value.
+     * Set total CPU time.
      *
-     * @param totalProcessorTime the totalProcessorTime value to set
+     * @param totalCpuTime the totalCpuTime value to set
      * @return the ProcessInfoInner object itself.
      */
-    public ProcessInfoInner withTotalProcessorTime(String totalProcessorTime) {
-        this.totalProcessorTime = totalProcessorTime;
+    public ProcessInfoInner withTotalCpuTime(String totalCpuTime) {
+        this.totalCpuTime = totalCpuTime;
         return this;
     }
 
     /**
-     * Get the userProcessorTime value.
+     * Get user CPU time.
      *
-     * @return the userProcessorTime value
+     * @return the userCpuTime value
      */
-    public String userProcessorTime() {
-        return this.userProcessorTime;
+    public String userCpuTime() {
+        return this.userCpuTime;
     }
 
     /**
-     * Set the userProcessorTime value.
+     * Set user CPU time.
      *
-     * @param userProcessorTime the userProcessorTime value to set
+     * @param userCpuTime the userCpuTime value to set
      * @return the ProcessInfoInner object itself.
      */
-    public ProcessInfoInner withUserProcessorTime(String userProcessorTime) {
-        this.userProcessorTime = userProcessorTime;
+    public ProcessInfoInner withUserCpuTime(String userCpuTime) {
+        this.userCpuTime = userCpuTime;
         return this;
     }
 
     /**
-     * Get the privilegedProcessorTime value.
+     * Get privileged CPU time.
      *
-     * @return the privilegedProcessorTime value
+     * @return the privilegedCpuTime value
      */
-    public String privilegedProcessorTime() {
-        return this.privilegedProcessorTime;
+    public String privilegedCpuTime() {
+        return this.privilegedCpuTime;
     }
 
     /**
-     * Set the privilegedProcessorTime value.
+     * Set privileged CPU time.
      *
-     * @param privilegedProcessorTime the privilegedProcessorTime value to set
+     * @param privilegedCpuTime the privilegedCpuTime value to set
      * @return the ProcessInfoInner object itself.
      */
-    public ProcessInfoInner withPrivilegedProcessorTime(String privilegedProcessorTime) {
-        this.privilegedProcessorTime = privilegedProcessorTime;
+    public ProcessInfoInner withPrivilegedCpuTime(String privilegedCpuTime) {
+        this.privilegedCpuTime = privilegedCpuTime;
         return this;
     }
 
     /**
-     * Get the workingSet64 value.
+     * Get working set.
      *
-     * @return the workingSet64 value
+     * @return the workingSet value
      */
-    public Long workingSet64() {
-        return this.workingSet64;
+    public Long workingSet() {
+        return this.workingSet;
     }
 
     /**
-     * Set the workingSet64 value.
+     * Set working set.
      *
-     * @param workingSet64 the workingSet64 value to set
+     * @param workingSet the workingSet value to set
      * @return the ProcessInfoInner object itself.
      */
-    public ProcessInfoInner withWorkingSet64(Long workingSet64) {
-        this.workingSet64 = workingSet64;
+    public ProcessInfoInner withWorkingSet(Long workingSet) {
+        this.workingSet = workingSet;
         return this;
     }
 
     /**
-     * Get the peakWorkingSet64 value.
+     * Get peak working set.
      *
-     * @return the peakWorkingSet64 value
+     * @return the peakWorkingSet value
      */
-    public Long peakWorkingSet64() {
-        return this.peakWorkingSet64;
+    public Long peakWorkingSet() {
+        return this.peakWorkingSet;
     }
 
     /**
-     * Set the peakWorkingSet64 value.
+     * Set peak working set.
      *
-     * @param peakWorkingSet64 the peakWorkingSet64 value to set
+     * @param peakWorkingSet the peakWorkingSet value to set
      * @return the ProcessInfoInner object itself.
      */
-    public ProcessInfoInner withPeakWorkingSet64(Long peakWorkingSet64) {
-        this.peakWorkingSet64 = peakWorkingSet64;
+    public ProcessInfoInner withPeakWorkingSet(Long peakWorkingSet) {
+        this.peakWorkingSet = peakWorkingSet;
         return this;
     }
 
     /**
-     * Get the privateMemorySize64 value.
+     * Get private memory size.
      *
-     * @return the privateMemorySize64 value
+     * @return the privateMemory value
      */
-    public Long privateMemorySize64() {
-        return this.privateMemorySize64;
+    public Long privateMemory() {
+        return this.privateMemory;
     }
 
     /**
-     * Set the privateMemorySize64 value.
+     * Set private memory size.
      *
-     * @param privateMemorySize64 the privateMemorySize64 value to set
+     * @param privateMemory the privateMemory value to set
      * @return the ProcessInfoInner object itself.
      */
-    public ProcessInfoInner withPrivateMemorySize64(Long privateMemorySize64) {
-        this.privateMemorySize64 = privateMemorySize64;
+    public ProcessInfoInner withPrivateMemory(Long privateMemory) {
+        this.privateMemory = privateMemory;
         return this;
     }
 
     /**
-     * Get the virtualMemorySize64 value.
+     * Get virtual memory size.
      *
-     * @return the virtualMemorySize64 value
+     * @return the virtualMemory value
      */
-    public Long virtualMemorySize64() {
-        return this.virtualMemorySize64;
+    public Long virtualMemory() {
+        return this.virtualMemory;
     }
 
     /**
-     * Set the virtualMemorySize64 value.
+     * Set virtual memory size.
      *
-     * @param virtualMemorySize64 the virtualMemorySize64 value to set
+     * @param virtualMemory the virtualMemory value to set
      * @return the ProcessInfoInner object itself.
      */
-    public ProcessInfoInner withVirtualMemorySize64(Long virtualMemorySize64) {
-        this.virtualMemorySize64 = virtualMemorySize64;
+    public ProcessInfoInner withVirtualMemory(Long virtualMemory) {
+        this.virtualMemory = virtualMemory;
         return this;
     }
 
     /**
-     * Get the peakVirtualMemorySize64 value.
+     * Get peak virtual memory usage.
      *
-     * @return the peakVirtualMemorySize64 value
+     * @return the peakVirtualMemory value
      */
-    public Long peakVirtualMemorySize64() {
-        return this.peakVirtualMemorySize64;
+    public Long peakVirtualMemory() {
+        return this.peakVirtualMemory;
     }
 
     /**
-     * Set the peakVirtualMemorySize64 value.
+     * Set peak virtual memory usage.
      *
-     * @param peakVirtualMemorySize64 the peakVirtualMemorySize64 value to set
+     * @param peakVirtualMemory the peakVirtualMemory value to set
      * @return the ProcessInfoInner object itself.
      */
-    public ProcessInfoInner withPeakVirtualMemorySize64(Long peakVirtualMemorySize64) {
-        this.peakVirtualMemorySize64 = peakVirtualMemorySize64;
+    public ProcessInfoInner withPeakVirtualMemory(Long peakVirtualMemory) {
+        this.peakVirtualMemory = peakVirtualMemory;
         return this;
     }
 
     /**
-     * Get the pagedSystemMemorySize64 value.
+     * Get paged system memory.
      *
-     * @return the pagedSystemMemorySize64 value
+     * @return the pagedSystemMemory value
      */
-    public Long pagedSystemMemorySize64() {
-        return this.pagedSystemMemorySize64;
+    public Long pagedSystemMemory() {
+        return this.pagedSystemMemory;
     }
 
     /**
-     * Set the pagedSystemMemorySize64 value.
+     * Set paged system memory.
      *
-     * @param pagedSystemMemorySize64 the pagedSystemMemorySize64 value to set
+     * @param pagedSystemMemory the pagedSystemMemory value to set
      * @return the ProcessInfoInner object itself.
      */
-    public ProcessInfoInner withPagedSystemMemorySize64(Long pagedSystemMemorySize64) {
-        this.pagedSystemMemorySize64 = pagedSystemMemorySize64;
+    public ProcessInfoInner withPagedSystemMemory(Long pagedSystemMemory) {
+        this.pagedSystemMemory = pagedSystemMemory;
         return this;
     }
 
     /**
-     * Get the nonpagedSystemMemorySize64 value.
+     * Get non-paged system memory.
      *
-     * @return the nonpagedSystemMemorySize64 value
+     * @return the nonPagedSystemMemory value
      */
-    public Long nonpagedSystemMemorySize64() {
-        return this.nonpagedSystemMemorySize64;
+    public Long nonPagedSystemMemory() {
+        return this.nonPagedSystemMemory;
     }
 
     /**
-     * Set the nonpagedSystemMemorySize64 value.
+     * Set non-paged system memory.
      *
-     * @param nonpagedSystemMemorySize64 the nonpagedSystemMemorySize64 value to set
+     * @param nonPagedSystemMemory the nonPagedSystemMemory value to set
      * @return the ProcessInfoInner object itself.
      */
-    public ProcessInfoInner withNonpagedSystemMemorySize64(Long nonpagedSystemMemorySize64) {
-        this.nonpagedSystemMemorySize64 = nonpagedSystemMemorySize64;
+    public ProcessInfoInner withNonPagedSystemMemory(Long nonPagedSystemMemory) {
+        this.nonPagedSystemMemory = nonPagedSystemMemory;
         return this;
     }
 
     /**
-     * Get the pagedMemorySize64 value.
+     * Get paged memory.
      *
-     * @return the pagedMemorySize64 value
+     * @return the pagedMemory value
      */
-    public Long pagedMemorySize64() {
-        return this.pagedMemorySize64;
+    public Long pagedMemory() {
+        return this.pagedMemory;
     }
 
     /**
-     * Set the pagedMemorySize64 value.
+     * Set paged memory.
      *
-     * @param pagedMemorySize64 the pagedMemorySize64 value to set
+     * @param pagedMemory the pagedMemory value to set
      * @return the ProcessInfoInner object itself.
      */
-    public ProcessInfoInner withPagedMemorySize64(Long pagedMemorySize64) {
-        this.pagedMemorySize64 = pagedMemorySize64;
+    public ProcessInfoInner withPagedMemory(Long pagedMemory) {
+        this.pagedMemory = pagedMemory;
         return this;
     }
 
     /**
-     * Get the peakPagedMemorySize64 value.
+     * Get peak paged memory.
      *
-     * @return the peakPagedMemorySize64 value
+     * @return the peakPagedMemory value
      */
-    public Long peakPagedMemorySize64() {
-        return this.peakPagedMemorySize64;
+    public Long peakPagedMemory() {
+        return this.peakPagedMemory;
     }
 
     /**
-     * Set the peakPagedMemorySize64 value.
+     * Set peak paged memory.
      *
-     * @param peakPagedMemorySize64 the peakPagedMemorySize64 value to set
+     * @param peakPagedMemory the peakPagedMemory value to set
      * @return the ProcessInfoInner object itself.
      */
-    public ProcessInfoInner withPeakPagedMemorySize64(Long peakPagedMemorySize64) {
-        this.peakPagedMemorySize64 = peakPagedMemorySize64;
+    public ProcessInfoInner withPeakPagedMemory(Long peakPagedMemory) {
+        this.peakPagedMemory = peakPagedMemory;
         return this;
     }
 
     /**
-     * Get the timeStamp value.
+     * Get time stamp.
      *
      * @return the timeStamp value
      */
@@ -866,7 +855,7 @@ public class ProcessInfoInner extends ProxyOnlyResource {
     }
 
     /**
-     * Set the timeStamp value.
+     * Set time stamp.
      *
      * @param timeStamp the timeStamp value to set
      * @return the ProcessInfoInner object itself.
@@ -877,7 +866,7 @@ public class ProcessInfoInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the environmentVariables value.
+     * Get list of environment variables.
      *
      * @return the environmentVariables value
      */
@@ -886,7 +875,7 @@ public class ProcessInfoInner extends ProxyOnlyResource {
     }
 
     /**
-     * Set the environmentVariables value.
+     * Set list of environment variables.
      *
      * @param environmentVariables the environmentVariables value to set
      * @return the ProcessInfoInner object itself.
@@ -897,7 +886,7 @@ public class ProcessInfoInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the isScmSite value.
+     * Get is this the SCM site?.
      *
      * @return the isScmSite value
      */
@@ -906,7 +895,7 @@ public class ProcessInfoInner extends ProxyOnlyResource {
     }
 
     /**
-     * Set the isScmSite value.
+     * Set is this the SCM site?.
      *
      * @param isScmSite the isScmSite value to set
      * @return the ProcessInfoInner object itself.
@@ -917,27 +906,27 @@ public class ProcessInfoInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the isWebJob value.
+     * Get is this a Web Job?.
      *
-     * @return the isWebJob value
+     * @return the isWebjob value
      */
-    public Boolean isWebJob() {
-        return this.isWebJob;
+    public Boolean isWebjob() {
+        return this.isWebjob;
     }
 
     /**
-     * Set the isWebJob value.
+     * Set is this a Web Job?.
      *
-     * @param isWebJob the isWebJob value to set
+     * @param isWebjob the isWebjob value to set
      * @return the ProcessInfoInner object itself.
      */
-    public ProcessInfoInner withIsWebJob(Boolean isWebJob) {
-        this.isWebJob = isWebJob;
+    public ProcessInfoInner withIsWebjob(Boolean isWebjob) {
+        this.isWebjob = isWebjob;
         return this;
     }
 
     /**
-     * Get the description value.
+     * Get description of process.
      *
      * @return the description value
      */
@@ -946,7 +935,7 @@ public class ProcessInfoInner extends ProxyOnlyResource {
     }
 
     /**
-     * Set the description value.
+     * Set description of process.
      *
      * @param description the description value to set
      * @return the ProcessInfoInner object itself.

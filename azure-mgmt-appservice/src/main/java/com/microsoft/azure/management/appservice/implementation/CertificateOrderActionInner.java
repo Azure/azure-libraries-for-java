@@ -27,53 +27,31 @@ public class CertificateOrderActionInner extends ProxyOnlyResource {
      * 'CertificateExpired', 'CertificateExpirationWarning',
      * 'FraudDocumentationRequired', 'Unknown'.
      */
-    @JsonProperty(value = "properties.type")
-    private CertificateOrderActionType certificateOrderActionType;
+    @JsonProperty(value = "properties.actionType", access = JsonProperty.Access.WRITE_ONLY)
+    private CertificateOrderActionType actionType;
 
     /**
      * Time at which the certificate action was performed.
      */
-    @JsonProperty(value = "properties.createdAt")
+    @JsonProperty(value = "properties.createdAt", access = JsonProperty.Access.WRITE_ONLY)
     private DateTime createdAt;
 
     /**
-     * Get the certificateOrderActionType value.
+     * Get action type. Possible values include: 'CertificateIssued', 'CertificateOrderCanceled', 'CertificateOrderCreated', 'CertificateRevoked', 'DomainValidationComplete', 'FraudDetected', 'OrgNameChange', 'OrgValidationComplete', 'SanDrop', 'FraudCleared', 'CertificateExpired', 'CertificateExpirationWarning', 'FraudDocumentationRequired', 'Unknown'.
      *
-     * @return the certificateOrderActionType value
+     * @return the actionType value
      */
-    public CertificateOrderActionType certificateOrderActionType() {
-        return this.certificateOrderActionType;
+    public CertificateOrderActionType actionType() {
+        return this.actionType;
     }
 
     /**
-     * Set the certificateOrderActionType value.
-     *
-     * @param certificateOrderActionType the certificateOrderActionType value to set
-     * @return the CertificateOrderActionInner object itself.
-     */
-    public CertificateOrderActionInner withCertificateOrderActionType(CertificateOrderActionType certificateOrderActionType) {
-        this.certificateOrderActionType = certificateOrderActionType;
-        return this;
-    }
-
-    /**
-     * Get the createdAt value.
+     * Get time at which the certificate action was performed.
      *
      * @return the createdAt value
      */
     public DateTime createdAt() {
         return this.createdAt;
-    }
-
-    /**
-     * Set the createdAt value.
-     *
-     * @param createdAt the createdAt value to set
-     * @return the CertificateOrderActionInner object itself.
-     */
-    public CertificateOrderActionInner withCreatedAt(DateTime createdAt) {
-        this.createdAt = createdAt;
-        return this;
     }
 
 }

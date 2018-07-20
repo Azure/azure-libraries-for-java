@@ -13,27 +13,30 @@ import com.microsoft.azure.management.appservice.NotificationLevel;
 import com.microsoft.azure.management.appservice.Channels;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.management.appservice.ProxyOnlyResource;
 
 /**
  * Represents a recommendation rule that the recommendation engine can perform.
  */
-public class RecommendationRuleInner {
+@JsonFlatten
+public class RecommendationRuleInner extends ProxyOnlyResource {
     /**
      * Unique name of the rule.
      */
-    @JsonProperty(value = "name")
-    private String name;
+    @JsonProperty(value = "properties.recommendationName")
+    private String recommendationName;
 
     /**
      * UI friendly name of the rule.
      */
-    @JsonProperty(value = "displayName")
+    @JsonProperty(value = "properties.displayName")
     private String displayName;
 
     /**
      * Localized name of the rule (Good for UI).
      */
-    @JsonProperty(value = "message")
+    @JsonProperty(value = "properties.message")
     private String message;
 
     /**
@@ -41,88 +44,88 @@ public class RecommendationRuleInner {
      * rule, if exists.
      * If such an object doesn't exist, it is set to null.
      */
-    @JsonProperty(value = "recommendationId")
+    @JsonProperty(value = "properties.recommendationId")
     private UUID recommendationId;
 
     /**
      * Localized detailed description of the rule.
      */
-    @JsonProperty(value = "description")
+    @JsonProperty(value = "properties.description")
     private String description;
 
     /**
      * Name of action that is recommended by this rule in string.
      */
-    @JsonProperty(value = "actionName")
+    @JsonProperty(value = "properties.actionName")
     private String actionName;
 
     /**
      * Level of impact indicating how critical this rule is. Possible values
      * include: 'Critical', 'Warning', 'Information', 'NonUrgentSuggestion'.
      */
-    @JsonProperty(value = "level")
+    @JsonProperty(value = "properties.level")
     private NotificationLevel level;
 
     /**
      * List of available channels that this rule applies. Possible values
      * include: 'Notification', 'Api', 'Email', 'Webhook', 'All'.
      */
-    @JsonProperty(value = "channels")
+    @JsonProperty(value = "properties.channels")
     private Channels channels;
 
     /**
-     * An array of category tags that the rule contains.
+     * The list of category tags that this recommendation rule belongs to.
      */
-    @JsonProperty(value = "tags")
-    private List<String> tags;
+    @JsonProperty(value = "properties.categoryTags", access = JsonProperty.Access.WRITE_ONLY)
+    private List<String> categoryTags;
 
     /**
      * True if this is associated with a dynamically added rule.
      */
-    @JsonProperty(value = "isDynamic")
+    @JsonProperty(value = "properties.isDynamic")
     private Boolean isDynamic;
 
     /**
      * Extension name of the portal if exists. Applicable to dynamic rule only.
      */
-    @JsonProperty(value = "extensionName")
+    @JsonProperty(value = "properties.extensionName")
     private String extensionName;
 
     /**
      * Deep link to a blade on the portal. Applicable to dynamic rule only.
      */
-    @JsonProperty(value = "bladeName")
+    @JsonProperty(value = "properties.bladeName")
     private String bladeName;
 
     /**
      * Forward link to an external document associated with the rule.
      * Applicable to dynamic rule only.
      */
-    @JsonProperty(value = "forwardLink")
+    @JsonProperty(value = "properties.forwardLink")
     private String forwardLink;
 
     /**
-     * Get the name value.
+     * Get unique name of the rule.
      *
-     * @return the name value
+     * @return the recommendationName value
      */
-    public String name() {
-        return this.name;
+    public String recommendationName() {
+        return this.recommendationName;
     }
 
     /**
-     * Set the name value.
+     * Set unique name of the rule.
      *
-     * @param name the name value to set
+     * @param recommendationName the recommendationName value to set
      * @return the RecommendationRuleInner object itself.
      */
-    public RecommendationRuleInner withName(String name) {
-        this.name = name;
+    public RecommendationRuleInner withRecommendationName(String recommendationName) {
+        this.recommendationName = recommendationName;
         return this;
     }
 
     /**
-     * Get the displayName value.
+     * Get uI friendly name of the rule.
      *
      * @return the displayName value
      */
@@ -131,7 +134,7 @@ public class RecommendationRuleInner {
     }
 
     /**
-     * Set the displayName value.
+     * Set uI friendly name of the rule.
      *
      * @param displayName the displayName value to set
      * @return the RecommendationRuleInner object itself.
@@ -142,7 +145,7 @@ public class RecommendationRuleInner {
     }
 
     /**
-     * Get the message value.
+     * Get localized name of the rule (Good for UI).
      *
      * @return the message value
      */
@@ -151,7 +154,7 @@ public class RecommendationRuleInner {
     }
 
     /**
-     * Set the message value.
+     * Set localized name of the rule (Good for UI).
      *
      * @param message the message value to set
      * @return the RecommendationRuleInner object itself.
@@ -162,7 +165,8 @@ public class RecommendationRuleInner {
     }
 
     /**
-     * Get the recommendationId value.
+     * Get recommendation ID of an associated recommendation object tied to the rule, if exists.
+     If such an object doesn't exist, it is set to null.
      *
      * @return the recommendationId value
      */
@@ -171,7 +175,8 @@ public class RecommendationRuleInner {
     }
 
     /**
-     * Set the recommendationId value.
+     * Set recommendation ID of an associated recommendation object tied to the rule, if exists.
+     If such an object doesn't exist, it is set to null.
      *
      * @param recommendationId the recommendationId value to set
      * @return the RecommendationRuleInner object itself.
@@ -182,7 +187,7 @@ public class RecommendationRuleInner {
     }
 
     /**
-     * Get the description value.
+     * Get localized detailed description of the rule.
      *
      * @return the description value
      */
@@ -191,7 +196,7 @@ public class RecommendationRuleInner {
     }
 
     /**
-     * Set the description value.
+     * Set localized detailed description of the rule.
      *
      * @param description the description value to set
      * @return the RecommendationRuleInner object itself.
@@ -202,7 +207,7 @@ public class RecommendationRuleInner {
     }
 
     /**
-     * Get the actionName value.
+     * Get name of action that is recommended by this rule in string.
      *
      * @return the actionName value
      */
@@ -211,7 +216,7 @@ public class RecommendationRuleInner {
     }
 
     /**
-     * Set the actionName value.
+     * Set name of action that is recommended by this rule in string.
      *
      * @param actionName the actionName value to set
      * @return the RecommendationRuleInner object itself.
@@ -222,7 +227,7 @@ public class RecommendationRuleInner {
     }
 
     /**
-     * Get the level value.
+     * Get level of impact indicating how critical this rule is. Possible values include: 'Critical', 'Warning', 'Information', 'NonUrgentSuggestion'.
      *
      * @return the level value
      */
@@ -231,7 +236,7 @@ public class RecommendationRuleInner {
     }
 
     /**
-     * Set the level value.
+     * Set level of impact indicating how critical this rule is. Possible values include: 'Critical', 'Warning', 'Information', 'NonUrgentSuggestion'.
      *
      * @param level the level value to set
      * @return the RecommendationRuleInner object itself.
@@ -242,7 +247,7 @@ public class RecommendationRuleInner {
     }
 
     /**
-     * Get the channels value.
+     * Get list of available channels that this rule applies. Possible values include: 'Notification', 'Api', 'Email', 'Webhook', 'All'.
      *
      * @return the channels value
      */
@@ -251,7 +256,7 @@ public class RecommendationRuleInner {
     }
 
     /**
-     * Set the channels value.
+     * Set list of available channels that this rule applies. Possible values include: 'Notification', 'Api', 'Email', 'Webhook', 'All'.
      *
      * @param channels the channels value to set
      * @return the RecommendationRuleInner object itself.
@@ -262,27 +267,16 @@ public class RecommendationRuleInner {
     }
 
     /**
-     * Get the tags value.
+     * Get the list of category tags that this recommendation rule belongs to.
      *
-     * @return the tags value
+     * @return the categoryTags value
      */
-    public List<String> tags() {
-        return this.tags;
+    public List<String> categoryTags() {
+        return this.categoryTags;
     }
 
     /**
-     * Set the tags value.
-     *
-     * @param tags the tags value to set
-     * @return the RecommendationRuleInner object itself.
-     */
-    public RecommendationRuleInner withTags(List<String> tags) {
-        this.tags = tags;
-        return this;
-    }
-
-    /**
-     * Get the isDynamic value.
+     * Get true if this is associated with a dynamically added rule.
      *
      * @return the isDynamic value
      */
@@ -291,7 +285,7 @@ public class RecommendationRuleInner {
     }
 
     /**
-     * Set the isDynamic value.
+     * Set true if this is associated with a dynamically added rule.
      *
      * @param isDynamic the isDynamic value to set
      * @return the RecommendationRuleInner object itself.
@@ -302,7 +296,7 @@ public class RecommendationRuleInner {
     }
 
     /**
-     * Get the extensionName value.
+     * Get extension name of the portal if exists. Applicable to dynamic rule only.
      *
      * @return the extensionName value
      */
@@ -311,7 +305,7 @@ public class RecommendationRuleInner {
     }
 
     /**
-     * Set the extensionName value.
+     * Set extension name of the portal if exists. Applicable to dynamic rule only.
      *
      * @param extensionName the extensionName value to set
      * @return the RecommendationRuleInner object itself.
@@ -322,7 +316,7 @@ public class RecommendationRuleInner {
     }
 
     /**
-     * Get the bladeName value.
+     * Get deep link to a blade on the portal. Applicable to dynamic rule only.
      *
      * @return the bladeName value
      */
@@ -331,7 +325,7 @@ public class RecommendationRuleInner {
     }
 
     /**
-     * Set the bladeName value.
+     * Set deep link to a blade on the portal. Applicable to dynamic rule only.
      *
      * @param bladeName the bladeName value to set
      * @return the RecommendationRuleInner object itself.
@@ -342,7 +336,7 @@ public class RecommendationRuleInner {
     }
 
     /**
-     * Get the forwardLink value.
+     * Get forward link to an external document associated with the rule. Applicable to dynamic rule only.
      *
      * @return the forwardLink value
      */
@@ -351,7 +345,7 @@ public class RecommendationRuleInner {
     }
 
     /**
-     * Set the forwardLink value.
+     * Set forward link to an external document associated with the rule. Applicable to dynamic rule only.
      *
      * @param forwardLink the forwardLink value to set
      * @return the RecommendationRuleInner object itself.

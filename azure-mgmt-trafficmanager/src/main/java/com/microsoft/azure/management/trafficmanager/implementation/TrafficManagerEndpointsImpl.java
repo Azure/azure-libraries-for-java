@@ -44,6 +44,14 @@ class TrafficManagerEndpointsImpl extends
         this.cacheCollection();
     }
 
+    List<EndpointInner> allEndpointsInners() {
+        List<EndpointInner> allEndpoints = new ArrayList<>();
+        for (TrafficManagerEndpointImpl epImpl : this.collection().values()) {
+            allEndpoints.add(epImpl.inner());
+        }
+        return allEndpoints;
+    }
+
     /**
      * @return the azure endpoints as a map indexed by name.
      */

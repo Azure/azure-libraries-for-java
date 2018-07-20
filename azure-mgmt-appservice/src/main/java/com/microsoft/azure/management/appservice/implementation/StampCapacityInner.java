@@ -48,8 +48,8 @@ public class StampCapacityInner {
     private ComputeModeOptions computeMode;
 
     /**
-     * Size of the machines. Possible values include: 'Default', 'Small',
-     * 'Medium', 'Large', 'D1', 'D2', 'D3'.
+     * Size of the machines. Possible values include: 'Small', 'Medium',
+     * 'Large', 'D1', 'D2', 'D3', 'Default'.
      */
     @JsonProperty(value = "workerSize")
     private WorkerSizeOptions workerSize;
@@ -84,7 +84,13 @@ public class StampCapacityInner {
     private String siteMode;
 
     /**
-     * Get the name value.
+     * Is this a linux stamp capacity.
+     */
+    @JsonProperty(value = "isLinux")
+    private Boolean isLinux;
+
+    /**
+     * Get name of the stamp.
      *
      * @return the name value
      */
@@ -93,7 +99,7 @@ public class StampCapacityInner {
     }
 
     /**
-     * Set the name value.
+     * Set name of the stamp.
      *
      * @param name the name value to set
      * @return the StampCapacityInner object itself.
@@ -104,7 +110,7 @@ public class StampCapacityInner {
     }
 
     /**
-     * Get the availableCapacity value.
+     * Get available capacity (# of machines, bytes of storage etc...).
      *
      * @return the availableCapacity value
      */
@@ -113,7 +119,7 @@ public class StampCapacityInner {
     }
 
     /**
-     * Set the availableCapacity value.
+     * Set available capacity (# of machines, bytes of storage etc...).
      *
      * @param availableCapacity the availableCapacity value to set
      * @return the StampCapacityInner object itself.
@@ -124,7 +130,7 @@ public class StampCapacityInner {
     }
 
     /**
-     * Get the totalCapacity value.
+     * Get total capacity (# of machines, bytes of storage etc...).
      *
      * @return the totalCapacity value
      */
@@ -133,7 +139,7 @@ public class StampCapacityInner {
     }
 
     /**
-     * Set the totalCapacity value.
+     * Set total capacity (# of machines, bytes of storage etc...).
      *
      * @param totalCapacity the totalCapacity value to set
      * @return the StampCapacityInner object itself.
@@ -144,7 +150,7 @@ public class StampCapacityInner {
     }
 
     /**
-     * Get the unit value.
+     * Get name of the unit.
      *
      * @return the unit value
      */
@@ -153,7 +159,7 @@ public class StampCapacityInner {
     }
 
     /**
-     * Set the unit value.
+     * Set name of the unit.
      *
      * @param unit the unit value to set
      * @return the StampCapacityInner object itself.
@@ -164,7 +170,7 @@ public class StampCapacityInner {
     }
 
     /**
-     * Get the computeMode value.
+     * Get shared/dedicated workers. Possible values include: 'Shared', 'Dedicated', 'Dynamic'.
      *
      * @return the computeMode value
      */
@@ -173,7 +179,7 @@ public class StampCapacityInner {
     }
 
     /**
-     * Set the computeMode value.
+     * Set shared/dedicated workers. Possible values include: 'Shared', 'Dedicated', 'Dynamic'.
      *
      * @param computeMode the computeMode value to set
      * @return the StampCapacityInner object itself.
@@ -184,7 +190,7 @@ public class StampCapacityInner {
     }
 
     /**
-     * Get the workerSize value.
+     * Get size of the machines. Possible values include: 'Small', 'Medium', 'Large', 'D1', 'D2', 'D3', 'Default'.
      *
      * @return the workerSize value
      */
@@ -193,7 +199,7 @@ public class StampCapacityInner {
     }
 
     /**
-     * Set the workerSize value.
+     * Set size of the machines. Possible values include: 'Small', 'Medium', 'Large', 'D1', 'D2', 'D3', 'Default'.
      *
      * @param workerSize the workerSize value to set
      * @return the StampCapacityInner object itself.
@@ -204,7 +210,10 @@ public class StampCapacityInner {
     }
 
     /**
-     * Get the workerSizeId value.
+     * Get size ID of machines:
+     0 - Small
+     1 - Medium
+     2 - Large.
      *
      * @return the workerSizeId value
      */
@@ -213,7 +222,10 @@ public class StampCapacityInner {
     }
 
     /**
-     * Set the workerSizeId value.
+     * Set size ID of machines:
+     0 - Small
+     1 - Medium
+     2 - Large.
      *
      * @param workerSizeId the workerSizeId value to set
      * @return the StampCapacityInner object itself.
@@ -224,7 +236,8 @@ public class StampCapacityInner {
     }
 
     /**
-     * Get the excludeFromCapacityAllocation value.
+     * Get if &lt;code&gt;true&lt;/code&gt;, it includes basic apps.
+     Basic apps are not used for capacity allocation.
      *
      * @return the excludeFromCapacityAllocation value
      */
@@ -233,7 +246,8 @@ public class StampCapacityInner {
     }
 
     /**
-     * Set the excludeFromCapacityAllocation value.
+     * Set if &lt;code&gt;true&lt;/code&gt;, it includes basic apps.
+     Basic apps are not used for capacity allocation.
      *
      * @param excludeFromCapacityAllocation the excludeFromCapacityAllocation value to set
      * @return the StampCapacityInner object itself.
@@ -244,7 +258,7 @@ public class StampCapacityInner {
     }
 
     /**
-     * Get the isApplicableForAllComputeModes value.
+     * Get &lt;code&gt;true&lt;/code&gt; if capacity is applicable for all apps; otherwise, &lt;code&gt;false&lt;/code&gt;.
      *
      * @return the isApplicableForAllComputeModes value
      */
@@ -253,7 +267,7 @@ public class StampCapacityInner {
     }
 
     /**
-     * Set the isApplicableForAllComputeModes value.
+     * Set &lt;code&gt;true&lt;/code&gt; if capacity is applicable for all apps; otherwise, &lt;code&gt;false&lt;/code&gt;.
      *
      * @param isApplicableForAllComputeModes the isApplicableForAllComputeModes value to set
      * @return the StampCapacityInner object itself.
@@ -264,7 +278,7 @@ public class StampCapacityInner {
     }
 
     /**
-     * Get the siteMode value.
+     * Get shared or Dedicated.
      *
      * @return the siteMode value
      */
@@ -273,13 +287,33 @@ public class StampCapacityInner {
     }
 
     /**
-     * Set the siteMode value.
+     * Set shared or Dedicated.
      *
      * @param siteMode the siteMode value to set
      * @return the StampCapacityInner object itself.
      */
     public StampCapacityInner withSiteMode(String siteMode) {
         this.siteMode = siteMode;
+        return this;
+    }
+
+    /**
+     * Get is this a linux stamp capacity.
+     *
+     * @return the isLinux value
+     */
+    public Boolean isLinux() {
+        return this.isLinux;
+    }
+
+    /**
+     * Set is this a linux stamp capacity.
+     *
+     * @param isLinux the isLinux value to set
+     * @return the StampCapacityInner object itself.
+     */
+    public StampCapacityInner withIsLinux(Boolean isLinux) {
+        this.isLinux = isLinux;
         return this;
     }
 

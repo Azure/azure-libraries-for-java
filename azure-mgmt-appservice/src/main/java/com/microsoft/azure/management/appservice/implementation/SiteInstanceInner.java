@@ -20,11 +20,11 @@ public class SiteInstanceInner extends ProxyOnlyResource {
     /**
      * Name of instance.
      */
-    @JsonProperty(value = "properties.name", access = JsonProperty.Access.WRITE_ONLY)
+    @JsonProperty(value = "properties.siteInstanceName", access = JsonProperty.Access.WRITE_ONLY)
     private String siteInstanceName;
 
     /**
-     * Get the siteInstanceName value.
+     * Get name of instance.
      *
      * @return the siteInstanceName value
      */

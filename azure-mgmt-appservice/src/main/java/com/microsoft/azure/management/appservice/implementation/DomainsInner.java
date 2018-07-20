@@ -16,6 +16,9 @@ import com.google.common.reflect.TypeToken;
 import com.microsoft.azure.AzureServiceFuture;
 import com.microsoft.azure.CloudException;
 import com.microsoft.azure.ListOperationCallback;
+import com.microsoft.azure.management.appservice.DefaultErrorResponseException;
+import com.microsoft.azure.management.appservice.DomainPatchResource;
+import com.microsoft.azure.management.appservice.DomainRecommendationSearchParameters;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
 import com.microsoft.rest.ServiceCallback;
@@ -80,7 +83,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.Domains listRecommendations" })
         @POST("subscriptions/{subscriptionId}/providers/Microsoft.DomainRegistration/listDomainRecommendations")
-        Observable<Response<ResponseBody>> listRecommendations(@Path("subscriptionId") String subscriptionId, @Body DomainRecommendationSearchParametersInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> listRecommendations(@Path("subscriptionId") String subscriptionId, @Body DomainRecommendationSearchParameters parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.Domains listByResourceGroup" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DomainRegistration/domains")
@@ -104,7 +107,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.Domains update" })
         @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DomainRegistration/domains/{domainName}")
-        Observable<Response<ResponseBody>> update(@Path("resourceGroupName") String resourceGroupName, @Path("domainName") String domainName, @Path("subscriptionId") String subscriptionId, @Body DomainPatchResourceInner domain, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> update(@Path("resourceGroupName") String resourceGroupName, @Path("domainName") String domainName, @Path("subscriptionId") String subscriptionId, @Body DomainPatchResource domain, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.Domains listOwnershipIdentifiers" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DomainRegistration/domains/{domainName}/domainOwnershipIdentifiers")
@@ -125,6 +128,10 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.Domains updateOwnershipIdentifier" })
         @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DomainRegistration/domains/{domainName}/domainOwnershipIdentifiers/{name}")
         Observable<Response<ResponseBody>> updateOwnershipIdentifier(@Path("resourceGroupName") String resourceGroupName, @Path("domainName") String domainName, @Path("name") String name, @Path("subscriptionId") String subscriptionId, @Body DomainOwnershipIdentifierInner domainOwnershipIdentifier, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.Domains renew" })
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DomainRegistration/domains/{domainName}/renew")
+        Observable<Response<ResponseBody>> renew(@Path("resourceGroupName") String resourceGroupName, @Path("domainName") String domainName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.Domains listNext" })
         @GET
@@ -149,7 +156,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
      * Check if a domain is available for registration.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the DomainAvailablilityCheckResultInner object if successful.
      */
@@ -196,11 +203,13 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2015-04-01";
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
         final String name = null;
         NameIdentifierInner identifier = new NameIdentifierInner();
         identifier.withName(null);
-        return service.checkAvailability(this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), identifier, this.client.userAgent())
+        return service.checkAvailability(this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), identifier, this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DomainAvailablilityCheckResultInner>>>() {
                 @Override
                 public Observable<ServiceResponse<DomainAvailablilityCheckResultInner>> call(Response<ResponseBody> response) {
@@ -220,7 +229,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
      *
      * @param name Name of the object.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the DomainAvailablilityCheckResultInner object if successful.
      */
@@ -270,10 +279,12 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2015-04-01";
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
         NameIdentifierInner identifier = new NameIdentifierInner();
         identifier.withName(name);
-        return service.checkAvailability(this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), identifier, this.client.userAgent())
+        return service.checkAvailability(this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), identifier, this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DomainAvailablilityCheckResultInner>>>() {
                 @Override
                 public Observable<ServiceResponse<DomainAvailablilityCheckResultInner>> call(Response<ResponseBody> response) {
@@ -287,10 +298,10 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
             });
     }
 
-    private ServiceResponse<DomainAvailablilityCheckResultInner> checkAvailabilityDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<DomainAvailablilityCheckResultInner, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<DomainAvailablilityCheckResultInner> checkAvailabilityDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<DomainAvailablilityCheckResultInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<DomainAvailablilityCheckResultInner>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -299,7 +310,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
      * Get all domains in a subscription.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;DomainInner&gt; object if successful.
      */
@@ -382,8 +393,10 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2015-04-01";
-        return service.list(this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.list(this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<DomainInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<DomainInner>>> call(Response<ResponseBody> response) {
@@ -397,10 +410,10 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
             });
     }
 
-    private ServiceResponse<PageImpl<DomainInner>> listDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<DomainInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<DomainInner>> listDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<DomainInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<DomainInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -409,7 +422,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
      * Generate a single sign-on request for the domain management portal.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the DomainControlCenterSsoRequestInner object if successful.
      */
@@ -456,8 +469,10 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2015-04-01";
-        return service.getControlCenterSsoRequest(this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.getControlCenterSsoRequest(this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DomainControlCenterSsoRequestInner>>>() {
                 @Override
                 public Observable<ServiceResponse<DomainControlCenterSsoRequestInner>> call(Response<ResponseBody> response) {
@@ -471,10 +486,10 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
             });
     }
 
-    private ServiceResponse<DomainControlCenterSsoRequestInner> getControlCenterSsoRequestDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<DomainControlCenterSsoRequestInner, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<DomainControlCenterSsoRequestInner> getControlCenterSsoRequestDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<DomainControlCenterSsoRequestInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<DomainControlCenterSsoRequestInner>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -484,11 +499,11 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
      *
      * @param parameters Search parameters for domain name recommendations.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;NameIdentifierInner&gt; object if successful.
      */
-    public PagedList<NameIdentifierInner> listRecommendations(final DomainRecommendationSearchParametersInner parameters) {
+    public PagedList<NameIdentifierInner> listRecommendations(final DomainRecommendationSearchParameters parameters) {
         ServiceResponse<Page<NameIdentifierInner>> response = listRecommendationsSinglePageAsync(parameters).toBlocking().single();
         return new PagedList<NameIdentifierInner>(response.body()) {
             @Override
@@ -507,7 +522,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<List<NameIdentifierInner>> listRecommendationsAsync(final DomainRecommendationSearchParametersInner parameters, final ListOperationCallback<NameIdentifierInner> serviceCallback) {
+    public ServiceFuture<List<NameIdentifierInner>> listRecommendationsAsync(final DomainRecommendationSearchParameters parameters, final ListOperationCallback<NameIdentifierInner> serviceCallback) {
         return AzureServiceFuture.fromPageResponse(
             listRecommendationsSinglePageAsync(parameters),
             new Func1<String, Observable<ServiceResponse<Page<NameIdentifierInner>>>>() {
@@ -527,7 +542,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;NameIdentifierInner&gt; object
      */
-    public Observable<Page<NameIdentifierInner>> listRecommendationsAsync(final DomainRecommendationSearchParametersInner parameters) {
+    public Observable<Page<NameIdentifierInner>> listRecommendationsAsync(final DomainRecommendationSearchParameters parameters) {
         return listRecommendationsWithServiceResponseAsync(parameters)
             .map(new Func1<ServiceResponse<Page<NameIdentifierInner>>, Page<NameIdentifierInner>>() {
                 @Override
@@ -545,7 +560,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;NameIdentifierInner&gt; object
      */
-    public Observable<ServiceResponse<Page<NameIdentifierInner>>> listRecommendationsWithServiceResponseAsync(final DomainRecommendationSearchParametersInner parameters) {
+    public Observable<ServiceResponse<Page<NameIdentifierInner>>> listRecommendationsWithServiceResponseAsync(final DomainRecommendationSearchParameters parameters) {
         return listRecommendationsSinglePageAsync(parameters)
             .concatMap(new Func1<ServiceResponse<Page<NameIdentifierInner>>, Observable<ServiceResponse<Page<NameIdentifierInner>>>>() {
                 @Override
@@ -567,16 +582,18 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;NameIdentifierInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
-    public Observable<ServiceResponse<Page<NameIdentifierInner>>> listRecommendationsSinglePageAsync(final DomainRecommendationSearchParametersInner parameters) {
+    public Observable<ServiceResponse<Page<NameIdentifierInner>>> listRecommendationsSinglePageAsync(final DomainRecommendationSearchParameters parameters) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         if (parameters == null) {
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
         Validator.validate(parameters);
-        final String apiVersion = "2015-04-01";
-        return service.listRecommendations(this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        return service.listRecommendations(this.client.subscriptionId(), parameters, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<NameIdentifierInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<NameIdentifierInner>>> call(Response<ResponseBody> response) {
@@ -590,10 +607,10 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
             });
     }
 
-    private ServiceResponse<PageImpl<NameIdentifierInner>> listRecommendationsDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<NameIdentifierInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<NameIdentifierInner>> listRecommendationsDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<NameIdentifierInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<NameIdentifierInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -603,7 +620,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;DomainInner&gt; object if successful.
      */
@@ -693,8 +710,10 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2015-04-01";
-        return service.listByResourceGroup(resourceGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.listByResourceGroup(resourceGroupName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<DomainInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<DomainInner>>> call(Response<ResponseBody> response) {
@@ -708,10 +727,10 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
             });
     }
 
-    private ServiceResponse<PageImpl<DomainInner>> listByResourceGroupDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<DomainInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<DomainInner>> listByResourceGroupDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<DomainInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<DomainInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -722,7 +741,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param domainName Name of the domain.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the DomainInner object if successful.
      */
@@ -781,8 +800,10 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2015-04-01";
-        return service.getByResourceGroup(resourceGroupName, domainName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.getByResourceGroup(resourceGroupName, domainName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DomainInner>>>() {
                 @Override
                 public Observable<ServiceResponse<DomainInner>> call(Response<ResponseBody> response) {
@@ -796,10 +817,10 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
             });
     }
 
-    private ServiceResponse<DomainInner> getByResourceGroupDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<DomainInner, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<DomainInner> getByResourceGroupDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<DomainInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<DomainInner>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -811,7 +832,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
      * @param domainName Name of the domain.
      * @param domain Domain registration information.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the DomainInner object if successful.
      */
@@ -876,9 +897,11 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
         if (domain == null) {
             throw new IllegalArgumentException("Parameter domain is required and cannot be null.");
         }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
         Validator.validate(domain);
-        final String apiVersion = "2015-04-01";
-        Observable<Response<ResponseBody>> observable = service.createOrUpdate(resourceGroupName, domainName, this.client.subscriptionId(), domain, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
+        Observable<Response<ResponseBody>> observable = service.createOrUpdate(resourceGroupName, domainName, this.client.subscriptionId(), domain, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<DomainInner>() { }.getType());
     }
 
@@ -890,7 +913,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
      * @param domainName Name of the domain.
      * @param domain Domain registration information.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the DomainInner object if successful.
      */
@@ -955,9 +978,11 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
         if (domain == null) {
             throw new IllegalArgumentException("Parameter domain is required and cannot be null.");
         }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
         Validator.validate(domain);
-        final String apiVersion = "2015-04-01";
-        return service.beginCreateOrUpdate(resourceGroupName, domainName, this.client.subscriptionId(), domain, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        return service.beginCreateOrUpdate(resourceGroupName, domainName, this.client.subscriptionId(), domain, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DomainInner>>>() {
                 @Override
                 public Observable<ServiceResponse<DomainInner>> call(Response<ResponseBody> response) {
@@ -971,11 +996,11 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
             });
     }
 
-    private ServiceResponse<DomainInner> beginCreateOrUpdateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<DomainInner, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<DomainInner> beginCreateOrUpdateDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<DomainInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<DomainInner>() { }.getType())
                 .register(202, new TypeToken<DomainInner>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -1044,9 +1069,11 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2015-04-01";
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
         final Boolean forceHardDeleteDomain = null;
-        return service.delete(resourceGroupName, domainName, this.client.subscriptionId(), forceHardDeleteDomain, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        return service.delete(resourceGroupName, domainName, this.client.subscriptionId(), forceHardDeleteDomain, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
                 public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
@@ -1129,8 +1156,10 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2015-04-01";
-        return service.delete(resourceGroupName, domainName, this.client.subscriptionId(), forceHardDeleteDomain, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.delete(resourceGroupName, domainName, this.client.subscriptionId(), forceHardDeleteDomain, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
                 public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
@@ -1160,11 +1189,11 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
      * @param domainName Name of the domain.
      * @param domain Domain registration information.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the DomainInner object if successful.
      */
-    public DomainInner update(String resourceGroupName, String domainName, DomainPatchResourceInner domain) {
+    public DomainInner update(String resourceGroupName, String domainName, DomainPatchResource domain) {
         return updateWithServiceResponseAsync(resourceGroupName, domainName, domain).toBlocking().single().body();
     }
 
@@ -1179,7 +1208,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<DomainInner> updateAsync(String resourceGroupName, String domainName, DomainPatchResourceInner domain, final ServiceCallback<DomainInner> serviceCallback) {
+    public ServiceFuture<DomainInner> updateAsync(String resourceGroupName, String domainName, DomainPatchResource domain, final ServiceCallback<DomainInner> serviceCallback) {
         return ServiceFuture.fromResponse(updateWithServiceResponseAsync(resourceGroupName, domainName, domain), serviceCallback);
     }
 
@@ -1193,7 +1222,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the DomainInner object
      */
-    public Observable<DomainInner> updateAsync(String resourceGroupName, String domainName, DomainPatchResourceInner domain) {
+    public Observable<DomainInner> updateAsync(String resourceGroupName, String domainName, DomainPatchResource domain) {
         return updateWithServiceResponseAsync(resourceGroupName, domainName, domain).map(new Func1<ServiceResponse<DomainInner>, DomainInner>() {
             @Override
             public DomainInner call(ServiceResponse<DomainInner> response) {
@@ -1212,7 +1241,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the DomainInner object
      */
-    public Observable<ServiceResponse<DomainInner>> updateWithServiceResponseAsync(String resourceGroupName, String domainName, DomainPatchResourceInner domain) {
+    public Observable<ServiceResponse<DomainInner>> updateWithServiceResponseAsync(String resourceGroupName, String domainName, DomainPatchResource domain) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -1225,9 +1254,11 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
         if (domain == null) {
             throw new IllegalArgumentException("Parameter domain is required and cannot be null.");
         }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
         Validator.validate(domain);
-        final String apiVersion = "2015-04-01";
-        return service.update(resourceGroupName, domainName, this.client.subscriptionId(), domain, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        return service.update(resourceGroupName, domainName, this.client.subscriptionId(), domain, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DomainInner>>>() {
                 @Override
                 public Observable<ServiceResponse<DomainInner>> call(Response<ResponseBody> response) {
@@ -1241,11 +1272,11 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
             });
     }
 
-    private ServiceResponse<DomainInner> updateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<DomainInner, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<DomainInner> updateDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<DomainInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<DomainInner>() { }.getType())
                 .register(202, new TypeToken<DomainInner>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -1256,7 +1287,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param domainName Name of domain.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;DomainOwnershipIdentifierInner&gt; object if successful.
      */
@@ -1353,8 +1384,10 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2015-04-01";
-        return service.listOwnershipIdentifiers(resourceGroupName, domainName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.listOwnershipIdentifiers(resourceGroupName, domainName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<DomainOwnershipIdentifierInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<DomainOwnershipIdentifierInner>>> call(Response<ResponseBody> response) {
@@ -1368,10 +1401,10 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
             });
     }
 
-    private ServiceResponse<PageImpl<DomainOwnershipIdentifierInner>> listOwnershipIdentifiersDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<DomainOwnershipIdentifierInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<DomainOwnershipIdentifierInner>> listOwnershipIdentifiersDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<DomainOwnershipIdentifierInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<DomainOwnershipIdentifierInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -1383,7 +1416,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
      * @param domainName Name of domain.
      * @param name Name of identifier.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the DomainOwnershipIdentifierInner object if successful.
      */
@@ -1448,8 +1481,10 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2015-04-01";
-        return service.getOwnershipIdentifier(resourceGroupName, domainName, name, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.getOwnershipIdentifier(resourceGroupName, domainName, name, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DomainOwnershipIdentifierInner>>>() {
                 @Override
                 public Observable<ServiceResponse<DomainOwnershipIdentifierInner>> call(Response<ResponseBody> response) {
@@ -1463,10 +1498,10 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
             });
     }
 
-    private ServiceResponse<DomainOwnershipIdentifierInner> getOwnershipIdentifierDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<DomainOwnershipIdentifierInner, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<DomainOwnershipIdentifierInner> getOwnershipIdentifierDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<DomainOwnershipIdentifierInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<DomainOwnershipIdentifierInner>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -1479,7 +1514,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
      * @param name Name of identifier.
      * @param domainOwnershipIdentifier A JSON representation of the domain ownership properties.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the DomainOwnershipIdentifierInner object if successful.
      */
@@ -1550,9 +1585,11 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
         if (domainOwnershipIdentifier == null) {
             throw new IllegalArgumentException("Parameter domainOwnershipIdentifier is required and cannot be null.");
         }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
         Validator.validate(domainOwnershipIdentifier);
-        final String apiVersion = "2015-04-01";
-        return service.createOrUpdateOwnershipIdentifier(resourceGroupName, domainName, name, this.client.subscriptionId(), domainOwnershipIdentifier, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        return service.createOrUpdateOwnershipIdentifier(resourceGroupName, domainName, name, this.client.subscriptionId(), domainOwnershipIdentifier, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DomainOwnershipIdentifierInner>>>() {
                 @Override
                 public Observable<ServiceResponse<DomainOwnershipIdentifierInner>> call(Response<ResponseBody> response) {
@@ -1566,10 +1603,10 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
             });
     }
 
-    private ServiceResponse<DomainOwnershipIdentifierInner> createOrUpdateOwnershipIdentifierDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<DomainOwnershipIdentifierInner, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<DomainOwnershipIdentifierInner> createOrUpdateOwnershipIdentifierDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<DomainOwnershipIdentifierInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<DomainOwnershipIdentifierInner>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -1645,8 +1682,10 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2015-04-01";
-        return service.deleteOwnershipIdentifier(resourceGroupName, domainName, name, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.deleteOwnershipIdentifier(resourceGroupName, domainName, name, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
                 public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
@@ -1677,7 +1716,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
      * @param name Name of identifier.
      * @param domainOwnershipIdentifier A JSON representation of the domain ownership properties.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the DomainOwnershipIdentifierInner object if successful.
      */
@@ -1748,9 +1787,11 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
         if (domainOwnershipIdentifier == null) {
             throw new IllegalArgumentException("Parameter domainOwnershipIdentifier is required and cannot be null.");
         }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
         Validator.validate(domainOwnershipIdentifier);
-        final String apiVersion = "2015-04-01";
-        return service.updateOwnershipIdentifier(resourceGroupName, domainName, name, this.client.subscriptionId(), domainOwnershipIdentifier, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        return service.updateOwnershipIdentifier(resourceGroupName, domainName, name, this.client.subscriptionId(), domainOwnershipIdentifier, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DomainOwnershipIdentifierInner>>>() {
                 @Override
                 public Observable<ServiceResponse<DomainOwnershipIdentifierInner>> call(Response<ResponseBody> response) {
@@ -1764,9 +1805,102 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
             });
     }
 
-    private ServiceResponse<DomainOwnershipIdentifierInner> updateOwnershipIdentifierDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<DomainOwnershipIdentifierInner, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<DomainOwnershipIdentifierInner> updateOwnershipIdentifierDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<DomainOwnershipIdentifierInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<DomainOwnershipIdentifierInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
+    }
+
+    /**
+     * Renew a domain.
+     * Renew a domain.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param domainName Name of the domain.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     */
+    public void renew(String resourceGroupName, String domainName) {
+        renewWithServiceResponseAsync(resourceGroupName, domainName).toBlocking().single().body();
+    }
+
+    /**
+     * Renew a domain.
+     * Renew a domain.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param domainName Name of the domain.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<Void> renewAsync(String resourceGroupName, String domainName, final ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromResponse(renewWithServiceResponseAsync(resourceGroupName, domainName), serviceCallback);
+    }
+
+    /**
+     * Renew a domain.
+     * Renew a domain.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param domainName Name of the domain.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceResponse} object if successful.
+     */
+    public Observable<Void> renewAsync(String resourceGroupName, String domainName) {
+        return renewWithServiceResponseAsync(resourceGroupName, domainName).map(new Func1<ServiceResponse<Void>, Void>() {
+            @Override
+            public Void call(ServiceResponse<Void> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Renew a domain.
+     * Renew a domain.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param domainName Name of the domain.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceResponse} object if successful.
+     */
+    public Observable<ServiceResponse<Void>> renewWithServiceResponseAsync(String resourceGroupName, String domainName) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (domainName == null) {
+            throw new IllegalArgumentException("Parameter domainName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.renew(resourceGroupName, domainName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
+                @Override
+                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<Void> clientResponse = renewDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<Void> renewDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<Void>() { }.getType())
+                .register(202, new TypeToken<Void>() { }.getType())
+                .register(204, new TypeToken<Void>() { }.getType())
+                .register(400, new TypeToken<Void>() { }.getType())
+                .register(500, new TypeToken<Void>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }
@@ -1777,7 +1911,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;DomainInner&gt; object if successful.
      */
@@ -1880,10 +2014,10 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
             });
     }
 
-    private ServiceResponse<PageImpl<DomainInner>> listNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<DomainInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<DomainInner>> listNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<DomainInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<DomainInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -1893,7 +2027,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;NameIdentifierInner&gt; object if successful.
      */
@@ -1996,10 +2130,10 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
             });
     }
 
-    private ServiceResponse<PageImpl<NameIdentifierInner>> listRecommendationsNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<NameIdentifierInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<NameIdentifierInner>> listRecommendationsNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<NameIdentifierInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<NameIdentifierInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -2009,7 +2143,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;DomainInner&gt; object if successful.
      */
@@ -2112,10 +2246,10 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
             });
     }
 
-    private ServiceResponse<PageImpl<DomainInner>> listByResourceGroupNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<DomainInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<DomainInner>> listByResourceGroupNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<DomainInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<DomainInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -2125,7 +2259,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;DomainOwnershipIdentifierInner&gt; object if successful.
      */
@@ -2228,10 +2362,10 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
             });
     }
 
-    private ServiceResponse<PageImpl<DomainOwnershipIdentifierInner>> listOwnershipIdentifiersNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<DomainOwnershipIdentifierInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<DomainOwnershipIdentifierInner>> listOwnershipIdentifiersNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<DomainOwnershipIdentifierInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<DomainOwnershipIdentifierInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 

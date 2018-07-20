@@ -7,28 +7,23 @@
 package com.microsoft.azure.management.compute.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.compute.OperatingSystemTypes;
 import com.microsoft.azure.management.compute.ResourceIdentityType;
-import com.microsoft.azure.management.compute.VirtualMachineExtension;
 import com.microsoft.azure.management.compute.VirtualMachineIdentity;
+import com.microsoft.azure.management.compute.VirtualMachineIdentityUserAssignedIdentitiesValue;
+import com.microsoft.azure.management.compute.VirtualMachineUpdate;
 import com.microsoft.azure.management.graphrbac.implementation.GraphRbacManager;
 import com.microsoft.azure.management.graphrbac.implementation.RoleAssignmentHelper;
 import com.microsoft.azure.management.msi.Identity;
-import com.microsoft.azure.management.resources.fluentcore.dag.IndexableTaskItem;
 import com.microsoft.azure.management.resources.fluentcore.dag.TaskGroup;
-import com.microsoft.azure.management.resources.fluentcore.dag.VoidIndexable;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
-import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
-import rx.Observable;
-import rx.functions.Func0;
-import rx.functions.Func1;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * Utility class to set Managed Service Identity (MSI) property on a virtual machine,
@@ -39,8 +34,8 @@ import java.util.Objects;
 class VirtualMachineMsiHandler extends RoleAssignmentHelper {
     private final VirtualMachineImpl virtualMachine;
 
-    private MSIExtensionInstaller msiExtensionInstaller;
     private List<String> creatableIdentityKeys;
+    private Map<String, VirtualMachineIdentityUserAssignedIdentitiesValue> userAssignedIdentities;
 
     /**
      * Creates VirtualMachineMsiHandler.
@@ -53,8 +48,8 @@ class VirtualMachineMsiHandler extends RoleAssignmentHelper {
                              VirtualMachineImpl virtualMachine) {
         super(rbacManager, virtualMachine.taskGroup(), virtualMachine.idProvider());
         this.virtualMachine = virtualMachine;
-        this.msiExtensionInstaller = null;
         this.creatableIdentityKeys = new ArrayList<>();
+        this.userAssignedIdentities = new HashMap<>();
     }
 
     /**
@@ -65,19 +60,26 @@ class VirtualMachineMsiHandler extends RoleAssignmentHelper {
      * @return VirtualMachineMsiHandler
      */
     VirtualMachineMsiHandler withLocalManagedServiceIdentity() {
-        return withLocalManagedServiceIdentity(null);
+        this.initVMIdentity(ResourceIdentityType.SYSTEM_ASSIGNED);
+        return this;
     }
 
     /**
-     * Specifies that Local Managed Service Identity property needs to be enabled in the virtual machine.
+     * Specifies that Local Managed Service Identity needs to be disabled in the virtual machine.
      *
-     * @param port the port in the virtual machine to get the access token from
-
      * @return VirtualMachineMsiHandler
      */
-    VirtualMachineMsiHandler withLocalManagedServiceIdentity(Integer port) {
-        this.initVMIdentity(ResourceIdentityType.SYSTEM_ASSIGNED);
-        this.scheduleMSIExtensionInstallation(port);
+    VirtualMachineMsiHandler withoutLocalManagedServiceIdentity() {
+        if (this.virtualMachine.inner().identity() == null
+                || this.virtualMachine.inner().identity().type() == null
+                || this.virtualMachine.inner().identity().type().equals(ResourceIdentityType.NONE)
+                || this.virtualMachine.inner().identity().type().equals(ResourceIdentityType.USER_ASSIGNED)) {
+            return this;
+        } else if (this.virtualMachine.inner().identity().type().equals(ResourceIdentityType.SYSTEM_ASSIGNED)) {
+            this.virtualMachine.inner().identity().withType(ResourceIdentityType.NONE);
+        } else if (this.virtualMachine.inner().identity().type().equals(ResourceIdentityType.SYSTEM_ASSIGNED_USER_ASSIGNED)) {
+            this.virtualMachine.inner().identity().withType(ResourceIdentityType.USER_ASSIGNED);
+        }
         return this;
     }
 
@@ -97,7 +99,6 @@ class VirtualMachineMsiHandler extends RoleAssignmentHelper {
         this.virtualMachine.taskGroup().addDependency(dependency);
         this.creatableIdentityKeys.add(creatableIdentity.key());
 
-        this.scheduleMSIExtensionInstallation(null);
         return this;
     }
 
@@ -110,8 +111,7 @@ class VirtualMachineMsiHandler extends RoleAssignmentHelper {
      */
     VirtualMachineMsiHandler withExistingExternalManagedServiceIdentity(Identity identity) {
         this.initVMIdentity(ResourceIdentityType.USER_ASSIGNED);
-        Utils.addToListIfNotExists(this.virtualMachine.inner().identity().identityIds(), identity.id());
-        this.scheduleMSIExtensionInstallation(null);
+        this.userAssignedIdentities.put(identity.id(), new VirtualMachineIdentityUserAssignedIdentitiesValue());
         return this;
     }
 
@@ -123,33 +123,129 @@ class VirtualMachineMsiHandler extends RoleAssignmentHelper {
      * @return VirtualMachineMsiHandler
      */
     VirtualMachineMsiHandler withoutExternalManagedServiceIdentity(String identityId) {
-        VirtualMachineInner virtualMachineInner = this.virtualMachine.inner();
-        if (virtualMachineInner.identity() != null && virtualMachineInner.identity().identityIds() != null) {
-            Utils.removeFromList(this.virtualMachine.inner().identity().identityIds(), identityId);
-        }
+        this.userAssignedIdentities.put(identityId, null);
         return this;
     }
 
-    /**
-     * Update the VM payload model using the created External Managed Service Identities.
-     */
-    void handleExternalIdentitySettings() {
+    void processCreatedExternalIdentities() {
         for (String key : this.creatableIdentityKeys) {
             Identity identity = (Identity) this.virtualMachine.taskGroup().taskResult(key);
             Objects.requireNonNull(identity);
-            Utils.addToListIfNotExists(this.virtualMachine.inner().identity().identityIds(), identity.id());
+            this.userAssignedIdentities.put(identity.id(), new VirtualMachineIdentityUserAssignedIdentitiesValue());
         }
         this.creatableIdentityKeys.clear();
+    }
+
+    void handleExternalIdentities() {
+        if (!this.userAssignedIdentities.isEmpty()) {
+            this.virtualMachine.inner().identity().withUserAssignedIdentities(this.userAssignedIdentities);
+        }
+    }
+
+    void handleExternalIdentities(VirtualMachineUpdate vmUpdate) {
+        if (this.handleRemoveAllExternalIdentitiesCase(vmUpdate)) {
+            return;
+        } else {
+            // At this point one of the following condition is met:
+            //
+            // 1. User don't want touch the 'VM.Identity.userAssignedIdentities' property
+            //      [this.userAssignedIdentities.empty() == true]
+            // 2. User want to add some identities to 'VM.Identity.userAssignedIdentities'
+            //      [this.userAssignedIdentities.empty() == false and this.virtualMachine.inner().identity() != null]
+            // 3. User want to remove some (not all) identities in 'VM.Identity.userAssignedIdentities'
+            //      [this.userAssignedIdentities.empty() == false and this.virtualMachine.inner().identity() != null]
+            //      Note: The scenario where this.virtualMachine.inner().identity() is null in #3 is already handled in
+            //      handleRemoveAllExternalIdentitiesCase method
+            // 4. User want to add and remove (all or subset) some identities in 'VM.Identity.userAssignedIdentities'
+            //      [this.userAssignedIdentities.empty() == false and this.virtualMachine.inner().identity() != null]
+            //
+            VirtualMachineIdentity currentIdentity = this.virtualMachine.inner().identity();
+            vmUpdate.withIdentity(currentIdentity);
+            if (!this.userAssignedIdentities.isEmpty()) {
+                // At this point its guaranteed that 'currentIdentity' is not null so vmUpdate.identity() is.
+                vmUpdate.identity().withUserAssignedIdentities(this.userAssignedIdentities);
+            } else {
+                // User don't want to touch 'VM.Identity.userAssignedIdentities' property
+                if (currentIdentity != null) {
+                    // and currently there is identity exists or user want to manipulate some other properties of
+                    // identity, set identities to null so that it won't send over wire.
+                    currentIdentity.withUserAssignedIdentities(null);
+                }
+            }
+        }
     }
 
     /**
      * Clear VirtualMachineMsiHandler post-run specific internal state.
      */
     void clear() {
-        if (this.msiExtensionInstaller != null) {
-            this.msiExtensionInstaller.clear();
-            this.msiExtensionInstaller = null;
+        this.userAssignedIdentities = new HashMap<>();
+    }
+
+    /**
+     * Method that handle the case where user request indicates all it want to do is remove all identities associated
+     * with the virtual machine.
+     *
+     * @param vmUpdate the vm update payload model
+     * @return true if user indented to remove all the identities.
+     */
+    private boolean handleRemoveAllExternalIdentitiesCase(VirtualMachineUpdate vmUpdate) {
+        if (!this.userAssignedIdentities.isEmpty()) {
+            int rmCount = 0;
+            for (VirtualMachineIdentityUserAssignedIdentitiesValue v : this.userAssignedIdentities.values()) {
+                if (v == null) {
+                    rmCount++;
+                } else {
+                    break;
+                }
+            }
+            boolean containsRemoveOnly = rmCount > 0 && rmCount == this.userAssignedIdentities.size();
+            // Check if user request contains only request for removal of identities.
+            if (containsRemoveOnly) {
+                Set<String> currentIds = new HashSet<>();
+                VirtualMachineIdentity currentIdentity = this.virtualMachine.inner().identity();
+                if (currentIdentity != null && currentIdentity.userAssignedIdentities() != null) {
+                    for (String id : currentIdentity.userAssignedIdentities().keySet()) {
+                        currentIds.add(id.toLowerCase());
+                    }
+                }
+                Set<String> removeIds = new HashSet<>();
+                for (Map.Entry<String, VirtualMachineIdentityUserAssignedIdentitiesValue> entrySet : this.userAssignedIdentities.entrySet()) {
+                    if (entrySet.getValue() == null) {
+                        removeIds.add(entrySet.getKey().toLowerCase());
+                    }
+                }
+                // If so check user want to remove all the identities
+                boolean removeAllCurrentIds = currentIds.size() == removeIds.size() && currentIds.containsAll(removeIds);
+                if (removeAllCurrentIds) {
+                    // If so adjust  the identity type [Setting type to SYSTEM_ASSIGNED orNONE will remove all the identities]
+                    if (currentIdentity == null || currentIdentity.type() == null) {
+                        vmUpdate.withIdentity(new VirtualMachineIdentity().withType(ResourceIdentityType.NONE));
+                    } else if (currentIdentity.type().equals(ResourceIdentityType.SYSTEM_ASSIGNED_USER_ASSIGNED)) {
+                        vmUpdate.withIdentity(currentIdentity);
+                        vmUpdate.identity().withType(ResourceIdentityType.SYSTEM_ASSIGNED);
+                    } else if (currentIdentity.type().equals(ResourceIdentityType.USER_ASSIGNED)) {
+                        vmUpdate.withIdentity(currentIdentity);
+                        vmUpdate.identity().withType(ResourceIdentityType.NONE);
+                    }
+                    // and set identities property in the payload model to null so that it won't be sent
+                    vmUpdate.identity().withUserAssignedIdentities(null);
+                    return true;
+                } else {
+                    // Check user is asking to remove identities though there is no identities currently associated
+                    if (currentIds.size() == 0
+                            && removeIds.size() != 0
+                            && currentIdentity == null) {
+                        // If so we are in a invalid state but we want to send user input to service and let service
+                        // handle it (ignore or error).
+                        vmUpdate.withIdentity(new VirtualMachineIdentity().withType(ResourceIdentityType.NONE));
+                        vmUpdate.identity().withUserAssignedIdentities(null);
+                        return true;
+                    }
+                }
+            }
         }
+        return false;
     }
 
     /**
@@ -173,195 +269,6 @@ class VirtualMachineMsiHandler extends RoleAssignmentHelper {
             virtualMachineInner.identity().withType(identityType);
         } else {
             virtualMachineInner.identity().withType(ResourceIdentityType.SYSTEM_ASSIGNED_USER_ASSIGNED);
-        }
-        if (virtualMachineInner.identity().identityIds() == null) {
-            if (identityType.equals(ResourceIdentityType.USER_ASSIGNED)
-                    || identityType.equals(ResourceIdentityType.SYSTEM_ASSIGNED_USER_ASSIGNED)) {
-                virtualMachineInner.identity().withIdentityIds(new ArrayList<String>());
-            }
-        }
-    }
-
-    /**
-     * Schedule a task to install MSI extension after VM createOrUpdate.
-     *
-     * @param port the port that future application running on the virtual machine uses
-     *             to get the token
-     */
-    private void scheduleMSIExtensionInstallation(Integer port) {
-        if (this.msiExtensionInstaller == null) {
-            this.msiExtensionInstaller = new MSIExtensionInstaller(this.virtualMachine);
-            this.msiExtensionInstaller.withTokenPort(port);
-            this.virtualMachine.taskGroup().addPostRunDependent(this.msiExtensionInstaller);
-        }
-    }
-
-    /**
-     * The TaskItem in the graph that configure MSI extension in a virtual machine.
-     */
-    private static class MSIExtensionInstaller extends IndexableTaskItem {
-        private static final int DEFAULT_TOKEN_PORT = 50342;
-        private static final String MSI_EXTENSION_PUBLISHER_NAME = "Microsoft.ManagedIdentity";
-        private static final String LINUX_MSI_EXTENSION = "ManagedIdentityExtensionForLinux";
-        private static final String WINDOWS_MSI_EXTENSION = "ManagedIdentityExtensionForWindows";
-        private final String msiExtensionTypeName;
-
-        private Integer tokenPort;
-        private final VirtualMachineImpl virtualMachine;
-
-        /**
-         * Creates MSIExtensionInstaller.
-         *
-         * @param virtualMachine the virtual machine for which MSI extension need to be configured
-         */
-        MSIExtensionInstaller(final VirtualMachineImpl virtualMachine) {
-            this.tokenPort = null;
-            this.virtualMachine = virtualMachine;
-            OperatingSystemTypes osType = virtualMachine.osType();
-            if (osType == null) {
-                throw new IllegalStateException("MSIExtensionInstaller: Unable to resolve the operating system type");
-            }
-            this.msiExtensionTypeName = osType == OperatingSystemTypes.LINUX ? LINUX_MSI_EXTENSION : WINDOWS_MSI_EXTENSION;
-        }
-
-        MSIExtensionInstaller withTokenPort(Integer tokenPort) {
-            this.tokenPort = tokenPort;
-            return this;
-        }
-
-        @Override
-        public Observable<Indexable> invokeTaskAsync(TaskGroup.InvocationContext context) {
-            return Observable.defer(new Func0<Observable<Indexable>>() {
-                @Override
-                public Observable<Indexable> call() {
-                    return getMSIExtensionAsync();
-                }
-            }).flatMap(new Func1<Indexable, Observable<Indexable>>() {
-                @Override
-                public Observable<Indexable> call(Indexable extension) {
-                    return updateMSIExtensionAsync((VirtualMachineExtension) extension);
-                }
-            })
-                    .switchIfEmpty(Observable.defer(new Func0<Observable<Indexable>>() {
-                        @Override
-                        public Observable<Indexable> call() {
-                            return installMSIExtensionAsync();
-                        }
-                    }));
-        }
-
-        private Observable<Indexable> getMSIExtensionAsync() {
-            return virtualMachine.manager().inner().virtualMachineExtensions().getAsync(virtualMachine.resourceGroupName(),
-                    virtualMachine.name(),
-                    this.msiExtensionTypeName)
-                    .map(new Func1<VirtualMachineExtensionInner, Indexable>() {
-                        @Override
-                        public Indexable call(VirtualMachineExtensionInner inner) {
-                            if (inner == null) {
-                                return voidIndexable();
-                            } else {
-                                return new VirtualMachineExtensionImpl(msiExtensionTypeName,
-                                        virtualMachine,
-                                        inner,
-                                        virtualMachine.manager().inner().virtualMachineExtensions());
-                            }
-                        }
-                    })
-                    .filter(new Func1<Indexable, Boolean>() {
-                        @Override
-                        public Boolean call(Indexable e) {
-                            if (e instanceof VoidIndexable) {
-                                return false;
-                            }
-                            VirtualMachineExtension extension = (VirtualMachineExtension) e;
-                            return extension.publisherName().equalsIgnoreCase(MSI_EXTENSION_PUBLISHER_NAME)
-                                    && extension.typeName().equalsIgnoreCase(msiExtensionTypeName);
-                        }
-                    });
-        }
-
-        private Observable<Indexable> updateMSIExtensionAsync(VirtualMachineExtension extension) {
-            Integer currentTokenPort = objectToInteger(extension.publicSettings().get("port"));
-            Integer tokenPortToUse;
-            if (tokenPort != null) {
-                // User specified a port
-                tokenPortToUse = tokenPort;
-            } else if (currentTokenPort == null) {
-                // User didn't specify a port and port is not already set
-                tokenPortToUse = DEFAULT_TOKEN_PORT;
-            } else {
-                // User didn't specify a port and port is already set in the extension
-                // No need to do a PUT on extension
-                //
-                return voidObservable();
-            }
-            Map<String, Object> settings = new HashMap<>();
-            settings.put("port", tokenPortToUse);
-            extension.inner().withSettings(settings);
-
-            return virtualMachine.manager().inner().virtualMachineExtensions()
-                    .createOrUpdateAsync(virtualMachine.resourceGroupName(),
-                            virtualMachine.name(),
-                            msiExtensionTypeName,
-                            extension.inner())
-                    .map(new Func1<VirtualMachineExtensionInner, Indexable>() {
-                        @Override
-                        public Indexable call(VirtualMachineExtensionInner inner) {
-                            return new VirtualMachineExtensionImpl(msiExtensionTypeName,
-                                    virtualMachine,
-                                    inner,
-                                    virtualMachine.manager().inner().virtualMachineExtensions());
-                        }
-                    });
-        }
-
-        private Observable<Indexable> installMSIExtensionAsync() {
-            Integer tokenPortToUse = tokenPort != null ? tokenPort : DEFAULT_TOKEN_PORT;
-            VirtualMachineExtensionInner extensionParameter = new VirtualMachineExtensionInner();
-            extensionParameter
-                    .withPublisher(MSI_EXTENSION_PUBLISHER_NAME)
-                    .withVirtualMachineExtensionType(this.msiExtensionTypeName)
-                    .withTypeHandlerVersion("1.0")
-                    .withAutoUpgradeMinorVersion(true)
-                    .withLocation(virtualMachine.regionName());
-            Map<String, Object> settings = new HashMap<>();
-            settings.put("port", tokenPortToUse);
-            extensionParameter.withSettings(settings);
-            extensionParameter.withProtectedSettings(null);
-
-            return virtualMachine.manager().inner().virtualMachineExtensions()
-                    .createOrUpdateAsync(virtualMachine.resourceGroupName(),
-                            virtualMachine.name(),
-                            this.msiExtensionTypeName,
-                            extensionParameter)
-                    .map(new Func1<VirtualMachineExtensionInner, Indexable>() {
-                        @Override
-                        public Indexable call(VirtualMachineExtensionInner inner) {
-                            return new VirtualMachineExtensionImpl(msiExtensionTypeName,
-                                    virtualMachine,
-                                    inner,
-                                    virtualMachine.manager().inner().virtualMachineExtensions());
-                        }
-                    });
-        }
-
-        /**
-         * Given an object holding a numeric in Integer or String format, convert that to
-         * Integer.
-         *
-         * @param obj the object
-         * @return the integer value
-         */
-        private Integer objectToInteger(Object obj) {
-            Integer result = null;
-            if (obj != null) {
-                if (obj instanceof Integer) {
-                    result = (Integer) obj;
-                } else {
-                    result = Integer.valueOf((String) obj);
-                }
-            }
-            return result;
         }
     }
 }

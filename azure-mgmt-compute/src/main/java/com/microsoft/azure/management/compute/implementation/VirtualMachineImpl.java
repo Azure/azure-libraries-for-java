@@ -1372,6 +1372,12 @@ class VirtualMachineImpl
         return this;
     }
 
+    @Override
+    public VirtualMachine.DefinitionStages.WithCreate withLicenseType(String licenseType) {
+        inner().withLicenseType(licenseType);
+        return this;
+    }
+
     // GETTERS
 
     @Override

@@ -171,7 +171,7 @@ public interface Build  extends
              * @param name the name of the build argument
              * @return the next stage of the definition
              */
-            QueuedQuickBuildArgumentDefinitionStages.BuildArgumentDefinitionBlank<QueuedQuickBuildDefinitionStages.WithBuildArgument> defineBuildArgument(String name);
+            QueuedQuickBuildArgumentDefinitionStages.BuildArgumentDefinitionBlank<QueuedQuickBuildDefinitionStages.WithCreate> defineBuildArgument(String name);
         }
 
         /**

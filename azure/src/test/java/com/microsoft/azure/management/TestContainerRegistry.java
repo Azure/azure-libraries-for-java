@@ -6,9 +6,14 @@
 package com.microsoft.azure.management;
 
 import com.microsoft.azure.PagedList;
+import com.microsoft.azure.management.containerregistry.Build;
+import com.microsoft.azure.management.containerregistry.BuildTask;
+import com.microsoft.azure.management.containerregistry.OsType;
 import com.microsoft.azure.management.containerregistry.Registries;
 import com.microsoft.azure.management.containerregistry.Registry;
 import com.microsoft.azure.management.containerregistry.RegistryCredentials;
+import com.microsoft.azure.management.containerregistry.SourceControlType;
+import com.microsoft.azure.management.containerregistry.TokenType;
 import com.microsoft.azure.management.containerregistry.Webhook;
 import com.microsoft.azure.management.containerregistry.WebhookAction;
 import com.microsoft.azure.management.containerregistry.WebhookStatus;

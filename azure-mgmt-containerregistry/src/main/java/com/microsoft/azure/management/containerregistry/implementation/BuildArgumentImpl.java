@@ -16,7 +16,7 @@ import java.util.ArrayList;
 @LangDefinition
 public class BuildArgumentImpl
     implements
-        Build.QueuedQuickBuildDefinitionStages.QueuedQuickBuildArgumentDefinitionStages.BuildArgumentDefinition<Build.QueuedQuickBuildDefinitionStages.WithBuildArgument> {
+        Build.QueuedQuickBuildDefinitionStages.QueuedQuickBuildArgumentDefinitionStages.BuildArgumentDefinition<Build.QueuedQuickBuildDefinitionStages.WithCreate> {
 
     private BuildArgumentInner buildArgumentInner;
     private BuildImpl parent;
@@ -27,7 +27,7 @@ public class BuildArgumentImpl
     }
 
     @Override
-    public Build.QueuedQuickBuildDefinitionStages.WithBuildArgument attach() {
+    public Build.QueuedQuickBuildDefinitionStages.WithCreate attach() {
         if (parent.quickBuildRequest().buildArguments() == null) {
             parent.quickBuildRequest().withBuildArguments(new ArrayList<BuildArgumentInner>());
         }

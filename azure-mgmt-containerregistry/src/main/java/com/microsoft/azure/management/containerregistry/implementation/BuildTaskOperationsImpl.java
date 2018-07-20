@@ -117,4 +117,37 @@ public class BuildTaskOperationsImpl implements BuildTaskOperations {
                 }
             });
     }
+
+    @Override
+    public PagedList<BuildTask> listWithFilter(String filter) {
+        final BuildTaskOperationsImpl self = this;
+        final PagedListConverter<BuildTaskInner, BuildTask> converter = new PagedListConverter<BuildTaskInner, BuildTask>() {
+            @Override
+            public Observable<BuildTask> typeConvertAsync(BuildTaskInner inner) {
+                return Observable.just((BuildTask) new BuildTaskImpl(inner.name(), self.containerRegistry, inner));
+            }
+        };
+
+        return converter.convert(this.containerRegistry.manager().inner().buildTasks()
+            .list(this.containerRegistry.resourceGroupName(), this.containerRegistry.name(), filter, null));
+    }
+
+    @Override
+    public Observable<BuildTask> listWithFilterAsync(String filter) {
+        final BuildTaskOperationsImpl self = this;
+
+        return this.containerRegistry.manager().inner().buildTasks()
+            .listAsync(this.containerRegistry.resourceGroupName(), this.containerRegistry.name(), filter, null)
+            .flatMap(new Func1<Page<BuildTaskInner>, Observable<BuildTaskInner>>() {
+                @Override
+                public Observable<BuildTaskInner> call(Page<BuildTaskInner> buildTaskInnerPage) {
+                    return Observable.from(buildTaskInnerPage.items());
+                }
+            }).map(new Func1<BuildTaskInner, BuildTask>() {
+                @Override
+                public BuildTask call(BuildTaskInner inner) {
+                    return new BuildTaskImpl(inner.name(), self.containerRegistry, inner);
+                }
+            });
+    }
 }

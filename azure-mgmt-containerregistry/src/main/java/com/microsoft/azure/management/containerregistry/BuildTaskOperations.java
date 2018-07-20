@@ -88,4 +88,21 @@ public interface BuildTaskOperations {
      */
     Observable<BuildTask> listAsync();
 
+    /**
+     * Lists all the build tasks for the container registry matching the specified filter.
+     *
+     * @param filter the specified filter
+     * @return the list of all the build tasks for the specified container registry
+     */
+    PagedList<BuildTask> listWithFilter(String filter);
+
+    /**
+     * Lists all the build tasks for the container registry matching the specified filter.
+     *
+     * @param filter the specified filter
+     * @return a representation of the future computation of this call, returning the list of all the build tasks
+     *   for the specified container registry
+     */
+    Observable<BuildTask> listWithFilterAsync(String filter);
+
 }

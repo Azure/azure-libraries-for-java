@@ -113,7 +113,7 @@ public interface BuildTask extends
 
 
     /**
-     * Grouping of webhook definition stages.
+     * Grouping of build task definition stages.
      */
     interface DefinitionStages {
         /**
@@ -244,14 +244,14 @@ public interface BuildTask extends
          */
         interface WithCommitTrigger {
             /**
-             * Specifies that the source control commit trigger is enabled
+             * Specifies that the source control commit trigger is enabled.
              *
              * @return the next stage of the definition
              */
             BuildTask.DefinitionStages.WithCreate withCommitTriggerEnabled();
 
             /**
-             * Specifies that the source control commit trigger is disabled
+             * Specifies that the source control commit trigger is disabled.
              *
              * @return the next stage of the definition
              */
@@ -364,7 +364,7 @@ public interface BuildTask extends
     }
 
     /**
-     * Grouping of webhook update stages.
+     * Grouping of build task update stages.
      */
     interface UpdateStages {
         /**
@@ -489,14 +489,14 @@ public interface BuildTask extends
          */
         interface WithCommitTrigger {
             /**
-             * Specifies that the source control commit trigger is enabled
+             * Specifies that the source control commit trigger is enabled.
              *
              * @return the next stage of the definition
              */
             BuildTask.Update withCommitTriggerEnabled();
 
             /**
-             * Specifies that the source control commit trigger is disabled
+             * Specifies that the source control commit trigger is disabled.
              *
              * @return the next stage of the definition
              */

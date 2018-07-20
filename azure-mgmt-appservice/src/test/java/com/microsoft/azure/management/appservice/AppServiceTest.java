@@ -40,6 +40,13 @@ public class AppServiceTest extends TestBase {
 
     private static OkHttpClient httpClient = new OkHttpClient.Builder().readTimeout(3, TimeUnit.MINUTES).build();
 
+    public AppServiceTest() {
+    }
+
+    AppServiceTest(RunCondition runCondition) {
+        super(runCondition);
+    }
+
     @Override
     protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {
         RG_NAME = generateRandomResourceName("javacsmrg", 20);

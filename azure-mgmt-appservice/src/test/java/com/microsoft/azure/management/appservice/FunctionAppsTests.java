@@ -7,6 +7,7 @@
 package com.microsoft.azure.management.appservice;
 
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.azure.management.storage.SkuName;
 import com.microsoft.rest.RestClient;
 import org.junit.Assert;
@@ -126,6 +127,7 @@ public class FunctionAppsTests extends AppServiceTest {
         functionApp.zipDeploy(new File(FunctionAppsTests.class.getResource("/square-function-app.zip").getPath()));
 
         if (!isPlaybackMode()) {
+            SdkContext.sleep(5000);
             String response = post("http://" + WEBAPP_NAME_4 + ".azurewebsites.net" + "/api/square", "25");
             Assert.assertNotNull(response);
             Assert.assertEquals("625", response);

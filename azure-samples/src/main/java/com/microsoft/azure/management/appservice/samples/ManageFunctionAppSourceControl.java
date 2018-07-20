@@ -35,6 +35,7 @@ import java.util.concurrent.TimeUnit;
  *    - Deploy to 3 using a publicly available Git repository
  *    - Deploy to 4 using a GitHub repository with continuous integration
  *    - Deploy to 5 using web deploy
+ *    - Deploy to 6 using zip deploy
  */
 public final class ManageFunctionAppSourceControl {
 
@@ -53,11 +54,13 @@ public final class ManageFunctionAppSourceControl {
         final String app3Name       = SdkContext.randomResourceName("webapp3-", 20);
         final String app4Name       = SdkContext.randomResourceName("webapp4-", 20);
         final String app5Name       = SdkContext.randomResourceName("webapp5-", 20);
+        final String app6Name       = SdkContext.randomResourceName("webapp6-", 20);
         final String app1Url        = app1Name + suffix;
         final String app2Url        = app2Name + suffix;
         final String app3Url        = app3Name + suffix;
         final String app4Url        = app4Name + suffix;
         final String app5Url        = app5Name + suffix;
+        final String app6Url        = app6Name + suffix;
         final String rgName         = SdkContext.randomResourceName("rg1NEMV_", 24);
 
         try {
@@ -208,7 +211,7 @@ public final class ManageFunctionAppSourceControl {
 
             System.out.println("Deploy to " + app5Name + " through web deploy...");
             app5.deploy()
-                    .withPackageUri("https://github.com/Azure/azure-sdk-for-java/raw/master/azure-mgmt-appservice/src/test/resources/webapps.zip")
+                    .withPackageUri("https://github.com/Azure/azure-libraries-for-java/raw/master/azure-mgmt-appservice/src/test/resources/webapps.zip")
                     .withExistingDeploymentsDeleted(true)
                     .execute();
 
@@ -218,6 +221,32 @@ public final class ManageFunctionAppSourceControl {
             SdkContext.sleep(5000);
             System.out.println("CURLing " + app5Url + "/api/square...");
             System.out.println("Square of 925 is " + post("http://" + app5Url + "/api/square", "925"));
+
+            //============================================================
+            // Create a 6th function app with zip deploy
+
+            System.out.println("Creating another function app " + app6Name + "...");
+            FunctionApp app6 = azure.appServices().functionApps()
+                    .define(app6Name)
+                    .withExistingAppServicePlan(plan)
+                    .withExistingResourceGroup(rgName)
+                    .create();
+//
+            System.out.println("Created function app " + app6.name());
+
+            //============================================================
+            // Deploy to the 6th function app through ZIP deploy
+
+            System.out.println("Deploying square-function-app.zip to " + app6Name + " through ZIP deploy...");
+
+            app6.zipDeploy(new File(ManageWebAppSourceControl.class.getResource("/square-function-app.zip").getPath()));
+
+            // warm up
+            System.out.println("Warming up " + app6Url + "/api/square...");
+            post("http://" + app6Url + "/api/square", "926");
+            SdkContext.sleep(5000);
+            System.out.println("CURLing " + app6Url + "/api/square...");
+            System.out.println("Square of 926 is " + post("http://" + app6Url + "/api/square", "926"));
 
             return true;
         } catch (Exception e) {

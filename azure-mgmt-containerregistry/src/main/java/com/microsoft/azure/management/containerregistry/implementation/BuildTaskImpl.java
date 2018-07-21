@@ -6,6 +6,7 @@
 package com.microsoft.azure.management.containerregistry.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
+import com.microsoft.azure.management.containerregistry.Build;
 import com.microsoft.azure.management.containerregistry.BuildTask;
 import com.microsoft.azure.management.containerregistry.BuildTaskStatus;
 import com.microsoft.azure.management.containerregistry.OsType;
@@ -164,6 +165,16 @@ public class BuildTaskImpl
         } else {
             return 0;
         }
+    }
+
+    @Override
+    public Build queueBuildTask() {
+        return this.parent().queuedBuilds().queueBuildTask(this.name());
+    }
+
+    @Override
+    public Observable<Build> queueBuildTaskAsync() {
+        return this.parent().queuedBuilds().queueBuildTaskAsync(this.name());
     }
 
     @Override

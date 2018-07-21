@@ -16,6 +16,7 @@ import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
 import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
 import org.joda.time.DateTime;
+import rx.Observable;
 
 /**
  * An object that represents a build task for a container registry.
@@ -110,7 +111,19 @@ public interface BuildTask extends
      */
     int tokenExpirationTimeInSeconds();
 
+    /**
+     * Queues the current build task to build for the current container registry.
+     *
+     * @return returns the build object.
+     */
+    Build queueBuildTask();
 
+    /**
+     * Queues the current build task to build for the current container registry.
+     *
+     * @return returns the build object.
+     */
+    Observable<Build> queueBuildTaskAsync();
 
     /**
      * Grouping of build task definition stages.

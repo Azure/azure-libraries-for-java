@@ -125,6 +125,14 @@ public interface BuildTask extends
      */
     Observable<Build> queueBuildTaskAsync();
 
+
+    /**
+     * @return returns entry point to manage the build steps for the container registry.
+     */
+    @Beta(Beta.SinceVersion.V1_14_0)
+    BuildStepOperations buildSteps();
+
+
     /**
      * Grouping of build task definition stages.
      */

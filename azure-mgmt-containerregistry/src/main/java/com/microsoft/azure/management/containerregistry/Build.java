@@ -18,6 +18,7 @@ import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
 import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
 import org.joda.time.DateTime;
+import rx.Observable;
 
 import java.util.List;
 
@@ -109,6 +110,16 @@ public interface Build  extends
      */
     ProvisioningState provisioningState();
 
+    /**
+     * @return link to logs for a azure container registry build.
+     */
+    String getLogLink();
+
+    /**
+     *@return a representation of the future computation of this call, returning a link to logs for a azure container
+     *   registry build.
+     */
+    Observable<String> getLogLinkAsync();
 
 
     /**

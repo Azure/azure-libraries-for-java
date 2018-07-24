@@ -178,6 +178,11 @@ public class BuildTaskImpl
     }
 
     @Override
+    public BuildStepOperationsImpl buildSteps() {
+        return new BuildStepOperationsImpl(this);
+    }
+
+    @Override
     public BuildTaskImpl withOSType(OsType osType) {
         if (this.inner().platform() == null) {
             this.inner().withPlatform(new PlatformProperties());

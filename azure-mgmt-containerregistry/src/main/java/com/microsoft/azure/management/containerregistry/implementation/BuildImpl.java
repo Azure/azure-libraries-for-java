@@ -28,7 +28,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Implementation for BuildTask.
+ * Implementation for Build.
  */
 @LangDefinition
 public class BuildImpl
@@ -149,6 +149,23 @@ public class BuildImpl
     @Override
     public ProvisioningState provisioningState() {
         return this.inner().provisioningState();
+    }
+
+    @Override
+    public String getLogLink() {
+        return this.getLogLinkAsync().toBlocking().single();
+    }
+
+    @Override
+    public Observable<String> getLogLinkAsync() {
+        return this.parent().manager().inner().builds()
+            .getLogLinkAsync(this.parent().resourceGroupName(), this.parent().name(), this.buildId())
+            .map(new Func1<BuildGetLogResultInner, String>() {
+                @Override
+                public String call(BuildGetLogResultInner buildGetLogResultInner) {
+                    return buildGetLogResultInner.logLink();
+                }
+            });
     }
 
     @Override

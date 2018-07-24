@@ -27,7 +27,7 @@ public class BuildArgumentImpl
     }
 
     @Override
-    public Build.QueuedQuickBuildDefinitionStages.WithCreate attach() {
+    public BuildImpl attach() {
         if (parent.quickBuildRequest().buildArguments() == null) {
             parent.quickBuildRequest().withBuildArguments(new ArrayList<BuildArgumentInner>());
         }

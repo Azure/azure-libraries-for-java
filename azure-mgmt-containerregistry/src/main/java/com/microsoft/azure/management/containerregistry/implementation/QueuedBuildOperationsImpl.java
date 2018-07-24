@@ -58,7 +58,15 @@ public class QueuedBuildOperationsImpl implements QueuedBuildOperations {
 
     @Override
     public Observable<Build> getAsync(String buildId) {
-        return null;
+        final QueuedBuildOperationsImpl self = this;
+        return this.containerRegistry.manager().inner().builds()
+            .getAsync(this.containerRegistry.resourceGroupName(), this.containerRegistry.name(), buildId)
+            .map(new Func1<BuildInner, Build>() {
+                @Override
+                public Build call(BuildInner buildInner) {
+                    return new BuildImpl(buildInner.name(), self.containerRegistry, buildInner);
+                }
+            });
     }
 
     @Override

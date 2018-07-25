@@ -1669,6 +1669,22 @@ public interface VirtualMachine extends
         }
 
         /**
+         * The stage of the virtual machine definition allowing to specify that the image or disk that is being used was licensed
+         * on-premises. This element is only used for images that contain the Windows Server operating system.
+         */
+        @Beta(Beta.SinceVersion.V1_14_0)
+        interface WithLicenseType {
+            /**
+             * Specifies that the image or disk that is being used was licensed on-premises.
+             *
+             * @param licenseType license type
+             * @return the next stage of the virtual machine definition
+             */
+            @Beta(Beta.SinceVersion.V1_14_0)
+            WithCreate withLicenseType(String licenseType);
+        }
+
+        /**
          * The stage of the VM definition allowing to specify availability zone.
          */
         @Beta(Beta.SinceVersion.V1_3_0)
@@ -1751,7 +1767,8 @@ public interface VirtualMachine extends
                 DefinitionStages.WithPlan,
                 DefinitionStages.WithBootDiagnostics,
                 DefinitionStages.WithSystemAssignedManagedServiceIdentity,
-                DefinitionStages.WithUserAssignedManagedServiceIdentity {
+                DefinitionStages.WithUserAssignedManagedServiceIdentity,
+                DefinitionStages.WithLicenseType {
         }
     }
 
@@ -2166,6 +2183,22 @@ public interface VirtualMachine extends
             @Beta(Beta.SinceVersion.V1_5_1)
             Update withoutUserAssignedManagedServiceIdentity(String identityId);
         }
+
+        /**
+         * The stage of the virtual machine update allowing to specify that the image or disk that is being used was licensed
+         * on-premises. This element is only used for images that contain the Windows Server operating system.
+         */
+        @Beta(Beta.SinceVersion.V1_14_0)
+        interface WithLicenseType {
+            /**
+             * Specifies that the image or disk that is being used was licensed on-premises.
+             *
+             * @param licenseType license type
+             * @return the next stage of the virtual machine update
+             */
+            @Beta(Beta.SinceVersion.V1_14_0)
+            Update withLicenseType(String licenseType);
+        }
     }
 
     /**
@@ -2180,7 +2213,8 @@ public interface VirtualMachine extends
             UpdateStages.WithExtension,
             UpdateStages.WithBootDiagnostics,
             UpdateStages.WithSystemAssignedManagedServiceIdentity,
-            UpdateStages.WithUserAssignedManagedServiceIdentity {
+            UpdateStages.WithUserAssignedManagedServiceIdentity,
+            UpdateStages.WithLicenseType {
         /**
          * Specifies the encryption settings for the OS Disk.
          *

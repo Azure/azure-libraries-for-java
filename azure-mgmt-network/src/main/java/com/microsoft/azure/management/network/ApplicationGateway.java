@@ -216,6 +216,9 @@ public interface ApplicationGateway extends
     @Beta(SinceVersion.V1_4_0)
     Map<String, ApplicationGatewayAuthenticationCertificate> authenticationCertificates();
 
+    /**
+     * @return whether HTTP2 enabled for the application gateway
+     */
     @Beta(SinceVersion.V1_14_0)
     boolean isHttp2Enabled();
 

@@ -217,6 +217,12 @@ public interface ApplicationGateway extends
     Map<String, ApplicationGatewayAuthenticationCertificate> authenticationCertificates();
 
     /**
+     * @return whether HTTP2 enabled for the application gateway
+     */
+    @Beta(SinceVersion.V1_14_0)
+    boolean isHttp2Enabled();
+
+    /**
      * The availability zones assigned to the application gateway.
      * <p>
      * Note, this functionality is not enabled for most subscriptions and is subject to significant redesign
@@ -544,6 +550,26 @@ public interface ApplicationGateway extends
         }
 
         /**
+         * The stage of the application gateway definition allowing to specify whether HTTP2 is enabled on the application gateway.
+         */
+        @Beta(SinceVersion.V1_14_0)
+        interface WithHttp2 {
+            /**
+             * Enables HTTP2 for the application gateway.
+             * @return the next stage of the definition
+             */
+            @Beta(SinceVersion.V1_14_0)
+            WithCreate withHttp2();
+
+            /**
+             * Disables HTTP2 for the application gateway.
+             * @return the next stage of the definition
+             */
+            @Beta(SinceVersion.V1_14_0)
+            WithCreate withoutHttp2();
+        }
+
+        /**
          * The stage of an application gateway definition containing all the required inputs for
          * the resource to be created, but also allowing
          * for any other optional settings to be specified.
@@ -567,7 +593,8 @@ public interface ApplicationGateway extends
             WithDisabledSslProtocol,
             WithAuthenticationCertificate,
             WithRedirectConfiguration,
-            WithAvailabilityZone {
+            WithAvailabilityZone,
+            WithHttp2 {
         }
     }
 
@@ -1126,6 +1153,26 @@ public interface ApplicationGateway extends
             @Method
             Update withoutAnyDisabledSslProtocols();
         }
+
+        /**
+         * The stage of the application gateway update allowing to specify whether HTTP2 is enabled on the application gateway.
+         */
+        @Beta(SinceVersion.V1_14_0)
+        interface WithHttp2 {
+            /**
+             * Enables HTTP2 for the application gateway.
+             * @return the next stage of the update
+             */
+            @Beta(SinceVersion.V1_14_0)
+            Update withHttp2();
+
+            /**
+             * Disables HTTP2 for the application gateway.
+             * @return the next stage of the update
+             */
+            @Beta(SinceVersion.V1_14_0)
+            Update withoutHttp2();
+        }
     }
 
     /**
@@ -1151,6 +1198,7 @@ public interface ApplicationGateway extends
         UpdateStages.WithDisabledSslProtocol,
         UpdateStages.WithAuthenticationCertificate,
         UpdateStages.WithRedirectConfiguration,
-        UpdateStages.WithUrlPathMap {
+        UpdateStages.WithUrlPathMap,
+        UpdateStages.WithHttp2 {
     }
 }

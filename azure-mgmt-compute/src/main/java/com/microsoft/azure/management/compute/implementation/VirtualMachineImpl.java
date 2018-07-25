@@ -1373,7 +1373,7 @@ class VirtualMachineImpl
     }
 
     @Override
-    public VirtualMachine.DefinitionStages.WithCreate withLicenseType(String licenseType) {
+    public VirtualMachineImpl withLicenseType(String licenseType) {
         inner().withLicenseType(licenseType);
         return this;
     }

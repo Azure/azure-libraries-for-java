@@ -126,6 +126,7 @@ public class VirtualMachineOperationsTests extends ComputeManagementTest {
                 .withSize(VirtualMachineSizeTypes.STANDARD_D3)
                 .withOSDiskCaching(CachingTypes.READ_WRITE)
                 .withOSDiskName("javatest")
+                .withLicenseType("Windows_Server")
             .create();
 
         VirtualMachine foundVM = null;
@@ -142,6 +143,7 @@ public class VirtualMachineOperationsTests extends ComputeManagementTest {
         foundVM = computeManager.virtualMachines().getByResourceGroup(RG_NAME, VMNAME);
         Assert.assertNotNull(foundVM);
         Assert.assertEquals(REGION, foundVM.region());
+        Assert.assertEquals("Windows_Server", foundVM.licenseType());
 
         // Fetch instance view
         PowerState powerState = foundVM.powerState();

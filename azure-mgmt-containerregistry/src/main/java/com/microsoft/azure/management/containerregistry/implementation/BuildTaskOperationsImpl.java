@@ -11,6 +11,7 @@ import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.containerregistry.BuildTask;
 import com.microsoft.azure.management.containerregistry.BuildTaskOperations;
 import com.microsoft.azure.management.containerregistry.SourceRepositoryProperties;
+import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
 import com.microsoft.azure.management.resources.fluentcore.utils.PagedListConverter;
 import rx.Completable;
 import rx.Observable;
@@ -29,7 +30,9 @@ public class BuildTaskOperationsImpl implements BuildTaskOperations {
 
     @Override
     public BuildTask.DefinitionStages.Blank define(String buildTaskName) {
-        return new BuildTaskImpl(buildTaskName, containerRegistry, new BuildTaskInner());
+        BuildTaskImpl buildTask = new BuildTaskImpl(buildTaskName, containerRegistry, new BuildTaskInner());
+        buildTask.setPendingOperation(ExternalChildResourceImpl.PendingOperation.ToBeCreated);
+        return buildTask;
     }
 
     @Override

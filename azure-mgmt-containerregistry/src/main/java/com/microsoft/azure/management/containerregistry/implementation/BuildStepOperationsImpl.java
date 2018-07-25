@@ -10,6 +10,7 @@ import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.containerregistry.BuildStep;
 import com.microsoft.azure.management.containerregistry.BuildStepOperations;
+import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
 import com.microsoft.azure.management.resources.fluentcore.utils.PagedListConverter;
 import rx.Completable;
 import rx.Observable;
@@ -30,7 +31,9 @@ public class BuildStepOperationsImpl implements BuildStepOperations {
 
     @Override
     public BuildStep.BuildTaskBuildStepsDefinitionStages.Blank define(String buildStepName) {
-        return new BuildStepImpl(buildStepName, this.buildTask, new BuildStepInner());
+        BuildStepImpl buildStep = new BuildStepImpl(buildStepName, this.buildTask, new BuildStepInner());
+        buildStep.setPendingOperation(ExternalChildResourceImpl.PendingOperation.ToBeCreated);
+        return buildStep;
     }
 
     @Override

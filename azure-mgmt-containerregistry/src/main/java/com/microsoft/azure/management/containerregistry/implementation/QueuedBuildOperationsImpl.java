@@ -11,6 +11,7 @@ import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.containerregistry.Build;
 import com.microsoft.azure.management.containerregistry.BuildTaskBuildRequest;
 import com.microsoft.azure.management.containerregistry.QueuedBuildOperations;
+import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
 import com.microsoft.azure.management.resources.fluentcore.utils.PagedListConverter;
 import rx.Completable;
 import rx.Observable;
@@ -48,7 +49,9 @@ public class QueuedBuildOperationsImpl implements QueuedBuildOperations {
     @Override
     public Build.QueuedQuickBuildDefinitionStages.Blank queueQuickBuild() {
         // the name of the queued build is the build ID and it will be assigned after create
-        return new BuildImpl(null, this.containerRegistry, new BuildInner());
+        BuildImpl build = new BuildImpl(null, this.containerRegistry, new BuildInner());
+        build.setPendingOperation(ExternalChildResourceImpl.PendingOperation.ToBeCreated);
+        return build;
     }
 
     @Override

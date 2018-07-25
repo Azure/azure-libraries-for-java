@@ -98,6 +98,8 @@ public class TestContainerRegistry extends TestTemplate<Registry, Registries> {
 
         Registry registry3 = registries.getById(webhook.parentId());
 
+
+
         return registry3;
     }
 
@@ -161,6 +163,13 @@ public class TestContainerRegistry extends TestTemplate<Registry, Registries> {
 
         resource.webhooks()
             .delete("webhookbing2");
+
+        resource.queuedBuilds().queueQuickBuild()
+            .withOSType(OsType.LINUX)
+            .withSourceLocation("https://github.com/yuwzho/hello-docker")
+            .withDockerFilePath("Dockerfile")
+            .withImagePushDisabled()
+            .create();
 
         return resource;
     }

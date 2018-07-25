@@ -182,6 +182,7 @@ public class BuildImpl
 
     @Override
     public Update update() {
+        this.setPendingOperation(PendingOperation.ToBeUpdated);
         return this;
     }
 
@@ -226,6 +227,7 @@ public class BuildImpl
 
     @Override
     public BuildImpl withOSType(OsType osType) {
+        this.quickBuildRequest().withIsPushEnabled(false);
         if (this.quickBuildRequest().platform() == null) {
             this.quickBuildRequest().withPlatform(new PlatformProperties());
         }

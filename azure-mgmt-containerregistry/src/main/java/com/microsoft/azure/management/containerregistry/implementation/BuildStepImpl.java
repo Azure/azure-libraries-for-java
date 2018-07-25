@@ -117,6 +117,7 @@ public class BuildStepImpl
 
     @Override
     public Update update() {
+        this.setPendingOperation(PendingOperation.ToBeUpdated);
         return this;
     }
 

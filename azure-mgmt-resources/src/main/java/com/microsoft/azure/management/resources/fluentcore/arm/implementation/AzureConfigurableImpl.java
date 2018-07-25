@@ -16,6 +16,8 @@ import com.microsoft.azure.serializer.AzureJacksonAdapter;
 import com.microsoft.rest.LogLevel;
 import com.microsoft.rest.RestClient;
 import okhttp3.Authenticator;
+import okhttp3.ConnectionPool;
+import okhttp3.Dispatcher;
 import okhttp3.Interceptor;
 
 import java.net.Proxy;
@@ -77,6 +79,27 @@ public class AzureConfigurableImpl<T extends AzureConfigurable<T>>
     @Override
     public T withMaxIdleConnections(int maxIdleConnections) {
         this.restClientBuilder = restClientBuilder.withMaxIdleConnections(maxIdleConnections);
+        return (T) this;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public T withConnectionPool(ConnectionPool connectionPool) {
+        this.restClientBuilder = restClientBuilder.withConnectionPool(connectionPool);
+        return (T) this;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public T useHttpClientThreadPool(boolean useHttpClientThreadPool) {
+        this.restClientBuilder = restClientBuilder.useHttpClientThreadPool(useHttpClientThreadPool);
+        return (T) this;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public T withDispatcher(Dispatcher dispatcher) {
+        this.restClientBuilder = restClientBuilder.withDispatcher(dispatcher);
         return (T) this;
     }
 

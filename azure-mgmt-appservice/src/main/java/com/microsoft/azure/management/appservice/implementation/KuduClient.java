@@ -72,7 +72,7 @@ class KuduClient {
                     @Override
                     public Observable<String> call(ResponseBody responseBody) {
                         final BufferedSource source = responseBody.source();
-                        return Observable.fromEmitter(new Action1<Emitter<String>>() {
+                        return Observable.create(new Action1<Emitter<String>>() {
                             @Override
                             public void call(Emitter<String> stringEmitter) {
                                 try {

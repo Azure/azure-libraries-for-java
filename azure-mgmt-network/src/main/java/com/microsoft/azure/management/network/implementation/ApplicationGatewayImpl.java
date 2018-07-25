@@ -1119,6 +1119,18 @@ class ApplicationGatewayImpl
     }
 
     @Override
+    public ApplicationGatewayImpl withHttp2() {
+        inner().withEnableHttp2(true);
+        return this;
+    }
+
+    @Override
+    public ApplicationGatewayImpl withoutHttp2() {
+        inner().withEnableHttp2(false);
+        return this;
+    }
+
+    @Override
     public ApplicationGatewayImpl withAvailabilityZone(AvailabilityZoneId zoneId) {
         if (this.inner().zones() == null) {
             this.inner().withZones(new ArrayList<String>());
@@ -1267,6 +1279,11 @@ class ApplicationGatewayImpl
     @Override
     public Map<String, ApplicationGatewayAuthenticationCertificate> authenticationCertificates() {
         return Collections.unmodifiableMap(this.authCertificates);
+    }
+
+    @Override
+    public boolean isHttp2Enabled() {
+        return Utils.toPrimitiveBoolean(inner().enableHttp2());
     }
 
     @Override

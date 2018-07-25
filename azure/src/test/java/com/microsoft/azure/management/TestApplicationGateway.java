@@ -942,6 +942,7 @@ public class TestApplicationGateway {
                                 .attach()
 
                             .withDisabledSslProtocols(ApplicationGatewaySslProtocol.TLSV1_0, ApplicationGatewaySslProtocol.TLSV1_1)
+                            .withHttp2()
                             .create();
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -966,6 +967,7 @@ public class TestApplicationGateway {
             Assert.assertEquals(ApplicationGatewaySkuName.STANDARD_MEDIUM, appGateway.size());
             Assert.assertEquals(2, appGateway.instanceCount());
             Assert.assertEquals(1, appGateway.ipConfigurations().size());
+            Assert.assertTrue(appGateway.isHttp2Enabled());
 
             // Verify frontend ports
             Assert.assertEquals(3, appGateway.frontendPorts().size());
@@ -1121,6 +1123,7 @@ public class TestApplicationGateway {
                     .withHealthyHttpResponseBodyContents(null)
                     .parent()
                 .withoutDisabledSslProtocols(ApplicationGatewaySslProtocol.TLSV1_0, ApplicationGatewaySslProtocol.TLSV1_1)
+                .withoutHttp2()
                 .withTag("tag1", "value1")
                 .withTag("tag2", "value2")
                 .apply();
@@ -1131,6 +1134,7 @@ public class TestApplicationGateway {
             Assert.assertTrue(resource.tags().containsKey("tag1"));
             Assert.assertTrue(resource.size().equals(ApplicationGatewaySkuName.STANDARD_SMALL));
             Assert.assertTrue(resource.instanceCount() == 1);
+            Assert.assertFalse(resource.isHttp2Enabled());
 
             // Verify listeners
             ApplicationGatewayListener listener = resource.listeners().get("listener1");

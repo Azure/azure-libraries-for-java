@@ -213,6 +213,10 @@ public final class Utils {
         Observable<ResponseBody> download(@Url String url);
     }
 
+    /**
+     * @param id resource id
+     * @return resource group id for the resource id provided
+     */
     public static String resourceGroupId(String id) {
         final ResourceId resourceId = ResourceId.fromString(id);
         return String.format("/subscriptions/%s/resourceGroups/%s",

@@ -139,6 +139,7 @@ public final class ManageScaleSetUserAssignedMSIFromServicePrincipal {
                 vmss.update()
                         .withExistingUserAssignedManagedServiceIdentity(identity2)
                         .apply();
+                throw new RuntimeException("Should not be able to assign identity #2 as service principal does not have permissions");
             } catch (CloudException ex) {
                 ex.printStackTrace();
             }

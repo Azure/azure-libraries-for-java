@@ -9,6 +9,7 @@ package com.microsoft.azure.management.resources.fluentcore.utils;
 import com.google.common.primitives.Ints;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
+import com.microsoft.azure.management.resources.fluentcore.arm.ResourceId;
 import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 import com.microsoft.azure.management.resources.implementation.PageImpl;
 import okhttp3.ResponseBody;
@@ -210,6 +211,17 @@ public final class Utils {
     private interface FileService {
         @GET
         Observable<ResponseBody> download(@Url String url);
+    }
+
+    /**
+     * @param id resource id
+     * @return resource group id for the resource id provided
+     */
+    public static String resourceGroupId(String id) {
+        final ResourceId resourceId = ResourceId.fromString(id);
+        return String.format("/subscriptions/%s/resourceGroups/%s",
+                resourceId.subscriptionId(),
+                resourceId.resourceGroupName());
     }
 
     private Utils() {

@@ -15,7 +15,7 @@ import com.microsoft.azure.v2.management.resources.ResourceManagementErrorWithDe
 /**
  * Information from validate template deployment response.
  */
-public class DeploymentValidateResultInner {
+public final class DeploymentValidateResultInner {
     /**
      * Validation error.
      */

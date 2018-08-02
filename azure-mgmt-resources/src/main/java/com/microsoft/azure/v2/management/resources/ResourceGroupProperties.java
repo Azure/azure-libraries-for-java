@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * The resource group properties.
  */
-public class ResourceGroupProperties {
+public final class ResourceGroupProperties {
     /**
      * The provisioning state.
      */

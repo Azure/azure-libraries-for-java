@@ -24,13 +24,13 @@ import com.microsoft.azure.v2.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
 import com.microsoft.rest.v2.ServiceCallback;
 import com.microsoft.rest.v2.ServiceFuture;
-import io.reactivex.Maybe;
-import org.joda.time.DateTime;
 import io.reactivex.Completable;
+import io.reactivex.Maybe;
 import io.reactivex.Observable;
 import io.reactivex.functions.Function;
 
 import java.io.IOException;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -83,7 +83,7 @@ public final class DeploymentImpl extends
     }
 
     @Override
-    public DateTime timestamp() {
+    public OffsetDateTime timestamp() {
         if (this.inner().properties() == null) {
             return null;
         }
@@ -294,27 +294,25 @@ public final class DeploymentImpl extends
         if (creatableResourceGroup != null) {
             creatableResourceGroup.create();
         }
-        DeploymentInner inner = new DeploymentInner()
-                .withProperties(new DeploymentProperties());
-        inner.properties().withMode(mode());
-        inner.properties().withTemplate(template());
-        inner.properties().withTemplateLink(templateLink());
-        inner.properties().withParameters(parameters());
-        inner.properties().withParametersLink(parametersLink());
-        this.manager().inner().deployments().beginCreateOrUpdate(resourceGroupName(), name(), inner);
+        DeploymentProperties props = new DeploymentProperties();
+        props.withMode(mode());
+        props.withTemplate(template());
+        props.withTemplateLink(templateLink());
+        props.withParameters(parameters());
+        props.withParametersLink(parametersLink());
+        this.manager().inner().deployments().beginCreateOrUpdate(resourceGroupName(), name(), props);
         return this;
     }
 
     @Override
     public Observable<Deployment> createResourceAsync() {
-        DeploymentInner inner = new DeploymentInner()
-                .withProperties(new DeploymentProperties());
-        inner.properties().withMode(mode());
-        inner.properties().withTemplate(template());
-        inner.properties().withTemplateLink(templateLink());
-        inner.properties().withParameters(parameters());
-        inner.properties().withParametersLink(parametersLink());
-        return this.manager().inner().deployments().createOrUpdateAsync(resourceGroupName(), name(), inner)
+        DeploymentProperties props = new DeploymentProperties();
+        props.withMode(mode());
+        props.withTemplate(template());
+        props.withTemplateLink(templateLink());
+        props.withParameters(parameters());
+        props.withParametersLink(parametersLink());
+        return this.manager().inner().deployments().createOrUpdateAsync(resourceGroupName(), name(), props)
                 .map(innerToFluentMap(this))
                 .toObservable();
     }

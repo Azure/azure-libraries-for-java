@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * Resource provider information.
  */
-public class ProviderInner {
+public final class ProviderInner {
     /**
      * The provider ID.
      */

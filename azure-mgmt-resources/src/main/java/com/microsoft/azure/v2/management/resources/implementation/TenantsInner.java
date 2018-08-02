@@ -12,7 +12,7 @@ import com.microsoft.azure.v2.AzureProxy;
 import com.microsoft.azure.v2.CloudException;
 import com.microsoft.azure.v2.Page;
 import com.microsoft.azure.v2.PagedList;
-import com.microsoft.rest.v2.RestResponse;
+import com.microsoft.rest.v2.BodyResponse;
 import com.microsoft.rest.v2.annotations.ExpectedResponses;
 import com.microsoft.rest.v2.annotations.GET;
 import com.microsoft.rest.v2.annotations.HeaderParam;
@@ -22,13 +22,13 @@ import com.microsoft.rest.v2.annotations.QueryParam;
 import com.microsoft.rest.v2.annotations.UnexpectedResponseExceptionType;
 import io.reactivex.Observable;
 import io.reactivex.Single;
-import io.reactivex.functions.Function;
+import io.reactivex.annotations.NonNull;
 
 /**
  * An instance of this class provides access to all the operations defined in
  * Tenants.
  */
-public class TenantsInner {
+public final class TenantsInner {
     /**
      * The proxy service used to perform REST calls.
      */
@@ -54,22 +54,21 @@ public class TenantsInner {
      * proxy service to perform REST calls.
      */
     @Host("https://management.azure.com")
-    interface TenantsService {
+    private interface TenantsService {
         @GET("tenants")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Single<RestResponse<Void, PageImpl1<TenantIdDescriptionInner>>> list(@QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
+        Single<BodyResponse<PageImpl1<TenantIdDescriptionInner>>> list(@QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
         @GET("{nextUrl}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Single<RestResponse<Void, PageImpl1<TenantIdDescriptionInner>>> listNext(@PathParam(value = "nextUrl", encoded = true) String nextUrl, @HeaderParam("accept-language") String acceptLanguage);
+        Single<BodyResponse<PageImpl1<TenantIdDescriptionInner>>> listNext(@PathParam(value = "nextUrl", encoded = true) String nextUrl, @HeaderParam("accept-language") String acceptLanguage);
     }
 
     /**
      * Gets the tenants for your account.
      *
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;TenantIdDescriptionInner&gt; object if successful.
@@ -87,40 +86,31 @@ public class TenantsInner {
     /**
      * Gets the tenants for your account.
      *
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @return the observable to the PagedList&lt;TenantIdDescriptionInner&gt; object.
      */
     public Observable<Page<TenantIdDescriptionInner>> listAsync() {
         return listSinglePageAsync()
             .toObservable()
-            .concatMap(new Function<Page<TenantIdDescriptionInner>, Observable<Page<TenantIdDescriptionInner>>>() {
-                @Override
-                public Observable<Page<TenantIdDescriptionInner>> apply(Page<TenantIdDescriptionInner> page) {
-                    String nextPageLink = page.nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listNextAsync(nextPageLink));
+            .concatMap((Page<TenantIdDescriptionInner> page) -> {
+                String nextPageLink = page.nextPageLink();
+                if (nextPageLink == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listNextAsync(nextPageLink));
             });
     }
 
     /**
      * Gets the tenants for your account.
      *
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Single&lt;Page&lt;TenantIdDescriptionInner&gt;&gt;} object if successful.
+     * @return the Single&lt;Page&lt;TenantIdDescriptionInner&gt;&gt; object if successful.
      */
     public Single<Page<TenantIdDescriptionInner>> listSinglePageAsync() {
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        return service.list(this.client.apiVersion(), this.client.acceptLanguage()).map(new Function<RestResponse<Void, PageImpl1<TenantIdDescriptionInner>>, Page<TenantIdDescriptionInner>>() {
-            @Override
-            public Page<TenantIdDescriptionInner> apply(RestResponse<Void, PageImpl1<TenantIdDescriptionInner>> response) {
-                return response.body();
-            }
-        });
+        return service.list(this.client.apiVersion(), this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl1<TenantIdDescriptionInner>> res) -> res.body());
     }
 
     /**
@@ -132,7 +122,7 @@ public class TenantsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;TenantIdDescriptionInner&gt; object if successful.
      */
-    public PagedList<TenantIdDescriptionInner> listNext(final String nextPageLink) {
+    public PagedList<TenantIdDescriptionInner> listNext(@NonNull String nextPageLink) {
         Page<TenantIdDescriptionInner> response = listNextSinglePageAsync(nextPageLink).blockingGet();
         return new PagedList<TenantIdDescriptionInner>(response) {
             @Override
@@ -149,18 +139,15 @@ public class TenantsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @return the observable to the PagedList&lt;TenantIdDescriptionInner&gt; object.
      */
-    public Observable<Page<TenantIdDescriptionInner>> listNextAsync(final String nextPageLink) {
+    public Observable<Page<TenantIdDescriptionInner>> listNextAsync(@NonNull String nextPageLink) {
         return listNextSinglePageAsync(nextPageLink)
             .toObservable()
-            .concatMap(new Function<Page<TenantIdDescriptionInner>, Observable<Page<TenantIdDescriptionInner>>>() {
-                @Override
-                public Observable<Page<TenantIdDescriptionInner>> apply(Page<TenantIdDescriptionInner> page) {
-                    String nextPageLink = page.nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listNextAsync(nextPageLink));
+            .concatMap((Page<TenantIdDescriptionInner> page) -> {
+                String nextPageLink1 = page.nextPageLink();
+                if (nextPageLink1 == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listNextAsync(nextPageLink1));
             });
     }
 
@@ -169,18 +156,14 @@ public class TenantsInner {
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Single&lt;Page&lt;TenantIdDescriptionInner&gt;&gt;} object if successful.
+     * @return the Single&lt;Page&lt;TenantIdDescriptionInner&gt;&gt; object if successful.
      */
-    public Single<Page<TenantIdDescriptionInner>> listNextSinglePageAsync(final String nextPageLink) {
+    public Single<Page<TenantIdDescriptionInner>> listNextSinglePageAsync(@NonNull String nextPageLink) {
         if (nextPageLink == null) {
             throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
         }
         String nextUrl = String.format("%s", nextPageLink);
-        return service.listNext(nextUrl, this.client.acceptLanguage()).map(new Function<RestResponse<Void, PageImpl1<TenantIdDescriptionInner>>, Page<TenantIdDescriptionInner>>() {
-            @Override
-            public Page<TenantIdDescriptionInner> apply(RestResponse<Void, PageImpl1<TenantIdDescriptionInner>> response) {
-                return response.body();
-            }
-        });
+        return service.listNext(nextUrl, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl1<TenantIdDescriptionInner>> res) -> res.body());
     }
 }

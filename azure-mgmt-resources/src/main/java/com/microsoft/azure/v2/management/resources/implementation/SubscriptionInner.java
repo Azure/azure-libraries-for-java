@@ -15,7 +15,7 @@ import com.microsoft.azure.v2.management.resources.SubscriptionState;
 /**
  * Subscription information.
  */
-public class SubscriptionInner {
+public final class SubscriptionInner {
     /**
      * The fully qualified ID for the subscription. For example,
      * /subscriptions/00000000-0000-0000-0000-000000000000.

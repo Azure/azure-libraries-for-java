@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * The type of the paths for alias.
  */
-public class AliasPathType {
+public final class AliasPathType {
     /**
      * The path of an alias.
      */

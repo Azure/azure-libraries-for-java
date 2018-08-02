@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Information about feature.
  */
-public class FeatureProperties {
+public final class FeatureProperties {
     /**
      * The registration state of the feature for the subscription.
      */

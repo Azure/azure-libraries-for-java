@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * The deployment export result.
  */
-public class DeploymentExportResultInner {
+public final class DeploymentExportResultInner {
     /**
      * The template content.
      */

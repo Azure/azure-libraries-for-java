@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Plan for the resource.
  */
-public class Plan {
+public final class Plan {
     /**
      * The plan ID.
      */

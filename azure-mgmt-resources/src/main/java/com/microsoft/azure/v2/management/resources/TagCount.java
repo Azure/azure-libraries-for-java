@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Tag count.
  */
-public class TagCount {
+public final class TagCount {
     /**
      * Type of count.
      */

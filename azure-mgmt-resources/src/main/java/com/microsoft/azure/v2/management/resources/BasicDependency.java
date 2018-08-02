@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Deployment dependency information.
  */
-public class BasicDependency {
+public final class BasicDependency {
     /**
      * The ID of the dependency.
      */

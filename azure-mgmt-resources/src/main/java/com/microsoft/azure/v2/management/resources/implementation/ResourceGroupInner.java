@@ -15,7 +15,7 @@ import java.util.Map;
 /**
  * Resource group information.
  */
-public class ResourceGroupInner {
+public final class ResourceGroupInner {
     /**
      * The ID of the resource group.
      */

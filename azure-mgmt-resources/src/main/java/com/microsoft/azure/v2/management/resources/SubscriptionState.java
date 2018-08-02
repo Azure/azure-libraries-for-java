@@ -43,9 +43,9 @@ public enum SubscriptionState {
     /**
      * The actual serialized value for a SubscriptionState instance.
      */
-    private String value;
+    private final String value;
 
-    SubscriptionState(String value) {
+    private SubscriptionState(String value) {
         this.value = value;
     }
 

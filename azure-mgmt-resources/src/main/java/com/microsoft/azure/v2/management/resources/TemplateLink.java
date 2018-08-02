@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Entity representing the reference to the template.
  */
-public class TemplateLink {
+public final class TemplateLink {
     /**
      * The URI of the template to deploy.
      */

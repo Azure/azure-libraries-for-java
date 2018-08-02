@@ -12,7 +12,7 @@ import com.microsoft.azure.v2.AzureProxy;
 import com.microsoft.azure.v2.CloudException;
 import com.microsoft.azure.v2.Page;
 import com.microsoft.azure.v2.PagedList;
-import com.microsoft.rest.v2.RestResponse;
+import com.microsoft.rest.v2.BodyResponse;
 import com.microsoft.rest.v2.ServiceCallback;
 import com.microsoft.rest.v2.ServiceFuture;
 import com.microsoft.rest.v2.annotations.ExpectedResponses;
@@ -26,13 +26,13 @@ import com.microsoft.rest.v2.annotations.UnexpectedResponseExceptionType;
 import io.reactivex.Maybe;
 import io.reactivex.Observable;
 import io.reactivex.Single;
-import io.reactivex.functions.Function;
+import io.reactivex.annotations.NonNull;
 
 /**
  * An instance of this class provides access to all the operations defined in
  * Features.
  */
-public class FeaturesInner {
+public final class FeaturesInner {
     /**
      * The proxy service used to perform REST calls.
      */
@@ -58,42 +58,41 @@ public class FeaturesInner {
      * proxy service to perform REST calls.
      */
     @Host("https://management.azure.com")
-    interface FeaturesService {
+    private interface FeaturesService {
         @GET("subscriptions/{subscriptionId}/providers/Microsoft.Features/features")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Single<RestResponse<Void, PageImpl<FeatureResultInner>>> list(@PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
+        Single<BodyResponse<PageImpl<FeatureResultInner>>> list(@PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
         @GET("subscriptions/{subscriptionId}/providers/Microsoft.Features/providers/{resourceProviderNamespace}/features")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Single<RestResponse<Void, PageImpl<FeatureResultInner>>> list(@PathParam("resourceProviderNamespace") String resourceProviderNamespace, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
+        Single<BodyResponse<PageImpl<FeatureResultInner>>> list(@PathParam("resourceProviderNamespace") String resourceProviderNamespace, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
         @GET("subscriptions/{subscriptionId}/providers/Microsoft.Features/providers/{resourceProviderNamespace}/features/{featureName}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Single<RestResponse<Void, FeatureResultInner>> get(@PathParam("resourceProviderNamespace") String resourceProviderNamespace, @PathParam("featureName") String featureName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
+        Single<BodyResponse<FeatureResultInner>> get(@PathParam("resourceProviderNamespace") String resourceProviderNamespace, @PathParam("featureName") String featureName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
         @POST("subscriptions/{subscriptionId}/providers/Microsoft.Features/providers/{resourceProviderNamespace}/features/{featureName}/register")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Single<RestResponse<Void, FeatureResultInner>> register(@PathParam("resourceProviderNamespace") String resourceProviderNamespace, @PathParam("featureName") String featureName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
+        Single<BodyResponse<FeatureResultInner>> register(@PathParam("resourceProviderNamespace") String resourceProviderNamespace, @PathParam("featureName") String featureName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
         @GET("{nextUrl}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Single<RestResponse<Void, PageImpl<FeatureResultInner>>> listAllNext(@PathParam(value = "nextUrl", encoded = true) String nextUrl, @HeaderParam("accept-language") String acceptLanguage);
+        Single<BodyResponse<PageImpl<FeatureResultInner>>> listAllNext(@PathParam(value = "nextUrl", encoded = true) String nextUrl, @HeaderParam("accept-language") String acceptLanguage);
 
         @GET("{nextUrl}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Single<RestResponse<Void, PageImpl<FeatureResultInner>>> listNext(@PathParam(value = "nextUrl", encoded = true) String nextUrl, @HeaderParam("accept-language") String acceptLanguage);
+        Single<BodyResponse<PageImpl<FeatureResultInner>>> listNext(@PathParam(value = "nextUrl", encoded = true) String nextUrl, @HeaderParam("accept-language") String acceptLanguage);
     }
 
     /**
      * Gets all the preview features that are available through AFEC for the subscription.
      *
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;FeatureResultInner&gt; object if successful.
@@ -111,29 +110,24 @@ public class FeaturesInner {
     /**
      * Gets all the preview features that are available through AFEC for the subscription.
      *
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @return the observable to the PagedList&lt;FeatureResultInner&gt; object.
      */
     public Observable<Page<FeatureResultInner>> listAsync() {
         return listSinglePageAsync()
             .toObservable()
-            .concatMap(new Function<Page<FeatureResultInner>, Observable<Page<FeatureResultInner>>>() {
-                @Override
-                public Observable<Page<FeatureResultInner>> apply(Page<FeatureResultInner> page) {
-                    String nextPageLink = page.nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listAllNextAsync(nextPageLink));
+            .concatMap((Page<FeatureResultInner> page) -> {
+                String nextPageLink = page.nextPageLink();
+                if (nextPageLink == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listAllNextAsync(nextPageLink));
             });
     }
 
     /**
      * Gets all the preview features that are available through AFEC for the subscription.
      *
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Single&lt;Page&lt;FeatureResultInner&gt;&gt;} object if successful.
+     * @return the Single&lt;Page&lt;FeatureResultInner&gt;&gt; object if successful.
      */
     public Single<Page<FeatureResultInner>> listSinglePageAsync() {
         if (this.client.subscriptionId() == null) {
@@ -142,12 +136,8 @@ public class FeaturesInner {
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        return service.list(this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage()).map(new Function<RestResponse<Void, PageImpl<FeatureResultInner>>, Page<FeatureResultInner>>() {
-            @Override
-            public Page<FeatureResultInner> apply(RestResponse<Void, PageImpl<FeatureResultInner>> response) {
-                return response.body();
-            }
-        });
+        return service.list(this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl<FeatureResultInner>> res) -> res.body());
     }
 
     /**
@@ -159,7 +149,7 @@ public class FeaturesInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;FeatureResultInner&gt; object if successful.
      */
-    public PagedList<FeatureResultInner> list(final String resourceProviderNamespace) {
+    public PagedList<FeatureResultInner> list(@NonNull String resourceProviderNamespace) {
         Page<FeatureResultInner> response = listSinglePageAsync(resourceProviderNamespace).blockingGet();
         return new PagedList<FeatureResultInner>(response) {
             @Override
@@ -176,18 +166,15 @@ public class FeaturesInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @return the observable to the PagedList&lt;FeatureResultInner&gt; object.
      */
-    public Observable<Page<FeatureResultInner>> listAsync(final String resourceProviderNamespace) {
+    public Observable<Page<FeatureResultInner>> listAsync(@NonNull String resourceProviderNamespace) {
         return listSinglePageAsync(resourceProviderNamespace)
             .toObservable()
-            .concatMap(new Function<Page<FeatureResultInner>, Observable<Page<FeatureResultInner>>>() {
-                @Override
-                public Observable<Page<FeatureResultInner>> apply(Page<FeatureResultInner> page) {
-                    String nextPageLink = page.nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listNextAsync(nextPageLink));
+            .concatMap((Page<FeatureResultInner> page) -> {
+                String nextPageLink = page.nextPageLink();
+                if (nextPageLink == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listNextAsync(nextPageLink));
             });
     }
 
@@ -196,9 +183,9 @@ public class FeaturesInner {
      *
      * @param resourceProviderNamespace The namespace of the resource provider for getting features.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Single&lt;Page&lt;FeatureResultInner&gt;&gt;} object if successful.
+     * @return the Single&lt;Page&lt;FeatureResultInner&gt;&gt; object if successful.
      */
-    public Single<Page<FeatureResultInner>> listSinglePageAsync(final String resourceProviderNamespace) {
+    public Single<Page<FeatureResultInner>> listSinglePageAsync(@NonNull String resourceProviderNamespace) {
         if (resourceProviderNamespace == null) {
             throw new IllegalArgumentException("Parameter resourceProviderNamespace is required and cannot be null.");
         }
@@ -208,12 +195,8 @@ public class FeaturesInner {
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        return service.list(resourceProviderNamespace, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage()).map(new Function<RestResponse<Void, PageImpl<FeatureResultInner>>, Page<FeatureResultInner>>() {
-            @Override
-            public Page<FeatureResultInner> apply(RestResponse<Void, PageImpl<FeatureResultInner>> response) {
-                return response.body();
-            }
-        });
+        return service.list(resourceProviderNamespace, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl<FeatureResultInner>> res) -> res.body());
     }
 
     /**
@@ -226,7 +209,7 @@ public class FeaturesInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the FeatureResultInner object if successful.
      */
-    public FeatureResultInner get(String resourceProviderNamespace, String featureName) {
+    public FeatureResultInner get(@NonNull String resourceProviderNamespace, @NonNull String featureName) {
         return getAsync(resourceProviderNamespace, featureName).blockingGet();
     }
 
@@ -237,9 +220,9 @@ public class FeaturesInner {
      * @param featureName The name of the feature to get.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link ServiceFuture&lt;FeatureResultInner&gt;} object.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<FeatureResultInner> getAsync(String resourceProviderNamespace, String featureName, final ServiceCallback<FeatureResultInner> serviceCallback) {
+    public ServiceFuture<FeatureResultInner> getAsync(@NonNull String resourceProviderNamespace, @NonNull String featureName, ServiceCallback<FeatureResultInner> serviceCallback) {
         return ServiceFuture.fromBody(getAsync(resourceProviderNamespace, featureName), serviceCallback);
     }
 
@@ -249,9 +232,9 @@ public class FeaturesInner {
      * @param resourceProviderNamespace The resource provider namespace for the feature.
      * @param featureName The name of the feature to get.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Single&lt;RestResponse&lt;Void, FeatureResultInner&gt;&gt;} object if successful.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Single<RestResponse<Void, FeatureResultInner>> getWithRestResponseAsync(String resourceProviderNamespace, String featureName) {
+    public Single<BodyResponse<FeatureResultInner>> getWithRestResponseAsync(@NonNull String resourceProviderNamespace, @NonNull String featureName) {
         if (resourceProviderNamespace == null) {
             throw new IllegalArgumentException("Parameter resourceProviderNamespace is required and cannot be null.");
         }
@@ -273,19 +256,11 @@ public class FeaturesInner {
      * @param resourceProviderNamespace The resource provider namespace for the feature.
      * @param featureName The name of the feature to get.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Maybe&lt;FeatureResultInner&gt;} object if successful.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Maybe<FeatureResultInner> getAsync(String resourceProviderNamespace, String featureName) {
+    public Maybe<FeatureResultInner> getAsync(@NonNull String resourceProviderNamespace, @NonNull String featureName) {
         return getWithRestResponseAsync(resourceProviderNamespace, featureName)
-            .flatMapMaybe(new Function<RestResponse<Void, FeatureResultInner>, Maybe<FeatureResultInner>>() {
-                public Maybe<FeatureResultInner> apply(RestResponse<Void, FeatureResultInner> restResponse) {
-                    if (restResponse.body() == null) {
-                        return Maybe.empty();
-                    } else {
-                        return Maybe.just(restResponse.body());
-                    }
-                }
-            });
+            .flatMapMaybe((BodyResponse<FeatureResultInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
@@ -298,7 +273,7 @@ public class FeaturesInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the FeatureResultInner object if successful.
      */
-    public FeatureResultInner register(String resourceProviderNamespace, String featureName) {
+    public FeatureResultInner register(@NonNull String resourceProviderNamespace, @NonNull String featureName) {
         return registerAsync(resourceProviderNamespace, featureName).blockingGet();
     }
 
@@ -309,9 +284,9 @@ public class FeaturesInner {
      * @param featureName The name of the feature to register.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link ServiceFuture&lt;FeatureResultInner&gt;} object.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<FeatureResultInner> registerAsync(String resourceProviderNamespace, String featureName, final ServiceCallback<FeatureResultInner> serviceCallback) {
+    public ServiceFuture<FeatureResultInner> registerAsync(@NonNull String resourceProviderNamespace, @NonNull String featureName, ServiceCallback<FeatureResultInner> serviceCallback) {
         return ServiceFuture.fromBody(registerAsync(resourceProviderNamespace, featureName), serviceCallback);
     }
 
@@ -321,9 +296,9 @@ public class FeaturesInner {
      * @param resourceProviderNamespace The namespace of the resource provider.
      * @param featureName The name of the feature to register.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Single&lt;RestResponse&lt;Void, FeatureResultInner&gt;&gt;} object if successful.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Single<RestResponse<Void, FeatureResultInner>> registerWithRestResponseAsync(String resourceProviderNamespace, String featureName) {
+    public Single<BodyResponse<FeatureResultInner>> registerWithRestResponseAsync(@NonNull String resourceProviderNamespace, @NonNull String featureName) {
         if (resourceProviderNamespace == null) {
             throw new IllegalArgumentException("Parameter resourceProviderNamespace is required and cannot be null.");
         }
@@ -345,19 +320,11 @@ public class FeaturesInner {
      * @param resourceProviderNamespace The namespace of the resource provider.
      * @param featureName The name of the feature to register.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Maybe&lt;FeatureResultInner&gt;} object if successful.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Maybe<FeatureResultInner> registerAsync(String resourceProviderNamespace, String featureName) {
+    public Maybe<FeatureResultInner> registerAsync(@NonNull String resourceProviderNamespace, @NonNull String featureName) {
         return registerWithRestResponseAsync(resourceProviderNamespace, featureName)
-            .flatMapMaybe(new Function<RestResponse<Void, FeatureResultInner>, Maybe<FeatureResultInner>>() {
-                public Maybe<FeatureResultInner> apply(RestResponse<Void, FeatureResultInner> restResponse) {
-                    if (restResponse.body() == null) {
-                        return Maybe.empty();
-                    } else {
-                        return Maybe.just(restResponse.body());
-                    }
-                }
-            });
+            .flatMapMaybe((BodyResponse<FeatureResultInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
@@ -369,7 +336,7 @@ public class FeaturesInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;FeatureResultInner&gt; object if successful.
      */
-    public PagedList<FeatureResultInner> listAllNext(final String nextPageLink) {
+    public PagedList<FeatureResultInner> listAllNext(@NonNull String nextPageLink) {
         Page<FeatureResultInner> response = listAllNextSinglePageAsync(nextPageLink).blockingGet();
         return new PagedList<FeatureResultInner>(response) {
             @Override
@@ -386,18 +353,15 @@ public class FeaturesInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @return the observable to the PagedList&lt;FeatureResultInner&gt; object.
      */
-    public Observable<Page<FeatureResultInner>> listAllNextAsync(final String nextPageLink) {
+    public Observable<Page<FeatureResultInner>> listAllNextAsync(@NonNull String nextPageLink) {
         return listAllNextSinglePageAsync(nextPageLink)
             .toObservable()
-            .concatMap(new Function<Page<FeatureResultInner>, Observable<Page<FeatureResultInner>>>() {
-                @Override
-                public Observable<Page<FeatureResultInner>> apply(Page<FeatureResultInner> page) {
-                    String nextPageLink = page.nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listAllNextAsync(nextPageLink));
+            .concatMap((Page<FeatureResultInner> page) -> {
+                String nextPageLink1 = page.nextPageLink();
+                if (nextPageLink1 == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listAllNextAsync(nextPageLink1));
             });
     }
 
@@ -406,19 +370,15 @@ public class FeaturesInner {
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Single&lt;Page&lt;FeatureResultInner&gt;&gt;} object if successful.
+     * @return the Single&lt;Page&lt;FeatureResultInner&gt;&gt; object if successful.
      */
-    public Single<Page<FeatureResultInner>> listAllNextSinglePageAsync(final String nextPageLink) {
+    public Single<Page<FeatureResultInner>> listAllNextSinglePageAsync(@NonNull String nextPageLink) {
         if (nextPageLink == null) {
             throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
         }
         String nextUrl = String.format("%s", nextPageLink);
-        return service.listAllNext(nextUrl, this.client.acceptLanguage()).map(new Function<RestResponse<Void, PageImpl<FeatureResultInner>>, Page<FeatureResultInner>>() {
-            @Override
-            public Page<FeatureResultInner> apply(RestResponse<Void, PageImpl<FeatureResultInner>> response) {
-                return response.body();
-            }
-        });
+        return service.listAllNext(nextUrl, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl<FeatureResultInner>> res) -> res.body());
     }
 
     /**
@@ -430,7 +390,7 @@ public class FeaturesInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;FeatureResultInner&gt; object if successful.
      */
-    public PagedList<FeatureResultInner> listNext(final String nextPageLink) {
+    public PagedList<FeatureResultInner> listNext(@NonNull String nextPageLink) {
         Page<FeatureResultInner> response = listNextSinglePageAsync(nextPageLink).blockingGet();
         return new PagedList<FeatureResultInner>(response) {
             @Override
@@ -447,18 +407,15 @@ public class FeaturesInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @return the observable to the PagedList&lt;FeatureResultInner&gt; object.
      */
-    public Observable<Page<FeatureResultInner>> listNextAsync(final String nextPageLink) {
+    public Observable<Page<FeatureResultInner>> listNextAsync(@NonNull String nextPageLink) {
         return listNextSinglePageAsync(nextPageLink)
             .toObservable()
-            .concatMap(new Function<Page<FeatureResultInner>, Observable<Page<FeatureResultInner>>>() {
-                @Override
-                public Observable<Page<FeatureResultInner>> apply(Page<FeatureResultInner> page) {
-                    String nextPageLink = page.nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listNextAsync(nextPageLink));
+            .concatMap((Page<FeatureResultInner> page) -> {
+                String nextPageLink1 = page.nextPageLink();
+                if (nextPageLink1 == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listNextAsync(nextPageLink1));
             });
     }
 
@@ -467,18 +424,14 @@ public class FeaturesInner {
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Single&lt;Page&lt;FeatureResultInner&gt;&gt;} object if successful.
+     * @return the Single&lt;Page&lt;FeatureResultInner&gt;&gt; object if successful.
      */
-    public Single<Page<FeatureResultInner>> listNextSinglePageAsync(final String nextPageLink) {
+    public Single<Page<FeatureResultInner>> listNextSinglePageAsync(@NonNull String nextPageLink) {
         if (nextPageLink == null) {
             throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
         }
         String nextUrl = String.format("%s", nextPageLink);
-        return service.listNext(nextUrl, this.client.acceptLanguage()).map(new Function<RestResponse<Void, PageImpl<FeatureResultInner>>, Page<FeatureResultInner>>() {
-            @Override
-            public Page<FeatureResultInner> apply(RestResponse<Void, PageImpl<FeatureResultInner>> response) {
-                return response.body();
-            }
-        });
+        return service.listNext(nextUrl, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl<FeatureResultInner>> res) -> res.body());
     }
 }

@@ -16,20 +16,19 @@ import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.HasMana
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.HasName;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Appliable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Creatable;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Indexable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Refreshable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Updatable;
-import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.v2.management.resources.implementation.DeploymentExtendedInner;
 import com.microsoft.azure.v2.management.resources.implementation.ResourceManager;
-
 import com.microsoft.rest.v2.ServiceCallback;
 import com.microsoft.rest.v2.ServiceFuture;
-import org.joda.time.DateTime;
 import io.reactivex.Completable;
 import io.reactivex.Maybe;
 
 import java.io.IOException;
+import java.time.OffsetDateTime;
 import java.util.List;
 
 /**
@@ -62,7 +61,7 @@ public interface Deployment extends
     /**
      * @return the timestamp of the template deployment
      */
-    DateTime timestamp();
+    OffsetDateTime timestamp();
 
     /**
      * @return key/value pairs that represent deployment output

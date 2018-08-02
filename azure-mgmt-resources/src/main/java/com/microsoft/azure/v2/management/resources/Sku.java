@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * SKU for the resource.
  */
-public class Sku {
+public final class Sku {
     /**
      * The SKU name.
      */

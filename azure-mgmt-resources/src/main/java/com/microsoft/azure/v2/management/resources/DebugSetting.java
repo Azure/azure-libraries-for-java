@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * The DebugSetting model.
  */
-public class DebugSetting {
+public final class DebugSetting {
     /**
      * Specifies the type of information to log for debugging. The permitted
      * values are none, requestContent, responseContent, or both requestContent

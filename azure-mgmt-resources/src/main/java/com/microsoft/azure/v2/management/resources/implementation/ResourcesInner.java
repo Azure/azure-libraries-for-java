@@ -13,11 +13,14 @@ import com.microsoft.azure.v2.CloudException;
 import com.microsoft.azure.v2.OperationStatus;
 import com.microsoft.azure.v2.Page;
 import com.microsoft.azure.v2.PagedList;
+import com.microsoft.azure.v2.management.resources.ResourcesMoveInfo;
 import com.microsoft.azure.v2.util.ServiceFutureUtil;
-import com.microsoft.rest.v2.RestResponse;
+import com.microsoft.rest.v2.BodyResponse;
+import com.microsoft.rest.v2.OperationDescription;
 import com.microsoft.rest.v2.ServiceCallback;
 import com.microsoft.rest.v2.ServiceFuture;
 import com.microsoft.rest.v2.Validator;
+import com.microsoft.rest.v2.VoidResponse;
 import com.microsoft.rest.v2.annotations.BodyParam;
 import com.microsoft.rest.v2.annotations.DELETE;
 import com.microsoft.rest.v2.annotations.ExpectedResponses;
@@ -30,18 +33,19 @@ import com.microsoft.rest.v2.annotations.PathParam;
 import com.microsoft.rest.v2.annotations.POST;
 import com.microsoft.rest.v2.annotations.PUT;
 import com.microsoft.rest.v2.annotations.QueryParam;
+import com.microsoft.rest.v2.annotations.ResumeOperation;
 import com.microsoft.rest.v2.annotations.UnexpectedResponseExceptionType;
 import io.reactivex.Completable;
 import io.reactivex.Maybe;
 import io.reactivex.Observable;
 import io.reactivex.Single;
-import io.reactivex.functions.Function;
+import io.reactivex.annotations.NonNull;
 
 /**
  * An instance of this class provides access to all the operations defined in
  * Resources.
  */
-public class ResourcesInner {
+public final class ResourcesInner {
     /**
      * The proxy service used to perform REST calls.
      */
@@ -67,26 +71,32 @@ public class ResourcesInner {
      * proxy service to perform REST calls.
      */
     @Host("https://management.azure.com")
-    interface ResourcesService {
+    private interface ResourcesService {
         @POST("subscriptions/{subscriptionId}/resourceGroups/{sourceResourceGroupName}/moveResources")
         @ExpectedResponses({200, 202, 204})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Observable<OperationStatus<Void>> beginMoveResources(@PathParam("sourceResourceGroupName") String sourceResourceGroupName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json; charset=utf-8") ResourcesMoveInfoInner parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
+        Observable<OperationStatus<Void>> beginMoveResources(@PathParam("sourceResourceGroupName") String sourceResourceGroupName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json; charset=utf-8") ResourcesMoveInfo parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
         @POST("subscriptions/{subscriptionId}/resourceGroups/{sourceResourceGroupName}/moveResources")
         @ExpectedResponses({200, 202, 204})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Single<RestResponse<Void, Void>> moveResources(@PathParam("sourceResourceGroupName") String sourceResourceGroupName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json; charset=utf-8") ResourcesMoveInfoInner parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
+        Single<VoidResponse> moveResources(@PathParam("sourceResourceGroupName") String sourceResourceGroupName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json; charset=utf-8") ResourcesMoveInfo parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
+
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{sourceResourceGroupName}/moveResources")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<Void>> resumeMoveResources(OperationDescription operationDescription);
 
         @GET("subscriptions/{subscriptionId}/resources")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Single<RestResponse<Void, PageImpl<GenericResourceInner>>> list(@PathParam("subscriptionId") String subscriptionId, @QueryParam("$filter") String filter, @QueryParam("$expand") String expand, @QueryParam("$top") Integer top, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
+        Single<BodyResponse<PageImpl<GenericResourceInner>>> list(@PathParam("subscriptionId") String subscriptionId, @QueryParam("$filter") String filter, @QueryParam("$expand") String expand, @QueryParam("$top") Integer top, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
         @HEAD("subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePath}/{resourceType}/{resourceName}")
         @ExpectedResponses({204, 404})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Single<RestResponse<Void, Boolean>> checkExistence(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("resourceProviderNamespace") String resourceProviderNamespace, @PathParam(value = "parentResourcePath", encoded = true) String parentResourcePath, @PathParam(value = "resourceType", encoded = true) String resourceType, @PathParam("resourceName") String resourceName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
+        Single<BodyResponse<Boolean>> checkExistence(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("resourceProviderNamespace") String resourceProviderNamespace, @PathParam(value = "parentResourcePath", encoded = true) String parentResourcePath, @PathParam(value = "resourceType", encoded = true) String resourceType, @PathParam("resourceName") String resourceName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
         @DELETE("subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePath}/{resourceType}/{resourceName}")
         @ExpectedResponses({200, 202, 204})
@@ -96,7 +106,13 @@ public class ResourcesInner {
         @DELETE("subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePath}/{resourceType}/{resourceName}")
         @ExpectedResponses({200, 202, 204})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Single<RestResponse<Void, Void>> delete(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("resourceProviderNamespace") String resourceProviderNamespace, @PathParam(value = "parentResourcePath", encoded = true) String parentResourcePath, @PathParam(value = "resourceType", encoded = true) String resourceType, @PathParam("resourceName") String resourceName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
+        Single<VoidResponse> delete(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("resourceProviderNamespace") String resourceProviderNamespace, @PathParam(value = "parentResourcePath", encoded = true) String parentResourcePath, @PathParam(value = "resourceType", encoded = true) String resourceType, @PathParam("resourceName") String resourceName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
+
+        @DELETE("subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePath}/{resourceType}/{resourceName}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<Void>> resumeDelete(OperationDescription operationDescription);
 
         @PUT("subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePath}/{resourceType}/{resourceName}")
         @ExpectedResponses({200, 201, 202, 204})
@@ -106,7 +122,13 @@ public class ResourcesInner {
         @PUT("subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePath}/{resourceType}/{resourceName}")
         @ExpectedResponses({200, 201, 202, 204})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Single<RestResponse<Void, GenericResourceInner>> createOrUpdate(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("resourceProviderNamespace") String resourceProviderNamespace, @PathParam(value = "parentResourcePath", encoded = true) String parentResourcePath, @PathParam(value = "resourceType", encoded = true) String resourceType, @PathParam("resourceName") String resourceName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @BodyParam("application/json; charset=utf-8") GenericResourceInner parameters, @HeaderParam("accept-language") String acceptLanguage);
+        Single<BodyResponse<GenericResourceInner>> createOrUpdate(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("resourceProviderNamespace") String resourceProviderNamespace, @PathParam(value = "parentResourcePath", encoded = true) String parentResourcePath, @PathParam(value = "resourceType", encoded = true) String resourceType, @PathParam("resourceName") String resourceName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @BodyParam("application/json; charset=utf-8") GenericResourceInner parameters, @HeaderParam("accept-language") String acceptLanguage);
+
+        @PUT("subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePath}/{resourceType}/{resourceName}")
+        @ExpectedResponses({200, 201, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<GenericResourceInner>> resumeCreateOrUpdate(OperationDescription operationDescription);
 
         @PATCH("subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePath}/{resourceType}/{resourceName}")
         @ExpectedResponses({200, 202, 204})
@@ -116,17 +138,23 @@ public class ResourcesInner {
         @PATCH("subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePath}/{resourceType}/{resourceName}")
         @ExpectedResponses({200, 202, 204})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Single<RestResponse<Void, GenericResourceInner>> update(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("resourceProviderNamespace") String resourceProviderNamespace, @PathParam(value = "parentResourcePath", encoded = true) String parentResourcePath, @PathParam(value = "resourceType", encoded = true) String resourceType, @PathParam("resourceName") String resourceName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @BodyParam("application/json; charset=utf-8") GenericResourceInner parameters, @HeaderParam("accept-language") String acceptLanguage);
+        Single<BodyResponse<GenericResourceInner>> update(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("resourceProviderNamespace") String resourceProviderNamespace, @PathParam(value = "parentResourcePath", encoded = true) String parentResourcePath, @PathParam(value = "resourceType", encoded = true) String resourceType, @PathParam("resourceName") String resourceName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @BodyParam("application/json; charset=utf-8") GenericResourceInner parameters, @HeaderParam("accept-language") String acceptLanguage);
+
+        @PATCH("subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePath}/{resourceType}/{resourceName}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<GenericResourceInner>> resumeUpdate(OperationDescription operationDescription);
 
         @GET("subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePath}/{resourceType}/{resourceName}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Single<RestResponse<Void, GenericResourceInner>> get(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("resourceProviderNamespace") String resourceProviderNamespace, @PathParam(value = "parentResourcePath", encoded = true) String parentResourcePath, @PathParam(value = "resourceType", encoded = true) String resourceType, @PathParam("resourceName") String resourceName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
+        Single<BodyResponse<GenericResourceInner>> get(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("resourceProviderNamespace") String resourceProviderNamespace, @PathParam(value = "parentResourcePath", encoded = true) String parentResourcePath, @PathParam(value = "resourceType", encoded = true) String resourceType, @PathParam("resourceName") String resourceName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
         @HEAD("{resourceId}")
         @ExpectedResponses({204, 404})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Single<RestResponse<Void, Boolean>> checkExistenceById(@PathParam(value = "resourceId", encoded = true) String resourceId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
+        Single<BodyResponse<Boolean>> checkExistenceById(@PathParam(value = "resourceId", encoded = true) String resourceId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
         @DELETE("{resourceId}")
         @ExpectedResponses({200, 202, 204})
@@ -136,7 +164,13 @@ public class ResourcesInner {
         @DELETE("{resourceId}")
         @ExpectedResponses({200, 202, 204})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Single<RestResponse<Void, Void>> deleteById(@PathParam(value = "resourceId", encoded = true) String resourceId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
+        Single<VoidResponse> deleteById(@PathParam(value = "resourceId", encoded = true) String resourceId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
+
+        @DELETE("{resourceId}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<Void>> resumeDeleteById(OperationDescription operationDescription);
 
         @PUT("{resourceId}")
         @ExpectedResponses({200, 201, 202, 204})
@@ -146,7 +180,13 @@ public class ResourcesInner {
         @PUT("{resourceId}")
         @ExpectedResponses({200, 201, 202, 204})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Single<RestResponse<Void, GenericResourceInner>> createOrUpdateById(@PathParam(value = "resourceId", encoded = true) String resourceId, @QueryParam("api-version") String apiVersion, @BodyParam("application/json; charset=utf-8") GenericResourceInner parameters, @HeaderParam("accept-language") String acceptLanguage);
+        Single<BodyResponse<GenericResourceInner>> createOrUpdateById(@PathParam(value = "resourceId", encoded = true) String resourceId, @QueryParam("api-version") String apiVersion, @BodyParam("application/json; charset=utf-8") GenericResourceInner parameters, @HeaderParam("accept-language") String acceptLanguage);
+
+        @PUT("{resourceId}")
+        @ExpectedResponses({200, 201, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<GenericResourceInner>> resumeCreateOrUpdateById(OperationDescription operationDescription);
 
         @PATCH("{resourceId}")
         @ExpectedResponses({200, 202, 204})
@@ -156,17 +196,23 @@ public class ResourcesInner {
         @PATCH("{resourceId}")
         @ExpectedResponses({200, 202, 204})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Single<RestResponse<Void, GenericResourceInner>> updateById(@PathParam(value = "resourceId", encoded = true) String resourceId, @QueryParam("api-version") String apiVersion, @BodyParam("application/json; charset=utf-8") GenericResourceInner parameters, @HeaderParam("accept-language") String acceptLanguage);
+        Single<BodyResponse<GenericResourceInner>> updateById(@PathParam(value = "resourceId", encoded = true) String resourceId, @QueryParam("api-version") String apiVersion, @BodyParam("application/json; charset=utf-8") GenericResourceInner parameters, @HeaderParam("accept-language") String acceptLanguage);
+
+        @PATCH("{resourceId}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<GenericResourceInner>> resumeUpdateById(OperationDescription operationDescription);
 
         @GET("{resourceId}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Single<RestResponse<Void, GenericResourceInner>> getById(@PathParam(value = "resourceId", encoded = true) String resourceId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
+        Single<BodyResponse<GenericResourceInner>> getById(@PathParam(value = "resourceId", encoded = true) String resourceId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
         @GET("{nextUrl}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Single<RestResponse<Void, PageImpl<GenericResourceInner>>> listNext(@PathParam(value = "nextUrl", encoded = true) String nextUrl, @HeaderParam("accept-language") String acceptLanguage);
+        Single<BodyResponse<PageImpl<GenericResourceInner>>> listNext(@PathParam(value = "nextUrl", encoded = true) String nextUrl, @HeaderParam("accept-language") String acceptLanguage);
     }
 
     /**
@@ -179,8 +225,8 @@ public class ResourcesInner {
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void beginMoveResources(String sourceResourceGroupName, ResourcesMoveInfoInner parameters) {
-        beginMoveResourcesAsync(sourceResourceGroupName, parameters).blockingFirst();
+    public void beginMoveResources(@NonNull String sourceResourceGroupName, @NonNull ResourcesMoveInfo parameters) {
+        beginMoveResourcesAsync(sourceResourceGroupName, parameters).blockingLast();
     }
 
     /**
@@ -191,9 +237,9 @@ public class ResourcesInner {
      * @param parameters Parameters for moving resources.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link ServiceFuture&lt;Void&gt;} object.
+     * @return the ServiceFuture&lt;Void&gt; object.
      */
-    public ServiceFuture<Void> beginMoveResourcesAsync(String sourceResourceGroupName, ResourcesMoveInfoInner parameters, final ServiceCallback<Void> serviceCallback) {
+    public ServiceFuture<Void> beginMoveResourcesAsync(@NonNull String sourceResourceGroupName, @NonNull ResourcesMoveInfo parameters, ServiceCallback<Void> serviceCallback) {
         return ServiceFutureUtil.fromLRO(beginMoveResourcesAsync(sourceResourceGroupName, parameters), serviceCallback);
     }
 
@@ -206,7 +252,7 @@ public class ResourcesInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @return the observable for the request.
      */
-    public Observable<OperationStatus<Void>> beginMoveResourcesAsync(String sourceResourceGroupName, ResourcesMoveInfoInner parameters) {
+    public Observable<OperationStatus<Void>> beginMoveResourcesAsync(@NonNull String sourceResourceGroupName, @NonNull ResourcesMoveInfo parameters) {
         if (sourceResourceGroupName == null) {
             throw new IllegalArgumentException("Parameter sourceResourceGroupName is required and cannot be null.");
         }
@@ -233,7 +279,7 @@ public class ResourcesInner {
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void moveResources(String sourceResourceGroupName, ResourcesMoveInfoInner parameters) {
+    public void moveResources(@NonNull String sourceResourceGroupName, @NonNull ResourcesMoveInfo parameters) {
         moveResourcesAsync(sourceResourceGroupName, parameters).blockingAwait();
     }
 
@@ -245,9 +291,9 @@ public class ResourcesInner {
      * @param parameters Parameters for moving resources.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link ServiceFuture&lt;Void&gt;} object.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<Void> moveResourcesAsync(String sourceResourceGroupName, ResourcesMoveInfoInner parameters, final ServiceCallback<Void> serviceCallback) {
+    public ServiceFuture<Void> moveResourcesAsync(@NonNull String sourceResourceGroupName, @NonNull ResourcesMoveInfo parameters, ServiceCallback<Void> serviceCallback) {
         return ServiceFuture.fromBody(moveResourcesAsync(sourceResourceGroupName, parameters), serviceCallback);
     }
 
@@ -258,9 +304,9 @@ public class ResourcesInner {
      * @param sourceResourceGroupName The name of the resource group containing the rsources to move.
      * @param parameters Parameters for moving resources.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Single&lt;RestResponse&lt;Void, Void&gt;&gt;} object if successful.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Single<RestResponse<Void, Void>> moveResourcesWithRestResponseAsync(String sourceResourceGroupName, ResourcesMoveInfoInner parameters) {
+    public Single<VoidResponse> moveResourcesWithRestResponseAsync(@NonNull String sourceResourceGroupName, @NonNull ResourcesMoveInfo parameters) {
         if (sourceResourceGroupName == null) {
             throw new IllegalArgumentException("Parameter sourceResourceGroupName is required and cannot be null.");
         }
@@ -284,17 +330,31 @@ public class ResourcesInner {
      * @param sourceResourceGroupName The name of the resource group containing the rsources to move.
      * @param parameters Parameters for moving resources.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Completable} object if successful.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Completable moveResourcesAsync(String sourceResourceGroupName, ResourcesMoveInfoInner parameters) {
+    public Completable moveResourcesAsync(@NonNull String sourceResourceGroupName, @NonNull ResourcesMoveInfo parameters) {
         return moveResourcesWithRestResponseAsync(sourceResourceGroupName, parameters)
             .toCompletable();
     }
 
     /**
+     * Moves resources from one resource group to another resource group.
+     * The resources to move must be in the same source resource group. The target resource group may be in a different subscription. When moving resources, both the source group and the target group are locked for the duration of the operation. Write and delete operations are blocked on the groups until the move completes.  (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<Void>> resumeMoveResources(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeMoveResources(operationDescription);
+    }
+
+    /**
      * Get all the resources in a subscription.
      *
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;GenericResourceInner&gt; object if successful.
@@ -312,29 +372,24 @@ public class ResourcesInner {
     /**
      * Get all the resources in a subscription.
      *
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @return the observable to the PagedList&lt;GenericResourceInner&gt; object.
      */
     public Observable<Page<GenericResourceInner>> listAsync() {
         return listSinglePageAsync()
             .toObservable()
-            .concatMap(new Function<Page<GenericResourceInner>, Observable<Page<GenericResourceInner>>>() {
-                @Override
-                public Observable<Page<GenericResourceInner>> apply(Page<GenericResourceInner> page) {
-                    String nextPageLink = page.nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listNextAsync(nextPageLink));
+            .concatMap((Page<GenericResourceInner> page) -> {
+                String nextPageLink = page.nextPageLink();
+                if (nextPageLink == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listNextAsync(nextPageLink));
             });
     }
 
     /**
      * Get all the resources in a subscription.
      *
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Single&lt;Page&lt;GenericResourceInner&gt;&gt;} object if successful.
+     * @return the Single&lt;Page&lt;GenericResourceInner&gt;&gt; object if successful.
      */
     public Single<Page<GenericResourceInner>> listSinglePageAsync() {
         if (this.client.subscriptionId() == null) {
@@ -346,12 +401,8 @@ public class ResourcesInner {
         final String filter = null;
         final String expand = null;
         final Integer top = null;
-        return service.list(this.client.subscriptionId(), filter, expand, top, this.client.apiVersion(), this.client.acceptLanguage()).map(new Function<RestResponse<Void, PageImpl<GenericResourceInner>>, Page<GenericResourceInner>>() {
-            @Override
-            public Page<GenericResourceInner> apply(RestResponse<Void, PageImpl<GenericResourceInner>> response) {
-                return response.body();
-            }
-        });
+        return service.list(this.client.subscriptionId(), filter, expand, top, this.client.apiVersion(), this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl<GenericResourceInner>> res) -> res.body());
     }
 
     /**
@@ -365,7 +416,7 @@ public class ResourcesInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;GenericResourceInner&gt; object if successful.
      */
-    public PagedList<GenericResourceInner> list(final String filter, final String expand, final Integer top) {
+    public PagedList<GenericResourceInner> list(String filter, String expand, Integer top) {
         Page<GenericResourceInner> response = listSinglePageAsync(filter, expand, top).blockingGet();
         return new PagedList<GenericResourceInner>(response) {
             @Override
@@ -384,18 +435,15 @@ public class ResourcesInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @return the observable to the PagedList&lt;GenericResourceInner&gt; object.
      */
-    public Observable<Page<GenericResourceInner>> listAsync(final String filter, final String expand, final Integer top) {
+    public Observable<Page<GenericResourceInner>> listAsync(String filter, String expand, Integer top) {
         return listSinglePageAsync(filter, expand, top)
             .toObservable()
-            .concatMap(new Function<Page<GenericResourceInner>, Observable<Page<GenericResourceInner>>>() {
-                @Override
-                public Observable<Page<GenericResourceInner>> apply(Page<GenericResourceInner> page) {
-                    String nextPageLink = page.nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listNextAsync(nextPageLink));
+            .concatMap((Page<GenericResourceInner> page) -> {
+                String nextPageLink = page.nextPageLink();
+                if (nextPageLink == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listNextAsync(nextPageLink));
             });
     }
 
@@ -406,21 +454,17 @@ public class ResourcesInner {
      * @param expand The $expand query parameter.
      * @param top The number of results to return. If null is passed, returns all resource groups.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Single&lt;Page&lt;GenericResourceInner&gt;&gt;} object if successful.
+     * @return the Single&lt;Page&lt;GenericResourceInner&gt;&gt; object if successful.
      */
-    public Single<Page<GenericResourceInner>> listSinglePageAsync(final String filter, final String expand, final Integer top) {
+    public Single<Page<GenericResourceInner>> listSinglePageAsync(String filter, String expand, Integer top) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        return service.list(this.client.subscriptionId(), filter, expand, top, this.client.apiVersion(), this.client.acceptLanguage()).map(new Function<RestResponse<Void, PageImpl<GenericResourceInner>>, Page<GenericResourceInner>>() {
-            @Override
-            public Page<GenericResourceInner> apply(RestResponse<Void, PageImpl<GenericResourceInner>> response) {
-                return response.body();
-            }
-        });
+        return service.list(this.client.subscriptionId(), filter, expand, top, this.client.apiVersion(), this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl<GenericResourceInner>> res) -> res.body());
     }
 
     /**
@@ -437,7 +481,7 @@ public class ResourcesInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the boolean object if successful.
      */
-    public boolean checkExistence(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName, String apiVersion) {
+    public boolean checkExistence(@NonNull String resourceGroupName, @NonNull String resourceProviderNamespace, @NonNull String parentResourcePath, @NonNull String resourceType, @NonNull String resourceName, @NonNull String apiVersion) {
         return checkExistenceAsync(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, apiVersion).blockingGet();
     }
 
@@ -452,9 +496,9 @@ public class ResourcesInner {
      * @param apiVersion The API version to use for the operation.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link ServiceFuture&lt;Boolean&gt;} object.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<Boolean> checkExistenceAsync(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName, String apiVersion, final ServiceCallback<Boolean> serviceCallback) {
+    public ServiceFuture<Boolean> checkExistenceAsync(@NonNull String resourceGroupName, @NonNull String resourceProviderNamespace, @NonNull String parentResourcePath, @NonNull String resourceType, @NonNull String resourceName, @NonNull String apiVersion, ServiceCallback<Boolean> serviceCallback) {
         return ServiceFuture.fromBody(checkExistenceAsync(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, apiVersion), serviceCallback);
     }
 
@@ -468,9 +512,9 @@ public class ResourcesInner {
      * @param resourceName The name of the resource to check whether it exists.
      * @param apiVersion The API version to use for the operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Single&lt;RestResponse&lt;Void, Boolean&gt;&gt;} object if successful.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Single<RestResponse<Void, Boolean>> checkExistenceWithRestResponseAsync(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName, String apiVersion) {
+    public Single<BodyResponse<Boolean>> checkExistenceWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String resourceProviderNamespace, @NonNull String parentResourcePath, @NonNull String resourceType, @NonNull String resourceName, @NonNull String apiVersion) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -505,19 +549,11 @@ public class ResourcesInner {
      * @param resourceName The name of the resource to check whether it exists.
      * @param apiVersion The API version to use for the operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Maybe&lt;Boolean&gt;} object if successful.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Maybe<Boolean> checkExistenceAsync(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName, String apiVersion) {
+    public Maybe<Boolean> checkExistenceAsync(@NonNull String resourceGroupName, @NonNull String resourceProviderNamespace, @NonNull String parentResourcePath, @NonNull String resourceType, @NonNull String resourceName, @NonNull String apiVersion) {
         return checkExistenceWithRestResponseAsync(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, apiVersion)
-            .flatMapMaybe(new Function<RestResponse<Void, Boolean>, Maybe<Boolean>>() {
-                public Maybe<Boolean> apply(RestResponse<Void, Boolean> restResponse) {
-                    if (restResponse.body() == null) {
-                        return Maybe.empty();
-                    } else {
-                        return Maybe.just(restResponse.body());
-                    }
-                }
-            });
+            .flatMapMaybe((BodyResponse<Boolean> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
@@ -533,8 +569,8 @@ public class ResourcesInner {
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void beginDelete(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName, String apiVersion) {
-        beginDeleteAsync(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, apiVersion).blockingFirst();
+    public void beginDelete(@NonNull String resourceGroupName, @NonNull String resourceProviderNamespace, @NonNull String parentResourcePath, @NonNull String resourceType, @NonNull String resourceName, @NonNull String apiVersion) {
+        beginDeleteAsync(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, apiVersion).blockingLast();
     }
 
     /**
@@ -548,9 +584,9 @@ public class ResourcesInner {
      * @param apiVersion The API version to use for the operation.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link ServiceFuture&lt;Void&gt;} object.
+     * @return the ServiceFuture&lt;Void&gt; object.
      */
-    public ServiceFuture<Void> beginDeleteAsync(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName, String apiVersion, final ServiceCallback<Void> serviceCallback) {
+    public ServiceFuture<Void> beginDeleteAsync(@NonNull String resourceGroupName, @NonNull String resourceProviderNamespace, @NonNull String parentResourcePath, @NonNull String resourceType, @NonNull String resourceName, @NonNull String apiVersion, ServiceCallback<Void> serviceCallback) {
         return ServiceFutureUtil.fromLRO(beginDeleteAsync(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, apiVersion), serviceCallback);
     }
 
@@ -566,7 +602,7 @@ public class ResourcesInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @return the observable for the request.
      */
-    public Observable<OperationStatus<Void>> beginDeleteAsync(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName, String apiVersion) {
+    public Observable<OperationStatus<Void>> beginDeleteAsync(@NonNull String resourceGroupName, @NonNull String resourceProviderNamespace, @NonNull String parentResourcePath, @NonNull String resourceType, @NonNull String resourceName, @NonNull String apiVersion) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -604,7 +640,7 @@ public class ResourcesInner {
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void delete(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName, String apiVersion) {
+    public void delete(@NonNull String resourceGroupName, @NonNull String resourceProviderNamespace, @NonNull String parentResourcePath, @NonNull String resourceType, @NonNull String resourceName, @NonNull String apiVersion) {
         deleteAsync(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, apiVersion).blockingAwait();
     }
 
@@ -619,9 +655,9 @@ public class ResourcesInner {
      * @param apiVersion The API version to use for the operation.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link ServiceFuture&lt;Void&gt;} object.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<Void> deleteAsync(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName, String apiVersion, final ServiceCallback<Void> serviceCallback) {
+    public ServiceFuture<Void> deleteAsync(@NonNull String resourceGroupName, @NonNull String resourceProviderNamespace, @NonNull String parentResourcePath, @NonNull String resourceType, @NonNull String resourceName, @NonNull String apiVersion, ServiceCallback<Void> serviceCallback) {
         return ServiceFuture.fromBody(deleteAsync(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, apiVersion), serviceCallback);
     }
 
@@ -635,9 +671,9 @@ public class ResourcesInner {
      * @param resourceName The name of the resource to delete.
      * @param apiVersion The API version to use for the operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Single&lt;RestResponse&lt;Void, Void&gt;&gt;} object if successful.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Single<RestResponse<Void, Void>> deleteWithRestResponseAsync(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName, String apiVersion) {
+    public Single<VoidResponse> deleteWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String resourceProviderNamespace, @NonNull String parentResourcePath, @NonNull String resourceType, @NonNull String resourceName, @NonNull String apiVersion) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -672,11 +708,25 @@ public class ResourcesInner {
      * @param resourceName The name of the resource to delete.
      * @param apiVersion The API version to use for the operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Completable} object if successful.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Completable deleteAsync(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName, String apiVersion) {
+    public Completable deleteAsync(@NonNull String resourceGroupName, @NonNull String resourceProviderNamespace, @NonNull String parentResourcePath, @NonNull String resourceType, @NonNull String resourceName, @NonNull String apiVersion) {
         return deleteWithRestResponseAsync(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, apiVersion)
             .toCompletable();
+    }
+
+    /**
+     * Deletes a resource. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<Void>> resumeDelete(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeDelete(operationDescription);
     }
 
     /**
@@ -694,8 +744,8 @@ public class ResourcesInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the GenericResourceInner object if successful.
      */
-    public GenericResourceInner beginCreateOrUpdate(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName, String apiVersion, GenericResourceInner parameters) {
-        return beginCreateOrUpdateAsync(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, apiVersion, parameters).blockingFirst().result();
+    public GenericResourceInner beginCreateOrUpdate(@NonNull String resourceGroupName, @NonNull String resourceProviderNamespace, @NonNull String parentResourcePath, @NonNull String resourceType, @NonNull String resourceName, @NonNull String apiVersion, @NonNull GenericResourceInner parameters) {
+        return beginCreateOrUpdateAsync(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, apiVersion, parameters).blockingLast().result();
     }
 
     /**
@@ -710,9 +760,9 @@ public class ResourcesInner {
      * @param parameters Parameters for creating or updating the resource.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link ServiceFuture&lt;GenericResourceInner&gt;} object.
+     * @return the ServiceFuture&lt;GenericResourceInner&gt; object.
      */
-    public ServiceFuture<GenericResourceInner> beginCreateOrUpdateAsync(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName, String apiVersion, GenericResourceInner parameters, final ServiceCallback<GenericResourceInner> serviceCallback) {
+    public ServiceFuture<GenericResourceInner> beginCreateOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String resourceProviderNamespace, @NonNull String parentResourcePath, @NonNull String resourceType, @NonNull String resourceName, @NonNull String apiVersion, @NonNull GenericResourceInner parameters, ServiceCallback<GenericResourceInner> serviceCallback) {
         return ServiceFutureUtil.fromLRO(beginCreateOrUpdateAsync(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, apiVersion, parameters), serviceCallback);
     }
 
@@ -729,7 +779,7 @@ public class ResourcesInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @return the observable for the request.
      */
-    public Observable<OperationStatus<GenericResourceInner>> beginCreateOrUpdateAsync(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName, String apiVersion, GenericResourceInner parameters) {
+    public Observable<OperationStatus<GenericResourceInner>> beginCreateOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String resourceProviderNamespace, @NonNull String parentResourcePath, @NonNull String resourceType, @NonNull String resourceName, @NonNull String apiVersion, @NonNull GenericResourceInner parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -773,7 +823,7 @@ public class ResourcesInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the GenericResourceInner object if successful.
      */
-    public GenericResourceInner createOrUpdate(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName, String apiVersion, GenericResourceInner parameters) {
+    public GenericResourceInner createOrUpdate(@NonNull String resourceGroupName, @NonNull String resourceProviderNamespace, @NonNull String parentResourcePath, @NonNull String resourceType, @NonNull String resourceName, @NonNull String apiVersion, @NonNull GenericResourceInner parameters) {
         return createOrUpdateAsync(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, apiVersion, parameters).blockingGet();
     }
 
@@ -789,9 +839,9 @@ public class ResourcesInner {
      * @param parameters Parameters for creating or updating the resource.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link ServiceFuture&lt;GenericResourceInner&gt;} object.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<GenericResourceInner> createOrUpdateAsync(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName, String apiVersion, GenericResourceInner parameters, final ServiceCallback<GenericResourceInner> serviceCallback) {
+    public ServiceFuture<GenericResourceInner> createOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String resourceProviderNamespace, @NonNull String parentResourcePath, @NonNull String resourceType, @NonNull String resourceName, @NonNull String apiVersion, @NonNull GenericResourceInner parameters, ServiceCallback<GenericResourceInner> serviceCallback) {
         return ServiceFuture.fromBody(createOrUpdateAsync(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, apiVersion, parameters), serviceCallback);
     }
 
@@ -806,9 +856,9 @@ public class ResourcesInner {
      * @param apiVersion The API version to use for the operation.
      * @param parameters Parameters for creating or updating the resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Single&lt;RestResponse&lt;Void, GenericResourceInner&gt;&gt;} object if successful.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Single<RestResponse<Void, GenericResourceInner>> createOrUpdateWithRestResponseAsync(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName, String apiVersion, GenericResourceInner parameters) {
+    public Single<BodyResponse<GenericResourceInner>> createOrUpdateWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String resourceProviderNamespace, @NonNull String parentResourcePath, @NonNull String resourceType, @NonNull String resourceName, @NonNull String apiVersion, @NonNull GenericResourceInner parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -848,19 +898,25 @@ public class ResourcesInner {
      * @param apiVersion The API version to use for the operation.
      * @param parameters Parameters for creating or updating the resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Maybe&lt;GenericResourceInner&gt;} object if successful.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Maybe<GenericResourceInner> createOrUpdateAsync(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName, String apiVersion, GenericResourceInner parameters) {
+    public Maybe<GenericResourceInner> createOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String resourceProviderNamespace, @NonNull String parentResourcePath, @NonNull String resourceType, @NonNull String resourceName, @NonNull String apiVersion, @NonNull GenericResourceInner parameters) {
         return createOrUpdateWithRestResponseAsync(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, apiVersion, parameters)
-            .flatMapMaybe(new Function<RestResponse<Void, GenericResourceInner>, Maybe<GenericResourceInner>>() {
-                public Maybe<GenericResourceInner> apply(RestResponse<Void, GenericResourceInner> restResponse) {
-                    if (restResponse.body() == null) {
-                        return Maybe.empty();
-                    } else {
-                        return Maybe.just(restResponse.body());
-                    }
-                }
-            });
+            .flatMapMaybe((BodyResponse<GenericResourceInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
+    }
+
+    /**
+     * Creates a resource. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<GenericResourceInner>> resumeCreateOrUpdate(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeCreateOrUpdate(operationDescription);
     }
 
     /**
@@ -878,8 +934,8 @@ public class ResourcesInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the GenericResourceInner object if successful.
      */
-    public GenericResourceInner beginUpdate(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName, String apiVersion, GenericResourceInner parameters) {
-        return beginUpdateAsync(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, apiVersion, parameters).blockingFirst().result();
+    public GenericResourceInner beginUpdate(@NonNull String resourceGroupName, @NonNull String resourceProviderNamespace, @NonNull String parentResourcePath, @NonNull String resourceType, @NonNull String resourceName, @NonNull String apiVersion, @NonNull GenericResourceInner parameters) {
+        return beginUpdateAsync(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, apiVersion, parameters).blockingLast().result();
     }
 
     /**
@@ -894,9 +950,9 @@ public class ResourcesInner {
      * @param parameters Parameters for updating the resource.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link ServiceFuture&lt;GenericResourceInner&gt;} object.
+     * @return the ServiceFuture&lt;GenericResourceInner&gt; object.
      */
-    public ServiceFuture<GenericResourceInner> beginUpdateAsync(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName, String apiVersion, GenericResourceInner parameters, final ServiceCallback<GenericResourceInner> serviceCallback) {
+    public ServiceFuture<GenericResourceInner> beginUpdateAsync(@NonNull String resourceGroupName, @NonNull String resourceProviderNamespace, @NonNull String parentResourcePath, @NonNull String resourceType, @NonNull String resourceName, @NonNull String apiVersion, @NonNull GenericResourceInner parameters, ServiceCallback<GenericResourceInner> serviceCallback) {
         return ServiceFutureUtil.fromLRO(beginUpdateAsync(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, apiVersion, parameters), serviceCallback);
     }
 
@@ -913,7 +969,7 @@ public class ResourcesInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @return the observable for the request.
      */
-    public Observable<OperationStatus<GenericResourceInner>> beginUpdateAsync(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName, String apiVersion, GenericResourceInner parameters) {
+    public Observable<OperationStatus<GenericResourceInner>> beginUpdateAsync(@NonNull String resourceGroupName, @NonNull String resourceProviderNamespace, @NonNull String parentResourcePath, @NonNull String resourceType, @NonNull String resourceName, @NonNull String apiVersion, @NonNull GenericResourceInner parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -957,7 +1013,7 @@ public class ResourcesInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the GenericResourceInner object if successful.
      */
-    public GenericResourceInner update(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName, String apiVersion, GenericResourceInner parameters) {
+    public GenericResourceInner update(@NonNull String resourceGroupName, @NonNull String resourceProviderNamespace, @NonNull String parentResourcePath, @NonNull String resourceType, @NonNull String resourceName, @NonNull String apiVersion, @NonNull GenericResourceInner parameters) {
         return updateAsync(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, apiVersion, parameters).blockingGet();
     }
 
@@ -973,9 +1029,9 @@ public class ResourcesInner {
      * @param parameters Parameters for updating the resource.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link ServiceFuture&lt;GenericResourceInner&gt;} object.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<GenericResourceInner> updateAsync(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName, String apiVersion, GenericResourceInner parameters, final ServiceCallback<GenericResourceInner> serviceCallback) {
+    public ServiceFuture<GenericResourceInner> updateAsync(@NonNull String resourceGroupName, @NonNull String resourceProviderNamespace, @NonNull String parentResourcePath, @NonNull String resourceType, @NonNull String resourceName, @NonNull String apiVersion, @NonNull GenericResourceInner parameters, ServiceCallback<GenericResourceInner> serviceCallback) {
         return ServiceFuture.fromBody(updateAsync(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, apiVersion, parameters), serviceCallback);
     }
 
@@ -990,9 +1046,9 @@ public class ResourcesInner {
      * @param apiVersion The API version to use for the operation.
      * @param parameters Parameters for updating the resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Single&lt;RestResponse&lt;Void, GenericResourceInner&gt;&gt;} object if successful.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Single<RestResponse<Void, GenericResourceInner>> updateWithRestResponseAsync(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName, String apiVersion, GenericResourceInner parameters) {
+    public Single<BodyResponse<GenericResourceInner>> updateWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String resourceProviderNamespace, @NonNull String parentResourcePath, @NonNull String resourceType, @NonNull String resourceName, @NonNull String apiVersion, @NonNull GenericResourceInner parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -1032,19 +1088,25 @@ public class ResourcesInner {
      * @param apiVersion The API version to use for the operation.
      * @param parameters Parameters for updating the resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Maybe&lt;GenericResourceInner&gt;} object if successful.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Maybe<GenericResourceInner> updateAsync(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName, String apiVersion, GenericResourceInner parameters) {
+    public Maybe<GenericResourceInner> updateAsync(@NonNull String resourceGroupName, @NonNull String resourceProviderNamespace, @NonNull String parentResourcePath, @NonNull String resourceType, @NonNull String resourceName, @NonNull String apiVersion, @NonNull GenericResourceInner parameters) {
         return updateWithRestResponseAsync(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, apiVersion, parameters)
-            .flatMapMaybe(new Function<RestResponse<Void, GenericResourceInner>, Maybe<GenericResourceInner>>() {
-                public Maybe<GenericResourceInner> apply(RestResponse<Void, GenericResourceInner> restResponse) {
-                    if (restResponse.body() == null) {
-                        return Maybe.empty();
-                    } else {
-                        return Maybe.just(restResponse.body());
-                    }
-                }
-            });
+            .flatMapMaybe((BodyResponse<GenericResourceInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
+    }
+
+    /**
+     * Updates a resource. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<GenericResourceInner>> resumeUpdate(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeUpdate(operationDescription);
     }
 
     /**
@@ -1061,7 +1123,7 @@ public class ResourcesInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the GenericResourceInner object if successful.
      */
-    public GenericResourceInner get(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName, String apiVersion) {
+    public GenericResourceInner get(@NonNull String resourceGroupName, @NonNull String resourceProviderNamespace, @NonNull String parentResourcePath, @NonNull String resourceType, @NonNull String resourceName, @NonNull String apiVersion) {
         return getAsync(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, apiVersion).blockingGet();
     }
 
@@ -1076,9 +1138,9 @@ public class ResourcesInner {
      * @param apiVersion The API version to use for the operation.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link ServiceFuture&lt;GenericResourceInner&gt;} object.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<GenericResourceInner> getAsync(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName, String apiVersion, final ServiceCallback<GenericResourceInner> serviceCallback) {
+    public ServiceFuture<GenericResourceInner> getAsync(@NonNull String resourceGroupName, @NonNull String resourceProviderNamespace, @NonNull String parentResourcePath, @NonNull String resourceType, @NonNull String resourceName, @NonNull String apiVersion, ServiceCallback<GenericResourceInner> serviceCallback) {
         return ServiceFuture.fromBody(getAsync(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, apiVersion), serviceCallback);
     }
 
@@ -1092,9 +1154,9 @@ public class ResourcesInner {
      * @param resourceName The name of the resource to get.
      * @param apiVersion The API version to use for the operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Single&lt;RestResponse&lt;Void, GenericResourceInner&gt;&gt;} object if successful.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Single<RestResponse<Void, GenericResourceInner>> getWithRestResponseAsync(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName, String apiVersion) {
+    public Single<BodyResponse<GenericResourceInner>> getWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String resourceProviderNamespace, @NonNull String parentResourcePath, @NonNull String resourceType, @NonNull String resourceName, @NonNull String apiVersion) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -1129,19 +1191,11 @@ public class ResourcesInner {
      * @param resourceName The name of the resource to get.
      * @param apiVersion The API version to use for the operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Maybe&lt;GenericResourceInner&gt;} object if successful.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Maybe<GenericResourceInner> getAsync(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName, String apiVersion) {
+    public Maybe<GenericResourceInner> getAsync(@NonNull String resourceGroupName, @NonNull String resourceProviderNamespace, @NonNull String parentResourcePath, @NonNull String resourceType, @NonNull String resourceName, @NonNull String apiVersion) {
         return getWithRestResponseAsync(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, apiVersion)
-            .flatMapMaybe(new Function<RestResponse<Void, GenericResourceInner>, Maybe<GenericResourceInner>>() {
-                public Maybe<GenericResourceInner> apply(RestResponse<Void, GenericResourceInner> restResponse) {
-                    if (restResponse.body() == null) {
-                        return Maybe.empty();
-                    } else {
-                        return Maybe.just(restResponse.body());
-                    }
-                }
-            });
+            .flatMapMaybe((BodyResponse<GenericResourceInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
@@ -1154,7 +1208,7 @@ public class ResourcesInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the boolean object if successful.
      */
-    public boolean checkExistenceById(String resourceId, String apiVersion) {
+    public boolean checkExistenceById(@NonNull String resourceId, @NonNull String apiVersion) {
         return checkExistenceByIdAsync(resourceId, apiVersion).blockingGet();
     }
 
@@ -1165,9 +1219,9 @@ public class ResourcesInner {
      * @param apiVersion The API version to use for the operation.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link ServiceFuture&lt;Boolean&gt;} object.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<Boolean> checkExistenceByIdAsync(String resourceId, String apiVersion, final ServiceCallback<Boolean> serviceCallback) {
+    public ServiceFuture<Boolean> checkExistenceByIdAsync(@NonNull String resourceId, @NonNull String apiVersion, ServiceCallback<Boolean> serviceCallback) {
         return ServiceFuture.fromBody(checkExistenceByIdAsync(resourceId, apiVersion), serviceCallback);
     }
 
@@ -1177,9 +1231,9 @@ public class ResourcesInner {
      * @param resourceId The fully qualified ID of the resource, including the resource name and resource type. Use the format, /subscriptions/{guid}/resourceGroups/{resource-group-name}/{resource-provider-namespace}/{resource-type}/{resource-name}.
      * @param apiVersion The API version to use for the operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Single&lt;RestResponse&lt;Void, Boolean&gt;&gt;} object if successful.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Single<RestResponse<Void, Boolean>> checkExistenceByIdWithRestResponseAsync(String resourceId, String apiVersion) {
+    public Single<BodyResponse<Boolean>> checkExistenceByIdWithRestResponseAsync(@NonNull String resourceId, @NonNull String apiVersion) {
         if (resourceId == null) {
             throw new IllegalArgumentException("Parameter resourceId is required and cannot be null.");
         }
@@ -1195,19 +1249,11 @@ public class ResourcesInner {
      * @param resourceId The fully qualified ID of the resource, including the resource name and resource type. Use the format, /subscriptions/{guid}/resourceGroups/{resource-group-name}/{resource-provider-namespace}/{resource-type}/{resource-name}.
      * @param apiVersion The API version to use for the operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Maybe&lt;Boolean&gt;} object if successful.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Maybe<Boolean> checkExistenceByIdAsync(String resourceId, String apiVersion) {
+    public Maybe<Boolean> checkExistenceByIdAsync(@NonNull String resourceId, @NonNull String apiVersion) {
         return checkExistenceByIdWithRestResponseAsync(resourceId, apiVersion)
-            .flatMapMaybe(new Function<RestResponse<Void, Boolean>, Maybe<Boolean>>() {
-                public Maybe<Boolean> apply(RestResponse<Void, Boolean> restResponse) {
-                    if (restResponse.body() == null) {
-                        return Maybe.empty();
-                    } else {
-                        return Maybe.just(restResponse.body());
-                    }
-                }
-            });
+            .flatMapMaybe((BodyResponse<Boolean> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
@@ -1219,8 +1265,8 @@ public class ResourcesInner {
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void beginDeleteById(String resourceId, String apiVersion) {
-        beginDeleteByIdAsync(resourceId, apiVersion).blockingFirst();
+    public void beginDeleteById(@NonNull String resourceId, @NonNull String apiVersion) {
+        beginDeleteByIdAsync(resourceId, apiVersion).blockingLast();
     }
 
     /**
@@ -1230,9 +1276,9 @@ public class ResourcesInner {
      * @param apiVersion The API version to use for the operation.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link ServiceFuture&lt;Void&gt;} object.
+     * @return the ServiceFuture&lt;Void&gt; object.
      */
-    public ServiceFuture<Void> beginDeleteByIdAsync(String resourceId, String apiVersion, final ServiceCallback<Void> serviceCallback) {
+    public ServiceFuture<Void> beginDeleteByIdAsync(@NonNull String resourceId, @NonNull String apiVersion, ServiceCallback<Void> serviceCallback) {
         return ServiceFutureUtil.fromLRO(beginDeleteByIdAsync(resourceId, apiVersion), serviceCallback);
     }
 
@@ -1244,7 +1290,7 @@ public class ResourcesInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @return the observable for the request.
      */
-    public Observable<OperationStatus<Void>> beginDeleteByIdAsync(String resourceId, String apiVersion) {
+    public Observable<OperationStatus<Void>> beginDeleteByIdAsync(@NonNull String resourceId, @NonNull String apiVersion) {
         if (resourceId == null) {
             throw new IllegalArgumentException("Parameter resourceId is required and cannot be null.");
         }
@@ -1263,7 +1309,7 @@ public class ResourcesInner {
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void deleteById(String resourceId, String apiVersion) {
+    public void deleteById(@NonNull String resourceId, @NonNull String apiVersion) {
         deleteByIdAsync(resourceId, apiVersion).blockingAwait();
     }
 
@@ -1274,9 +1320,9 @@ public class ResourcesInner {
      * @param apiVersion The API version to use for the operation.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link ServiceFuture&lt;Void&gt;} object.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<Void> deleteByIdAsync(String resourceId, String apiVersion, final ServiceCallback<Void> serviceCallback) {
+    public ServiceFuture<Void> deleteByIdAsync(@NonNull String resourceId, @NonNull String apiVersion, ServiceCallback<Void> serviceCallback) {
         return ServiceFuture.fromBody(deleteByIdAsync(resourceId, apiVersion), serviceCallback);
     }
 
@@ -1286,9 +1332,9 @@ public class ResourcesInner {
      * @param resourceId The fully qualified ID of the resource, including the resource name and resource type. Use the format, /subscriptions/{guid}/resourceGroups/{resource-group-name}/{resource-provider-namespace}/{resource-type}/{resource-name}.
      * @param apiVersion The API version to use for the operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Single&lt;RestResponse&lt;Void, Void&gt;&gt;} object if successful.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Single<RestResponse<Void, Void>> deleteByIdWithRestResponseAsync(String resourceId, String apiVersion) {
+    public Single<VoidResponse> deleteByIdWithRestResponseAsync(@NonNull String resourceId, @NonNull String apiVersion) {
         if (resourceId == null) {
             throw new IllegalArgumentException("Parameter resourceId is required and cannot be null.");
         }
@@ -1304,11 +1350,25 @@ public class ResourcesInner {
      * @param resourceId The fully qualified ID of the resource, including the resource name and resource type. Use the format, /subscriptions/{guid}/resourceGroups/{resource-group-name}/{resource-provider-namespace}/{resource-type}/{resource-name}.
      * @param apiVersion The API version to use for the operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Completable} object if successful.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Completable deleteByIdAsync(String resourceId, String apiVersion) {
+    public Completable deleteByIdAsync(@NonNull String resourceId, @NonNull String apiVersion) {
         return deleteByIdWithRestResponseAsync(resourceId, apiVersion)
             .toCompletable();
+    }
+
+    /**
+     * Deletes a resource by ID. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<Void>> resumeDeleteById(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeDeleteById(operationDescription);
     }
 
     /**
@@ -1322,8 +1382,8 @@ public class ResourcesInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the GenericResourceInner object if successful.
      */
-    public GenericResourceInner beginCreateOrUpdateById(String resourceId, String apiVersion, GenericResourceInner parameters) {
-        return beginCreateOrUpdateByIdAsync(resourceId, apiVersion, parameters).blockingFirst().result();
+    public GenericResourceInner beginCreateOrUpdateById(@NonNull String resourceId, @NonNull String apiVersion, @NonNull GenericResourceInner parameters) {
+        return beginCreateOrUpdateByIdAsync(resourceId, apiVersion, parameters).blockingLast().result();
     }
 
     /**
@@ -1334,9 +1394,9 @@ public class ResourcesInner {
      * @param parameters Create or update resource parameters.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link ServiceFuture&lt;GenericResourceInner&gt;} object.
+     * @return the ServiceFuture&lt;GenericResourceInner&gt; object.
      */
-    public ServiceFuture<GenericResourceInner> beginCreateOrUpdateByIdAsync(String resourceId, String apiVersion, GenericResourceInner parameters, final ServiceCallback<GenericResourceInner> serviceCallback) {
+    public ServiceFuture<GenericResourceInner> beginCreateOrUpdateByIdAsync(@NonNull String resourceId, @NonNull String apiVersion, @NonNull GenericResourceInner parameters, ServiceCallback<GenericResourceInner> serviceCallback) {
         return ServiceFutureUtil.fromLRO(beginCreateOrUpdateByIdAsync(resourceId, apiVersion, parameters), serviceCallback);
     }
 
@@ -1349,7 +1409,7 @@ public class ResourcesInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @return the observable for the request.
      */
-    public Observable<OperationStatus<GenericResourceInner>> beginCreateOrUpdateByIdAsync(String resourceId, String apiVersion, GenericResourceInner parameters) {
+    public Observable<OperationStatus<GenericResourceInner>> beginCreateOrUpdateByIdAsync(@NonNull String resourceId, @NonNull String apiVersion, @NonNull GenericResourceInner parameters) {
         if (resourceId == null) {
             throw new IllegalArgumentException("Parameter resourceId is required and cannot be null.");
         }
@@ -1374,7 +1434,7 @@ public class ResourcesInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the GenericResourceInner object if successful.
      */
-    public GenericResourceInner createOrUpdateById(String resourceId, String apiVersion, GenericResourceInner parameters) {
+    public GenericResourceInner createOrUpdateById(@NonNull String resourceId, @NonNull String apiVersion, @NonNull GenericResourceInner parameters) {
         return createOrUpdateByIdAsync(resourceId, apiVersion, parameters).blockingGet();
     }
 
@@ -1386,9 +1446,9 @@ public class ResourcesInner {
      * @param parameters Create or update resource parameters.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link ServiceFuture&lt;GenericResourceInner&gt;} object.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<GenericResourceInner> createOrUpdateByIdAsync(String resourceId, String apiVersion, GenericResourceInner parameters, final ServiceCallback<GenericResourceInner> serviceCallback) {
+    public ServiceFuture<GenericResourceInner> createOrUpdateByIdAsync(@NonNull String resourceId, @NonNull String apiVersion, @NonNull GenericResourceInner parameters, ServiceCallback<GenericResourceInner> serviceCallback) {
         return ServiceFuture.fromBody(createOrUpdateByIdAsync(resourceId, apiVersion, parameters), serviceCallback);
     }
 
@@ -1399,9 +1459,9 @@ public class ResourcesInner {
      * @param apiVersion The API version to use for the operation.
      * @param parameters Create or update resource parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Single&lt;RestResponse&lt;Void, GenericResourceInner&gt;&gt;} object if successful.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Single<RestResponse<Void, GenericResourceInner>> createOrUpdateByIdWithRestResponseAsync(String resourceId, String apiVersion, GenericResourceInner parameters) {
+    public Single<BodyResponse<GenericResourceInner>> createOrUpdateByIdWithRestResponseAsync(@NonNull String resourceId, @NonNull String apiVersion, @NonNull GenericResourceInner parameters) {
         if (resourceId == null) {
             throw new IllegalArgumentException("Parameter resourceId is required and cannot be null.");
         }
@@ -1422,19 +1482,25 @@ public class ResourcesInner {
      * @param apiVersion The API version to use for the operation.
      * @param parameters Create or update resource parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Maybe&lt;GenericResourceInner&gt;} object if successful.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Maybe<GenericResourceInner> createOrUpdateByIdAsync(String resourceId, String apiVersion, GenericResourceInner parameters) {
+    public Maybe<GenericResourceInner> createOrUpdateByIdAsync(@NonNull String resourceId, @NonNull String apiVersion, @NonNull GenericResourceInner parameters) {
         return createOrUpdateByIdWithRestResponseAsync(resourceId, apiVersion, parameters)
-            .flatMapMaybe(new Function<RestResponse<Void, GenericResourceInner>, Maybe<GenericResourceInner>>() {
-                public Maybe<GenericResourceInner> apply(RestResponse<Void, GenericResourceInner> restResponse) {
-                    if (restResponse.body() == null) {
-                        return Maybe.empty();
-                    } else {
-                        return Maybe.just(restResponse.body());
-                    }
-                }
-            });
+            .flatMapMaybe((BodyResponse<GenericResourceInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
+    }
+
+    /**
+     * Create a resource by ID. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<GenericResourceInner>> resumeCreateOrUpdateById(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeCreateOrUpdateById(operationDescription);
     }
 
     /**
@@ -1448,8 +1514,8 @@ public class ResourcesInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the GenericResourceInner object if successful.
      */
-    public GenericResourceInner beginUpdateById(String resourceId, String apiVersion, GenericResourceInner parameters) {
-        return beginUpdateByIdAsync(resourceId, apiVersion, parameters).blockingFirst().result();
+    public GenericResourceInner beginUpdateById(@NonNull String resourceId, @NonNull String apiVersion, @NonNull GenericResourceInner parameters) {
+        return beginUpdateByIdAsync(resourceId, apiVersion, parameters).blockingLast().result();
     }
 
     /**
@@ -1460,9 +1526,9 @@ public class ResourcesInner {
      * @param parameters Update resource parameters.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link ServiceFuture&lt;GenericResourceInner&gt;} object.
+     * @return the ServiceFuture&lt;GenericResourceInner&gt; object.
      */
-    public ServiceFuture<GenericResourceInner> beginUpdateByIdAsync(String resourceId, String apiVersion, GenericResourceInner parameters, final ServiceCallback<GenericResourceInner> serviceCallback) {
+    public ServiceFuture<GenericResourceInner> beginUpdateByIdAsync(@NonNull String resourceId, @NonNull String apiVersion, @NonNull GenericResourceInner parameters, ServiceCallback<GenericResourceInner> serviceCallback) {
         return ServiceFutureUtil.fromLRO(beginUpdateByIdAsync(resourceId, apiVersion, parameters), serviceCallback);
     }
 
@@ -1475,7 +1541,7 @@ public class ResourcesInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @return the observable for the request.
      */
-    public Observable<OperationStatus<GenericResourceInner>> beginUpdateByIdAsync(String resourceId, String apiVersion, GenericResourceInner parameters) {
+    public Observable<OperationStatus<GenericResourceInner>> beginUpdateByIdAsync(@NonNull String resourceId, @NonNull String apiVersion, @NonNull GenericResourceInner parameters) {
         if (resourceId == null) {
             throw new IllegalArgumentException("Parameter resourceId is required and cannot be null.");
         }
@@ -1500,7 +1566,7 @@ public class ResourcesInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the GenericResourceInner object if successful.
      */
-    public GenericResourceInner updateById(String resourceId, String apiVersion, GenericResourceInner parameters) {
+    public GenericResourceInner updateById(@NonNull String resourceId, @NonNull String apiVersion, @NonNull GenericResourceInner parameters) {
         return updateByIdAsync(resourceId, apiVersion, parameters).blockingGet();
     }
 
@@ -1512,9 +1578,9 @@ public class ResourcesInner {
      * @param parameters Update resource parameters.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link ServiceFuture&lt;GenericResourceInner&gt;} object.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<GenericResourceInner> updateByIdAsync(String resourceId, String apiVersion, GenericResourceInner parameters, final ServiceCallback<GenericResourceInner> serviceCallback) {
+    public ServiceFuture<GenericResourceInner> updateByIdAsync(@NonNull String resourceId, @NonNull String apiVersion, @NonNull GenericResourceInner parameters, ServiceCallback<GenericResourceInner> serviceCallback) {
         return ServiceFuture.fromBody(updateByIdAsync(resourceId, apiVersion, parameters), serviceCallback);
     }
 
@@ -1525,9 +1591,9 @@ public class ResourcesInner {
      * @param apiVersion The API version to use for the operation.
      * @param parameters Update resource parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Single&lt;RestResponse&lt;Void, GenericResourceInner&gt;&gt;} object if successful.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Single<RestResponse<Void, GenericResourceInner>> updateByIdWithRestResponseAsync(String resourceId, String apiVersion, GenericResourceInner parameters) {
+    public Single<BodyResponse<GenericResourceInner>> updateByIdWithRestResponseAsync(@NonNull String resourceId, @NonNull String apiVersion, @NonNull GenericResourceInner parameters) {
         if (resourceId == null) {
             throw new IllegalArgumentException("Parameter resourceId is required and cannot be null.");
         }
@@ -1548,19 +1614,25 @@ public class ResourcesInner {
      * @param apiVersion The API version to use for the operation.
      * @param parameters Update resource parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Maybe&lt;GenericResourceInner&gt;} object if successful.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Maybe<GenericResourceInner> updateByIdAsync(String resourceId, String apiVersion, GenericResourceInner parameters) {
+    public Maybe<GenericResourceInner> updateByIdAsync(@NonNull String resourceId, @NonNull String apiVersion, @NonNull GenericResourceInner parameters) {
         return updateByIdWithRestResponseAsync(resourceId, apiVersion, parameters)
-            .flatMapMaybe(new Function<RestResponse<Void, GenericResourceInner>, Maybe<GenericResourceInner>>() {
-                public Maybe<GenericResourceInner> apply(RestResponse<Void, GenericResourceInner> restResponse) {
-                    if (restResponse.body() == null) {
-                        return Maybe.empty();
-                    } else {
-                        return Maybe.just(restResponse.body());
-                    }
-                }
-            });
+            .flatMapMaybe((BodyResponse<GenericResourceInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
+    }
+
+    /**
+     * Updates a resource by ID. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<GenericResourceInner>> resumeUpdateById(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeUpdateById(operationDescription);
     }
 
     /**
@@ -1573,7 +1645,7 @@ public class ResourcesInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the GenericResourceInner object if successful.
      */
-    public GenericResourceInner getById(String resourceId, String apiVersion) {
+    public GenericResourceInner getById(@NonNull String resourceId, @NonNull String apiVersion) {
         return getByIdAsync(resourceId, apiVersion).blockingGet();
     }
 
@@ -1584,9 +1656,9 @@ public class ResourcesInner {
      * @param apiVersion The API version to use for the operation.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link ServiceFuture&lt;GenericResourceInner&gt;} object.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<GenericResourceInner> getByIdAsync(String resourceId, String apiVersion, final ServiceCallback<GenericResourceInner> serviceCallback) {
+    public ServiceFuture<GenericResourceInner> getByIdAsync(@NonNull String resourceId, @NonNull String apiVersion, ServiceCallback<GenericResourceInner> serviceCallback) {
         return ServiceFuture.fromBody(getByIdAsync(resourceId, apiVersion), serviceCallback);
     }
 
@@ -1596,9 +1668,9 @@ public class ResourcesInner {
      * @param resourceId The fully qualified ID of the resource, including the resource name and resource type. Use the format, /subscriptions/{guid}/resourceGroups/{resource-group-name}/{resource-provider-namespace}/{resource-type}/{resource-name}.
      * @param apiVersion The API version to use for the operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Single&lt;RestResponse&lt;Void, GenericResourceInner&gt;&gt;} object if successful.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Single<RestResponse<Void, GenericResourceInner>> getByIdWithRestResponseAsync(String resourceId, String apiVersion) {
+    public Single<BodyResponse<GenericResourceInner>> getByIdWithRestResponseAsync(@NonNull String resourceId, @NonNull String apiVersion) {
         if (resourceId == null) {
             throw new IllegalArgumentException("Parameter resourceId is required and cannot be null.");
         }
@@ -1614,19 +1686,11 @@ public class ResourcesInner {
      * @param resourceId The fully qualified ID of the resource, including the resource name and resource type. Use the format, /subscriptions/{guid}/resourceGroups/{resource-group-name}/{resource-provider-namespace}/{resource-type}/{resource-name}.
      * @param apiVersion The API version to use for the operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Maybe&lt;GenericResourceInner&gt;} object if successful.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Maybe<GenericResourceInner> getByIdAsync(String resourceId, String apiVersion) {
+    public Maybe<GenericResourceInner> getByIdAsync(@NonNull String resourceId, @NonNull String apiVersion) {
         return getByIdWithRestResponseAsync(resourceId, apiVersion)
-            .flatMapMaybe(new Function<RestResponse<Void, GenericResourceInner>, Maybe<GenericResourceInner>>() {
-                public Maybe<GenericResourceInner> apply(RestResponse<Void, GenericResourceInner> restResponse) {
-                    if (restResponse.body() == null) {
-                        return Maybe.empty();
-                    } else {
-                        return Maybe.just(restResponse.body());
-                    }
-                }
-            });
+            .flatMapMaybe((BodyResponse<GenericResourceInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
@@ -1638,7 +1702,7 @@ public class ResourcesInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;GenericResourceInner&gt; object if successful.
      */
-    public PagedList<GenericResourceInner> listNext(final String nextPageLink) {
+    public PagedList<GenericResourceInner> listNext(@NonNull String nextPageLink) {
         Page<GenericResourceInner> response = listNextSinglePageAsync(nextPageLink).blockingGet();
         return new PagedList<GenericResourceInner>(response) {
             @Override
@@ -1655,18 +1719,15 @@ public class ResourcesInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @return the observable to the PagedList&lt;GenericResourceInner&gt; object.
      */
-    public Observable<Page<GenericResourceInner>> listNextAsync(final String nextPageLink) {
+    public Observable<Page<GenericResourceInner>> listNextAsync(@NonNull String nextPageLink) {
         return listNextSinglePageAsync(nextPageLink)
             .toObservable()
-            .concatMap(new Function<Page<GenericResourceInner>, Observable<Page<GenericResourceInner>>>() {
-                @Override
-                public Observable<Page<GenericResourceInner>> apply(Page<GenericResourceInner> page) {
-                    String nextPageLink = page.nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listNextAsync(nextPageLink));
+            .concatMap((Page<GenericResourceInner> page) -> {
+                String nextPageLink1 = page.nextPageLink();
+                if (nextPageLink1 == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listNextAsync(nextPageLink1));
             });
     }
 
@@ -1675,18 +1736,14 @@ public class ResourcesInner {
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Single&lt;Page&lt;GenericResourceInner&gt;&gt;} object if successful.
+     * @return the Single&lt;Page&lt;GenericResourceInner&gt;&gt; object if successful.
      */
-    public Single<Page<GenericResourceInner>> listNextSinglePageAsync(final String nextPageLink) {
+    public Single<Page<GenericResourceInner>> listNextSinglePageAsync(@NonNull String nextPageLink) {
         if (nextPageLink == null) {
             throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
         }
         String nextUrl = String.format("%s", nextPageLink);
-        return service.listNext(nextUrl, this.client.acceptLanguage()).map(new Function<RestResponse<Void, PageImpl<GenericResourceInner>>, Page<GenericResourceInner>>() {
-            @Override
-            public Page<GenericResourceInner> apply(RestResponse<Void, PageImpl<GenericResourceInner>> response) {
-                return response.body();
-            }
-        });
+        return service.listNext(nextUrl, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl<GenericResourceInner>> res) -> res.body());
     }
 }

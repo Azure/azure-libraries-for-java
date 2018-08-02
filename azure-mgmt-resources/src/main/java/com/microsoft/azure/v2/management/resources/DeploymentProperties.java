@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Deployment properties.
  */
-public class DeploymentProperties {
+public final class DeploymentProperties {
     /**
      * The template content. You use this element when you want to pass the
      * template syntax directly in the request rather than link to an existing

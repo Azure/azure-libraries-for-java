@@ -11,7 +11,6 @@ import com.microsoft.azure.v2.credentials.ApplicationTokenCredentials;
 import com.microsoft.azure.v2.management.resources.fluentcore.utils.ProviderRegistrationPolicyFactory;
 import com.microsoft.azure.v2.management.resources.fluentcore.utils.ResourceManagerThrottlingPolicyFactory;
 import com.microsoft.azure.v2.management.resources.fluentcore.utils.SdkContext;
-import com.microsoft.rest.v2.http.HttpClient;
 import com.microsoft.rest.v2.http.HttpPipeline;
 import com.microsoft.rest.v2.http.HttpPipelineBuilder;
 import com.microsoft.rest.v2.policy.CredentialsPolicyFactory;
@@ -19,12 +18,18 @@ import com.microsoft.rest.v2.policy.HostPolicyFactory;
 import com.microsoft.rest.v2.policy.HttpLogDetailLevel;
 import com.microsoft.rest.v2.policy.HttpLoggingPolicyFactory;
 import com.microsoft.rest.v2.policy.TimeoutPolicyFactory;
-import org.junit.*;
+import org.junit.After;
+import org.junit.Assume;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Rule;
 import org.junit.rules.TestName;
 
-import java.io.*;
-import java.net.InetSocketAddress;
-import java.net.Proxy;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
@@ -154,7 +159,7 @@ public abstract class TestBase {
         if (isPlaybackMode()) {
             credentials = new AzureTestCredentials(playbackUri, ZERO_TENANT, true);
             pipeline = buildRestClient(new HttpPipelineBuilder()
-//                    .withBaseUrl(playbackUri + "/")
+                            .withDecodingPolicy()
                             .withRequestPolicy(new CredentialsPolicyFactory(credentials))
                             .withRequestPolicy(new ResourceManagerThrottlingPolicyFactory())
                             .withRequestPolicy(new HttpLoggingPolicyFactory(HttpLogDetailLevel.BODY_AND_HEADERS, true))
@@ -174,6 +179,7 @@ public abstract class TestBase {
             final File credFile = new File(System.getenv("AZURE_AUTH_LOCATION"));
             credentials = ApplicationTokenCredentials.fromFile(credFile);
             pipeline = buildRestClient(new HttpPipelineBuilder()
+                    .withDecodingPolicy()
                     .withRequestPolicy(new HostPolicyFactory(this.baseUri()))
                     .withRequestPolicy(new ProviderRegistrationPolicyFactory(credentials))
                     .withRequestPolicy(new CredentialsPolicyFactory(credentials))

@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Entity representing the reference to the deployment paramaters.
  */
-public class ParametersLink {
+public final class ParametersLink {
     /**
      * The URI of the parameters file.
      */

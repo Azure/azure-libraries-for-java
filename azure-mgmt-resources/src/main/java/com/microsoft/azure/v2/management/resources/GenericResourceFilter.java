@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Resource filter.
  */
-public class GenericResourceFilter {
+public final class GenericResourceFilter {
     /**
      * The resource type.
      */

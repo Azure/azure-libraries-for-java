@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Resource provider operation's display properties.
  */
-public class ResourceProviderOperationDisplayProperties {
+public final class ResourceProviderOperationDisplayProperties {
     /**
      * Operation description.
      */

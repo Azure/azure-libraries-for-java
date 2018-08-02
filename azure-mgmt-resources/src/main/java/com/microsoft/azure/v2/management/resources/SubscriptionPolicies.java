@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Subscription policies.
  */
-public class SubscriptionPolicies {
+public final class SubscriptionPolicies {
     /**
      * The subscription location placement ID. The ID indicates which regions
      * are visible for a subscription. For example, a subscription with a

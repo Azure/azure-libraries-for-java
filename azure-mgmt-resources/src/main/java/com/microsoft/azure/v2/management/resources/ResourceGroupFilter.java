@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Resource group filter.
  */
-public class ResourceGroupFilter {
+public final class ResourceGroupFilter {
     /**
      * The tag name.
      */

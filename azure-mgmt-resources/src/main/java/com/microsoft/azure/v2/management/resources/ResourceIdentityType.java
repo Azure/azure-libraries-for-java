@@ -23,9 +23,9 @@ public enum ResourceIdentityType {
     /**
      * The actual serialized value for a ResourceIdentityType instance.
      */
-    private String value;
+    private final String value;
 
-    ResourceIdentityType(String value) {
+    private ResourceIdentityType(String value) {
         this.value = value;
     }
 

@@ -7,13 +7,6 @@
 package com.microsoft.azure.v2.management.resources;
 
 import com.microsoft.azure.v2.PagedList;
-import com.microsoft.azure.v2.management.resources.Deployment;
-import com.microsoft.azure.v2.management.resources.DeploymentMode;
-import com.microsoft.azure.v2.management.resources.DeploymentOperation;
-import com.microsoft.azure.v2.management.resources.GenericResource;
-import com.microsoft.azure.v2.management.resources.ResourceGroup;
-import com.microsoft.azure.v2.management.resources.ResourceGroupExportTemplateOptions;
-import com.microsoft.azure.v2.management.resources.ResourceGroups;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.v2.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.rest.v2.http.HttpPipeline;
@@ -120,14 +113,13 @@ public class DeploymentsTests extends ResourceManagerTestBase {
         final String dp = "dpC" + testId;
 
         // Begin create
-        resourceClient.deployments()
+        Deployment deployment = resourceClient.deployments()
                 .define(dp)
                 .withExistingResourceGroup(rgName)
                 .withTemplateLink(templateUri, contentVersion)
                 .withParametersLink(parametersUri, contentVersion)
                 .withMode(DeploymentMode.COMPLETE)
                 .beginCreate();
-        Deployment deployment = resourceClient.deployments().getByResourceGroup(rgName, dp);
         Assert.assertEquals(dp, deployment.name());
         // Cancel
         deployment.cancel();

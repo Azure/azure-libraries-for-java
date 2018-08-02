@@ -159,11 +159,11 @@ public abstract class TestBase {
         if (isPlaybackMode()) {
             credentials = new AzureTestCredentials(playbackUri, ZERO_TENANT, true);
             pipeline = buildRestClient(new HttpPipelineBuilder()
-                            .withDecodingPolicy()
                             .withRequestPolicy(new CredentialsPolicyFactory(credentials))
                             .withRequestPolicy(new ResourceManagerThrottlingPolicyFactory())
-                            .withRequestPolicy(new HttpLoggingPolicyFactory(HttpLogDetailLevel.BODY_AND_HEADERS, true))
+                            .withRequestPolicy(new HttpLoggingPolicyFactory(HttpLogDetailLevel.BASIC, true))
                             .withHttpClient(interceptorManager.initPlaybackClient())
+                            .withDecodingPolicy()
                     ,true);
 
             defaultSubscription = ZERO_SUBSCRIPTION;
@@ -179,14 +179,14 @@ public abstract class TestBase {
             final File credFile = new File(System.getenv("AZURE_AUTH_LOCATION"));
             credentials = ApplicationTokenCredentials.fromFile(credFile);
             pipeline = buildRestClient(new HttpPipelineBuilder()
-                    .withDecodingPolicy()
                     .withRequestPolicy(new HostPolicyFactory(this.baseUri()))
                     .withRequestPolicy(new ProviderRegistrationPolicyFactory(credentials))
                     .withRequestPolicy(new CredentialsPolicyFactory(credentials))
                     .withRequestPolicy(new TimeoutPolicyFactory(3, TimeUnit.MINUTES))
                     .withRequestPolicy(interceptorManager.initRecordPolicy())
                     .withRequestPolicy(new ResourceManagerThrottlingPolicyFactory())
-                    .withRequestPolicy(new HttpLoggingPolicyFactory(HttpLogDetailLevel.BODY_AND_HEADERS, true))
+                    .withRequestPolicy(new HttpLoggingPolicyFactory(HttpLogDetailLevel.BASIC, true))
+                    .withDecodingPolicy()
                     ,false);
 
             defaultSubscription = credentials.defaultSubscriptionId();

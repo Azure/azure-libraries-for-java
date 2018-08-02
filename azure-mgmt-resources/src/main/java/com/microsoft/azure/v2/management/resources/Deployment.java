@@ -26,6 +26,7 @@ import com.microsoft.rest.v2.ServiceCallback;
 import com.microsoft.rest.v2.ServiceFuture;
 import io.reactivex.Completable;
 import io.reactivex.Maybe;
+import io.reactivex.Observable;
 
 import java.io.IOException;
 import java.time.OffsetDateTime;
@@ -280,6 +281,9 @@ public interface Deployment extends
         interface WithCreate extends Creatable<Deployment> {
             @Method
             Deployment beginCreate();
+
+            @Method
+            Observable<Deployment> beginCreateAsync();
         }
     }
 

@@ -21,6 +21,7 @@ import com.microsoft.azure.v2.management.resources.TemplateLink;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.ResourceUtils;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Creatable;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Indexable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
 import com.microsoft.rest.v2.ServiceCallback;
 import com.microsoft.rest.v2.ServiceFuture;
@@ -291,28 +292,41 @@ public final class DeploymentImpl extends
 
     @Override
     public DeploymentImpl beginCreate() {
-        if (creatableResourceGroup != null) {
-            creatableResourceGroup.create();
+        if (this.creatableResourceGroup != null) {
+            this.creatableResourceGroup.create();
         }
+        setInner(this.manager().inner().deployments().beginCreateOrUpdate(resourceGroupName(), name(), createRequestFromInner()));
+        return this;
+    }
+
+    private DeploymentProperties createRequestFromInner() {
         DeploymentProperties props = new DeploymentProperties();
         props.withMode(mode());
         props.withTemplate(template());
         props.withTemplateLink(templateLink());
         props.withParameters(parameters());
         props.withParametersLink(parametersLink());
-        this.manager().inner().deployments().beginCreateOrUpdate(resourceGroupName(), name(), props);
-        return this;
+        return props;
+    }
+
+    @Override
+    public Observable<Deployment> beginCreateAsync() {
+        return Observable.just(creatableResourceGroup)
+                .flatMap(resourceGroupCreatable -> {
+                    if (resourceGroupCreatable != null) {
+                        return creatableResourceGroup.createAsync();
+                    } else {
+                        return Observable.just((Indexable) DeploymentImpl.this);
+                    }
+                })
+                .flatMap(indexable ->manager().inner().deployments().beginCreateOrUpdateAsync(resourceGroupName(), name(), createRequestFromInner()))
+                .map(status -> status.result())
+                .map(innerToFluentMap(this));
     }
 
     @Override
     public Observable<Deployment> createResourceAsync() {
-        DeploymentProperties props = new DeploymentProperties();
-        props.withMode(mode());
-        props.withTemplate(template());
-        props.withTemplateLink(templateLink());
-        props.withParameters(parameters());
-        props.withParametersLink(parametersLink());
-        return this.manager().inner().deployments().createOrUpdateAsync(resourceGroupName(), name(), props)
+        return this.manager().inner().deployments().createOrUpdateAsync(resourceGroupName(), name(), createRequestFromInner())
                 .map(innerToFluentMap(this))
                 .toObservable();
     }

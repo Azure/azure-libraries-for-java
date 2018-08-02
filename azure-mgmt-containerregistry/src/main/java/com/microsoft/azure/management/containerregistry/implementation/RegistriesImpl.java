@@ -18,7 +18,7 @@ import com.microsoft.azure.management.containerregistry.RegistryUsage;
 import com.microsoft.azure.management.resources.ResourceGroup;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.GroupableResourcesImpl;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupPagedList;
-import com.microsoft.azure.management.storage.implementation.StorageManager;
+import com.microsoft.azure.v2.management.storage.implementation.StorageManager;
 import rx.Completable;
 import rx.Observable;
 import rx.functions.Func1;

@@ -19,7 +19,7 @@ import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.storage.StorageAccount;
-import com.microsoft.azure.management.storage.implementation.StorageManager;
+import com.microsoft.azure.v2.management.storage.implementation.StorageManager;
 import org.joda.time.DateTime;
 import rx.Completable;
 import rx.Observable;

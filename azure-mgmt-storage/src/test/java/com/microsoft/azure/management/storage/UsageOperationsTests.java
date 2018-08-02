@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.management.storage;
 
+import com.microsoft.azure.v2.management.storage.StorageUsage;
 import org.junit.Test;
 
 import java.util.List;

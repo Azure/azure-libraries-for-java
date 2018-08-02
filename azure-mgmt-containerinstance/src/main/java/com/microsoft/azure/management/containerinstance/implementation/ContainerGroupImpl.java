@@ -21,7 +21,7 @@ import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.azure.management.storage.StorageAccount;
 import com.microsoft.azure.management.storage.StorageAccountKey;
-import com.microsoft.azure.management.storage.implementation.StorageManager;
+import com.microsoft.azure.v2.management.storage.implementation.StorageManager;
 import com.microsoft.azure.storage.CloudStorageAccount;
 import com.microsoft.azure.storage.file.CloudFileClient;
 import com.microsoft.azure.storage.file.CloudFileShare;

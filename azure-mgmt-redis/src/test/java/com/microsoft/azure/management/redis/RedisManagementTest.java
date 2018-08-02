@@ -10,7 +10,7 @@ package com.microsoft.azure.management.redis;
 import com.microsoft.azure.management.redis.implementation.RedisManager;
 import com.microsoft.azure.management.resources.core.TestBase;
 import com.microsoft.azure.management.resources.implementation.ResourceManager;
-import com.microsoft.azure.management.storage.implementation.StorageManager;
+import com.microsoft.azure.v2.management.storage.implementation.StorageManager;
 import com.microsoft.rest.RestClient;
 
 /**

@@ -55,7 +55,7 @@ public class AutoscaleSettingResourceInner extends Resource {
     private String targetResourceUri;
 
     /**
-     * Get the profiles value.
+     * Get the collection of automatic scaling profiles that specify different scaling parameters for different time periods. A maximum of 20 profiles can be specified.
      *
      * @return the profiles value
      */
@@ -64,7 +64,7 @@ public class AutoscaleSettingResourceInner extends Resource {
     }
 
     /**
-     * Set the profiles value.
+     * Set the collection of automatic scaling profiles that specify different scaling parameters for different time periods. A maximum of 20 profiles can be specified.
      *
      * @param profiles the profiles value to set
      * @return the AutoscaleSettingResourceInner object itself.
@@ -75,7 +75,7 @@ public class AutoscaleSettingResourceInner extends Resource {
     }
 
     /**
-     * Get the notifications value.
+     * Get the collection of notifications.
      *
      * @return the notifications value
      */
@@ -84,7 +84,7 @@ public class AutoscaleSettingResourceInner extends Resource {
     }
 
     /**
-     * Set the notifications value.
+     * Set the collection of notifications.
      *
      * @param notifications the notifications value to set
      * @return the AutoscaleSettingResourceInner object itself.
@@ -95,7 +95,7 @@ public class AutoscaleSettingResourceInner extends Resource {
     }
 
     /**
-     * Get the enabled value.
+     * Get the enabled flag. Specifies whether automatic scaling is enabled for the resource. The default value is 'true'.
      *
      * @return the enabled value
      */
@@ -104,7 +104,7 @@ public class AutoscaleSettingResourceInner extends Resource {
     }
 
     /**
-     * Set the enabled value.
+     * Set the enabled flag. Specifies whether automatic scaling is enabled for the resource. The default value is 'true'.
      *
      * @param enabled the enabled value to set
      * @return the AutoscaleSettingResourceInner object itself.
@@ -115,7 +115,7 @@ public class AutoscaleSettingResourceInner extends Resource {
     }
 
     /**
-     * Get the autoscaleSettingResourceName value.
+     * Get the name of the autoscale setting.
      *
      * @return the autoscaleSettingResourceName value
      */
@@ -124,7 +124,7 @@ public class AutoscaleSettingResourceInner extends Resource {
     }
 
     /**
-     * Set the autoscaleSettingResourceName value.
+     * Set the name of the autoscale setting.
      *
      * @param autoscaleSettingResourceName the autoscaleSettingResourceName value to set
      * @return the AutoscaleSettingResourceInner object itself.
@@ -135,7 +135,7 @@ public class AutoscaleSettingResourceInner extends Resource {
     }
 
     /**
-     * Get the targetResourceUri value.
+     * Get the resource identifier of the resource that the autoscale setting should be added to.
      *
      * @return the targetResourceUri value
      */
@@ -144,7 +144,7 @@ public class AutoscaleSettingResourceInner extends Resource {
     }
 
     /**
-     * Set the targetResourceUri value.
+     * Set the resource identifier of the resource that the autoscale setting should be added to.
      *
      * @param targetResourceUri the targetResourceUri value to set
      * @return the AutoscaleSettingResourceInner object itself.

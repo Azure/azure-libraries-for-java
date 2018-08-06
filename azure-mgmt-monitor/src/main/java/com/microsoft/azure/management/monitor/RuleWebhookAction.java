@@ -35,7 +35,7 @@ public class RuleWebhookAction extends RuleAction {
     private Map<String, String> properties;
 
     /**
-     * Get the serviceUri value.
+     * Get the service uri to Post the notification when the alert activates or resolves.
      *
      * @return the serviceUri value
      */
@@ -44,7 +44,7 @@ public class RuleWebhookAction extends RuleAction {
     }
 
     /**
-     * Set the serviceUri value.
+     * Set the service uri to Post the notification when the alert activates or resolves.
      *
      * @param serviceUri the serviceUri value to set
      * @return the RuleWebhookAction object itself.
@@ -55,7 +55,7 @@ public class RuleWebhookAction extends RuleAction {
     }
 
     /**
-     * Get the properties value.
+     * Get the dictionary of custom properties to include with the post operation. These data are appended to the webhook payload.
      *
      * @return the properties value
      */
@@ -64,7 +64,7 @@ public class RuleWebhookAction extends RuleAction {
     }
 
     /**
-     * Set the properties value.
+     * Set the dictionary of custom properties to include with the post operation. These data are appended to the webhook payload.
      *
      * @param properties the properties value to set
      * @return the RuleWebhookAction object itself.

@@ -21,7 +21,7 @@ public class RuleManagementEventClaimsDataSource {
     private String emailAddress;
 
     /**
-     * Get the emailAddress value.
+     * Get the email address.
      *
      * @return the emailAddress value
      */
@@ -30,7 +30,7 @@ public class RuleManagementEventClaimsDataSource {
     }
 
     /**
-     * Set the emailAddress value.
+     * Set the email address.
      *
      * @param emailAddress the emailAddress value to set
      * @return the RuleManagementEventClaimsDataSource object itself.

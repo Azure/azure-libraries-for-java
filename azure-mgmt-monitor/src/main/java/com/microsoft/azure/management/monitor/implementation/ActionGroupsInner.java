@@ -8,11 +8,12 @@
 
 package com.microsoft.azure.management.monitor.implementation;
 
-import com.microsoft.azure.management.resources.fluentcore.collection.InnerSupportsGet;
 import com.microsoft.azure.management.resources.fluentcore.collection.InnerSupportsDelete;
+import com.microsoft.azure.management.resources.fluentcore.collection.InnerSupportsGet;
 import com.microsoft.azure.management.resources.fluentcore.collection.InnerSupportsListing;
 import retrofit2.Retrofit;
 import com.google.common.reflect.TypeToken;
+import com.microsoft.azure.management.monitor.ActionGroupPatchBody;
 import com.microsoft.azure.management.monitor.EnableRequest;
 import com.microsoft.azure.management.monitor.ErrorResponseException;
 import com.microsoft.azure.Page;
@@ -78,7 +79,7 @@ public class ActionGroupsInner implements InnerSupportsGet<ActionGroupResourceIn
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.monitor.ActionGroups update" })
         @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.insights/actionGroups/{actionGroupName}")
-        Observable<Response<ResponseBody>> update(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("actionGroupName") String actionGroupName, @Query("api-version") String apiVersion, @Body ActionGroupPatchBodyInner actionGroupPatch, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> update(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("actionGroupName") String actionGroupName, @Query("api-version") String apiVersion, @Body ActionGroupPatchBody actionGroupPatch, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.monitor.ActionGroups list" })
         @GET("subscriptions/{subscriptionId}/providers/microsoft.insights/actionGroups")
@@ -366,7 +367,7 @@ public class ActionGroupsInner implements InnerSupportsGet<ActionGroupResourceIn
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the ActionGroupResourceInner object if successful.
      */
-    public ActionGroupResourceInner update(String resourceGroupName, String actionGroupName, ActionGroupPatchBodyInner actionGroupPatch) {
+    public ActionGroupResourceInner update(String resourceGroupName, String actionGroupName, ActionGroupPatchBody actionGroupPatch) {
         return updateWithServiceResponseAsync(resourceGroupName, actionGroupName, actionGroupPatch).toBlocking().single().body();
     }
 
@@ -380,7 +381,7 @@ public class ActionGroupsInner implements InnerSupportsGet<ActionGroupResourceIn
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<ActionGroupResourceInner> updateAsync(String resourceGroupName, String actionGroupName, ActionGroupPatchBodyInner actionGroupPatch, final ServiceCallback<ActionGroupResourceInner> serviceCallback) {
+    public ServiceFuture<ActionGroupResourceInner> updateAsync(String resourceGroupName, String actionGroupName, ActionGroupPatchBody actionGroupPatch, final ServiceCallback<ActionGroupResourceInner> serviceCallback) {
         return ServiceFuture.fromResponse(updateWithServiceResponseAsync(resourceGroupName, actionGroupName, actionGroupPatch), serviceCallback);
     }
 
@@ -393,7 +394,7 @@ public class ActionGroupsInner implements InnerSupportsGet<ActionGroupResourceIn
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the ActionGroupResourceInner object
      */
-    public Observable<ActionGroupResourceInner> updateAsync(String resourceGroupName, String actionGroupName, ActionGroupPatchBodyInner actionGroupPatch) {
+    public Observable<ActionGroupResourceInner> updateAsync(String resourceGroupName, String actionGroupName, ActionGroupPatchBody actionGroupPatch) {
         return updateWithServiceResponseAsync(resourceGroupName, actionGroupName, actionGroupPatch).map(new Func1<ServiceResponse<ActionGroupResourceInner>, ActionGroupResourceInner>() {
             @Override
             public ActionGroupResourceInner call(ServiceResponse<ActionGroupResourceInner> response) {
@@ -411,7 +412,7 @@ public class ActionGroupsInner implements InnerSupportsGet<ActionGroupResourceIn
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the ActionGroupResourceInner object
      */
-    public Observable<ServiceResponse<ActionGroupResourceInner>> updateWithServiceResponseAsync(String resourceGroupName, String actionGroupName, ActionGroupPatchBodyInner actionGroupPatch) {
+    public Observable<ServiceResponse<ActionGroupResourceInner>> updateWithServiceResponseAsync(String resourceGroupName, String actionGroupName, ActionGroupPatchBody actionGroupPatch) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
@@ -506,7 +507,11 @@ public class ActionGroupsInner implements InnerSupportsGet<ActionGroupResourceIn
                 public Observable<ServiceResponse<List<ActionGroupResourceInner>>> call(Response<ResponseBody> response) {
                     try {
                         ServiceResponse<PageImpl1<ActionGroupResourceInner>> result = listDelegate(response);
-                        ServiceResponse<List<ActionGroupResourceInner>> clientResponse = new ServiceResponse<List<ActionGroupResourceInner>>(result.body().items(), result.response());
+                        List<ActionGroupResourceInner> items = null;
+                        if (result.body() != null) {
+                            items = result.body().items();
+                        }
+                        ServiceResponse<List<ActionGroupResourceInner>> clientResponse = new ServiceResponse<List<ActionGroupResourceInner>>(items, result.response());
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -588,7 +593,11 @@ public class ActionGroupsInner implements InnerSupportsGet<ActionGroupResourceIn
                 public Observable<ServiceResponse<List<ActionGroupResourceInner>>> call(Response<ResponseBody> response) {
                     try {
                         ServiceResponse<PageImpl1<ActionGroupResourceInner>> result = listByResourceGroupDelegate(response);
-                        ServiceResponse<List<ActionGroupResourceInner>> clientResponse = new ServiceResponse<List<ActionGroupResourceInner>>(result.body().items(), result.response());
+                        List<ActionGroupResourceInner> items = null;
+                        if (result.body() != null) {
+                            items = result.body().items();
+                        }
+                        ServiceResponse<List<ActionGroupResourceInner>> clientResponse = new ServiceResponse<List<ActionGroupResourceInner>>(items, result.response());
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -605,7 +614,7 @@ public class ActionGroupsInner implements InnerSupportsGet<ActionGroupResourceIn
     }
 
     /**
-     * Enable a receiver in an action group. This changes the receiver's status from Disabled to Enabled.
+     * Enable a receiver in an action group. This changes the receiver's status from Disabled to Enabled. This operation is only supported for Email or SMS receivers.
      *
      * @param resourceGroupName The name of the resource group.
      * @param actionGroupName The name of the action group.
@@ -619,7 +628,7 @@ public class ActionGroupsInner implements InnerSupportsGet<ActionGroupResourceIn
     }
 
     /**
-     * Enable a receiver in an action group. This changes the receiver's status from Disabled to Enabled.
+     * Enable a receiver in an action group. This changes the receiver's status from Disabled to Enabled. This operation is only supported for Email or SMS receivers.
      *
      * @param resourceGroupName The name of the resource group.
      * @param actionGroupName The name of the action group.
@@ -633,7 +642,7 @@ public class ActionGroupsInner implements InnerSupportsGet<ActionGroupResourceIn
     }
 
     /**
-     * Enable a receiver in an action group. This changes the receiver's status from Disabled to Enabled.
+     * Enable a receiver in an action group. This changes the receiver's status from Disabled to Enabled. This operation is only supported for Email or SMS receivers.
      *
      * @param resourceGroupName The name of the resource group.
      * @param actionGroupName The name of the action group.
@@ -651,7 +660,7 @@ public class ActionGroupsInner implements InnerSupportsGet<ActionGroupResourceIn
     }
 
     /**
-     * Enable a receiver in an action group. This changes the receiver's status from Disabled to Enabled.
+     * Enable a receiver in an action group. This changes the receiver's status from Disabled to Enabled. This operation is only supported for Email or SMS receivers.
      *
      * @param resourceGroupName The name of the resource group.
      * @param actionGroupName The name of the action group.

@@ -32,7 +32,7 @@ public class RuleCondition {
     private RuleDataSource dataSource;
 
     /**
-     * Get the dataSource value.
+     * Get the resource from which the rule collects its data. For this type dataSource will always be of type RuleMetricDataSource.
      *
      * @return the dataSource value
      */
@@ -41,7 +41,7 @@ public class RuleCondition {
     }
 
     /**
-     * Set the dataSource value.
+     * Set the resource from which the rule collects its data. For this type dataSource will always be of type RuleMetricDataSource.
      *
      * @param dataSource the dataSource value to set
      * @return the RuleCondition object itself.

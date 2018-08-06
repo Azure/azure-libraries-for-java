@@ -96,7 +96,7 @@ public class ActionGroupResourceInner extends Resource {
     private List<AzureFunctionReceiver> azureFunctionReceivers;
 
     /**
-     * Get the groupShortName value.
+     * Get the short name of the action group. This will be used in SMS messages.
      *
      * @return the groupShortName value
      */
@@ -105,7 +105,7 @@ public class ActionGroupResourceInner extends Resource {
     }
 
     /**
-     * Set the groupShortName value.
+     * Set the short name of the action group. This will be used in SMS messages.
      *
      * @param groupShortName the groupShortName value to set
      * @return the ActionGroupResourceInner object itself.
@@ -116,7 +116,7 @@ public class ActionGroupResourceInner extends Resource {
     }
 
     /**
-     * Get the enabled value.
+     * Get indicates whether this action group is enabled. If an action group is not enabled, then none of its receivers will receive communications.
      *
      * @return the enabled value
      */
@@ -125,7 +125,7 @@ public class ActionGroupResourceInner extends Resource {
     }
 
     /**
-     * Set the enabled value.
+     * Set indicates whether this action group is enabled. If an action group is not enabled, then none of its receivers will receive communications.
      *
      * @param enabled the enabled value to set
      * @return the ActionGroupResourceInner object itself.
@@ -136,7 +136,7 @@ public class ActionGroupResourceInner extends Resource {
     }
 
     /**
-     * Get the emailReceivers value.
+     * Get the list of email receivers that are part of this action group.
      *
      * @return the emailReceivers value
      */
@@ -145,7 +145,7 @@ public class ActionGroupResourceInner extends Resource {
     }
 
     /**
-     * Set the emailReceivers value.
+     * Set the list of email receivers that are part of this action group.
      *
      * @param emailReceivers the emailReceivers value to set
      * @return the ActionGroupResourceInner object itself.
@@ -156,7 +156,7 @@ public class ActionGroupResourceInner extends Resource {
     }
 
     /**
-     * Get the smsReceivers value.
+     * Get the list of SMS receivers that are part of this action group.
      *
      * @return the smsReceivers value
      */
@@ -165,7 +165,7 @@ public class ActionGroupResourceInner extends Resource {
     }
 
     /**
-     * Set the smsReceivers value.
+     * Set the list of SMS receivers that are part of this action group.
      *
      * @param smsReceivers the smsReceivers value to set
      * @return the ActionGroupResourceInner object itself.
@@ -176,7 +176,7 @@ public class ActionGroupResourceInner extends Resource {
     }
 
     /**
-     * Get the webhookReceivers value.
+     * Get the list of webhook receivers that are part of this action group.
      *
      * @return the webhookReceivers value
      */
@@ -185,7 +185,7 @@ public class ActionGroupResourceInner extends Resource {
     }
 
     /**
-     * Set the webhookReceivers value.
+     * Set the list of webhook receivers that are part of this action group.
      *
      * @param webhookReceivers the webhookReceivers value to set
      * @return the ActionGroupResourceInner object itself.
@@ -196,7 +196,7 @@ public class ActionGroupResourceInner extends Resource {
     }
 
     /**
-     * Get the itsmReceivers value.
+     * Get the list of ITSM receivers that are part of this action group.
      *
      * @return the itsmReceivers value
      */
@@ -205,7 +205,7 @@ public class ActionGroupResourceInner extends Resource {
     }
 
     /**
-     * Set the itsmReceivers value.
+     * Set the list of ITSM receivers that are part of this action group.
      *
      * @param itsmReceivers the itsmReceivers value to set
      * @return the ActionGroupResourceInner object itself.
@@ -216,7 +216,7 @@ public class ActionGroupResourceInner extends Resource {
     }
 
     /**
-     * Get the azureAppPushReceivers value.
+     * Get the list of AzureAppPush receivers that are part of this action group.
      *
      * @return the azureAppPushReceivers value
      */
@@ -225,7 +225,7 @@ public class ActionGroupResourceInner extends Resource {
     }
 
     /**
-     * Set the azureAppPushReceivers value.
+     * Set the list of AzureAppPush receivers that are part of this action group.
      *
      * @param azureAppPushReceivers the azureAppPushReceivers value to set
      * @return the ActionGroupResourceInner object itself.
@@ -236,7 +236,7 @@ public class ActionGroupResourceInner extends Resource {
     }
 
     /**
-     * Get the automationRunbookReceivers value.
+     * Get the list of AutomationRunbook receivers that are part of this action group.
      *
      * @return the automationRunbookReceivers value
      */
@@ -245,7 +245,7 @@ public class ActionGroupResourceInner extends Resource {
     }
 
     /**
-     * Set the automationRunbookReceivers value.
+     * Set the list of AutomationRunbook receivers that are part of this action group.
      *
      * @param automationRunbookReceivers the automationRunbookReceivers value to set
      * @return the ActionGroupResourceInner object itself.
@@ -256,7 +256,7 @@ public class ActionGroupResourceInner extends Resource {
     }
 
     /**
-     * Get the voiceReceivers value.
+     * Get the list of voice receivers that are part of this action group.
      *
      * @return the voiceReceivers value
      */
@@ -265,7 +265,7 @@ public class ActionGroupResourceInner extends Resource {
     }
 
     /**
-     * Set the voiceReceivers value.
+     * Set the list of voice receivers that are part of this action group.
      *
      * @param voiceReceivers the voiceReceivers value to set
      * @return the ActionGroupResourceInner object itself.
@@ -276,7 +276,7 @@ public class ActionGroupResourceInner extends Resource {
     }
 
     /**
-     * Get the logicAppReceivers value.
+     * Get the list of logic app receivers that are part of this action group.
      *
      * @return the logicAppReceivers value
      */
@@ -285,7 +285,7 @@ public class ActionGroupResourceInner extends Resource {
     }
 
     /**
-     * Set the logicAppReceivers value.
+     * Set the list of logic app receivers that are part of this action group.
      *
      * @param logicAppReceivers the logicAppReceivers value to set
      * @return the ActionGroupResourceInner object itself.
@@ -296,7 +296,7 @@ public class ActionGroupResourceInner extends Resource {
     }
 
     /**
-     * Get the azureFunctionReceivers value.
+     * Get the list of azure function receivers that are part of this action group.
      *
      * @return the azureFunctionReceivers value
      */
@@ -305,7 +305,7 @@ public class ActionGroupResourceInner extends Resource {
     }
 
     /**
-     * Set the azureFunctionReceivers value.
+     * Set the list of azure function receivers that are part of this action group.
      *
      * @param azureFunctionReceivers the azureFunctionReceivers value to set
      * @return the ActionGroupResourceInner object itself.

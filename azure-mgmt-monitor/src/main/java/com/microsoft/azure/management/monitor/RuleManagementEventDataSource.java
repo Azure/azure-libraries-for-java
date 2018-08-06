@@ -76,7 +76,7 @@ public class RuleManagementEventDataSource extends RuleDataSource {
     private RuleManagementEventClaimsDataSource claims;
 
     /**
-     * Get the eventName value.
+     * Get the event name.
      *
      * @return the eventName value
      */
@@ -85,7 +85,7 @@ public class RuleManagementEventDataSource extends RuleDataSource {
     }
 
     /**
-     * Set the eventName value.
+     * Set the event name.
      *
      * @param eventName the eventName value to set
      * @return the RuleManagementEventDataSource object itself.
@@ -96,7 +96,7 @@ public class RuleManagementEventDataSource extends RuleDataSource {
     }
 
     /**
-     * Get the eventSource value.
+     * Get the event source.
      *
      * @return the eventSource value
      */
@@ -105,7 +105,7 @@ public class RuleManagementEventDataSource extends RuleDataSource {
     }
 
     /**
-     * Set the eventSource value.
+     * Set the event source.
      *
      * @param eventSource the eventSource value to set
      * @return the RuleManagementEventDataSource object itself.
@@ -116,7 +116,7 @@ public class RuleManagementEventDataSource extends RuleDataSource {
     }
 
     /**
-     * Get the level value.
+     * Get the level.
      *
      * @return the level value
      */
@@ -125,7 +125,7 @@ public class RuleManagementEventDataSource extends RuleDataSource {
     }
 
     /**
-     * Set the level value.
+     * Set the level.
      *
      * @param level the level value to set
      * @return the RuleManagementEventDataSource object itself.
@@ -136,7 +136,7 @@ public class RuleManagementEventDataSource extends RuleDataSource {
     }
 
     /**
-     * Get the operationName value.
+     * Get the name of the operation that should be checked for. If no name is provided, any operation will match.
      *
      * @return the operationName value
      */
@@ -145,7 +145,7 @@ public class RuleManagementEventDataSource extends RuleDataSource {
     }
 
     /**
-     * Set the operationName value.
+     * Set the name of the operation that should be checked for. If no name is provided, any operation will match.
      *
      * @param operationName the operationName value to set
      * @return the RuleManagementEventDataSource object itself.
@@ -156,7 +156,7 @@ public class RuleManagementEventDataSource extends RuleDataSource {
     }
 
     /**
-     * Get the resourceGroupName value.
+     * Get the resource group name.
      *
      * @return the resourceGroupName value
      */
@@ -165,7 +165,7 @@ public class RuleManagementEventDataSource extends RuleDataSource {
     }
 
     /**
-     * Set the resourceGroupName value.
+     * Set the resource group name.
      *
      * @param resourceGroupName the resourceGroupName value to set
      * @return the RuleManagementEventDataSource object itself.
@@ -176,7 +176,7 @@ public class RuleManagementEventDataSource extends RuleDataSource {
     }
 
     /**
-     * Get the resourceProviderName value.
+     * Get the resource provider name.
      *
      * @return the resourceProviderName value
      */
@@ -185,7 +185,7 @@ public class RuleManagementEventDataSource extends RuleDataSource {
     }
 
     /**
-     * Set the resourceProviderName value.
+     * Set the resource provider name.
      *
      * @param resourceProviderName the resourceProviderName value to set
      * @return the RuleManagementEventDataSource object itself.
@@ -196,7 +196,7 @@ public class RuleManagementEventDataSource extends RuleDataSource {
     }
 
     /**
-     * Get the status value.
+     * Get the status of the operation that should be checked for. If no status is provided, any status will match.
      *
      * @return the status value
      */
@@ -205,7 +205,7 @@ public class RuleManagementEventDataSource extends RuleDataSource {
     }
 
     /**
-     * Set the status value.
+     * Set the status of the operation that should be checked for. If no status is provided, any status will match.
      *
      * @param status the status value to set
      * @return the RuleManagementEventDataSource object itself.
@@ -216,7 +216,7 @@ public class RuleManagementEventDataSource extends RuleDataSource {
     }
 
     /**
-     * Get the subStatus value.
+     * Get the substatus.
      *
      * @return the subStatus value
      */
@@ -225,7 +225,7 @@ public class RuleManagementEventDataSource extends RuleDataSource {
     }
 
     /**
-     * Set the subStatus value.
+     * Set the substatus.
      *
      * @param subStatus the subStatus value to set
      * @return the RuleManagementEventDataSource object itself.
@@ -236,7 +236,7 @@ public class RuleManagementEventDataSource extends RuleDataSource {
     }
 
     /**
-     * Get the claims value.
+     * Get the claims.
      *
      * @return the claims value
      */
@@ -245,7 +245,7 @@ public class RuleManagementEventDataSource extends RuleDataSource {
     }
 
     /**
-     * Set the claims value.
+     * Set the claims.
      *
      * @param claims the claims value to set
      * @return the RuleManagementEventDataSource object itself.

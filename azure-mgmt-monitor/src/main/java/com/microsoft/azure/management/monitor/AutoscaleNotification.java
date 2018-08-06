@@ -42,7 +42,7 @@ public class AutoscaleNotification {
     }
 
     /**
-     * Get the operation value.
+     * Get the operation associated with the notification and its value must be "scale".
      *
      * @return the operation value
      */
@@ -51,7 +51,7 @@ public class AutoscaleNotification {
     }
 
     /**
-     * Set the operation value.
+     * Set the operation associated with the notification and its value must be "scale".
      *
      * @param operation the operation value to set
      * @return the AutoscaleNotification object itself.
@@ -62,7 +62,7 @@ public class AutoscaleNotification {
     }
 
     /**
-     * Get the email value.
+     * Get the email notification.
      *
      * @return the email value
      */
@@ -71,7 +71,7 @@ public class AutoscaleNotification {
     }
 
     /**
-     * Set the email value.
+     * Set the email notification.
      *
      * @param email the email value to set
      * @return the AutoscaleNotification object itself.
@@ -82,7 +82,7 @@ public class AutoscaleNotification {
     }
 
     /**
-     * Get the webhooks value.
+     * Get the collection of webhook notifications.
      *
      * @return the webhooks value
      */
@@ -91,7 +91,7 @@ public class AutoscaleNotification {
     }
 
     /**
-     * Set the webhooks value.
+     * Set the collection of webhook notifications.
      *
      * @param webhooks the webhooks value to set
      * @return the AutoscaleNotification object itself.

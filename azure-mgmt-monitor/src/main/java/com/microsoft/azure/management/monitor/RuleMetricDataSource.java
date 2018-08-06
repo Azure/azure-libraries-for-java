@@ -26,7 +26,7 @@ public class RuleMetricDataSource extends RuleDataSource {
     private String metricName;
 
     /**
-     * Get the metricName value.
+     * Get the name of the metric that defines what the rule monitors.
      *
      * @return the metricName value
      */
@@ -35,7 +35,7 @@ public class RuleMetricDataSource extends RuleDataSource {
     }
 
     /**
-     * Set the metricName value.
+     * Set the name of the metric that defines what the rule monitors.
      *
      * @param metricName the metricName value to set
      * @return the RuleMetricDataSource object itself.

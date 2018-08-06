@@ -27,7 +27,7 @@ public class MetricAlertSingleResourceMultipleMetricCriteria extends MetricAlert
     private List<MetricCriteria> allOf;
 
     /**
-     * Get the allOf value.
+     * Get the list of metric criteria for this 'all of' operation.
      *
      * @return the allOf value
      */
@@ -36,7 +36,7 @@ public class MetricAlertSingleResourceMultipleMetricCriteria extends MetricAlert
     }
 
     /**
-     * Set the allOf value.
+     * Set the list of metric criteria for this 'all of' operation.
      *
      * @param allOf the allOf value to set
      * @return the MetricAlertSingleResourceMultipleMetricCriteria object itself.

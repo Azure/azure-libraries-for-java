@@ -36,7 +36,7 @@ public class LogSettings {
     private RetentionPolicy retentionPolicy;
 
     /**
-     * Get the category value.
+     * Get name of a Diagnostic Log category for a resource type this setting is applied to. To obtain the list of Diagnostic Log categories for a resource, first perform a GET diagnostic settings operation.
      *
      * @return the category value
      */
@@ -45,7 +45,7 @@ public class LogSettings {
     }
 
     /**
-     * Set the category value.
+     * Set name of a Diagnostic Log category for a resource type this setting is applied to. To obtain the list of Diagnostic Log categories for a resource, first perform a GET diagnostic settings operation.
      *
      * @param category the category value to set
      * @return the LogSettings object itself.
@@ -56,7 +56,7 @@ public class LogSettings {
     }
 
     /**
-     * Get the enabled value.
+     * Get a value indicating whether this log is enabled.
      *
      * @return the enabled value
      */
@@ -65,7 +65,7 @@ public class LogSettings {
     }
 
     /**
-     * Set the enabled value.
+     * Set a value indicating whether this log is enabled.
      *
      * @param enabled the enabled value to set
      * @return the LogSettings object itself.
@@ -76,7 +76,7 @@ public class LogSettings {
     }
 
     /**
-     * Get the retentionPolicy value.
+     * Get the retention policy for this log.
      *
      * @return the retentionPolicy value
      */
@@ -85,7 +85,7 @@ public class LogSettings {
     }
 
     /**
-     * Set the retentionPolicy value.
+     * Set the retention policy for this log.
      *
      * @param retentionPolicy the retentionPolicy value to set
      * @return the LogSettings object itself.

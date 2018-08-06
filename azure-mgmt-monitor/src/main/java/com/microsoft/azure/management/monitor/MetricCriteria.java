@@ -12,7 +12,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * The MetricCriteria model.
+ * Criterion to filter metrics.
  */
 public class MetricCriteria {
     /**
@@ -58,7 +58,7 @@ public class MetricCriteria {
     private List<MetricDimension> dimensions;
 
     /**
-     * Get the name value.
+     * Get name of the criteria.
      *
      * @return the name value
      */
@@ -67,7 +67,7 @@ public class MetricCriteria {
     }
 
     /**
-     * Set the name value.
+     * Set name of the criteria.
      *
      * @param name the name value to set
      * @return the MetricCriteria object itself.
@@ -78,7 +78,7 @@ public class MetricCriteria {
     }
 
     /**
-     * Get the metricName value.
+     * Get name of the metric.
      *
      * @return the metricName value
      */
@@ -87,7 +87,7 @@ public class MetricCriteria {
     }
 
     /**
-     * Set the metricName value.
+     * Set name of the metric.
      *
      * @param metricName the metricName value to set
      * @return the MetricCriteria object itself.
@@ -98,7 +98,7 @@ public class MetricCriteria {
     }
 
     /**
-     * Get the metricNamespace value.
+     * Get namespace of the metric.
      *
      * @return the metricNamespace value
      */
@@ -107,7 +107,7 @@ public class MetricCriteria {
     }
 
     /**
-     * Set the metricNamespace value.
+     * Set namespace of the metric.
      *
      * @param metricNamespace the metricNamespace value to set
      * @return the MetricCriteria object itself.
@@ -118,7 +118,7 @@ public class MetricCriteria {
     }
 
     /**
-     * Get the operator value.
+     * Get the criteria operator.
      *
      * @return the operator value
      */
@@ -127,7 +127,7 @@ public class MetricCriteria {
     }
 
     /**
-     * Set the operator value.
+     * Set the criteria operator.
      *
      * @param operator the operator value to set
      * @return the MetricCriteria object itself.
@@ -138,7 +138,7 @@ public class MetricCriteria {
     }
 
     /**
-     * Get the timeAggregation value.
+     * Get the criteria time aggregation types.
      *
      * @return the timeAggregation value
      */
@@ -147,7 +147,7 @@ public class MetricCriteria {
     }
 
     /**
-     * Set the timeAggregation value.
+     * Set the criteria time aggregation types.
      *
      * @param timeAggregation the timeAggregation value to set
      * @return the MetricCriteria object itself.
@@ -158,7 +158,7 @@ public class MetricCriteria {
     }
 
     /**
-     * Get the threshold value.
+     * Get the criteria threshold value that activates the alert.
      *
      * @return the threshold value
      */
@@ -167,7 +167,7 @@ public class MetricCriteria {
     }
 
     /**
-     * Set the threshold value.
+     * Set the criteria threshold value that activates the alert.
      *
      * @param threshold the threshold value to set
      * @return the MetricCriteria object itself.
@@ -178,7 +178,7 @@ public class MetricCriteria {
     }
 
     /**
-     * Get the dimensions value.
+     * Get list of dimension conditions.
      *
      * @return the dimensions value
      */
@@ -187,7 +187,7 @@ public class MetricCriteria {
     }
 
     /**
-     * Set the dimensions value.
+     * Set list of dimension conditions.
      *
      * @param dimensions the dimensions value to set
      * @return the MetricCriteria object itself.

@@ -39,7 +39,7 @@ public class MetricAlertStatus {
     private MetricAlertStatusProperties properties;
 
     /**
-     * Get the name value.
+     * Get the status name.
      *
      * @return the name value
      */
@@ -48,7 +48,7 @@ public class MetricAlertStatus {
     }
 
     /**
-     * Set the name value.
+     * Set the status name.
      *
      * @param name the name value to set
      * @return the MetricAlertStatus object itself.
@@ -59,7 +59,7 @@ public class MetricAlertStatus {
     }
 
     /**
-     * Get the id value.
+     * Get the alert rule arm id.
      *
      * @return the id value
      */
@@ -68,7 +68,7 @@ public class MetricAlertStatus {
     }
 
     /**
-     * Set the id value.
+     * Set the alert rule arm id.
      *
      * @param id the id value to set
      * @return the MetricAlertStatus object itself.
@@ -79,7 +79,7 @@ public class MetricAlertStatus {
     }
 
     /**
-     * Get the type value.
+     * Get the extended resource type name.
      *
      * @return the type value
      */
@@ -88,7 +88,7 @@ public class MetricAlertStatus {
     }
 
     /**
-     * Set the type value.
+     * Set the extended resource type name.
      *
      * @param type the type value to set
      * @return the MetricAlertStatus object itself.
@@ -99,7 +99,7 @@ public class MetricAlertStatus {
     }
 
     /**
-     * Get the properties value.
+     * Get the alert status properties of the metric alert status.
      *
      * @return the properties value
      */
@@ -108,7 +108,7 @@ public class MetricAlertStatus {
     }
 
     /**
-     * Set the properties value.
+     * Set the alert status properties of the metric alert status.
      *
      * @param properties the properties value to set
      * @return the MetricAlertStatus object itself.

@@ -28,7 +28,7 @@ public class AzureAppPushReceiver {
     private String emailAddress;
 
     /**
-     * Get the name value.
+     * Get the name of the Azure mobile app push receiver. Names must be unique across all receivers within an action group.
      *
      * @return the name value
      */
@@ -37,7 +37,7 @@ public class AzureAppPushReceiver {
     }
 
     /**
-     * Set the name value.
+     * Set the name of the Azure mobile app push receiver. Names must be unique across all receivers within an action group.
      *
      * @param name the name value to set
      * @return the AzureAppPushReceiver object itself.
@@ -48,7 +48,7 @@ public class AzureAppPushReceiver {
     }
 
     /**
-     * Get the emailAddress value.
+     * Get the email address registered for the Azure mobile app.
      *
      * @return the emailAddress value
      */
@@ -57,7 +57,7 @@ public class AzureAppPushReceiver {
     }
 
     /**
-     * Set the emailAddress value.
+     * Set the email address registered for the Azure mobile app.
      *
      * @param emailAddress the emailAddress value to set
      * @return the AzureAppPushReceiver object itself.

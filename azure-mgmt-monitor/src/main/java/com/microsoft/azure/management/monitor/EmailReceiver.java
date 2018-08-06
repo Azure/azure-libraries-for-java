@@ -35,7 +35,7 @@ public class EmailReceiver {
     private ReceiverStatus status;
 
     /**
-     * Get the name value.
+     * Get the name of the email receiver. Names must be unique across all receivers within an action group.
      *
      * @return the name value
      */
@@ -44,7 +44,7 @@ public class EmailReceiver {
     }
 
     /**
-     * Set the name value.
+     * Set the name of the email receiver. Names must be unique across all receivers within an action group.
      *
      * @param name the name value to set
      * @return the EmailReceiver object itself.
@@ -55,7 +55,7 @@ public class EmailReceiver {
     }
 
     /**
-     * Get the emailAddress value.
+     * Get the email address of this receiver.
      *
      * @return the emailAddress value
      */
@@ -64,7 +64,7 @@ public class EmailReceiver {
     }
 
     /**
-     * Set the emailAddress value.
+     * Set the email address of this receiver.
      *
      * @param emailAddress the emailAddress value to set
      * @return the EmailReceiver object itself.
@@ -75,7 +75,7 @@ public class EmailReceiver {
     }
 
     /**
-     * Get the status value.
+     * Get the receiver status of the e-mail. Possible values include: 'NotSpecified', 'Enabled', 'Disabled'.
      *
      * @return the status value
      */

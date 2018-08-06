@@ -23,7 +23,7 @@ public class MetricAlertStatusCollectionInner {
     private List<MetricAlertStatus> value;
 
     /**
-     * Get the value value.
+     * Get the values for the alert rule resources.
      *
      * @return the value value
      */
@@ -32,7 +32,7 @@ public class MetricAlertStatusCollectionInner {
     }
 
     /**
-     * Set the value value.
+     * Set the values for the alert rule resources.
      *
      * @param value the value value to set
      * @return the MetricAlertStatusCollectionInner object itself.

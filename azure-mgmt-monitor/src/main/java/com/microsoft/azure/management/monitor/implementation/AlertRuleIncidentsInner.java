@@ -223,7 +223,11 @@ public class AlertRuleIncidentsInner {
                 public Observable<ServiceResponse<List<IncidentInner>>> call(Response<ResponseBody> response) {
                     try {
                         ServiceResponse<PageImpl1<IncidentInner>> result = listByAlertRuleDelegate(response);
-                        ServiceResponse<List<IncidentInner>> clientResponse = new ServiceResponse<List<IncidentInner>>(result.body().items(), result.response());
+                        List<IncidentInner> items = null;
+                        if (result.body() != null) {
+                            items = result.body().items();
+                        }
+                        ServiceResponse<List<IncidentInner>> clientResponse = new ServiceResponse<List<IncidentInner>>(items, result.response());
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);

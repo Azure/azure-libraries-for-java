@@ -28,7 +28,7 @@ public class WebhookReceiver {
     private String serviceUri;
 
     /**
-     * Get the name value.
+     * Get the name of the webhook receiver. Names must be unique across all receivers within an action group.
      *
      * @return the name value
      */
@@ -37,7 +37,7 @@ public class WebhookReceiver {
     }
 
     /**
-     * Set the name value.
+     * Set the name of the webhook receiver. Names must be unique across all receivers within an action group.
      *
      * @param name the name value to set
      * @return the WebhookReceiver object itself.
@@ -48,7 +48,7 @@ public class WebhookReceiver {
     }
 
     /**
-     * Get the serviceUri value.
+     * Get the URI where webhooks should be sent.
      *
      * @return the serviceUri value
      */
@@ -57,7 +57,7 @@ public class WebhookReceiver {
     }
 
     /**
-     * Set the serviceUri value.
+     * Set the URI where webhooks should be sent.
      *
      * @param serviceUri the serviceUri value to set
      * @return the WebhookReceiver object itself.

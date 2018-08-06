@@ -33,7 +33,7 @@ public class ActivityLogAlertLeafCondition {
     private String equals;
 
     /**
-     * Get the field value.
+     * Get the name of the field that this condition will examine. The possible values for this field are (case-insensitive): 'resourceId', 'category', 'caller', 'level', 'operationName', 'resourceGroup', 'resourceProvider', 'status', 'subStatus', 'resourceType', or anything beginning with 'properties.'.
      *
      * @return the field value
      */
@@ -42,7 +42,7 @@ public class ActivityLogAlertLeafCondition {
     }
 
     /**
-     * Set the field value.
+     * Set the name of the field that this condition will examine. The possible values for this field are (case-insensitive): 'resourceId', 'category', 'caller', 'level', 'operationName', 'resourceGroup', 'resourceProvider', 'status', 'subStatus', 'resourceType', or anything beginning with 'properties.'.
      *
      * @param field the field value to set
      * @return the ActivityLogAlertLeafCondition object itself.
@@ -53,7 +53,7 @@ public class ActivityLogAlertLeafCondition {
     }
 
     /**
-     * Get the equals value.
+     * Get the field value will be compared to this value (case-insensitive) to determine if the condition is met.
      *
      * @return the equals value
      */
@@ -62,7 +62,7 @@ public class ActivityLogAlertLeafCondition {
     }
 
     /**
-     * Set the equals value.
+     * Set the field value will be compared to this value (case-insensitive) to determine if the condition is met.
      *
      * @param equals the equals value to set
      * @return the ActivityLogAlertLeafCondition object itself.

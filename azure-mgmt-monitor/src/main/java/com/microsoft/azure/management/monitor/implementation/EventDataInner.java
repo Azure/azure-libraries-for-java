@@ -20,7 +20,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class EventDataInner {
     /**
-     * The authorization property.
+     * The sender authorization information.
      */
     @JsonProperty(value = "authorization", access = JsonProperty.Access.WRITE_ONLY)
     private SenderAuthorization authorization;
@@ -187,7 +187,7 @@ public class EventDataInner {
     private String tenantId;
 
     /**
-     * Get the authorization value.
+     * Get the sender authorization information.
      *
      * @return the authorization value
      */
@@ -196,7 +196,7 @@ public class EventDataInner {
     }
 
     /**
-     * Get the claims value.
+     * Get key value pairs to identify ARM permissions.
      *
      * @return the claims value
      */
@@ -205,7 +205,7 @@ public class EventDataInner {
     }
 
     /**
-     * Get the caller value.
+     * Get the email address of the user who has performed the operation, the UPN claim or SPN claim based on availability.
      *
      * @return the caller value
      */
@@ -214,7 +214,7 @@ public class EventDataInner {
     }
 
     /**
-     * Get the description value.
+     * Get the description of the event.
      *
      * @return the description value
      */
@@ -223,7 +223,7 @@ public class EventDataInner {
     }
 
     /**
-     * Get the id value.
+     * Get the Id of this event as required by ARM for RBAC. It contains the EventDataID and a timestamp information.
      *
      * @return the id value
      */
@@ -232,7 +232,7 @@ public class EventDataInner {
     }
 
     /**
-     * Get the eventDataId value.
+     * Get the event data Id. This is a unique identifier for an event.
      *
      * @return the eventDataId value
      */
@@ -241,7 +241,7 @@ public class EventDataInner {
     }
 
     /**
-     * Get the correlationId value.
+     * Get the correlation Id, usually a GUID in the string format. The correlation Id is shared among the events that belong to the same uber operation.
      *
      * @return the correlationId value
      */
@@ -250,7 +250,7 @@ public class EventDataInner {
     }
 
     /**
-     * Get the eventName value.
+     * Get the event name. This value should not be confused with OperationName. For practical purposes, OperationName might be more appealing to end users.
      *
      * @return the eventName value
      */
@@ -259,7 +259,7 @@ public class EventDataInner {
     }
 
     /**
-     * Get the category value.
+     * Get the event category.
      *
      * @return the category value
      */
@@ -268,7 +268,7 @@ public class EventDataInner {
     }
 
     /**
-     * Get the httpRequest value.
+     * Get the HTTP request info. Usually includes the 'clientRequestId', 'clientIpAddress' (IP address of the user who initiated the event) and 'method' (HTTP method e.g. PUT).
      *
      * @return the httpRequest value
      */
@@ -277,7 +277,7 @@ public class EventDataInner {
     }
 
     /**
-     * Get the level value.
+     * Get the event level. Possible values include: 'Critical', 'Error', 'Warning', 'Informational', 'Verbose'.
      *
      * @return the level value
      */
@@ -286,7 +286,7 @@ public class EventDataInner {
     }
 
     /**
-     * Get the resourceGroupName value.
+     * Get the resource group name of the impacted resource.
      *
      * @return the resourceGroupName value
      */
@@ -295,7 +295,7 @@ public class EventDataInner {
     }
 
     /**
-     * Get the resourceProviderName value.
+     * Get the resource provider name of the impacted resource.
      *
      * @return the resourceProviderName value
      */
@@ -304,7 +304,7 @@ public class EventDataInner {
     }
 
     /**
-     * Get the resourceId value.
+     * Get the resource uri that uniquely identifies the resource that caused this event.
      *
      * @return the resourceId value
      */
@@ -313,7 +313,7 @@ public class EventDataInner {
     }
 
     /**
-     * Get the resourceType value.
+     * Get the resource type.
      *
      * @return the resourceType value
      */
@@ -322,7 +322,7 @@ public class EventDataInner {
     }
 
     /**
-     * Get the operationId value.
+     * Get it is usually a GUID shared among the events corresponding to single operation. This value should not be confused with EventName.
      *
      * @return the operationId value
      */
@@ -331,7 +331,7 @@ public class EventDataInner {
     }
 
     /**
-     * Get the operationName value.
+     * Get the operation name.
      *
      * @return the operationName value
      */
@@ -340,7 +340,7 @@ public class EventDataInner {
     }
 
     /**
-     * Get the properties value.
+     * Get the set of &lt;Key, Value&gt; pairs (usually a Dictionary&lt;String, String&gt;) that includes details about the event.
      *
      * @return the properties value
      */
@@ -349,7 +349,7 @@ public class EventDataInner {
     }
 
     /**
-     * Get the status value.
+     * Get a string describing the status of the operation. Some typical values are: Started, In progress, Succeeded, Failed, Resolved.
      *
      * @return the status value
      */
@@ -358,7 +358,7 @@ public class EventDataInner {
     }
 
     /**
-     * Get the subStatus value.
+     * Get the event sub status. Most of the time, when included, this captures the HTTP status code of the REST call. Common values are: OK (HTTP Status Code: 200), Created (HTTP Status Code: 201), Accepted (HTTP Status Code: 202), No Content (HTTP Status Code: 204), Bad Request(HTTP Status Code: 400), Not Found (HTTP Status Code: 404), Conflict (HTTP Status Code: 409), Internal Server Error (HTTP Status Code: 500), Service Unavailable (HTTP Status Code:503), Gateway Timeout (HTTP Status Code: 504).
      *
      * @return the subStatus value
      */
@@ -367,7 +367,7 @@ public class EventDataInner {
     }
 
     /**
-     * Get the eventTimestamp value.
+     * Get the timestamp of when the event was generated by the Azure service processing the request corresponding the event. It in ISO 8601 format.
      *
      * @return the eventTimestamp value
      */
@@ -376,7 +376,7 @@ public class EventDataInner {
     }
 
     /**
-     * Get the submissionTimestamp value.
+     * Get the timestamp of when the event became available for querying via this API. It is in ISO 8601 format. This value should not be confused eventTimestamp. As there might be a delay between the occurrence time of the event, and the time that the event is submitted to the Azure logging infrastructure.
      *
      * @return the submissionTimestamp value
      */
@@ -385,7 +385,7 @@ public class EventDataInner {
     }
 
     /**
-     * Get the subscriptionId value.
+     * Get the Azure subscription Id usually a GUID.
      *
      * @return the subscriptionId value
      */
@@ -394,7 +394,7 @@ public class EventDataInner {
     }
 
     /**
-     * Get the tenantId value.
+     * Get the Azure tenant Id.
      *
      * @return the tenantId value
      */

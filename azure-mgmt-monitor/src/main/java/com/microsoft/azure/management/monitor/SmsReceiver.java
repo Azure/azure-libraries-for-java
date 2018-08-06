@@ -41,7 +41,7 @@ public class SmsReceiver {
     private ReceiverStatus status;
 
     /**
-     * Get the name value.
+     * Get the name of the SMS receiver. Names must be unique across all receivers within an action group.
      *
      * @return the name value
      */
@@ -50,7 +50,7 @@ public class SmsReceiver {
     }
 
     /**
-     * Set the name value.
+     * Set the name of the SMS receiver. Names must be unique across all receivers within an action group.
      *
      * @param name the name value to set
      * @return the SmsReceiver object itself.
@@ -61,7 +61,7 @@ public class SmsReceiver {
     }
 
     /**
-     * Get the countryCode value.
+     * Get the country code of the SMS receiver.
      *
      * @return the countryCode value
      */
@@ -70,7 +70,7 @@ public class SmsReceiver {
     }
 
     /**
-     * Set the countryCode value.
+     * Set the country code of the SMS receiver.
      *
      * @param countryCode the countryCode value to set
      * @return the SmsReceiver object itself.
@@ -81,7 +81,7 @@ public class SmsReceiver {
     }
 
     /**
-     * Get the phoneNumber value.
+     * Get the phone number of the SMS receiver.
      *
      * @return the phoneNumber value
      */
@@ -90,7 +90,7 @@ public class SmsReceiver {
     }
 
     /**
-     * Set the phoneNumber value.
+     * Set the phone number of the SMS receiver.
      *
      * @param phoneNumber the phoneNumber value to set
      * @return the SmsReceiver object itself.
@@ -101,7 +101,7 @@ public class SmsReceiver {
     }
 
     /**
-     * Get the status value.
+     * Get the status of the receiver. Possible values include: 'NotSpecified', 'Enabled', 'Disabled'.
      *
      * @return the status value
      */

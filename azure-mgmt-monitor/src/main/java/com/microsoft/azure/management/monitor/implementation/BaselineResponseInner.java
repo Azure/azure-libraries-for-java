@@ -82,7 +82,7 @@ public class BaselineResponseInner {
     private List<BaselineMetadataValue> metadata;
 
     /**
-     * Get the id value.
+     * Get the metric baseline Id.
      *
      * @return the id value
      */
@@ -91,7 +91,7 @@ public class BaselineResponseInner {
     }
 
     /**
-     * Get the type value.
+     * Get the resource type of the baseline resource.
      *
      * @return the type value
      */
@@ -100,7 +100,7 @@ public class BaselineResponseInner {
     }
 
     /**
-     * Get the name value.
+     * Get the name and the display name of the metric, i.e. it is localizable string.
      *
      * @return the name value
      */
@@ -109,7 +109,7 @@ public class BaselineResponseInner {
     }
 
     /**
-     * Get the timespan value.
+     * Get the timespan for which the data was retrieved. Its value consists of two datatimes concatenated, separated by '/'.  This may be adjusted in the future and returned back from what was originally requested.
      *
      * @return the timespan value
      */
@@ -118,7 +118,7 @@ public class BaselineResponseInner {
     }
 
     /**
-     * Set the timespan value.
+     * Set the timespan for which the data was retrieved. Its value consists of two datatimes concatenated, separated by '/'.  This may be adjusted in the future and returned back from what was originally requested.
      *
      * @param timespan the timespan value to set
      * @return the BaselineResponseInner object itself.
@@ -129,7 +129,7 @@ public class BaselineResponseInner {
     }
 
     /**
-     * Get the interval value.
+     * Get the interval (window size) for which the metric data was returned in.  This may be adjusted in the future and returned back from what was originally requested.  This is not present if a metadata request was made.
      *
      * @return the interval value
      */
@@ -138,7 +138,7 @@ public class BaselineResponseInner {
     }
 
     /**
-     * Set the interval value.
+     * Set the interval (window size) for which the metric data was returned in.  This may be adjusted in the future and returned back from what was originally requested.  This is not present if a metadata request was made.
      *
      * @param interval the interval value to set
      * @return the BaselineResponseInner object itself.
@@ -149,7 +149,7 @@ public class BaselineResponseInner {
     }
 
     /**
-     * Get the aggregation value.
+     * Get the aggregation type of the metric.
      *
      * @return the aggregation value
      */
@@ -158,7 +158,7 @@ public class BaselineResponseInner {
     }
 
     /**
-     * Set the aggregation value.
+     * Set the aggregation type of the metric.
      *
      * @param aggregation the aggregation value to set
      * @return the BaselineResponseInner object itself.
@@ -169,7 +169,7 @@ public class BaselineResponseInner {
     }
 
     /**
-     * Get the timestamps value.
+     * Get the array of timestamps of the baselines.
      *
      * @return the timestamps value
      */
@@ -178,7 +178,7 @@ public class BaselineResponseInner {
     }
 
     /**
-     * Set the timestamps value.
+     * Set the array of timestamps of the baselines.
      *
      * @param timestamps the timestamps value to set
      * @return the BaselineResponseInner object itself.
@@ -189,7 +189,7 @@ public class BaselineResponseInner {
     }
 
     /**
-     * Get the baseline value.
+     * Get the baseline values for each sensitivity.
      *
      * @return the baseline value
      */
@@ -198,7 +198,7 @@ public class BaselineResponseInner {
     }
 
     /**
-     * Set the baseline value.
+     * Set the baseline values for each sensitivity.
      *
      * @param baseline the baseline value to set
      * @return the BaselineResponseInner object itself.
@@ -209,7 +209,7 @@ public class BaselineResponseInner {
     }
 
     /**
-     * Get the metadata value.
+     * Get the baseline metadata values.
      *
      * @return the metadata value
      */
@@ -218,7 +218,7 @@ public class BaselineResponseInner {
     }
 
     /**
-     * Set the metadata value.
+     * Set the baseline metadata values.
      *
      * @param metadata the metadata value to set
      * @return the BaselineResponseInner object itself.

@@ -31,7 +31,7 @@ public class MetricAvailability {
     private Period retention;
 
     /**
-     * Get the timeGrain value.
+     * Get the time grain specifies the aggregation interval for the metric. Expressed as a duration 'PT1M', 'P1D', etc.
      *
      * @return the timeGrain value
      */
@@ -40,7 +40,7 @@ public class MetricAvailability {
     }
 
     /**
-     * Set the timeGrain value.
+     * Set the time grain specifies the aggregation interval for the metric. Expressed as a duration 'PT1M', 'P1D', etc.
      *
      * @param timeGrain the timeGrain value to set
      * @return the MetricAvailability object itself.
@@ -51,7 +51,7 @@ public class MetricAvailability {
     }
 
     /**
-     * Get the retention value.
+     * Get the retention period for the metric at the specified timegrain.  Expressed as a duration 'PT1M', 'P1D', etc.
      *
      * @return the retention value
      */
@@ -60,7 +60,7 @@ public class MetricAvailability {
     }
 
     /**
-     * Set the retention value.
+     * Set the retention period for the metric at the specified timegrain.  Expressed as a duration 'PT1M', 'P1D', etc.
      *
      * @param retention the retention value to set
      * @return the MetricAvailability object itself.

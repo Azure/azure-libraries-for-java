@@ -34,7 +34,7 @@ public class LogicAppReceiver {
     private String callbackUrl;
 
     /**
-     * Get the name value.
+     * Get the name of the logic app receiver. Names must be unique across all receivers within an action group.
      *
      * @return the name value
      */
@@ -43,7 +43,7 @@ public class LogicAppReceiver {
     }
 
     /**
-     * Set the name value.
+     * Set the name of the logic app receiver. Names must be unique across all receivers within an action group.
      *
      * @param name the name value to set
      * @return the LogicAppReceiver object itself.
@@ -54,7 +54,7 @@ public class LogicAppReceiver {
     }
 
     /**
-     * Get the resourceId value.
+     * Get the azure resource id of the logic app receiver.
      *
      * @return the resourceId value
      */
@@ -63,7 +63,7 @@ public class LogicAppReceiver {
     }
 
     /**
-     * Set the resourceId value.
+     * Set the azure resource id of the logic app receiver.
      *
      * @param resourceId the resourceId value to set
      * @return the LogicAppReceiver object itself.
@@ -74,7 +74,7 @@ public class LogicAppReceiver {
     }
 
     /**
-     * Get the callbackUrl value.
+     * Get the callback url where http request sent to.
      *
      * @return the callbackUrl value
      */
@@ -83,7 +83,7 @@ public class LogicAppReceiver {
     }
 
     /**
-     * Set the callbackUrl value.
+     * Set the callback url where http request sent to.
      *
      * @param callbackUrl the callbackUrl value to set
      * @return the LogicAppReceiver object itself.

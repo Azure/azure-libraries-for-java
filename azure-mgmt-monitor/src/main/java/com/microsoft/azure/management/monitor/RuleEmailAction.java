@@ -35,7 +35,7 @@ public class RuleEmailAction extends RuleAction {
     private List<String> customEmails;
 
     /**
-     * Get the sendToServiceOwners value.
+     * Get whether the administrators (service and co-administrators) of the service should be notified when the alert is activated.
      *
      * @return the sendToServiceOwners value
      */
@@ -44,7 +44,7 @@ public class RuleEmailAction extends RuleAction {
     }
 
     /**
-     * Set the sendToServiceOwners value.
+     * Set whether the administrators (service and co-administrators) of the service should be notified when the alert is activated.
      *
      * @param sendToServiceOwners the sendToServiceOwners value to set
      * @return the RuleEmailAction object itself.
@@ -55,7 +55,7 @@ public class RuleEmailAction extends RuleAction {
     }
 
     /**
-     * Get the customEmails value.
+     * Get the list of administrator's custom email addresses to notify of the activation of the alert.
      *
      * @return the customEmails value
      */
@@ -64,7 +64,7 @@ public class RuleEmailAction extends RuleAction {
     }
 
     /**
-     * Set the customEmails value.
+     * Set the list of administrator's custom email addresses to notify of the activation of the alert.
      *
      * @param customEmails the customEmails value to set
      * @return the RuleEmailAction object itself.

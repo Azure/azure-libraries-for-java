@@ -22,7 +22,7 @@ public class DiagnosticSettingsCategoryResourceCollectionInner {
     private List<DiagnosticSettingsCategoryResourceInner> value;
 
     /**
-     * Get the value value.
+     * Get the collection of diagnostic settings category resources.
      *
      * @return the value value
      */
@@ -31,7 +31,7 @@ public class DiagnosticSettingsCategoryResourceCollectionInner {
     }
 
     /**
-     * Set the value value.
+     * Set the collection of diagnostic settings category resources.
      *
      * @param value the value value to set
      * @return the DiagnosticSettingsCategoryResourceCollectionInner object itself.

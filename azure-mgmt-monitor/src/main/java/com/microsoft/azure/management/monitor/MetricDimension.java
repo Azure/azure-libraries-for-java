@@ -12,7 +12,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * The MetricDimension model.
+ * Specifies a metric dimension.
  */
 public class MetricDimension {
     /**
@@ -34,7 +34,7 @@ public class MetricDimension {
     private List<String> values;
 
     /**
-     * Get the name value.
+     * Get name of the dimension.
      *
      * @return the name value
      */
@@ -43,7 +43,7 @@ public class MetricDimension {
     }
 
     /**
-     * Set the name value.
+     * Set name of the dimension.
      *
      * @param name the name value to set
      * @return the MetricDimension object itself.
@@ -54,7 +54,7 @@ public class MetricDimension {
     }
 
     /**
-     * Get the operator value.
+     * Get the dimension operator.
      *
      * @return the operator value
      */
@@ -63,7 +63,7 @@ public class MetricDimension {
     }
 
     /**
-     * Set the operator value.
+     * Set the dimension operator.
      *
      * @param operator the operator value to set
      * @return the MetricDimension object itself.
@@ -74,7 +74,7 @@ public class MetricDimension {
     }
 
     /**
-     * Get the values value.
+     * Get list of dimension values.
      *
      * @return the values value
      */
@@ -83,7 +83,7 @@ public class MetricDimension {
     }
 
     /**
-     * Set the values value.
+     * Set list of dimension values.
      *
      * @param values the values value to set
      * @return the MetricDimension object itself.

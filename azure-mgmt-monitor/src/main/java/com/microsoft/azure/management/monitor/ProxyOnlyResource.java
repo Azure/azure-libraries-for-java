@@ -8,55 +8,10 @@
 
 package com.microsoft.azure.management.monitor;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.ProxyResource;
 
 /**
  * A proxy only azure resource object.
  */
-public class ProxyOnlyResource {
-    /**
-     * Azure resource Id.
-     */
-    @JsonProperty(value = "id", access = JsonProperty.Access.WRITE_ONLY)
-    private String id;
-
-    /**
-     * Azure resource name.
-     */
-    @JsonProperty(value = "name", access = JsonProperty.Access.WRITE_ONLY)
-    private String name;
-
-    /**
-     * Azure resource type.
-     */
-    @JsonProperty(value = "type", access = JsonProperty.Access.WRITE_ONLY)
-    private String type;
-
-    /**
-     * Get the id value.
-     *
-     * @return the id value
-     */
-    public String id() {
-        return this.id;
-    }
-
-    /**
-     * Get the name value.
-     *
-     * @return the name value
-     */
-    public String name() {
-        return this.name;
-    }
-
-    /**
-     * Get the type value.
-     *
-     * @return the type value
-     */
-    public String type() {
-        return this.type;
-    }
-
+public class ProxyOnlyResource extends ProxyResource {
 }

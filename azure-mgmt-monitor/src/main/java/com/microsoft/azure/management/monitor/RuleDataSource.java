@@ -31,7 +31,7 @@ public class RuleDataSource {
     private String resourceUri;
 
     /**
-     * Get the resourceUri value.
+     * Get the resource identifier of the resource the rule monitors. **NOTE**: this property cannot be updated for an existing rule.
      *
      * @return the resourceUri value
      */
@@ -40,7 +40,7 @@ public class RuleDataSource {
     }
 
     /**
-     * Set the resourceUri value.
+     * Set the resource identifier of the resource the rule monitors. **NOTE**: this property cannot be updated for an existing rule.
      *
      * @param resourceUri the resourceUri value to set
      * @return the RuleDataSource object itself.

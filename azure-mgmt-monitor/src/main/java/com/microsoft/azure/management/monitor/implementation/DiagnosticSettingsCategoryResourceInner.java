@@ -26,7 +26,7 @@ public class DiagnosticSettingsCategoryResourceInner extends ProxyOnlyResource {
     private CategoryType categoryType;
 
     /**
-     * Get the categoryType value.
+     * Get the type of the diagnostic settings category. Possible values include: 'Metrics', 'Logs'.
      *
      * @return the categoryType value
      */
@@ -35,7 +35,7 @@ public class DiagnosticSettingsCategoryResourceInner extends ProxyOnlyResource {
     }
 
     /**
-     * Set the categoryType value.
+     * Set the type of the diagnostic settings category. Possible values include: 'Metrics', 'Logs'.
      *
      * @param categoryType the categoryType value to set
      * @return the DiagnosticSettingsCategoryResourceInner object itself.

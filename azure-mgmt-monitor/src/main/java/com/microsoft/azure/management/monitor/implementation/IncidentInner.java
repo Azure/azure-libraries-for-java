@@ -47,7 +47,7 @@ public class IncidentInner {
     private DateTime resolvedTime;
 
     /**
-     * Get the name value.
+     * Get incident name.
      *
      * @return the name value
      */
@@ -56,7 +56,7 @@ public class IncidentInner {
     }
 
     /**
-     * Get the ruleName value.
+     * Get rule name that is associated with the incident.
      *
      * @return the ruleName value
      */
@@ -65,7 +65,7 @@ public class IncidentInner {
     }
 
     /**
-     * Get the isActive value.
+     * Get a boolean to indicate whether the incident is active or resolved.
      *
      * @return the isActive value
      */
@@ -74,7 +74,7 @@ public class IncidentInner {
     }
 
     /**
-     * Get the activatedTime value.
+     * Get the time at which the incident was activated in ISO8601 format.
      *
      * @return the activatedTime value
      */
@@ -83,7 +83,7 @@ public class IncidentInner {
     }
 
     /**
-     * Get the resolvedTime value.
+     * Get the time at which the incident was resolved in ISO8601 format. If null, it means the incident is still active.
      *
      * @return the resolvedTime value
      */

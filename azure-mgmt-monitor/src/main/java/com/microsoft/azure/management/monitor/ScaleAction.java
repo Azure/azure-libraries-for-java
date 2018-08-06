@@ -46,7 +46,7 @@ public class ScaleAction {
     private Period cooldown;
 
     /**
-     * Get the direction value.
+     * Get the scale direction. Whether the scaling action increases or decreases the number of instances. Possible values include: 'None', 'Increase', 'Decrease'.
      *
      * @return the direction value
      */
@@ -55,7 +55,7 @@ public class ScaleAction {
     }
 
     /**
-     * Set the direction value.
+     * Set the scale direction. Whether the scaling action increases or decreases the number of instances. Possible values include: 'None', 'Increase', 'Decrease'.
      *
      * @param direction the direction value to set
      * @return the ScaleAction object itself.
@@ -66,7 +66,7 @@ public class ScaleAction {
     }
 
     /**
-     * Get the type value.
+     * Get the type of action that should occur when the scale rule fires. Possible values include: 'ChangeCount', 'PercentChangeCount', 'ExactCount'.
      *
      * @return the type value
      */
@@ -75,7 +75,7 @@ public class ScaleAction {
     }
 
     /**
-     * Set the type value.
+     * Set the type of action that should occur when the scale rule fires. Possible values include: 'ChangeCount', 'PercentChangeCount', 'ExactCount'.
      *
      * @param type the type value to set
      * @return the ScaleAction object itself.
@@ -86,7 +86,7 @@ public class ScaleAction {
     }
 
     /**
-     * Get the value value.
+     * Get the number of instances that are involved in the scaling action. This value must be 1 or greater. The default value is 1.
      *
      * @return the value value
      */
@@ -95,7 +95,7 @@ public class ScaleAction {
     }
 
     /**
-     * Set the value value.
+     * Set the number of instances that are involved in the scaling action. This value must be 1 or greater. The default value is 1.
      *
      * @param value the value value to set
      * @return the ScaleAction object itself.
@@ -106,7 +106,7 @@ public class ScaleAction {
     }
 
     /**
-     * Get the cooldown value.
+     * Get the amount of time to wait since the last scaling action before this action occurs. It must be between 1 week and 1 minute in ISO 8601 format.
      *
      * @return the cooldown value
      */
@@ -115,7 +115,7 @@ public class ScaleAction {
     }
 
     /**
-     * Set the cooldown value.
+     * Set the amount of time to wait since the last scaling action before this action occurs. It must be between 1 week and 1 minute in ISO 8601 format.
      *
      * @param cooldown the cooldown value to set
      * @return the ScaleAction object itself.

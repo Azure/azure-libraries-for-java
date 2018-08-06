@@ -34,7 +34,7 @@ public class LocationThresholdRuleCondition extends RuleCondition {
     private int failedLocationCount;
 
     /**
-     * Get the windowSize value.
+     * Get the period of time (in ISO 8601 duration format) that is used to monitor alert activity based on the threshold. If specified then it must be between 5 minutes and 1 day.
      *
      * @return the windowSize value
      */
@@ -43,7 +43,7 @@ public class LocationThresholdRuleCondition extends RuleCondition {
     }
 
     /**
-     * Set the windowSize value.
+     * Set the period of time (in ISO 8601 duration format) that is used to monitor alert activity based on the threshold. If specified then it must be between 5 minutes and 1 day.
      *
      * @param windowSize the windowSize value to set
      * @return the LocationThresholdRuleCondition object itself.
@@ -54,7 +54,7 @@ public class LocationThresholdRuleCondition extends RuleCondition {
     }
 
     /**
-     * Get the failedLocationCount value.
+     * Get the number of locations that must fail to activate the alert.
      *
      * @return the failedLocationCount value
      */
@@ -63,7 +63,7 @@ public class LocationThresholdRuleCondition extends RuleCondition {
     }
 
     /**
-     * Set the failedLocationCount value.
+     * Set the number of locations that must fail to activate the alert.
      *
      * @param failedLocationCount the failedLocationCount value to set
      * @return the LocationThresholdRuleCondition object itself.

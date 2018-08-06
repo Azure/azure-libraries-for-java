@@ -30,7 +30,7 @@ public class TimeSeriesElement {
     private List<MetricValue> data;
 
     /**
-     * Get the metadatavalues value.
+     * Get the metadata values returned if $filter was specified in the call.
      *
      * @return the metadatavalues value
      */
@@ -39,7 +39,7 @@ public class TimeSeriesElement {
     }
 
     /**
-     * Set the metadatavalues value.
+     * Set the metadata values returned if $filter was specified in the call.
      *
      * @param metadatavalues the metadatavalues value to set
      * @return the TimeSeriesElement object itself.
@@ -50,7 +50,7 @@ public class TimeSeriesElement {
     }
 
     /**
-     * Get the data value.
+     * Get an array of data points representing the metric values.  This is only returned if a result type of data is specified.
      *
      * @return the data value
      */
@@ -59,7 +59,7 @@ public class TimeSeriesElement {
     }
 
     /**
-     * Set the data value.
+     * Set an array of data points representing the metric values.  This is only returned if a result type of data is specified.
      *
      * @param data the data value to set
      * @return the TimeSeriesElement object itself.

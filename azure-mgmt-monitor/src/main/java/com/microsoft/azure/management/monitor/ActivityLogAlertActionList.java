@@ -22,7 +22,7 @@ public class ActivityLogAlertActionList {
     private List<ActivityLogAlertActionGroup> actionGroups;
 
     /**
-     * Get the actionGroups value.
+     * Get the list of activity log alerts.
      *
      * @return the actionGroups value
      */
@@ -31,7 +31,7 @@ public class ActivityLogAlertActionList {
     }
 
     /**
-     * Set the actionGroups value.
+     * Set the list of activity log alerts.
      *
      * @param actionGroups the actionGroups value to set
      * @return the ActivityLogAlertActionList object itself.

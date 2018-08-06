@@ -49,7 +49,7 @@ public class ItsmReceiver {
     private String region;
 
     /**
-     * Get the name value.
+     * Get the name of the Itsm receiver. Names must be unique across all receivers within an action group.
      *
      * @return the name value
      */
@@ -58,7 +58,7 @@ public class ItsmReceiver {
     }
 
     /**
-     * Set the name value.
+     * Set the name of the Itsm receiver. Names must be unique across all receivers within an action group.
      *
      * @param name the name value to set
      * @return the ItsmReceiver object itself.
@@ -69,7 +69,7 @@ public class ItsmReceiver {
     }
 
     /**
-     * Get the workspaceId value.
+     * Get oMS LA instance identifier.
      *
      * @return the workspaceId value
      */
@@ -78,7 +78,7 @@ public class ItsmReceiver {
     }
 
     /**
-     * Set the workspaceId value.
+     * Set oMS LA instance identifier.
      *
      * @param workspaceId the workspaceId value to set
      * @return the ItsmReceiver object itself.
@@ -89,7 +89,7 @@ public class ItsmReceiver {
     }
 
     /**
-     * Get the connectionId value.
+     * Get unique identification of ITSM connection among multiple defined in above workspace.
      *
      * @return the connectionId value
      */
@@ -98,7 +98,7 @@ public class ItsmReceiver {
     }
 
     /**
-     * Set the connectionId value.
+     * Set unique identification of ITSM connection among multiple defined in above workspace.
      *
      * @param connectionId the connectionId value to set
      * @return the ItsmReceiver object itself.
@@ -109,7 +109,7 @@ public class ItsmReceiver {
     }
 
     /**
-     * Get the ticketConfiguration value.
+     * Get jSON blob for the configurations of the ITSM action. CreateMultipleWorkItems option will be part of this blob as well.
      *
      * @return the ticketConfiguration value
      */
@@ -118,7 +118,7 @@ public class ItsmReceiver {
     }
 
     /**
-     * Set the ticketConfiguration value.
+     * Set jSON blob for the configurations of the ITSM action. CreateMultipleWorkItems option will be part of this blob as well.
      *
      * @param ticketConfiguration the ticketConfiguration value to set
      * @return the ItsmReceiver object itself.
@@ -129,7 +129,7 @@ public class ItsmReceiver {
     }
 
     /**
-     * Get the region value.
+     * Get region in which workspace resides. Supported values:'centralindia','japaneast','southeastasia','australiasoutheast','uksouth','westcentralus','canadacentral','eastus','westeurope'.
      *
      * @return the region value
      */
@@ -138,7 +138,7 @@ public class ItsmReceiver {
     }
 
     /**
-     * Set the region value.
+     * Set region in which workspace resides. Supported values:'centralindia','japaneast','southeastasia','australiasoutheast','uksouth','westcentralus','canadacentral','eastus','westeurope'.
      *
      * @param region the region value to set
      * @return the ItsmReceiver object itself.

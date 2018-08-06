@@ -40,7 +40,7 @@ public class AzureFunctionReceiver {
     private String httpTriggerUrl;
 
     /**
-     * Get the name value.
+     * Get the name of the azure function receiver. Names must be unique across all receivers within an action group.
      *
      * @return the name value
      */
@@ -49,7 +49,7 @@ public class AzureFunctionReceiver {
     }
 
     /**
-     * Set the name value.
+     * Set the name of the azure function receiver. Names must be unique across all receivers within an action group.
      *
      * @param name the name value to set
      * @return the AzureFunctionReceiver object itself.
@@ -60,7 +60,7 @@ public class AzureFunctionReceiver {
     }
 
     /**
-     * Get the functionAppResourceId value.
+     * Get the azure resource id of the function app.
      *
      * @return the functionAppResourceId value
      */
@@ -69,7 +69,7 @@ public class AzureFunctionReceiver {
     }
 
     /**
-     * Set the functionAppResourceId value.
+     * Set the azure resource id of the function app.
      *
      * @param functionAppResourceId the functionAppResourceId value to set
      * @return the AzureFunctionReceiver object itself.
@@ -80,7 +80,7 @@ public class AzureFunctionReceiver {
     }
 
     /**
-     * Get the functionName value.
+     * Get the function name in the function app.
      *
      * @return the functionName value
      */
@@ -89,7 +89,7 @@ public class AzureFunctionReceiver {
     }
 
     /**
-     * Set the functionName value.
+     * Set the function name in the function app.
      *
      * @param functionName the functionName value to set
      * @return the AzureFunctionReceiver object itself.
@@ -100,7 +100,7 @@ public class AzureFunctionReceiver {
     }
 
     /**
-     * Get the httpTriggerUrl value.
+     * Get the http trigger url where http request sent to.
      *
      * @return the httpTriggerUrl value
      */
@@ -109,7 +109,7 @@ public class AzureFunctionReceiver {
     }
 
     /**
-     * Set the httpTriggerUrl value.
+     * Set the http trigger url where http request sent to.
      *
      * @param httpTriggerUrl the httpTriggerUrl value to set
      * @return the AzureFunctionReceiver object itself.

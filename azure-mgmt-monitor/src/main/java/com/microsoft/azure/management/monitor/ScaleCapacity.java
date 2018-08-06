@@ -37,7 +37,7 @@ public class ScaleCapacity {
     private String defaultProperty;
 
     /**
-     * Get the minimum value.
+     * Get the minimum number of instances for the resource.
      *
      * @return the minimum value
      */
@@ -46,7 +46,7 @@ public class ScaleCapacity {
     }
 
     /**
-     * Set the minimum value.
+     * Set the minimum number of instances for the resource.
      *
      * @param minimum the minimum value to set
      * @return the ScaleCapacity object itself.
@@ -57,7 +57,7 @@ public class ScaleCapacity {
     }
 
     /**
-     * Get the maximum value.
+     * Get the maximum number of instances for the resource. The actual maximum number of instances is limited by the cores that are available in the subscription.
      *
      * @return the maximum value
      */
@@ -66,7 +66,7 @@ public class ScaleCapacity {
     }
 
     /**
-     * Set the maximum value.
+     * Set the maximum number of instances for the resource. The actual maximum number of instances is limited by the cores that are available in the subscription.
      *
      * @param maximum the maximum value to set
      * @return the ScaleCapacity object itself.
@@ -77,7 +77,7 @@ public class ScaleCapacity {
     }
 
     /**
-     * Get the defaultProperty value.
+     * Get the number of instances that will be set if metrics are not available for evaluation. The default is only used if the current instance count is lower than the default.
      *
      * @return the defaultProperty value
      */
@@ -86,7 +86,7 @@ public class ScaleCapacity {
     }
 
     /**
-     * Set the defaultProperty value.
+     * Set the number of instances that will be set if metrics are not available for evaluation. The default is only used if the current instance count is lower than the default.
      *
      * @param defaultProperty the defaultProperty value to set
      * @return the ScaleCapacity object itself.

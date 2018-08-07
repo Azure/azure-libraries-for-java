@@ -22,6 +22,12 @@ public final class ApplicationGatewayTier extends ExpandableStringEnum<Applicati
     /** Static value WAF for ApplicationGatewayTier. */
     public static final ApplicationGatewayTier WAF = fromString("WAF");
 
+    /** Static value Standard_v2 for ApplicationGatewayTier. */
+    public static final ApplicationGatewayTier STANDARD_V2 = fromString("Standard_v2");
+
+    /** Static value WAF_v2 for ApplicationGatewayTier. */
+    public static final ApplicationGatewayTier WAF_V2 = fromString("WAF_v2");
+
     /**
      * Creates or finds a ApplicationGatewayTier from its string representation.
      * @param name a name to look for

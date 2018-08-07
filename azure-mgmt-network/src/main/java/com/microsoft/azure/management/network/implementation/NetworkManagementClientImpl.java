@@ -138,6 +138,19 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
     }
 
     /**
+     * The AzureFirewallsInner object to access its operations.
+     */
+    private AzureFirewallsInner azureFirewalls;
+
+    /**
+     * Gets the AzureFirewallsInner object to access its operations.
+     * @return the AzureFirewallsInner object.
+     */
+    public AzureFirewallsInner azureFirewalls() {
+        return this.azureFirewalls;
+    }
+
+    /**
      * The ApplicationGatewaysInner object to access its operations.
      */
     private ApplicationGatewaysInner applicationGateways;
@@ -671,6 +684,97 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
     }
 
     /**
+     * The VirtualWANsInner object to access its operations.
+     */
+    private VirtualWANsInner virtualWANs;
+
+    /**
+     * Gets the VirtualWANsInner object to access its operations.
+     * @return the VirtualWANsInner object.
+     */
+    public VirtualWANsInner virtualWANs() {
+        return this.virtualWANs;
+    }
+
+    /**
+     * The VpnSitesInner object to access its operations.
+     */
+    private VpnSitesInner vpnSites;
+
+    /**
+     * Gets the VpnSitesInner object to access its operations.
+     * @return the VpnSitesInner object.
+     */
+    public VpnSitesInner vpnSites() {
+        return this.vpnSites;
+    }
+
+    /**
+     * The VpnSitesConfigurationsInner object to access its operations.
+     */
+    private VpnSitesConfigurationsInner vpnSitesConfigurations;
+
+    /**
+     * Gets the VpnSitesConfigurationsInner object to access its operations.
+     * @return the VpnSitesConfigurationsInner object.
+     */
+    public VpnSitesConfigurationsInner vpnSitesConfigurations() {
+        return this.vpnSitesConfigurations;
+    }
+
+    /**
+     * The VirtualHubsInner object to access its operations.
+     */
+    private VirtualHubsInner virtualHubs;
+
+    /**
+     * Gets the VirtualHubsInner object to access its operations.
+     * @return the VirtualHubsInner object.
+     */
+    public VirtualHubsInner virtualHubs() {
+        return this.virtualHubs;
+    }
+
+    /**
+     * The HubVirtualNetworkConnectionsInner object to access its operations.
+     */
+    private HubVirtualNetworkConnectionsInner hubVirtualNetworkConnections;
+
+    /**
+     * Gets the HubVirtualNetworkConnectionsInner object to access its operations.
+     * @return the HubVirtualNetworkConnectionsInner object.
+     */
+    public HubVirtualNetworkConnectionsInner hubVirtualNetworkConnections() {
+        return this.hubVirtualNetworkConnections;
+    }
+
+    /**
+     * The VpnGatewaysInner object to access its operations.
+     */
+    private VpnGatewaysInner vpnGateways;
+
+    /**
+     * Gets the VpnGatewaysInner object to access its operations.
+     * @return the VpnGatewaysInner object.
+     */
+    public VpnGatewaysInner vpnGateways() {
+        return this.vpnGateways;
+    }
+
+    /**
+     * The VpnConnectionsInner object to access its operations.
+     */
+    private VpnConnectionsInner vpnConnections;
+
+    /**
+     * Gets the VpnConnectionsInner object to access its operations.
+     * @return the VpnConnectionsInner object.
+     */
+    public VpnConnectionsInner vpnConnections() {
+        return this.vpnConnections;
+    }
+
+    /**
      * Initializes an instance of NetworkManagementClient client.
      *
      * @param credentials the management credentials for Azure
@@ -704,6 +808,7 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
         this.acceptLanguage = "en-US";
         this.longRunningOperationRetryTimeout = 30;
         this.generateClientRequestId = true;
+        this.azureFirewalls = new AzureFirewallsInner(restClient().retrofit(), this);
         this.applicationGateways = new ApplicationGatewaysInner(restClient().retrofit(), this);
         this.applicationSecurityGroups = new ApplicationSecurityGroupsInner(restClient().retrofit(), this);
         this.ddosProtectionPlans = new DdosProtectionPlansInner(restClient().retrofit(), this);
@@ -745,6 +850,13 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
         this.virtualNetworkGateways = new VirtualNetworkGatewaysInner(restClient().retrofit(), this);
         this.virtualNetworkGatewayConnections = new VirtualNetworkGatewayConnectionsInner(restClient().retrofit(), this);
         this.localNetworkGateways = new LocalNetworkGatewaysInner(restClient().retrofit(), this);
+        this.virtualWANs = new VirtualWANsInner(restClient().retrofit(), this);
+        this.vpnSites = new VpnSitesInner(restClient().retrofit(), this);
+        this.vpnSitesConfigurations = new VpnSitesConfigurationsInner(restClient().retrofit(), this);
+        this.virtualHubs = new VirtualHubsInner(restClient().retrofit(), this);
+        this.hubVirtualNetworkConnections = new HubVirtualNetworkConnectionsInner(restClient().retrofit(), this);
+        this.vpnGateways = new VpnGatewaysInner(restClient().retrofit(), this);
+        this.vpnConnections = new VpnConnectionsInner(restClient().retrofit(), this);
         this.azureClient = new AzureClient(this);
         initializeService();
     }
@@ -836,7 +948,7 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
         if (domainNameLabel == null) {
             throw new IllegalArgumentException("Parameter domainNameLabel is required and cannot be null.");
         }
-        final String apiVersion = "2018-04-01";
+        final String apiVersion = "2018-06-01";
         return service.checkDnsNameAvailability(location, this.subscriptionId(), domainNameLabel, apiVersion, this.acceptLanguage(), this.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DnsNameAvailabilityResultInner>>>() {
                 @Override

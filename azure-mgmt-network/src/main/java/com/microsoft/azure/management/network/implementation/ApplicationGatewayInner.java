@@ -13,6 +13,7 @@ import com.microsoft.azure.management.network.ApplicationGatewaySslPolicy;
 import com.microsoft.azure.management.network.ApplicationGatewayOperationalState;
 import java.util.List;
 import com.microsoft.azure.management.network.ApplicationGatewayWebApplicationFirewallConfiguration;
+import com.microsoft.azure.management.network.ApplicationGatewayAutoscaleConfiguration;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 import com.microsoft.rest.SkipParentValidation;
@@ -128,6 +129,18 @@ public class ApplicationGatewayInner extends Resource {
     private Boolean enableHttp2;
 
     /**
+     * Whether FIPS is enabled on the application gateway resource.
+     */
+    @JsonProperty(value = "properties.enableFips")
+    private Boolean enableFips;
+
+    /**
+     * Autoscale Configuration.
+     */
+    @JsonProperty(value = "properties.autoscaleConfiguration")
+    private ApplicationGatewayAutoscaleConfiguration autoscaleConfiguration;
+
+    /**
      * Resource GUID property of the application gateway resource.
      */
     @JsonProperty(value = "properties.resourceGuid")
@@ -147,7 +160,8 @@ public class ApplicationGatewayInner extends Resource {
     private String etag;
 
     /**
-     * A list of availability zones denoting where the resource needs to come from..
+     * A list of availability zones denoting where the resource needs to come
+     * from.
      */
     @JsonProperty(value = "zones")
     private List<String> zones;
@@ -484,6 +498,46 @@ public class ApplicationGatewayInner extends Resource {
      */
     public ApplicationGatewayInner withEnableHttp2(Boolean enableHttp2) {
         this.enableHttp2 = enableHttp2;
+        return this;
+    }
+
+    /**
+     * Get the enableFips value.
+     *
+     * @return the enableFips value
+     */
+    public Boolean enableFips() {
+        return this.enableFips;
+    }
+
+    /**
+     * Set the enableFips value.
+     *
+     * @param enableFips the enableFips value to set
+     * @return the ApplicationGatewayInner object itself.
+     */
+    public ApplicationGatewayInner withEnableFips(Boolean enableFips) {
+        this.enableFips = enableFips;
+        return this;
+    }
+
+    /**
+     * Get the autoscaleConfiguration value.
+     *
+     * @return the autoscaleConfiguration value
+     */
+    public ApplicationGatewayAutoscaleConfiguration autoscaleConfiguration() {
+        return this.autoscaleConfiguration;
+    }
+
+    /**
+     * Set the autoscaleConfiguration value.
+     *
+     * @param autoscaleConfiguration the autoscaleConfiguration value to set
+     * @return the ApplicationGatewayInner object itself.
+     */
+    public ApplicationGatewayInner withAutoscaleConfiguration(ApplicationGatewayAutoscaleConfiguration autoscaleConfiguration) {
+        this.autoscaleConfiguration = autoscaleConfiguration;
         return this;
     }
 

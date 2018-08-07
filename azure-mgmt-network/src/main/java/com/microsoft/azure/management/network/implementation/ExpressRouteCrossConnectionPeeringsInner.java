@@ -190,7 +190,7 @@ public class ExpressRouteCrossConnectionPeeringsInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-04-01";
+        final String apiVersion = "2018-06-01";
         return service.list(resourceGroupName, crossConnectionName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ExpressRouteCrossConnectionPeeringInner>>>>() {
                 @Override
@@ -280,7 +280,7 @@ public class ExpressRouteCrossConnectionPeeringsInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-04-01";
+        final String apiVersion = "2018-06-01";
         Observable<Response<ResponseBody>> observable = service.delete(resourceGroupName, crossConnectionName, peeringName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
     }
@@ -353,7 +353,7 @@ public class ExpressRouteCrossConnectionPeeringsInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-04-01";
+        final String apiVersion = "2018-06-01";
         return service.beginDelete(resourceGroupName, crossConnectionName, peeringName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
@@ -446,7 +446,7 @@ public class ExpressRouteCrossConnectionPeeringsInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-04-01";
+        final String apiVersion = "2018-06-01";
         return service.get(resourceGroupName, crossConnectionName, peeringName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ExpressRouteCrossConnectionPeeringInner>>>() {
                 @Override
@@ -545,7 +545,7 @@ public class ExpressRouteCrossConnectionPeeringsInner {
             throw new IllegalArgumentException("Parameter peeringParameters is required and cannot be null.");
         }
         Validator.validate(peeringParameters);
-        final String apiVersion = "2018-04-01";
+        final String apiVersion = "2018-06-01";
         Observable<Response<ResponseBody>> observable = service.createOrUpdate(resourceGroupName, crossConnectionName, peeringName, this.client.subscriptionId(), peeringParameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<ExpressRouteCrossConnectionPeeringInner>() { }.getType());
     }
@@ -627,7 +627,7 @@ public class ExpressRouteCrossConnectionPeeringsInner {
             throw new IllegalArgumentException("Parameter peeringParameters is required and cannot be null.");
         }
         Validator.validate(peeringParameters);
-        final String apiVersion = "2018-04-01";
+        final String apiVersion = "2018-06-01";
         return service.beginCreateOrUpdate(resourceGroupName, crossConnectionName, peeringName, this.client.subscriptionId(), peeringParameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ExpressRouteCrossConnectionPeeringInner>>>() {
                 @Override

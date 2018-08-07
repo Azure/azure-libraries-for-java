@@ -51,8 +51,7 @@ public class ApplicationGatewayUrlPathMapInner extends SubResource {
     private String provisioningState;
 
     /**
-     * Name of the resource that is unique within a resource group. This name
-     * can be used to access the resource.
+     * Name of the URL path map that is unique within an Application Gateway.
      */
     @JsonProperty(value = "name")
     private String name;

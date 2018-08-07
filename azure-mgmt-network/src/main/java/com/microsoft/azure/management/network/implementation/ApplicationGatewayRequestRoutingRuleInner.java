@@ -31,7 +31,7 @@ public class ApplicationGatewayRequestRoutingRuleInner extends SubResource {
     private SubResource backendAddressPool;
 
     /**
-     * Frontend port resource of the application gateway.
+     * Backend http settings resource of the application gateway.
      */
     @JsonProperty(value = "properties.backendHttpSettings")
     private SubResource backendHttpSettings;
@@ -62,8 +62,8 @@ public class ApplicationGatewayRequestRoutingRuleInner extends SubResource {
     private String provisioningState;
 
     /**
-     * Name of the resource that is unique within a resource group. This name
-     * can be used to access the resource.
+     * Name of the request routing rule that is unique within an Application
+     * Gateway.
      */
     @JsonProperty(value = "name")
     private String name;

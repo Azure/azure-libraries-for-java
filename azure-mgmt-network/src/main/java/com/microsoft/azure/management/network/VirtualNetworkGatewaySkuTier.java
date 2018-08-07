@@ -37,6 +37,24 @@ public final class VirtualNetworkGatewaySkuTier extends ExpandableStringEnum<Vir
     /** Static value VpnGw3 for VirtualNetworkGatewaySkuTier. */
     public static final VirtualNetworkGatewaySkuTier VPN_GW3 = fromString("VpnGw3");
 
+    /** Static value VpnGw1AZ for VirtualNetworkGatewaySkuTier. */
+    public static final VirtualNetworkGatewaySkuTier VPN_GW1AZ = fromString("VpnGw1AZ");
+
+    /** Static value VpnGw2AZ for VirtualNetworkGatewaySkuTier. */
+    public static final VirtualNetworkGatewaySkuTier VPN_GW2AZ = fromString("VpnGw2AZ");
+
+    /** Static value VpnGw3AZ for VirtualNetworkGatewaySkuTier. */
+    public static final VirtualNetworkGatewaySkuTier VPN_GW3AZ = fromString("VpnGw3AZ");
+
+    /** Static value ErGw1AZ for VirtualNetworkGatewaySkuTier. */
+    public static final VirtualNetworkGatewaySkuTier ER_GW1AZ = fromString("ErGw1AZ");
+
+    /** Static value ErGw2AZ for VirtualNetworkGatewaySkuTier. */
+    public static final VirtualNetworkGatewaySkuTier ER_GW2AZ = fromString("ErGw2AZ");
+
+    /** Static value ErGw3AZ for VirtualNetworkGatewaySkuTier. */
+    public static final VirtualNetworkGatewaySkuTier ER_GW3AZ = fromString("ErGw3AZ");
+
     /**
      * Creates or finds a VirtualNetworkGatewaySkuTier from its string representation.
      * @param name a name to look for

@@ -45,13 +45,45 @@ public interface MetricAlert extends
         /**
          * The first stage of a Metric Alert definition.
          */
-        interface Blank extends DefinitionWithRegion<WithGroup> {
+        interface Blank extends GroupableResource.DefinitionStages.WithGroupAndRegion<WithDescription> {
         }
 
         /**
          * The stage of a Metric Alert definition allowing the resource group to be specified.
          */
-        interface WithGroup extends GroupableResource.DefinitionStages.WithGroup<WithCreate> {
+        interface WithDescription {
+            WithSeverity withDescription(String description);
+        }
+
+        interface WithSeverity {
+            WithScopes withSeverity(String severity);
+        }
+
+        interface WithScopes {
+            WithEvaluationFrequency withResourceScope(String resourceId);
+            WithEvaluationFrequency withResourceScopes(List resourceIds);
+        }
+
+        interface WithEvaluationFrequency {
+            WithWindowSize withEvaluationFrequency(String frequency);
+        }
+
+        interface WithWindowSize {
+            WithAlertEnabled withWindowSize(String size);
+        }
+
+        interface WithAlertEnabled {
+            WithActionGroup withAlertEnabled();
+            WithActionGroup withAlertDisabled();
+        }
+
+        interface WithActionGroup {
+            WithCriteriaDefinition withActionGroup(String actionGroupId);
+            WithCriteriaDefinition withActionGroup(ActionGroup actionGroup);
+        }
+
+        interface WithCriteriaDefinition {
+            WithCreate defineMetricCriteria(String name);
         }
 
         /**
@@ -61,13 +93,8 @@ public interface MetricAlert extends
         interface WithCreate extends
                 Creatable<MetricAlert>,
                 DefinitionWithTags<WithCreate> {
-            /**
-             * Sets the short name of the action group. This will be used in SMS messages. Maximum length cannot exceed 12 symbols.
-             *
-             * @param shortName short name of the action group. Cannot exceed 12 symbols.
-             * @return the next stage of the definition
-             */
-            WithCreate withShortName(String shortName);
+
+            WithCreate withAutoMitigation();
         }
     }
 

@@ -129,13 +129,13 @@ public final class MonitorManager extends Manager<MonitorManager, MonitorManagem
     /**
      * @return the Azure Alerts API entry point
      */
-    /*@Beta(SinceVersion.V1_8_0)
+    @Beta(SinceVersion.V1_8_0)
     public Alerts alerts() {
         if (this.alerts == null) {
             //this.alerts = new DiagnosticSettingsImpl(this);
         }
         return this.alerts;
-    }*/
+    }
 
     /**
     * The implementation for Configurable interface.

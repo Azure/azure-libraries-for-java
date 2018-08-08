@@ -443,7 +443,7 @@ public class ActivityLogAlertsInner implements InnerSupportsGet<ActivityLogAlert
     }
 
     /**
-     * Get a list of all activity log alertRules in a subscription.
+     * Get a list of all activity log alerts in a subscription.
      *
      * @return the PagedList<ActivityLogAlertResourceInner> object if successful.
      */
@@ -460,7 +460,7 @@ public class ActivityLogAlertsInner implements InnerSupportsGet<ActivityLogAlert
     }
 
     /**
-     * Get a list of all activity log alertRules in a subscription.
+     * Get a list of all activity log alerts in a subscription.
      *
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @return the {@link ServiceFuture} object
@@ -470,7 +470,7 @@ public class ActivityLogAlertsInner implements InnerSupportsGet<ActivityLogAlert
     }
 
     /**
-     * Get a list of all activity log alertRules in a subscription.
+     * Get a list of all activity log alerts in a subscription.
      *
      * @return the observable to the List&lt;ActivityLogAlertResourceInner&gt; object
      */
@@ -486,7 +486,7 @@ public class ActivityLogAlertsInner implements InnerSupportsGet<ActivityLogAlert
     }
 
     /**
-     * Get a list of all activity log alertRules in a subscription.
+     * Get a list of all activity log alerts in a subscription.
      *
      * @return the observable to the List&lt;ActivityLogAlertResourceInner&gt; object
      */
@@ -522,7 +522,7 @@ public class ActivityLogAlertsInner implements InnerSupportsGet<ActivityLogAlert
     }
 
     /**
-     * Get a list of all activity log alertRules in a resource group.
+     * Get a list of all activity log alerts in a resource group.
      *
      * @param resourceGroupName The name of the resource group.
      * @return the PagedList<ActivityLogAlertResourceInner> object if successful.
@@ -540,7 +540,7 @@ public class ActivityLogAlertsInner implements InnerSupportsGet<ActivityLogAlert
     }
 
     /**
-     * Get a list of all activity log alertRules in a resource group.
+     * Get a list of all activity log alerts in a resource group.
      *
      * @param resourceGroupName The name of the resource group.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
@@ -551,7 +551,7 @@ public class ActivityLogAlertsInner implements InnerSupportsGet<ActivityLogAlert
     }
 
     /**
-     * Get a list of all activity log alertRules in a resource group.
+     * Get a list of all activity log alerts in a resource group.
      *
      * @param resourceGroupName The name of the resource group.
      * @return the observable to the List&lt;ActivityLogAlertResourceInner&gt; object
@@ -568,7 +568,7 @@ public class ActivityLogAlertsInner implements InnerSupportsGet<ActivityLogAlert
     }
 
     /**
-     * Get a list of all activity log alertRules in a resource group.
+     * Get a list of all activity log alerts in a resource group.
      *
      * @param resourceGroupName The name of the resource group.
      * @return the observable to the List&lt;ActivityLogAlertResourceInner&gt; object

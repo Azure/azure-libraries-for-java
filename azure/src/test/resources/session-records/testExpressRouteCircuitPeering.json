@@ -1,890 +1,838 @@
 {
   "networkCallRecords" : [ {
     "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/expressRouteCircuits?api-version=2018-04-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/expressRouteCircuits?api-version=2018-06-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Mac OS X/10.13.3 MacAddressHash:16db522de2faa4638a0decfab6f50a46b9b8bd70897b59af29cb339ba4d48272 Java:1.8.0_45 (NetworkManagementClient)",
+      "User-Agent" : "Azure-SDK-For-Java/1.14.1-SNAPSHOT OS:Linux/4.15.0-1018-azure MacAddressHash:8eca8145ae288a9c9f5cef4c67511b31ee50412a43f2a6a889d0037a4deee90d Java:1.8.0_171 (NetworkManagementClient)",
       "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "date" : "Sun, 20 May 2018 05:30:37 GMT",
-      "content-length" : "3254",
+      "date" : "Wed, 08 Aug 2018 01:02:24 GMT",
+      "content-length" : "3311",
       "expires" : "-1",
       "vary" : "Accept-Encoding",
-      "x-ms-original-request-ids" : "efdc3ac7-0a3e-42d7-9c20-db08a3243fab",
+      "x-ms-original-request-ids" : "f05d21ca-8b77-4d1d-96e7-d4486e899805",
       "retry-after" : "0",
-      "x-ms-ratelimit-remaining-subscription-reads" : "14999",
+      "x-ms-ratelimit-remaining-subscription-reads" : "11783",
       "StatusCode" : "200",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "27fb88de-b784-4305-96bb-f7c3a9b05c32",
+      "x-ms-correlation-request-id" : "f8420a73-5aa2-4557-8498-b26ab6069cc2",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "WESTUS2:20180520T053037Z:27fb88de-b784-4305-96bb-f7c3a9b05c32",
+      "x-ms-routing-request-id" : "CENTRALUS:20180808T010225Z:f8420a73-5aa2-4557-8498-b26ab6069cc2",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "27fb88de-b784-4305-96bb-f7c3a9b05c32",
-      "Body" : "{\"value\":[{\"name\":\"circuit1\",\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/cli_test_express_routepew5yso7rwsl3glwosveugjt3xeqjtg26nvvtvjxkit4ywbjicgpn/providers/Microsoft.Network/expressRouteCircuits/circuit1\",\"etag\":\"W/\\\"ef5fac86-929c-48b2-9a72-737c892e9dac\\\"\",\"type\":\"Microsoft.Network/expressRouteCircuits\",\"location\":\"westus\",\"properties\":{\"provisioningState\":\"Failed\",\"resourceGuid\":\"3df14f70-0c9b-4ba6-8fb1-17fa8789b334\",\"peerings\":[],\"authorizations\":[],\"serviceProviderProperties\":{\"serviceProviderName\":\"Microsoft ER Test\",\"peeringLocation\":\"Area51\",\"bandwidthInMbps\":50},\"circuitProvisioningState\":\"Enabled\",\"allowClassicOperations\":false,\"gatewayManagerEtag\":\"2\",\"serviceKey\":\"1b078101-471a-454c-a146-fac814e1a575\",\"serviceProviderProvisioningState\":\"Provisioning\"},\"sku\":{\"name\":\"Premium_MeteredData\",\"tier\":\"Premium\",\"family\":\"MeteredData\"}},{\"name\":\"erc360426\",\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/erc360426group/providers/Microsoft.Network/expressRouteCircuits/erc360426\",\"etag\":\"W/\\\"99a8123f-133c-4723-992f-e22e291fde40\\\"\",\"type\":\"Microsoft.Network/expressRouteCircuits\",\"location\":\"northcentralus\",\"tags\":{\"tag1\":\"value1\"},\"properties\":{\"provisioningState\":\"Failed\",\"resourceGuid\":\"952447cd-239b-4acb-8a4b-6638ed43be71\",\"peerings\":[],\"authorizations\":[],\"serviceProviderProperties\":{\"serviceProviderName\":\"Microsoft ER Test\",\"peeringLocation\":\"Area51\",\"bandwidthInMbps\":50},\"circuitProvisioningState\":\"Enabled\",\"allowClassicOperations\":false,\"gatewayManagerEtag\":\"2\",\"serviceKey\":\"0147db0b-f777-46a1-ad5c-9d1911eae01a\",\"serviceProviderProvisioningState\":\"Provisioning\"},\"sku\":{\"name\":\"Premium_MeteredData\",\"tier\":\"Premium\",\"family\":\"MeteredData\"}},{\"name\":\"erc798782\",\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg69214/providers/Microsoft.Network/expressRouteCircuits/erc798782\",\"etag\":\"W/\\\"d25f708a-e954-4fde-a1b4-64d882160bae\\\"\",\"type\":\"Microsoft.Network/expressRouteCircuits\",\"location\":\"northcentralus\",\"tags\":{\"tag1\":\"value1\"},\"properties\":{\"provisioningState\":\"Failed\",\"resourceGuid\":\"6113a3d1-813c-4d03-b05e-b17f4ff036c2\",\"peerings\":[{\"name\":\"MicrosoftPeering\",\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg69214/providers/Microsoft.Network/expressRouteCircuits/erc798782/peerings/MicrosoftPeering\",\"etag\":\"W/\\\"d25f708a-e954-4fde-a1b4-64d882160bae\\\"\",\"properties\":{\"provisioningState\":\"Deleting\",\"peeringType\":\"MicrosoftPeering\",\"azureASN\":0,\"peerASN\":100,\"primaryPeerAddressPrefix\":\"123.0.0.0/30\",\"secondaryPeerAddressPrefix\":\"123.0.0.4/30\",\"state\":\"Disabled\",\"vlanId\":200,\"lastModifiedBy\":\"\",\"microsoftPeeringConfig\":{\"advertisedPublicPrefixes\":[\"123.1.0.0/24\"],\"advertisedPublicPrefixesState\":\"NotConfigured\",\"customerASN\":0,\"legacyMode\":0,\"routingRegistryName\":\"NONE\"},\"connections\":[]}}],\"authorizations\":[],\"serviceProviderProperties\":{\"serviceProviderName\":\"Microsoft ER Test\",\"peeringLocation\":\"Area51\",\"bandwidthInMbps\":50},\"circuitProvisioningState\":\"Enabled\",\"allowClassicOperations\":false,\"gatewayManagerEtag\":\"76\",\"serviceKey\":\"f3a0e8dd-d358-42bb-9471-68f8f2f5d112\",\"serviceProviderProvisioningState\":\"Provisioned\"},\"sku\":{\"name\":\"Premium_MeteredData\",\"tier\":\"Premium\",\"family\":\"MeteredData\"}}]}"
+      "x-ms-request-id" : "f8420a73-5aa2-4557-8498-b26ab6069cc2",
+      "Body" : "{\"value\":[{\"name\":\"circuit1\",\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/cli_test_express_routepew5yso7rwsl3glwosveugjt3xeqjtg26nvvtvjxkit4ywbjicgpn/providers/Microsoft.Network/expressRouteCircuits/circuit1\",\"etag\":\"W/\\\"5674adf4-dccf-4e77-8017-8847c8b383c2\\\"\",\"type\":\"Microsoft.Network/expressRouteCircuits\",\"location\":\"westus\",\"properties\":{\"provisioningState\":\"Failed\",\"resourceGuid\":\"3df14f70-0c9b-4ba6-8fb1-17fa8789b334\",\"peerings\":[],\"authorizations\":[],\"serviceProviderProperties\":{\"serviceProviderName\":\"Microsoft ER Test\",\"peeringLocation\":\"Area51\",\"bandwidthInMbps\":50},\"circuitProvisioningState\":\"Enabled\",\"allowClassicOperations\":false,\"gatewayManagerEtag\":\"2\",\"serviceKey\":\"1b078101-471a-454c-a146-fac814e1a575\",\"serviceProviderProvisioningState\":\"Provisioning\"},\"sku\":{\"name\":\"Premium_MeteredData\",\"tier\":\"Premium\",\"family\":\"MeteredData\"}},{\"name\":\"erc360426\",\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/erc360426group/providers/Microsoft.Network/expressRouteCircuits/erc360426\",\"etag\":\"W/\\\"66f3b37c-2151-4fba-9b62-0cb383f2a897\\\"\",\"type\":\"Microsoft.Network/expressRouteCircuits\",\"location\":\"northcentralus\",\"tags\":{\"tag1\":\"value1\"},\"properties\":{\"provisioningState\":\"Failed\",\"resourceGuid\":\"952447cd-239b-4acb-8a4b-6638ed43be71\",\"peerings\":[],\"authorizations\":[],\"serviceProviderProperties\":{\"serviceProviderName\":\"Microsoft ER Test\",\"peeringLocation\":\"Area51\",\"bandwidthInMbps\":50},\"circuitProvisioningState\":\"Enabled\",\"allowClassicOperations\":false,\"gatewayManagerEtag\":\"2\",\"serviceKey\":\"0147db0b-f777-46a1-ad5c-9d1911eae01a\",\"serviceProviderProvisioningState\":\"Provisioning\"},\"sku\":{\"name\":\"Premium_MeteredData\",\"tier\":\"Premium\",\"family\":\"MeteredData\"}},{\"name\":\"erc798782\",\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg69214/providers/Microsoft.Network/expressRouteCircuits/erc798782\",\"etag\":\"W/\\\"0509a37a-7014-4811-9298-363a84190d63\\\"\",\"type\":\"Microsoft.Network/expressRouteCircuits\",\"location\":\"northcentralus\",\"tags\":{\"tag1\":\"value1\"},\"properties\":{\"provisioningState\":\"Failed\",\"resourceGuid\":\"6113a3d1-813c-4d03-b05e-b17f4ff036c2\",\"peerings\":[{\"name\":\"MicrosoftPeering\",\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg69214/providers/Microsoft.Network/expressRouteCircuits/erc798782/peerings/MicrosoftPeering\",\"etag\":\"W/\\\"0509a37a-7014-4811-9298-363a84190d63\\\"\",\"properties\":{\"provisioningState\":\"Deleting\",\"peeringType\":\"MicrosoftPeering\",\"azureASN\":0,\"peerASN\":100,\"primaryPeerAddressPrefix\":\"123.0.0.0/30\",\"secondaryPeerAddressPrefix\":\"123.0.0.4/30\",\"state\":\"Disabled\",\"vlanId\":200,\"lastModifiedBy\":\"\",\"microsoftPeeringConfig\":{\"advertisedPublicPrefixes\":[\"123.1.0.0/24\"],\"advertisedPublicPrefixesState\":\"NotConfigured\",\"customerASN\":0,\"legacyMode\":0,\"routingRegistryName\":\"NONE\"},\"connections\":[]},\"type\":\"Microsoft.Network/expressRouteCircuits/peerings\"}],\"authorizations\":[],\"serviceProviderProperties\":{\"serviceProviderName\":\"Microsoft ER Test\",\"peeringLocation\":\"Area51\",\"bandwidthInMbps\":50},\"circuitProvisioningState\":\"Enabled\",\"allowClassicOperations\":false,\"gatewayManagerEtag\":\"76\",\"serviceKey\":\"f3a0e8dd-d358-42bb-9471-68f8f2f5d112\",\"serviceProviderProvisioningState\":\"Provisioned\"},\"sku\":{\"name\":\"Premium_MeteredData\",\"tier\":\"Premium\",\"family\":\"MeteredData\"}}]}"
     }
   }, {
     "Method" : "PUT",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/erc94266egroup?api-version=2017-05-10",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/erc067382group?api-version=2017-05-10",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Mac OS X/10.13.3 MacAddressHash:16db522de2faa4638a0decfab6f50a46b9b8bd70897b59af29cb339ba4d48272 Java:1.8.0_45 (ResourceManagementClient, 2017-05-10)",
+      "User-Agent" : "Azure-SDK-For-Java/1.14.1-SNAPSHOT OS:Linux/4.15.0-1018-azure MacAddressHash:8eca8145ae288a9c9f5cef4c67511b31ee50412a43f2a6a889d0037a4deee90d Java:1.8.0_171 (ResourceManagementClient, 2017-05-10)",
       "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "date" : "Sun, 20 May 2018 05:30:39 GMT",
-      "content-length" : "189",
+      "date" : "Wed, 08 Aug 2018 01:02:27 GMT",
+      "content-length" : "315",
       "expires" : "-1",
-      "x-ms-ratelimit-remaining-subscription-writes" : "1199",
+      "x-ms-ratelimit-remaining-subscription-writes" : "1149",
       "retry-after" : "0",
       "StatusCode" : "201",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "2d8447f9-375b-46ce-a89c-6862b07a7347",
+      "x-ms-correlation-request-id" : "39867a84-0c4e-426b-abe1-45f74f9c2295",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "WESTUS2:20180520T053039Z:2d8447f9-375b-46ce-a89c-6862b07a7347",
+      "x-ms-routing-request-id" : "CENTRALUS:20180808T010227Z:39867a84-0c4e-426b-abe1-45f74f9c2295",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "2d8447f9-375b-46ce-a89c-6862b07a7347",
-      "Body" : "{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/erc94266egroup\",\"name\":\"erc94266egroup\",\"location\":\"northcentralus\",\"properties\":{\"provisioningState\":\"Succeeded\"}}"
+      "x-ms-request-id" : "39867a84-0c4e-426b-abe1-45f74f9c2295",
+      "Body" : "{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/erc067382group\",\"name\":\"erc067382group\",\"location\":\"northcentralus\",\"tags\":{\"date\":\"2018-08-08T01:02:26.467Z\",\"product\":\"javasdk\",\"cause\":\"automation\",\"job\":\"javasdk-1047-sp3rairmuj733p4cgbca\"},\"properties\":{\"provisioningState\":\"Succeeded\"}}"
     }
   }, {
     "Method" : "PUT",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/erc94266egroup/providers/Microsoft.Network/expressRouteCircuits/erc94266e?api-version=2018-04-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/erc067382group/providers/Microsoft.Network/expressRouteCircuits/erc067382?api-version=2018-06-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Mac OS X/10.13.3 MacAddressHash:16db522de2faa4638a0decfab6f50a46b9b8bd70897b59af29cb339ba4d48272 Java:1.8.0_45 (NetworkManagementClient)",
+      "User-Agent" : "Azure-SDK-For-Java/1.14.1-SNAPSHOT OS:Linux/4.15.0-1018-azure MacAddressHash:8eca8145ae288a9c9f5cef4c67511b31ee50412a43f2a6a889d0037a4deee90d Java:1.8.0_171 (NetworkManagementClient)",
       "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "date" : "Sun, 20 May 2018 05:30:41 GMT",
+      "date" : "Wed, 08 Aug 2018 01:02:28 GMT",
       "content-length" : "1003",
       "server" : "Microsoft-HTTPAPI/2.0",
       "expires" : "-1",
-      "x-ms-ratelimit-remaining-subscription-writes" : "1198",
+      "x-ms-ratelimit-remaining-subscription-writes" : "1148",
       "retry-after" : "0",
       "StatusCode" : "201",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "77b61c66-d09b-4d19-95fe-8c47f12ae062",
+      "x-ms-correlation-request-id" : "bb9e3a88-5e0d-4284-b9a9-93cb0ef2a59a",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "WESTUS2:20180520T053041Z:77b61c66-d09b-4d19-95fe-8c47f12ae062",
+      "x-ms-routing-request-id" : "CENTRALUS:20180808T010228Z:bb9e3a88-5e0d-4284-b9a9-93cb0ef2a59a",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "11b11916-a3b2-4875-968e-87991d029553",
-      "Body" : "{\r\n  \"name\": \"erc94266e\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/erc94266egroup/providers/Microsoft.Network/expressRouteCircuits/erc94266e\",\r\n  \"etag\": \"W/\\\"88822b5f-14c6-426e-be2d-7ebd5bb8457e\\\"\",\r\n  \"type\": \"Microsoft.Network/expressRouteCircuits\",\r\n  \"location\": \"northcentralus\",\r\n  \"tags\": {\r\n    \"tag1\": \"value1\"\r\n  },\r\n  \"properties\": {\r\n    \"provisioningState\": \"Updating\",\r\n    \"resourceGuid\": \"ddab6ff2-1607-4a9e-9235-9bb3d4d2c14c\",\r\n    \"peerings\": [],\r\n    \"authorizations\": [],\r\n    \"serviceProviderProperties\": {\r\n      \"serviceProviderName\": \"Microsoft ER Test\",\r\n      \"peeringLocation\": \"Area51\",\r\n      \"bandwidthInMbps\": 50\r\n    },\r\n    \"circuitProvisioningState\": \"Disabled\",\r\n    \"allowClassicOperations\": false,\r\n    \"serviceKey\": \"00000000-0000-0000-0000-000000000000\",\r\n    \"serviceProviderProvisioningState\": \"NotProvisioned\"\r\n  },\r\n  \"sku\": {\r\n    \"name\": \"Premium_MeteredData\",\r\n    \"tier\": \"Premium\",\r\n    \"family\": \"MeteredData\"\r\n  }\r\n}",
-      "azure-asyncoperation" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/northcentralus/operations/11b11916-a3b2-4875-968e-87991d029553?api-version=2018-04-01"
+      "x-ms-request-id" : "1c25379b-9385-4d55-b9a1-aace897b663c",
+      "Body" : "{\r\n  \"name\": \"erc067382\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/erc067382group/providers/Microsoft.Network/expressRouteCircuits/erc067382\",\r\n  \"etag\": \"W/\\\"b7470fb3-268f-400e-9466-f4e4f846990d\\\"\",\r\n  \"type\": \"Microsoft.Network/expressRouteCircuits\",\r\n  \"location\": \"northcentralus\",\r\n  \"tags\": {\r\n    \"tag1\": \"value1\"\r\n  },\r\n  \"properties\": {\r\n    \"provisioningState\": \"Updating\",\r\n    \"resourceGuid\": \"778f2afb-a863-47d0-a7f6-4b552112ea2e\",\r\n    \"peerings\": [],\r\n    \"authorizations\": [],\r\n    \"serviceProviderProperties\": {\r\n      \"serviceProviderName\": \"Microsoft ER Test\",\r\n      \"peeringLocation\": \"Area51\",\r\n      \"bandwidthInMbps\": 50\r\n    },\r\n    \"circuitProvisioningState\": \"Disabled\",\r\n    \"allowClassicOperations\": false,\r\n    \"serviceKey\": \"00000000-0000-0000-0000-000000000000\",\r\n    \"serviceProviderProvisioningState\": \"NotProvisioned\"\r\n  },\r\n  \"sku\": {\r\n    \"name\": \"Premium_MeteredData\",\r\n    \"tier\": \"Premium\",\r\n    \"family\": \"MeteredData\"\r\n  }\r\n}",
+      "azure-asyncoperation" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/northcentralus/operations/1c25379b-9385-4d55-b9a1-aace897b663c?api-version=2018-06-01"
     }
   }, {
     "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/northcentralus/operations/11b11916-a3b2-4875-968e-87991d029553?api-version=2018-04-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/northcentralus/operations/1c25379b-9385-4d55-b9a1-aace897b663c?api-version=2018-06-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Mac OS X/10.13.3 MacAddressHash:16db522de2faa4638a0decfab6f50a46b9b8bd70897b59af29cb339ba4d48272 Java:1.8.0_45 (NetworkManagementClient)"
+      "User-Agent" : "Azure-SDK-For-Java/1.14.1-SNAPSHOT OS:Linux/4.15.0-1018-azure MacAddressHash:8eca8145ae288a9c9f5cef4c67511b31ee50412a43f2a6a889d0037a4deee90d Java:1.8.0_171 (NetworkManagementClient)"
     },
     "Response" : {
-      "date" : "Sun, 20 May 2018 05:30:41 GMT",
+      "date" : "Wed, 08 Aug 2018 01:02:28 GMT",
       "server" : "Microsoft-HTTPAPI/2.0",
       "content-length" : "30",
       "expires" : "-1",
       "transfer-encoding" : "chunked",
       "vary" : "Accept-Encoding",
       "retry-after" : "0",
-      "x-ms-ratelimit-remaining-subscription-reads" : "14998",
+      "x-ms-ratelimit-remaining-subscription-reads" : "11782",
       "StatusCode" : "200",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "459a71dc-c66f-4ea2-8e00-c46810971eab",
+      "x-ms-correlation-request-id" : "595ffe89-b424-4940-a8ca-e665ead31f4d",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "WESTUS2:20180520T053042Z:459a71dc-c66f-4ea2-8e00-c46810971eab",
+      "x-ms-routing-request-id" : "CENTRALUS:20180808T010228Z:595ffe89-b424-4940-a8ca-e665ead31f4d",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "ea8a2ab6-d925-4e85-8aeb-1b4d4216cb4c",
+      "x-ms-request-id" : "c9fd02c4-bed9-487e-897b-a0a33150ecad",
       "Body" : "{\r\n  \"status\": \"InProgress\"\r\n}"
     }
   }, {
     "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/northcentralus/operations/11b11916-a3b2-4875-968e-87991d029553?api-version=2018-04-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/northcentralus/operations/1c25379b-9385-4d55-b9a1-aace897b663c?api-version=2018-06-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Mac OS X/10.13.3 MacAddressHash:16db522de2faa4638a0decfab6f50a46b9b8bd70897b59af29cb339ba4d48272 Java:1.8.0_45 (NetworkManagementClient)"
+      "User-Agent" : "Azure-SDK-For-Java/1.14.1-SNAPSHOT OS:Linux/4.15.0-1018-azure MacAddressHash:8eca8145ae288a9c9f5cef4c67511b31ee50412a43f2a6a889d0037a4deee90d Java:1.8.0_171 (NetworkManagementClient)"
     },
     "Response" : {
-      "date" : "Sun, 20 May 2018 05:30:51 GMT",
+      "date" : "Wed, 08 Aug 2018 01:02:38 GMT",
       "server" : "Microsoft-HTTPAPI/2.0",
       "content-length" : "30",
       "expires" : "-1",
       "transfer-encoding" : "chunked",
       "vary" : "Accept-Encoding",
       "retry-after" : "0",
-      "x-ms-ratelimit-remaining-subscription-reads" : "14997",
+      "x-ms-ratelimit-remaining-subscription-reads" : "11781",
       "StatusCode" : "200",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "22e978f8-6a52-40ce-9a76-933120bbfaa4",
+      "x-ms-correlation-request-id" : "12bbf023-6014-46cc-a590-741ab57bbcfa",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "WESTUS2:20180520T053052Z:22e978f8-6a52-40ce-9a76-933120bbfaa4",
+      "x-ms-routing-request-id" : "CENTRALUS:20180808T010238Z:12bbf023-6014-46cc-a590-741ab57bbcfa",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "c6b625dd-e06f-4d34-92da-29145afb9b53",
+      "x-ms-request-id" : "e77c4c8a-c461-4172-a1be-c3251453c7e9",
       "Body" : "{\r\n  \"status\": \"InProgress\"\r\n}"
     }
   }, {
     "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/northcentralus/operations/11b11916-a3b2-4875-968e-87991d029553?api-version=2018-04-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/northcentralus/operations/1c25379b-9385-4d55-b9a1-aace897b663c?api-version=2018-06-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Mac OS X/10.13.3 MacAddressHash:16db522de2faa4638a0decfab6f50a46b9b8bd70897b59af29cb339ba4d48272 Java:1.8.0_45 (NetworkManagementClient)"
+      "User-Agent" : "Azure-SDK-For-Java/1.14.1-SNAPSHOT OS:Linux/4.15.0-1018-azure MacAddressHash:8eca8145ae288a9c9f5cef4c67511b31ee50412a43f2a6a889d0037a4deee90d Java:1.8.0_171 (NetworkManagementClient)"
     },
     "Response" : {
-      "date" : "Sun, 20 May 2018 05:31:02 GMT",
-      "server" : "Microsoft-HTTPAPI/2.0",
-      "content-length" : "30",
-      "expires" : "-1",
-      "transfer-encoding" : "chunked",
-      "vary" : "Accept-Encoding",
-      "retry-after" : "0",
-      "x-ms-ratelimit-remaining-subscription-reads" : "14996",
-      "StatusCode" : "200",
-      "pragma" : "no-cache",
-      "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "31195c22-9416-421c-adf8-95b8399e33c3",
-      "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "WESTUS2:20180520T053102Z:31195c22-9416-421c-adf8-95b8399e33c3",
-      "content-type" : "application/json; charset=utf-8",
-      "cache-control" : "no-cache",
-      "x-ms-request-id" : "535593d3-fc64-41d0-87c6-20e7763d9e16",
-      "Body" : "{\r\n  \"status\": \"InProgress\"\r\n}"
-    }
-  }, {
-    "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/northcentralus/operations/11b11916-a3b2-4875-968e-87991d029553?api-version=2018-04-01",
-    "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Mac OS X/10.13.3 MacAddressHash:16db522de2faa4638a0decfab6f50a46b9b8bd70897b59af29cb339ba4d48272 Java:1.8.0_45 (NetworkManagementClient)"
-    },
-    "Response" : {
-      "date" : "Sun, 20 May 2018 05:31:12 GMT",
-      "server" : "Microsoft-HTTPAPI/2.0",
-      "content-length" : "30",
-      "expires" : "-1",
-      "transfer-encoding" : "chunked",
-      "vary" : "Accept-Encoding",
-      "retry-after" : "0",
-      "x-ms-ratelimit-remaining-subscription-reads" : "14995",
-      "StatusCode" : "200",
-      "pragma" : "no-cache",
-      "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "30f55862-1578-495b-8c6d-6c2d8abb8af5",
-      "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "WESTUS2:20180520T053112Z:30f55862-1578-495b-8c6d-6c2d8abb8af5",
-      "content-type" : "application/json; charset=utf-8",
-      "cache-control" : "no-cache",
-      "x-ms-request-id" : "53593268-7240-4cfe-ba20-3430b95a7228",
-      "Body" : "{\r\n  \"status\": \"InProgress\"\r\n}"
-    }
-  }, {
-    "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/northcentralus/operations/11b11916-a3b2-4875-968e-87991d029553?api-version=2018-04-01",
-    "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Mac OS X/10.13.3 MacAddressHash:16db522de2faa4638a0decfab6f50a46b9b8bd70897b59af29cb339ba4d48272 Java:1.8.0_45 (NetworkManagementClient)"
-    },
-    "Response" : {
-      "date" : "Sun, 20 May 2018 05:31:22 GMT",
+      "date" : "Wed, 08 Aug 2018 01:02:48 GMT",
       "server" : "Microsoft-HTTPAPI/2.0",
       "content-length" : "29",
       "expires" : "-1",
       "transfer-encoding" : "chunked",
       "vary" : "Accept-Encoding",
       "retry-after" : "0",
-      "x-ms-ratelimit-remaining-subscription-reads" : "14994",
+      "x-ms-ratelimit-remaining-subscription-reads" : "11780",
       "StatusCode" : "200",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "8d321418-b7be-4b61-b6c6-36588171fb23",
+      "x-ms-correlation-request-id" : "384bba4b-3d46-434b-b438-a3602d8b05e1",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "WESTUS2:20180520T053122Z:8d321418-b7be-4b61-b6c6-36588171fb23",
+      "x-ms-routing-request-id" : "CENTRALUS:20180808T010249Z:384bba4b-3d46-434b-b438-a3602d8b05e1",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "dd45fd45-9ba7-4216-ac13-796a8a9da5ad",
+      "x-ms-request-id" : "2dd45255-da34-4880-97c7-b50154cb0284",
       "Body" : "{\r\n  \"status\": \"Succeeded\"\r\n}"
     }
   }, {
     "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/erc94266egroup/providers/Microsoft.Network/expressRouteCircuits/erc94266e?api-version=2018-04-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/erc067382group/providers/Microsoft.Network/expressRouteCircuits/erc067382?api-version=2018-06-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Mac OS X/10.13.3 MacAddressHash:16db522de2faa4638a0decfab6f50a46b9b8bd70897b59af29cb339ba4d48272 Java:1.8.0_45 (NetworkManagementClient)"
+      "User-Agent" : "Azure-SDK-For-Java/1.14.1-SNAPSHOT OS:Linux/4.15.0-1018-azure MacAddressHash:8eca8145ae288a9c9f5cef4c67511b31ee50412a43f2a6a889d0037a4deee90d Java:1.8.0_171 (NetworkManagementClient)"
     },
     "Response" : {
-      "date" : "Sun, 20 May 2018 05:31:23 GMT",
+      "date" : "Wed, 08 Aug 2018 01:02:48 GMT",
       "server" : "Microsoft-HTTPAPI/2.0",
       "content-length" : "1034",
       "expires" : "-1",
       "transfer-encoding" : "chunked",
       "vary" : "Accept-Encoding",
       "retry-after" : "0",
-      "x-ms-ratelimit-remaining-subscription-reads" : "14993",
+      "x-ms-ratelimit-remaining-subscription-reads" : "11779",
       "StatusCode" : "200",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "98bdb3ae-4515-4eb4-847f-324680342328",
+      "x-ms-correlation-request-id" : "8a4220df-a18f-4095-add6-41f2d4582502",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "WESTUS2:20180520T053123Z:98bdb3ae-4515-4eb4-847f-324680342328",
+      "x-ms-routing-request-id" : "CENTRALUS:20180808T010249Z:8a4220df-a18f-4095-add6-41f2d4582502",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "ca2c2e87-1358-4502-9848-f964423b237a",
-      "Body" : "{\r\n  \"name\": \"erc94266e\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/erc94266egroup/providers/Microsoft.Network/expressRouteCircuits/erc94266e\",\r\n  \"etag\": \"W/\\\"776762c0-d3ba-44c0-96ed-a6966bf8cb51\\\"\",\r\n  \"type\": \"Microsoft.Network/expressRouteCircuits\",\r\n  \"location\": \"northcentralus\",\r\n  \"tags\": {\r\n    \"tag1\": \"value1\"\r\n  },\r\n  \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"ddab6ff2-1607-4a9e-9235-9bb3d4d2c14c\",\r\n    \"peerings\": [],\r\n    \"authorizations\": [],\r\n    \"serviceProviderProperties\": {\r\n      \"serviceProviderName\": \"Microsoft ER Test\",\r\n      \"peeringLocation\": \"Area51\",\r\n      \"bandwidthInMbps\": 50\r\n    },\r\n    \"circuitProvisioningState\": \"Enabled\",\r\n    \"allowClassicOperations\": false,\r\n    \"gatewayManagerEtag\": \"\",\r\n    \"serviceKey\": \"3a47c73e-ef6e-4125-8027-a668def5c200\",\r\n    \"serviceProviderProvisioningState\": \"NotProvisioned\"\r\n  },\r\n  \"sku\": {\r\n    \"name\": \"Premium_MeteredData\",\r\n    \"tier\": \"Premium\",\r\n    \"family\": \"MeteredData\"\r\n  }\r\n}"
+      "x-ms-request-id" : "70abf8f0-9511-4a11-80a6-fb478e35e861",
+      "Body" : "{\r\n  \"name\": \"erc067382\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/erc067382group/providers/Microsoft.Network/expressRouteCircuits/erc067382\",\r\n  \"etag\": \"W/\\\"e6ce6b01-4f64-497e-8880-826eb096c262\\\"\",\r\n  \"type\": \"Microsoft.Network/expressRouteCircuits\",\r\n  \"location\": \"northcentralus\",\r\n  \"tags\": {\r\n    \"tag1\": \"value1\"\r\n  },\r\n  \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"778f2afb-a863-47d0-a7f6-4b552112ea2e\",\r\n    \"peerings\": [],\r\n    \"authorizations\": [],\r\n    \"serviceProviderProperties\": {\r\n      \"serviceProviderName\": \"Microsoft ER Test\",\r\n      \"peeringLocation\": \"Area51\",\r\n      \"bandwidthInMbps\": 50\r\n    },\r\n    \"circuitProvisioningState\": \"Enabled\",\r\n    \"allowClassicOperations\": false,\r\n    \"gatewayManagerEtag\": \"\",\r\n    \"serviceKey\": \"3e407323-5adb-41f7-9929-208cbfd5efa0\",\r\n    \"serviceProviderProvisioningState\": \"NotProvisioned\"\r\n  },\r\n  \"sku\": {\r\n    \"name\": \"Premium_MeteredData\",\r\n    \"tier\": \"Premium\",\r\n    \"family\": \"MeteredData\"\r\n  }\r\n}"
     }
   }, {
     "Method" : "PUT",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/erc94266egroup/providers/Microsoft.Network/expressRouteCircuits/erc94266e/peerings/MicrosoftPeering?api-version=2018-04-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/erc067382group/providers/Microsoft.Network/expressRouteCircuits/erc067382/peerings/MicrosoftPeering?api-version=2018-06-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Mac OS X/10.13.3 MacAddressHash:16db522de2faa4638a0decfab6f50a46b9b8bd70897b59af29cb339ba4d48272 Java:1.8.0_45 (NetworkManagementClient)",
+      "User-Agent" : "Azure-SDK-For-Java/1.14.1-SNAPSHOT OS:Linux/4.15.0-1018-azure MacAddressHash:8eca8145ae288a9c9f5cef4c67511b31ee50412a43f2a6a889d0037a4deee90d Java:1.8.0_171 (NetworkManagementClient)",
       "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "date" : "Sun, 20 May 2018 05:31:24 GMT",
-      "content-length" : "865",
+      "date" : "Wed, 08 Aug 2018 01:02:49 GMT",
+      "content-length" : "926",
       "server" : "Microsoft-HTTPAPI/2.0",
       "expires" : "-1",
-      "x-ms-ratelimit-remaining-subscription-writes" : "1197",
+      "x-ms-ratelimit-remaining-subscription-writes" : "1147",
       "retry-after" : "0",
       "StatusCode" : "201",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "5ccc6ef6-9327-47a9-9e61-5d8a6d8adc4f",
+      "x-ms-correlation-request-id" : "66707966-6212-449b-a867-a4a19d7f7f54",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "WESTUS2:20180520T053124Z:5ccc6ef6-9327-47a9-9e61-5d8a6d8adc4f",
+      "x-ms-routing-request-id" : "CENTRALUS:20180808T010250Z:66707966-6212-449b-a867-a4a19d7f7f54",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "d3340312-70be-4a7f-b88d-e13834aba9f5",
-      "Body" : "{\r\n  \"name\": \"MicrosoftPeering\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/erc94266egroup/providers/Microsoft.Network/expressRouteCircuits/erc94266e/peerings/MicrosoftPeering\",\r\n  \"etag\": \"W/\\\"2b4110aa-397c-4554-9a12-f504d7449334\\\"\",\r\n  \"properties\": {\r\n    \"provisioningState\": \"Updating\",\r\n    \"peeringType\": \"MicrosoftPeering\",\r\n    \"azureASN\": 0,\r\n    \"peerASN\": 100,\r\n    \"primaryPeerAddressPrefix\": \"123.0.0.0/30\",\r\n    \"secondaryPeerAddressPrefix\": \"123.0.0.4/30\",\r\n    \"state\": \"Disabled\",\r\n    \"vlanId\": 200,\r\n    \"lastModifiedBy\": \"\",\r\n    \"microsoftPeeringConfig\": {\r\n      \"advertisedPublicPrefixes\": [\r\n        \"123.1.0.0/24\"\r\n      ],\r\n      \"advertisedPublicPrefixesState\": \"NotConfigured\",\r\n      \"customerASN\": 0,\r\n      \"legacyMode\": 0,\r\n      \"routingRegistryName\": \"NONE\"\r\n    },\r\n    \"connections\": []\r\n  }\r\n}",
-      "azure-asyncoperation" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/northcentralus/operations/d3340312-70be-4a7f-b88d-e13834aba9f5?api-version=2018-04-01"
+      "x-ms-request-id" : "07571e29-bc6b-4cf2-b2d2-0be41b452e3e",
+      "Body" : "{\r\n  \"name\": \"MicrosoftPeering\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/erc067382group/providers/Microsoft.Network/expressRouteCircuits/erc067382/peerings/MicrosoftPeering\",\r\n  \"etag\": \"W/\\\"817732ce-0068-4d71-9375-b7cbb5151821\\\"\",\r\n  \"properties\": {\r\n    \"provisioningState\": \"Updating\",\r\n    \"peeringType\": \"MicrosoftPeering\",\r\n    \"azureASN\": 0,\r\n    \"peerASN\": 100,\r\n    \"primaryPeerAddressPrefix\": \"123.0.0.0/30\",\r\n    \"secondaryPeerAddressPrefix\": \"123.0.0.4/30\",\r\n    \"state\": \"Enabled\",\r\n    \"vlanId\": 200,\r\n    \"lastModifiedBy\": \"\",\r\n    \"microsoftPeeringConfig\": {\r\n      \"advertisedPublicPrefixes\": [\r\n        \"123.1.0.0/24\"\r\n      ],\r\n      \"advertisedPublicPrefixesState\": \"NotConfigured\",\r\n      \"customerASN\": 0,\r\n      \"legacyMode\": 0,\r\n      \"routingRegistryName\": \"NONE\"\r\n    },\r\n    \"connections\": []\r\n  },\r\n  \"type\": \"Microsoft.Network/expressRouteCircuits/peerings\"\r\n}",
+      "azure-asyncoperation" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/northcentralus/operations/07571e29-bc6b-4cf2-b2d2-0be41b452e3e?api-version=2018-06-01"
     }
   }, {
     "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/northcentralus/operations/d3340312-70be-4a7f-b88d-e13834aba9f5?api-version=2018-04-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/northcentralus/operations/07571e29-bc6b-4cf2-b2d2-0be41b452e3e?api-version=2018-06-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Mac OS X/10.13.3 MacAddressHash:16db522de2faa4638a0decfab6f50a46b9b8bd70897b59af29cb339ba4d48272 Java:1.8.0_45 (NetworkManagementClient)"
+      "User-Agent" : "Azure-SDK-For-Java/1.14.1-SNAPSHOT OS:Linux/4.15.0-1018-azure MacAddressHash:8eca8145ae288a9c9f5cef4c67511b31ee50412a43f2a6a889d0037a4deee90d Java:1.8.0_171 (NetworkManagementClient)"
     },
     "Response" : {
-      "date" : "Sun, 20 May 2018 05:31:24 GMT",
+      "date" : "Wed, 08 Aug 2018 01:02:49 GMT",
       "server" : "Microsoft-HTTPAPI/2.0",
       "content-length" : "30",
       "expires" : "-1",
       "transfer-encoding" : "chunked",
       "vary" : "Accept-Encoding",
       "retry-after" : "0",
-      "x-ms-ratelimit-remaining-subscription-reads" : "14992",
+      "x-ms-ratelimit-remaining-subscription-reads" : "11778",
       "StatusCode" : "200",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "6a58e5ac-3ff2-4bff-9335-5cf753c9cf76",
+      "x-ms-correlation-request-id" : "30501166-1c28-408e-9518-ad5655c9b4bb",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "WESTUS2:20180520T053124Z:6a58e5ac-3ff2-4bff-9335-5cf753c9cf76",
+      "x-ms-routing-request-id" : "CENTRALUS:20180808T010250Z:30501166-1c28-408e-9518-ad5655c9b4bb",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "3b4f9828-b660-4cd5-a631-54d1fc45b019",
+      "x-ms-request-id" : "3b98e159-967b-450a-8262-cb4449d3e1d5",
       "Body" : "{\r\n  \"status\": \"InProgress\"\r\n}"
     }
   }, {
     "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/northcentralus/operations/d3340312-70be-4a7f-b88d-e13834aba9f5?api-version=2018-04-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/northcentralus/operations/07571e29-bc6b-4cf2-b2d2-0be41b452e3e?api-version=2018-06-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Mac OS X/10.13.3 MacAddressHash:16db522de2faa4638a0decfab6f50a46b9b8bd70897b59af29cb339ba4d48272 Java:1.8.0_45 (NetworkManagementClient)"
+      "User-Agent" : "Azure-SDK-For-Java/1.14.1-SNAPSHOT OS:Linux/4.15.0-1018-azure MacAddressHash:8eca8145ae288a9c9f5cef4c67511b31ee50412a43f2a6a889d0037a4deee90d Java:1.8.0_171 (NetworkManagementClient)"
     },
     "Response" : {
-      "date" : "Sun, 20 May 2018 05:31:34 GMT",
+      "date" : "Wed, 08 Aug 2018 01:02:59 GMT",
       "server" : "Microsoft-HTTPAPI/2.0",
       "content-length" : "30",
       "expires" : "-1",
       "transfer-encoding" : "chunked",
       "vary" : "Accept-Encoding",
       "retry-after" : "0",
-      "x-ms-ratelimit-remaining-subscription-reads" : "14991",
+      "x-ms-ratelimit-remaining-subscription-reads" : "11777",
       "StatusCode" : "200",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "ec9397b9-249e-4ad6-a48d-8989c9734c6c",
+      "x-ms-correlation-request-id" : "6ea270ba-297a-42ef-97c1-51a82c78f283",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "WESTUS2:20180520T053134Z:ec9397b9-249e-4ad6-a48d-8989c9734c6c",
+      "x-ms-routing-request-id" : "CENTRALUS:20180808T010300Z:6ea270ba-297a-42ef-97c1-51a82c78f283",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "b3648fe4-2930-4f72-ba91-09882280c2b2",
+      "x-ms-request-id" : "86c9aa5a-9a10-4024-98cd-972c65d26349",
       "Body" : "{\r\n  \"status\": \"InProgress\"\r\n}"
     }
   }, {
     "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/northcentralus/operations/d3340312-70be-4a7f-b88d-e13834aba9f5?api-version=2018-04-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/northcentralus/operations/07571e29-bc6b-4cf2-b2d2-0be41b452e3e?api-version=2018-06-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Mac OS X/10.13.3 MacAddressHash:16db522de2faa4638a0decfab6f50a46b9b8bd70897b59af29cb339ba4d48272 Java:1.8.0_45 (NetworkManagementClient)"
+      "User-Agent" : "Azure-SDK-For-Java/1.14.1-SNAPSHOT OS:Linux/4.15.0-1018-azure MacAddressHash:8eca8145ae288a9c9f5cef4c67511b31ee50412a43f2a6a889d0037a4deee90d Java:1.8.0_171 (NetworkManagementClient)"
     },
     "Response" : {
-      "date" : "Sun, 20 May 2018 05:31:44 GMT",
+      "date" : "Wed, 08 Aug 2018 01:03:10 GMT",
       "server" : "Microsoft-HTTPAPI/2.0",
       "content-length" : "30",
       "expires" : "-1",
       "transfer-encoding" : "chunked",
       "vary" : "Accept-Encoding",
       "retry-after" : "0",
-      "x-ms-ratelimit-remaining-subscription-reads" : "14990",
+      "x-ms-ratelimit-remaining-subscription-reads" : "11776",
       "StatusCode" : "200",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "bb433634-b701-4856-8269-1e6e7aac6abd",
+      "x-ms-correlation-request-id" : "86327aeb-2e5f-4b09-858c-347915f10ca2",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "WESTUS2:20180520T053144Z:bb433634-b701-4856-8269-1e6e7aac6abd",
+      "x-ms-routing-request-id" : "CENTRALUS:20180808T010310Z:86327aeb-2e5f-4b09-858c-347915f10ca2",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "efb8fd01-af9d-4d29-8f88-a44221ba4fd9",
+      "x-ms-request-id" : "dea3161a-a6cf-4d5d-b37b-13033368a331",
       "Body" : "{\r\n  \"status\": \"InProgress\"\r\n}"
     }
   }, {
     "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/northcentralus/operations/d3340312-70be-4a7f-b88d-e13834aba9f5?api-version=2018-04-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/northcentralus/operations/07571e29-bc6b-4cf2-b2d2-0be41b452e3e?api-version=2018-06-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Mac OS X/10.13.3 MacAddressHash:16db522de2faa4638a0decfab6f50a46b9b8bd70897b59af29cb339ba4d48272 Java:1.8.0_45 (NetworkManagementClient)"
+      "User-Agent" : "Azure-SDK-For-Java/1.14.1-SNAPSHOT OS:Linux/4.15.0-1018-azure MacAddressHash:8eca8145ae288a9c9f5cef4c67511b31ee50412a43f2a6a889d0037a4deee90d Java:1.8.0_171 (NetworkManagementClient)"
     },
     "Response" : {
-      "date" : "Sun, 20 May 2018 05:31:54 GMT",
+      "date" : "Wed, 08 Aug 2018 01:03:20 GMT",
       "server" : "Microsoft-HTTPAPI/2.0",
       "content-length" : "30",
       "expires" : "-1",
       "transfer-encoding" : "chunked",
       "vary" : "Accept-Encoding",
       "retry-after" : "0",
-      "x-ms-ratelimit-remaining-subscription-reads" : "14989",
+      "x-ms-ratelimit-remaining-subscription-reads" : "11775",
       "StatusCode" : "200",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "49296943-551a-4663-8992-bc97c66ddabc",
+      "x-ms-correlation-request-id" : "e39a1e3d-b2f6-4ac3-9bde-8b8bc9bf9fb2",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "WESTUS2:20180520T053155Z:49296943-551a-4663-8992-bc97c66ddabc",
+      "x-ms-routing-request-id" : "CENTRALUS:20180808T010320Z:e39a1e3d-b2f6-4ac3-9bde-8b8bc9bf9fb2",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "1fdacbc9-61df-4146-b55d-75a39271b244",
+      "x-ms-request-id" : "0163d551-6467-4786-89f6-dc78b2abbab8",
       "Body" : "{\r\n  \"status\": \"InProgress\"\r\n}"
     }
   }, {
     "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/northcentralus/operations/d3340312-70be-4a7f-b88d-e13834aba9f5?api-version=2018-04-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/northcentralus/operations/07571e29-bc6b-4cf2-b2d2-0be41b452e3e?api-version=2018-06-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Mac OS X/10.13.3 MacAddressHash:16db522de2faa4638a0decfab6f50a46b9b8bd70897b59af29cb339ba4d48272 Java:1.8.0_45 (NetworkManagementClient)"
+      "User-Agent" : "Azure-SDK-For-Java/1.14.1-SNAPSHOT OS:Linux/4.15.0-1018-azure MacAddressHash:8eca8145ae288a9c9f5cef4c67511b31ee50412a43f2a6a889d0037a4deee90d Java:1.8.0_171 (NetworkManagementClient)"
     },
     "Response" : {
-      "date" : "Sun, 20 May 2018 05:32:05 GMT",
+      "date" : "Wed, 08 Aug 2018 01:03:30 GMT",
       "server" : "Microsoft-HTTPAPI/2.0",
       "content-length" : "29",
       "expires" : "-1",
       "transfer-encoding" : "chunked",
       "vary" : "Accept-Encoding",
       "retry-after" : "0",
-      "x-ms-ratelimit-remaining-subscription-reads" : "14988",
+      "x-ms-ratelimit-remaining-subscription-reads" : "11774",
       "StatusCode" : "200",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "bdf3197a-39b4-4f32-b2cb-e19a0b2e14b1",
+      "x-ms-correlation-request-id" : "c343e765-593f-46e1-a405-a8112b77d0c3",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "WESTUS2:20180520T053205Z:bdf3197a-39b4-4f32-b2cb-e19a0b2e14b1",
+      "x-ms-routing-request-id" : "CENTRALUS:20180808T010330Z:c343e765-593f-46e1-a405-a8112b77d0c3",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "67d5e053-7da1-42ee-b2ca-46298af908ea",
+      "x-ms-request-id" : "725ea6a2-5f25-40e1-bca2-8482624185f7",
       "Body" : "{\r\n  \"status\": \"Succeeded\"\r\n}"
     }
   }, {
     "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/erc94266egroup/providers/Microsoft.Network/expressRouteCircuits/erc94266e/peerings/MicrosoftPeering?api-version=2018-04-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/erc067382group/providers/Microsoft.Network/expressRouteCircuits/erc067382/peerings/MicrosoftPeering?api-version=2018-06-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Mac OS X/10.13.3 MacAddressHash:16db522de2faa4638a0decfab6f50a46b9b8bd70897b59af29cb339ba4d48272 Java:1.8.0_45 (NetworkManagementClient)"
+      "User-Agent" : "Azure-SDK-For-Java/1.14.1-SNAPSHOT OS:Linux/4.15.0-1018-azure MacAddressHash:8eca8145ae288a9c9f5cef4c67511b31ee50412a43f2a6a889d0037a4deee90d Java:1.8.0_171 (NetworkManagementClient)"
     },
     "Response" : {
-      "date" : "Sun, 20 May 2018 05:32:06 GMT",
+      "date" : "Wed, 08 Aug 2018 01:03:30 GMT",
       "server" : "Microsoft-HTTPAPI/2.0",
-      "content-length" : "1023",
+      "content-length" : "1085",
       "expires" : "-1",
       "transfer-encoding" : "chunked",
       "vary" : "Accept-Encoding",
       "retry-after" : "0",
-      "x-ms-ratelimit-remaining-subscription-reads" : "14987",
+      "x-ms-ratelimit-remaining-subscription-reads" : "11773",
       "StatusCode" : "200",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "4d4c165c-d5f6-4675-9301-12c570a359b8",
+      "x-ms-correlation-request-id" : "978c672b-c9d4-4002-8d5e-0785322bdb01",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "WESTUS2:20180520T053206Z:4d4c165c-d5f6-4675-9301-12c570a359b8",
+      "x-ms-routing-request-id" : "CENTRALUS:20180808T010331Z:978c672b-c9d4-4002-8d5e-0785322bdb01",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "f4880d8b-f019-44ee-8daa-ccf350c8440a",
-      "Body" : "{\r\n  \"name\": \"MicrosoftPeering\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/erc94266egroup/providers/Microsoft.Network/expressRouteCircuits/erc94266e/peerings/MicrosoftPeering\",\r\n  \"etag\": \"W/\\\"c0c03a99-936a-4556-ac01-48aa502ba232\\\"\",\r\n  \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"peeringType\": \"MicrosoftPeering\",\r\n    \"azureASN\": 12076,\r\n    \"peerASN\": 100,\r\n    \"primaryPeerAddressPrefix\": \"123.0.0.0/30\",\r\n    \"secondaryPeerAddressPrefix\": \"123.0.0.4/30\",\r\n    \"primaryAzurePort\": \"A51-TEST-06GMR-CIS-1-PRI-A\",\r\n    \"secondaryAzurePort\": \"A51-TEST-06GMR-CIS-2-SEC-A\",\r\n    \"state\": \"Enabled\",\r\n    \"vlanId\": 200,\r\n    \"gatewayManagerEtag\": \"\",\r\n    \"lastModifiedBy\": \"Customer\",\r\n    \"microsoftPeeringConfig\": {\r\n      \"advertisedPublicPrefixes\": [\r\n        \"123.1.0.0/24\"\r\n      ],\r\n      \"advertisedPublicPrefixesState\": \"ValidationNeeded\",\r\n      \"customerASN\": 0,\r\n      \"legacyMode\": 0,\r\n      \"routingRegistryName\": \"NONE\"\r\n    },\r\n    \"connections\": []\r\n  }\r\n}"
+      "x-ms-request-id" : "9122cf41-761d-445c-a06b-090231e619c9",
+      "Body" : "{\r\n  \"name\": \"MicrosoftPeering\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/erc067382group/providers/Microsoft.Network/expressRouteCircuits/erc067382/peerings/MicrosoftPeering\",\r\n  \"etag\": \"W/\\\"0c4fcedb-1885-4ef4-8619-3ea39cbc9cc2\\\"\",\r\n  \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"peeringType\": \"MicrosoftPeering\",\r\n    \"azureASN\": 12076,\r\n    \"peerASN\": 100,\r\n    \"primaryPeerAddressPrefix\": \"123.0.0.0/30\",\r\n    \"secondaryPeerAddressPrefix\": \"123.0.0.4/30\",\r\n    \"primaryAzurePort\": \"A51-TEST-06GMR-CIS-1-PRI-A\",\r\n    \"secondaryAzurePort\": \"A51-TEST-06GMR-CIS-2-SEC-A\",\r\n    \"state\": \"Enabled\",\r\n    \"vlanId\": 200,\r\n    \"gatewayManagerEtag\": \"\",\r\n    \"lastModifiedBy\": \"Customer\",\r\n    \"microsoftPeeringConfig\": {\r\n      \"advertisedPublicPrefixes\": [\r\n        \"123.1.0.0/24\"\r\n      ],\r\n      \"advertisedPublicPrefixesState\": \"ValidationNeeded\",\r\n      \"customerASN\": 0,\r\n      \"legacyMode\": 0,\r\n      \"routingRegistryName\": \"NONE\"\r\n    },\r\n    \"connections\": []\r\n  },\r\n  \"type\": \"Microsoft.Network/expressRouteCircuits/peerings\"\r\n}"
     }
   }, {
     "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/erc94266egroup/providers/Microsoft.Network/expressRouteCircuits/erc94266e?api-version=2018-04-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/erc067382group/providers/Microsoft.Network/expressRouteCircuits/erc067382?api-version=2018-06-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Mac OS X/10.13.3 MacAddressHash:16db522de2faa4638a0decfab6f50a46b9b8bd70897b59af29cb339ba4d48272 Java:1.8.0_45 (NetworkManagementClient)",
+      "User-Agent" : "Azure-SDK-For-Java/1.14.1-SNAPSHOT OS:Linux/4.15.0-1018-azure MacAddressHash:8eca8145ae288a9c9f5cef4c67511b31ee50412a43f2a6a889d0037a4deee90d Java:1.8.0_171 (NetworkManagementClient)",
       "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "date" : "Sun, 20 May 2018 05:32:07 GMT",
+      "date" : "Wed, 08 Aug 2018 01:03:31 GMT",
       "server" : "Microsoft-HTTPAPI/2.0",
-      "content-length" : "2187",
+      "content-length" : "2255",
       "expires" : "-1",
       "transfer-encoding" : "chunked",
       "vary" : "Accept-Encoding",
       "retry-after" : "0",
-      "x-ms-ratelimit-remaining-subscription-reads" : "14986",
+      "x-ms-ratelimit-remaining-subscription-reads" : "11772",
       "StatusCode" : "200",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "7891da8e-09d6-4e58-ac62-3b549d978b15",
+      "x-ms-correlation-request-id" : "9a4c4e49-43f4-49cd-895f-57732ea3fc28",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "WESTUS2:20180520T053207Z:7891da8e-09d6-4e58-ac62-3b549d978b15",
+      "x-ms-routing-request-id" : "CENTRALUS:20180808T010332Z:9a4c4e49-43f4-49cd-895f-57732ea3fc28",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "81809ad4-54c0-42e5-b76b-d8633a4804c5",
-      "Body" : "{\r\n  \"name\": \"erc94266e\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/erc94266egroup/providers/Microsoft.Network/expressRouteCircuits/erc94266e\",\r\n  \"etag\": \"W/\\\"c0c03a99-936a-4556-ac01-48aa502ba232\\\"\",\r\n  \"type\": \"Microsoft.Network/expressRouteCircuits\",\r\n  \"location\": \"northcentralus\",\r\n  \"tags\": {\r\n    \"tag1\": \"value1\"\r\n  },\r\n  \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"ddab6ff2-1607-4a9e-9235-9bb3d4d2c14c\",\r\n    \"peerings\": [\r\n      {\r\n        \"name\": \"MicrosoftPeering\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/erc94266egroup/providers/Microsoft.Network/expressRouteCircuits/erc94266e/peerings/MicrosoftPeering\",\r\n        \"etag\": \"W/\\\"c0c03a99-936a-4556-ac01-48aa502ba232\\\"\",\r\n        \"properties\": {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"peeringType\": \"MicrosoftPeering\",\r\n          \"azureASN\": 12076,\r\n          \"peerASN\": 100,\r\n          \"primaryPeerAddressPrefix\": \"123.0.0.0/30\",\r\n          \"secondaryPeerAddressPrefix\": \"123.0.0.4/30\",\r\n          \"primaryAzurePort\": \"\",\r\n          \"secondaryAzurePort\": \"\",\r\n          \"state\": \"Enabled\",\r\n          \"vlanId\": 200,\r\n          \"gatewayManagerEtag\": \"\",\r\n          \"lastModifiedBy\": \"Customer\",\r\n          \"microsoftPeeringConfig\": {\r\n            \"advertisedPublicPrefixes\": [\r\n              \"123.1.0.0/24\"\r\n            ],\r\n            \"advertisedPublicPrefixesState\": \"ValidationNeeded\",\r\n            \"customerASN\": 0,\r\n            \"legacyMode\": 0,\r\n            \"routingRegistryName\": \"NONE\"\r\n          },\r\n          \"connections\": []\r\n        }\r\n      }\r\n    ],\r\n    \"authorizations\": [],\r\n    \"serviceProviderProperties\": {\r\n      \"serviceProviderName\": \"Microsoft ER Test\",\r\n      \"peeringLocation\": \"Area51\",\r\n      \"bandwidthInMbps\": 50\r\n    },\r\n    \"circuitProvisioningState\": \"Enabled\",\r\n    \"allowClassicOperations\": false,\r\n    \"gatewayManagerEtag\": \"\",\r\n    \"serviceKey\": \"3a47c73e-ef6e-4125-8027-a668def5c200\",\r\n    \"serviceProviderProvisioningState\": \"NotProvisioned\"\r\n  },\r\n  \"sku\": {\r\n    \"name\": \"Premium_MeteredData\",\r\n    \"tier\": \"Premium\",\r\n    \"family\": \"MeteredData\"\r\n  }\r\n}"
+      "x-ms-request-id" : "a66226a1-8366-4280-8e13-7d9c69dabdad",
+      "Body" : "{\r\n  \"name\": \"erc067382\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/erc067382group/providers/Microsoft.Network/expressRouteCircuits/erc067382\",\r\n  \"etag\": \"W/\\\"0c4fcedb-1885-4ef4-8619-3ea39cbc9cc2\\\"\",\r\n  \"type\": \"Microsoft.Network/expressRouteCircuits\",\r\n  \"location\": \"northcentralus\",\r\n  \"tags\": {\r\n    \"tag1\": \"value1\"\r\n  },\r\n  \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"778f2afb-a863-47d0-a7f6-4b552112ea2e\",\r\n    \"peerings\": [\r\n      {\r\n        \"name\": \"MicrosoftPeering\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/erc067382group/providers/Microsoft.Network/expressRouteCircuits/erc067382/peerings/MicrosoftPeering\",\r\n        \"etag\": \"W/\\\"0c4fcedb-1885-4ef4-8619-3ea39cbc9cc2\\\"\",\r\n        \"properties\": {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"peeringType\": \"MicrosoftPeering\",\r\n          \"azureASN\": 12076,\r\n          \"peerASN\": 100,\r\n          \"primaryPeerAddressPrefix\": \"123.0.0.0/30\",\r\n          \"secondaryPeerAddressPrefix\": \"123.0.0.4/30\",\r\n          \"primaryAzurePort\": \"\",\r\n          \"secondaryAzurePort\": \"\",\r\n          \"state\": \"Enabled\",\r\n          \"vlanId\": 200,\r\n          \"gatewayManagerEtag\": \"\",\r\n          \"lastModifiedBy\": \"Customer\",\r\n          \"microsoftPeeringConfig\": {\r\n            \"advertisedPublicPrefixes\": [\r\n              \"123.1.0.0/24\"\r\n            ],\r\n            \"advertisedPublicPrefixesState\": \"ValidationNeeded\",\r\n            \"customerASN\": 0,\r\n            \"legacyMode\": 0,\r\n            \"routingRegistryName\": \"NONE\"\r\n          },\r\n          \"connections\": []\r\n        },\r\n        \"type\": \"Microsoft.Network/expressRouteCircuits/peerings\"\r\n      }\r\n    ],\r\n    \"authorizations\": [],\r\n    \"serviceProviderProperties\": {\r\n      \"serviceProviderName\": \"Microsoft ER Test\",\r\n      \"peeringLocation\": \"Area51\",\r\n      \"bandwidthInMbps\": 50\r\n    },\r\n    \"circuitProvisioningState\": \"Enabled\",\r\n    \"allowClassicOperations\": false,\r\n    \"gatewayManagerEtag\": \"\",\r\n    \"serviceKey\": \"3e407323-5adb-41f7-9929-208cbfd5efa0\",\r\n    \"serviceProviderProvisioningState\": \"NotProvisioned\"\r\n  },\r\n  \"sku\": {\r\n    \"name\": \"Premium_MeteredData\",\r\n    \"tier\": \"Premium\",\r\n    \"family\": \"MeteredData\"\r\n  }\r\n}"
     }
   }, {
     "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/expressRouteCircuits?api-version=2018-04-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/expressRouteCircuits?api-version=2018-06-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Mac OS X/10.13.3 MacAddressHash:16db522de2faa4638a0decfab6f50a46b9b8bd70897b59af29cb339ba4d48272 Java:1.8.0_45 (NetworkManagementClient)",
+      "User-Agent" : "Azure-SDK-For-Java/1.14.1-SNAPSHOT OS:Linux/4.15.0-1018-azure MacAddressHash:8eca8145ae288a9c9f5cef4c67511b31ee50412a43f2a6a889d0037a4deee90d Java:1.8.0_171 (NetworkManagementClient)",
       "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "date" : "Sun, 20 May 2018 05:32:08 GMT",
-      "content-length" : "4934",
+      "date" : "Wed, 08 Aug 2018 01:03:32 GMT",
+      "content-length" : "5048",
       "expires" : "-1",
       "vary" : "Accept-Encoding",
-      "x-ms-original-request-ids" : "ddf6bfcc-3bfc-451d-ac15-f6f8292629f2",
+      "x-ms-original-request-ids" : "8162223f-cb16-4de2-9032-f9ed3d79d410",
       "retry-after" : "0",
-      "x-ms-ratelimit-remaining-subscription-reads" : "14985",
+      "x-ms-ratelimit-remaining-subscription-reads" : "11771",
       "StatusCode" : "200",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "b3d9c1cc-f3db-4b91-bb4f-4fd022a2a180",
+      "x-ms-correlation-request-id" : "44033fbe-4509-44ef-89b1-f078b24bc410",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "WESTUS2:20180520T053208Z:b3d9c1cc-f3db-4b91-bb4f-4fd022a2a180",
+      "x-ms-routing-request-id" : "CENTRALUS:20180808T010332Z:44033fbe-4509-44ef-89b1-f078b24bc410",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "b3d9c1cc-f3db-4b91-bb4f-4fd022a2a180",
-      "Body" : "{\"value\":[{\"name\":\"circuit1\",\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/cli_test_express_routepew5yso7rwsl3glwosveugjt3xeqjtg26nvvtvjxkit4ywbjicgpn/providers/Microsoft.Network/expressRouteCircuits/circuit1\",\"etag\":\"W/\\\"ef5fac86-929c-48b2-9a72-737c892e9dac\\\"\",\"type\":\"Microsoft.Network/expressRouteCircuits\",\"location\":\"westus\",\"properties\":{\"provisioningState\":\"Failed\",\"resourceGuid\":\"3df14f70-0c9b-4ba6-8fb1-17fa8789b334\",\"peerings\":[],\"authorizations\":[],\"serviceProviderProperties\":{\"serviceProviderName\":\"Microsoft ER Test\",\"peeringLocation\":\"Area51\",\"bandwidthInMbps\":50},\"circuitProvisioningState\":\"Enabled\",\"allowClassicOperations\":false,\"gatewayManagerEtag\":\"2\",\"serviceKey\":\"1b078101-471a-454c-a146-fac814e1a575\",\"serviceProviderProvisioningState\":\"Provisioning\"},\"sku\":{\"name\":\"Premium_MeteredData\",\"tier\":\"Premium\",\"family\":\"MeteredData\"}},{\"name\":\"erc360426\",\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/erc360426group/providers/Microsoft.Network/expressRouteCircuits/erc360426\",\"etag\":\"W/\\\"99a8123f-133c-4723-992f-e22e291fde40\\\"\",\"type\":\"Microsoft.Network/expressRouteCircuits\",\"location\":\"northcentralus\",\"tags\":{\"tag1\":\"value1\"},\"properties\":{\"provisioningState\":\"Failed\",\"resourceGuid\":\"952447cd-239b-4acb-8a4b-6638ed43be71\",\"peerings\":[],\"authorizations\":[],\"serviceProviderProperties\":{\"serviceProviderName\":\"Microsoft ER Test\",\"peeringLocation\":\"Area51\",\"bandwidthInMbps\":50},\"circuitProvisioningState\":\"Enabled\",\"allowClassicOperations\":false,\"gatewayManagerEtag\":\"2\",\"serviceKey\":\"0147db0b-f777-46a1-ad5c-9d1911eae01a\",\"serviceProviderProvisioningState\":\"Provisioning\"},\"sku\":{\"name\":\"Premium_MeteredData\",\"tier\":\"Premium\",\"family\":\"MeteredData\"}},{\"name\":\"erc94266e\",\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/erc94266egroup/providers/Microsoft.Network/expressRouteCircuits/erc94266e\",\"etag\":\"W/\\\"c0c03a99-936a-4556-ac01-48aa502ba232\\\"\",\"type\":\"Microsoft.Network/expressRouteCircuits\",\"location\":\"northcentralus\",\"tags\":{\"tag1\":\"value1\"},\"properties\":{\"provisioningState\":\"Succeeded\",\"resourceGuid\":\"ddab6ff2-1607-4a9e-9235-9bb3d4d2c14c\",\"peerings\":[{\"name\":\"MicrosoftPeering\",\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/erc94266egroup/providers/Microsoft.Network/expressRouteCircuits/erc94266e/peerings/MicrosoftPeering\",\"etag\":\"W/\\\"c0c03a99-936a-4556-ac01-48aa502ba232\\\"\",\"properties\":{\"provisioningState\":\"Succeeded\",\"peeringType\":\"MicrosoftPeering\",\"azureASN\":12076,\"peerASN\":100,\"primaryPeerAddressPrefix\":\"123.0.0.0/30\",\"secondaryPeerAddressPrefix\":\"123.0.0.4/30\",\"primaryAzurePort\":\"A51-TEST-06GMR-CIS-1-PRI-A\",\"secondaryAzurePort\":\"A51-TEST-06GMR-CIS-2-SEC-A\",\"state\":\"Enabled\",\"vlanId\":200,\"gatewayManagerEtag\":\"\",\"lastModifiedBy\":\"Customer\",\"microsoftPeeringConfig\":{\"advertisedPublicPrefixes\":[\"123.1.0.0/24\"],\"advertisedPublicPrefixesState\":\"ValidationNeeded\",\"customerASN\":0,\"legacyMode\":0,\"routingRegistryName\":\"NONE\"},\"connections\":[]}}],\"authorizations\":[],\"serviceProviderProperties\":{\"serviceProviderName\":\"Microsoft ER Test\",\"peeringLocation\":\"Area51\",\"bandwidthInMbps\":50},\"circuitProvisioningState\":\"Enabled\",\"allowClassicOperations\":false,\"gatewayManagerEtag\":\"\",\"serviceKey\":\"3a47c73e-ef6e-4125-8027-a668def5c200\",\"serviceProviderProvisioningState\":\"NotProvisioned\"},\"sku\":{\"name\":\"Premium_MeteredData\",\"tier\":\"Premium\",\"family\":\"MeteredData\"}},{\"name\":\"erc798782\",\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg69214/providers/Microsoft.Network/expressRouteCircuits/erc798782\",\"etag\":\"W/\\\"d25f708a-e954-4fde-a1b4-64d882160bae\\\"\",\"type\":\"Microsoft.Network/expressRouteCircuits\",\"location\":\"northcentralus\",\"tags\":{\"tag1\":\"value1\"},\"properties\":{\"provisioningState\":\"Failed\",\"resourceGuid\":\"6113a3d1-813c-4d03-b05e-b17f4ff036c2\",\"peerings\":[{\"name\":\"MicrosoftPeering\",\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg69214/providers/Microsoft.Network/expressRouteCircuits/erc798782/peerings/MicrosoftPeering\",\"etag\":\"W/\\\"d25f708a-e954-4fde-a1b4-64d882160bae\\\"\",\"properties\":{\"provisioningState\":\"Deleting\",\"peeringType\":\"MicrosoftPeering\",\"azureASN\":0,\"peerASN\":100,\"primaryPeerAddressPrefix\":\"123.0.0.0/30\",\"secondaryPeerAddressPrefix\":\"123.0.0.4/30\",\"state\":\"Disabled\",\"vlanId\":200,\"lastModifiedBy\":\"\",\"microsoftPeeringConfig\":{\"advertisedPublicPrefixes\":[\"123.1.0.0/24\"],\"advertisedPublicPrefixesState\":\"NotConfigured\",\"customerASN\":0,\"legacyMode\":0,\"routingRegistryName\":\"NONE\"},\"connections\":[]}}],\"authorizations\":[],\"serviceProviderProperties\":{\"serviceProviderName\":\"Microsoft ER Test\",\"peeringLocation\":\"Area51\",\"bandwidthInMbps\":50},\"circuitProvisioningState\":\"Enabled\",\"allowClassicOperations\":false,\"gatewayManagerEtag\":\"76\",\"serviceKey\":\"f3a0e8dd-d358-42bb-9471-68f8f2f5d112\",\"serviceProviderProvisioningState\":\"Provisioned\"},\"sku\":{\"name\":\"Premium_MeteredData\",\"tier\":\"Premium\",\"family\":\"MeteredData\"}}]}"
+      "x-ms-request-id" : "44033fbe-4509-44ef-89b1-f078b24bc410",
+      "Body" : "{\"value\":[{\"name\":\"circuit1\",\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/cli_test_express_routepew5yso7rwsl3glwosveugjt3xeqjtg26nvvtvjxkit4ywbjicgpn/providers/Microsoft.Network/expressRouteCircuits/circuit1\",\"etag\":\"W/\\\"5674adf4-dccf-4e77-8017-8847c8b383c2\\\"\",\"type\":\"Microsoft.Network/expressRouteCircuits\",\"location\":\"westus\",\"properties\":{\"provisioningState\":\"Failed\",\"resourceGuid\":\"3df14f70-0c9b-4ba6-8fb1-17fa8789b334\",\"peerings\":[],\"authorizations\":[],\"serviceProviderProperties\":{\"serviceProviderName\":\"Microsoft ER Test\",\"peeringLocation\":\"Area51\",\"bandwidthInMbps\":50},\"circuitProvisioningState\":\"Enabled\",\"allowClassicOperations\":false,\"gatewayManagerEtag\":\"2\",\"serviceKey\":\"1b078101-471a-454c-a146-fac814e1a575\",\"serviceProviderProvisioningState\":\"Provisioning\"},\"sku\":{\"name\":\"Premium_MeteredData\",\"tier\":\"Premium\",\"family\":\"MeteredData\"}},{\"name\":\"erc067382\",\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/erc067382group/providers/Microsoft.Network/expressRouteCircuits/erc067382\",\"etag\":\"W/\\\"0c4fcedb-1885-4ef4-8619-3ea39cbc9cc2\\\"\",\"type\":\"Microsoft.Network/expressRouteCircuits\",\"location\":\"northcentralus\",\"tags\":{\"tag1\":\"value1\"},\"properties\":{\"provisioningState\":\"Succeeded\",\"resourceGuid\":\"778f2afb-a863-47d0-a7f6-4b552112ea2e\",\"peerings\":[{\"name\":\"MicrosoftPeering\",\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/erc067382group/providers/Microsoft.Network/expressRouteCircuits/erc067382/peerings/MicrosoftPeering\",\"etag\":\"W/\\\"0c4fcedb-1885-4ef4-8619-3ea39cbc9cc2\\\"\",\"properties\":{\"provisioningState\":\"Succeeded\",\"peeringType\":\"MicrosoftPeering\",\"azureASN\":12076,\"peerASN\":100,\"primaryPeerAddressPrefix\":\"123.0.0.0/30\",\"secondaryPeerAddressPrefix\":\"123.0.0.4/30\",\"primaryAzurePort\":\"A51-TEST-06GMR-CIS-1-PRI-A\",\"secondaryAzurePort\":\"A51-TEST-06GMR-CIS-2-SEC-A\",\"state\":\"Enabled\",\"vlanId\":200,\"gatewayManagerEtag\":\"\",\"lastModifiedBy\":\"Customer\",\"microsoftPeeringConfig\":{\"advertisedPublicPrefixes\":[\"123.1.0.0/24\"],\"advertisedPublicPrefixesState\":\"ValidationNeeded\",\"customerASN\":0,\"legacyMode\":0,\"routingRegistryName\":\"NONE\"},\"connections\":[]},\"type\":\"Microsoft.Network/expressRouteCircuits/peerings\"}],\"authorizations\":[],\"serviceProviderProperties\":{\"serviceProviderName\":\"Microsoft ER Test\",\"peeringLocation\":\"Area51\",\"bandwidthInMbps\":50},\"circuitProvisioningState\":\"Enabled\",\"allowClassicOperations\":false,\"gatewayManagerEtag\":\"\",\"serviceKey\":\"3e407323-5adb-41f7-9929-208cbfd5efa0\",\"serviceProviderProvisioningState\":\"NotProvisioned\"},\"sku\":{\"name\":\"Premium_MeteredData\",\"tier\":\"Premium\",\"family\":\"MeteredData\"}},{\"name\":\"erc360426\",\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/erc360426group/providers/Microsoft.Network/expressRouteCircuits/erc360426\",\"etag\":\"W/\\\"66f3b37c-2151-4fba-9b62-0cb383f2a897\\\"\",\"type\":\"Microsoft.Network/expressRouteCircuits\",\"location\":\"northcentralus\",\"tags\":{\"tag1\":\"value1\"},\"properties\":{\"provisioningState\":\"Failed\",\"resourceGuid\":\"952447cd-239b-4acb-8a4b-6638ed43be71\",\"peerings\":[],\"authorizations\":[],\"serviceProviderProperties\":{\"serviceProviderName\":\"Microsoft ER Test\",\"peeringLocation\":\"Area51\",\"bandwidthInMbps\":50},\"circuitProvisioningState\":\"Enabled\",\"allowClassicOperations\":false,\"gatewayManagerEtag\":\"2\",\"serviceKey\":\"0147db0b-f777-46a1-ad5c-9d1911eae01a\",\"serviceProviderProvisioningState\":\"Provisioning\"},\"sku\":{\"name\":\"Premium_MeteredData\",\"tier\":\"Premium\",\"family\":\"MeteredData\"}},{\"name\":\"erc798782\",\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg69214/providers/Microsoft.Network/expressRouteCircuits/erc798782\",\"etag\":\"W/\\\"0509a37a-7014-4811-9298-363a84190d63\\\"\",\"type\":\"Microsoft.Network/expressRouteCircuits\",\"location\":\"northcentralus\",\"tags\":{\"tag1\":\"value1\"},\"properties\":{\"provisioningState\":\"Failed\",\"resourceGuid\":\"6113a3d1-813c-4d03-b05e-b17f4ff036c2\",\"peerings\":[{\"name\":\"MicrosoftPeering\",\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg69214/providers/Microsoft.Network/expressRouteCircuits/erc798782/peerings/MicrosoftPeering\",\"etag\":\"W/\\\"0509a37a-7014-4811-9298-363a84190d63\\\"\",\"properties\":{\"provisioningState\":\"Deleting\",\"peeringType\":\"MicrosoftPeering\",\"azureASN\":0,\"peerASN\":100,\"primaryPeerAddressPrefix\":\"123.0.0.0/30\",\"secondaryPeerAddressPrefix\":\"123.0.0.4/30\",\"state\":\"Disabled\",\"vlanId\":200,\"lastModifiedBy\":\"\",\"microsoftPeeringConfig\":{\"advertisedPublicPrefixes\":[\"123.1.0.0/24\"],\"advertisedPublicPrefixesState\":\"NotConfigured\",\"customerASN\":0,\"legacyMode\":0,\"routingRegistryName\":\"NONE\"},\"connections\":[]},\"type\":\"Microsoft.Network/expressRouteCircuits/peerings\"}],\"authorizations\":[],\"serviceProviderProperties\":{\"serviceProviderName\":\"Microsoft ER Test\",\"peeringLocation\":\"Area51\",\"bandwidthInMbps\":50},\"circuitProvisioningState\":\"Enabled\",\"allowClassicOperations\":false,\"gatewayManagerEtag\":\"76\",\"serviceKey\":\"f3a0e8dd-d358-42bb-9471-68f8f2f5d112\",\"serviceProviderProvisioningState\":\"Provisioned\"},\"sku\":{\"name\":\"Premium_MeteredData\",\"tier\":\"Premium\",\"family\":\"MeteredData\"}}]}"
     }
   }, {
     "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/erc94266egroup/providers/Microsoft.Network/expressRouteCircuits/erc94266e?api-version=2018-04-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/erc067382group/providers/Microsoft.Network/expressRouteCircuits/erc067382?api-version=2018-06-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Mac OS X/10.13.3 MacAddressHash:16db522de2faa4638a0decfab6f50a46b9b8bd70897b59af29cb339ba4d48272 Java:1.8.0_45 (NetworkManagementClient)",
+      "User-Agent" : "Azure-SDK-For-Java/1.14.1-SNAPSHOT OS:Linux/4.15.0-1018-azure MacAddressHash:8eca8145ae288a9c9f5cef4c67511b31ee50412a43f2a6a889d0037a4deee90d Java:1.8.0_171 (NetworkManagementClient)",
       "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "date" : "Sun, 20 May 2018 05:32:10 GMT",
+      "date" : "Wed, 08 Aug 2018 01:03:32 GMT",
       "server" : "Microsoft-HTTPAPI/2.0",
-      "content-length" : "2187",
+      "content-length" : "2255",
       "expires" : "-1",
       "transfer-encoding" : "chunked",
       "vary" : "Accept-Encoding",
       "retry-after" : "0",
-      "x-ms-ratelimit-remaining-subscription-reads" : "14984",
+      "x-ms-ratelimit-remaining-subscription-reads" : "11770",
       "StatusCode" : "200",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "87404554-8060-4644-a503-b9f292ab6eb4",
+      "x-ms-correlation-request-id" : "85cea67e-071a-4234-bb3e-d18a961889b8",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "WESTUS2:20180520T053210Z:87404554-8060-4644-a503-b9f292ab6eb4",
+      "x-ms-routing-request-id" : "CENTRALUS:20180808T010333Z:85cea67e-071a-4234-bb3e-d18a961889b8",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "4bd56ad7-785c-47b7-8536-669ba1a8de14",
-      "Body" : "{\r\n  \"name\": \"erc94266e\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/erc94266egroup/providers/Microsoft.Network/expressRouteCircuits/erc94266e\",\r\n  \"etag\": \"W/\\\"c0c03a99-936a-4556-ac01-48aa502ba232\\\"\",\r\n  \"type\": \"Microsoft.Network/expressRouteCircuits\",\r\n  \"location\": \"northcentralus\",\r\n  \"tags\": {\r\n    \"tag1\": \"value1\"\r\n  },\r\n  \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"ddab6ff2-1607-4a9e-9235-9bb3d4d2c14c\",\r\n    \"peerings\": [\r\n      {\r\n        \"name\": \"MicrosoftPeering\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/erc94266egroup/providers/Microsoft.Network/expressRouteCircuits/erc94266e/peerings/MicrosoftPeering\",\r\n        \"etag\": \"W/\\\"c0c03a99-936a-4556-ac01-48aa502ba232\\\"\",\r\n        \"properties\": {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"peeringType\": \"MicrosoftPeering\",\r\n          \"azureASN\": 12076,\r\n          \"peerASN\": 100,\r\n          \"primaryPeerAddressPrefix\": \"123.0.0.0/30\",\r\n          \"secondaryPeerAddressPrefix\": \"123.0.0.4/30\",\r\n          \"primaryAzurePort\": \"\",\r\n          \"secondaryAzurePort\": \"\",\r\n          \"state\": \"Enabled\",\r\n          \"vlanId\": 200,\r\n          \"gatewayManagerEtag\": \"\",\r\n          \"lastModifiedBy\": \"Customer\",\r\n          \"microsoftPeeringConfig\": {\r\n            \"advertisedPublicPrefixes\": [\r\n              \"123.1.0.0/24\"\r\n            ],\r\n            \"advertisedPublicPrefixesState\": \"ValidationNeeded\",\r\n            \"customerASN\": 0,\r\n            \"legacyMode\": 0,\r\n            \"routingRegistryName\": \"NONE\"\r\n          },\r\n          \"connections\": []\r\n        }\r\n      }\r\n    ],\r\n    \"authorizations\": [],\r\n    \"serviceProviderProperties\": {\r\n      \"serviceProviderName\": \"Microsoft ER Test\",\r\n      \"peeringLocation\": \"Area51\",\r\n      \"bandwidthInMbps\": 50\r\n    },\r\n    \"circuitProvisioningState\": \"Enabled\",\r\n    \"allowClassicOperations\": false,\r\n    \"gatewayManagerEtag\": \"\",\r\n    \"serviceKey\": \"3a47c73e-ef6e-4125-8027-a668def5c200\",\r\n    \"serviceProviderProvisioningState\": \"NotProvisioned\"\r\n  },\r\n  \"sku\": {\r\n    \"name\": \"Premium_MeteredData\",\r\n    \"tier\": \"Premium\",\r\n    \"family\": \"MeteredData\"\r\n  }\r\n}"
+      "x-ms-request-id" : "4b7a727a-2cbc-45cc-a2ec-e3a19ac58591",
+      "Body" : "{\r\n  \"name\": \"erc067382\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/erc067382group/providers/Microsoft.Network/expressRouteCircuits/erc067382\",\r\n  \"etag\": \"W/\\\"0c4fcedb-1885-4ef4-8619-3ea39cbc9cc2\\\"\",\r\n  \"type\": \"Microsoft.Network/expressRouteCircuits\",\r\n  \"location\": \"northcentralus\",\r\n  \"tags\": {\r\n    \"tag1\": \"value1\"\r\n  },\r\n  \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"778f2afb-a863-47d0-a7f6-4b552112ea2e\",\r\n    \"peerings\": [\r\n      {\r\n        \"name\": \"MicrosoftPeering\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/erc067382group/providers/Microsoft.Network/expressRouteCircuits/erc067382/peerings/MicrosoftPeering\",\r\n        \"etag\": \"W/\\\"0c4fcedb-1885-4ef4-8619-3ea39cbc9cc2\\\"\",\r\n        \"properties\": {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"peeringType\": \"MicrosoftPeering\",\r\n          \"azureASN\": 12076,\r\n          \"peerASN\": 100,\r\n          \"primaryPeerAddressPrefix\": \"123.0.0.0/30\",\r\n          \"secondaryPeerAddressPrefix\": \"123.0.0.4/30\",\r\n          \"primaryAzurePort\": \"\",\r\n          \"secondaryAzurePort\": \"\",\r\n          \"state\": \"Enabled\",\r\n          \"vlanId\": 200,\r\n          \"gatewayManagerEtag\": \"\",\r\n          \"lastModifiedBy\": \"Customer\",\r\n          \"microsoftPeeringConfig\": {\r\n            \"advertisedPublicPrefixes\": [\r\n              \"123.1.0.0/24\"\r\n            ],\r\n            \"advertisedPublicPrefixesState\": \"ValidationNeeded\",\r\n            \"customerASN\": 0,\r\n            \"legacyMode\": 0,\r\n            \"routingRegistryName\": \"NONE\"\r\n          },\r\n          \"connections\": []\r\n        },\r\n        \"type\": \"Microsoft.Network/expressRouteCircuits/peerings\"\r\n      }\r\n    ],\r\n    \"authorizations\": [],\r\n    \"serviceProviderProperties\": {\r\n      \"serviceProviderName\": \"Microsoft ER Test\",\r\n      \"peeringLocation\": \"Area51\",\r\n      \"bandwidthInMbps\": 50\r\n    },\r\n    \"circuitProvisioningState\": \"Enabled\",\r\n    \"allowClassicOperations\": false,\r\n    \"gatewayManagerEtag\": \"\",\r\n    \"serviceKey\": \"3e407323-5adb-41f7-9929-208cbfd5efa0\",\r\n    \"serviceProviderProvisioningState\": \"NotProvisioned\"\r\n  },\r\n  \"sku\": {\r\n    \"name\": \"Premium_MeteredData\",\r\n    \"tier\": \"Premium\",\r\n    \"family\": \"MeteredData\"\r\n  }\r\n}"
     }
   }, {
     "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/erc94266egroup/providers/Microsoft.Network/expressRouteCircuits/erc94266e?api-version=2018-04-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/erc067382group/providers/Microsoft.Network/expressRouteCircuits/erc067382?api-version=2018-06-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Mac OS X/10.13.3 MacAddressHash:16db522de2faa4638a0decfab6f50a46b9b8bd70897b59af29cb339ba4d48272 Java:1.8.0_45 (NetworkManagementClient)",
+      "User-Agent" : "Azure-SDK-For-Java/1.14.1-SNAPSHOT OS:Linux/4.15.0-1018-azure MacAddressHash:8eca8145ae288a9c9f5cef4c67511b31ee50412a43f2a6a889d0037a4deee90d Java:1.8.0_171 (NetworkManagementClient)",
       "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "date" : "Sun, 20 May 2018 05:32:11 GMT",
+      "date" : "Wed, 08 Aug 2018 01:03:33 GMT",
       "server" : "Microsoft-HTTPAPI/2.0",
-      "content-length" : "2187",
+      "content-length" : "2255",
       "expires" : "-1",
       "transfer-encoding" : "chunked",
       "vary" : "Accept-Encoding",
       "retry-after" : "0",
-      "x-ms-ratelimit-remaining-subscription-reads" : "14983",
+      "x-ms-ratelimit-remaining-subscription-reads" : "11769",
       "StatusCode" : "200",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "2982581f-6be7-4196-abb6-129c24be8d97",
+      "x-ms-correlation-request-id" : "71402df5-c416-44e8-868a-9362f4efda9e",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "WESTUS2:20180520T053211Z:2982581f-6be7-4196-abb6-129c24be8d97",
+      "x-ms-routing-request-id" : "CENTRALUS:20180808T010333Z:71402df5-c416-44e8-868a-9362f4efda9e",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "93022b8e-b06c-4f11-a73b-903bbde62af3",
-      "Body" : "{\r\n  \"name\": \"erc94266e\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/erc94266egroup/providers/Microsoft.Network/expressRouteCircuits/erc94266e\",\r\n  \"etag\": \"W/\\\"c0c03a99-936a-4556-ac01-48aa502ba232\\\"\",\r\n  \"type\": \"Microsoft.Network/expressRouteCircuits\",\r\n  \"location\": \"northcentralus\",\r\n  \"tags\": {\r\n    \"tag1\": \"value1\"\r\n  },\r\n  \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"ddab6ff2-1607-4a9e-9235-9bb3d4d2c14c\",\r\n    \"peerings\": [\r\n      {\r\n        \"name\": \"MicrosoftPeering\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/erc94266egroup/providers/Microsoft.Network/expressRouteCircuits/erc94266e/peerings/MicrosoftPeering\",\r\n        \"etag\": \"W/\\\"c0c03a99-936a-4556-ac01-48aa502ba232\\\"\",\r\n        \"properties\": {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"peeringType\": \"MicrosoftPeering\",\r\n          \"azureASN\": 12076,\r\n          \"peerASN\": 100,\r\n          \"primaryPeerAddressPrefix\": \"123.0.0.0/30\",\r\n          \"secondaryPeerAddressPrefix\": \"123.0.0.4/30\",\r\n          \"primaryAzurePort\": \"\",\r\n          \"secondaryAzurePort\": \"\",\r\n          \"state\": \"Enabled\",\r\n          \"vlanId\": 200,\r\n          \"gatewayManagerEtag\": \"\",\r\n          \"lastModifiedBy\": \"Customer\",\r\n          \"microsoftPeeringConfig\": {\r\n            \"advertisedPublicPrefixes\": [\r\n              \"123.1.0.0/24\"\r\n            ],\r\n            \"advertisedPublicPrefixesState\": \"ValidationNeeded\",\r\n            \"customerASN\": 0,\r\n            \"legacyMode\": 0,\r\n            \"routingRegistryName\": \"NONE\"\r\n          },\r\n          \"connections\": []\r\n        }\r\n      }\r\n    ],\r\n    \"authorizations\": [],\r\n    \"serviceProviderProperties\": {\r\n      \"serviceProviderName\": \"Microsoft ER Test\",\r\n      \"peeringLocation\": \"Area51\",\r\n      \"bandwidthInMbps\": 50\r\n    },\r\n    \"circuitProvisioningState\": \"Enabled\",\r\n    \"allowClassicOperations\": false,\r\n    \"gatewayManagerEtag\": \"\",\r\n    \"serviceKey\": \"3a47c73e-ef6e-4125-8027-a668def5c200\",\r\n    \"serviceProviderProvisioningState\": \"NotProvisioned\"\r\n  },\r\n  \"sku\": {\r\n    \"name\": \"Premium_MeteredData\",\r\n    \"tier\": \"Premium\",\r\n    \"family\": \"MeteredData\"\r\n  }\r\n}"
+      "x-ms-request-id" : "3d2ee1cf-4bdd-4250-9e53-01d5bc71642e",
+      "Body" : "{\r\n  \"name\": \"erc067382\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/erc067382group/providers/Microsoft.Network/expressRouteCircuits/erc067382\",\r\n  \"etag\": \"W/\\\"0c4fcedb-1885-4ef4-8619-3ea39cbc9cc2\\\"\",\r\n  \"type\": \"Microsoft.Network/expressRouteCircuits\",\r\n  \"location\": \"northcentralus\",\r\n  \"tags\": {\r\n    \"tag1\": \"value1\"\r\n  },\r\n  \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"778f2afb-a863-47d0-a7f6-4b552112ea2e\",\r\n    \"peerings\": [\r\n      {\r\n        \"name\": \"MicrosoftPeering\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/erc067382group/providers/Microsoft.Network/expressRouteCircuits/erc067382/peerings/MicrosoftPeering\",\r\n        \"etag\": \"W/\\\"0c4fcedb-1885-4ef4-8619-3ea39cbc9cc2\\\"\",\r\n        \"properties\": {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"peeringType\": \"MicrosoftPeering\",\r\n          \"azureASN\": 12076,\r\n          \"peerASN\": 100,\r\n          \"primaryPeerAddressPrefix\": \"123.0.0.0/30\",\r\n          \"secondaryPeerAddressPrefix\": \"123.0.0.4/30\",\r\n          \"primaryAzurePort\": \"\",\r\n          \"secondaryAzurePort\": \"\",\r\n          \"state\": \"Enabled\",\r\n          \"vlanId\": 200,\r\n          \"gatewayManagerEtag\": \"\",\r\n          \"lastModifiedBy\": \"Customer\",\r\n          \"microsoftPeeringConfig\": {\r\n            \"advertisedPublicPrefixes\": [\r\n              \"123.1.0.0/24\"\r\n            ],\r\n            \"advertisedPublicPrefixesState\": \"ValidationNeeded\",\r\n            \"customerASN\": 0,\r\n            \"legacyMode\": 0,\r\n            \"routingRegistryName\": \"NONE\"\r\n          },\r\n          \"connections\": []\r\n        },\r\n        \"type\": \"Microsoft.Network/expressRouteCircuits/peerings\"\r\n      }\r\n    ],\r\n    \"authorizations\": [],\r\n    \"serviceProviderProperties\": {\r\n      \"serviceProviderName\": \"Microsoft ER Test\",\r\n      \"peeringLocation\": \"Area51\",\r\n      \"bandwidthInMbps\": 50\r\n    },\r\n    \"circuitProvisioningState\": \"Enabled\",\r\n    \"allowClassicOperations\": false,\r\n    \"gatewayManagerEtag\": \"\",\r\n    \"serviceKey\": \"3e407323-5adb-41f7-9929-208cbfd5efa0\",\r\n    \"serviceProviderProvisioningState\": \"NotProvisioned\"\r\n  },\r\n  \"sku\": {\r\n    \"name\": \"Premium_MeteredData\",\r\n    \"tier\": \"Premium\",\r\n    \"family\": \"MeteredData\"\r\n  }\r\n}"
     }
   }, {
     "Method" : "PUT",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/erc94266egroup/providers/Microsoft.Network/expressRouteCircuits/erc94266e/peerings/MicrosoftPeering?api-version=2018-04-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/erc067382group/providers/Microsoft.Network/expressRouteCircuits/erc067382/peerings/MicrosoftPeering?api-version=2018-06-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Mac OS X/10.13.3 MacAddressHash:16db522de2faa4638a0decfab6f50a46b9b8bd70897b59af29cb339ba4d48272 Java:1.8.0_45 (NetworkManagementClient)",
+      "User-Agent" : "Azure-SDK-For-Java/1.14.1-SNAPSHOT OS:Linux/4.15.0-1018-azure MacAddressHash:8eca8145ae288a9c9f5cef4c67511b31ee50412a43f2a6a889d0037a4deee90d Java:1.8.0_171 (NetworkManagementClient)",
       "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "date" : "Sun, 20 May 2018 05:32:12 GMT",
+      "date" : "Wed, 08 Aug 2018 01:03:33 GMT",
       "server" : "Microsoft-HTTPAPI/2.0",
-      "content-length" : "1022",
+      "content-length" : "1084",
       "expires" : "-1",
       "transfer-encoding" : "chunked",
       "vary" : "Accept-Encoding",
-      "x-ms-ratelimit-remaining-subscription-writes" : "1196",
+      "x-ms-ratelimit-remaining-subscription-writes" : "1146",
       "retry-after" : "0",
       "StatusCode" : "200",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "afb51ddb-76b5-4961-8462-b93e334b8fbc",
+      "x-ms-correlation-request-id" : "fe03c351-1786-4e03-ab1f-ceeb0af38d18",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "WESTUS2:20180520T053212Z:afb51ddb-76b5-4961-8462-b93e334b8fbc",
+      "x-ms-routing-request-id" : "CENTRALUS:20180808T010334Z:fe03c351-1786-4e03-ab1f-ceeb0af38d18",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "736f063b-85b3-4e6d-9805-6ce4e0fdc624",
-      "Body" : "{\r\n  \"name\": \"MicrosoftPeering\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/erc94266egroup/providers/Microsoft.Network/expressRouteCircuits/erc94266e/peerings/MicrosoftPeering\",\r\n  \"etag\": \"W/\\\"a3fa1f7a-8f54-4d9c-893a-2e94b52f40fb\\\"\",\r\n  \"properties\": {\r\n    \"provisioningState\": \"Updating\",\r\n    \"peeringType\": \"MicrosoftPeering\",\r\n    \"azureASN\": 12076,\r\n    \"peerASN\": 101,\r\n    \"primaryPeerAddressPrefix\": \"123.0.0.0/30\",\r\n    \"secondaryPeerAddressPrefix\": \"123.0.0.8/30\",\r\n    \"primaryAzurePort\": \"A51-TEST-06GMR-CIS-1-PRI-A\",\r\n    \"secondaryAzurePort\": \"A51-TEST-06GMR-CIS-2-SEC-A\",\r\n    \"state\": \"Enabled\",\r\n    \"vlanId\": 300,\r\n    \"gatewayManagerEtag\": \"\",\r\n    \"lastModifiedBy\": \"Customer\",\r\n    \"microsoftPeeringConfig\": {\r\n      \"advertisedPublicPrefixes\": [\r\n        \"123.1.0.0/24\"\r\n      ],\r\n      \"advertisedPublicPrefixesState\": \"ValidationNeeded\",\r\n      \"customerASN\": 0,\r\n      \"legacyMode\": 0,\r\n      \"routingRegistryName\": \"NONE\"\r\n    },\r\n    \"connections\": []\r\n  }\r\n}",
-      "azure-asyncoperation" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/northcentralus/operations/736f063b-85b3-4e6d-9805-6ce4e0fdc624?api-version=2018-04-01"
+      "x-ms-request-id" : "0a263f56-e264-420a-a836-6d586f56c874",
+      "Body" : "{\r\n  \"name\": \"MicrosoftPeering\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/erc067382group/providers/Microsoft.Network/expressRouteCircuits/erc067382/peerings/MicrosoftPeering\",\r\n  \"etag\": \"W/\\\"02ccdf58-3cd7-4bfa-ac27-a57618a598f2\\\"\",\r\n  \"properties\": {\r\n    \"provisioningState\": \"Updating\",\r\n    \"peeringType\": \"MicrosoftPeering\",\r\n    \"azureASN\": 12076,\r\n    \"peerASN\": 101,\r\n    \"primaryPeerAddressPrefix\": \"123.0.0.0/30\",\r\n    \"secondaryPeerAddressPrefix\": \"123.0.0.8/30\",\r\n    \"primaryAzurePort\": \"A51-TEST-06GMR-CIS-1-PRI-A\",\r\n    \"secondaryAzurePort\": \"A51-TEST-06GMR-CIS-2-SEC-A\",\r\n    \"state\": \"Enabled\",\r\n    \"vlanId\": 300,\r\n    \"gatewayManagerEtag\": \"\",\r\n    \"lastModifiedBy\": \"Customer\",\r\n    \"microsoftPeeringConfig\": {\r\n      \"advertisedPublicPrefixes\": [\r\n        \"123.1.0.0/24\"\r\n      ],\r\n      \"advertisedPublicPrefixesState\": \"ValidationNeeded\",\r\n      \"customerASN\": 0,\r\n      \"legacyMode\": 0,\r\n      \"routingRegistryName\": \"NONE\"\r\n    },\r\n    \"connections\": []\r\n  },\r\n  \"type\": \"Microsoft.Network/expressRouteCircuits/peerings\"\r\n}",
+      "azure-asyncoperation" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/northcentralus/operations/0a263f56-e264-420a-a836-6d586f56c874?api-version=2018-06-01"
     }
   }, {
     "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/northcentralus/operations/736f063b-85b3-4e6d-9805-6ce4e0fdc624?api-version=2018-04-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/northcentralus/operations/0a263f56-e264-420a-a836-6d586f56c874?api-version=2018-06-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Mac OS X/10.13.3 MacAddressHash:16db522de2faa4638a0decfab6f50a46b9b8bd70897b59af29cb339ba4d48272 Java:1.8.0_45 (NetworkManagementClient)"
+      "User-Agent" : "Azure-SDK-For-Java/1.14.1-SNAPSHOT OS:Linux/4.15.0-1018-azure MacAddressHash:8eca8145ae288a9c9f5cef4c67511b31ee50412a43f2a6a889d0037a4deee90d Java:1.8.0_171 (NetworkManagementClient)"
     },
     "Response" : {
-      "date" : "Sun, 20 May 2018 05:32:12 GMT",
-      "server" : "Microsoft-HTTPAPI/2.0",
-      "content-length" : "30",
-      "expires" : "-1",
-      "transfer-encoding" : "chunked",
-      "vary" : "Accept-Encoding",
-      "retry-after" : "0",
-      "x-ms-ratelimit-remaining-subscription-reads" : "14982",
-      "StatusCode" : "200",
-      "pragma" : "no-cache",
-      "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "4d14e9ff-4829-49be-b240-007e24dccc2e",
-      "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "WESTUS2:20180520T053212Z:4d14e9ff-4829-49be-b240-007e24dccc2e",
-      "content-type" : "application/json; charset=utf-8",
-      "cache-control" : "no-cache",
-      "x-ms-request-id" : "dca931fb-0afe-4678-b1a7-78f1434deef2",
-      "Body" : "{\r\n  \"status\": \"InProgress\"\r\n}"
-    }
-  }, {
-    "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/northcentralus/operations/736f063b-85b3-4e6d-9805-6ce4e0fdc624?api-version=2018-04-01",
-    "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Mac OS X/10.13.3 MacAddressHash:16db522de2faa4638a0decfab6f50a46b9b8bd70897b59af29cb339ba4d48272 Java:1.8.0_45 (NetworkManagementClient)"
-    },
-    "Response" : {
-      "date" : "Sun, 20 May 2018 05:32:21 GMT",
+      "date" : "Wed, 08 Aug 2018 01:03:33 GMT",
       "server" : "Microsoft-HTTPAPI/2.0",
       "content-length" : "30",
       "expires" : "-1",
       "transfer-encoding" : "chunked",
       "vary" : "Accept-Encoding",
       "retry-after" : "0",
-      "x-ms-ratelimit-remaining-subscription-reads" : "14981",
+      "x-ms-ratelimit-remaining-subscription-reads" : "11768",
       "StatusCode" : "200",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "6201bf24-45be-49ca-a670-4f4921718f39",
+      "x-ms-correlation-request-id" : "157e73b6-2d2c-4580-89a1-198edd4e5cc3",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "WESTUS2:20180520T053222Z:6201bf24-45be-49ca-a670-4f4921718f39",
+      "x-ms-routing-request-id" : "CENTRALUS:20180808T010334Z:157e73b6-2d2c-4580-89a1-198edd4e5cc3",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "3926345b-1e6f-46cc-abf4-501c0d5c7c18",
+      "x-ms-request-id" : "4dacf8f1-a282-4f76-b9b5-e242d6c1a533",
       "Body" : "{\r\n  \"status\": \"InProgress\"\r\n}"
     }
   }, {
     "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/northcentralus/operations/736f063b-85b3-4e6d-9805-6ce4e0fdc624?api-version=2018-04-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/northcentralus/operations/0a263f56-e264-420a-a836-6d586f56c874?api-version=2018-06-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Mac OS X/10.13.3 MacAddressHash:16db522de2faa4638a0decfab6f50a46b9b8bd70897b59af29cb339ba4d48272 Java:1.8.0_45 (NetworkManagementClient)"
+      "User-Agent" : "Azure-SDK-For-Java/1.14.1-SNAPSHOT OS:Linux/4.15.0-1018-azure MacAddressHash:8eca8145ae288a9c9f5cef4c67511b31ee50412a43f2a6a889d0037a4deee90d Java:1.8.0_171 (NetworkManagementClient)"
     },
     "Response" : {
-      "date" : "Sun, 20 May 2018 05:32:31 GMT",
+      "date" : "Wed, 08 Aug 2018 01:03:43 GMT",
       "server" : "Microsoft-HTTPAPI/2.0",
       "content-length" : "30",
       "expires" : "-1",
       "transfer-encoding" : "chunked",
       "vary" : "Accept-Encoding",
       "retry-after" : "0",
-      "x-ms-ratelimit-remaining-subscription-reads" : "14980",
+      "x-ms-ratelimit-remaining-subscription-reads" : "11767",
       "StatusCode" : "200",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "70633f0c-64de-4a22-80e7-5ac0a4dd041e",
+      "x-ms-correlation-request-id" : "c72ed247-7d9e-46ba-9ad4-033cb22181e4",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "WESTUS2:20180520T053232Z:70633f0c-64de-4a22-80e7-5ac0a4dd041e",
+      "x-ms-routing-request-id" : "CENTRALUS:20180808T010344Z:c72ed247-7d9e-46ba-9ad4-033cb22181e4",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "27736d0e-a093-45ef-8b71-ae3ba9195634",
+      "x-ms-request-id" : "75e8224b-5815-4815-955d-a7af9f2f1197",
       "Body" : "{\r\n  \"status\": \"InProgress\"\r\n}"
     }
   }, {
     "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/northcentralus/operations/736f063b-85b3-4e6d-9805-6ce4e0fdc624?api-version=2018-04-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/northcentralus/operations/0a263f56-e264-420a-a836-6d586f56c874?api-version=2018-06-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Mac OS X/10.13.3 MacAddressHash:16db522de2faa4638a0decfab6f50a46b9b8bd70897b59af29cb339ba4d48272 Java:1.8.0_45 (NetworkManagementClient)"
+      "User-Agent" : "Azure-SDK-For-Java/1.14.1-SNAPSHOT OS:Linux/4.15.0-1018-azure MacAddressHash:8eca8145ae288a9c9f5cef4c67511b31ee50412a43f2a6a889d0037a4deee90d Java:1.8.0_171 (NetworkManagementClient)"
     },
     "Response" : {
-      "date" : "Sun, 20 May 2018 05:32:41 GMT",
+      "date" : "Wed, 08 Aug 2018 01:03:53 GMT",
       "server" : "Microsoft-HTTPAPI/2.0",
       "content-length" : "30",
       "expires" : "-1",
       "transfer-encoding" : "chunked",
       "vary" : "Accept-Encoding",
       "retry-after" : "0",
-      "x-ms-ratelimit-remaining-subscription-reads" : "14979",
+      "x-ms-ratelimit-remaining-subscription-reads" : "11766",
       "StatusCode" : "200",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "1fda4f11-6d54-42e7-9306-af7e809cca50",
+      "x-ms-correlation-request-id" : "54f6e357-7b6b-4490-bb94-4ca8d707f755",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "WESTUS2:20180520T053242Z:1fda4f11-6d54-42e7-9306-af7e809cca50",
+      "x-ms-routing-request-id" : "CENTRALUS:20180808T010354Z:54f6e357-7b6b-4490-bb94-4ca8d707f755",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "d447e988-8eb6-49fd-8e93-e0090b76faa5",
+      "x-ms-request-id" : "17526593-4543-4971-a9d3-307f94a58b62",
       "Body" : "{\r\n  \"status\": \"InProgress\"\r\n}"
     }
   }, {
     "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/northcentralus/operations/736f063b-85b3-4e6d-9805-6ce4e0fdc624?api-version=2018-04-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/northcentralus/operations/0a263f56-e264-420a-a836-6d586f56c874?api-version=2018-06-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Mac OS X/10.13.3 MacAddressHash:16db522de2faa4638a0decfab6f50a46b9b8bd70897b59af29cb339ba4d48272 Java:1.8.0_45 (NetworkManagementClient)"
+      "User-Agent" : "Azure-SDK-For-Java/1.14.1-SNAPSHOT OS:Linux/4.15.0-1018-azure MacAddressHash:8eca8145ae288a9c9f5cef4c67511b31ee50412a43f2a6a889d0037a4deee90d Java:1.8.0_171 (NetworkManagementClient)"
     },
     "Response" : {
-      "date" : "Sun, 20 May 2018 05:32:52 GMT",
+      "date" : "Wed, 08 Aug 2018 01:04:04 GMT",
+      "server" : "Microsoft-HTTPAPI/2.0",
+      "content-length" : "30",
+      "expires" : "-1",
+      "transfer-encoding" : "chunked",
+      "vary" : "Accept-Encoding",
+      "retry-after" : "0",
+      "x-ms-ratelimit-remaining-subscription-reads" : "11765",
+      "StatusCode" : "200",
+      "pragma" : "no-cache",
+      "strict-transport-security" : "max-age=31536000; includeSubDomains",
+      "x-ms-correlation-request-id" : "ec116b79-770e-4f0b-a840-31bd980e5b40",
+      "x-content-type-options" : "nosniff",
+      "x-ms-routing-request-id" : "CENTRALUS:20180808T010404Z:ec116b79-770e-4f0b-a840-31bd980e5b40",
+      "content-type" : "application/json; charset=utf-8",
+      "cache-control" : "no-cache",
+      "x-ms-request-id" : "50f7de9d-3976-4671-b097-d81761b691aa",
+      "Body" : "{\r\n  \"status\": \"InProgress\"\r\n}"
+    }
+  }, {
+    "Method" : "GET",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/northcentralus/operations/0a263f56-e264-420a-a836-6d586f56c874?api-version=2018-06-01",
+    "Headers" : {
+      "User-Agent" : "Azure-SDK-For-Java/1.14.1-SNAPSHOT OS:Linux/4.15.0-1018-azure MacAddressHash:8eca8145ae288a9c9f5cef4c67511b31ee50412a43f2a6a889d0037a4deee90d Java:1.8.0_171 (NetworkManagementClient)"
+    },
+    "Response" : {
+      "date" : "Wed, 08 Aug 2018 01:04:14 GMT",
       "server" : "Microsoft-HTTPAPI/2.0",
       "content-length" : "29",
       "expires" : "-1",
       "transfer-encoding" : "chunked",
       "vary" : "Accept-Encoding",
       "retry-after" : "0",
-      "x-ms-ratelimit-remaining-subscription-reads" : "14978",
+      "x-ms-ratelimit-remaining-subscription-reads" : "11764",
       "StatusCode" : "200",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "ad90fb74-9c4c-4f1e-92f1-93f43f6fb362",
+      "x-ms-correlation-request-id" : "62e0c6af-7352-4abf-8c5a-0fc0b1f6c766",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "WESTUS2:20180520T053252Z:ad90fb74-9c4c-4f1e-92f1-93f43f6fb362",
+      "x-ms-routing-request-id" : "CENTRALUS:20180808T010414Z:62e0c6af-7352-4abf-8c5a-0fc0b1f6c766",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "7f868592-7a62-47a4-bd55-87fde0c0b04b",
+      "x-ms-request-id" : "836bcb37-e872-45e9-acaa-32a82a150c44",
       "Body" : "{\r\n  \"status\": \"Succeeded\"\r\n}"
     }
   }, {
     "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/erc94266egroup/providers/Microsoft.Network/expressRouteCircuits/erc94266e/peerings/MicrosoftPeering?api-version=2018-04-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/erc067382group/providers/Microsoft.Network/expressRouteCircuits/erc067382/peerings/MicrosoftPeering?api-version=2018-06-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Mac OS X/10.13.3 MacAddressHash:16db522de2faa4638a0decfab6f50a46b9b8bd70897b59af29cb339ba4d48272 Java:1.8.0_45 (NetworkManagementClient)"
+      "User-Agent" : "Azure-SDK-For-Java/1.14.1-SNAPSHOT OS:Linux/4.15.0-1018-azure MacAddressHash:8eca8145ae288a9c9f5cef4c67511b31ee50412a43f2a6a889d0037a4deee90d Java:1.8.0_171 (NetworkManagementClient)"
     },
     "Response" : {
-      "date" : "Sun, 20 May 2018 05:32:53 GMT",
+      "date" : "Wed, 08 Aug 2018 01:04:15 GMT",
       "server" : "Microsoft-HTTPAPI/2.0",
-      "content-length" : "1023",
+      "content-length" : "1085",
       "expires" : "-1",
       "transfer-encoding" : "chunked",
       "vary" : "Accept-Encoding",
       "retry-after" : "0",
-      "x-ms-ratelimit-remaining-subscription-reads" : "14977",
+      "x-ms-ratelimit-remaining-subscription-reads" : "11763",
       "StatusCode" : "200",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "c5e9699b-0788-4dba-99fc-c227be7b4de3",
+      "x-ms-correlation-request-id" : "fc60ab12-1f31-4e21-bb09-bcca871fb297",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "WESTUS2:20180520T053253Z:c5e9699b-0788-4dba-99fc-c227be7b4de3",
+      "x-ms-routing-request-id" : "CENTRALUS:20180808T010415Z:fc60ab12-1f31-4e21-bb09-bcca871fb297",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "f2a8e017-54b7-4b85-955f-8def8ba79c42",
-      "Body" : "{\r\n  \"name\": \"MicrosoftPeering\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/erc94266egroup/providers/Microsoft.Network/expressRouteCircuits/erc94266e/peerings/MicrosoftPeering\",\r\n  \"etag\": \"W/\\\"6ed160a4-64c9-47bf-bc06-a4660f3950fd\\\"\",\r\n  \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"peeringType\": \"MicrosoftPeering\",\r\n    \"azureASN\": 12076,\r\n    \"peerASN\": 101,\r\n    \"primaryPeerAddressPrefix\": \"123.0.0.0/30\",\r\n    \"secondaryPeerAddressPrefix\": \"123.0.0.8/30\",\r\n    \"primaryAzurePort\": \"A51-TEST-06GMR-CIS-1-PRI-A\",\r\n    \"secondaryAzurePort\": \"A51-TEST-06GMR-CIS-2-SEC-A\",\r\n    \"state\": \"Enabled\",\r\n    \"vlanId\": 300,\r\n    \"gatewayManagerEtag\": \"\",\r\n    \"lastModifiedBy\": \"Customer\",\r\n    \"microsoftPeeringConfig\": {\r\n      \"advertisedPublicPrefixes\": [\r\n        \"123.1.0.0/24\"\r\n      ],\r\n      \"advertisedPublicPrefixesState\": \"ValidationNeeded\",\r\n      \"customerASN\": 0,\r\n      \"legacyMode\": 0,\r\n      \"routingRegistryName\": \"NONE\"\r\n    },\r\n    \"connections\": []\r\n  }\r\n}"
+      "x-ms-request-id" : "cc2e0dc9-0533-41bb-8b14-e80701234328",
+      "Body" : "{\r\n  \"name\": \"MicrosoftPeering\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/erc067382group/providers/Microsoft.Network/expressRouteCircuits/erc067382/peerings/MicrosoftPeering\",\r\n  \"etag\": \"W/\\\"a94b07dd-f783-44c9-8dd6-898c3dd35482\\\"\",\r\n  \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"peeringType\": \"MicrosoftPeering\",\r\n    \"azureASN\": 12076,\r\n    \"peerASN\": 101,\r\n    \"primaryPeerAddressPrefix\": \"123.0.0.0/30\",\r\n    \"secondaryPeerAddressPrefix\": \"123.0.0.8/30\",\r\n    \"primaryAzurePort\": \"A51-TEST-06GMR-CIS-1-PRI-A\",\r\n    \"secondaryAzurePort\": \"A51-TEST-06GMR-CIS-2-SEC-A\",\r\n    \"state\": \"Enabled\",\r\n    \"vlanId\": 300,\r\n    \"gatewayManagerEtag\": \"\",\r\n    \"lastModifiedBy\": \"Customer\",\r\n    \"microsoftPeeringConfig\": {\r\n      \"advertisedPublicPrefixes\": [\r\n        \"123.1.0.0/24\"\r\n      ],\r\n      \"advertisedPublicPrefixesState\": \"ValidationNeeded\",\r\n      \"customerASN\": 0,\r\n      \"legacyMode\": 0,\r\n      \"routingRegistryName\": \"NONE\"\r\n    },\r\n    \"connections\": []\r\n  },\r\n  \"type\": \"Microsoft.Network/expressRouteCircuits/peerings\"\r\n}"
     }
   }, {
     "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/erc94266egroup/providers/Microsoft.Network/expressRouteCircuits/erc94266e?api-version=2018-04-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/erc067382group/providers/Microsoft.Network/expressRouteCircuits/erc067382?api-version=2018-06-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Mac OS X/10.13.3 MacAddressHash:16db522de2faa4638a0decfab6f50a46b9b8bd70897b59af29cb339ba4d48272 Java:1.8.0_45 (NetworkManagementClient)",
+      "User-Agent" : "Azure-SDK-For-Java/1.14.1-SNAPSHOT OS:Linux/4.15.0-1018-azure MacAddressHash:8eca8145ae288a9c9f5cef4c67511b31ee50412a43f2a6a889d0037a4deee90d Java:1.8.0_171 (NetworkManagementClient)",
       "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "date" : "Sun, 20 May 2018 05:32:55 GMT",
+      "date" : "Wed, 08 Aug 2018 01:04:15 GMT",
       "server" : "Microsoft-HTTPAPI/2.0",
-      "content-length" : "2187",
+      "content-length" : "2255",
       "expires" : "-1",
       "transfer-encoding" : "chunked",
       "vary" : "Accept-Encoding",
       "retry-after" : "0",
-      "x-ms-ratelimit-remaining-subscription-reads" : "14976",
+      "x-ms-ratelimit-remaining-subscription-reads" : "11762",
       "StatusCode" : "200",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "ed9bd387-644c-4572-8557-626619f62199",
+      "x-ms-correlation-request-id" : "2509d4e3-f6ca-46f8-8530-c8bc2ec32f69",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "WESTUS2:20180520T053255Z:ed9bd387-644c-4572-8557-626619f62199",
+      "x-ms-routing-request-id" : "CENTRALUS:20180808T010415Z:2509d4e3-f6ca-46f8-8530-c8bc2ec32f69",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "3c001ed9-32df-4f27-a599-9c8539d4fc9f",
-      "Body" : "{\r\n  \"name\": \"erc94266e\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/erc94266egroup/providers/Microsoft.Network/expressRouteCircuits/erc94266e\",\r\n  \"etag\": \"W/\\\"6ed160a4-64c9-47bf-bc06-a4660f3950fd\\\"\",\r\n  \"type\": \"Microsoft.Network/expressRouteCircuits\",\r\n  \"location\": \"northcentralus\",\r\n  \"tags\": {\r\n    \"tag1\": \"value1\"\r\n  },\r\n  \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"ddab6ff2-1607-4a9e-9235-9bb3d4d2c14c\",\r\n    \"peerings\": [\r\n      {\r\n        \"name\": \"MicrosoftPeering\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/erc94266egroup/providers/Microsoft.Network/expressRouteCircuits/erc94266e/peerings/MicrosoftPeering\",\r\n        \"etag\": \"W/\\\"6ed160a4-64c9-47bf-bc06-a4660f3950fd\\\"\",\r\n        \"properties\": {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"peeringType\": \"MicrosoftPeering\",\r\n          \"azureASN\": 12076,\r\n          \"peerASN\": 101,\r\n          \"primaryPeerAddressPrefix\": \"123.0.0.0/30\",\r\n          \"secondaryPeerAddressPrefix\": \"123.0.0.8/30\",\r\n          \"primaryAzurePort\": \"\",\r\n          \"secondaryAzurePort\": \"\",\r\n          \"state\": \"Enabled\",\r\n          \"vlanId\": 300,\r\n          \"gatewayManagerEtag\": \"\",\r\n          \"lastModifiedBy\": \"Customer\",\r\n          \"microsoftPeeringConfig\": {\r\n            \"advertisedPublicPrefixes\": [\r\n              \"123.1.0.0/24\"\r\n            ],\r\n            \"advertisedPublicPrefixesState\": \"ValidationNeeded\",\r\n            \"customerASN\": 0,\r\n            \"legacyMode\": 0,\r\n            \"routingRegistryName\": \"NONE\"\r\n          },\r\n          \"connections\": []\r\n        }\r\n      }\r\n    ],\r\n    \"authorizations\": [],\r\n    \"serviceProviderProperties\": {\r\n      \"serviceProviderName\": \"Microsoft ER Test\",\r\n      \"peeringLocation\": \"Area51\",\r\n      \"bandwidthInMbps\": 50\r\n    },\r\n    \"circuitProvisioningState\": \"Enabled\",\r\n    \"allowClassicOperations\": false,\r\n    \"gatewayManagerEtag\": \"\",\r\n    \"serviceKey\": \"3a47c73e-ef6e-4125-8027-a668def5c200\",\r\n    \"serviceProviderProvisioningState\": \"NotProvisioned\"\r\n  },\r\n  \"sku\": {\r\n    \"name\": \"Premium_MeteredData\",\r\n    \"tier\": \"Premium\",\r\n    \"family\": \"MeteredData\"\r\n  }\r\n}"
+      "x-ms-request-id" : "c758096c-fa38-40e8-b704-3ef91752b688",
+      "Body" : "{\r\n  \"name\": \"erc067382\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/erc067382group/providers/Microsoft.Network/expressRouteCircuits/erc067382\",\r\n  \"etag\": \"W/\\\"a94b07dd-f783-44c9-8dd6-898c3dd35482\\\"\",\r\n  \"type\": \"Microsoft.Network/expressRouteCircuits\",\r\n  \"location\": \"northcentralus\",\r\n  \"tags\": {\r\n    \"tag1\": \"value1\"\r\n  },\r\n  \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"778f2afb-a863-47d0-a7f6-4b552112ea2e\",\r\n    \"peerings\": [\r\n      {\r\n        \"name\": \"MicrosoftPeering\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/erc067382group/providers/Microsoft.Network/expressRouteCircuits/erc067382/peerings/MicrosoftPeering\",\r\n        \"etag\": \"W/\\\"a94b07dd-f783-44c9-8dd6-898c3dd35482\\\"\",\r\n        \"properties\": {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"peeringType\": \"MicrosoftPeering\",\r\n          \"azureASN\": 12076,\r\n          \"peerASN\": 101,\r\n          \"primaryPeerAddressPrefix\": \"123.0.0.0/30\",\r\n          \"secondaryPeerAddressPrefix\": \"123.0.0.8/30\",\r\n          \"primaryAzurePort\": \"\",\r\n          \"secondaryAzurePort\": \"\",\r\n          \"state\": \"Enabled\",\r\n          \"vlanId\": 300,\r\n          \"gatewayManagerEtag\": \"\",\r\n          \"lastModifiedBy\": \"Customer\",\r\n          \"microsoftPeeringConfig\": {\r\n            \"advertisedPublicPrefixes\": [\r\n              \"123.1.0.0/24\"\r\n            ],\r\n            \"advertisedPublicPrefixesState\": \"ValidationNeeded\",\r\n            \"customerASN\": 0,\r\n            \"legacyMode\": 0,\r\n            \"routingRegistryName\": \"NONE\"\r\n          },\r\n          \"connections\": []\r\n        },\r\n        \"type\": \"Microsoft.Network/expressRouteCircuits/peerings\"\r\n      }\r\n    ],\r\n    \"authorizations\": [],\r\n    \"serviceProviderProperties\": {\r\n      \"serviceProviderName\": \"Microsoft ER Test\",\r\n      \"peeringLocation\": \"Area51\",\r\n      \"bandwidthInMbps\": 50\r\n    },\r\n    \"circuitProvisioningState\": \"Enabled\",\r\n    \"allowClassicOperations\": false,\r\n    \"gatewayManagerEtag\": \"\",\r\n    \"serviceKey\": \"3e407323-5adb-41f7-9929-208cbfd5efa0\",\r\n    \"serviceProviderProvisioningState\": \"NotProvisioned\"\r\n  },\r\n  \"sku\": {\r\n    \"name\": \"Premium_MeteredData\",\r\n    \"tier\": \"Premium\",\r\n    \"family\": \"MeteredData\"\r\n  }\r\n}"
     }
   }, {
     "Method" : "DELETE",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/erc94266egroup/providers/Microsoft.Network/expressRouteCircuits/erc94266e?api-version=2018-04-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/erc067382group/providers/Microsoft.Network/expressRouteCircuits/erc067382?api-version=2018-06-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Mac OS X/10.13.3 MacAddressHash:16db522de2faa4638a0decfab6f50a46b9b8bd70897b59af29cb339ba4d48272 Java:1.8.0_45 (NetworkManagementClient)",
+      "User-Agent" : "Azure-SDK-For-Java/1.14.1-SNAPSHOT OS:Linux/4.15.0-1018-azure MacAddressHash:8eca8145ae288a9c9f5cef4c67511b31ee50412a43f2a6a889d0037a4deee90d Java:1.8.0_171 (NetworkManagementClient)",
       "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "date" : "Sun, 20 May 2018 05:32:55 GMT",
+      "date" : "Wed, 08 Aug 2018 01:04:15 GMT",
       "content-length" : "0",
       "server" : "Microsoft-HTTPAPI/2.0",
       "expires" : "-1",
-      "x-ms-ratelimit-remaining-subscription-deletes" : "14999",
+      "x-ms-ratelimit-remaining-subscription-deletes" : "14985",
       "retry-after" : "0",
       "StatusCode" : "202",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "e5656a28-0759-4460-a8ce-24ae6e2d0ee7",
+      "x-ms-correlation-request-id" : "b748b6bf-5140-4c59-b225-7719de948bc8",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "WESTUS2:20180520T053256Z:e5656a28-0759-4460-a8ce-24ae6e2d0ee7",
-      "location" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/northcentralus/operationResults/bfcbe4b3-62b7-431e-a7b1-4820178a5b53?api-version=2018-04-01",
+      "x-ms-routing-request-id" : "CENTRALUS:20180808T010415Z:b748b6bf-5140-4c59-b225-7719de948bc8",
+      "location" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/northcentralus/operationResults/1c47a5d1-b185-4cf6-9d37-6eaf2516dbc2?api-version=2018-06-01",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "bfcbe4b3-62b7-431e-a7b1-4820178a5b53",
+      "x-ms-request-id" : "1c47a5d1-b185-4cf6-9d37-6eaf2516dbc2",
       "Body" : "",
-      "azure-asyncoperation" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/northcentralus/operations/bfcbe4b3-62b7-431e-a7b1-4820178a5b53?api-version=2018-04-01"
+      "azure-asyncoperation" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/northcentralus/operations/1c47a5d1-b185-4cf6-9d37-6eaf2516dbc2?api-version=2018-06-01"
     }
   }, {
     "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/northcentralus/operations/bfcbe4b3-62b7-431e-a7b1-4820178a5b53?api-version=2018-04-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/northcentralus/operations/1c47a5d1-b185-4cf6-9d37-6eaf2516dbc2?api-version=2018-06-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Mac OS X/10.13.3 MacAddressHash:16db522de2faa4638a0decfab6f50a46b9b8bd70897b59af29cb339ba4d48272 Java:1.8.0_45 (NetworkManagementClient)"
+      "User-Agent" : "Azure-SDK-For-Java/1.14.1-SNAPSHOT OS:Linux/4.15.0-1018-azure MacAddressHash:8eca8145ae288a9c9f5cef4c67511b31ee50412a43f2a6a889d0037a4deee90d Java:1.8.0_171 (NetworkManagementClient)"
     },
     "Response" : {
-      "date" : "Sun, 20 May 2018 05:32:55 GMT",
+      "date" : "Wed, 08 Aug 2018 01:04:15 GMT",
       "server" : "Microsoft-HTTPAPI/2.0",
       "content-length" : "30",
       "expires" : "-1",
       "transfer-encoding" : "chunked",
       "vary" : "Accept-Encoding",
       "retry-after" : "0",
-      "x-ms-ratelimit-remaining-subscription-reads" : "14975",
+      "x-ms-ratelimit-remaining-subscription-reads" : "11761",
       "StatusCode" : "200",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "bb1042f3-f96f-4c45-b197-ecef431413ea",
+      "x-ms-correlation-request-id" : "2a67ad06-2fbd-4eca-8fba-a7c45f520e84",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "WESTUS2:20180520T053256Z:bb1042f3-f96f-4c45-b197-ecef431413ea",
+      "x-ms-routing-request-id" : "CENTRALUS:20180808T010415Z:2a67ad06-2fbd-4eca-8fba-a7c45f520e84",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "5b5eb43e-a20a-4f4d-80b4-933c2be79545",
+      "x-ms-request-id" : "e10905d1-e523-4fa6-be5a-a660f79ab41e",
       "Body" : "{\r\n  \"status\": \"InProgress\"\r\n}"
     }
   }, {
     "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/northcentralus/operations/bfcbe4b3-62b7-431e-a7b1-4820178a5b53?api-version=2018-04-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/northcentralus/operations/1c47a5d1-b185-4cf6-9d37-6eaf2516dbc2?api-version=2018-06-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Mac OS X/10.13.3 MacAddressHash:16db522de2faa4638a0decfab6f50a46b9b8bd70897b59af29cb339ba4d48272 Java:1.8.0_45 (NetworkManagementClient)"
+      "User-Agent" : "Azure-SDK-For-Java/1.14.1-SNAPSHOT OS:Linux/4.15.0-1018-azure MacAddressHash:8eca8145ae288a9c9f5cef4c67511b31ee50412a43f2a6a889d0037a4deee90d Java:1.8.0_171 (NetworkManagementClient)"
     },
     "Response" : {
-      "date" : "Sun, 20 May 2018 05:33:05 GMT",
+      "date" : "Wed, 08 Aug 2018 01:04:25 GMT",
       "server" : "Microsoft-HTTPAPI/2.0",
       "content-length" : "30",
       "expires" : "-1",
       "transfer-encoding" : "chunked",
       "vary" : "Accept-Encoding",
       "retry-after" : "0",
-      "x-ms-ratelimit-remaining-subscription-reads" : "14974",
+      "x-ms-ratelimit-remaining-subscription-reads" : "11760",
       "StatusCode" : "200",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "e71811cc-2b26-44b3-813e-0a49280ec092",
+      "x-ms-correlation-request-id" : "7b1429c8-2987-4969-b30f-7e7aa622ad77",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "WESTUS2:20180520T053306Z:e71811cc-2b26-44b3-813e-0a49280ec092",
+      "x-ms-routing-request-id" : "CENTRALUS:20180808T010425Z:7b1429c8-2987-4969-b30f-7e7aa622ad77",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "92c02f1c-025e-41d9-b1f5-d74db78d8d05",
+      "x-ms-request-id" : "b4d967f3-eba8-4370-9d63-1d6ca3aea740",
       "Body" : "{\r\n  \"status\": \"InProgress\"\r\n}"
     }
   }, {
     "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/northcentralus/operations/bfcbe4b3-62b7-431e-a7b1-4820178a5b53?api-version=2018-04-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/northcentralus/operations/1c47a5d1-b185-4cf6-9d37-6eaf2516dbc2?api-version=2018-06-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Mac OS X/10.13.3 MacAddressHash:16db522de2faa4638a0decfab6f50a46b9b8bd70897b59af29cb339ba4d48272 Java:1.8.0_45 (NetworkManagementClient)"
+      "User-Agent" : "Azure-SDK-For-Java/1.14.1-SNAPSHOT OS:Linux/4.15.0-1018-azure MacAddressHash:8eca8145ae288a9c9f5cef4c67511b31ee50412a43f2a6a889d0037a4deee90d Java:1.8.0_171 (NetworkManagementClient)"
     },
     "Response" : {
-      "date" : "Sun, 20 May 2018 05:33:16 GMT",
+      "date" : "Wed, 08 Aug 2018 01:04:35 GMT",
       "server" : "Microsoft-HTTPAPI/2.0",
       "content-length" : "30",
       "expires" : "-1",
       "transfer-encoding" : "chunked",
       "vary" : "Accept-Encoding",
       "retry-after" : "0",
-      "x-ms-ratelimit-remaining-subscription-reads" : "14973",
+      "x-ms-ratelimit-remaining-subscription-reads" : "11759",
       "StatusCode" : "200",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "5199dbf0-2920-46b7-b442-bbcba11ce855",
+      "x-ms-correlation-request-id" : "fd490774-a326-4f37-b73c-bfc8f14d7d34",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "WESTUS2:20180520T053316Z:5199dbf0-2920-46b7-b442-bbcba11ce855",
+      "x-ms-routing-request-id" : "CENTRALUS:20180808T010436Z:fd490774-a326-4f37-b73c-bfc8f14d7d34",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "beae8979-c467-4903-bb9f-6e5048ca95f8",
+      "x-ms-request-id" : "ae3022b3-b87b-4487-85b1-08d7bc44ced7",
       "Body" : "{\r\n  \"status\": \"InProgress\"\r\n}"
     }
   }, {
     "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/northcentralus/operations/bfcbe4b3-62b7-431e-a7b1-4820178a5b53?api-version=2018-04-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/northcentralus/operations/1c47a5d1-b185-4cf6-9d37-6eaf2516dbc2?api-version=2018-06-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Mac OS X/10.13.3 MacAddressHash:16db522de2faa4638a0decfab6f50a46b9b8bd70897b59af29cb339ba4d48272 Java:1.8.0_45 (NetworkManagementClient)"
+      "User-Agent" : "Azure-SDK-For-Java/1.14.1-SNAPSHOT OS:Linux/4.15.0-1018-azure MacAddressHash:8eca8145ae288a9c9f5cef4c67511b31ee50412a43f2a6a889d0037a4deee90d Java:1.8.0_171 (NetworkManagementClient)"
     },
     "Response" : {
-      "date" : "Sun, 20 May 2018 05:33:27 GMT",
+      "date" : "Wed, 08 Aug 2018 01:04:45 GMT",
       "server" : "Microsoft-HTTPAPI/2.0",
       "content-length" : "29",
       "expires" : "-1",
       "transfer-encoding" : "chunked",
       "vary" : "Accept-Encoding",
       "retry-after" : "0",
-      "x-ms-ratelimit-remaining-subscription-reads" : "14972",
+      "x-ms-ratelimit-remaining-subscription-reads" : "11758",
       "StatusCode" : "200",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "6904b781-a751-4f95-9824-c09b5c04e3f1",
+      "x-ms-correlation-request-id" : "96834de4-6d94-43e7-b821-1d1737a20f9d",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "WESTUS2:20180520T053327Z:6904b781-a751-4f95-9824-c09b5c04e3f1",
+      "x-ms-routing-request-id" : "CENTRALUS:20180808T010446Z:96834de4-6d94-43e7-b821-1d1737a20f9d",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "85327308-aad5-4657-9f9b-4ddb629c6051",
+      "x-ms-request-id" : "6a384758-287c-465c-ae06-22a7869dd5bd",
       "Body" : "{\r\n  \"status\": \"Succeeded\"\r\n}"
     }
   }, {
     "Method" : "DELETE",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/erc94266egroup?api-version=2017-05-10",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/erc067382group?api-version=2017-05-10",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Mac OS X/10.13.3 MacAddressHash:16db522de2faa4638a0decfab6f50a46b9b8bd70897b59af29cb339ba4d48272 Java:1.8.0_45 (ResourceManagementClient, 2017-05-10)",
+      "User-Agent" : "Azure-SDK-For-Java/1.14.1-SNAPSHOT OS:Linux/4.15.0-1018-azure MacAddressHash:8eca8145ae288a9c9f5cef4c67511b31ee50412a43f2a6a889d0037a4deee90d Java:1.8.0_171 (ResourceManagementClient, 2017-05-10)",
       "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "date" : "Sun, 20 May 2018 05:33:28 GMT",
+      "date" : "Wed, 08 Aug 2018 01:04:46 GMT",
       "content-length" : "0",
       "expires" : "-1",
-      "x-ms-ratelimit-remaining-subscription-deletes" : "14998",
+      "x-ms-ratelimit-remaining-subscription-deletes" : "14984",
       "retry-after" : "0",
       "StatusCode" : "202",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "5405a4f5-3bca-42e1-ab11-889ce069e453",
+      "x-ms-correlation-request-id" : "b4a9ab15-8360-44d2-b71e-2b67eba0f644",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "WESTUS2:20180520T053328Z:5405a4f5-3bca-42e1-ab11-889ce069e453",
-      "location" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1FUkM5NDI2NkVHUk9VUC1OT1JUSENFTlRSQUxVUyIsImpvYkxvY2F0aW9uIjoibm9ydGhjZW50cmFsdXMifQ?api-version=2017-05-10",
+      "x-ms-routing-request-id" : "CENTRALUS:20180808T010446Z:b4a9ab15-8360-44d2-b71e-2b67eba0f644",
+      "location" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1FUkMwNjczODJHUk9VUC1OT1JUSENFTlRSQUxVUyIsImpvYkxvY2F0aW9uIjoibm9ydGhjZW50cmFsdXMifQ?api-version=2017-05-10",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "5405a4f5-3bca-42e1-ab11-889ce069e453",
+      "x-ms-request-id" : "b4a9ab15-8360-44d2-b71e-2b67eba0f644",
       "Body" : ""
     }
   } ],
-  "variables" : [ "92726f", "2e2348f3-27ab-477f-b82c-ed6fb8911433", "ea9e149f-dff1-4c88-8cfb-9ba128648aa2", "2adba18c-531d-40a9-8a77-934988c943d9", "ebc3bbe1-bd7c-4bfa-897c-2804ff20b813", "4b6643da-360a-4e5c-933e-045da7752d89", "94266e", "08d7cda0-f26e-48d2-a40f-b03edd086f15", "38fd8053-2bb9-46bc-8cd4-1f748b3526b3", "f73bb182-d6bf-4655-970c-5e757b7a1cd2", "693a2bf9-f476-4081-b25f-d57cd2abd523", "36618ef2-fd0c-4498-a012-43e75677f559", "0f9161cf-9883-4ced-b6bc-4367aa86d533", "5cee15a8-69e1-45d0-afda-3a4ae5a0d73e", "2f3acb0f-f51b-4bac-a137-549b19692c51", "7257494c-d472-4da2-82df-a6fc42f84ddb", "d8e92b7d-0ddf-4b79-b335-fd2e15d2a930", "2c48f838-d916-459b-a231-39b8f0a05c03", "bbceb83f-ae7f-497a-b7ad-b10ef71c00d4", "42d2f1b8-4796-424c-8be7-d3fb3fa3b743", "4c1b2213-7f41-423a-b388-05fe4337d9c8", "6c067122-f00c-42c6-9736-a196b195c3ce", "e49dd5df-f1fa-48b0-933e-18559e006b75", "0696a4c5-0a69-46f4-a7f2-9d5567922c53", "519b85aa-3054-42bc-8feb-740c0dde6628", "ac06b66b-d2f9-4549-9c5c-393ed8ee0fef" ]
+  "variables" : [ "586295", "9405c8bd-38d7-4b05-a662-63d63b169e70", "9974cbc2-6c63-42c5-9435-9a63356d8029", "dc501665-72d0-47a5-8b61-2d76965e2d21", "7c331ae7-ea36-451f-9a4c-2730e6b3fb36", "2233c173-43d8-465a-8989-743570094838", "067382", "b50220ee-13ab-4f99-aa4d-5aff1fcdd48a", "974f6ae8-1c86-4c77-9a62-e3cf70ddff71", "0bd9c6b4-0fc8-49cf-8f57-e1506be07adb", "f14a086a-0e64-4624-b839-9f4a19535445", "4459acae-b490-4770-9078-cbfe54e25ee3", "59b051bc-4cb5-46be-9b56-517d482d0b50", "a5660862-f65d-4983-ba80-a1606ff44ab3", "a9db375a-e2d8-4fe2-86e6-bafd5d33e08d", "56e26799-9ed6-4bbf-91f9-2bffcaa6790b", "3dc4f948-02e8-4d48-a173-becb4d07757b", "60fdf7da-435a-43b9-9208-76fc5e70a097", "78b11089-a274-4bc0-9bd7-911e99115b8a", "dcde680f-cea9-4fd0-b93a-d5ce93d0f168", "aa8e2b28-6a14-4371-8fcb-4aeef6ca5610", "0b184428-0fc3-4da8-81ef-be0f6e9945e7", "0a34b53b-2607-4e37-bbab-958d775424bf", "777f51e8-3c97-4b2e-ad1b-fbe8f7b099a6", "435a6318-0b44-4065-b571-d2f913731711", "12721246-3d79-4c02-9afe-eabca5e81d34" ]
 }

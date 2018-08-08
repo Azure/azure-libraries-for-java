@@ -13,11 +13,13 @@ import com.microsoft.azure.management.monitor.implementation.ActionGroupResource
 import com.microsoft.azure.management.monitor.implementation.MetricAlertResourceInner;
 import com.microsoft.azure.management.monitor.implementation.MonitorManager;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
+import com.microsoft.azure.management.resources.fluentcore.arm.models.HasId;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
 import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
 import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
+import org.joda.time.Period;
 
 import java.util.List;
 
@@ -38,52 +40,46 @@ public interface MetricAlert extends
             DefinitionStages.WithCreate {
     }
 
-    /**
-     * Grouping of Action Group definition stages.
-     */
     interface DefinitionStages {
         /**
          * The first stage of a Metric Alert definition.
          */
-        interface Blank extends GroupableResource.DefinitionStages.WithGroupAndRegion<WithDescription> {
-        }
-
-        /**
-         * The stage of a Metric Alert definition allowing the resource group to be specified.
-         */
-        interface WithDescription {
-            WithSeverity withDescription(String description);
-        }
-
-        interface WithSeverity {
-            WithScopes withSeverity(String severity);
+        interface Blank extends GroupableResource.DefinitionStages.WithGroupAndRegion<WithScopes> {
         }
 
         interface WithScopes {
-            WithEvaluationFrequency withResourceScope(String resourceId);
-            WithEvaluationFrequency withResourceScopes(List resourceIds);
+            WithSeverity withTargetResource(String resourceId);
+            WithSeverity withTargetResource(HasId resource);
         }
 
-        interface WithEvaluationFrequency {
-            WithWindowSize withEvaluationFrequency(String frequency);
+        interface WithSeverity {
+            WithWindowSize withSeverity(int severity);
         }
 
         interface WithWindowSize {
-            WithAlertEnabled withWindowSize(String size);
+            WithEvaluationFrequency withWindowSize(Period size);
+        }
+        interface WithEvaluationFrequency {
+            WithDescription withEvaluationFrequency(Period frequency);
+        }
+
+
+        interface WithDescription {
+            WithAlertEnabled withDescription(String description);
         }
 
         interface WithAlertEnabled {
-            WithActionGroup withAlertEnabled();
-            WithActionGroup withAlertDisabled();
+            WithActionGroup withRuleEnabled();
+            WithActionGroup withRuleDisabled();
         }
 
         interface WithActionGroup {
-            WithCriteriaDefinition withActionGroup(String actionGroupId);
-            WithCriteriaDefinition withActionGroup(ActionGroup actionGroup);
+            WithCriteriaDefinition withActionGroups(String... actionGroupId);
+            WithCriteriaDefinition withActionGroups(List<ActionGroup> actionGroup);
         }
 
         interface WithCriteriaDefinition {
-            WithCreate defineMetricCriteria(String name);
+            MetricAlertCondition.DefinitionStages.Blank.MetricName<WithCreate> defineMetricCriteria(String name);
         }
 
         /**
@@ -92,8 +88,8 @@ public interface MetricAlert extends
          */
         interface WithCreate extends
                 Creatable<MetricAlert>,
-                DefinitionWithTags<WithCreate> {
-
+                DefinitionWithTags<WithCreate>,
+                WithCriteriaDefinition {
             WithCreate withAutoMitigation();
         }
     }

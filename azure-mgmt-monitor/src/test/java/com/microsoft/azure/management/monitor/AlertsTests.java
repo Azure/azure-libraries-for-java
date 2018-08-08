@@ -9,8 +9,11 @@ package com.microsoft.azure.management.monitor;
 import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.rest.RestClient;
+import org.joda.time.Period;
 import org.junit.Assert;
 import org.junit.Test;
+
+import java.util.ArrayList;
 
 public class AlertsTests extends MonitorManagementTest {
     private static String RG_NAME = "";
@@ -31,14 +34,20 @@ public class AlertsTests extends MonitorManagementTest {
 
         MetricAlert ma = monitorManager.alerts().metricAlerts().define("somename")
                 .withNewResourceGroup(Region.US_EAST)
-                .withDescription("some description")
-                .withSeverity("3")
-                .withResourceScope("")
-                .withEvaluationFrequency("frequency")
-                .withWindowSize("size")
-                .withAlertEnabled()
-                .withActionGroup("someGroupId")
-                .defineMetricCriteria("")
+                .withTargetResource("StorageAccountId")
+                .withSeverity(3)
+                .withWindowSize(Period.minutes(15))
+                .withEvaluationFrequency(Period.minutes(1))
+                .withDescription("Some very helpful description here")
+                .withRuleEnabled()
+                .withActionGroups("someGroupId")
+                .defineMetricCriteria("Lots of transaction")
+                    .withSignalName("Transactions")
+                    .withCondition(MetricCriteriaOperator.GREATER_THAN,  MetricCriteriaAggregationType.TOTAL, 10)
+                    .withDimensionFilter("ResponseType", "Success", "Failure")
+                    .withMetricNamespace("some metric namespace")
+                    .attach()
+                .withAutoMitigation()
                 .create();
 
         ActionGroup ag = monitorManager.actionGroups().define("simpleActionGroup")

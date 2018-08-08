@@ -7,11 +7,14 @@
 package com.microsoft.azure.management.resources.fluentcore.utils;
 
 import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
+import com.microsoft.rest.DateTimeRfc1123;
 import okhttp3.Interceptor;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 import okio.Buffer;
 import okio.BufferedSource;
+import org.joda.time.DateTime;
+import org.joda.time.Duration;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
@@ -70,7 +73,15 @@ public class ResourceManagerThrottlingInterceptor implements Interceptor {
             String retryAfterHeader = response.header("Retry-After");
             int retryAfter = 0;
             if (retryAfterHeader != null) {
-                retryAfter = Integer.parseInt(retryAfterHeader);
+                DateTime retryWhen = null;
+                try {
+                    retryWhen = new DateTimeRfc1123(retryAfterHeader).dateTime();
+                } catch (Exception e) { }
+                if (retryWhen == null) {
+                    retryAfter = Integer.parseInt(retryAfterHeader);
+                } else {
+                    retryAfter = new Duration(null, retryWhen).toStandardSeconds().getSeconds();
+                }
             }
             if (retryAfter <= 0) {
                 Pattern pattern = Pattern.compile("try again after '([0-9]*)' minutes", Pattern.CASE_INSENSITIVE);

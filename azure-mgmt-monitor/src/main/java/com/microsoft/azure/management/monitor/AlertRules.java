@@ -11,10 +11,10 @@ import com.microsoft.azure.management.monitor.implementation.MonitorManager;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasManager;
 
 /**
- *  Entry point to Alerts management API.
+ *  Entry point to AlertRules management API.
  */
 @Fluent
-public interface Alerts extends
+public interface AlertRules extends
         HasManager<MonitorManager> {
     /**
      * @return the SQL Server Firewall Rules API entry point

@@ -48,21 +48,20 @@ public interface MetricAlert extends
         }
 
         interface WithScopes {
-            WithSeverity withTargetResource(String resourceId);
-            WithSeverity withTargetResource(HasId resource);
-        }
-
-        interface WithSeverity {
-            WithWindowSize withSeverity(int severity);
+            WithWindowSize withTargetResource(String resourceId);
+            WithWindowSize withTargetResource(HasId resource);
         }
 
         interface WithWindowSize {
             WithEvaluationFrequency withWindowSize(Period size);
         }
         interface WithEvaluationFrequency {
-            WithDescription withEvaluationFrequency(Period frequency);
+            WithSeverity withEvaluationFrequency(Period frequency);
         }
 
+        interface WithSeverity {
+            WithDescription withSeverity(int severity);
+        }
 
         interface WithDescription {
             WithAlertEnabled withDescription(String description);
@@ -79,7 +78,7 @@ public interface MetricAlert extends
         }
 
         interface WithCriteriaDefinition {
-            MetricAlertCondition.DefinitionStages.Blank.MetricName<WithCreate> defineMetricCriteria(String name);
+            MetricAlertCondition.DefinitionStages.Blank.MetricName<WithCreate> defineAlertCriteria(String name);
         }
 
         /**

@@ -26,7 +26,7 @@ public interface MetricAlertCondition /*extends
             }
 
             interface WithCriteriaOperator<ParentT> {
-                WithConditionAttach<ParentT> withCondition(MetricCriteriaOperator operator, MetricCriteriaAggregationType timeAggregation, double threshold);
+                WithConditionAttach<ParentT> withCondition(MetricAlertRuleCondition condition, MetricAlertRuleTimeAggregation timeAggregation, double threshold);
             }
 
             interface WithConditionAttach<ParentT>
@@ -52,7 +52,7 @@ public interface MetricAlertCondition /*extends
             }
 
             interface WithCriteriaOperator<ParentT> {
-                WithConditionAttach<ParentT> withCondition(MetricCriteriaOperator operator, MetricCriteriaAggregationType timeAggregation, double threshold);
+                WithConditionAttach<ParentT> withCondition(MetricAlertRuleCondition operator, MetricAlertRuleTimeAggregation timeAggregation, double threshold);
             }
 
             interface WithConditionAttach<ParentT>
@@ -72,7 +72,7 @@ public interface MetricAlertCondition /*extends
 
     interface UpdateStages extends Update {
 
-        UpdateStages withCondition(MetricCriteriaOperator operator, MetricCriteriaAggregationType timeAggregation, double threshold);
+        UpdateStages withCondition(MetricAlertRuleCondition operator, MetricAlertRuleTimeAggregation timeAggregation, double threshold);
 
         UpdateStages withMetricNamespace(String metricNamespace);
 

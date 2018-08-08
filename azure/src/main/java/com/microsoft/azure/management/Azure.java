@@ -61,7 +61,6 @@ import com.microsoft.azure.management.locks.ManagementLocks;
 import com.microsoft.azure.management.locks.implementation.AuthorizationManager;
 import com.microsoft.azure.management.monitor.ActionGroups;
 import com.microsoft.azure.management.monitor.ActivityLogs;
-import com.microsoft.azure.management.monitor.Alerts;
 import com.microsoft.azure.management.monitor.DiagnosticSettings;
 import com.microsoft.azure.management.monitor.MetricDefinitions;
 import com.microsoft.azure.management.monitor.implementation.MonitorManager;
@@ -902,11 +901,11 @@ public final class Azure {
     }
 
     /**
-     * @return entry point to listing alerts in Azure
+     * @return entry point to listing alertRules in Azure
      */
 /*    @Beta(SinceVersion.V1_8_0)
-    public Alerts alerts() {
-        return this.monitorManager.alerts();
+    public AlertRules alertRules() {
+        return this.monitorManager.alertRules();
     }
 */
     /**

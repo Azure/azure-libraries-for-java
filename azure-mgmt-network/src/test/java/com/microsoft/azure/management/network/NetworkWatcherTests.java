@@ -43,7 +43,6 @@ public class NetworkWatcherTests extends NetworkManagementTest {
                 .execute();
         Assert.assertEquals(1, providers.providersByCountry().size());
         Assert.assertEquals("washington", providers.providersByCountry().get("United States").states().get(0).stateName());
-        Assert.assertEquals("seattle", providers.providersByCountry().get("United States").states().get(0).cities().get(0).cityName());
         Assert.assertTrue(providers.providersByCountry().get("United States").states().get(0).providers().size() > 0);
 
         String localProvider = providers.providersByCountry().get("United States").states().get(0).providers().get(0);

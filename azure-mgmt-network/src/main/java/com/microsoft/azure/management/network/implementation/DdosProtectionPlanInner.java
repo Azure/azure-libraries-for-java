@@ -91,4 +91,23 @@ public class DdosProtectionPlanInner extends Resource {
         return this.etag;
     }
 
+    /**
+     * Get the id value.
+     *
+     * @return the id value
+     */
+    public String id() {
+        return this.id;
+    }
+
+    /**
+     * Set the id value.
+     *
+     * @param id the id value to set
+     * @return the DdosProtectionPlanInner object itself.
+     */
+    public DdosProtectionPlanInner withId(String id) {
+        this.id = id;
+        return this;
+    }
 }

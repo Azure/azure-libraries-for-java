@@ -230,9 +230,9 @@ public class VirtualNetworkGatewayConnectionImpl
     @Override
     public Observable<VirtualNetworkGatewayConnection> applyTagsAsync() {
         return this.manager().inner().virtualNetworkGatewayConnections().updateTagsAsync(resourceGroupName(), name(), inner().getTags())
-                .flatMap(new Func1<VirtualNetworkGatewayConnectionListEntityInner, Observable<VirtualNetworkGatewayConnection>>() {
+                .flatMap(new Func1<VirtualNetworkGatewayConnectionInner, Observable<VirtualNetworkGatewayConnection>>() {
                     @Override
-                    public Observable<VirtualNetworkGatewayConnection> call(VirtualNetworkGatewayConnectionListEntityInner inner) {
+                    public Observable<VirtualNetworkGatewayConnection> call(VirtualNetworkGatewayConnectionInner inner) {
                         return refreshAsync();
                     }
                 });

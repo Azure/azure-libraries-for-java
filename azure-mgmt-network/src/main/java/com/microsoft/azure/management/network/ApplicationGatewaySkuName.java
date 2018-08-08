@@ -31,6 +31,12 @@ public final class ApplicationGatewaySkuName extends ExpandableStringEnum<Applic
     /** Static value WAF_Large for ApplicationGatewaySkuName. */
     public static final ApplicationGatewaySkuName WAF_LARGE = fromString("WAF_Large");
 
+    /** Static value Standard_v2 for ApplicationGatewaySkuName. */
+    public static final ApplicationGatewaySkuName STANDARD_V2 = fromString("Standard_v2");
+
+    /** Static value WAF_v2 for ApplicationGatewaySkuName. */
+    public static final ApplicationGatewaySkuName WAF_V2 = fromString("WAF_v2");
+
     /**
      * Creates or finds a ApplicationGatewaySkuName from its string representation.
      * @param name a name to look for

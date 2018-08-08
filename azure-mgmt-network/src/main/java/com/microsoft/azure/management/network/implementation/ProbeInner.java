@@ -26,11 +26,11 @@ public class ProbeInner extends SubResource {
     private List<SubResource> loadBalancingRules;
 
     /**
-     * The protocol of the end point. Possible values are: 'Http' or 'Tcp'. If
-     * 'Tcp' is specified, a received ACK is required for the probe to be
-     * successful. If 'Http' is specified, a 200 OK response from the specifies
-     * URI is required for the probe to be successful. Possible values include:
-     * 'Http', 'Tcp'.
+     * The protocol of the end point. Possible values are: 'Http', 'Tcp', or
+     * 'Https'. If 'Tcp' is specified, a received ACK is required for the probe
+     * to be successful. If 'Http' or 'Https' is specified, a 200 OK response
+     * from the specifies URI is required for the probe to be successful.
+     * Possible values include: 'Http', 'Tcp', 'Https'.
      */
     @JsonProperty(value = "properties.protocol", required = true)
     private ProbeProtocol protocol;

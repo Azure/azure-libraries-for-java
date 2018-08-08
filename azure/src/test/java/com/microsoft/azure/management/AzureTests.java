@@ -701,6 +701,7 @@ public class AzureTests extends TestBase {
     }
 
     @Test
+    @Ignore("Cannot run because of service-side issue with FlowLogSettings.")
     public void testNetworkWatcherFunctions() throws Exception {
         TestNetworkWatcher tnw = new TestNetworkWatcher();
 

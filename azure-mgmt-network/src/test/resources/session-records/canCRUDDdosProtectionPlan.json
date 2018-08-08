@@ -1,211 +1,211 @@
 {
   "networkCallRecords" : [ {
     "Method" : "PUT",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/javanwmrg40695?api-version=2017-05-10",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/javanwmrg58918?api-version=2017-05-10",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/1.10.1-SNAPSHOT OS:Linux/4.13.0-1011-azure MacAddressHash:25b5bc20759e543eb2e8579b87d23fee827aeb0a644682afa66f901825b7fc24 Java:1.8.0_171 (ResourceManagementClient, 2017-05-10)",
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:a22cb572fdf361c1a65341471ca9c2d9987ac77426088d08234fc437795e9194 Java:1.8.0_171 (ResourceManagementClient, 2017-05-10)",
       "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "date" : "Sat, 19 May 2018 10:01:03 GMT",
-      "content-length" : "189",
+      "date" : "Wed, 08 Aug 2018 19:27:16 GMT",
+      "content-length" : "273",
       "expires" : "-1",
-      "x-ms-ratelimit-remaining-subscription-writes" : "1058",
+      "x-ms-ratelimit-remaining-subscription-writes" : "1199",
       "retry-after" : "0",
       "StatusCode" : "201",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "2f019a3d-996f-41cd-93de-df05d73d480e",
+      "x-ms-correlation-request-id" : "a67c9e80-d6a3-4761-a384-69bc98b8ad32",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "CENTRALUS:20180519T100103Z:2f019a3d-996f-41cd-93de-df05d73d480e",
+      "x-ms-routing-request-id" : "WESTUS2:20180808T192716Z:a67c9e80-d6a3-4761-a384-69bc98b8ad32",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "2f019a3d-996f-41cd-93de-df05d73d480e",
-      "Body" : "{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/javanwmrg40695\",\"name\":\"javanwmrg40695\",\"location\":\"southcentralus\",\"properties\":{\"provisioningState\":\"Succeeded\"}}"
+      "x-ms-request-id" : "a67c9e80-d6a3-4761-a384-69bc98b8ad32",
+      "Body" : "{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/javanwmrg58918\",\"name\":\"javanwmrg58918\",\"location\":\"southcentralus\",\"tags\":{\"date\":\"2018-08-08T19:27:14.568Z\",\"product\":\"javasdk\",\"cause\":\"automation\"},\"properties\":{\"provisioningState\":\"Succeeded\"}}"
     }
   }, {
     "Method" : "PUT",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/javanwmrg40695/providers/Microsoft.Network/ddosProtectionPlans/ddosplan429806?api-version=2018-04-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/javanwmrg58918/providers/Microsoft.Network/ddosProtectionPlans/ddosplan51591a?api-version=2018-06-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Linux/4.13.0-1011-azure MacAddressHash:25b5bc20759e543eb2e8579b87d23fee827aeb0a644682afa66f901825b7fc24 Java:1.8.0_171 (NetworkManagementClient)",
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:a22cb572fdf361c1a65341471ca9c2d9987ac77426088d08234fc437795e9194 Java:1.8.0_171 (NetworkManagementClient)",
       "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "date" : "Sat, 19 May 2018 10:01:03 GMT",
+      "date" : "Wed, 08 Aug 2018 19:27:17 GMT",
       "content-length" : "435",
       "server" : "Microsoft-HTTPAPI/2.0",
       "expires" : "-1",
-      "x-ms-ratelimit-remaining-subscription-writes" : "1057",
+      "x-ms-ratelimit-remaining-subscription-writes" : "1198",
       "retry-after" : "0",
       "StatusCode" : "201",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "edc5e0b5-13cf-4b69-8166-c60c5d3b69e6",
+      "x-ms-correlation-request-id" : "d3f3eac9-ae0c-490d-ac0d-41750b6c2a8f",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "CENTRALUS:20180519T100104Z:edc5e0b5-13cf-4b69-8166-c60c5d3b69e6",
+      "x-ms-routing-request-id" : "WESTUS2:20180808T192718Z:d3f3eac9-ae0c-490d-ac0d-41750b6c2a8f",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "e0576593-68f8-49b4-9217-c39d8fbcdee1",
-      "Body" : "{\r\n  \"name\": \"ddosplan429806\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/javanwmrg40695/providers/Microsoft.Network/ddosProtectionPlans/ddosplan429806\",\r\n  \"etag\": \"W/\\\"60b5fa29-e140-441c-9095-45feea4f1de7\\\"\",\r\n  \"type\": \"Microsoft.Network/ddosProtectionPlans\",\r\n  \"location\": \"southcentralus\",\r\n  \"tags\": {\r\n    \"tag1\": \"value1\"\r\n  },\r\n  \"properties\": {\r\n    \"provisioningState\": \"Succeeded\"\r\n  }\r\n}",
-      "azure-asyncoperation" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/southcentralus/operations/e0576593-68f8-49b4-9217-c39d8fbcdee1?api-version=2018-04-01"
+      "x-ms-request-id" : "60f1946b-99d3-4d2d-a85e-fffa8219eb99",
+      "Body" : "{\r\n  \"name\": \"ddosplan51591a\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/javanwmrg58918/providers/Microsoft.Network/ddosProtectionPlans/ddosplan51591a\",\r\n  \"etag\": \"W/\\\"6f436968-1145-4fed-b253-0c7d467d86aa\\\"\",\r\n  \"type\": \"Microsoft.Network/ddosProtectionPlans\",\r\n  \"location\": \"southcentralus\",\r\n  \"tags\": {\r\n    \"tag1\": \"value1\"\r\n  },\r\n  \"properties\": {\r\n    \"provisioningState\": \"Succeeded\"\r\n  }\r\n}",
+      "azure-asyncoperation" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/southcentralus/operations/60f1946b-99d3-4d2d-a85e-fffa8219eb99?api-version=2018-06-01"
     }
   }, {
     "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/ddosProtectionPlans?api-version=2018-04-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/ddosProtectionPlans?api-version=2018-06-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Linux/4.13.0-1011-azure MacAddressHash:25b5bc20759e543eb2e8579b87d23fee827aeb0a644682afa66f901825b7fc24 Java:1.8.0_171 (NetworkManagementClient)",
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:a22cb572fdf361c1a65341471ca9c2d9987ac77426088d08234fc437795e9194 Java:1.8.0_171 (NetworkManagementClient)",
       "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "date" : "Sat, 19 May 2018 10:01:03 GMT",
+      "date" : "Wed, 08 Aug 2018 19:27:17 GMT",
       "server" : "Microsoft-HTTPAPI/2.0",
       "content-length" : "512",
       "expires" : "-1",
       "transfer-encoding" : "chunked",
       "vary" : "Accept-Encoding",
       "retry-after" : "0",
-      "x-ms-ratelimit-remaining-subscription-reads" : "14527",
+      "x-ms-ratelimit-remaining-subscription-reads" : "11999",
       "StatusCode" : "200",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "4b3c06a3-e175-497b-a459-05be1c16d696",
+      "x-ms-correlation-request-id" : "c3ad9875-7562-4769-9b29-cd8a20f9cbad",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "CENTRALUS:20180519T100104Z:4b3c06a3-e175-497b-a459-05be1c16d696",
+      "x-ms-routing-request-id" : "WESTUS2:20180808T192718Z:c3ad9875-7562-4769-9b29-cd8a20f9cbad",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "4d30c56f-329d-4176-8671-5ce24f54918e",
-      "Body" : "{\r\n  \"value\": [\r\n    {\r\n      \"name\": \"ddosplan429806\",\r\n      \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/javanwmrg40695/providers/Microsoft.Network/ddosProtectionPlans/ddosplan429806\",\r\n      \"etag\": \"W/\\\"60b5fa29-e140-441c-9095-45feea4f1de7\\\"\",\r\n      \"type\": \"Microsoft.Network/ddosProtectionPlans\",\r\n      \"location\": \"southcentralus\",\r\n      \"tags\": {\r\n        \"tag1\": \"value1\"\r\n      },\r\n      \"properties\": {\r\n        \"provisioningState\": \"Succeeded\"\r\n      }\r\n    }\r\n  ]\r\n}"
+      "x-ms-request-id" : "af55def6-be56-4f88-9349-e41ac250ff6a",
+      "Body" : "{\r\n  \"value\": [\r\n    {\r\n      \"name\": \"ddosplan51591a\",\r\n      \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/javanwmrg58918/providers/Microsoft.Network/ddosProtectionPlans/ddosplan51591a\",\r\n      \"etag\": \"W/\\\"6f436968-1145-4fed-b253-0c7d467d86aa\\\"\",\r\n      \"type\": \"Microsoft.Network/ddosProtectionPlans\",\r\n      \"location\": \"southcentralus\",\r\n      \"tags\": {\r\n        \"tag1\": \"value1\"\r\n      },\r\n      \"properties\": {\r\n        \"provisioningState\": \"Succeeded\"\r\n      }\r\n    }\r\n  ]\r\n}"
     }
   }, {
     "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/javanwmrg40695/providers/Microsoft.Network/ddosProtectionPlans?api-version=2018-04-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/javanwmrg58918/providers/Microsoft.Network/ddosProtectionPlans?api-version=2018-06-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Linux/4.13.0-1011-azure MacAddressHash:25b5bc20759e543eb2e8579b87d23fee827aeb0a644682afa66f901825b7fc24 Java:1.8.0_171 (NetworkManagementClient)",
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:a22cb572fdf361c1a65341471ca9c2d9987ac77426088d08234fc437795e9194 Java:1.8.0_171 (NetworkManagementClient)",
       "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "date" : "Sat, 19 May 2018 10:01:04 GMT",
+      "date" : "Wed, 08 Aug 2018 19:27:17 GMT",
       "server" : "Microsoft-HTTPAPI/2.0",
       "content-length" : "512",
       "expires" : "-1",
       "transfer-encoding" : "chunked",
       "vary" : "Accept-Encoding",
       "retry-after" : "0",
-      "x-ms-ratelimit-remaining-subscription-reads" : "14526",
+      "x-ms-ratelimit-remaining-subscription-reads" : "11998",
       "StatusCode" : "200",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "35154e58-eca4-4eab-955f-4aaf57b745b7",
+      "x-ms-correlation-request-id" : "c6e04a59-c547-48cd-968d-85c59c8a0f86",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "CENTRALUS:20180519T100104Z:35154e58-eca4-4eab-955f-4aaf57b745b7",
+      "x-ms-routing-request-id" : "WESTUS2:20180808T192718Z:c6e04a59-c547-48cd-968d-85c59c8a0f86",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "5dfceb99-eb02-47b8-83d0-ceb55c898b03",
-      "Body" : "{\r\n  \"value\": [\r\n    {\r\n      \"name\": \"ddosplan429806\",\r\n      \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/javanwmrg40695/providers/Microsoft.Network/ddosProtectionPlans/ddosplan429806\",\r\n      \"etag\": \"W/\\\"60b5fa29-e140-441c-9095-45feea4f1de7\\\"\",\r\n      \"type\": \"Microsoft.Network/ddosProtectionPlans\",\r\n      \"location\": \"southcentralus\",\r\n      \"tags\": {\r\n        \"tag1\": \"value1\"\r\n      },\r\n      \"properties\": {\r\n        \"provisioningState\": \"Succeeded\"\r\n      }\r\n    }\r\n  ]\r\n}"
+      "x-ms-request-id" : "3f1a363d-173e-40ef-928f-731627302929",
+      "Body" : "{\r\n  \"value\": [\r\n    {\r\n      \"name\": \"ddosplan51591a\",\r\n      \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/javanwmrg58918/providers/Microsoft.Network/ddosProtectionPlans/ddosplan51591a\",\r\n      \"etag\": \"W/\\\"6f436968-1145-4fed-b253-0c7d467d86aa\\\"\",\r\n      \"type\": \"Microsoft.Network/ddosProtectionPlans\",\r\n      \"location\": \"southcentralus\",\r\n      \"tags\": {\r\n        \"tag1\": \"value1\"\r\n      },\r\n      \"properties\": {\r\n        \"provisioningState\": \"Succeeded\"\r\n      }\r\n    }\r\n  ]\r\n}"
     }
   }, {
     "Method" : "DELETE",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/javanwmrg40695/providers/Microsoft.Network/ddosProtectionPlans/ddosplan429806?api-version=2018-04-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/javanwmrg58918/providers/Microsoft.Network/ddosProtectionPlans/ddosplan51591a?api-version=2018-06-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Linux/4.13.0-1011-azure MacAddressHash:25b5bc20759e543eb2e8579b87d23fee827aeb0a644682afa66f901825b7fc24 Java:1.8.0_171 (NetworkManagementClient)",
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:a22cb572fdf361c1a65341471ca9c2d9987ac77426088d08234fc437795e9194 Java:1.8.0_171 (NetworkManagementClient)",
       "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "date" : "Sat, 19 May 2018 10:01:04 GMT",
+      "date" : "Wed, 08 Aug 2018 19:27:18 GMT",
       "content-length" : "0",
       "server" : "Microsoft-HTTPAPI/2.0",
       "expires" : "-1",
-      "x-ms-ratelimit-remaining-subscription-deletes" : "14961",
+      "x-ms-ratelimit-remaining-subscription-deletes" : "14999",
       "retry-after" : "0",
       "StatusCode" : "202",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "5542cd5c-a429-471d-8ce8-7d054302edfb",
+      "x-ms-correlation-request-id" : "cc9dc691-95f1-4a18-bb1a-1327945bf295",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "CENTRALUS:20180519T100104Z:5542cd5c-a429-471d-8ce8-7d054302edfb",
-      "location" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/southcentralus/operationResults/7b2702d3-a388-4633-a0fd-34ee74ae019e?api-version=2018-04-01",
+      "x-ms-routing-request-id" : "WESTUS2:20180808T192718Z:cc9dc691-95f1-4a18-bb1a-1327945bf295",
+      "location" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/southcentralus/operationResults/8b1c62fe-26fe-4b18-bdb7-0a142f278f20?api-version=2018-06-01",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "7b2702d3-a388-4633-a0fd-34ee74ae019e",
+      "x-ms-request-id" : "8b1c62fe-26fe-4b18-bdb7-0a142f278f20",
       "Body" : "",
-      "azure-asyncoperation" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/southcentralus/operations/7b2702d3-a388-4633-a0fd-34ee74ae019e?api-version=2018-04-01"
+      "azure-asyncoperation" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/southcentralus/operations/8b1c62fe-26fe-4b18-bdb7-0a142f278f20?api-version=2018-06-01"
     }
   }, {
     "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/southcentralus/operations/7b2702d3-a388-4633-a0fd-34ee74ae019e?api-version=2018-04-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/southcentralus/operations/8b1c62fe-26fe-4b18-bdb7-0a142f278f20?api-version=2018-06-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Linux/4.13.0-1011-azure MacAddressHash:25b5bc20759e543eb2e8579b87d23fee827aeb0a644682afa66f901825b7fc24 Java:1.8.0_171 (NetworkManagementClient)"
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:a22cb572fdf361c1a65341471ca9c2d9987ac77426088d08234fc437795e9194 Java:1.8.0_171 (NetworkManagementClient)"
     },
     "Response" : {
-      "date" : "Sat, 19 May 2018 10:01:04 GMT",
+      "date" : "Wed, 08 Aug 2018 19:27:18 GMT",
       "server" : "Microsoft-HTTPAPI/2.0",
       "content-length" : "29",
       "expires" : "-1",
       "transfer-encoding" : "chunked",
       "vary" : "Accept-Encoding",
       "retry-after" : "0",
-      "x-ms-ratelimit-remaining-subscription-reads" : "14525",
+      "x-ms-ratelimit-remaining-subscription-reads" : "11997",
       "StatusCode" : "200",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "4cf7320d-72f1-47f4-a114-0f816b03a82b",
+      "x-ms-correlation-request-id" : "30171e02-0a44-4864-ae27-8778f2d50d89",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "CENTRALUS:20180519T100105Z:4cf7320d-72f1-47f4-a114-0f816b03a82b",
+      "x-ms-routing-request-id" : "WESTUS2:20180808T192719Z:30171e02-0a44-4864-ae27-8778f2d50d89",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "47936aae-f148-451e-a910-1637e521d40f",
+      "x-ms-request-id" : "0902100f-0dd0-4511-8e69-d8b4213ca575",
       "Body" : "{\r\n  \"status\": \"Succeeded\"\r\n}"
     }
   }, {
     "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/javanwmrg40695/providers/Microsoft.Network/ddosProtectionPlans?api-version=2018-04-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/javanwmrg58918/providers/Microsoft.Network/ddosProtectionPlans?api-version=2018-06-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Linux/4.13.0-1011-azure MacAddressHash:25b5bc20759e543eb2e8579b87d23fee827aeb0a644682afa66f901825b7fc24 Java:1.8.0_171 (NetworkManagementClient)",
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:a22cb572fdf361c1a65341471ca9c2d9987ac77426088d08234fc437795e9194 Java:1.8.0_171 (NetworkManagementClient)",
       "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "date" : "Sat, 19 May 2018 10:01:04 GMT",
+      "date" : "Wed, 08 Aug 2018 19:27:18 GMT",
       "server" : "Microsoft-HTTPAPI/2.0",
       "content-length" : "19",
       "expires" : "-1",
       "transfer-encoding" : "chunked",
       "vary" : "Accept-Encoding",
       "retry-after" : "0",
-      "x-ms-ratelimit-remaining-subscription-reads" : "14524",
+      "x-ms-ratelimit-remaining-subscription-reads" : "11996",
       "StatusCode" : "200",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "f3eac83d-4cbe-4970-b518-71b23bc3b722",
+      "x-ms-correlation-request-id" : "b0edf7f8-9867-4a31-94ec-c887252b1108",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "CENTRALUS:20180519T100105Z:f3eac83d-4cbe-4970-b518-71b23bc3b722",
+      "x-ms-routing-request-id" : "WESTUS2:20180808T192719Z:b0edf7f8-9867-4a31-94ec-c887252b1108",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "1c3a81bc-addd-4c70-9dc7-08416acc5044",
+      "x-ms-request-id" : "6a221b2c-a641-4225-a5f0-ed5aedcbd0f9",
       "Body" : "{\r\n  \"value\": []\r\n}"
     }
   }, {
     "Method" : "DELETE",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/javanwmrg40695?api-version=2017-05-10",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/javanwmrg58918?api-version=2017-05-10",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/1.10.1-SNAPSHOT OS:Linux/4.13.0-1011-azure MacAddressHash:25b5bc20759e543eb2e8579b87d23fee827aeb0a644682afa66f901825b7fc24 Java:1.8.0_171 (ResourceManagementClient, 2017-05-10)",
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:a22cb572fdf361c1a65341471ca9c2d9987ac77426088d08234fc437795e9194 Java:1.8.0_171 (ResourceManagementClient, 2017-05-10)",
       "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "date" : "Sat, 19 May 2018 10:01:05 GMT",
+      "date" : "Wed, 08 Aug 2018 19:27:19 GMT",
       "content-length" : "0",
       "expires" : "-1",
-      "x-ms-ratelimit-remaining-subscription-deletes" : "14960",
+      "x-ms-ratelimit-remaining-subscription-deletes" : "14998",
       "retry-after" : "0",
       "StatusCode" : "202",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "b9fe0d93-d6a7-4d4a-89a5-dfb8b68ee2d9",
+      "x-ms-correlation-request-id" : "f9046cdd-1190-4a88-a24a-8d8edeff7f26",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "CENTRALUS:20180519T100105Z:b9fe0d93-d6a7-4d4a-89a5-dfb8b68ee2d9",
-      "location" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1KQVZBTldNUkc0MDY5NS1TT1VUSENFTlRSQUxVUyIsImpvYkxvY2F0aW9uIjoic291dGhjZW50cmFsdXMifQ?api-version=2017-05-10",
+      "x-ms-routing-request-id" : "WESTUS2:20180808T192719Z:f9046cdd-1190-4a88-a24a-8d8edeff7f26",
+      "location" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1KQVZBTldNUkc1ODkxOC1TT1VUSENFTlRSQUxVUyIsImpvYkxvY2F0aW9uIjoic291dGhjZW50cmFsdXMifQ?api-version=2017-05-10",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "b9fe0d93-d6a7-4d4a-89a5-dfb8b68ee2d9",
+      "x-ms-request-id" : "f9046cdd-1190-4a88-a24a-8d8edeff7f26",
       "Body" : ""
     }
   } ],
-  "variables" : [ "javanwmrg40695", "ddosplan429806", "7025f7e8-9021-48eb-9848-1f76beb9dafc", "eaa21d98-2522-43b9-a5ae-71cab186dc4b", "bc93c522-7181-48a1-974e-2e5c86ed965b", "c49afb90-7e10-4179-90a2-052d881ac15b" ]
+  "variables" : [ "javanwmrg58918", "ddosplan51591a", "90f20fb7-5023-493c-9b27-bd130e524689", "aef32a07-a1f2-4d7c-9073-f2aa457222dc", "983e7f50-b7b9-46a2-a0ac-12c61fbc33cc", "456943e6-9bc3-46f0-a6d0-2c4a47c97692" ]
 }

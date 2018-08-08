@@ -110,5 +110,4 @@ public class DdosProtectionPlanInner extends Resource {
         this.id = id;
         return this;
     }
-
 }

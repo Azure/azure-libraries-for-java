@@ -22,6 +22,9 @@ public final class VpnClientProtocol extends ExpandableStringEnum<VpnClientProto
     /** Static value SSTP for VpnClientProtocol. */
     public static final VpnClientProtocol SSTP = fromString("SSTP");
 
+    /** Static value OpenVPN for VpnClientProtocol. */
+    public static final VpnClientProtocol OPEN_VPN = fromString("OpenVPN");
+
     /**
      * Creates or finds a VpnClientProtocol from its string representation.
      * @param name a name to look for

@@ -37,6 +37,24 @@ public final class VirtualNetworkGatewaySkuName extends ExpandableStringEnum<Vir
     /** Static value VpnGw3 for VirtualNetworkGatewaySkuName. */
     public static final VirtualNetworkGatewaySkuName VPN_GW3 = fromString("VpnGw3");
 
+    /** Static value VpnGw1AZ for VirtualNetworkGatewaySkuName. */
+    public static final VirtualNetworkGatewaySkuName VPN_GW1AZ = fromString("VpnGw1AZ");
+
+    /** Static value VpnGw2AZ for VirtualNetworkGatewaySkuName. */
+    public static final VirtualNetworkGatewaySkuName VPN_GW2AZ = fromString("VpnGw2AZ");
+
+    /** Static value VpnGw3AZ for VirtualNetworkGatewaySkuName. */
+    public static final VirtualNetworkGatewaySkuName VPN_GW3AZ = fromString("VpnGw3AZ");
+
+    /** Static value ErGw1AZ for VirtualNetworkGatewaySkuName. */
+    public static final VirtualNetworkGatewaySkuName ER_GW1AZ = fromString("ErGw1AZ");
+
+    /** Static value ErGw2AZ for VirtualNetworkGatewaySkuName. */
+    public static final VirtualNetworkGatewaySkuName ER_GW2AZ = fromString("ErGw2AZ");
+
+    /** Static value ErGw3AZ for VirtualNetworkGatewaySkuName. */
+    public static final VirtualNetworkGatewaySkuName ER_GW3AZ = fromString("ErGw3AZ");
+
     /**
      * Creates or finds a VirtualNetworkGatewaySkuName from its string representation.
      * @param name a name to look for

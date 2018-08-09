@@ -16,8 +16,8 @@ import com.microsoft.azure.management.resources.fluentcore.arm.models.HasManager
 @Fluent
 public interface AlertRules extends
         HasManager<MonitorManager> {
-    /**
-     * @return the SQL Server Firewall Rules API entry point
-     */
+
     MetricAlerts metricAlerts();
+
+    ActivityLogAlerts activityLogAlerts();
 }

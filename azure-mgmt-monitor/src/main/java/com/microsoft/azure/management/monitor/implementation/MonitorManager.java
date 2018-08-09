@@ -129,10 +129,10 @@ public final class MonitorManager extends Manager<MonitorManager, MonitorManagem
     /**
      * @return the Azure AlertRules API entry point
      */
-    @Beta(SinceVersion.V1_8_0)
+    @Beta(SinceVersion.V1_15_0)
     public AlertRules alertRules() {
         if (this.alerts == null) {
-            //this.alertRules = new DiagnosticSettingsImpl(this);
+            this.alerts = new AlertRulesImpl(this);
         }
         return this.alerts;
     }

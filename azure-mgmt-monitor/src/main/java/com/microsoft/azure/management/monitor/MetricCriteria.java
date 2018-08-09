@@ -198,5 +198,4 @@ public class MetricCriteria {
         this.dimensions = dimensions;
         return this;
     }
-
 }

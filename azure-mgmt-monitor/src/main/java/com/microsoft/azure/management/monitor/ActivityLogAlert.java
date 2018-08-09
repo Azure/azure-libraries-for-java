@@ -7,63 +7,38 @@
 package com.microsoft.azure.management.monitor;
 
 import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.monitor.implementation.MetricAlertResourceInner;
+import com.microsoft.azure.management.monitor.implementation.ActivityLogAlertResourceInner;
 import com.microsoft.azure.management.monitor.implementation.MonitorManager;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasId;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
 import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
 import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
-import org.joda.time.Period;
+
+import java.util.Map;
 
 /**
- * An immutable client-side representation of an Azure Action Group.
+ * An immutable client-side representation of an Azure Activity Log Alert.
  */
 @Fluent
-public interface MetricAlert extends
-        GroupableResource<MonitorManager, MetricAlertResourceInner>,
-        Refreshable<MetricAlert>,
-        Updatable<MetricAlert.Update> {
+public interface ActivityLogAlert extends
+        GroupableResource<MonitorManager, ActivityLogAlertResourceInner>,
+        Refreshable<ActivityLogAlert>,
+        Updatable<ActivityLogAlert.Update> {
 
-    /**
-     * The entirety of a Action Group definition.
-     */
     interface Definition extends
             DefinitionStages.Blank,
-            DefinitionStages.WithCreate,
-            DefinitionStages.WithScopes,
-            DefinitionStages.WithWindowSize,
-            DefinitionStages.WithEvaluationFrequency,
-            DefinitionStages.WithSeverity,
-            DefinitionStages.WithDescription,
-            DefinitionStages.WithAlertEnabled,
-            DefinitionStages.WithActionGroup,
-            DefinitionStages.WithCriteriaDefinition {
+            DefinitionStages.WithCreate {
     }
 
     interface DefinitionStages {
-        /**
-         * The first stage of a Metric Alert definition.
-         */
+
         interface Blank extends GroupableResource.DefinitionStages.WithGroupAndRegion<WithScopes> {
         }
 
         interface WithScopes {
-            WithWindowSize withTargetResource(String resourceId);
-            WithWindowSize withTargetResource(HasId resource);
-        }
-
-        interface WithWindowSize {
-            WithEvaluationFrequency withWindowSize(Period size);
-        }
-        interface WithEvaluationFrequency {
-            WithSeverity withEvaluationFrequency(Period frequency);
-        }
-
-        interface WithSeverity {
-            WithDescription withSeverity(int severity);
+            WithDescription withTarget(String targetId);
         }
 
         interface WithDescription {
@@ -80,7 +55,8 @@ public interface MetricAlert extends
         }
 
         interface WithCriteriaDefinition {
-            MetricAlertCondition.DefinitionStages.Blank.MetricName<WithCreate> defineAlertCriteria(String name);
+            WithCreate withCondition(String field, String equals);
+            WithCreate withConditions(Map<String, String> fieldEqualsMap);
         }
 
         /**
@@ -88,29 +64,24 @@ public interface MetricAlert extends
          * but also allows for any other optional settings to be specified.
          */
         interface WithCreate extends
-                Creatable<MetricAlert>,
+                Creatable<ActivityLogAlert>,
                 DefinitionWithTags<WithCreate>,
                 WithCriteriaDefinition {
-            WithCreate withAutoMitigation();
         }
     }
 
     interface UpdateStages {
 
-        interface WithMetricUpdate {
-            Update withWindowSize(Period size);
-            Update withEvaluationFrequency(Period frequency);
-            Update withSeverity(int severity);
+        interface WithActivityLogUpdate {
             Update withDescription(String description);
             Update withRuleEnabled();
             Update withRuleDisabled();
             Update withActionGroups(String... actionGroupId);
             Update withoutActionGroup(String actionGroupId);
-            MetricAlertCondition.UpdateDefinitionStages.Blank.MetricName<Update> defineAlertCriteria(String name);
-            MetricAlertCondition.UpdateStages updateAlertCriteria(String name);
-            Update withoutAlertCriteria(String name);
-            Update withAutoMitigation();
-            Update withoutAutoMitigation();
+            Update withCondition(String field, String equals);
+            Update withConditions(Map<String, String> fieldEqualsMap);
+            Update withoutCondition(String field);
+
         }
     }
 
@@ -118,8 +89,8 @@ public interface MetricAlert extends
      * The template for an update operation, containing all the settings that can be modified.
      */
     interface Update extends
-            Appliable<MetricAlert>,
-            UpdateStages.WithMetricUpdate,
+            Appliable<ActivityLogAlert>,
+            UpdateStages.WithActivityLogUpdate,
             Resource.UpdateWithTags<Update> {
     }
 }

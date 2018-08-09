@@ -22,8 +22,6 @@ import com.microsoft.rest.v2.annotations.QueryParam;
 import com.microsoft.rest.v2.annotations.UnexpectedResponseExceptionType;
 import io.reactivex.Observable;
 import io.reactivex.Single;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * An instance of this class provides access to all the operations defined in
@@ -59,7 +57,7 @@ public final class SkusInner {
         @GET("subscriptions/{subscriptionId}/providers/Microsoft.Storage/skus")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Single<BodyResponse<List<SkuInner>>> list(@PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
+        Single<BodyResponse<PageImpl<SkuInner>>> list(@PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
     }
 
     /**
@@ -67,11 +65,9 @@ public final class SkusInner {
      *
      * @return the PagedList&lt;SkuInner&gt; object if successful.
      */
-    public PagedList<PagedList<SkuInner>> list() {
-        PageImpl<SkuInner> page = new PageImpl<SkuInner><>();
-        page.setItems(listAsync().single().items());
-        page.setNextPageLink(null);
-        return new PagedList<PagedList<SkuInner>>(page) {
+    public PagedList<SkuInner> list() {
+        Page<SkuInner> page = listAsync().blockingSingle();
+        return new PagedList<SkuInner>(page) {
             @Override
             public Page<SkuInner> nextPage(String nextPageLink) {
                 return null;
@@ -85,7 +81,7 @@ public final class SkusInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @return the observable to the PagedList&lt;SkuInner&gt; object.
      */
-    public Observable<Page<PagedList<SkuInner>>> listAsync() {
+    public Observable<Page<SkuInner>> listAsync() {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
@@ -93,7 +89,7 @@ public final class SkusInner {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
         return service.list(this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage())
-            .map((BodyResponse<List<SkuInner>> res) -> res.body())
+            .map((BodyResponse<PageImpl<SkuInner>> res) -> (Page<SkuInner>) res.body())
             .toObservable();
     }
 }

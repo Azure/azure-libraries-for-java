@@ -7,7 +7,7 @@
 package com.microsoft.azure.v2.management.storage;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.resources.fluentcore.arm.ExpandableStringEnum;
+import com.microsoft.rest.v2.ExpandableStringEnum;
 
 import java.util.Collection;
 

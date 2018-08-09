@@ -13,6 +13,9 @@ import com.microsoft.azure.v2.CloudException;
 import com.microsoft.azure.v2.OperationStatus;
 import com.microsoft.azure.v2.Page;
 import com.microsoft.azure.v2.PagedList;
+import com.microsoft.azure.v2.management.resources.fluentcore.collection.InnerSupportsDelete;
+import com.microsoft.azure.v2.management.resources.fluentcore.collection.InnerSupportsGet;
+import com.microsoft.azure.v2.management.resources.fluentcore.collection.InnerSupportsListing;
 import com.microsoft.azure.v2.management.storage.AccountSasParameters;
 import com.microsoft.azure.v2.management.storage.ServiceSasParameters;
 import com.microsoft.azure.v2.management.storage.StorageAccountCheckNameAvailabilityParameters;
@@ -33,9 +36,9 @@ import com.microsoft.rest.v2.annotations.GET;
 import com.microsoft.rest.v2.annotations.HeaderParam;
 import com.microsoft.rest.v2.annotations.Host;
 import com.microsoft.rest.v2.annotations.PATCH;
+import com.microsoft.rest.v2.annotations.PathParam;
 import com.microsoft.rest.v2.annotations.POST;
 import com.microsoft.rest.v2.annotations.PUT;
-import com.microsoft.rest.v2.annotations.PathParam;
 import com.microsoft.rest.v2.annotations.QueryParam;
 import com.microsoft.rest.v2.annotations.ResumeOperation;
 import com.microsoft.rest.v2.annotations.UnexpectedResponseExceptionType;
@@ -44,13 +47,11 @@ import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.reactivex.annotations.NonNull;
 
-import java.util.List;
-
 /**
  * An instance of this class provides access to all the operations defined in
  * StorageAccounts.
  */
-public final class StorageAccountsInner {
+public final class StorageAccountsInner implements InnerSupportsGet<StorageAccountInner>, InnerSupportsDelete<Void>, InnerSupportsListing<StorageAccountInner> {
     /**
      * The proxy service used to perform REST calls.
      */
@@ -116,12 +117,12 @@ public final class StorageAccountsInner {
         @GET("subscriptions/{subscriptionId}/providers/Microsoft.Storage/storageAccounts")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Single<BodyResponse<List<StorageAccountInner>>> list(@PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
+        Single<BodyResponse<PageImpl<StorageAccountInner>>> list(@PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Single<BodyResponse<List<StorageAccountInner>>> listByResourceGroup(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
+        Single<BodyResponse<PageImpl<StorageAccountInner>>> listByResourceGroup(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/listKeys")
         @ExpectedResponses({200})
@@ -551,11 +552,9 @@ public final class StorageAccountsInner {
      *
      * @return the PagedList&lt;StorageAccountInner&gt; object if successful.
      */
-    public PagedList<PagedList<StorageAccountInner>> list() {
-        PageImpl<StorageAccountInner> page = new PageImpl<StorageAccountInner><>();
-        page.setItems(listAsync().single().items());
-        page.setNextPageLink(null);
-        return new PagedList<PagedList<StorageAccountInner>>(page) {
+    public PagedList<StorageAccountInner> list() {
+        Page<StorageAccountInner> page = listAsync().blockingSingle();
+        return new PagedList<StorageAccountInner>(page) {
             @Override
             public Page<StorageAccountInner> nextPage(String nextPageLink) {
                 return null;
@@ -569,7 +568,7 @@ public final class StorageAccountsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @return the observable to the PagedList&lt;StorageAccountInner&gt; object.
      */
-    public Observable<Page<PagedList<StorageAccountInner>>> listAsync() {
+    public Observable<Page<StorageAccountInner>> listAsync() {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
@@ -577,7 +576,7 @@ public final class StorageAccountsInner {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
         return service.list(this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage())
-            .map((BodyResponse<List<StorageAccountInner>> res) -> res.body())
+            .map((BodyResponse<PageImpl<StorageAccountInner>> res) -> (Page<StorageAccountInner>) res.body())
             .toObservable();
     }
 
@@ -587,11 +586,9 @@ public final class StorageAccountsInner {
      * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
      * @return the PagedList&lt;StorageAccountInner&gt; object if successful.
      */
-    public PagedList<PagedList<StorageAccountInner>> listByResourceGroup(@NonNull String resourceGroupName) {
-        PageImpl<StorageAccountInner> page = new PageImpl<StorageAccountInner>();
-        page.setItems(listByResourceGroupAsync(resourceGroupName).single().items());
-        page.setNextPageLink(null);
-        return new PagedList<PagedList<StorageAccountInner>>(page) {
+    public PagedList<StorageAccountInner> listByResourceGroup(@NonNull String resourceGroupName) {
+        Page<StorageAccountInner> page = listByResourceGroupAsync(resourceGroupName).blockingSingle();
+        return new PagedList<StorageAccountInner>(page) {
             @Override
             public Page<StorageAccountInner> nextPage(String nextPageLink) {
                 return null;
@@ -606,7 +603,7 @@ public final class StorageAccountsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @return the observable to the PagedList&lt;StorageAccountInner&gt; object.
      */
-    public Observable<Page<PagedList<StorageAccountInner>>> listByResourceGroupAsync(@NonNull String resourceGroupName) {
+    public Observable<Page<StorageAccountInner>> listByResourceGroupAsync(@NonNull String resourceGroupName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -617,7 +614,7 @@ public final class StorageAccountsInner {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
         return service.listByResourceGroup(resourceGroupName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage())
-            .map((BodyResponse<List<StorageAccountInner>> res) -> res.body())
+            .map((BodyResponse<PageImpl<StorageAccountInner>> res) -> (Page<StorageAccountInner>) res.body())
             .toObservable();
     }
 

@@ -6,18 +6,21 @@
 
 package com.microsoft.azure.management.storage;
 
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
-import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Indexable;
+import com.microsoft.azure.v2.management.resources.fluentcore.utils.Utils;
 import com.microsoft.azure.v2.management.storage.CheckNameAvailabilityResult;
+import com.microsoft.azure.v2.management.storage.SkuName;
 import com.microsoft.azure.v2.management.storage.StorageAccount;
 import com.microsoft.azure.v2.management.storage.StorageAccountEncryptionKeySource;
 import com.microsoft.azure.v2.management.storage.StorageAccountEncryptionStatus;
+import com.microsoft.azure.v2.management.storage.StorageAccountKey;
 import com.microsoft.azure.v2.management.storage.StorageService;
-import com.microsoft.rest.RestClient;
+import com.microsoft.rest.v2.http.HttpPipeline;
+import io.reactivex.Observable;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
-import rx.Observable;
 
 import java.util.List;
 import java.util.Map;
@@ -27,11 +30,11 @@ public class StorageAccountOperationsTests extends StorageManagementTest {
     private static String SA_NAME = "";
 
     @Override
-    protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {
+    protected void initializeClients(HttpPipeline httpPipeline, String defaultSubscription, String domain) {
         RG_NAME = generateRandomResourceName("javacsmrg", 15);
         SA_NAME = generateRandomResourceName("javacsmsa", 15);
 
-        super.initializeClients(restClient, defaultSubscription, domain);
+        super.initializeClients(httpPipeline, defaultSubscription, domain);
     }
     @Override
     protected void cleanUpResources() {
@@ -52,7 +55,7 @@ public class StorageAccountOperationsTests extends StorageManagementTest {
                 .withTag("tag1", "value1")
                 .createAsync();
         StorageAccount storageAccount = Utils.<StorageAccount>rootResource(resourceStream)
-                .toBlocking().last();
+                .blockingGet();
         Assert.assertEquals(RG_NAME, storageAccount.resourceGroupName());
         Assert.assertEquals(SkuName.STANDARD_GRS, storageAccount.sku().name());
         // List
@@ -108,7 +111,7 @@ public class StorageAccountOperationsTests extends StorageManagementTest {
         Assert.assertEquals(2, storageAccount.tags().size());
     }
 
-    @Test
+    @Ignore("new storage service doesn't allow disabling default encryption")
     public void canEnableDisableEncryptionOnStorageAccount() throws Exception {
         StorageAccount storageAccount = storageManager.storageAccounts()
                 .define(SA_NAME)
@@ -138,7 +141,7 @@ public class StorageAccountOperationsTests extends StorageManagementTest {
         Assert.assertFalse(blobServiceEncryptionStatus.isEnabled());
     }
 
-    @Test
+    @Ignore("new storage service doesn't allow disabling default encryption")
     public void canEnableDisableFileEncryptionOnStorageAccount() throws Exception {
         StorageAccount storageAccount = storageManager.storageAccounts()
                 .define(SA_NAME)

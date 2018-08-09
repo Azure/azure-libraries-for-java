@@ -53,7 +53,7 @@ public class AzureConfigurableImpl<T extends AzureConfigurable<T>>
                 .withRequestPolicy(new CredentialsPolicyFactory(credentials))
                 .withRequestPolicy(new ProviderRegistrationPolicyFactory(credentials))
                 .withRequestPolicy(new ResourceManagerThrottlingPolicyFactory())
-                .withHttpClient(HttpClient.createDefault(new HttpClientConfiguration(proxy)))
+                .withHttpClient(HttpClient.createDefault(new HttpClientConfiguration(proxy, false)))
                 .build();
 
         if (proxy != null) {

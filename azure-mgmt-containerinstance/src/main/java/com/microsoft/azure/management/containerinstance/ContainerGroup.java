@@ -16,6 +16,7 @@ import com.microsoft.azure.management.resources.fluentcore.model.Attachable;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
 import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
+import rx.Completable;
 import rx.Observable;
 
 import java.util.Collection;
@@ -121,6 +122,30 @@ public interface ContainerGroup extends
     /***********************************************************
      * Actions
      ***********************************************************/
+
+    /**
+     * Restarts all containers in a container group in place. If container image has updates, new image will be downloaded.
+     */
+    void restart();
+
+    /**
+     * Restarts all containers in a container group in place asynchronously. If container image has updates, new image will be downloaded.
+     *
+     * @return a representation of the deferred computation of this call
+     */
+    Completable restartAsync();
+
+    /**
+     * Stops all containers in a container group. Compute resources will be de-allocated and billing will stop.
+     */
+    void stop();
+
+    /**
+     * Stops all containers in a container group asynchronously. Compute resources will be de-allocated and billing will stop.
+     *
+     * @return a representation of the deferred computation of this call
+     */
+    Completable stopAsync();
 
     /**
      * Get the log content for the specified container instance within the container group.

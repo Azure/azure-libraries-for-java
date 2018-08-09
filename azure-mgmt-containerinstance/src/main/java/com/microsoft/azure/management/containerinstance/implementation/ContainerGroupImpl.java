@@ -30,6 +30,7 @@ import com.microsoft.azure.storage.CloudStorageAccount;
 import com.microsoft.azure.storage.file.CloudFileClient;
 import com.microsoft.azure.storage.file.CloudFileShare;
 import org.apache.commons.lang3.tuple.Triple;
+import rx.Completable;
 import rx.Observable;
 import rx.exceptions.Exceptions;
 import rx.functions.Action2;
@@ -472,6 +473,26 @@ public class ContainerGroupImpl
     }
 
     @Override
+    public void restart() {
+        this.manager().inner().containerGroups().restart(this.resourceGroupName(), this.name());
+    }
+
+    @Override
+    public Completable restartAsync() {
+        return this.manager().inner().containerGroups().restartAsync(this.resourceGroupName(), this.name()).toCompletable();
+    }
+
+    @Override
+    public void stop() {
+        this.manager().inner().containerGroups().stop(this.resourceGroupName(), this.name());
+    }
+
+    @Override
+    public Completable stopAsync() {
+        return this.manager().inner().containerGroups().stopAsync(this.resourceGroupName(), this.name()).toCompletable();
+    }
+
+    @Override
     public String getLogContent(String containerName) {
         return this.manager().containerGroups().getLogContent(this.resourceGroupName(), this.name(), containerName);
     }
@@ -493,24 +514,24 @@ public class ContainerGroupImpl
 
     @Override
     public ContainerExecResponse executeCommand(String containerName, String command, int row, int column) {
-        return new ContainerExecResponseImpl(this.manager().inner().startContainers()
-            .launchExec(this.resourceGroupName(), this.name(), containerName,
+        return new ContainerExecResponseImpl(this.manager().inner().containers()
+            .executeCommand(this.resourceGroupName(), this.name(), containerName,
             new ContainerExecRequestInner()
                 .withCommand(command)
                 .withTerminalSize(new ContainerExecRequestTerminalSize()
-                    .withRow(row)
-                    .withColumn(column))));
+                    .withRows(row)
+                    .withCols(column))));
     }
 
     @Override
     public Observable<ContainerExecResponse> executeCommandAsync(String containerName, String command, int row, int column) {
-        return this.manager().inner().startContainers()
-            .launchExecAsync(this.resourceGroupName(), this.name(), containerName,
+        return this.manager().inner().containers()
+            .executeCommandAsync(this.resourceGroupName(), this.name(), containerName,
                 new ContainerExecRequestInner()
                     .withCommand(command)
                     .withTerminalSize(new ContainerExecRequestTerminalSize()
-                        .withRow(row)
-                        .withColumn(column)))
+                        .withRows(row)
+                        .withCols(column)))
             .map(new Func1<ContainerExecResponseInner, ContainerExecResponse>() {
                 @Override
                 public ContainerExecResponse call(ContainerExecResponseInner containerExecResponseInner) {

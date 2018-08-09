@@ -92,7 +92,7 @@ public class TestContainerInstance extends TestTemplate<ContainerGroup, Containe
         containerGroup.refresh();
 
         Set<Operation> containerGroupOperations = containerGroups.listOperations();
-        Assert.assertEquals(7, containerGroupOperations.size());
+        Assert.assertEquals(10, containerGroupOperations.size());
 
         return containerGroup;
     }
@@ -105,6 +105,10 @@ public class TestContainerInstance extends TestTemplate<ContainerGroup, Containe
             .apply();
         Assert.assertFalse(containerGroup.tags().containsKey("tag"));
         Assert.assertTrue(containerGroup.tags().containsKey("tag2"));
+
+        containerGroup.restart();
+        containerGroup.stop();
+
         return containerGroup;
     }
 

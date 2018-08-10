@@ -125,11 +125,67 @@ public class AlertsTests extends MonitorManagementTest {
                     .withEqualsCondition("operationName", "Microsoft.Compute/virtualMachines/delete")
                     .create();
 
+            Assert.assertNotNull(ma);
+            Assert.assertEquals(1, ma.scopes().size());
+            Assert.assertEquals("/subscriptions/" + monitorManager.subscriptionId(), ma.scopes().iterator().next());
+            Assert.assertEquals("AutoScale-VM-Creation-Failed", ma.description());
+            Assert.assertEquals(true, ma.enabled());
+            Assert.assertEquals(1, ma.actionGroupIds().size());
+            Assert.assertEquals(ag.id(), ma.actionGroupIds().iterator().next());
+            Assert.assertEquals(3, ma.equalsConditions().size());
+            Assert.assertEquals("Administrative", ma.equalsConditions().get("category"));
+            Assert.assertEquals(justAvm.id(), ma.equalsConditions().get("resourceId"));
+            Assert.assertEquals("Microsoft.Compute/virtualMachines/delete", ma.equalsConditions().get("operationName"));
+
+            ActivityLogAlert maFromGet = monitorManager.alertRules().activityLogAlerts().getById(ma.id());
+
+            Assert.assertEquals(ma.scopes().size(), maFromGet.scopes().size());
+            Assert.assertEquals(ma.scopes().iterator().next(), maFromGet.scopes().iterator().next());
+            Assert.assertEquals(ma.description(), maFromGet.description());
+            Assert.assertEquals(ma.enabled(), maFromGet.enabled());
+            Assert.assertEquals(ma.actionGroupIds().size(), maFromGet.actionGroupIds().size());
+            Assert.assertEquals(ma.actionGroupIds().iterator().next(), maFromGet.actionGroupIds().iterator().next());
+            Assert.assertEquals(ma.equalsConditions().size(), maFromGet.equalsConditions().size());
+            Assert.assertEquals(ma.equalsConditions().get("category"), maFromGet.equalsConditions().get("category"));
+            Assert.assertEquals(ma.equalsConditions().get("resourceId"), maFromGet.equalsConditions().get("resourceId"));
+            Assert.assertEquals(ma.equalsConditions().get("operationName"), maFromGet.equalsConditions().get("operationName"));
+
             ma.update()
                     .withRuleDisabled()
                     .withoutEqualsCondition("operationName")
                     .withEqualsCondition("status", "Failed")
                     .apply();
+
+            Assert.assertEquals(1, ma.scopes().size());
+            Assert.assertEquals("/subscriptions/" + monitorManager.subscriptionId(), ma.scopes().iterator().next());
+            Assert.assertEquals("AutoScale-VM-Creation-Failed", ma.description());
+            Assert.assertEquals(false, ma.enabled());
+            Assert.assertEquals(1, ma.actionGroupIds().size());
+            Assert.assertEquals(ag.id(), ma.actionGroupIds().iterator().next());
+            Assert.assertEquals(3, ma.equalsConditions().size());
+            Assert.assertEquals("Administrative", ma.equalsConditions().get("category"));
+            Assert.assertEquals(justAvm.id(), ma.equalsConditions().get("resourceId"));
+            Assert.assertEquals("Failed", ma.equalsConditions().get("status"));
+            Assert.assertEquals(false, ma.equalsConditions().containsKey("operationName"));
+
+            PagedList<ActivityLogAlert> alertsInRg = monitorManager.alertRules().activityLogAlerts().listByResourceGroup(RG_NAME);
+
+            Assert.assertEquals(1, alertsInRg.size());
+            maFromGet = alertsInRg.get(0);;
+
+            Assert.assertEquals(ma.scopes().size(), maFromGet.scopes().size());
+            Assert.assertEquals(ma.scopes().iterator().next(), maFromGet.scopes().iterator().next());
+            Assert.assertEquals(ma.description(), maFromGet.description());
+            Assert.assertEquals(ma.enabled(), maFromGet.enabled());
+            Assert.assertEquals(ma.actionGroupIds().size(), maFromGet.actionGroupIds().size());
+            Assert.assertEquals(ma.actionGroupIds().iterator().next(), maFromGet.actionGroupIds().iterator().next());
+            Assert.assertEquals(ma.equalsConditions().size(), maFromGet.equalsConditions().size());
+            Assert.assertEquals(ma.equalsConditions().get("category"), maFromGet.equalsConditions().get("category"));
+            Assert.assertEquals(ma.equalsConditions().get("resourceId"), maFromGet.equalsConditions().get("resourceId"));
+            Assert.assertEquals(ma.equalsConditions().get("status"), maFromGet.equalsConditions().get("status"));
+            Assert.assertEquals(ma.equalsConditions().containsKey("operationName"), maFromGet.equalsConditions().containsKey("operationName"));
+
+            monitorManager.alertRules().activityLogAlerts().deleteById(ma.id());
         }
         finally {
             resourceManager.resourceGroups().beginDeleteByName(RG_NAME);

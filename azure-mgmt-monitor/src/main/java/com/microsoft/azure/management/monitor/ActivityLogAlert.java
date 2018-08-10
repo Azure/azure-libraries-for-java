@@ -17,6 +17,8 @@ import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
 import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -27,6 +29,42 @@ public interface ActivityLogAlert extends
         GroupableResource<MonitorManager, ActivityLogAlertResourceInner>,
         Refreshable<ActivityLogAlert>,
         Updatable<ActivityLogAlert.Update> {
+
+    /**
+     * Get a list of resourceIds that will be used as prefixes. The alert will only apply to activityLogs with resourceIds that fall under one of these prefixes. This list must include at least one item.
+     *
+     * @return the scopes value
+     */
+    Collection<String> scopes();
+
+    /**
+     * Get indicates whether this activity log alert is enabled. If an activity log alert is not enabled, then none of its actions will be activated.
+     *
+     * @return the enabled value
+     */
+    Boolean enabled();
+
+    /**
+     * Get the condition that will cause this alert to activate.
+     *
+     * @return the condition value
+     */
+    Map<String,String> equalsConditions();
+
+    /**
+     * Get the actions that will activate when the condition is met.
+     *
+     * @return the actions value
+     */
+    Collection<String> actionGroupIds();
+
+    /**
+     * Get a description of this activity log alert.
+     *
+     * @return the description value
+     */
+    String description();
+
 
     interface Definition extends
             DefinitionStages.Blank,

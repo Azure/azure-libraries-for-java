@@ -17,6 +17,8 @@ import com.microsoft.azure.management.resources.fluentcore.arm.models.implementa
 import rx.Observable;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -47,6 +49,39 @@ class ActivityLogAlertImpl
                 this.conditions.put(aac.field(), aac.equals());
             }
         }
+    }
+
+    @Override
+    public Collection<String> scopes() {
+        return Collections.unmodifiableCollection(this.inner().scopes());
+    }
+
+    @Override
+    public Boolean enabled() {
+        return this.inner().enabled();
+    }
+
+    @Override
+    public Map<String, String> equalsConditions() {
+        return this.conditions;
+    }
+
+    @Override
+    public Collection<String> actionGroupIds() {
+        if (this.inner().actions() != null &&
+                this.inner().actions().actionGroups() != null) {
+            List<String> ids = new ArrayList<>();
+            for (ActivityLogAlertActionGroup alaag : this.inner().actions().actionGroups()) {
+                ids.add(alaag.actionGroupId());
+            }
+            return Collections.unmodifiableCollection(ids);
+        }
+        return Collections.emptyList();
+    }
+
+    @Override
+    public String description() {
+        return this.inner().description();
     }
 
     @Override

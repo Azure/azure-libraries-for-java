@@ -47,13 +47,12 @@ import java.util.EnumSet;
 import java.util.List;
 
 /**
- * This sample shows examples of retrieving metrics and activity logs for Storage Account.
- *  - List all metric definitions available for a storage account
- *  - Retrieve and show metrics for the past 7 days for Transactions where
- *    - Api name was 'PutBlob' and
- *    - response type was 'Success' and
- *    - Geo type was 'Primary'
- *  -  Retrieve and show all activity logs for the past 7 days for the same Storage account.
+ * This sample shows examples of configuring Activity Log Alerts for potential security breach or risk notifications.
+ *  - Create a storage account
+ *  - Setup an action group to trigger a notification to the security teams
+ *  - Create an activity log alerts for storage account access key retrievals
+ *  - List Storage account keys to trigger an alert.
+ *  - Retrieve and show all activity logs that contains "List Storage Account Keys" operation name in the resource group for the past 7 days for the same Storage account .
  */
 public final class SecurityBreachOrRiskActivityLogAlerts {
 

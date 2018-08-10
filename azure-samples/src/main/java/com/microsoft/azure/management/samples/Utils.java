@@ -3046,7 +3046,7 @@ public final class Utils {
         if (activityLogAlert.equalsConditions() != null && !activityLogAlert.equalsConditions().isEmpty()) {
             info.append("\n\tAlert conditions (when all of is true): ");
             for (Map.Entry<String, String> er : activityLogAlert.equalsConditions().entrySet()) {
-                info.append("\n\t\t").append(er.getKey()).append(" equals ").append(er.getValue());
+                info.append("\n\t\t'").append(er.getKey()).append("' equals '").append(er.getValue()).append("'");
             }
         }
         System.out.println(info.toString());

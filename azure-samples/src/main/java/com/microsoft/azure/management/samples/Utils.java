@@ -79,9 +79,20 @@ import com.microsoft.azure.management.graphrbac.Permission;
 import com.microsoft.azure.management.keyvault.AccessPolicy;
 import com.microsoft.azure.management.keyvault.Vault;
 import com.microsoft.azure.management.locks.ManagementLock;
+import com.microsoft.azure.management.monitor.ActionGroup;
+import com.microsoft.azure.management.monitor.ActivityLogAlert;
+import com.microsoft.azure.management.monitor.AutomationRunbookReceiver;
+import com.microsoft.azure.management.monitor.AzureAppPushReceiver;
+import com.microsoft.azure.management.monitor.AzureFunctionReceiver;
 import com.microsoft.azure.management.monitor.DiagnosticSetting;
+import com.microsoft.azure.management.monitor.EmailReceiver;
+import com.microsoft.azure.management.monitor.ItsmReceiver;
 import com.microsoft.azure.management.monitor.LogSettings;
+import com.microsoft.azure.management.monitor.LogicAppReceiver;
 import com.microsoft.azure.management.monitor.MetricSettings;
+import com.microsoft.azure.management.monitor.SmsReceiver;
+import com.microsoft.azure.management.monitor.VoiceReceiver;
+import com.microsoft.azure.management.monitor.WebhookReceiver;
 import com.microsoft.azure.management.msi.Identity;
 import com.microsoft.azure.management.network.ApplicationGateway;
 import com.microsoft.azure.management.network.ApplicationGatewayBackend;
@@ -2894,6 +2905,148 @@ public final class Utils {
                 } else {
                     info.append("NONE");
                 }
+            }
+        }
+        System.out.println(info.toString());
+    }
+
+    /**
+     * Print Action group settings
+     *
+     * @param actionGroup action group instance
+     */
+    public static void print(ActionGroup actionGroup) {
+        StringBuilder info = new StringBuilder("Action Group: ")
+                .append("\n\tId: ").append(actionGroup.id())
+                .append("\n\tName: ").append(actionGroup.name())
+                .append("\n\tShort Name: ").append(actionGroup.shortName());
+
+        if (actionGroup.emailReceivers() != null && !actionGroup.emailReceivers().isEmpty()) {
+            info.append("\n\tEmail receivers: ");
+            for (EmailReceiver er : actionGroup.emailReceivers()) {
+                info.append("\n\t\tName: ").append(er.name());
+                info.append("\n\t\tEMail: ").append(er.emailAddress());
+                info.append("\n\t\tStatus: ").append(er.status());
+                info.append("\n\t\t===");
+            }
+        }
+
+        if (actionGroup.smsReceivers() != null && !actionGroup.smsReceivers().isEmpty()) {
+            info.append("\n\tSMS text message receivers: ");
+            for (SmsReceiver er : actionGroup.smsReceivers()) {
+                info.append("\n\t\tName: ").append(er.name());
+                info.append("\n\t\tPhone: ").append(er.countryCode() + er.phoneNumber());
+                info.append("\n\t\tStatus: ").append(er.status());
+                info.append("\n\t\t===");
+            }
+        }
+
+        if (actionGroup.webhookReceivers() != null && !actionGroup.webhookReceivers().isEmpty()) {
+            info.append("\n\tWebhook receivers: ");
+            for (WebhookReceiver er : actionGroup.webhookReceivers()) {
+                info.append("\n\t\tName: ").append(er.name());
+                info.append("\n\t\tURI: ").append(er.serviceUri());
+                info.append("\n\t\t===");
+            }
+        }
+
+        if (actionGroup.azureAppPushReceivers() != null && !actionGroup.azureAppPushReceivers().isEmpty()) {
+            info.append("\n\tApp Push Notification receivers: ");
+            for (AzureAppPushReceiver er : actionGroup.azureAppPushReceivers()) {
+                info.append("\n\t\tName: ").append(er.name());
+                info.append("\n\t\tEmail: ").append(er.emailAddress());
+                info.append("\n\t\t===");
+            }
+        }
+
+        if (actionGroup.voiceReceivers() != null && !actionGroup.voiceReceivers().isEmpty()) {
+            info.append("\n\tVoice Message receivers: ");
+            for (VoiceReceiver er : actionGroup.voiceReceivers()) {
+                info.append("\n\t\tName: ").append(er.name());
+                info.append("\n\t\tPhone: ").append(er.countryCode() + er.phoneNumber());
+                info.append("\n\t\t===");
+            }
+        }
+
+        if (actionGroup.automationRunbookReceivers() != null && !actionGroup.automationRunbookReceivers().isEmpty()) {
+            info.append("\n\tAutomation Runbook receivers: ");
+            for (AutomationRunbookReceiver er : actionGroup.automationRunbookReceivers()) {
+                info.append("\n\t\tName: ").append(er.name());
+                info.append("\n\t\tRunbook Name: ").append(er.runbookName());
+                info.append("\n\t\tAccount Id: ").append(er.automationAccountId());
+                info.append("\n\t\tIs Global: ").append(er.isGlobalRunbook());
+                info.append("\n\t\tService URI: ").append(er.serviceUri());
+                info.append("\n\t\tWebhook resource Id: ").append(er.webhookResourceId());
+                info.append("\n\t\t===");
+            }
+        }
+
+        if (actionGroup.azureFunctionReceivers() != null && !actionGroup.azureFunctionReceivers().isEmpty()) {
+            info.append("\n\tAzure Functions receivers: ");
+            for (AzureFunctionReceiver er : actionGroup.azureFunctionReceivers()) {
+                info.append("\n\t\tName: ").append(er.name());
+                info.append("\n\t\tFunction Name: ").append(er.functionName());
+                info.append("\n\t\tFunction App Resource Id: ").append(er.functionAppResourceId());
+                info.append("\n\t\tFunction Trigger URI: ").append(er.httpTriggerUrl());
+                info.append("\n\t\t===");
+            }
+        }
+
+        if (actionGroup.logicAppReceivers() != null && !actionGroup.logicAppReceivers().isEmpty()) {
+            info.append("\n\tLogic App receivers: ");
+            for (LogicAppReceiver er : actionGroup.logicAppReceivers()) {
+                info.append("\n\t\tName: ").append(er.name());
+                info.append("\n\t\tResource Id: ").append(er.resourceId());
+                info.append("\n\t\tCallback URL: ").append(er.callbackUrl());
+                info.append("\n\t\t===");
+            }
+        }
+
+        if (actionGroup.itsmReceivers() != null && !actionGroup.itsmReceivers().isEmpty()) {
+            info.append("\n\tITSM receivers: ");
+            for (ItsmReceiver er : actionGroup.itsmReceivers()) {
+                info.append("\n\t\tName: ").append(er.name());
+                info.append("\n\t\tWorkspace Id: ").append(er.workspaceId());
+                info.append("\n\t\tConnection Id: ").append(er.connectionId());
+                info.append("\n\t\tRegion: ").append(er.region());
+                info.append("\n\t\tTicket Configuration: ").append(er.ticketConfiguration());
+                info.append("\n\t\t===");
+            }
+        }
+        System.out.println(info.toString());
+    }
+
+    /**
+     * Print activity log settings
+     *
+     * @param activityLogAlert activity log instance
+     */
+    public static void print(ActivityLogAlert activityLogAlert) {
+
+        StringBuilder info = new StringBuilder("Activity Log Alert: ")
+                .append("\n\tId: ").append(activityLogAlert.id())
+                .append("\n\tName: ").append(activityLogAlert.name())
+                .append("\n\tDescription: ").append(activityLogAlert.description())
+                .append("\n\tIs Enabled: ").append(activityLogAlert.enabled());
+
+        if (activityLogAlert.scopes() != null && !activityLogAlert.scopes().isEmpty()) {
+            info.append("\n\tScopes: ");
+            for (String er : activityLogAlert.scopes()) {
+                info.append("\n\t\tId: ").append(er);
+            }
+        }
+
+        if (activityLogAlert.actionGroupIds() != null && !activityLogAlert.actionGroupIds().isEmpty()) {
+            info.append("\n\tAction Groups: ");
+            for (String er : activityLogAlert.actionGroupIds()) {
+                info.append("\n\t\tAction Group Id: ").append(er);
+            }
+        }
+
+        if (activityLogAlert.equalsConditions() != null && !activityLogAlert.equalsConditions().isEmpty()) {
+            info.append("\n\tAlert conditions (when all of is true): ");
+            for (Map.Entry<String, String> er : activityLogAlert.equalsConditions().entrySet()) {
+                info.append("\n\t\t").append(er.getKey()).append(" equals ").append(er.getValue());
             }
         }
         System.out.println(info.toString());

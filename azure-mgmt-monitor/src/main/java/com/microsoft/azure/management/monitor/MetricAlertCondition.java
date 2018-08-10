@@ -264,7 +264,7 @@ public interface MetricAlertCondition extends
         UpdateStages withDimensionFilter(String dimensionName, String... values);
 
         /**
-         * Removes the specified dimension filter
+         * Removes the specified dimension filter.
          *
          * @param dimensionName dimensionName the name of the dimension.
          * @return the next stage of the metric alert condition update.

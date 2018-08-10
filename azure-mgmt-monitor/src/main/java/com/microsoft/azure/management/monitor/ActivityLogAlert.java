@@ -10,6 +10,7 @@ import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.monitor.implementation.ActivityLogAlertResourceInner;
 import com.microsoft.azure.management.monitor.implementation.MonitorManager;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
+import com.microsoft.azure.management.resources.fluentcore.arm.models.HasId;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
 import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
@@ -29,7 +30,12 @@ public interface ActivityLogAlert extends
 
     interface Definition extends
             DefinitionStages.Blank,
-            DefinitionStages.WithCreate {
+            DefinitionStages.WithCreate,
+            DefinitionStages.WithScopes,
+            DefinitionStages.WithDescription,
+            DefinitionStages.WithAlertEnabled,
+            DefinitionStages.WithActionGroup,
+            DefinitionStages.WithCriteriaDefinition {
     }
 
     interface DefinitionStages {
@@ -38,7 +44,9 @@ public interface ActivityLogAlert extends
         }
 
         interface WithScopes {
-            WithDescription withTarget(String targetId);
+            WithDescription withTargetResource(String resourceId);
+            WithDescription withTargetResource(HasId resource);
+            WithDescription withTargetSubscription(String targetSubscriptionId);
         }
 
         interface WithDescription {
@@ -55,8 +63,8 @@ public interface ActivityLogAlert extends
         }
 
         interface WithCriteriaDefinition {
-            WithCreate withCondition(String field, String equals);
-            WithCreate withConditions(Map<String, String> fieldEqualsMap);
+            WithCreate withEqualsCondition(String field, String equals);
+            WithCreate withEqualsConditions(Map<String, String> fieldEqualsMap);
         }
 
         /**
@@ -78,9 +86,9 @@ public interface ActivityLogAlert extends
             Update withRuleDisabled();
             Update withActionGroups(String... actionGroupId);
             Update withoutActionGroup(String actionGroupId);
-            Update withCondition(String field, String equals);
-            Update withConditions(Map<String, String> fieldEqualsMap);
-            Update withoutCondition(String field);
+            Update withEqualsCondition(String field, String equals);
+            Update withEqualsConditions(Map<String, String> fieldEqualsMap);
+            Update withoutEqualsCondition(String field);
 
         }
     }

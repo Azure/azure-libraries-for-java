@@ -7,6 +7,7 @@
 package com.microsoft.azure.management.monitor;
 
 import com.microsoft.azure.PagedList;
+import com.microsoft.azure.management.compute.VirtualMachine;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.storage.StorageAccount;
 import com.microsoft.rest.RestClient;
@@ -95,24 +96,44 @@ public class AlertsTests extends MonitorManagementTest {
     @Test
     public void canCRUDActivityLogAlerts() throws Exception {
 
-        ActivityLogAlert ma = monitorManager.alertRules().activityLogAlerts().define("somename")
-                .withNewResourceGroup(Region.US_EAST)
-                .withTarget("subscriptionID")
-                .withDescription("AutoScale-VM-Creation-Failed")
-                .withRuleEnabled()
-                .withActionGroups("actionGroupId")
-                .withCondition("category", "Administrative")
-                .withCondition("resourceId", "/subscriptions/ad825170-845c-47db-8f00-11978947b089/resourceGroups/activitylogtest/providers/Microsoft.Compute/virtualMachines/activitylogVM")
-                .withCondition("operationName", "Microsoft.Compute/virtualMachines/delete")
-                .create();
+        try {
+            ActionGroup ag = monitorManager.actionGroups().define("simpleActionGroup")
+                    .withNewResourceGroup(RG_NAME, Region.US_EAST2)
+                    .defineReceiver("first")
+                        .withAzureAppPush("azurepush@outlook.com")
+                        .withEmail("justemail@outlook.com")
+                        .withSms("1", "4255655665")
+                        .withVoice("1", "2062066050")
+                        .withWebhook("https://www.rate.am")
+                        .attach()
+                    .defineReceiver("second")
+                        .withEmail("secondemail@outlook.com")
+                        .withWebhook("https://www.spyur.am")
+                        .attach()
+                    .create();
 
-        ma.update()
-                .withRuleDisabled()
-                .withoutCondition("operationName")
-                .withCondition("status", "Failed")
-                .apply();
+            VirtualMachine justAvm = computeManager.virtualMachines().list().get(0);
 
-        resourceManager.resourceGroups().beginDeleteByName(RG_NAME);
+            ActivityLogAlert ma = monitorManager.alertRules().activityLogAlerts().define("somename")
+                    .withExistingResourceGroup(RG_NAME)
+                    .withTargetSubscription(monitorManager.subscriptionId())
+                    .withDescription("AutoScale-VM-Creation-Failed")
+                    .withRuleEnabled()
+                    .withActionGroups(ag.id())
+                    .withEqualsCondition("category", "Administrative")
+                    .withEqualsCondition("resourceId", justAvm.id())
+                    .withEqualsCondition("operationName", "Microsoft.Compute/virtualMachines/delete")
+                    .create();
+
+            ma.update()
+                    .withRuleDisabled()
+                    .withoutEqualsCondition("operationName")
+                    .withEqualsCondition("status", "Failed")
+                    .apply();
+        }
+        finally {
+            resourceManager.resourceGroups().beginDeleteByName(RG_NAME);
+        }
     }
 }
 

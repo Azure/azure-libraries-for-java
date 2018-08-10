@@ -43,6 +43,12 @@ class MetricAlertImpl
     MetricAlertImpl(String name, final MetricAlertResourceInner innerModel, final MonitorManager monitorManager) {
         super(name, innerModel, monitorManager);
         this.conditions = new TreeMap<>();
+        MetricAlertSingleResourceMultipleMetricCriteria crits = (MetricAlertSingleResourceMultipleMetricCriteria) innerModel.criteria();
+        if (crits != null) {
+            for (MetricCriteria crit : crits.allOf()) {
+                this.conditions.put(crit.name(), new MetricAlertConditionImpl(crit.name(), crit, this));
+            }
+        }
     }
 
     @Override
@@ -60,19 +66,7 @@ class MetricAlertImpl
 
     @Override
     protected Observable<MetricAlertResourceInner> getInnerAsync() {
-        final MetricAlertImpl self = this;
-        return this.manager().inner().metricAlerts().getByResourceGroupAsync(this.resourceGroupName(), this.name())
-                .map(new Func1<MetricAlertResourceInner, MetricAlertResourceInner>() {
-                    @Override
-                    public MetricAlertResourceInner call(MetricAlertResourceInner metricAlertResourceInner) {
-                        self.conditions.clear();
-                        MetricAlertSingleResourceMultipleMetricCriteria crits = (MetricAlertSingleResourceMultipleMetricCriteria) metricAlertResourceInner.criteria();
-                        for (MetricCriteria crit : crits.allOf()) {
-                            self.conditions.put(crit.name(), new MetricAlertConditionImpl(crit.name(), crit, self));
-                        }
-                        return metricAlertResourceInner;
-                    }
-                });
+        return this.manager().inner().metricAlerts().getByResourceGroupAsync(this.resourceGroupName(), this.name());
     }
 
     @Override

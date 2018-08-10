@@ -9,9 +9,7 @@ package com.microsoft.azure.management.monitor.implementation;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.monitor.ActivityLogAlerts;
 import com.microsoft.azure.management.monitor.AlertRules;
-import com.microsoft.azure.management.monitor.MetricAlert;
 import com.microsoft.azure.management.monitor.MetricAlerts;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
 
 /**
  * Implementation for {@link MetricAlerts}.
@@ -21,9 +19,11 @@ class AlertRulesImpl
         implements AlertRules {
 
     private final MetricAlerts metricAlerts;
+    private final ActivityLogAlerts activityLogAlerts;
 
     AlertRulesImpl(final MonitorManager monitorManager) {
         metricAlerts = new MetricAlertsImpl(monitorManager);
+        activityLogAlerts = new ActivityLogAlertsImpl(monitorManager);
     }
 
     @Override
@@ -33,7 +33,7 @@ class AlertRulesImpl
 
     @Override
     public ActivityLogAlerts activityLogAlerts() {
-        return null;
+        return activityLogAlerts;
     }
 
     @Override

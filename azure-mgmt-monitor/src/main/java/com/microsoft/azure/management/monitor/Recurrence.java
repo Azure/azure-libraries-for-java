@@ -33,7 +33,6 @@ public class Recurrence {
 
     /**
      * Creates an instance of Recurrence class.
-     * @param schedule the scheduling constraints for when the profile begins.
      */
     public Recurrence() {
         frequency = "Week";

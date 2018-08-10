@@ -15,7 +15,6 @@ import com.microsoft.azure.management.resources.fluentcore.arm.models.HasId;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
 import org.joda.time.Period;
 import rx.Observable;
-import rx.functions.Func1;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,8 +54,8 @@ class MetricAlertImpl
     public Observable<MetricAlert> createResourceAsync() {
         this.inner().withLocation("global");
         MetricAlertSingleResourceMultipleMetricCriteria crit = new MetricAlertSingleResourceMultipleMetricCriteria();
-        crit.withAllOf( new ArrayList<MetricCriteria>());
-        for ( MetricAlertConditionImpl mc : conditions.values()) {
+        crit.withAllOf(new ArrayList<MetricCriteria>());
+        for (MetricAlertConditionImpl mc : conditions.values()) {
             crit.allOf().add(mc.inner());
         }
         this.inner().withCriteria(crit);
@@ -132,7 +131,7 @@ class MetricAlertImpl
     @Override
     public MetricAlertImpl withActionGroups(String... actionGroupId) {
         if (this.inner().actions() == null) {
-            this.inner().withActions( new ArrayList<MetricAlertAction>());
+            this.inner().withActions(new ArrayList<MetricAlertAction>());
         }
         this.inner().actions().clear();
         for (String agid : actionGroupId) {

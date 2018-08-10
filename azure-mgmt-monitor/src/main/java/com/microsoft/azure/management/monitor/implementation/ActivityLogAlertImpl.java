@@ -44,7 +44,7 @@ class ActivityLogAlertImpl
     ActivityLogAlertImpl(String name, final ActivityLogAlertResourceInner innerModel, final MonitorManager monitorManager) {
         super(name, innerModel, monitorManager);
         this.conditions = new TreeMap<>();
-        if (innerModel.condition()!= null && innerModel.condition().allOf() != null) {
+        if (innerModel.condition() != null && innerModel.condition().allOf() != null) {
             for (ActivityLogAlertLeafCondition aac : innerModel.condition().allOf()) {
                 this.conditions.put(aac.field(), aac.equals());
             }
@@ -68,8 +68,8 @@ class ActivityLogAlertImpl
 
     @Override
     public Collection<String> actionGroupIds() {
-        if (this.inner().actions() != null &&
-                this.inner().actions().actionGroups() != null) {
+        if (this.inner().actions() != null
+                && this.inner().actions().actionGroups() != null) {
             List<String> ids = new ArrayList<>();
             for (ActivityLogAlertActionGroup alaag : this.inner().actions().actionGroups()) {
                 ids.add(alaag.actionGroupId());
@@ -88,8 +88,8 @@ class ActivityLogAlertImpl
     public Observable<ActivityLogAlert> createResourceAsync() {
         this.inner().withLocation("global");
         ActivityLogAlertAllOfCondition condition = new ActivityLogAlertAllOfCondition();
-        condition.withAllOf( new ArrayList<ActivityLogAlertLeafCondition>());
-        for ( Map.Entry<String, String> cds : conditions.entrySet()) {
+        condition.withAllOf(new ArrayList<ActivityLogAlertLeafCondition>());
+        for (Map.Entry<String, String> cds : conditions.entrySet()) {
             ActivityLogAlertLeafCondition alalc = new ActivityLogAlertLeafCondition();
             alalc.withField(cds.getKey());
             alalc.withEquals(cds.getValue());

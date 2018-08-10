@@ -11,13 +11,19 @@ import com.microsoft.azure.management.monitor.implementation.MonitorManager;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasManager;
 
 /**
- *  Entry point to AlertRules management API.
+ *  Entry point to Alert Rules management API.
  */
 @Fluent
 public interface AlertRules extends
         HasManager<MonitorManager> {
 
+    /**
+     * @return the Azure Metric Alerts API entry point
+     */
     MetricAlerts metricAlerts();
 
+    /**
+     * @return the Azure Activity Log Alerts API entry point
+     */
     ActivityLogAlerts activityLogAlerts();
 }

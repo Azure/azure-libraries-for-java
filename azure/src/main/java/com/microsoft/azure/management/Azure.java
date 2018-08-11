@@ -27,6 +27,9 @@ import com.microsoft.azure.management.compute.AvailabilitySets;
 import com.microsoft.azure.management.compute.ComputeSkus;
 import com.microsoft.azure.management.compute.ComputeUsages;
 import com.microsoft.azure.management.compute.Disks;
+import com.microsoft.azure.management.compute.Galleries;
+import com.microsoft.azure.management.compute.GalleryImageVersions;
+import com.microsoft.azure.management.compute.GalleryImages;
 import com.microsoft.azure.management.compute.Snapshots;
 import com.microsoft.azure.management.compute.VirtualMachineCustomImages;
 import com.microsoft.azure.management.compute.VirtualMachineImages;
@@ -922,5 +925,29 @@ public final class Azure {
     @Beta(SinceVersion.V1_7_0)
     public EventHubDisasterRecoveryPairings eventHubDisasterRecoveryPairings() {
         return this.eventHubManager.eventHubDisasterRecoveryPairings();
+    }
+
+    /**
+     * @return entry point to manage compute galleries.
+     */
+    @Beta(Beta.SinceVersion.V1_15_0)
+    public Galleries galleries() {
+        return this.computeManager.galleries();
+    }
+
+    /**
+     * @return entry point to manage compute gallery images.
+     */
+    @Beta(Beta.SinceVersion.V1_15_0)
+    public GalleryImages galleryImages() {
+        return this.computeManager.galleryImages();
+    }
+
+    /**
+     * @return entry point to manage compute gallery image versions.
+     */
+    @Beta(Beta.SinceVersion.V1_15_0)
+    public GalleryImageVersions galleryImageVersions() {
+        return this.computeManager.galleryImageVersions();
     }
 }

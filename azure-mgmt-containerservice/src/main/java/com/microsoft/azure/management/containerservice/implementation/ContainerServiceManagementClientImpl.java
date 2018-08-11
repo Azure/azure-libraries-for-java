@@ -134,6 +134,19 @@ public class ContainerServiceManagementClientImpl extends AzureServiceClient {
     }
 
     /**
+     * The OperationsInner object to access its operations.
+     */
+    private OperationsInner operations;
+
+    /**
+     * Gets the OperationsInner object to access its operations.
+     * @return the OperationsInner object.
+     */
+    public OperationsInner operations() {
+        return this.operations;
+    }
+
+    /**
      * The ManagedClustersInner object to access its operations.
      */
     private ManagedClustersInner managedClusters;
@@ -181,6 +194,7 @@ public class ContainerServiceManagementClientImpl extends AzureServiceClient {
         this.longRunningOperationRetryTimeout = 30;
         this.generateClientRequestId = true;
         this.containerServices = new ContainerServicesInner(restClient().retrofit(), this);
+        this.operations = new OperationsInner(restClient().retrofit(), this);
         this.managedClusters = new ManagedClustersInner(restClient().retrofit(), this);
         this.azureClient = new AzureClient(this);
     }

@@ -6,15 +6,14 @@
 package com.microsoft.azure.management.containerservice.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.containerservice.ContainerServiceAgentPoolProfile;
 import com.microsoft.azure.management.containerservice.ContainerServiceLinuxProfile;
-import com.microsoft.azure.management.containerservice.ContainerServiceServicePrincipalProfile;
 import com.microsoft.azure.management.containerservice.ContainerServiceSshConfiguration;
 import com.microsoft.azure.management.containerservice.ContainerServiceSshPublicKey;
-import com.microsoft.azure.management.containerservice.KeyVaultSecretRef;
 import com.microsoft.azure.management.containerservice.KubernetesCluster;
 import com.microsoft.azure.management.containerservice.KubernetesClusterAgentPool;
 import com.microsoft.azure.management.containerservice.KubernetesVersion;
+import com.microsoft.azure.management.containerservice.ManagedClusterAgentPoolProfile;
+import com.microsoft.azure.management.containerservice.ManagedClusterServicePrincipalProfile;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
 import rx.Observable;
 import rx.functions.Func1;
@@ -45,7 +44,7 @@ public class KubernetesClusterImpl extends
     protected KubernetesClusterImpl(String name, ManagedClusterInner innerObject, ContainerServiceManager manager) {
         super(name, innerObject, manager);
         if (this.inner().agentPoolProfiles() == null) {
-            this.inner().withAgentPoolProfiles(new ArrayList<ContainerServiceAgentPoolProfile>());
+            this.inner().withAgentPoolProfiles(new ArrayList<ManagedClusterAgentPoolProfile>());
         }
 
         this.adminKubeConfigContent = null;
@@ -109,15 +108,6 @@ public class KubernetesClusterImpl extends
     }
 
     @Override
-    public KeyVaultSecretRef keyVaultSecretReference() {
-        if (this.inner().servicePrincipalProfile() != null) {
-            return this.inner().servicePrincipalProfile().keyVaultSecretRef();
-        } else {
-            return null;
-        }
-    }
-
-    @Override
     public String linuxRootUsername() {
         if (this.inner().linuxProfile() != null) {
             return this.inner().linuxProfile().adminUsername();
@@ -142,7 +132,7 @@ public class KubernetesClusterImpl extends
     public Map<String, KubernetesClusterAgentPool> agentPools() {
         Map<String, KubernetesClusterAgentPool> agentPoolMap = new HashMap<>();
         if (this.inner().agentPoolProfiles() != null && this.inner().agentPoolProfiles().size() > 0) {
-            for (ContainerServiceAgentPoolProfile agentPoolProfile : this.inner().agentPoolProfiles()) {
+            for (ManagedClusterAgentPoolProfile agentPoolProfile : this.inner().agentPoolProfiles()) {
                 agentPoolMap.put(agentPoolProfile.name(), new KubernetesClusterAgentPoolImpl(agentPoolProfile, this));
             }
         }
@@ -268,37 +258,13 @@ public class KubernetesClusterImpl extends
 
     @Override
     public KubernetesClusterImpl withServicePrincipalClientId(String clientId) {
-        this.inner().withServicePrincipalProfile(new ContainerServiceServicePrincipalProfile().withClientId(clientId));
+        this.inner().withServicePrincipalProfile(new ManagedClusterServicePrincipalProfile().withClientId(clientId));
         return this;
     }
 
     @Override
     public KubernetesClusterImpl withServicePrincipalSecret(String secret) {
         this.inner().servicePrincipalProfile().withSecret(secret);
-        return this;
-    }
-
-    @Override
-    public KubernetesClusterImpl withKeyVaultReference(String vaultId) {
-        this.inner().servicePrincipalProfile().withSecret(null);
-        this.inner().servicePrincipalProfile()
-            .withKeyVaultSecretRef(new KeyVaultSecretRef()
-                .withVaultID(vaultId));
-        return this;
-    }
-
-    @Override
-    public KubernetesClusterImpl withKeyVaultSecret(String secretName) {
-        this.inner().servicePrincipalProfile().keyVaultSecretRef()
-            .withSecretName(secretName);
-        return this;
-    }
-
-    @Override
-    public KubernetesClusterImpl withKeyVaultSecret(String secretName, String secretVersion) {
-        this.inner().servicePrincipalProfile().keyVaultSecretRef()
-            .withSecretName(secretName)
-            .withVersion(secretVersion);
         return this;
     }
 
@@ -310,7 +276,7 @@ public class KubernetesClusterImpl extends
 
     @Override
     public KubernetesClusterAgentPoolImpl defineAgentPool(String name) {
-        ContainerServiceAgentPoolProfile innerPoolProfile = new ContainerServiceAgentPoolProfile();
+        ManagedClusterAgentPoolProfile innerPoolProfile = new ManagedClusterAgentPoolProfile();
         innerPoolProfile.withName(name);
         return new KubernetesClusterAgentPoolImpl(innerPoolProfile, this);
     }
@@ -318,7 +284,7 @@ public class KubernetesClusterImpl extends
     @Override
     public KubernetesClusterImpl withAgentVirtualMachineCount(String agentPoolName, int agentCount) {
         if (this.inner().agentPoolProfiles() != null && this.inner().agentPoolProfiles().size() > 0) {
-            for (ContainerServiceAgentPoolProfile agentPoolProfile : this.inner().agentPoolProfiles()) {
+            for (ManagedClusterAgentPoolProfile agentPoolProfile : this.inner().agentPoolProfiles()) {
                 if (agentPoolProfile.name().equals(agentPoolName)) {
                     agentPoolProfile.withCount(agentCount);
                     break;
@@ -331,7 +297,7 @@ public class KubernetesClusterImpl extends
     @Override
     public KubernetesClusterImpl withAgentVirtualMachineCount(int agentCount) {
         if (this.inner().agentPoolProfiles() != null && this.inner().agentPoolProfiles().size() > 0) {
-            for (ContainerServiceAgentPoolProfile agentPoolProfile : this.inner().agentPoolProfiles()) {
+            for (ManagedClusterAgentPoolProfile agentPoolProfile : this.inner().agentPoolProfiles()) {
                 agentPoolProfile.withCount(agentCount);
             }
         }

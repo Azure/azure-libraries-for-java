@@ -8,13 +8,12 @@
 
 package com.microsoft.azure.management.containerservice;
 
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Profile for the container service agent pool.
  */
-public class ContainerServiceAgentPoolProfile {
+public class ManagedClusterAgentPoolProfile {
     /**
      * Unique name of the agent pool profile in the context of the subscription
      * and resource group.
@@ -95,31 +94,10 @@ public class ContainerServiceAgentPoolProfile {
     private Integer osDiskSizeGB;
 
     /**
-     * DNS prefix to be used to create the FQDN for the agent pool.
+     * Storage profile specifies what kind of storage used. Defaults to
+     * ManagedDisks. Possible values include: 'StorageAccount', 'ManagedDisks'.
      */
-    @JsonProperty(value = "dnsPrefix")
-    private String dnsPrefix;
-
-    /**
-     * FDQN for the agent pool.
-     */
-    @JsonProperty(value = "fqdn", access = JsonProperty.Access.WRITE_ONLY)
-    private String fqdn;
-
-    /**
-     * Ports number array used to expose on this agent pool. The default opened
-     * ports are different based on your choice of orchestrator.
-     */
-    @JsonProperty(value = "ports")
-    private List<Integer> ports;
-
-    /**
-     * Storage profile specifies what kind of storage used. Choose from
-     * StorageAccount and ManagedDisks. Leave it empty, we will choose for you
-     * based on the orchestrator choice. Possible values include:
-     * 'StorageAccount', 'ManagedDisks'.
-     */
-    @JsonProperty(value = "storageProfile")
+    @JsonProperty(value = "storageProfile", access = JsonProperty.Access.WRITE_ONLY)
     private ContainerServiceStorageProfileTypes storageProfile;
 
     /**
@@ -127,6 +105,12 @@ public class ContainerServiceAgentPoolProfile {
      */
     @JsonProperty(value = "vnetSubnetID")
     private String vnetSubnetID;
+
+    /**
+     * Maximum number of pods that can run on a node.
+     */
+    @JsonProperty(value = "maxPods")
+    private Integer maxPods;
 
     /**
      * OsType to be used to specify os type. Choose from Linux and Windows.
@@ -148,9 +132,9 @@ public class ContainerServiceAgentPoolProfile {
      * Set the name value.
      *
      * @param name the name value to set
-     * @return the ContainerServiceAgentPoolProfile object itself.
+     * @return the ManagedClusterAgentPoolProfile object itself.
      */
-    public ContainerServiceAgentPoolProfile withName(String name) {
+    public ManagedClusterAgentPoolProfile withName(String name) {
         this.name = name;
         return this;
     }
@@ -168,9 +152,9 @@ public class ContainerServiceAgentPoolProfile {
      * Set the count value.
      *
      * @param count the count value to set
-     * @return the ContainerServiceAgentPoolProfile object itself.
+     * @return the ManagedClusterAgentPoolProfile object itself.
      */
-    public ContainerServiceAgentPoolProfile withCount(Integer count) {
+    public ManagedClusterAgentPoolProfile withCount(Integer count) {
         this.count = count;
         return this;
     }
@@ -188,9 +172,9 @@ public class ContainerServiceAgentPoolProfile {
      * Set the vmSize value.
      *
      * @param vmSize the vmSize value to set
-     * @return the ContainerServiceAgentPoolProfile object itself.
+     * @return the ManagedClusterAgentPoolProfile object itself.
      */
-    public ContainerServiceAgentPoolProfile withVmSize(ContainerServiceVMSizeTypes vmSize) {
+    public ManagedClusterAgentPoolProfile withVmSize(ContainerServiceVMSizeTypes vmSize) {
         this.vmSize = vmSize;
         return this;
     }
@@ -208,59 +192,10 @@ public class ContainerServiceAgentPoolProfile {
      * Set the osDiskSizeGB value.
      *
      * @param osDiskSizeGB the osDiskSizeGB value to set
-     * @return the ContainerServiceAgentPoolProfile object itself.
+     * @return the ManagedClusterAgentPoolProfile object itself.
      */
-    public ContainerServiceAgentPoolProfile withOsDiskSizeGB(Integer osDiskSizeGB) {
+    public ManagedClusterAgentPoolProfile withOsDiskSizeGB(Integer osDiskSizeGB) {
         this.osDiskSizeGB = osDiskSizeGB;
-        return this;
-    }
-
-    /**
-     * Get the dnsPrefix value.
-     *
-     * @return the dnsPrefix value
-     */
-    public String dnsPrefix() {
-        return this.dnsPrefix;
-    }
-
-    /**
-     * Set the dnsPrefix value.
-     *
-     * @param dnsPrefix the dnsPrefix value to set
-     * @return the ContainerServiceAgentPoolProfile object itself.
-     */
-    public ContainerServiceAgentPoolProfile withDnsPrefix(String dnsPrefix) {
-        this.dnsPrefix = dnsPrefix;
-        return this;
-    }
-
-    /**
-     * Get the fqdn value.
-     *
-     * @return the fqdn value
-     */
-    public String fqdn() {
-        return this.fqdn;
-    }
-
-    /**
-     * Get the ports value.
-     *
-     * @return the ports value
-     */
-    public List<Integer> ports() {
-        return this.ports;
-    }
-
-    /**
-     * Set the ports value.
-     *
-     * @param ports the ports value to set
-     * @return the ContainerServiceAgentPoolProfile object itself.
-     */
-    public ContainerServiceAgentPoolProfile withPorts(List<Integer> ports) {
-        this.ports = ports;
         return this;
     }
 
@@ -271,17 +206,6 @@ public class ContainerServiceAgentPoolProfile {
      */
     public ContainerServiceStorageProfileTypes storageProfile() {
         return this.storageProfile;
-    }
-
-    /**
-     * Set the storageProfile value.
-     *
-     * @param storageProfile the storageProfile value to set
-     * @return the ContainerServiceAgentPoolProfile object itself.
-     */
-    public ContainerServiceAgentPoolProfile withStorageProfile(ContainerServiceStorageProfileTypes storageProfile) {
-        this.storageProfile = storageProfile;
-        return this;
     }
 
     /**
@@ -297,10 +221,30 @@ public class ContainerServiceAgentPoolProfile {
      * Set the vnetSubnetID value.
      *
      * @param vnetSubnetID the vnetSubnetID value to set
-     * @return the ContainerServiceAgentPoolProfile object itself.
+     * @return the ManagedClusterAgentPoolProfile object itself.
      */
-    public ContainerServiceAgentPoolProfile withVnetSubnetID(String vnetSubnetID) {
+    public ManagedClusterAgentPoolProfile withVnetSubnetID(String vnetSubnetID) {
         this.vnetSubnetID = vnetSubnetID;
+        return this;
+    }
+
+    /**
+     * Get the maxPods value.
+     *
+     * @return the maxPods value
+     */
+    public Integer maxPods() {
+        return this.maxPods;
+    }
+
+    /**
+     * Set the maxPods value.
+     *
+     * @param maxPods the maxPods value to set
+     * @return the ManagedClusterAgentPoolProfile object itself.
+     */
+    public ManagedClusterAgentPoolProfile withMaxPods(Integer maxPods) {
+        this.maxPods = maxPods;
         return this;
     }
 
@@ -317,9 +261,9 @@ public class ContainerServiceAgentPoolProfile {
      * Set the osType value.
      *
      * @param osType the osType value to set
-     * @return the ContainerServiceAgentPoolProfile object itself.
+     * @return the ManagedClusterAgentPoolProfile object itself.
      */
-    public ContainerServiceAgentPoolProfile withOsType(OSType osType) {
+    public ManagedClusterAgentPoolProfile withOsType(OSType osType) {
         this.osType = osType;
         return this;
     }

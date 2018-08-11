@@ -23,7 +23,7 @@ import java.util.Map;
  * A client-side representation for a managed Kubernetes cluster.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_4_0)
+@Beta(Beta.SinceVersion.V1_15_0)
 public interface KubernetesCluster extends
         GroupableResource<ContainerServiceManager, ManagedClusterInner>,
         Refreshable<KubernetesCluster>,
@@ -71,11 +71,6 @@ public interface KubernetesCluster extends
     String servicePrincipalSecret();
 
     /**
-     * @return the key vault reference to the service principal secret
-     */
-    KeyVaultSecretRef keyVaultSecretReference();
-
-    /**
      * @return the Linux root username
      */
     String linuxRootUsername();
@@ -103,7 +98,6 @@ public interface KubernetesCluster extends
         DefinitionStages.WithLinuxSshKey,
         DefinitionStages.WithServicePrincipalClientId,
         DefinitionStages.WithServicePrincipalProfile,
-        DefinitionStages.WithKeyVaultSecret,
         DefinitionStages.WithDnsPrefix,
         DefinitionStages.WithAgentPool,
         KubernetesCluster.DefinitionStages.WithCreate {
@@ -207,36 +201,6 @@ public interface KubernetesCluster extends
              * @return the next stage
              */
             WithAgentPool withServicePrincipalSecret(String secret);
-
-            /**
-             * Properties for cluster service principals.
-             *
-             * @param vaultId the ID for the service principal
-             * @return the next stage
-             */
-            WithKeyVaultSecret withKeyVaultReference(String vaultId);
-        }
-
-        /**
-         * The stage of the Kubernetes cluster definition allowing to specify the KeyVault secret name and version.
-         */
-        interface WithKeyVaultSecret {
-            /**
-             * Specifies the KeyVault secret.
-             *
-             * @param secretName the KeyVault reference to the secret which stores the password associated with the service principal
-             * @return the next stage of the definition
-             */
-            WithAgentPool withKeyVaultSecret(String secretName);
-
-            /**
-             * Specifies the KeyVault secret and the version of it.
-             *
-             * @param secretName the KeyVault reference to the secret which stores the password associated with the service principal
-             * @param secretVersion the KeyVault secret version to be used
-             * @return the next stage of the definition
-             */
-            WithAgentPool withKeyVaultSecret(String secretName, String secretVersion);
         }
 
         /**

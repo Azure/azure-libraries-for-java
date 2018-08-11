@@ -644,10 +644,15 @@ class VirtualMachineImpl
         this.inner().storageProfile().osDisk().withCreateOption(DiskCreateOptionTypes.FROM_IMAGE);
         this.inner().storageProfile().withImageReference(imageReferenceInner);
         this.inner().osProfile().withWindowsConfiguration(new WindowsConfiguration());
-        // sets defaults for "Stored(User)Image", "VM(Platform | Custom)Image"
+        // sets defaults for "Stored(User)Image", "VM(Platform | Custom | Gallery)Image"
         this.inner().osProfile().windowsConfiguration().withProvisionVMAgent(true);
         this.inner().osProfile().windowsConfiguration().withEnableAutomaticUpdates(true);
         return this;
+    }
+
+    @Override
+    public VirtualMachineImpl withWindowsGalleryImageVersion(String galleryImageVersionId) {
+        return this.withWindowsCustomImage(galleryImageVersionId);
     }
 
     @Override
@@ -659,6 +664,11 @@ class VirtualMachineImpl
         this.inner().osProfile().withLinuxConfiguration(new LinuxConfiguration());
         this.isMarketplaceLinuxImage = true;
         return this;
+    }
+
+    @Override
+    public VirtualMachineImpl withLinuxGalleryImageVersion(String galleryImageVersionId) {
+        return this.withLinuxCustomImage(galleryImageVersionId);
     }
 
     @Override

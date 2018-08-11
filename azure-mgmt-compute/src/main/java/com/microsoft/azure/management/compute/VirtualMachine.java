@@ -751,6 +751,15 @@ public interface VirtualMachine extends
             WithWindowsAdminUsernameManaged withWindowsCustomImage(String customImageId);
 
             /**
+             * Specifies the resource ID of a Windows gallery image version to be used as the virtual machine's OS.
+             *
+             * @param galleryImageVersionId the resource ID of the gallery image version
+             * @return the next stage of the definition
+             */
+            @Beta(Beta.SinceVersion.V1_15_0)
+            WithWindowsAdminUsernameManaged withWindowsGalleryImageVersion(String galleryImageVersionId);
+
+            /**
              * Specifies the user (generalized) Windows image to be used for the virtual machine's OS.
              *
              * @param imageUrl the URL of a VHD
@@ -791,6 +800,15 @@ public interface VirtualMachine extends
              * @return the next stage of the definition
              */
             WithLinuxRootUsernameManaged withLinuxCustomImage(String customImageId);
+
+            /**
+             * Specifies the resource ID of a Linux gallery image version to be used as the virtual machines' OS.
+             *
+             * @param galleryImageVersionId the resource ID of a gallery image version
+             * @return the next stage of the definition
+             */
+            @Beta(Beta.SinceVersion.V1_15_0)
+            WithLinuxRootUsernameManaged withLinuxGalleryImageVersion(String galleryImageVersionId);
 
             /**
              * Specifies a user (generalized) Linux image to be used for the virtual machine's OS.

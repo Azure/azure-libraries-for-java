@@ -114,14 +114,14 @@ var codegen = function(project, cb) {
 
     const regenManager = args['regenerate-manager'] ? ' --regenerate-manager=true ' : '';
 
-    const outDir = path.resolve(mappings[project].dir);
+    const outDir = process.cwd();
     // path.join won't work if specRoot is a URL
     cmd = autoRestExe + ' ' + specRoot + "/" + mappings[project].source +
                         ' --java ' +
                         ' --azure-arm=true ' +
                         generator +
                         ` --namespace=${mappings[project].package} ` +
-                        ` --output-folder=${outDir} ` +
+                        ` --azure-libraries-for-java-folder=${outDir} ` +
                         ` --license-header=MICROSOFT_MIT_NO_CODEGEN ` +
                         generatorPath +
                         regenManager +

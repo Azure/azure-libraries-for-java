@@ -140,7 +140,7 @@ public class DeployImageFromContainerRegistryToKubernetes {
                 .withServicePrincipalSecret(servicePrincipalSecret)
                 .defineAgentPool("agentpool")
                     .withVirtualMachineSize(ContainerServiceVMSizeTypes.STANDARD_D1_V2)
-                    .withAgentsCount(1)
+                    .withAgentPoolVirtualMachineCount(1)
                     .attach()
                 .withDnsPrefix("dns-" + aksName)
                 .create();

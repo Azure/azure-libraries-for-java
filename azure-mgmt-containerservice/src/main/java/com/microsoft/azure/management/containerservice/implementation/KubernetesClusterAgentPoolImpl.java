@@ -101,7 +101,7 @@ public class KubernetesClusterAgentPoolImpl
     }
 
     @Override
-    public DefinitionStages.WithAttach withAgentsCount(int count) {
+    public DefinitionStages.WithAttach withAgentPoolVirtualMachineCount(int count) {
         this.inner().withCount(count);
         return this;
     }

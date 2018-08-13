@@ -282,7 +282,7 @@ public class KubernetesClusterImpl extends
     }
 
     @Override
-    public KubernetesClusterImpl withAgentVirtualMachineCount(String agentPoolName, int agentCount) {
+    public KubernetesClusterImpl withAgentPoolVirtualMachineCount(String agentPoolName, int agentCount) {
         if (this.inner().agentPoolProfiles() != null && this.inner().agentPoolProfiles().size() > 0) {
             for (ManagedClusterAgentPoolProfile agentPoolProfile : this.inner().agentPoolProfiles()) {
                 if (agentPoolProfile.name().equals(agentPoolName)) {
@@ -295,12 +295,17 @@ public class KubernetesClusterImpl extends
     }
 
     @Override
-    public KubernetesClusterImpl withAgentVirtualMachineCount(int agentCount) {
+    public KubernetesClusterImpl withAgentPoolVirtualMachineCount(int agentCount) {
         if (this.inner().agentPoolProfiles() != null && this.inner().agentPoolProfiles().size() > 0) {
             for (ManagedClusterAgentPoolProfile agentPoolProfile : this.inner().agentPoolProfiles()) {
                 agentPoolProfile.withCount(agentCount);
             }
         }
         return this;
+    }
+
+    @Override
+    public KubernetesCluster.DefinitionStages.NetworkProfileDefinitionStages.Blank<KubernetesCluster.DefinitionStages.WithCreate> defineNetworkProfile() {
+        return new KubernetesClusterNetworkProfileImpl(this);
     }
 }

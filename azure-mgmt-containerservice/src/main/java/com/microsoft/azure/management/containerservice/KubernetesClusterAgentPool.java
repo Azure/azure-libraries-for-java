@@ -71,7 +71,7 @@ public interface KubernetesClusterAgentPool
         DefinitionStages.Blank<ParentT>,
         DefinitionStages.WithOSType<ParentT>,
         DefinitionStages.WithOSDiskSize<ParentT>,
-        DefinitionStages.WithAgentsCount<ParentT>,
+        DefinitionStages.WithAgentPoolVirtualMachineCount<ParentT>,
         DefinitionStages.WithMaxPodsCount<ParentT>,
         DefinitionStages.WithVirtualNetwork<ParentT>,
         DefinitionStages.WithAttach<ParentT> {
@@ -137,7 +137,7 @@ public interface KubernetesClusterAgentPool
          * @param <ParentT>  the stage of the container service definition to return to after attaching this definition
          */
         @Beta(SinceVersion.V1_15_0)
-        interface WithAgentsCount<ParentT> {
+        interface WithAgentPoolVirtualMachineCount<ParentT> {
             /**
              * Specifies the number of agents (Virtual Machines) to host docker containers.
              *
@@ -146,7 +146,7 @@ public interface KubernetesClusterAgentPool
              * @return the next stage of the definition
              */
             @Beta(SinceVersion.V1_15_0)
-            WithAttach<ParentT> withAgentsCount(int count);
+            WithAttach<ParentT> withAgentPoolVirtualMachineCount(int count);
         }
 
         /**
@@ -193,7 +193,7 @@ public interface KubernetesClusterAgentPool
         interface WithAttach<ParentT> extends
             WithOSType<ParentT>,
             WithOSDiskSize<ParentT>,
-            WithAgentsCount<ParentT>,
+            WithAgentPoolVirtualMachineCount<ParentT>,
             WithMaxPodsCount<ParentT>,
             WithVirtualNetwork<ParentT>,
             Attachable.InDefinition<ParentT> {

@@ -45,7 +45,7 @@ public class TestKubernetesCluster extends TestTemplate<KubernetesCluster, Kuber
             .withServicePrincipalSecret(secret)
             .defineAgentPool(agentPoolName)
                 .withVirtualMachineSize(ContainerServiceVMSizeTypes.STANDARD_D2_V2)
-                .withAgentsCount(1)
+                .withAgentPoolVirtualMachineCount(1)
                 .attach()
             .withDnsPrefix(dnsPrefix)
             .withTag("tag1", "value1")
@@ -75,7 +75,7 @@ public class TestKubernetesCluster extends TestTemplate<KubernetesCluster, Kuber
         String agentPoolName = new ArrayList<>(resource.agentPools().keySet()).get(0);
         // Modify existing container service
         resource =  resource.update()
-            .withAgentVirtualMachineCount(agentPoolName, 5)
+            .withAgentPoolVirtualMachineCount(agentPoolName, 5)
             .withTag("tag2", "value2")
             .withTag("tag3", "value3")
             .withoutTag("tag1")

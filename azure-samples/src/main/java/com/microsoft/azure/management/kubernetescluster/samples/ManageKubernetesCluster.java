@@ -94,7 +94,7 @@ public class ManageKubernetesCluster {
                 .withServicePrincipalSecret(servicePrincipalSecret)
                 .defineAgentPool("agentpool")
                     .withVirtualMachineSize(ContainerServiceVMSizeTypes.STANDARD_D1_V2)
-                    .withAgentsCount(1)
+                    .withAgentPoolVirtualMachineCount(1)
                     .attach()
                 .withDnsPrefix("dns-" + aksName)
                 .create();
@@ -111,7 +111,7 @@ public class ManageKubernetesCluster {
             t1 = new Date();
 
             kubernetesCluster.update()
-                .withAgentVirtualMachineCount(2)
+                .withAgentPoolVirtualMachineCount(2)
                 .apply();
 
             t2 = new Date();

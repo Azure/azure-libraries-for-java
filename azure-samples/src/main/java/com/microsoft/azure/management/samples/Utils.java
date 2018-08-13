@@ -2911,7 +2911,7 @@ public final class Utils {
     }
 
     /**
-     * Print Action group settings
+     * Print Action group settings.
      *
      * @param actionGroup action group instance
      */
@@ -3017,7 +3017,7 @@ public final class Utils {
     }
 
     /**
-     * Print activity log settings
+     * Print activity log settings.
      *
      * @param activityLogAlert activity log instance
      */

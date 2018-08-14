@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.management.graphrbac;
 
+import com.microsoft.azure.v2.management.graphrbac.RoleDefinition;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;

@@ -7,7 +7,6 @@
 package com.microsoft.azure.management.compute;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
 
 /**

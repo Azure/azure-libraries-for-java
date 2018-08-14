@@ -6,7 +6,7 @@
 
 package com.microsoft.azure.management.graphrbac;
 
-import com.microsoft.azure.management.graphrbac.implementation.GraphRbacManager;
+import com.microsoft.azure.v2.management.graphrbac.implementation.GraphRbacManager;
 import com.microsoft.azure.management.resources.core.TestBase;
 import com.microsoft.azure.management.resources.implementation.ResourceManager;
 import com.microsoft.rest.RestClient;

@@ -8,15 +8,13 @@ package com.microsoft.azure.management.graphrbac;
 
 import com.google.common.io.ByteStreams;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
+import com.microsoft.azure.v2.management.graphrbac.ActiveDirectoryApplication;
 import org.joda.time.Duration;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
-
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 public class ApplicationsTests extends GraphRbacManagementTest {
     @Test

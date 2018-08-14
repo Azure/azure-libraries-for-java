@@ -6,16 +6,16 @@
 
 package com.microsoft.azure.management;
 
-import com.microsoft.azure.management.resources.core.TestBase;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
-import com.microsoft.azure.management.resources.implementation.ResourceManager;
-import com.microsoft.azure.management.trafficmanager.GeographicLocation;
-import com.microsoft.azure.management.trafficmanager.TrafficManagerExternalEndpoint;
-import com.microsoft.azure.management.trafficmanager.TrafficManagerProfile;
-import com.microsoft.azure.management.trafficmanager.TrafficRoutingMethod;
-import com.microsoft.azure.management.trafficmanager.implementation.TrafficManager;
-import com.microsoft.rest.RestClient;
+import com.microsoft.azure.v2.management.resources.core.TestBase;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.v2.management.resources.fluentcore.utils.SdkContext;
+import com.microsoft.azure.v2.management.resources.implementation.ResourceManager;
+import com.microsoft.azure.v2.management.trafficmanager.GeographicLocation;
+import com.microsoft.azure.v2.management.trafficmanager.TrafficManagerExternalEndpoint;
+import com.microsoft.azure.v2.management.trafficmanager.TrafficManagerProfile;
+import com.microsoft.azure.v2.management.trafficmanager.TrafficRoutingMethod;
+import com.microsoft.azure.v2.management.trafficmanager.implementation.TrafficManager;
+import com.microsoft.rest.v2.http.HttpPipeline;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -30,12 +30,12 @@ public class TrafficManagerTests extends TestBase {
     protected TrafficManager trafficManager;
 
     @Override
-    protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {
+    protected void initializeClients(HttpPipeline httpPipeline, String defaultSubscription, String domain) {
         resourceManager = ResourceManager
-                .authenticate(restClient)
+                .authenticate(httpPipeline)
                 .withSubscription(defaultSubscription);
         trafficManager = TrafficManager
-                .authenticate(restClient, defaultSubscription);
+                .authenticate(httpPipeline, defaultSubscription);
     }
 
     @Override

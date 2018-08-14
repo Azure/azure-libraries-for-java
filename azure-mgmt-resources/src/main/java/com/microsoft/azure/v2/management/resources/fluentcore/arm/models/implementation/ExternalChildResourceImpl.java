@@ -130,7 +130,7 @@ public abstract class ExternalChildResourceImpl<FluentModelT extends Indexable,
      *
      * @return the observable to track the create action
      */
-    public abstract Observable<FluentModelT> createAsync();
+    public abstract io.reactivex.Observable<FluentModelT> createAsync();
 
     /**
      * Update this external child resource.

@@ -196,20 +196,22 @@ public interface ContainerServiceAgentPool extends
         }
 
         /**
-         * The stage of a container service agent pool definition allowing to specify the subnet to be used by the machines in the agent pool.
+         * The stage of a container service agent pool definition allowing to specify a virtual network to be used for the agents.
          *
          * @param <ParentT>  the stage of the container service definition to return to after attaching this definition
          */
-        interface WithSubnet<ParentT> {
+        @Beta(SinceVersion.V1_15_0)
+        interface WithVirtualNetwork<ParentT> {
             /**
-             * Specifies the subnet to be used for each virtual machine in the agent pool.
-             * <p>
-             * The subnet must be in the same virtual network as specified for the master. By default, the master subnet will be used.
+             * Specifies the virtual network to be used for the agents.
              *
-             * @param subnetName the name of the subnet to be used for each virtual machine in the agent pool
-             * @return the next stage of the definition
+             * @param virtualNetworkId the ID of a virtual network
+             * @param subnetName the name of the subnet within the virtual network.; the subnet must have the service
+             *                   endpoints enabled for 'Microsoft.ContainerService'.
+             * @return the next stage
              */
-            WithAttach<ParentT> withSubnetName(String subnetName);
+            @Beta(SinceVersion.V1_15_0)
+            WithAttach<ParentT> withVirtualNetwork(String virtualNetworkId, String subnetName);
         }
 
         /** The final stage of a container service agent pool definition.
@@ -222,7 +224,7 @@ public interface ContainerServiceAgentPool extends
             WithOSDiskSize<ParentT>,
             WithPorts<ParentT>,
             WithStorageProfile<ParentT>,
-            WithSubnet<ParentT>,
+            WithVirtualNetwork<ParentT>,
             Attachable.InDefinition<ParentT> {
         }
 

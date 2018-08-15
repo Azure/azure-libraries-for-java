@@ -6,13 +6,14 @@
 package com.microsoft.azure.management.containerservice.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.containerservice.ContainerServiceAgentPoolProfile;
 import com.microsoft.azure.management.containerservice.ContainerServiceStorageProfileTypes;
 import com.microsoft.azure.management.containerservice.ContainerServiceVMSizeTypes;
 import com.microsoft.azure.management.containerservice.KubernetesCluster;
 import com.microsoft.azure.management.containerservice.KubernetesClusterAgentPool;
+import com.microsoft.azure.management.containerservice.ManagedClusterAgentPoolProfile;
 import com.microsoft.azure.management.containerservice.OSType;
 import com.microsoft.azure.management.containerservice.OrchestratorServiceBase;
+import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
 
 /**
@@ -21,15 +22,19 @@ import com.microsoft.azure.management.resources.fluentcore.arm.models.implementa
 @LangDefinition
 public class KubernetesClusterAgentPoolImpl
     extends
-        ChildResourceImpl<ContainerServiceAgentPoolProfile,
+        ChildResourceImpl<ManagedClusterAgentPoolProfile,
             KubernetesClusterImpl,
             OrchestratorServiceBase>
     implements
         KubernetesClusterAgentPool,
         KubernetesClusterAgentPool.Definition {
 
-    KubernetesClusterAgentPoolImpl(ContainerServiceAgentPoolProfile inner, KubernetesClusterImpl parent) {
+    private String subnetName;
+
+    KubernetesClusterAgentPoolImpl(ManagedClusterAgentPoolProfile inner, KubernetesClusterImpl parent) {
         super(inner, parent);
+        String subnetId = (inner != null) ? this.inner().vnetSubnetID() : null;
+        this.subnetName = ResourceUtils.nameFromResourceId(subnetId);
     }
 
     @Override
@@ -63,9 +68,18 @@ public class KubernetesClusterAgentPoolImpl
     }
 
     @Override
-    public KubernetesClusterAgentPoolImpl withVirtualMachineCount(int agentPoolCount) {
-        this.inner().withCount(agentPoolCount);
-        return this;
+    public String subnetName() {
+        if (this.subnetName != null) {
+            return this.subnetName;
+        } else {
+            return ResourceUtils.nameFromResourceId(this.inner().vnetSubnetID());
+        }
+    }
+
+    @Override
+    public String networkId() {
+        String subnetId = (this.inner() != null) ? this.inner().vnetSubnetID() : null;
+        return (subnetId != null) ? ResourceUtils.parentResourceIdFromResourceId(subnetId) : null;
     }
 
     @Override
@@ -83,6 +97,26 @@ public class KubernetesClusterAgentPoolImpl
     @Override
     public KubernetesClusterAgentPoolImpl withOSDiskSizeInGB(int osDiskSizeInGB) {
         this.inner().withOsDiskSizeGB(osDiskSizeInGB);
+        return this;
+    }
+
+    @Override
+    public DefinitionStages.WithAttach withAgentPoolVirtualMachineCount(int count) {
+        this.inner().withCount(count);
+        return this;
+    }
+
+    @Override
+    public KubernetesClusterAgentPoolImpl withMaxPodsCount(int podsCount) {
+        this.inner().withMaxPods(podsCount);
+        return this;
+    }
+
+    @Override
+    public KubernetesClusterAgentPoolImpl withVirtualNetwork(String virtualNetworkId, String subnetName) {
+        String vnetSubnetId = virtualNetworkId + "/subnets/" + subnetName;
+        this.subnetName = subnetName;
+        this.inner().withVnetSubnetID(vnetSubnetId);
         return this;
     }
 

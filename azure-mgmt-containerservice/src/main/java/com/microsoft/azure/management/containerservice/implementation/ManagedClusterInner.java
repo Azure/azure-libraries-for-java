@@ -9,9 +9,13 @@
 package com.microsoft.azure.management.containerservice.implementation;
 
 import java.util.List;
-import com.microsoft.azure.management.containerservice.ContainerServiceAgentPoolProfile;
+import com.microsoft.azure.management.containerservice.ManagedClusterAgentPoolProfile;
 import com.microsoft.azure.management.containerservice.ContainerServiceLinuxProfile;
-import com.microsoft.azure.management.containerservice.ContainerServiceServicePrincipalProfile;
+import com.microsoft.azure.management.containerservice.ManagedClusterServicePrincipalProfile;
+import java.util.Map;
+import com.microsoft.azure.management.containerservice.ManagedClusterAddonProfile;
+import com.microsoft.azure.management.containerservice.ContainerServiceNetworkProfile;
+import com.microsoft.azure.management.containerservice.ManagedClusterAADProfile;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 import com.microsoft.azure.Resource;
@@ -29,6 +33,12 @@ public class ManagedClusterInner extends Resource {
     private String provisioningState;
 
     /**
+     * Version of Kubernetes specified when creating the managed cluster.
+     */
+    @JsonProperty(value = "properties.kubernetesVersion")
+    private String kubernetesVersion;
+
+    /**
      * DNS prefix specified when creating the managed cluster.
      */
     @JsonProperty(value = "properties.dnsPrefix")
@@ -41,16 +51,10 @@ public class ManagedClusterInner extends Resource {
     private String fqdn;
 
     /**
-     * Version of Kubernetes specified when creating the managed cluster.
-     */
-    @JsonProperty(value = "properties.kubernetesVersion")
-    private String kubernetesVersion;
-
-    /**
      * Properties of the agent pool.
      */
     @JsonProperty(value = "properties.agentPoolProfiles")
-    private List<ContainerServiceAgentPoolProfile> agentPoolProfiles;
+    private List<ManagedClusterAgentPoolProfile> agentPoolProfiles;
 
     /**
      * Profile for Linux VMs in the container service cluster.
@@ -60,11 +64,40 @@ public class ManagedClusterInner extends Resource {
 
     /**
      * Information about a service principal identity for the cluster to use
-     * for manipulating Azure APIs. Either secret or keyVaultSecretRef must be
-     * specified.
+     * for manipulating Azure APIs.
      */
     @JsonProperty(value = "properties.servicePrincipalProfile")
-    private ContainerServiceServicePrincipalProfile servicePrincipalProfile;
+    private ManagedClusterServicePrincipalProfile servicePrincipalProfile;
+
+    /**
+     * Profile of managed cluster add-on.
+     */
+    @JsonProperty(value = "properties.addonProfiles")
+    private Map<String, ManagedClusterAddonProfile> addonProfiles;
+
+    /**
+     * Name of the resource group containing agent pool nodes.
+     */
+    @JsonProperty(value = "properties.nodeResourceGroup", access = JsonProperty.Access.WRITE_ONLY)
+    private String nodeResourceGroup;
+
+    /**
+     * Whether to enable Kubernetes Role-Based Access Control.
+     */
+    @JsonProperty(value = "properties.enableRBAC")
+    private Boolean enableRBAC;
+
+    /**
+     * Profile of network configuration.
+     */
+    @JsonProperty(value = "properties.networkProfile")
+    private ContainerServiceNetworkProfile networkProfile;
+
+    /**
+     * Profile of Azure Active Directory configuration.
+     */
+    @JsonProperty(value = "properties.aadProfile")
+    private ManagedClusterAADProfile aadProfile;
 
     /**
      * Get the provisioningState value.
@@ -73,6 +106,26 @@ public class ManagedClusterInner extends Resource {
      */
     public String provisioningState() {
         return this.provisioningState;
+    }
+
+    /**
+     * Get the kubernetesVersion value.
+     *
+     * @return the kubernetesVersion value
+     */
+    public String kubernetesVersion() {
+        return this.kubernetesVersion;
+    }
+
+    /**
+     * Set the kubernetesVersion value.
+     *
+     * @param kubernetesVersion the kubernetesVersion value to set
+     * @return the ManagedClusterInner object itself.
+     */
+    public ManagedClusterInner withKubernetesVersion(String kubernetesVersion) {
+        this.kubernetesVersion = kubernetesVersion;
+        return this;
     }
 
     /**
@@ -105,31 +158,11 @@ public class ManagedClusterInner extends Resource {
     }
 
     /**
-     * Get the kubernetesVersion value.
-     *
-     * @return the kubernetesVersion value
-     */
-    public String kubernetesVersion() {
-        return this.kubernetesVersion;
-    }
-
-    /**
-     * Set the kubernetesVersion value.
-     *
-     * @param kubernetesVersion the kubernetesVersion value to set
-     * @return the ManagedClusterInner object itself.
-     */
-    public ManagedClusterInner withKubernetesVersion(String kubernetesVersion) {
-        this.kubernetesVersion = kubernetesVersion;
-        return this;
-    }
-
-    /**
      * Get the agentPoolProfiles value.
      *
      * @return the agentPoolProfiles value
      */
-    public List<ContainerServiceAgentPoolProfile> agentPoolProfiles() {
+    public List<ManagedClusterAgentPoolProfile> agentPoolProfiles() {
         return this.agentPoolProfiles;
     }
 
@@ -139,7 +172,7 @@ public class ManagedClusterInner extends Resource {
      * @param agentPoolProfiles the agentPoolProfiles value to set
      * @return the ManagedClusterInner object itself.
      */
-    public ManagedClusterInner withAgentPoolProfiles(List<ContainerServiceAgentPoolProfile> agentPoolProfiles) {
+    public ManagedClusterInner withAgentPoolProfiles(List<ManagedClusterAgentPoolProfile> agentPoolProfiles) {
         this.agentPoolProfiles = agentPoolProfiles;
         return this;
     }
@@ -169,7 +202,7 @@ public class ManagedClusterInner extends Resource {
      *
      * @return the servicePrincipalProfile value
      */
-    public ContainerServiceServicePrincipalProfile servicePrincipalProfile() {
+    public ManagedClusterServicePrincipalProfile servicePrincipalProfile() {
         return this.servicePrincipalProfile;
     }
 
@@ -179,8 +212,97 @@ public class ManagedClusterInner extends Resource {
      * @param servicePrincipalProfile the servicePrincipalProfile value to set
      * @return the ManagedClusterInner object itself.
      */
-    public ManagedClusterInner withServicePrincipalProfile(ContainerServiceServicePrincipalProfile servicePrincipalProfile) {
+    public ManagedClusterInner withServicePrincipalProfile(ManagedClusterServicePrincipalProfile servicePrincipalProfile) {
         this.servicePrincipalProfile = servicePrincipalProfile;
+        return this;
+    }
+
+    /**
+     * Get the addonProfiles value.
+     *
+     * @return the addonProfiles value
+     */
+    public Map<String, ManagedClusterAddonProfile> addonProfiles() {
+        return this.addonProfiles;
+    }
+
+    /**
+     * Set the addonProfiles value.
+     *
+     * @param addonProfiles the addonProfiles value to set
+     * @return the ManagedClusterInner object itself.
+     */
+    public ManagedClusterInner withAddonProfiles(Map<String, ManagedClusterAddonProfile> addonProfiles) {
+        this.addonProfiles = addonProfiles;
+        return this;
+    }
+
+    /**
+     * Get the nodeResourceGroup value.
+     *
+     * @return the nodeResourceGroup value
+     */
+    public String nodeResourceGroup() {
+        return this.nodeResourceGroup;
+    }
+
+    /**
+     * Get the enableRBAC value.
+     *
+     * @return the enableRBAC value
+     */
+    public Boolean enableRBAC() {
+        return this.enableRBAC;
+    }
+
+    /**
+     * Set the enableRBAC value.
+     *
+     * @param enableRBAC the enableRBAC value to set
+     * @return the ManagedClusterInner object itself.
+     */
+    public ManagedClusterInner withEnableRBAC(Boolean enableRBAC) {
+        this.enableRBAC = enableRBAC;
+        return this;
+    }
+
+    /**
+     * Get the networkProfile value.
+     *
+     * @return the networkProfile value
+     */
+    public ContainerServiceNetworkProfile networkProfile() {
+        return this.networkProfile;
+    }
+
+    /**
+     * Set the networkProfile value.
+     *
+     * @param networkProfile the networkProfile value to set
+     * @return the ManagedClusterInner object itself.
+     */
+    public ManagedClusterInner withNetworkProfile(ContainerServiceNetworkProfile networkProfile) {
+        this.networkProfile = networkProfile;
+        return this;
+    }
+
+    /**
+     * Get the aadProfile value.
+     *
+     * @return the aadProfile value
+     */
+    public ManagedClusterAADProfile aadProfile() {
+        return this.aadProfile;
+    }
+
+    /**
+     * Set the aadProfile value.
+     *
+     * @param aadProfile the aadProfile value to set
+     * @return the ManagedClusterInner object itself.
+     */
+    public ManagedClusterInner withAadProfile(ManagedClusterAADProfile aadProfile) {
+        this.aadProfile = aadProfile;
         return this;
     }
 

@@ -7,6 +7,7 @@ package com.microsoft.azure.management.containerservice.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.containerservice.ContainerServiceLinuxProfile;
+import com.microsoft.azure.management.containerservice.ContainerServiceNetworkProfile;
 import com.microsoft.azure.management.containerservice.ContainerServiceSshConfiguration;
 import com.microsoft.azure.management.containerservice.ContainerServiceSshPublicKey;
 import com.microsoft.azure.management.containerservice.KubernetesCluster;
@@ -138,6 +139,11 @@ public class KubernetesClusterImpl extends
         }
 
         return Collections.unmodifiableMap(agentPoolMap);
+    }
+
+    @Override
+    public ContainerServiceNetworkProfile networkProfile() {
+        return this.inner().networkProfile();
     }
 
     private Observable<byte[]> getAdminConfig(final KubernetesClusterImpl self) {

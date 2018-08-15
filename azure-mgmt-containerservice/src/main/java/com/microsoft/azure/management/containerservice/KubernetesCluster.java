@@ -87,6 +87,11 @@ public interface KubernetesCluster extends
      */
     Map<String, KubernetesClusterAgentPool> agentPools();
 
+    /**
+     * @return the Linux SSH key
+     */
+    ContainerServiceNetworkProfile networkProfile();
+
     // Fluent interfaces
 
     /**
@@ -244,14 +249,6 @@ public interface KubernetesCluster extends
              */
             @Beta(SinceVersion.V1_15_0)
             interface Blank<ParentT>  extends WithAttach<ParentT> {
-            }
-
-            /**
-             * The stage of a network profile definition allowing to specify the network plugin type.
-             *
-             * @param <ParentT>  the stage of the network profile definition to return to after attaching this definition
-             */
-            interface WithNetworkPlugin<ParentT> {
                 /**
                  * Specifies the network plugin type to be used for building the Kubernetes network.
                  *
@@ -351,7 +348,6 @@ public interface KubernetesCluster extends
              * @param <ParentT> the stage of the container service definition to return to after attaching this definition
              */
             interface WithAttach<ParentT> extends
-                NetworkProfileDefinitionStages.WithNetworkPlugin<ParentT>,
                 NetworkProfileDefinitionStages.WithNetworkPolicy<ParentT>,
                 NetworkProfileDefinitionStages.WithPodCidr<ParentT>,
                 NetworkProfileDefinitionStages.WithServiceCidr<ParentT>,
@@ -368,7 +364,6 @@ public interface KubernetesCluster extends
          */
         interface NetworkProfileDefinition<ParentT> extends
             NetworkProfileDefinitionStages.Blank<ParentT>,
-            NetworkProfileDefinitionStages.WithNetworkPlugin<ParentT>,
             NetworkProfileDefinitionStages.WithNetworkPolicy<ParentT>,
             NetworkProfileDefinitionStages.WithPodCidr<ParentT>,
             NetworkProfileDefinitionStages.WithServiceCidr<ParentT>,

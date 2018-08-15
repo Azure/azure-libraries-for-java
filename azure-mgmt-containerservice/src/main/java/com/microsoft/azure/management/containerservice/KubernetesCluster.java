@@ -6,6 +6,7 @@
 package com.microsoft.azure.management.containerservice;
 
 import com.microsoft.azure.management.apigeneration.Beta;
+import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.management.containerservice.implementation.ContainerServiceManager;
@@ -13,6 +14,7 @@ import com.microsoft.azure.management.containerservice.implementation.ManagedClu
 import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
 import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
+import com.microsoft.azure.management.resources.fluentcore.model.Attachable;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
 import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
@@ -23,7 +25,7 @@ import java.util.Map;
  * A client-side representation for a managed Kubernetes cluster.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_4_0)
+@Beta(SinceVersion.V1_15_0)
 public interface KubernetesCluster extends
         GroupableResource<ContainerServiceManager, ManagedClusterInner>,
         Refreshable<KubernetesCluster>,
@@ -71,11 +73,6 @@ public interface KubernetesCluster extends
     String servicePrincipalSecret();
 
     /**
-     * @return the key vault reference to the service principal secret
-     */
-    KeyVaultSecretRef keyVaultSecretReference();
-
-    /**
      * @return the Linux root username
      */
     String linuxRootUsername();
@@ -90,6 +87,11 @@ public interface KubernetesCluster extends
      */
     Map<String, KubernetesClusterAgentPool> agentPools();
 
+    /**
+     * @return the Linux SSH key
+     */
+    ContainerServiceNetworkProfile networkProfile();
+
     // Fluent interfaces
 
     /**
@@ -103,9 +105,9 @@ public interface KubernetesCluster extends
         DefinitionStages.WithLinuxSshKey,
         DefinitionStages.WithServicePrincipalClientId,
         DefinitionStages.WithServicePrincipalProfile,
-        DefinitionStages.WithKeyVaultSecret,
         DefinitionStages.WithDnsPrefix,
         DefinitionStages.WithAgentPool,
+        DefinitionStages.WithNetworkProfile,
         KubernetesCluster.DefinitionStages.WithCreate {
     }
 
@@ -207,36 +209,6 @@ public interface KubernetesCluster extends
              * @return the next stage
              */
             WithAgentPool withServicePrincipalSecret(String secret);
-
-            /**
-             * Properties for cluster service principals.
-             *
-             * @param vaultId the ID for the service principal
-             * @return the next stage
-             */
-            WithKeyVaultSecret withKeyVaultReference(String vaultId);
-        }
-
-        /**
-         * The stage of the Kubernetes cluster definition allowing to specify the KeyVault secret name and version.
-         */
-        interface WithKeyVaultSecret {
-            /**
-             * Specifies the KeyVault secret.
-             *
-             * @param secretName the KeyVault reference to the secret which stores the password associated with the service principal
-             * @return the next stage of the definition
-             */
-            WithAgentPool withKeyVaultSecret(String secretName);
-
-            /**
-             * Specifies the KeyVault secret and the version of it.
-             *
-             * @param secretName the KeyVault reference to the secret which stores the password associated with the service principal
-             * @param secretVersion the KeyVault secret version to be used
-             * @return the next stage of the definition
-             */
-            WithAgentPool withKeyVaultSecret(String secretName, String secretVersion);
         }
 
         /**
@@ -244,12 +216,160 @@ public interface KubernetesCluster extends
          */
         interface WithAgentPool {
             /**
-             * Begins the definition of a agent pool profile to be attached to the Kubernetes cluster.
+             * Begins the definition of an agent pool profile to be attached to the Kubernetes cluster.
              *
              * @param name the name for the agent pool profile
              * @return the stage representing configuration for the agent pool profile
              */
             KubernetesClusterAgentPool.DefinitionStages.Blank<KubernetesCluster.DefinitionStages.WithCreate> defineAgentPool(String name);
+        }
+
+        /**
+         * The stage of the Kubernetes cluster definition allowing to specify a network profile.
+         */
+        @Beta(SinceVersion.V1_15_0)
+        interface WithNetworkProfile {
+            /**
+             * Begins the definition of a network profile to be attached to the Kubernetes cluster.
+             *
+             * @return the stage representing configuration for the network profile
+             */
+            @Beta(SinceVersion.V1_15_0)
+            NetworkProfileDefinitionStages.Blank<KubernetesCluster.DefinitionStages.WithCreate> defineNetworkProfile();
+        }
+
+        /**
+         * The Kubernetes cluster definition allowing to specify a network profile.
+         */
+        interface NetworkProfileDefinitionStages {
+            /**
+             * The first stage of a network profile definition.
+             *
+             * @param <ParentT>  the stage of the Kubernetes cluster network profile definition to return to after attaching this definition
+             */
+            @Beta(SinceVersion.V1_15_0)
+            interface Blank<ParentT>  extends WithAttach<ParentT> {
+                /**
+                 * Specifies the network plugin type to be used for building the Kubernetes network.
+                 *
+                 * @param networkPlugin the network plugin type to be used for building the Kubernetes network
+                 * @return the next stage of the definition
+                 */
+                WithAttach<ParentT> withNetworkPlugin(NetworkPlugin networkPlugin);
+            }
+
+            /**
+             * The stage of a network profile definition allowing to specify the network policy.
+             *
+             * @param <ParentT>  the stage of the network profile definition to return to after attaching this definition
+             */
+            interface WithNetworkPolicy<ParentT> {
+                /**
+                 * Specifies the network policy to be used for building the Kubernetes network.
+                 *
+                 * @param networkPolicy the network policy to be used for building the Kubernetes network
+                 * @return the next stage of the definition
+                 */
+                WithAttach<ParentT> withNetworkPolicy(NetworkPolicy networkPolicy);
+            }
+
+            /**
+             * The stage of a network profile definition allowing to specify a CIDR notation IP range from which to
+             * assign pod IPs when kubenet is used.
+             *
+             * @param <ParentT>  the stage of the network profile definition to return to after attaching this definition
+             */
+            interface WithPodCidr<ParentT> {
+                /**
+                 * Specifies a CIDR notation IP range from which to assign pod IPs when kubenet is used.
+                 *
+                 * @param podCidr the CIDR notation IP range from which to assign pod IPs when kubenet is used
+                 * @return the next stage of the definition
+                 */
+                WithAttach<ParentT> withPodCidr(String podCidr);
+            }
+
+            /**
+             * The stage of a network profile definition allowing to specify a CIDR notation IP range from which to
+             * assign service cluster IPs.
+             *
+             * @param <ParentT>  the stage of the network profile definition to return to after attaching this definition
+             */
+            interface WithServiceCidr<ParentT> {
+                /**
+                 * Specifies a CIDR notation IP range from which to assign service cluster IPs; must not overlap with
+                 *   any subnet IP ranges.
+                 *
+                 * @param serviceCidr the CIDR notation IP range from which to assign service cluster IPs; it must not
+                 *                    overlap with any Subnet IP ranges
+                 * @return the next stage of the definition
+                 */
+                WithAttach<ParentT> withServiceCidr(String serviceCidr);
+            }
+
+            /**
+             * The stage of a network profile definition allowing to specify an IP address assigned to the Kubernetes DNS service.
+             *
+             * @param <ParentT>  the stage of the network profile definition to return to after attaching this definition
+             */
+            interface WithDnsServiceIP<ParentT> {
+                /**
+                 * Specifies an IP address assigned to the Kubernetes DNS service; it must be within the Kubernetes service
+                 *   address range specified in the service CIDR.
+                 *
+                 * @param dnsServiceIP the IP address assigned to the Kubernetes DNS service; it must be within the
+                 *                     Kubernetes service address range specified in the service CIDR
+                 * @return the next stage of the definition
+                 */
+                WithAttach<ParentT> withDnsServiceIP(String dnsServiceIP);
+            }
+
+            /**
+             * The stage of a network profile definition allowing to specify a CIDR notation IP range assigned to the
+             *   Docker bridge network.
+             *
+             * @param <ParentT>  the stage of the network profile definition to return to after attaching this definition
+             */
+            interface WithDockerBridgeCidr<ParentT> {
+                /**
+                 * Specifies a CIDR notation IP range assigned to the Docker bridge network; it must not overlap with
+                 *   any subnet IP ranges or the Kubernetes service address range.
+                 *
+                 * @param dockerBridgeCidr the CIDR notation IP range assigned to the Docker bridge network; it must not
+                 *                         overlap with any subnet IP ranges or the Kubernetes service address range
+                 * @return the next stage of the definition
+                 */
+                WithAttach<ParentT> withDockerBridgeCidr(String dockerBridgeCidr);
+            }
+
+            /** The final stage of a network profile definition.
+             * At this stage, any remaining optional settings can be specified, or the container service agent pool
+             * can be attached to the parent container service definition.
+             * @param <ParentT> the stage of the container service definition to return to after attaching this definition
+             */
+            interface WithAttach<ParentT> extends
+                NetworkProfileDefinitionStages.WithNetworkPolicy<ParentT>,
+                NetworkProfileDefinitionStages.WithPodCidr<ParentT>,
+                NetworkProfileDefinitionStages.WithServiceCidr<ParentT>,
+                NetworkProfileDefinitionStages.WithDnsServiceIP<ParentT>,
+                NetworkProfileDefinitionStages.WithDockerBridgeCidr<ParentT>,
+                Attachable.InDefinition<ParentT> {
+            }
+        }
+
+        /**
+         * The Kubernetes cluster network profile definition.
+         * The entirety of a Kubernetes cluster network profile definition as a part of a parent definition.
+         * @param <ParentT>  the stage of the container service definition to return to after attaching this definition
+         */
+        interface NetworkProfileDefinition<ParentT> extends
+            NetworkProfileDefinitionStages.Blank<ParentT>,
+            NetworkProfileDefinitionStages.WithNetworkPolicy<ParentT>,
+            NetworkProfileDefinitionStages.WithPodCidr<ParentT>,
+            NetworkProfileDefinitionStages.WithServiceCidr<ParentT>,
+            NetworkProfileDefinitionStages.WithDnsServiceIP<ParentT>,
+            NetworkProfileDefinitionStages.WithDockerBridgeCidr<ParentT>,
+            NetworkProfileDefinitionStages.WithAttach<ParentT> {
         }
 
         /**
@@ -272,6 +392,7 @@ public interface KubernetesCluster extends
          */
         interface WithCreate extends
             Creatable<KubernetesCluster>,
+            WithNetworkProfile,
             WithDnsPrefix,
             Resource.DefinitionWithTags<WithCreate> {
         }
@@ -301,7 +422,8 @@ public interface KubernetesCluster extends
              * @param agentCount the number of agents (virtual machines) to host docker containers.
              * @return the next stage of the update
              */
-            KubernetesCluster.Update withAgentVirtualMachineCount(String agentPoolName, int agentCount);
+            @Beta(SinceVersion.V1_15_0)
+            KubernetesCluster.Update withAgentPoolVirtualMachineCount(String agentPoolName, int agentCount);
 
             /**
              * Updates all the agent pools virtual machine count.
@@ -309,7 +431,8 @@ public interface KubernetesCluster extends
              * @param agentCount the number of agents (virtual machines) to host docker containers.
              * @return the next stage of the update
              */
-            KubernetesCluster.Update withAgentVirtualMachineCount(int agentCount);
+            @Beta(SinceVersion.V1_15_0)
+            KubernetesCluster.Update withAgentPoolVirtualMachineCount(int agentCount);
         }
     }
 }

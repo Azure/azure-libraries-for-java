@@ -8,6 +8,8 @@ package com.microsoft.azure.management.kubernetescluster.samples;
 import com.microsoft.azure.management.Azure;
 import com.microsoft.azure.management.containerservice.ContainerServiceVMSizeTypes;
 import com.microsoft.azure.management.containerservice.KubernetesCluster;
+import com.microsoft.azure.management.containerservice.NetworkPlugin;
+import com.microsoft.azure.management.network.Network;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.azure.management.samples.SSHShell;
@@ -21,11 +23,12 @@ import java.util.Date;
 
 /**
  * Azure Container Service (AKS) sample for managing a Kubernetes cluster.
- *   - Create an Azure Container Service (AKS) with managed Kubernetes cluster
+ *   - Create a Virtual Network with two subnets.
  *   - Create a SSH private/public key
+ *   - Create an Azure Container Service (AKS) with managed Kubernetes cluster and advanced networking
  *   - Update the number of agent virtual machines in the Kubernetes cluster
  */
-public class ManageKubernetesCluster {
+public class ManagedKubernetesClusterWithAdvancedNetworking {
 
     /**
      * Main function which runs the actual sample.
@@ -37,13 +40,34 @@ public class ManageKubernetesCluster {
      */
     public static boolean runSample(Azure azure, String clientId, String secret) {
         final String rgName = SdkContext.randomResourceName("rgaks", 15);
+        final String vnetName = SdkContext.randomResourceName("vnetaks", 20);
         final String aksName = SdkContext.randomResourceName("akssample", 30);
-        final Region region = Region.US_EAST;
-        String servicePrincipalClientId = clientId; // replace with a real service principal client id
-        String servicePrincipalSecret = secret; // and corresponding secret
+        final Region region = Region.US_CENTRAL;
+        String servicePrincipalClientId = clientId; // replace it with a real service principal client id
+        String servicePrincipalSecret = secret; // and the corresponding secret
         final String rootUserName = "aksuser";
 
         try {
+
+            // ============================================================
+            // Create a virtual network with two subnets.
+            System.out.println("Create a virtual network with two subnets: subnet1 and subnet2");
+
+            Network virtualNetwork = azure.networks().define(vnetName)
+                .withRegion(region)
+                .withNewResourceGroup(rgName)
+                .withAddressSpace("192.168.0.0/16")
+                .defineSubnet("subnet1")
+                    .withAddressPrefix("192.168.1.0/24")
+                    .attach()
+                .defineSubnet("subnet2")
+                    .withAddressPrefix("192.168.2.0/24")
+                    .attach()
+                .create();
+
+            System.out.println("Created a virtual network");
+            // Print the virtual network details
+            Utils.print(virtualNetwork);
 
             //=============================================================
             // If service principal client id and secret are not set via the local variables, attempt to read the service
@@ -86,7 +110,7 @@ public class ManageKubernetesCluster {
 
             KubernetesCluster kubernetesCluster = azure.kubernetesClusters().define(aksName)
                 .withRegion(region)
-                .withNewResourceGroup(rgName)
+                .withExistingResourceGroup(rgName)
                 .withLatestVersion()
                 .withRootUsername(rootUserName)
                 .withSshKey(sshKeys.getSshPublicKey())
@@ -95,8 +119,15 @@ public class ManageKubernetesCluster {
                 .defineAgentPool("agentpool")
                     .withVirtualMachineSize(ContainerServiceVMSizeTypes.STANDARD_D1_V2)
                     .withAgentPoolVirtualMachineCount(1)
+                    .withVirtualNetwork(virtualNetwork.id(), "subnet1")
                     .attach()
                 .withDnsPrefix("dns-" + aksName)
+                .defineNetworkProfile()
+                    .withNetworkPlugin(NetworkPlugin.AZURE)
+                    .withServiceCidr("10.0.0.0/16")
+                    .withDnsServiceIP("10.0.0.10")
+                    .withDockerBridgeCidr("172.17.0.1/16")
+                    .attach()
                 .create();
 
             Date t2 = new Date();

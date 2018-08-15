@@ -126,6 +126,7 @@ public interface ContainerGroup extends
     /**
      * Restarts all containers in a container group in place. If container image has updates, new image will be downloaded.
      */
+    @Beta(Beta.SinceVersion.V1_15_0)
     void restart();
 
     /**
@@ -133,11 +134,13 @@ public interface ContainerGroup extends
      *
      * @return a representation of the deferred computation of this call
      */
+    @Beta(Beta.SinceVersion.V1_15_0)
     Completable restartAsync();
 
     /**
      * Stops all containers in a container group. Compute resources will be de-allocated and billing will stop.
      */
+    @Beta(Beta.SinceVersion.V1_15_0)
     void stop();
 
     /**
@@ -145,6 +148,7 @@ public interface ContainerGroup extends
      *
      * @return a representation of the deferred computation of this call
      */
+    @Beta(Beta.SinceVersion.V1_15_0)
     Completable stopAsync();
 
     /**

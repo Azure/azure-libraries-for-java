@@ -89,6 +89,9 @@ import com.microsoft.azure.management.monitor.EmailReceiver;
 import com.microsoft.azure.management.monitor.ItsmReceiver;
 import com.microsoft.azure.management.monitor.LogSettings;
 import com.microsoft.azure.management.monitor.LogicAppReceiver;
+import com.microsoft.azure.management.monitor.MetricAlert;
+import com.microsoft.azure.management.monitor.MetricAlertCondition;
+import com.microsoft.azure.management.monitor.MetricDimension;
 import com.microsoft.azure.management.monitor.MetricSettings;
 import com.microsoft.azure.management.monitor.SmsReceiver;
 import com.microsoft.azure.management.monitor.VoiceReceiver;
@@ -3017,7 +3020,7 @@ public final class Utils {
     }
 
     /**
-     * Print activity log settings.
+     * Print activity log alert settings.
      *
      * @param activityLogAlert activity log instance
      */
@@ -3052,6 +3055,60 @@ public final class Utils {
         System.out.println(info.toString());
     }
 
+    /**
+     * Print metric alert settings.
+     *
+     * @param metricAlert metric alert instance
+     */
+    public static void print(MetricAlert metricAlert) {
+
+        StringBuilder info = new StringBuilder("Metric Alert: ")
+                .append("\n\tId: ").append(metricAlert.id())
+                .append("\n\tName: ").append(metricAlert.name())
+                .append("\n\tDescription: ").append(metricAlert.description())
+                .append("\n\tIs Enabled: ").append(metricAlert.enabled())
+                .append("\n\tIs Auto Mitigated: ").append(metricAlert.autoMitigate())
+                .append("\n\tSeverity: ").append(metricAlert.severity())
+                .append("\n\tWindow Size: ").append(metricAlert.windowSize())
+                .append("\n\tEvaluation Frequency: ").append(metricAlert.evaluationFrequency());
+
+        if (metricAlert.scopes() != null && !metricAlert.scopes().isEmpty()) {
+            info.append("\n\tScopes: ");
+            for (String er : metricAlert.scopes()) {
+                info.append("\n\t\tId: ").append(er);
+            }
+        }
+
+        if (metricAlert.actionGroupIds() != null && !metricAlert.actionGroupIds().isEmpty()) {
+            info.append("\n\tAction Groups: ");
+            for (String er : metricAlert.actionGroupIds()) {
+                info.append("\n\t\tAction Group Id: ").append(er);
+            }
+        }
+
+        if (metricAlert.alertCriterias() != null && !metricAlert.alertCriterias().isEmpty()) {
+            info.append("\n\tAlert conditions (when all of is true): ");
+            for (Map.Entry<String, MetricAlertCondition> er : metricAlert.alertCriterias().entrySet()) {
+                MetricAlertCondition alertCondition = er.getValue();
+                info.append("\n\t\tCondition name: ").append(er.getKey())
+                        .append("\n\t\tSignal name: ").append(alertCondition.signalName())
+                        .append("\n\t\tMetric Namespace: ").append(alertCondition.metricNamespace())
+                        .append("\n\t\tOperator: ").append(alertCondition.condition())
+                        .append("\n\t\tThreshold: ").append(alertCondition.threshold())
+                        .append("\n\t\tTime Aggregation: ").append(alertCondition.timeAggregation());
+                if (alertCondition.dimensions() != null && !alertCondition.dimensions().isEmpty()) {
+                    for (MetricDimension dimon : alertCondition.dimensions()) {
+                        info.append("\n\t\tDimension Filter: ").append("Name [").append(dimon.name()).append("] operator [Include] values[");
+                        for (String vals : dimon.values()) {
+                            info.append(vals).append(", ");
+                        }
+                        info.append("]");
+                    }
+                }
+            }
+        }
+        System.out.println(info.toString());
+    }
     private static OkHttpClient httpClient;
 
     /**

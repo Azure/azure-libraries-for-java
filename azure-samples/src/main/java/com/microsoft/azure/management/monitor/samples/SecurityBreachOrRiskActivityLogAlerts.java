@@ -29,7 +29,7 @@ import java.util.List;
  *  - Setup an action group to trigger a notification to the security teams
  *  - Create an activity log alerts for storage account access key retrievals
  *  - List Storage account keys to trigger an alert.
- *  - Retrieve and show all activity logs that contains "List Storage Account Keys" operation name in the resource group for the past 7 days for the same Storage account .
+ *  - Retrieve and show all activity logs that contains "List Storage Account Keys" operation name in the resource group for the past 7 days for the same Storage account.
  */
 public final class SecurityBreachOrRiskActivityLogAlerts {
 

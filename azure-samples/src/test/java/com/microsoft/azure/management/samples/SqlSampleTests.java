@@ -15,6 +15,7 @@ import com.microsoft.azure.management.sql.samples.ManageSqlFirewallRules;
 import com.microsoft.azure.management.sql.samples.ManageSqlImportExportDatabase;
 import com.microsoft.azure.management.sql.samples.ManageSqlServerDnsAliases;
 import com.microsoft.azure.management.sql.samples.ManageSqlServerKeysWithAzureKeyVaultKey;
+import com.microsoft.azure.management.sql.samples.ManageSqlServerSecurityAlertPolicy;
 import com.microsoft.azure.management.sql.samples.ManageSqlVirtualNetworkRules;
 import com.microsoft.azure.management.sql.samples.ManageSqlWithRecoveredOrRestoredDatabase;
 import com.microsoft.rest.RestClient;
@@ -52,6 +53,11 @@ public class SqlSampleTests extends SamplesTestBase {
     @Test
     public void testManageSqlFirewallRules() {
         Assert.assertTrue(ManageSqlFirewallRules.runSample(azure));
+    }
+
+    @Test
+    public void testManageSqlServerSecurityAlertPolicy() {
+        Assert.assertTrue(ManageSqlServerSecurityAlertPolicy.runSample(azure));
     }
 
     @Test

@@ -29,6 +29,7 @@ import com.microsoft.azure.management.sql.SqlServer;
 import com.microsoft.azure.management.sql.SqlServerAutomaticTuning;
 import com.microsoft.azure.management.sql.SqlServerDnsAliasOperations;
 import com.microsoft.azure.management.sql.SqlServerKeyOperations;
+import com.microsoft.azure.management.sql.SqlServerSecurityAlertPolicyOperations;
 import com.microsoft.azure.management.sql.SqlVirtualNetworkRule;
 import com.microsoft.azure.management.sql.SqlVirtualNetworkRuleOperations;
 import rx.Completable;
@@ -71,6 +72,7 @@ public class SqlServerImpl
     private SqlServerDnsAliasOperations.SqlServerDnsAliasActionsDefinition sqlServerDnsAliasOperations;
     private SqlFailoverGroupOperations.SqlFailoverGroupActionsDefinition sqlFailoverGroupOperations;
     private SqlServerKeyOperations.SqlServerKeyActionsDefinition sqlServerKeyOperations;
+    private SqlServerSecurityAlertPolicyOperationsImpl sqlServerSecurityAlertPolicyOperations;
     private SqlEncryptionProtectorOperations.SqlEncryptionProtectorActionsDefinition sqlEncryptionProtectorsOperations;
 
     protected SqlServerImpl(String name, ServerInner innerObject, SqlServerManager manager) {
@@ -472,6 +474,14 @@ public class SqlServerImpl
             this.sqlEncryptionProtectorsOperations = new SqlEncryptionProtectorOperationsImpl(this, this.manager());
         }
         return this.sqlEncryptionProtectorsOperations;
+    }
+
+    @Override
+    public SqlServerSecurityAlertPolicyOperations.SqlServerSecurityAlertPolicyActionsDefinition serverSecurityAlertPolicies() {
+        if (this.sqlServerSecurityAlertPolicyOperations == null) {
+            this.sqlServerSecurityAlertPolicyOperations = new SqlServerSecurityAlertPolicyOperationsImpl(this, this.manager());
+        }
+        return this.sqlServerSecurityAlertPolicyOperations;
     }
 
     @Override

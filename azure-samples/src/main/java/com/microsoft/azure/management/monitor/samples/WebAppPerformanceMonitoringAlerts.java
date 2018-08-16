@@ -6,29 +6,20 @@
 
 package com.microsoft.azure.management.monitor.samples;
 
-import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.Azure;
 import com.microsoft.azure.management.appservice.AppServicePlan;
 import com.microsoft.azure.management.appservice.OperatingSystem;
 import com.microsoft.azure.management.appservice.PricingTier;
 import com.microsoft.azure.management.monitor.ActionGroup;
-import com.microsoft.azure.management.monitor.ActivityLogAlert;
-import com.microsoft.azure.management.monitor.EventData;
 import com.microsoft.azure.management.monitor.MetricAlert;
 import com.microsoft.azure.management.monitor.MetricAlertRuleCondition;
 import com.microsoft.azure.management.monitor.MetricAlertRuleTimeAggregation;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.azure.management.samples.Utils;
-import com.microsoft.azure.management.storage.AccessTier;
-import com.microsoft.azure.management.storage.StorageAccount;
-import com.microsoft.azure.management.storage.StorageAccountKey;
 import com.microsoft.rest.LogLevel;
-import org.joda.time.DateTime;
 import org.joda.time.Period;
 
 import java.io.File;
-import java.util.List;
 
 /**
  * This sample shows examples of configuring Metric Alerts for WebApp instance performance monitoring through app service plan.

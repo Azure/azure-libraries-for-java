@@ -22,7 +22,6 @@ import org.joda.time.DateTime;
 import org.joda.time.Period;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 
 /**

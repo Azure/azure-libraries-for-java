@@ -7,7 +7,6 @@
 package com.microsoft.azure.management.monitor.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.monitor.ActivityLogAlertActionGroup;
 import com.microsoft.azure.management.monitor.MetricAlert;
 import com.microsoft.azure.management.monitor.MetricAlertAction;
 import com.microsoft.azure.management.monitor.MetricAlertCondition;

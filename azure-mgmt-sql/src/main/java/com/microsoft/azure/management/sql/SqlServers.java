@@ -80,6 +80,12 @@ public interface SqlServers extends
     SqlEncryptionProtectorOperations encryptionProtectors();
 
     /**
+     * @return entry point to manage SQL Server Security Alert Policy
+     */
+    @Beta(Beta.SinceVersion.V1_15_0)
+    SqlServerSecurityAlertPolicyOperations serverSecurityAlertPolicies();
+
+    /**
      * @return the SQL Sync Group entry point
      */
     @Beta(Beta.SinceVersion.V1_9_0)

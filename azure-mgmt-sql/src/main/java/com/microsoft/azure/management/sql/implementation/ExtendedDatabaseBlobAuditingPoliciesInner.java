@@ -30,42 +30,42 @@ import rx.Observable;
 
 /**
  * An instance of this class provides access to all the operations defined
- * in DatabaseBlobAuditingPolicies.
+ * in ExtendedDatabaseBlobAuditingPolicies.
  */
-public class DatabaseBlobAuditingPoliciesInner {
+public class ExtendedDatabaseBlobAuditingPoliciesInner {
     /** The Retrofit service to perform REST calls. */
-    private DatabaseBlobAuditingPoliciesService service;
+    private ExtendedDatabaseBlobAuditingPoliciesService service;
     /** The service client containing this operation class. */
     private SqlManagementClientImpl client;
 
     /**
-     * Initializes an instance of DatabaseBlobAuditingPoliciesInner.
+     * Initializes an instance of ExtendedDatabaseBlobAuditingPoliciesInner.
      *
      * @param retrofit the Retrofit instance built from a Retrofit Builder.
      * @param client the instance of the service client containing this operation class.
      */
-    public DatabaseBlobAuditingPoliciesInner(Retrofit retrofit, SqlManagementClientImpl client) {
-        this.service = retrofit.create(DatabaseBlobAuditingPoliciesService.class);
+    public ExtendedDatabaseBlobAuditingPoliciesInner(Retrofit retrofit, SqlManagementClientImpl client) {
+        this.service = retrofit.create(ExtendedDatabaseBlobAuditingPoliciesService.class);
         this.client = client;
     }
 
     /**
-     * The interface defining all the services for DatabaseBlobAuditingPolicies to be
+     * The interface defining all the services for ExtendedDatabaseBlobAuditingPolicies to be
      * used by Retrofit to perform actually REST calls.
      */
-    interface DatabaseBlobAuditingPoliciesService {
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.sql.DatabaseBlobAuditingPolicies get" })
-        @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/auditingSettings/{blobAuditingPolicyName}")
+    interface ExtendedDatabaseBlobAuditingPoliciesService {
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.sql.ExtendedDatabaseBlobAuditingPolicies get" })
+        @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/extendedAuditingSettings/{blobAuditingPolicyName}")
         Observable<Response<ResponseBody>> get(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("databaseName") String databaseName, @Path("blobAuditingPolicyName") String blobAuditingPolicyName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.sql.DatabaseBlobAuditingPolicies createOrUpdate" })
-        @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/auditingSettings/{blobAuditingPolicyName}")
-        Observable<Response<ResponseBody>> createOrUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("databaseName") String databaseName, @Path("blobAuditingPolicyName") String blobAuditingPolicyName, @Path("subscriptionId") String subscriptionId, @Body DatabaseBlobAuditingPolicyInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.sql.ExtendedDatabaseBlobAuditingPolicies createOrUpdate" })
+        @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/extendedAuditingSettings/{blobAuditingPolicyName}")
+        Observable<Response<ResponseBody>> createOrUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("databaseName") String databaseName, @Path("blobAuditingPolicyName") String blobAuditingPolicyName, @Path("subscriptionId") String subscriptionId, @Body ExtendedDatabaseBlobAuditingPolicyInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
     }
 
     /**
-     * Gets a database's blob auditing policy.
+     * Gets an extended database's blob auditing policy.
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
@@ -73,14 +73,14 @@ public class DatabaseBlobAuditingPoliciesInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the DatabaseBlobAuditingPolicyInner object if successful.
+     * @return the ExtendedDatabaseBlobAuditingPolicyInner object if successful.
      */
-    public DatabaseBlobAuditingPolicyInner get(String resourceGroupName, String serverName, String databaseName) {
+    public ExtendedDatabaseBlobAuditingPolicyInner get(String resourceGroupName, String serverName, String databaseName) {
         return getWithServiceResponseAsync(resourceGroupName, serverName, databaseName).toBlocking().single().body();
     }
 
     /**
-     * Gets a database's blob auditing policy.
+     * Gets an extended database's blob auditing policy.
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
@@ -89,38 +89,38 @@ public class DatabaseBlobAuditingPoliciesInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<DatabaseBlobAuditingPolicyInner> getAsync(String resourceGroupName, String serverName, String databaseName, final ServiceCallback<DatabaseBlobAuditingPolicyInner> serviceCallback) {
+    public ServiceFuture<ExtendedDatabaseBlobAuditingPolicyInner> getAsync(String resourceGroupName, String serverName, String databaseName, final ServiceCallback<ExtendedDatabaseBlobAuditingPolicyInner> serviceCallback) {
         return ServiceFuture.fromResponse(getWithServiceResponseAsync(resourceGroupName, serverName, databaseName), serviceCallback);
     }
 
     /**
-     * Gets a database's blob auditing policy.
+     * Gets an extended database's blob auditing policy.
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param databaseName The name of the database.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the DatabaseBlobAuditingPolicyInner object
+     * @return the observable to the ExtendedDatabaseBlobAuditingPolicyInner object
      */
-    public Observable<DatabaseBlobAuditingPolicyInner> getAsync(String resourceGroupName, String serverName, String databaseName) {
-        return getWithServiceResponseAsync(resourceGroupName, serverName, databaseName).map(new Func1<ServiceResponse<DatabaseBlobAuditingPolicyInner>, DatabaseBlobAuditingPolicyInner>() {
+    public Observable<ExtendedDatabaseBlobAuditingPolicyInner> getAsync(String resourceGroupName, String serverName, String databaseName) {
+        return getWithServiceResponseAsync(resourceGroupName, serverName, databaseName).map(new Func1<ServiceResponse<ExtendedDatabaseBlobAuditingPolicyInner>, ExtendedDatabaseBlobAuditingPolicyInner>() {
             @Override
-            public DatabaseBlobAuditingPolicyInner call(ServiceResponse<DatabaseBlobAuditingPolicyInner> response) {
+            public ExtendedDatabaseBlobAuditingPolicyInner call(ServiceResponse<ExtendedDatabaseBlobAuditingPolicyInner> response) {
                 return response.body();
             }
         });
     }
 
     /**
-     * Gets a database's blob auditing policy.
+     * Gets an extended database's blob auditing policy.
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param databaseName The name of the database.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the DatabaseBlobAuditingPolicyInner object
+     * @return the observable to the ExtendedDatabaseBlobAuditingPolicyInner object
      */
-    public Observable<ServiceResponse<DatabaseBlobAuditingPolicyInner>> getWithServiceResponseAsync(String resourceGroupName, String serverName, String databaseName) {
+    public Observable<ServiceResponse<ExtendedDatabaseBlobAuditingPolicyInner>> getWithServiceResponseAsync(String resourceGroupName, String serverName, String databaseName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -136,11 +136,11 @@ public class DatabaseBlobAuditingPoliciesInner {
         final String blobAuditingPolicyName = "default";
         final String apiVersion = "2017-03-01-preview";
         return service.get(resourceGroupName, serverName, databaseName, blobAuditingPolicyName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DatabaseBlobAuditingPolicyInner>>>() {
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ExtendedDatabaseBlobAuditingPolicyInner>>>() {
                 @Override
-                public Observable<ServiceResponse<DatabaseBlobAuditingPolicyInner>> call(Response<ResponseBody> response) {
+                public Observable<ServiceResponse<ExtendedDatabaseBlobAuditingPolicyInner>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<DatabaseBlobAuditingPolicyInner> clientResponse = getDelegate(response);
+                        ServiceResponse<ExtendedDatabaseBlobAuditingPolicyInner> clientResponse = getDelegate(response);
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -149,74 +149,74 @@ public class DatabaseBlobAuditingPoliciesInner {
             });
     }
 
-    private ServiceResponse<DatabaseBlobAuditingPolicyInner> getDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<DatabaseBlobAuditingPolicyInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<DatabaseBlobAuditingPolicyInner>() { }.getType())
+    private ServiceResponse<ExtendedDatabaseBlobAuditingPolicyInner> getDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<ExtendedDatabaseBlobAuditingPolicyInner, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<ExtendedDatabaseBlobAuditingPolicyInner>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }
 
     /**
-     * Creates or updates a database's blob auditing policy.
+     * Creates or updates an extended database's blob auditing policy.
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param databaseName The name of the database.
-     * @param parameters The database blob auditing policy.
+     * @param parameters The extended database blob auditing policy.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the DatabaseBlobAuditingPolicyInner object if successful.
+     * @return the ExtendedDatabaseBlobAuditingPolicyInner object if successful.
      */
-    public DatabaseBlobAuditingPolicyInner createOrUpdate(String resourceGroupName, String serverName, String databaseName, DatabaseBlobAuditingPolicyInner parameters) {
+    public ExtendedDatabaseBlobAuditingPolicyInner createOrUpdate(String resourceGroupName, String serverName, String databaseName, ExtendedDatabaseBlobAuditingPolicyInner parameters) {
         return createOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, databaseName, parameters).toBlocking().single().body();
     }
 
     /**
-     * Creates or updates a database's blob auditing policy.
+     * Creates or updates an extended database's blob auditing policy.
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param databaseName The name of the database.
-     * @param parameters The database blob auditing policy.
+     * @param parameters The extended database blob auditing policy.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<DatabaseBlobAuditingPolicyInner> createOrUpdateAsync(String resourceGroupName, String serverName, String databaseName, DatabaseBlobAuditingPolicyInner parameters, final ServiceCallback<DatabaseBlobAuditingPolicyInner> serviceCallback) {
+    public ServiceFuture<ExtendedDatabaseBlobAuditingPolicyInner> createOrUpdateAsync(String resourceGroupName, String serverName, String databaseName, ExtendedDatabaseBlobAuditingPolicyInner parameters, final ServiceCallback<ExtendedDatabaseBlobAuditingPolicyInner> serviceCallback) {
         return ServiceFuture.fromResponse(createOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, databaseName, parameters), serviceCallback);
     }
 
     /**
-     * Creates or updates a database's blob auditing policy.
+     * Creates or updates an extended database's blob auditing policy.
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param databaseName The name of the database.
-     * @param parameters The database blob auditing policy.
+     * @param parameters The extended database blob auditing policy.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the DatabaseBlobAuditingPolicyInner object
+     * @return the observable to the ExtendedDatabaseBlobAuditingPolicyInner object
      */
-    public Observable<DatabaseBlobAuditingPolicyInner> createOrUpdateAsync(String resourceGroupName, String serverName, String databaseName, DatabaseBlobAuditingPolicyInner parameters) {
-        return createOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, databaseName, parameters).map(new Func1<ServiceResponse<DatabaseBlobAuditingPolicyInner>, DatabaseBlobAuditingPolicyInner>() {
+    public Observable<ExtendedDatabaseBlobAuditingPolicyInner> createOrUpdateAsync(String resourceGroupName, String serverName, String databaseName, ExtendedDatabaseBlobAuditingPolicyInner parameters) {
+        return createOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, databaseName, parameters).map(new Func1<ServiceResponse<ExtendedDatabaseBlobAuditingPolicyInner>, ExtendedDatabaseBlobAuditingPolicyInner>() {
             @Override
-            public DatabaseBlobAuditingPolicyInner call(ServiceResponse<DatabaseBlobAuditingPolicyInner> response) {
+            public ExtendedDatabaseBlobAuditingPolicyInner call(ServiceResponse<ExtendedDatabaseBlobAuditingPolicyInner> response) {
                 return response.body();
             }
         });
     }
 
     /**
-     * Creates or updates a database's blob auditing policy.
+     * Creates or updates an extended database's blob auditing policy.
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param databaseName The name of the database.
-     * @param parameters The database blob auditing policy.
+     * @param parameters The extended database blob auditing policy.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the DatabaseBlobAuditingPolicyInner object
+     * @return the observable to the ExtendedDatabaseBlobAuditingPolicyInner object
      */
-    public Observable<ServiceResponse<DatabaseBlobAuditingPolicyInner>> createOrUpdateWithServiceResponseAsync(String resourceGroupName, String serverName, String databaseName, DatabaseBlobAuditingPolicyInner parameters) {
+    public Observable<ServiceResponse<ExtendedDatabaseBlobAuditingPolicyInner>> createOrUpdateWithServiceResponseAsync(String resourceGroupName, String serverName, String databaseName, ExtendedDatabaseBlobAuditingPolicyInner parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -236,11 +236,11 @@ public class DatabaseBlobAuditingPoliciesInner {
         final String blobAuditingPolicyName = "default";
         final String apiVersion = "2017-03-01-preview";
         return service.createOrUpdate(resourceGroupName, serverName, databaseName, blobAuditingPolicyName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DatabaseBlobAuditingPolicyInner>>>() {
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ExtendedDatabaseBlobAuditingPolicyInner>>>() {
                 @Override
-                public Observable<ServiceResponse<DatabaseBlobAuditingPolicyInner>> call(Response<ResponseBody> response) {
+                public Observable<ServiceResponse<ExtendedDatabaseBlobAuditingPolicyInner>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<DatabaseBlobAuditingPolicyInner> clientResponse = createOrUpdateDelegate(response);
+                        ServiceResponse<ExtendedDatabaseBlobAuditingPolicyInner> clientResponse = createOrUpdateDelegate(response);
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -249,10 +249,10 @@ public class DatabaseBlobAuditingPoliciesInner {
             });
     }
 
-    private ServiceResponse<DatabaseBlobAuditingPolicyInner> createOrUpdateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<DatabaseBlobAuditingPolicyInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<DatabaseBlobAuditingPolicyInner>() { }.getType())
-                .register(201, new TypeToken<DatabaseBlobAuditingPolicyInner>() { }.getType())
+    private ServiceResponse<ExtendedDatabaseBlobAuditingPolicyInner> createOrUpdateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<ExtendedDatabaseBlobAuditingPolicyInner, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<ExtendedDatabaseBlobAuditingPolicyInner>() { }.getType())
+                .register(201, new TypeToken<ExtendedDatabaseBlobAuditingPolicyInner>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }

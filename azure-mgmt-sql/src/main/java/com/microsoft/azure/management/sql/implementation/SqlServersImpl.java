@@ -18,6 +18,7 @@ import com.microsoft.azure.management.sql.SqlEncryptionProtectorOperations;
 import com.microsoft.azure.management.sql.SqlFirewallRuleOperations;
 import com.microsoft.azure.management.sql.SqlServer;
 import com.microsoft.azure.management.sql.SqlServerKeyOperations;
+import com.microsoft.azure.management.sql.SqlServerSecurityAlertPolicyOperations;
 import com.microsoft.azure.management.sql.SqlServers;
 import com.microsoft.azure.management.sql.SqlSubscriptionUsageMetric;
 import com.microsoft.azure.management.sql.SqlSyncGroupOperations;
@@ -54,6 +55,7 @@ class SqlServersImpl
     private SqlEncryptionProtectorOperationsImpl encryptionProtectors;
     private SqlSyncGroupOperationsImpl syncGroups;
     private SqlSyncMemberOperationsImpl syncMembers;
+    private SqlServerSecurityAlertPolicyOperationsImpl serverSecurityAlertPolicies;
 
     protected SqlServersImpl(SqlServerManager manager) {
         super(manager.inner().servers(), manager);
@@ -131,6 +133,15 @@ class SqlServersImpl
         }
 
         return this.encryptionProtectors;
+    }
+
+    @Override
+    public SqlServerSecurityAlertPolicyOperations serverSecurityAlertPolicies() {
+        if (this.serverSecurityAlertPolicies == null) {
+            this.serverSecurityAlertPolicies = new SqlServerSecurityAlertPolicyOperationsImpl(this.manager());
+        }
+
+        return this.serverSecurityAlertPolicies;
     }
 
     @Override

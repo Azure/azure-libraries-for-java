@@ -201,52 +201,58 @@ public interface SqlServer extends
     // Collections
 
     /**
-     * @return returns entry point to manage SQL Firewall rules for this server.
+     * @return the entry point to manage SQL Firewall rules for this server
      */
     @Beta(Beta.SinceVersion.V1_7_0)
     SqlFirewallRuleOperations.SqlFirewallRuleActionsDefinition firewallRules();
 
     /**
-     * @return returns entry point to manage SQL Virtual Network Rule for this server.
+     * @return the entry point to manage SQL Virtual Network Rule for this server
      */
     @Beta(Beta.SinceVersion.V1_8_0)
     SqlVirtualNetworkRuleOperations.SqlVirtualNetworkRuleActionsDefinition virtualNetworkRules();
 
     /**
-     * @return returns entry point to manage the SQL Elastic Pools for this server.
+     * @return the entry point to manage the SQL Elastic Pools for this server
      */
     @Beta(Beta.SinceVersion.V1_7_0)
     SqlElasticPoolOperations.SqlElasticPoolActionsDefinition elasticPools();
 
     /**
-     * @return entry point to manage Databases for this SQL server.
+     * @return entry point to manage Databases for this SQL server
      */
     @Beta(Beta.SinceVersion.V1_7_0)
     SqlDatabaseOperations.SqlDatabaseActionsDefinition databases();
 
     /**
-     * @return returns entry point to manage SQL Server DNS aliases for this server.
+     * @return the entry point to manage SQL Server DNS aliases for this server
      */
     @Beta(Beta.SinceVersion.V1_8_0)
     SqlServerDnsAliasOperations.SqlServerDnsAliasActionsDefinition dnsAliases();
 
     /**
-     * @return returns entry point to manage SQL Failover Group for this server.
+     * @return the entry point to manage SQL Failover Group for this server
      */
     @Beta(Beta.SinceVersion.V1_8_0)
     SqlFailoverGroupOperations.SqlFailoverGroupActionsDefinition failoverGroups();
 
     /**
-     * @return returns entry point to manage SQL Server Keys for this server.
+     * @return the entry point to manage SQL Server Keys for this server
      */
     @Beta(Beta.SinceVersion.V1_8_0)
     SqlServerKeyOperations.SqlServerKeyActionsDefinition serverKeys();
 
     /**
-     * @return returns entry point to manage SQL Encryption Protector for this server.
+     * @return the entry point to manage SQL Encryption Protector for this server
      */
     @Beta(Beta.SinceVersion.V1_9_0)
     SqlEncryptionProtectorOperations.SqlEncryptionProtectorActionsDefinition encryptionProtectors();
+
+    /**
+     * @return the entry point to manage SQL Server Security Alert Policy for this server
+     */
+    @Beta(Beta.SinceVersion.V1_15_0)
+    SqlServerSecurityAlertPolicyOperations.SqlServerSecurityAlertPolicyActionsDefinition serverSecurityAlertPolicies();
 
 
     /**************************************************************

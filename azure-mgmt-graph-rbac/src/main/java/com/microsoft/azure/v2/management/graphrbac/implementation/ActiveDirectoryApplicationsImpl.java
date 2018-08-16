@@ -6,21 +6,19 @@
 
 package com.microsoft.azure.v2.management.graphrbac.implementation;
 
-import com.microsoft.azure.Page;
-import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
+import com.microsoft.azure.v2.PagedList;
 import com.microsoft.azure.v2.management.graphrbac.ActiveDirectoryApplication;
 import com.microsoft.azure.v2.management.graphrbac.ActiveDirectoryApplications;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.CreatableResourcesImpl;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasManager;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
-import com.microsoft.azure.management.resources.fluentcore.utils.PagedListConverter;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import com.microsoft.rest.ServiceResponse;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.collection.implementation.CreatableResourcesImpl;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.HasManager;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
+import com.microsoft.azure.v2.management.resources.fluentcore.utils.PagedListConverter;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
+import io.reactivex.Completable;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
 
 import java.util.UUID;
 
@@ -30,13 +28,13 @@ import java.util.UUID;
 @LangDefinition(ContainerName = "/Microsoft.Azure.Management.Graph.RBAC.Fluent")
 class ActiveDirectoryApplicationsImpl
         extends CreatableResourcesImpl<
-            ActiveDirectoryApplication,
-            ActiveDirectoryApplicationImpl,
-            ApplicationInner>
+                    ActiveDirectoryApplication,
+                    ActiveDirectoryApplicationImpl,
+                    ApplicationInner>
         implements
         ActiveDirectoryApplications,
-            HasManager<GraphRbacManager>,
-            HasInner<ApplicationsInner> {
+        HasManager<GraphRbacManager>,
+        HasInner<ApplicationsInner> {
     private final PagedListConverter<ApplicationInner, ActiveDirectoryApplication> converter;
     private ApplicationsInner innerCollection;
     private GraphRbacManager manager;
@@ -50,7 +48,7 @@ class ActiveDirectoryApplicationsImpl
             @Override
             public Observable<ActiveDirectoryApplication> typeConvertAsync(ApplicationInner applicationsInner) {
                 ActiveDirectoryApplicationImpl impl = wrapModel(applicationsInner);
-                return impl.refreshCredentialsAsync();
+                return impl.refreshCredentialsAsync().toObservable();
             }
         };
 
@@ -69,12 +67,7 @@ class ActiveDirectoryApplicationsImpl
     @Override
     public Observable<ActiveDirectoryApplication> listAsync() {
         return wrapPageAsync(this.inner().listAsync())
-                .flatMap(new Func1<ActiveDirectoryApplication, Observable<ActiveDirectoryApplication>>() {
-                    @Override
-                    public Observable<ActiveDirectoryApplication> call(ActiveDirectoryApplication application) {
-                        return ((ActiveDirectoryApplicationImpl) application).refreshCredentialsAsync();
-                    }
-                });
+                .flatMap(application -> ((ActiveDirectoryApplicationImpl) application).refreshCredentialsAsync().toObservable());
     }
 
     @Override
@@ -87,21 +80,17 @@ class ActiveDirectoryApplicationsImpl
 
     @Override
     public ActiveDirectoryApplicationImpl getById(String id) {
-        return (ActiveDirectoryApplicationImpl) getByIdAsync(id).toBlocking().single();
+        return (ActiveDirectoryApplicationImpl) getByIdAsync(id).blockingGet();
     }
 
     @Override
-    public Observable<ActiveDirectoryApplication> getByIdAsync(String id) {
+    public Maybe<ActiveDirectoryApplication> getByIdAsync(String id) {
         return innerCollection.getAsync(id)
-                .flatMap(new Func1<ApplicationInner, Observable<ActiveDirectoryApplication>>() {
-                    @Override
-                    public Observable<ActiveDirectoryApplication> call(ApplicationInner applicationInner) {
-                        if (applicationInner == null) {
-                            return Observable.just(null);
-                        } else {
-                            return new ActiveDirectoryApplicationImpl(applicationInner, manager())
-                                    .refreshCredentialsAsync();
-                        }
+                .flatMap(applicationInner ->  {
+                    if (applicationInner == null) {
+                        return Maybe.empty();
+                    } else {
+                        return new ActiveDirectoryApplicationImpl(applicationInner, manager()).refreshCredentialsAsync();
                     }
                 });
     }
@@ -113,41 +102,35 @@ class ActiveDirectoryApplicationsImpl
 
     @Override
     public ActiveDirectoryApplication getByName(String spn) {
-        return getByNameAsync(spn).toBlocking().single();
+        return getByNameAsync(spn).blockingLast();
     }
 
     @Override
     public Observable<ActiveDirectoryApplication> getByNameAsync(String name) {
         final String trimmed = name.replaceFirst("^'+", "").replaceAll("'+$", "");
-        return innerCollection.listWithServiceResponseAsync(String.format("displayName eq '%s'", trimmed))
-                .flatMap(new Func1<ServiceResponse<Page<ApplicationInner>>, Observable<Page<ApplicationInner>>>() {
-                    @Override
-                    public Observable<Page<ApplicationInner>> call(ServiceResponse<Page<ApplicationInner>> result) {
-                        if (result == null || result.body().items() == null || result.body().items().isEmpty()) {
-                            try {
-                                UUID.fromString(trimmed);
-                                return innerCollection.listAsync(String.format("appId eq '%s'", trimmed));
-                            } catch (IllegalArgumentException e) {
-                                return null;
-                            }
-                        }
-                        return Observable.just(result.body());
-                    }
-                }).map(new Func1<Page<ApplicationInner>, ActiveDirectoryApplicationImpl>() {
-                    @Override
-                    public ActiveDirectoryApplicationImpl call(Page<ApplicationInner> result) {
-                        if (result == null || result.items() == null || result.items().isEmpty()) {
+        return innerCollection.listAsync(String.format("displayName eq '%s'", trimmed))
+                .flatMap(pageOfApplicationInner -> {
+                    if (pageOfApplicationInner == null || pageOfApplicationInner.items() == null || pageOfApplicationInner.items().isEmpty()) {
+                        try {
+                            UUID.fromString(trimmed);
+                            return innerCollection.listAsync(String.format("appId eq '%s'", trimmed));
+                        } catch (IllegalArgumentException e) {
                             return null;
                         }
-                        return new ActiveDirectoryApplicationImpl(result.items().get(0), manager());
+                    } else {
+                        return Observable.just(pageOfApplicationInner);
                     }
-                }).flatMap(new Func1<ActiveDirectoryApplicationImpl, Observable<ActiveDirectoryApplication>>() {
-                    @Override
-                    public Observable<ActiveDirectoryApplication> call(ActiveDirectoryApplicationImpl application) {
-                        if (application == null) {
-                            return null;
-                        }
-                        return application.refreshCredentialsAsync();
+                }).map(pageOfApplicationInner -> {
+                    if (pageOfApplicationInner == null || pageOfApplicationInner.items() == null || pageOfApplicationInner.items().isEmpty()) {
+                        return null;
+                    } else {
+                        return new ActiveDirectoryApplicationImpl(pageOfApplicationInner.items().get(0), manager());
+                    }
+                }).flatMap(application -> {
+                    if (application == null) {
+                        return null;
+                    } else {
+                        return application.refreshCredentialsAsync().toObservable();
                     }
                 });
     }
@@ -169,7 +152,7 @@ class ActiveDirectoryApplicationsImpl
 
     @Override
     public Completable deleteByIdAsync(String id) {
-        return inner().deleteAsync(id).toCompletable();
+        return inner().deleteAsync(id);
     }
 
     @Override

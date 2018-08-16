@@ -9,11 +9,16 @@ package com.microsoft.azure.v2.management.graphrbac.implementation;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.v2.management.graphrbac.ActiveDirectoryUser;
 import com.microsoft.azure.v2.management.graphrbac.PasswordProfile;
-import com.microsoft.azure.management.resources.fluentcore.arm.CountryIsoCode;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
-import rx.Observable;
-import rx.functions.Func1;
+import com.microsoft.azure.v2.management.graphrbac.SignInName;
+import com.microsoft.azure.v2.management.graphrbac.UserCreateParameters;
+import com.microsoft.azure.v2.management.graphrbac.UserUpdateParameters;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.CountryIsoCode;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -28,15 +33,15 @@ class ActiveDirectoryUserImpl
         ActiveDirectoryUser.Update {
 
     private final GraphRbacManager manager;
-    private UserCreateParametersInner createParameters;
-    private UserUpdateParametersInner updateParameters;
+    private UserCreateParameters createParameters;
+    private UserUpdateParameters updateParameters;
     private String emailAlias;
 
     ActiveDirectoryUserImpl(UserInner innerObject, GraphRbacManager manager) {
         super(innerObject.displayName(), innerObject);
         this.manager = manager;
-        this.createParameters = new UserCreateParametersInner().withDisplayName(name()).withAccountEnabled(true);
-        this.updateParameters = new UserUpdateParametersInner().withDisplayName(name());
+        this.createParameters = new UserCreateParameters().withDisplayName(name()).withAccountEnabled(true);
+        this.updateParameters = new UserUpdateParameters().withDisplayName(name());
     }
 
     @Override
@@ -55,8 +60,13 @@ class ActiveDirectoryUserImpl
     }
 
     @Override
-    public String signInName() {
-        return inner().signInName();
+    public List<String> signInNames() {
+       List<SignInName> signInNames = inner().signInNames();
+       List<String> names = new ArrayList<>();
+       for (SignInName signInName : signInNames) {
+            names.add(signInName.value());
+       }
+       return Collections.unmodifiableList(names);
     }
 
     @Override
@@ -101,7 +111,7 @@ class ActiveDirectoryUserImpl
     }
 
     @Override
-    protected Observable<UserInner> getInnerAsync() {
+    protected Maybe<UserInner> getInnerAsync() {
         return manager.inner().users().getAsync(this.id());
     }
 
@@ -112,43 +122,32 @@ class ActiveDirectoryUserImpl
 
     @Override
     public Observable<ActiveDirectoryUser> createResourceAsync() {
-        Observable<ActiveDirectoryUserImpl> domain;
+        Maybe<ActiveDirectoryUserImpl> domain;
         if (emailAlias != null) {
             domain = manager().inner().domains().listAsync()
-                .map(new Func1<List<DomainInner>, ActiveDirectoryUserImpl>() {
-                    @Override
-                    public ActiveDirectoryUserImpl call(List<DomainInner> domainInners) {
-                        for (DomainInner inner : domainInners) {
-                            if (inner.isVerified() && inner.isDefault()) {
-                                if (emailAlias != null) {
-                                    withUserPrincipalName(emailAlias + "@" + inner.name());
-                                    break;
-                                }
+                .map(domainInners -> {
+                    for (DomainInner inner : domainInners) {
+                        if (inner.isVerified() && inner.isDefault()) {
+                            if (emailAlias != null) {
+                                withUserPrincipalName(emailAlias + "@" + inner.name());
+                                break;
                             }
                         }
-                        return ActiveDirectoryUserImpl.this;
                     }
+                    return ActiveDirectoryUserImpl.this;
                 });
         } else {
-            domain = Observable.just(this);
+            domain = Maybe.just(this);
         }
-        return domain.flatMap(new Func1<ActiveDirectoryUserImpl, Observable<UserInner>>() {
-            @Override
-            public Observable<UserInner> call(ActiveDirectoryUserImpl activeDirectoryUser) {
-                return manager().inner().users().createAsync(createParameters);
-            }
-        })
-        .map(innerToFluentMap(this));
+        //
+        return domain.concatMap(adUser -> manager().inner().users().createAsync(createParameters))
+        .map(innerToFluentMap(this))
+        .toObservable();
     }
 
     public Observable<ActiveDirectoryUser> updateResourceAsync() {
         return manager().inner().users().updateAsync(id(), updateParameters)
-                .flatMap(new Func1<Void, Observable<ActiveDirectoryUser>>() {
-                    @Override
-                    public Observable<ActiveDirectoryUser> call(Void aVoid) {
-                        return refreshAsync();
-                    }
-                });
+                .andThen(refreshAsync().toObservable());
     }
 
     private void withMailNickname(String mailNickname) {

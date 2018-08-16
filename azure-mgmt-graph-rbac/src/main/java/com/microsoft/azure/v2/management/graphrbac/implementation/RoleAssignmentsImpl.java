@@ -6,17 +6,17 @@
 
 package com.microsoft.azure.v2.management.graphrbac.implementation;
 
-import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
+import com.microsoft.azure.v2.PagedList;
 import com.microsoft.azure.v2.management.graphrbac.RoleAssignment;
 import com.microsoft.azure.v2.management.graphrbac.RoleAssignments;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.CreatableResourcesImpl;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.collection.implementation.CreatableResourcesImpl;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
+import io.reactivex.Completable;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
 
 /**
  * The implementation of RoleAssignments and its parent interfaces.
@@ -24,12 +24,12 @@ import rx.functions.Func1;
 @LangDefinition(ContainerName = "/Microsoft.Azure.Management.Graph.RBAC.Fluent")
 class RoleAssignmentsImpl
         extends CreatableResourcesImpl<
-                    RoleAssignment,
-                    RoleAssignmentImpl,
-                    RoleAssignmentInner>
+                            RoleAssignment,
+                            RoleAssignmentImpl,
+                            RoleAssignmentInner>
         implements
         RoleAssignments,
-            HasInner<RoleAssignmentsInner> {
+        HasInner<RoleAssignmentsInner> {
     private final GraphRbacManager manager;
 
     RoleAssignmentsImpl(
@@ -47,31 +47,28 @@ class RoleAssignmentsImpl
 
     @Override
     public RoleAssignmentImpl getById(String objectId) {
-        return (RoleAssignmentImpl) getByIdAsync(objectId).toBlocking().single();
+        return (RoleAssignmentImpl) getByIdAsync(objectId).blockingGet();
     }
 
     @Override
-    public Observable<RoleAssignment> getByIdAsync(String id) {
-        return manager().roleInner().roleAssignments().getByIdAsync(id).map(new Func1<RoleAssignmentInner, RoleAssignment>() {
-            @Override
-            public RoleAssignment call(RoleAssignmentInner roleAssignmentInner) {
-                if (roleAssignmentInner == null) {
-                    return null;
-                } else {
-                    return new RoleAssignmentImpl(roleAssignmentInner, manager());
-                }
+    public Maybe<RoleAssignment> getByIdAsync(String id) {
+        return manager().roleInner().roleAssignments().getByIdAsync(id).map(roleAssignmentInner -> {
+            if (roleAssignmentInner == null) {
+                return null;
+            } else {
+                return new RoleAssignmentImpl(roleAssignmentInner, manager());
             }
         });
     }
 
     @Override
     public ServiceFuture<RoleAssignment> getByIdAsync(String id, ServiceCallback<RoleAssignment> callback) {
-        return ServiceFuture.fromBody(getByIdAsync(id), callback);
+        return null;
     }
 
     @Override
     public RoleAssignmentImpl getByScope(String scope,  String name) {
-        return (RoleAssignmentImpl) getByScopeAsync(scope, name).toBlocking().single();
+        return (RoleAssignmentImpl) getByScopeAsync(scope, name).blockingLast();
     }
 
     @Override
@@ -85,22 +82,14 @@ class RoleAssignmentsImpl
     }
 
     @Override
-    public ServiceFuture<RoleAssignment> getByScopeAsync(String scope, String name, ServiceCallback<RoleAssignment> callback) {
-        return ServiceFuture.fromBody(getByScopeAsync(scope, name), callback);
-    }
-
-    @Override
     public Observable<RoleAssignment> getByScopeAsync(String scope,  String name) {
         return manager().roleInner().roleAssignments().getAsync(scope, name)
-                .map(new Func1<RoleAssignmentInner, RoleAssignment>() {
-                    @Override
-                    public RoleAssignment call(RoleAssignmentInner roleAssignmentInner) {
-                        if (roleAssignmentInner == null) {
-                            return null;
-                        }
-                        return new RoleAssignmentImpl(roleAssignmentInner, manager());
+                .map((io.reactivex.functions.Function<RoleAssignmentInner, RoleAssignment>) roleAssignmentInner -> {
+                    if (roleAssignmentInner == null) {
+                        return null;
                     }
-                });
+                    return new RoleAssignmentImpl(roleAssignmentInner, manager());
+                }).toObservable();
     }
 
     @Override
@@ -120,7 +109,7 @@ class RoleAssignmentsImpl
 
     @Override
     public Completable deleteByIdAsync(String id) {
-        return manager().roleInner().roleAssignments().deleteByIdAsync(id).toCompletable();
+        return manager().roleInner().roleAssignments().deleteByIdAsync(id).flatMapCompletable(a -> Completable.complete());
     }
 
     @Override

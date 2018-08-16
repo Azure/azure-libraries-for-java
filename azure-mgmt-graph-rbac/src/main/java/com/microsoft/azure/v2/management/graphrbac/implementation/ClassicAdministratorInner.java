@@ -8,12 +8,13 @@
 
 package com.microsoft.azure.v2.management.graphrbac.implementation;
 
-import com.microsoft.azure.v2.management.graphrbac.ClassicAdministratorProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
 
 /**
  * Classic Administrators.
  */
+@JsonFlatten
 public class ClassicAdministratorInner {
     /**
      * The ID of the administrator.
@@ -34,15 +35,21 @@ public class ClassicAdministratorInner {
     private String type;
 
     /**
-     * Properties for the classic administrator.
+     * The email address of the administrator.
      */
-    @JsonProperty(value = "properties")
-    private ClassicAdministratorProperties properties;
+    @JsonProperty(value = "properties.emailAddress")
+    private String emailAddress;
+
+    /**
+     * The role of the administrator.
+     */
+    @JsonProperty(value = "properties.role")
+    private String role;
 
     /**
      * Get the id value.
      *
-     * @return the id value
+     * @return the id value.
      */
     public String id() {
         return this.id;
@@ -51,7 +58,7 @@ public class ClassicAdministratorInner {
     /**
      * Set the id value.
      *
-     * @param id the id value to set
+     * @param id the id value to set.
      * @return the ClassicAdministratorInner object itself.
      */
     public ClassicAdministratorInner withId(String id) {
@@ -62,7 +69,7 @@ public class ClassicAdministratorInner {
     /**
      * Get the name value.
      *
-     * @return the name value
+     * @return the name value.
      */
     public String name() {
         return this.name;
@@ -71,7 +78,7 @@ public class ClassicAdministratorInner {
     /**
      * Set the name value.
      *
-     * @param name the name value to set
+     * @param name the name value to set.
      * @return the ClassicAdministratorInner object itself.
      */
     public ClassicAdministratorInner withName(String name) {
@@ -82,7 +89,7 @@ public class ClassicAdministratorInner {
     /**
      * Get the type value.
      *
-     * @return the type value
+     * @return the type value.
      */
     public String type() {
         return this.type;
@@ -91,7 +98,7 @@ public class ClassicAdministratorInner {
     /**
      * Set the type value.
      *
-     * @param type the type value to set
+     * @param type the type value to set.
      * @return the ClassicAdministratorInner object itself.
      */
     public ClassicAdministratorInner withType(String type) {
@@ -100,23 +107,42 @@ public class ClassicAdministratorInner {
     }
 
     /**
-     * Get the properties value.
+     * Get the emailAddress value.
      *
-     * @return the properties value
+     * @return the emailAddress value.
      */
-    public ClassicAdministratorProperties properties() {
-        return this.properties;
+    public String emailAddress() {
+        return this.emailAddress;
     }
 
     /**
-     * Set the properties value.
+     * Set the emailAddress value.
      *
-     * @param properties the properties value to set
+     * @param emailAddress the emailAddress value to set.
      * @return the ClassicAdministratorInner object itself.
      */
-    public ClassicAdministratorInner withProperties(ClassicAdministratorProperties properties) {
-        this.properties = properties;
+    public ClassicAdministratorInner withEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
         return this;
     }
 
+    /**
+     * Get the role value.
+     *
+     * @return the role value.
+     */
+    public String role() {
+        return this.role;
+    }
+
+    /**
+     * Set the role value.
+     *
+     * @param role the role value to set.
+     * @return the ClassicAdministratorInner object itself.
+     */
+    public ClassicAdministratorInner withRole(String role) {
+        this.role = role;
+        return this;
+    }
 }

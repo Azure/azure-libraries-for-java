@@ -8,117 +8,132 @@
 
 package com.microsoft.azure.v2.management.graphrbac.implementation;
 
-import com.microsoft.azure.management.resources.fluentcore.collection.InnerSupportsDelete;
-import retrofit2.Retrofit;
-import com.google.common.reflect.TypeToken;
-import com.microsoft.azure.AzureServiceFuture;
-import com.microsoft.azure.CloudException;
-import com.microsoft.azure.ListOperationCallback;
+import com.microsoft.azure.v2.AzureProxy;
+import com.microsoft.azure.v2.CloudException;
+import com.microsoft.azure.v2.Page;
+import com.microsoft.azure.v2.PagedList;
 import com.microsoft.azure.v2.management.graphrbac.RoleAssignmentCreateParameters;
-import com.microsoft.azure.Page;
-import com.microsoft.azure.PagedList;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import com.microsoft.rest.ServiceResponse;
-import com.microsoft.rest.Validator;
-import java.io.IOException;
-import java.util.List;
-import okhttp3.ResponseBody;
-import retrofit2.http.Body;
-import retrofit2.http.GET;
-import retrofit2.http.Header;
-import retrofit2.http.Headers;
-import retrofit2.http.HTTP;
-import retrofit2.http.Path;
-import retrofit2.http.PUT;
-import retrofit2.http.Query;
-import retrofit2.http.Url;
-import retrofit2.Response;
-import rx.functions.Func1;
-import rx.Observable;
+import com.microsoft.azure.v2.management.resources.fluentcore.collection.InnerSupportsDelete;
+import com.microsoft.azure.v2.management.resources.fluentcore.collection.InnerSupportsListing;
+import com.microsoft.rest.v2.BodyResponse;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
+import com.microsoft.rest.v2.Validator;
+import com.microsoft.rest.v2.annotations.BodyParam;
+import com.microsoft.rest.v2.annotations.DELETE;
+import com.microsoft.rest.v2.annotations.ExpectedResponses;
+import com.microsoft.rest.v2.annotations.GET;
+import com.microsoft.rest.v2.annotations.HeaderParam;
+import com.microsoft.rest.v2.annotations.Host;
+import com.microsoft.rest.v2.annotations.PathParam;
+import com.microsoft.rest.v2.annotations.PUT;
+import com.microsoft.rest.v2.annotations.QueryParam;
+import com.microsoft.rest.v2.annotations.UnexpectedResponseExceptionType;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
+import io.reactivex.Single;
+import io.reactivex.annotations.NonNull;
 
 /**
- * An instance of this class provides access to all the operations defined
- * in RoleAssignments.
+ * An instance of this class provides access to all the operations defined in
+ * RoleAssignments.
  */
-public class RoleAssignmentsInner implements InnerSupportsDelete<RoleAssignmentInner> {
-    /** The Retrofit service to perform REST calls. */
+public final class RoleAssignmentsInner implements InnerSupportsDelete<RoleAssignmentInner>, InnerSupportsListing<RoleAssignmentInner> {
+    /**
+     * The proxy service used to perform REST calls.
+     */
     private RoleAssignmentsService service;
-    /** The service client containing this operation class. */
+
+    /**
+     * The service client containing this operation class.
+     */
     private AuthorizationManagementClientImpl client;
 
     /**
      * Initializes an instance of RoleAssignmentsInner.
      *
-     * @param retrofit the Retrofit instance built from a Retrofit Builder.
      * @param client the instance of the service client containing this operation class.
      */
-    public RoleAssignmentsInner(Retrofit retrofit, AuthorizationManagementClientImpl client) {
-        this.service = retrofit.create(RoleAssignmentsService.class);
+    public RoleAssignmentsInner(AuthorizationManagementClientImpl client) {
+        this.service = AzureProxy.create(RoleAssignmentsService.class, client);
         this.client = client;
     }
 
     /**
-     * The interface defining all the services for RoleAssignments to be
-     * used by Retrofit to perform actually REST calls.
+     * The interface defining all the services for RoleAssignments to be used
+     * by the proxy service to perform REST calls.
      */
-    interface RoleAssignmentsService {
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: RoleAssignments listForResource" })
+    @Host("https://management.azure.com")
+    private interface RoleAssignmentsService {
         @GET("subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePath}/{resourceType}/{resourceName}/providers/Microsoft.Authorization/roleAssignments")
-        Observable<Response<ResponseBody>> listForResource(@Path("resourceGroupName") String resourceGroupName, @Path("resourceProviderNamespace") String resourceProviderNamespace, @Path(value = "parentResourcePath", encoded = true) String parentResourcePath, @Path(value = "resourceType", encoded = true) String resourceType, @Path("resourceName") String resourceName, @Path("subscriptionId") String subscriptionId, @Query("$filter") String filter, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl<RoleAssignmentInner>>> listForResource(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("resourceProviderNamespace") String resourceProviderNamespace, @PathParam(value = "parentResourcePath", encoded = true) String parentResourcePath, @PathParam(value = "resourceType", encoded = true) String resourceType, @PathParam("resourceName") String resourceName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("$filter") String filter, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: RoleAssignments listForResourceGroup" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Authorization/roleAssignments")
-        Observable<Response<ResponseBody>> listForResourceGroup(@Path("resourceGroupName") String resourceGroupName, @Path("subscriptionId") String subscriptionId, @Query("$filter") String filter, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl<RoleAssignmentInner>>> listByResourceGroup(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("$filter") String filter, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: RoleAssignments delete" })
-        @HTTP(path = "{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}", method = "DELETE", hasBody = true)
-        Observable<Response<ResponseBody>> delete(@Path(value = "scope", encoded = true) String scope, @Path("roleAssignmentName") String roleAssignmentName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @DELETE("{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}")
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<RoleAssignmentInner>> delete(@PathParam(value = "scope", encoded = true) String scope, @PathParam("roleAssignmentName") String roleAssignmentName, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: RoleAssignments create" })
         @PUT("{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}")
-        Observable<Response<ResponseBody>> create(@Path(value = "scope", encoded = true) String scope, @Path("roleAssignmentName") String roleAssignmentName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body RoleAssignmentCreateParameters parameters, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({201})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<RoleAssignmentInner>> create(@PathParam(value = "scope", encoded = true) String scope, @PathParam("roleAssignmentName") String roleAssignmentName, @BodyParam("application/json; charset=utf-8") RoleAssignmentCreateParameters parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: RoleAssignments get" })
         @GET("{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}")
-        Observable<Response<ResponseBody>> get(@Path(value = "scope", encoded = true) String scope, @Path("roleAssignmentName") String roleAssignmentName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<RoleAssignmentInner>> get(@PathParam(value = "scope", encoded = true) String scope, @PathParam("roleAssignmentName") String roleAssignmentName, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: RoleAssignments deleteById" })
-        @HTTP(path = "{roleAssignmentId}", method = "DELETE", hasBody = true)
-        Observable<Response<ResponseBody>> deleteById(@Path(value = "roleAssignmentId", encoded = true) String roleAssignmentId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @DELETE("{roleId}")
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<RoleAssignmentInner>> deleteById(@PathParam(value = "roleId", encoded = true) String roleId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: RoleAssignments createById" })
-        @PUT("{roleAssignmentId}")
-        Observable<Response<ResponseBody>> createById(@Path(value = "roleAssignmentId", encoded = true) String roleAssignmentId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body RoleAssignmentCreateParameters parameters, @Header("User-Agent") String userAgent);
+        @PUT("{roleId}")
+        @ExpectedResponses({201})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<RoleAssignmentInner>> createById(@PathParam(value = "roleId", encoded = true) String roleId, @BodyParam("application/json; charset=utf-8") RoleAssignmentCreateParameters parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: RoleAssignments getById" })
-        @GET("{roleAssignmentId}")
-        Observable<Response<ResponseBody>> getById(@Path(value = "roleAssignmentId", encoded = true) String roleAssignmentId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @GET("{roleId}")
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<RoleAssignmentInner>> getById(@PathParam(value = "roleId", encoded = true) String roleId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: RoleAssignments list" })
         @GET("subscriptions/{subscriptionId}/providers/Microsoft.Authorization/roleAssignments")
-        Observable<Response<ResponseBody>> list(@Path("subscriptionId") String subscriptionId, @Query("$filter") String filter, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl<RoleAssignmentInner>>> list(@PathParam("subscriptionId") String subscriptionId, @QueryParam("$filter") String filter, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: RoleAssignments listForScope" })
         @GET("{scope}/providers/Microsoft.Authorization/roleAssignments")
-        Observable<Response<ResponseBody>> listForScope(@Path(value = "scope", encoded = true) String scope, @Query("$filter") String filter, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl<RoleAssignmentInner>>> listForScope(@PathParam(value = "scope", encoded = true) String scope, @QueryParam("$filter") String filter, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: RoleAssignments listForResourceNext" })
-        @GET
-        Observable<Response<ResponseBody>> listForResourceNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @GET("{nextUrl}")
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl<RoleAssignmentInner>>> listForResourceNext(@PathParam(value = "nextUrl", encoded = true) String nextUrl, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: RoleAssignments listForResourceGroupNext" })
-        @GET
-        Observable<Response<ResponseBody>> listForResourceGroupNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @GET("{nextUrl}")
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl<RoleAssignmentInner>>> listForResourceGroupNext(@PathParam(value = "nextUrl", encoded = true) String nextUrl, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: RoleAssignments listNext" })
-        @GET
-        Observable<Response<ResponseBody>> listNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @GET("{nextUrl}")
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl<RoleAssignmentInner>>> listNext(@PathParam(value = "nextUrl", encoded = true) String nextUrl, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: RoleAssignments listForScopeNext" })
-        @GET
-        Observable<Response<ResponseBody>> listForScopeNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
-
+        @GET("{nextUrl}")
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl<RoleAssignmentInner>>> listForScopeNext(@PathParam(value = "nextUrl", encoded = true) String nextUrl, @HeaderParam("accept-language") String acceptLanguage);
     }
 
     /**
@@ -129,17 +144,17 @@ public class RoleAssignmentsInner implements InnerSupportsDelete<RoleAssignmentI
      * @param parentResourcePath The parent resource identity.
      * @param resourceType The resource type of the resource.
      * @param resourceName The name of the resource to get role assignments for.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;RoleAssignmentInner&gt; object if successful.
      */
-    public PagedList<RoleAssignmentInner> listForResource(final String resourceGroupName, final String resourceProviderNamespace, final String parentResourcePath, final String resourceType, final String resourceName) {
-        ServiceResponse<Page<RoleAssignmentInner>> response = listForResourceSinglePageAsync(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName).toBlocking().single();
-        return new PagedList<RoleAssignmentInner>(response.body()) {
+    public PagedList<RoleAssignmentInner> listForResource(@NonNull String resourceGroupName, @NonNull String resourceProviderNamespace, @NonNull String parentResourcePath, @NonNull String resourceType, @NonNull String resourceName) {
+        Page<RoleAssignmentInner> response = listForResourceSinglePageAsync(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName).blockingGet();
+        return new PagedList<RoleAssignmentInner>(response) {
             @Override
             public Page<RoleAssignmentInner> nextPage(String nextPageLink) {
-                return listForResourceNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listForResourceNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -152,65 +167,18 @@ public class RoleAssignmentsInner implements InnerSupportsDelete<RoleAssignmentI
      * @param parentResourcePath The parent resource identity.
      * @param resourceType The resource type of the resource.
      * @param resourceName The name of the resource to get role assignments for.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;RoleAssignmentInner&gt; object.
      */
-    public ServiceFuture<List<RoleAssignmentInner>> listForResourceAsync(final String resourceGroupName, final String resourceProviderNamespace, final String parentResourcePath, final String resourceType, final String resourceName, final ListOperationCallback<RoleAssignmentInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listForResourceSinglePageAsync(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName),
-            new Func1<String, Observable<ServiceResponse<Page<RoleAssignmentInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<RoleAssignmentInner>>> call(String nextPageLink) {
-                    return listForResourceNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets role assignments for a resource.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param resourceProviderNamespace The namespace of the resource provider.
-     * @param parentResourcePath The parent resource identity.
-     * @param resourceType The resource type of the resource.
-     * @param resourceName The name of the resource to get role assignments for.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;RoleAssignmentInner&gt; object
-     */
-    public Observable<Page<RoleAssignmentInner>> listForResourceAsync(final String resourceGroupName, final String resourceProviderNamespace, final String parentResourcePath, final String resourceType, final String resourceName) {
-        return listForResourceWithServiceResponseAsync(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName)
-            .map(new Func1<ServiceResponse<Page<RoleAssignmentInner>>, Page<RoleAssignmentInner>>() {
-                @Override
-                public Page<RoleAssignmentInner> call(ServiceResponse<Page<RoleAssignmentInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets role assignments for a resource.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param resourceProviderNamespace The namespace of the resource provider.
-     * @param parentResourcePath The parent resource identity.
-     * @param resourceType The resource type of the resource.
-     * @param resourceName The name of the resource to get role assignments for.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;RoleAssignmentInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<RoleAssignmentInner>>> listForResourceWithServiceResponseAsync(final String resourceGroupName, final String resourceProviderNamespace, final String parentResourcePath, final String resourceType, final String resourceName) {
+    public Observable<Page<RoleAssignmentInner>> listForResourceAsync(@NonNull String resourceGroupName, @NonNull String resourceProviderNamespace, @NonNull String parentResourcePath, @NonNull String resourceType, @NonNull String resourceName) {
         return listForResourceSinglePageAsync(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName)
-            .concatMap(new Func1<ServiceResponse<Page<RoleAssignmentInner>>, Observable<ServiceResponse<Page<RoleAssignmentInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<RoleAssignmentInner>>> call(ServiceResponse<Page<RoleAssignmentInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listForResourceNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<RoleAssignmentInner> page) -> {
+                String nextPageLink = page.nextPageLink();
+                if (nextPageLink == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listForResourceNextAsync(nextPageLink));
             });
     }
 
@@ -222,10 +190,10 @@ public class RoleAssignmentsInner implements InnerSupportsDelete<RoleAssignmentI
      * @param parentResourcePath The parent resource identity.
      * @param resourceType The resource type of the resource.
      * @param resourceName The name of the resource to get role assignments for.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;RoleAssignmentInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;RoleAssignmentInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<RoleAssignmentInner>>> listForResourceSinglePageAsync(final String resourceGroupName, final String resourceProviderNamespace, final String parentResourcePath, final String resourceType, final String resourceName) {
+    public Single<Page<RoleAssignmentInner>> listForResourceSinglePageAsync(@NonNull String resourceGroupName, @NonNull String resourceProviderNamespace, @NonNull String parentResourcePath, @NonNull String resourceType, @NonNull String resourceName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -244,22 +212,10 @@ public class RoleAssignmentsInner implements InnerSupportsDelete<RoleAssignmentI
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
+        final String apiVersion = "2018-01-01-preview";
         final String filter = null;
-        return service.listForResource(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, this.client.subscriptionId(), filter, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<RoleAssignmentInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<RoleAssignmentInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<RoleAssignmentInner>> result = listForResourceDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<RoleAssignmentInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.listForResource(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, this.client.subscriptionId(), filter, apiVersion, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl<RoleAssignmentInner>> res) -> res.body());
     }
 
     /**
@@ -271,17 +227,17 @@ public class RoleAssignmentsInner implements InnerSupportsDelete<RoleAssignmentI
      * @param resourceType The resource type of the resource.
      * @param resourceName The name of the resource to get role assignments for.
      * @param filter The filter to apply on the operation. Use $filter=atScope() to return all role assignments at or above the scope. Use $filter=principalId eq {id} to return all role assignments at, above or below the scope for the specified principal.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;RoleAssignmentInner&gt; object if successful.
      */
-    public PagedList<RoleAssignmentInner> listForResource(final String resourceGroupName, final String resourceProviderNamespace, final String parentResourcePath, final String resourceType, final String resourceName, final String filter) {
-        ServiceResponse<Page<RoleAssignmentInner>> response = listForResourceSinglePageAsync(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, filter).toBlocking().single();
-        return new PagedList<RoleAssignmentInner>(response.body()) {
+    public PagedList<RoleAssignmentInner> listForResource(@NonNull String resourceGroupName, @NonNull String resourceProviderNamespace, @NonNull String parentResourcePath, @NonNull String resourceType, @NonNull String resourceName, String filter) {
+        Page<RoleAssignmentInner> response = listForResourceSinglePageAsync(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, filter).blockingGet();
+        return new PagedList<RoleAssignmentInner>(response) {
             @Override
             public Page<RoleAssignmentInner> nextPage(String nextPageLink) {
-                return listForResourceNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listForResourceNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -295,83 +251,34 @@ public class RoleAssignmentsInner implements InnerSupportsDelete<RoleAssignmentI
      * @param resourceType The resource type of the resource.
      * @param resourceName The name of the resource to get role assignments for.
      * @param filter The filter to apply on the operation. Use $filter=atScope() to return all role assignments at or above the scope. Use $filter=principalId eq {id} to return all role assignments at, above or below the scope for the specified principal.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;RoleAssignmentInner&gt; object.
      */
-    public ServiceFuture<List<RoleAssignmentInner>> listForResourceAsync(final String resourceGroupName, final String resourceProviderNamespace, final String parentResourcePath, final String resourceType, final String resourceName, final String filter, final ListOperationCallback<RoleAssignmentInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listForResourceSinglePageAsync(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, filter),
-            new Func1<String, Observable<ServiceResponse<Page<RoleAssignmentInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<RoleAssignmentInner>>> call(String nextPageLink) {
-                    return listForResourceNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets role assignments for a resource.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param resourceProviderNamespace The namespace of the resource provider.
-     * @param parentResourcePath The parent resource identity.
-     * @param resourceType The resource type of the resource.
-     * @param resourceName The name of the resource to get role assignments for.
-     * @param filter The filter to apply on the operation. Use $filter=atScope() to return all role assignments at or above the scope. Use $filter=principalId eq {id} to return all role assignments at, above or below the scope for the specified principal.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;RoleAssignmentInner&gt; object
-     */
-    public Observable<Page<RoleAssignmentInner>> listForResourceAsync(final String resourceGroupName, final String resourceProviderNamespace, final String parentResourcePath, final String resourceType, final String resourceName, final String filter) {
-        return listForResourceWithServiceResponseAsync(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, filter)
-            .map(new Func1<ServiceResponse<Page<RoleAssignmentInner>>, Page<RoleAssignmentInner>>() {
-                @Override
-                public Page<RoleAssignmentInner> call(ServiceResponse<Page<RoleAssignmentInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets role assignments for a resource.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param resourceProviderNamespace The namespace of the resource provider.
-     * @param parentResourcePath The parent resource identity.
-     * @param resourceType The resource type of the resource.
-     * @param resourceName The name of the resource to get role assignments for.
-     * @param filter The filter to apply on the operation. Use $filter=atScope() to return all role assignments at or above the scope. Use $filter=principalId eq {id} to return all role assignments at, above or below the scope for the specified principal.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;RoleAssignmentInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<RoleAssignmentInner>>> listForResourceWithServiceResponseAsync(final String resourceGroupName, final String resourceProviderNamespace, final String parentResourcePath, final String resourceType, final String resourceName, final String filter) {
+    public Observable<Page<RoleAssignmentInner>> listForResourceAsync(@NonNull String resourceGroupName, @NonNull String resourceProviderNamespace, @NonNull String parentResourcePath, @NonNull String resourceType, @NonNull String resourceName, String filter) {
         return listForResourceSinglePageAsync(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, filter)
-            .concatMap(new Func1<ServiceResponse<Page<RoleAssignmentInner>>, Observable<ServiceResponse<Page<RoleAssignmentInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<RoleAssignmentInner>>> call(ServiceResponse<Page<RoleAssignmentInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listForResourceNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<RoleAssignmentInner> page) -> {
+                String nextPageLink = page.nextPageLink();
+                if (nextPageLink == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listForResourceNextAsync(nextPageLink));
             });
     }
 
     /**
      * Gets role assignments for a resource.
      *
-    ServiceResponse<PageImpl<RoleAssignmentInner>> * @param resourceGroupName The name of the resource group.
-    ServiceResponse<PageImpl<RoleAssignmentInner>> * @param resourceProviderNamespace The namespace of the resource provider.
-    ServiceResponse<PageImpl<RoleAssignmentInner>> * @param parentResourcePath The parent resource identity.
-    ServiceResponse<PageImpl<RoleAssignmentInner>> * @param resourceType The resource type of the resource.
-    ServiceResponse<PageImpl<RoleAssignmentInner>> * @param resourceName The name of the resource to get role assignments for.
-    ServiceResponse<PageImpl<RoleAssignmentInner>> * @param filter The filter to apply on the operation. Use $filter=atScope() to return all role assignments at or above the scope. Use $filter=principalId eq {id} to return all role assignments at, above or below the scope for the specified principal.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;RoleAssignmentInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param resourceGroupName The name of the resource group.
+     * @param resourceProviderNamespace The namespace of the resource provider.
+     * @param parentResourcePath The parent resource identity.
+     * @param resourceType The resource type of the resource.
+     * @param resourceName The name of the resource to get role assignments for.
+     * @param filter The filter to apply on the operation. Use $filter=atScope() to return all role assignments at or above the scope. Use $filter=principalId eq {id} to return all role assignments at, above or below the scope for the specified principal.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;RoleAssignmentInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<RoleAssignmentInner>>> listForResourceSinglePageAsync(final String resourceGroupName, final String resourceProviderNamespace, final String parentResourcePath, final String resourceType, final String resourceName, final String filter) {
+    public Single<Page<RoleAssignmentInner>> listForResourceSinglePageAsync(@NonNull String resourceGroupName, @NonNull String resourceProviderNamespace, @NonNull String parentResourcePath, @NonNull String resourceType, @NonNull String resourceName, String filter) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -390,45 +297,26 @@ public class RoleAssignmentsInner implements InnerSupportsDelete<RoleAssignmentI
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
-        return service.listForResource(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, this.client.subscriptionId(), filter, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<RoleAssignmentInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<RoleAssignmentInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<RoleAssignmentInner>> result = listForResourceDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<RoleAssignmentInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl<RoleAssignmentInner>> listForResourceDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<RoleAssignmentInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<RoleAssignmentInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+        final String apiVersion = "2018-01-01-preview";
+        return service.listForResource(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, this.client.subscriptionId(), filter, apiVersion, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl<RoleAssignmentInner>> res) -> res.body());
     }
 
     /**
      * Gets role assignments for a resource group.
      *
      * @param resourceGroupName The name of the resource group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;RoleAssignmentInner&gt; object if successful.
      */
-    public PagedList<RoleAssignmentInner> listForResourceGroup(final String resourceGroupName) {
-        ServiceResponse<Page<RoleAssignmentInner>> response = listForResourceGroupSinglePageAsync(resourceGroupName).toBlocking().single();
-        return new PagedList<RoleAssignmentInner>(response.body()) {
+    public PagedList<RoleAssignmentInner> listByResourceGroup(@NonNull String resourceGroupName) {
+        Page<RoleAssignmentInner> response = listByResourceGroupSinglePageAsync(resourceGroupName).blockingGet();
+        return new PagedList<RoleAssignmentInner>(response) {
             @Override
             public Page<RoleAssignmentInner> nextPage(String nextPageLink) {
-                return listForResourceGroupNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listForResourceGroupNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -437,36 +325,18 @@ public class RoleAssignmentsInner implements InnerSupportsDelete<RoleAssignmentI
      * Gets role assignments for a resource group.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;RoleAssignmentInner&gt; object.
      */
-    public ServiceFuture<List<RoleAssignmentInner>> listForResourceGroupAsync(final String resourceGroupName, final ListOperationCallback<RoleAssignmentInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listForResourceGroupSinglePageAsync(resourceGroupName),
-            new Func1<String, Observable<ServiceResponse<Page<RoleAssignmentInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<RoleAssignmentInner>>> call(String nextPageLink) {
-                    return listForResourceGroupNextSinglePageAsync(nextPageLink);
+    public Observable<Page<RoleAssignmentInner>> listByResourceGroupAsync(@NonNull String resourceGroupName) {
+        return listByResourceGroupSinglePageAsync(resourceGroupName)
+            .toObservable()
+            .concatMap((Page<RoleAssignmentInner> page) -> {
+                String nextPageLink = page.nextPageLink();
+                if (nextPageLink == null) {
+                    return Observable.just(page);
                 }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets role assignments for a resource group.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;RoleAssignmentInner&gt; object
-     */
-    public Observable<Page<RoleAssignmentInner>> listForResourceGroupAsync(final String resourceGroupName) {
-        return listForResourceGroupWithServiceResponseAsync(resourceGroupName)
-            .map(new Func1<ServiceResponse<Page<RoleAssignmentInner>>, Page<RoleAssignmentInner>>() {
-                @Override
-                public Page<RoleAssignmentInner> call(ServiceResponse<Page<RoleAssignmentInner>> response) {
-                    return response.body();
-                }
+                return Observable.just(page).concatWith(listForResourceGroupNextAsync(nextPageLink));
             });
     }
 
@@ -474,53 +344,20 @@ public class RoleAssignmentsInner implements InnerSupportsDelete<RoleAssignmentI
      * Gets role assignments for a resource group.
      *
      * @param resourceGroupName The name of the resource group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;RoleAssignmentInner&gt; object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;RoleAssignmentInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<RoleAssignmentInner>>> listForResourceGroupWithServiceResponseAsync(final String resourceGroupName) {
-        return listForResourceGroupSinglePageAsync(resourceGroupName)
-            .concatMap(new Func1<ServiceResponse<Page<RoleAssignmentInner>>, Observable<ServiceResponse<Page<RoleAssignmentInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<RoleAssignmentInner>>> call(ServiceResponse<Page<RoleAssignmentInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listForResourceGroupNextWithServiceResponseAsync(nextPageLink));
-                }
-            });
-    }
-
-    /**
-     * Gets role assignments for a resource group.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;RoleAssignmentInner&gt; object wrapped in {@link ServiceResponse} if successful.
-     */
-    public Observable<ServiceResponse<Page<RoleAssignmentInner>>> listForResourceGroupSinglePageAsync(final String resourceGroupName) {
+    public Single<Page<RoleAssignmentInner>> listByResourceGroupSinglePageAsync(@NonNull String resourceGroupName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
+        final String apiVersion = "2018-01-01-preview";
         final String filter = null;
-        return service.listForResourceGroup(resourceGroupName, this.client.subscriptionId(), filter, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<RoleAssignmentInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<RoleAssignmentInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<RoleAssignmentInner>> result = listForResourceGroupDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<RoleAssignmentInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.listByResourceGroup(resourceGroupName, this.client.subscriptionId(), filter, apiVersion, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl<RoleAssignmentInner>> res) -> res.body());
     }
 
     /**
@@ -528,17 +365,17 @@ public class RoleAssignmentsInner implements InnerSupportsDelete<RoleAssignmentI
      *
      * @param resourceGroupName The name of the resource group.
      * @param filter The filter to apply on the operation. Use $filter=atScope() to return all role assignments at or above the scope. Use $filter=principalId eq {id} to return all role assignments at, above or below the scope for the specified principal.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;RoleAssignmentInner&gt; object if successful.
      */
-    public PagedList<RoleAssignmentInner> listForResourceGroup(final String resourceGroupName, final String filter) {
-        ServiceResponse<Page<RoleAssignmentInner>> response = listForResourceGroupSinglePageAsync(resourceGroupName, filter).toBlocking().single();
-        return new PagedList<RoleAssignmentInner>(response.body()) {
+    public PagedList<RoleAssignmentInner> listByResourceGroup(@NonNull String resourceGroupName, String filter) {
+        Page<RoleAssignmentInner> response = listByResourceGroupSinglePageAsync(resourceGroupName, filter).blockingGet();
+        return new PagedList<RoleAssignmentInner>(response) {
             @Override
             public Page<RoleAssignmentInner> nextPage(String nextPageLink) {
-                return listForResourceGroupNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listForResourceGroupNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -548,37 +385,18 @@ public class RoleAssignmentsInner implements InnerSupportsDelete<RoleAssignmentI
      *
      * @param resourceGroupName The name of the resource group.
      * @param filter The filter to apply on the operation. Use $filter=atScope() to return all role assignments at or above the scope. Use $filter=principalId eq {id} to return all role assignments at, above or below the scope for the specified principal.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;RoleAssignmentInner&gt; object.
      */
-    public ServiceFuture<List<RoleAssignmentInner>> listForResourceGroupAsync(final String resourceGroupName, final String filter, final ListOperationCallback<RoleAssignmentInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listForResourceGroupSinglePageAsync(resourceGroupName, filter),
-            new Func1<String, Observable<ServiceResponse<Page<RoleAssignmentInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<RoleAssignmentInner>>> call(String nextPageLink) {
-                    return listForResourceGroupNextSinglePageAsync(nextPageLink);
+    public Observable<Page<RoleAssignmentInner>> listByResourceGroupAsync(@NonNull String resourceGroupName, String filter) {
+        return listByResourceGroupSinglePageAsync(resourceGroupName, filter)
+            .toObservable()
+            .concatMap((Page<RoleAssignmentInner> page) -> {
+                String nextPageLink = page.nextPageLink();
+                if (nextPageLink == null) {
+                    return Observable.just(page);
                 }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets role assignments for a resource group.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param filter The filter to apply on the operation. Use $filter=atScope() to return all role assignments at or above the scope. Use $filter=principalId eq {id} to return all role assignments at, above or below the scope for the specified principal.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;RoleAssignmentInner&gt; object
-     */
-    public Observable<Page<RoleAssignmentInner>> listForResourceGroupAsync(final String resourceGroupName, final String filter) {
-        return listForResourceGroupWithServiceResponseAsync(resourceGroupName, filter)
-            .map(new Func1<ServiceResponse<Page<RoleAssignmentInner>>, Page<RoleAssignmentInner>>() {
-                @Override
-                public Page<RoleAssignmentInner> call(ServiceResponse<Page<RoleAssignmentInner>> response) {
-                    return response.body();
-                }
+                return Observable.just(page).concatWith(listForResourceGroupNextAsync(nextPageLink));
             });
     }
 
@@ -587,60 +405,19 @@ public class RoleAssignmentsInner implements InnerSupportsDelete<RoleAssignmentI
      *
      * @param resourceGroupName The name of the resource group.
      * @param filter The filter to apply on the operation. Use $filter=atScope() to return all role assignments at or above the scope. Use $filter=principalId eq {id} to return all role assignments at, above or below the scope for the specified principal.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;RoleAssignmentInner&gt; object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;RoleAssignmentInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<RoleAssignmentInner>>> listForResourceGroupWithServiceResponseAsync(final String resourceGroupName, final String filter) {
-        return listForResourceGroupSinglePageAsync(resourceGroupName, filter)
-            .concatMap(new Func1<ServiceResponse<Page<RoleAssignmentInner>>, Observable<ServiceResponse<Page<RoleAssignmentInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<RoleAssignmentInner>>> call(ServiceResponse<Page<RoleAssignmentInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listForResourceGroupNextWithServiceResponseAsync(nextPageLink));
-                }
-            });
-    }
-
-    /**
-     * Gets role assignments for a resource group.
-     *
-    ServiceResponse<PageImpl<RoleAssignmentInner>> * @param resourceGroupName The name of the resource group.
-    ServiceResponse<PageImpl<RoleAssignmentInner>> * @param filter The filter to apply on the operation. Use $filter=atScope() to return all role assignments at or above the scope. Use $filter=principalId eq {id} to return all role assignments at, above or below the scope for the specified principal.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;RoleAssignmentInner&gt; object wrapped in {@link ServiceResponse} if successful.
-     */
-    public Observable<ServiceResponse<Page<RoleAssignmentInner>>> listForResourceGroupSinglePageAsync(final String resourceGroupName, final String filter) {
+    public Single<Page<RoleAssignmentInner>> listByResourceGroupSinglePageAsync(@NonNull String resourceGroupName, String filter) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
-        return service.listForResourceGroup(resourceGroupName, this.client.subscriptionId(), filter, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<RoleAssignmentInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<RoleAssignmentInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<RoleAssignmentInner>> result = listForResourceGroupDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<RoleAssignmentInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl<RoleAssignmentInner>> listForResourceGroupDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<RoleAssignmentInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<RoleAssignmentInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+        final String apiVersion = "2018-01-01-preview";
+        return service.listByResourceGroup(resourceGroupName, this.client.subscriptionId(), filter, apiVersion, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl<RoleAssignmentInner>> res) -> res.body());
     }
 
     /**
@@ -648,13 +425,13 @@ public class RoleAssignmentsInner implements InnerSupportsDelete<RoleAssignmentI
      *
      * @param scope The scope of the role assignment to delete.
      * @param roleAssignmentName The name of the role assignment to delete.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the RoleAssignmentInner object if successful.
      */
-    public RoleAssignmentInner delete(String scope, String roleAssignmentName) {
-        return deleteWithServiceResponseAsync(scope, roleAssignmentName).toBlocking().single().body();
+    public RoleAssignmentInner delete(@NonNull String scope, @NonNull String roleAssignmentName) {
+        return deleteAsync(scope, roleAssignmentName).blockingGet();
     }
 
     /**
@@ -663,11 +440,11 @@ public class RoleAssignmentsInner implements InnerSupportsDelete<RoleAssignmentI
      * @param scope The scope of the role assignment to delete.
      * @param roleAssignmentName The name of the role assignment to delete.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<RoleAssignmentInner> deleteAsync(String scope, String roleAssignmentName, final ServiceCallback<RoleAssignmentInner> serviceCallback) {
-        return ServiceFuture.fromResponse(deleteWithServiceResponseAsync(scope, roleAssignmentName), serviceCallback);
+    public ServiceFuture<RoleAssignmentInner> deleteAsync(@NonNull String scope, @NonNull String roleAssignmentName, ServiceCallback<RoleAssignmentInner> serviceCallback) {
+        return ServiceFuture.fromBody(deleteAsync(scope, roleAssignmentName), serviceCallback);
     }
 
     /**
@@ -675,16 +452,18 @@ public class RoleAssignmentsInner implements InnerSupportsDelete<RoleAssignmentI
      *
      * @param scope The scope of the role assignment to delete.
      * @param roleAssignmentName The name of the role assignment to delete.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the RoleAssignmentInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<RoleAssignmentInner> deleteAsync(String scope, String roleAssignmentName) {
-        return deleteWithServiceResponseAsync(scope, roleAssignmentName).map(new Func1<ServiceResponse<RoleAssignmentInner>, RoleAssignmentInner>() {
-            @Override
-            public RoleAssignmentInner call(ServiceResponse<RoleAssignmentInner> response) {
-                return response.body();
-            }
-        });
+    public Single<BodyResponse<RoleAssignmentInner>> deleteWithRestResponseAsync(@NonNull String scope, @NonNull String roleAssignmentName) {
+        if (scope == null) {
+            throw new IllegalArgumentException("Parameter scope is required and cannot be null.");
+        }
+        if (roleAssignmentName == null) {
+            throw new IllegalArgumentException("Parameter roleAssignmentName is required and cannot be null.");
+        }
+        final String apiVersion = "2018-01-01-preview";
+        return service.delete(scope, roleAssignmentName, apiVersion, this.client.acceptLanguage());
     }
 
     /**
@@ -692,38 +471,12 @@ public class RoleAssignmentsInner implements InnerSupportsDelete<RoleAssignmentI
      *
      * @param scope The scope of the role assignment to delete.
      * @param roleAssignmentName The name of the role assignment to delete.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the RoleAssignmentInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<ServiceResponse<RoleAssignmentInner>> deleteWithServiceResponseAsync(String scope, String roleAssignmentName) {
-        if (scope == null) {
-            throw new IllegalArgumentException("Parameter scope is required and cannot be null.");
-        }
-        if (roleAssignmentName == null) {
-            throw new IllegalArgumentException("Parameter roleAssignmentName is required and cannot be null.");
-        }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
-        return service.delete(scope, roleAssignmentName, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<RoleAssignmentInner>>>() {
-                @Override
-                public Observable<ServiceResponse<RoleAssignmentInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<RoleAssignmentInner> clientResponse = deleteDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<RoleAssignmentInner> deleteDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<RoleAssignmentInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<RoleAssignmentInner>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    public Maybe<RoleAssignmentInner> deleteAsync(@NonNull String scope, @NonNull String roleAssignmentName) {
+        return deleteWithRestResponseAsync(scope, roleAssignmentName)
+            .flatMapMaybe((BodyResponse<RoleAssignmentInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
@@ -731,13 +484,14 @@ public class RoleAssignmentsInner implements InnerSupportsDelete<RoleAssignmentI
      *
      * @param scope The scope of the role assignment to create. The scope can be any REST resource instance. For example, use '/subscriptions/{subscription-id}/' for a subscription, '/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}' for a resource group, and '/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/{resource-provider}/{resource-type}/{resource-name}' for a resource.
      * @param roleAssignmentName The name of the role assignment to create. It can be any valid GUID.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @param parameters Parameters for the role assignment.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the RoleAssignmentInner object if successful.
      */
-    public RoleAssignmentInner create(String scope, String roleAssignmentName) {
-        return createWithServiceResponseAsync(scope, roleAssignmentName).toBlocking().single().body();
+    public RoleAssignmentInner create(@NonNull String scope, @NonNull String roleAssignmentName, @NonNull RoleAssignmentCreateParameters parameters) {
+        return createAsync(scope, roleAssignmentName, parameters).blockingGet();
     }
 
     /**
@@ -745,12 +499,13 @@ public class RoleAssignmentsInner implements InnerSupportsDelete<RoleAssignmentI
      *
      * @param scope The scope of the role assignment to create. The scope can be any REST resource instance. For example, use '/subscriptions/{subscription-id}/' for a subscription, '/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}' for a resource group, and '/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/{resource-provider}/{resource-type}/{resource-name}' for a resource.
      * @param roleAssignmentName The name of the role assignment to create. It can be any valid GUID.
+     * @param parameters Parameters for the role assignment.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<RoleAssignmentInner> createAsync(String scope, String roleAssignmentName, final ServiceCallback<RoleAssignmentInner> serviceCallback) {
-        return ServiceFuture.fromResponse(createWithServiceResponseAsync(scope, roleAssignmentName), serviceCallback);
+    public ServiceFuture<RoleAssignmentInner> createAsync(@NonNull String scope, @NonNull String roleAssignmentName, @NonNull RoleAssignmentCreateParameters parameters, ServiceCallback<RoleAssignmentInner> serviceCallback) {
+        return ServiceFuture.fromBody(createAsync(scope, roleAssignmentName, parameters), serviceCallback);
     }
 
     /**
@@ -758,51 +513,23 @@ public class RoleAssignmentsInner implements InnerSupportsDelete<RoleAssignmentI
      *
      * @param scope The scope of the role assignment to create. The scope can be any REST resource instance. For example, use '/subscriptions/{subscription-id}/' for a subscription, '/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}' for a resource group, and '/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/{resource-provider}/{resource-type}/{resource-name}' for a resource.
      * @param roleAssignmentName The name of the role assignment to create. It can be any valid GUID.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the RoleAssignmentInner object
+     * @param parameters Parameters for the role assignment.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<RoleAssignmentInner> createAsync(String scope, String roleAssignmentName) {
-        return createWithServiceResponseAsync(scope, roleAssignmentName).map(new Func1<ServiceResponse<RoleAssignmentInner>, RoleAssignmentInner>() {
-            @Override
-            public RoleAssignmentInner call(ServiceResponse<RoleAssignmentInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Creates a role assignment.
-     *
-     * @param scope The scope of the role assignment to create. The scope can be any REST resource instance. For example, use '/subscriptions/{subscription-id}/' for a subscription, '/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}' for a resource group, and '/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/{resource-provider}/{resource-type}/{resource-name}' for a resource.
-     * @param roleAssignmentName The name of the role assignment to create. It can be any valid GUID.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the RoleAssignmentInner object
-     */
-    public Observable<ServiceResponse<RoleAssignmentInner>> createWithServiceResponseAsync(String scope, String roleAssignmentName) {
+    public Single<BodyResponse<RoleAssignmentInner>> createWithRestResponseAsync(@NonNull String scope, @NonNull String roleAssignmentName, @NonNull RoleAssignmentCreateParameters parameters) {
         if (scope == null) {
             throw new IllegalArgumentException("Parameter scope is required and cannot be null.");
         }
         if (roleAssignmentName == null) {
             throw new IllegalArgumentException("Parameter roleAssignmentName is required and cannot be null.");
         }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        if (parameters == null) {
+            throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
-        final RoleAssignmentPropertiesInner properties = null;
-        RoleAssignmentCreateParameters parameters = new RoleAssignmentCreateParameters();
-        parameters.withProperties(null);
-        return service.create(scope, roleAssignmentName, this.client.apiVersion(), this.client.acceptLanguage(), parameters, this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<RoleAssignmentInner>>>() {
-                @Override
-                public Observable<ServiceResponse<RoleAssignmentInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<RoleAssignmentInner> clientResponse = createDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        Validator.validate(parameters);
+        final String apiVersion = "2018-01-01-preview";
+        return service.create(scope, roleAssignmentName, parameters, apiVersion, this.client.acceptLanguage());
     }
 
     /**
@@ -810,89 +537,13 @@ public class RoleAssignmentsInner implements InnerSupportsDelete<RoleAssignmentI
      *
      * @param scope The scope of the role assignment to create. The scope can be any REST resource instance. For example, use '/subscriptions/{subscription-id}/' for a subscription, '/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}' for a resource group, and '/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/{resource-provider}/{resource-type}/{resource-name}' for a resource.
      * @param roleAssignmentName The name of the role assignment to create. It can be any valid GUID.
-     * @param properties Role assignment properties.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the RoleAssignmentInner object if successful.
+     * @param parameters Parameters for the role assignment.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public RoleAssignmentInner create(String scope, String roleAssignmentName, RoleAssignmentPropertiesInner properties) {
-        return createWithServiceResponseAsync(scope, roleAssignmentName, properties).toBlocking().single().body();
-    }
-
-    /**
-     * Creates a role assignment.
-     *
-     * @param scope The scope of the role assignment to create. The scope can be any REST resource instance. For example, use '/subscriptions/{subscription-id}/' for a subscription, '/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}' for a resource group, and '/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/{resource-provider}/{resource-type}/{resource-name}' for a resource.
-     * @param roleAssignmentName The name of the role assignment to create. It can be any valid GUID.
-     * @param properties Role assignment properties.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<RoleAssignmentInner> createAsync(String scope, String roleAssignmentName, RoleAssignmentPropertiesInner properties, final ServiceCallback<RoleAssignmentInner> serviceCallback) {
-        return ServiceFuture.fromResponse(createWithServiceResponseAsync(scope, roleAssignmentName, properties), serviceCallback);
-    }
-
-    /**
-     * Creates a role assignment.
-     *
-     * @param scope The scope of the role assignment to create. The scope can be any REST resource instance. For example, use '/subscriptions/{subscription-id}/' for a subscription, '/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}' for a resource group, and '/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/{resource-provider}/{resource-type}/{resource-name}' for a resource.
-     * @param roleAssignmentName The name of the role assignment to create. It can be any valid GUID.
-     * @param properties Role assignment properties.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the RoleAssignmentInner object
-     */
-    public Observable<RoleAssignmentInner> createAsync(String scope, String roleAssignmentName, RoleAssignmentPropertiesInner properties) {
-        return createWithServiceResponseAsync(scope, roleAssignmentName, properties).map(new Func1<ServiceResponse<RoleAssignmentInner>, RoleAssignmentInner>() {
-            @Override
-            public RoleAssignmentInner call(ServiceResponse<RoleAssignmentInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Creates a role assignment.
-     *
-     * @param scope The scope of the role assignment to create. The scope can be any REST resource instance. For example, use '/subscriptions/{subscription-id}/' for a subscription, '/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}' for a resource group, and '/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/{resource-provider}/{resource-type}/{resource-name}' for a resource.
-     * @param roleAssignmentName The name of the role assignment to create. It can be any valid GUID.
-     * @param properties Role assignment properties.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the RoleAssignmentInner object
-     */
-    public Observable<ServiceResponse<RoleAssignmentInner>> createWithServiceResponseAsync(String scope, String roleAssignmentName, RoleAssignmentPropertiesInner properties) {
-        if (scope == null) {
-            throw new IllegalArgumentException("Parameter scope is required and cannot be null.");
-        }
-        if (roleAssignmentName == null) {
-            throw new IllegalArgumentException("Parameter roleAssignmentName is required and cannot be null.");
-        }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
-        Validator.validate(properties);
-        RoleAssignmentCreateParameters parameters = new RoleAssignmentCreateParameters();
-        parameters.withProperties(properties);
-        return service.create(scope, roleAssignmentName, this.client.apiVersion(), this.client.acceptLanguage(), parameters, this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<RoleAssignmentInner>>>() {
-                @Override
-                public Observable<ServiceResponse<RoleAssignmentInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<RoleAssignmentInner> clientResponse = createDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<RoleAssignmentInner> createDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<RoleAssignmentInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(201, new TypeToken<RoleAssignmentInner>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    public Maybe<RoleAssignmentInner> createAsync(@NonNull String scope, @NonNull String roleAssignmentName, @NonNull RoleAssignmentCreateParameters parameters) {
+        return createWithRestResponseAsync(scope, roleAssignmentName, parameters)
+            .flatMapMaybe((BodyResponse<RoleAssignmentInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
@@ -900,13 +551,13 @@ public class RoleAssignmentsInner implements InnerSupportsDelete<RoleAssignmentI
      *
      * @param scope The scope of the role assignment.
      * @param roleAssignmentName The name of the role assignment to get.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the RoleAssignmentInner object if successful.
      */
-    public RoleAssignmentInner get(String scope, String roleAssignmentName) {
-        return getWithServiceResponseAsync(scope, roleAssignmentName).toBlocking().single().body();
+    public RoleAssignmentInner get(@NonNull String scope, @NonNull String roleAssignmentName) {
+        return getAsync(scope, roleAssignmentName).blockingGet();
     }
 
     /**
@@ -915,11 +566,11 @@ public class RoleAssignmentsInner implements InnerSupportsDelete<RoleAssignmentI
      * @param scope The scope of the role assignment.
      * @param roleAssignmentName The name of the role assignment to get.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<RoleAssignmentInner> getAsync(String scope, String roleAssignmentName, final ServiceCallback<RoleAssignmentInner> serviceCallback) {
-        return ServiceFuture.fromResponse(getWithServiceResponseAsync(scope, roleAssignmentName), serviceCallback);
+    public ServiceFuture<RoleAssignmentInner> getAsync(@NonNull String scope, @NonNull String roleAssignmentName, ServiceCallback<RoleAssignmentInner> serviceCallback) {
+        return ServiceFuture.fromBody(getAsync(scope, roleAssignmentName), serviceCallback);
     }
 
     /**
@@ -927,378 +578,210 @@ public class RoleAssignmentsInner implements InnerSupportsDelete<RoleAssignmentI
      *
      * @param scope The scope of the role assignment.
      * @param roleAssignmentName The name of the role assignment to get.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the RoleAssignmentInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<RoleAssignmentInner> getAsync(String scope, String roleAssignmentName) {
-        return getWithServiceResponseAsync(scope, roleAssignmentName).map(new Func1<ServiceResponse<RoleAssignmentInner>, RoleAssignmentInner>() {
-            @Override
-            public RoleAssignmentInner call(ServiceResponse<RoleAssignmentInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Get the specified role assignment.
-     *
-     * @param scope The scope of the role assignment.
-     * @param roleAssignmentName The name of the role assignment to get.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the RoleAssignmentInner object
-     */
-    public Observable<ServiceResponse<RoleAssignmentInner>> getWithServiceResponseAsync(String scope, String roleAssignmentName) {
+    public Single<BodyResponse<RoleAssignmentInner>> getWithRestResponseAsync(@NonNull String scope, @NonNull String roleAssignmentName) {
         if (scope == null) {
             throw new IllegalArgumentException("Parameter scope is required and cannot be null.");
         }
         if (roleAssignmentName == null) {
             throw new IllegalArgumentException("Parameter roleAssignmentName is required and cannot be null.");
         }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
-        return service.get(scope, roleAssignmentName, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<RoleAssignmentInner>>>() {
-                @Override
-                public Observable<ServiceResponse<RoleAssignmentInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<RoleAssignmentInner> clientResponse = getDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        final String apiVersion = "2018-01-01-preview";
+        return service.get(scope, roleAssignmentName, apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<RoleAssignmentInner> getDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<RoleAssignmentInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<RoleAssignmentInner>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Get the specified role assignment.
+     *
+     * @param scope The scope of the role assignment.
+     * @param roleAssignmentName The name of the role assignment to get.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<RoleAssignmentInner> getAsync(@NonNull String scope, @NonNull String roleAssignmentName) {
+        return getWithRestResponseAsync(scope, roleAssignmentName)
+            .flatMapMaybe((BodyResponse<RoleAssignmentInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
      * Deletes a role assignment.
      *
-     * @param roleAssignmentId The ID of the role assignment to delete.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @param roleId The ID of the role assignment to delete.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the RoleAssignmentInner object if successful.
      */
-    public RoleAssignmentInner deleteById(String roleAssignmentId) {
-        return deleteByIdWithServiceResponseAsync(roleAssignmentId).toBlocking().single().body();
+    public RoleAssignmentInner deleteById(@NonNull String roleId) {
+        return deleteByIdAsync(roleId).blockingGet();
     }
 
     /**
      * Deletes a role assignment.
      *
-     * @param roleAssignmentId The ID of the role assignment to delete.
+     * @param roleId The ID of the role assignment to delete.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<RoleAssignmentInner> deleteByIdAsync(String roleAssignmentId, final ServiceCallback<RoleAssignmentInner> serviceCallback) {
-        return ServiceFuture.fromResponse(deleteByIdWithServiceResponseAsync(roleAssignmentId), serviceCallback);
+    public ServiceFuture<RoleAssignmentInner> deleteByIdAsync(@NonNull String roleId, ServiceCallback<RoleAssignmentInner> serviceCallback) {
+        return ServiceFuture.fromBody(deleteByIdAsync(roleId), serviceCallback);
     }
 
     /**
      * Deletes a role assignment.
      *
-     * @param roleAssignmentId The ID of the role assignment to delete.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the RoleAssignmentInner object
+     * @param roleId The ID of the role assignment to delete.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<RoleAssignmentInner> deleteByIdAsync(String roleAssignmentId) {
-        return deleteByIdWithServiceResponseAsync(roleAssignmentId).map(new Func1<ServiceResponse<RoleAssignmentInner>, RoleAssignmentInner>() {
-            @Override
-            public RoleAssignmentInner call(ServiceResponse<RoleAssignmentInner> response) {
-                return response.body();
-            }
-        });
+    public Single<BodyResponse<RoleAssignmentInner>> deleteByIdWithRestResponseAsync(@NonNull String roleId) {
+        if (roleId == null) {
+            throw new IllegalArgumentException("Parameter roleId is required and cannot be null.");
+        }
+        final String apiVersion = "2018-01-01-preview";
+        return service.deleteById(roleId, apiVersion, this.client.acceptLanguage());
     }
 
     /**
      * Deletes a role assignment.
      *
-     * @param roleAssignmentId The ID of the role assignment to delete.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the RoleAssignmentInner object
+     * @param roleId The ID of the role assignment to delete.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<ServiceResponse<RoleAssignmentInner>> deleteByIdWithServiceResponseAsync(String roleAssignmentId) {
-        if (roleAssignmentId == null) {
-            throw new IllegalArgumentException("Parameter roleAssignmentId is required and cannot be null.");
-        }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
-        return service.deleteById(roleAssignmentId, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<RoleAssignmentInner>>>() {
-                @Override
-                public Observable<ServiceResponse<RoleAssignmentInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<RoleAssignmentInner> clientResponse = deleteByIdDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<RoleAssignmentInner> deleteByIdDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<RoleAssignmentInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<RoleAssignmentInner>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    public Maybe<RoleAssignmentInner> deleteByIdAsync(@NonNull String roleId) {
+        return deleteByIdWithRestResponseAsync(roleId)
+            .flatMapMaybe((BodyResponse<RoleAssignmentInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
      * Creates a role assignment by ID.
      *
-     * @param roleAssignmentId The ID of the role assignment to create.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @param roleId The ID of the role assignment to create.
+     * @param parameters Parameters for the role assignment.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the RoleAssignmentInner object if successful.
      */
-    public RoleAssignmentInner createById(String roleAssignmentId) {
-        return createByIdWithServiceResponseAsync(roleAssignmentId).toBlocking().single().body();
+    public RoleAssignmentInner createById(@NonNull String roleId, @NonNull RoleAssignmentCreateParameters parameters) {
+        return createByIdAsync(roleId, parameters).blockingGet();
     }
 
     /**
      * Creates a role assignment by ID.
      *
-     * @param roleAssignmentId The ID of the role assignment to create.
+     * @param roleId The ID of the role assignment to create.
+     * @param parameters Parameters for the role assignment.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<RoleAssignmentInner> createByIdAsync(String roleAssignmentId, final ServiceCallback<RoleAssignmentInner> serviceCallback) {
-        return ServiceFuture.fromResponse(createByIdWithServiceResponseAsync(roleAssignmentId), serviceCallback);
+    public ServiceFuture<RoleAssignmentInner> createByIdAsync(@NonNull String roleId, @NonNull RoleAssignmentCreateParameters parameters, ServiceCallback<RoleAssignmentInner> serviceCallback) {
+        return ServiceFuture.fromBody(createByIdAsync(roleId, parameters), serviceCallback);
     }
 
     /**
      * Creates a role assignment by ID.
      *
-     * @param roleAssignmentId The ID of the role assignment to create.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the RoleAssignmentInner object
+     * @param roleId The ID of the role assignment to create.
+     * @param parameters Parameters for the role assignment.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<RoleAssignmentInner> createByIdAsync(String roleAssignmentId) {
-        return createByIdWithServiceResponseAsync(roleAssignmentId).map(new Func1<ServiceResponse<RoleAssignmentInner>, RoleAssignmentInner>() {
-            @Override
-            public RoleAssignmentInner call(ServiceResponse<RoleAssignmentInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Creates a role assignment by ID.
-     *
-     * @param roleAssignmentId The ID of the role assignment to create.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the RoleAssignmentInner object
-     */
-    public Observable<ServiceResponse<RoleAssignmentInner>> createByIdWithServiceResponseAsync(String roleAssignmentId) {
-        if (roleAssignmentId == null) {
-            throw new IllegalArgumentException("Parameter roleAssignmentId is required and cannot be null.");
+    public Single<BodyResponse<RoleAssignmentInner>> createByIdWithRestResponseAsync(@NonNull String roleId, @NonNull RoleAssignmentCreateParameters parameters) {
+        if (roleId == null) {
+            throw new IllegalArgumentException("Parameter roleId is required and cannot be null.");
         }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        if (parameters == null) {
+            throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
-        final RoleAssignmentPropertiesInner properties = null;
-        RoleAssignmentCreateParameters parameters = new RoleAssignmentCreateParameters();
-        parameters.withProperties(null);
-        return service.createById(roleAssignmentId, this.client.apiVersion(), this.client.acceptLanguage(), parameters, this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<RoleAssignmentInner>>>() {
-                @Override
-                public Observable<ServiceResponse<RoleAssignmentInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<RoleAssignmentInner> clientResponse = createByIdDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        Validator.validate(parameters);
+        final String apiVersion = "2018-01-01-preview";
+        return service.createById(roleId, parameters, apiVersion, this.client.acceptLanguage());
     }
 
     /**
      * Creates a role assignment by ID.
      *
-     * @param roleAssignmentId The ID of the role assignment to create.
-     * @param properties Role assignment properties.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @param roleId The ID of the role assignment to create.
+     * @param parameters Parameters for the role assignment.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<RoleAssignmentInner> createByIdAsync(@NonNull String roleId, @NonNull RoleAssignmentCreateParameters parameters) {
+        return createByIdWithRestResponseAsync(roleId, parameters)
+            .flatMapMaybe((BodyResponse<RoleAssignmentInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
+    }
+
+    /**
+     * Gets a role assignment by ID.
+     *
+     * @param roleId The ID of the role assignment to get.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the RoleAssignmentInner object if successful.
      */
-    public RoleAssignmentInner createById(String roleAssignmentId, RoleAssignmentPropertiesInner properties) {
-        return createByIdWithServiceResponseAsync(roleAssignmentId, properties).toBlocking().single().body();
+    public RoleAssignmentInner getById(@NonNull String roleId) {
+        return getByIdAsync(roleId).blockingGet();
     }
 
     /**
-     * Creates a role assignment by ID.
+     * Gets a role assignment by ID.
      *
-     * @param roleAssignmentId The ID of the role assignment to create.
-     * @param properties Role assignment properties.
+     * @param roleId The ID of the role assignment to get.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<RoleAssignmentInner> createByIdAsync(String roleAssignmentId, RoleAssignmentPropertiesInner properties, final ServiceCallback<RoleAssignmentInner> serviceCallback) {
-        return ServiceFuture.fromResponse(createByIdWithServiceResponseAsync(roleAssignmentId, properties), serviceCallback);
-    }
-
-    /**
-     * Creates a role assignment by ID.
-     *
-     * @param roleAssignmentId The ID of the role assignment to create.
-     * @param properties Role assignment properties.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the RoleAssignmentInner object
-     */
-    public Observable<RoleAssignmentInner> createByIdAsync(String roleAssignmentId, RoleAssignmentPropertiesInner properties) {
-        return createByIdWithServiceResponseAsync(roleAssignmentId, properties).map(new Func1<ServiceResponse<RoleAssignmentInner>, RoleAssignmentInner>() {
-            @Override
-            public RoleAssignmentInner call(ServiceResponse<RoleAssignmentInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Creates a role assignment by ID.
-     *
-     * @param roleAssignmentId The ID of the role assignment to create.
-     * @param properties Role assignment properties.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the RoleAssignmentInner object
-     */
-    public Observable<ServiceResponse<RoleAssignmentInner>> createByIdWithServiceResponseAsync(String roleAssignmentId, RoleAssignmentPropertiesInner properties) {
-        if (roleAssignmentId == null) {
-            throw new IllegalArgumentException("Parameter roleAssignmentId is required and cannot be null.");
-        }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
-        Validator.validate(properties);
-        RoleAssignmentCreateParameters parameters = new RoleAssignmentCreateParameters();
-        parameters.withProperties(properties);
-        return service.createById(roleAssignmentId, this.client.apiVersion(), this.client.acceptLanguage(), parameters, this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<RoleAssignmentInner>>>() {
-                @Override
-                public Observable<ServiceResponse<RoleAssignmentInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<RoleAssignmentInner> clientResponse = createByIdDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<RoleAssignmentInner> createByIdDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<RoleAssignmentInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(201, new TypeToken<RoleAssignmentInner>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    public ServiceFuture<RoleAssignmentInner> getByIdAsync(@NonNull String roleId, ServiceCallback<RoleAssignmentInner> serviceCallback) {
+        return ServiceFuture.fromBody(getByIdAsync(roleId), serviceCallback);
     }
 
     /**
      * Gets a role assignment by ID.
      *
-     * @param roleAssignmentId The ID of the role assignment to get.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the RoleAssignmentInner object if successful.
+     * @param roleId The ID of the role assignment to get.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public RoleAssignmentInner getById(String roleAssignmentId) {
-        return getByIdWithServiceResponseAsync(roleAssignmentId).toBlocking().single().body();
-    }
-
-    /**
-     * Gets a role assignment by ID.
-     *
-     * @param roleAssignmentId The ID of the role assignment to get.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<RoleAssignmentInner> getByIdAsync(String roleAssignmentId, final ServiceCallback<RoleAssignmentInner> serviceCallback) {
-        return ServiceFuture.fromResponse(getByIdWithServiceResponseAsync(roleAssignmentId), serviceCallback);
-    }
-
-    /**
-     * Gets a role assignment by ID.
-     *
-     * @param roleAssignmentId The ID of the role assignment to get.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the RoleAssignmentInner object
-     */
-    public Observable<RoleAssignmentInner> getByIdAsync(String roleAssignmentId) {
-        return getByIdWithServiceResponseAsync(roleAssignmentId).map(new Func1<ServiceResponse<RoleAssignmentInner>, RoleAssignmentInner>() {
-            @Override
-            public RoleAssignmentInner call(ServiceResponse<RoleAssignmentInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Gets a role assignment by ID.
-     *
-     * @param roleAssignmentId The ID of the role assignment to get.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the RoleAssignmentInner object
-     */
-    public Observable<ServiceResponse<RoleAssignmentInner>> getByIdWithServiceResponseAsync(String roleAssignmentId) {
-        if (roleAssignmentId == null) {
-            throw new IllegalArgumentException("Parameter roleAssignmentId is required and cannot be null.");
+    public Single<BodyResponse<RoleAssignmentInner>> getByIdWithRestResponseAsync(@NonNull String roleId) {
+        if (roleId == null) {
+            throw new IllegalArgumentException("Parameter roleId is required and cannot be null.");
         }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
-        return service.getById(roleAssignmentId, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<RoleAssignmentInner>>>() {
-                @Override
-                public Observable<ServiceResponse<RoleAssignmentInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<RoleAssignmentInner> clientResponse = getByIdDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        final String apiVersion = "2018-01-01-preview";
+        return service.getById(roleId, apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<RoleAssignmentInner> getByIdDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<RoleAssignmentInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<RoleAssignmentInner>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Gets a role assignment by ID.
+     *
+     * @param roleId The ID of the role assignment to get.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<RoleAssignmentInner> getByIdAsync(@NonNull String roleId) {
+        return getByIdWithRestResponseAsync(roleId)
+            .flatMapMaybe((BodyResponse<RoleAssignmentInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
      * Gets all role assignments for the subscription.
      *
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;RoleAssignmentInner&gt; object if successful.
      */
     public PagedList<RoleAssignmentInner> list() {
-        ServiceResponse<Page<RoleAssignmentInner>> response = listSinglePageAsync().toBlocking().single();
-        return new PagedList<RoleAssignmentInner>(response.body()) {
+        Page<RoleAssignmentInner> response = listSinglePageAsync().blockingGet();
+        return new PagedList<RoleAssignmentInner>(response) {
             @Override
             public Page<RoleAssignmentInner> nextPage(String nextPageLink) {
-                return listNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -1306,101 +789,50 @@ public class RoleAssignmentsInner implements InnerSupportsDelete<RoleAssignmentI
     /**
      * Gets all role assignments for the subscription.
      *
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<List<RoleAssignmentInner>> listAsync(final ListOperationCallback<RoleAssignmentInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listSinglePageAsync(),
-            new Func1<String, Observable<ServiceResponse<Page<RoleAssignmentInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<RoleAssignmentInner>>> call(String nextPageLink) {
-                    return listNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets all role assignments for the subscription.
-     *
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;RoleAssignmentInner&gt; object
+     * @return the observable to the PagedList&lt;RoleAssignmentInner&gt; object.
      */
     public Observable<Page<RoleAssignmentInner>> listAsync() {
-        return listWithServiceResponseAsync()
-            .map(new Func1<ServiceResponse<Page<RoleAssignmentInner>>, Page<RoleAssignmentInner>>() {
-                @Override
-                public Page<RoleAssignmentInner> call(ServiceResponse<Page<RoleAssignmentInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets all role assignments for the subscription.
-     *
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;RoleAssignmentInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<RoleAssignmentInner>>> listWithServiceResponseAsync() {
         return listSinglePageAsync()
-            .concatMap(new Func1<ServiceResponse<Page<RoleAssignmentInner>>, Observable<ServiceResponse<Page<RoleAssignmentInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<RoleAssignmentInner>>> call(ServiceResponse<Page<RoleAssignmentInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<RoleAssignmentInner> page) -> {
+                String nextPageLink = page.nextPageLink();
+                if (nextPageLink == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listNextAsync(nextPageLink));
             });
     }
 
     /**
      * Gets all role assignments for the subscription.
      *
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;RoleAssignmentInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @return the Single&lt;Page&lt;RoleAssignmentInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<RoleAssignmentInner>>> listSinglePageAsync() {
+    public Single<Page<RoleAssignmentInner>> listSinglePageAsync() {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
+        final String apiVersion = "2018-01-01-preview";
         final String filter = null;
-        return service.list(this.client.subscriptionId(), filter, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<RoleAssignmentInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<RoleAssignmentInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<RoleAssignmentInner>> result = listDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<RoleAssignmentInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.list(this.client.subscriptionId(), filter, apiVersion, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl<RoleAssignmentInner>> res) -> res.body());
     }
 
     /**
      * Gets all role assignments for the subscription.
      *
      * @param filter The filter to apply on the operation. Use $filter=atScope() to return all role assignments at or above the scope. Use $filter=principalId eq {id} to return all role assignments at, above or below the scope for the specified principal.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;RoleAssignmentInner&gt; object if successful.
      */
-    public PagedList<RoleAssignmentInner> list(final String filter) {
-        ServiceResponse<Page<RoleAssignmentInner>> response = listSinglePageAsync(filter).toBlocking().single();
-        return new PagedList<RoleAssignmentInner>(response.body()) {
+    public PagedList<RoleAssignmentInner> list(String filter) {
+        Page<RoleAssignmentInner> response = listSinglePageAsync(filter).blockingGet();
+        return new PagedList<RoleAssignmentInner>(response) {
             @Override
             public Page<RoleAssignmentInner> nextPage(String nextPageLink) {
-                return listNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -1409,110 +841,52 @@ public class RoleAssignmentsInner implements InnerSupportsDelete<RoleAssignmentI
      * Gets all role assignments for the subscription.
      *
      * @param filter The filter to apply on the operation. Use $filter=atScope() to return all role assignments at or above the scope. Use $filter=principalId eq {id} to return all role assignments at, above or below the scope for the specified principal.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;RoleAssignmentInner&gt; object.
      */
-    public ServiceFuture<List<RoleAssignmentInner>> listAsync(final String filter, final ListOperationCallback<RoleAssignmentInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listSinglePageAsync(filter),
-            new Func1<String, Observable<ServiceResponse<Page<RoleAssignmentInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<RoleAssignmentInner>>> call(String nextPageLink) {
-                    return listNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets all role assignments for the subscription.
-     *
-     * @param filter The filter to apply on the operation. Use $filter=atScope() to return all role assignments at or above the scope. Use $filter=principalId eq {id} to return all role assignments at, above or below the scope for the specified principal.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;RoleAssignmentInner&gt; object
-     */
-    public Observable<Page<RoleAssignmentInner>> listAsync(final String filter) {
-        return listWithServiceResponseAsync(filter)
-            .map(new Func1<ServiceResponse<Page<RoleAssignmentInner>>, Page<RoleAssignmentInner>>() {
-                @Override
-                public Page<RoleAssignmentInner> call(ServiceResponse<Page<RoleAssignmentInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets all role assignments for the subscription.
-     *
-     * @param filter The filter to apply on the operation. Use $filter=atScope() to return all role assignments at or above the scope. Use $filter=principalId eq {id} to return all role assignments at, above or below the scope for the specified principal.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;RoleAssignmentInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<RoleAssignmentInner>>> listWithServiceResponseAsync(final String filter) {
+    public Observable<Page<RoleAssignmentInner>> listAsync(String filter) {
         return listSinglePageAsync(filter)
-            .concatMap(new Func1<ServiceResponse<Page<RoleAssignmentInner>>, Observable<ServiceResponse<Page<RoleAssignmentInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<RoleAssignmentInner>>> call(ServiceResponse<Page<RoleAssignmentInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<RoleAssignmentInner> page) -> {
+                String nextPageLink = page.nextPageLink();
+                if (nextPageLink == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listNextAsync(nextPageLink));
             });
     }
 
     /**
      * Gets all role assignments for the subscription.
      *
-    ServiceResponse<PageImpl<RoleAssignmentInner>> * @param filter The filter to apply on the operation. Use $filter=atScope() to return all role assignments at or above the scope. Use $filter=principalId eq {id} to return all role assignments at, above or below the scope for the specified principal.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;RoleAssignmentInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param filter The filter to apply on the operation. Use $filter=atScope() to return all role assignments at or above the scope. Use $filter=principalId eq {id} to return all role assignments at, above or below the scope for the specified principal.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;RoleAssignmentInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<RoleAssignmentInner>>> listSinglePageAsync(final String filter) {
+    public Single<Page<RoleAssignmentInner>> listSinglePageAsync(String filter) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
-        return service.list(this.client.subscriptionId(), filter, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<RoleAssignmentInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<RoleAssignmentInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<RoleAssignmentInner>> result = listDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<RoleAssignmentInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl<RoleAssignmentInner>> listDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<RoleAssignmentInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<RoleAssignmentInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+        final String apiVersion = "2018-01-01-preview";
+        return service.list(this.client.subscriptionId(), filter, apiVersion, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl<RoleAssignmentInner>> res) -> res.body());
     }
 
     /**
      * Gets role assignments for a scope.
      *
      * @param scope The scope of the role assignments.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;RoleAssignmentInner&gt; object if successful.
      */
-    public PagedList<RoleAssignmentInner> listForScope(final String scope) {
-        ServiceResponse<Page<RoleAssignmentInner>> response = listForScopeSinglePageAsync(scope).toBlocking().single();
-        return new PagedList<RoleAssignmentInner>(response.body()) {
+    public PagedList<RoleAssignmentInner> listForScope(@NonNull String scope) {
+        Page<RoleAssignmentInner> response = listForScopeSinglePageAsync(scope).blockingGet();
+        return new PagedList<RoleAssignmentInner>(response) {
             @Override
             public Page<RoleAssignmentInner> nextPage(String nextPageLink) {
-                return listForScopeNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listForScopeNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -1521,57 +895,18 @@ public class RoleAssignmentsInner implements InnerSupportsDelete<RoleAssignmentI
      * Gets role assignments for a scope.
      *
      * @param scope The scope of the role assignments.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;RoleAssignmentInner&gt; object.
      */
-    public ServiceFuture<List<RoleAssignmentInner>> listForScopeAsync(final String scope, final ListOperationCallback<RoleAssignmentInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listForScopeSinglePageAsync(scope),
-            new Func1<String, Observable<ServiceResponse<Page<RoleAssignmentInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<RoleAssignmentInner>>> call(String nextPageLink) {
-                    return listForScopeNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets role assignments for a scope.
-     *
-     * @param scope The scope of the role assignments.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;RoleAssignmentInner&gt; object
-     */
-    public Observable<Page<RoleAssignmentInner>> listForScopeAsync(final String scope) {
-        return listForScopeWithServiceResponseAsync(scope)
-            .map(new Func1<ServiceResponse<Page<RoleAssignmentInner>>, Page<RoleAssignmentInner>>() {
-                @Override
-                public Page<RoleAssignmentInner> call(ServiceResponse<Page<RoleAssignmentInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets role assignments for a scope.
-     *
-     * @param scope The scope of the role assignments.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;RoleAssignmentInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<RoleAssignmentInner>>> listForScopeWithServiceResponseAsync(final String scope) {
+    public Observable<Page<RoleAssignmentInner>> listForScopeAsync(@NonNull String scope) {
         return listForScopeSinglePageAsync(scope)
-            .concatMap(new Func1<ServiceResponse<Page<RoleAssignmentInner>>, Observable<ServiceResponse<Page<RoleAssignmentInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<RoleAssignmentInner>>> call(ServiceResponse<Page<RoleAssignmentInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listForScopeNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<RoleAssignmentInner> page) -> {
+                String nextPageLink = page.nextPageLink();
+                if (nextPageLink == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listForScopeNextAsync(nextPageLink));
             });
     }
 
@@ -1579,29 +914,17 @@ public class RoleAssignmentsInner implements InnerSupportsDelete<RoleAssignmentI
      * Gets role assignments for a scope.
      *
      * @param scope The scope of the role assignments.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;RoleAssignmentInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;RoleAssignmentInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<RoleAssignmentInner>>> listForScopeSinglePageAsync(final String scope) {
+    public Single<Page<RoleAssignmentInner>> listForScopeSinglePageAsync(@NonNull String scope) {
         if (scope == null) {
             throw new IllegalArgumentException("Parameter scope is required and cannot be null.");
         }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
+        final String apiVersion = "2018-01-01-preview";
         final String filter = null;
-        return service.listForScope(scope, filter, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<RoleAssignmentInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<RoleAssignmentInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<RoleAssignmentInner>> result = listForScopeDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<RoleAssignmentInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.listForScope(scope, filter, apiVersion, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl<RoleAssignmentInner>> res) -> res.body());
     }
 
     /**
@@ -1609,17 +932,17 @@ public class RoleAssignmentsInner implements InnerSupportsDelete<RoleAssignmentI
      *
      * @param scope The scope of the role assignments.
      * @param filter The filter to apply on the operation. Use $filter=atScope() to return all role assignments at or above the scope. Use $filter=principalId eq {id} to return all role assignments at, above or below the scope for the specified principal.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;RoleAssignmentInner&gt; object if successful.
      */
-    public PagedList<RoleAssignmentInner> listForScope(final String scope, final String filter) {
-        ServiceResponse<Page<RoleAssignmentInner>> response = listForScopeSinglePageAsync(scope, filter).toBlocking().single();
-        return new PagedList<RoleAssignmentInner>(response.body()) {
+    public PagedList<RoleAssignmentInner> listForScope(@NonNull String scope, String filter) {
+        Page<RoleAssignmentInner> response = listForScopeSinglePageAsync(scope, filter).blockingGet();
+        return new PagedList<RoleAssignmentInner>(response) {
             @Override
             public Page<RoleAssignmentInner> nextPage(String nextPageLink) {
-                return listForScopeNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listForScopeNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -1629,113 +952,53 @@ public class RoleAssignmentsInner implements InnerSupportsDelete<RoleAssignmentI
      *
      * @param scope The scope of the role assignments.
      * @param filter The filter to apply on the operation. Use $filter=atScope() to return all role assignments at or above the scope. Use $filter=principalId eq {id} to return all role assignments at, above or below the scope for the specified principal.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;RoleAssignmentInner&gt; object.
      */
-    public ServiceFuture<List<RoleAssignmentInner>> listForScopeAsync(final String scope, final String filter, final ListOperationCallback<RoleAssignmentInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listForScopeSinglePageAsync(scope, filter),
-            new Func1<String, Observable<ServiceResponse<Page<RoleAssignmentInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<RoleAssignmentInner>>> call(String nextPageLink) {
-                    return listForScopeNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets role assignments for a scope.
-     *
-     * @param scope The scope of the role assignments.
-     * @param filter The filter to apply on the operation. Use $filter=atScope() to return all role assignments at or above the scope. Use $filter=principalId eq {id} to return all role assignments at, above or below the scope for the specified principal.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;RoleAssignmentInner&gt; object
-     */
-    public Observable<Page<RoleAssignmentInner>> listForScopeAsync(final String scope, final String filter) {
-        return listForScopeWithServiceResponseAsync(scope, filter)
-            .map(new Func1<ServiceResponse<Page<RoleAssignmentInner>>, Page<RoleAssignmentInner>>() {
-                @Override
-                public Page<RoleAssignmentInner> call(ServiceResponse<Page<RoleAssignmentInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets role assignments for a scope.
-     *
-     * @param scope The scope of the role assignments.
-     * @param filter The filter to apply on the operation. Use $filter=atScope() to return all role assignments at or above the scope. Use $filter=principalId eq {id} to return all role assignments at, above or below the scope for the specified principal.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;RoleAssignmentInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<RoleAssignmentInner>>> listForScopeWithServiceResponseAsync(final String scope, final String filter) {
+    public Observable<Page<RoleAssignmentInner>> listForScopeAsync(@NonNull String scope, String filter) {
         return listForScopeSinglePageAsync(scope, filter)
-            .concatMap(new Func1<ServiceResponse<Page<RoleAssignmentInner>>, Observable<ServiceResponse<Page<RoleAssignmentInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<RoleAssignmentInner>>> call(ServiceResponse<Page<RoleAssignmentInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listForScopeNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<RoleAssignmentInner> page) -> {
+                String nextPageLink = page.nextPageLink();
+                if (nextPageLink == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listForScopeNextAsync(nextPageLink));
             });
     }
 
     /**
      * Gets role assignments for a scope.
      *
-    ServiceResponse<PageImpl<RoleAssignmentInner>> * @param scope The scope of the role assignments.
-    ServiceResponse<PageImpl<RoleAssignmentInner>> * @param filter The filter to apply on the operation. Use $filter=atScope() to return all role assignments at or above the scope. Use $filter=principalId eq {id} to return all role assignments at, above or below the scope for the specified principal.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;RoleAssignmentInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param scope The scope of the role assignments.
+     * @param filter The filter to apply on the operation. Use $filter=atScope() to return all role assignments at or above the scope. Use $filter=principalId eq {id} to return all role assignments at, above or below the scope for the specified principal.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;RoleAssignmentInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<RoleAssignmentInner>>> listForScopeSinglePageAsync(final String scope, final String filter) {
+    public Single<Page<RoleAssignmentInner>> listForScopeSinglePageAsync(@NonNull String scope, String filter) {
         if (scope == null) {
             throw new IllegalArgumentException("Parameter scope is required and cannot be null.");
         }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
-        return service.listForScope(scope, filter, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<RoleAssignmentInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<RoleAssignmentInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<RoleAssignmentInner>> result = listForScopeDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<RoleAssignmentInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl<RoleAssignmentInner>> listForScopeDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<RoleAssignmentInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<RoleAssignmentInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+        final String apiVersion = "2018-01-01-preview";
+        return service.listForScope(scope, filter, apiVersion, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl<RoleAssignmentInner>> res) -> res.body());
     }
 
     /**
      * Gets role assignments for a resource.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;RoleAssignmentInner&gt; object if successful.
      */
-    public PagedList<RoleAssignmentInner> listForResourceNext(final String nextPageLink) {
-        ServiceResponse<Page<RoleAssignmentInner>> response = listForResourceNextSinglePageAsync(nextPageLink).toBlocking().single();
-        return new PagedList<RoleAssignmentInner>(response.body()) {
+    public PagedList<RoleAssignmentInner> listForResourceNext(@NonNull String nextPageLink) {
+        Page<RoleAssignmentInner> response = listForResourceNextSinglePageAsync(nextPageLink).blockingGet();
+        return new PagedList<RoleAssignmentInner>(response) {
             @Override
             public Page<RoleAssignmentInner> nextPage(String nextPageLink) {
-                return listForResourceNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listForResourceNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -1744,109 +1007,52 @@ public class RoleAssignmentsInner implements InnerSupportsDelete<RoleAssignmentI
      * Gets role assignments for a resource.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;RoleAssignmentInner&gt; object.
      */
-    public ServiceFuture<List<RoleAssignmentInner>> listForResourceNextAsync(final String nextPageLink, final ServiceFuture<List<RoleAssignmentInner>> serviceFuture, final ListOperationCallback<RoleAssignmentInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listForResourceNextSinglePageAsync(nextPageLink),
-            new Func1<String, Observable<ServiceResponse<Page<RoleAssignmentInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<RoleAssignmentInner>>> call(String nextPageLink) {
-                    return listForResourceNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets role assignments for a resource.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;RoleAssignmentInner&gt; object
-     */
-    public Observable<Page<RoleAssignmentInner>> listForResourceNextAsync(final String nextPageLink) {
-        return listForResourceNextWithServiceResponseAsync(nextPageLink)
-            .map(new Func1<ServiceResponse<Page<RoleAssignmentInner>>, Page<RoleAssignmentInner>>() {
-                @Override
-                public Page<RoleAssignmentInner> call(ServiceResponse<Page<RoleAssignmentInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets role assignments for a resource.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;RoleAssignmentInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<RoleAssignmentInner>>> listForResourceNextWithServiceResponseAsync(final String nextPageLink) {
+    public Observable<Page<RoleAssignmentInner>> listForResourceNextAsync(@NonNull String nextPageLink) {
         return listForResourceNextSinglePageAsync(nextPageLink)
-            .concatMap(new Func1<ServiceResponse<Page<RoleAssignmentInner>>, Observable<ServiceResponse<Page<RoleAssignmentInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<RoleAssignmentInner>>> call(ServiceResponse<Page<RoleAssignmentInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listForResourceNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<RoleAssignmentInner> page) -> {
+                String nextPageLink1 = page.nextPageLink();
+                if (nextPageLink1 == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listForResourceNextAsync(nextPageLink1));
             });
     }
 
     /**
      * Gets role assignments for a resource.
      *
-    ServiceResponse<PageImpl<RoleAssignmentInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;RoleAssignmentInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;RoleAssignmentInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<RoleAssignmentInner>>> listForResourceNextSinglePageAsync(final String nextPageLink) {
+    public Single<Page<RoleAssignmentInner>> listForResourceNextSinglePageAsync(@NonNull String nextPageLink) {
         if (nextPageLink == null) {
             throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
         }
         String nextUrl = String.format("%s", nextPageLink);
-        return service.listForResourceNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<RoleAssignmentInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<RoleAssignmentInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<RoleAssignmentInner>> result = listForResourceNextDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<RoleAssignmentInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl<RoleAssignmentInner>> listForResourceNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<RoleAssignmentInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<RoleAssignmentInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+        return service.listForResourceNext(nextUrl, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl<RoleAssignmentInner>> res) -> res.body());
     }
 
     /**
      * Gets role assignments for a resource group.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;RoleAssignmentInner&gt; object if successful.
      */
-    public PagedList<RoleAssignmentInner> listForResourceGroupNext(final String nextPageLink) {
-        ServiceResponse<Page<RoleAssignmentInner>> response = listForResourceGroupNextSinglePageAsync(nextPageLink).toBlocking().single();
-        return new PagedList<RoleAssignmentInner>(response.body()) {
+    public PagedList<RoleAssignmentInner> listForResourceGroupNext(@NonNull String nextPageLink) {
+        Page<RoleAssignmentInner> response = listForResourceGroupNextSinglePageAsync(nextPageLink).blockingGet();
+        return new PagedList<RoleAssignmentInner>(response) {
             @Override
             public Page<RoleAssignmentInner> nextPage(String nextPageLink) {
-                return listForResourceGroupNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listForResourceGroupNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -1855,109 +1061,52 @@ public class RoleAssignmentsInner implements InnerSupportsDelete<RoleAssignmentI
      * Gets role assignments for a resource group.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;RoleAssignmentInner&gt; object.
      */
-    public ServiceFuture<List<RoleAssignmentInner>> listForResourceGroupNextAsync(final String nextPageLink, final ServiceFuture<List<RoleAssignmentInner>> serviceFuture, final ListOperationCallback<RoleAssignmentInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listForResourceGroupNextSinglePageAsync(nextPageLink),
-            new Func1<String, Observable<ServiceResponse<Page<RoleAssignmentInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<RoleAssignmentInner>>> call(String nextPageLink) {
-                    return listForResourceGroupNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets role assignments for a resource group.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;RoleAssignmentInner&gt; object
-     */
-    public Observable<Page<RoleAssignmentInner>> listForResourceGroupNextAsync(final String nextPageLink) {
-        return listForResourceGroupNextWithServiceResponseAsync(nextPageLink)
-            .map(new Func1<ServiceResponse<Page<RoleAssignmentInner>>, Page<RoleAssignmentInner>>() {
-                @Override
-                public Page<RoleAssignmentInner> call(ServiceResponse<Page<RoleAssignmentInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets role assignments for a resource group.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;RoleAssignmentInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<RoleAssignmentInner>>> listForResourceGroupNextWithServiceResponseAsync(final String nextPageLink) {
+    public Observable<Page<RoleAssignmentInner>> listForResourceGroupNextAsync(@NonNull String nextPageLink) {
         return listForResourceGroupNextSinglePageAsync(nextPageLink)
-            .concatMap(new Func1<ServiceResponse<Page<RoleAssignmentInner>>, Observable<ServiceResponse<Page<RoleAssignmentInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<RoleAssignmentInner>>> call(ServiceResponse<Page<RoleAssignmentInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listForResourceGroupNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<RoleAssignmentInner> page) -> {
+                String nextPageLink1 = page.nextPageLink();
+                if (nextPageLink1 == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listForResourceGroupNextAsync(nextPageLink1));
             });
     }
 
     /**
      * Gets role assignments for a resource group.
      *
-    ServiceResponse<PageImpl<RoleAssignmentInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;RoleAssignmentInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;RoleAssignmentInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<RoleAssignmentInner>>> listForResourceGroupNextSinglePageAsync(final String nextPageLink) {
+    public Single<Page<RoleAssignmentInner>> listForResourceGroupNextSinglePageAsync(@NonNull String nextPageLink) {
         if (nextPageLink == null) {
             throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
         }
         String nextUrl = String.format("%s", nextPageLink);
-        return service.listForResourceGroupNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<RoleAssignmentInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<RoleAssignmentInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<RoleAssignmentInner>> result = listForResourceGroupNextDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<RoleAssignmentInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl<RoleAssignmentInner>> listForResourceGroupNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<RoleAssignmentInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<RoleAssignmentInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+        return service.listForResourceGroupNext(nextUrl, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl<RoleAssignmentInner>> res) -> res.body());
     }
 
     /**
      * Gets all role assignments for the subscription.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;RoleAssignmentInner&gt; object if successful.
      */
-    public PagedList<RoleAssignmentInner> listNext(final String nextPageLink) {
-        ServiceResponse<Page<RoleAssignmentInner>> response = listNextSinglePageAsync(nextPageLink).toBlocking().single();
-        return new PagedList<RoleAssignmentInner>(response.body()) {
+    public PagedList<RoleAssignmentInner> listNext(@NonNull String nextPageLink) {
+        Page<RoleAssignmentInner> response = listNextSinglePageAsync(nextPageLink).blockingGet();
+        return new PagedList<RoleAssignmentInner>(response) {
             @Override
             public Page<RoleAssignmentInner> nextPage(String nextPageLink) {
-                return listNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -1966,109 +1115,52 @@ public class RoleAssignmentsInner implements InnerSupportsDelete<RoleAssignmentI
      * Gets all role assignments for the subscription.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;RoleAssignmentInner&gt; object.
      */
-    public ServiceFuture<List<RoleAssignmentInner>> listNextAsync(final String nextPageLink, final ServiceFuture<List<RoleAssignmentInner>> serviceFuture, final ListOperationCallback<RoleAssignmentInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listNextSinglePageAsync(nextPageLink),
-            new Func1<String, Observable<ServiceResponse<Page<RoleAssignmentInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<RoleAssignmentInner>>> call(String nextPageLink) {
-                    return listNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets all role assignments for the subscription.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;RoleAssignmentInner&gt; object
-     */
-    public Observable<Page<RoleAssignmentInner>> listNextAsync(final String nextPageLink) {
-        return listNextWithServiceResponseAsync(nextPageLink)
-            .map(new Func1<ServiceResponse<Page<RoleAssignmentInner>>, Page<RoleAssignmentInner>>() {
-                @Override
-                public Page<RoleAssignmentInner> call(ServiceResponse<Page<RoleAssignmentInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets all role assignments for the subscription.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;RoleAssignmentInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<RoleAssignmentInner>>> listNextWithServiceResponseAsync(final String nextPageLink) {
+    public Observable<Page<RoleAssignmentInner>> listNextAsync(@NonNull String nextPageLink) {
         return listNextSinglePageAsync(nextPageLink)
-            .concatMap(new Func1<ServiceResponse<Page<RoleAssignmentInner>>, Observable<ServiceResponse<Page<RoleAssignmentInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<RoleAssignmentInner>>> call(ServiceResponse<Page<RoleAssignmentInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<RoleAssignmentInner> page) -> {
+                String nextPageLink1 = page.nextPageLink();
+                if (nextPageLink1 == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listNextAsync(nextPageLink1));
             });
     }
 
     /**
      * Gets all role assignments for the subscription.
      *
-    ServiceResponse<PageImpl<RoleAssignmentInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;RoleAssignmentInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;RoleAssignmentInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<RoleAssignmentInner>>> listNextSinglePageAsync(final String nextPageLink) {
+    public Single<Page<RoleAssignmentInner>> listNextSinglePageAsync(@NonNull String nextPageLink) {
         if (nextPageLink == null) {
             throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
         }
         String nextUrl = String.format("%s", nextPageLink);
-        return service.listNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<RoleAssignmentInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<RoleAssignmentInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<RoleAssignmentInner>> result = listNextDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<RoleAssignmentInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl<RoleAssignmentInner>> listNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<RoleAssignmentInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<RoleAssignmentInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+        return service.listNext(nextUrl, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl<RoleAssignmentInner>> res) -> res.body());
     }
 
     /**
      * Gets role assignments for a scope.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;RoleAssignmentInner&gt; object if successful.
      */
-    public PagedList<RoleAssignmentInner> listForScopeNext(final String nextPageLink) {
-        ServiceResponse<Page<RoleAssignmentInner>> response = listForScopeNextSinglePageAsync(nextPageLink).toBlocking().single();
-        return new PagedList<RoleAssignmentInner>(response.body()) {
+    public PagedList<RoleAssignmentInner> listForScopeNext(@NonNull String nextPageLink) {
+        Page<RoleAssignmentInner> response = listForScopeNextSinglePageAsync(nextPageLink).blockingGet();
+        return new PagedList<RoleAssignmentInner>(response) {
             @Override
             public Page<RoleAssignmentInner> nextPage(String nextPageLink) {
-                return listForScopeNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listForScopeNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -2077,92 +1169,34 @@ public class RoleAssignmentsInner implements InnerSupportsDelete<RoleAssignmentI
      * Gets role assignments for a scope.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;RoleAssignmentInner&gt; object.
      */
-    public ServiceFuture<List<RoleAssignmentInner>> listForScopeNextAsync(final String nextPageLink, final ServiceFuture<List<RoleAssignmentInner>> serviceFuture, final ListOperationCallback<RoleAssignmentInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listForScopeNextSinglePageAsync(nextPageLink),
-            new Func1<String, Observable<ServiceResponse<Page<RoleAssignmentInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<RoleAssignmentInner>>> call(String nextPageLink) {
-                    return listForScopeNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets role assignments for a scope.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;RoleAssignmentInner&gt; object
-     */
-    public Observable<Page<RoleAssignmentInner>> listForScopeNextAsync(final String nextPageLink) {
-        return listForScopeNextWithServiceResponseAsync(nextPageLink)
-            .map(new Func1<ServiceResponse<Page<RoleAssignmentInner>>, Page<RoleAssignmentInner>>() {
-                @Override
-                public Page<RoleAssignmentInner> call(ServiceResponse<Page<RoleAssignmentInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets role assignments for a scope.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;RoleAssignmentInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<RoleAssignmentInner>>> listForScopeNextWithServiceResponseAsync(final String nextPageLink) {
+    public Observable<Page<RoleAssignmentInner>> listForScopeNextAsync(@NonNull String nextPageLink) {
         return listForScopeNextSinglePageAsync(nextPageLink)
-            .concatMap(new Func1<ServiceResponse<Page<RoleAssignmentInner>>, Observable<ServiceResponse<Page<RoleAssignmentInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<RoleAssignmentInner>>> call(ServiceResponse<Page<RoleAssignmentInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listForScopeNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<RoleAssignmentInner> page) -> {
+                String nextPageLink1 = page.nextPageLink();
+                if (nextPageLink1 == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listForScopeNextAsync(nextPageLink1));
             });
     }
 
     /**
      * Gets role assignments for a scope.
      *
-    ServiceResponse<PageImpl<RoleAssignmentInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;RoleAssignmentInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;RoleAssignmentInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<RoleAssignmentInner>>> listForScopeNextSinglePageAsync(final String nextPageLink) {
+    public Single<Page<RoleAssignmentInner>> listForScopeNextSinglePageAsync(@NonNull String nextPageLink) {
         if (nextPageLink == null) {
             throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
         }
         String nextUrl = String.format("%s", nextPageLink);
-        return service.listForScopeNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<RoleAssignmentInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<RoleAssignmentInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<RoleAssignmentInner>> result = listForScopeNextDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<RoleAssignmentInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.listForScopeNext(nextUrl, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl<RoleAssignmentInner>> res) -> res.body());
     }
-
-    private ServiceResponse<PageImpl<RoleAssignmentInner>> listForScopeNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<RoleAssignmentInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<RoleAssignmentInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
-    }
-
 }

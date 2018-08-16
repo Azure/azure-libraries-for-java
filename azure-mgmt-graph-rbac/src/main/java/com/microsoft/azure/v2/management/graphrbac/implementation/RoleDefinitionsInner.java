@@ -8,84 +8,90 @@
 
 package com.microsoft.azure.v2.management.graphrbac.implementation;
 
-import com.microsoft.azure.management.resources.fluentcore.collection.InnerSupportsDelete;
-import retrofit2.Retrofit;
-import com.google.common.reflect.TypeToken;
-import com.microsoft.azure.AzureServiceFuture;
-import com.microsoft.azure.CloudException;
-import com.microsoft.azure.ListOperationCallback;
-import com.microsoft.azure.Page;
-import com.microsoft.azure.PagedList;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import com.microsoft.rest.ServiceResponse;
-import com.microsoft.rest.Validator;
-import java.io.IOException;
-import java.util.List;
-import okhttp3.ResponseBody;
-import retrofit2.http.Body;
-import retrofit2.http.GET;
-import retrofit2.http.Header;
-import retrofit2.http.Headers;
-import retrofit2.http.HTTP;
-import retrofit2.http.Path;
-import retrofit2.http.PUT;
-import retrofit2.http.Query;
-import retrofit2.http.Url;
-import retrofit2.Response;
-import rx.functions.Func1;
-import rx.Observable;
+import com.microsoft.azure.v2.AzureProxy;
+import com.microsoft.azure.v2.CloudException;
+import com.microsoft.azure.v2.Page;
+import com.microsoft.azure.v2.PagedList;
+import com.microsoft.azure.v2.management.resources.fluentcore.collection.InnerSupportsDelete;
+import com.microsoft.rest.v2.BodyResponse;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
+import com.microsoft.rest.v2.Validator;
+import com.microsoft.rest.v2.annotations.BodyParam;
+import com.microsoft.rest.v2.annotations.DELETE;
+import com.microsoft.rest.v2.annotations.ExpectedResponses;
+import com.microsoft.rest.v2.annotations.GET;
+import com.microsoft.rest.v2.annotations.HeaderParam;
+import com.microsoft.rest.v2.annotations.Host;
+import com.microsoft.rest.v2.annotations.PathParam;
+import com.microsoft.rest.v2.annotations.PUT;
+import com.microsoft.rest.v2.annotations.QueryParam;
+import com.microsoft.rest.v2.annotations.UnexpectedResponseExceptionType;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
+import io.reactivex.Single;
+import io.reactivex.annotations.NonNull;
 
 /**
- * An instance of this class provides access to all the operations defined
- * in RoleDefinitions.
+ * An instance of this class provides access to all the operations defined in
+ * RoleDefinitions.
  */
-public class RoleDefinitionsInner implements InnerSupportsDelete<RoleDefinitionInner> {
-    /** The Retrofit service to perform REST calls. */
+public final class RoleDefinitionsInner implements InnerSupportsDelete<RoleDefinitionInner> {
+    /**
+     * The proxy service used to perform REST calls.
+     */
     private RoleDefinitionsService service;
-    /** The service client containing this operation class. */
+
+    /**
+     * The service client containing this operation class.
+     */
     private AuthorizationManagementClientImpl client;
 
     /**
      * Initializes an instance of RoleDefinitionsInner.
      *
-     * @param retrofit the Retrofit instance built from a Retrofit Builder.
      * @param client the instance of the service client containing this operation class.
      */
-    public RoleDefinitionsInner(Retrofit retrofit, AuthorizationManagementClientImpl client) {
-        this.service = retrofit.create(RoleDefinitionsService.class);
+    public RoleDefinitionsInner(AuthorizationManagementClientImpl client) {
+        this.service = AzureProxy.create(RoleDefinitionsService.class, client);
         this.client = client;
     }
 
     /**
-     * The interface defining all the services for RoleDefinitions to be
-     * used by Retrofit to perform actually REST calls.
+     * The interface defining all the services for RoleDefinitions to be used
+     * by the proxy service to perform REST calls.
      */
-    interface RoleDefinitionsService {
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: RoleDefinitions delete" })
-        @HTTP(path = "{scope}/providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionId}", method = "DELETE", hasBody = true)
-        Observable<Response<ResponseBody>> delete(@Path(value = "scope", encoded = true) String scope, @Path("roleDefinitionId") String roleDefinitionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+    @Host("https://management.azure.com")
+    private interface RoleDefinitionsService {
+        @DELETE("{scope}/providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionId}")
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<RoleDefinitionInner>> delete(@PathParam(value = "scope", encoded = true) String scope, @PathParam("roleDefinitionId") String roleDefinitionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: RoleDefinitions get" })
         @GET("{scope}/providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionId}")
-        Observable<Response<ResponseBody>> get(@Path(value = "scope", encoded = true) String scope, @Path("roleDefinitionId") String roleDefinitionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<RoleDefinitionInner>> get(@PathParam(value = "scope", encoded = true) String scope, @PathParam("roleDefinitionId") String roleDefinitionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: RoleDefinitions createOrUpdate" })
         @PUT("{scope}/providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionId}")
-        Observable<Response<ResponseBody>> createOrUpdate(@Path(value = "scope", encoded = true) String scope, @Path("roleDefinitionId") String roleDefinitionId, @Body RoleDefinitionInner roleDefinition, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({201})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<RoleDefinitionInner>> createOrUpdate(@PathParam(value = "scope", encoded = true) String scope, @PathParam("roleDefinitionId") String roleDefinitionId, @BodyParam("application/json; charset=utf-8") RoleDefinitionInner roleDefinition, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: RoleDefinitions getById" })
-        @GET("{roleDefinitionId}")
-        Observable<Response<ResponseBody>> getById(@Path(value = "roleDefinitionId", encoded = true) String roleDefinitionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
-
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: RoleDefinitions list" })
         @GET("{scope}/providers/Microsoft.Authorization/roleDefinitions")
-        Observable<Response<ResponseBody>> list(@Path(value = "scope", encoded = true) String scope, @Query("$filter") String filter, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl<RoleDefinitionInner>>> list(@PathParam(value = "scope", encoded = true) String scope, @QueryParam("$filter") String filter, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: RoleDefinitions listNext" })
-        @GET
-        Observable<Response<ResponseBody>> listNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @GET("{roleId}")
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<RoleDefinitionInner>> getById(@PathParam(value = "roleId", encoded = true) String roleId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
+        @GET("{nextUrl}")
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl<RoleDefinitionInner>>> listNext(@PathParam(value = "nextUrl", encoded = true) String nextUrl, @HeaderParam("accept-language") String acceptLanguage);
     }
 
     /**
@@ -93,13 +99,13 @@ public class RoleDefinitionsInner implements InnerSupportsDelete<RoleDefinitionI
      *
      * @param scope The scope of the role definition.
      * @param roleDefinitionId The ID of the role definition to delete.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the RoleDefinitionInner object if successful.
      */
-    public RoleDefinitionInner delete(String scope, String roleDefinitionId) {
-        return deleteWithServiceResponseAsync(scope, roleDefinitionId).toBlocking().single().body();
+    public RoleDefinitionInner delete(@NonNull String scope, @NonNull String roleDefinitionId) {
+        return deleteAsync(scope, roleDefinitionId).blockingGet();
     }
 
     /**
@@ -108,11 +114,11 @@ public class RoleDefinitionsInner implements InnerSupportsDelete<RoleDefinitionI
      * @param scope The scope of the role definition.
      * @param roleDefinitionId The ID of the role definition to delete.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<RoleDefinitionInner> deleteAsync(String scope, String roleDefinitionId, final ServiceCallback<RoleDefinitionInner> serviceCallback) {
-        return ServiceFuture.fromResponse(deleteWithServiceResponseAsync(scope, roleDefinitionId), serviceCallback);
+    public ServiceFuture<RoleDefinitionInner> deleteAsync(@NonNull String scope, @NonNull String roleDefinitionId, ServiceCallback<RoleDefinitionInner> serviceCallback) {
+        return ServiceFuture.fromBody(deleteAsync(scope, roleDefinitionId), serviceCallback);
     }
 
     /**
@@ -120,55 +126,31 @@ public class RoleDefinitionsInner implements InnerSupportsDelete<RoleDefinitionI
      *
      * @param scope The scope of the role definition.
      * @param roleDefinitionId The ID of the role definition to delete.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the RoleDefinitionInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<RoleDefinitionInner> deleteAsync(String scope, String roleDefinitionId) {
-        return deleteWithServiceResponseAsync(scope, roleDefinitionId).map(new Func1<ServiceResponse<RoleDefinitionInner>, RoleDefinitionInner>() {
-            @Override
-            public RoleDefinitionInner call(ServiceResponse<RoleDefinitionInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Deletes a role definition.
-     *
-     * @param scope The scope of the role definition.
-     * @param roleDefinitionId The ID of the role definition to delete.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the RoleDefinitionInner object
-     */
-    public Observable<ServiceResponse<RoleDefinitionInner>> deleteWithServiceResponseAsync(String scope, String roleDefinitionId) {
+    public Single<BodyResponse<RoleDefinitionInner>> deleteWithRestResponseAsync(@NonNull String scope, @NonNull String roleDefinitionId) {
         if (scope == null) {
             throw new IllegalArgumentException("Parameter scope is required and cannot be null.");
         }
         if (roleDefinitionId == null) {
             throw new IllegalArgumentException("Parameter roleDefinitionId is required and cannot be null.");
         }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
-        return service.delete(scope, roleDefinitionId, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<RoleDefinitionInner>>>() {
-                @Override
-                public Observable<ServiceResponse<RoleDefinitionInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<RoleDefinitionInner> clientResponse = deleteDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        final String apiVersion = "2018-01-01-preview";
+        return service.delete(scope, roleDefinitionId, apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<RoleDefinitionInner> deleteDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<RoleDefinitionInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<RoleDefinitionInner>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Deletes a role definition.
+     *
+     * @param scope The scope of the role definition.
+     * @param roleDefinitionId The ID of the role definition to delete.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<RoleDefinitionInner> deleteAsync(@NonNull String scope, @NonNull String roleDefinitionId) {
+        return deleteWithRestResponseAsync(scope, roleDefinitionId)
+            .flatMapMaybe((BodyResponse<RoleDefinitionInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
@@ -176,13 +158,13 @@ public class RoleDefinitionsInner implements InnerSupportsDelete<RoleDefinitionI
      *
      * @param scope The scope of the role definition.
      * @param roleDefinitionId The ID of the role definition.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the RoleDefinitionInner object if successful.
      */
-    public RoleDefinitionInner get(String scope, String roleDefinitionId) {
-        return getWithServiceResponseAsync(scope, roleDefinitionId).toBlocking().single().body();
+    public RoleDefinitionInner get(@NonNull String scope, @NonNull String roleDefinitionId) {
+        return getAsync(scope, roleDefinitionId).blockingGet();
     }
 
     /**
@@ -191,11 +173,11 @@ public class RoleDefinitionsInner implements InnerSupportsDelete<RoleDefinitionI
      * @param scope The scope of the role definition.
      * @param roleDefinitionId The ID of the role definition.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<RoleDefinitionInner> getAsync(String scope, String roleDefinitionId, final ServiceCallback<RoleDefinitionInner> serviceCallback) {
-        return ServiceFuture.fromResponse(getWithServiceResponseAsync(scope, roleDefinitionId), serviceCallback);
+    public ServiceFuture<RoleDefinitionInner> getAsync(@NonNull String scope, @NonNull String roleDefinitionId, ServiceCallback<RoleDefinitionInner> serviceCallback) {
+        return ServiceFuture.fromBody(getAsync(scope, roleDefinitionId), serviceCallback);
     }
 
     /**
@@ -203,55 +185,31 @@ public class RoleDefinitionsInner implements InnerSupportsDelete<RoleDefinitionI
      *
      * @param scope The scope of the role definition.
      * @param roleDefinitionId The ID of the role definition.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the RoleDefinitionInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<RoleDefinitionInner> getAsync(String scope, String roleDefinitionId) {
-        return getWithServiceResponseAsync(scope, roleDefinitionId).map(new Func1<ServiceResponse<RoleDefinitionInner>, RoleDefinitionInner>() {
-            @Override
-            public RoleDefinitionInner call(ServiceResponse<RoleDefinitionInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Get role definition by name (GUID).
-     *
-     * @param scope The scope of the role definition.
-     * @param roleDefinitionId The ID of the role definition.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the RoleDefinitionInner object
-     */
-    public Observable<ServiceResponse<RoleDefinitionInner>> getWithServiceResponseAsync(String scope, String roleDefinitionId) {
+    public Single<BodyResponse<RoleDefinitionInner>> getWithRestResponseAsync(@NonNull String scope, @NonNull String roleDefinitionId) {
         if (scope == null) {
             throw new IllegalArgumentException("Parameter scope is required and cannot be null.");
         }
         if (roleDefinitionId == null) {
             throw new IllegalArgumentException("Parameter roleDefinitionId is required and cannot be null.");
         }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
-        return service.get(scope, roleDefinitionId, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<RoleDefinitionInner>>>() {
-                @Override
-                public Observable<ServiceResponse<RoleDefinitionInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<RoleDefinitionInner> clientResponse = getDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        final String apiVersion = "2018-01-01-preview";
+        return service.get(scope, roleDefinitionId, apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<RoleDefinitionInner> getDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<RoleDefinitionInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<RoleDefinitionInner>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Get role definition by name (GUID).
+     *
+     * @param scope The scope of the role definition.
+     * @param roleDefinitionId The ID of the role definition.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<RoleDefinitionInner> getAsync(@NonNull String scope, @NonNull String roleDefinitionId) {
+        return getWithRestResponseAsync(scope, roleDefinitionId)
+            .flatMapMaybe((BodyResponse<RoleDefinitionInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
@@ -260,13 +218,13 @@ public class RoleDefinitionsInner implements InnerSupportsDelete<RoleDefinitionI
      * @param scope The scope of the role definition.
      * @param roleDefinitionId The ID of the role definition.
      * @param roleDefinition The values for the role definition.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the RoleDefinitionInner object if successful.
      */
-    public RoleDefinitionInner createOrUpdate(String scope, String roleDefinitionId, RoleDefinitionInner roleDefinition) {
-        return createOrUpdateWithServiceResponseAsync(scope, roleDefinitionId, roleDefinition).toBlocking().single().body();
+    public RoleDefinitionInner createOrUpdate(@NonNull String scope, @NonNull String roleDefinitionId, @NonNull RoleDefinitionInner roleDefinition) {
+        return createOrUpdateAsync(scope, roleDefinitionId, roleDefinition).blockingGet();
     }
 
     /**
@@ -276,11 +234,11 @@ public class RoleDefinitionsInner implements InnerSupportsDelete<RoleDefinitionI
      * @param roleDefinitionId The ID of the role definition.
      * @param roleDefinition The values for the role definition.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<RoleDefinitionInner> createOrUpdateAsync(String scope, String roleDefinitionId, RoleDefinitionInner roleDefinition, final ServiceCallback<RoleDefinitionInner> serviceCallback) {
-        return ServiceFuture.fromResponse(createOrUpdateWithServiceResponseAsync(scope, roleDefinitionId, roleDefinition), serviceCallback);
+    public ServiceFuture<RoleDefinitionInner> createOrUpdateAsync(@NonNull String scope, @NonNull String roleDefinitionId, @NonNull RoleDefinitionInner roleDefinition, ServiceCallback<RoleDefinitionInner> serviceCallback) {
+        return ServiceFuture.fromBody(createOrUpdateAsync(scope, roleDefinitionId, roleDefinition), serviceCallback);
     }
 
     /**
@@ -289,28 +247,10 @@ public class RoleDefinitionsInner implements InnerSupportsDelete<RoleDefinitionI
      * @param scope The scope of the role definition.
      * @param roleDefinitionId The ID of the role definition.
      * @param roleDefinition The values for the role definition.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the RoleDefinitionInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<RoleDefinitionInner> createOrUpdateAsync(String scope, String roleDefinitionId, RoleDefinitionInner roleDefinition) {
-        return createOrUpdateWithServiceResponseAsync(scope, roleDefinitionId, roleDefinition).map(new Func1<ServiceResponse<RoleDefinitionInner>, RoleDefinitionInner>() {
-            @Override
-            public RoleDefinitionInner call(ServiceResponse<RoleDefinitionInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Creates or updates a role definition.
-     *
-     * @param scope The scope of the role definition.
-     * @param roleDefinitionId The ID of the role definition.
-     * @param roleDefinition The values for the role definition.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the RoleDefinitionInner object
-     */
-    public Observable<ServiceResponse<RoleDefinitionInner>> createOrUpdateWithServiceResponseAsync(String scope, String roleDefinitionId, RoleDefinitionInner roleDefinition) {
+    public Single<BodyResponse<RoleDefinitionInner>> createOrUpdateWithRestResponseAsync(@NonNull String scope, @NonNull String roleDefinitionId, @NonNull RoleDefinitionInner roleDefinition) {
         if (scope == null) {
             throw new IllegalArgumentException("Parameter scope is required and cannot be null.");
         }
@@ -320,345 +260,204 @@ public class RoleDefinitionsInner implements InnerSupportsDelete<RoleDefinitionI
         if (roleDefinition == null) {
             throw new IllegalArgumentException("Parameter roleDefinition is required and cannot be null.");
         }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
         Validator.validate(roleDefinition);
-        return service.createOrUpdate(scope, roleDefinitionId, roleDefinition, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<RoleDefinitionInner>>>() {
-                @Override
-                public Observable<ServiceResponse<RoleDefinitionInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<RoleDefinitionInner> clientResponse = createOrUpdateDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
+        final String apiVersion = "2018-01-01-preview";
+        return service.createOrUpdate(scope, roleDefinitionId, roleDefinition, apiVersion, this.client.acceptLanguage());
+    }
+
+    /**
+     * Creates or updates a role definition.
+     *
+     * @param scope The scope of the role definition.
+     * @param roleDefinitionId The ID of the role definition.
+     * @param roleDefinition The values for the role definition.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<RoleDefinitionInner> createOrUpdateAsync(@NonNull String scope, @NonNull String roleDefinitionId, @NonNull RoleDefinitionInner roleDefinition) {
+        return createOrUpdateWithRestResponseAsync(scope, roleDefinitionId, roleDefinition)
+            .flatMapMaybe((BodyResponse<RoleDefinitionInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
+    }
+
+    /**
+     * Get all role definitions that are applicable at scope and above.
+     *
+     * @param scope The scope of the role definition.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the PagedList&lt;RoleDefinitionInner&gt; object if successful.
+     */
+    public PagedList<RoleDefinitionInner> list(@NonNull String scope) {
+        Page<RoleDefinitionInner> response = listSinglePageAsync(scope).blockingGet();
+        return new PagedList<RoleDefinitionInner>(response) {
+            @Override
+            public Page<RoleDefinitionInner> nextPage(String nextPageLink) {
+                return listNextSinglePageAsync(nextPageLink).blockingGet();
+            }
+        };
+    }
+
+    /**
+     * Get all role definitions that are applicable at scope and above.
+     *
+     * @param scope The scope of the role definition.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;RoleDefinitionInner&gt; object.
+     */
+    public Observable<Page<RoleDefinitionInner>> listAsync(@NonNull String scope) {
+        return listSinglePageAsync(scope)
+            .toObservable()
+            .concatMap((Page<RoleDefinitionInner> page) -> {
+                String nextPageLink = page.nextPageLink();
+                if (nextPageLink == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listNextAsync(nextPageLink));
             });
     }
 
-    private ServiceResponse<RoleDefinitionInner> createOrUpdateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<RoleDefinitionInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(201, new TypeToken<RoleDefinitionInner>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Get all role definitions that are applicable at scope and above.
+     *
+     * @param scope The scope of the role definition.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;RoleDefinitionInner&gt;&gt; object if successful.
+     */
+    public Single<Page<RoleDefinitionInner>> listSinglePageAsync(@NonNull String scope) {
+        if (scope == null) {
+            throw new IllegalArgumentException("Parameter scope is required and cannot be null.");
+        }
+        final String apiVersion = "2018-01-01-preview";
+        final String filter = null;
+        return service.list(scope, filter, apiVersion, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl<RoleDefinitionInner>> res) -> res.body());
+    }
+
+    /**
+     * Get all role definitions that are applicable at scope and above.
+     *
+     * @param scope The scope of the role definition.
+     * @param filter The filter to apply on the operation. Use atScopeAndBelow filter to search below the given scope as well.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the PagedList&lt;RoleDefinitionInner&gt; object if successful.
+     */
+    public PagedList<RoleDefinitionInner> list(@NonNull String scope, String filter) {
+        Page<RoleDefinitionInner> response = listSinglePageAsync(scope, filter).blockingGet();
+        return new PagedList<RoleDefinitionInner>(response) {
+            @Override
+            public Page<RoleDefinitionInner> nextPage(String nextPageLink) {
+                return listNextSinglePageAsync(nextPageLink).blockingGet();
+            }
+        };
+    }
+
+    /**
+     * Get all role definitions that are applicable at scope and above.
+     *
+     * @param scope The scope of the role definition.
+     * @param filter The filter to apply on the operation. Use atScopeAndBelow filter to search below the given scope as well.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;RoleDefinitionInner&gt; object.
+     */
+    public Observable<Page<RoleDefinitionInner>> listAsync(@NonNull String scope, String filter) {
+        return listSinglePageAsync(scope, filter)
+            .toObservable()
+            .concatMap((Page<RoleDefinitionInner> page) -> {
+                String nextPageLink = page.nextPageLink();
+                if (nextPageLink == null) {
+                    return Observable.just(page);
+                }
+                return Observable.just(page).concatWith(listNextAsync(nextPageLink));
+            });
+    }
+
+    /**
+     * Get all role definitions that are applicable at scope and above.
+     *
+     * @param scope The scope of the role definition.
+     * @param filter The filter to apply on the operation. Use atScopeAndBelow filter to search below the given scope as well.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;RoleDefinitionInner&gt;&gt; object if successful.
+     */
+    public Single<Page<RoleDefinitionInner>> listSinglePageAsync(@NonNull String scope, String filter) {
+        if (scope == null) {
+            throw new IllegalArgumentException("Parameter scope is required and cannot be null.");
+        }
+        final String apiVersion = "2018-01-01-preview";
+        return service.list(scope, filter, apiVersion, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl<RoleDefinitionInner>> res) -> res.body());
     }
 
     /**
      * Gets a role definition by ID.
      *
-     * @param roleDefinitionId The fully qualified role definition ID to get.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @param roleId The fully qualified role definition ID. Use the format, /subscriptions/{guid}/providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionId} for subscription level role definitions, or /providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionId} for tenant level role definitions.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the RoleDefinitionInner object if successful.
      */
-    public RoleDefinitionInner getById(String roleDefinitionId) {
-        return getByIdWithServiceResponseAsync(roleDefinitionId).toBlocking().single().body();
+    public RoleDefinitionInner getById(@NonNull String roleId) {
+        return getByIdAsync(roleId).blockingGet();
     }
 
     /**
      * Gets a role definition by ID.
      *
-     * @param roleDefinitionId The fully qualified role definition ID to get.
+     * @param roleId The fully qualified role definition ID. Use the format, /subscriptions/{guid}/providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionId} for subscription level role definitions, or /providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionId} for tenant level role definitions.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<RoleDefinitionInner> getByIdAsync(String roleDefinitionId, final ServiceCallback<RoleDefinitionInner> serviceCallback) {
-        return ServiceFuture.fromResponse(getByIdWithServiceResponseAsync(roleDefinitionId), serviceCallback);
+    public ServiceFuture<RoleDefinitionInner> getByIdAsync(@NonNull String roleId, ServiceCallback<RoleDefinitionInner> serviceCallback) {
+        return ServiceFuture.fromBody(getByIdAsync(roleId), serviceCallback);
     }
 
     /**
      * Gets a role definition by ID.
      *
-     * @param roleDefinitionId The fully qualified role definition ID to get.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the RoleDefinitionInner object
+     * @param roleId The fully qualified role definition ID. Use the format, /subscriptions/{guid}/providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionId} for subscription level role definitions, or /providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionId} for tenant level role definitions.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<RoleDefinitionInner> getByIdAsync(String roleDefinitionId) {
-        return getByIdWithServiceResponseAsync(roleDefinitionId).map(new Func1<ServiceResponse<RoleDefinitionInner>, RoleDefinitionInner>() {
-            @Override
-            public RoleDefinitionInner call(ServiceResponse<RoleDefinitionInner> response) {
-                return response.body();
-            }
-        });
+    public Single<BodyResponse<RoleDefinitionInner>> getByIdWithRestResponseAsync(@NonNull String roleId) {
+        if (roleId == null) {
+            throw new IllegalArgumentException("Parameter roleId is required and cannot be null.");
+        }
+        final String apiVersion = "2018-01-01-preview";
+        return service.getById(roleId, apiVersion, this.client.acceptLanguage());
     }
 
     /**
      * Gets a role definition by ID.
      *
-     * @param roleDefinitionId The fully qualified role definition ID to get.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the RoleDefinitionInner object
+     * @param roleId The fully qualified role definition ID. Use the format, /subscriptions/{guid}/providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionId} for subscription level role definitions, or /providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionId} for tenant level role definitions.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<ServiceResponse<RoleDefinitionInner>> getByIdWithServiceResponseAsync(String roleDefinitionId) {
-        if (roleDefinitionId == null) {
-            throw new IllegalArgumentException("Parameter roleDefinitionId is required and cannot be null.");
-        }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
-        return service.getById(roleDefinitionId, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<RoleDefinitionInner>>>() {
-                @Override
-                public Observable<ServiceResponse<RoleDefinitionInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<RoleDefinitionInner> clientResponse = getByIdDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<RoleDefinitionInner> getByIdDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<RoleDefinitionInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<RoleDefinitionInner>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
-    }
-
-    /**
-     * Get all role definitions that are applicable at scope and above.
-     *
-     * @param scope The scope of the role definition.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the PagedList&lt;RoleDefinitionInner&gt; object if successful.
-     */
-    public PagedList<RoleDefinitionInner> list(final String scope) {
-        ServiceResponse<Page<RoleDefinitionInner>> response = listSinglePageAsync(scope).toBlocking().single();
-        return new PagedList<RoleDefinitionInner>(response.body()) {
-            @Override
-            public Page<RoleDefinitionInner> nextPage(String nextPageLink) {
-                return listNextSinglePageAsync(nextPageLink).toBlocking().single().body();
-            }
-        };
-    }
-
-    /**
-     * Get all role definitions that are applicable at scope and above.
-     *
-     * @param scope The scope of the role definition.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<List<RoleDefinitionInner>> listAsync(final String scope, final ListOperationCallback<RoleDefinitionInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listSinglePageAsync(scope),
-            new Func1<String, Observable<ServiceResponse<Page<RoleDefinitionInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<RoleDefinitionInner>>> call(String nextPageLink) {
-                    return listNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Get all role definitions that are applicable at scope and above.
-     *
-     * @param scope The scope of the role definition.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;RoleDefinitionInner&gt; object
-     */
-    public Observable<Page<RoleDefinitionInner>> listAsync(final String scope) {
-        return listWithServiceResponseAsync(scope)
-            .map(new Func1<ServiceResponse<Page<RoleDefinitionInner>>, Page<RoleDefinitionInner>>() {
-                @Override
-                public Page<RoleDefinitionInner> call(ServiceResponse<Page<RoleDefinitionInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Get all role definitions that are applicable at scope and above.
-     *
-     * @param scope The scope of the role definition.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;RoleDefinitionInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<RoleDefinitionInner>>> listWithServiceResponseAsync(final String scope) {
-        return listSinglePageAsync(scope)
-            .concatMap(new Func1<ServiceResponse<Page<RoleDefinitionInner>>, Observable<ServiceResponse<Page<RoleDefinitionInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<RoleDefinitionInner>>> call(ServiceResponse<Page<RoleDefinitionInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listNextWithServiceResponseAsync(nextPageLink));
-                }
-            });
-    }
-
-    /**
-     * Get all role definitions that are applicable at scope and above.
-     *
-     * @param scope The scope of the role definition.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;RoleDefinitionInner&gt; object wrapped in {@link ServiceResponse} if successful.
-     */
-    public Observable<ServiceResponse<Page<RoleDefinitionInner>>> listSinglePageAsync(final String scope) {
-        if (scope == null) {
-            throw new IllegalArgumentException("Parameter scope is required and cannot be null.");
-        }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
-        final String filter = null;
-        return service.list(scope, filter, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<RoleDefinitionInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<RoleDefinitionInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<RoleDefinitionInner>> result = listDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<RoleDefinitionInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    /**
-     * Get all role definitions that are applicable at scope and above.
-     *
-     * @param scope The scope of the role definition.
-     * @param filter The filter to apply on the operation. Use atScopeAndBelow filter to search below the given scope as well.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the PagedList&lt;RoleDefinitionInner&gt; object if successful.
-     */
-    public PagedList<RoleDefinitionInner> list(final String scope, final String filter) {
-        ServiceResponse<Page<RoleDefinitionInner>> response = listSinglePageAsync(scope, filter).toBlocking().single();
-        return new PagedList<RoleDefinitionInner>(response.body()) {
-            @Override
-            public Page<RoleDefinitionInner> nextPage(String nextPageLink) {
-                return listNextSinglePageAsync(nextPageLink).toBlocking().single().body();
-            }
-        };
-    }
-
-    /**
-     * Get all role definitions that are applicable at scope and above.
-     *
-     * @param scope The scope of the role definition.
-     * @param filter The filter to apply on the operation. Use atScopeAndBelow filter to search below the given scope as well.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<List<RoleDefinitionInner>> listAsync(final String scope, final String filter, final ListOperationCallback<RoleDefinitionInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listSinglePageAsync(scope, filter),
-            new Func1<String, Observable<ServiceResponse<Page<RoleDefinitionInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<RoleDefinitionInner>>> call(String nextPageLink) {
-                    return listNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Get all role definitions that are applicable at scope and above.
-     *
-     * @param scope The scope of the role definition.
-     * @param filter The filter to apply on the operation. Use atScopeAndBelow filter to search below the given scope as well.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;RoleDefinitionInner&gt; object
-     */
-    public Observable<Page<RoleDefinitionInner>> listAsync(final String scope, final String filter) {
-        return listWithServiceResponseAsync(scope, filter)
-            .map(new Func1<ServiceResponse<Page<RoleDefinitionInner>>, Page<RoleDefinitionInner>>() {
-                @Override
-                public Page<RoleDefinitionInner> call(ServiceResponse<Page<RoleDefinitionInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Get all role definitions that are applicable at scope and above.
-     *
-     * @param scope The scope of the role definition.
-     * @param filter The filter to apply on the operation. Use atScopeAndBelow filter to search below the given scope as well.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;RoleDefinitionInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<RoleDefinitionInner>>> listWithServiceResponseAsync(final String scope, final String filter) {
-        return listSinglePageAsync(scope, filter)
-            .concatMap(new Func1<ServiceResponse<Page<RoleDefinitionInner>>, Observable<ServiceResponse<Page<RoleDefinitionInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<RoleDefinitionInner>>> call(ServiceResponse<Page<RoleDefinitionInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listNextWithServiceResponseAsync(nextPageLink));
-                }
-            });
-    }
-
-    /**
-     * Get all role definitions that are applicable at scope and above.
-     *
-    ServiceResponse<PageImpl<RoleDefinitionInner>> * @param scope The scope of the role definition.
-    ServiceResponse<PageImpl<RoleDefinitionInner>> * @param filter The filter to apply on the operation. Use atScopeAndBelow filter to search below the given scope as well.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;RoleDefinitionInner&gt; object wrapped in {@link ServiceResponse} if successful.
-     */
-    public Observable<ServiceResponse<Page<RoleDefinitionInner>>> listSinglePageAsync(final String scope, final String filter) {
-        if (scope == null) {
-            throw new IllegalArgumentException("Parameter scope is required and cannot be null.");
-        }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
-        return service.list(scope, filter, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<RoleDefinitionInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<RoleDefinitionInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<RoleDefinitionInner>> result = listDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<RoleDefinitionInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl<RoleDefinitionInner>> listDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<RoleDefinitionInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<RoleDefinitionInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    public Maybe<RoleDefinitionInner> getByIdAsync(@NonNull String roleId) {
+        return getByIdWithRestResponseAsync(roleId)
+            .flatMapMaybe((BodyResponse<RoleDefinitionInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
      * Get all role definitions that are applicable at scope and above.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;RoleDefinitionInner&gt; object if successful.
      */
-    public PagedList<RoleDefinitionInner> listNext(final String nextPageLink) {
-        ServiceResponse<Page<RoleDefinitionInner>> response = listNextSinglePageAsync(nextPageLink).toBlocking().single();
-        return new PagedList<RoleDefinitionInner>(response.body()) {
+    public PagedList<RoleDefinitionInner> listNext(@NonNull String nextPageLink) {
+        Page<RoleDefinitionInner> response = listNextSinglePageAsync(nextPageLink).blockingGet();
+        return new PagedList<RoleDefinitionInner>(response) {
             @Override
             public Page<RoleDefinitionInner> nextPage(String nextPageLink) {
-                return listNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -667,92 +466,34 @@ public class RoleDefinitionsInner implements InnerSupportsDelete<RoleDefinitionI
      * Get all role definitions that are applicable at scope and above.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;RoleDefinitionInner&gt; object.
      */
-    public ServiceFuture<List<RoleDefinitionInner>> listNextAsync(final String nextPageLink, final ServiceFuture<List<RoleDefinitionInner>> serviceFuture, final ListOperationCallback<RoleDefinitionInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listNextSinglePageAsync(nextPageLink),
-            new Func1<String, Observable<ServiceResponse<Page<RoleDefinitionInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<RoleDefinitionInner>>> call(String nextPageLink) {
-                    return listNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Get all role definitions that are applicable at scope and above.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;RoleDefinitionInner&gt; object
-     */
-    public Observable<Page<RoleDefinitionInner>> listNextAsync(final String nextPageLink) {
-        return listNextWithServiceResponseAsync(nextPageLink)
-            .map(new Func1<ServiceResponse<Page<RoleDefinitionInner>>, Page<RoleDefinitionInner>>() {
-                @Override
-                public Page<RoleDefinitionInner> call(ServiceResponse<Page<RoleDefinitionInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Get all role definitions that are applicable at scope and above.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;RoleDefinitionInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<RoleDefinitionInner>>> listNextWithServiceResponseAsync(final String nextPageLink) {
+    public Observable<Page<RoleDefinitionInner>> listNextAsync(@NonNull String nextPageLink) {
         return listNextSinglePageAsync(nextPageLink)
-            .concatMap(new Func1<ServiceResponse<Page<RoleDefinitionInner>>, Observable<ServiceResponse<Page<RoleDefinitionInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<RoleDefinitionInner>>> call(ServiceResponse<Page<RoleDefinitionInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<RoleDefinitionInner> page) -> {
+                String nextPageLink1 = page.nextPageLink();
+                if (nextPageLink1 == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listNextAsync(nextPageLink1));
             });
     }
 
     /**
      * Get all role definitions that are applicable at scope and above.
      *
-    ServiceResponse<PageImpl<RoleDefinitionInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;RoleDefinitionInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;RoleDefinitionInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<RoleDefinitionInner>>> listNextSinglePageAsync(final String nextPageLink) {
+    public Single<Page<RoleDefinitionInner>> listNextSinglePageAsync(@NonNull String nextPageLink) {
         if (nextPageLink == null) {
             throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
         }
         String nextUrl = String.format("%s", nextPageLink);
-        return service.listNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<RoleDefinitionInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<RoleDefinitionInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<RoleDefinitionInner>> result = listNextDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<RoleDefinitionInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.listNext(nextUrl, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl<RoleDefinitionInner>> res) -> res.body());
     }
-
-    private ServiceResponse<PageImpl<RoleDefinitionInner>> listNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<RoleDefinitionInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<RoleDefinitionInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
-    }
-
 }

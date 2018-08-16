@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Role Assignments filter.
  */
-public class RoleAssignmentFilter {
+public final class RoleAssignmentFilter {
     /**
      * Returns role assignment of the specific principal.
      */
@@ -21,9 +21,15 @@ public class RoleAssignmentFilter {
     private String principalId;
 
     /**
+     * The Delegation flag for the roleassignment.
+     */
+    @JsonProperty(value = "canDelegate")
+    private Boolean canDelegate;
+
+    /**
      * Get the principalId value.
      *
-     * @return the principalId value
+     * @return the principalId value.
      */
     public String principalId() {
         return this.principalId;
@@ -32,7 +38,7 @@ public class RoleAssignmentFilter {
     /**
      * Set the principalId value.
      *
-     * @param principalId the principalId value to set
+     * @param principalId the principalId value to set.
      * @return the RoleAssignmentFilter object itself.
      */
     public RoleAssignmentFilter withPrincipalId(String principalId) {
@@ -40,4 +46,23 @@ public class RoleAssignmentFilter {
         return this;
     }
 
+    /**
+     * Get the canDelegate value.
+     *
+     * @return the canDelegate value.
+     */
+    public Boolean canDelegate() {
+        return this.canDelegate;
+    }
+
+    /**
+     * Set the canDelegate value.
+     *
+     * @param canDelegate the canDelegate value to set.
+     * @return the RoleAssignmentFilter object itself.
+     */
+    public RoleAssignmentFilter withCanDelegate(Boolean canDelegate) {
+        this.canDelegate = canDelegate;
+        return this;
+    }
 }

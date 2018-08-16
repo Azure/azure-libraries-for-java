@@ -11,15 +11,13 @@ import com.microsoft.azure.v2.management.graphrbac.ActiveDirectoryGroup;
 import com.microsoft.azure.v2.management.graphrbac.ActiveDirectoryUser;
 import com.microsoft.azure.v2.management.graphrbac.BuiltInRole;
 import com.microsoft.azure.v2.management.graphrbac.RoleAssignment;
-import com.microsoft.azure.v2.management.graphrbac.RoleAssignmentPropertiesWithScope;
-import com.microsoft.azure.v2.management.graphrbac.RoleDefinition;
+import com.microsoft.azure.v2.management.graphrbac.RoleAssignmentCreateParameters;
 import com.microsoft.azure.v2.management.graphrbac.ServicePrincipal;
-import com.microsoft.azure.management.resources.ResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableImpl;
-import rx.Observable;
-import rx.functions.Func1;
-import rx.functions.Func2;
+import com.microsoft.azure.v2.management.resources.ResourceGroup;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.implementation.CreatableImpl;
+import io.reactivex.Maybe;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.Resource;
+import io.reactivex.Observable;
 
 /**
  * Implementation for ServicePrincipal and its parent interfaces.
@@ -61,20 +59,10 @@ class RoleAssignmentImpl
             objectIdObservable = Observable.just(objectId);
         } else if (userName != null) {
             objectIdObservable = manager.users().getByNameAsync(userName)
-                    .map(new Func1<ActiveDirectoryUser, String>() {
-                        @Override
-                        public String call(ActiveDirectoryUser user) {
-                            return user.id();
-                        }
-                    });
+                    .map(user -> user.id());
         } else if (servicePrincipalName != null) {
             objectIdObservable = manager.servicePrincipals().getByNameAsync(servicePrincipalName)
-                    .map(new Func1<ServicePrincipal, String>() {
-                        @Override
-                        public String call(ServicePrincipal sp) {
-                            return sp.id();
-                        }
-                    });
+                    .map(sp -> sp.id());
         } else {
             throw new IllegalArgumentException("Please pass a non-null value for either object Id, user, group, or service principal");
         }
@@ -84,33 +72,18 @@ class RoleAssignmentImpl
             roleDefinitionIdObservable = Observable.just(roleDefinitionId);
         } else if (roleName != null) {
             roleDefinitionIdObservable = manager().roleDefinitions().getByScopeAndRoleNameAsync(scope(), roleName)
-                    .map(new Func1<RoleDefinition, String>() {
-                        @Override
-                        public String call(RoleDefinition roleDefinition) {
-                            return roleDefinition.id();
-                        }
-                    });
+                    .map(roleDefinition -> roleDefinition.id());
         } else {
             throw new IllegalArgumentException("Please pass a non-null value for either role name or role definition ID");
         }
 
-        return Observable.zip(objectIdObservable, roleDefinitionIdObservable, new Func2<String, String, RoleAssignmentPropertiesInner>() {
-            @Override
-            public RoleAssignmentPropertiesInner call(String objectId, String roleDefinitionId) {
-                return new RoleAssignmentPropertiesInner()
-                        .withPrincipalId(objectId).withRoleDefinitionId(roleDefinitionId);
-            }
-        }).flatMap(new Func1<RoleAssignmentPropertiesInner, Observable<RoleAssignmentInner>>() {
-            @Override
-            public Observable<RoleAssignmentInner> call(RoleAssignmentPropertiesInner roleAssignmentPropertiesInner) {
-                return manager().roleInner().roleAssignments()
-                        .createAsync(scope(), name(), roleAssignmentPropertiesInner);
-            }
-        }).map(innerToFluentMap(this));
+        return
+        Observable.zip(objectIdObservable, roleDefinitionIdObservable, (objectId, roleDefinitionId) -> new RoleAssignmentCreateParameters().withPrincipalId(objectId).withRoleDefinitionId(roleDefinitionId))
+                .flatMap(createParameter -> manager().roleInner().roleAssignments().createAsync(scope(), name(), createParameter).toObservable()).map(innerToFluentMap(this));
     }
 
     @Override
-    protected Observable<RoleAssignmentInner> getInnerAsync() {
+    protected Maybe<RoleAssignmentInner> getInnerAsync() {
         return manager.roleInner().roleAssignments().getAsync(scope(), name());
     }
 
@@ -121,26 +94,17 @@ class RoleAssignmentImpl
 
     @Override
     public String scope() {
-        if (inner().properties() == null) {
-            return null;
-        }
-        return inner().properties().scope();
+        return inner().scope();
     }
 
     @Override
     public String roleDefinitionId() {
-        if (inner().properties() == null) {
-            return null;
-        }
-        return inner().properties().roleDefinitionId();
+        return inner().roleDefinitionId();
     }
 
     @Override
     public String principalId() {
-        if (inner().properties() == null) {
-            return null;
-        }
-        return inner().properties().principalId();
+        return inner().principalId();
     }
 
     @Override
@@ -193,10 +157,7 @@ class RoleAssignmentImpl
 
     @Override
     public RoleAssignmentImpl withScope(String scope) {
-        if (this.inner().properties() == null) {
-            this.inner().withProperties(new RoleAssignmentPropertiesWithScope());
-        }
-        this.inner().properties().withScope(scope);
+        this.inner().withScope(scope);
         return this;
     }
 

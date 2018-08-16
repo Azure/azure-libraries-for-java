@@ -8,11 +8,11 @@ package com.microsoft.azure.management.graphrbac;
 
 import com.google.common.base.Joiner;
 import com.google.common.io.ByteStreams;
-import com.microsoft.azure.credentials.ApplicationTokenCredentials;
-import com.microsoft.azure.management.resources.ResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
-import com.microsoft.azure.management.resources.implementation.ResourceManager;
+import com.microsoft.azure.v2.credentials.ApplicationTokenCredentials;
+import com.microsoft.azure.v2.management.resources.ResourceGroup;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.v2.management.resources.fluentcore.utils.SdkContext;
+import com.microsoft.azure.v2.management.resources.implementation.ResourceManager;
 import com.microsoft.azure.v2.management.graphrbac.BuiltInRole;
 import com.microsoft.azure.v2.management.graphrbac.RoleAssignment;
 import com.microsoft.azure.v2.management.graphrbac.ServicePrincipal;
@@ -63,7 +63,7 @@ public class ServicePrincipalsTests extends GraphRbacManagementTest {
                     .defineCertificateCredential("spcert")
                         .withAsymmetricX509Certificate()
                         .withPublicKey(ByteStreams.toByteArray(ServicePrincipalsTests.class.getResourceAsStream("/myTest.cer")))
-                        .withDuration(Duration.standardDays(1))
+                        .withDuration(java.time.Duration.ofDays(1))
                         .attach()
                     .apply();
             Assert.assertNotNull(servicePrincipal);
@@ -97,7 +97,7 @@ public class ServicePrincipalsTests extends GraphRbacManagementTest {
                     .defineCertificateCredential("spcert")
                         .withAsymmetricX509Certificate()
                         .withPublicKey(Files.readAllBytes(Paths.get("/Users/jianghlu/Documents/code/certs/myserver.crt")))
-                        .withDuration(Duration.standardDays(7))
+                        .withDuration(java.time.Duration.ofDays(7))
                         .withAuthFileToExport(new FileOutputStream(authFile))
                         .withPrivateKeyFile("/Users/jianghlu/Documents/code/certs/myserver.pfx")
                         .withPrivateKeyPassword("StrongPass!123")

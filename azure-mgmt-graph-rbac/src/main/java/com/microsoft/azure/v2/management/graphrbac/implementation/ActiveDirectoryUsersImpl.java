@@ -6,18 +6,17 @@
 
 package com.microsoft.azure.v2.management.graphrbac.implementation;
 
-import com.microsoft.azure.Page;
-import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
+import com.microsoft.azure.v2.PagedList;
 import com.microsoft.azure.v2.management.graphrbac.ActiveDirectoryUser;
 import com.microsoft.azure.v2.management.graphrbac.ActiveDirectoryUsers;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.CreatableWrappersImpl;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.collection.implementation.CreatableWrappersImpl;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
+import io.reactivex.Completable;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
 
 /**
  * The implementation of Users and its parent interfaces.
@@ -25,12 +24,12 @@ import rx.functions.Func1;
 @LangDefinition(ContainerName = "/Microsoft.Azure.Management.Graph.RBAC.Fluent")
 class ActiveDirectoryUsersImpl
         extends CreatableWrappersImpl<
-        ActiveDirectoryUser,
-            ActiveDirectoryUserImpl,
-            UserInner>
+                ActiveDirectoryUser,
+                    ActiveDirectoryUserImpl,
+                    UserInner>
         implements
             ActiveDirectoryUsers,
-            HasInner<UsersInner> {
+        HasInner<UsersInner> {
     private final GraphRbacManager manager;
 
     ActiveDirectoryUsersImpl(
@@ -53,21 +52,19 @@ class ActiveDirectoryUsersImpl
 
     @Override
     public ActiveDirectoryUserImpl getById(String objectId) {
-        return (ActiveDirectoryUserImpl) getByIdAsync(objectId).toBlocking().single();
+        return (ActiveDirectoryUserImpl) getByIdAsync(objectId).blockingGet();
     }
 
     @Override
-    public Observable<ActiveDirectoryUser> getByIdAsync(String id) {
-        return manager().inner().users().getAsync(id).map(new Func1<UserInner, ActiveDirectoryUser>() {
-            @Override
-            public ActiveDirectoryUser call(UserInner userInner) {
-                if (userInner == null) {
-                    return null;
-                } else {
-                    return new ActiveDirectoryUserImpl(userInner, manager());
-                }
-            }
-        });
+    public Maybe<ActiveDirectoryUser> getByIdAsync(String id) {
+        return manager().inner().users().getAsync(id)
+                .map(userInner -> {
+                    if (userInner == null) {
+                        return null;
+                    } else {
+                        return new ActiveDirectoryUserImpl(userInner, manager());
+                    }
+                });
     }
 
     @Override
@@ -77,56 +74,44 @@ class ActiveDirectoryUsersImpl
 
     @Override
     public ActiveDirectoryUserImpl getByName(String upn) {
-        return (ActiveDirectoryUserImpl) getByNameAsync(upn).toBlocking().single();
+        return (ActiveDirectoryUserImpl) getByNameAsync(upn).lastElement().blockingGet();
     }
 
     @Override
     public Observable<ActiveDirectoryUser> getByNameAsync(final String name) {
         return manager().inner().users().getAsync(name)
-                .flatMap(new Func1<UserInner, Observable<UserInner>>() {
-                    @Override
-                    public Observable<UserInner> call(UserInner userInner) {
-                        // Exact match
-                        if (userInner != null) {
-                            return Observable.just(userInner);
-                        }
-                        // Search mail & mail nickname
-                        if (name.contains("@")) {
-                            return manager().inner().users().listAsync(String.format("mail eq '%s' or mailNickName eq '%s#EXT#'", name, name.replace("@", "_")))
-                                    .map(new Func1<Page<UserInner>, UserInner>() {
-                                        @Override
-                                        public UserInner call(Page<UserInner> userInnerPage) {
-                                            if (userInnerPage.items() == null || userInnerPage.items().isEmpty()) {
-                                                return null;
-                                            }
-                                            return userInnerPage.items().get(0);
-                                        }
-                                    });
-                        }
-                        // Search display name
-                        else {
-                            return manager().inner().users().listAsync(String.format("displayName eq '%s'", name))
-                                    .map(new Func1<Page<UserInner>, UserInner>() {
-                                        @Override
-                                        public UserInner call(Page<UserInner> userInnerPage) {
-                                            if (userInnerPage.items() == null || userInnerPage.items().isEmpty()) {
-                                                return null;
-                                            }
-                                            return userInnerPage.items().get(0);
-                                        }
-                                    });
-                        }
-                    }
+                .flatMap(userInner -> {
+                   if (userInner != null) {
+                       return Maybe.just(userInner);
+                   }
+                   // Search mail & mail nickname
+                   if (name.contains("@")) {
+                       return manager().inner().users().listAsync(String.format("mail eq '%s' or mailNickName eq '%s#EXT#'", name, name.replace("@", "_")))
+                               .map(pageOfUserInner -> {
+                                   if (pageOfUserInner.items() == null || pageOfUserInner.items().isEmpty()) {
+                                       return null;
+                                   }
+                                   return pageOfUserInner.items().get(0);
+                               }).lastElement();
+                   }
+                   // Search display name
+                   else {
+                       return manager().inner().users().listAsync(String.format("displayName eq '%s'", name))
+                               .map(pageOfUserInner -> {
+                                   if (pageOfUserInner.items() == null || pageOfUserInner.items().isEmpty()) {
+                                       return null;
+                                   }
+                                   return pageOfUserInner.items().get(0);
+                               }).lastElement();
+
+                   }
                 })
-                .map(new Func1<UserInner, ActiveDirectoryUser>() {
-                    @Override
-                    public ActiveDirectoryUser call(UserInner userInnerServiceResponse) {
-                        if (userInnerServiceResponse == null) {
-                            return null;
-                        }
-                        return new ActiveDirectoryUserImpl(userInnerServiceResponse, manager());
+                .map((io.reactivex.functions.Function<UserInner, ActiveDirectoryUser>)userInner -> {
+                    if (userInner == null) {
+                        return null;
                     }
-                });
+                    return new ActiveDirectoryUserImpl(userInner, manager());
+                }).toObservable();
     }
 
     @Override
@@ -156,6 +141,6 @@ class ActiveDirectoryUsersImpl
 
     @Override
     public Completable deleteByIdAsync(String id) {
-        return manager().inner().users().deleteAsync(id).toCompletable();
+        return manager().inner().users().deleteAsync(id);
     }
 }

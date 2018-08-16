@@ -6,27 +6,25 @@
 
 package com.microsoft.azure.v2.management.graphrbac.implementation;
 
-import com.google.common.base.Function;
 import com.google.common.collect.Lists;
-import com.microsoft.azure.CloudException;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
+import com.microsoft.azure.v2.CloudException;
 import com.microsoft.azure.v2.management.graphrbac.ActiveDirectoryApplication;
 import com.microsoft.azure.v2.management.graphrbac.BuiltInRole;
 import com.microsoft.azure.v2.management.graphrbac.CertificateCredential;
 import com.microsoft.azure.v2.management.graphrbac.PasswordCredential;
 import com.microsoft.azure.v2.management.graphrbac.RoleAssignment;
 import com.microsoft.azure.v2.management.graphrbac.ServicePrincipal;
-import com.microsoft.azure.management.resources.ResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
-import rx.Observable;
+import com.microsoft.azure.v2.management.graphrbac.ServicePrincipalCreateParameters;
+import com.microsoft.azure.v2.management.resources.ResourceGroup;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Creatable;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
+import com.microsoft.azure.v2.management.resources.fluentcore.utils.SdkContext;
+import io.reactivex.Completable;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
+import io.reactivex.Single;
 import rx.exceptions.Exceptions;
-import rx.functions.Action1;
-import rx.functions.Func0;
-import rx.functions.Func1;
-import rx.functions.Func2;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -54,7 +52,7 @@ class ServicePrincipalImpl
     private Map<String, CertificateCredential> cachedCertificateCredentials;
     private Map<String, RoleAssignment> cachedRoleAssignments;
 
-    private ServicePrincipalCreateParametersInner createParameters;
+    private ServicePrincipalCreateParameters createParameters;
     private Creatable<ActiveDirectoryApplication> applicationCreatable;
     private Map<String, BuiltInRole> rolesToCreate;
     private Set<String> rolesToDelete;
@@ -68,7 +66,7 @@ class ServicePrincipalImpl
     ServicePrincipalImpl(ServicePrincipalInner innerObject, GraphRbacManager manager) {
         super(innerObject.displayName(), innerObject);
         this.manager = manager;
-        this.createParameters = new ServicePrincipalCreateParametersInner().withAccountEnabled(true);
+        this.createParameters = new ServicePrincipalCreateParameters().withAccountEnabled(true);
         this.cachedRoleAssignments = new HashMap<>();
         this.rolesToCreate = new HashMap<>();
         this.rolesToDelete = new HashSet<>();
@@ -111,7 +109,7 @@ class ServicePrincipalImpl
     }
 
     @Override
-    protected Observable<ServicePrincipalInner> getInnerAsync() {
+    protected Maybe<ServicePrincipalInner> getInnerAsync() {
         return manager.inner().servicePrincipals().getAsync(id());
     }
 
@@ -124,16 +122,11 @@ class ServicePrincipalImpl
                 createParameters.withAppId(application.applicationId());
             }
             sp = manager.inner().servicePrincipals().createAsync(createParameters)
-                    .map(innerToFluentMap(this));
+                    .map(innerToFluentMap(this)).toObservable();
         }
-        return sp.flatMap(new Func1<ServicePrincipal, Observable<ServicePrincipal>>() {
-            @Override
-            public Observable<ServicePrincipal> call(ServicePrincipal servicePrincipal) {
-                return submitCredentialsAsync(servicePrincipal).mergeWith(submitRolesAsync(servicePrincipal));
-            }
-        }).map(new Func1<ServicePrincipal, ServicePrincipal>() {
-            @Override
-            public ServicePrincipal call(ServicePrincipal servicePrincipal) {
+        //
+        return sp.flatMap(servicePrincipal -> submitCredentialsAsync(servicePrincipal).mergeWith(submitRolesAsync(servicePrincipal)).toObservable())
+            .map(servicePrincipal -> {
                 for (PasswordCredentialImpl<?> passwordCredential : passwordCredentialsToCreate) {
                     passwordCredential.exportAuthFile((ServicePrincipalImpl) servicePrincipal);
                 }
@@ -143,12 +136,12 @@ class ServicePrincipalImpl
                 passwordCredentialsToCreate.clear();
                 certificateCredentialsToCreate.clear();
                 return servicePrincipal;
-            }
-        });
+            });
     }
 
-    private Observable<ServicePrincipal> submitCredentialsAsync(final ServicePrincipal sp) {
-        Observable<Void> observable = Observable.just(null);
+    private Single<ServicePrincipal> submitCredentialsAsync(final ServicePrincipal sp) {
+        Completable completable = Completable.complete();
+        //
         if (!certificateCredentialsToCreate.isEmpty() || !certificateCredentialsToDelete.isEmpty()) {
             Map<String, CertificateCredential> newCerts = new HashMap<>(cachedCertificateCredentials);
             for (String delete : certificateCredentialsToDelete) {
@@ -157,14 +150,11 @@ class ServicePrincipalImpl
             for (CertificateCredential create : certificateCredentialsToCreate) {
                 newCerts.put(create.name(), create);
             }
-            observable = observable.mergeWith(manager().inner().servicePrincipals().updateKeyCredentialsAsync(sp.id(),
-                    Lists.transform(new ArrayList<>(newCerts.values()), new Function<CertificateCredential, KeyCredentialInner>() {
-                        @Override
-                        public KeyCredentialInner apply(CertificateCredential input) {
-                            return input.inner();
-                        }
-                    })));
+            Completable updateKeyCredentialsCompletable = manager().inner().servicePrincipals().updateKeyCredentialsAsync(sp.id(),
+                    Lists.transform(new ArrayList<>(newCerts.values()), input -> input.inner()));
+            completable = completable.mergeWith(updateKeyCredentialsCompletable);
         }
+        //
         if (!passwordCredentialsToCreate.isEmpty() || !passwordCredentialsToDelete.isEmpty()) {
             Map<String, PasswordCredential> newPasses = new HashMap<>(cachedPasswordCredentials);
             for (String delete : passwordCredentialsToDelete) {
@@ -173,109 +163,62 @@ class ServicePrincipalImpl
             for (PasswordCredential create : passwordCredentialsToCreate) {
                 newPasses.put(create.name(), create);
             }
-            observable = observable.mergeWith(manager().inner().servicePrincipals().updatePasswordCredentialsAsync(sp.id(),
-                    Lists.transform(new ArrayList<>(newPasses.values()), new Function<PasswordCredential, PasswordCredentialInner>() {
-                        @Override
-                        public PasswordCredentialInner apply(PasswordCredential input) {
-                            return input.inner();
-                        }
-                    })));
+            Completable updatePasswordCredentialsCompletable = manager().inner().servicePrincipals().updatePasswordCredentialsAsync(sp.id(),
+                    Lists.transform(new ArrayList<>(newPasses.values()), input -> input.inner()));
+            completable = completable.mergeWith(updatePasswordCredentialsCompletable);
         }
-        return observable.last().flatMap(new Func1<Void, Observable<ServicePrincipal>>() {
-            @Override
-            public Observable<ServicePrincipal> call(Void aVoid) {
-                passwordCredentialsToDelete.clear();
-                certificateCredentialsToDelete.clear();
-                return refreshCredentialsAsync();
-            }
-        });
+        //
+        return completable.doOnComplete(() -> {
+            passwordCredentialsToDelete.clear();
+            certificateCredentialsToDelete.clear();
+        })
+        .andThen(refreshCredentialsAsync());
     }
 
-    private Observable<ServicePrincipal> submitRolesAsync(final ServicePrincipal servicePrincipal) {
+    private Single<ServicePrincipal> submitRolesAsync(final ServicePrincipal servicePrincipal) {
         Observable<ServicePrincipal> create;
         if (rolesToCreate.isEmpty()) {
             create = Observable.just(servicePrincipal);
         } else {
-            create = Observable.from(rolesToCreate.entrySet())
-                    .flatMap(new Func1<Map.Entry<String, BuiltInRole>, Observable<Indexable>>() {
-                        @Override
-                        public Observable<Indexable> call(Map.Entry<String, BuiltInRole> role) {
-                            return manager().roleAssignments().define(SdkContext.randomUuid())
-                                    .forServicePrincipal(servicePrincipal)
-                                    .withBuiltInRole(role.getValue())
-                                    .withScope(role.getKey())
-                                    .createAsync()
-                                    .retryWhen(new Func1<Observable<? extends Throwable>, Observable<?>>() {
-                                        @Override
-                                        public Observable<?> call(Observable<? extends Throwable> observable) {
-                                            return observable.zipWith(Observable.range(1, 30), new Func2<Throwable, Integer, Integer>() {
-                                                @Override
-                                                public Integer call(Throwable throwable, Integer integer) {
-                                                    if (throwable instanceof CloudException
-                                                            && ((CloudException) throwable).body().code().equalsIgnoreCase("PrincipalNotFound")) {
-                                                        return integer;
-                                                    } else {
-                                                        throw Exceptions.propagate(throwable);
-                                                    }
-                                                }
-                                            }).flatMap(new Func1<Integer, Observable<?>>() {
-                                                @Override
-                                                public Observable<?> call(Integer i) {
-                                                    return Observable.timer(i, TimeUnit.SECONDS);
-                                                }
-                                            });
-                                        }
-                                    });
-                        }
-                    })
-                    .doOnNext(new Action1<Indexable>() {
-                        @Override
-                        public void call(Indexable o) {
-                            cachedRoleAssignments.put(((RoleAssignment) o).id(), (RoleAssignment) o);
-                        }
-                    })
-                    .last()
-                    .map(new Func1<Indexable, ServicePrincipal>() {
-                        @Override
-                        public ServicePrincipal call(Indexable o) {
-                            rolesToCreate.clear();
-                            return servicePrincipal;
-                        }
+            create = Observable.fromIterable(rolesToCreate.entrySet())
+                    .flatMap(role -> {
+                        return manager().roleAssignments().define(SdkContext.randomUuid())
+                                .forServicePrincipal(servicePrincipal)
+                                .withBuiltInRole(role.getValue())
+                                .withScope(role.getKey())
+                                .createAsync()
+                                .retryWhen(throwableObservable -> throwableObservable.zipWith(Observable.range(1, 30), (throwable, integer) -> {
+                                    if (throwable instanceof CloudException
+                                            && ((CloudException) throwable).body().code().equalsIgnoreCase("PrincipalNotFound")) {
+                                        return integer;
+                                    } else {
+                                        throw Exceptions.propagate(throwable);
+                                    }
+                                }).flatMap(i -> Observable.timer(i, TimeUnit.SECONDS)))
+                                .doOnNext(indexable -> cachedRoleAssignments.put(((RoleAssignment) indexable).id(), (RoleAssignment) indexable))
+                                .lastElement()
+                                .map(indexable -> {
+                                    rolesToCreate.clear();
+                                    return servicePrincipal;
+                                }).toObservable();
                     });
         }
+
         Observable<ServicePrincipal> delete;
         if (rolesToDelete.isEmpty()) {
             delete =  Observable.just(servicePrincipal);
         } else {
-            delete = Observable.from(rolesToDelete)
-                    .flatMap(new Func1<String, Observable<String>>() {
-                        @Override
-                        public Observable<String> call(final String s) {
-                            return manager().roleAssignments().deleteByIdAsync(cachedRoleAssignments.get(s).id())
-                                    .toSingle(new Func0<String>() {
-                                        @Override
-                                        public String call() {
-                                            return s;
-                                        }
-                                    }).toObservable();
-                        }
+            delete = Observable.fromIterable(rolesToDelete)
+                    .flatMap(ra -> manager().roleAssignments().deleteByIdAsync(cachedRoleAssignments.get(ra).id()).andThen(Observable.just(ra)))
+                    .doOnNext(ra -> cachedRoleAssignments.remove(ra))
+                    .lastElement()
+                    .map(s -> {
+                        rolesToDelete.clear();
+                        return servicePrincipal;
                     })
-                    .doOnNext(new Action1<String>() {
-                        @Override
-                        public void call(String s) {
-                            cachedRoleAssignments.remove(s);
-                        }
-                    })
-                    .last()
-                    .map(new Func1<Object, ServicePrincipal>() {
-                        @Override
-                        public ServicePrincipal call(Object o) {
-                            rolesToDelete.clear();
-                            return servicePrincipal;
-                        }
-                    });
+                    .toObservable();
         }
-        return create.mergeWith(delete).last();
+        return create.mergeWith(delete).last(servicePrincipal);
     }
 
     @Override
@@ -283,63 +226,49 @@ class ServicePrincipalImpl
         return id() == null;
     }
 
-    Observable<ServicePrincipal> refreshCredentialsAsync() {
-        final Observable<ServicePrincipal> keyCredentials = manager.inner().servicePrincipals().listKeyCredentialsAsync(id())
-                .map(new Func1<List<KeyCredentialInner>, Map<String, CertificateCredential>>() {
-                    @Override
-                    public Map<String, CertificateCredential> call(List<KeyCredentialInner> keyCredentialInners) {
-                        if (keyCredentialInners == null || keyCredentialInners.isEmpty()) {
-                            return Collections.emptyMap();
-                        }
-                        Map<String, CertificateCredential> certificateCredentialMap = new HashMap<String, CertificateCredential>();
-                        for (KeyCredentialInner inner : keyCredentialInners) {
-                            CertificateCredential credential = new CertificateCredentialImpl<>(inner);
-                            certificateCredentialMap.put(credential.name(), credential);
-                        }
-                        return certificateCredentialMap;
+    Single<ServicePrincipal> refreshCredentialsAsync() {
+        final Maybe<ServicePrincipal> keyCredentials = manager.inner().servicePrincipals().listKeyCredentialsAsync(id())
+                .map((io.reactivex.functions.Function<List<KeyCredentialInner>, Map<String, CertificateCredential>>) keyCredentialInners -> {
+                    if (keyCredentialInners == null || keyCredentialInners.isEmpty()) {
+                        return Collections.emptyMap();
                     }
-                })
-                .map(new Func1<Map<String, CertificateCredential>, ServicePrincipal>() {
-                    @Override
-                    public ServicePrincipal call(Map<String, CertificateCredential> stringCertificateCredentialMap) {
-                        ServicePrincipalImpl.this.cachedCertificateCredentials = stringCertificateCredentialMap;
-                        return ServicePrincipalImpl.this;
+                    Map<String, CertificateCredential> certificateCredentialMap = new HashMap<String, CertificateCredential>();
+                    for (KeyCredentialInner inner : keyCredentialInners) {
+                        CertificateCredential credential = new CertificateCredentialImpl<>(inner);
+                        certificateCredentialMap.put(credential.name(), credential);
                     }
+                    return certificateCredentialMap;
+                }).map(stringCertificateCredentialMap -> {
+                    ServicePrincipalImpl.this.cachedCertificateCredentials = stringCertificateCredentialMap;
+                    return ServicePrincipalImpl.this;
                 });
-        final Observable<ServicePrincipal> passwordCredentials = manager.inner().servicePrincipals().listPasswordCredentialsAsync(id())
-                .map(new Func1<List<PasswordCredentialInner>, Map<String, PasswordCredential>>() {
-                    @Override
-                    public Map<String, PasswordCredential> call(List<PasswordCredentialInner> passwordCredentialInners) {
-                        if (passwordCredentialInners == null || passwordCredentialInners.isEmpty()) {
-                            return Collections.emptyMap();
-                        }
-                        Map<String, PasswordCredential> passwordCredentialMap = new HashMap<String, PasswordCredential>();
-                        for (PasswordCredentialInner inner : passwordCredentialInners) {
-                            PasswordCredential credential = new PasswordCredentialImpl<>(inner);
-                            passwordCredentialMap.put(credential.name(), credential);
-                        }
-                        return passwordCredentialMap;
+        //
+        final Maybe<ServicePrincipal> passwordCredentials = manager.inner().servicePrincipals().listPasswordCredentialsAsync(id())
+                .map((io.reactivex.functions.Function<List<PasswordCredentialInner>, Map<String, PasswordCredential>>) passwordCredentialInners -> {
+                    if (passwordCredentialInners == null || passwordCredentialInners.isEmpty()) {
+                        return Collections.emptyMap();
                     }
-                }).map(new Func1<Map<String, PasswordCredential>, ServicePrincipal>() {
-                    @Override
-                    public ServicePrincipal call(Map<String, PasswordCredential> stringPasswordCredentialMap) {
-                        ServicePrincipalImpl.this.cachedPasswordCredentials = stringPasswordCredentialMap;
-                        return ServicePrincipalImpl.this;
+                    Map<String, PasswordCredential> passwordCredentialMap = new HashMap<String, PasswordCredential>();
+                    for (PasswordCredentialInner inner : passwordCredentialInners) {
+                        PasswordCredential credential = new PasswordCredentialImpl<>(inner);
+                        passwordCredentialMap.put(credential.name(), credential);
                     }
+                    return passwordCredentialMap;
+                }).map(stringPasswordCredentialMap -> {
+                    ServicePrincipalImpl.this.cachedPasswordCredentials = stringPasswordCredentialMap;
+                    return ServicePrincipalImpl.this;
                 });
-        return keyCredentials.mergeWith(passwordCredentials).last();
+        //
+        return keyCredentials.mergeWith(passwordCredentials)
+                .single(ServicePrincipalImpl.this);
     }
 
     @Override
-    public Observable<ServicePrincipal> refreshAsync() {
+    public Maybe<ServicePrincipal> refreshAsync() {
         return getInnerAsync()
                 .map(innerToFluentMap(this))
-                .flatMap(new Func1<ServicePrincipal, Observable<ServicePrincipal>>() {
-                    @Override
-                    public Observable<ServicePrincipal> call(ServicePrincipal application) {
-                        return refreshCredentialsAsync();
-                    }
-                });
+                .flatMap(application -> refreshCredentialsAsync().toMaybe());
+
     }
 
     @Override

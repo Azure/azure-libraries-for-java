@@ -6,7 +6,8 @@
 
 package com.microsoft.azure.v2.management.graphrbac;
 
-import com.microsoft.azure.management.resources.fluentcore.arm.ExpandableStringEnum;
+
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.ExpandableStringEnum;
 
 import java.util.Collection;
 

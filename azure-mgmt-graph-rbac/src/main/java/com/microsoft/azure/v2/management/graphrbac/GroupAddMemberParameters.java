@@ -9,11 +9,18 @@
 package com.microsoft.azure.v2.management.graphrbac;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.Map;
 
 /**
  * Request parameters for adding a member to a group.
  */
-public class GroupAddMemberParameters {
+public final class GroupAddMemberParameters {
+    /**
+     * Unmatched properties from the message are deserialized this collection.
+     */
+    @JsonProperty(value = "")
+    private Map<String, Object> additionalProperties;
+
     /**
      * A member object URL, such as
      * "https://graph.windows.net/0b1f9851-1bf0-433f-aec3-cb9272f093dc/directoryObjects/f260bbc4-c254-447b-94cf-293b5ec434dd",
@@ -25,9 +32,29 @@ public class GroupAddMemberParameters {
     private String url;
 
     /**
+     * Get the additionalProperties value.
+     *
+     * @return the additionalProperties value.
+     */
+    public Map<String, Object> additionalProperties() {
+        return this.additionalProperties;
+    }
+
+    /**
+     * Set the additionalProperties value.
+     *
+     * @param additionalProperties the additionalProperties value to set.
+     * @return the GroupAddMemberParameters object itself.
+     */
+    public GroupAddMemberParameters withAdditionalProperties(Map<String, Object> additionalProperties) {
+        this.additionalProperties = additionalProperties;
+        return this;
+    }
+
+    /**
      * Get the url value.
      *
-     * @return the url value
+     * @return the url value.
      */
     public String url() {
         return this.url;
@@ -36,12 +63,11 @@ public class GroupAddMemberParameters {
     /**
      * Set the url value.
      *
-     * @param url the url value to set
+     * @param url the url value to set.
      * @return the GroupAddMemberParameters object itself.
      */
     public GroupAddMemberParameters withUrl(String url) {
         this.url = url;
         return this;
     }
-
 }

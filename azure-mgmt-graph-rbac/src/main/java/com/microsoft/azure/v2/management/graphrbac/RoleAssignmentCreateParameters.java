@@ -8,37 +8,91 @@
 
 package com.microsoft.azure.v2.management.graphrbac;
 
-import com.microsoft.azure.v2.management.graphrbac.implementation.RoleAssignmentPropertiesInner;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
 
 /**
  * Role assignment create parameters.
  */
+@JsonFlatten
 public class RoleAssignmentCreateParameters {
     /**
-     * Role assignment properties.
+     * The role definition ID used in the role assignment.
      */
-    @JsonProperty(value = "properties")
-    private RoleAssignmentPropertiesInner properties;
+    @JsonProperty(value = "properties.roleDefinitionId")
+    private String roleDefinitionId;
 
     /**
-     * Get the properties value.
-     *
-     * @return the properties value
+     * The principal ID assigned to the role. This maps to the ID inside the
+     * Active Directory. It can point to a user, service principal, or security
+     * group.
      */
-    public RoleAssignmentPropertiesInner properties() {
-        return this.properties;
+    @JsonProperty(value = "properties.principalId")
+    private String principalId;
+
+    /**
+     * The delgation flag used for creating a role assignment.
+     */
+    @JsonProperty(value = "properties.canDelegate")
+    private Boolean canDelegate;
+
+    /**
+     * Get the roleDefinitionId value.
+     *
+     * @return the roleDefinitionId value.
+     */
+    public String roleDefinitionId() {
+        return this.roleDefinitionId;
     }
 
     /**
-     * Set the properties value.
+     * Set the roleDefinitionId value.
      *
-     * @param properties the properties value to set
+     * @param roleDefinitionId the roleDefinitionId value to set.
      * @return the RoleAssignmentCreateParameters object itself.
      */
-    public RoleAssignmentCreateParameters withProperties(RoleAssignmentPropertiesInner properties) {
-        this.properties = properties;
+    public RoleAssignmentCreateParameters withRoleDefinitionId(String roleDefinitionId) {
+        this.roleDefinitionId = roleDefinitionId;
         return this;
     }
 
+    /**
+     * Get the principalId value.
+     *
+     * @return the principalId value.
+     */
+    public String principalId() {
+        return this.principalId;
+    }
+
+    /**
+     * Set the principalId value.
+     *
+     * @param principalId the principalId value to set.
+     * @return the RoleAssignmentCreateParameters object itself.
+     */
+    public RoleAssignmentCreateParameters withPrincipalId(String principalId) {
+        this.principalId = principalId;
+        return this;
+    }
+
+    /**
+     * Get the canDelegate value.
+     *
+     * @return the canDelegate value.
+     */
+    public Boolean canDelegate() {
+        return this.canDelegate;
+    }
+
+    /**
+     * Set the canDelegate value.
+     *
+     * @param canDelegate the canDelegate value to set.
+     * @return the RoleAssignmentCreateParameters object itself.
+     */
+    public RoleAssignmentCreateParameters withCanDelegate(Boolean canDelegate) {
+        this.canDelegate = canDelegate;
+        return this;
+    }
 }

@@ -8,242 +8,194 @@
 
 package com.microsoft.azure.v2.management.graphrbac.implementation;
 
-import retrofit2.Retrofit;
-import com.google.common.reflect.TypeToken;
-import com.microsoft.azure.AzureServiceFuture;
-import com.microsoft.azure.CloudException;
-import com.microsoft.azure.ListOperationCallback;
-import com.microsoft.azure.Page;
-import com.microsoft.azure.PagedList;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import com.microsoft.rest.ServiceResponse;
-import java.io.IOException;
-import java.util.List;
-import okhttp3.ResponseBody;
-import retrofit2.http.GET;
-import retrofit2.http.Header;
-import retrofit2.http.Headers;
-import retrofit2.http.Path;
-import retrofit2.http.Query;
-import retrofit2.http.Url;
-import retrofit2.Response;
-import rx.functions.Func1;
-import rx.Observable;
+import com.microsoft.azure.v2.AzureProxy;
+import com.microsoft.azure.v2.CloudException;
+import com.microsoft.azure.v2.Page;
+import com.microsoft.azure.v2.PagedList;
+import com.microsoft.rest.v2.BodyResponse;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
+import com.microsoft.rest.v2.annotations.ExpectedResponses;
+import com.microsoft.rest.v2.annotations.GET;
+import com.microsoft.rest.v2.annotations.HeaderParam;
+import com.microsoft.rest.v2.annotations.Host;
+import com.microsoft.rest.v2.annotations.PathParam;
+import com.microsoft.rest.v2.annotations.QueryParam;
+import com.microsoft.rest.v2.annotations.UnexpectedResponseExceptionType;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
+import io.reactivex.Single;
+import io.reactivex.annotations.NonNull;
 
 /**
- * An instance of this class provides access to all the operations defined
- * in ProviderOperationsMetadatas.
+ * An instance of this class provides access to all the operations defined in
+ * ProviderOperationsMetadatas.
  */
-public class ProviderOperationsMetadatasInner {
-    /** The Retrofit service to perform REST calls. */
+public final class ProviderOperationsMetadatasInner {
+    /**
+     * The proxy service used to perform REST calls.
+     */
     private ProviderOperationsMetadatasService service;
-    /** The service client containing this operation class. */
+
+    /**
+     * The service client containing this operation class.
+     */
     private AuthorizationManagementClientImpl client;
 
     /**
      * Initializes an instance of ProviderOperationsMetadatasInner.
      *
-     * @param retrofit the Retrofit instance built from a Retrofit Builder.
      * @param client the instance of the service client containing this operation class.
      */
-    public ProviderOperationsMetadatasInner(Retrofit retrofit, AuthorizationManagementClientImpl client) {
-        this.service = retrofit.create(ProviderOperationsMetadatasService.class);
+    public ProviderOperationsMetadatasInner(AuthorizationManagementClientImpl client) {
+        this.service = AzureProxy.create(ProviderOperationsMetadatasService.class, client);
         this.client = client;
     }
 
     /**
-     * The interface defining all the services for ProviderOperationsMetadatas to be
-     * used by Retrofit to perform actually REST calls.
+     * The interface defining all the services for ProviderOperationsMetadatas
+     * to be used by the proxy service to perform REST calls.
      */
-    interface ProviderOperationsMetadatasService {
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.graphrbac.ProviderOperationsMetadatas get" })
+    @Host("https://management.azure.com")
+    private interface ProviderOperationsMetadatasService {
         @GET("providers/Microsoft.Authorization/providerOperations/{resourceProviderNamespace}")
-        Observable<Response<ResponseBody>> get(@Path("resourceProviderNamespace") String resourceProviderNamespace, @Query("api-version") String apiVersion, @Query("$expand") String expand, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<ProviderOperationsMetadataInner>> get(@PathParam("resourceProviderNamespace") String resourceProviderNamespace, @QueryParam("api-version") String apiVersion, @QueryParam("$expand") String expand, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.graphrbac.ProviderOperationsMetadatas list" })
         @GET("providers/Microsoft.Authorization/providerOperations")
-        Observable<Response<ResponseBody>> list(@Query("api-version") String apiVersion, @Query("$expand") String expand, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl<ProviderOperationsMetadataInner>>> list(@QueryParam("api-version") String apiVersion, @QueryParam("$expand") String expand, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.graphrbac.ProviderOperationsMetadatas listNext" })
-        @GET
-        Observable<Response<ResponseBody>> listNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
-
+        @GET("{nextUrl}")
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl<ProviderOperationsMetadataInner>>> listNext(@PathParam(value = "nextUrl", encoded = true) String nextUrl, @HeaderParam("accept-language") String acceptLanguage);
     }
 
     /**
      * Gets provider operations metadata for the specified resource provider.
      *
      * @param resourceProviderNamespace The namespace of the resource provider.
-     * @param apiVersion The API version to use for the operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the ProviderOperationsMetadataInner object if successful.
      */
-    public ProviderOperationsMetadataInner get(String resourceProviderNamespace, String apiVersion) {
-        return getWithServiceResponseAsync(resourceProviderNamespace, apiVersion).toBlocking().single().body();
+    public ProviderOperationsMetadataInner get(@NonNull String resourceProviderNamespace) {
+        return getAsync(resourceProviderNamespace).blockingGet();
     }
 
     /**
      * Gets provider operations metadata for the specified resource provider.
      *
      * @param resourceProviderNamespace The namespace of the resource provider.
-     * @param apiVersion The API version to use for the operation.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<ProviderOperationsMetadataInner> getAsync(String resourceProviderNamespace, String apiVersion, final ServiceCallback<ProviderOperationsMetadataInner> serviceCallback) {
-        return ServiceFuture.fromResponse(getWithServiceResponseAsync(resourceProviderNamespace, apiVersion), serviceCallback);
+    public ServiceFuture<ProviderOperationsMetadataInner> getAsync(@NonNull String resourceProviderNamespace, ServiceCallback<ProviderOperationsMetadataInner> serviceCallback) {
+        return ServiceFuture.fromBody(getAsync(resourceProviderNamespace), serviceCallback);
     }
 
     /**
      * Gets provider operations metadata for the specified resource provider.
      *
      * @param resourceProviderNamespace The namespace of the resource provider.
-     * @param apiVersion The API version to use for the operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ProviderOperationsMetadataInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<ProviderOperationsMetadataInner> getAsync(String resourceProviderNamespace, String apiVersion) {
-        return getWithServiceResponseAsync(resourceProviderNamespace, apiVersion).map(new Func1<ServiceResponse<ProviderOperationsMetadataInner>, ProviderOperationsMetadataInner>() {
-            @Override
-            public ProviderOperationsMetadataInner call(ServiceResponse<ProviderOperationsMetadataInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Gets provider operations metadata for the specified resource provider.
-     *
-     * @param resourceProviderNamespace The namespace of the resource provider.
-     * @param apiVersion The API version to use for the operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ProviderOperationsMetadataInner object
-     */
-    public Observable<ServiceResponse<ProviderOperationsMetadataInner>> getWithServiceResponseAsync(String resourceProviderNamespace, String apiVersion) {
+    public Single<BodyResponse<ProviderOperationsMetadataInner>> getWithRestResponseAsync(@NonNull String resourceProviderNamespace) {
         if (resourceProviderNamespace == null) {
             throw new IllegalArgumentException("Parameter resourceProviderNamespace is required and cannot be null.");
         }
-        if (apiVersion == null) {
-            throw new IllegalArgumentException("Parameter apiVersion is required and cannot be null.");
-        }
-        final String expand = null;
-        return service.get(resourceProviderNamespace, apiVersion, expand, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ProviderOperationsMetadataInner>>>() {
-                @Override
-                public Observable<ServiceResponse<ProviderOperationsMetadataInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<ProviderOperationsMetadataInner> clientResponse = getDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        final String apiVersion = "2018-01-01-preview";
+        final String expand = "resourceTypes";
+        return service.get(resourceProviderNamespace, apiVersion, expand, this.client.acceptLanguage());
     }
 
     /**
      * Gets provider operations metadata for the specified resource provider.
      *
      * @param resourceProviderNamespace The namespace of the resource provider.
-     * @param apiVersion The API version to use for the operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<ProviderOperationsMetadataInner> getAsync(@NonNull String resourceProviderNamespace) {
+        return getWithRestResponseAsync(resourceProviderNamespace)
+            .flatMapMaybe((BodyResponse<ProviderOperationsMetadataInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
+    }
+
+    /**
+     * Gets provider operations metadata for the specified resource provider.
+     *
+     * @param resourceProviderNamespace The namespace of the resource provider.
      * @param expand Specifies whether to expand the values.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the ProviderOperationsMetadataInner object if successful.
      */
-    public ProviderOperationsMetadataInner get(String resourceProviderNamespace, String apiVersion, String expand) {
-        return getWithServiceResponseAsync(resourceProviderNamespace, apiVersion, expand).toBlocking().single().body();
+    public ProviderOperationsMetadataInner get(@NonNull String resourceProviderNamespace, String expand) {
+        return getAsync(resourceProviderNamespace, expand).blockingGet();
     }
 
     /**
      * Gets provider operations metadata for the specified resource provider.
      *
      * @param resourceProviderNamespace The namespace of the resource provider.
-     * @param apiVersion The API version to use for the operation.
      * @param expand Specifies whether to expand the values.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<ProviderOperationsMetadataInner> getAsync(String resourceProviderNamespace, String apiVersion, String expand, final ServiceCallback<ProviderOperationsMetadataInner> serviceCallback) {
-        return ServiceFuture.fromResponse(getWithServiceResponseAsync(resourceProviderNamespace, apiVersion, expand), serviceCallback);
+    public ServiceFuture<ProviderOperationsMetadataInner> getAsync(@NonNull String resourceProviderNamespace, String expand, ServiceCallback<ProviderOperationsMetadataInner> serviceCallback) {
+        return ServiceFuture.fromBody(getAsync(resourceProviderNamespace, expand), serviceCallback);
     }
 
     /**
      * Gets provider operations metadata for the specified resource provider.
      *
      * @param resourceProviderNamespace The namespace of the resource provider.
-     * @param apiVersion The API version to use for the operation.
      * @param expand Specifies whether to expand the values.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ProviderOperationsMetadataInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<ProviderOperationsMetadataInner> getAsync(String resourceProviderNamespace, String apiVersion, String expand) {
-        return getWithServiceResponseAsync(resourceProviderNamespace, apiVersion, expand).map(new Func1<ServiceResponse<ProviderOperationsMetadataInner>, ProviderOperationsMetadataInner>() {
-            @Override
-            public ProviderOperationsMetadataInner call(ServiceResponse<ProviderOperationsMetadataInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Gets provider operations metadata for the specified resource provider.
-     *
-     * @param resourceProviderNamespace The namespace of the resource provider.
-     * @param apiVersion The API version to use for the operation.
-     * @param expand Specifies whether to expand the values.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ProviderOperationsMetadataInner object
-     */
-    public Observable<ServiceResponse<ProviderOperationsMetadataInner>> getWithServiceResponseAsync(String resourceProviderNamespace, String apiVersion, String expand) {
+    public Single<BodyResponse<ProviderOperationsMetadataInner>> getWithRestResponseAsync(@NonNull String resourceProviderNamespace, String expand) {
         if (resourceProviderNamespace == null) {
             throw new IllegalArgumentException("Parameter resourceProviderNamespace is required and cannot be null.");
         }
-        if (apiVersion == null) {
-            throw new IllegalArgumentException("Parameter apiVersion is required and cannot be null.");
-        }
-        return service.get(resourceProviderNamespace, apiVersion, expand, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ProviderOperationsMetadataInner>>>() {
-                @Override
-                public Observable<ServiceResponse<ProviderOperationsMetadataInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<ProviderOperationsMetadataInner> clientResponse = getDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        final String apiVersion = "2018-01-01-preview";
+        return service.get(resourceProviderNamespace, apiVersion, expand, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<ProviderOperationsMetadataInner> getDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<ProviderOperationsMetadataInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<ProviderOperationsMetadataInner>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Gets provider operations metadata for the specified resource provider.
+     *
+     * @param resourceProviderNamespace The namespace of the resource provider.
+     * @param expand Specifies whether to expand the values.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<ProviderOperationsMetadataInner> getAsync(@NonNull String resourceProviderNamespace, String expand) {
+        return getWithRestResponseAsync(resourceProviderNamespace, expand)
+            .flatMapMaybe((BodyResponse<ProviderOperationsMetadataInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
      * Gets provider operations metadata for all resource providers.
      *
-     * @param apiVersion The API version to use for this operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;ProviderOperationsMetadataInner&gt; object if successful.
      */
-    public PagedList<ProviderOperationsMetadataInner> list(final String apiVersion) {
-        ServiceResponse<Page<ProviderOperationsMetadataInner>> response = listSinglePageAsync(apiVersion).toBlocking().single();
-        return new PagedList<ProviderOperationsMetadataInner>(response.body()) {
+    public PagedList<ProviderOperationsMetadataInner> list() {
+        Page<ProviderOperationsMetadataInner> response = listSinglePageAsync().blockingGet();
+        return new PagedList<ProviderOperationsMetadataInner>(response) {
             @Override
             public Page<ProviderOperationsMetadataInner> nextPage(String nextPageLink) {
-                return listNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -251,103 +203,47 @@ public class ProviderOperationsMetadatasInner {
     /**
      * Gets provider operations metadata for all resource providers.
      *
-     * @param apiVersion The API version to use for this operation.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @return the observable to the PagedList&lt;ProviderOperationsMetadataInner&gt; object.
      */
-    public ServiceFuture<List<ProviderOperationsMetadataInner>> listAsync(final String apiVersion, final ListOperationCallback<ProviderOperationsMetadataInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listSinglePageAsync(apiVersion),
-            new Func1<String, Observable<ServiceResponse<Page<ProviderOperationsMetadataInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ProviderOperationsMetadataInner>>> call(String nextPageLink) {
-                    return listNextSinglePageAsync(nextPageLink);
+    public Observable<Page<ProviderOperationsMetadataInner>> listAsync() {
+        return listSinglePageAsync()
+            .toObservable()
+            .concatMap((Page<ProviderOperationsMetadataInner> page) -> {
+                String nextPageLink = page.nextPageLink();
+                if (nextPageLink == null) {
+                    return Observable.just(page);
                 }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets provider operations metadata for all resource providers.
-     *
-     * @param apiVersion The API version to use for this operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ProviderOperationsMetadataInner&gt; object
-     */
-    public Observable<Page<ProviderOperationsMetadataInner>> listAsync(final String apiVersion) {
-        return listWithServiceResponseAsync(apiVersion)
-            .map(new Func1<ServiceResponse<Page<ProviderOperationsMetadataInner>>, Page<ProviderOperationsMetadataInner>>() {
-                @Override
-                public Page<ProviderOperationsMetadataInner> call(ServiceResponse<Page<ProviderOperationsMetadataInner>> response) {
-                    return response.body();
-                }
+                return Observable.just(page).concatWith(listNextAsync(nextPageLink));
             });
     }
 
     /**
      * Gets provider operations metadata for all resource providers.
      *
-     * @param apiVersion The API version to use for this operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ProviderOperationsMetadataInner&gt; object
+     * @return the Single&lt;Page&lt;ProviderOperationsMetadataInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<ProviderOperationsMetadataInner>>> listWithServiceResponseAsync(final String apiVersion) {
-        return listSinglePageAsync(apiVersion)
-            .concatMap(new Func1<ServiceResponse<Page<ProviderOperationsMetadataInner>>, Observable<ServiceResponse<Page<ProviderOperationsMetadataInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ProviderOperationsMetadataInner>>> call(ServiceResponse<Page<ProviderOperationsMetadataInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listNextWithServiceResponseAsync(nextPageLink));
-                }
-            });
+    public Single<Page<ProviderOperationsMetadataInner>> listSinglePageAsync() {
+        final String apiVersion = "2018-01-01-preview";
+        final String expand = "resourceTypes";
+        return service.list(apiVersion, expand, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl<ProviderOperationsMetadataInner>> res) -> res.body());
     }
 
     /**
      * Gets provider operations metadata for all resource providers.
      *
-     * @param apiVersion The API version to use for this operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;ProviderOperationsMetadataInner&gt; object wrapped in {@link ServiceResponse} if successful.
-     */
-    public Observable<ServiceResponse<Page<ProviderOperationsMetadataInner>>> listSinglePageAsync(final String apiVersion) {
-        if (apiVersion == null) {
-            throw new IllegalArgumentException("Parameter apiVersion is required and cannot be null.");
-        }
-        final String expand = null;
-        return service.list(apiVersion, expand, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ProviderOperationsMetadataInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ProviderOperationsMetadataInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<ProviderOperationsMetadataInner>> result = listDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<ProviderOperationsMetadataInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    /**
-     * Gets provider operations metadata for all resource providers.
-     *
-     * @param apiVersion The API version to use for this operation.
      * @param expand Specifies whether to expand the values.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;ProviderOperationsMetadataInner&gt; object if successful.
      */
-    public PagedList<ProviderOperationsMetadataInner> list(final String apiVersion, final String expand) {
-        ServiceResponse<Page<ProviderOperationsMetadataInner>> response = listSinglePageAsync(apiVersion, expand).toBlocking().single();
-        return new PagedList<ProviderOperationsMetadataInner>(response.body()) {
+    public PagedList<ProviderOperationsMetadataInner> list(String expand) {
+        Page<ProviderOperationsMetadataInner> response = listSinglePageAsync(expand).blockingGet();
+        return new PagedList<ProviderOperationsMetadataInner>(response) {
             @Override
             public Page<ProviderOperationsMetadataInner> nextPage(String nextPageLink) {
-                return listNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -355,112 +251,50 @@ public class ProviderOperationsMetadatasInner {
     /**
      * Gets provider operations metadata for all resource providers.
      *
-     * @param apiVersion The API version to use for this operation.
      * @param expand Specifies whether to expand the values.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;ProviderOperationsMetadataInner&gt; object.
      */
-    public ServiceFuture<List<ProviderOperationsMetadataInner>> listAsync(final String apiVersion, final String expand, final ListOperationCallback<ProviderOperationsMetadataInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listSinglePageAsync(apiVersion, expand),
-            new Func1<String, Observable<ServiceResponse<Page<ProviderOperationsMetadataInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ProviderOperationsMetadataInner>>> call(String nextPageLink) {
-                    return listNextSinglePageAsync(nextPageLink);
+    public Observable<Page<ProviderOperationsMetadataInner>> listAsync(String expand) {
+        return listSinglePageAsync(expand)
+            .toObservable()
+            .concatMap((Page<ProviderOperationsMetadataInner> page) -> {
+                String nextPageLink = page.nextPageLink();
+                if (nextPageLink == null) {
+                    return Observable.just(page);
                 }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets provider operations metadata for all resource providers.
-     *
-     * @param apiVersion The API version to use for this operation.
-     * @param expand Specifies whether to expand the values.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ProviderOperationsMetadataInner&gt; object
-     */
-    public Observable<Page<ProviderOperationsMetadataInner>> listAsync(final String apiVersion, final String expand) {
-        return listWithServiceResponseAsync(apiVersion, expand)
-            .map(new Func1<ServiceResponse<Page<ProviderOperationsMetadataInner>>, Page<ProviderOperationsMetadataInner>>() {
-                @Override
-                public Page<ProviderOperationsMetadataInner> call(ServiceResponse<Page<ProviderOperationsMetadataInner>> response) {
-                    return response.body();
-                }
+                return Observable.just(page).concatWith(listNextAsync(nextPageLink));
             });
     }
 
     /**
      * Gets provider operations metadata for all resource providers.
      *
-     * @param apiVersion The API version to use for this operation.
      * @param expand Specifies whether to expand the values.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ProviderOperationsMetadataInner&gt; object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;ProviderOperationsMetadataInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<ProviderOperationsMetadataInner>>> listWithServiceResponseAsync(final String apiVersion, final String expand) {
-        return listSinglePageAsync(apiVersion, expand)
-            .concatMap(new Func1<ServiceResponse<Page<ProviderOperationsMetadataInner>>, Observable<ServiceResponse<Page<ProviderOperationsMetadataInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ProviderOperationsMetadataInner>>> call(ServiceResponse<Page<ProviderOperationsMetadataInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listNextWithServiceResponseAsync(nextPageLink));
-                }
-            });
-    }
-
-    /**
-     * Gets provider operations metadata for all resource providers.
-     *
-    ServiceResponse<PageImpl<ProviderOperationsMetadataInner>> * @param apiVersion The API version to use for this operation.
-    ServiceResponse<PageImpl<ProviderOperationsMetadataInner>> * @param expand Specifies whether to expand the values.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;ProviderOperationsMetadataInner&gt; object wrapped in {@link ServiceResponse} if successful.
-     */
-    public Observable<ServiceResponse<Page<ProviderOperationsMetadataInner>>> listSinglePageAsync(final String apiVersion, final String expand) {
-        if (apiVersion == null) {
-            throw new IllegalArgumentException("Parameter apiVersion is required and cannot be null.");
-        }
-        return service.list(apiVersion, expand, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ProviderOperationsMetadataInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ProviderOperationsMetadataInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<ProviderOperationsMetadataInner>> result = listDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<ProviderOperationsMetadataInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl<ProviderOperationsMetadataInner>> listDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<ProviderOperationsMetadataInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<ProviderOperationsMetadataInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    public Single<Page<ProviderOperationsMetadataInner>> listSinglePageAsync(String expand) {
+        final String apiVersion = "2018-01-01-preview";
+        return service.list(apiVersion, expand, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl<ProviderOperationsMetadataInner>> res) -> res.body());
     }
 
     /**
      * Gets provider operations metadata for all resource providers.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;ProviderOperationsMetadataInner&gt; object if successful.
      */
-    public PagedList<ProviderOperationsMetadataInner> listNext(final String nextPageLink) {
-        ServiceResponse<Page<ProviderOperationsMetadataInner>> response = listNextSinglePageAsync(nextPageLink).toBlocking().single();
-        return new PagedList<ProviderOperationsMetadataInner>(response.body()) {
+    public PagedList<ProviderOperationsMetadataInner> listNext(@NonNull String nextPageLink) {
+        Page<ProviderOperationsMetadataInner> response = listNextSinglePageAsync(nextPageLink).blockingGet();
+        return new PagedList<ProviderOperationsMetadataInner>(response) {
             @Override
             public Page<ProviderOperationsMetadataInner> nextPage(String nextPageLink) {
-                return listNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -469,92 +303,34 @@ public class ProviderOperationsMetadatasInner {
      * Gets provider operations metadata for all resource providers.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;ProviderOperationsMetadataInner&gt; object.
      */
-    public ServiceFuture<List<ProviderOperationsMetadataInner>> listNextAsync(final String nextPageLink, final ServiceFuture<List<ProviderOperationsMetadataInner>> serviceFuture, final ListOperationCallback<ProviderOperationsMetadataInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listNextSinglePageAsync(nextPageLink),
-            new Func1<String, Observable<ServiceResponse<Page<ProviderOperationsMetadataInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ProviderOperationsMetadataInner>>> call(String nextPageLink) {
-                    return listNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets provider operations metadata for all resource providers.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ProviderOperationsMetadataInner&gt; object
-     */
-    public Observable<Page<ProviderOperationsMetadataInner>> listNextAsync(final String nextPageLink) {
-        return listNextWithServiceResponseAsync(nextPageLink)
-            .map(new Func1<ServiceResponse<Page<ProviderOperationsMetadataInner>>, Page<ProviderOperationsMetadataInner>>() {
-                @Override
-                public Page<ProviderOperationsMetadataInner> call(ServiceResponse<Page<ProviderOperationsMetadataInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets provider operations metadata for all resource providers.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ProviderOperationsMetadataInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<ProviderOperationsMetadataInner>>> listNextWithServiceResponseAsync(final String nextPageLink) {
+    public Observable<Page<ProviderOperationsMetadataInner>> listNextAsync(@NonNull String nextPageLink) {
         return listNextSinglePageAsync(nextPageLink)
-            .concatMap(new Func1<ServiceResponse<Page<ProviderOperationsMetadataInner>>, Observable<ServiceResponse<Page<ProviderOperationsMetadataInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ProviderOperationsMetadataInner>>> call(ServiceResponse<Page<ProviderOperationsMetadataInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<ProviderOperationsMetadataInner> page) -> {
+                String nextPageLink1 = page.nextPageLink();
+                if (nextPageLink1 == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listNextAsync(nextPageLink1));
             });
     }
 
     /**
      * Gets provider operations metadata for all resource providers.
      *
-    ServiceResponse<PageImpl<ProviderOperationsMetadataInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;ProviderOperationsMetadataInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;ProviderOperationsMetadataInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<ProviderOperationsMetadataInner>>> listNextSinglePageAsync(final String nextPageLink) {
+    public Single<Page<ProviderOperationsMetadataInner>> listNextSinglePageAsync(@NonNull String nextPageLink) {
         if (nextPageLink == null) {
             throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
         }
         String nextUrl = String.format("%s", nextPageLink);
-        return service.listNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ProviderOperationsMetadataInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ProviderOperationsMetadataInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<ProviderOperationsMetadataInner>> result = listNextDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<ProviderOperationsMetadataInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.listNext(nextUrl, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl<ProviderOperationsMetadataInner>> res) -> res.body());
     }
-
-    private ServiceResponse<PageImpl<ProviderOperationsMetadataInner>> listNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<ProviderOperationsMetadataInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<ProviderOperationsMetadataInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
-    }
-
 }

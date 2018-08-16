@@ -8,13 +8,20 @@
 
 package com.microsoft.azure.v2.management.graphrbac.implementation;
 
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
+import java.util.Map;
 
 /**
  * The properties of an Active Directory object.
  */
-public class AADObjectInner {
+public final class AADObjectInner {
+    /**
+     * Unmatched properties from the message are deserialized this collection.
+     */
+    @JsonProperty(value = "")
+    private Map<String, Object> additionalProperties;
+
     /**
      * The ID of the object.
      */
@@ -127,9 +134,29 @@ public class AADObjectInner {
     private String homepage;
 
     /**
+     * Get the additionalProperties value.
+     *
+     * @return the additionalProperties value.
+     */
+    public Map<String, Object> additionalProperties() {
+        return this.additionalProperties;
+    }
+
+    /**
+     * Set the additionalProperties value.
+     *
+     * @param additionalProperties the additionalProperties value to set.
+     * @return the AADObjectInner object itself.
+     */
+    public AADObjectInner withAdditionalProperties(Map<String, Object> additionalProperties) {
+        this.additionalProperties = additionalProperties;
+        return this;
+    }
+
+    /**
      * Get the objectId value.
      *
-     * @return the objectId value
+     * @return the objectId value.
      */
     public String objectId() {
         return this.objectId;
@@ -138,7 +165,7 @@ public class AADObjectInner {
     /**
      * Set the objectId value.
      *
-     * @param objectId the objectId value to set
+     * @param objectId the objectId value to set.
      * @return the AADObjectInner object itself.
      */
     public AADObjectInner withObjectId(String objectId) {
@@ -149,7 +176,7 @@ public class AADObjectInner {
     /**
      * Get the objectType value.
      *
-     * @return the objectType value
+     * @return the objectType value.
      */
     public String objectType() {
         return this.objectType;
@@ -158,7 +185,7 @@ public class AADObjectInner {
     /**
      * Set the objectType value.
      *
-     * @param objectType the objectType value to set
+     * @param objectType the objectType value to set.
      * @return the AADObjectInner object itself.
      */
     public AADObjectInner withObjectType(String objectType) {
@@ -169,7 +196,7 @@ public class AADObjectInner {
     /**
      * Get the displayName value.
      *
-     * @return the displayName value
+     * @return the displayName value.
      */
     public String displayName() {
         return this.displayName;
@@ -178,7 +205,7 @@ public class AADObjectInner {
     /**
      * Set the displayName value.
      *
-     * @param displayName the displayName value to set
+     * @param displayName the displayName value to set.
      * @return the AADObjectInner object itself.
      */
     public AADObjectInner withDisplayName(String displayName) {
@@ -189,7 +216,7 @@ public class AADObjectInner {
     /**
      * Get the userPrincipalName value.
      *
-     * @return the userPrincipalName value
+     * @return the userPrincipalName value.
      */
     public String userPrincipalName() {
         return this.userPrincipalName;
@@ -198,7 +225,7 @@ public class AADObjectInner {
     /**
      * Set the userPrincipalName value.
      *
-     * @param userPrincipalName the userPrincipalName value to set
+     * @param userPrincipalName the userPrincipalName value to set.
      * @return the AADObjectInner object itself.
      */
     public AADObjectInner withUserPrincipalName(String userPrincipalName) {
@@ -209,7 +236,7 @@ public class AADObjectInner {
     /**
      * Get the mail value.
      *
-     * @return the mail value
+     * @return the mail value.
      */
     public String mail() {
         return this.mail;
@@ -218,7 +245,7 @@ public class AADObjectInner {
     /**
      * Set the mail value.
      *
-     * @param mail the mail value to set
+     * @param mail the mail value to set.
      * @return the AADObjectInner object itself.
      */
     public AADObjectInner withMail(String mail) {
@@ -229,7 +256,7 @@ public class AADObjectInner {
     /**
      * Get the mailEnabled value.
      *
-     * @return the mailEnabled value
+     * @return the mailEnabled value.
      */
     public Boolean mailEnabled() {
         return this.mailEnabled;
@@ -238,7 +265,7 @@ public class AADObjectInner {
     /**
      * Set the mailEnabled value.
      *
-     * @param mailEnabled the mailEnabled value to set
+     * @param mailEnabled the mailEnabled value to set.
      * @return the AADObjectInner object itself.
      */
     public AADObjectInner withMailEnabled(Boolean mailEnabled) {
@@ -249,7 +276,7 @@ public class AADObjectInner {
     /**
      * Get the mailNickname value.
      *
-     * @return the mailNickname value
+     * @return the mailNickname value.
      */
     public String mailNickname() {
         return this.mailNickname;
@@ -258,7 +285,7 @@ public class AADObjectInner {
     /**
      * Get the securityEnabled value.
      *
-     * @return the securityEnabled value
+     * @return the securityEnabled value.
      */
     public Boolean securityEnabled() {
         return this.securityEnabled;
@@ -267,7 +294,7 @@ public class AADObjectInner {
     /**
      * Set the securityEnabled value.
      *
-     * @param securityEnabled the securityEnabled value to set
+     * @param securityEnabled the securityEnabled value to set.
      * @return the AADObjectInner object itself.
      */
     public AADObjectInner withSecurityEnabled(Boolean securityEnabled) {
@@ -278,7 +305,7 @@ public class AADObjectInner {
     /**
      * Get the signInName value.
      *
-     * @return the signInName value
+     * @return the signInName value.
      */
     public String signInName() {
         return this.signInName;
@@ -287,7 +314,7 @@ public class AADObjectInner {
     /**
      * Set the signInName value.
      *
-     * @param signInName the signInName value to set
+     * @param signInName the signInName value to set.
      * @return the AADObjectInner object itself.
      */
     public AADObjectInner withSignInName(String signInName) {
@@ -298,7 +325,7 @@ public class AADObjectInner {
     /**
      * Get the servicePrincipalNames value.
      *
-     * @return the servicePrincipalNames value
+     * @return the servicePrincipalNames value.
      */
     public List<String> servicePrincipalNames() {
         return this.servicePrincipalNames;
@@ -307,7 +334,7 @@ public class AADObjectInner {
     /**
      * Set the servicePrincipalNames value.
      *
-     * @param servicePrincipalNames the servicePrincipalNames value to set
+     * @param servicePrincipalNames the servicePrincipalNames value to set.
      * @return the AADObjectInner object itself.
      */
     public AADObjectInner withServicePrincipalNames(List<String> servicePrincipalNames) {
@@ -318,7 +345,7 @@ public class AADObjectInner {
     /**
      * Get the userType value.
      *
-     * @return the userType value
+     * @return the userType value.
      */
     public String userType() {
         return this.userType;
@@ -327,7 +354,7 @@ public class AADObjectInner {
     /**
      * Set the userType value.
      *
-     * @param userType the userType value to set
+     * @param userType the userType value to set.
      * @return the AADObjectInner object itself.
      */
     public AADObjectInner withUserType(String userType) {
@@ -338,7 +365,7 @@ public class AADObjectInner {
     /**
      * Get the usageLocation value.
      *
-     * @return the usageLocation value
+     * @return the usageLocation value.
      */
     public String usageLocation() {
         return this.usageLocation;
@@ -347,7 +374,7 @@ public class AADObjectInner {
     /**
      * Get the appId value.
      *
-     * @return the appId value
+     * @return the appId value.
      */
     public String appId() {
         return this.appId;
@@ -356,7 +383,7 @@ public class AADObjectInner {
     /**
      * Get the appPermissions value.
      *
-     * @return the appPermissions value
+     * @return the appPermissions value.
      */
     public List<String> appPermissions() {
         return this.appPermissions;
@@ -365,7 +392,7 @@ public class AADObjectInner {
     /**
      * Get the availableToOtherTenants value.
      *
-     * @return the availableToOtherTenants value
+     * @return the availableToOtherTenants value.
      */
     public Boolean availableToOtherTenants() {
         return this.availableToOtherTenants;
@@ -374,7 +401,7 @@ public class AADObjectInner {
     /**
      * Get the identifierUris value.
      *
-     * @return the identifierUris value
+     * @return the identifierUris value.
      */
     public List<String> identifierUris() {
         return this.identifierUris;
@@ -383,7 +410,7 @@ public class AADObjectInner {
     /**
      * Get the replyUrls value.
      *
-     * @return the replyUrls value
+     * @return the replyUrls value.
      */
     public List<String> replyUrls() {
         return this.replyUrls;
@@ -392,10 +419,9 @@ public class AADObjectInner {
     /**
      * Get the homepage value.
      *
-     * @return the homepage value
+     * @return the homepage value.
      */
     public String homepage() {
         return this.homepage;
     }
-
 }

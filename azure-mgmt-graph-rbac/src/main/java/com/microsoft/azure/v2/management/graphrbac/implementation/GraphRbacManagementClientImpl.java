@@ -8,27 +8,20 @@
 
 package com.microsoft.azure.v2.management.graphrbac.implementation;
 
-import com.microsoft.azure.AzureClient;
-import com.microsoft.azure.AzureServiceClient;
-import com.microsoft.rest.credentials.ServiceClientCredentials;
-import com.microsoft.rest.RestClient;
+import com.microsoft.azure.v2.AzureEnvironment;
+import com.microsoft.azure.v2.AzureProxy;
+import com.microsoft.azure.v2.AzureServiceClient;
+import com.microsoft.rest.v2.credentials.ServiceClientCredentials;
+import com.microsoft.rest.v2.http.HttpPipeline;
+import io.reactivex.annotations.NonNull;
 
 /**
- * Initializes a new instance of the GraphRbacManagementClientImpl class.
+ * Initializes a new instance of the GraphRbacManagementClientImpl type.
  */
-public class GraphRbacManagementClientImpl extends AzureServiceClient {
-    /** the {@link AzureClient} used for long running operations. */
-    private AzureClient azureClient;
-
+public final class GraphRbacManagementClientImpl extends AzureServiceClient {
     /**
-     * Gets the {@link AzureClient} used for long running operations.
-     * @return the azure client;
+     * Client API version.
      */
-    public AzureClient getAzureClient() {
-        return this.azureClient;
-    }
-
-    /** Client API version. */
     private String apiVersion;
 
     /**
@@ -40,7 +33,9 @@ public class GraphRbacManagementClientImpl extends AzureServiceClient {
         return this.apiVersion;
     }
 
-    /** The tenant ID. */
+    /**
+     * The tenant ID.
+     */
     private String tenantID;
 
     /**
@@ -56,18 +51,20 @@ public class GraphRbacManagementClientImpl extends AzureServiceClient {
      * Sets The tenant ID.
      *
      * @param tenantID the tenantID value.
-     * @return the service client itself
+     * @return the service client itself.
      */
     public GraphRbacManagementClientImpl withTenantID(String tenantID) {
         this.tenantID = tenantID;
         return this;
     }
 
-    /** Gets or sets the preferred language for the response. */
+    /**
+     * The preferred language for the response.
+     */
     private String acceptLanguage;
 
     /**
-     * Gets Gets or sets the preferred language for the response.
+     * Gets The preferred language for the response.
      *
      * @return the acceptLanguage value.
      */
@@ -76,21 +73,23 @@ public class GraphRbacManagementClientImpl extends AzureServiceClient {
     }
 
     /**
-     * Sets Gets or sets the preferred language for the response.
+     * Sets The preferred language for the response.
      *
      * @param acceptLanguage the acceptLanguage value.
-     * @return the service client itself
+     * @return the service client itself.
      */
     public GraphRbacManagementClientImpl withAcceptLanguage(String acceptLanguage) {
         this.acceptLanguage = acceptLanguage;
         return this;
     }
 
-    /** Gets or sets the retry timeout in seconds for Long Running Operations. Default value is 30. */
+    /**
+     * The retry timeout in seconds for Long Running Operations. Default value is 30.
+     */
     private int longRunningOperationRetryTimeout;
 
     /**
-     * Gets Gets or sets the retry timeout in seconds for Long Running Operations. Default value is 30.
+     * Gets The retry timeout in seconds for Long Running Operations. Default value is 30.
      *
      * @return the longRunningOperationRetryTimeout value.
      */
@@ -99,21 +98,23 @@ public class GraphRbacManagementClientImpl extends AzureServiceClient {
     }
 
     /**
-     * Sets Gets or sets the retry timeout in seconds for Long Running Operations. Default value is 30.
+     * Sets The retry timeout in seconds for Long Running Operations. Default value is 30.
      *
      * @param longRunningOperationRetryTimeout the longRunningOperationRetryTimeout value.
-     * @return the service client itself
+     * @return the service client itself.
      */
     public GraphRbacManagementClientImpl withLongRunningOperationRetryTimeout(int longRunningOperationRetryTimeout) {
         this.longRunningOperationRetryTimeout = longRunningOperationRetryTimeout;
         return this;
     }
 
-    /** When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true. */
+    /**
+     * Whether a unique x-ms-client-request-id should be generated. When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true.
+     */
     private boolean generateClientRequestId;
 
     /**
-     * Gets When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true.
+     * Gets Whether a unique x-ms-client-request-id should be generated. When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true.
      *
      * @return the generateClientRequestId value.
      */
@@ -122,10 +123,10 @@ public class GraphRbacManagementClientImpl extends AzureServiceClient {
     }
 
     /**
-     * Sets When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true.
+     * Sets Whether a unique x-ms-client-request-id should be generated. When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true.
      *
      * @param generateClientRequestId the generateClientRequestId value.
-     * @return the service client itself
+     * @return the service client itself.
      */
     public GraphRbacManagementClientImpl withGenerateClientRequestId(boolean generateClientRequestId) {
         this.generateClientRequestId = generateClientRequestId;
@@ -139,6 +140,7 @@ public class GraphRbacManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets the ObjectsInner object to access its operations.
+     *
      * @return the ObjectsInner object.
      */
     public ObjectsInner objects() {
@@ -152,6 +154,7 @@ public class GraphRbacManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets the ApplicationsInner object to access its operations.
+     *
      * @return the ApplicationsInner object.
      */
     public ApplicationsInner applications() {
@@ -165,6 +168,7 @@ public class GraphRbacManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets the GroupsInner object to access its operations.
+     *
      * @return the GroupsInner object.
      */
     public GroupsInner groups() {
@@ -178,6 +182,7 @@ public class GraphRbacManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets the ServicePrincipalsInner object to access its operations.
+     *
      * @return the ServicePrincipalsInner object.
      */
     public ServicePrincipalsInner servicePrincipals() {
@@ -191,6 +196,7 @@ public class GraphRbacManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets the UsersInner object to access its operations.
+     *
      * @return the UsersInner object.
      */
     public UsersInner users() {
@@ -204,6 +210,7 @@ public class GraphRbacManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets the DomainsInner object to access its operations.
+     *
      * @return the DomainsInner object.
      */
     public DomainsInner domains() {
@@ -213,54 +220,48 @@ public class GraphRbacManagementClientImpl extends AzureServiceClient {
     /**
      * Initializes an instance of GraphRbacManagementClient client.
      *
-     * @param credentials the management credentials for Azure
+     * @param credentials the management credentials for Azure.
      */
-    public GraphRbacManagementClientImpl(ServiceClientCredentials credentials) {
-        this("https://graph.windows.net", credentials);
+    public GraphRbacManagementClientImpl(@NonNull ServiceClientCredentials credentials) {
+        this(AzureProxy.createDefaultPipeline(GraphRbacManagementClientImpl.class, credentials));
     }
 
     /**
      * Initializes an instance of GraphRbacManagementClient client.
      *
-     * @param baseUrl the base URL of the host
-     * @param credentials the management credentials for Azure
+     * @param credentials the management credentials for Azure.
+     * @param azureEnvironment The environment that requests will target.
      */
-    public GraphRbacManagementClientImpl(String baseUrl, ServiceClientCredentials credentials) {
-        super(baseUrl, credentials);
-        initialize();
+    public GraphRbacManagementClientImpl(@NonNull ServiceClientCredentials credentials, @NonNull AzureEnvironment azureEnvironment) {
+        this(AzureProxy.createDefaultPipeline(GraphRbacManagementClientImpl.class, credentials), azureEnvironment);
     }
 
     /**
      * Initializes an instance of GraphRbacManagementClient client.
      *
-     * @param restClient the REST client to connect to Azure.
+     * @param httpPipeline The HTTP pipeline to send requests through.
      */
-    public GraphRbacManagementClientImpl(RestClient restClient) {
-        super(restClient);
-        initialize();
+    public GraphRbacManagementClientImpl(@NonNull HttpPipeline httpPipeline) {
+        this(httpPipeline, null);
     }
 
-    protected void initialize() {
+    /**
+     * Initializes an instance of GraphRbacManagementClient client.
+     *
+     * @param httpPipeline The HTTP pipeline to send requests through.
+     * @param azureEnvironment The environment that requests will target.
+     */
+    public GraphRbacManagementClientImpl(@NonNull HttpPipeline httpPipeline, @NonNull AzureEnvironment azureEnvironment) {
+        super(httpPipeline, azureEnvironment);
         this.apiVersion = "1.6";
         this.acceptLanguage = "en-US";
         this.longRunningOperationRetryTimeout = 30;
         this.generateClientRequestId = true;
-        this.objects = new ObjectsInner(restClient().retrofit(), this);
-        this.applications = new ApplicationsInner(restClient().retrofit(), this);
-        this.groups = new GroupsInner(restClient().retrofit(), this);
-        this.servicePrincipals = new ServicePrincipalsInner(restClient().retrofit(), this);
-        this.users = new UsersInner(restClient().retrofit(), this);
-        this.domains = new DomainsInner(restClient().retrofit(), this);
-        this.azureClient = new AzureClient(this);
-    }
-
-    /**
-     * Gets the User-Agent header for the client.
-     *
-     * @return the user agent string.
-     */
-    @Override
-    public String userAgent() {
-        return String.format("%s (%s, %s)", super.userAgent(), "GraphRbacManagementClient", "1.6");
+        this.objects = new ObjectsInner(this);
+        this.applications = new ApplicationsInner(this);
+        this.groups = new GroupsInner(this);
+        this.servicePrincipals = new ServicePrincipalsInner(this);
+        this.users = new UsersInner(this);
+        this.domains = new DomainsInner(this);
     }
 }

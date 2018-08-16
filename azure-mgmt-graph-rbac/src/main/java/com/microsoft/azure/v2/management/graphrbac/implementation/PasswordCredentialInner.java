@@ -8,15 +8,22 @@
 
 package com.microsoft.azure.v2.management.graphrbac.implementation;
 
-import org.joda.time.DateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.time.OffsetDateTime;
+import java.util.Map;
 
 /**
  * Active Directory Password Credential information.
  */
-public class PasswordCredentialInner {
+public final class PasswordCredentialInner {
     /**
-     * Custom key identifier.
+     * Unmatched properties from the message are deserialized this collection.
+     */
+    // @JsonProperty(value = "")
+    // private Map<String, Object> additionalProperties;
+
+    /**
+     * Custom key identifier. (manually added)
      */
     @JsonProperty(value = "customKeyIdentifier")
     private String customKeyIdentifier;
@@ -25,13 +32,13 @@ public class PasswordCredentialInner {
      * Start date.
      */
     @JsonProperty(value = "startDate")
-    private DateTime startDate;
+    private OffsetDateTime startDate;
 
     /**
      * End date.
      */
     @JsonProperty(value = "endDate")
-    private DateTime endDate;
+    private OffsetDateTime endDate;
 
     /**
      * Key ID.
@@ -46,12 +53,112 @@ public class PasswordCredentialInner {
     private String value;
 
     /**
+     * Get the additionalProperties value.
+     *
+     * @return the additionalProperties value.
+     */
+    //public Map<String, Object> additionalProperties() {
+    //    return this.additionalProperties;
+    //}
+
+    /**
+     * Set the additionalProperties value.
+     *
+     * @param additionalProperties the additionalProperties value to set.
+     * @return the PasswordCredentialInner object itself.
+     */
+   // public PasswordCredentialInner withAdditionalProperties(Map<String, Object> additionalProperties) {
+   //     this.additionalProperties = additionalProperties;
+   //     return this;
+   // }
+
+    /**
      * Get the customKeyIdentifier value.
      *
      * @return the customKeyIdentifier value
      */
     public String customKeyIdentifier() {
         return this.customKeyIdentifier;
+    }
+
+    /**
+     * Get the startDate value.
+     *
+     * @return the startDate value.
+     */
+    public OffsetDateTime startDate() {
+        return this.startDate;
+    }
+
+    /**
+     * Set the startDate value.
+     *
+     * @param startDate the startDate value to set.
+     * @return the PasswordCredentialInner object itself.
+     */
+    public PasswordCredentialInner withStartDate(OffsetDateTime startDate) {
+        this.startDate = startDate;
+        return this;
+    }
+
+    /**
+     * Get the endDate value.
+     *
+     * @return the endDate value.
+     */
+    public OffsetDateTime endDate() {
+        return this.endDate;
+    }
+
+    /**
+     * Set the endDate value.
+     *
+     * @param endDate the endDate value to set.
+     * @return the PasswordCredentialInner object itself.
+     */
+    public PasswordCredentialInner withEndDate(OffsetDateTime endDate) {
+        this.endDate = endDate;
+        return this;
+    }
+
+    /**
+     * Get the keyId value.
+     *
+     * @return the keyId value.
+     */
+    public String keyId() {
+        return this.keyId;
+    }
+
+    /**
+     * Set the keyId value.
+     *
+     * @param keyId the keyId value to set.
+     * @return the PasswordCredentialInner object itself.
+     */
+    public PasswordCredentialInner withKeyId(String keyId) {
+        this.keyId = keyId;
+        return this;
+    }
+
+    /**
+     * Get the value value.
+     *
+     * @return the value value.
+     */
+    public String value() {
+        return this.value;
+    }
+
+    /**
+     * Set the value value.
+     *
+     * @param value the value value to set.
+     * @return the PasswordCredentialInner object itself.
+     */
+    public PasswordCredentialInner withValue(String value) {
+        this.value = value;
+        return this;
     }
 
     /**
@@ -64,85 +171,4 @@ public class PasswordCredentialInner {
         this.customKeyIdentifier = customKeyIdentifier;
         return this;
     }
-
-    /**
-     * Get the startDate value.
-     *
-     * @return the startDate value
-     */
-    public DateTime startDate() {
-        return this.startDate;
-    }
-
-    /**
-     * Set the startDate value.
-     *
-     * @param startDate the startDate value to set
-     * @return the PasswordCredentialInner object itself.
-     */
-    public PasswordCredentialInner withStartDate(DateTime startDate) {
-        this.startDate = startDate;
-        return this;
-    }
-
-    /**
-     * Get the endDate value.
-     *
-     * @return the endDate value
-     */
-    public DateTime endDate() {
-        return this.endDate;
-    }
-
-    /**
-     * Set the endDate value.
-     *
-     * @param endDate the endDate value to set
-     * @return the PasswordCredentialInner object itself.
-     */
-    public PasswordCredentialInner withEndDate(DateTime endDate) {
-        this.endDate = endDate;
-        return this;
-    }
-
-    /**
-     * Get the keyId value.
-     *
-     * @return the keyId value
-     */
-    public String keyId() {
-        return this.keyId;
-    }
-
-    /**
-     * Set the keyId value.
-     *
-     * @param keyId the keyId value to set
-     * @return the PasswordCredentialInner object itself.
-     */
-    public PasswordCredentialInner withKeyId(String keyId) {
-        this.keyId = keyId;
-        return this;
-    }
-
-    /**
-     * Get the value value.
-     *
-     * @return the value value
-     */
-    public String value() {
-        return this.value;
-    }
-
-    /**
-     * Set the value value.
-     *
-     * @param value the value value to set
-     * @return the PasswordCredentialInner object itself.
-     */
-    public PasswordCredentialInner withValue(String value) {
-        this.value = value;
-        return this;
-    }
-
 }

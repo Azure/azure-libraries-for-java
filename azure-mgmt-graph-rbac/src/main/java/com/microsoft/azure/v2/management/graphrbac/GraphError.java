@@ -9,7 +9,7 @@
 package com.microsoft.azure.v2.management.graphrbac;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
 
 /**
  * Active Directory error information.
@@ -19,19 +19,19 @@ public class GraphError {
     /**
      * Error code.
      */
-    @JsonProperty(value = "odata\\.error.code")
+    @JsonProperty(value = "odata.error.code")
     private String code;
 
     /**
      * Error message value.
      */
-    @JsonProperty(value = "odata\\.error.message.value")
+    @JsonProperty(value = "odata.error.message.value")
     private String message;
 
     /**
      * Get the code value.
      *
-     * @return the code value
+     * @return the code value.
      */
     public String code() {
         return this.code;
@@ -40,7 +40,7 @@ public class GraphError {
     /**
      * Set the code value.
      *
-     * @param code the code value to set
+     * @param code the code value to set.
      * @return the GraphError object itself.
      */
     public GraphError withCode(String code) {
@@ -51,7 +51,7 @@ public class GraphError {
     /**
      * Get the message value.
      *
-     * @return the message value
+     * @return the message value.
      */
     public String message() {
         return this.message;
@@ -60,12 +60,11 @@ public class GraphError {
     /**
      * Set the message value.
      *
-     * @param message the message value to set
+     * @param message the message value to set.
      * @return the GraphError object itself.
      */
     public GraphError withMessage(String message) {
         this.message = message;
         return this;
     }
-
 }

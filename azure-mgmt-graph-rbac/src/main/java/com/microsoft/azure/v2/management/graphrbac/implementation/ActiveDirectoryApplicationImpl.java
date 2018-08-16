@@ -11,11 +11,14 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.v2.management.graphrbac.ActiveDirectoryApplication;
+import com.microsoft.azure.v2.management.graphrbac.ApplicationCreateParameters;
+import com.microsoft.azure.v2.management.graphrbac.ApplicationUpdateParameters;
 import com.microsoft.azure.v2.management.graphrbac.CertificateCredential;
 import com.microsoft.azure.v2.management.graphrbac.PasswordCredential;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
-import rx.Observable;
-import rx.functions.Func1;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
+import io.reactivex.Single;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -37,16 +40,16 @@ class ActiveDirectoryApplicationImpl
             ActiveDirectoryApplication.Update,
             HasCredential<ActiveDirectoryApplicationImpl> {
     private GraphRbacManager manager;
-    private ApplicationCreateParametersInner createParameters;
-    private ApplicationUpdateParametersInner updateParameters;
+    private ApplicationCreateParameters createParameters;
+    private ApplicationUpdateParameters updateParameters;
     private Map<String, PasswordCredential> cachedPasswordCredentials;
     private Map<String, CertificateCredential> cachedCertificateCredentials;
 
     ActiveDirectoryApplicationImpl(ApplicationInner innerObject, GraphRbacManager manager) {
         super(innerObject.displayName(), innerObject);
         this.manager = manager;
-        this.createParameters = new ApplicationCreateParametersInner().withDisplayName(innerObject.displayName());
-        this.updateParameters = new ApplicationUpdateParametersInner().withDisplayName(innerObject.displayName());
+        this.createParameters = new ApplicationCreateParameters().withDisplayName(innerObject.displayName());
+        this.updateParameters = new ApplicationUpdateParameters().withDisplayName(innerObject.displayName());
     }
 
     @Override
@@ -62,89 +65,43 @@ class ActiveDirectoryApplicationImpl
         }
         return manager.inner().applications().createAsync(createParameters)
                 .map(innerToFluentMap(this))
-                .flatMap(new Func1<ActiveDirectoryApplication, Observable<ActiveDirectoryApplication>>() {
-                    @Override
-                    public Observable<ActiveDirectoryApplication> call(ActiveDirectoryApplication application) {
-                        return refreshCredentialsAsync();
-                    }
-                });
+                .concatMap(app -> refreshCredentialsAsync())
+                .toObservable();
     }
 
     @Override
     public Observable<ActiveDirectoryApplication> updateResourceAsync() {
         return manager.inner().applications().patchAsync(id(), updateParameters)
-                .flatMap(new Func1<Void, Observable<ActiveDirectoryApplication>>() {
-                    @Override
-                    public Observable<ActiveDirectoryApplication> call(Void aVoid) {
-                        return refreshAsync();
-                    }
-                });
+                .andThen(refreshAsync()).toObservable();
     }
 
-    Observable<ActiveDirectoryApplication> refreshCredentialsAsync() {
-        final Observable<ActiveDirectoryApplication> keyCredentials = manager.inner().applications().listKeyCredentialsAsync(id())
-                .flatMapIterable(new Func1<List<KeyCredentialInner>, Iterable<KeyCredentialInner>>() {
-                    @Override
-                    public Iterable<KeyCredentialInner> call(List<KeyCredentialInner> keyCredentialInners) {
-                        return keyCredentialInners;
-                    }
-                })
-                .map(new Func1<KeyCredentialInner, CertificateCredential>() {
-                    @Override
-                    public CertificateCredential call(KeyCredentialInner keyCredentialInner) {
-                        return new CertificateCredentialImpl<ActiveDirectoryApplication>(keyCredentialInner);
-                    }
-                })
-                .toMap(new Func1<CertificateCredential, String>() {
-                    @Override
-                    public String call(CertificateCredential certificateCredential) {
-                        return certificateCredential.name();
-                    }
-                }).map(new Func1<Map<String, CertificateCredential>, ActiveDirectoryApplication>() {
-                    @Override
-                    public ActiveDirectoryApplication call(Map<String, CertificateCredential> stringCertificateCredentialMap) {
-                        ActiveDirectoryApplicationImpl.this.cachedCertificateCredentials = stringCertificateCredentialMap;
-                        return ActiveDirectoryApplicationImpl.this;
-                    }
+    Maybe<ActiveDirectoryApplication> refreshCredentialsAsync() {
+        final Single<ActiveDirectoryApplication> keyCredentials = manager.inner().applications().listKeyCredentialsAsync(id())
+                .flattenAsObservable(keyCredentialInners -> keyCredentialInners)
+                .map((io.reactivex.functions.Function<KeyCredentialInner, CertificateCredential>) keyCredentialInner -> new CertificateCredentialImpl<ActiveDirectoryApplication>(keyCredentialInner))
+                .toMap(certificateCredential -> certificateCredential.name())
+                .map(stringCertificateCredentialMap -> {
+                    ActiveDirectoryApplicationImpl.this.cachedCertificateCredentials = stringCertificateCredentialMap;
+                    return ActiveDirectoryApplicationImpl.this;
                 });
-        final Observable<ActiveDirectoryApplication> passwordCredentials = manager.inner().applications().listPasswordCredentialsAsync(id())
-                .flatMapIterable(new Func1<List<PasswordCredentialInner>, Iterable<PasswordCredentialInner>>() {
-                    @Override
-                    public Iterable<PasswordCredentialInner> call(List<PasswordCredentialInner> passwordCredentialInners) {
-                        return passwordCredentialInners;
-                    }
-                })
-                .map(new Func1<PasswordCredentialInner, PasswordCredential>() {
-                    @Override
-                    public PasswordCredential call(PasswordCredentialInner passwordCredentialInner) {
-                        return new PasswordCredentialImpl<ActiveDirectoryApplication>(passwordCredentialInner);
-                    }
-                })
-                .toMap(new Func1<PasswordCredential, String>() {
-                    @Override
-                    public String call(PasswordCredential passwordCredential) {
-                        return passwordCredential.name();
-                    }
-                }).map(new Func1<Map<String, PasswordCredential>, ActiveDirectoryApplication>() {
-                    @Override
-                    public ActiveDirectoryApplication call(Map<String, PasswordCredential> stringPasswordCredentialMap) {
-                        ActiveDirectoryApplicationImpl.this.cachedPasswordCredentials = stringPasswordCredentialMap;
-                        return ActiveDirectoryApplicationImpl.this;
-                    }
+
+        final Single<ActiveDirectoryApplication> passwordCredentials = manager.inner().applications().listPasswordCredentialsAsync(id())
+                .flattenAsObservable(passwordCredentialInners -> passwordCredentialInners)
+                .map((io.reactivex.functions.Function<PasswordCredentialInner, PasswordCredential>) passwordCredentialInner -> new PasswordCredentialImpl<ActiveDirectoryApplication>(passwordCredentialInner))
+                .toMap(passwordCredential -> passwordCredential.name())
+                .map(stringPasswordCredentialMap -> {
+                    ActiveDirectoryApplicationImpl.this.cachedPasswordCredentials = stringPasswordCredentialMap;
+                    return ActiveDirectoryApplicationImpl.this;
                 });
-        return keyCredentials.mergeWith(passwordCredentials).last();
+
+        return keyCredentials.mergeWith(passwordCredentials).lastElement();
     }
 
     @Override
-    public Observable<ActiveDirectoryApplication> refreshAsync() {
+    public Maybe<ActiveDirectoryApplication> refreshAsync() {
         return getInnerAsync()
                 .map(innerToFluentMap(this))
-                .flatMap(new Func1<ActiveDirectoryApplication, Observable<ActiveDirectoryApplication>>() {
-                    @Override
-                    public Observable<ActiveDirectoryApplication> call(ActiveDirectoryApplication application) {
-                        return refreshCredentialsAsync();
-                    }
-                });
+                .concatMap(app -> refreshCredentialsAsync());
     }
 
     @Override
@@ -212,7 +169,7 @@ class ActiveDirectoryApplicationImpl
     }
 
     @Override
-    protected Observable<ApplicationInner> getInnerAsync() {
+    protected Maybe<ApplicationInner> getInnerAsync() {
         return manager.inner().applications().getAsync(id());
     }
 

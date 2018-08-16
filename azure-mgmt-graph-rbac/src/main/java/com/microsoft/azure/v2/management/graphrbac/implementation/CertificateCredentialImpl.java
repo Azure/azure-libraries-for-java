@@ -7,19 +7,16 @@
 package com.microsoft.azure.v2.management.graphrbac.implementation;
 
 import com.google.common.io.BaseEncoding;
-import com.microsoft.azure.AzureEnvironment;
-import com.microsoft.azure.credentials.AzureTokenCredentials;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
+import com.microsoft.azure.v2.AzureEnvironment;
 import com.microsoft.azure.v2.management.graphrbac.CertificateCredential;
 import com.microsoft.azure.v2.management.graphrbac.CertificateType;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.IndexableRefreshableWrapperImpl;
-import com.microsoft.rest.RestClient;
-import org.joda.time.DateTime;
-import org.joda.time.Duration;
-import rx.Observable;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.implementation.IndexableRefreshableWrapperImpl;
+import io.reactivex.Maybe;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.time.OffsetDateTime;
 
 /**
  * Implementation for ServicePrincipal and its parent interfaces.
@@ -40,8 +37,8 @@ class CertificateCredentialImpl<T>
 
     CertificateCredentialImpl(KeyCredentialInner keyCredential) {
         super(keyCredential);
-        if (keyCredential.customKeyIdentifier() != null && !keyCredential.customKeyIdentifier().isEmpty()) {
-            this.name = new String(BaseEncoding.base64().decode(keyCredential.customKeyIdentifier()));
+        if (keyCredential.customKeyIdentifier() != null && keyCredential.customKeyIdentifier().length != 0) {
+            this.name = new String(BaseEncoding.base64().decode(keyCredential.customKeyIdentifier().toString()));
         } else {
             this.name = keyCredential.keyId();
         }
@@ -50,20 +47,21 @@ class CertificateCredentialImpl<T>
     CertificateCredentialImpl(String name, HasCredential<?> parent) {
         super(new KeyCredentialInner()
                 .withUsage("Verify")
-                .withCustomKeyIdentifier(BaseEncoding.base64().encode(name.getBytes()))
-                .withStartDate(DateTime.now())
-                .withEndDate(DateTime.now().plusYears(1)));
+                // TODO: service no longer takes string but byte[], check encoding is necessary
+                .withCustomKeyIdentifier(BaseEncoding.base64().encode(name.getBytes()).getBytes())
+                .withStartDate(OffsetDateTime.now())
+                .withEndDate(OffsetDateTime.now().plusYears(1)));
         this.name = name;
         this.parent = parent;
     }
 
     @Override
-    public Observable<CertificateCredential> refreshAsync() {
+    public Maybe<CertificateCredential> refreshAsync() {
         throw new UnsupportedOperationException("Cannot refresh credentials.");
     }
 
     @Override
-    protected Observable<KeyCredentialInner> getInnerAsync() {
+    protected Maybe<KeyCredentialInner> getInnerAsync() {
         throw new UnsupportedOperationException("Cannot refresh credentials.");
     }
 
@@ -73,12 +71,12 @@ class CertificateCredentialImpl<T>
     }
 
     @Override
-    public DateTime startDate() {
+    public OffsetDateTime startDate() {
         return inner().startDate();
     }
 
     @Override
-    public DateTime endDate() {
+    public OffsetDateTime endDate() {
         return inner().endDate();
     }
 
@@ -96,17 +94,17 @@ class CertificateCredentialImpl<T>
     }
 
     @Override
-    public CertificateCredentialImpl<T> withStartDate(DateTime startDate) {
-        DateTime original = startDate();
+    public CertificateCredentialImpl<T> withStartDate(OffsetDateTime startDate) {
+        OffsetDateTime original = startDate();
         inner().withStartDate(startDate);
         // Adjust end time
-        withDuration(Duration.millis(endDate().getMillis() - original.getMillis()));
+        withDuration(java.time.Duration.ofSeconds(endDate().toEpochSecond() - original.toEpochSecond()));
         return this;
     }
 
     @Override
-    public CertificateCredentialImpl<T> withDuration(Duration duration) {
-        inner().withEndDate(startDate().plus(duration.getMillis()));
+    public CertificateCredentialImpl<T> withDuration(java.time.Duration duration) {
+        inner().withEndDate(startDate().plus(duration));
         return this;
     }
 
@@ -143,22 +141,8 @@ class CertificateCredentialImpl<T>
         if (authFile == null) {
             return;
         }
-        RestClient restClient = servicePrincipal.manager().roleInner().restClient();
-        AzureEnvironment environment = null;
-        if (restClient.credentials() instanceof AzureTokenCredentials) {
-            environment = ((AzureTokenCredentials) restClient.credentials()).environment();
-        } else {
-            String baseUrl = restClient.retrofit().baseUrl().toString();
-            for (AzureEnvironment env : AzureEnvironment.knownEnvironments()) {
-                if (env.resourceManagerEndpoint().toLowerCase().contains(baseUrl.toLowerCase())) {
-                    environment = env;
-                    break;
-                }
-            }
-            if (environment == null) {
-                throw new IllegalArgumentException("Unknown resource manager endpoint " + baseUrl);
-            }
-        }
+
+        AzureEnvironment environment = servicePrincipal.manager().inner().azureEnvironment();
 
         StringBuilder builder = new StringBuilder("{\n");
         builder.append("  ").append(String.format("\"clientId\": \"%s\",", servicePrincipal.applicationId())).append("\n");

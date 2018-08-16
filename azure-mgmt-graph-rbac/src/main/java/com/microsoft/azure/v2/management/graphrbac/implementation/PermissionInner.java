@@ -8,13 +8,13 @@
 
 package com.microsoft.azure.v2.management.graphrbac.implementation;
 
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 
 /**
  * Role definition permissions.
  */
-public class PermissionInner {
+public final class PermissionInner {
     /**
      * Allowed actions.
      */
@@ -28,9 +28,21 @@ public class PermissionInner {
     private List<String> notActions;
 
     /**
+     * Allowed Data actions.
+     */
+    @JsonProperty(value = "dataActions")
+    private List<String> dataActions;
+
+    /**
+     * Denied Data actions.
+     */
+    @JsonProperty(value = "notDataActions")
+    private List<String> notDataActions;
+
+    /**
      * Get the actions value.
      *
-     * @return the actions value
+     * @return the actions value.
      */
     public List<String> actions() {
         return this.actions;
@@ -39,7 +51,7 @@ public class PermissionInner {
     /**
      * Set the actions value.
      *
-     * @param actions the actions value to set
+     * @param actions the actions value to set.
      * @return the PermissionInner object itself.
      */
     public PermissionInner withActions(List<String> actions) {
@@ -50,7 +62,7 @@ public class PermissionInner {
     /**
      * Get the notActions value.
      *
-     * @return the notActions value
+     * @return the notActions value.
      */
     public List<String> notActions() {
         return this.notActions;
@@ -59,7 +71,7 @@ public class PermissionInner {
     /**
      * Set the notActions value.
      *
-     * @param notActions the notActions value to set
+     * @param notActions the notActions value to set.
      * @return the PermissionInner object itself.
      */
     public PermissionInner withNotActions(List<String> notActions) {
@@ -67,4 +79,43 @@ public class PermissionInner {
         return this;
     }
 
+    /**
+     * Get the dataActions value.
+     *
+     * @return the dataActions value.
+     */
+    public List<String> dataActions() {
+        return this.dataActions;
+    }
+
+    /**
+     * Set the dataActions value.
+     *
+     * @param dataActions the dataActions value to set.
+     * @return the PermissionInner object itself.
+     */
+    public PermissionInner withDataActions(List<String> dataActions) {
+        this.dataActions = dataActions;
+        return this;
+    }
+
+    /**
+     * Get the notDataActions value.
+     *
+     * @return the notDataActions value.
+     */
+    public List<String> notDataActions() {
+        return this.notDataActions;
+    }
+
+    /**
+     * Set the notDataActions value.
+     *
+     * @param notDataActions the notDataActions value to set.
+     * @return the PermissionInner object itself.
+     */
+    public PermissionInner withNotDataActions(List<String> notDataActions) {
+        this.notDataActions = notDataActions;
+        return this;
+    }
 }

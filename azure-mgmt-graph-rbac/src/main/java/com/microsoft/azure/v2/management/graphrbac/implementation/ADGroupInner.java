@@ -9,23 +9,15 @@
 package com.microsoft.azure.v2.management.graphrbac.implementation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
  * Active Directory group information.
  */
-public class ADGroupInner {
-    /**
-     * The object ID.
-     */
-    @JsonProperty(value = "objectId")
-    private String objectId;
-
-    /**
-     * The object type.
-     */
-    @JsonProperty(value = "objectType")
-    private String objectType;
-
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "objectType")
+@JsonTypeName("Group")
+public final class ADGroupInner extends DirectoryObjectInner {
     /**
      * The display name of the group.
      */
@@ -45,49 +37,9 @@ public class ADGroupInner {
     private String mail;
 
     /**
-     * Get the objectId value.
-     *
-     * @return the objectId value
-     */
-    public String objectId() {
-        return this.objectId;
-    }
-
-    /**
-     * Set the objectId value.
-     *
-     * @param objectId the objectId value to set
-     * @return the ADGroupInner object itself.
-     */
-    public ADGroupInner withObjectId(String objectId) {
-        this.objectId = objectId;
-        return this;
-    }
-
-    /**
-     * Get the objectType value.
-     *
-     * @return the objectType value
-     */
-    public String objectType() {
-        return this.objectType;
-    }
-
-    /**
-     * Set the objectType value.
-     *
-     * @param objectType the objectType value to set
-     * @return the ADGroupInner object itself.
-     */
-    public ADGroupInner withObjectType(String objectType) {
-        this.objectType = objectType;
-        return this;
-    }
-
-    /**
      * Get the displayName value.
      *
-     * @return the displayName value
+     * @return the displayName value.
      */
     public String displayName() {
         return this.displayName;
@@ -96,7 +48,7 @@ public class ADGroupInner {
     /**
      * Set the displayName value.
      *
-     * @param displayName the displayName value to set
+     * @param displayName the displayName value to set.
      * @return the ADGroupInner object itself.
      */
     public ADGroupInner withDisplayName(String displayName) {
@@ -107,7 +59,7 @@ public class ADGroupInner {
     /**
      * Get the securityEnabled value.
      *
-     * @return the securityEnabled value
+     * @return the securityEnabled value.
      */
     public Boolean securityEnabled() {
         return this.securityEnabled;
@@ -116,7 +68,7 @@ public class ADGroupInner {
     /**
      * Set the securityEnabled value.
      *
-     * @param securityEnabled the securityEnabled value to set
+     * @param securityEnabled the securityEnabled value to set.
      * @return the ADGroupInner object itself.
      */
     public ADGroupInner withSecurityEnabled(Boolean securityEnabled) {
@@ -127,7 +79,7 @@ public class ADGroupInner {
     /**
      * Get the mail value.
      *
-     * @return the mail value
+     * @return the mail value.
      */
     public String mail() {
         return this.mail;
@@ -136,12 +88,11 @@ public class ADGroupInner {
     /**
      * Set the mail value.
      *
-     * @param mail the mail value to set
+     * @param mail the mail value to set.
      * @return the ADGroupInner object itself.
      */
     public ADGroupInner withMail(String mail) {
         this.mail = mail;
         return this;
     }
-
 }

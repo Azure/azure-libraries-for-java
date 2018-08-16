@@ -8,30 +8,31 @@
 
 package com.microsoft.azure.v2.management.graphrbac.implementation;
 
-import org.joda.time.DateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.time.OffsetDateTime;
+import java.util.Map;
 
 /**
  * Active Directory Key Credential information.
  */
-public class KeyCredentialInner {
+public final class KeyCredentialInner {
     /**
-     * Custom key identifier.
+     * Unmatched properties from the message are deserialized this collection.
      */
-    @JsonProperty(value = "customKeyIdentifier")
-    private String customKeyIdentifier;
+    @JsonProperty(value = "")
+    private Map<String, Object> additionalProperties;
 
     /**
      * Start date.
      */
     @JsonProperty(value = "startDate")
-    private DateTime startDate;
+    private OffsetDateTime startDate;
 
     /**
      * End date.
      */
     @JsonProperty(value = "endDate")
-    private DateTime endDate;
+    private OffsetDateTime endDate;
 
     /**
      * Key value.
@@ -58,61 +59,67 @@ public class KeyCredentialInner {
     private String type;
 
     /**
+     * Custom Key Identifier.
+     */
+    @JsonProperty(value = "customKeyIdentifier")
+    private byte[] customKeyIdentifier;
+
+    /**
+     * Get the additionalProperties value.
+     *
+     * @return the additionalProperties value.
+     */
+    public Map<String, Object> additionalProperties() {
+        return this.additionalProperties;
+    }
+
+    /**
+     * Set the additionalProperties value.
+     *
+     * @param additionalProperties the additionalProperties value to set.
+     * @return the KeyCredentialInner object itself.
+     */
+    public KeyCredentialInner withAdditionalProperties(Map<String, Object> additionalProperties) {
+        this.additionalProperties = additionalProperties;
+        return this;
+    }
+
+    /**
      * Get the startDate value.
      *
-     * @return the startDate value
+     * @return the startDate value.
      */
-    public DateTime startDate() {
+    public OffsetDateTime startDate() {
         return this.startDate;
     }
 
     /**
      * Set the startDate value.
      *
-     * @param startDate the startDate value to set
+     * @param startDate the startDate value to set.
      * @return the KeyCredentialInner object itself.
      */
-    public KeyCredentialInner withStartDate(DateTime startDate) {
+    public KeyCredentialInner withStartDate(OffsetDateTime startDate) {
         this.startDate = startDate;
-        return this;
-    }
-
-    /**
-     * Get the customKeyIdentifier value.
-     *
-     * @return the customKeyIdentifier value
-     */
-    public String customKeyIdentifier() {
-        return this.customKeyIdentifier;
-    }
-
-    /**
-     * Set the customKeyIdentifier value.
-     *
-     * @param customKeyIdentifier the customKeyIdentifier value to set
-     * @return the KeyCredentialInner object itself.
-     */
-    public KeyCredentialInner withCustomKeyIdentifier(String customKeyIdentifier) {
-        this.customKeyIdentifier = customKeyIdentifier;
         return this;
     }
 
     /**
      * Get the endDate value.
      *
-     * @return the endDate value
+     * @return the endDate value.
      */
-    public DateTime endDate() {
+    public OffsetDateTime endDate() {
         return this.endDate;
     }
 
     /**
      * Set the endDate value.
      *
-     * @param endDate the endDate value to set
+     * @param endDate the endDate value to set.
      * @return the KeyCredentialInner object itself.
      */
-    public KeyCredentialInner withEndDate(DateTime endDate) {
+    public KeyCredentialInner withEndDate(OffsetDateTime endDate) {
         this.endDate = endDate;
         return this;
     }
@@ -120,7 +127,7 @@ public class KeyCredentialInner {
     /**
      * Get the value value.
      *
-     * @return the value value
+     * @return the value value.
      */
     public String value() {
         return this.value;
@@ -129,7 +136,7 @@ public class KeyCredentialInner {
     /**
      * Set the value value.
      *
-     * @param value the value value to set
+     * @param value the value value to set.
      * @return the KeyCredentialInner object itself.
      */
     public KeyCredentialInner withValue(String value) {
@@ -140,7 +147,7 @@ public class KeyCredentialInner {
     /**
      * Get the keyId value.
      *
-     * @return the keyId value
+     * @return the keyId value.
      */
     public String keyId() {
         return this.keyId;
@@ -149,7 +156,7 @@ public class KeyCredentialInner {
     /**
      * Set the keyId value.
      *
-     * @param keyId the keyId value to set
+     * @param keyId the keyId value to set.
      * @return the KeyCredentialInner object itself.
      */
     public KeyCredentialInner withKeyId(String keyId) {
@@ -160,7 +167,7 @@ public class KeyCredentialInner {
     /**
      * Get the usage value.
      *
-     * @return the usage value
+     * @return the usage value.
      */
     public String usage() {
         return this.usage;
@@ -169,7 +176,7 @@ public class KeyCredentialInner {
     /**
      * Set the usage value.
      *
-     * @param usage the usage value to set
+     * @param usage the usage value to set.
      * @return the KeyCredentialInner object itself.
      */
     public KeyCredentialInner withUsage(String usage) {
@@ -180,7 +187,7 @@ public class KeyCredentialInner {
     /**
      * Get the type value.
      *
-     * @return the type value
+     * @return the type value.
      */
     public String type() {
         return this.type;
@@ -189,7 +196,7 @@ public class KeyCredentialInner {
     /**
      * Set the type value.
      *
-     * @param type the type value to set
+     * @param type the type value to set.
      * @return the KeyCredentialInner object itself.
      */
     public KeyCredentialInner withType(String type) {
@@ -197,4 +204,23 @@ public class KeyCredentialInner {
         return this;
     }
 
+    /**
+     * Get the customKeyIdentifier value.
+     *
+     * @return the customKeyIdentifier value.
+     */
+    public byte[] customKeyIdentifier() {
+        return this.customKeyIdentifier;
+    }
+
+    /**
+     * Set the customKeyIdentifier value.
+     *
+     * @param customKeyIdentifier the customKeyIdentifier value to set.
+     * @return the KeyCredentialInner object itself.
+     */
+    public KeyCredentialInner withCustomKeyIdentifier(byte[] customKeyIdentifier) {
+        this.customKeyIdentifier = customKeyIdentifier;
+        return this;
+    }
 }

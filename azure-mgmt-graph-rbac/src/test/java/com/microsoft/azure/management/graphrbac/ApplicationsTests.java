@@ -7,13 +7,9 @@
 package com.microsoft.azure.management.graphrbac;
 
 import com.google.common.io.ByteStreams;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
+import com.microsoft.azure.v2.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.azure.v2.management.graphrbac.ActiveDirectoryApplication;
-import org.joda.time.Duration;
-import org.junit.AfterClass;
 import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class ApplicationsTests extends GraphRbacManagementTest {
@@ -27,12 +23,12 @@ public class ApplicationsTests extends GraphRbacManagementTest {
                     .withSignOnUrl("http://easycreate.azure.com/" + name)
                     .definePasswordCredential("passwd")
                         .withPasswordValue("P@ssw0rd")
-                        .withDuration(Duration.standardDays(700))
+                        .withDuration(java.time.Duration.ofDays(700))
                         .attach()
                     .defineCertificateCredential("cert")
                         .withAsymmetricX509Certificate()
                         .withPublicKey(ByteStreams.toByteArray(this.getClass().getResourceAsStream("/myTest.cer")))
-                        .withDuration(Duration.standardDays(100))
+                        .withDuration(java.time.Duration.ofDays(100))
                         .attach()
                     .create();
             System.out.println(application.id() + " - " + application.applicationId());

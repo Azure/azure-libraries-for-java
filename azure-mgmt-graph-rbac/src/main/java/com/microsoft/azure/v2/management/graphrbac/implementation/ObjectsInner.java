@@ -8,160 +8,139 @@
 
 package com.microsoft.azure.v2.management.graphrbac.implementation;
 
-import retrofit2.Retrofit;
-import com.google.common.reflect.TypeToken;
-import com.microsoft.azure.AzureServiceFuture;
-import com.microsoft.azure.CloudException;
-import com.microsoft.azure.ListOperationCallback;
+import com.microsoft.azure.v2.AzureProxy;
+import com.microsoft.azure.v2.CloudException;
+import com.microsoft.azure.v2.Page;
+import com.microsoft.azure.v2.PagedList;
+import com.microsoft.azure.v2.management.graphrbac.GetObjectsParameters;
 import com.microsoft.azure.v2.management.graphrbac.GraphErrorException;
-import com.microsoft.azure.Page;
-import com.microsoft.azure.PagedList;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import com.microsoft.rest.ServiceResponse;
-import com.microsoft.rest.Validator;
-import java.io.IOException;
-import java.util.List;
-import okhttp3.ResponseBody;
-import retrofit2.http.Body;
-import retrofit2.http.GET;
-import retrofit2.http.Header;
-import retrofit2.http.Headers;
-import retrofit2.http.Path;
-import retrofit2.http.POST;
-import retrofit2.http.Query;
-import retrofit2.http.Url;
-import retrofit2.Response;
-import rx.functions.Func1;
-import rx.Observable;
+import com.microsoft.rest.v2.BodyResponse;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
+import com.microsoft.rest.v2.Validator;
+import com.microsoft.rest.v2.annotations.BodyParam;
+import com.microsoft.rest.v2.annotations.ExpectedResponses;
+import com.microsoft.rest.v2.annotations.GET;
+import com.microsoft.rest.v2.annotations.HeaderParam;
+import com.microsoft.rest.v2.annotations.Host;
+import com.microsoft.rest.v2.annotations.PathParam;
+import com.microsoft.rest.v2.annotations.POST;
+import com.microsoft.rest.v2.annotations.QueryParam;
+import com.microsoft.rest.v2.annotations.UnexpectedResponseExceptionType;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
+import io.reactivex.Single;
+import io.reactivex.annotations.NonNull;
 
 /**
- * An instance of this class provides access to all the operations defined
- * in Objects.
+ * An instance of this class provides access to all the operations defined in
+ * Objects.
  */
-public class ObjectsInner {
-    /** The Retrofit service to perform REST calls. */
+public final class ObjectsInner {
+    /**
+     * The proxy service used to perform REST calls.
+     */
     private ObjectsService service;
-    /** The service client containing this operation class. */
+
+    /**
+     * The service client containing this operation class.
+     */
     private GraphRbacManagementClientImpl client;
 
     /**
      * Initializes an instance of ObjectsInner.
      *
-     * @param retrofit the Retrofit instance built from a Retrofit Builder.
      * @param client the instance of the service client containing this operation class.
      */
-    public ObjectsInner(Retrofit retrofit, GraphRbacManagementClientImpl client) {
-        this.service = retrofit.create(ObjectsService.class);
+    public ObjectsInner(GraphRbacManagementClientImpl client) {
+        this.service = AzureProxy.create(ObjectsService.class, client);
         this.client = client;
     }
 
     /**
-     * The interface defining all the services for Objects to be
-     * used by Retrofit to perform actually REST calls.
+     * The interface defining all the services for Objects to be used by the
+     * proxy service to perform REST calls.
      */
-    interface ObjectsService {
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.graphrbac.Objects getCurrentUser" })
+    @Host("https://graph.windows.net")
+    private interface ObjectsService {
         @GET("{tenantID}/me")
-        Observable<Response<ResponseBody>> getCurrentUser(@Path("tenantID") String tenantID, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(GraphErrorException.class)
+        Single<BodyResponse<AADObjectInner>> getCurrentUser(@PathParam("tenantID") String tenantID, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.graphrbac.Objects getObjectsByObjectIds" })
         @POST("{tenantID}/getObjectsByObjectIds")
-        Observable<Response<ResponseBody>> getObjectsByObjectIds(@Path("tenantID") String tenantID, @Body GetObjectsParametersInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl<AADObjectInner>>> getObjectsByObjectIds(@PathParam("tenantID") String tenantID, @BodyParam("application/json; charset=utf-8") GetObjectsParameters parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.graphrbac.Objects getObjectsByObjectIdsNext" })
-        @GET
-        Observable<Response<ResponseBody>> getObjectsByObjectIdsNext(@Url String nextUrl, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
-
+        @GET("{nextUrl}")
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl<AADObjectInner>>> getObjectsByObjectIdsNext(@PathParam(value = "nextUrl", encoded = true) String nextUrl, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
     }
 
     /**
      * Gets the details for the currently logged-in user.
      *
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws GraphErrorException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the AADObjectInner object if successful.
      */
     public AADObjectInner getCurrentUser() {
-        return getCurrentUserWithServiceResponseAsync().toBlocking().single().body();
+        return getCurrentUserAsync().blockingGet();
     }
 
     /**
      * Gets the details for the currently logged-in user.
      *
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<AADObjectInner> getCurrentUserAsync(final ServiceCallback<AADObjectInner> serviceCallback) {
-        return ServiceFuture.fromResponse(getCurrentUserWithServiceResponseAsync(), serviceCallback);
+    public ServiceFuture<AADObjectInner> getCurrentUserAsync(ServiceCallback<AADObjectInner> serviceCallback) {
+        return ServiceFuture.fromBody(getCurrentUserAsync(), serviceCallback);
     }
 
     /**
      * Gets the details for the currently logged-in user.
      *
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the AADObjectInner object
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<AADObjectInner> getCurrentUserAsync() {
-        return getCurrentUserWithServiceResponseAsync().map(new Func1<ServiceResponse<AADObjectInner>, AADObjectInner>() {
-            @Override
-            public AADObjectInner call(ServiceResponse<AADObjectInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Gets the details for the currently logged-in user.
-     *
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the AADObjectInner object
-     */
-    public Observable<ServiceResponse<AADObjectInner>> getCurrentUserWithServiceResponseAsync() {
+    public Single<BodyResponse<AADObjectInner>> getCurrentUserWithRestResponseAsync() {
         if (this.client.tenantID() == null) {
             throw new IllegalArgumentException("Parameter this.client.tenantID() is required and cannot be null.");
         }
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        return service.getCurrentUser(this.client.tenantID(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<AADObjectInner>>>() {
-                @Override
-                public Observable<ServiceResponse<AADObjectInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<AADObjectInner> clientResponse = getCurrentUserDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.getCurrentUser(this.client.tenantID(), this.client.apiVersion(), this.client.acceptLanguage());
     }
 
-    private ServiceResponse<AADObjectInner> getCurrentUserDelegate(Response<ResponseBody> response) throws GraphErrorException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<AADObjectInner, GraphErrorException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<AADObjectInner>() { }.getType())
-                .registerError(GraphErrorException.class)
-                .build(response);
+    /**
+     * Gets the details for the currently logged-in user.
+     *
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<AADObjectInner> getCurrentUserAsync() {
+        return getCurrentUserWithRestResponseAsync()
+            .flatMapMaybe((BodyResponse<AADObjectInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
      * Gets AD group membership for the specified AD object IDs.
      *
      * @param parameters Objects filtering parameters.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;AADObjectInner&gt; object if successful.
      */
-    public PagedList<AADObjectInner> getObjectsByObjectIds(final GetObjectsParametersInner parameters) {
-        ServiceResponse<Page<AADObjectInner>> response = getObjectsByObjectIdsSinglePageAsync(parameters).toBlocking().single();
-        return new PagedList<AADObjectInner>(response.body()) {
+    public PagedList<AADObjectInner> getObjectsByObjectIds(@NonNull GetObjectsParameters parameters) {
+        Page<AADObjectInner> response = getObjectsByObjectIdsSinglePageAsync(parameters).blockingGet();
+        return new PagedList<AADObjectInner>(response) {
             @Override
             public Page<AADObjectInner> nextPage(String nextLink) {
-                return getObjectsByObjectIdsNextSinglePageAsync(nextLink).toBlocking().single().body();
+                return getObjectsByObjectIdsNextSinglePageAsync(nextLink).blockingGet();
             }
         };
     }
@@ -170,68 +149,29 @@ public class ObjectsInner {
      * Gets AD group membership for the specified AD object IDs.
      *
      * @param parameters Objects filtering parameters.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;AADObjectInner&gt; object.
      */
-    public ServiceFuture<List<AADObjectInner>> getObjectsByObjectIdsAsync(final GetObjectsParametersInner parameters, final ListOperationCallback<AADObjectInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            getObjectsByObjectIdsSinglePageAsync(parameters),
-            new Func1<String, Observable<ServiceResponse<Page<AADObjectInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<AADObjectInner>>> call(String nextLink) {
-                    return getObjectsByObjectIdsNextSinglePageAsync(nextLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets AD group membership for the specified AD object IDs.
-     *
-     * @param parameters Objects filtering parameters.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;AADObjectInner&gt; object
-     */
-    public Observable<Page<AADObjectInner>> getObjectsByObjectIdsAsync(final GetObjectsParametersInner parameters) {
-        return getObjectsByObjectIdsWithServiceResponseAsync(parameters)
-            .map(new Func1<ServiceResponse<Page<AADObjectInner>>, Page<AADObjectInner>>() {
-                @Override
-                public Page<AADObjectInner> call(ServiceResponse<Page<AADObjectInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets AD group membership for the specified AD object IDs.
-     *
-     * @param parameters Objects filtering parameters.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;AADObjectInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<AADObjectInner>>> getObjectsByObjectIdsWithServiceResponseAsync(final GetObjectsParametersInner parameters) {
+    public Observable<Page<AADObjectInner>> getObjectsByObjectIdsAsync(@NonNull GetObjectsParameters parameters) {
         return getObjectsByObjectIdsSinglePageAsync(parameters)
-            .concatMap(new Func1<ServiceResponse<Page<AADObjectInner>>, Observable<ServiceResponse<Page<AADObjectInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<AADObjectInner>>> call(ServiceResponse<Page<AADObjectInner>> page) {
-                    String nextLink = page.body().nextPageLink();
-                    if (nextLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(getObjectsByObjectIdsNextWithServiceResponseAsync(nextLink));
+            .toObservable()
+            .concatMap((Page<AADObjectInner> page) -> {
+                String nextLink = page.nextPageLink();
+                if (nextLink == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(getObjectsByObjectIdsNextAsync(nextLink));
             });
     }
 
     /**
      * Gets AD group membership for the specified AD object IDs.
      *
-    ServiceResponse<PageImpl<AADObjectInner>> * @param parameters Objects filtering parameters.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;AADObjectInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param parameters Objects filtering parameters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;AADObjectInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<AADObjectInner>>> getObjectsByObjectIdsSinglePageAsync(final GetObjectsParametersInner parameters) {
+    public Single<Page<AADObjectInner>> getObjectsByObjectIdsSinglePageAsync(@NonNull GetObjectsParameters parameters) {
         if (this.client.tenantID() == null) {
             throw new IllegalArgumentException("Parameter this.client.tenantID() is required and cannot be null.");
         }
@@ -242,42 +182,25 @@ public class ObjectsInner {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
         Validator.validate(parameters);
-        return service.getObjectsByObjectIds(this.client.tenantID(), parameters, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<AADObjectInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<AADObjectInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<AADObjectInner>> result = getObjectsByObjectIdsDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<AADObjectInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl<AADObjectInner>> getObjectsByObjectIdsDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<AADObjectInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<AADObjectInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+        return service.getObjectsByObjectIds(this.client.tenantID(), parameters, this.client.apiVersion(), this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl<AADObjectInner>> res) -> res.body());
     }
 
     /**
      * Gets AD group membership for the specified AD object IDs.
      *
      * @param nextLink Next link for the list operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;AADObjectInner&gt; object if successful.
      */
-    public PagedList<AADObjectInner> getObjectsByObjectIdsNext(final String nextLink) {
-        ServiceResponse<Page<AADObjectInner>> response = getObjectsByObjectIdsNextSinglePageAsync(nextLink).toBlocking().single();
-        return new PagedList<AADObjectInner>(response.body()) {
+    public PagedList<AADObjectInner> getObjectsByObjectIdsNext(@NonNull String nextLink) {
+        Page<AADObjectInner> response = getObjectsByObjectIdsNextSinglePageAsync(nextLink).blockingGet();
+        return new PagedList<AADObjectInner>(response) {
             @Override
             public Page<AADObjectInner> nextPage(String nextLink) {
-                return getObjectsByObjectIdsNextSinglePageAsync(nextLink).toBlocking().single().body();
+                return getObjectsByObjectIdsNextSinglePageAsync(nextLink).blockingGet();
             }
         };
     }
@@ -286,69 +209,29 @@ public class ObjectsInner {
      * Gets AD group membership for the specified AD object IDs.
      *
      * @param nextLink Next link for the list operation.
-     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;AADObjectInner&gt; object.
      */
-    public ServiceFuture<List<AADObjectInner>> getObjectsByObjectIdsNextAsync(final String nextLink, final ServiceFuture<List<AADObjectInner>> serviceFuture, final ListOperationCallback<AADObjectInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            getObjectsByObjectIdsNextSinglePageAsync(nextLink),
-            new Func1<String, Observable<ServiceResponse<Page<AADObjectInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<AADObjectInner>>> call(String nextLink) {
-                    return getObjectsByObjectIdsNextSinglePageAsync(nextLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets AD group membership for the specified AD object IDs.
-     *
-     * @param nextLink Next link for the list operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;AADObjectInner&gt; object
-     */
-    public Observable<Page<AADObjectInner>> getObjectsByObjectIdsNextAsync(final String nextLink) {
-        return getObjectsByObjectIdsNextWithServiceResponseAsync(nextLink)
-            .map(new Func1<ServiceResponse<Page<AADObjectInner>>, Page<AADObjectInner>>() {
-                @Override
-                public Page<AADObjectInner> call(ServiceResponse<Page<AADObjectInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets AD group membership for the specified AD object IDs.
-     *
-     * @param nextLink Next link for the list operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;AADObjectInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<AADObjectInner>>> getObjectsByObjectIdsNextWithServiceResponseAsync(final String nextLink) {
+    public Observable<Page<AADObjectInner>> getObjectsByObjectIdsNextAsync(@NonNull String nextLink) {
         return getObjectsByObjectIdsNextSinglePageAsync(nextLink)
-            .concatMap(new Func1<ServiceResponse<Page<AADObjectInner>>, Observable<ServiceResponse<Page<AADObjectInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<AADObjectInner>>> call(ServiceResponse<Page<AADObjectInner>> page) {
-                    String nextLink = page.body().nextPageLink();
-                    if (nextLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(getObjectsByObjectIdsNextWithServiceResponseAsync(nextLink));
+            .toObservable()
+            .concatMap((Page<AADObjectInner> page) -> {
+                String nextLink1 = page.nextPageLink();
+                if (nextLink1 == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(getObjectsByObjectIdsNextAsync(nextLink1));
             });
     }
 
     /**
      * Gets AD group membership for the specified AD object IDs.
      *
-    ServiceResponse<PageImpl<AADObjectInner>> * @param nextLink Next link for the list operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;AADObjectInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param nextLink Next link for the list operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;AADObjectInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<AADObjectInner>>> getObjectsByObjectIdsNextSinglePageAsync(final String nextLink) {
+    public Single<Page<AADObjectInner>> getObjectsByObjectIdsNextSinglePageAsync(@NonNull String nextLink) {
         if (nextLink == null) {
             throw new IllegalArgumentException("Parameter nextLink is required and cannot be null.");
         }
@@ -359,25 +242,7 @@ public class ObjectsInner {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
         String nextUrl = String.format("%s/%s", this.client.tenantID(), nextLink);
-        return service.getObjectsByObjectIdsNext(nextUrl, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<AADObjectInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<AADObjectInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<AADObjectInner>> result = getObjectsByObjectIdsNextDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<AADObjectInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.getObjectsByObjectIdsNext(nextUrl, this.client.apiVersion(), this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl<AADObjectInner>> res) -> res.body());
     }
-
-    private ServiceResponse<PageImpl<AADObjectInner>> getObjectsByObjectIdsNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<AADObjectInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<AADObjectInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
-    }
-
 }

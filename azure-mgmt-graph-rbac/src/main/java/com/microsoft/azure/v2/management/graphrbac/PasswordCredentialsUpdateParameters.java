@@ -8,14 +8,14 @@
 
 package com.microsoft.azure.v2.management.graphrbac;
 
-import java.util.List;
-import com.microsoft.azure.v2.management.graphrbac.implementation.PasswordCredentialInner;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.v2.management.graphrbac.implementation.PasswordCredentialInner;
+import java.util.List;
 
 /**
  * Request parameters for a PasswordCredentials update operation.
  */
-public class PasswordCredentialsUpdateParameters {
+public final class PasswordCredentialsUpdateParameters {
     /**
      * A collection of PasswordCredentials.
      */
@@ -25,7 +25,7 @@ public class PasswordCredentialsUpdateParameters {
     /**
      * Get the value value.
      *
-     * @return the value value
+     * @return the value value.
      */
     public List<PasswordCredentialInner> value() {
         return this.value;
@@ -34,12 +34,11 @@ public class PasswordCredentialsUpdateParameters {
     /**
      * Set the value value.
      *
-     * @param value the value value to set
+     * @param value the value value to set.
      * @return the PasswordCredentialsUpdateParameters object itself.
      */
     public PasswordCredentialsUpdateParameters withValue(List<PasswordCredentialInner> value) {
         this.value = value;
         return this;
     }
-
 }

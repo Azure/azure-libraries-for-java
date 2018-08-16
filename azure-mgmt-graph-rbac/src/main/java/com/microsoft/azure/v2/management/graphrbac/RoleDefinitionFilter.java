@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Role Definitions filter.
  */
-public class RoleDefinitionFilter {
+public final class RoleDefinitionFilter {
     /**
      * Returns role definition with the specific name.
      */
@@ -21,9 +21,15 @@ public class RoleDefinitionFilter {
     private String roleName;
 
     /**
+     * Returns role definition with the specific type.
+     */
+    @JsonProperty(value = "type")
+    private String type;
+
+    /**
      * Get the roleName value.
      *
-     * @return the roleName value
+     * @return the roleName value.
      */
     public String roleName() {
         return this.roleName;
@@ -32,7 +38,7 @@ public class RoleDefinitionFilter {
     /**
      * Set the roleName value.
      *
-     * @param roleName the roleName value to set
+     * @param roleName the roleName value to set.
      * @return the RoleDefinitionFilter object itself.
      */
     public RoleDefinitionFilter withRoleName(String roleName) {
@@ -40,4 +46,23 @@ public class RoleDefinitionFilter {
         return this;
     }
 
+    /**
+     * Get the type value.
+     *
+     * @return the type value.
+     */
+    public String type() {
+        return this.type;
+    }
+
+    /**
+     * Set the type value.
+     *
+     * @param type the type value to set.
+     * @return the RoleDefinitionFilter object itself.
+     */
+    public RoleDefinitionFilter withType(String type) {
+        this.type = type;
+        return this;
+    }
 }

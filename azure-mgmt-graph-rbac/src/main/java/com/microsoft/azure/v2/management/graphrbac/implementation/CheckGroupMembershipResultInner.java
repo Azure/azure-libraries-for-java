@@ -9,11 +9,18 @@
 package com.microsoft.azure.v2.management.graphrbac.implementation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.Map;
 
 /**
  * Server response for IsMemberOf API call.
  */
-public class CheckGroupMembershipResultInner {
+public final class CheckGroupMembershipResultInner {
+    /**
+     * Unmatched properties from the message are deserialized this collection.
+     */
+    @JsonProperty(value = "")
+    private Map<String, Object> additionalProperties;
+
     /**
      * True if the specified user, group, contact, or service principal has
      * either direct or transitive membership in the specified group;
@@ -23,9 +30,29 @@ public class CheckGroupMembershipResultInner {
     private Boolean value;
 
     /**
+     * Get the additionalProperties value.
+     *
+     * @return the additionalProperties value.
+     */
+    public Map<String, Object> additionalProperties() {
+        return this.additionalProperties;
+    }
+
+    /**
+     * Set the additionalProperties value.
+     *
+     * @param additionalProperties the additionalProperties value to set.
+     * @return the CheckGroupMembershipResultInner object itself.
+     */
+    public CheckGroupMembershipResultInner withAdditionalProperties(Map<String, Object> additionalProperties) {
+        this.additionalProperties = additionalProperties;
+        return this;
+    }
+
+    /**
      * Get the value value.
      *
-     * @return the value value
+     * @return the value value.
      */
     public Boolean value() {
         return this.value;
@@ -34,12 +61,11 @@ public class CheckGroupMembershipResultInner {
     /**
      * Set the value value.
      *
-     * @param value the value value to set
+     * @param value the value value to set.
      * @return the CheckGroupMembershipResultInner object itself.
      */
     public CheckGroupMembershipResultInner withValue(Boolean value) {
         this.value = value;
         return this;
     }
-
 }

@@ -8,25 +8,17 @@
 
 package com.microsoft.azure.v2.management.graphrbac.implementation;
 
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import java.util.List;
 
 /**
  * Active Directory service principal information.
  */
-public class ServicePrincipalInner {
-    /**
-     * The object ID.
-     */
-    @JsonProperty(value = "objectId")
-    private String objectId;
-
-    /**
-     * The object type.
-     */
-    @JsonProperty(value = "objectType")
-    private String objectType;
-
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "objectType")
+@JsonTypeName("ServicePrincipal")
+public final class ServicePrincipalInner extends DirectoryObjectInner {
     /**
      * The display name of the service principal.
      */
@@ -46,49 +38,9 @@ public class ServicePrincipalInner {
     private List<String> servicePrincipalNames;
 
     /**
-     * Get the objectId value.
-     *
-     * @return the objectId value
-     */
-    public String objectId() {
-        return this.objectId;
-    }
-
-    /**
-     * Set the objectId value.
-     *
-     * @param objectId the objectId value to set
-     * @return the ServicePrincipalInner object itself.
-     */
-    public ServicePrincipalInner withObjectId(String objectId) {
-        this.objectId = objectId;
-        return this;
-    }
-
-    /**
-     * Get the objectType value.
-     *
-     * @return the objectType value
-     */
-    public String objectType() {
-        return this.objectType;
-    }
-
-    /**
-     * Set the objectType value.
-     *
-     * @param objectType the objectType value to set
-     * @return the ServicePrincipalInner object itself.
-     */
-    public ServicePrincipalInner withObjectType(String objectType) {
-        this.objectType = objectType;
-        return this;
-    }
-
-    /**
      * Get the displayName value.
      *
-     * @return the displayName value
+     * @return the displayName value.
      */
     public String displayName() {
         return this.displayName;
@@ -97,7 +49,7 @@ public class ServicePrincipalInner {
     /**
      * Set the displayName value.
      *
-     * @param displayName the displayName value to set
+     * @param displayName the displayName value to set.
      * @return the ServicePrincipalInner object itself.
      */
     public ServicePrincipalInner withDisplayName(String displayName) {
@@ -108,7 +60,7 @@ public class ServicePrincipalInner {
     /**
      * Get the appId value.
      *
-     * @return the appId value
+     * @return the appId value.
      */
     public String appId() {
         return this.appId;
@@ -117,7 +69,7 @@ public class ServicePrincipalInner {
     /**
      * Set the appId value.
      *
-     * @param appId the appId value to set
+     * @param appId the appId value to set.
      * @return the ServicePrincipalInner object itself.
      */
     public ServicePrincipalInner withAppId(String appId) {
@@ -128,7 +80,7 @@ public class ServicePrincipalInner {
     /**
      * Get the servicePrincipalNames value.
      *
-     * @return the servicePrincipalNames value
+     * @return the servicePrincipalNames value.
      */
     public List<String> servicePrincipalNames() {
         return this.servicePrincipalNames;
@@ -137,12 +89,11 @@ public class ServicePrincipalInner {
     /**
      * Set the servicePrincipalNames value.
      *
-     * @param servicePrincipalNames the servicePrincipalNames value to set
+     * @param servicePrincipalNames the servicePrincipalNames value to set.
      * @return the ServicePrincipalInner object itself.
      */
     public ServicePrincipalInner withServicePrincipalNames(List<String> servicePrincipalNames) {
         this.servicePrincipalNames = servicePrincipalNames;
         return this;
     }
-
 }

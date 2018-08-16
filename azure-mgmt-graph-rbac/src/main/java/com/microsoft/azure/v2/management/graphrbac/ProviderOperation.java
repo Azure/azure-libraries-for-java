@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Operation.
  */
-public class ProviderOperation {
+public final class ProviderOperation {
     /**
      * The operation name.
      */
@@ -45,9 +45,15 @@ public class ProviderOperation {
     private Object properties;
 
     /**
+     * The dataAction flag to specify the operation type.
+     */
+    @JsonProperty(value = "isDataAction")
+    private Boolean isDataAction;
+
+    /**
      * Get the name value.
      *
-     * @return the name value
+     * @return the name value.
      */
     public String name() {
         return this.name;
@@ -56,7 +62,7 @@ public class ProviderOperation {
     /**
      * Set the name value.
      *
-     * @param name the name value to set
+     * @param name the name value to set.
      * @return the ProviderOperation object itself.
      */
     public ProviderOperation withName(String name) {
@@ -67,7 +73,7 @@ public class ProviderOperation {
     /**
      * Get the displayName value.
      *
-     * @return the displayName value
+     * @return the displayName value.
      */
     public String displayName() {
         return this.displayName;
@@ -76,7 +82,7 @@ public class ProviderOperation {
     /**
      * Set the displayName value.
      *
-     * @param displayName the displayName value to set
+     * @param displayName the displayName value to set.
      * @return the ProviderOperation object itself.
      */
     public ProviderOperation withDisplayName(String displayName) {
@@ -87,7 +93,7 @@ public class ProviderOperation {
     /**
      * Get the description value.
      *
-     * @return the description value
+     * @return the description value.
      */
     public String description() {
         return this.description;
@@ -96,7 +102,7 @@ public class ProviderOperation {
     /**
      * Set the description value.
      *
-     * @param description the description value to set
+     * @param description the description value to set.
      * @return the ProviderOperation object itself.
      */
     public ProviderOperation withDescription(String description) {
@@ -107,7 +113,7 @@ public class ProviderOperation {
     /**
      * Get the origin value.
      *
-     * @return the origin value
+     * @return the origin value.
      */
     public String origin() {
         return this.origin;
@@ -116,7 +122,7 @@ public class ProviderOperation {
     /**
      * Set the origin value.
      *
-     * @param origin the origin value to set
+     * @param origin the origin value to set.
      * @return the ProviderOperation object itself.
      */
     public ProviderOperation withOrigin(String origin) {
@@ -127,7 +133,7 @@ public class ProviderOperation {
     /**
      * Get the properties value.
      *
-     * @return the properties value
+     * @return the properties value.
      */
     public Object properties() {
         return this.properties;
@@ -136,7 +142,7 @@ public class ProviderOperation {
     /**
      * Set the properties value.
      *
-     * @param properties the properties value to set
+     * @param properties the properties value to set.
      * @return the ProviderOperation object itself.
      */
     public ProviderOperation withProperties(Object properties) {
@@ -144,4 +150,23 @@ public class ProviderOperation {
         return this;
     }
 
+    /**
+     * Get the isDataAction value.
+     *
+     * @return the isDataAction value.
+     */
+    public Boolean isDataAction() {
+        return this.isDataAction;
+    }
+
+    /**
+     * Set the isDataAction value.
+     *
+     * @param isDataAction the isDataAction value to set.
+     * @return the ProviderOperation object itself.
+     */
+    public ProviderOperation withIsDataAction(Boolean isDataAction) {
+        this.isDataAction = isDataAction;
+        return this;
+    }
 }

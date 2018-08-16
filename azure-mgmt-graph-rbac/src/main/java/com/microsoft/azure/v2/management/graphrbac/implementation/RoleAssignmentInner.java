@@ -8,64 +8,161 @@
 
 package com.microsoft.azure.v2.management.graphrbac.implementation;
 
-import com.microsoft.azure.v2.management.graphrbac.RoleAssignmentPropertiesWithScope;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
 
 /**
  * Role Assignments.
  */
+@JsonFlatten
 public class RoleAssignmentInner {
     /**
      * The role assignment ID.
      */
-    @JsonProperty(value = "id")
+    @JsonProperty(value = "id", access = JsonProperty.Access.WRITE_ONLY)
     private String id;
 
     /**
      * The role assignment name.
      */
-    @JsonProperty(value = "name")
+    @JsonProperty(value = "name", access = JsonProperty.Access.WRITE_ONLY)
     private String name;
 
     /**
      * The role assignment type.
      */
-    @JsonProperty(value = "type")
+    @JsonProperty(value = "type", access = JsonProperty.Access.WRITE_ONLY)
     private String type;
 
     /**
-     * Role assignment properties.
+     * The role assignment scope.
      */
-    @JsonProperty(value = "properties")
-    private RoleAssignmentPropertiesWithScope properties;
+    @JsonProperty(value = "properties.scope")
+    private String scope;
+
+    /**
+     * The role definition ID.
+     */
+    @JsonProperty(value = "properties.roleDefinitionId")
+    private String roleDefinitionId;
+
+    /**
+     * The principal ID.
+     */
+    @JsonProperty(value = "properties.principalId")
+    private String principalId;
+
+    /**
+     * The Delegation flag for the roleassignment.
+     */
+    @JsonProperty(value = "properties.canDelegate")
+    private Boolean canDelegate;
 
     /**
      * Get the id value.
      *
-     * @return the id value
+     * @return the id value.
      */
     public String id() {
         return this.id;
     }
 
     /**
-     * Set the id value.
+     * Get the name value.
      *
-     * @param id the id value to set
+     * @return the name value.
+     */
+    public String name() {
+        return this.name;
+    }
+
+    /**
+     * Get the type value.
+     *
+     * @return the type value.
+     */
+    public String type() {
+        return this.type;
+    }
+
+    /**
+     * Get the scope value.
+     *
+     * @return the scope value.
+     */
+    public String scope() {
+        return this.scope;
+    }
+
+    /**
+     * Set the scope value.
+     *
+     * @param scope the scope value to set.
      * @return the RoleAssignmentInner object itself.
      */
-    public RoleAssignmentInner withId(String id) {
-        this.id = id;
+    public RoleAssignmentInner withScope(String scope) {
+        this.scope = scope;
         return this;
     }
 
     /**
-     * Get the name value.
+     * Get the roleDefinitionId value.
      *
-     * @return the name value
+     * @return the roleDefinitionId value.
      */
-    public String name() {
-        return this.name;
+    public String roleDefinitionId() {
+        return this.roleDefinitionId;
+    }
+
+    /**
+     * Set the roleDefinitionId value.
+     *
+     * @param roleDefinitionId the roleDefinitionId value to set.
+     * @return the RoleAssignmentInner object itself.
+     */
+    public RoleAssignmentInner withRoleDefinitionId(String roleDefinitionId) {
+        this.roleDefinitionId = roleDefinitionId;
+        return this;
+    }
+
+    /**
+     * Get the principalId value.
+     *
+     * @return the principalId value.
+     */
+    public String principalId() {
+        return this.principalId;
+    }
+
+    /**
+     * Set the principalId value.
+     *
+     * @param principalId the principalId value to set.
+     * @return the RoleAssignmentInner object itself.
+     */
+    public RoleAssignmentInner withPrincipalId(String principalId) {
+        this.principalId = principalId;
+        return this;
+    }
+
+    /**
+     * Get the canDelegate value.
+     *
+     * @return the canDelegate value.
+     */
+    public Boolean canDelegate() {
+        return this.canDelegate;
+    }
+
+    /**
+     * Set the canDelegate value.
+     *
+     * @param canDelegate the canDelegate value to set.
+     * @return the RoleAssignmentInner object itself.
+     */
+    public RoleAssignmentInner withCanDelegate(Boolean canDelegate) {
+        this.canDelegate = canDelegate;
+        return this;
     }
 
     /**
@@ -78,45 +175,4 @@ public class RoleAssignmentInner {
         this.name = name;
         return this;
     }
-
-    /**
-     * Get the type value.
-     *
-     * @return the type value
-     */
-    public String type() {
-        return this.type;
-    }
-
-    /**
-     * Set the type value.
-     *
-     * @param type the type value to set
-     * @return the RoleAssignmentInner object itself.
-     */
-    public RoleAssignmentInner withType(String type) {
-        this.type = type;
-        return this;
-    }
-
-    /**
-     * Get the properties value.
-     *
-     * @return the properties value
-     */
-    public RoleAssignmentPropertiesWithScope properties() {
-        return this.properties;
-    }
-
-    /**
-     * Set the properties value.
-     *
-     * @param properties the properties value to set
-     * @return the RoleAssignmentInner object itself.
-     */
-    public RoleAssignmentInner withProperties(RoleAssignmentPropertiesWithScope properties) {
-        this.properties = properties;
-        return this;
-    }
-
 }

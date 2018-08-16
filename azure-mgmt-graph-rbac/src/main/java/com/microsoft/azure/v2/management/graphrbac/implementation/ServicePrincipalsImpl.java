@@ -6,21 +6,21 @@
 
 package com.microsoft.azure.v2.management.graphrbac.implementation;
 
-import com.microsoft.azure.Page;
-import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
+import com.microsoft.azure.v2.Page;
+import com.microsoft.azure.v2.PagedList;
 import com.microsoft.azure.v2.management.graphrbac.ServicePrincipal;
 import com.microsoft.azure.v2.management.graphrbac.ServicePrincipals;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.CreatableWrappersImpl;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasManager;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
-import com.microsoft.azure.management.resources.fluentcore.utils.PagedListConverter;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import com.microsoft.rest.ServiceResponse;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.collection.implementation.CreatableWrappersImpl;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.HasManager;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
+import com.microsoft.azure.v2.management.resources.fluentcore.utils.PagedListConverter;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
+import io.reactivex.Completable;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
+import io.reactivex.functions.Function;
 
 /**
  * The implementation of ServicePrincipals and its parent interfaces.
@@ -28,13 +28,13 @@ import rx.functions.Func1;
 @LangDefinition(ContainerName = "/Microsoft.Azure.Management.Graph.RBAC.Fluent")
 class ServicePrincipalsImpl
         extends CreatableWrappersImpl<
-            ServicePrincipal,
-            ServicePrincipalImpl,
-            ServicePrincipalInner>
+                    ServicePrincipal,
+                    ServicePrincipalImpl,
+                    ServicePrincipalInner>
         implements
         ServicePrincipals,
-            HasManager<GraphRbacManager>,
-            HasInner<ServicePrincipalsInner> {
+        HasManager<GraphRbacManager>,
+        HasInner<ServicePrincipalsInner> {
     private final PagedListConverter<ServicePrincipalInner, ServicePrincipal> converter;
     private ServicePrincipalsInner innerCollection;
     private GraphRbacManager manager;
@@ -48,7 +48,7 @@ class ServicePrincipalsImpl
             @Override
             public Observable<ServicePrincipal> typeConvertAsync(ServicePrincipalInner servicePrincipalInner) {
                 ServicePrincipalImpl impl = wrapModel(servicePrincipalInner);
-                return impl.refreshCredentialsAsync();
+                return impl.refreshCredentialsAsync().toObservable();
             }
         };
     }
@@ -61,12 +61,7 @@ class ServicePrincipalsImpl
     @Override
     public Observable<ServicePrincipal> listAsync() {
         return wrapPageAsync(this.inner().listAsync())
-                .flatMap(new Func1<ServicePrincipal, Observable<ServicePrincipal>>() {
-                    @Override
-                    public Observable<ServicePrincipal> call(ServicePrincipal servicePrincipal) {
-                        return ((ServicePrincipalImpl) servicePrincipal).refreshCredentialsAsync();
-                    }
-                });
+                .flatMap(servicePrincipal -> ((ServicePrincipalImpl) servicePrincipal).refreshCredentialsAsync().toObservable());
     }
 
     @Override
@@ -79,20 +74,17 @@ class ServicePrincipalsImpl
 
     @Override
     public ServicePrincipalImpl getById(String id) {
-        return (ServicePrincipalImpl) getByIdAsync(id).toBlocking().single();
+        return (ServicePrincipalImpl) getByIdAsync(id).blockingGet();
     }
 
     @Override
-    public Observable<ServicePrincipal> getByIdAsync(String id) {
+    public Maybe<ServicePrincipal> getByIdAsync(String id) {
         return innerCollection.getAsync(id)
-                .flatMap(new Func1<ServicePrincipalInner, Observable<ServicePrincipal>>() {
-                    @Override
-                    public Observable<ServicePrincipal> call(ServicePrincipalInner servicePrincipalInner) {
-                        if (servicePrincipalInner == null) {
-                            return Observable.just(null);
-                        } else {
-                            return new ServicePrincipalImpl(servicePrincipalInner, manager()).refreshCredentialsAsync();
-                        }
+                .flatMap(servicePrincipalInner -> {
+                    if (servicePrincipalInner == null) {
+                        return Maybe.empty();
+                    } else {
+                        return new ServicePrincipalImpl(servicePrincipalInner, manager()).refreshCredentialsAsync().toMaybe();
                     }
                 });
     }
@@ -104,36 +96,27 @@ class ServicePrincipalsImpl
 
     @Override
     public ServicePrincipal getByName(String spn) {
-        return getByNameAsync(spn).toBlocking().single();
+        return getByNameAsync(spn).lastElement().blockingGet();
     }
 
     @Override
     public Observable<ServicePrincipal> getByNameAsync(final String name) {
-        return innerCollection.listWithServiceResponseAsync(String.format("servicePrincipalNames/any(c:c eq '%s')", name))
-                .flatMap(new Func1<ServiceResponse<Page<ServicePrincipalInner>>, Observable<Page<ServicePrincipalInner>>>() {
-                    @Override
-                    public Observable<Page<ServicePrincipalInner>> call(ServiceResponse<Page<ServicePrincipalInner>> result) {
-                        if (result == null || result.body().items() == null || result.body().items().isEmpty()) {
-                            return innerCollection.listAsync(String.format("displayName eq '%s'", name));
-                        }
-                        return Observable.just(result.body());
+        return innerCollection.listAsync(String.format("servicePrincipalNames/any(c:c eq '%s')", name))
+                .flatMap((Function<Page<ServicePrincipalInner>, Observable<Page<ServicePrincipalInner>>>) servicePrincipalInnerPage -> {
+                    if (servicePrincipalInnerPage == null || servicePrincipalInnerPage.items() == null || servicePrincipalInnerPage.items().isEmpty()) {
+                        return innerCollection.listAsync(String.format("displayName eq '%s'", name));
                     }
-                }).map(new Func1<Page<ServicePrincipalInner>, ServicePrincipalImpl>() {
-                    @Override
-                    public ServicePrincipalImpl call(Page<ServicePrincipalInner> result) {
-                        if (result == null || result.items() == null || result.items().isEmpty()) {
-                            return null;
-                        }
-                        return new ServicePrincipalImpl(result.items().get(0), manager());
+                    return Observable.just(servicePrincipalInnerPage);
+                }).map(servicePrincipalInnerPage -> {
+                    if (servicePrincipalInnerPage == null || servicePrincipalInnerPage.items() == null || servicePrincipalInnerPage.items().isEmpty()) {
+                        return null;
                     }
-                }).flatMap(new Func1<ServicePrincipalImpl, Observable<ServicePrincipal>>() {
-                    @Override
-                    public Observable<ServicePrincipal> call(ServicePrincipalImpl servicePrincipal) {
-                        if (servicePrincipal == null) {
-                            return null;
-                        }
-                        return servicePrincipal.refreshCredentialsAsync();
+                    return new ServicePrincipalImpl(servicePrincipalInnerPage.items().get(0), manager());
+                }).flatMap((Function<ServicePrincipalImpl, Observable<ServicePrincipal>>) servicePrincipalImpl -> {
+                    if (servicePrincipalImpl == null) {
+                        return null;
                     }
+                    return servicePrincipalImpl.refreshCredentialsAsync().toObservable();
                 });
     }
 
@@ -159,6 +142,6 @@ class ServicePrincipalsImpl
 
     @Override
     public Completable deleteByIdAsync(String id) {
-        return manager().inner().servicePrincipals().deleteAsync(id).toCompletable();
+        return manager().inner().servicePrincipals().deleteAsync(id);
     }
 }

@@ -9,11 +9,18 @@
 package com.microsoft.azure.v2.management.graphrbac;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.Map;
 
 /**
  * Request parameters for GetMemberGroups API call.
  */
-public class UserGetMemberGroupsParameters {
+public final class UserGetMemberGroupsParameters {
+    /**
+     * Unmatched properties from the message are deserialized this collection.
+     */
+    @JsonProperty(value = "")
+    private Map<String, Object> additionalProperties;
+
     /**
      * If true, only membership in security-enabled groups should be checked.
      * Otherwise, membership in all groups should be checked.
@@ -22,9 +29,29 @@ public class UserGetMemberGroupsParameters {
     private boolean securityEnabledOnly;
 
     /**
+     * Get the additionalProperties value.
+     *
+     * @return the additionalProperties value.
+     */
+    public Map<String, Object> additionalProperties() {
+        return this.additionalProperties;
+    }
+
+    /**
+     * Set the additionalProperties value.
+     *
+     * @param additionalProperties the additionalProperties value to set.
+     * @return the UserGetMemberGroupsParameters object itself.
+     */
+    public UserGetMemberGroupsParameters withAdditionalProperties(Map<String, Object> additionalProperties) {
+        this.additionalProperties = additionalProperties;
+        return this;
+    }
+
+    /**
      * Get the securityEnabledOnly value.
      *
-     * @return the securityEnabledOnly value
+     * @return the securityEnabledOnly value.
      */
     public boolean securityEnabledOnly() {
         return this.securityEnabledOnly;
@@ -33,12 +60,11 @@ public class UserGetMemberGroupsParameters {
     /**
      * Set the securityEnabledOnly value.
      *
-     * @param securityEnabledOnly the securityEnabledOnly value to set
+     * @param securityEnabledOnly the securityEnabledOnly value to set.
      * @return the UserGetMemberGroupsParameters object itself.
      */
     public UserGetMemberGroupsParameters withSecurityEnabledOnly(boolean securityEnabledOnly) {
         this.securityEnabledOnly = securityEnabledOnly;
         return this;
     }
-
 }

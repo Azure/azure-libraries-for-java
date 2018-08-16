@@ -8,13 +8,13 @@
 
 package com.microsoft.azure.v2.management.graphrbac;
 
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 
 /**
  * Resource Type.
  */
-public class ResourceType {
+public final class ResourceType {
     /**
      * The resource type name.
      */
@@ -36,7 +36,7 @@ public class ResourceType {
     /**
      * Get the name value.
      *
-     * @return the name value
+     * @return the name value.
      */
     public String name() {
         return this.name;
@@ -45,7 +45,7 @@ public class ResourceType {
     /**
      * Set the name value.
      *
-     * @param name the name value to set
+     * @param name the name value to set.
      * @return the ResourceType object itself.
      */
     public ResourceType withName(String name) {
@@ -56,7 +56,7 @@ public class ResourceType {
     /**
      * Get the displayName value.
      *
-     * @return the displayName value
+     * @return the displayName value.
      */
     public String displayName() {
         return this.displayName;
@@ -65,7 +65,7 @@ public class ResourceType {
     /**
      * Set the displayName value.
      *
-     * @param displayName the displayName value to set
+     * @param displayName the displayName value to set.
      * @return the ResourceType object itself.
      */
     public ResourceType withDisplayName(String displayName) {
@@ -76,7 +76,7 @@ public class ResourceType {
     /**
      * Get the operations value.
      *
-     * @return the operations value
+     * @return the operations value.
      */
     public List<ProviderOperation> operations() {
         return this.operations;
@@ -85,12 +85,11 @@ public class ResourceType {
     /**
      * Set the operations value.
      *
-     * @param operations the operations value to set
+     * @param operations the operations value to set.
      * @return the ResourceType object itself.
      */
     public ResourceType withOperations(List<ProviderOperation> operations) {
         this.operations = operations;
         return this;
     }
-
 }

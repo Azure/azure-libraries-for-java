@@ -7,18 +7,16 @@
 package com.microsoft.azure.v2.management.graphrbac.implementation;
 
 import com.google.common.io.BaseEncoding;
-import com.microsoft.azure.AzureEnvironment;
-import com.microsoft.azure.credentials.AzureTokenCredentials;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
+import com.microsoft.azure.v2.AzureEnvironment;
 import com.microsoft.azure.v2.management.graphrbac.PasswordCredential;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.IndexableRefreshableWrapperImpl;
-import com.microsoft.rest.RestClient;
-import org.joda.time.DateTime;
-import org.joda.time.Duration;
-import rx.Observable;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.implementation.IndexableRefreshableWrapperImpl;
+import io.reactivex.Maybe;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.time.Duration;
+import java.time.OffsetDateTime;
 
 /**
  * Implementation for ServicePrincipal and its parent interfaces.
@@ -48,19 +46,19 @@ class PasswordCredentialImpl<T>
     PasswordCredentialImpl(String name, HasCredential<?> parent) {
         super(new PasswordCredentialInner()
                 .withCustomKeyIdentifier(BaseEncoding.base64().encode(name.getBytes()))
-                .withStartDate(DateTime.now())
-                .withEndDate(DateTime.now().plusYears(1)));
+                .withStartDate(OffsetDateTime.now())
+                .withEndDate(OffsetDateTime.now().plusYears(1)));
         this.name = name;
         this.parent = parent;
     }
 
     @Override
-    public Observable<PasswordCredential> refreshAsync() {
+    public Maybe<PasswordCredential> refreshAsync() {
         throw new UnsupportedOperationException("Cannot refresh credentials.");
     }
 
     @Override
-    protected Observable<PasswordCredentialInner> getInnerAsync() {
+    protected Maybe<PasswordCredentialInner> getInnerAsync() {
         throw new UnsupportedOperationException("Cannot refresh credentials.");
     }
 
@@ -70,12 +68,12 @@ class PasswordCredentialImpl<T>
     }
 
     @Override
-    public DateTime startDate() {
+    public OffsetDateTime startDate() {
         return inner().startDate();
     }
 
     @Override
-    public DateTime endDate() {
+    public OffsetDateTime endDate() {
         return inner().endDate();
     }
 
@@ -99,17 +97,17 @@ class PasswordCredentialImpl<T>
     }
 
     @Override
-    public PasswordCredentialImpl<T> withStartDate(DateTime startDate) {
-        DateTime original = startDate();
+    public PasswordCredentialImpl<T> withStartDate(OffsetDateTime startDate) {
+        OffsetDateTime original = startDate();
         inner().withStartDate(startDate);
         // Adjust end time
-        withDuration(Duration.millis(endDate().getMillis() - original.getMillis()));
+        withDuration(java.time.Duration.ofSeconds(endDate().toEpochSecond() - original.toEpochSecond()));
         return this;
     }
 
     @Override
     public PasswordCredentialImpl<T> withDuration(Duration duration) {
-        inner().withEndDate(startDate().plus(duration.getMillis()));
+        inner().withEndDate(startDate().plus(duration));
         return this;
     }
 
@@ -128,22 +126,7 @@ class PasswordCredentialImpl<T>
         if (authFile == null) {
             return;
         }
-        RestClient restClient = servicePrincipal.manager().roleInner().restClient();
-        AzureEnvironment environment = null;
-        if (restClient.credentials() instanceof AzureTokenCredentials) {
-            environment = ((AzureTokenCredentials) restClient.credentials()).environment();
-        } else {
-            String baseUrl = restClient.retrofit().baseUrl().toString();
-            for (AzureEnvironment env : AzureEnvironment.knownEnvironments()) {
-                if (env.resourceManagerEndpoint().toLowerCase().contains(baseUrl.toLowerCase())) {
-                    environment = env;
-                    break;
-                }
-            }
-            if (environment == null) {
-                throw new IllegalArgumentException("Unknown resource manager endpoint " + baseUrl);
-            }
-        }
+        AzureEnvironment environment = servicePrincipal.manager().inner().azureEnvironment();
 
         StringBuilder builder = new StringBuilder("{\n");
         builder.append("  ").append(String.format("\"clientId\": \"%s\",", servicePrincipal.applicationId())).append("\n");

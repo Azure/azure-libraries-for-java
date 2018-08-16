@@ -9,11 +9,18 @@
 package com.microsoft.azure.v2.management.graphrbac.implementation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.Map;
 
 /**
  * Active Directory Domain information.
  */
-public class DomainInner {
+public final class DomainInner {
+    /**
+     * Unmatched properties from the message are deserialized this collection.
+     */
+    @JsonProperty(value = "")
+    private Map<String, Object> additionalProperties;
+
     /**
      * the type of the authentication into the domain.
      */
@@ -39,9 +46,29 @@ public class DomainInner {
     private String name;
 
     /**
+     * Get the additionalProperties value.
+     *
+     * @return the additionalProperties value.
+     */
+    public Map<String, Object> additionalProperties() {
+        return this.additionalProperties;
+    }
+
+    /**
+     * Set the additionalProperties value.
+     *
+     * @param additionalProperties the additionalProperties value to set.
+     * @return the DomainInner object itself.
+     */
+    public DomainInner withAdditionalProperties(Map<String, Object> additionalProperties) {
+        this.additionalProperties = additionalProperties;
+        return this;
+    }
+
+    /**
      * Get the authenticationType value.
      *
-     * @return the authenticationType value
+     * @return the authenticationType value.
      */
     public String authenticationType() {
         return this.authenticationType;
@@ -50,7 +77,7 @@ public class DomainInner {
     /**
      * Get the isDefault value.
      *
-     * @return the isDefault value
+     * @return the isDefault value.
      */
     public Boolean isDefault() {
         return this.isDefault;
@@ -59,7 +86,7 @@ public class DomainInner {
     /**
      * Get the isVerified value.
      *
-     * @return the isVerified value
+     * @return the isVerified value.
      */
     public Boolean isVerified() {
         return this.isVerified;
@@ -68,7 +95,7 @@ public class DomainInner {
     /**
      * Get the name value.
      *
-     * @return the name value
+     * @return the name value.
      */
     public String name() {
         return this.name;
@@ -77,12 +104,11 @@ public class DomainInner {
     /**
      * Set the name value.
      *
-     * @param name the name value to set
+     * @param name the name value to set.
      * @return the DomainInner object itself.
      */
     public DomainInner withName(String name) {
         this.name = name;
         return this;
     }
-
 }

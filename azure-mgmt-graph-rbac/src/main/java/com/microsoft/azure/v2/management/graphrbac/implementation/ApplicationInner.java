@@ -8,25 +8,17 @@
 
 package com.microsoft.azure.v2.management.graphrbac.implementation;
 
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import java.util.List;
 
 /**
  * Active Directory application information.
  */
-public class ApplicationInner {
-    /**
-     * The object ID.
-     */
-    @JsonProperty(value = "objectId")
-    private String objectId;
-
-    /**
-     * The object type.
-     */
-    @JsonProperty(value = "objectType")
-    private String objectType;
-
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "objectType")
+@JsonTypeName("Application")
+public final class ApplicationInner extends DirectoryObjectInner {
     /**
      * The application ID.
      */
@@ -70,49 +62,15 @@ public class ApplicationInner {
     private String homepage;
 
     /**
-     * Get the objectId value.
-     *
-     * @return the objectId value
+     * Whether to allow implicit grant flow for OAuth2.
      */
-    public String objectId() {
-        return this.objectId;
-    }
-
-    /**
-     * Set the objectId value.
-     *
-     * @param objectId the objectId value to set
-     * @return the ApplicationInner object itself.
-     */
-    public ApplicationInner withObjectId(String objectId) {
-        this.objectId = objectId;
-        return this;
-    }
-
-    /**
-     * Get the objectType value.
-     *
-     * @return the objectType value
-     */
-    public String objectType() {
-        return this.objectType;
-    }
-
-    /**
-     * Set the objectType value.
-     *
-     * @param objectType the objectType value to set
-     * @return the ApplicationInner object itself.
-     */
-    public ApplicationInner withObjectType(String objectType) {
-        this.objectType = objectType;
-        return this;
-    }
+    @JsonProperty(value = "oauth2AllowImplicitFlow")
+    private Boolean oauth2AllowImplicitFlow;
 
     /**
      * Get the appId value.
      *
-     * @return the appId value
+     * @return the appId value.
      */
     public String appId() {
         return this.appId;
@@ -121,7 +79,7 @@ public class ApplicationInner {
     /**
      * Set the appId value.
      *
-     * @param appId the appId value to set
+     * @param appId the appId value to set.
      * @return the ApplicationInner object itself.
      */
     public ApplicationInner withAppId(String appId) {
@@ -132,7 +90,7 @@ public class ApplicationInner {
     /**
      * Get the appPermissions value.
      *
-     * @return the appPermissions value
+     * @return the appPermissions value.
      */
     public List<String> appPermissions() {
         return this.appPermissions;
@@ -141,7 +99,7 @@ public class ApplicationInner {
     /**
      * Set the appPermissions value.
      *
-     * @param appPermissions the appPermissions value to set
+     * @param appPermissions the appPermissions value to set.
      * @return the ApplicationInner object itself.
      */
     public ApplicationInner withAppPermissions(List<String> appPermissions) {
@@ -152,7 +110,7 @@ public class ApplicationInner {
     /**
      * Get the availableToOtherTenants value.
      *
-     * @return the availableToOtherTenants value
+     * @return the availableToOtherTenants value.
      */
     public Boolean availableToOtherTenants() {
         return this.availableToOtherTenants;
@@ -161,7 +119,7 @@ public class ApplicationInner {
     /**
      * Set the availableToOtherTenants value.
      *
-     * @param availableToOtherTenants the availableToOtherTenants value to set
+     * @param availableToOtherTenants the availableToOtherTenants value to set.
      * @return the ApplicationInner object itself.
      */
     public ApplicationInner withAvailableToOtherTenants(Boolean availableToOtherTenants) {
@@ -172,7 +130,7 @@ public class ApplicationInner {
     /**
      * Get the displayName value.
      *
-     * @return the displayName value
+     * @return the displayName value.
      */
     public String displayName() {
         return this.displayName;
@@ -181,7 +139,7 @@ public class ApplicationInner {
     /**
      * Set the displayName value.
      *
-     * @param displayName the displayName value to set
+     * @param displayName the displayName value to set.
      * @return the ApplicationInner object itself.
      */
     public ApplicationInner withDisplayName(String displayName) {
@@ -192,7 +150,7 @@ public class ApplicationInner {
     /**
      * Get the identifierUris value.
      *
-     * @return the identifierUris value
+     * @return the identifierUris value.
      */
     public List<String> identifierUris() {
         return this.identifierUris;
@@ -201,7 +159,7 @@ public class ApplicationInner {
     /**
      * Set the identifierUris value.
      *
-     * @param identifierUris the identifierUris value to set
+     * @param identifierUris the identifierUris value to set.
      * @return the ApplicationInner object itself.
      */
     public ApplicationInner withIdentifierUris(List<String> identifierUris) {
@@ -212,7 +170,7 @@ public class ApplicationInner {
     /**
      * Get the replyUrls value.
      *
-     * @return the replyUrls value
+     * @return the replyUrls value.
      */
     public List<String> replyUrls() {
         return this.replyUrls;
@@ -221,7 +179,7 @@ public class ApplicationInner {
     /**
      * Set the replyUrls value.
      *
-     * @param replyUrls the replyUrls value to set
+     * @param replyUrls the replyUrls value to set.
      * @return the ApplicationInner object itself.
      */
     public ApplicationInner withReplyUrls(List<String> replyUrls) {
@@ -232,7 +190,7 @@ public class ApplicationInner {
     /**
      * Get the homepage value.
      *
-     * @return the homepage value
+     * @return the homepage value.
      */
     public String homepage() {
         return this.homepage;
@@ -241,7 +199,7 @@ public class ApplicationInner {
     /**
      * Set the homepage value.
      *
-     * @param homepage the homepage value to set
+     * @param homepage the homepage value to set.
      * @return the ApplicationInner object itself.
      */
     public ApplicationInner withHomepage(String homepage) {
@@ -249,4 +207,23 @@ public class ApplicationInner {
         return this;
     }
 
+    /**
+     * Get the oauth2AllowImplicitFlow value.
+     *
+     * @return the oauth2AllowImplicitFlow value.
+     */
+    public Boolean oauth2AllowImplicitFlow() {
+        return this.oauth2AllowImplicitFlow;
+    }
+
+    /**
+     * Set the oauth2AllowImplicitFlow value.
+     *
+     * @param oauth2AllowImplicitFlow the oauth2AllowImplicitFlow value to set.
+     * @return the ApplicationInner object itself.
+     */
+    public ApplicationInner withOauth2AllowImplicitFlow(Boolean oauth2AllowImplicitFlow) {
+        this.oauth2AllowImplicitFlow = oauth2AllowImplicitFlow;
+        return this;
+    }
 }

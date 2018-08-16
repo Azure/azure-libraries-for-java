@@ -8,15 +8,15 @@
 
 package com.microsoft.azure.v2.management.graphrbac.implementation;
 
-import java.util.List;
-import com.microsoft.azure.v2.management.graphrbac.ResourceType;
-import com.microsoft.azure.v2.management.graphrbac.ProviderOperation;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.v2.management.graphrbac.ProviderOperation;
+import com.microsoft.azure.v2.management.graphrbac.ResourceType;
+import java.util.List;
 
 /**
  * Provider Operations metadata.
  */
-public class ProviderOperationsMetadataInner {
+public final class ProviderOperationsMetadataInner {
     /**
      * The provider id.
      */
@@ -56,7 +56,7 @@ public class ProviderOperationsMetadataInner {
     /**
      * Get the id value.
      *
-     * @return the id value
+     * @return the id value.
      */
     public String id() {
         return this.id;
@@ -65,7 +65,7 @@ public class ProviderOperationsMetadataInner {
     /**
      * Set the id value.
      *
-     * @param id the id value to set
+     * @param id the id value to set.
      * @return the ProviderOperationsMetadataInner object itself.
      */
     public ProviderOperationsMetadataInner withId(String id) {
@@ -76,7 +76,7 @@ public class ProviderOperationsMetadataInner {
     /**
      * Get the name value.
      *
-     * @return the name value
+     * @return the name value.
      */
     public String name() {
         return this.name;
@@ -85,7 +85,7 @@ public class ProviderOperationsMetadataInner {
     /**
      * Set the name value.
      *
-     * @param name the name value to set
+     * @param name the name value to set.
      * @return the ProviderOperationsMetadataInner object itself.
      */
     public ProviderOperationsMetadataInner withName(String name) {
@@ -96,7 +96,7 @@ public class ProviderOperationsMetadataInner {
     /**
      * Get the type value.
      *
-     * @return the type value
+     * @return the type value.
      */
     public String type() {
         return this.type;
@@ -105,7 +105,7 @@ public class ProviderOperationsMetadataInner {
     /**
      * Set the type value.
      *
-     * @param type the type value to set
+     * @param type the type value to set.
      * @return the ProviderOperationsMetadataInner object itself.
      */
     public ProviderOperationsMetadataInner withType(String type) {
@@ -116,7 +116,7 @@ public class ProviderOperationsMetadataInner {
     /**
      * Get the displayName value.
      *
-     * @return the displayName value
+     * @return the displayName value.
      */
     public String displayName() {
         return this.displayName;
@@ -125,7 +125,7 @@ public class ProviderOperationsMetadataInner {
     /**
      * Set the displayName value.
      *
-     * @param displayName the displayName value to set
+     * @param displayName the displayName value to set.
      * @return the ProviderOperationsMetadataInner object itself.
      */
     public ProviderOperationsMetadataInner withDisplayName(String displayName) {
@@ -136,7 +136,7 @@ public class ProviderOperationsMetadataInner {
     /**
      * Get the resourceTypes value.
      *
-     * @return the resourceTypes value
+     * @return the resourceTypes value.
      */
     public List<ResourceType> resourceTypes() {
         return this.resourceTypes;
@@ -145,7 +145,7 @@ public class ProviderOperationsMetadataInner {
     /**
      * Set the resourceTypes value.
      *
-     * @param resourceTypes the resourceTypes value to set
+     * @param resourceTypes the resourceTypes value to set.
      * @return the ProviderOperationsMetadataInner object itself.
      */
     public ProviderOperationsMetadataInner withResourceTypes(List<ResourceType> resourceTypes) {
@@ -156,7 +156,7 @@ public class ProviderOperationsMetadataInner {
     /**
      * Get the operations value.
      *
-     * @return the operations value
+     * @return the operations value.
      */
     public List<ProviderOperation> operations() {
         return this.operations;
@@ -165,12 +165,11 @@ public class ProviderOperationsMetadataInner {
     /**
      * Set the operations value.
      *
-     * @param operations the operations value to set
+     * @param operations the operations value to set.
      * @return the ProviderOperationsMetadataInner object itself.
      */
     public ProviderOperationsMetadataInner withOperations(List<ProviderOperation> operations) {
         this.operations = operations;
         return this;
     }
-
 }

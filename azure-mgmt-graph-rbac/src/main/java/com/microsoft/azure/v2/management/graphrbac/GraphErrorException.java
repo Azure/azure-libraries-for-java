@@ -8,32 +8,31 @@
 
 package com.microsoft.azure.v2.management.graphrbac;
 
-import com.microsoft.rest.RestException;
-import okhttp3.ResponseBody;
-import retrofit2.Response;
+import com.microsoft.rest.v2.RestException;
+import com.microsoft.rest.v2.http.HttpResponse;
 
 /**
  * Exception thrown for an invalid response with GraphError information.
  */
-public class GraphErrorException extends RestException {
+public final class GraphErrorException extends RestException {
     /**
      * Initializes a new instance of the GraphErrorException class.
      *
-     * @param message the exception message or the response content if a message is not available
-     * @param response the HTTP response
+     * @param message the exception message or the response content if a message is not available.
+     * @param response the HTTP response.
      */
-    public GraphErrorException(final String message, final Response<ResponseBody> response) {
+    public GraphErrorException(String message, HttpResponse response) {
         super(message, response);
     }
 
     /**
      * Initializes a new instance of the GraphErrorException class.
      *
-     * @param message the exception message or the response content if a message is not available
-     * @param response the HTTP response
-     * @param body the deserialized response body
+     * @param message the exception message or the response content if a message is not available.
+     * @param response the HTTP response.
+     * @param body the deserialized response body.
      */
-    public GraphErrorException(final String message, final Response<ResponseBody> response, final GraphError body) {
+    public GraphErrorException(String message, HttpResponse response, GraphError body) {
         super(message, response, body);
     }
 

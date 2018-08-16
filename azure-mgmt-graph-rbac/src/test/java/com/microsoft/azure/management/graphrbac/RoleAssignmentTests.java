@@ -6,14 +6,11 @@
 
 package com.microsoft.azure.management.graphrbac;
 
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
+import com.microsoft.azure.v2.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.azure.v2.management.graphrbac.BuiltInRole;
 import com.microsoft.azure.v2.management.graphrbac.RoleAssignment;
 import com.microsoft.azure.v2.management.graphrbac.ServicePrincipal;
-import org.junit.AfterClass;
 import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class RoleAssignmentTests extends GraphRbacManagementTest {

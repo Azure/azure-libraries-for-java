@@ -8,111 +8,130 @@
 
 package com.microsoft.azure.v2.management.graphrbac.implementation;
 
+import com.microsoft.azure.v2.AzureProxy;
+import com.microsoft.azure.v2.Page;
+import com.microsoft.azure.v2.PagedList;
 import com.microsoft.azure.v2.management.graphrbac.GraphErrorException;
 import com.microsoft.azure.v2.management.graphrbac.KeyCredentialsUpdateParameters;
-import retrofit2.Retrofit;
-import com.google.common.reflect.TypeToken;
-import com.microsoft.azure.AzureServiceFuture;
-import com.microsoft.azure.ListOperationCallback;
 import com.microsoft.azure.v2.management.graphrbac.PasswordCredentialsUpdateParameters;
-import com.microsoft.azure.Page;
-import com.microsoft.azure.PagedList;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import com.microsoft.rest.ServiceResponse;
-import com.microsoft.rest.Validator;
-import java.io.IOException;
+import com.microsoft.azure.v2.management.graphrbac.ServicePrincipalCreateParameters;
+import com.microsoft.rest.v2.BodyResponse;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
+import com.microsoft.rest.v2.Validator;
+import com.microsoft.rest.v2.VoidResponse;
+import com.microsoft.rest.v2.annotations.BodyParam;
+import com.microsoft.rest.v2.annotations.DELETE;
+import com.microsoft.rest.v2.annotations.ExpectedResponses;
+import com.microsoft.rest.v2.annotations.GET;
+import com.microsoft.rest.v2.annotations.HeaderParam;
+import com.microsoft.rest.v2.annotations.Host;
+import com.microsoft.rest.v2.annotations.PATCH;
+import com.microsoft.rest.v2.annotations.PathParam;
+import com.microsoft.rest.v2.annotations.POST;
+import com.microsoft.rest.v2.annotations.QueryParam;
+import com.microsoft.rest.v2.annotations.UnexpectedResponseExceptionType;
+import io.reactivex.Completable;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
+import io.reactivex.Single;
+import io.reactivex.annotations.NonNull;
+import java.util.ArrayList;
 import java.util.List;
-import okhttp3.ResponseBody;
-import retrofit2.http.Body;
-import retrofit2.http.GET;
-import retrofit2.http.Header;
-import retrofit2.http.Headers;
-import retrofit2.http.HTTP;
-import retrofit2.http.PATCH;
-import retrofit2.http.Path;
-import retrofit2.http.POST;
-import retrofit2.http.Query;
-import retrofit2.http.Url;
-import retrofit2.Response;
-import rx.functions.Func1;
-import rx.Observable;
 
 /**
- * An instance of this class provides access to all the operations defined
- * in ServicePrincipals.
+ * An instance of this class provides access to all the operations defined in
+ * ServicePrincipals.
  */
-public class ServicePrincipalsInner {
-    /** The Retrofit service to perform REST calls. */
+public final class ServicePrincipalsInner {
+    /**
+     * The proxy service used to perform REST calls.
+     */
     private ServicePrincipalsService service;
-    /** The service client containing this operation class. */
+
+    /**
+     * The service client containing this operation class.
+     */
     private GraphRbacManagementClientImpl client;
 
     /**
      * Initializes an instance of ServicePrincipalsInner.
      *
-     * @param retrofit the Retrofit instance built from a Retrofit Builder.
      * @param client the instance of the service client containing this operation class.
      */
-    public ServicePrincipalsInner(Retrofit retrofit, GraphRbacManagementClientImpl client) {
-        this.service = retrofit.create(ServicePrincipalsService.class);
+    public ServicePrincipalsInner(GraphRbacManagementClientImpl client) {
+        this.service = AzureProxy.create(ServicePrincipalsService.class, client);
         this.client = client;
     }
 
     /**
-     * The interface defining all the services for ServicePrincipals to be
-     * used by Retrofit to perform actually REST calls.
+     * The interface defining all the services for ServicePrincipals to be used
+     * by the proxy service to perform REST calls.
      */
-    interface ServicePrincipalsService {
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: ServicePrincipals create" })
+    @Host("https://graph.windows.net")
+    private interface ServicePrincipalsService {
         @POST("{tenantID}/servicePrincipals")
-        Observable<Response<ResponseBody>> create(@Path("tenantID") String tenantID, @Body ServicePrincipalCreateParametersInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({201})
+        @UnexpectedResponseExceptionType(GraphErrorException.class)
+        Single<BodyResponse<ServicePrincipalInner>> create(@PathParam("tenantID") String tenantID, @BodyParam("application/json; charset=utf-8") ServicePrincipalCreateParameters parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: ServicePrincipals list" })
         @GET("{tenantID}/servicePrincipals")
-        Observable<Response<ResponseBody>> list(@Path("tenantID") String tenantID, @Query("$filter") String filter, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(GraphErrorException.class)
+        Single<BodyResponse<PageImpl<ServicePrincipalInner>>> list(@PathParam("tenantID") String tenantID, @QueryParam("$filter") String filter, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: ServicePrincipals delete" })
-        @HTTP(path = "{tenantID}/servicePrincipals/{objectId}", method = "DELETE", hasBody = true)
-        Observable<Response<ResponseBody>> delete(@Path(value = "objectId", encoded = true) String objectId, @Path("tenantID") String tenantID, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @DELETE("{tenantID}/servicePrincipals/{objectId}")
+        @ExpectedResponses({204})
+        @UnexpectedResponseExceptionType(GraphErrorException.class)
+        Single<VoidResponse> delete(@PathParam("objectId") String objectId, @PathParam("tenantID") String tenantID, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: ServicePrincipals get" })
         @GET("{tenantID}/servicePrincipals/{objectId}")
-        Observable<Response<ResponseBody>> get(@Path(value = "objectId", encoded = true) String objectId, @Path("tenantID") String tenantID, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(GraphErrorException.class)
+        Single<BodyResponse<ServicePrincipalInner>> get(@PathParam("objectId") String objectId, @PathParam("tenantID") String tenantID, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: ServicePrincipals listKeyCredentials" })
+        @GET("{tenantID}/servicePrincipals/{objectId}/owners")
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(GraphErrorException.class)
+        Single<BodyResponse<List<DirectoryObjectInner>>> listOwners(@PathParam("objectId") String objectId, @PathParam("tenantID") String tenantID, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
+
         @GET("{tenantID}/servicePrincipals/{objectId}/keyCredentials")
-        Observable<Response<ResponseBody>> listKeyCredentials(@Path(value = "objectId", encoded = true) String objectId, @Path("tenantID") String tenantID, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(GraphErrorException.class)
+        Single<BodyResponse<List<KeyCredentialInner>>> listKeyCredentials(@PathParam("objectId") String objectId, @PathParam("tenantID") String tenantID, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: ServicePrincipals updateKeyCredentials" })
         @PATCH("{tenantID}/servicePrincipals/{objectId}/keyCredentials")
-        Observable<Response<ResponseBody>> updateKeyCredentials(@Path(value = "objectId", encoded = true) String objectId, @Path("tenantID") String tenantID, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body KeyCredentialsUpdateParameters parameters, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({204})
+        @UnexpectedResponseExceptionType(GraphErrorException.class)
+        Single<VoidResponse> updateKeyCredentials(@PathParam("objectId") String objectId, @PathParam("tenantID") String tenantID, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @BodyParam("application/json; charset=utf-8") KeyCredentialsUpdateParameters parameters);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: ServicePrincipals listPasswordCredentials" })
         @GET("{tenantID}/servicePrincipals/{objectId}/passwordCredentials")
-        Observable<Response<ResponseBody>> listPasswordCredentials(@Path(value = "objectId", encoded = true) String objectId, @Path("tenantID") String tenantID, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(GraphErrorException.class)
+        Single<BodyResponse<List<PasswordCredentialInner>>> listPasswordCredentials(@PathParam("objectId") String objectId, @PathParam("tenantID") String tenantID, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: ServicePrincipals updatePasswordCredentials" })
         @PATCH("{tenantID}/servicePrincipals/{objectId}/passwordCredentials")
-        Observable<Response<ResponseBody>> updatePasswordCredentials(@Path(value = "objectId", encoded = true) String objectId, @Path("tenantID") String tenantID, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body PasswordCredentialsUpdateParameters parameters, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({204})
+        @UnexpectedResponseExceptionType(GraphErrorException.class)
+        Single<VoidResponse> updatePasswordCredentials(@PathParam("objectId") String objectId, @PathParam("tenantID") String tenantID, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @BodyParam("application/json; charset=utf-8") PasswordCredentialsUpdateParameters parameters);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: ServicePrincipals listNext" })
-        @GET
-        Observable<Response<ResponseBody>> listNext(@Url String nextUrl, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
-
+        @GET("{nextUrl}")
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(GraphErrorException.class)
+        Single<BodyResponse<PageImpl<ServicePrincipalInner>>> listNext(@PathParam(value = "nextUrl", encoded = true) String nextUrl, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
     }
 
     /**
      * Creates a service principal in the directory.
      *
      * @param parameters Parameters to create a service principal.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws GraphErrorException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the ServicePrincipalInner object if successful.
      */
-    public ServicePrincipalInner create(ServicePrincipalCreateParametersInner parameters) {
-        return createWithServiceResponseAsync(parameters).toBlocking().single().body();
+    public ServicePrincipalInner create(@NonNull ServicePrincipalCreateParameters parameters) {
+        return createAsync(parameters).blockingGet();
     }
 
     /**
@@ -120,37 +139,21 @@ public class ServicePrincipalsInner {
      *
      * @param parameters Parameters to create a service principal.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<ServicePrincipalInner> createAsync(ServicePrincipalCreateParametersInner parameters, final ServiceCallback<ServicePrincipalInner> serviceCallback) {
-        return ServiceFuture.fromResponse(createWithServiceResponseAsync(parameters), serviceCallback);
+    public ServiceFuture<ServicePrincipalInner> createAsync(@NonNull ServicePrincipalCreateParameters parameters, ServiceCallback<ServicePrincipalInner> serviceCallback) {
+        return ServiceFuture.fromBody(createAsync(parameters), serviceCallback);
     }
 
     /**
      * Creates a service principal in the directory.
      *
      * @param parameters Parameters to create a service principal.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ServicePrincipalInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<ServicePrincipalInner> createAsync(ServicePrincipalCreateParametersInner parameters) {
-        return createWithServiceResponseAsync(parameters).map(new Func1<ServiceResponse<ServicePrincipalInner>, ServicePrincipalInner>() {
-            @Override
-            public ServicePrincipalInner call(ServiceResponse<ServicePrincipalInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Creates a service principal in the directory.
-     *
-     * @param parameters Parameters to create a service principal.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ServicePrincipalInner object
-     */
-    public Observable<ServiceResponse<ServicePrincipalInner>> createWithServiceResponseAsync(ServicePrincipalCreateParametersInner parameters) {
+    public Single<BodyResponse<ServicePrincipalInner>> createWithRestResponseAsync(@NonNull ServicePrincipalCreateParameters parameters) {
         if (this.client.tenantID() == null) {
             throw new IllegalArgumentException("Parameter this.client.tenantID() is required and cannot be null.");
         }
@@ -161,41 +164,34 @@ public class ServicePrincipalsInner {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
         Validator.validate(parameters);
-        return service.create(this.client.tenantID(), parameters, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ServicePrincipalInner>>>() {
-                @Override
-                public Observable<ServiceResponse<ServicePrincipalInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<ServicePrincipalInner> clientResponse = createDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.create(this.client.tenantID(), parameters, this.client.apiVersion(), this.client.acceptLanguage());
     }
 
-    private ServiceResponse<ServicePrincipalInner> createDelegate(Response<ResponseBody> response) throws GraphErrorException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<ServicePrincipalInner, GraphErrorException>newInstance(this.client.serializerAdapter())
-                .register(201, new TypeToken<ServicePrincipalInner>() { }.getType())
-                .registerError(GraphErrorException.class)
-                .build(response);
+    /**
+     * Creates a service principal in the directory.
+     *
+     * @param parameters Parameters to create a service principal.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<ServicePrincipalInner> createAsync(@NonNull ServicePrincipalCreateParameters parameters) {
+        return createWithRestResponseAsync(parameters)
+            .flatMapMaybe((BodyResponse<ServicePrincipalInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
      * Gets a list of service principals from the current tenant.
      *
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws GraphErrorException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;ServicePrincipalInner&gt; object if successful.
      */
     public PagedList<ServicePrincipalInner> list() {
-        ServiceResponse<Page<ServicePrincipalInner>> response = listSinglePageAsync().toBlocking().single();
-        return new PagedList<ServicePrincipalInner>(response.body()) {
+        Page<ServicePrincipalInner> response = listSinglePageAsync().blockingGet();
+        return new PagedList<ServicePrincipalInner>(response) {
             @Override
             public Page<ServicePrincipalInner> nextPage(String nextLink) {
-                return listNextSinglePageAsync(nextLink).toBlocking().single().body();
+                return listNextSinglePageAsync(nextLink).blockingGet();
             }
         };
     }
@@ -203,65 +199,26 @@ public class ServicePrincipalsInner {
     /**
      * Gets a list of service principals from the current tenant.
      *
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<List<ServicePrincipalInner>> listAsync(final ListOperationCallback<ServicePrincipalInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listSinglePageAsync(),
-            new Func1<String, Observable<ServiceResponse<Page<ServicePrincipalInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ServicePrincipalInner>>> call(String nextLink) {
-                    return listNextSinglePageAsync(nextLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets a list of service principals from the current tenant.
-     *
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ServicePrincipalInner&gt; object
+     * @return the observable to the PagedList&lt;ServicePrincipalInner&gt; object.
      */
     public Observable<Page<ServicePrincipalInner>> listAsync() {
-        return listWithServiceResponseAsync()
-            .map(new Func1<ServiceResponse<Page<ServicePrincipalInner>>, Page<ServicePrincipalInner>>() {
-                @Override
-                public Page<ServicePrincipalInner> call(ServiceResponse<Page<ServicePrincipalInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets a list of service principals from the current tenant.
-     *
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ServicePrincipalInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<ServicePrincipalInner>>> listWithServiceResponseAsync() {
         return listSinglePageAsync()
-            .concatMap(new Func1<ServiceResponse<Page<ServicePrincipalInner>>, Observable<ServiceResponse<Page<ServicePrincipalInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ServicePrincipalInner>>> call(ServiceResponse<Page<ServicePrincipalInner>> page) {
-                    String nextLink = page.body().nextPageLink();
-                    if (nextLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listNextWithServiceResponseAsync(nextLink));
+            .toObservable()
+            .concatMap((Page<ServicePrincipalInner> page) -> {
+                String nextLink = page.nextPageLink();
+                if (nextLink == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listNextAsync(nextLink));
             });
     }
 
     /**
      * Gets a list of service principals from the current tenant.
      *
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;ServicePrincipalInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @return the Single&lt;Page&lt;ServicePrincipalInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<ServicePrincipalInner>>> listSinglePageAsync() {
+    public Single<Page<ServicePrincipalInner>> listSinglePageAsync() {
         if (this.client.tenantID() == null) {
             throw new IllegalArgumentException("Parameter this.client.tenantID() is required and cannot be null.");
         }
@@ -269,35 +226,25 @@ public class ServicePrincipalsInner {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
         final String filter = null;
-        return service.list(this.client.tenantID(), filter, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ServicePrincipalInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ServicePrincipalInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<ServicePrincipalInner>> result = listDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<ServicePrincipalInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.list(this.client.tenantID(), filter, this.client.apiVersion(), this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl<ServicePrincipalInner>> res) -> res.body());
     }
 
     /**
      * Gets a list of service principals from the current tenant.
      *
      * @param filter The filter to apply to the operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws GraphErrorException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;ServicePrincipalInner&gt; object if successful.
      */
-    public PagedList<ServicePrincipalInner> list(final String filter) {
-        ServiceResponse<Page<ServicePrincipalInner>> response = listSinglePageAsync(filter).toBlocking().single();
-        return new PagedList<ServicePrincipalInner>(response.body()) {
+    public PagedList<ServicePrincipalInner> list(String filter) {
+        Page<ServicePrincipalInner> response = listSinglePageAsync(filter).blockingGet();
+        return new PagedList<ServicePrincipalInner>(response) {
             @Override
             public Page<ServicePrincipalInner> nextPage(String nextLink) {
-                return listNextSinglePageAsync(nextLink).toBlocking().single().body();
+                return listNextSinglePageAsync(nextLink).blockingGet();
             }
         };
     }
@@ -306,105 +253,49 @@ public class ServicePrincipalsInner {
      * Gets a list of service principals from the current tenant.
      *
      * @param filter The filter to apply to the operation.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;ServicePrincipalInner&gt; object.
      */
-    public ServiceFuture<List<ServicePrincipalInner>> listAsync(final String filter, final ListOperationCallback<ServicePrincipalInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listSinglePageAsync(filter),
-            new Func1<String, Observable<ServiceResponse<Page<ServicePrincipalInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ServicePrincipalInner>>> call(String nextLink) {
-                    return listNextSinglePageAsync(nextLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets a list of service principals from the current tenant.
-     *
-     * @param filter The filter to apply to the operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ServicePrincipalInner&gt; object
-     */
-    public Observable<Page<ServicePrincipalInner>> listAsync(final String filter) {
-        return listWithServiceResponseAsync(filter)
-            .map(new Func1<ServiceResponse<Page<ServicePrincipalInner>>, Page<ServicePrincipalInner>>() {
-                @Override
-                public Page<ServicePrincipalInner> call(ServiceResponse<Page<ServicePrincipalInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets a list of service principals from the current tenant.
-     *
-     * @param filter The filter to apply to the operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ServicePrincipalInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<ServicePrincipalInner>>> listWithServiceResponseAsync(final String filter) {
+    public Observable<Page<ServicePrincipalInner>> listAsync(String filter) {
         return listSinglePageAsync(filter)
-            .concatMap(new Func1<ServiceResponse<Page<ServicePrincipalInner>>, Observable<ServiceResponse<Page<ServicePrincipalInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ServicePrincipalInner>>> call(ServiceResponse<Page<ServicePrincipalInner>> page) {
-                    String nextLink = page.body().nextPageLink();
-                    if (nextLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listNextWithServiceResponseAsync(nextLink));
+            .toObservable()
+            .concatMap((Page<ServicePrincipalInner> page) -> {
+                String nextLink = page.nextPageLink();
+                if (nextLink == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listNextAsync(nextLink));
             });
     }
 
     /**
      * Gets a list of service principals from the current tenant.
      *
-    ServiceResponse<PageImpl<ServicePrincipalInner>> * @param filter The filter to apply to the operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;ServicePrincipalInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param filter The filter to apply to the operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;ServicePrincipalInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<ServicePrincipalInner>>> listSinglePageAsync(final String filter) {
+    public Single<Page<ServicePrincipalInner>> listSinglePageAsync(String filter) {
         if (this.client.tenantID() == null) {
             throw new IllegalArgumentException("Parameter this.client.tenantID() is required and cannot be null.");
         }
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        return service.list(this.client.tenantID(), filter, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ServicePrincipalInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ServicePrincipalInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<ServicePrincipalInner>> result = listDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<ServicePrincipalInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl<ServicePrincipalInner>> listDelegate(Response<ResponseBody> response) throws GraphErrorException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<ServicePrincipalInner>, GraphErrorException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<ServicePrincipalInner>>() { }.getType())
-                .registerError(GraphErrorException.class)
-                .build(response);
+        return service.list(this.client.tenantID(), filter, this.client.apiVersion(), this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl<ServicePrincipalInner>> res) -> res.body());
     }
 
     /**
      * Deletes a service principal from the directory.
      *
      * @param objectId The object ID of the service principal to delete.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws GraphErrorException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void delete(String objectId) {
-        deleteWithServiceResponseAsync(objectId).toBlocking().single().body();
+    public void delete(@NonNull String objectId) {
+        deleteAsync(objectId).blockingAwait();
     }
 
     /**
@@ -412,37 +303,21 @@ public class ServicePrincipalsInner {
      *
      * @param objectId The object ID of the service principal to delete.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<Void> deleteAsync(String objectId, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(deleteWithServiceResponseAsync(objectId), serviceCallback);
+    public ServiceFuture<Void> deleteAsync(@NonNull String objectId, ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromBody(deleteAsync(objectId), serviceCallback);
     }
 
     /**
      * Deletes a service principal from the directory.
      *
      * @param objectId The object ID of the service principal to delete.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<Void> deleteAsync(String objectId) {
-        return deleteWithServiceResponseAsync(objectId).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Deletes a service principal from the directory.
-     *
-     * @param objectId The object ID of the service principal to delete.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
-     */
-    public Observable<ServiceResponse<Void>> deleteWithServiceResponseAsync(String objectId) {
+    public Single<VoidResponse> deleteWithRestResponseAsync(@NonNull String objectId) {
         if (objectId == null) {
             throw new IllegalArgumentException("Parameter objectId is required and cannot be null.");
         }
@@ -452,38 +327,32 @@ public class ServicePrincipalsInner {
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        return service.delete(objectId, this.client.tenantID(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
-                @Override
-                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<Void> clientResponse = deleteDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.delete(objectId, this.client.tenantID(), this.client.apiVersion(), this.client.acceptLanguage());
     }
 
-    private ServiceResponse<Void> deleteDelegate(Response<ResponseBody> response) throws GraphErrorException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, GraphErrorException>newInstance(this.client.serializerAdapter())
-                .register(204, new TypeToken<Void>() { }.getType())
-                .registerError(GraphErrorException.class)
-                .build(response);
+    /**
+     * Deletes a service principal from the directory.
+     *
+     * @param objectId The object ID of the service principal to delete.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Completable deleteAsync(@NonNull String objectId) {
+        return deleteWithRestResponseAsync(objectId)
+            .toCompletable();
     }
 
     /**
      * Gets service principal information from the directory.
      *
      * @param objectId The object ID of the service principal to get.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws GraphErrorException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the ServicePrincipalInner object if successful.
      */
-    public ServicePrincipalInner get(String objectId) {
-        return getWithServiceResponseAsync(objectId).toBlocking().single().body();
+    public ServicePrincipalInner get(@NonNull String objectId) {
+        return getAsync(objectId).blockingGet();
     }
 
     /**
@@ -491,37 +360,21 @@ public class ServicePrincipalsInner {
      *
      * @param objectId The object ID of the service principal to get.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<ServicePrincipalInner> getAsync(String objectId, final ServiceCallback<ServicePrincipalInner> serviceCallback) {
-        return ServiceFuture.fromResponse(getWithServiceResponseAsync(objectId), serviceCallback);
+    public ServiceFuture<ServicePrincipalInner> getAsync(@NonNull String objectId, ServiceCallback<ServicePrincipalInner> serviceCallback) {
+        return ServiceFuture.fromBody(getAsync(objectId), serviceCallback);
     }
 
     /**
      * Gets service principal information from the directory.
      *
      * @param objectId The object ID of the service principal to get.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ServicePrincipalInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<ServicePrincipalInner> getAsync(String objectId) {
-        return getWithServiceResponseAsync(objectId).map(new Func1<ServiceResponse<ServicePrincipalInner>, ServicePrincipalInner>() {
-            @Override
-            public ServicePrincipalInner call(ServiceResponse<ServicePrincipalInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Gets service principal information from the directory.
-     *
-     * @param objectId The object ID of the service principal to get.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ServicePrincipalInner object
-     */
-    public Observable<ServiceResponse<ServicePrincipalInner>> getWithServiceResponseAsync(String objectId) {
+    public Single<BodyResponse<ServicePrincipalInner>> getWithRestResponseAsync(@NonNull String objectId) {
         if (objectId == null) {
             throw new IllegalArgumentException("Parameter objectId is required and cannot be null.");
         }
@@ -531,38 +384,93 @@ public class ServicePrincipalsInner {
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        return service.get(objectId, this.client.tenantID(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ServicePrincipalInner>>>() {
-                @Override
-                public Observable<ServiceResponse<ServicePrincipalInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<ServicePrincipalInner> clientResponse = getDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.get(objectId, this.client.tenantID(), this.client.apiVersion(), this.client.acceptLanguage());
     }
 
-    private ServiceResponse<ServicePrincipalInner> getDelegate(Response<ResponseBody> response) throws GraphErrorException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<ServicePrincipalInner, GraphErrorException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<ServicePrincipalInner>() { }.getType())
-                .registerError(GraphErrorException.class)
-                .build(response);
+    /**
+     * Gets service principal information from the directory.
+     *
+     * @param objectId The object ID of the service principal to get.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<ServicePrincipalInner> getAsync(@NonNull String objectId) {
+        return getWithRestResponseAsync(objectId)
+            .flatMapMaybe((BodyResponse<ServicePrincipalInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
+    }
+
+    /**
+     * Directory objects that are owners of this service principal.
+     * The owners are a set of non-admin users who are allowed to modify this object.
+     *
+     * @param objectId The object ID of the service principal for which to get owners.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the List&lt;DirectoryObjectInner&gt; object if successful.
+     */
+    public List<DirectoryObjectInner> listOwners(@NonNull String objectId) {
+        return listOwnersAsync(objectId).blockingGet();
+    }
+
+    /**
+     * Directory objects that are owners of this service principal.
+     * The owners are a set of non-admin users who are allowed to modify this object.
+     *
+     * @param objectId The object ID of the service principal for which to get owners.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
+     */
+    public ServiceFuture<List<DirectoryObjectInner>> listOwnersAsync(@NonNull String objectId, ServiceCallback<List<DirectoryObjectInner>> serviceCallback) {
+        return ServiceFuture.fromBody(listOwnersAsync(objectId), serviceCallback);
+    }
+
+    /**
+     * Directory objects that are owners of this service principal.
+     * The owners are a set of non-admin users who are allowed to modify this object.
+     *
+     * @param objectId The object ID of the service principal for which to get owners.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Single<BodyResponse<List<DirectoryObjectInner>>> listOwnersWithRestResponseAsync(@NonNull String objectId) {
+        if (objectId == null) {
+            throw new IllegalArgumentException("Parameter objectId is required and cannot be null.");
+        }
+        if (this.client.tenantID() == null) {
+            throw new IllegalArgumentException("Parameter this.client.tenantID() is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.listOwners(objectId, this.client.tenantID(), this.client.apiVersion(), this.client.acceptLanguage());
+    }
+
+    /**
+     * Directory objects that are owners of this service principal.
+     * The owners are a set of non-admin users who are allowed to modify this object.
+     *
+     * @param objectId The object ID of the service principal for which to get owners.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<List<DirectoryObjectInner>> listOwnersAsync(@NonNull String objectId) {
+        return listOwnersWithRestResponseAsync(objectId)
+            .flatMapMaybe((BodyResponse<List<DirectoryObjectInner>> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
      * Get the keyCredentials associated with the specified service principal.
      *
      * @param objectId The object ID of the service principal for which to get keyCredentials.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws GraphErrorException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the List&lt;KeyCredentialInner&gt; object if successful.
      */
-    public List<KeyCredentialInner> listKeyCredentials(String objectId) {
-        return listKeyCredentialsWithServiceResponseAsync(objectId).toBlocking().single().body();
+    public List<KeyCredentialInner> listKeyCredentials(@NonNull String objectId) {
+        return listKeyCredentialsAsync(objectId).blockingGet();
     }
 
     /**
@@ -570,37 +478,21 @@ public class ServicePrincipalsInner {
      *
      * @param objectId The object ID of the service principal for which to get keyCredentials.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<List<KeyCredentialInner>> listKeyCredentialsAsync(String objectId, final ServiceCallback<List<KeyCredentialInner>> serviceCallback) {
-        return ServiceFuture.fromResponse(listKeyCredentialsWithServiceResponseAsync(objectId), serviceCallback);
+    public ServiceFuture<List<KeyCredentialInner>> listKeyCredentialsAsync(@NonNull String objectId, ServiceCallback<List<KeyCredentialInner>> serviceCallback) {
+        return ServiceFuture.fromBody(listKeyCredentialsAsync(objectId), serviceCallback);
     }
 
     /**
      * Get the keyCredentials associated with the specified service principal.
      *
      * @param objectId The object ID of the service principal for which to get keyCredentials.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the List&lt;KeyCredentialInner&gt; object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<List<KeyCredentialInner>> listKeyCredentialsAsync(String objectId) {
-        return listKeyCredentialsWithServiceResponseAsync(objectId).map(new Func1<ServiceResponse<List<KeyCredentialInner>>, List<KeyCredentialInner>>() {
-            @Override
-            public List<KeyCredentialInner> call(ServiceResponse<List<KeyCredentialInner>> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Get the keyCredentials associated with the specified service principal.
-     *
-     * @param objectId The object ID of the service principal for which to get keyCredentials.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the List&lt;KeyCredentialInner&gt; object
-     */
-    public Observable<ServiceResponse<List<KeyCredentialInner>>> listKeyCredentialsWithServiceResponseAsync(String objectId) {
+    public Single<BodyResponse<List<KeyCredentialInner>>> listKeyCredentialsWithRestResponseAsync(@NonNull String objectId) {
         if (objectId == null) {
             throw new IllegalArgumentException("Parameter objectId is required and cannot be null.");
         }
@@ -610,26 +502,19 @@ public class ServicePrincipalsInner {
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        return service.listKeyCredentials(objectId, this.client.tenantID(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<List<KeyCredentialInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<List<KeyCredentialInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl1<KeyCredentialInner>> result = listKeyCredentialsDelegate(response);
-                        ServiceResponse<List<KeyCredentialInner>> clientResponse = new ServiceResponse<List<KeyCredentialInner>>(result.body().items(), result.response());
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.listKeyCredentials(objectId, this.client.tenantID(), this.client.apiVersion(), this.client.acceptLanguage());
     }
 
-    private ServiceResponse<PageImpl1<KeyCredentialInner>> listKeyCredentialsDelegate(Response<ResponseBody> response) throws GraphErrorException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl1<KeyCredentialInner>, GraphErrorException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl1<KeyCredentialInner>>() { }.getType())
-                .registerError(GraphErrorException.class)
-                .build(response);
+    /**
+     * Get the keyCredentials associated with the specified service principal.
+     *
+     * @param objectId The object ID of the service principal for which to get keyCredentials.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<List<KeyCredentialInner>> listKeyCredentialsAsync(@NonNull String objectId) {
+        return listKeyCredentialsWithRestResponseAsync(objectId)
+            .flatMapMaybe((BodyResponse<List<KeyCredentialInner>> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
@@ -637,12 +522,12 @@ public class ServicePrincipalsInner {
      *
      * @param objectId The object ID for which to get service principal information.
      * @param value A collection of KeyCredentials.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws GraphErrorException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void updateKeyCredentials(String objectId, List<KeyCredentialInner> value) {
-        updateKeyCredentialsWithServiceResponseAsync(objectId, value).toBlocking().single().body();
+    public void updateKeyCredentials(@NonNull String objectId, @NonNull List<KeyCredentialInner> value) {
+        updateKeyCredentialsAsync(objectId, value).blockingAwait();
     }
 
     /**
@@ -651,11 +536,11 @@ public class ServicePrincipalsInner {
      * @param objectId The object ID for which to get service principal information.
      * @param value A collection of KeyCredentials.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<Void> updateKeyCredentialsAsync(String objectId, List<KeyCredentialInner> value, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(updateKeyCredentialsWithServiceResponseAsync(objectId, value), serviceCallback);
+    public ServiceFuture<Void> updateKeyCredentialsAsync(@NonNull String objectId, @NonNull List<KeyCredentialInner> value, ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromBody(updateKeyCredentialsAsync(objectId, value), serviceCallback);
     }
 
     /**
@@ -663,27 +548,10 @@ public class ServicePrincipalsInner {
      *
      * @param objectId The object ID for which to get service principal information.
      * @param value A collection of KeyCredentials.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<Void> updateKeyCredentialsAsync(String objectId, List<KeyCredentialInner> value) {
-        return updateKeyCredentialsWithServiceResponseAsync(objectId, value).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Update the keyCredentials associated with a service principal.
-     *
-     * @param objectId The object ID for which to get service principal information.
-     * @param value A collection of KeyCredentials.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
-     */
-    public Observable<ServiceResponse<Void>> updateKeyCredentialsWithServiceResponseAsync(String objectId, List<KeyCredentialInner> value) {
+    public Single<VoidResponse> updateKeyCredentialsWithRestResponseAsync(@NonNull String objectId, @NonNull List<KeyCredentialInner> value) {
         if (objectId == null) {
             throw new IllegalArgumentException("Parameter objectId is required and cannot be null.");
         }
@@ -699,38 +567,33 @@ public class ServicePrincipalsInner {
         Validator.validate(value);
         KeyCredentialsUpdateParameters parameters = new KeyCredentialsUpdateParameters();
         parameters.withValue(value);
-        return service.updateKeyCredentials(objectId, this.client.tenantID(), this.client.apiVersion(), this.client.acceptLanguage(), parameters, this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
-                @Override
-                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<Void> clientResponse = updateKeyCredentialsDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.updateKeyCredentials(objectId, this.client.tenantID(), this.client.apiVersion(), this.client.acceptLanguage(), parameters);
     }
 
-    private ServiceResponse<Void> updateKeyCredentialsDelegate(Response<ResponseBody> response) throws GraphErrorException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, GraphErrorException>newInstance(this.client.serializerAdapter())
-                .register(204, new TypeToken<Void>() { }.getType())
-                .registerError(GraphErrorException.class)
-                .build(response);
+    /**
+     * Update the keyCredentials associated with a service principal.
+     *
+     * @param objectId The object ID for which to get service principal information.
+     * @param value A collection of KeyCredentials.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Completable updateKeyCredentialsAsync(@NonNull String objectId, @NonNull List<KeyCredentialInner> value) {
+        return updateKeyCredentialsWithRestResponseAsync(objectId, value)
+            .toCompletable();
     }
 
     /**
      * Gets the passwordCredentials associated with a service principal.
      *
      * @param objectId The object ID of the service principal.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws GraphErrorException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the List&lt;PasswordCredentialInner&gt; object if successful.
      */
-    public List<PasswordCredentialInner> listPasswordCredentials(String objectId) {
-        return listPasswordCredentialsWithServiceResponseAsync(objectId).toBlocking().single().body();
+    public List<PasswordCredentialInner> listPasswordCredentials(@NonNull String objectId) {
+        return listPasswordCredentialsAsync(objectId).blockingGet();
     }
 
     /**
@@ -738,37 +601,21 @@ public class ServicePrincipalsInner {
      *
      * @param objectId The object ID of the service principal.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<List<PasswordCredentialInner>> listPasswordCredentialsAsync(String objectId, final ServiceCallback<List<PasswordCredentialInner>> serviceCallback) {
-        return ServiceFuture.fromResponse(listPasswordCredentialsWithServiceResponseAsync(objectId), serviceCallback);
+    public ServiceFuture<List<PasswordCredentialInner>> listPasswordCredentialsAsync(@NonNull String objectId, ServiceCallback<List<PasswordCredentialInner>> serviceCallback) {
+        return ServiceFuture.fromBody(listPasswordCredentialsAsync(objectId), serviceCallback);
     }
 
     /**
      * Gets the passwordCredentials associated with a service principal.
      *
      * @param objectId The object ID of the service principal.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the List&lt;PasswordCredentialInner&gt; object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<List<PasswordCredentialInner>> listPasswordCredentialsAsync(String objectId) {
-        return listPasswordCredentialsWithServiceResponseAsync(objectId).map(new Func1<ServiceResponse<List<PasswordCredentialInner>>, List<PasswordCredentialInner>>() {
-            @Override
-            public List<PasswordCredentialInner> call(ServiceResponse<List<PasswordCredentialInner>> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Gets the passwordCredentials associated with a service principal.
-     *
-     * @param objectId The object ID of the service principal.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the List&lt;PasswordCredentialInner&gt; object
-     */
-    public Observable<ServiceResponse<List<PasswordCredentialInner>>> listPasswordCredentialsWithServiceResponseAsync(String objectId) {
+    public Single<BodyResponse<List<PasswordCredentialInner>>> listPasswordCredentialsWithRestResponseAsync(@NonNull String objectId) {
         if (objectId == null) {
             throw new IllegalArgumentException("Parameter objectId is required and cannot be null.");
         }
@@ -778,26 +625,19 @@ public class ServicePrincipalsInner {
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        return service.listPasswordCredentials(objectId, this.client.tenantID(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<List<PasswordCredentialInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<List<PasswordCredentialInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl1<PasswordCredentialInner>> result = listPasswordCredentialsDelegate(response);
-                        ServiceResponse<List<PasswordCredentialInner>> clientResponse = new ServiceResponse<List<PasswordCredentialInner>>(result.body().items(), result.response());
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.listPasswordCredentials(objectId, this.client.tenantID(), this.client.apiVersion(), this.client.acceptLanguage());
     }
 
-    private ServiceResponse<PageImpl1<PasswordCredentialInner>> listPasswordCredentialsDelegate(Response<ResponseBody> response) throws GraphErrorException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl1<PasswordCredentialInner>, GraphErrorException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl1<PasswordCredentialInner>>() { }.getType())
-                .registerError(GraphErrorException.class)
-                .build(response);
+    /**
+     * Gets the passwordCredentials associated with a service principal.
+     *
+     * @param objectId The object ID of the service principal.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<List<PasswordCredentialInner>> listPasswordCredentialsAsync(@NonNull String objectId) {
+        return listPasswordCredentialsWithRestResponseAsync(objectId)
+            .flatMapMaybe((BodyResponse<List<PasswordCredentialInner>> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
@@ -805,12 +645,12 @@ public class ServicePrincipalsInner {
      *
      * @param objectId The object ID of the service principal.
      * @param value A collection of PasswordCredentials.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws GraphErrorException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void updatePasswordCredentials(String objectId, List<PasswordCredentialInner> value) {
-        updatePasswordCredentialsWithServiceResponseAsync(objectId, value).toBlocking().single().body();
+    public void updatePasswordCredentials(@NonNull String objectId, @NonNull List<PasswordCredentialInner> value) {
+        updatePasswordCredentialsAsync(objectId, value).blockingAwait();
     }
 
     /**
@@ -819,11 +659,11 @@ public class ServicePrincipalsInner {
      * @param objectId The object ID of the service principal.
      * @param value A collection of PasswordCredentials.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<Void> updatePasswordCredentialsAsync(String objectId, List<PasswordCredentialInner> value, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(updatePasswordCredentialsWithServiceResponseAsync(objectId, value), serviceCallback);
+    public ServiceFuture<Void> updatePasswordCredentialsAsync(@NonNull String objectId, @NonNull List<PasswordCredentialInner> value, ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromBody(updatePasswordCredentialsAsync(objectId, value), serviceCallback);
     }
 
     /**
@@ -831,27 +671,10 @@ public class ServicePrincipalsInner {
      *
      * @param objectId The object ID of the service principal.
      * @param value A collection of PasswordCredentials.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<Void> updatePasswordCredentialsAsync(String objectId, List<PasswordCredentialInner> value) {
-        return updatePasswordCredentialsWithServiceResponseAsync(objectId, value).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Updates the passwordCredentials associated with a service principal.
-     *
-     * @param objectId The object ID of the service principal.
-     * @param value A collection of PasswordCredentials.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
-     */
-    public Observable<ServiceResponse<Void>> updatePasswordCredentialsWithServiceResponseAsync(String objectId, List<PasswordCredentialInner> value) {
+    public Single<VoidResponse> updatePasswordCredentialsWithRestResponseAsync(@NonNull String objectId, @NonNull List<PasswordCredentialInner> value) {
         if (objectId == null) {
             throw new IllegalArgumentException("Parameter objectId is required and cannot be null.");
         }
@@ -867,42 +690,37 @@ public class ServicePrincipalsInner {
         Validator.validate(value);
         PasswordCredentialsUpdateParameters parameters = new PasswordCredentialsUpdateParameters();
         parameters.withValue(value);
-        return service.updatePasswordCredentials(objectId, this.client.tenantID(), this.client.apiVersion(), this.client.acceptLanguage(), parameters, this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
-                @Override
-                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<Void> clientResponse = updatePasswordCredentialsDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.updatePasswordCredentials(objectId, this.client.tenantID(), this.client.apiVersion(), this.client.acceptLanguage(), parameters);
     }
 
-    private ServiceResponse<Void> updatePasswordCredentialsDelegate(Response<ResponseBody> response) throws GraphErrorException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, GraphErrorException>newInstance(this.client.serializerAdapter())
-                .register(204, new TypeToken<Void>() { }.getType())
-                .registerError(GraphErrorException.class)
-                .build(response);
+    /**
+     * Updates the passwordCredentials associated with a service principal.
+     *
+     * @param objectId The object ID of the service principal.
+     * @param value A collection of PasswordCredentials.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Completable updatePasswordCredentialsAsync(@NonNull String objectId, @NonNull List<PasswordCredentialInner> value) {
+        return updatePasswordCredentialsWithRestResponseAsync(objectId, value)
+            .toCompletable();
     }
 
     /**
      * Gets a list of service principals from the current tenant.
      *
      * @param nextLink Next link for the list operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws GraphErrorException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;ServicePrincipalInner&gt; object if successful.
      */
-    public PagedList<ServicePrincipalInner> listNext(final String nextLink) {
-        ServiceResponse<Page<ServicePrincipalInner>> response = listNextSinglePageAsync(nextLink).toBlocking().single();
-        return new PagedList<ServicePrincipalInner>(response.body()) {
+    public PagedList<ServicePrincipalInner> listNext(@NonNull String nextLink) {
+        Page<ServicePrincipalInner> response = listNextSinglePageAsync(nextLink).blockingGet();
+        return new PagedList<ServicePrincipalInner>(response) {
             @Override
             public Page<ServicePrincipalInner> nextPage(String nextLink) {
-                return listNextSinglePageAsync(nextLink).toBlocking().single().body();
+                return listNextSinglePageAsync(nextLink).blockingGet();
             }
         };
     }
@@ -911,69 +729,29 @@ public class ServicePrincipalsInner {
      * Gets a list of service principals from the current tenant.
      *
      * @param nextLink Next link for the list operation.
-     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;ServicePrincipalInner&gt; object.
      */
-    public ServiceFuture<List<ServicePrincipalInner>> listNextAsync(final String nextLink, final ServiceFuture<List<ServicePrincipalInner>> serviceFuture, final ListOperationCallback<ServicePrincipalInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listNextSinglePageAsync(nextLink),
-            new Func1<String, Observable<ServiceResponse<Page<ServicePrincipalInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ServicePrincipalInner>>> call(String nextLink) {
-                    return listNextSinglePageAsync(nextLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets a list of service principals from the current tenant.
-     *
-     * @param nextLink Next link for the list operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ServicePrincipalInner&gt; object
-     */
-    public Observable<Page<ServicePrincipalInner>> listNextAsync(final String nextLink) {
-        return listNextWithServiceResponseAsync(nextLink)
-            .map(new Func1<ServiceResponse<Page<ServicePrincipalInner>>, Page<ServicePrincipalInner>>() {
-                @Override
-                public Page<ServicePrincipalInner> call(ServiceResponse<Page<ServicePrincipalInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets a list of service principals from the current tenant.
-     *
-     * @param nextLink Next link for the list operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ServicePrincipalInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<ServicePrincipalInner>>> listNextWithServiceResponseAsync(final String nextLink) {
+    public Observable<Page<ServicePrincipalInner>> listNextAsync(@NonNull String nextLink) {
         return listNextSinglePageAsync(nextLink)
-            .concatMap(new Func1<ServiceResponse<Page<ServicePrincipalInner>>, Observable<ServiceResponse<Page<ServicePrincipalInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ServicePrincipalInner>>> call(ServiceResponse<Page<ServicePrincipalInner>> page) {
-                    String nextLink = page.body().nextPageLink();
-                    if (nextLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listNextWithServiceResponseAsync(nextLink));
+            .toObservable()
+            .concatMap((Page<ServicePrincipalInner> page) -> {
+                String nextLink1 = page.nextPageLink();
+                if (nextLink1 == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listNextAsync(nextLink1));
             });
     }
 
     /**
      * Gets a list of service principals from the current tenant.
      *
-    ServiceResponse<PageImpl<ServicePrincipalInner>> * @param nextLink Next link for the list operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;ServicePrincipalInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param nextLink Next link for the list operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;ServicePrincipalInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<ServicePrincipalInner>>> listNextSinglePageAsync(final String nextLink) {
+    public Single<Page<ServicePrincipalInner>> listNextSinglePageAsync(@NonNull String nextLink) {
         if (nextLink == null) {
             throw new IllegalArgumentException("Parameter nextLink is required and cannot be null.");
         }
@@ -984,25 +762,7 @@ public class ServicePrincipalsInner {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
         String nextUrl = String.format("%s/%s", this.client.tenantID(), nextLink);
-        return service.listNext(nextUrl, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ServicePrincipalInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ServicePrincipalInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<ServicePrincipalInner>> result = listNextDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<ServicePrincipalInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.listNext(nextUrl, this.client.apiVersion(), this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl<ServicePrincipalInner>> res) -> res.body());
     }
-
-    private ServiceResponse<PageImpl<ServicePrincipalInner>> listNextDelegate(Response<ResponseBody> response) throws GraphErrorException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<ServicePrincipalInner>, GraphErrorException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<ServicePrincipalInner>>() { }.getType())
-                .registerError(GraphErrorException.class)
-                .build(response);
-    }
-
 }

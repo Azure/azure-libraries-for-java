@@ -6,19 +6,17 @@
 
 package com.microsoft.azure.v2.management.graphrbac.implementation;
 
-import com.microsoft.azure.CloudException;
 import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
+import com.microsoft.azure.v2.CloudException;
 import com.microsoft.azure.v2.management.graphrbac.BuiltInRole;
 import com.microsoft.azure.v2.management.graphrbac.RoleAssignment;
-import com.microsoft.azure.v2.management.graphrbac.RoleDefinition;
-import com.microsoft.azure.management.resources.fluentcore.arm.ResourceId;
-import com.microsoft.azure.management.resources.fluentcore.dag.FunctionalTaskItem;
-import com.microsoft.azure.management.resources.fluentcore.dag.TaskGroup;
-import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
-import rx.Observable;
-import rx.functions.Func1;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.ResourceId;
+import com.microsoft.azure.v2.management.resources.fluentcore.dag.FunctionalTaskItem;
+import com.microsoft.azure.v2.management.resources.fluentcore.dag.TaskGroup;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Indexable;
+import com.microsoft.azure.v2.management.resources.fluentcore.utils.SdkContext;
+import io.reactivex.Observable;
 
 import java.util.Objects;
 
@@ -109,15 +107,13 @@ public class RoleAssignmentHelper {
                         .withBuiltInRole(asRole)
                         .withScope(resourceScope)
                         .createAsync()
-                        .last()
-                        .onErrorResumeNext(new Func1<Throwable, Observable<Indexable>>() {
-                            @Override
-                            public Observable<Indexable> call(Throwable throwable) {
-                                if (isRoleAssignmentExists(throwable)) {
-                                    return cxt.voidObservable();
-                                }
-                                return Observable.<Indexable>error(throwable);
+                        .lastElement()
+                        .toObservable()
+                        .onErrorResumeNext(throwable -> {
+                            if (isRoleAssignmentExists(throwable)) {
+                                return cxt.voidObservable();
                             }
+                            return Observable.<Indexable>error(throwable);
                         });
             }
         };
@@ -168,15 +164,13 @@ public class RoleAssignmentHelper {
                         .withRoleDefinition(roleDefinitionId)
                         .withScope(resourceScope)
                         .createAsync()
-                        .last()
-                        .onErrorResumeNext(new Func1<Throwable, Observable<Indexable>>() {
-                            @Override
-                            public Observable<Indexable> call(Throwable throwable) {
-                                if (isRoleAssignmentExists(throwable)) {
-                                    return cxt.voidObservable();
-                                }
-                                return Observable.<Indexable>error(throwable);
+                        .lastElement()
+                        .toObservable()
+                        .onErrorResumeNext(throwable -> {
+                            if (isRoleAssignmentExists(throwable)) {
+                                return cxt.voidObservable();
                             }
+                            return Observable.<Indexable>error(throwable);
                         });
             }
         };
@@ -223,36 +217,27 @@ public class RoleAssignmentHelper {
                 return rbacManager
                         .roleDefinitions()
                         .getByScopeAndRoleNameAsync(scope, asRole.toString())
-                        .flatMap(new Func1<RoleDefinition, Observable<RoleAssignment>>() {
-                            @Override
-                            public Observable<RoleAssignment> call(final RoleDefinition roleDefinition) {
+                        .flatMap(roleDefinition -> {
                                 return rbacManager
                                         .roleAssignments()
                                         .listByScopeAsync(scope)
-                                        .filter(new Func1<RoleAssignment, Boolean>() {
-                                            @Override
-                                            public Boolean call(RoleAssignment roleAssignment) {
+                                        .filter(roleAssignment -> {
                                                 if (roleDefinition != null && roleAssignment != null) {
                                                     return roleAssignment.roleDefinitionId().equalsIgnoreCase(roleDefinition.id())
                                                             && roleAssignment.principalId().equalsIgnoreCase(idProvider.principalId());
                                                 } else {
                                                     return false;
                                                 }
-                                            }
-                                        })
-                                        .first();
-                            }
-                        })
-                        .flatMap(new Func1<RoleAssignment, Observable<Indexable>>() {
-                            @Override
-                            public Observable<Indexable> call(final RoleAssignment roleAssignment) {
-                                return rbacManager
-                                        .roleAssignments()
-                                        .deleteByIdAsync(roleAssignment.id())
-                                        .<Indexable>toObservable()
-                                        .switchIfEmpty(cxt.voidObservable());
-                            }
-                        });
+                                            })
+                                        .firstElement().toObservable();
+                            })
+                            .flatMap(roleAssignment -> {
+                                    return rbacManager
+                                            .roleAssignments()
+                                            .deleteByIdAsync(roleAssignment.id())
+                                            .<Indexable>toObservable()
+                                            .switchIfEmpty(cxt.voidObservable());
+                                });
             }
         };
         this.preRunTaskGroup.addPostRunDependent(remover);

@@ -9,11 +9,18 @@
 package com.microsoft.azure.v2.management.graphrbac;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.Map;
 
 /**
  * The password profile associated with a user.
  */
-public class PasswordProfile {
+public final class PasswordProfile {
+    /**
+     * Unmatched properties from the message are deserialized this collection.
+     */
+    @JsonProperty(value = "")
+    private Map<String, Object> additionalProperties;
+
     /**
      * Password.
      */
@@ -27,9 +34,29 @@ public class PasswordProfile {
     private Boolean forceChangePasswordNextLogin;
 
     /**
+     * Get the additionalProperties value.
+     *
+     * @return the additionalProperties value.
+     */
+    public Map<String, Object> additionalProperties() {
+        return this.additionalProperties;
+    }
+
+    /**
+     * Set the additionalProperties value.
+     *
+     * @param additionalProperties the additionalProperties value to set.
+     * @return the PasswordProfile object itself.
+     */
+    public PasswordProfile withAdditionalProperties(Map<String, Object> additionalProperties) {
+        this.additionalProperties = additionalProperties;
+        return this;
+    }
+
+    /**
      * Get the password value.
      *
-     * @return the password value
+     * @return the password value.
      */
     public String password() {
         return this.password;
@@ -38,7 +65,7 @@ public class PasswordProfile {
     /**
      * Set the password value.
      *
-     * @param password the password value to set
+     * @param password the password value to set.
      * @return the PasswordProfile object itself.
      */
     public PasswordProfile withPassword(String password) {
@@ -49,7 +76,7 @@ public class PasswordProfile {
     /**
      * Get the forceChangePasswordNextLogin value.
      *
-     * @return the forceChangePasswordNextLogin value
+     * @return the forceChangePasswordNextLogin value.
      */
     public Boolean forceChangePasswordNextLogin() {
         return this.forceChangePasswordNextLogin;
@@ -58,12 +85,12 @@ public class PasswordProfile {
     /**
      * Set the forceChangePasswordNextLogin value.
      *
-     * @param forceChangePasswordNextLogin the forceChangePasswordNextLogin value to set
+     * @param forceChangePasswordNextLogin the forceChangePasswordNextLogin
+     * value to set.
      * @return the PasswordProfile object itself.
      */
     public PasswordProfile withForceChangePasswordNextLogin(Boolean forceChangePasswordNextLogin) {
         this.forceChangePasswordNextLogin = forceChangePasswordNextLogin;
         return this;
     }
-
 }

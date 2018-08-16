@@ -8,14 +8,14 @@
 
 package com.microsoft.azure.v2.management.graphrbac;
 
-import java.util.List;
-import com.microsoft.azure.v2.management.graphrbac.implementation.KeyCredentialInner;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.v2.management.graphrbac.implementation.KeyCredentialInner;
+import java.util.List;
 
 /**
  * Request parameters for a KeyCredentials update operation.
  */
-public class KeyCredentialsUpdateParameters {
+public final class KeyCredentialsUpdateParameters {
     /**
      * A collection of KeyCredentials.
      */
@@ -25,7 +25,7 @@ public class KeyCredentialsUpdateParameters {
     /**
      * Get the value value.
      *
-     * @return the value value
+     * @return the value value.
      */
     public List<KeyCredentialInner> value() {
         return this.value;
@@ -34,12 +34,11 @@ public class KeyCredentialsUpdateParameters {
     /**
      * Set the value value.
      *
-     * @param value the value value to set
+     * @param value the value value to set.
      * @return the KeyCredentialsUpdateParameters object itself.
      */
     public KeyCredentialsUpdateParameters withValue(List<KeyCredentialInner> value) {
         this.value = value;
         return this;
     }
-
 }

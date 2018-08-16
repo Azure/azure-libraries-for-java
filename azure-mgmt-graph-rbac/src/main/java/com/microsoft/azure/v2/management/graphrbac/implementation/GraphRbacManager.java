@@ -6,25 +6,23 @@
 
 package com.microsoft.azure.v2.management.graphrbac.implementation;
 
-import com.microsoft.azure.AzureEnvironment;
-import com.microsoft.azure.AzureResponseBuilder;
-import com.microsoft.azure.credentials.AzureTokenCredentials;
 import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
+import com.microsoft.azure.v2.credentials.AzureTokenCredentials;
 import com.microsoft.azure.v2.management.graphrbac.ActiveDirectoryUsers;
 import com.microsoft.azure.v2.management.graphrbac.ActiveDirectoryApplications;
 import com.microsoft.azure.v2.management.graphrbac.ActiveDirectoryGroups;
 import com.microsoft.azure.v2.management.graphrbac.RoleAssignments;
 import com.microsoft.azure.v2.management.graphrbac.RoleDefinitions;
 import com.microsoft.azure.v2.management.graphrbac.ServicePrincipals;
-import com.microsoft.azure.management.resources.fluentcore.arm.AzureConfigurable;
-import com.microsoft.azure.management.resources.fluentcore.arm.implementation.AzureConfigurableImpl;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
-import com.microsoft.azure.management.resources.fluentcore.utils.ProviderRegistrationInterceptor;
-import com.microsoft.azure.management.resources.fluentcore.utils.ResourceManagerThrottlingInterceptor;
-import com.microsoft.azure.serializer.AzureJacksonAdapter;
-import com.microsoft.rest.RestClient;
-import com.microsoft.rest.interceptors.RequestIdHeaderInterceptor;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.AzureConfigurable;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.implementation.AzureConfigurableImpl;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
+import com.microsoft.azure.v2.management.resources.fluentcore.utils.ProviderRegistrationPolicyFactory;
+import com.microsoft.azure.v2.management.resources.fluentcore.utils.ResourceManagerThrottlingPolicyFactory;
+import com.microsoft.rest.v2.http.HttpPipeline;
+import com.microsoft.rest.v2.http.HttpPipelineBuilder;
+import com.microsoft.rest.v2.policy.CredentialsPolicyFactory;
 
 /**
  * Entry point to Azure Graph RBAC management.
@@ -55,14 +53,10 @@ public final class GraphRbacManager implements HasInner<GraphRbacManagementClien
      * @return the GraphRbacManager instance
      */
     public static GraphRbacManager authenticate(AzureTokenCredentials credentials) {
-        return new GraphRbacManager(new RestClient.Builder()
-                .withBaseUrl(credentials.environment().graphEndpoint())
-                .withInterceptor(new RequestIdHeaderInterceptor())
-                .withCredentials(credentials)
-                .withSerializerAdapter(new AzureJacksonAdapter())
-                .withResponseBuilderFactory(new AzureResponseBuilder.Factory())
-                .withInterceptor(new ProviderRegistrationInterceptor(credentials))
-                .withInterceptor(new ResourceManagerThrottlingInterceptor())
+        return new GraphRbacManager(new HttpPipelineBuilder()
+                .withRequestPolicy(new CredentialsPolicyFactory(credentials))
+                .withRequestPolicy(new ProviderRegistrationPolicyFactory(credentials))
+                .withRequestPolicy(new ResourceManagerThrottlingPolicyFactory())
                 .build(), credentials.domain());
     }
 
@@ -73,8 +67,8 @@ public final class GraphRbacManager implements HasInner<GraphRbacManagementClien
      * @param tenantId the tenantId in Active Directory
      * @return the interface exposing Graph RBAC management API entry points that work across subscriptions
      */
-    public static GraphRbacManager authenticate(RestClient restClient, String tenantId) {
-        return new GraphRbacManager(restClient, tenantId);
+    public static GraphRbacManager authenticate(HttpPipeline httpPipeline, String tenantId) {
+        return new GraphRbacManager(httpPipeline, tenantId);
     }
 
     /**
@@ -104,20 +98,13 @@ public final class GraphRbacManager implements HasInner<GraphRbacManagementClien
      */
     private static class ConfigurableImpl extends AzureConfigurableImpl<Configurable> implements Configurable {
         public GraphRbacManager authenticate(AzureTokenCredentials credentials) {
-            return GraphRbacManager.authenticate(
-                    buildRestClient(credentials, AzureEnvironment.Endpoint.RESOURCE_MANAGER),
-                    credentials.domain());
+            return GraphRbacManager.authenticate(buildPipeline(credentials), credentials.domain());
         }
     }
 
-    private GraphRbacManager(RestClient restClient, String tenantId) {
-        String graphEndpoint = AzureEnvironment.AZURE.graphEndpoint();
-        if (restClient.credentials() instanceof AzureTokenCredentials) {
-            graphEndpoint = ((AzureTokenCredentials) restClient.credentials()).environment().graphEndpoint();
-        }
-        this.graphRbacManagementClient = new GraphRbacManagementClientImpl(
-                restClient.newBuilder().withBaseUrl(graphEndpoint).build()).withTenantID(tenantId);
-        this.authorizationManagementClient = new AuthorizationManagementClientImpl(restClient);
+    private GraphRbacManager(HttpPipeline httpPipeline, String tenantId) {
+        this.graphRbacManagementClient = new GraphRbacManagementClientImpl(httpPipeline).withTenantID(tenantId);
+        this.authorizationManagementClient = new AuthorizationManagementClientImpl(httpPipeline);
         this.tenantId = tenantId;
     }
 

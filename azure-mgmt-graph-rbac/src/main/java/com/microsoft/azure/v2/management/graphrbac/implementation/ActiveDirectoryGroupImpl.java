@@ -6,18 +6,18 @@
 
 package com.microsoft.azure.v2.management.graphrbac.implementation;
 
-import com.microsoft.azure.Page;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.v2.management.graphrbac.ActiveDirectoryGroup;
 import com.microsoft.azure.v2.management.graphrbac.ActiveDirectoryObject;
 import com.microsoft.azure.v2.management.graphrbac.ActiveDirectoryUser;
+import com.microsoft.azure.v2.management.graphrbac.GroupAddMemberParameters;
+import com.microsoft.azure.v2.management.graphrbac.GroupCreateParameters;
 import com.microsoft.azure.v2.management.graphrbac.ServicePrincipal;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
-import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
-import com.microsoft.rest.protocol.SerializerAdapter;
-import rx.Observable;
-import rx.functions.Action0;
-import rx.functions.Func1;
+import com.microsoft.azure.v2.management.resources.fluentcore.utils.Utils;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
+import com.microsoft.rest.v2.protocol.SerializerAdapter;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -35,7 +35,7 @@ class ActiveDirectoryGroupImpl
             ActiveDirectoryGroup.Update {
 
     private final GraphRbacManager manager;
-    private GroupCreateParametersInner createParameters;
+    private GroupCreateParameters createParameters;
     private String domainName;
     private Set<String> membersToAdd;
     private Set<String> membersToRemove;
@@ -43,7 +43,7 @@ class ActiveDirectoryGroupImpl
     ActiveDirectoryGroupImpl(ADGroupInner innerModel, GraphRbacManager manager) {
         super(innerModel.displayName(), innerModel);
         this.manager = manager;
-        this.createParameters = new GroupCreateParametersInner()
+        this.createParameters = new GroupCreateParameters()
                 .withDisplayName(innerModel.displayName())
                 .withMailEnabled(false)
                 .withSecurityEnabled(true);
@@ -73,40 +73,35 @@ class ActiveDirectoryGroupImpl
 
     @Override
     public Set<ActiveDirectoryObject> listMembers() {
-        return Collections.unmodifiableSet(new HashSet<>(listMembersAsync().toList().toBlocking().single()));
+        return Collections.unmodifiableSet(new HashSet<>(listMembersAsync().toList().blockingGet()));
     }
 
     @Override
     public Observable<ActiveDirectoryObject> listMembersAsync() {
-        return manager().inner().groups().getGroupMembersAsync(id())
-                .flatMap(new Func1<Page<AADObjectInner>, Observable<AADObjectInner>>() {
-                    @Override
-                    public Observable<AADObjectInner> call(Page<AADObjectInner> aadObjectInnerPage) {
-                        return Observable.from(aadObjectInnerPage.items());
-                    }
-                }).map(new Func1<AADObjectInner, ActiveDirectoryObject>() {
-                    @Override
-                    public ActiveDirectoryObject call(AADObjectInner aadObjectInner) {
-                        SerializerAdapter<?> adapter = manager().inner().restClient().serializerAdapter();
-                        try {
-                            String serialized = adapter.serialize(aadObjectInner);
-                            switch (aadObjectInner.objectType()) {
-                                case "User":
-                                    return new ActiveDirectoryUserImpl(adapter.<UserInner>deserialize(serialized, UserInner.class), manager());
-                                case "Group":
-                                    return new ActiveDirectoryGroupImpl(adapter.<ADGroupInner>deserialize(serialized, ADGroupInner.class), manager());
-                                case "ServicePrincipal":
-                                    return new ServicePrincipalImpl(adapter.<ServicePrincipalInner>deserialize(serialized, ServicePrincipalInner.class), manager());
-                                case "Application":
-                                    return new ActiveDirectoryApplicationImpl(adapter.<ApplicationInner>deserialize(serialized, ApplicationInner.class), manager());
-                                default:
-                                    return null;
-                            }
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
+        Observable<ActiveDirectoryObject> adObjObservable = manager().inner().groups().getGroupMembersAsync(id())
+                .flatMapIterable(pageOfAADObjectInner -> pageOfAADObjectInner.items())
+                .map(aadObjectInner -> {
+                    SerializerAdapter<?> adapter = manager().inner().serializerAdapter();
+                    try {
+                        String serialized = adapter.serialize(aadObjectInner);
+                        switch (aadObjectInner.objectType()) {
+                            case "User":
+                                return new ActiveDirectoryUserImpl(adapter.<UserInner>deserialize(serialized, UserInner.class), manager());
+                            case "Group":
+                                return new ActiveDirectoryGroupImpl(adapter.<ADGroupInner>deserialize(serialized, ADGroupInner.class), manager());
+                            case "ServicePrincipal":
+                                return new ServicePrincipalImpl(adapter.<ServicePrincipalInner>deserialize(serialized, ServicePrincipalInner.class), manager());
+                            case "Application":
+                                return new ActiveDirectoryApplicationImpl(adapter.<ApplicationInner>deserialize(serialized, ApplicationInner.class), manager());
+                            default:
+                                return null;
                         }
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
                     }
                 });
+        //
+        return adObjObservable;
     }
 
     @Override
@@ -115,7 +110,7 @@ class ActiveDirectoryGroupImpl
     }
 
     @Override
-    protected Observable<ADGroupInner> getInnerAsync() {
+    protected Maybe<ADGroupInner> getInnerAsync() {
         return manager().inner().groups().getAsync(id());
     }
 
@@ -126,55 +121,25 @@ class ActiveDirectoryGroupImpl
 
     @Override
     public Observable<ActiveDirectoryGroup> createResourceAsync() {
-        Observable<?> group = Observable.just(this);
+        Maybe<ActiveDirectoryGroup> group = Maybe.just(this);
+        //
         if (isInCreateMode()) {
             group = manager().inner().groups().createAsync(createParameters)
                     .map(innerToFluentMap(this));
         }
         if (!membersToRemove.isEmpty()) {
-            group = group.flatMap(new Func1<Object, Observable<?>>() {
-                @Override
-                public Observable<?> call(Object o) {
-                    return Observable.from(membersToRemove)
-                            .flatMap(new Func1<String, Observable<?>>() {
-                                @Override
-                                public Observable<?> call(String s) {
-                                    return manager().inner().groups().removeMemberAsync(id(), s);
-                                }
-                            }).last().doOnCompleted(new Action0() {
-                                @Override
-                                public void call() {
-                                    membersToRemove.clear();
-                                }
-                            });
-                }
-            });
+            group = group.concatMap(g -> Observable.fromIterable(membersToRemove)
+                    .flatMapCompletable(s -> manager().inner().groups().removeMemberAsync(id(), s))
+                    .doOnComplete(membersToRemove::clear)
+                    .<ActiveDirectoryGroup>toMaybe());
         }
         if (!membersToAdd.isEmpty()) {
-            group = group.flatMap(new Func1<Object, Observable<?>>() {
-                @Override
-                public Observable<?> call(Object o) {
-                    return Observable.from(membersToAdd)
-                            .flatMap(new Func1<String, Observable<?>>() {
-                                @Override
-                                public Observable<?> call(String s) {
-                                    return manager().inner().groups().addMemberAsync(id(), s);
-                                }
-                            }).last().doOnCompleted(new Action0() {
-                                @Override
-                                public void call() {
-                                    membersToAdd.clear();
-                                }
-                            });
-                }
-            });
+            group = group.concatMap(g -> Observable.fromIterable(membersToAdd)
+                    .flatMapCompletable(s -> manager().inner().groups().addMemberAsync(id(), new GroupAddMemberParameters().withUrl(s)))
+                    .doOnComplete(membersToAdd::clear)
+                    .<ActiveDirectoryGroup>toMaybe());
         }
-        return group.map(new Func1<Object, ActiveDirectoryGroup>() {
-            @Override
-            public ActiveDirectoryGroup call(Object o) {
-                return ActiveDirectoryGroupImpl.this;
-            }
-        });
+        return group.toObservable().concatMap(g -> Observable.<ActiveDirectoryGroup>just(this));
     }
 
     @Override
@@ -191,8 +156,8 @@ class ActiveDirectoryGroupImpl
 
     @Override
     public ActiveDirectoryGroupImpl withMember(String objectId) {
-        membersToAdd.add(String.format("https://%s/%s/directoryObjects/%s",
-                manager().inner().retrofit().baseUrl().host(), manager().tenantId(), objectId));
+        membersToAdd.add(String.format("%s/%s/directoryObjects/%s",
+                manager().inner().azureEnvironment().graphEndpoint(), manager().tenantId(), objectId));
         return this;
     }
 

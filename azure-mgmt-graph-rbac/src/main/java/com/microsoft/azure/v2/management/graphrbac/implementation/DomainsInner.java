@@ -8,106 +8,94 @@
 
 package com.microsoft.azure.v2.management.graphrbac.implementation;
 
-import com.google.common.reflect.TypeToken;
-import com.microsoft.azure.CloudException;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import com.microsoft.rest.ServiceResponse;
-import okhttp3.ResponseBody;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.http.GET;
-import retrofit2.http.Header;
-import retrofit2.http.Headers;
-import retrofit2.http.Path;
-import retrofit2.http.Query;
-import rx.Observable;
-import rx.functions.Func1;
-
-import java.io.IOException;
+import com.microsoft.azure.v2.AzureProxy;
+import com.microsoft.azure.v2.CloudException;
+import com.microsoft.rest.v2.BodyResponse;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
+import com.microsoft.rest.v2.annotations.ExpectedResponses;
+import com.microsoft.rest.v2.annotations.GET;
+import com.microsoft.rest.v2.annotations.HeaderParam;
+import com.microsoft.rest.v2.annotations.Host;
+import com.microsoft.rest.v2.annotations.PathParam;
+import com.microsoft.rest.v2.annotations.QueryParam;
+import com.microsoft.rest.v2.annotations.UnexpectedResponseExceptionType;
+import io.reactivex.Maybe;
+import io.reactivex.Single;
+import io.reactivex.annotations.NonNull;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * An instance of this class provides access to all the operations defined
- * in Domains.
+ * An instance of this class provides access to all the operations defined in
+ * Domains.
  */
-public class DomainsInner {
-    /** The Retrofit service to perform REST calls. */
+public final class DomainsInner {
+    /**
+     * The proxy service used to perform REST calls.
+     */
     private DomainsService service;
-    /** The service client containing this operation class. */
+
+    /**
+     * The service client containing this operation class.
+     */
     private GraphRbacManagementClientImpl client;
 
     /**
      * Initializes an instance of DomainsInner.
      *
-     * @param retrofit the Retrofit instance built from a Retrofit Builder.
      * @param client the instance of the service client containing this operation class.
      */
-    public DomainsInner(Retrofit retrofit, GraphRbacManagementClientImpl client) {
-        this.service = retrofit.create(DomainsService.class);
+    public DomainsInner(GraphRbacManagementClientImpl client) {
+        this.service = AzureProxy.create(DomainsService.class, client);
         this.client = client;
     }
 
     /**
-     * The interface defining all the services for Domains to be
-     * used by Retrofit to perform actually REST calls.
+     * The interface defining all the services for Domains to be used by the
+     * proxy service to perform REST calls.
      */
-    interface DomainsService {
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.graphrbac.Domains list" })
+    @Host("https://graph.windows.net")
+    private interface DomainsService {
         @GET("{tenantID}/domains")
-        Observable<Response<ResponseBody>> list(@Path("tenantID") String tenantID, @Query("$filter") String filter, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<List<DomainInner>>> list(@PathParam("tenantID") String tenantID, @QueryParam("$filter") String filter, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.graphrbac.Domains get" })
         @GET("{tenantID}/domains/{domainName}")
-        Observable<Response<ResponseBody>> get(@Path("domainName") String domainName, @Path("tenantID") String tenantID, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
-
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<DomainInner>> get(@PathParam("domainName") String domainName, @PathParam("tenantID") String tenantID, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
     }
 
     /**
      * Gets a list of domains for the current tenant.
      *
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the List&lt;DomainInner&gt; object if successful.
      */
     public List<DomainInner> list() {
-        return listWithServiceResponseAsync().toBlocking().single().body();
+        return listAsync().blockingGet();
     }
 
     /**
      * Gets a list of domains for the current tenant.
      *
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<List<DomainInner>> listAsync(final ServiceCallback<List<DomainInner>> serviceCallback) {
-        return ServiceFuture.fromResponse(listWithServiceResponseAsync(), serviceCallback);
+    public ServiceFuture<List<DomainInner>> listAsync(ServiceCallback<List<DomainInner>> serviceCallback) {
+        return ServiceFuture.fromBody(listAsync(), serviceCallback);
     }
 
     /**
      * Gets a list of domains for the current tenant.
      *
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the List&lt;DomainInner&gt; object
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<List<DomainInner>> listAsync() {
-        return listWithServiceResponseAsync().map(new Func1<ServiceResponse<List<DomainInner>>, List<DomainInner>>() {
-            @Override
-            public List<DomainInner> call(ServiceResponse<List<DomainInner>> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Gets a list of domains for the current tenant.
-     *
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the List&lt;DomainInner&gt; object
-     */
-    public Observable<ServiceResponse<List<DomainInner>>> listWithServiceResponseAsync() {
+    public Single<BodyResponse<List<DomainInner>>> listWithRestResponseAsync() {
         if (this.client.tenantID() == null) {
             throw new IllegalArgumentException("Parameter this.client.tenantID() is required and cannot be null.");
         }
@@ -115,32 +103,30 @@ public class DomainsInner {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
         final String filter = null;
-        return service.list(this.client.tenantID(), filter, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<List<DomainInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<List<DomainInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl1<DomainInner>> result = listDelegate(response);
-                        ServiceResponse<List<DomainInner>> clientResponse = new ServiceResponse<List<DomainInner>>(result.body().items(), result.response());
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.list(this.client.tenantID(), filter, this.client.apiVersion(), this.client.acceptLanguage());
+    }
+
+    /**
+     * Gets a list of domains for the current tenant.
+     *
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<List<DomainInner>> listAsync() {
+        return listWithRestResponseAsync()
+            .flatMapMaybe((BodyResponse<List<DomainInner>> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
      * Gets a list of domains for the current tenant.
      *
      * @param filter The filter to apply to the operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the List&lt;DomainInner&gt; object if successful.
      */
     public List<DomainInner> list(String filter) {
-        return listWithServiceResponseAsync(filter).toBlocking().single().body();
+        return listAsync(filter).blockingGet();
     }
 
     /**
@@ -148,76 +134,53 @@ public class DomainsInner {
      *
      * @param filter The filter to apply to the operation.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<List<DomainInner>> listAsync(String filter, final ServiceCallback<List<DomainInner>> serviceCallback) {
-        return ServiceFuture.fromResponse(listWithServiceResponseAsync(filter), serviceCallback);
+    public ServiceFuture<List<DomainInner>> listAsync(String filter, ServiceCallback<List<DomainInner>> serviceCallback) {
+        return ServiceFuture.fromBody(listAsync(filter), serviceCallback);
     }
 
     /**
      * Gets a list of domains for the current tenant.
      *
      * @param filter The filter to apply to the operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the List&lt;DomainInner&gt; object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<List<DomainInner>> listAsync(String filter) {
-        return listWithServiceResponseAsync(filter).map(new Func1<ServiceResponse<List<DomainInner>>, List<DomainInner>>() {
-            @Override
-            public List<DomainInner> call(ServiceResponse<List<DomainInner>> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Gets a list of domains for the current tenant.
-     *
-     * @param filter The filter to apply to the operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the List&lt;DomainInner&gt; object
-     */
-    public Observable<ServiceResponse<List<DomainInner>>> listWithServiceResponseAsync(String filter) {
+    public Single<BodyResponse<List<DomainInner>>> listWithRestResponseAsync(String filter) {
         if (this.client.tenantID() == null) {
             throw new IllegalArgumentException("Parameter this.client.tenantID() is required and cannot be null.");
         }
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        return service.list(this.client.tenantID(), filter, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<List<DomainInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<List<DomainInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl1<DomainInner>> result = listDelegate(response);
-                        ServiceResponse<List<DomainInner>> clientResponse = new ServiceResponse<List<DomainInner>>(result.body().items(), result.response());
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.list(this.client.tenantID(), filter, this.client.apiVersion(), this.client.acceptLanguage());
     }
 
-    private ServiceResponse<PageImpl1<DomainInner>> listDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl1<DomainInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl1<DomainInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Gets a list of domains for the current tenant.
+     *
+     * @param filter The filter to apply to the operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<List<DomainInner>> listAsync(String filter) {
+        return listWithRestResponseAsync(filter)
+            .flatMapMaybe((BodyResponse<List<DomainInner>> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
      * Gets a specific domain in the current tenant.
      *
      * @param domainName name of the domain.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the DomainInner object if successful.
      */
-    public DomainInner get(String domainName) {
-        return getWithServiceResponseAsync(domainName).toBlocking().single().body();
+    public DomainInner get(@NonNull String domainName) {
+        return getAsync(domainName).blockingGet();
     }
 
     /**
@@ -225,37 +188,21 @@ public class DomainsInner {
      *
      * @param domainName name of the domain.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<DomainInner> getAsync(String domainName, final ServiceCallback<DomainInner> serviceCallback) {
-        return ServiceFuture.fromResponse(getWithServiceResponseAsync(domainName), serviceCallback);
+    public ServiceFuture<DomainInner> getAsync(@NonNull String domainName, ServiceCallback<DomainInner> serviceCallback) {
+        return ServiceFuture.fromBody(getAsync(domainName), serviceCallback);
     }
 
     /**
      * Gets a specific domain in the current tenant.
      *
      * @param domainName name of the domain.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the DomainInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<DomainInner> getAsync(String domainName) {
-        return getWithServiceResponseAsync(domainName).map(new Func1<ServiceResponse<DomainInner>, DomainInner>() {
-            @Override
-            public DomainInner call(ServiceResponse<DomainInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Gets a specific domain in the current tenant.
-     *
-     * @param domainName name of the domain.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the DomainInner object
-     */
-    public Observable<ServiceResponse<DomainInner>> getWithServiceResponseAsync(String domainName) {
+    public Single<BodyResponse<DomainInner>> getWithRestResponseAsync(@NonNull String domainName) {
         if (domainName == null) {
             throw new IllegalArgumentException("Parameter domainName is required and cannot be null.");
         }
@@ -265,25 +212,18 @@ public class DomainsInner {
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        return service.get(domainName, this.client.tenantID(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DomainInner>>>() {
-                @Override
-                public Observable<ServiceResponse<DomainInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<DomainInner> clientResponse = getDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.get(domainName, this.client.tenantID(), this.client.apiVersion(), this.client.acceptLanguage());
     }
 
-    private ServiceResponse<DomainInner> getDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<DomainInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<DomainInner>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Gets a specific domain in the current tenant.
+     *
+     * @param domainName name of the domain.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<DomainInner> getAsync(@NonNull String domainName) {
+        return getWithRestResponseAsync(domainName)
+            .flatMapMaybe((BodyResponse<DomainInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
-
 }

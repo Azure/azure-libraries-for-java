@@ -15,6 +15,8 @@ import org.joda.time.Period;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.Iterator;
+
 public class AlertsTests extends MonitorManagementTest {
     private static String RG_NAME = "";
     private static String SA_NAME = "";
@@ -75,7 +77,66 @@ public class AlertsTests extends MonitorManagementTest {
                     .withAutoMitigation()
                     .create();
 
+            Assert.assertNotNull(ma);
+            Assert.assertEquals(1, ma.scopes().size());
+            Assert.assertEquals(sa.id(), ma.scopes().iterator().next());
+            Assert.assertEquals("This alert rule is for U3 - Single resource  multiple-criteria  with dimensions-single timeseries", ma.description());
+            Assert.assertEquals(Period.minutes(15), ma.windowSize());
+            Assert.assertEquals(Period.minutes(1), ma.evaluationFrequency());
+            Assert.assertEquals(3, ma.severity());
+            Assert.assertEquals(true, ma.enabled());
+            Assert.assertEquals(true, ma.autoMitigate());
+            Assert.assertEquals(1, ma.actionGroupIds().size());
+            Assert.assertEquals(ag.id(), ma.actionGroupIds().iterator().next());
+            Assert.assertEquals(1, ma.alertCriterias().size());
+            MetricAlertCondition ac1 = ma.alertCriterias().values().iterator().next();
+            Assert.assertEquals("Metric1", ac1.name());
+            Assert.assertEquals("Transactions", ac1.signalName());
+            Assert.assertEquals("Microsoft.Storage/storageAccounts", ac1.metricNamespace());
+            Assert.assertEquals(MetricAlertRuleCondition.GREATER_THAN, ac1.condition());
+            Assert.assertEquals(MetricAlertRuleTimeAggregation.TOTAL, ac1.timeAggregation());
+            Assert.assertEquals(100, ac1.threshold(), 0.001);
+            Assert.assertEquals(2, ac1.dimensions().size());
+            Iterator<MetricDimension> iterator = ac1.dimensions().iterator();
+            MetricDimension d2 = iterator.next();
+            MetricDimension d1 = iterator.next();
+            Assert.assertEquals("ResponseType", d1.name());
+            Assert.assertEquals(1, d1.values().size());
+            Assert.assertEquals("Success", d1.values().get(0));
+            Assert.assertEquals("ApiName", d2.name());
+            Assert.assertEquals(1, d2.values().size());
+            Assert.assertEquals("GetBlob", d2.values().get(0));
+
             MetricAlert maFromGet = monitorManager.alertRules().metricAlerts().getById(ma.id());
+            Assert.assertNotNull(maFromGet);
+            Assert.assertEquals(ma.scopes().size(), maFromGet.scopes().size());
+            Assert.assertEquals(ma.scopes().iterator().next(), maFromGet.scopes().iterator().next());
+            Assert.assertEquals(ma.description(), maFromGet.description());
+            Assert.assertEquals(ma.windowSize(), maFromGet.windowSize());
+            Assert.assertEquals(ma.evaluationFrequency(), maFromGet.evaluationFrequency());
+            Assert.assertEquals(ma.severity(), maFromGet.severity());
+            Assert.assertEquals(ma.enabled(), maFromGet.enabled());
+            Assert.assertEquals(ma.autoMitigate(), maFromGet.autoMitigate());
+            Assert.assertEquals(ma.actionGroupIds().size(), maFromGet.actionGroupIds().size());
+            Assert.assertEquals(ma.actionGroupIds().iterator().next(), maFromGet.actionGroupIds().iterator().next());
+            Assert.assertEquals(ma.alertCriterias().size(), maFromGet.alertCriterias().size());
+            ac1 = maFromGet.alertCriterias().values().iterator().next();
+            Assert.assertEquals("Metric1", ac1.name());
+            Assert.assertEquals("Transactions", ac1.signalName());
+            Assert.assertEquals("Microsoft.Storage/storageAccounts", ac1.metricNamespace());
+            Assert.assertEquals(MetricAlertRuleCondition.GREATER_THAN, ac1.condition());
+            Assert.assertEquals(MetricAlertRuleTimeAggregation.TOTAL, ac1.timeAggregation());
+            Assert.assertEquals(100, ac1.threshold(), 0.001);
+            Assert.assertEquals(2, ac1.dimensions().size());
+            iterator = ac1.dimensions().iterator();
+            d2 = iterator.next();
+            d1 = iterator.next();
+            Assert.assertEquals("ResponseType", d1.name());
+            Assert.assertEquals(1, d1.values().size());
+            Assert.assertEquals("Success", d1.values().get(0));
+            Assert.assertEquals("ApiName", d2.name());
+            Assert.assertEquals(1, d2.values().size());
+            Assert.assertEquals("GetBlob", d2.values().get(0));
 
             ma.update()
                     .withRuleDisabled()
@@ -90,12 +151,146 @@ public class AlertsTests extends MonitorManagementTest {
                         .attach()
                     .apply();
 
+            Assert.assertNotNull(ma);
+            Assert.assertEquals(1, ma.scopes().size());
+            Assert.assertEquals(sa.id(), ma.scopes().iterator().next());
+            Assert.assertEquals("This alert rule is for U3 - Single resource  multiple-criteria  with dimensions-single timeseries", ma.description());
+            Assert.assertEquals(Period.minutes(15), ma.windowSize());
+            Assert.assertEquals(Period.minutes(1), ma.evaluationFrequency());
+            Assert.assertEquals(3, ma.severity());
+            Assert.assertEquals(false, ma.enabled());
+            Assert.assertEquals(true, ma.autoMitigate());
+            Assert.assertEquals(1, ma.actionGroupIds().size());
+            Assert.assertEquals(ag.id(), ma.actionGroupIds().iterator().next());
+            Assert.assertEquals(2, ma.alertCriterias().size());
+            Iterator<MetricAlertCondition> maCriteriaIterator = ma.alertCriterias().values().iterator();
+            ac1 = maCriteriaIterator.next();
+            MetricAlertCondition ac2 = maCriteriaIterator.next();
+            Assert.assertEquals("Metric1", ac1.name());
+            Assert.assertEquals("Transactions", ac1.signalName());
+            Assert.assertNull(ac1.metricNamespace());
+            Assert.assertEquals(MetricAlertRuleCondition.GREATER_THAN, ac1.condition());
+            Assert.assertEquals(MetricAlertRuleTimeAggregation.TOTAL, ac1.timeAggregation());
+            Assert.assertEquals(100, ac1.threshold(), 0.001);
+            Assert.assertEquals(2, ac1.dimensions().size());
+            iterator = ac1.dimensions().iterator();
+            d2 = iterator.next();
+            d1 = iterator.next();
+            Assert.assertEquals("ResponseType", d1.name());
+            Assert.assertEquals(1, d1.values().size());
+            Assert.assertEquals("Success", d1.values().get(0));
+            Assert.assertEquals("ApiName", d2.name());
+            Assert.assertEquals(1, d2.values().size());
+            Assert.assertEquals("GetBlob", d2.values().get(0));
+
+            Assert.assertEquals("Metric2", ac2.name());
+            Assert.assertEquals("SuccessE2ELatency", ac2.signalName());
+            Assert.assertEquals("Microsoft.Storage/storageAccounts", ac2.metricNamespace());
+            Assert.assertEquals(MetricAlertRuleCondition.GREATER_THAN, ac2.condition());
+            Assert.assertEquals(MetricAlertRuleTimeAggregation.AVERAGE, ac2.timeAggregation());
+            Assert.assertEquals(200, ac2.threshold(), 0.001);
+            Assert.assertEquals(1, ac2.dimensions().size());
+            d1 = ac2.dimensions().iterator().next();
+            Assert.assertEquals("ApiName", d1.name());
+            Assert.assertEquals(1, d1.values().size());
+            Assert.assertEquals("GetBlob", d1.values().get(0));
+
             maFromGet = monitorManager.alertRules().metricAlerts().getById(ma.id());
+
+            Assert.assertNotNull(maFromGet);
+            Assert.assertEquals(1, maFromGet.scopes().size());
+            Assert.assertEquals(sa.id(), maFromGet.scopes().iterator().next());
+            Assert.assertEquals("This alert rule is for U3 - Single resource  multiple-criteria  with dimensions-single timeseries", ma.description());
+            Assert.assertEquals(Period.minutes(15), maFromGet.windowSize());
+            Assert.assertEquals(Period.minutes(1), maFromGet.evaluationFrequency());
+            Assert.assertEquals(3, maFromGet.severity());
+            Assert.assertEquals(false, maFromGet.enabled());
+            Assert.assertEquals(true, maFromGet.autoMitigate());
+            Assert.assertEquals(1, maFromGet.actionGroupIds().size());
+            Assert.assertEquals(ag.id(), maFromGet.actionGroupIds().iterator().next());
+            Assert.assertEquals(2, maFromGet.alertCriterias().size());
+            maCriteriaIterator = maFromGet.alertCriterias().values().iterator();
+            ac1 = maCriteriaIterator.next();
+            ac2 = maCriteriaIterator.next();
+            Assert.assertEquals("Metric1", ac1.name());
+            Assert.assertEquals("Transactions", ac1.signalName());
+            // Server bug - still returns the previous value
+            //Assert.assertNull(ac1.metricNamespace());
+            Assert.assertEquals(MetricAlertRuleCondition.GREATER_THAN, ac1.condition());
+            Assert.assertEquals(MetricAlertRuleTimeAggregation.TOTAL, ac1.timeAggregation());
+            Assert.assertEquals(100, ac1.threshold(), 0.001);
+            Assert.assertEquals(2, ac1.dimensions().size());
+            iterator = ac1.dimensions().iterator();
+            d2 = iterator.next();
+            d1 = iterator.next();
+            Assert.assertEquals("ResponseType", d1.name());
+            Assert.assertEquals(1, d1.values().size());
+            Assert.assertEquals("Success", d1.values().get(0));
+            Assert.assertEquals("ApiName", d2.name());
+            Assert.assertEquals(1, d2.values().size());
+            Assert.assertEquals("GetBlob", d2.values().get(0));
+
+            Assert.assertEquals("Metric2", ac2.name());
+            Assert.assertEquals("SuccessE2ELatency", ac2.signalName());
+            Assert.assertEquals("Microsoft.Storage/storageAccounts", ac2.metricNamespace());
+            Assert.assertEquals(MetricAlertRuleCondition.GREATER_THAN, ac2.condition());
+            Assert.assertEquals(MetricAlertRuleTimeAggregation.AVERAGE, ac2.timeAggregation());
+            Assert.assertEquals(200, ac2.threshold(), 0.001);
+            Assert.assertEquals(1, ac2.dimensions().size());
+            d1 = ac2.dimensions().iterator().next();
+            Assert.assertEquals("ApiName", d1.name());
+            Assert.assertEquals(1, d1.values().size());
+            Assert.assertEquals("GetBlob", d1.values().get(0));
 
             PagedList<MetricAlert> alertsInRg = monitorManager.alertRules().metricAlerts().listByResourceGroup(RG_NAME);
 
             Assert.assertEquals(1, alertsInRg.size());
             maFromGet = alertsInRg.get(0);
+
+            Assert.assertNotNull(maFromGet);
+            Assert.assertEquals(1, maFromGet.scopes().size());
+            Assert.assertEquals(sa.id(), maFromGet.scopes().iterator().next());
+            Assert.assertEquals("This alert rule is for U3 - Single resource  multiple-criteria  with dimensions-single timeseries", ma.description());
+            Assert.assertEquals(Period.minutes(15), maFromGet.windowSize());
+            Assert.assertEquals(Period.minutes(1), maFromGet.evaluationFrequency());
+            Assert.assertEquals(3, maFromGet.severity());
+            Assert.assertEquals(false, maFromGet.enabled());
+            Assert.assertEquals(true, maFromGet.autoMitigate());
+            Assert.assertEquals(1, maFromGet.actionGroupIds().size());
+            Assert.assertEquals(ag.id(), maFromGet.actionGroupIds().iterator().next());
+            Assert.assertEquals(2, maFromGet.alertCriterias().size());
+            maCriteriaIterator = maFromGet.alertCriterias().values().iterator();
+            ac1 = maCriteriaIterator.next();
+            ac2 = maCriteriaIterator.next();
+            Assert.assertEquals("Metric1", ac1.name());
+            Assert.assertEquals("Transactions", ac1.signalName());
+            // Server bug - still returns the previous value
+            //Assert.assertNull(ac1.metricNamespace());
+            Assert.assertEquals(MetricAlertRuleCondition.GREATER_THAN, ac1.condition());
+            Assert.assertEquals(MetricAlertRuleTimeAggregation.TOTAL, ac1.timeAggregation());
+            Assert.assertEquals(100, ac1.threshold(), 0.001);
+            Assert.assertEquals(2, ac1.dimensions().size());
+            iterator = ac1.dimensions().iterator();
+            d2 = iterator.next();
+            d1 = iterator.next();
+            Assert.assertEquals("ResponseType", d1.name());
+            Assert.assertEquals(1, d1.values().size());
+            Assert.assertEquals("Success", d1.values().get(0));
+            Assert.assertEquals("ApiName", d2.name());
+            Assert.assertEquals(1, d2.values().size());
+            Assert.assertEquals("GetBlob", d2.values().get(0));
+
+            Assert.assertEquals("Metric2", ac2.name());
+            Assert.assertEquals("SuccessE2ELatency", ac2.signalName());
+            Assert.assertEquals("Microsoft.Storage/storageAccounts", ac2.metricNamespace());
+            Assert.assertEquals(MetricAlertRuleCondition.GREATER_THAN, ac2.condition());
+            Assert.assertEquals(MetricAlertRuleTimeAggregation.AVERAGE, ac2.timeAggregation());
+            Assert.assertEquals(200, ac2.threshold(), 0.001);
+            Assert.assertEquals(1, ac2.dimensions().size());
+            d1 = ac2.dimensions().iterator().next();
+            Assert.assertEquals("ApiName", d1.name());
+            Assert.assertEquals(1, d1.values().size());
+            Assert.assertEquals("GetBlob", d1.values().get(0));
 
             monitorManager.alertRules().metricAlerts().deleteById(ma.id());
         }
@@ -125,7 +320,7 @@ public class AlertsTests extends MonitorManagementTest {
 
             VirtualMachine justAvm = computeManager.virtualMachines().list().get(0);
 
-            ActivityLogAlert ma = monitorManager.alertRules().activityLogAlerts().define("somename")
+            ActivityLogAlert ala = monitorManager.alertRules().activityLogAlerts().define("somename")
                     .withExistingResourceGroup(RG_NAME)
                     .withTargetSubscription(monitorManager.subscriptionId())
                     .withDescription("AutoScale-VM-Creation-Failed")
@@ -136,67 +331,67 @@ public class AlertsTests extends MonitorManagementTest {
                     .withEqualsCondition("operationName", "Microsoft.Compute/virtualMachines/delete")
                     .create();
 
-            Assert.assertNotNull(ma);
-            Assert.assertEquals(1, ma.scopes().size());
-            Assert.assertEquals("/subscriptions/" + monitorManager.subscriptionId(), ma.scopes().iterator().next());
-            Assert.assertEquals("AutoScale-VM-Creation-Failed", ma.description());
-            Assert.assertEquals(true, ma.enabled());
-            Assert.assertEquals(1, ma.actionGroupIds().size());
-            Assert.assertEquals(ag.id(), ma.actionGroupIds().iterator().next());
-            Assert.assertEquals(3, ma.equalsConditions().size());
-            Assert.assertEquals("Administrative", ma.equalsConditions().get("category"));
-            Assert.assertEquals(justAvm.id(), ma.equalsConditions().get("resourceId"));
-            Assert.assertEquals("Microsoft.Compute/virtualMachines/delete", ma.equalsConditions().get("operationName"));
+            Assert.assertNotNull(ala);
+            Assert.assertEquals(1, ala.scopes().size());
+            Assert.assertEquals("/subscriptions/" + monitorManager.subscriptionId(), ala.scopes().iterator().next());
+            Assert.assertEquals("AutoScale-VM-Creation-Failed", ala.description());
+            Assert.assertEquals(true, ala.enabled());
+            Assert.assertEquals(1, ala.actionGroupIds().size());
+            Assert.assertEquals(ag.id(), ala.actionGroupIds().iterator().next());
+            Assert.assertEquals(3, ala.equalsConditions().size());
+            Assert.assertEquals("Administrative", ala.equalsConditions().get("category"));
+            Assert.assertEquals(justAvm.id(), ala.equalsConditions().get("resourceId"));
+            Assert.assertEquals("Microsoft.Compute/virtualMachines/delete", ala.equalsConditions().get("operationName"));
 
-            ActivityLogAlert maFromGet = monitorManager.alertRules().activityLogAlerts().getById(ma.id());
+            ActivityLogAlert alaFromGet = monitorManager.alertRules().activityLogAlerts().getById(ala.id());
 
-            Assert.assertEquals(ma.scopes().size(), maFromGet.scopes().size());
-            Assert.assertEquals(ma.scopes().iterator().next(), maFromGet.scopes().iterator().next());
-            Assert.assertEquals(ma.description(), maFromGet.description());
-            Assert.assertEquals(ma.enabled(), maFromGet.enabled());
-            Assert.assertEquals(ma.actionGroupIds().size(), maFromGet.actionGroupIds().size());
-            Assert.assertEquals(ma.actionGroupIds().iterator().next(), maFromGet.actionGroupIds().iterator().next());
-            Assert.assertEquals(ma.equalsConditions().size(), maFromGet.equalsConditions().size());
-            Assert.assertEquals(ma.equalsConditions().get("category"), maFromGet.equalsConditions().get("category"));
-            Assert.assertEquals(ma.equalsConditions().get("resourceId"), maFromGet.equalsConditions().get("resourceId"));
-            Assert.assertEquals(ma.equalsConditions().get("operationName"), maFromGet.equalsConditions().get("operationName"));
+            Assert.assertEquals(ala.scopes().size(), alaFromGet.scopes().size());
+            Assert.assertEquals(ala.scopes().iterator().next(), alaFromGet.scopes().iterator().next());
+            Assert.assertEquals(ala.description(), alaFromGet.description());
+            Assert.assertEquals(ala.enabled(), alaFromGet.enabled());
+            Assert.assertEquals(ala.actionGroupIds().size(), alaFromGet.actionGroupIds().size());
+            Assert.assertEquals(ala.actionGroupIds().iterator().next(), alaFromGet.actionGroupIds().iterator().next());
+            Assert.assertEquals(ala.equalsConditions().size(), alaFromGet.equalsConditions().size());
+            Assert.assertEquals(ala.equalsConditions().get("category"), alaFromGet.equalsConditions().get("category"));
+            Assert.assertEquals(ala.equalsConditions().get("resourceId"), alaFromGet.equalsConditions().get("resourceId"));
+            Assert.assertEquals(ala.equalsConditions().get("operationName"), alaFromGet.equalsConditions().get("operationName"));
 
-            ma.update()
+            ala.update()
                     .withRuleDisabled()
                     .withoutEqualsCondition("operationName")
                     .withEqualsCondition("status", "Failed")
                     .apply();
 
-            Assert.assertEquals(1, ma.scopes().size());
-            Assert.assertEquals("/subscriptions/" + monitorManager.subscriptionId(), ma.scopes().iterator().next());
-            Assert.assertEquals("AutoScale-VM-Creation-Failed", ma.description());
-            Assert.assertEquals(false, ma.enabled());
-            Assert.assertEquals(1, ma.actionGroupIds().size());
-            Assert.assertEquals(ag.id(), ma.actionGroupIds().iterator().next());
-            Assert.assertEquals(3, ma.equalsConditions().size());
-            Assert.assertEquals("Administrative", ma.equalsConditions().get("category"));
-            Assert.assertEquals(justAvm.id(), ma.equalsConditions().get("resourceId"));
-            Assert.assertEquals("Failed", ma.equalsConditions().get("status"));
-            Assert.assertEquals(false, ma.equalsConditions().containsKey("operationName"));
+            Assert.assertEquals(1, ala.scopes().size());
+            Assert.assertEquals("/subscriptions/" + monitorManager.subscriptionId(), ala.scopes().iterator().next());
+            Assert.assertEquals("AutoScale-VM-Creation-Failed", ala.description());
+            Assert.assertEquals(false, ala.enabled());
+            Assert.assertEquals(1, ala.actionGroupIds().size());
+            Assert.assertEquals(ag.id(), ala.actionGroupIds().iterator().next());
+            Assert.assertEquals(3, ala.equalsConditions().size());
+            Assert.assertEquals("Administrative", ala.equalsConditions().get("category"));
+            Assert.assertEquals(justAvm.id(), ala.equalsConditions().get("resourceId"));
+            Assert.assertEquals("Failed", ala.equalsConditions().get("status"));
+            Assert.assertEquals(false, ala.equalsConditions().containsKey("operationName"));
 
             PagedList<ActivityLogAlert> alertsInRg = monitorManager.alertRules().activityLogAlerts().listByResourceGroup(RG_NAME);
 
             Assert.assertEquals(1, alertsInRg.size());
-            maFromGet = alertsInRg.get(0);;
+            alaFromGet = alertsInRg.get(0);;
 
-            Assert.assertEquals(ma.scopes().size(), maFromGet.scopes().size());
-            Assert.assertEquals(ma.scopes().iterator().next(), maFromGet.scopes().iterator().next());
-            Assert.assertEquals(ma.description(), maFromGet.description());
-            Assert.assertEquals(ma.enabled(), maFromGet.enabled());
-            Assert.assertEquals(ma.actionGroupIds().size(), maFromGet.actionGroupIds().size());
-            Assert.assertEquals(ma.actionGroupIds().iterator().next(), maFromGet.actionGroupIds().iterator().next());
-            Assert.assertEquals(ma.equalsConditions().size(), maFromGet.equalsConditions().size());
-            Assert.assertEquals(ma.equalsConditions().get("category"), maFromGet.equalsConditions().get("category"));
-            Assert.assertEquals(ma.equalsConditions().get("resourceId"), maFromGet.equalsConditions().get("resourceId"));
-            Assert.assertEquals(ma.equalsConditions().get("status"), maFromGet.equalsConditions().get("status"));
-            Assert.assertEquals(ma.equalsConditions().containsKey("operationName"), maFromGet.equalsConditions().containsKey("operationName"));
+            Assert.assertEquals(ala.scopes().size(), alaFromGet.scopes().size());
+            Assert.assertEquals(ala.scopes().iterator().next(), alaFromGet.scopes().iterator().next());
+            Assert.assertEquals(ala.description(), alaFromGet.description());
+            Assert.assertEquals(ala.enabled(), alaFromGet.enabled());
+            Assert.assertEquals(ala.actionGroupIds().size(), alaFromGet.actionGroupIds().size());
+            Assert.assertEquals(ala.actionGroupIds().iterator().next(), alaFromGet.actionGroupIds().iterator().next());
+            Assert.assertEquals(ala.equalsConditions().size(), alaFromGet.equalsConditions().size());
+            Assert.assertEquals(ala.equalsConditions().get("category"), alaFromGet.equalsConditions().get("category"));
+            Assert.assertEquals(ala.equalsConditions().get("resourceId"), alaFromGet.equalsConditions().get("resourceId"));
+            Assert.assertEquals(ala.equalsConditions().get("status"), alaFromGet.equalsConditions().get("status"));
+            Assert.assertEquals(ala.equalsConditions().containsKey("operationName"), alaFromGet.equalsConditions().containsKey("operationName"));
 
-            monitorManager.alertRules().activityLogAlerts().deleteById(ma.id());
+            monitorManager.alertRules().activityLogAlerts().deleteById(ala.id());
         }
         finally {
             resourceManager.resourceGroups().beginDeleteByName(RG_NAME);

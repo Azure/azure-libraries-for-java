@@ -28,7 +28,7 @@ class OdataTypeDiscriminatorTypeResolver extends StdTypeResolverBuilder {
         //Copied this code from parent class, StdTypeResolverBuilder with same method name
         TypeIdResolver idRes = this.idResolver(config, baseType, subtypes, true, false);
         // have to escape "." in the middle of the "odata.type" otherwise it will be serialized to "odata": { "type":"Value"} JSON
-        String escapedString = this._typeProperty.replace(".","\\.");
-        return new AsPropertyTypeSerializer(idRes, (BeanProperty)null, escapedString);
+        String escapedString = this._typeProperty.replace(".", "\\.");
+        return new AsPropertyTypeSerializer(idRes, (BeanProperty) null, escapedString);
     }
 }

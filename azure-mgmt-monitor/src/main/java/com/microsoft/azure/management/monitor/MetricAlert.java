@@ -7,6 +7,7 @@
 package com.microsoft.azure.management.monitor;
 
 import com.microsoft.azure.management.apigeneration.Fluent;
+import com.microsoft.azure.management.apigeneration.LangMethodDefinition;
 import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.management.monitor.implementation.MetricAlertResourceInner;
 import com.microsoft.azure.management.monitor.implementation.MonitorManager;
@@ -17,7 +18,12 @@ import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
 import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
+import org.joda.time.DateTime;
 import org.joda.time.Period;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 /**
  * An immutable client-side representation of a Metric Alert.
@@ -27,6 +33,83 @@ public interface MetricAlert extends
         GroupableResource<MonitorManager, MetricAlertResourceInner>,
         Refreshable<MetricAlert>,
         Updatable<MetricAlert.Update> {
+
+    /**
+     * Get the description of the metric alert that will be included in the alert email.
+     *
+     * @return the description value
+     */
+    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
+    String description();
+
+    /**
+     * Get alert severity {0, 1, 2, 3, 4}.
+     *
+     * @return the severity value
+     */
+    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
+    int severity();
+
+    /**
+     * Get the flag that indicates whether the metric alert is enabled.
+     *
+     * @return the enabled value
+     */
+    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
+    boolean enabled();
+
+    /**
+     * Get the list of resource id's that this metric alert is scoped to.
+     *
+     * @return the scopes value
+     */
+    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
+    Collection<String> scopes();
+
+    /**
+     * Get how often the metric alert is evaluated represented in ISO 8601 duration format.
+     *
+     * @return the evaluationFrequency value
+     */
+    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
+    Period evaluationFrequency();
+
+    /**
+     * Get the period of time (in ISO 8601 duration format) that is used to monitor alert activity based on the threshold.
+     *
+     * @return the windowSize value
+     */
+    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
+    Period windowSize();
+
+    /**
+     * @return metric alert criterias, indexed by name
+     */
+    Map<String, MetricAlertCondition> alertCriterias();
+
+    /**
+     * Get the flag that indicates whether the alert should be auto resolved or not.
+     *
+     * @return the autoMitigate value
+     */
+    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
+    boolean autoMitigate();
+
+    /**
+     * Get the array of actions that are performed when the alert rule becomes active, and when an alert condition is resolved.
+     *
+     * @return the actions value
+     */
+    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
+    Collection<String> actionGroupIds();
+
+    /**
+     * Get last time the rule was updated in ISO8601 format.
+     *
+     * @return the lastUpdatedTime value
+     */
+    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
+    DateTime lastUpdatedTime();
 
     /**
      * The entirety of a Metric Alert definition.

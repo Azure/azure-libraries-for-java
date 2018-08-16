@@ -7,16 +7,21 @@
 package com.microsoft.azure.management.monitor.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
+import com.microsoft.azure.management.monitor.ActivityLogAlertActionGroup;
 import com.microsoft.azure.management.monitor.MetricAlert;
 import com.microsoft.azure.management.monitor.MetricAlertAction;
+import com.microsoft.azure.management.monitor.MetricAlertCondition;
 import com.microsoft.azure.management.monitor.MetricAlertSingleResourceMultipleMetricCriteria;
 import com.microsoft.azure.management.monitor.MetricCriteria;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasId;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
+import org.joda.time.DateTime;
 import org.joda.time.Period;
 import rx.Observable;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -37,7 +42,7 @@ class MetricAlertImpl
             MetricAlert.Update,
             MetricAlert.UpdateStages.WithMetricUpdate {
 
-    private Map<String, MetricAlertConditionImpl> conditions;
+    private Map<String, MetricAlertCondition> conditions;
 
     MetricAlertImpl(String name, final MetricAlertResourceInner innerModel, final MonitorManager monitorManager) {
         super(name, innerModel, monitorManager);
@@ -55,7 +60,7 @@ class MetricAlertImpl
         this.inner().withLocation("global");
         MetricAlertSingleResourceMultipleMetricCriteria crit = new MetricAlertSingleResourceMultipleMetricCriteria();
         crit.withAllOf(new ArrayList<MetricCriteria>());
-        for (MetricAlertConditionImpl mc : conditions.values()) {
+        for (MetricAlertCondition mc : conditions.values()) {
             crit.allOf().add(mc.inner());
         }
         this.inner().withCriteria(crit);
@@ -163,7 +168,7 @@ class MetricAlertImpl
 
     @Override
     public MetricAlertConditionImpl updateAlertCriteria(String name) {
-        return this.conditions.get(name);
+        return (MetricAlertConditionImpl) this.conditions.get(name);
     }
 
     @Override
@@ -178,6 +183,64 @@ class MetricAlertImpl
         this.withoutAlertCriteria(criteria.name());
         this.conditions.put(criteria.name(), criteria);
         return this;
+    }
+
+    @Override
+    public String description() {
+        return this.inner().description();
+    }
+
+    @Override
+    public int severity() {
+        return this.inner().severity();
+    }
+
+    @Override
+    public boolean enabled() {
+        return this.inner().enabled();
+    }
+
+    @Override
+    public Period evaluationFrequency() {
+        return this.inner().evaluationFrequency();
+    }
+
+    @Override
+    public Period windowSize() {
+        return this.inner().windowSize();
+    }
+
+    @Override
+    public boolean autoMitigate() {
+        return this.inner().autoMitigate();
+    }
+
+    @Override
+    public DateTime lastUpdatedTime() {
+        return this.inner().lastUpdatedTime();
+    }
+
+    @Override
+    public Collection<String> scopes() {
+        return Collections.unmodifiableCollection(this.inner().scopes());
+    }
+
+    @Override
+    public Collection<String> actionGroupIds() {
+        if (this.inner().actions() != null
+                && this.inner().actions() != null) {
+            List<String> ids = new ArrayList<>();
+            for (MetricAlertAction maag : this.inner().actions()) {
+                ids.add(maag.actionGroupId());
+            }
+            return Collections.unmodifiableCollection(ids);
+        }
+        return Collections.emptyList();
+    }
+
+    @Override
+    public Map<String, MetricAlertCondition> alertCriterias() {
+        return this.conditions;
     }
 }
 

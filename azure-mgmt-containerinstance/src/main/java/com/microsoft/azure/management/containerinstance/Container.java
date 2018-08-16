@@ -66,6 +66,18 @@ public class Container {
     private List<VolumeMount> volumeMounts;
 
     /**
+     * The liveness probe.
+     */
+    @JsonProperty(value = "properties.livenessProbe")
+    private ContainerProbe livenessProbe;
+
+    /**
+     * The readiness probe.
+     */
+    @JsonProperty(value = "properties.readinessProbe")
+    private ContainerProbe readinessProbe;
+
+    /**
      * Get the name value.
      *
      * @return the name value
@@ -211,6 +223,46 @@ public class Container {
      */
     public Container withVolumeMounts(List<VolumeMount> volumeMounts) {
         this.volumeMounts = volumeMounts;
+        return this;
+    }
+
+    /**
+     * Get the livenessProbe value.
+     *
+     * @return the livenessProbe value
+     */
+    public ContainerProbe livenessProbe() {
+        return this.livenessProbe;
+    }
+
+    /**
+     * Set the livenessProbe value.
+     *
+     * @param livenessProbe the livenessProbe value to set
+     * @return the Container object itself.
+     */
+    public Container withLivenessProbe(ContainerProbe livenessProbe) {
+        this.livenessProbe = livenessProbe;
+        return this;
+    }
+
+    /**
+     * Get the readinessProbe value.
+     *
+     * @return the readinessProbe value
+     */
+    public ContainerProbe readinessProbe() {
+        return this.readinessProbe;
+    }
+
+    /**
+     * Set the readinessProbe value.
+     *
+     * @param readinessProbe the readinessProbe value to set
+     * @return the Container object itself.
+     */
+    public Container withReadinessProbe(ContainerProbe readinessProbe) {
+        this.readinessProbe = readinessProbe;
         return this;
     }
 

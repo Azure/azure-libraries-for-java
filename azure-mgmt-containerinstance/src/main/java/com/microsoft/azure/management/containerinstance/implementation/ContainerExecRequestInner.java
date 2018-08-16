@@ -12,7 +12,7 @@ import com.microsoft.azure.management.containerinstance.ContainerExecRequestTerm
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * The start container exec request.
+ * The container exec request.
  */
 public class ContainerExecRequestInner {
     /**

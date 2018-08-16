@@ -17,13 +17,13 @@ public class ContainerExecResponseInner {
     /**
      * The uri for the exec websocket.
      */
-    @JsonProperty(value = "webSocketUri", access = JsonProperty.Access.WRITE_ONLY)
+    @JsonProperty(value = "webSocketUri")
     private String webSocketUri;
 
     /**
      * The password to start the exec command.
      */
-    @JsonProperty(value = "password", access = JsonProperty.Access.WRITE_ONLY)
+    @JsonProperty(value = "password")
     private String password;
 
     /**
@@ -36,12 +36,34 @@ public class ContainerExecResponseInner {
     }
 
     /**
+     * Set the webSocketUri value.
+     *
+     * @param webSocketUri the webSocketUri value to set
+     * @return the ContainerExecResponseInner object itself.
+     */
+    public ContainerExecResponseInner withWebSocketUri(String webSocketUri) {
+        this.webSocketUri = webSocketUri;
+        return this;
+    }
+
+    /**
      * Get the password value.
      *
      * @return the password value
      */
     public String password() {
         return this.password;
+    }
+
+    /**
+     * Set the password value.
+     *
+     * @param password the password value to set
+     * @return the ContainerExecResponseInner object itself.
+     */
+    public ContainerExecResponseInner withPassword(String password) {
+        this.password = password;
+        return this;
     }
 
 }

@@ -13,7 +13,6 @@ import com.microsoft.azure.management.storage.StorageAccount;
 import com.microsoft.rest.RestClient;
 import org.joda.time.Period;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class AlertsTests extends MonitorManagementTest {
@@ -33,7 +32,6 @@ public class AlertsTests extends MonitorManagementTest {
     }
 
     @Test
-    @Ignore("MetricAlerts is not ready yet")
     public void canCRUDMetricAlerts() throws Exception {
 
         try {
@@ -77,6 +75,8 @@ public class AlertsTests extends MonitorManagementTest {
                     .withAutoMitigation()
                     .create();
 
+            MetricAlert maFromGet = monitorManager.alertRules().metricAlerts().getById(ma.id());
+
             ma.update()
                     .withRuleDisabled()
                     .updateAlertCriteria("Metric1")
@@ -89,6 +89,15 @@ public class AlertsTests extends MonitorManagementTest {
                         .withMetricNamespace("Microsoft.Storage/storageAccounts")
                         .attach()
                     .apply();
+
+            maFromGet = monitorManager.alertRules().metricAlerts().getById(ma.id());
+
+            PagedList<MetricAlert> alertsInRg = monitorManager.alertRules().metricAlerts().listByResourceGroup(RG_NAME);
+
+            Assert.assertEquals(1, alertsInRg.size());
+            maFromGet = alertsInRg.get(0);
+
+            monitorManager.alertRules().metricAlerts().deleteById(ma.id());
         }
         finally {
             resourceManager.resourceGroups().beginDeleteByName(RG_NAME);

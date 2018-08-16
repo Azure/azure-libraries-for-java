@@ -18,12 +18,12 @@ import com.fasterxml.jackson.databind.annotation.JsonTypeResolver;
 /**
  * The rule criteria that defines the conditions of the alert rule.
  */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "odata\\.type")
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "odata.type")
 @JsonTypeName("MetricAlertCriteria")
 @JsonSubTypes({
     @JsonSubTypes.Type(name = "Microsoft.Azure.Monitor.SingleResourceMultipleMetricCriteria", value = MetricAlertSingleResourceMultipleMetricCriteria.class)
 })
-@JsonTypeResolver(MetricAlertCriteriaTypeResolver.class)
+@JsonTypeResolver(OdataTypeDiscriminatorTypeResolver.class)
 public class MetricAlertCriteria {
     /**
      * Unmatched properties from the message are deserialized this collection.

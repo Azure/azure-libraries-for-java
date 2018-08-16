@@ -14,7 +14,6 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.databind.annotation.JsonTypeResolver;
-import com.fasterxml.jackson.databind.jsontype.impl.StdTypeResolverBuilder;
 
 /**
  * The rule criteria that defines the conditions of the alert rule.

@@ -227,7 +227,6 @@ public interface MetricAlertCondition extends
      * Grouping of metric alert condition update stages.
      */
     interface UpdateStages {
-
         /**
          * Sets the condition to monitor for the current metric alert.
          *
@@ -237,22 +236,6 @@ public interface MetricAlertCondition extends
          * @return the next stage of the metric alert condition update.
          */
         UpdateStages withCondition(MetricAlertRuleCondition condition, MetricAlertRuleTimeAggregation timeAggregation, double threshold);
-
-        /**
-         * Sets Namespace of the metric to filter.
-         *
-         * @param metricNamespace the Namespace of the metric.
-         * @return the next stage of the metric alert condition update.
-         */
-        UpdateStages withMetricNamespace(String metricNamespace);
-
-        /**
-         * Removes Namespace filter.
-         *
-         * @return the next stage of the metric alert condition update.
-         */
-        @Method
-        UpdateStages withoutMetricNamespace();
 
         /**
          * Adds a metric dimension filter.

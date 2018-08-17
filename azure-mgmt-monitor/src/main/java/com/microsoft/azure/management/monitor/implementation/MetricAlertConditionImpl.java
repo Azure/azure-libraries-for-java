@@ -70,12 +70,6 @@ class MetricAlertConditionImpl
     }
 
     @Override
-    public MetricAlertConditionImpl withoutMetricNamespace() {
-        this.inner().withMetricNamespace(null);
-        return this;
-    }
-
-    @Override
     public MetricAlertConditionImpl withSignalName(String metricName) {
         this.inner().withMetricName(metricName);
         return this;

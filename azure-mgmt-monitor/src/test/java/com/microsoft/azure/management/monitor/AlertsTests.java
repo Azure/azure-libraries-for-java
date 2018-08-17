@@ -141,7 +141,7 @@ public class AlertsTests extends MonitorManagementTest {
             ma.update()
                     .withRuleDisabled()
                     .updateAlertCriteria("Metric1")
-                        .withoutMetricNamespace()
+                        .withCondition(MetricAlertRuleCondition.GREATER_THAN, MetricAlertRuleTimeAggregation.TOTAL, 99)
                         .parent()
                     .defineAlertCriteria("Metric2")
                         .withSignalName("SuccessE2ELatency")
@@ -168,10 +168,9 @@ public class AlertsTests extends MonitorManagementTest {
             MetricAlertCondition ac2 = maCriteriaIterator.next();
             Assert.assertEquals("Metric1", ac1.name());
             Assert.assertEquals("Transactions", ac1.signalName());
-            Assert.assertNull(ac1.metricNamespace());
             Assert.assertEquals(MetricAlertRuleCondition.GREATER_THAN, ac1.condition());
             Assert.assertEquals(MetricAlertRuleTimeAggregation.TOTAL, ac1.timeAggregation());
-            Assert.assertEquals(100, ac1.threshold(), 0.001);
+            Assert.assertEquals(99, ac1.threshold(), 0.001);
             Assert.assertEquals(2, ac1.dimensions().size());
             iterator = ac1.dimensions().iterator();
             d2 = iterator.next();
@@ -214,11 +213,9 @@ public class AlertsTests extends MonitorManagementTest {
             ac2 = maCriteriaIterator.next();
             Assert.assertEquals("Metric1", ac1.name());
             Assert.assertEquals("Transactions", ac1.signalName());
-            // Server bug - still returns the previous value
-            //Assert.assertNull(ac1.metricNamespace());
             Assert.assertEquals(MetricAlertRuleCondition.GREATER_THAN, ac1.condition());
             Assert.assertEquals(MetricAlertRuleTimeAggregation.TOTAL, ac1.timeAggregation());
-            Assert.assertEquals(100, ac1.threshold(), 0.001);
+            Assert.assertEquals(99, ac1.threshold(), 0.001);
             Assert.assertEquals(2, ac1.dimensions().size());
             iterator = ac1.dimensions().iterator();
             d2 = iterator.next();
@@ -264,11 +261,9 @@ public class AlertsTests extends MonitorManagementTest {
             ac2 = maCriteriaIterator.next();
             Assert.assertEquals("Metric1", ac1.name());
             Assert.assertEquals("Transactions", ac1.signalName());
-            // Server bug - still returns the previous value
-            //Assert.assertNull(ac1.metricNamespace());
             Assert.assertEquals(MetricAlertRuleCondition.GREATER_THAN, ac1.condition());
             Assert.assertEquals(MetricAlertRuleTimeAggregation.TOTAL, ac1.timeAggregation());
-            Assert.assertEquals(100, ac1.threshold(), 0.001);
+            Assert.assertEquals(99, ac1.threshold(), 0.001);
             Assert.assertEquals(2, ac1.dimensions().size());
             iterator = ac1.dimensions().iterator();
             d2 = iterator.next();

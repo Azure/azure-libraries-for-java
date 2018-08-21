@@ -37,7 +37,7 @@ public class ManagementEventAggregationCondition {
     private Period windowSize;
 
     /**
-     * Get the operator value.
+     * Get the condition operator. Possible values include: 'GreaterThan', 'GreaterThanOrEqual', 'LessThan', 'LessThanOrEqual'.
      *
      * @return the operator value
      */
@@ -46,7 +46,7 @@ public class ManagementEventAggregationCondition {
     }
 
     /**
-     * Set the operator value.
+     * Set the condition operator. Possible values include: 'GreaterThan', 'GreaterThanOrEqual', 'LessThan', 'LessThanOrEqual'.
      *
      * @param operator the operator value to set
      * @return the ManagementEventAggregationCondition object itself.
@@ -57,7 +57,7 @@ public class ManagementEventAggregationCondition {
     }
 
     /**
-     * Get the threshold value.
+     * Get the threshold value that activates the alert.
      *
      * @return the threshold value
      */
@@ -66,7 +66,7 @@ public class ManagementEventAggregationCondition {
     }
 
     /**
-     * Set the threshold value.
+     * Set the threshold value that activates the alert.
      *
      * @param threshold the threshold value to set
      * @return the ManagementEventAggregationCondition object itself.
@@ -77,7 +77,7 @@ public class ManagementEventAggregationCondition {
     }
 
     /**
-     * Get the windowSize value.
+     * Get the period of time (in ISO 8601 duration format) that is used to monitor alert activity based on the threshold. If specified then it must be between 5 minutes and 1 day.
      *
      * @return the windowSize value
      */
@@ -86,7 +86,7 @@ public class ManagementEventAggregationCondition {
     }
 
     /**
-     * Set the windowSize value.
+     * Set the period of time (in ISO 8601 duration format) that is used to monitor alert activity based on the threshold. If specified then it must be between 5 minutes and 1 day.
      *
      * @param windowSize the windowSize value to set
      * @return the ManagementEventAggregationCondition object itself.

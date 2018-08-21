@@ -27,7 +27,7 @@ public class ScaleRule {
     private ScaleAction scaleAction;
 
     /**
-     * Get the metricTrigger value.
+     * Get the trigger that results in a scaling action.
      *
      * @return the metricTrigger value
      */
@@ -36,7 +36,7 @@ public class ScaleRule {
     }
 
     /**
-     * Set the metricTrigger value.
+     * Set the trigger that results in a scaling action.
      *
      * @param metricTrigger the metricTrigger value to set
      * @return the ScaleRule object itself.
@@ -47,7 +47,7 @@ public class ScaleRule {
     }
 
     /**
-     * Get the scaleAction value.
+     * Get the parameters for the scaling action.
      *
      * @return the scaleAction value
      */
@@ -56,7 +56,7 @@ public class ScaleRule {
     }
 
     /**
-     * Set the scaleAction value.
+     * Set the parameters for the scaling action.
      *
      * @param scaleAction the scaleAction value to set
      * @return the ScaleRule object itself.

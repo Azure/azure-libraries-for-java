@@ -23,7 +23,7 @@ public class ActivityLogAlertAllOfCondition {
     private List<ActivityLogAlertLeafCondition> allOf;
 
     /**
-     * Get the allOf value.
+     * Get the list of activity log alert conditions.
      *
      * @return the allOf value
      */
@@ -32,7 +32,7 @@ public class ActivityLogAlertAllOfCondition {
     }
 
     /**
-     * Set the allOf value.
+     * Set the list of activity log alert conditions.
      *
      * @param allOf the allOf value to set
      * @return the ActivityLogAlertAllOfCondition object itself.

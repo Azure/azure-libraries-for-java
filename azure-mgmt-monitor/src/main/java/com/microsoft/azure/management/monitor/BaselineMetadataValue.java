@@ -28,7 +28,7 @@ public class BaselineMetadataValue {
     private String value;
 
     /**
-     * Get the name value.
+     * Get the name of the metadata.
      *
      * @return the name value
      */
@@ -37,7 +37,7 @@ public class BaselineMetadataValue {
     }
 
     /**
-     * Set the name value.
+     * Set the name of the metadata.
      *
      * @param name the name value to set
      * @return the BaselineMetadataValue object itself.
@@ -48,7 +48,7 @@ public class BaselineMetadataValue {
     }
 
     /**
-     * Get the value value.
+     * Get the value of the metadata.
      *
      * @return the value value
      */
@@ -57,7 +57,7 @@ public class BaselineMetadataValue {
     }
 
     /**
-     * Set the value value.
+     * Set the value of the metadata.
      *
      * @param value the value value to set
      * @return the BaselineMetadataValue object itself.

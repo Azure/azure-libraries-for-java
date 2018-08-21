@@ -13,6 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.databind.annotation.JsonTypeResolver;
 
 /**
  * The rule criteria that defines the conditions of the alert rule.
@@ -22,6 +23,7 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 @JsonSubTypes({
     @JsonSubTypes.Type(name = "Microsoft.Azure.Monitor.SingleResourceMultipleMetricCriteria", value = MetricAlertSingleResourceMultipleMetricCriteria.class)
 })
+@JsonTypeResolver(OdataTypeDiscriminatorTypeResolver.class)
 public class MetricAlertCriteria {
     /**
      * Unmatched properties from the message are deserialized this collection.
@@ -30,7 +32,7 @@ public class MetricAlertCriteria {
     private Map<String, Object> additionalProperties;
 
     /**
-     * Get the additionalProperties value.
+     * Get unmatched properties from the message are deserialized this collection.
      *
      * @return the additionalProperties value
      */
@@ -39,7 +41,7 @@ public class MetricAlertCriteria {
     }
 
     /**
-     * Set the additionalProperties value.
+     * Set unmatched properties from the message are deserialized this collection.
      *
      * @param additionalProperties the additionalProperties value to set
      * @return the MetricAlertCriteria object itself.
@@ -48,5 +50,4 @@ public class MetricAlertCriteria {
         this.additionalProperties = additionalProperties;
         return this;
     }
-
 }

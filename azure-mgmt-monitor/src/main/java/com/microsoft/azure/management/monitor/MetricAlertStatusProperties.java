@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class MetricAlertStatusProperties {
     /**
-     * The dimensions property.
+     * An object describing the type of the dimensions.
      */
     @JsonProperty(value = "dimensions")
     private Map<String, String> dimensions;
@@ -35,7 +35,7 @@ public class MetricAlertStatusProperties {
     private DateTime timestamp;
 
     /**
-     * Get the dimensions value.
+     * Get an object describing the type of the dimensions.
      *
      * @return the dimensions value
      */
@@ -44,7 +44,7 @@ public class MetricAlertStatusProperties {
     }
 
     /**
-     * Set the dimensions value.
+     * Set an object describing the type of the dimensions.
      *
      * @param dimensions the dimensions value to set
      * @return the MetricAlertStatusProperties object itself.
@@ -55,7 +55,7 @@ public class MetricAlertStatusProperties {
     }
 
     /**
-     * Get the status value.
+     * Get status value.
      *
      * @return the status value
      */
@@ -64,7 +64,7 @@ public class MetricAlertStatusProperties {
     }
 
     /**
-     * Set the status value.
+     * Set status value.
      *
      * @param status the status value to set
      * @return the MetricAlertStatusProperties object itself.
@@ -75,7 +75,7 @@ public class MetricAlertStatusProperties {
     }
 
     /**
-     * Get the timestamp value.
+     * Get uTC time when the status was checked.
      *
      * @return the timestamp value
      */
@@ -84,7 +84,7 @@ public class MetricAlertStatusProperties {
     }
 
     /**
-     * Set the timestamp value.
+     * Set uTC time when the status was checked.
      *
      * @param timestamp the timestamp value to set
      * @return the MetricAlertStatusProperties object itself.

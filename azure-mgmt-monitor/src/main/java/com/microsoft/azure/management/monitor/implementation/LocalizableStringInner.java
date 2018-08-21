@@ -27,7 +27,7 @@ public class LocalizableStringInner {
     private String localizedValue;
 
     /**
-     * Get the value value.
+     * Get the invariant value.
      *
      * @return the value value
      */
@@ -36,7 +36,7 @@ public class LocalizableStringInner {
     }
 
     /**
-     * Set the value value.
+     * Set the invariant value.
      *
      * @param value the value value to set
      * @return the LocalizableStringInner object itself.
@@ -47,7 +47,7 @@ public class LocalizableStringInner {
     }
 
     /**
-     * Get the localizedValue value.
+     * Get the locale specific value.
      *
      * @return the localizedValue value
      */
@@ -56,7 +56,7 @@ public class LocalizableStringInner {
     }
 
     /**
-     * Set the localizedValue value.
+     * Set the locale specific value.
      *
      * @param localizedValue the localizedValue value to set
      * @return the LocalizableStringInner object itself.

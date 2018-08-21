@@ -43,7 +43,7 @@ public class MetricSettings {
     private RetentionPolicy retentionPolicy;
 
     /**
-     * Get the timeGrain value.
+     * Get the timegrain of the metric in ISO8601 format.
      *
      * @return the timeGrain value
      */
@@ -52,7 +52,7 @@ public class MetricSettings {
     }
 
     /**
-     * Set the timeGrain value.
+     * Set the timegrain of the metric in ISO8601 format.
      *
      * @param timeGrain the timeGrain value to set
      * @return the MetricSettings object itself.
@@ -63,7 +63,7 @@ public class MetricSettings {
     }
 
     /**
-     * Get the category value.
+     * Get name of a Diagnostic Metric category for a resource type this setting is applied to. To obtain the list of Diagnostic metric categories for a resource, first perform a GET diagnostic settings operation.
      *
      * @return the category value
      */
@@ -72,7 +72,7 @@ public class MetricSettings {
     }
 
     /**
-     * Set the category value.
+     * Set name of a Diagnostic Metric category for a resource type this setting is applied to. To obtain the list of Diagnostic metric categories for a resource, first perform a GET diagnostic settings operation.
      *
      * @param category the category value to set
      * @return the MetricSettings object itself.
@@ -83,7 +83,7 @@ public class MetricSettings {
     }
 
     /**
-     * Get the enabled value.
+     * Get a value indicating whether this category is enabled.
      *
      * @return the enabled value
      */
@@ -92,7 +92,7 @@ public class MetricSettings {
     }
 
     /**
-     * Set the enabled value.
+     * Set a value indicating whether this category is enabled.
      *
      * @param enabled the enabled value to set
      * @return the MetricSettings object itself.
@@ -103,7 +103,7 @@ public class MetricSettings {
     }
 
     /**
-     * Get the retentionPolicy value.
+     * Get the retention policy for this category.
      *
      * @return the retentionPolicy value
      */
@@ -112,7 +112,7 @@ public class MetricSettings {
     }
 
     /**
-     * Set the retentionPolicy value.
+     * Set the retention policy for this category.
      *
      * @param retentionPolicy the retentionPolicy value to set
      * @return the MetricSettings object itself.

@@ -39,7 +39,7 @@ public class HttpRequestInfo {
     private String uri;
 
     /**
-     * Get the clientRequestId value.
+     * Get the client request id.
      *
      * @return the clientRequestId value
      */
@@ -48,7 +48,7 @@ public class HttpRequestInfo {
     }
 
     /**
-     * Set the clientRequestId value.
+     * Set the client request id.
      *
      * @param clientRequestId the clientRequestId value to set
      * @return the HttpRequestInfo object itself.
@@ -59,7 +59,7 @@ public class HttpRequestInfo {
     }
 
     /**
-     * Get the clientIpAddress value.
+     * Get the client Ip Address.
      *
      * @return the clientIpAddress value
      */
@@ -68,7 +68,7 @@ public class HttpRequestInfo {
     }
 
     /**
-     * Set the clientIpAddress value.
+     * Set the client Ip Address.
      *
      * @param clientIpAddress the clientIpAddress value to set
      * @return the HttpRequestInfo object itself.
@@ -79,7 +79,7 @@ public class HttpRequestInfo {
     }
 
     /**
-     * Get the method value.
+     * Get the Http request method.
      *
      * @return the method value
      */
@@ -88,7 +88,7 @@ public class HttpRequestInfo {
     }
 
     /**
-     * Set the method value.
+     * Set the Http request method.
      *
      * @param method the method value to set
      * @return the HttpRequestInfo object itself.
@@ -99,7 +99,7 @@ public class HttpRequestInfo {
     }
 
     /**
-     * Get the uri value.
+     * Get the Uri.
      *
      * @return the uri value
      */
@@ -108,7 +108,7 @@ public class HttpRequestInfo {
     }
 
     /**
-     * Set the uri value.
+     * Set the Uri.
      *
      * @param uri the uri value to set
      * @return the HttpRequestInfo object itself.

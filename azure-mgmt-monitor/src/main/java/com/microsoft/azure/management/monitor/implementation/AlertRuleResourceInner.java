@@ -60,7 +60,7 @@ public class AlertRuleResourceInner extends Resource {
     private DateTime lastUpdatedTime;
 
     /**
-     * Get the alertRuleResourceName value.
+     * Get the name of the alert rule.
      *
      * @return the alertRuleResourceName value
      */
@@ -69,7 +69,7 @@ public class AlertRuleResourceInner extends Resource {
     }
 
     /**
-     * Set the alertRuleResourceName value.
+     * Set the name of the alert rule.
      *
      * @param alertRuleResourceName the alertRuleResourceName value to set
      * @return the AlertRuleResourceInner object itself.
@@ -80,7 +80,7 @@ public class AlertRuleResourceInner extends Resource {
     }
 
     /**
-     * Get the description value.
+     * Get the description of the alert rule that will be included in the alert email.
      *
      * @return the description value
      */
@@ -89,7 +89,7 @@ public class AlertRuleResourceInner extends Resource {
     }
 
     /**
-     * Set the description value.
+     * Set the description of the alert rule that will be included in the alert email.
      *
      * @param description the description value to set
      * @return the AlertRuleResourceInner object itself.
@@ -100,7 +100,7 @@ public class AlertRuleResourceInner extends Resource {
     }
 
     /**
-     * Get the isEnabled value.
+     * Get the flag that indicates whether the alert rule is enabled.
      *
      * @return the isEnabled value
      */
@@ -109,7 +109,7 @@ public class AlertRuleResourceInner extends Resource {
     }
 
     /**
-     * Set the isEnabled value.
+     * Set the flag that indicates whether the alert rule is enabled.
      *
      * @param isEnabled the isEnabled value to set
      * @return the AlertRuleResourceInner object itself.
@@ -120,7 +120,7 @@ public class AlertRuleResourceInner extends Resource {
     }
 
     /**
-     * Get the condition value.
+     * Get the condition that results in the alert rule being activated.
      *
      * @return the condition value
      */
@@ -129,7 +129,7 @@ public class AlertRuleResourceInner extends Resource {
     }
 
     /**
-     * Set the condition value.
+     * Set the condition that results in the alert rule being activated.
      *
      * @param condition the condition value to set
      * @return the AlertRuleResourceInner object itself.
@@ -140,7 +140,7 @@ public class AlertRuleResourceInner extends Resource {
     }
 
     /**
-     * Get the actions value.
+     * Get the array of actions that are performed when the alert rule becomes active, and when an alert condition is resolved.
      *
      * @return the actions value
      */
@@ -149,7 +149,7 @@ public class AlertRuleResourceInner extends Resource {
     }
 
     /**
-     * Set the actions value.
+     * Set the array of actions that are performed when the alert rule becomes active, and when an alert condition is resolved.
      *
      * @param actions the actions value to set
      * @return the AlertRuleResourceInner object itself.
@@ -160,7 +160,7 @@ public class AlertRuleResourceInner extends Resource {
     }
 
     /**
-     * Get the lastUpdatedTime value.
+     * Get last time the rule was updated in ISO8601 format.
      *
      * @return the lastUpdatedTime value
      */

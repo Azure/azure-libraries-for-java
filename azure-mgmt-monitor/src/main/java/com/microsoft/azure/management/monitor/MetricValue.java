@@ -53,7 +53,7 @@ public class MetricValue {
     private Long count;
 
     /**
-     * Get the timeStamp value.
+     * Get the timestamp for the metric value in ISO 8601 format.
      *
      * @return the timeStamp value
      */
@@ -62,7 +62,7 @@ public class MetricValue {
     }
 
     /**
-     * Set the timeStamp value.
+     * Set the timestamp for the metric value in ISO 8601 format.
      *
      * @param timeStamp the timeStamp value to set
      * @return the MetricValue object itself.
@@ -73,7 +73,7 @@ public class MetricValue {
     }
 
     /**
-     * Get the average value.
+     * Get the average value in the time range.
      *
      * @return the average value
      */
@@ -82,7 +82,7 @@ public class MetricValue {
     }
 
     /**
-     * Set the average value.
+     * Set the average value in the time range.
      *
      * @param average the average value to set
      * @return the MetricValue object itself.
@@ -93,7 +93,7 @@ public class MetricValue {
     }
 
     /**
-     * Get the minimum value.
+     * Get the least value in the time range.
      *
      * @return the minimum value
      */
@@ -102,7 +102,7 @@ public class MetricValue {
     }
 
     /**
-     * Set the minimum value.
+     * Set the least value in the time range.
      *
      * @param minimum the minimum value to set
      * @return the MetricValue object itself.
@@ -113,7 +113,7 @@ public class MetricValue {
     }
 
     /**
-     * Get the maximum value.
+     * Get the greatest value in the time range.
      *
      * @return the maximum value
      */
@@ -122,7 +122,7 @@ public class MetricValue {
     }
 
     /**
-     * Set the maximum value.
+     * Set the greatest value in the time range.
      *
      * @param maximum the maximum value to set
      * @return the MetricValue object itself.
@@ -133,7 +133,7 @@ public class MetricValue {
     }
 
     /**
-     * Get the total value.
+     * Get the sum of all of the values in the time range.
      *
      * @return the total value
      */
@@ -142,7 +142,7 @@ public class MetricValue {
     }
 
     /**
-     * Set the total value.
+     * Set the sum of all of the values in the time range.
      *
      * @param total the total value to set
      * @return the MetricValue object itself.
@@ -153,7 +153,7 @@ public class MetricValue {
     }
 
     /**
-     * Get the count value.
+     * Get the number of samples in the time range. Can be used to determine the number of values that contributed to the average value.
      *
      * @return the count value
      */
@@ -162,7 +162,7 @@ public class MetricValue {
     }
 
     /**
-     * Set the count value.
+     * Set the number of samples in the time range. Can be used to determine the number of values that contributed to the average value.
      *
      * @param count the count value to set
      * @return the MetricValue object itself.

@@ -11,7 +11,7 @@ package com.microsoft.azure.management.monitor.implementation;
 import java.util.List;
 import org.joda.time.Period;
 import com.microsoft.azure.management.monitor.MetricAlertCriteria;
-import com.microsoft.azure.management.monitor.Action;
+import com.microsoft.azure.management.monitor.MetricAlertAction;
 import org.joda.time.DateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
@@ -68,11 +68,18 @@ public class MetricAlertResourceInner extends Resource {
     private MetricAlertCriteria criteria;
 
     /**
+     * the flag that indicates whether the alert should be auto resolved or
+     * not.
+     */
+    @JsonProperty(value = "properties.autoMitigate")
+    private Boolean autoMitigate;
+
+    /**
      * the array of actions that are performed when the alert rule becomes
      * active, and when an alert condition is resolved.
      */
     @JsonProperty(value = "properties.actions")
-    private List<Action> actions;
+    private List<MetricAlertAction> actions;
 
     /**
      * Last time the rule was updated in ISO8601 format.
@@ -81,7 +88,7 @@ public class MetricAlertResourceInner extends Resource {
     private DateTime lastUpdatedTime;
 
     /**
-     * Get the description value.
+     * Get the description of the metric alert that will be included in the alert email.
      *
      * @return the description value
      */
@@ -90,7 +97,7 @@ public class MetricAlertResourceInner extends Resource {
     }
 
     /**
-     * Set the description value.
+     * Set the description of the metric alert that will be included in the alert email.
      *
      * @param description the description value to set
      * @return the MetricAlertResourceInner object itself.
@@ -101,7 +108,7 @@ public class MetricAlertResourceInner extends Resource {
     }
 
     /**
-     * Get the severity value.
+     * Get alert severity {0, 1, 2, 3, 4}.
      *
      * @return the severity value
      */
@@ -110,7 +117,7 @@ public class MetricAlertResourceInner extends Resource {
     }
 
     /**
-     * Set the severity value.
+     * Set alert severity {0, 1, 2, 3, 4}.
      *
      * @param severity the severity value to set
      * @return the MetricAlertResourceInner object itself.
@@ -121,7 +128,7 @@ public class MetricAlertResourceInner extends Resource {
     }
 
     /**
-     * Get the enabled value.
+     * Get the flag that indicates whether the metric alert is enabled.
      *
      * @return the enabled value
      */
@@ -130,7 +137,7 @@ public class MetricAlertResourceInner extends Resource {
     }
 
     /**
-     * Set the enabled value.
+     * Set the flag that indicates whether the metric alert is enabled.
      *
      * @param enabled the enabled value to set
      * @return the MetricAlertResourceInner object itself.
@@ -141,7 +148,7 @@ public class MetricAlertResourceInner extends Resource {
     }
 
     /**
-     * Get the scopes value.
+     * Get the list of resource id's that this metric alert is scoped to.
      *
      * @return the scopes value
      */
@@ -150,7 +157,7 @@ public class MetricAlertResourceInner extends Resource {
     }
 
     /**
-     * Set the scopes value.
+     * Set the list of resource id's that this metric alert is scoped to.
      *
      * @param scopes the scopes value to set
      * @return the MetricAlertResourceInner object itself.
@@ -161,7 +168,7 @@ public class MetricAlertResourceInner extends Resource {
     }
 
     /**
-     * Get the evaluationFrequency value.
+     * Get how often the metric alert is evaluated represented in ISO 8601 duration format.
      *
      * @return the evaluationFrequency value
      */
@@ -170,7 +177,7 @@ public class MetricAlertResourceInner extends Resource {
     }
 
     /**
-     * Set the evaluationFrequency value.
+     * Set how often the metric alert is evaluated represented in ISO 8601 duration format.
      *
      * @param evaluationFrequency the evaluationFrequency value to set
      * @return the MetricAlertResourceInner object itself.
@@ -181,7 +188,7 @@ public class MetricAlertResourceInner extends Resource {
     }
 
     /**
-     * Get the windowSize value.
+     * Get the period of time (in ISO 8601 duration format) that is used to monitor alert activity based on the threshold.
      *
      * @return the windowSize value
      */
@@ -190,7 +197,7 @@ public class MetricAlertResourceInner extends Resource {
     }
 
     /**
-     * Set the windowSize value.
+     * Set the period of time (in ISO 8601 duration format) that is used to monitor alert activity based on the threshold.
      *
      * @param windowSize the windowSize value to set
      * @return the MetricAlertResourceInner object itself.
@@ -201,7 +208,7 @@ public class MetricAlertResourceInner extends Resource {
     }
 
     /**
-     * Get the criteria value.
+     * Get defines the specific alert criteria information.
      *
      * @return the criteria value
      */
@@ -210,7 +217,7 @@ public class MetricAlertResourceInner extends Resource {
     }
 
     /**
-     * Set the criteria value.
+     * Set defines the specific alert criteria information.
      *
      * @param criteria the criteria value to set
      * @return the MetricAlertResourceInner object itself.
@@ -221,27 +228,47 @@ public class MetricAlertResourceInner extends Resource {
     }
 
     /**
-     * Get the actions value.
+     * Get the flag that indicates whether the alert should be auto resolved or not.
+     *
+     * @return the autoMitigate value
+     */
+    public Boolean autoMitigate() {
+        return this.autoMitigate;
+    }
+
+    /**
+     * Set the flag that indicates whether the alert should be auto resolved or not.
+     *
+     * @param autoMitigate the autoMitigate value to set
+     * @return the MetricAlertResourceInner object itself.
+     */
+    public MetricAlertResourceInner withAutoMitigate(Boolean autoMitigate) {
+        this.autoMitigate = autoMitigate;
+        return this;
+    }
+
+    /**
+     * Get the array of actions that are performed when the alert rule becomes active, and when an alert condition is resolved.
      *
      * @return the actions value
      */
-    public List<Action> actions() {
+    public List<MetricAlertAction> actions() {
         return this.actions;
     }
 
     /**
-     * Set the actions value.
+     * Set the array of actions that are performed when the alert rule becomes active, and when an alert condition is resolved.
      *
      * @param actions the actions value to set
      * @return the MetricAlertResourceInner object itself.
      */
-    public MetricAlertResourceInner withActions(List<Action> actions) {
+    public MetricAlertResourceInner withActions(List<MetricAlertAction> actions) {
         this.actions = actions;
         return this;
     }
 
     /**
-     * Get the lastUpdatedTime value.
+     * Get last time the rule was updated in ISO8601 format.
      *
      * @return the lastUpdatedTime value
      */

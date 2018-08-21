@@ -18,11 +18,12 @@ public class Recurrence {
     /**
      * the recurrence frequency. How often the schedule profile should take
      * effect. This value must be Week, meaning each week will have the same
-     * set of profiles. Possible values include: 'None', 'Second', 'Minute',
-     * 'Hour', 'Day', 'Week', 'Month', 'Year'.
+     * set of profiles. For example, to set a daily schedule, set **schedule**
+     * to every day of the week. The frequency property specifies that the
+     * schedule is repeated weekly.
      */
     @JsonProperty(value = "frequency", required = true)
-    private RecurrenceFrequency frequency;
+    private String frequency;
 
     /**
      * the scheduling constraints for when the profile begins.
@@ -31,27 +32,34 @@ public class Recurrence {
     private RecurrentSchedule schedule;
 
     /**
-     * Get the frequency value.
+     * Creates an instance of Recurrence class.
+     */
+    public Recurrence() {
+        frequency = "Week";
+    }
+
+    /**
+     * Get the recurrence frequency. How often the schedule profile should take effect. This value must be Week, meaning each week will have the same set of profiles. For example, to set a daily schedule, set **schedule** to every day of the week. The frequency property specifies that the schedule is repeated weekly.
      *
      * @return the frequency value
      */
-    public RecurrenceFrequency frequency() {
+    public String frequency() {
         return this.frequency;
     }
 
     /**
-     * Set the frequency value.
+     * Set the recurrence frequency. How often the schedule profile should take effect. This value must be Week, meaning each week will have the same set of profiles. For example, to set a daily schedule, set **schedule** to every day of the week. The frequency property specifies that the schedule is repeated weekly.
      *
      * @param frequency the frequency value to set
      * @return the Recurrence object itself.
      */
-    public Recurrence withFrequency(RecurrenceFrequency frequency) {
+    public Recurrence withFrequency(String frequency) {
         this.frequency = frequency;
         return this;
     }
 
     /**
-     * Get the schedule value.
+     * Get the scheduling constraints for when the profile begins.
      *
      * @return the schedule value
      */
@@ -60,7 +68,7 @@ public class Recurrence {
     }
 
     /**
-     * Set the schedule value.
+     * Set the scheduling constraints for when the profile begins.
      *
      * @param schedule the schedule value to set
      * @return the Recurrence object itself.

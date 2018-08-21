@@ -28,6 +28,13 @@ public class DiagnosticSettingsResourceInner extends ProxyOnlyResource {
     private String storageAccountId;
 
     /**
+     * The service bus rule Id of the diagnostic setting. This is here to
+     * maintain backwards compatibility.
+     */
+    @JsonProperty(value = "properties.serviceBusRuleId")
+    private String serviceBusRuleId;
+
+    /**
      * The resource Id for the event hub authorization rule.
      */
     @JsonProperty(value = "properties.eventHubAuthorizationRuleId")
@@ -62,7 +69,7 @@ public class DiagnosticSettingsResourceInner extends ProxyOnlyResource {
     private String workspaceId;
 
     /**
-     * Get the storageAccountId value.
+     * Get the resource ID of the storage account to which you would like to send Diagnostic Logs.
      *
      * @return the storageAccountId value
      */
@@ -71,7 +78,7 @@ public class DiagnosticSettingsResourceInner extends ProxyOnlyResource {
     }
 
     /**
-     * Set the storageAccountId value.
+     * Set the resource ID of the storage account to which you would like to send Diagnostic Logs.
      *
      * @param storageAccountId the storageAccountId value to set
      * @return the DiagnosticSettingsResourceInner object itself.
@@ -82,7 +89,27 @@ public class DiagnosticSettingsResourceInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the eventHubAuthorizationRuleId value.
+     * Get the service bus rule Id of the diagnostic setting. This is here to maintain backwards compatibility.
+     *
+     * @return the serviceBusRuleId value
+     */
+    public String serviceBusRuleId() {
+        return this.serviceBusRuleId;
+    }
+
+    /**
+     * Set the service bus rule Id of the diagnostic setting. This is here to maintain backwards compatibility.
+     *
+     * @param serviceBusRuleId the serviceBusRuleId value to set
+     * @return the DiagnosticSettingsResourceInner object itself.
+     */
+    public DiagnosticSettingsResourceInner withServiceBusRuleId(String serviceBusRuleId) {
+        this.serviceBusRuleId = serviceBusRuleId;
+        return this;
+    }
+
+    /**
+     * Get the resource Id for the event hub authorization rule.
      *
      * @return the eventHubAuthorizationRuleId value
      */
@@ -91,7 +118,7 @@ public class DiagnosticSettingsResourceInner extends ProxyOnlyResource {
     }
 
     /**
-     * Set the eventHubAuthorizationRuleId value.
+     * Set the resource Id for the event hub authorization rule.
      *
      * @param eventHubAuthorizationRuleId the eventHubAuthorizationRuleId value to set
      * @return the DiagnosticSettingsResourceInner object itself.
@@ -102,7 +129,7 @@ public class DiagnosticSettingsResourceInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the eventHubName value.
+     * Get the name of the event hub. If none is specified, the default event hub will be selected.
      *
      * @return the eventHubName value
      */
@@ -111,7 +138,7 @@ public class DiagnosticSettingsResourceInner extends ProxyOnlyResource {
     }
 
     /**
-     * Set the eventHubName value.
+     * Set the name of the event hub. If none is specified, the default event hub will be selected.
      *
      * @param eventHubName the eventHubName value to set
      * @return the DiagnosticSettingsResourceInner object itself.
@@ -122,7 +149,7 @@ public class DiagnosticSettingsResourceInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the metrics value.
+     * Get the list of metric settings.
      *
      * @return the metrics value
      */
@@ -131,7 +158,7 @@ public class DiagnosticSettingsResourceInner extends ProxyOnlyResource {
     }
 
     /**
-     * Set the metrics value.
+     * Set the list of metric settings.
      *
      * @param metrics the metrics value to set
      * @return the DiagnosticSettingsResourceInner object itself.
@@ -142,7 +169,7 @@ public class DiagnosticSettingsResourceInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the logs value.
+     * Get the list of logs settings.
      *
      * @return the logs value
      */
@@ -151,7 +178,7 @@ public class DiagnosticSettingsResourceInner extends ProxyOnlyResource {
     }
 
     /**
-     * Set the logs value.
+     * Set the list of logs settings.
      *
      * @param logs the logs value to set
      * @return the DiagnosticSettingsResourceInner object itself.
@@ -162,7 +189,7 @@ public class DiagnosticSettingsResourceInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the workspaceId value.
+     * Get the workspace ID (resource ID of a Log Analytics workspace) for a Log Analytics workspace to which you would like to send Diagnostic Logs. Example: /subscriptions/4b9e8510-67ab-4e9a-95a9-e2f1e570ea9c/resourceGroups/insights-integration/providers/Microsoft.OperationalInsights/workspaces/viruela2.
      *
      * @return the workspaceId value
      */
@@ -171,7 +198,7 @@ public class DiagnosticSettingsResourceInner extends ProxyOnlyResource {
     }
 
     /**
-     * Set the workspaceId value.
+     * Set the workspace ID (resource ID of a Log Analytics workspace) for a Log Analytics workspace to which you would like to send Diagnostic Logs. Example: /subscriptions/4b9e8510-67ab-4e9a-95a9-e2f1e570ea9c/resourceGroups/insights-integration/providers/Microsoft.OperationalInsights/workspaces/viruela2.
      *
      * @param workspaceId the workspaceId value to set
      * @return the DiagnosticSettingsResourceInner object itself.

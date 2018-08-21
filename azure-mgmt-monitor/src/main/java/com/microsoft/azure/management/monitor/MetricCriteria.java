@@ -12,7 +12,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * The MetricCriteria model.
+ * Criterion to filter metrics.
  */
 public class MetricCriteria {
     /**
@@ -34,16 +34,18 @@ public class MetricCriteria {
     private String metricNamespace;
 
     /**
-     * the criteria operator.
+     * the criteria operator. Possible values include: 'Equals', 'NotEquals',
+     * 'GreaterThan', 'GreaterThanOrEqual', 'LessThan', 'LessThanOrEqual'.
      */
     @JsonProperty(value = "operator", required = true)
-    private Object operator;
+    private MetricAlertRuleCondition operator;
 
     /**
-     * the criteria time aggregation types.
+     * the criteria time aggregation types. Possible values include: 'Average',
+     * 'Minimum', 'Maximum', 'Total'.
      */
     @JsonProperty(value = "timeAggregation", required = true)
-    private Object timeAggregation;
+    private MetricAlertRuleTimeAggregation timeAggregation;
 
     /**
      * the criteria threshold value that activates the alert.
@@ -58,7 +60,7 @@ public class MetricCriteria {
     private List<MetricDimension> dimensions;
 
     /**
-     * Get the name value.
+     * Get name of the criteria.
      *
      * @return the name value
      */
@@ -67,7 +69,7 @@ public class MetricCriteria {
     }
 
     /**
-     * Set the name value.
+     * Set name of the criteria.
      *
      * @param name the name value to set
      * @return the MetricCriteria object itself.
@@ -78,7 +80,7 @@ public class MetricCriteria {
     }
 
     /**
-     * Get the metricName value.
+     * Get name of the metric.
      *
      * @return the metricName value
      */
@@ -87,7 +89,7 @@ public class MetricCriteria {
     }
 
     /**
-     * Set the metricName value.
+     * Set name of the metric.
      *
      * @param metricName the metricName value to set
      * @return the MetricCriteria object itself.
@@ -98,7 +100,7 @@ public class MetricCriteria {
     }
 
     /**
-     * Get the metricNamespace value.
+     * Get namespace of the metric.
      *
      * @return the metricNamespace value
      */
@@ -107,7 +109,7 @@ public class MetricCriteria {
     }
 
     /**
-     * Set the metricNamespace value.
+     * Set namespace of the metric.
      *
      * @param metricNamespace the metricNamespace value to set
      * @return the MetricCriteria object itself.
@@ -118,47 +120,47 @@ public class MetricCriteria {
     }
 
     /**
-     * Get the operator value.
+     * Get the criteria operator. Possible values include: 'Equals', 'NotEquals', 'GreaterThan', 'GreaterThanOrEqual', 'LessThan', 'LessThanOrEqual'.
      *
      * @return the operator value
      */
-    public Object operator() {
+    public MetricAlertRuleCondition operator() {
         return this.operator;
     }
 
     /**
-     * Set the operator value.
+     * Set the criteria operator. Possible values include: 'Equals', 'NotEquals', 'GreaterThan', 'GreaterThanOrEqual', 'LessThan', 'LessThanOrEqual'.
      *
      * @param operator the operator value to set
      * @return the MetricCriteria object itself.
      */
-    public MetricCriteria withOperator(Object operator) {
+    public MetricCriteria withOperator(MetricAlertRuleCondition operator) {
         this.operator = operator;
         return this;
     }
 
     /**
-     * Get the timeAggregation value.
+     * Get the criteria time aggregation types. Possible values include: 'Average', 'Minimum', 'Maximum', 'Total'.
      *
      * @return the timeAggregation value
      */
-    public Object timeAggregation() {
+    public MetricAlertRuleTimeAggregation timeAggregation() {
         return this.timeAggregation;
     }
 
     /**
-     * Set the timeAggregation value.
+     * Set the criteria time aggregation types. Possible values include: 'Average', 'Minimum', 'Maximum', 'Total'.
      *
      * @param timeAggregation the timeAggregation value to set
      * @return the MetricCriteria object itself.
      */
-    public MetricCriteria withTimeAggregation(Object timeAggregation) {
+    public MetricCriteria withTimeAggregation(MetricAlertRuleTimeAggregation timeAggregation) {
         this.timeAggregation = timeAggregation;
         return this;
     }
 
     /**
-     * Get the threshold value.
+     * Get the criteria threshold value that activates the alert.
      *
      * @return the threshold value
      */
@@ -167,7 +169,7 @@ public class MetricCriteria {
     }
 
     /**
-     * Set the threshold value.
+     * Set the criteria threshold value that activates the alert.
      *
      * @param threshold the threshold value to set
      * @return the MetricCriteria object itself.
@@ -178,7 +180,7 @@ public class MetricCriteria {
     }
 
     /**
-     * Get the dimensions value.
+     * Get list of dimension conditions.
      *
      * @return the dimensions value
      */
@@ -187,7 +189,7 @@ public class MetricCriteria {
     }
 
     /**
-     * Set the dimensions value.
+     * Set list of dimension conditions.
      *
      * @param dimensions the dimensions value to set
      * @return the MetricCriteria object itself.
@@ -196,5 +198,4 @@ public class MetricCriteria {
         this.dimensions = dimensions;
         return this;
     }
-
 }

@@ -35,7 +35,7 @@ public class Baseline {
     private List<Double> highThresholds;
 
     /**
-     * Get the sensitivity value.
+     * Get the sensitivity of the baseline. Possible values include: 'Low', 'Medium', 'High'.
      *
      * @return the sensitivity value
      */
@@ -44,7 +44,7 @@ public class Baseline {
     }
 
     /**
-     * Set the sensitivity value.
+     * Set the sensitivity of the baseline. Possible values include: 'Low', 'Medium', 'High'.
      *
      * @param sensitivity the sensitivity value to set
      * @return the Baseline object itself.
@@ -55,7 +55,7 @@ public class Baseline {
     }
 
     /**
-     * Get the lowThresholds value.
+     * Get the low thresholds of the baseline.
      *
      * @return the lowThresholds value
      */
@@ -64,7 +64,7 @@ public class Baseline {
     }
 
     /**
-     * Set the lowThresholds value.
+     * Set the low thresholds of the baseline.
      *
      * @param lowThresholds the lowThresholds value to set
      * @return the Baseline object itself.
@@ -75,7 +75,7 @@ public class Baseline {
     }
 
     /**
-     * Get the highThresholds value.
+     * Get the high thresholds of the baseline.
      *
      * @return the highThresholds value
      */
@@ -84,7 +84,7 @@ public class Baseline {
     }
 
     /**
-     * Set the highThresholds value.
+     * Set the high thresholds of the baseline.
      *
      * @param highThresholds the highThresholds value to set
      * @return the Baseline object itself.

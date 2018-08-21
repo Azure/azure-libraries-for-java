@@ -14,6 +14,7 @@ import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
 import com.microsoft.azure.management.monitor.ActionGroups;
 import com.microsoft.azure.management.monitor.ActivityLogs;
+import com.microsoft.azure.management.monitor.AlertRules;
 import com.microsoft.azure.management.monitor.DiagnosticSettings;
 import com.microsoft.azure.management.monitor.MetricDefinitions;
 import com.microsoft.azure.management.resources.fluentcore.arm.AzureConfigurable;
@@ -33,6 +34,7 @@ public final class MonitorManager extends Manager<MonitorManager, MonitorManagem
     private MetricDefinitions metricDefinitions;
     private DiagnosticSettings diagnosticSettings;
     private ActionGroups actionGroups;
+    private AlertRules alerts;
 
     /**
     * Get a Configurable instance that can be used to create MonitorManager with optional configuration.
@@ -123,6 +125,18 @@ public final class MonitorManager extends Manager<MonitorManager, MonitorManagem
         }
         return this.actionGroups;
     }
+
+    /**
+     * @return the Azure AlertRules API entry point
+     */
+    @Beta(SinceVersion.V1_15_0)
+    public AlertRules alertRules() {
+        if (this.alerts == null) {
+            this.alerts = new AlertRulesImpl(this);
+        }
+        return this.alerts;
+    }
+
     /**
     * The implementation for Configurable interface.
     */

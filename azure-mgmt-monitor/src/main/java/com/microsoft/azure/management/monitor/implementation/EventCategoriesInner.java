@@ -109,7 +109,11 @@ public class EventCategoriesInner {
                 public Observable<ServiceResponse<List<LocalizableStringInner>>> call(Response<ResponseBody> response) {
                     try {
                         ServiceResponse<PageImpl1<LocalizableStringInner>> result = listDelegate(response);
-                        ServiceResponse<List<LocalizableStringInner>> clientResponse = new ServiceResponse<List<LocalizableStringInner>>(result.body().items(), result.response());
+                        List<LocalizableStringInner> items = null;
+                        if (result.body() != null) {
+                            items = result.body().items();
+                        }
+                        ServiceResponse<List<LocalizableStringInner>> clientResponse = new ServiceResponse<List<LocalizableStringInner>>(items, result.response());
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);

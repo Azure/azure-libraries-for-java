@@ -36,7 +36,7 @@ public class EmailNotification {
     private List<String> customEmails;
 
     /**
-     * Get the sendToSubscriptionAdministrator value.
+     * Get a value indicating whether to send email to subscription administrator.
      *
      * @return the sendToSubscriptionAdministrator value
      */
@@ -45,7 +45,7 @@ public class EmailNotification {
     }
 
     /**
-     * Set the sendToSubscriptionAdministrator value.
+     * Set a value indicating whether to send email to subscription administrator.
      *
      * @param sendToSubscriptionAdministrator the sendToSubscriptionAdministrator value to set
      * @return the EmailNotification object itself.
@@ -56,7 +56,7 @@ public class EmailNotification {
     }
 
     /**
-     * Get the sendToSubscriptionCoAdministrators value.
+     * Get a value indicating whether to send email to subscription co-administrators.
      *
      * @return the sendToSubscriptionCoAdministrators value
      */
@@ -65,7 +65,7 @@ public class EmailNotification {
     }
 
     /**
-     * Set the sendToSubscriptionCoAdministrators value.
+     * Set a value indicating whether to send email to subscription co-administrators.
      *
      * @param sendToSubscriptionCoAdministrators the sendToSubscriptionCoAdministrators value to set
      * @return the EmailNotification object itself.
@@ -76,7 +76,7 @@ public class EmailNotification {
     }
 
     /**
-     * Get the customEmails value.
+     * Get the custom e-mails list. This value can be null or empty, in which case this attribute will be ignored.
      *
      * @return the customEmails value
      */
@@ -85,7 +85,7 @@ public class EmailNotification {
     }
 
     /**
-     * Set the customEmails value.
+     * Set the custom e-mails list. This value can be null or empty, in which case this attribute will be ignored.
      *
      * @param customEmails the customEmails value to set
      * @return the EmailNotification object itself.

@@ -34,7 +34,7 @@ public class VoiceReceiver {
     private String phoneNumber;
 
     /**
-     * Get the name value.
+     * Get the name of the voice receiver. Names must be unique across all receivers within an action group.
      *
      * @return the name value
      */
@@ -43,7 +43,7 @@ public class VoiceReceiver {
     }
 
     /**
-     * Set the name value.
+     * Set the name of the voice receiver. Names must be unique across all receivers within an action group.
      *
      * @param name the name value to set
      * @return the VoiceReceiver object itself.
@@ -54,7 +54,7 @@ public class VoiceReceiver {
     }
 
     /**
-     * Get the countryCode value.
+     * Get the country code of the voice receiver.
      *
      * @return the countryCode value
      */
@@ -63,7 +63,7 @@ public class VoiceReceiver {
     }
 
     /**
-     * Set the countryCode value.
+     * Set the country code of the voice receiver.
      *
      * @param countryCode the countryCode value to set
      * @return the VoiceReceiver object itself.
@@ -74,7 +74,7 @@ public class VoiceReceiver {
     }
 
     /**
-     * Get the phoneNumber value.
+     * Get the phone number of the voice receiver.
      *
      * @return the phoneNumber value
      */
@@ -83,7 +83,7 @@ public class VoiceReceiver {
     }
 
     /**
-     * Set the phoneNumber value.
+     * Set the phone number of the voice receiver.
      *
      * @param phoneNumber the phoneNumber value to set
      * @return the VoiceReceiver object itself.

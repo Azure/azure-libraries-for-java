@@ -36,7 +36,7 @@ public class CalculateBaselineResponseInner {
     private List<Baseline> baseline;
 
     /**
-     * Get the type value.
+     * Get the resource type of the baseline resource.
      *
      * @return the type value
      */
@@ -45,7 +45,7 @@ public class CalculateBaselineResponseInner {
     }
 
     /**
-     * Set the type value.
+     * Set the resource type of the baseline resource.
      *
      * @param type the type value to set
      * @return the CalculateBaselineResponseInner object itself.
@@ -56,7 +56,7 @@ public class CalculateBaselineResponseInner {
     }
 
     /**
-     * Get the timestamps value.
+     * Get the array of timestamps of the baselines.
      *
      * @return the timestamps value
      */
@@ -65,7 +65,7 @@ public class CalculateBaselineResponseInner {
     }
 
     /**
-     * Set the timestamps value.
+     * Set the array of timestamps of the baselines.
      *
      * @param timestamps the timestamps value to set
      * @return the CalculateBaselineResponseInner object itself.
@@ -76,7 +76,7 @@ public class CalculateBaselineResponseInner {
     }
 
     /**
-     * Get the baseline value.
+     * Get the baseline values for each sensitivity.
      *
      * @return the baseline value
      */
@@ -85,7 +85,7 @@ public class CalculateBaselineResponseInner {
     }
 
     /**
-     * Set the baseline value.
+     * Set the baseline values for each sensitivity.
      *
      * @param baseline the baseline value to set
      * @return the CalculateBaselineResponseInner object itself.

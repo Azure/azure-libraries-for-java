@@ -51,7 +51,7 @@ public class ThresholdRuleCondition extends RuleCondition {
     private TimeAggregationOperator timeAggregation;
 
     /**
-     * Get the operator value.
+     * Get the operator used to compare the data and the threshold. Possible values include: 'GreaterThan', 'GreaterThanOrEqual', 'LessThan', 'LessThanOrEqual'.
      *
      * @return the operator value
      */
@@ -60,7 +60,7 @@ public class ThresholdRuleCondition extends RuleCondition {
     }
 
     /**
-     * Set the operator value.
+     * Set the operator used to compare the data and the threshold. Possible values include: 'GreaterThan', 'GreaterThanOrEqual', 'LessThan', 'LessThanOrEqual'.
      *
      * @param operator the operator value to set
      * @return the ThresholdRuleCondition object itself.
@@ -71,7 +71,7 @@ public class ThresholdRuleCondition extends RuleCondition {
     }
 
     /**
-     * Get the threshold value.
+     * Get the threshold value that activates the alert.
      *
      * @return the threshold value
      */
@@ -80,7 +80,7 @@ public class ThresholdRuleCondition extends RuleCondition {
     }
 
     /**
-     * Set the threshold value.
+     * Set the threshold value that activates the alert.
      *
      * @param threshold the threshold value to set
      * @return the ThresholdRuleCondition object itself.
@@ -91,7 +91,7 @@ public class ThresholdRuleCondition extends RuleCondition {
     }
 
     /**
-     * Get the windowSize value.
+     * Get the period of time (in ISO 8601 duration format) that is used to monitor alert activity based on the threshold. If specified then it must be between 5 minutes and 1 day.
      *
      * @return the windowSize value
      */
@@ -100,7 +100,7 @@ public class ThresholdRuleCondition extends RuleCondition {
     }
 
     /**
-     * Set the windowSize value.
+     * Set the period of time (in ISO 8601 duration format) that is used to monitor alert activity based on the threshold. If specified then it must be between 5 minutes and 1 day.
      *
      * @param windowSize the windowSize value to set
      * @return the ThresholdRuleCondition object itself.
@@ -111,7 +111,7 @@ public class ThresholdRuleCondition extends RuleCondition {
     }
 
     /**
-     * Get the timeAggregation value.
+     * Get the time aggregation operator. How the data that are collected should be combined over time. The default value is the PrimaryAggregationType of the Metric. Possible values include: 'Average', 'Minimum', 'Maximum', 'Total', 'Last'.
      *
      * @return the timeAggregation value
      */
@@ -120,7 +120,7 @@ public class ThresholdRuleCondition extends RuleCondition {
     }
 
     /**
-     * Set the timeAggregation value.
+     * Set the time aggregation operator. How the data that are collected should be combined over time. The default value is the PrimaryAggregationType of the Metric. Possible values include: 'Average', 'Minimum', 'Maximum', 'Total', 'Last'.
      *
      * @param timeAggregation the timeAggregation value to set
      * @return the ThresholdRuleCondition object itself.

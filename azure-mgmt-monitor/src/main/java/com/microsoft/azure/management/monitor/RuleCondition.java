@@ -12,6 +12,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.databind.annotation.JsonTypeResolver;
 
 /**
  * The condition that results in the alert rule being activated.
@@ -23,6 +24,7 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
     @JsonSubTypes.Type(name = "Microsoft.Azure.Management.Insights.Models.LocationThresholdRuleCondition", value = LocationThresholdRuleCondition.class),
     @JsonSubTypes.Type(name = "Microsoft.Azure.Management.Insights.Models.ManagementEventRuleCondition", value = ManagementEventRuleCondition.class)
 })
+@JsonTypeResolver(OdataTypeDiscriminatorTypeResolver.class)
 public class RuleCondition {
     /**
      * the resource from which the rule collects its data. For this type
@@ -32,7 +34,7 @@ public class RuleCondition {
     private RuleDataSource dataSource;
 
     /**
-     * Get the dataSource value.
+     * Get the resource from which the rule collects its data. For this type dataSource will always be of type RuleMetricDataSource.
      *
      * @return the dataSource value
      */
@@ -41,7 +43,7 @@ public class RuleCondition {
     }
 
     /**
-     * Set the dataSource value.
+     * Set the resource from which the rule collects its data. For this type dataSource will always be of type RuleMetricDataSource.
      *
      * @param dataSource the dataSource value to set
      * @return the RuleCondition object itself.

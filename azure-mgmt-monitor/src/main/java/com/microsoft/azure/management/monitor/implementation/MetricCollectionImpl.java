@@ -6,6 +6,8 @@
 
 package com.microsoft.azure.management.monitor.implementation;
 
+import com.google.common.base.Function;
+import com.google.common.collect.Lists;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.monitor.Metric;
 import com.microsoft.azure.management.monitor.MetricCollection;
@@ -52,6 +54,11 @@ class MetricCollectionImpl
 
     @Override
     public List<Metric> metrics() {
-        return this.inner().value();
+        return Lists.transform(this.inner().value(), new Function<MetricInner, Metric>() {
+            @Override
+            public Metric apply(MetricInner metricInner) {
+                return  new MetricImpl(metricInner);
+            }
+        });
     }
 }

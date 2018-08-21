@@ -86,7 +86,7 @@ public class MetricDefinitionInner {
     private List<LocalizableStringInner> dimensions;
 
     /**
-     * Get the isDimensionRequired value.
+     * Get flag to indicate whether the dimension is required.
      *
      * @return the isDimensionRequired value
      */
@@ -95,7 +95,7 @@ public class MetricDefinitionInner {
     }
 
     /**
-     * Set the isDimensionRequired value.
+     * Set flag to indicate whether the dimension is required.
      *
      * @param isDimensionRequired the isDimensionRequired value to set
      * @return the MetricDefinitionInner object itself.
@@ -106,7 +106,7 @@ public class MetricDefinitionInner {
     }
 
     /**
-     * Get the resourceId value.
+     * Get the resource identifier of the resource that emitted the metric.
      *
      * @return the resourceId value
      */
@@ -115,7 +115,7 @@ public class MetricDefinitionInner {
     }
 
     /**
-     * Set the resourceId value.
+     * Set the resource identifier of the resource that emitted the metric.
      *
      * @param resourceId the resourceId value to set
      * @return the MetricDefinitionInner object itself.
@@ -126,7 +126,7 @@ public class MetricDefinitionInner {
     }
 
     /**
-     * Get the namespace value.
+     * Get the namespace the metric blongs to.
      *
      * @return the namespace value
      */
@@ -135,7 +135,7 @@ public class MetricDefinitionInner {
     }
 
     /**
-     * Set the namespace value.
+     * Set the namespace the metric blongs to.
      *
      * @param namespace the namespace value to set
      * @return the MetricDefinitionInner object itself.
@@ -146,7 +146,7 @@ public class MetricDefinitionInner {
     }
 
     /**
-     * Get the name value.
+     * Get the name and the display name of the metric, i.e. it is a localizable string.
      *
      * @return the name value
      */
@@ -155,7 +155,7 @@ public class MetricDefinitionInner {
     }
 
     /**
-     * Set the name value.
+     * Set the name and the display name of the metric, i.e. it is a localizable string.
      *
      * @param name the name value to set
      * @return the MetricDefinitionInner object itself.
@@ -166,7 +166,7 @@ public class MetricDefinitionInner {
     }
 
     /**
-     * Get the unit value.
+     * Get the unit of the metric. Possible values include: 'Count', 'Bytes', 'Seconds', 'CountPerSecond', 'BytesPerSecond', 'Percent', 'MilliSeconds', 'ByteSeconds', 'Unspecified'.
      *
      * @return the unit value
      */
@@ -175,7 +175,7 @@ public class MetricDefinitionInner {
     }
 
     /**
-     * Set the unit value.
+     * Set the unit of the metric. Possible values include: 'Count', 'Bytes', 'Seconds', 'CountPerSecond', 'BytesPerSecond', 'Percent', 'MilliSeconds', 'ByteSeconds', 'Unspecified'.
      *
      * @param unit the unit value to set
      * @return the MetricDefinitionInner object itself.
@@ -186,7 +186,7 @@ public class MetricDefinitionInner {
     }
 
     /**
-     * Get the primaryAggregationType value.
+     * Get the primary aggregation type value defining how to use the values for display. Possible values include: 'None', 'Average', 'Count', 'Minimum', 'Maximum', 'Total'.
      *
      * @return the primaryAggregationType value
      */
@@ -195,7 +195,7 @@ public class MetricDefinitionInner {
     }
 
     /**
-     * Set the primaryAggregationType value.
+     * Set the primary aggregation type value defining how to use the values for display. Possible values include: 'None', 'Average', 'Count', 'Minimum', 'Maximum', 'Total'.
      *
      * @param primaryAggregationType the primaryAggregationType value to set
      * @return the MetricDefinitionInner object itself.
@@ -206,7 +206,7 @@ public class MetricDefinitionInner {
     }
 
     /**
-     * Get the supportedAggregationTypes value.
+     * Get the collection of what aggregation types are supported.
      *
      * @return the supportedAggregationTypes value
      */
@@ -215,7 +215,7 @@ public class MetricDefinitionInner {
     }
 
     /**
-     * Set the supportedAggregationTypes value.
+     * Set the collection of what aggregation types are supported.
      *
      * @param supportedAggregationTypes the supportedAggregationTypes value to set
      * @return the MetricDefinitionInner object itself.
@@ -226,7 +226,7 @@ public class MetricDefinitionInner {
     }
 
     /**
-     * Get the metricAvailabilities value.
+     * Get the collection of what aggregation intervals are available to be queried.
      *
      * @return the metricAvailabilities value
      */
@@ -235,7 +235,7 @@ public class MetricDefinitionInner {
     }
 
     /**
-     * Set the metricAvailabilities value.
+     * Set the collection of what aggregation intervals are available to be queried.
      *
      * @param metricAvailabilities the metricAvailabilities value to set
      * @return the MetricDefinitionInner object itself.
@@ -246,7 +246,7 @@ public class MetricDefinitionInner {
     }
 
     /**
-     * Get the id value.
+     * Get the resource identifier of the metric definition.
      *
      * @return the id value
      */
@@ -255,7 +255,7 @@ public class MetricDefinitionInner {
     }
 
     /**
-     * Set the id value.
+     * Set the resource identifier of the metric definition.
      *
      * @param id the id value to set
      * @return the MetricDefinitionInner object itself.
@@ -266,7 +266,7 @@ public class MetricDefinitionInner {
     }
 
     /**
-     * Get the dimensions value.
+     * Get the name and the display name of the dimension, i.e. it is a localizable string.
      *
      * @return the dimensions value
      */
@@ -275,7 +275,7 @@ public class MetricDefinitionInner {
     }
 
     /**
-     * Set the dimensions value.
+     * Set the name and the display name of the dimension, i.e. it is a localizable string.
      *
      * @param dimensions the dimensions value to set
      * @return the MetricDefinitionInner object itself.

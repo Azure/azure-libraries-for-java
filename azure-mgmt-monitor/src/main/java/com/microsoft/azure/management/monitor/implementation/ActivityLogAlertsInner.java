@@ -13,6 +13,7 @@ import com.microsoft.azure.management.resources.fluentcore.collection.InnerSuppo
 import com.microsoft.azure.management.resources.fluentcore.collection.InnerSupportsListing;
 import retrofit2.Retrofit;
 import com.google.common.reflect.TypeToken;
+import com.microsoft.azure.management.monitor.ActivityLogAlertPatchBody;
 import com.microsoft.azure.management.monitor.ErrorResponseException;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
@@ -76,7 +77,7 @@ public class ActivityLogAlertsInner implements InnerSupportsGet<ActivityLogAlert
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.monitor.ActivityLogAlerts update" })
         @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.insights/activityLogAlerts/{activityLogAlertName}")
-        Observable<Response<ResponseBody>> update(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("activityLogAlertName") String activityLogAlertName, @Query("api-version") String apiVersion, @Body ActivityLogAlertPatchBodyInner activityLogAlertPatch, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> update(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("activityLogAlertName") String activityLogAlertName, @Query("api-version") String apiVersion, @Body ActivityLogAlertPatchBody activityLogAlertPatch, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.monitor.ActivityLogAlerts list" })
         @GET("subscriptions/{subscriptionId}/providers/microsoft.insights/activityLogAlerts")
@@ -360,7 +361,7 @@ public class ActivityLogAlertsInner implements InnerSupportsGet<ActivityLogAlert
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the ActivityLogAlertResourceInner object if successful.
      */
-    public ActivityLogAlertResourceInner update(String resourceGroupName, String activityLogAlertName, ActivityLogAlertPatchBodyInner activityLogAlertPatch) {
+    public ActivityLogAlertResourceInner update(String resourceGroupName, String activityLogAlertName, ActivityLogAlertPatchBody activityLogAlertPatch) {
         return updateWithServiceResponseAsync(resourceGroupName, activityLogAlertName, activityLogAlertPatch).toBlocking().single().body();
     }
 
@@ -374,7 +375,7 @@ public class ActivityLogAlertsInner implements InnerSupportsGet<ActivityLogAlert
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<ActivityLogAlertResourceInner> updateAsync(String resourceGroupName, String activityLogAlertName, ActivityLogAlertPatchBodyInner activityLogAlertPatch, final ServiceCallback<ActivityLogAlertResourceInner> serviceCallback) {
+    public ServiceFuture<ActivityLogAlertResourceInner> updateAsync(String resourceGroupName, String activityLogAlertName, ActivityLogAlertPatchBody activityLogAlertPatch, final ServiceCallback<ActivityLogAlertResourceInner> serviceCallback) {
         return ServiceFuture.fromResponse(updateWithServiceResponseAsync(resourceGroupName, activityLogAlertName, activityLogAlertPatch), serviceCallback);
     }
 
@@ -387,7 +388,7 @@ public class ActivityLogAlertsInner implements InnerSupportsGet<ActivityLogAlert
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the ActivityLogAlertResourceInner object
      */
-    public Observable<ActivityLogAlertResourceInner> updateAsync(String resourceGroupName, String activityLogAlertName, ActivityLogAlertPatchBodyInner activityLogAlertPatch) {
+    public Observable<ActivityLogAlertResourceInner> updateAsync(String resourceGroupName, String activityLogAlertName, ActivityLogAlertPatchBody activityLogAlertPatch) {
         return updateWithServiceResponseAsync(resourceGroupName, activityLogAlertName, activityLogAlertPatch).map(new Func1<ServiceResponse<ActivityLogAlertResourceInner>, ActivityLogAlertResourceInner>() {
             @Override
             public ActivityLogAlertResourceInner call(ServiceResponse<ActivityLogAlertResourceInner> response) {
@@ -405,7 +406,7 @@ public class ActivityLogAlertsInner implements InnerSupportsGet<ActivityLogAlert
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the ActivityLogAlertResourceInner object
      */
-    public Observable<ServiceResponse<ActivityLogAlertResourceInner>> updateWithServiceResponseAsync(String resourceGroupName, String activityLogAlertName, ActivityLogAlertPatchBodyInner activityLogAlertPatch) {
+    public Observable<ServiceResponse<ActivityLogAlertResourceInner>> updateWithServiceResponseAsync(String resourceGroupName, String activityLogAlertName, ActivityLogAlertPatchBody activityLogAlertPatch) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
@@ -500,7 +501,11 @@ public class ActivityLogAlertsInner implements InnerSupportsGet<ActivityLogAlert
                 public Observable<ServiceResponse<List<ActivityLogAlertResourceInner>>> call(Response<ResponseBody> response) {
                     try {
                         ServiceResponse<PageImpl1<ActivityLogAlertResourceInner>> result = listDelegate(response);
-                        ServiceResponse<List<ActivityLogAlertResourceInner>> clientResponse = new ServiceResponse<List<ActivityLogAlertResourceInner>>(result.body().items(), result.response());
+                        List<ActivityLogAlertResourceInner> items = null;
+                        if (result.body() != null) {
+                            items = result.body().items();
+                        }
+                        ServiceResponse<List<ActivityLogAlertResourceInner>> clientResponse = new ServiceResponse<List<ActivityLogAlertResourceInner>>(items, result.response());
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -582,7 +587,11 @@ public class ActivityLogAlertsInner implements InnerSupportsGet<ActivityLogAlert
                 public Observable<ServiceResponse<List<ActivityLogAlertResourceInner>>> call(Response<ResponseBody> response) {
                     try {
                         ServiceResponse<PageImpl1<ActivityLogAlertResourceInner>> result = listByResourceGroupDelegate(response);
-                        ServiceResponse<List<ActivityLogAlertResourceInner>> clientResponse = new ServiceResponse<List<ActivityLogAlertResourceInner>>(result.body().items(), result.response());
+                        List<ActivityLogAlertResourceInner> items = null;
+                        if (result.body() != null) {
+                            items = result.body().items();
+                        }
+                        ServiceResponse<List<ActivityLogAlertResourceInner>> clientResponse = new ServiceResponse<List<ActivityLogAlertResourceInner>>(items, result.response());
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);

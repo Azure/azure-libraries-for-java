@@ -49,7 +49,7 @@ public class AutoscaleProfile {
     private Recurrence recurrence;
 
     /**
-     * Get the name value.
+     * Get the name of the profile.
      *
      * @return the name value
      */
@@ -58,7 +58,7 @@ public class AutoscaleProfile {
     }
 
     /**
-     * Set the name value.
+     * Set the name of the profile.
      *
      * @param name the name value to set
      * @return the AutoscaleProfile object itself.
@@ -69,7 +69,7 @@ public class AutoscaleProfile {
     }
 
     /**
-     * Get the capacity value.
+     * Get the number of instances that can be used during this profile.
      *
      * @return the capacity value
      */
@@ -78,7 +78,7 @@ public class AutoscaleProfile {
     }
 
     /**
-     * Set the capacity value.
+     * Set the number of instances that can be used during this profile.
      *
      * @param capacity the capacity value to set
      * @return the AutoscaleProfile object itself.
@@ -89,7 +89,7 @@ public class AutoscaleProfile {
     }
 
     /**
-     * Get the rules value.
+     * Get the collection of rules that provide the triggers and parameters for the scaling action. A maximum of 10 rules can be specified.
      *
      * @return the rules value
      */
@@ -98,7 +98,7 @@ public class AutoscaleProfile {
     }
 
     /**
-     * Set the rules value.
+     * Set the collection of rules that provide the triggers and parameters for the scaling action. A maximum of 10 rules can be specified.
      *
      * @param rules the rules value to set
      * @return the AutoscaleProfile object itself.
@@ -109,7 +109,7 @@ public class AutoscaleProfile {
     }
 
     /**
-     * Get the fixedDate value.
+     * Get the specific date-time for the profile. This element is not used if the Recurrence element is used.
      *
      * @return the fixedDate value
      */
@@ -118,7 +118,7 @@ public class AutoscaleProfile {
     }
 
     /**
-     * Set the fixedDate value.
+     * Set the specific date-time for the profile. This element is not used if the Recurrence element is used.
      *
      * @param fixedDate the fixedDate value to set
      * @return the AutoscaleProfile object itself.
@@ -129,7 +129,7 @@ public class AutoscaleProfile {
     }
 
     /**
-     * Get the recurrence value.
+     * Get the repeating times at which this profile begins. This element is not used if the FixedDate element is used.
      *
      * @return the recurrence value
      */
@@ -138,7 +138,7 @@ public class AutoscaleProfile {
     }
 
     /**
-     * Set the recurrence value.
+     * Set the repeating times at which this profile begins. This element is not used if the FixedDate element is used.
      *
      * @param recurrence the recurrence value to set
      * @return the AutoscaleProfile object itself.

@@ -28,7 +28,7 @@ public class ManagementEventRuleCondition extends RuleCondition {
     private ManagementEventAggregationCondition aggregation;
 
     /**
-     * Get the aggregation value.
+     * Get how the data that is collected should be combined over time and when the alert is activated. Note that for management event alerts aggregation is optional – if it is not provided then any event will cause the alert to activate.
      *
      * @return the aggregation value
      */
@@ -37,7 +37,7 @@ public class ManagementEventRuleCondition extends RuleCondition {
     }
 
     /**
-     * Set the aggregation value.
+     * Set how the data that is collected should be combined over time and when the alert is activated. Note that for management event alerts aggregation is optional – if it is not provided then any event will cause the alert to activate.
      *
      * @param aggregation the aggregation value to set
      * @return the ManagementEventRuleCondition object itself.

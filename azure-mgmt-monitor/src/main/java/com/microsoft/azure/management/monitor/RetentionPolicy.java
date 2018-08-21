@@ -28,7 +28,7 @@ public class RetentionPolicy {
     private int days;
 
     /**
-     * Get the enabled value.
+     * Get a value indicating whether the retention policy is enabled.
      *
      * @return the enabled value
      */
@@ -37,7 +37,7 @@ public class RetentionPolicy {
     }
 
     /**
-     * Set the enabled value.
+     * Set a value indicating whether the retention policy is enabled.
      *
      * @param enabled the enabled value to set
      * @return the RetentionPolicy object itself.
@@ -48,7 +48,7 @@ public class RetentionPolicy {
     }
 
     /**
-     * Get the days value.
+     * Get the number of days for the retention in days. A value of 0 will retain the events indefinitely.
      *
      * @return the days value
      */
@@ -57,7 +57,7 @@ public class RetentionPolicy {
     }
 
     /**
-     * Set the days value.
+     * Set the number of days for the retention in days. A value of 0 will retain the events indefinitely.
      *
      * @param days the days value to set
      * @return the RetentionPolicy object itself.

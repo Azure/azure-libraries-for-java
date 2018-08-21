@@ -15,6 +15,7 @@ import retrofit2.Retrofit;
 import com.google.common.reflect.TypeToken;
 import com.microsoft.azure.CloudException;
 import com.microsoft.azure.management.monitor.ErrorResponseException;
+import com.microsoft.azure.management.monitor.MetricAlertResourcePatch;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
 import com.microsoft.rest.ServiceCallback;
@@ -64,27 +65,27 @@ public class MetricAlertsInner implements InnerSupportsGet<MetricAlertResourceIn
      */
     interface MetricAlertsService {
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.monitor.MetricAlerts list" })
-        @GET("subscriptions/{subscriptionId}/providers/Microsoft.Insight/metricAlerts")
+        @GET("subscriptions/{subscriptionId}/providers/Microsoft.Insights/metricAlerts")
         Observable<Response<ResponseBody>> list(@Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.monitor.MetricAlerts listByResourceGroup" })
-        @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insight/metricAlerts")
+        @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/metricAlerts")
         Observable<Response<ResponseBody>> listByResourceGroup(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.monitor.MetricAlerts getByResourceGroup" })
-        @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insight/metricAlerts/{ruleName}")
+        @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/metricAlerts/{ruleName}")
         Observable<Response<ResponseBody>> getByResourceGroup(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("ruleName") String ruleName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.monitor.MetricAlerts createOrUpdate" })
-        @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insight/metricAlerts/{ruleName}")
+        @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/metricAlerts/{ruleName}")
         Observable<Response<ResponseBody>> createOrUpdate(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("ruleName") String ruleName, @Query("api-version") String apiVersion, @Body MetricAlertResourceInner parameters, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.monitor.MetricAlerts update" })
-        @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insight/metricAlerts/{ruleName}")
-        Observable<Response<ResponseBody>> update(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("ruleName") String ruleName, @Query("api-version") String apiVersion, @Body MetricAlertResourcePatchInner parameters, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/metricAlerts/{ruleName}")
+        Observable<Response<ResponseBody>> update(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("ruleName") String ruleName, @Query("api-version") String apiVersion, @Body MetricAlertResourcePatch parameters, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.monitor.MetricAlerts delete" })
-        @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insight/metricAlerts/{ruleName}", method = "DELETE", hasBody = true)
+        @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/metricAlerts/{ruleName}", method = "DELETE", hasBody = true)
         Observable<Response<ResponseBody>> delete(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("ruleName") String ruleName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
     }
@@ -148,7 +149,11 @@ public class MetricAlertsInner implements InnerSupportsGet<MetricAlertResourceIn
                 public Observable<ServiceResponse<List<MetricAlertResourceInner>>> call(Response<ResponseBody> response) {
                     try {
                         ServiceResponse<PageImpl1<MetricAlertResourceInner>> result = listDelegate(response);
-                        ServiceResponse<List<MetricAlertResourceInner>> clientResponse = new ServiceResponse<List<MetricAlertResourceInner>>(result.body().items(), result.response());
+                        List<MetricAlertResourceInner> items = null;
+                        if (result.body() != null) {
+                            items = result.body().items();
+                        }
+                        ServiceResponse<List<MetricAlertResourceInner>> clientResponse = new ServiceResponse<List<MetricAlertResourceInner>>(items, result.response());
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -230,7 +235,11 @@ public class MetricAlertsInner implements InnerSupportsGet<MetricAlertResourceIn
                 public Observable<ServiceResponse<List<MetricAlertResourceInner>>> call(Response<ResponseBody> response) {
                     try {
                         ServiceResponse<PageImpl1<MetricAlertResourceInner>> result = listByResourceGroupDelegate(response);
-                        ServiceResponse<List<MetricAlertResourceInner>> clientResponse = new ServiceResponse<List<MetricAlertResourceInner>>(result.body().items(), result.response());
+                        List<MetricAlertResourceInner> items = null;
+                        if (result.body() != null) {
+                            items = result.body().items();
+                        }
+                        ServiceResponse<List<MetricAlertResourceInner>> clientResponse = new ServiceResponse<List<MetricAlertResourceInner>>(items, result.response());
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -433,7 +442,7 @@ public class MetricAlertsInner implements InnerSupportsGet<MetricAlertResourceIn
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the MetricAlertResourceInner object if successful.
      */
-    public MetricAlertResourceInner update(String resourceGroupName, String ruleName, MetricAlertResourcePatchInner parameters) {
+    public MetricAlertResourceInner update(String resourceGroupName, String ruleName, MetricAlertResourcePatch parameters) {
         return updateWithServiceResponseAsync(resourceGroupName, ruleName, parameters).toBlocking().single().body();
     }
 
@@ -447,7 +456,7 @@ public class MetricAlertsInner implements InnerSupportsGet<MetricAlertResourceIn
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<MetricAlertResourceInner> updateAsync(String resourceGroupName, String ruleName, MetricAlertResourcePatchInner parameters, final ServiceCallback<MetricAlertResourceInner> serviceCallback) {
+    public ServiceFuture<MetricAlertResourceInner> updateAsync(String resourceGroupName, String ruleName, MetricAlertResourcePatch parameters, final ServiceCallback<MetricAlertResourceInner> serviceCallback) {
         return ServiceFuture.fromResponse(updateWithServiceResponseAsync(resourceGroupName, ruleName, parameters), serviceCallback);
     }
 
@@ -460,7 +469,7 @@ public class MetricAlertsInner implements InnerSupportsGet<MetricAlertResourceIn
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the MetricAlertResourceInner object
      */
-    public Observable<MetricAlertResourceInner> updateAsync(String resourceGroupName, String ruleName, MetricAlertResourcePatchInner parameters) {
+    public Observable<MetricAlertResourceInner> updateAsync(String resourceGroupName, String ruleName, MetricAlertResourcePatch parameters) {
         return updateWithServiceResponseAsync(resourceGroupName, ruleName, parameters).map(new Func1<ServiceResponse<MetricAlertResourceInner>, MetricAlertResourceInner>() {
             @Override
             public MetricAlertResourceInner call(ServiceResponse<MetricAlertResourceInner> response) {
@@ -478,7 +487,7 @@ public class MetricAlertsInner implements InnerSupportsGet<MetricAlertResourceIn
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the MetricAlertResourceInner object
      */
-    public Observable<ServiceResponse<MetricAlertResourceInner>> updateWithServiceResponseAsync(String resourceGroupName, String ruleName, MetricAlertResourcePatchInner parameters) {
+    public Observable<ServiceResponse<MetricAlertResourceInner>> updateWithServiceResponseAsync(String resourceGroupName, String ruleName, MetricAlertResourcePatch parameters) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }

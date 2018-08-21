@@ -52,7 +52,7 @@ public class AutomationRunbookReceiver {
     private String serviceUri;
 
     /**
-     * Get the automationAccountId value.
+     * Get the Azure automation account Id which holds this runbook and authenticate to Azure resource.
      *
      * @return the automationAccountId value
      */
@@ -61,7 +61,7 @@ public class AutomationRunbookReceiver {
     }
 
     /**
-     * Set the automationAccountId value.
+     * Set the Azure automation account Id which holds this runbook and authenticate to Azure resource.
      *
      * @param automationAccountId the automationAccountId value to set
      * @return the AutomationRunbookReceiver object itself.
@@ -72,7 +72,7 @@ public class AutomationRunbookReceiver {
     }
 
     /**
-     * Get the runbookName value.
+     * Get the name for this runbook.
      *
      * @return the runbookName value
      */
@@ -81,7 +81,7 @@ public class AutomationRunbookReceiver {
     }
 
     /**
-     * Set the runbookName value.
+     * Set the name for this runbook.
      *
      * @param runbookName the runbookName value to set
      * @return the AutomationRunbookReceiver object itself.
@@ -92,7 +92,7 @@ public class AutomationRunbookReceiver {
     }
 
     /**
-     * Get the webhookResourceId value.
+     * Get the resource id for webhook linked to this runbook.
      *
      * @return the webhookResourceId value
      */
@@ -101,7 +101,7 @@ public class AutomationRunbookReceiver {
     }
 
     /**
-     * Set the webhookResourceId value.
+     * Set the resource id for webhook linked to this runbook.
      *
      * @param webhookResourceId the webhookResourceId value to set
      * @return the AutomationRunbookReceiver object itself.
@@ -112,7 +112,7 @@ public class AutomationRunbookReceiver {
     }
 
     /**
-     * Get the isGlobalRunbook value.
+     * Get indicates whether this instance is global runbook.
      *
      * @return the isGlobalRunbook value
      */
@@ -121,7 +121,7 @@ public class AutomationRunbookReceiver {
     }
 
     /**
-     * Set the isGlobalRunbook value.
+     * Set indicates whether this instance is global runbook.
      *
      * @param isGlobalRunbook the isGlobalRunbook value to set
      * @return the AutomationRunbookReceiver object itself.
@@ -132,7 +132,7 @@ public class AutomationRunbookReceiver {
     }
 
     /**
-     * Get the name value.
+     * Get indicates name of the webhook.
      *
      * @return the name value
      */
@@ -141,7 +141,7 @@ public class AutomationRunbookReceiver {
     }
 
     /**
-     * Set the name value.
+     * Set indicates name of the webhook.
      *
      * @param name the name value to set
      * @return the AutomationRunbookReceiver object itself.
@@ -152,7 +152,7 @@ public class AutomationRunbookReceiver {
     }
 
     /**
-     * Get the serviceUri value.
+     * Get the URI where webhooks should be sent.
      *
      * @return the serviceUri value
      */
@@ -161,7 +161,7 @@ public class AutomationRunbookReceiver {
     }
 
     /**
-     * Set the serviceUri value.
+     * Set the URI where webhooks should be sent.
      *
      * @param serviceUri the serviceUri value to set
      * @return the AutomationRunbookReceiver object itself.

@@ -11,6 +11,7 @@ package com.microsoft.azure.management.monitor;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.databind.annotation.JsonTypeResolver;
 
 /**
  * The action that is performed when the alert rule becomes active, and when an
@@ -22,5 +23,6 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
     @JsonSubTypes.Type(name = "Microsoft.Azure.Management.Insights.Models.RuleEmailAction", value = RuleEmailAction.class),
     @JsonSubTypes.Type(name = "Microsoft.Azure.Management.Insights.Models.RuleWebhookAction", value = RuleWebhookAction.class)
 })
+@JsonTypeResolver(OdataTypeDiscriminatorTypeResolver.class)
 public class RuleAction {
 }

@@ -28,7 +28,7 @@ public class WebhookNotification {
     private Map<String, String> properties;
 
     /**
-     * Get the serviceUri value.
+     * Get the service address to receive the notification.
      *
      * @return the serviceUri value
      */
@@ -37,7 +37,7 @@ public class WebhookNotification {
     }
 
     /**
-     * Set the serviceUri value.
+     * Set the service address to receive the notification.
      *
      * @param serviceUri the serviceUri value to set
      * @return the WebhookNotification object itself.
@@ -48,7 +48,7 @@ public class WebhookNotification {
     }
 
     /**
-     * Get the properties value.
+     * Get a property bag of settings. This value can be empty.
      *
      * @return the properties value
      */
@@ -57,7 +57,7 @@ public class WebhookNotification {
     }
 
     /**
-     * Set the properties value.
+     * Set a property bag of settings. This value can be empty.
      *
      * @param properties the properties value to set
      * @return the WebhookNotification object itself.

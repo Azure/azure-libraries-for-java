@@ -21,7 +21,7 @@ public class EnableRequest {
     private String receiverName;
 
     /**
-     * Get the receiverName value.
+     * Get the name of the receiver to resubscribe.
      *
      * @return the receiverName value
      */
@@ -30,7 +30,7 @@ public class EnableRequest {
     }
 
     /**
-     * Set the receiverName value.
+     * Set the name of the receiver to resubscribe.
      *
      * @param receiverName the receiverName value to set
      * @return the EnableRequest object itself.

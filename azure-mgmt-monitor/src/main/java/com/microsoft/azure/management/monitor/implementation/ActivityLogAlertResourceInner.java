@@ -54,7 +54,7 @@ public class ActivityLogAlertResourceInner extends Resource {
     private String description;
 
     /**
-     * Get the scopes value.
+     * Get a list of resourceIds that will be used as prefixes. The alert will only apply to activityLogs with resourceIds that fall under one of these prefixes. This list must include at least one item.
      *
      * @return the scopes value
      */
@@ -63,7 +63,7 @@ public class ActivityLogAlertResourceInner extends Resource {
     }
 
     /**
-     * Set the scopes value.
+     * Set a list of resourceIds that will be used as prefixes. The alert will only apply to activityLogs with resourceIds that fall under one of these prefixes. This list must include at least one item.
      *
      * @param scopes the scopes value to set
      * @return the ActivityLogAlertResourceInner object itself.
@@ -74,7 +74,7 @@ public class ActivityLogAlertResourceInner extends Resource {
     }
 
     /**
-     * Get the enabled value.
+     * Get indicates whether this activity log alert is enabled. If an activity log alert is not enabled, then none of its actions will be activated.
      *
      * @return the enabled value
      */
@@ -83,7 +83,7 @@ public class ActivityLogAlertResourceInner extends Resource {
     }
 
     /**
-     * Set the enabled value.
+     * Set indicates whether this activity log alert is enabled. If an activity log alert is not enabled, then none of its actions will be activated.
      *
      * @param enabled the enabled value to set
      * @return the ActivityLogAlertResourceInner object itself.
@@ -94,7 +94,7 @@ public class ActivityLogAlertResourceInner extends Resource {
     }
 
     /**
-     * Get the condition value.
+     * Get the condition that will cause this alert to activate.
      *
      * @return the condition value
      */
@@ -103,7 +103,7 @@ public class ActivityLogAlertResourceInner extends Resource {
     }
 
     /**
-     * Set the condition value.
+     * Set the condition that will cause this alert to activate.
      *
      * @param condition the condition value to set
      * @return the ActivityLogAlertResourceInner object itself.
@@ -114,7 +114,7 @@ public class ActivityLogAlertResourceInner extends Resource {
     }
 
     /**
-     * Get the actions value.
+     * Get the actions that will activate when the condition is met.
      *
      * @return the actions value
      */
@@ -123,7 +123,7 @@ public class ActivityLogAlertResourceInner extends Resource {
     }
 
     /**
-     * Set the actions value.
+     * Set the actions that will activate when the condition is met.
      *
      * @param actions the actions value to set
      * @return the ActivityLogAlertResourceInner object itself.
@@ -134,7 +134,7 @@ public class ActivityLogAlertResourceInner extends Resource {
     }
 
     /**
-     * Get the description value.
+     * Get a description of this activity log alert.
      *
      * @return the description value
      */
@@ -143,7 +143,7 @@ public class ActivityLogAlertResourceInner extends Resource {
     }
 
     /**
-     * Set the description value.
+     * Set a description of this activity log alert.
      *
      * @param description the description value to set
      * @return the ActivityLogAlertResourceInner object itself.

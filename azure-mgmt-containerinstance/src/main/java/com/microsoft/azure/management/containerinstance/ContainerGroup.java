@@ -7,6 +7,7 @@ package com.microsoft.azure.management.containerinstance;
 
 import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
+import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.management.containerinstance.implementation.ContainerGroupInner;
 import com.microsoft.azure.management.containerinstance.implementation.ContainerInstanceManager;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
@@ -127,6 +128,7 @@ public interface ContainerGroup extends
      * Restarts all containers in a container group in place. If container image has updates, new image will be downloaded.
      */
     @Beta(Beta.SinceVersion.V1_15_0)
+    @Method
     void restart();
 
     /**
@@ -135,12 +137,14 @@ public interface ContainerGroup extends
      * @return a representation of the deferred computation of this call
      */
     @Beta(Beta.SinceVersion.V1_15_0)
+    @Method
     Completable restartAsync();
 
     /**
      * Stops all containers in a container group. Compute resources will be de-allocated and billing will stop.
      */
     @Beta(Beta.SinceVersion.V1_15_0)
+    @Method
     void stop();
 
     /**
@@ -149,6 +153,7 @@ public interface ContainerGroup extends
      * @return a representation of the deferred computation of this call
      */
     @Beta(Beta.SinceVersion.V1_15_0)
+    @Method
     Completable stopAsync();
 
     /**

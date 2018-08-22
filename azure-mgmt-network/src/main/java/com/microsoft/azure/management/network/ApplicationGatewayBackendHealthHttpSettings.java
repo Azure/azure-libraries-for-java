@@ -29,7 +29,7 @@ public class ApplicationGatewayBackendHealthHttpSettings {
     private List<ApplicationGatewayBackendHealthServer> servers;
 
     /**
-     * Get the backendHttpSettings value.
+     * Get reference of an ApplicationGatewayBackendHttpSettings resource.
      *
      * @return the backendHttpSettings value
      */
@@ -38,7 +38,7 @@ public class ApplicationGatewayBackendHealthHttpSettings {
     }
 
     /**
-     * Set the backendHttpSettings value.
+     * Set reference of an ApplicationGatewayBackendHttpSettings resource.
      *
      * @param backendHttpSettings the backendHttpSettings value to set
      * @return the ApplicationGatewayBackendHealthHttpSettings object itself.
@@ -49,7 +49,7 @@ public class ApplicationGatewayBackendHealthHttpSettings {
     }
 
     /**
-     * Get the servers value.
+     * Get list of ApplicationGatewayBackendHealthServer resources.
      *
      * @return the servers value
      */
@@ -58,7 +58,7 @@ public class ApplicationGatewayBackendHealthHttpSettings {
     }
 
     /**
-     * Set the servers value.
+     * Set list of ApplicationGatewayBackendHealthServer resources.
      *
      * @param servers the servers value to set
      * @return the ApplicationGatewayBackendHealthHttpSettings object itself.

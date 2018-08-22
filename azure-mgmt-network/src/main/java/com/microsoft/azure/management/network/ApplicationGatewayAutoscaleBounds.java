@@ -28,7 +28,7 @@ public class ApplicationGatewayAutoscaleBounds {
     private int max;
 
     /**
-     * Get the min value.
+     * Get lower bound on number of Application Gateway instances.
      *
      * @return the min value
      */
@@ -37,7 +37,7 @@ public class ApplicationGatewayAutoscaleBounds {
     }
 
     /**
-     * Set the min value.
+     * Set lower bound on number of Application Gateway instances.
      *
      * @param min the min value to set
      * @return the ApplicationGatewayAutoscaleBounds object itself.
@@ -48,7 +48,7 @@ public class ApplicationGatewayAutoscaleBounds {
     }
 
     /**
-     * Get the max value.
+     * Get upper bound on number of Application Gateway instances.
      *
      * @return the max value
      */
@@ -57,7 +57,7 @@ public class ApplicationGatewayAutoscaleBounds {
     }
 
     /**
-     * Set the max value.
+     * Set upper bound on number of Application Gateway instances.
      *
      * @param max the max value to set
      * @return the ApplicationGatewayAutoscaleBounds object itself.

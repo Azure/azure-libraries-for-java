@@ -60,7 +60,7 @@ public class AzureFirewallInner extends Resource {
     private String id;
 
     /**
-     * Get the applicationRuleCollections value.
+     * Get collection of application rule collections used by a Azure Firewall.
      *
      * @return the applicationRuleCollections value
      */
@@ -69,7 +69,7 @@ public class AzureFirewallInner extends Resource {
     }
 
     /**
-     * Set the applicationRuleCollections value.
+     * Set collection of application rule collections used by a Azure Firewall.
      *
      * @param applicationRuleCollections the applicationRuleCollections value to set
      * @return the AzureFirewallInner object itself.
@@ -80,7 +80,7 @@ public class AzureFirewallInner extends Resource {
     }
 
     /**
-     * Get the networkRuleCollections value.
+     * Get collection of network rule collections used by a Azure Firewall.
      *
      * @return the networkRuleCollections value
      */
@@ -89,7 +89,7 @@ public class AzureFirewallInner extends Resource {
     }
 
     /**
-     * Set the networkRuleCollections value.
+     * Set collection of network rule collections used by a Azure Firewall.
      *
      * @param networkRuleCollections the networkRuleCollections value to set
      * @return the AzureFirewallInner object itself.
@@ -100,7 +100,7 @@ public class AzureFirewallInner extends Resource {
     }
 
     /**
-     * Get the ipConfigurations value.
+     * Get iP configuration of the Azure Firewall resource.
      *
      * @return the ipConfigurations value
      */
@@ -109,7 +109,7 @@ public class AzureFirewallInner extends Resource {
     }
 
     /**
-     * Set the ipConfigurations value.
+     * Set iP configuration of the Azure Firewall resource.
      *
      * @param ipConfigurations the ipConfigurations value to set
      * @return the AzureFirewallInner object itself.
@@ -120,7 +120,7 @@ public class AzureFirewallInner extends Resource {
     }
 
     /**
-     * Get the provisioningState value.
+     * Get the provisioning state of the resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      *
      * @return the provisioningState value
      */
@@ -129,7 +129,7 @@ public class AzureFirewallInner extends Resource {
     }
 
     /**
-     * Set the provisioningState value.
+     * Set the provisioning state of the resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      *
      * @param provisioningState the provisioningState value to set
      * @return the AzureFirewallInner object itself.
@@ -140,7 +140,7 @@ public class AzureFirewallInner extends Resource {
     }
 
     /**
-     * Get the etag value.
+     * Get gets a unique read-only string that changes whenever the resource is updated.
      *
      * @return the etag value
      */
@@ -149,7 +149,7 @@ public class AzureFirewallInner extends Resource {
     }
 
     /**
-     * Get the id value.
+     * Get resource ID.
      *
      * @return the id value
      */
@@ -158,7 +158,7 @@ public class AzureFirewallInner extends Resource {
     }
 
     /**
-     * Set the id value.
+     * Set resource ID.
      *
      * @param id the id value to set
      * @return the AzureFirewallInner object itself.

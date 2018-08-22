@@ -140,7 +140,7 @@ public class HubVirtualNetworkConnectionsInner {
         if (connectionName == null) {
             throw new IllegalArgumentException("Parameter connectionName is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-08-01";
         return service.get(this.client.subscriptionId(), resourceGroupName, virtualHubName, connectionName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<HubVirtualNetworkConnectionInner>>>() {
                 @Override
@@ -261,7 +261,7 @@ public class HubVirtualNetworkConnectionsInner {
         if (virtualHubName == null) {
             throw new IllegalArgumentException("Parameter virtualHubName is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-08-01";
         return service.list(this.client.subscriptionId(), resourceGroupName, virtualHubName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<HubVirtualNetworkConnectionInner>>>>() {
                 @Override

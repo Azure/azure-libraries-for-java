@@ -21,7 +21,7 @@ public class ApplicationGatewayAutoscaleConfiguration {
     private ApplicationGatewayAutoscaleBounds bounds;
 
     /**
-     * Get the bounds value.
+     * Get autoscale bounds.
      *
      * @return the bounds value
      */
@@ -30,7 +30,7 @@ public class ApplicationGatewayAutoscaleConfiguration {
     }
 
     /**
-     * Set the bounds value.
+     * Set autoscale bounds.
      *
      * @param bounds the bounds value to set
      * @return the ApplicationGatewayAutoscaleConfiguration object itself.

@@ -61,7 +61,7 @@ public class VirtualWANInner extends Resource {
     private String id;
 
     /**
-     * Get the disableVpnEncryption value.
+     * Get vpn encryption to be disabled or not.
      *
      * @return the disableVpnEncryption value
      */
@@ -70,7 +70,7 @@ public class VirtualWANInner extends Resource {
     }
 
     /**
-     * Set the disableVpnEncryption value.
+     * Set vpn encryption to be disabled or not.
      *
      * @param disableVpnEncryption the disableVpnEncryption value to set
      * @return the VirtualWANInner object itself.
@@ -81,7 +81,7 @@ public class VirtualWANInner extends Resource {
     }
 
     /**
-     * Get the virtualHubs value.
+     * Get list of VirtualHubs in the VirtualWAN.
      *
      * @return the virtualHubs value
      */
@@ -99,7 +99,7 @@ public class VirtualWANInner extends Resource {
     }
 
     /**
-     * Get the provisioningState value.
+     * Get the provisioning state of the resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      *
      * @return the provisioningState value
      */
@@ -108,7 +108,7 @@ public class VirtualWANInner extends Resource {
     }
 
     /**
-     * Set the provisioningState value.
+     * Set the provisioning state of the resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      *
      * @param provisioningState the provisioningState value to set
      * @return the VirtualWANInner object itself.
@@ -119,7 +119,7 @@ public class VirtualWANInner extends Resource {
     }
 
     /**
-     * Get the etag value.
+     * Get gets a unique read-only string that changes whenever the resource is updated.
      *
      * @return the etag value
      */
@@ -128,7 +128,7 @@ public class VirtualWANInner extends Resource {
     }
 
     /**
-     * Get the id value.
+     * Get resource ID.
      *
      * @return the id value
      */
@@ -137,7 +137,7 @@ public class VirtualWANInner extends Resource {
     }
 
     /**
-     * Set the id value.
+     * Set resource ID.
      *
      * @param id the id value to set
      * @return the VirtualWANInner object itself.

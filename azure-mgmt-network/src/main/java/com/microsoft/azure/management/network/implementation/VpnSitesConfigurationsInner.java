@@ -133,7 +133,7 @@ public class VpnSitesConfigurationsInner {
             throw new IllegalArgumentException("Parameter request is required and cannot be null.");
         }
         Validator.validate(request);
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-08-01";
         Observable<Response<ResponseBody>> observable = service.download(this.client.subscriptionId(), resourceGroupName, virtualWANName, request, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
     }
@@ -207,7 +207,7 @@ public class VpnSitesConfigurationsInner {
             throw new IllegalArgumentException("Parameter request is required and cannot be null.");
         }
         Validator.validate(request);
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-08-01";
         return service.beginDownload(this.client.subscriptionId(), resourceGroupName, virtualWANName, request, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override

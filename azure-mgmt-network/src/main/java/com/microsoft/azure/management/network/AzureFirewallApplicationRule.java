@@ -46,7 +46,7 @@ public class AzureFirewallApplicationRule {
     private List<String> targetUrls;
 
     /**
-     * Get the name value.
+     * Get name of the application rule.
      *
      * @return the name value
      */
@@ -55,7 +55,7 @@ public class AzureFirewallApplicationRule {
     }
 
     /**
-     * Set the name value.
+     * Set name of the application rule.
      *
      * @param name the name value to set
      * @return the AzureFirewallApplicationRule object itself.
@@ -66,7 +66,7 @@ public class AzureFirewallApplicationRule {
     }
 
     /**
-     * Get the description value.
+     * Get description of the rule.
      *
      * @return the description value
      */
@@ -75,7 +75,7 @@ public class AzureFirewallApplicationRule {
     }
 
     /**
-     * Set the description value.
+     * Set description of the rule.
      *
      * @param description the description value to set
      * @return the AzureFirewallApplicationRule object itself.
@@ -86,7 +86,7 @@ public class AzureFirewallApplicationRule {
     }
 
     /**
-     * Get the sourceAddresses value.
+     * Get list of source IP addresses for this rule.
      *
      * @return the sourceAddresses value
      */
@@ -95,7 +95,7 @@ public class AzureFirewallApplicationRule {
     }
 
     /**
-     * Set the sourceAddresses value.
+     * Set list of source IP addresses for this rule.
      *
      * @param sourceAddresses the sourceAddresses value to set
      * @return the AzureFirewallApplicationRule object itself.
@@ -106,7 +106,7 @@ public class AzureFirewallApplicationRule {
     }
 
     /**
-     * Get the protocols value.
+     * Get array of ApplicationRuleProtocols.
      *
      * @return the protocols value
      */
@@ -115,7 +115,7 @@ public class AzureFirewallApplicationRule {
     }
 
     /**
-     * Set the protocols value.
+     * Set array of ApplicationRuleProtocols.
      *
      * @param protocols the protocols value to set
      * @return the AzureFirewallApplicationRule object itself.
@@ -126,7 +126,7 @@ public class AzureFirewallApplicationRule {
     }
 
     /**
-     * Get the targetUrls value.
+     * Get list of URLs for this rule.
      *
      * @return the targetUrls value
      */
@@ -135,7 +135,7 @@ public class AzureFirewallApplicationRule {
     }
 
     /**
-     * Set the targetUrls value.
+     * Set list of URLs for this rule.
      *
      * @param targetUrls the targetUrls value to set
      * @return the AzureFirewallApplicationRule object itself.

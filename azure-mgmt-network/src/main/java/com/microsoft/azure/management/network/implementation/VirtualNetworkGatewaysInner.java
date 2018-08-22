@@ -265,7 +265,7 @@ public class VirtualNetworkGatewaysInner implements InnerSupportsGet<VirtualNetw
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-08-01";
         Observable<Response<ResponseBody>> observable = service.createOrUpdate(resourceGroupName, virtualNetworkGatewayName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<VirtualNetworkGatewayInner>() { }.getType());
     }
@@ -340,7 +340,7 @@ public class VirtualNetworkGatewaysInner implements InnerSupportsGet<VirtualNetw
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-08-01";
         return service.beginCreateOrUpdate(resourceGroupName, virtualNetworkGatewayName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<VirtualNetworkGatewayInner>>>() {
                 @Override
@@ -425,7 +425,7 @@ public class VirtualNetworkGatewaysInner implements InnerSupportsGet<VirtualNetw
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-08-01";
         return service.getByResourceGroup(resourceGroupName, virtualNetworkGatewayName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<VirtualNetworkGatewayInner>>>() {
                 @Override
@@ -508,7 +508,7 @@ public class VirtualNetworkGatewaysInner implements InnerSupportsGet<VirtualNetw
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-08-01";
         Observable<Response<ResponseBody>> observable = service.delete(resourceGroupName, virtualNetworkGatewayName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
     }
@@ -574,7 +574,7 @@ public class VirtualNetworkGatewaysInner implements InnerSupportsGet<VirtualNetw
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-08-01";
         return service.beginDelete(resourceGroupName, virtualNetworkGatewayName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
@@ -660,7 +660,7 @@ public class VirtualNetworkGatewaysInner implements InnerSupportsGet<VirtualNetw
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-08-01";
         final Map<String, String> tags = null;
         TagsObject parameters = new TagsObject();
         parameters.withTags(null);
@@ -734,7 +734,7 @@ public class VirtualNetworkGatewaysInner implements InnerSupportsGet<VirtualNetw
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         Validator.validate(tags);
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-08-01";
         TagsObject parameters = new TagsObject();
         parameters.withTags(tags);
         Observable<Response<ResponseBody>> observable = service.updateTags(resourceGroupName, virtualNetworkGatewayName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent());
@@ -803,7 +803,7 @@ public class VirtualNetworkGatewaysInner implements InnerSupportsGet<VirtualNetw
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-08-01";
         final Map<String, String> tags = null;
         TagsObject parameters = new TagsObject();
         parameters.withTags(null);
@@ -888,7 +888,7 @@ public class VirtualNetworkGatewaysInner implements InnerSupportsGet<VirtualNetw
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         Validator.validate(tags);
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-08-01";
         TagsObject parameters = new TagsObject();
         parameters.withTags(tags);
         return service.beginUpdateTags(resourceGroupName, virtualNetworkGatewayName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent())
@@ -1003,7 +1003,7 @@ public class VirtualNetworkGatewaysInner implements InnerSupportsGet<VirtualNetw
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-08-01";
         return service.listByResourceGroup(resourceGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<VirtualNetworkGatewayInner>>>>() {
                 @Override
@@ -1124,7 +1124,7 @@ public class VirtualNetworkGatewaysInner implements InnerSupportsGet<VirtualNetw
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-08-01";
         return service.listConnections(resourceGroupName, virtualNetworkGatewayName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<VirtualNetworkGatewayConnectionListEntityInner>>>>() {
                 @Override
@@ -1208,7 +1208,7 @@ public class VirtualNetworkGatewaysInner implements InnerSupportsGet<VirtualNetw
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-08-01";
         final String gatewayVip = null;
         Observable<Response<ResponseBody>> observable = service.reset(resourceGroupName, virtualNetworkGatewayName, this.client.subscriptionId(), gatewayVip, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<VirtualNetworkGatewayInner>() { }.getType());
@@ -1279,7 +1279,7 @@ public class VirtualNetworkGatewaysInner implements InnerSupportsGet<VirtualNetw
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-08-01";
         Observable<Response<ResponseBody>> observable = service.reset(resourceGroupName, virtualNetworkGatewayName, this.client.subscriptionId(), gatewayVip, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<VirtualNetworkGatewayInner>() { }.getType());
     }
@@ -1346,7 +1346,7 @@ public class VirtualNetworkGatewaysInner implements InnerSupportsGet<VirtualNetw
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-08-01";
         final String gatewayVip = null;
         return service.beginReset(resourceGroupName, virtualNetworkGatewayName, this.client.subscriptionId(), gatewayVip, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<VirtualNetworkGatewayInner>>>() {
@@ -1428,7 +1428,7 @@ public class VirtualNetworkGatewaysInner implements InnerSupportsGet<VirtualNetw
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-08-01";
         return service.beginReset(resourceGroupName, virtualNetworkGatewayName, this.client.subscriptionId(), gatewayVip, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<VirtualNetworkGatewayInner>>>() {
                 @Override
@@ -1521,7 +1521,7 @@ public class VirtualNetworkGatewaysInner implements InnerSupportsGet<VirtualNetw
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-08-01";
         Observable<Response<ResponseBody>> observable = service.generatevpnclientpackage(resourceGroupName, virtualNetworkGatewayName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<String>() { }.getType());
     }
@@ -1596,7 +1596,7 @@ public class VirtualNetworkGatewaysInner implements InnerSupportsGet<VirtualNetw
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-08-01";
         return service.beginGeneratevpnclientpackage(resourceGroupName, virtualNetworkGatewayName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<String>>>() {
                 @Override
@@ -1688,7 +1688,7 @@ public class VirtualNetworkGatewaysInner implements InnerSupportsGet<VirtualNetw
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-08-01";
         Observable<Response<ResponseBody>> observable = service.generateVpnProfile(resourceGroupName, virtualNetworkGatewayName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<String>() { }.getType());
     }
@@ -1763,7 +1763,7 @@ public class VirtualNetworkGatewaysInner implements InnerSupportsGet<VirtualNetw
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-08-01";
         return service.beginGenerateVpnProfile(resourceGroupName, virtualNetworkGatewayName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<String>>>() {
                 @Override
@@ -1848,7 +1848,7 @@ public class VirtualNetworkGatewaysInner implements InnerSupportsGet<VirtualNetw
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-08-01";
         Observable<Response<ResponseBody>> observable = service.getVpnProfilePackageUrl(resourceGroupName, virtualNetworkGatewayName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<String>() { }.getType());
     }
@@ -1915,7 +1915,7 @@ public class VirtualNetworkGatewaysInner implements InnerSupportsGet<VirtualNetw
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-08-01";
         return service.beginGetVpnProfilePackageUrl(resourceGroupName, virtualNetworkGatewayName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<String>>>() {
                 @Override
@@ -2000,7 +2000,7 @@ public class VirtualNetworkGatewaysInner implements InnerSupportsGet<VirtualNetw
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-08-01";
         final String peer = null;
         Observable<Response<ResponseBody>> observable = service.getBgpPeerStatus(resourceGroupName, virtualNetworkGatewayName, this.client.subscriptionId(), peer, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<BgpPeerStatusListResultInner>() { }.getType());
@@ -2071,7 +2071,7 @@ public class VirtualNetworkGatewaysInner implements InnerSupportsGet<VirtualNetw
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-08-01";
         Observable<Response<ResponseBody>> observable = service.getBgpPeerStatus(resourceGroupName, virtualNetworkGatewayName, this.client.subscriptionId(), peer, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<BgpPeerStatusListResultInner>() { }.getType());
     }
@@ -2138,7 +2138,7 @@ public class VirtualNetworkGatewaysInner implements InnerSupportsGet<VirtualNetw
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-08-01";
         final String peer = null;
         return service.beginGetBgpPeerStatus(resourceGroupName, virtualNetworkGatewayName, this.client.subscriptionId(), peer, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<BgpPeerStatusListResultInner>>>() {
@@ -2220,7 +2220,7 @@ public class VirtualNetworkGatewaysInner implements InnerSupportsGet<VirtualNetw
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-08-01";
         return service.beginGetBgpPeerStatus(resourceGroupName, virtualNetworkGatewayName, this.client.subscriptionId(), peer, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<BgpPeerStatusListResultInner>>>() {
                 @Override
@@ -2305,7 +2305,7 @@ public class VirtualNetworkGatewaysInner implements InnerSupportsGet<VirtualNetw
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-08-01";
         return service.supportedVpnDevices(resourceGroupName, virtualNetworkGatewayName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<String>>>() {
                 @Override
@@ -2389,7 +2389,7 @@ public class VirtualNetworkGatewaysInner implements InnerSupportsGet<VirtualNetw
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-08-01";
         Observable<Response<ResponseBody>> observable = service.getLearnedRoutes(resourceGroupName, virtualNetworkGatewayName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<GatewayRouteListResultInner>() { }.getType());
     }
@@ -2456,7 +2456,7 @@ public class VirtualNetworkGatewaysInner implements InnerSupportsGet<VirtualNetw
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-08-01";
         return service.beginGetLearnedRoutes(resourceGroupName, virtualNetworkGatewayName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<GatewayRouteListResultInner>>>() {
                 @Override
@@ -2548,7 +2548,7 @@ public class VirtualNetworkGatewaysInner implements InnerSupportsGet<VirtualNetw
         if (peer == null) {
             throw new IllegalArgumentException("Parameter peer is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-08-01";
         Observable<Response<ResponseBody>> observable = service.getAdvertisedRoutes(resourceGroupName, virtualNetworkGatewayName, this.client.subscriptionId(), peer, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<GatewayRouteListResultInner>() { }.getType());
     }
@@ -2622,7 +2622,7 @@ public class VirtualNetworkGatewaysInner implements InnerSupportsGet<VirtualNetw
         if (peer == null) {
             throw new IllegalArgumentException("Parameter peer is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-08-01";
         return service.beginGetAdvertisedRoutes(resourceGroupName, virtualNetworkGatewayName, this.client.subscriptionId(), peer, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<GatewayRouteListResultInner>>>() {
                 @Override
@@ -2715,7 +2715,7 @@ public class VirtualNetworkGatewaysInner implements InnerSupportsGet<VirtualNetw
             throw new IllegalArgumentException("Parameter vpnclientIpsecParams is required and cannot be null.");
         }
         Validator.validate(vpnclientIpsecParams);
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-08-01";
         Observable<Response<ResponseBody>> observable = service.setVpnclientIpsecParameters(resourceGroupName, virtualNetworkGatewayName, this.client.subscriptionId(), vpnclientIpsecParams, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<VpnClientIPsecParametersInner>() { }.getType());
     }
@@ -2790,7 +2790,7 @@ public class VirtualNetworkGatewaysInner implements InnerSupportsGet<VirtualNetw
             throw new IllegalArgumentException("Parameter vpnclientIpsecParams is required and cannot be null.");
         }
         Validator.validate(vpnclientIpsecParams);
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-08-01";
         return service.beginSetVpnclientIpsecParameters(resourceGroupName, virtualNetworkGatewayName, this.client.subscriptionId(), vpnclientIpsecParams, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<VpnClientIPsecParametersInner>>>() {
                 @Override
@@ -2875,7 +2875,7 @@ public class VirtualNetworkGatewaysInner implements InnerSupportsGet<VirtualNetw
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-08-01";
         Observable<Response<ResponseBody>> observable = service.getVpnclientIpsecParameters(resourceGroupName, virtualNetworkGatewayName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<VpnClientIPsecParametersInner>() { }.getType());
     }
@@ -2942,7 +2942,7 @@ public class VirtualNetworkGatewaysInner implements InnerSupportsGet<VirtualNetw
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-08-01";
         return service.beginGetVpnclientIpsecParameters(resourceGroupName, virtualNetworkGatewayName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<VpnClientIPsecParametersInner>>>() {
                 @Override
@@ -3034,7 +3034,7 @@ public class VirtualNetworkGatewaysInner implements InnerSupportsGet<VirtualNetw
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-08-01";
         return service.vpnDeviceConfigurationScript(resourceGroupName, virtualNetworkGatewayConnectionName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<String>>>() {
                 @Override

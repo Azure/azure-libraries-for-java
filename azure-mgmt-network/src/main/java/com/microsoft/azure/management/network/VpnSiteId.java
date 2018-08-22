@@ -21,7 +21,7 @@ public class VpnSiteId {
     private String vpnSite;
 
     /**
-     * Get the vpnSite value.
+     * Get the resource-uri of the vpn-site for which config is to be fetched.
      *
      * @return the vpnSite value
      */

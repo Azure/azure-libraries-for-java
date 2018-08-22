@@ -14,6 +14,7 @@ import com.microsoft.azure.management.network.IPVersion;
 import com.microsoft.azure.management.network.PublicIPAddressDnsSettings;
 import java.util.List;
 import com.microsoft.azure.management.network.IpTag;
+import com.microsoft.azure.SubResource;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 import com.microsoft.rest.SkipParentValidation;
@@ -70,6 +71,12 @@ public class PublicIPAddressInner extends Resource {
     private String ipAddress;
 
     /**
+     * The Public IP Prefix this Public IP Address should be allocated from.
+     */
+    @JsonProperty(value = "properties.publicIPPrefix")
+    private SubResource publicIPPrefix;
+
+    /**
      * The idle timeout of the public IP address.
      */
     @JsonProperty(value = "properties.idleTimeoutInMinutes")
@@ -108,7 +115,7 @@ public class PublicIPAddressInner extends Resource {
     private String id;
 
     /**
-     * Get the sku value.
+     * Get the public IP address SKU.
      *
      * @return the sku value
      */
@@ -117,7 +124,7 @@ public class PublicIPAddressInner extends Resource {
     }
 
     /**
-     * Set the sku value.
+     * Set the public IP address SKU.
      *
      * @param sku the sku value to set
      * @return the PublicIPAddressInner object itself.
@@ -128,7 +135,7 @@ public class PublicIPAddressInner extends Resource {
     }
 
     /**
-     * Get the publicIPAllocationMethod value.
+     * Get the public IP allocation method. Possible values are: 'Static' and 'Dynamic'. Possible values include: 'Static', 'Dynamic'.
      *
      * @return the publicIPAllocationMethod value
      */
@@ -137,7 +144,7 @@ public class PublicIPAddressInner extends Resource {
     }
 
     /**
-     * Set the publicIPAllocationMethod value.
+     * Set the public IP allocation method. Possible values are: 'Static' and 'Dynamic'. Possible values include: 'Static', 'Dynamic'.
      *
      * @param publicIPAllocationMethod the publicIPAllocationMethod value to set
      * @return the PublicIPAddressInner object itself.
@@ -148,7 +155,7 @@ public class PublicIPAddressInner extends Resource {
     }
 
     /**
-     * Get the publicIPAddressVersion value.
+     * Get the public IP address version. Possible values are: 'IPv4' and 'IPv6'. Possible values include: 'IPv4', 'IPv6'.
      *
      * @return the publicIPAddressVersion value
      */
@@ -157,7 +164,7 @@ public class PublicIPAddressInner extends Resource {
     }
 
     /**
-     * Set the publicIPAddressVersion value.
+     * Set the public IP address version. Possible values are: 'IPv4' and 'IPv6'. Possible values include: 'IPv4', 'IPv6'.
      *
      * @param publicIPAddressVersion the publicIPAddressVersion value to set
      * @return the PublicIPAddressInner object itself.
@@ -168,7 +175,7 @@ public class PublicIPAddressInner extends Resource {
     }
 
     /**
-     * Get the ipConfiguration value.
+     * Get the IP configuration associated with the public IP address.
      *
      * @return the ipConfiguration value
      */
@@ -177,7 +184,7 @@ public class PublicIPAddressInner extends Resource {
     }
 
     /**
-     * Get the dnsSettings value.
+     * Get the FQDN of the DNS record associated with the public IP address.
      *
      * @return the dnsSettings value
      */
@@ -186,7 +193,7 @@ public class PublicIPAddressInner extends Resource {
     }
 
     /**
-     * Set the dnsSettings value.
+     * Set the FQDN of the DNS record associated with the public IP address.
      *
      * @param dnsSettings the dnsSettings value to set
      * @return the PublicIPAddressInner object itself.
@@ -197,7 +204,7 @@ public class PublicIPAddressInner extends Resource {
     }
 
     /**
-     * Get the ipTags value.
+     * Get the list of tags associated with the public IP address.
      *
      * @return the ipTags value
      */
@@ -206,7 +213,7 @@ public class PublicIPAddressInner extends Resource {
     }
 
     /**
-     * Set the ipTags value.
+     * Set the list of tags associated with the public IP address.
      *
      * @param ipTags the ipTags value to set
      * @return the PublicIPAddressInner object itself.
@@ -217,7 +224,7 @@ public class PublicIPAddressInner extends Resource {
     }
 
     /**
-     * Get the ipAddress value.
+     * Get the IP address associated with the public IP address resource.
      *
      * @return the ipAddress value
      */
@@ -226,7 +233,7 @@ public class PublicIPAddressInner extends Resource {
     }
 
     /**
-     * Set the ipAddress value.
+     * Set the IP address associated with the public IP address resource.
      *
      * @param ipAddress the ipAddress value to set
      * @return the PublicIPAddressInner object itself.
@@ -237,7 +244,27 @@ public class PublicIPAddressInner extends Resource {
     }
 
     /**
-     * Get the idleTimeoutInMinutes value.
+     * Get the Public IP Prefix this Public IP Address should be allocated from.
+     *
+     * @return the publicIPPrefix value
+     */
+    public SubResource publicIPPrefix() {
+        return this.publicIPPrefix;
+    }
+
+    /**
+     * Set the Public IP Prefix this Public IP Address should be allocated from.
+     *
+     * @param publicIPPrefix the publicIPPrefix value to set
+     * @return the PublicIPAddressInner object itself.
+     */
+    public PublicIPAddressInner withPublicIPPrefix(SubResource publicIPPrefix) {
+        this.publicIPPrefix = publicIPPrefix;
+        return this;
+    }
+
+    /**
+     * Get the idle timeout of the public IP address.
      *
      * @return the idleTimeoutInMinutes value
      */
@@ -246,7 +273,7 @@ public class PublicIPAddressInner extends Resource {
     }
 
     /**
-     * Set the idleTimeoutInMinutes value.
+     * Set the idle timeout of the public IP address.
      *
      * @param idleTimeoutInMinutes the idleTimeoutInMinutes value to set
      * @return the PublicIPAddressInner object itself.
@@ -257,7 +284,7 @@ public class PublicIPAddressInner extends Resource {
     }
 
     /**
-     * Get the resourceGuid value.
+     * Get the resource GUID property of the public IP resource.
      *
      * @return the resourceGuid value
      */
@@ -266,7 +293,7 @@ public class PublicIPAddressInner extends Resource {
     }
 
     /**
-     * Set the resourceGuid value.
+     * Set the resource GUID property of the public IP resource.
      *
      * @param resourceGuid the resourceGuid value to set
      * @return the PublicIPAddressInner object itself.
@@ -277,7 +304,7 @@ public class PublicIPAddressInner extends Resource {
     }
 
     /**
-     * Get the provisioningState value.
+     * Get the provisioning state of the PublicIP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'.
      *
      * @return the provisioningState value
      */
@@ -286,7 +313,7 @@ public class PublicIPAddressInner extends Resource {
     }
 
     /**
-     * Set the provisioningState value.
+     * Set the provisioning state of the PublicIP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'.
      *
      * @param provisioningState the provisioningState value to set
      * @return the PublicIPAddressInner object itself.
@@ -297,7 +324,7 @@ public class PublicIPAddressInner extends Resource {
     }
 
     /**
-     * Get the etag value.
+     * Get a unique read-only string that changes whenever the resource is updated.
      *
      * @return the etag value
      */
@@ -306,7 +333,7 @@ public class PublicIPAddressInner extends Resource {
     }
 
     /**
-     * Set the etag value.
+     * Set a unique read-only string that changes whenever the resource is updated.
      *
      * @param etag the etag value to set
      * @return the PublicIPAddressInner object itself.
@@ -317,7 +344,7 @@ public class PublicIPAddressInner extends Resource {
     }
 
     /**
-     * Get the zones value.
+     * Get a list of availability zones denoting the IP allocated for the resource needs to come from.
      *
      * @return the zones value
      */
@@ -326,7 +353,7 @@ public class PublicIPAddressInner extends Resource {
     }
 
     /**
-     * Set the zones value.
+     * Set a list of availability zones denoting the IP allocated for the resource needs to come from.
      *
      * @param zones the zones value to set
      * @return the PublicIPAddressInner object itself.
@@ -337,7 +364,7 @@ public class PublicIPAddressInner extends Resource {
     }
 
     /**
-     * Get the id value.
+     * Get resource ID.
      *
      * @return the id value
      */
@@ -346,7 +373,7 @@ public class PublicIPAddressInner extends Resource {
     }
 
     /**
-     * Set the id value.
+     * Set resource ID.
      *
      * @param id the id value to set
      * @return the PublicIPAddressInner object itself.

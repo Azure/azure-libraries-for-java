@@ -30,7 +30,7 @@ public class GetVpnSitesConfigurationRequest {
     private String outputBlobSasUrl;
 
     /**
-     * Get the vpnSites value.
+     * Get list of resource-ids of the vpn-sites for which config is to be downloaded.
      *
      * @return the vpnSites value
      */
@@ -39,7 +39,7 @@ public class GetVpnSitesConfigurationRequest {
     }
 
     /**
-     * Set the vpnSites value.
+     * Set list of resource-ids of the vpn-sites for which config is to be downloaded.
      *
      * @param vpnSites the vpnSites value to set
      * @return the GetVpnSitesConfigurationRequest object itself.
@@ -50,7 +50,7 @@ public class GetVpnSitesConfigurationRequest {
     }
 
     /**
-     * Get the outputBlobSasUrl value.
+     * Get the sas-url to download the configurations for vpn-sites.
      *
      * @return the outputBlobSasUrl value
      */
@@ -59,7 +59,7 @@ public class GetVpnSitesConfigurationRequest {
     }
 
     /**
-     * Set the outputBlobSasUrl value.
+     * Set the sas-url to download the configurations for vpn-sites.
      *
      * @param outputBlobSasUrl the outputBlobSasUrl value to set
      * @return the GetVpnSitesConfigurationRequest object itself.

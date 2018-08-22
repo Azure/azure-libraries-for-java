@@ -109,7 +109,7 @@ public class ApplicationGatewayProbeInner extends SubResource {
     private String type;
 
     /**
-     * Get the protocol value.
+     * Get the protocol used for the probe. Possible values are 'Http' and 'Https'. Possible values include: 'Http', 'Https'.
      *
      * @return the protocol value
      */
@@ -118,7 +118,7 @@ public class ApplicationGatewayProbeInner extends SubResource {
     }
 
     /**
-     * Set the protocol value.
+     * Set the protocol used for the probe. Possible values are 'Http' and 'Https'. Possible values include: 'Http', 'Https'.
      *
      * @param protocol the protocol value to set
      * @return the ApplicationGatewayProbeInner object itself.
@@ -129,7 +129,7 @@ public class ApplicationGatewayProbeInner extends SubResource {
     }
 
     /**
-     * Get the host value.
+     * Get host name to send the probe to.
      *
      * @return the host value
      */
@@ -138,7 +138,7 @@ public class ApplicationGatewayProbeInner extends SubResource {
     }
 
     /**
-     * Set the host value.
+     * Set host name to send the probe to.
      *
      * @param host the host value to set
      * @return the ApplicationGatewayProbeInner object itself.
@@ -149,7 +149,7 @@ public class ApplicationGatewayProbeInner extends SubResource {
     }
 
     /**
-     * Get the path value.
+     * Get relative path of probe. Valid path starts from '/'. Probe is sent to &lt;Protocol&gt;://&lt;host&gt;:&lt;port&gt;&lt;path&gt;.
      *
      * @return the path value
      */
@@ -158,7 +158,7 @@ public class ApplicationGatewayProbeInner extends SubResource {
     }
 
     /**
-     * Set the path value.
+     * Set relative path of probe. Valid path starts from '/'. Probe is sent to &lt;Protocol&gt;://&lt;host&gt;:&lt;port&gt;&lt;path&gt;.
      *
      * @param path the path value to set
      * @return the ApplicationGatewayProbeInner object itself.
@@ -169,7 +169,7 @@ public class ApplicationGatewayProbeInner extends SubResource {
     }
 
     /**
-     * Get the interval value.
+     * Get the probing interval in seconds. This is the time interval between two consecutive probes. Acceptable values are from 1 second to 86400 seconds.
      *
      * @return the interval value
      */
@@ -178,7 +178,7 @@ public class ApplicationGatewayProbeInner extends SubResource {
     }
 
     /**
-     * Set the interval value.
+     * Set the probing interval in seconds. This is the time interval between two consecutive probes. Acceptable values are from 1 second to 86400 seconds.
      *
      * @param interval the interval value to set
      * @return the ApplicationGatewayProbeInner object itself.
@@ -189,7 +189,7 @@ public class ApplicationGatewayProbeInner extends SubResource {
     }
 
     /**
-     * Get the timeout value.
+     * Get the probe timeout in seconds. Probe marked as failed if valid response is not received with this timeout period. Acceptable values are from 1 second to 86400 seconds.
      *
      * @return the timeout value
      */
@@ -198,7 +198,7 @@ public class ApplicationGatewayProbeInner extends SubResource {
     }
 
     /**
-     * Set the timeout value.
+     * Set the probe timeout in seconds. Probe marked as failed if valid response is not received with this timeout period. Acceptable values are from 1 second to 86400 seconds.
      *
      * @param timeout the timeout value to set
      * @return the ApplicationGatewayProbeInner object itself.
@@ -209,7 +209,7 @@ public class ApplicationGatewayProbeInner extends SubResource {
     }
 
     /**
-     * Get the unhealthyThreshold value.
+     * Get the probe retry count. Backend server is marked down after consecutive probe failure count reaches UnhealthyThreshold. Acceptable values are from 1 second to 20.
      *
      * @return the unhealthyThreshold value
      */
@@ -218,7 +218,7 @@ public class ApplicationGatewayProbeInner extends SubResource {
     }
 
     /**
-     * Set the unhealthyThreshold value.
+     * Set the probe retry count. Backend server is marked down after consecutive probe failure count reaches UnhealthyThreshold. Acceptable values are from 1 second to 20.
      *
      * @param unhealthyThreshold the unhealthyThreshold value to set
      * @return the ApplicationGatewayProbeInner object itself.
@@ -229,7 +229,7 @@ public class ApplicationGatewayProbeInner extends SubResource {
     }
 
     /**
-     * Get the pickHostNameFromBackendHttpSettings value.
+     * Get whether the host header should be picked from the backend http settings. Default value is false.
      *
      * @return the pickHostNameFromBackendHttpSettings value
      */
@@ -238,7 +238,7 @@ public class ApplicationGatewayProbeInner extends SubResource {
     }
 
     /**
-     * Set the pickHostNameFromBackendHttpSettings value.
+     * Set whether the host header should be picked from the backend http settings. Default value is false.
      *
      * @param pickHostNameFromBackendHttpSettings the pickHostNameFromBackendHttpSettings value to set
      * @return the ApplicationGatewayProbeInner object itself.
@@ -249,7 +249,7 @@ public class ApplicationGatewayProbeInner extends SubResource {
     }
 
     /**
-     * Get the minServers value.
+     * Get minimum number of servers that are always marked healthy. Default value is 0.
      *
      * @return the minServers value
      */
@@ -258,7 +258,7 @@ public class ApplicationGatewayProbeInner extends SubResource {
     }
 
     /**
-     * Set the minServers value.
+     * Set minimum number of servers that are always marked healthy. Default value is 0.
      *
      * @param minServers the minServers value to set
      * @return the ApplicationGatewayProbeInner object itself.
@@ -269,7 +269,7 @@ public class ApplicationGatewayProbeInner extends SubResource {
     }
 
     /**
-     * Get the match value.
+     * Get criterion for classifying a healthy probe response.
      *
      * @return the match value
      */
@@ -278,7 +278,7 @@ public class ApplicationGatewayProbeInner extends SubResource {
     }
 
     /**
-     * Set the match value.
+     * Set criterion for classifying a healthy probe response.
      *
      * @param match the match value to set
      * @return the ApplicationGatewayProbeInner object itself.
@@ -289,7 +289,7 @@ public class ApplicationGatewayProbeInner extends SubResource {
     }
 
     /**
-     * Get the provisioningState value.
+     * Get provisioning state of the backend http settings resource. Possible values are: 'Updating', 'Deleting', and 'Failed'.
      *
      * @return the provisioningState value
      */
@@ -298,7 +298,7 @@ public class ApplicationGatewayProbeInner extends SubResource {
     }
 
     /**
-     * Set the provisioningState value.
+     * Set provisioning state of the backend http settings resource. Possible values are: 'Updating', 'Deleting', and 'Failed'.
      *
      * @param provisioningState the provisioningState value to set
      * @return the ApplicationGatewayProbeInner object itself.
@@ -309,7 +309,7 @@ public class ApplicationGatewayProbeInner extends SubResource {
     }
 
     /**
-     * Get the name value.
+     * Get name of the probe that is unique within an Application Gateway.
      *
      * @return the name value
      */
@@ -318,7 +318,7 @@ public class ApplicationGatewayProbeInner extends SubResource {
     }
 
     /**
-     * Set the name value.
+     * Set name of the probe that is unique within an Application Gateway.
      *
      * @param name the name value to set
      * @return the ApplicationGatewayProbeInner object itself.
@@ -329,7 +329,7 @@ public class ApplicationGatewayProbeInner extends SubResource {
     }
 
     /**
-     * Get the etag value.
+     * Get a unique read-only string that changes whenever the resource is updated.
      *
      * @return the etag value
      */
@@ -338,7 +338,7 @@ public class ApplicationGatewayProbeInner extends SubResource {
     }
 
     /**
-     * Set the etag value.
+     * Set a unique read-only string that changes whenever the resource is updated.
      *
      * @param etag the etag value to set
      * @return the ApplicationGatewayProbeInner object itself.
@@ -349,7 +349,7 @@ public class ApplicationGatewayProbeInner extends SubResource {
     }
 
     /**
-     * Get the type value.
+     * Get type of the resource.
      *
      * @return the type value
      */
@@ -358,7 +358,7 @@ public class ApplicationGatewayProbeInner extends SubResource {
     }
 
     /**
-     * Set the type value.
+     * Set type of the resource.
      *
      * @param type the type value to set
      * @return the ApplicationGatewayProbeInner object itself.

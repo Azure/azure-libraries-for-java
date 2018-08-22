@@ -61,8 +61,6 @@ public class PatchRouteFilterRuleInner extends SubResource {
 
     /**
      * Creates an instance of PatchRouteFilterRuleInner class.
-     * @param access the access type of the rule. Valid values are: 'Allow', 'Deny'. Possible values include: 'Allow', 'Deny'.
-     * @param communities the collection for bgp community values to filter on. e.g. ['12076:5010','12076:5020'].
      */
     public PatchRouteFilterRuleInner() {
         routeFilterRuleType = "Community";

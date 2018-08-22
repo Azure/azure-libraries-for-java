@@ -61,7 +61,7 @@ public class VirtualHubInner extends Resource {
     private String id;
 
     /**
-     * Get the virtualWan value.
+     * Get the VirtualWAN to which the VirtualHub belongs.
      *
      * @return the virtualWan value
      */
@@ -70,7 +70,7 @@ public class VirtualHubInner extends Resource {
     }
 
     /**
-     * Set the virtualWan value.
+     * Set the VirtualWAN to which the VirtualHub belongs.
      *
      * @param virtualWan the virtualWan value to set
      * @return the VirtualHubInner object itself.
@@ -81,7 +81,7 @@ public class VirtualHubInner extends Resource {
     }
 
     /**
-     * Get the hubVirtualNetworkConnections value.
+     * Get list of all vnet connections with this VirtualHub.
      *
      * @return the hubVirtualNetworkConnections value
      */
@@ -90,7 +90,7 @@ public class VirtualHubInner extends Resource {
     }
 
     /**
-     * Set the hubVirtualNetworkConnections value.
+     * Set list of all vnet connections with this VirtualHub.
      *
      * @param hubVirtualNetworkConnections the hubVirtualNetworkConnections value to set
      * @return the VirtualHubInner object itself.
@@ -101,7 +101,7 @@ public class VirtualHubInner extends Resource {
     }
 
     /**
-     * Get the addressPrefix value.
+     * Get address-prefix for this VirtualHub.
      *
      * @return the addressPrefix value
      */
@@ -110,7 +110,7 @@ public class VirtualHubInner extends Resource {
     }
 
     /**
-     * Set the addressPrefix value.
+     * Set address-prefix for this VirtualHub.
      *
      * @param addressPrefix the addressPrefix value to set
      * @return the VirtualHubInner object itself.
@@ -121,7 +121,7 @@ public class VirtualHubInner extends Resource {
     }
 
     /**
-     * Get the provisioningState value.
+     * Get the provisioning state of the resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      *
      * @return the provisioningState value
      */
@@ -130,7 +130,7 @@ public class VirtualHubInner extends Resource {
     }
 
     /**
-     * Set the provisioningState value.
+     * Set the provisioning state of the resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      *
      * @param provisioningState the provisioningState value to set
      * @return the VirtualHubInner object itself.
@@ -141,7 +141,7 @@ public class VirtualHubInner extends Resource {
     }
 
     /**
-     * Get the etag value.
+     * Get gets a unique read-only string that changes whenever the resource is updated.
      *
      * @return the etag value
      */
@@ -150,7 +150,7 @@ public class VirtualHubInner extends Resource {
     }
 
     /**
-     * Get the id value.
+     * Get resource ID.
      *
      * @return the id value
      */
@@ -159,7 +159,7 @@ public class VirtualHubInner extends Resource {
     }
 
     /**
-     * Set the id value.
+     * Set resource ID.
      *
      * @param id the id value to set
      * @return the VirtualHubInner object itself.

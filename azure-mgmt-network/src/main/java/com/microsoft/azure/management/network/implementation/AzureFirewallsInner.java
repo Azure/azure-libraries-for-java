@@ -163,7 +163,7 @@ public class AzureFirewallsInner implements InnerSupportsGet<AzureFirewallInner>
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-08-01";
         Observable<Response<ResponseBody>> observable = service.delete(resourceGroupName, azureFirewallName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
     }
@@ -229,7 +229,7 @@ public class AzureFirewallsInner implements InnerSupportsGet<AzureFirewallInner>
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-08-01";
         return service.beginDelete(resourceGroupName, azureFirewallName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
@@ -315,7 +315,7 @@ public class AzureFirewallsInner implements InnerSupportsGet<AzureFirewallInner>
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-08-01";
         return service.getByResourceGroup(resourceGroupName, azureFirewallName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<AzureFirewallInner>>>() {
                 @Override
@@ -407,7 +407,7 @@ public class AzureFirewallsInner implements InnerSupportsGet<AzureFirewallInner>
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-08-01";
         Observable<Response<ResponseBody>> observable = service.createOrUpdate(resourceGroupName, azureFirewallName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<AzureFirewallInner>() { }.getType());
     }
@@ -482,7 +482,7 @@ public class AzureFirewallsInner implements InnerSupportsGet<AzureFirewallInner>
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-08-01";
         return service.beginCreateOrUpdate(resourceGroupName, azureFirewallName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<AzureFirewallInner>>>() {
                 @Override
@@ -596,7 +596,7 @@ public class AzureFirewallsInner implements InnerSupportsGet<AzureFirewallInner>
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-08-01";
         return service.listByResourceGroup(resourceGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<AzureFirewallInner>>>>() {
                 @Override
@@ -701,7 +701,7 @@ public class AzureFirewallsInner implements InnerSupportsGet<AzureFirewallInner>
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-08-01";
         return service.list(this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<AzureFirewallInner>>>>() {
                 @Override

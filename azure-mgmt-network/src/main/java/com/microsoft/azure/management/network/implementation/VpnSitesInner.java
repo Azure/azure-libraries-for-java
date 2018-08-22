@@ -175,7 +175,7 @@ public class VpnSitesInner implements InnerSupportsGet<VpnSiteInner>, InnerSuppo
         if (vpnSiteName == null) {
             throw new IllegalArgumentException("Parameter vpnSiteName is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-08-01";
         return service.getByResourceGroup(this.client.subscriptionId(), resourceGroupName, vpnSiteName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<VpnSiteInner>>>() {
                 @Override
@@ -267,7 +267,7 @@ public class VpnSitesInner implements InnerSupportsGet<VpnSiteInner>, InnerSuppo
             throw new IllegalArgumentException("Parameter vpnSiteParameters is required and cannot be null.");
         }
         Validator.validate(vpnSiteParameters);
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-08-01";
         Observable<Response<ResponseBody>> observable = service.createOrUpdate(this.client.subscriptionId(), resourceGroupName, vpnSiteName, apiVersion, vpnSiteParameters, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<VpnSiteInner>() { }.getType());
     }
@@ -342,7 +342,7 @@ public class VpnSitesInner implements InnerSupportsGet<VpnSiteInner>, InnerSuppo
             throw new IllegalArgumentException("Parameter vpnSiteParameters is required and cannot be null.");
         }
         Validator.validate(vpnSiteParameters);
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-08-01";
         return service.beginCreateOrUpdate(this.client.subscriptionId(), resourceGroupName, vpnSiteName, apiVersion, vpnSiteParameters, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<VpnSiteInner>>>() {
                 @Override
@@ -427,7 +427,7 @@ public class VpnSitesInner implements InnerSupportsGet<VpnSiteInner>, InnerSuppo
         if (vpnSiteName == null) {
             throw new IllegalArgumentException("Parameter vpnSiteName is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-08-01";
         final Map<String, String> tags = null;
         TagsObject vpnSiteParameters = new TagsObject();
         vpnSiteParameters.withTags(null);
@@ -501,7 +501,7 @@ public class VpnSitesInner implements InnerSupportsGet<VpnSiteInner>, InnerSuppo
             throw new IllegalArgumentException("Parameter vpnSiteName is required and cannot be null.");
         }
         Validator.validate(tags);
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-08-01";
         TagsObject vpnSiteParameters = new TagsObject();
         vpnSiteParameters.withTags(tags);
         Observable<Response<ResponseBody>> observable = service.updateTags(this.client.subscriptionId(), resourceGroupName, vpnSiteName, apiVersion, this.client.acceptLanguage(), vpnSiteParameters, this.client.userAgent());
@@ -570,7 +570,7 @@ public class VpnSitesInner implements InnerSupportsGet<VpnSiteInner>, InnerSuppo
         if (vpnSiteName == null) {
             throw new IllegalArgumentException("Parameter vpnSiteName is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-08-01";
         final Map<String, String> tags = null;
         TagsObject vpnSiteParameters = new TagsObject();
         vpnSiteParameters.withTags(null);
@@ -655,7 +655,7 @@ public class VpnSitesInner implements InnerSupportsGet<VpnSiteInner>, InnerSuppo
             throw new IllegalArgumentException("Parameter vpnSiteName is required and cannot be null.");
         }
         Validator.validate(tags);
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-08-01";
         TagsObject vpnSiteParameters = new TagsObject();
         vpnSiteParameters.withTags(tags);
         return service.beginUpdateTags(this.client.subscriptionId(), resourceGroupName, vpnSiteName, apiVersion, this.client.acceptLanguage(), vpnSiteParameters, this.client.userAgent())
@@ -741,7 +741,7 @@ public class VpnSitesInner implements InnerSupportsGet<VpnSiteInner>, InnerSuppo
         if (vpnSiteName == null) {
             throw new IllegalArgumentException("Parameter vpnSiteName is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-08-01";
         Observable<Response<ResponseBody>> observable = service.delete(this.client.subscriptionId(), resourceGroupName, vpnSiteName, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
     }
@@ -807,7 +807,7 @@ public class VpnSitesInner implements InnerSupportsGet<VpnSiteInner>, InnerSuppo
         if (vpnSiteName == null) {
             throw new IllegalArgumentException("Parameter vpnSiteName is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-08-01";
         return service.beginDelete(this.client.subscriptionId(), resourceGroupName, vpnSiteName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
@@ -922,7 +922,7 @@ public class VpnSitesInner implements InnerSupportsGet<VpnSiteInner>, InnerSuppo
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-08-01";
         return service.listByResourceGroup(this.client.subscriptionId(), resourceGroupName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<VpnSiteInner>>>>() {
                 @Override
@@ -1027,7 +1027,7 @@ public class VpnSitesInner implements InnerSupportsGet<VpnSiteInner>, InnerSuppo
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-08-01";
         return service.list(this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<VpnSiteInner>>>>() {
                 @Override

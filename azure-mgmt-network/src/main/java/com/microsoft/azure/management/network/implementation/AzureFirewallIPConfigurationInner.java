@@ -66,7 +66,7 @@ public class AzureFirewallIPConfigurationInner extends SubResource {
     private String etag;
 
     /**
-     * Get the privateIPAddress value.
+     * Get the Firewall Internal Load Balancer IP to be used as the next hop in User Defined Routes.
      *
      * @return the privateIPAddress value
      */
@@ -75,7 +75,7 @@ public class AzureFirewallIPConfigurationInner extends SubResource {
     }
 
     /**
-     * Set the privateIPAddress value.
+     * Set the Firewall Internal Load Balancer IP to be used as the next hop in User Defined Routes.
      *
      * @param privateIPAddress the privateIPAddress value to set
      * @return the AzureFirewallIPConfigurationInner object itself.
@@ -86,7 +86,7 @@ public class AzureFirewallIPConfigurationInner extends SubResource {
     }
 
     /**
-     * Get the subnet value.
+     * Get reference of the subnet resource. This resource must be named 'AzureFirewallSubnet'.
      *
      * @return the subnet value
      */
@@ -95,7 +95,7 @@ public class AzureFirewallIPConfigurationInner extends SubResource {
     }
 
     /**
-     * Set the subnet value.
+     * Set reference of the subnet resource. This resource must be named 'AzureFirewallSubnet'.
      *
      * @param subnet the subnet value to set
      * @return the AzureFirewallIPConfigurationInner object itself.
@@ -106,7 +106,7 @@ public class AzureFirewallIPConfigurationInner extends SubResource {
     }
 
     /**
-     * Get the internalPublicIpAddress value.
+     * Get reference of the PublicIP resource. This field is a mandatory input.
      *
      * @return the internalPublicIpAddress value
      */
@@ -115,7 +115,7 @@ public class AzureFirewallIPConfigurationInner extends SubResource {
     }
 
     /**
-     * Set the internalPublicIpAddress value.
+     * Set reference of the PublicIP resource. This field is a mandatory input.
      *
      * @param internalPublicIpAddress the internalPublicIpAddress value to set
      * @return the AzureFirewallIPConfigurationInner object itself.
@@ -126,7 +126,7 @@ public class AzureFirewallIPConfigurationInner extends SubResource {
     }
 
     /**
-     * Get the publicIPAddress value.
+     * Get reference of the PublicIP resource. This field is populated in the output.
      *
      * @return the publicIPAddress value
      */
@@ -135,7 +135,7 @@ public class AzureFirewallIPConfigurationInner extends SubResource {
     }
 
     /**
-     * Set the publicIPAddress value.
+     * Set reference of the PublicIP resource. This field is populated in the output.
      *
      * @param publicIPAddress the publicIPAddress value to set
      * @return the AzureFirewallIPConfigurationInner object itself.
@@ -146,7 +146,7 @@ public class AzureFirewallIPConfigurationInner extends SubResource {
     }
 
     /**
-     * Get the provisioningState value.
+     * Get the provisioning state of the resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      *
      * @return the provisioningState value
      */
@@ -155,7 +155,7 @@ public class AzureFirewallIPConfigurationInner extends SubResource {
     }
 
     /**
-     * Set the provisioningState value.
+     * Set the provisioning state of the resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      *
      * @param provisioningState the provisioningState value to set
      * @return the AzureFirewallIPConfigurationInner object itself.
@@ -166,7 +166,7 @@ public class AzureFirewallIPConfigurationInner extends SubResource {
     }
 
     /**
-     * Get the name value.
+     * Get name of the resource that is unique within a resource group. This name can be used to access the resource.
      *
      * @return the name value
      */
@@ -175,7 +175,7 @@ public class AzureFirewallIPConfigurationInner extends SubResource {
     }
 
     /**
-     * Set the name value.
+     * Set name of the resource that is unique within a resource group. This name can be used to access the resource.
      *
      * @param name the name value to set
      * @return the AzureFirewallIPConfigurationInner object itself.
@@ -186,7 +186,7 @@ public class AzureFirewallIPConfigurationInner extends SubResource {
     }
 
     /**
-     * Get the etag value.
+     * Get a unique read-only string that changes whenever the resource is updated.
      *
      * @return the etag value
      */
@@ -195,7 +195,7 @@ public class AzureFirewallIPConfigurationInner extends SubResource {
     }
 
     /**
-     * Set the etag value.
+     * Set a unique read-only string that changes whenever the resource is updated.
      *
      * @param etag the etag value to set
      * @return the AzureFirewallIPConfigurationInner object itself.

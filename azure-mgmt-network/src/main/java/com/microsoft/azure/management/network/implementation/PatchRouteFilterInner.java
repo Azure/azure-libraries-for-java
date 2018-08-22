@@ -64,7 +64,7 @@ public class PatchRouteFilterInner extends SubResource {
     private Map<String, String> tags;
 
     /**
-     * Get the rules value.
+     * Get collection of RouteFilterRules contained within a route filter.
      *
      * @return the rules value
      */
@@ -73,7 +73,7 @@ public class PatchRouteFilterInner extends SubResource {
     }
 
     /**
-     * Set the rules value.
+     * Set collection of RouteFilterRules contained within a route filter.
      *
      * @param rules the rules value to set
      * @return the PatchRouteFilterInner object itself.
@@ -84,7 +84,7 @@ public class PatchRouteFilterInner extends SubResource {
     }
 
     /**
-     * Get the peerings value.
+     * Get a collection of references to express route circuit peerings.
      *
      * @return the peerings value
      */
@@ -93,7 +93,7 @@ public class PatchRouteFilterInner extends SubResource {
     }
 
     /**
-     * Set the peerings value.
+     * Set a collection of references to express route circuit peerings.
      *
      * @param peerings the peerings value to set
      * @return the PatchRouteFilterInner object itself.
@@ -104,7 +104,7 @@ public class PatchRouteFilterInner extends SubResource {
     }
 
     /**
-     * Get the provisioningState value.
+     * Get the provisioning state of the resource. Possible values are: 'Updating', 'Deleting', 'Succeeded' and 'Failed'.
      *
      * @return the provisioningState value
      */
@@ -113,7 +113,7 @@ public class PatchRouteFilterInner extends SubResource {
     }
 
     /**
-     * Get the name value.
+     * Get the name of the resource that is unique within a resource group. This name can be used to access the resource.
      *
      * @return the name value
      */
@@ -122,7 +122,7 @@ public class PatchRouteFilterInner extends SubResource {
     }
 
     /**
-     * Get the etag value.
+     * Get a unique read-only string that changes whenever the resource is updated.
      *
      * @return the etag value
      */
@@ -131,7 +131,7 @@ public class PatchRouteFilterInner extends SubResource {
     }
 
     /**
-     * Get the type value.
+     * Get resource type.
      *
      * @return the type value
      */
@@ -140,7 +140,7 @@ public class PatchRouteFilterInner extends SubResource {
     }
 
     /**
-     * Get the tags value.
+     * Get resource tags.
      *
      * @return the tags value
      */
@@ -149,7 +149,7 @@ public class PatchRouteFilterInner extends SubResource {
     }
 
     /**
-     * Set the tags value.
+     * Set resource tags.
      *
      * @param tags the tags value to set
      * @return the PatchRouteFilterInner object itself.

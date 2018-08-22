@@ -77,10 +77,10 @@ public class LoadBalancerInner extends Resource {
     private List<InboundNatPoolInner> inboundNatPools;
 
     /**
-     * The outbound NAT rules.
+     * The outbound rules.
      */
-    @JsonProperty(value = "properties.outboundNatRules")
-    private List<OutboundNatRuleInner> outboundNatRules;
+    @JsonProperty(value = "properties.outboundRules")
+    private List<OutboundRuleInner> outboundRules;
 
     /**
      * The resource GUID property of the load balancer resource.
@@ -108,7 +108,7 @@ public class LoadBalancerInner extends Resource {
     private String id;
 
     /**
-     * Get the sku value.
+     * Get the load balancer SKU.
      *
      * @return the sku value
      */
@@ -117,7 +117,7 @@ public class LoadBalancerInner extends Resource {
     }
 
     /**
-     * Set the sku value.
+     * Set the load balancer SKU.
      *
      * @param sku the sku value to set
      * @return the LoadBalancerInner object itself.
@@ -128,7 +128,7 @@ public class LoadBalancerInner extends Resource {
     }
 
     /**
-     * Get the frontendIPConfigurations value.
+     * Get object representing the frontend IPs to be used for the load balancer.
      *
      * @return the frontendIPConfigurations value
      */
@@ -137,7 +137,7 @@ public class LoadBalancerInner extends Resource {
     }
 
     /**
-     * Set the frontendIPConfigurations value.
+     * Set object representing the frontend IPs to be used for the load balancer.
      *
      * @param frontendIPConfigurations the frontendIPConfigurations value to set
      * @return the LoadBalancerInner object itself.
@@ -148,7 +148,7 @@ public class LoadBalancerInner extends Resource {
     }
 
     /**
-     * Get the backendAddressPools value.
+     * Get collection of backend address pools used by a load balancer.
      *
      * @return the backendAddressPools value
      */
@@ -157,7 +157,7 @@ public class LoadBalancerInner extends Resource {
     }
 
     /**
-     * Set the backendAddressPools value.
+     * Set collection of backend address pools used by a load balancer.
      *
      * @param backendAddressPools the backendAddressPools value to set
      * @return the LoadBalancerInner object itself.
@@ -168,7 +168,7 @@ public class LoadBalancerInner extends Resource {
     }
 
     /**
-     * Get the loadBalancingRules value.
+     * Get object collection representing the load balancing rules Gets the provisioning.
      *
      * @return the loadBalancingRules value
      */
@@ -177,7 +177,7 @@ public class LoadBalancerInner extends Resource {
     }
 
     /**
-     * Set the loadBalancingRules value.
+     * Set object collection representing the load balancing rules Gets the provisioning.
      *
      * @param loadBalancingRules the loadBalancingRules value to set
      * @return the LoadBalancerInner object itself.
@@ -188,7 +188,7 @@ public class LoadBalancerInner extends Resource {
     }
 
     /**
-     * Get the probes value.
+     * Get collection of probe objects used in the load balancer.
      *
      * @return the probes value
      */
@@ -197,7 +197,7 @@ public class LoadBalancerInner extends Resource {
     }
 
     /**
-     * Set the probes value.
+     * Set collection of probe objects used in the load balancer.
      *
      * @param probes the probes value to set
      * @return the LoadBalancerInner object itself.
@@ -208,7 +208,7 @@ public class LoadBalancerInner extends Resource {
     }
 
     /**
-     * Get the inboundNatRules value.
+     * Get collection of inbound NAT Rules used by a load balancer. Defining inbound NAT rules on your load balancer is mutually exclusive with defining an inbound NAT pool. Inbound NAT pools are referenced from virtual machine scale sets. NICs that are associated with individual virtual machines cannot reference an Inbound NAT pool. They have to reference individual inbound NAT rules.
      *
      * @return the inboundNatRules value
      */
@@ -217,7 +217,7 @@ public class LoadBalancerInner extends Resource {
     }
 
     /**
-     * Set the inboundNatRules value.
+     * Set collection of inbound NAT Rules used by a load balancer. Defining inbound NAT rules on your load balancer is mutually exclusive with defining an inbound NAT pool. Inbound NAT pools are referenced from virtual machine scale sets. NICs that are associated with individual virtual machines cannot reference an Inbound NAT pool. They have to reference individual inbound NAT rules.
      *
      * @param inboundNatRules the inboundNatRules value to set
      * @return the LoadBalancerInner object itself.
@@ -228,7 +228,7 @@ public class LoadBalancerInner extends Resource {
     }
 
     /**
-     * Get the inboundNatPools value.
+     * Get defines an external port range for inbound NAT to a single backend port on NICs associated with a load balancer. Inbound NAT rules are created automatically for each NIC associated with the Load Balancer using an external port from this range. Defining an Inbound NAT pool on your Load Balancer is mutually exclusive with defining inbound Nat rules. Inbound NAT pools are referenced from virtual machine scale sets. NICs that are associated with individual virtual machines cannot reference an inbound NAT pool. They have to reference individual inbound NAT rules.
      *
      * @return the inboundNatPools value
      */
@@ -237,7 +237,7 @@ public class LoadBalancerInner extends Resource {
     }
 
     /**
-     * Set the inboundNatPools value.
+     * Set defines an external port range for inbound NAT to a single backend port on NICs associated with a load balancer. Inbound NAT rules are created automatically for each NIC associated with the Load Balancer using an external port from this range. Defining an Inbound NAT pool on your Load Balancer is mutually exclusive with defining inbound Nat rules. Inbound NAT pools are referenced from virtual machine scale sets. NICs that are associated with individual virtual machines cannot reference an inbound NAT pool. They have to reference individual inbound NAT rules.
      *
      * @param inboundNatPools the inboundNatPools value to set
      * @return the LoadBalancerInner object itself.
@@ -248,27 +248,27 @@ public class LoadBalancerInner extends Resource {
     }
 
     /**
-     * Get the outboundNatRules value.
+     * Get the outbound rules.
      *
-     * @return the outboundNatRules value
+     * @return the outboundRules value
      */
-    public List<OutboundNatRuleInner> outboundNatRules() {
-        return this.outboundNatRules;
+    public List<OutboundRuleInner> outboundRules() {
+        return this.outboundRules;
     }
 
     /**
-     * Set the outboundNatRules value.
+     * Set the outbound rules.
      *
-     * @param outboundNatRules the outboundNatRules value to set
+     * @param outboundRules the outboundRules value to set
      * @return the LoadBalancerInner object itself.
      */
-    public LoadBalancerInner withOutboundNatRules(List<OutboundNatRuleInner> outboundNatRules) {
-        this.outboundNatRules = outboundNatRules;
+    public LoadBalancerInner withOutboundRules(List<OutboundRuleInner> outboundRules) {
+        this.outboundRules = outboundRules;
         return this;
     }
 
     /**
-     * Get the resourceGuid value.
+     * Get the resource GUID property of the load balancer resource.
      *
      * @return the resourceGuid value
      */
@@ -277,7 +277,7 @@ public class LoadBalancerInner extends Resource {
     }
 
     /**
-     * Set the resourceGuid value.
+     * Set the resource GUID property of the load balancer resource.
      *
      * @param resourceGuid the resourceGuid value to set
      * @return the LoadBalancerInner object itself.
@@ -288,7 +288,7 @@ public class LoadBalancerInner extends Resource {
     }
 
     /**
-     * Get the provisioningState value.
+     * Get gets the provisioning state of the PublicIP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'.
      *
      * @return the provisioningState value
      */
@@ -297,7 +297,7 @@ public class LoadBalancerInner extends Resource {
     }
 
     /**
-     * Set the provisioningState value.
+     * Set gets the provisioning state of the PublicIP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'.
      *
      * @param provisioningState the provisioningState value to set
      * @return the LoadBalancerInner object itself.
@@ -308,7 +308,7 @@ public class LoadBalancerInner extends Resource {
     }
 
     /**
-     * Get the etag value.
+     * Get a unique read-only string that changes whenever the resource is updated.
      *
      * @return the etag value
      */
@@ -317,7 +317,7 @@ public class LoadBalancerInner extends Resource {
     }
 
     /**
-     * Set the etag value.
+     * Set a unique read-only string that changes whenever the resource is updated.
      *
      * @param etag the etag value to set
      * @return the LoadBalancerInner object itself.
@@ -328,7 +328,7 @@ public class LoadBalancerInner extends Resource {
     }
 
     /**
-     * Get the id value.
+     * Get resource ID.
      *
      * @return the id value
      */
@@ -337,7 +337,7 @@ public class LoadBalancerInner extends Resource {
     }
 
     /**
-     * Set the id value.
+     * Set resource ID.
      *
      * @param id the id value to set
      * @return the LoadBalancerInner object itself.

@@ -60,7 +60,7 @@ public class HubVirtualNetworkConnectionInner extends Resource {
     private String id;
 
     /**
-     * Get the remoteVirtualNetwork value.
+     * Get reference to the remote virtual network.
      *
      * @return the remoteVirtualNetwork value
      */
@@ -69,7 +69,7 @@ public class HubVirtualNetworkConnectionInner extends Resource {
     }
 
     /**
-     * Set the remoteVirtualNetwork value.
+     * Set reference to the remote virtual network.
      *
      * @param remoteVirtualNetwork the remoteVirtualNetwork value to set
      * @return the HubVirtualNetworkConnectionInner object itself.
@@ -80,7 +80,7 @@ public class HubVirtualNetworkConnectionInner extends Resource {
     }
 
     /**
-     * Get the allowHubToRemoteVnetTransit value.
+     * Get virtualHub to RemoteVnet transit to enabled or not.
      *
      * @return the allowHubToRemoteVnetTransit value
      */
@@ -89,7 +89,7 @@ public class HubVirtualNetworkConnectionInner extends Resource {
     }
 
     /**
-     * Set the allowHubToRemoteVnetTransit value.
+     * Set virtualHub to RemoteVnet transit to enabled or not.
      *
      * @param allowHubToRemoteVnetTransit the allowHubToRemoteVnetTransit value to set
      * @return the HubVirtualNetworkConnectionInner object itself.
@@ -100,7 +100,7 @@ public class HubVirtualNetworkConnectionInner extends Resource {
     }
 
     /**
-     * Get the allowRemoteVnetToUseHubVnetGateways value.
+     * Get allow RemoteVnet to use Virtual Hub's gateways.
      *
      * @return the allowRemoteVnetToUseHubVnetGateways value
      */
@@ -109,7 +109,7 @@ public class HubVirtualNetworkConnectionInner extends Resource {
     }
 
     /**
-     * Set the allowRemoteVnetToUseHubVnetGateways value.
+     * Set allow RemoteVnet to use Virtual Hub's gateways.
      *
      * @param allowRemoteVnetToUseHubVnetGateways the allowRemoteVnetToUseHubVnetGateways value to set
      * @return the HubVirtualNetworkConnectionInner object itself.
@@ -120,7 +120,7 @@ public class HubVirtualNetworkConnectionInner extends Resource {
     }
 
     /**
-     * Get the provisioningState value.
+     * Get the provisioning state of the resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      *
      * @return the provisioningState value
      */
@@ -129,7 +129,7 @@ public class HubVirtualNetworkConnectionInner extends Resource {
     }
 
     /**
-     * Set the provisioningState value.
+     * Set the provisioning state of the resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      *
      * @param provisioningState the provisioningState value to set
      * @return the HubVirtualNetworkConnectionInner object itself.
@@ -140,7 +140,7 @@ public class HubVirtualNetworkConnectionInner extends Resource {
     }
 
     /**
-     * Get the etag value.
+     * Get gets a unique read-only string that changes whenever the resource is updated.
      *
      * @return the etag value
      */
@@ -149,7 +149,7 @@ public class HubVirtualNetworkConnectionInner extends Resource {
     }
 
     /**
-     * Get the id value.
+     * Get resource ID.
      *
      * @return the id value
      */
@@ -158,7 +158,7 @@ public class HubVirtualNetworkConnectionInner extends Resource {
     }
 
     /**
-     * Set the id value.
+     * Set resource ID.
      *
      * @param id the id value to set
      * @return the HubVirtualNetworkConnectionInner object itself.

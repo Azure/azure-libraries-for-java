@@ -94,6 +94,12 @@ public class ExpressRouteCircuitInner extends Resource {
     private String gatewayManagerEtag;
 
     /**
+     * Flag to enable Global Reach on the circuit.
+     */
+    @JsonProperty(value = "properties.allowGlobalReach")
+    private Boolean allowGlobalReach;
+
+    /**
      * Gets a unique read-only string that changes whenever the resource is
      * updated.
      */
@@ -107,7 +113,7 @@ public class ExpressRouteCircuitInner extends Resource {
     private String id;
 
     /**
-     * Get the sku value.
+     * Get the SKU.
      *
      * @return the sku value
      */
@@ -116,7 +122,7 @@ public class ExpressRouteCircuitInner extends Resource {
     }
 
     /**
-     * Set the sku value.
+     * Set the SKU.
      *
      * @param sku the sku value to set
      * @return the ExpressRouteCircuitInner object itself.
@@ -127,7 +133,7 @@ public class ExpressRouteCircuitInner extends Resource {
     }
 
     /**
-     * Get the allowClassicOperations value.
+     * Get allow classic operations.
      *
      * @return the allowClassicOperations value
      */
@@ -136,7 +142,7 @@ public class ExpressRouteCircuitInner extends Resource {
     }
 
     /**
-     * Set the allowClassicOperations value.
+     * Set allow classic operations.
      *
      * @param allowClassicOperations the allowClassicOperations value to set
      * @return the ExpressRouteCircuitInner object itself.
@@ -147,7 +153,7 @@ public class ExpressRouteCircuitInner extends Resource {
     }
 
     /**
-     * Get the circuitProvisioningState value.
+     * Get the CircuitProvisioningState state of the resource.
      *
      * @return the circuitProvisioningState value
      */
@@ -156,7 +162,7 @@ public class ExpressRouteCircuitInner extends Resource {
     }
 
     /**
-     * Set the circuitProvisioningState value.
+     * Set the CircuitProvisioningState state of the resource.
      *
      * @param circuitProvisioningState the circuitProvisioningState value to set
      * @return the ExpressRouteCircuitInner object itself.
@@ -167,7 +173,7 @@ public class ExpressRouteCircuitInner extends Resource {
     }
 
     /**
-     * Get the serviceProviderProvisioningState value.
+     * Get the ServiceProviderProvisioningState state of the resource. Possible values are 'NotProvisioned', 'Provisioning', 'Provisioned', and 'Deprovisioning'. Possible values include: 'NotProvisioned', 'Provisioning', 'Provisioned', 'Deprovisioning'.
      *
      * @return the serviceProviderProvisioningState value
      */
@@ -176,7 +182,7 @@ public class ExpressRouteCircuitInner extends Resource {
     }
 
     /**
-     * Set the serviceProviderProvisioningState value.
+     * Set the ServiceProviderProvisioningState state of the resource. Possible values are 'NotProvisioned', 'Provisioning', 'Provisioned', and 'Deprovisioning'. Possible values include: 'NotProvisioned', 'Provisioning', 'Provisioned', 'Deprovisioning'.
      *
      * @param serviceProviderProvisioningState the serviceProviderProvisioningState value to set
      * @return the ExpressRouteCircuitInner object itself.
@@ -187,7 +193,7 @@ public class ExpressRouteCircuitInner extends Resource {
     }
 
     /**
-     * Get the authorizations value.
+     * Get the list of authorizations.
      *
      * @return the authorizations value
      */
@@ -196,7 +202,7 @@ public class ExpressRouteCircuitInner extends Resource {
     }
 
     /**
-     * Set the authorizations value.
+     * Set the list of authorizations.
      *
      * @param authorizations the authorizations value to set
      * @return the ExpressRouteCircuitInner object itself.
@@ -207,7 +213,7 @@ public class ExpressRouteCircuitInner extends Resource {
     }
 
     /**
-     * Get the peerings value.
+     * Get the list of peerings.
      *
      * @return the peerings value
      */
@@ -216,7 +222,7 @@ public class ExpressRouteCircuitInner extends Resource {
     }
 
     /**
-     * Set the peerings value.
+     * Set the list of peerings.
      *
      * @param peerings the peerings value to set
      * @return the ExpressRouteCircuitInner object itself.
@@ -227,7 +233,7 @@ public class ExpressRouteCircuitInner extends Resource {
     }
 
     /**
-     * Get the serviceKey value.
+     * Get the ServiceKey.
      *
      * @return the serviceKey value
      */
@@ -236,7 +242,7 @@ public class ExpressRouteCircuitInner extends Resource {
     }
 
     /**
-     * Set the serviceKey value.
+     * Set the ServiceKey.
      *
      * @param serviceKey the serviceKey value to set
      * @return the ExpressRouteCircuitInner object itself.
@@ -247,7 +253,7 @@ public class ExpressRouteCircuitInner extends Resource {
     }
 
     /**
-     * Get the serviceProviderNotes value.
+     * Get the ServiceProviderNotes.
      *
      * @return the serviceProviderNotes value
      */
@@ -256,7 +262,7 @@ public class ExpressRouteCircuitInner extends Resource {
     }
 
     /**
-     * Set the serviceProviderNotes value.
+     * Set the ServiceProviderNotes.
      *
      * @param serviceProviderNotes the serviceProviderNotes value to set
      * @return the ExpressRouteCircuitInner object itself.
@@ -267,7 +273,7 @@ public class ExpressRouteCircuitInner extends Resource {
     }
 
     /**
-     * Get the serviceProviderProperties value.
+     * Get the ServiceProviderProperties.
      *
      * @return the serviceProviderProperties value
      */
@@ -276,7 +282,7 @@ public class ExpressRouteCircuitInner extends Resource {
     }
 
     /**
-     * Set the serviceProviderProperties value.
+     * Set the ServiceProviderProperties.
      *
      * @param serviceProviderProperties the serviceProviderProperties value to set
      * @return the ExpressRouteCircuitInner object itself.
@@ -287,7 +293,7 @@ public class ExpressRouteCircuitInner extends Resource {
     }
 
     /**
-     * Get the provisioningState value.
+     * Get gets the provisioning state of the public IP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'.
      *
      * @return the provisioningState value
      */
@@ -296,7 +302,7 @@ public class ExpressRouteCircuitInner extends Resource {
     }
 
     /**
-     * Set the provisioningState value.
+     * Set gets the provisioning state of the public IP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'.
      *
      * @param provisioningState the provisioningState value to set
      * @return the ExpressRouteCircuitInner object itself.
@@ -307,7 +313,7 @@ public class ExpressRouteCircuitInner extends Resource {
     }
 
     /**
-     * Get the gatewayManagerEtag value.
+     * Get the GatewayManager Etag.
      *
      * @return the gatewayManagerEtag value
      */
@@ -316,7 +322,7 @@ public class ExpressRouteCircuitInner extends Resource {
     }
 
     /**
-     * Set the gatewayManagerEtag value.
+     * Set the GatewayManager Etag.
      *
      * @param gatewayManagerEtag the gatewayManagerEtag value to set
      * @return the ExpressRouteCircuitInner object itself.
@@ -327,7 +333,27 @@ public class ExpressRouteCircuitInner extends Resource {
     }
 
     /**
-     * Get the etag value.
+     * Get flag to enable Global Reach on the circuit.
+     *
+     * @return the allowGlobalReach value
+     */
+    public Boolean allowGlobalReach() {
+        return this.allowGlobalReach;
+    }
+
+    /**
+     * Set flag to enable Global Reach on the circuit.
+     *
+     * @param allowGlobalReach the allowGlobalReach value to set
+     * @return the ExpressRouteCircuitInner object itself.
+     */
+    public ExpressRouteCircuitInner withAllowGlobalReach(Boolean allowGlobalReach) {
+        this.allowGlobalReach = allowGlobalReach;
+        return this;
+    }
+
+    /**
+     * Get gets a unique read-only string that changes whenever the resource is updated.
      *
      * @return the etag value
      */
@@ -336,7 +362,7 @@ public class ExpressRouteCircuitInner extends Resource {
     }
 
     /**
-     * Get the id value.
+     * Get resource ID.
      *
      * @return the id value
      */
@@ -345,7 +371,7 @@ public class ExpressRouteCircuitInner extends Resource {
     }
 
     /**
-     * Set the id value.
+     * Set resource ID.
      *
      * @param id the id value to set
      * @return the ExpressRouteCircuitInner object itself.

@@ -100,7 +100,7 @@ public class VpnConnectionInner extends Resource {
     private String id;
 
     /**
-     * Get the remoteVpnSite value.
+     * Get id of the connected vpn site.
      *
      * @return the remoteVpnSite value
      */
@@ -109,7 +109,7 @@ public class VpnConnectionInner extends Resource {
     }
 
     /**
-     * Set the remoteVpnSite value.
+     * Set id of the connected vpn site.
      *
      * @param remoteVpnSite the remoteVpnSite value to set
      * @return the VpnConnectionInner object itself.
@@ -120,7 +120,7 @@ public class VpnConnectionInner extends Resource {
     }
 
     /**
-     * Get the routingWeight value.
+     * Get routing weight for vpn connection.
      *
      * @return the routingWeight value
      */
@@ -129,7 +129,7 @@ public class VpnConnectionInner extends Resource {
     }
 
     /**
-     * Set the routingWeight value.
+     * Set routing weight for vpn connection.
      *
      * @param routingWeight the routingWeight value to set
      * @return the VpnConnectionInner object itself.
@@ -140,7 +140,7 @@ public class VpnConnectionInner extends Resource {
     }
 
     /**
-     * Get the connectionStatus value.
+     * Get the connection status. Possible values include: 'Unknown', 'Connecting', 'Connected', 'NotConnected'.
      *
      * @return the connectionStatus value
      */
@@ -149,7 +149,7 @@ public class VpnConnectionInner extends Resource {
     }
 
     /**
-     * Set the connectionStatus value.
+     * Set the connection status. Possible values include: 'Unknown', 'Connecting', 'Connected', 'NotConnected'.
      *
      * @param connectionStatus the connectionStatus value to set
      * @return the VpnConnectionInner object itself.
@@ -160,7 +160,7 @@ public class VpnConnectionInner extends Resource {
     }
 
     /**
-     * Get the ingressBytesTransferred value.
+     * Get ingress bytes transferred.
      *
      * @return the ingressBytesTransferred value
      */
@@ -169,7 +169,7 @@ public class VpnConnectionInner extends Resource {
     }
 
     /**
-     * Get the egressBytesTransferred value.
+     * Get egress bytes transferred.
      *
      * @return the egressBytesTransferred value
      */
@@ -178,7 +178,7 @@ public class VpnConnectionInner extends Resource {
     }
 
     /**
-     * Get the connectionBandwidthInMbps value.
+     * Get expected bandwidth in MBPS.
      *
      * @return the connectionBandwidthInMbps value
      */
@@ -187,7 +187,7 @@ public class VpnConnectionInner extends Resource {
     }
 
     /**
-     * Get the sharedKey value.
+     * Get sharedKey for the vpn connection.
      *
      * @return the sharedKey value
      */
@@ -196,7 +196,7 @@ public class VpnConnectionInner extends Resource {
     }
 
     /**
-     * Set the sharedKey value.
+     * Set sharedKey for the vpn connection.
      *
      * @param sharedKey the sharedKey value to set
      * @return the VpnConnectionInner object itself.
@@ -207,7 +207,7 @@ public class VpnConnectionInner extends Resource {
     }
 
     /**
-     * Get the enableBgp value.
+     * Get enableBgp flag.
      *
      * @return the enableBgp value
      */
@@ -216,7 +216,7 @@ public class VpnConnectionInner extends Resource {
     }
 
     /**
-     * Set the enableBgp value.
+     * Set enableBgp flag.
      *
      * @param enableBgp the enableBgp value to set
      * @return the VpnConnectionInner object itself.
@@ -227,7 +227,7 @@ public class VpnConnectionInner extends Resource {
     }
 
     /**
-     * Get the ipsecPolicies value.
+     * Get the IPSec Policies to be considered by this connection.
      *
      * @return the ipsecPolicies value
      */
@@ -236,7 +236,7 @@ public class VpnConnectionInner extends Resource {
     }
 
     /**
-     * Set the ipsecPolicies value.
+     * Set the IPSec Policies to be considered by this connection.
      *
      * @param ipsecPolicies the ipsecPolicies value to set
      * @return the VpnConnectionInner object itself.
@@ -247,7 +247,7 @@ public class VpnConnectionInner extends Resource {
     }
 
     /**
-     * Get the provisioningState value.
+     * Get the provisioning state of the resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      *
      * @return the provisioningState value
      */
@@ -256,7 +256,7 @@ public class VpnConnectionInner extends Resource {
     }
 
     /**
-     * Set the provisioningState value.
+     * Set the provisioning state of the resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      *
      * @param provisioningState the provisioningState value to set
      * @return the VpnConnectionInner object itself.
@@ -267,7 +267,7 @@ public class VpnConnectionInner extends Resource {
     }
 
     /**
-     * Get the etag value.
+     * Get gets a unique read-only string that changes whenever the resource is updated.
      *
      * @return the etag value
      */
@@ -276,7 +276,7 @@ public class VpnConnectionInner extends Resource {
     }
 
     /**
-     * Get the id value.
+     * Get resource ID.
      *
      * @return the id value
      */
@@ -285,7 +285,7 @@ public class VpnConnectionInner extends Resource {
     }
 
     /**
-     * Set the id value.
+     * Set resource ID.
      *
      * @param id the id value to set
      * @return the VpnConnectionInner object itself.

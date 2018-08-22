@@ -69,7 +69,7 @@ public class VpnGatewayInner extends Resource {
     private String id;
 
     /**
-     * Get the virtualHub value.
+     * Get the VirtualHub to which the gateway belongs.
      *
      * @return the virtualHub value
      */
@@ -78,7 +78,7 @@ public class VpnGatewayInner extends Resource {
     }
 
     /**
-     * Set the virtualHub value.
+     * Set the VirtualHub to which the gateway belongs.
      *
      * @param virtualHub the virtualHub value to set
      * @return the VpnGatewayInner object itself.
@@ -89,7 +89,7 @@ public class VpnGatewayInner extends Resource {
     }
 
     /**
-     * Get the connections value.
+     * Get list of all vpn connections to the gateway.
      *
      * @return the connections value
      */
@@ -98,7 +98,7 @@ public class VpnGatewayInner extends Resource {
     }
 
     /**
-     * Set the connections value.
+     * Set list of all vpn connections to the gateway.
      *
      * @param connections the connections value to set
      * @return the VpnGatewayInner object itself.
@@ -109,7 +109,7 @@ public class VpnGatewayInner extends Resource {
     }
 
     /**
-     * Get the bgpSettings value.
+     * Get local network gateway's BGP speaker settings.
      *
      * @return the bgpSettings value
      */
@@ -118,7 +118,7 @@ public class VpnGatewayInner extends Resource {
     }
 
     /**
-     * Set the bgpSettings value.
+     * Set local network gateway's BGP speaker settings.
      *
      * @param bgpSettings the bgpSettings value to set
      * @return the VpnGatewayInner object itself.
@@ -129,7 +129,7 @@ public class VpnGatewayInner extends Resource {
     }
 
     /**
-     * Get the provisioningState value.
+     * Get the provisioning state of the resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      *
      * @return the provisioningState value
      */
@@ -138,7 +138,7 @@ public class VpnGatewayInner extends Resource {
     }
 
     /**
-     * Set the provisioningState value.
+     * Set the provisioning state of the resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      *
      * @param provisioningState the provisioningState value to set
      * @return the VpnGatewayInner object itself.
@@ -149,7 +149,7 @@ public class VpnGatewayInner extends Resource {
     }
 
     /**
-     * Get the policies value.
+     * Get the policies applied to this vpn gateway.
      *
      * @return the policies value
      */
@@ -158,7 +158,7 @@ public class VpnGatewayInner extends Resource {
     }
 
     /**
-     * Set the policies value.
+     * Set the policies applied to this vpn gateway.
      *
      * @param policies the policies value to set
      * @return the VpnGatewayInner object itself.
@@ -169,7 +169,7 @@ public class VpnGatewayInner extends Resource {
     }
 
     /**
-     * Get the etag value.
+     * Get gets a unique read-only string that changes whenever the resource is updated.
      *
      * @return the etag value
      */
@@ -178,7 +178,7 @@ public class VpnGatewayInner extends Resource {
     }
 
     /**
-     * Get the id value.
+     * Get resource ID.
      *
      * @return the id value
      */
@@ -187,7 +187,7 @@ public class VpnGatewayInner extends Resource {
     }
 
     /**
-     * Set the id value.
+     * Set resource ID.
      *
      * @param id the id value to set
      * @return the VpnGatewayInner object itself.

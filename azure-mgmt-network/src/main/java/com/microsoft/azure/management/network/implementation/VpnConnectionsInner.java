@@ -160,7 +160,7 @@ public class VpnConnectionsInner {
         if (connectionName == null) {
             throw new IllegalArgumentException("Parameter connectionName is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-08-01";
         return service.get(this.client.subscriptionId(), resourceGroupName, gatewayName, connectionName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<VpnConnectionInner>>>() {
                 @Override
@@ -259,7 +259,7 @@ public class VpnConnectionsInner {
             throw new IllegalArgumentException("Parameter vpnConnectionParameters is required and cannot be null.");
         }
         Validator.validate(vpnConnectionParameters);
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-08-01";
         Observable<Response<ResponseBody>> observable = service.createOrUpdate(this.client.subscriptionId(), resourceGroupName, gatewayName, connectionName, apiVersion, vpnConnectionParameters, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<VpnConnectionInner>() { }.getType());
     }
@@ -341,7 +341,7 @@ public class VpnConnectionsInner {
             throw new IllegalArgumentException("Parameter vpnConnectionParameters is required and cannot be null.");
         }
         Validator.validate(vpnConnectionParameters);
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-08-01";
         return service.beginCreateOrUpdate(this.client.subscriptionId(), resourceGroupName, gatewayName, connectionName, apiVersion, vpnConnectionParameters, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<VpnConnectionInner>>>() {
                 @Override
@@ -432,7 +432,7 @@ public class VpnConnectionsInner {
         if (connectionName == null) {
             throw new IllegalArgumentException("Parameter connectionName is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-08-01";
         Observable<Response<ResponseBody>> observable = service.delete(this.client.subscriptionId(), resourceGroupName, gatewayName, connectionName, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
     }
@@ -505,7 +505,7 @@ public class VpnConnectionsInner {
         if (connectionName == null) {
             throw new IllegalArgumentException("Parameter connectionName is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-08-01";
         return service.beginDelete(this.client.subscriptionId(), resourceGroupName, gatewayName, connectionName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
@@ -628,7 +628,7 @@ public class VpnConnectionsInner {
         if (gatewayName == null) {
             throw new IllegalArgumentException("Parameter gatewayName is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-08-01";
         return service.listByVpnGateway(this.client.subscriptionId(), resourceGroupName, gatewayName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<VpnConnectionInner>>>>() {
                 @Override

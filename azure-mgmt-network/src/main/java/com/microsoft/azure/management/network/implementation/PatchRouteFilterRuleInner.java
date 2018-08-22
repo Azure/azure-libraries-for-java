@@ -67,7 +67,7 @@ public class PatchRouteFilterRuleInner extends SubResource {
     }
 
     /**
-     * Get the access value.
+     * Get the access type of the rule. Valid values are: 'Allow', 'Deny'. Possible values include: 'Allow', 'Deny'.
      *
      * @return the access value
      */
@@ -76,7 +76,7 @@ public class PatchRouteFilterRuleInner extends SubResource {
     }
 
     /**
-     * Set the access value.
+     * Set the access type of the rule. Valid values are: 'Allow', 'Deny'. Possible values include: 'Allow', 'Deny'.
      *
      * @param access the access value to set
      * @return the PatchRouteFilterRuleInner object itself.
@@ -87,7 +87,7 @@ public class PatchRouteFilterRuleInner extends SubResource {
     }
 
     /**
-     * Get the routeFilterRuleType value.
+     * Get the rule type of the rule. Valid value is: 'Community'.
      *
      * @return the routeFilterRuleType value
      */
@@ -96,7 +96,7 @@ public class PatchRouteFilterRuleInner extends SubResource {
     }
 
     /**
-     * Set the routeFilterRuleType value.
+     * Set the rule type of the rule. Valid value is: 'Community'.
      *
      * @param routeFilterRuleType the routeFilterRuleType value to set
      * @return the PatchRouteFilterRuleInner object itself.
@@ -107,7 +107,7 @@ public class PatchRouteFilterRuleInner extends SubResource {
     }
 
     /**
-     * Get the communities value.
+     * Get the collection for bgp community values to filter on. e.g. ['12076:5010','12076:5020'].
      *
      * @return the communities value
      */
@@ -116,7 +116,7 @@ public class PatchRouteFilterRuleInner extends SubResource {
     }
 
     /**
-     * Set the communities value.
+     * Set the collection for bgp community values to filter on. e.g. ['12076:5010','12076:5020'].
      *
      * @param communities the communities value to set
      * @return the PatchRouteFilterRuleInner object itself.
@@ -127,7 +127,7 @@ public class PatchRouteFilterRuleInner extends SubResource {
     }
 
     /**
-     * Get the provisioningState value.
+     * Get the provisioning state of the resource. Possible values are: 'Updating', 'Deleting', 'Succeeded' and 'Failed'.
      *
      * @return the provisioningState value
      */
@@ -136,7 +136,7 @@ public class PatchRouteFilterRuleInner extends SubResource {
     }
 
     /**
-     * Get the name value.
+     * Get the name of the resource that is unique within a resource group. This name can be used to access the resource.
      *
      * @return the name value
      */
@@ -145,7 +145,7 @@ public class PatchRouteFilterRuleInner extends SubResource {
     }
 
     /**
-     * Get the etag value.
+     * Get a unique read-only string that changes whenever the resource is updated.
      *
      * @return the etag value
      */

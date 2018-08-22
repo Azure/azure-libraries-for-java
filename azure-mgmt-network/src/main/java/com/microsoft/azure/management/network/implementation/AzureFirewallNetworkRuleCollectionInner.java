@@ -61,7 +61,7 @@ public class AzureFirewallNetworkRuleCollectionInner extends SubResource {
     private String etag;
 
     /**
-     * Get the priority value.
+     * Get priority of the network rule collection resource.
      *
      * @return the priority value
      */
@@ -70,7 +70,7 @@ public class AzureFirewallNetworkRuleCollectionInner extends SubResource {
     }
 
     /**
-     * Set the priority value.
+     * Set priority of the network rule collection resource.
      *
      * @param priority the priority value to set
      * @return the AzureFirewallNetworkRuleCollectionInner object itself.
@@ -81,7 +81,7 @@ public class AzureFirewallNetworkRuleCollectionInner extends SubResource {
     }
 
     /**
-     * Get the action value.
+     * Get the action type of a rule collection.
      *
      * @return the action value
      */
@@ -90,7 +90,7 @@ public class AzureFirewallNetworkRuleCollectionInner extends SubResource {
     }
 
     /**
-     * Set the action value.
+     * Set the action type of a rule collection.
      *
      * @param action the action value to set
      * @return the AzureFirewallNetworkRuleCollectionInner object itself.
@@ -101,7 +101,7 @@ public class AzureFirewallNetworkRuleCollectionInner extends SubResource {
     }
 
     /**
-     * Get the rules value.
+     * Get collection of rules used by a network rule collection.
      *
      * @return the rules value
      */
@@ -110,7 +110,7 @@ public class AzureFirewallNetworkRuleCollectionInner extends SubResource {
     }
 
     /**
-     * Set the rules value.
+     * Set collection of rules used by a network rule collection.
      *
      * @param rules the rules value to set
      * @return the AzureFirewallNetworkRuleCollectionInner object itself.
@@ -121,7 +121,7 @@ public class AzureFirewallNetworkRuleCollectionInner extends SubResource {
     }
 
     /**
-     * Get the provisioningState value.
+     * Get the provisioning state of the resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      *
      * @return the provisioningState value
      */
@@ -130,7 +130,7 @@ public class AzureFirewallNetworkRuleCollectionInner extends SubResource {
     }
 
     /**
-     * Set the provisioningState value.
+     * Set the provisioning state of the resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      *
      * @param provisioningState the provisioningState value to set
      * @return the AzureFirewallNetworkRuleCollectionInner object itself.
@@ -141,7 +141,7 @@ public class AzureFirewallNetworkRuleCollectionInner extends SubResource {
     }
 
     /**
-     * Get the name value.
+     * Get gets name of the resource that is unique within a resource group. This name can be used to access the resource.
      *
      * @return the name value
      */
@@ -150,7 +150,7 @@ public class AzureFirewallNetworkRuleCollectionInner extends SubResource {
     }
 
     /**
-     * Set the name value.
+     * Set gets name of the resource that is unique within a resource group. This name can be used to access the resource.
      *
      * @param name the name value to set
      * @return the AzureFirewallNetworkRuleCollectionInner object itself.
@@ -161,7 +161,7 @@ public class AzureFirewallNetworkRuleCollectionInner extends SubResource {
     }
 
     /**
-     * Get the etag value.
+     * Get gets a unique read-only string that changes whenever the resource is updated.
      *
      * @return the etag value
      */

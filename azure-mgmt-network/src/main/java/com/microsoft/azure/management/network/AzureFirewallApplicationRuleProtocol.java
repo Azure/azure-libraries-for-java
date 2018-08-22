@@ -28,7 +28,7 @@ public class AzureFirewallApplicationRuleProtocol {
     private Integer port;
 
     /**
-     * Get the protocolType value.
+     * Get protocol type. Possible values include: 'Http', 'Https'.
      *
      * @return the protocolType value
      */
@@ -37,7 +37,7 @@ public class AzureFirewallApplicationRuleProtocol {
     }
 
     /**
-     * Set the protocolType value.
+     * Set protocol type. Possible values include: 'Http', 'Https'.
      *
      * @param protocolType the protocolType value to set
      * @return the AzureFirewallApplicationRuleProtocol object itself.
@@ -48,7 +48,7 @@ public class AzureFirewallApplicationRuleProtocol {
     }
 
     /**
-     * Get the port value.
+     * Get port number for the protocol, cannot be greater than 64000. This field is optional.
      *
      * @return the port value
      */
@@ -57,7 +57,7 @@ public class AzureFirewallApplicationRuleProtocol {
     }
 
     /**
-     * Set the port value.
+     * Set port number for the protocol, cannot be greater than 64000. This field is optional.
      *
      * @param port the port value to set
      * @return the AzureFirewallApplicationRuleProtocol object itself.

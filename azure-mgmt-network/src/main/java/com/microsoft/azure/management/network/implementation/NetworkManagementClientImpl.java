@@ -138,19 +138,6 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
     }
 
     /**
-     * The AzureFirewallsInner object to access its operations.
-     */
-    private AzureFirewallsInner azureFirewalls;
-
-    /**
-     * Gets the AzureFirewallsInner object to access its operations.
-     * @return the AzureFirewallsInner object.
-     */
-    public AzureFirewallsInner azureFirewalls() {
-        return this.azureFirewalls;
-    }
-
-    /**
      * The ApplicationGatewaysInner object to access its operations.
      */
     private ApplicationGatewaysInner applicationGateways;
@@ -174,6 +161,19 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
      */
     public ApplicationSecurityGroupsInner applicationSecurityGroups() {
         return this.applicationSecurityGroups;
+    }
+
+    /**
+     * The AzureFirewallsInner object to access its operations.
+     */
+    private AzureFirewallsInner azureFirewalls;
+
+    /**
+     * Gets the AzureFirewallsInner object to access its operations.
+     * @return the AzureFirewallsInner object.
+     */
+    public AzureFirewallsInner azureFirewalls() {
+        return this.azureFirewalls;
     }
 
     /**
@@ -424,6 +424,19 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
     }
 
     /**
+     * The NetworkInterfaceTapConfigurationsInner object to access its operations.
+     */
+    private NetworkInterfaceTapConfigurationsInner networkInterfaceTapConfigurations;
+
+    /**
+     * Gets the NetworkInterfaceTapConfigurationsInner object to access its operations.
+     * @return the NetworkInterfaceTapConfigurationsInner object.
+     */
+    public NetworkInterfaceTapConfigurationsInner networkInterfaceTapConfigurations() {
+        return this.networkInterfaceTapConfigurations;
+    }
+
+    /**
      * The NetworkSecurityGroupsInner object to access its operations.
      */
     private NetworkSecurityGroupsInner networkSecurityGroups;
@@ -528,6 +541,19 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
     }
 
     /**
+     * The PublicIPPrefixesInner object to access its operations.
+     */
+    private PublicIPPrefixesInner publicIPPrefixes;
+
+    /**
+     * Gets the PublicIPPrefixesInner object to access its operations.
+     * @return the PublicIPPrefixesInner object.
+     */
+    public PublicIPPrefixesInner publicIPPrefixes() {
+        return this.publicIPPrefixes;
+    }
+
+    /**
      * The RouteFiltersInner object to access its operations.
      */
     private RouteFiltersInner routeFilters;
@@ -593,6 +619,32 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
     }
 
     /**
+     * The ServiceEndpointPoliciesInner object to access its operations.
+     */
+    private ServiceEndpointPoliciesInner serviceEndpointPolicies;
+
+    /**
+     * Gets the ServiceEndpointPoliciesInner object to access its operations.
+     * @return the ServiceEndpointPoliciesInner object.
+     */
+    public ServiceEndpointPoliciesInner serviceEndpointPolicies() {
+        return this.serviceEndpointPolicies;
+    }
+
+    /**
+     * The ServiceEndpointPolicyDefinitionsInner object to access its operations.
+     */
+    private ServiceEndpointPolicyDefinitionsInner serviceEndpointPolicyDefinitions;
+
+    /**
+     * Gets the ServiceEndpointPolicyDefinitionsInner object to access its operations.
+     * @return the ServiceEndpointPolicyDefinitionsInner object.
+     */
+    public ServiceEndpointPolicyDefinitionsInner serviceEndpointPolicyDefinitions() {
+        return this.serviceEndpointPolicyDefinitions;
+    }
+
+    /**
      * The UsagesInner object to access its operations.
      */
     private UsagesInner usages;
@@ -642,6 +694,19 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
      */
     public VirtualNetworkPeeringsInner virtualNetworkPeerings() {
         return this.virtualNetworkPeerings;
+    }
+
+    /**
+     * The VirtualNetworkTapsInner object to access its operations.
+     */
+    private VirtualNetworkTapsInner virtualNetworkTaps;
+
+    /**
+     * Gets the VirtualNetworkTapsInner object to access its operations.
+     * @return the VirtualNetworkTapsInner object.
+     */
+    public VirtualNetworkTapsInner virtualNetworkTaps() {
+        return this.virtualNetworkTaps;
     }
 
     /**
@@ -808,9 +873,9 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
         this.acceptLanguage = "en-US";
         this.longRunningOperationRetryTimeout = 30;
         this.generateClientRequestId = true;
-        this.azureFirewalls = new AzureFirewallsInner(restClient().retrofit(), this);
         this.applicationGateways = new ApplicationGatewaysInner(restClient().retrofit(), this);
         this.applicationSecurityGroups = new ApplicationSecurityGroupsInner(restClient().retrofit(), this);
+        this.azureFirewalls = new AzureFirewallsInner(restClient().retrofit(), this);
         this.ddosProtectionPlans = new DdosProtectionPlansInner(restClient().retrofit(), this);
         this.availableEndpointServices = new AvailableEndpointServicesInner(restClient().retrofit(), this);
         this.expressRouteCircuitAuthorizations = new ExpressRouteCircuitAuthorizationsInner(restClient().retrofit(), this);
@@ -830,6 +895,7 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
         this.networkInterfaces = new NetworkInterfacesInner(restClient().retrofit(), this);
         this.networkInterfaceIPConfigurations = new NetworkInterfaceIPConfigurationsInner(restClient().retrofit(), this);
         this.networkInterfaceLoadBalancers = new NetworkInterfaceLoadBalancersInner(restClient().retrofit(), this);
+        this.networkInterfaceTapConfigurations = new NetworkInterfaceTapConfigurationsInner(restClient().retrofit(), this);
         this.networkSecurityGroups = new NetworkSecurityGroupsInner(restClient().retrofit(), this);
         this.securityRules = new SecurityRulesInner(restClient().retrofit(), this);
         this.defaultSecurityRules = new DefaultSecurityRulesInner(restClient().retrofit(), this);
@@ -838,15 +904,19 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
         this.connectionMonitors = new ConnectionMonitorsInner(restClient().retrofit(), this);
         this.operations = new OperationsInner(restClient().retrofit(), this);
         this.publicIPAddresses = new PublicIPAddressesInner(restClient().retrofit(), this);
+        this.publicIPPrefixes = new PublicIPPrefixesInner(restClient().retrofit(), this);
         this.routeFilters = new RouteFiltersInner(restClient().retrofit(), this);
         this.routeFilterRules = new RouteFilterRulesInner(restClient().retrofit(), this);
         this.routeTables = new RouteTablesInner(restClient().retrofit(), this);
         this.routes = new RoutesInner(restClient().retrofit(), this);
         this.bgpServiceCommunities = new BgpServiceCommunitiesInner(restClient().retrofit(), this);
+        this.serviceEndpointPolicies = new ServiceEndpointPoliciesInner(restClient().retrofit(), this);
+        this.serviceEndpointPolicyDefinitions = new ServiceEndpointPolicyDefinitionsInner(restClient().retrofit(), this);
         this.usages = new UsagesInner(restClient().retrofit(), this);
         this.virtualNetworks = new VirtualNetworksInner(restClient().retrofit(), this);
         this.subnets = new SubnetsInner(restClient().retrofit(), this);
         this.virtualNetworkPeerings = new VirtualNetworkPeeringsInner(restClient().retrofit(), this);
+        this.virtualNetworkTaps = new VirtualNetworkTapsInner(restClient().retrofit(), this);
         this.virtualNetworkGateways = new VirtualNetworkGatewaysInner(restClient().retrofit(), this);
         this.virtualNetworkGatewayConnections = new VirtualNetworkGatewayConnectionsInner(restClient().retrofit(), this);
         this.localNetworkGateways = new LocalNetworkGatewaysInner(restClient().retrofit(), this);
@@ -948,7 +1018,7 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
         if (domainNameLabel == null) {
             throw new IllegalArgumentException("Parameter domainNameLabel is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-08-01";
         return service.checkDnsNameAvailability(location, this.subscriptionId(), domainNameLabel, apiVersion, this.acceptLanguage(), this.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DnsNameAvailabilityResultInner>>>() {
                 @Override

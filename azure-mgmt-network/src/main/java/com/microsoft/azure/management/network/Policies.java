@@ -27,7 +27,7 @@ public class Policies {
     private Boolean allowVnetToVnetTraffic;
 
     /**
-     * Get the allowBranchToBranchTraffic value.
+     * Get true if branch to branch traffic is allowed.
      *
      * @return the allowBranchToBranchTraffic value
      */
@@ -36,7 +36,7 @@ public class Policies {
     }
 
     /**
-     * Set the allowBranchToBranchTraffic value.
+     * Set true if branch to branch traffic is allowed.
      *
      * @param allowBranchToBranchTraffic the allowBranchToBranchTraffic value to set
      * @return the Policies object itself.
@@ -47,7 +47,7 @@ public class Policies {
     }
 
     /**
-     * Get the allowVnetToVnetTraffic value.
+     * Get true if Vnet to Vnet traffic is allowed.
      *
      * @return the allowVnetToVnetTraffic value
      */
@@ -56,7 +56,7 @@ public class Policies {
     }
 
     /**
-     * Set the allowVnetToVnetTraffic value.
+     * Set true if Vnet to Vnet traffic is allowed.
      *
      * @param allowVnetToVnetTraffic the allowVnetToVnetTraffic value to set
      * @return the Policies object itself.

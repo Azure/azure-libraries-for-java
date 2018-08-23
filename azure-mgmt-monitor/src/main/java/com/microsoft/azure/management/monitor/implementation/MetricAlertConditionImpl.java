@@ -64,13 +64,13 @@ class MetricAlertConditionImpl
     }
 
     @Override
-    public MetricAlertConditionImpl withMetricNamespace(String metricNamespace) {
+    public MetricAlertConditionImpl withMetricName(String metricName, String metricNamespace) {
         this.inner().withMetricNamespace(metricNamespace);
-        return this;
+        return this.withMetricName(metricName);
     }
 
     @Override
-    public MetricAlertConditionImpl withSignalName(String metricName) {
+    public MetricAlertConditionImpl withMetricName(String metricName) {
         this.inner().withMetricName(metricName);
         return this;
     }
@@ -114,7 +114,7 @@ class MetricAlertConditionImpl
     }
 
     @Override
-    public String signalName() {
+    public String metricName() {
         return this.inner().metricName();
     }
 

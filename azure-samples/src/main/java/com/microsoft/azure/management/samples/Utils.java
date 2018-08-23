@@ -2950,9 +2950,9 @@ public final class Utils {
             }
         }
 
-        if (actionGroup.azureAppPushReceivers() != null && !actionGroup.azureAppPushReceivers().isEmpty()) {
+        if (actionGroup.pushNotificationReceivers() != null && !actionGroup.pushNotificationReceivers().isEmpty()) {
             info.append("\n\tApp Push Notification receivers: ");
-            for (AzureAppPushReceiver er : actionGroup.azureAppPushReceivers()) {
+            for (AzureAppPushReceiver er : actionGroup.pushNotificationReceivers()) {
                 info.append("\n\t\tName: ").append(er.name());
                 info.append("\n\t\tEmail: ").append(er.emailAddress());
                 info.append("\n\t\t===");
@@ -3088,7 +3088,7 @@ public final class Utils {
             for (Map.Entry<String, MetricAlertCondition> er : metricAlert.alertCriterias().entrySet()) {
                 MetricAlertCondition alertCondition = er.getValue();
                 info.append("\n\t\tCondition name: ").append(er.getKey())
-                        .append("\n\t\tSignal name: ").append(alertCondition.signalName())
+                        .append("\n\t\tSignal name: ").append(alertCondition.metricName())
                         .append("\n\t\tMetric Namespace: ").append(alertCondition.metricNamespace())
                         .append("\n\t\tOperator: ").append(alertCondition.condition())
                         .append("\n\t\tThreshold: ").append(alertCondition.threshold())

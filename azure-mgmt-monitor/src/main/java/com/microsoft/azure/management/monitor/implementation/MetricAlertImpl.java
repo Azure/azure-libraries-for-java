@@ -85,13 +85,13 @@ class MetricAlertImpl
     }
 
     @Override
-    public MetricAlertImpl withWindowSize(Period size) {
+    public MetricAlertImpl withPeriod(Period size) {
         this.inner().withWindowSize(size);
         return this;
     }
 
     @Override
-    public MetricAlertImpl withEvaluationFrequency(Period frequency) {
+    public MetricAlertImpl withFrequency(Period frequency) {
         this.inner().withEvaluationFrequency(frequency);
         return this;
     }
@@ -100,6 +100,12 @@ class MetricAlertImpl
     public MetricAlertImpl withSeverity(int severity) {
         this.inner().withSeverity(severity);
         return this;
+    }
+
+    @Override
+    public MetricAlertImpl withAlertDetails(int severity, String description) {
+        this.withSeverity(severity);
+        return this.withDescription(description);
     }
 
     @Override

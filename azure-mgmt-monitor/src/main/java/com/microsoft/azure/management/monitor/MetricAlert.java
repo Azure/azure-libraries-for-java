@@ -120,8 +120,6 @@ public interface MetricAlert extends
             DefinitionStages.WithWindowSize,
             DefinitionStages.WithEvaluationFrequency,
             DefinitionStages.WithSeverity,
-            DefinitionStages.WithDescription,
-            DefinitionStages.WithAlertEnabled,
             DefinitionStages.WithActionGroup,
             DefinitionStages.WithCriteriaDefinition {
     }
@@ -167,7 +165,7 @@ public interface MetricAlert extends
              * @param size the windowSize value to set
              * @return the next stage of metric alert definition.
              */
-            WithEvaluationFrequency withWindowSize(Period size);
+            WithEvaluationFrequency withPeriod(Period size);
         }
 
         /**
@@ -180,7 +178,7 @@ public interface MetricAlert extends
              * @param frequency the evaluationFrequency value to set.
              * @return the next stage of metric alert definition.
              */
-            WithSeverity withEvaluationFrequency(Period frequency);
+            WithSeverity withFrequency(Period frequency);
         }
 
         /**
@@ -188,46 +186,13 @@ public interface MetricAlert extends
          */
         interface WithSeverity {
             /**
-             * Set alert severity {0, 1, 2, 3, 4}.
+             * Set alert severity {0, 1, 2, 3, 4} and description.
              *
              * @param severity the severity value to set
-             * @return the next stage of metric alert definition.
-             */
-            WithDescription withSeverity(int severity);
-        }
-
-        /**
-         * The stage of the definition which specifies description text for metric alert.
-         */
-        interface WithDescription {
-            /**
-             * Sets description for metric alert.
-             *
              * @param description Human readable text description of the metric alert.
              * @return the next stage of metric alert definition.
              */
-            WithAlertEnabled withDescription(String description);
-        }
-
-        /**
-         * The stage of the definition which specifies if the metric alert should be enabled upon creation.
-         */
-        interface WithAlertEnabled {
-            /**
-             * Sets metric alert as enabled during the creation.
-             *
-             * @return the next stage of metric alert definition.
-             */
-            @Method
-            WithActionGroup withRuleEnabled();
-
-            /**
-             * Sets metric alert as disabled during the creation.
-             *
-             * @return the next stage of metric alert definition.
-             */
-            @Method
-            WithActionGroup withRuleDisabled();
+            WithActionGroup withAlertDetails(int severity, String description);
         }
 
         /**
@@ -265,12 +230,20 @@ public interface MetricAlert extends
                 DefinitionWithTags<WithCreate>,
                 WithCriteriaDefinition {
             /**
-             * Set the flag that indicates the alert should be auto resolved.
+             * Set the flag that indicates the alert should not be auto resolved.
              *
              * @return the next stage of metric alert condition definition.
              */
             @Method
-            WithCreate withAutoMitigation();
+            WithCreate withoutAutoMitigation();
+
+            /**
+             * Sets metric alert as disabled during the creation.
+             *
+             * @return the next stage of metric alert definition.
+             */
+            @Method
+            WithActionGroup withRuleDisabled();
         }
     }
 
@@ -288,7 +261,7 @@ public interface MetricAlert extends
              * @param size the windowSize value to set
              * @return the next stage of the metric alert update.
              */
-            Update withWindowSize(Period size);
+            Update withPeriod(Period size);
 
             /**
              * Set how often the metric alert is evaluated represented in ISO 8601 duration format.
@@ -296,7 +269,7 @@ public interface MetricAlert extends
              * @param frequency the evaluationFrequency value to set.
              * @return the next stage of the metric alert update.
              */
-            Update withEvaluationFrequency(Period frequency);
+            Update withFrequency(Period frequency);
 
             /**
              * Set alert severity {0, 1, 2, 3, 4}.

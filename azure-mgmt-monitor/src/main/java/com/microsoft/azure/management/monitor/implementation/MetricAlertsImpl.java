@@ -30,7 +30,10 @@ class MetricAlertsImpl
 
     @Override
     protected MetricAlertImpl wrapModel(String name) {
-        return new MetricAlertImpl(name, new MetricAlertResourceInner(), this.manager());
+        MetricAlertResourceInner inner = new MetricAlertResourceInner();
+        inner.withEnabled(true);
+        inner.withAutoMitigate(true);
+        return new MetricAlertImpl(name, inner, this.manager());
     }
 
     @Override

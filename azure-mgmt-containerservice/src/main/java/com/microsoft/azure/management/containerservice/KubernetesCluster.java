@@ -88,9 +88,30 @@ public interface KubernetesCluster extends
     Map<String, KubernetesClusterAgentPool> agentPools();
 
     /**
-     * @return the Linux SSH key
+     * @return the network profile settings for the cluster
      */
+    @Beta(SinceVersion.V1_15_0)
     ContainerServiceNetworkProfile networkProfile();
+
+    /**
+     * @return the cluster's add-on's profiles
+     */
+    @Beta(SinceVersion.V1_15_0)
+    Map<String, ManagedClusterAddonProfile> addonProfiles();
+
+    /**
+     * @return the name of the resource group containing agent pool nodes
+     */
+    @Beta(SinceVersion.V1_15_0)
+    String nodeResourceGroup();
+
+    /**
+     * @return true if Kubernetes Role-Based Access Control is enabled
+     */
+    @Beta(SinceVersion.V1_15_0)
+    boolean enableRBAC();
+
+
 
     // Fluent interfaces
 
@@ -108,6 +129,7 @@ public interface KubernetesCluster extends
         DefinitionStages.WithDnsPrefix,
         DefinitionStages.WithAgentPool,
         DefinitionStages.WithNetworkProfile,
+        DefinitionStages.WithAddOnProfiles,
         KubernetesCluster.DefinitionStages.WithCreate {
     }
 
@@ -386,6 +408,20 @@ public interface KubernetesCluster extends
         }
 
         /**
+         * The stage of the Kubernetes cluster definition allowing to specify the cluster's add-on's profiles.
+         */
+        interface WithAddOnProfiles {
+            /**
+             * Updates the cluster's add-on's profiles.
+             *
+             * @param addOnProfileMap the cluster's add-on's profiles
+             * @return the next stage of the update
+             */
+            @Beta(SinceVersion.V1_15_0)
+            KubernetesCluster.Update withAddOnProfiles(Map<String, ManagedClusterAddonProfile> addOnProfileMap);
+        }
+
+        /**
          * The stage of the definition which contains all the minimum required inputs for
          * the resource to be created, but also allows for any other optional settings to
          * be specified.
@@ -394,6 +430,7 @@ public interface KubernetesCluster extends
             Creatable<KubernetesCluster>,
             WithNetworkProfile,
             WithDnsPrefix,
+            WithAddOnProfiles,
             Resource.DefinitionWithTags<WithCreate> {
         }
     }
@@ -402,9 +439,12 @@ public interface KubernetesCluster extends
      * The template for an update operation, containing all the settings that can be modified.
      */
     interface Update extends
+        KubernetesCluster.UpdateStages.WithUpdateAgentPoolCount,
+        KubernetesCluster.UpdateStages.WithAddOnProfiles,
+        KubernetesCluster.UpdateStages.WithNetworkProfile,
+        KubernetesCluster.UpdateStages.WithRBAC,
         Resource.UpdateWithTags<KubernetesCluster.Update>,
-        Appliable<KubernetesCluster>,
-        KubernetesCluster.UpdateStages.WithUpdateAgentPoolCount {
+        Appliable<KubernetesCluster> {
     }
 
     /**
@@ -433,6 +473,55 @@ public interface KubernetesCluster extends
              */
             @Beta(SinceVersion.V1_15_0)
             KubernetesCluster.Update withAgentPoolVirtualMachineCount(int agentCount);
+        }
+
+        /**
+         * The stage of the Kubernetes cluster update definition allowing to specify the cluster's add-on's profiles.
+         */
+        interface WithAddOnProfiles {
+            /**
+             * Updates the cluster's add-on's profiles.
+             *
+             * @param addOnProfileMap the cluster's add-on's profiles
+             * @return the next stage of the update
+             */
+            @Beta(SinceVersion.V1_15_0)
+            KubernetesCluster.Update withAddOnProfiles(Map<String, ManagedClusterAddonProfile> addOnProfileMap);
+        }
+
+        /**
+         * The stage of the Kubernetes cluster update definition allowing to specify the cluster's network profile.
+         */
+        interface WithNetworkProfile {
+            /**
+             * Updates the cluster's network profile.
+             *
+             * @param networkProfile the cluster's networkProfile
+             * @return the next stage of the update
+             */
+            @Beta(SinceVersion.V1_15_0)
+            KubernetesCluster.Update withNetworkProfile(ContainerServiceNetworkProfile networkProfile);
+        }
+
+        /**
+         * The stage of the Kubernetes cluster update definition allowing to specify if Kubernetes Role-Based Access Control is enabled or disabled.
+         */
+        interface WithRBAC {
+            /**
+             * Updates the cluster to specify the Kubernetes Role-Based Access Control is enabled.
+             *
+             * @return the next stage of the update
+             */
+            @Beta(SinceVersion.V1_15_0)
+            KubernetesCluster.Update withRBACEnabled();
+
+            /**
+             * Updates the cluster to specify the Kubernetes Role-Based Access Control is disabled.
+             *
+             * @return the next stage of the update
+             */
+            @Beta(SinceVersion.V1_15_0)
+            KubernetesCluster.Update withRBACDisabled();
         }
     }
 }

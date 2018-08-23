@@ -13,6 +13,7 @@ import com.microsoft.azure.management.containerservice.ContainerServiceSshPublic
 import com.microsoft.azure.management.containerservice.KubernetesCluster;
 import com.microsoft.azure.management.containerservice.KubernetesClusterAgentPool;
 import com.microsoft.azure.management.containerservice.KubernetesVersion;
+import com.microsoft.azure.management.containerservice.ManagedClusterAddonProfile;
 import com.microsoft.azure.management.containerservice.ManagedClusterAgentPoolProfile;
 import com.microsoft.azure.management.containerservice.ManagedClusterServicePrincipalProfile;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
@@ -144,6 +145,21 @@ public class KubernetesClusterImpl extends
     @Override
     public ContainerServiceNetworkProfile networkProfile() {
         return this.inner().networkProfile();
+    }
+
+    @Override
+    public Map<String, ManagedClusterAddonProfile> addonProfiles() {
+        return Collections.unmodifiableMap(this.inner().addonProfiles());
+    }
+
+    @Override
+    public String nodeResourceGroup() {
+        return this.inner().nodeResourceGroup();
+    }
+
+    @Override
+    public boolean enableRBAC() {
+        return this.inner().enableRBAC();
     }
 
     private Observable<byte[]> getAdminConfig(final KubernetesClusterImpl self) {
@@ -313,5 +329,29 @@ public class KubernetesClusterImpl extends
     @Override
     public KubernetesCluster.DefinitionStages.NetworkProfileDefinitionStages.Blank<KubernetesCluster.DefinitionStages.WithCreate> defineNetworkProfile() {
         return new KubernetesClusterNetworkProfileImpl(this);
+    }
+
+    @Override
+    public KubernetesClusterImpl withAddOnProfiles(Map<String, ManagedClusterAddonProfile> addOnProfileMap) {
+        this.inner().withAddonProfiles(addOnProfileMap);
+        return this;
+    }
+
+    @Override
+    public KubernetesClusterImpl withNetworkProfile(ContainerServiceNetworkProfile networkProfile) {
+        this.inner().withNetworkProfile(networkProfile);
+        return this;
+    }
+
+    @Override
+    public KubernetesClusterImpl withRBACEnabled() {
+        this.inner().withEnableRBAC(true);
+        return this;
+    }
+
+    @Override
+    public KubernetesClusterImpl withRBACDisabled() {
+        this.inner().withEnableRBAC(false);
+        return this;
     }
 }

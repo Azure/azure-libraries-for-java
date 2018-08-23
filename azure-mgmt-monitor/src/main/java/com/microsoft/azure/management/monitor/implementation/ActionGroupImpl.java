@@ -107,7 +107,7 @@ class ActionGroupImpl
     }
 
     @Override
-    public List<AzureAppPushReceiver> azureAppPushReceivers() {
+    public List<AzureAppPushReceiver> pushNotificationReceivers() {
         return this.inner().azureAppPushReceivers();
     }
 
@@ -136,7 +136,7 @@ class ActionGroupImpl
         this.updateReceiver(actionNamePrefix);
         this.withoutEmail();
         this.withoutSms();
-        this.withoutAzureAppPush();
+        this.withoutPushNotification();
         this.withoutVoice();
         this.withoutAutomationRunbook();
         this.withoutLogicApp();
@@ -297,8 +297,8 @@ class ActionGroupImpl
     }
 
     @Override
-    public ActionGroupImpl withAzureAppPush(String emailAddress) {
-        this.withoutAzureAppPush();
+    public ActionGroupImpl withPushNotification(String emailAddress) {
+        this.withoutPushNotification();
 
         String compositeKey = this.actionReceiverPrefix + appActionSuffix;
         AzureAppPushReceiver ar = new AzureAppPushReceiver();
@@ -435,7 +435,7 @@ class ActionGroupImpl
     }
 
     @Override
-    public ActionGroupImpl withoutAzureAppPush() {
+    public ActionGroupImpl withoutPushNotification() {
         String compositeKey = this.actionReceiverPrefix + appActionSuffix;
         if (this.appActionReceivers.containsKey(compositeKey)) {
             this.appActionReceivers.remove(compositeKey);

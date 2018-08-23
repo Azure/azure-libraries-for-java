@@ -7,18 +7,10 @@
 package com.microsoft.azure.management.monitor;
 
 import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.compute.VirtualMachine;
-import com.microsoft.azure.management.eventhub.EventHubNamespace;
-import com.microsoft.azure.management.eventhub.EventHubNamespaceAuthorizationRule;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.storage.StorageAccount;
 import com.microsoft.rest.RestClient;
-import org.joda.time.Period;
 import org.junit.Assert;
 import org.junit.Test;
-
-import java.util.Collections;
-import java.util.List;
 
 public class ActionGroupsTests extends MonitorManagementTest {
     private static String RG_NAME = "";
@@ -40,7 +32,7 @@ public class ActionGroupsTests extends MonitorManagementTest {
         ActionGroup ag = monitorManager.actionGroups().define("simpleActionGroup")
                 .withNewResourceGroup(RG_NAME, Region.AUSTRALIA_SOUTHEAST)
                 .defineReceiver("first")
-                    .withAzureAppPush("azurepush@outlook.com")
+                    .withPushNotification("azurepush@outlook.com")
                     .withEmail("justemail@outlook.com")
                     .withSms("1", "4255655665")
                     .withVoice("1", "2062066050")
@@ -53,8 +45,8 @@ public class ActionGroupsTests extends MonitorManagementTest {
                 .create();
         Assert.assertNotNull(ag);
         Assert.assertEquals("simpleAction", ag.shortName());
-        Assert.assertNotNull(ag.azureAppPushReceivers());
-        Assert.assertEquals(1, ag.azureAppPushReceivers().size());
+        Assert.assertNotNull(ag.pushNotificationReceivers());
+        Assert.assertEquals(1, ag.pushNotificationReceivers().size());
         Assert.assertNotNull(ag.smsReceivers());
         Assert.assertEquals(1, ag.smsReceivers().size());
         Assert.assertNotNull(ag.voiceReceivers());

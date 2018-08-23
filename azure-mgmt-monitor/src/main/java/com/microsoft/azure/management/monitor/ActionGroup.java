@@ -37,14 +37,6 @@ public interface ActionGroup extends
     String shortName();
 
     /**
-     * Get the enabled value.
-     *
-     * @return the enabled value
-     */
-    /*@LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
-    boolean enabled();*/
-
-    /**
      * Get the emailReceivers value.
      *
      * @return the emailReceivers value
@@ -77,12 +69,12 @@ public interface ActionGroup extends
     List<ItsmReceiver> itsmReceivers();
 
     /**
-     * Get the azureAppPushReceivers value.
+     * Get the pushNotificationReceivers value.
      *
-     * @return the azureAppPushReceivers value
+     * @return the pushNotificationReceivers value
      */
     @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
-    List<AzureAppPushReceiver> azureAppPushReceivers();
+    List<AzureAppPushReceiver> pushNotificationReceivers();
 
     /**
      * Get the automationRunbookReceivers value.
@@ -165,7 +157,7 @@ public interface ActionGroup extends
          * @param emailAddress the emailAddress value to set
          * @return the next stage of the definition
          */
-        ActionDefinition<ParentT> withAzureAppPush(String emailAddress);
+        ActionDefinition<ParentT> withPushNotification(String emailAddress);
 
         /**
          * Sets the Azure Automation Runbook notification receiver.
@@ -345,7 +337,7 @@ public interface ActionGroup extends
              * @return the next stage of the receiver group update
              */
             @Method
-            WithActionUpdateDefinition withoutAzureAppPush();
+            WithActionUpdateDefinition withoutPushNotification();
 
             /**
              * Removes Azure Automation Runbook receiver from current receiver's group.
@@ -421,7 +413,7 @@ public interface ActionGroup extends
              * @param emailAddress the emailAddress value to set
              * @return the next stage of the update
              */
-            WithActionUpdateDefinition withAzureAppPush(String emailAddress);
+            WithActionUpdateDefinition withPushNotification(String emailAddress);
 
             /**
              * Sets the Azure Automation Runbook notification receiver.

@@ -62,7 +62,7 @@ public final class SecurityBreachOrRiskActivityLogAlerts {
             ActionGroup ag = azure.actionGroups().define("securityBreachActionGroup")
                     .withExistingResourceGroup(rgName)
                     .defineReceiver("tierOne")
-                        .withAzureAppPush("security_on_duty@securecorporation.com")
+                        .withPushNotification("security_on_duty@securecorporation.com")
                         .withEmail("security_guards@securecorporation.com")
                         .withSms("1", "4255655665")
                         .withVoice("1", "2062066050")

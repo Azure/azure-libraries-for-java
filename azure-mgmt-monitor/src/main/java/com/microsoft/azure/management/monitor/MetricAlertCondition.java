@@ -35,7 +35,7 @@ public interface MetricAlertCondition extends
      * @return the metricName value
      */
     @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
-    String signalName();
+    String metricName();
 
     /**
      * Get namespace of the metric.
@@ -97,7 +97,16 @@ public interface MetricAlertCondition extends
                  * @param metricName metric name of the signal.
                  * @return the next stage of metric alert condition definition.
                  */
-                WithCriteriaOperator<ParentT> withSignalName(String metricName);
+                WithCriteriaOperator<ParentT> withMetricName(String metricName);
+
+                /**
+                 * Sets the name of the signal name to monitor.
+                 *
+                 * @param metricName metric name of the signal.
+                 * @param metricNamespace the Namespace of the metric.
+                 * @return the next stage of metric alert condition definition.
+                 */
+                WithCriteriaOperator<ParentT> withMetricName(String metricName, String metricNamespace);
             }
         }
 
@@ -124,14 +133,6 @@ public interface MetricAlertCondition extends
          * @param <ParentT> the stage of the parent Metric Alert definition to return to after attaching this definition
          */
         interface WithConditionAttach<ParentT> {
-            /**
-             * Sets Namespace of the metric to filter.
-             *
-             * @param metricNamespace the Namespace of the metric.
-             * @return the next stage of metric alert condition definition.
-             */
-            WithConditionAttach<ParentT> withMetricNamespace(String metricNamespace);
-
             /**
              * Adds a metric dimension filter.
              *
@@ -170,7 +171,16 @@ public interface MetricAlertCondition extends
                  * @param metricName metric name of the signal.
                  * @return the next stage of metric alert condition definition.
                  */
-                WithCriteriaOperator<ParentT> withSignalName(String metricName);
+                WithCriteriaOperator<ParentT> withMetricName(String metricName);
+
+                /**
+                 * Sets the name of the signal name to monitor.
+                 *
+                 * @param metricName metric name of the signal.
+                 * @param metricNamespace the Namespace of the metric.
+                 * @return the next stage of metric alert condition definition.
+                 */
+                WithCriteriaOperator<ParentT> withMetricName(String metricName, String metricNamespace);
             }
         }
 
@@ -197,14 +207,6 @@ public interface MetricAlertCondition extends
          * @param <ParentT> the stage of the parent Metric Alert definition to return to after attaching this definition
          */
         interface WithConditionAttach<ParentT> {
-            /**
-             * Sets Namespace of the metric to filter.
-             *
-             * @param metricNamespace the Namespace of the metric.
-             * @return the next stage of metric alert condition definition.
-             */
-            WithConditionAttach<ParentT> withMetricNamespace(String metricNamespace);
-
             /**
              * Adds a metric dimension filter.
              *

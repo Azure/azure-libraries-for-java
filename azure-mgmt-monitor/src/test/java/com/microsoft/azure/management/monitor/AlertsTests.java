@@ -46,7 +46,7 @@ public class AlertsTests extends MonitorManagementTest {
             ActionGroup ag = monitorManager.actionGroups().define("simpleActionGroup")
                     .withExistingResourceGroup(RG_NAME)
                     .defineReceiver("first")
-                        .withAzureAppPush("azurepush@outlook.com")
+                        .withPushNotification("azurepush@outlook.com")
                         .withEmail("justemail@outlook.com")
                         .withSms("1", "4255655665")
                         .withVoice("1", "2062066050")
@@ -61,20 +61,16 @@ public class AlertsTests extends MonitorManagementTest {
             MetricAlert ma = monitorManager.alertRules().metricAlerts().define("somename")
                     .withExistingResourceGroup(RG_NAME)
                     .withTargetResource(sa.id())
-                    .withWindowSize(Period.minutes(15))
-                    .withEvaluationFrequency(Period.minutes(1))
-                    .withSeverity(3)
-                    .withDescription("This alert rule is for U3 - Single resource  multiple-criteria  with dimensions-single timeseries")
-                    .withRuleEnabled()
+                    .withPeriod(Period.minutes(15))
+                    .withFrequency(Period.minutes(1))
+                    .withAlertDetails(3, "This alert rule is for U3 - Single resource  multiple-criteria  with dimensions-single timeseries")
                     .withActionGroups(ag.id())
                     .defineAlertCriteria("Metric1")
-                        .withSignalName("Transactions")
+                        .withMetricName("Transactions", "Microsoft.Storage/storageAccounts")
                         .withCondition(MetricAlertRuleCondition.GREATER_THAN, MetricAlertRuleTimeAggregation.TOTAL, 100)
                         .withDimensionFilter("ResponseType", "Success")
                         .withDimensionFilter("ApiName", "GetBlob")
-                        .withMetricNamespace("Microsoft.Storage/storageAccounts")
                         .attach()
-                    .withAutoMitigation()
                     .create();
 
             Assert.assertNotNull(ma);
@@ -91,7 +87,7 @@ public class AlertsTests extends MonitorManagementTest {
             Assert.assertEquals(1, ma.alertCriterias().size());
             MetricAlertCondition ac1 = ma.alertCriterias().values().iterator().next();
             Assert.assertEquals("Metric1", ac1.name());
-            Assert.assertEquals("Transactions", ac1.signalName());
+            Assert.assertEquals("Transactions", ac1.metricName());
             Assert.assertEquals("Microsoft.Storage/storageAccounts", ac1.metricNamespace());
             Assert.assertEquals(MetricAlertRuleCondition.GREATER_THAN, ac1.condition());
             Assert.assertEquals(MetricAlertRuleTimeAggregation.TOTAL, ac1.timeAggregation());
@@ -122,7 +118,7 @@ public class AlertsTests extends MonitorManagementTest {
             Assert.assertEquals(ma.alertCriterias().size(), maFromGet.alertCriterias().size());
             ac1 = maFromGet.alertCriterias().values().iterator().next();
             Assert.assertEquals("Metric1", ac1.name());
-            Assert.assertEquals("Transactions", ac1.signalName());
+            Assert.assertEquals("Transactions", ac1.metricName());
             Assert.assertEquals("Microsoft.Storage/storageAccounts", ac1.metricNamespace());
             Assert.assertEquals(MetricAlertRuleCondition.GREATER_THAN, ac1.condition());
             Assert.assertEquals(MetricAlertRuleTimeAggregation.TOTAL, ac1.timeAggregation());
@@ -144,10 +140,9 @@ public class AlertsTests extends MonitorManagementTest {
                         .withCondition(MetricAlertRuleCondition.GREATER_THAN, MetricAlertRuleTimeAggregation.TOTAL, 99)
                         .parent()
                     .defineAlertCriteria("Metric2")
-                        .withSignalName("SuccessE2ELatency")
+                        .withMetricName("SuccessE2ELatency", "Microsoft.Storage/storageAccounts")
                         .withCondition(MetricAlertRuleCondition.GREATER_THAN, MetricAlertRuleTimeAggregation.AVERAGE, 200)
                         .withDimensionFilter("ApiName", "GetBlob")
-                        .withMetricNamespace("Microsoft.Storage/storageAccounts")
                         .attach()
                     .apply();
 
@@ -167,7 +162,7 @@ public class AlertsTests extends MonitorManagementTest {
             ac1 = maCriteriaIterator.next();
             MetricAlertCondition ac2 = maCriteriaIterator.next();
             Assert.assertEquals("Metric1", ac1.name());
-            Assert.assertEquals("Transactions", ac1.signalName());
+            Assert.assertEquals("Transactions", ac1.metricName());
             Assert.assertEquals(MetricAlertRuleCondition.GREATER_THAN, ac1.condition());
             Assert.assertEquals(MetricAlertRuleTimeAggregation.TOTAL, ac1.timeAggregation());
             Assert.assertEquals(99, ac1.threshold(), 0.001);
@@ -183,7 +178,7 @@ public class AlertsTests extends MonitorManagementTest {
             Assert.assertEquals("GetBlob", d2.values().get(0));
 
             Assert.assertEquals("Metric2", ac2.name());
-            Assert.assertEquals("SuccessE2ELatency", ac2.signalName());
+            Assert.assertEquals("SuccessE2ELatency", ac2.metricName());
             Assert.assertEquals("Microsoft.Storage/storageAccounts", ac2.metricNamespace());
             Assert.assertEquals(MetricAlertRuleCondition.GREATER_THAN, ac2.condition());
             Assert.assertEquals(MetricAlertRuleTimeAggregation.AVERAGE, ac2.timeAggregation());
@@ -212,7 +207,7 @@ public class AlertsTests extends MonitorManagementTest {
             ac1 = maCriteriaIterator.next();
             ac2 = maCriteriaIterator.next();
             Assert.assertEquals("Metric1", ac1.name());
-            Assert.assertEquals("Transactions", ac1.signalName());
+            Assert.assertEquals("Transactions", ac1.metricName());
             Assert.assertEquals(MetricAlertRuleCondition.GREATER_THAN, ac1.condition());
             Assert.assertEquals(MetricAlertRuleTimeAggregation.TOTAL, ac1.timeAggregation());
             Assert.assertEquals(99, ac1.threshold(), 0.001);
@@ -228,7 +223,7 @@ public class AlertsTests extends MonitorManagementTest {
             Assert.assertEquals("GetBlob", d2.values().get(0));
 
             Assert.assertEquals("Metric2", ac2.name());
-            Assert.assertEquals("SuccessE2ELatency", ac2.signalName());
+            Assert.assertEquals("SuccessE2ELatency", ac2.metricName());
             Assert.assertEquals("Microsoft.Storage/storageAccounts", ac2.metricNamespace());
             Assert.assertEquals(MetricAlertRuleCondition.GREATER_THAN, ac2.condition());
             Assert.assertEquals(MetricAlertRuleTimeAggregation.AVERAGE, ac2.timeAggregation());
@@ -260,7 +255,7 @@ public class AlertsTests extends MonitorManagementTest {
             ac1 = maCriteriaIterator.next();
             ac2 = maCriteriaIterator.next();
             Assert.assertEquals("Metric1", ac1.name());
-            Assert.assertEquals("Transactions", ac1.signalName());
+            Assert.assertEquals("Transactions", ac1.metricName());
             Assert.assertEquals(MetricAlertRuleCondition.GREATER_THAN, ac1.condition());
             Assert.assertEquals(MetricAlertRuleTimeAggregation.TOTAL, ac1.timeAggregation());
             Assert.assertEquals(99, ac1.threshold(), 0.001);
@@ -276,7 +271,7 @@ public class AlertsTests extends MonitorManagementTest {
             Assert.assertEquals("GetBlob", d2.values().get(0));
 
             Assert.assertEquals("Metric2", ac2.name());
-            Assert.assertEquals("SuccessE2ELatency", ac2.signalName());
+            Assert.assertEquals("SuccessE2ELatency", ac2.metricName());
             Assert.assertEquals("Microsoft.Storage/storageAccounts", ac2.metricNamespace());
             Assert.assertEquals(MetricAlertRuleCondition.GREATER_THAN, ac2.condition());
             Assert.assertEquals(MetricAlertRuleTimeAggregation.AVERAGE, ac2.timeAggregation());
@@ -301,7 +296,7 @@ public class AlertsTests extends MonitorManagementTest {
             ActionGroup ag = monitorManager.actionGroups().define("simpleActionGroup")
                     .withNewResourceGroup(RG_NAME, Region.US_EAST2)
                     .defineReceiver("first")
-                        .withAzureAppPush("azurepush@outlook.com")
+                        .withPushNotification("azurepush@outlook.com")
                         .withEmail("justemail@outlook.com")
                         .withSms("1", "4255655665")
                         .withVoice("1", "2062066050")

@@ -83,12 +83,12 @@ public final class WebAppPerformanceMonitoringAlerts {
                     .defineAlertCriteria("Metric1")
                         .withMetricName("CPUPercentage", "Microsoft.Web/serverfarms")
                         .withCondition(MetricAlertRuleCondition.GREATER_THAN, MetricAlertRuleTimeAggregation.TOTAL, 80)
-                        .withDimensionFilter("Instance", "*")
+                        .withDimension("Instance", "*")
                         .attach()
                     .defineAlertCriteria("Metric2")
                         .withMetricName("MemoryPercentage", "Microsoft.Web/serverfarms")
                         .withCondition(MetricAlertRuleCondition.GREATER_THAN, MetricAlertRuleTimeAggregation.TOTAL, 90)
-                        .withDimensionFilter("Instance", "RD00155D44CA4E", "RD07893F35CE3D", "RD00093E32CE8F")
+                        .withDimension("Instance", "RD00155D44CA4E", "RD07893F35CE3D", "RD00093E32CE8F")
                         .attach()
                     .create();
             Utils.print(ma);

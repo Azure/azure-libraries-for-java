@@ -76,7 +76,7 @@ class MetricAlertConditionImpl
     }
 
     @Override
-    public MetricAlertConditionImpl withDimensionFilter(String dimensionName, String... values) {
+    public MetricAlertConditionImpl withDimension(String dimensionName, String... values) {
         if (this.dimensions.containsKey(dimensionName)) {
             dimensions.remove(dimensionName);
         }
@@ -89,7 +89,7 @@ class MetricAlertConditionImpl
     }
 
     @Override
-    public MetricAlertConditionImpl withoutDimensionFilter(String dimensionName) {
+    public MetricAlertConditionImpl withoutDimension(String dimensionName) {
         if (this.dimensions.containsKey(dimensionName)) {
             dimensions.remove(dimensionName);
         }

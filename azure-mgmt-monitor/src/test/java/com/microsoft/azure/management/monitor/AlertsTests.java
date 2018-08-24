@@ -68,8 +68,8 @@ public class AlertsTests extends MonitorManagementTest {
                     .defineAlertCriteria("Metric1")
                         .withMetricName("Transactions", "Microsoft.Storage/storageAccounts")
                         .withCondition(MetricAlertRuleCondition.GREATER_THAN, MetricAlertRuleTimeAggregation.TOTAL, 100)
-                        .withDimensionFilter("ResponseType", "Success")
-                        .withDimensionFilter("ApiName", "GetBlob")
+                        .withDimension("ResponseType", "Success")
+                        .withDimension("ApiName", "GetBlob")
                         .attach()
                     .create();
 
@@ -142,7 +142,7 @@ public class AlertsTests extends MonitorManagementTest {
                     .defineAlertCriteria("Metric2")
                         .withMetricName("SuccessE2ELatency", "Microsoft.Storage/storageAccounts")
                         .withCondition(MetricAlertRuleCondition.GREATER_THAN, MetricAlertRuleTimeAggregation.AVERAGE, 200)
-                        .withDimensionFilter("ApiName", "GetBlob")
+                        .withDimension("ApiName", "GetBlob")
                         .attach()
                     .apply();
 

@@ -140,7 +140,7 @@ public interface MetricAlertCondition extends
              * @param values list of dimension values to alert on.
              * @return the next stage of metric alert condition definition.
              */
-            WithConditionAttach<ParentT> withDimensionFilter(String dimensionName, String... values);
+            WithConditionAttach<ParentT> withDimension(String dimensionName, String... values);
 
             /**
              * Attaches the defined condition to the parent metric alert.
@@ -214,7 +214,7 @@ public interface MetricAlertCondition extends
              * @param values list of dimension values to alert on.
              * @return the next stage of metric alert condition definition.
              */
-            WithConditionAttach<ParentT> withDimensionFilter(String dimensionName, String... values);
+            WithConditionAttach<ParentT> withDimension(String dimensionName, String... values);
 
             /**
              * Attaches the defined condition to the parent metric alert.
@@ -246,7 +246,7 @@ public interface MetricAlertCondition extends
          * @param values list of dimension values to alert on.
          * @return the next stage of the metric alert condition update.
          */
-        UpdateStages withDimensionFilter(String dimensionName, String... values);
+        UpdateStages withDimension(String dimensionName, String... values);
 
         /**
          * Removes the specified dimension filter.
@@ -254,7 +254,7 @@ public interface MetricAlertCondition extends
          * @param dimensionName dimensionName the name of the dimension.
          * @return the next stage of the metric alert condition update.
          */
-        UpdateStages withoutDimensionFilter(String dimensionName);
+        UpdateStages withoutDimension(String dimensionName);
 
         /**
          * Returns back to the metric alert update flow.

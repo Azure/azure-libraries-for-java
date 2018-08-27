@@ -346,7 +346,7 @@ public interface GalleryImage extends HasInner<GalleryImageInner>,
              * @return the next definition stage
              */
             @Beta(Beta.SinceVersion.V1_15_0)
-            WithCreate withUnSupportedDiskType(DiskSkuTypes diskType);
+            WithCreate withUnsupportedDiskType(DiskSkuTypes diskType);
 
             /**
              * Specifies the disk types not supported by the image.
@@ -355,7 +355,7 @@ public interface GalleryImage extends HasInner<GalleryImageInner>,
              * @return the next definition stage
              */
             @Beta(Beta.SinceVersion.V1_15_0)
-            WithCreate withUnSupportedDiskTypes(List<DiskSkuTypes> diskTypes);
+            WithCreate withUnsupportedDiskTypes(List<DiskSkuTypes> diskTypes);
 
             /**
              * Specifies disallowed settings.
@@ -607,7 +607,7 @@ public interface GalleryImage extends HasInner<GalleryImageInner>,
              * @return the next update stage
              */
             @Beta(Beta.SinceVersion.V1_15_0)
-            Update withUnSupportedDiskType(DiskSkuTypes diskType);
+            Update withUnsupportedDiskType(DiskSkuTypes diskType);
 
             /**
              * Specifies the disk types not supported by the image.
@@ -616,7 +616,7 @@ public interface GalleryImage extends HasInner<GalleryImageInner>,
              * @return the next update stage
              */
             @Beta(Beta.SinceVersion.V1_15_0)
-            Update withUnSupportedDiskTypes(List<DiskSkuTypes> diskTypes);
+            Update withUnsupportedDiskTypes(List<DiskSkuTypes> diskTypes);
 
             /**
              * Specifies the disk type should be removed from the unsupported disk type.
@@ -625,7 +625,7 @@ public interface GalleryImage extends HasInner<GalleryImageInner>,
              * @return the next update stage
              */
             @Beta(Beta.SinceVersion.V1_15_0)
-            Update withoutUnSupportedDiskType(DiskSkuTypes diskType);
+            Update withoutUnsupportedDiskType(DiskSkuTypes diskType);
 
             /**
              * Specifies disallowed settings.

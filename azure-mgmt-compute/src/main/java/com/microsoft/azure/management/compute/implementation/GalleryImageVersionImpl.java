@@ -211,7 +211,7 @@ class GalleryImageVersionImpl extends CreatableUpdatableImpl<GalleryImageVersion
     }
 
     @Override
-    public GalleryImageVersionImpl withAvailableInRegion(Region region) {
+    public GalleryImageVersionImpl withRegionAvailability(Region region) {
         if (this.inner().publishingProfile() == null) {
             this.inner().withPublishingProfile(new GalleryImageVersionPublishingProfile());
         }
@@ -251,7 +251,7 @@ class GalleryImageVersionImpl extends CreatableUpdatableImpl<GalleryImageVersion
     }
 
     @Override
-    public GalleryImageVersionImpl withAvailableInRegions(List<Region> regions) {
+    public GalleryImageVersionImpl withRegionAvailability(List<Region> regions) {
         if (this.inner().publishingProfile() == null) {
             this.inner().withPublishingProfile(new GalleryImageVersionPublishingProfile());
         }
@@ -279,7 +279,7 @@ class GalleryImageVersionImpl extends CreatableUpdatableImpl<GalleryImageVersion
     }
 
     @Override
-    public Update withoutAvailableInRegion(Region region) {
+    public Update withoutRegionAvailability(Region region) {
         if (this.inner().publishingProfile() != null && this.inner().publishingProfile().regions() != null) {
             int foundIndex = -1;
             int i = 0;

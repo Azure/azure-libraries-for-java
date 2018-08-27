@@ -213,7 +213,7 @@ public interface GalleryImageVersion extends HasInner<GalleryImageVersionInner>,
              * @return the next definition stage
              */
             @Beta(Beta.SinceVersion.V1_15_0)
-            WithCreate withAvailableInRegion(Region region);
+            WithCreate withRegionAvailability(Region region);
 
             /**
              * Specifies list of regions in which image version needs to be available.
@@ -222,7 +222,7 @@ public interface GalleryImageVersion extends HasInner<GalleryImageVersionInner>,
              * @return the next definition stage
              */
             @Beta(Beta.SinceVersion.V1_15_0)
-            WithCreate withAvailableInRegions(List<Region> regions);
+            WithCreate withRegionAvailability(List<Region> regions);
         }
 
         /**
@@ -330,7 +330,7 @@ public interface GalleryImageVersion extends HasInner<GalleryImageVersionInner>,
              * @return the next update stage
              */
             @Beta(Beta.SinceVersion.V1_15_0)
-            Update withAvailableInRegion(Region region);
+            Update withRegionAvailability(Region region);
 
             /**
              * Specifies list of regions in which image version needs to be available.
@@ -339,7 +339,7 @@ public interface GalleryImageVersion extends HasInner<GalleryImageVersionInner>,
              * @return the next update stage
              */
             @Beta(Beta.SinceVersion.V1_15_0)
-            Update withAvailableInRegions(List<Region> regions);
+            Update withRegionAvailability(List<Region> regions);
 
             /**
              * Specifies that an image version should be removed from an existing region serving it.
@@ -348,7 +348,7 @@ public interface GalleryImageVersion extends HasInner<GalleryImageVersionInner>,
              * @return the next update stage
              */
             @Beta(Beta.SinceVersion.V1_15_0)
-            Update withoutAvailableInRegion(Region region);
+            Update withoutRegionAvailability(Region region);
         }
 
         /**

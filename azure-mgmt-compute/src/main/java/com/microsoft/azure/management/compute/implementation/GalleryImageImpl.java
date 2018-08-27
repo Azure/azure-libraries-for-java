@@ -287,7 +287,7 @@ class GalleryImageImpl
     }
 
     @Override
-    public GalleryImageImpl withUnSupportedDiskType(DiskSkuTypes diskType) {
+    public GalleryImageImpl withUnsupportedDiskType(DiskSkuTypes diskType) {
         if (this.inner().disallowed() == null) {
             this.inner().withDisallowed(new Disallowed());
         }
@@ -309,7 +309,7 @@ class GalleryImageImpl
     }
 
     @Override
-    public GalleryImageImpl withUnSupportedDiskTypes(List<DiskSkuTypes> diskTypes) {
+    public GalleryImageImpl withUnsupportedDiskTypes(List<DiskSkuTypes> diskTypes) {
         if (this.inner().disallowed() == null) {
             this.inner().withDisallowed(new Disallowed());
         }
@@ -321,7 +321,7 @@ class GalleryImageImpl
     }
 
     @Override
-    public GalleryImageImpl withoutUnSupportedDiskType(DiskSkuTypes diskType) {
+    public GalleryImageImpl withoutUnsupportedDiskType(DiskSkuTypes diskType) {
         if (this.inner().disallowed() != null && this.inner().disallowed().diskTypes() != null) {
             int foundIndex = -1;
             int i = 0;

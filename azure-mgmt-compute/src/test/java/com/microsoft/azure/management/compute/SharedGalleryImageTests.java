@@ -89,8 +89,8 @@ public class SharedGalleryImageTests extends ComputeManagementTest {
                 .withIdentifier("JavaSDKTeam", "JDK", "Jdk-9")
                 .withGeneralizedWindows()
                 // Optionals - Start
-                .withUnSupportedDiskType(DiskSkuTypes.STANDARD_LRS)
-                .withUnSupportedDiskType(DiskSkuTypes.PREMIUM_LRS)
+                .withUnsupportedDiskType(DiskSkuTypes.STANDARD_LRS)
+                .withUnsupportedDiskType(DiskSkuTypes.PREMIUM_LRS)
                 .withRecommendedMaximumCPUsCountForVirtualMachine(25)
                 .withRecommendedMaximumMemoryForVirtualMachine(3200)
                 // Options - End
@@ -117,7 +117,7 @@ public class SharedGalleryImageTests extends ComputeManagementTest {
         // Update an image in the gallery
         //
         galleryImage.update()
-                .withoutUnSupportedDiskType(DiskSkuTypes.PREMIUM_LRS)
+                .withoutUnsupportedDiskType(DiskSkuTypes.PREMIUM_LRS)
                 .withRecommendedMinimumCPUsCountForVirtualMachine(15)
                 .withRecommendedMemoryForVirtualMachine(2200, 3200)
                 .apply();
@@ -193,7 +193,7 @@ public class SharedGalleryImageTests extends ComputeManagementTest {
                 .withLocation(REGION.toString())
                 .withSourceCustomImage(customImage)
                 // Options - Start
-                .withAvailableInRegion(Region.US_EAST2)
+                .withRegionAvailability(Region.US_EAST2)
                 .withScaleTier(ScaleTier.S30)
                 // Options - End
                 .create();
@@ -210,7 +210,7 @@ public class SharedGalleryImageTests extends ComputeManagementTest {
         // Update image version
         //
         imageVersion.update()
-                .withoutAvailableInRegion(Region.US_EAST2)
+                .withoutRegionAvailability(Region.US_EAST2)
                 .apply();
 
         Assert.assertNotNull(imageVersion.availableRegions());

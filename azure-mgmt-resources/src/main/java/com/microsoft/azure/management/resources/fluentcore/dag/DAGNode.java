@@ -96,7 +96,7 @@ public class DAGNode<DataT, NodeT extends DAGNode<DataT, NodeT>> extends Node<Da
     }
 
     /**
-     * @return <tt>true</tt> if this node has any dependency
+     * @return true if this node has any dependency
      */
     public boolean hasDependencies() {
         return this.hasChildren();
@@ -105,14 +105,14 @@ public class DAGNode<DataT, NodeT extends DAGNode<DataT, NodeT>> extends Node<Da
     /**
      * Mark or un-mark this node as preparer.
      *
-     * @param isPreparer <tt>true</tt> if this node needs to be marked as preparer, <tt>false</tt> otherwise.
+     * @param isPreparer true if this node needs to be marked as preparer, false otherwise.
      */
     public void setPreparer(boolean isPreparer) {
         this.isPreparer = isPreparer;
     }
 
     /**
-     * @return <tt>true</tt> if this node is marked as preparer
+     * @return true if this node is marked as preparer
      */
     public boolean isPreparer() {
         return isPreparer;
@@ -127,7 +127,7 @@ public class DAGNode<DataT, NodeT extends DAGNode<DataT, NodeT>> extends Node<Da
     }
 
     /**
-     * @return <tt>true</tt> if all dependencies of this node are resolved
+     * @return true if all dependencies of this node are resolved
      */
     boolean hasAllResolved() {
         return toBeResolved == 0;

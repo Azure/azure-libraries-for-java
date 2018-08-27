@@ -30,8 +30,8 @@ public final class Utils {
     /**
      * Converts an object Boolean to a primitive boolean.
      *
-     * @param value the <tt>Boolean</tt> value
-     * @return <tt>false</tt> if the given Boolean value is null or false else <tt>true</tt>
+     * @param value the Boolean value
+     * @return false if the given Boolean value is null or false else true
      */
     public static boolean toPrimitiveBoolean(Boolean value) {
         if (value == null) {
@@ -43,8 +43,8 @@ public final class Utils {
     /**
      * Converts an object Integer to a primitive int.
      *
-     * @param value the <tt>Integer</tt> value
-     * @return <tt>0</tt> if the given Integer value is null else <tt>integer value</tt>
+     * @param value the Integer value
+     * @return 0 if the given Integer value is null else integer value
      */
     public static int toPrimitiveInt(Integer value) {
         if (value == null) {
@@ -56,8 +56,8 @@ public final class Utils {
     /**
      * Converts an object Long to a primitive int.
      *
-     * @param value the <tt>Long</tt> value
-     * @return <tt>0</tt> if the given Long value is null else <tt>integer value</tt>
+     * @param value the Long value
+     * @return 0 if the given Long value is null else integer value
      */
     public static int toPrimitiveInt(Long value) {
         if (value == null) {
@@ -71,8 +71,8 @@ public final class Utils {
     /**
      * Converts an object Long to a primitive long.
      *
-     * @param value the <tt>Long</tt> value
-     * @return <tt>0</tt> if the given Long value is null else <tt>long value</tt>
+     * @param value the Long value
+     * @return 0 if the given Long value is null else long value
      */
     public static long toPrimitiveLong(Long value) {
         if (value == null) {

@@ -61,7 +61,7 @@ public class Node<DataT, NodeT extends Node<DataT, NodeT>> {
     }
 
     /**
-     * @return <tt>true</tt> if this node has any children
+     * @return true if this node has any children
      */
     public boolean hasChildren() {
         return !this.children.isEmpty();

@@ -10,6 +10,8 @@ package com.microsoft.azure.management.monitor;
 
 import java.util.Map;
 import java.util.List;
+import com.microsoft.azure.management.monitor.implementation.AutoscaleProfileInner;
+import com.microsoft.azure.management.monitor.implementation.AutoscaleNotificationInner;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 
@@ -30,13 +32,13 @@ public class AutoscaleSettingResourcePatch {
      * can be specified.
      */
     @JsonProperty(value = "properties.profiles", required = true)
-    private List<AutoscaleProfile> profiles;
+    private List<AutoscaleProfileInner> profiles;
 
     /**
      * the collection of notifications.
      */
     @JsonProperty(value = "properties.notifications")
-    private List<AutoscaleNotification> notifications;
+    private List<AutoscaleNotificationInner> notifications;
 
     /**
      * the enabled flag. Specifies whether automatic scaling is enabled for the
@@ -83,7 +85,7 @@ public class AutoscaleSettingResourcePatch {
      *
      * @return the profiles value
      */
-    public List<AutoscaleProfile> profiles() {
+    public List<AutoscaleProfileInner> profiles() {
         return this.profiles;
     }
 
@@ -93,7 +95,7 @@ public class AutoscaleSettingResourcePatch {
      * @param profiles the profiles value to set
      * @return the AutoscaleSettingResourcePatch object itself.
      */
-    public AutoscaleSettingResourcePatch withProfiles(List<AutoscaleProfile> profiles) {
+    public AutoscaleSettingResourcePatch withProfiles(List<AutoscaleProfileInner> profiles) {
         this.profiles = profiles;
         return this;
     }
@@ -103,7 +105,7 @@ public class AutoscaleSettingResourcePatch {
      *
      * @return the notifications value
      */
-    public List<AutoscaleNotification> notifications() {
+    public List<AutoscaleNotificationInner> notifications() {
         return this.notifications;
     }
 
@@ -113,7 +115,7 @@ public class AutoscaleSettingResourcePatch {
      * @param notifications the notifications value to set
      * @return the AutoscaleSettingResourcePatch object itself.
      */
-    public AutoscaleSettingResourcePatch withNotifications(List<AutoscaleNotification> notifications) {
+    public AutoscaleSettingResourcePatch withNotifications(List<AutoscaleNotificationInner> notifications) {
         this.notifications = notifications;
         return this;
     }

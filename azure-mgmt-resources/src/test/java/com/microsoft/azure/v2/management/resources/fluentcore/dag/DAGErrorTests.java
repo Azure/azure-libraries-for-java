@@ -6,7 +6,6 @@
 
 package com.microsoft.azure.v2.management.resources.fluentcore.dag;
 
-import com.google.common.collect.Sets;
 import com.microsoft.azure.v2.management.resources.fluentcore.dag.TaskGroup;
 import com.microsoft.azure.v2.management.resources.fluentcore.dag.TaskGroupTerminateOnErrorStrategy;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Indexable;
@@ -133,7 +132,8 @@ public class DAGErrorTests {
             }
         }).blockingLast();
 
-        Assert.assertTrue(Sets.difference(expectedToSee, seen).isEmpty());
+        expectedToSee.removeAll(seen);
+        Assert.assertTrue(expectedToSee.isEmpty());
         Assert.assertEquals(exceptions.size(), 1);
         Assert.assertTrue(exceptions.get(0) instanceof RuntimeException);
         RuntimeException runtimeException = (RuntimeException) exceptions.get(0);
@@ -258,7 +258,8 @@ public class DAGErrorTests {
             }
         }).blockingLast();
 
-        Assert.assertTrue(Sets.difference(expectedToSee, seen).isEmpty());
+        expectedToSee.removeAll(seen);
+        Assert.assertTrue(expectedToSee.isEmpty());
         Assert.assertEquals(exceptions.size(), 1);
         Assert.assertTrue(exceptions.get(0) instanceof RuntimeException);
         RuntimeException runtimeException = (RuntimeException) exceptions.get(0);
@@ -380,7 +381,8 @@ public class DAGErrorTests {
             }
         }).blockingLast();
 
-        Assert.assertTrue(Sets.difference(expectedToSee, seen).isEmpty());
+        expectedToSee.removeAll(seen);
+        Assert.assertTrue(expectedToSee.isEmpty());
         Assert.assertEquals(exceptions.size(), 1);
         Assert.assertTrue(exceptions.get(0) instanceof CompositeException);
         CompositeException compositeException = (CompositeException) exceptions.get(0);
@@ -504,7 +506,8 @@ public class DAGErrorTests {
                     }
                 }).blockingLast();
 
-        Assert.assertTrue(Sets.difference(expectedToSee, seen).isEmpty());
+        expectedToSee.removeAll(seen);
+        Assert.assertTrue(expectedToSee.isEmpty());
         Assert.assertEquals(exceptions.size(), 1);
         Assert.assertTrue(exceptions.get(0) instanceof RuntimeException);
         RuntimeException runtimeException = (RuntimeException) exceptions.get(0);

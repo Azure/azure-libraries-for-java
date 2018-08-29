@@ -8,6 +8,8 @@ package com.microsoft.azure.v2.management.resources.core;
 
 import com.microsoft.azure.v2.AzureEnvironment;
 import com.microsoft.azure.v2.credentials.ApplicationTokenCredentials;
+import com.microsoft.azure.v2.credentials.AzureCliCredentials;
+import com.microsoft.azure.v2.credentials.AzureTokenCredentials;
 import com.microsoft.azure.v2.management.resources.fluentcore.utils.ProviderRegistrationPolicyFactory;
 import com.microsoft.azure.v2.management.resources.fluentcore.utils.ResourceManagerThrottlingPolicyFactory;
 import com.microsoft.azure.v2.management.resources.fluentcore.utils.SdkContext;
@@ -158,7 +160,7 @@ public abstract class TestBase {
 
         interceptorManager = InterceptorManager.create(testName.getMethodName(), testMode);
 
-        ApplicationTokenCredentials credentials;
+        AzureTokenCredentials credentials;
         HttpPipeline pipeline;
         String defaultSubscription;
 
@@ -183,8 +185,8 @@ public abstract class TestBase {
         }
         else { // Record mode
             final File credFile = new File(System.getenv("AZURE_AUTH_LOCATION"));
-            credentials = ApplicationTokenCredentials.fromFile(credFile);
-            pipeline = buildRestClient(new HttpPipelineBuilder(new HttpPipelineOptions().withHttpClient(NettyClient.createDefault(new HttpClientConfiguration(new Proxy(Type.HTTP, new InetSocketAddress("localhost", 8888)), false))))
+            credentials = AzureCliCredentials.create();
+            pipeline = buildRestClient(new HttpPipelineBuilder(new HttpPipelineOptions().withHttpClient(NettyClient.createDefault(new HttpClientConfiguration(new Proxy(Type.HTTP, new InetSocketAddress("localhost", 8888))))))
                     .withRequestPolicy(new HostPolicyFactory(this.baseUri()))
                     .withRequestPolicy(new ProviderRegistrationPolicyFactory(credentials))
                     .withRequestPolicy(new CredentialsPolicyFactory(credentials))

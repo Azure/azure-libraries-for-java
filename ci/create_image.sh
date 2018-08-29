@@ -9,6 +9,8 @@ function title {
 
 #############################################
 
+set -e
+
 title 'Generating tasks list'
 java -jar ./ci/java-test-collector-1.0-SNAPSHOT.jar ./
 

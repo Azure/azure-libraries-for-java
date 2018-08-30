@@ -15,6 +15,7 @@ import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
 import com.microsoft.azure.management.monitor.ActionGroups;
 import com.microsoft.azure.management.monitor.ActivityLogs;
 import com.microsoft.azure.management.monitor.AlertRules;
+import com.microsoft.azure.management.monitor.AutoscaleSettings;
 import com.microsoft.azure.management.monitor.DiagnosticSettings;
 import com.microsoft.azure.management.monitor.MetricDefinitions;
 import com.microsoft.azure.management.resources.fluentcore.arm.AzureConfigurable;
@@ -135,6 +136,18 @@ public final class MonitorManager extends Manager<MonitorManager, MonitorManagem
             this.alerts = new AlertRulesImpl(this);
         }
         return this.alerts;
+    }
+
+    /**
+     * @return the Azure AlertRules API entry point
+     */
+    @Beta(SinceVersion.V1_15_0)
+    public AutoscaleSettings autoscaleSettings() {
+        /*if (this.alerts == null) {
+            this.alerts = new AlertRulesImpl(this);
+        }
+        return this.alerts;*/
+        return null;
     }
 
     /**

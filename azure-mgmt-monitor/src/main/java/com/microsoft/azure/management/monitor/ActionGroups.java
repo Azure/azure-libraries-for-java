@@ -32,9 +32,9 @@ public interface ActionGroups extends
         SupportsListing<ActionGroup>,
         SupportsListingByResourceGroup<ActionGroup>,
         SupportsGettingById<ActionGroup>,
+        SupportsBatchCreation<ActionGroup>,
         SupportsDeletingById,
         SupportsDeletingByResourceGroup,
-        SupportsBatchCreation<ActionGroup>,
         SupportsBatchDeletion,
         HasManager<MonitorManager>,
         HasInner<ActionGroupsInner> {

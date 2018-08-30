@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.management.monitor;
 
+import com.microsoft.azure.management.appservice.implementation.AppServiceManager;
 import com.microsoft.azure.management.compute.implementation.ComputeManager;
 import com.microsoft.azure.management.eventhub.implementation.EventHubManager;
 import com.microsoft.azure.management.monitor.implementation.MonitorManager;
@@ -23,9 +24,13 @@ public class MonitorManagementTest extends TestBase {
     protected static ComputeManager computeManager;
     protected static StorageManager storageManager;
     protected static EventHubManager eventHubManager;
+    protected static AppServiceManager appServiceManager;
 
     @Override
     protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {
+
+        appServiceManager = AppServiceManager
+                .authenticate(restClient, domain, defaultSubscription);
 
         resourceManager = ResourceManager
                 .authenticate(restClient)

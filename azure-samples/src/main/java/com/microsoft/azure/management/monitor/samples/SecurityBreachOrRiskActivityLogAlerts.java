@@ -76,7 +76,8 @@ public final class SecurityBreachOrRiskActivityLogAlerts {
 
             // ============================================================
             // Set a trigger to fire each time
-            ActivityLogAlert ala = azure.alertRules().activityLogAlerts().define("Potential security breach alert")
+            ActivityLogAlert ala = azure.alertRules().activityLogAlerts()
+                    .define("Potential security breach alert")
                     .withExistingResourceGroup(rgName)
                     .withTargetSubscription(azure.subscriptionId())
                     .withDescription("Security StorageAccounts ListAccountKeys trigger")
@@ -103,7 +104,7 @@ public final class SecurityBreachOrRiskActivityLogAlerts {
                     .startingFrom(recordDateTime.minusDays(7))
                     .endsBefore(recordDateTime)
                     .withAllPropertiesInResponse()
-                    .filterByResourceGroup(rgName)
+                    .filterByResource(ala.id())
                     .execute();
 
             System.out.println("Activity logs for the Storage Account:");

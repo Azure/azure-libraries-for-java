@@ -65,6 +65,7 @@ import com.microsoft.azure.management.locks.implementation.AuthorizationManager;
 import com.microsoft.azure.management.monitor.ActionGroups;
 import com.microsoft.azure.management.monitor.ActivityLogs;
 import com.microsoft.azure.management.monitor.AlertRules;
+import com.microsoft.azure.management.monitor.AutoscaleSettings;
 import com.microsoft.azure.management.monitor.DiagnosticSettings;
 import com.microsoft.azure.management.monitor.MetricDefinitions;
 import com.microsoft.azure.management.monitor.implementation.MonitorManager;
@@ -910,6 +911,15 @@ public final class Azure {
     @Beta(SinceVersion.V1_15_0)
     public AlertRules alertRules() {
         return this.monitorManager.alertRules();
+    }
+
+
+    /**
+     * @return entry point to listing alertRules in Azure
+     */
+    @Beta(SinceVersion.V1_15_0)
+    public AutoscaleSettings autoscaleSettings() {
+        return this.monitorManager.autoscaleSettings();
     }
 
     /**

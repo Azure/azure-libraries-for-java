@@ -6,7 +6,6 @@
 
 package com.microsoft.azure.v2.management.resources.fluentcore.utils;
 
-import com.google.common.primitives.Ints;
 import com.microsoft.azure.v2.Page;
 import com.microsoft.azure.v2.PagedList;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Indexable;
@@ -64,9 +63,8 @@ public final class Utils {
         if (value == null) {
             return 0;
         }
-        // throws IllegalArgumentException - if value is greater than Integer.MAX_VALUE
-        // or less than Integer.MIN_VALUE
-        return Ints.checkedCast(value);
+        long a = value;
+        return (int)a;
     }
 
     /**

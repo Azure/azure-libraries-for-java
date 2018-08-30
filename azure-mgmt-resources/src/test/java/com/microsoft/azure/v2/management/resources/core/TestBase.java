@@ -167,7 +167,7 @@ public abstract class TestBase {
             pipeline = buildRestClient(new HttpPipelineBuilder()
                             .withRequestPolicy(new CredentialsPolicyFactory(credentials))
                             .withRequestPolicy(new ResourceManagerThrottlingPolicyFactory())
-                            .withRequestPolicy(new HttpLoggingPolicyFactory(HttpLogDetailLevel.BASIC, true))
+                            .withRequestPolicy(new HttpLoggingPolicyFactory(HttpLogDetailLevel.BODY_AND_HEADERS, true))
                             .withHttpClient(interceptorManager.initPlaybackClient())
                             .withDecodingPolicy()
                     ,true);
@@ -184,14 +184,14 @@ public abstract class TestBase {
         else { // Record mode
             final File credFile = new File(System.getenv("AZURE_AUTH_LOCATION"));
             credentials = ApplicationTokenCredentials.fromFile(credFile);
-            pipeline = buildRestClient(new HttpPipelineBuilder(new HttpPipelineOptions().withHttpClient(NettyClient.createDefault(new HttpClientConfiguration(new Proxy(Type.HTTP, new InetSocketAddress("localhost", 8888)), false))))
+            pipeline = buildRestClient(new HttpPipelineBuilder(new HttpPipelineOptions().withHttpClient(NettyClient.createDefault()))
                     .withRequestPolicy(new HostPolicyFactory(this.baseUri()))
                     .withRequestPolicy(new ProviderRegistrationPolicyFactory(credentials))
                     .withRequestPolicy(new CredentialsPolicyFactory(credentials))
                     .withRequestPolicy(new TimeoutPolicyFactory(3, TimeUnit.MINUTES))
                     .withRequestPolicy(interceptorManager.initRecordPolicy())
                     .withRequestPolicy(new ResourceManagerThrottlingPolicyFactory())
-                    .withRequestPolicy(new HttpLoggingPolicyFactory(HttpLogDetailLevel.BASIC, true))
+                    .withRequestPolicy(new HttpLoggingPolicyFactory(HttpLogDetailLevel.BODY_AND_HEADERS, true))
                     .withDecodingPolicy()
                     ,false);
 

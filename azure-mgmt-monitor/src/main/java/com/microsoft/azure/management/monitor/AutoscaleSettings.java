@@ -22,7 +22,7 @@ import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 
 
 /**
- * Entry point to load balancer management API in Azure.
+ * Entry point to autoscale management API in Azure.
  */
 @Beta(Beta.SinceVersion.V1_15_0)
 @Fluent

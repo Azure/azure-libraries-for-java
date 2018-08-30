@@ -36,6 +36,7 @@ public final class MonitorManager extends Manager<MonitorManager, MonitorManagem
     private DiagnosticSettings diagnosticSettings;
     private ActionGroups actionGroups;
     private AlertRules alerts;
+    private AutoscaleSettings autoscaleSettings;
 
     /**
     * Get a Configurable instance that can be used to create MonitorManager with optional configuration.
@@ -139,15 +140,14 @@ public final class MonitorManager extends Manager<MonitorManager, MonitorManagem
     }
 
     /**
-     * @return the Azure AlertRules API entry point
+     * @return the Azure AutoscaleSettings API entry point
      */
     @Beta(SinceVersion.V1_15_0)
     public AutoscaleSettings autoscaleSettings() {
-        /*if (this.alerts == null) {
-            this.alerts = new AlertRulesImpl(this);
+        if (this.autoscaleSettings == null) {
+            //this.autoscaleSettings = new AlertRulesImpl(this);
         }
-        return this.alerts;*/
-        return null;
+        return this.autoscaleSettings;
     }
 
     /**

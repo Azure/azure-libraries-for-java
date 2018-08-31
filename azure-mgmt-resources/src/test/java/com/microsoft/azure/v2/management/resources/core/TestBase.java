@@ -8,23 +8,36 @@ package com.microsoft.azure.v2.management.resources.core;
 
 import com.microsoft.azure.v2.AzureEnvironment;
 import com.microsoft.azure.v2.credentials.ApplicationTokenCredentials;
+import com.microsoft.azure.v2.credentials.AzureCliCredentials;
+import com.microsoft.azure.v2.credentials.AzureTokenCredentials;
 import com.microsoft.azure.v2.management.resources.fluentcore.utils.ProviderRegistrationPolicyFactory;
 import com.microsoft.azure.v2.management.resources.fluentcore.utils.ResourceManagerThrottlingPolicyFactory;
 import com.microsoft.azure.v2.management.resources.fluentcore.utils.SdkContext;
-import com.microsoft.rest.v2.http.HttpClient;
+import com.microsoft.rest.v2.http.HttpClientConfiguration;
 import com.microsoft.rest.v2.http.HttpPipeline;
 import com.microsoft.rest.v2.http.HttpPipelineBuilder;
+import com.microsoft.rest.v2.http.HttpPipelineOptions;
+import com.microsoft.rest.v2.http.NettyClient;
 import com.microsoft.rest.v2.policy.CredentialsPolicyFactory;
 import com.microsoft.rest.v2.policy.HostPolicyFactory;
 import com.microsoft.rest.v2.policy.HttpLogDetailLevel;
 import com.microsoft.rest.v2.policy.HttpLoggingPolicyFactory;
 import com.microsoft.rest.v2.policy.TimeoutPolicyFactory;
-import org.junit.*;
+import org.junit.After;
+import org.junit.Assume;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Rule;
 import org.junit.rules.TestName;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
+import java.net.Proxy.Type;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
@@ -147,18 +160,18 @@ public abstract class TestBase {
 
         interceptorManager = InterceptorManager.create(testName.getMethodName(), testMode);
 
-        ApplicationTokenCredentials credentials;
+        AzureTokenCredentials credentials;
         HttpPipeline pipeline;
         String defaultSubscription;
 
         if (isPlaybackMode()) {
             credentials = new AzureTestCredentials(playbackUri, ZERO_TENANT, true);
             pipeline = buildRestClient(new HttpPipelineBuilder()
-//                    .withBaseUrl(playbackUri + "/")
                             .withRequestPolicy(new CredentialsPolicyFactory(credentials))
                             .withRequestPolicy(new ResourceManagerThrottlingPolicyFactory())
-                            .withRequestPolicy(new HttpLoggingPolicyFactory(HttpLogDetailLevel.BODY_AND_HEADERS, true))
+                            .withRequestPolicy(new HttpLoggingPolicyFactory(HttpLogDetailLevel.BASIC, true))
                             .withHttpClient(interceptorManager.initPlaybackClient())
+                            .withDecodingPolicy()
                     ,true);
 
             defaultSubscription = ZERO_SUBSCRIPTION;
@@ -172,15 +185,16 @@ public abstract class TestBase {
         }
         else { // Record mode
             final File credFile = new File(System.getenv("AZURE_AUTH_LOCATION"));
-            credentials = ApplicationTokenCredentials.fromFile(credFile);
-            pipeline = buildRestClient(new HttpPipelineBuilder()
+            credentials = AzureCliCredentials.create();
+            pipeline = buildRestClient(new HttpPipelineBuilder(new HttpPipelineOptions().withHttpClient(NettyClient.createDefault(new HttpClientConfiguration(new Proxy(Type.HTTP, new InetSocketAddress("localhost", 8888))))))
                     .withRequestPolicy(new HostPolicyFactory(this.baseUri()))
                     .withRequestPolicy(new ProviderRegistrationPolicyFactory(credentials))
                     .withRequestPolicy(new CredentialsPolicyFactory(credentials))
                     .withRequestPolicy(new TimeoutPolicyFactory(3, TimeUnit.MINUTES))
                     .withRequestPolicy(interceptorManager.initRecordPolicy())
                     .withRequestPolicy(new ResourceManagerThrottlingPolicyFactory())
-                    .withRequestPolicy(new HttpLoggingPolicyFactory(HttpLogDetailLevel.BODY_AND_HEADERS, true))
+                    .withRequestPolicy(new HttpLoggingPolicyFactory(HttpLogDetailLevel.BASIC, true))
+                    .withDecodingPolicy()
                     ,false);
 
             defaultSubscription = credentials.defaultSubscriptionId();

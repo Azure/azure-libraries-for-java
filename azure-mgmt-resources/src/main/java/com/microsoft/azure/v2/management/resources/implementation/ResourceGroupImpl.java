@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.v2.management.resources.implementation;
 
+import com.microsoft.azure.v2.management.resources.ExportTemplateRequest;
 import com.microsoft.azure.v2.management.resources.ResourceGroup;
 import com.microsoft.azure.v2.management.resources.ResourceGroupExportResult;
 import com.microsoft.azure.v2.management.resources.ResourceGroupExportTemplateOptions;
@@ -84,7 +85,7 @@ class ResourceGroupImpl extends
 
     @Override
     public Maybe<ResourceGroupExportResult> exportTemplateAsync(ResourceGroupExportTemplateOptions options) {
-        ExportTemplateRequestInner inner = new ExportTemplateRequestInner()
+        ExportTemplateRequest inner = new ExportTemplateRequest()
                 .withResources(Collections.singletonList("*"))
                 .withOptions(options.toString());
         return client.exportTemplateAsync(name(), inner).map(new Function<ResourceGroupExportResultInner, ResourceGroupExportResult>() {

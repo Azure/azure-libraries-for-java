@@ -46,7 +46,7 @@ public class PolicyDefinitionInner {
     /**
      * The ID of the policy definition.
      */
-    @JsonProperty(value = "id")
+    @JsonProperty(value = "id", access = JsonProperty.Access.WRITE_ONLY)
     private String id;
 
     /**
@@ -143,17 +143,6 @@ public class PolicyDefinitionInner {
      */
     public String id() {
         return this.id;
-    }
-
-    /**
-     * Set the id value.
-     *
-     * @param id the id value to set.
-     * @return the PolicyDefinitionInner object itself.
-     */
-    public PolicyDefinitionInner withId(String id) {
-        this.id = id;
-        return this;
     }
 
     /**

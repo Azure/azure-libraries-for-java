@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * Deployment dependency information.
  */
-public class Dependency {
+public final class Dependency {
     /**
      * The list of dependencies.
      */

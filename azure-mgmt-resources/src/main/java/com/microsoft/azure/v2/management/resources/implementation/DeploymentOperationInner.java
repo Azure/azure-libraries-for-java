@@ -14,7 +14,7 @@ import com.microsoft.azure.v2.management.resources.DeploymentOperationProperties
 /**
  * Deployment operation information.
  */
-public class DeploymentOperationInner {
+public final class DeploymentOperationInner {
     /**
      * Full deployment operation ID.
      */

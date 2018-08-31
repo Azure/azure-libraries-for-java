@@ -10,13 +10,13 @@ package com.microsoft.azure.v2.management.resources;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.azure.v2.management.resources.implementation.ProviderInner;
+import java.time.OffsetDateTime;
 import java.util.List;
-import org.joda.time.DateTime;
 
 /**
  * Deployment properties with additional details.
  */
-public class DeploymentPropertiesExtended {
+public final class DeploymentPropertiesExtended {
     /**
      * The state of the provisioning.
      */
@@ -33,7 +33,7 @@ public class DeploymentPropertiesExtended {
      * The timestamp of the template deployment.
      */
     @JsonProperty(value = "timestamp", access = JsonProperty.Access.WRITE_ONLY)
-    private DateTime timestamp;
+    private OffsetDateTime timestamp;
 
     /**
      * Key/value pairs that represent deploymentoutput.
@@ -115,7 +115,7 @@ public class DeploymentPropertiesExtended {
      *
      * @return the timestamp value.
      */
-    public DateTime timestamp() {
+    public OffsetDateTime timestamp() {
         return this.timestamp;
     }
 

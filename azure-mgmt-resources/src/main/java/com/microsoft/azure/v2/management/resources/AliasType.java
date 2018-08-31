@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * The alias type.
  */
-public class AliasType {
+public final class AliasType {
     /**
      * The alias name.
      */

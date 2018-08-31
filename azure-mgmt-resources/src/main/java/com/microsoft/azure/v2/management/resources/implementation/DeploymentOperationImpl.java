@@ -6,12 +6,13 @@
 
 package com.microsoft.azure.v2.management.resources.implementation;
 
-import com.microsoft.azure.v2.management.resources.fluentcore.arm.ResourceUtils;
-import com.microsoft.azure.v2.management.resources.fluentcore.model.implementation.IndexableRefreshableWrapperImpl;
 import com.microsoft.azure.v2.management.resources.DeploymentOperation;
 import com.microsoft.azure.v2.management.resources.TargetResource;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.ResourceUtils;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.implementation.IndexableRefreshableWrapperImpl;
 import io.reactivex.Maybe;
-import org.joda.time.DateTime;
+
+import java.time.OffsetDateTime;
 
 /**
  * The implementation of {@link DeploymentOperation}.
@@ -46,7 +47,7 @@ final class DeploymentOperationImpl extends
     }
 
     @Override
-    public DateTime timestamp() {
+    public OffsetDateTime timestamp() {
         if (this.inner().properties() == null) {
             return null;
         }

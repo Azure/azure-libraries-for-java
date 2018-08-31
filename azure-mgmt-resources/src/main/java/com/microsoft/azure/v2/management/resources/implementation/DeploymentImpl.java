@@ -21,16 +21,17 @@ import com.microsoft.azure.v2.management.resources.TemplateLink;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.ResourceUtils;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Creatable;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Indexable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
 import com.microsoft.rest.v2.ServiceCallback;
 import com.microsoft.rest.v2.ServiceFuture;
-import io.reactivex.Maybe;
-import org.joda.time.DateTime;
 import io.reactivex.Completable;
+import io.reactivex.Maybe;
 import io.reactivex.Observable;
 import io.reactivex.functions.Function;
 
 import java.io.IOException;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -83,7 +84,7 @@ public final class DeploymentImpl extends
     }
 
     @Override
-    public DateTime timestamp() {
+    public OffsetDateTime timestamp() {
         if (this.inner().properties() == null) {
             return null;
         }
@@ -291,30 +292,41 @@ public final class DeploymentImpl extends
 
     @Override
     public DeploymentImpl beginCreate() {
-        if (creatableResourceGroup != null) {
-            creatableResourceGroup.create();
+        if (this.creatableResourceGroup != null) {
+            this.creatableResourceGroup.create();
         }
-        DeploymentInner inner = new DeploymentInner()
-                .withProperties(new DeploymentProperties());
-        inner.properties().withMode(mode());
-        inner.properties().withTemplate(template());
-        inner.properties().withTemplateLink(templateLink());
-        inner.properties().withParameters(parameters());
-        inner.properties().withParametersLink(parametersLink());
-        this.manager().inner().deployments().beginCreateOrUpdate(resourceGroupName(), name(), inner);
+        setInner(this.manager().inner().deployments().beginCreateOrUpdate(resourceGroupName(), name(), createRequestFromInner()));
         return this;
+    }
+
+    private DeploymentProperties createRequestFromInner() {
+        DeploymentProperties props = new DeploymentProperties();
+        props.withMode(mode());
+        props.withTemplate(template());
+        props.withTemplateLink(templateLink());
+        props.withParameters(parameters());
+        props.withParametersLink(parametersLink());
+        return props;
+    }
+
+    @Override
+    public Observable<Deployment> beginCreateAsync() {
+        return Observable.just(creatableResourceGroup)
+                .flatMap(resourceGroupCreatable -> {
+                    if (resourceGroupCreatable != null) {
+                        return creatableResourceGroup.createAsync();
+                    } else {
+                        return Observable.just((Indexable) DeploymentImpl.this);
+                    }
+                })
+                .flatMap(indexable ->manager().inner().deployments().beginCreateOrUpdateAsync(resourceGroupName(), name(), createRequestFromInner()))
+                .map(status -> status.result())
+                .map(innerToFluentMap(this));
     }
 
     @Override
     public Observable<Deployment> createResourceAsync() {
-        DeploymentInner inner = new DeploymentInner()
-                .withProperties(new DeploymentProperties());
-        inner.properties().withMode(mode());
-        inner.properties().withTemplate(template());
-        inner.properties().withTemplateLink(templateLink());
-        inner.properties().withParameters(parameters());
-        inner.properties().withParametersLink(parametersLink());
-        return this.manager().inner().deployments().createOrUpdateAsync(resourceGroupName(), name(), inner)
+        return this.manager().inner().deployments().createOrUpdateAsync(resourceGroupName(), name(), createRequestFromInner())
                 .map(innerToFluentMap(this))
                 .toObservable();
     }

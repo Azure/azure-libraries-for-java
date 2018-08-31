@@ -12,7 +12,7 @@ import com.microsoft.azure.v2.AzureProxy;
 import com.microsoft.azure.v2.CloudException;
 import com.microsoft.azure.v2.Page;
 import com.microsoft.azure.v2.PagedList;
-import com.microsoft.rest.v2.RestResponse;
+import com.microsoft.rest.v2.BodyResponse;
 import com.microsoft.rest.v2.ServiceCallback;
 import com.microsoft.rest.v2.ServiceFuture;
 import com.microsoft.rest.v2.annotations.ExpectedResponses;
@@ -25,13 +25,13 @@ import com.microsoft.rest.v2.annotations.UnexpectedResponseExceptionType;
 import io.reactivex.Maybe;
 import io.reactivex.Observable;
 import io.reactivex.Single;
-import io.reactivex.functions.Function;
+import io.reactivex.annotations.NonNull;
 
 /**
  * An instance of this class provides access to all the operations defined in
  * DeploymentOperations.
  */
-public class DeploymentOperationsInner {
+public final class DeploymentOperationsInner {
     /**
      * The proxy service used to perform REST calls.
      */
@@ -57,21 +57,21 @@ public class DeploymentOperationsInner {
      * used by the proxy service to perform REST calls.
      */
     @Host("https://management.azure.com")
-    interface DeploymentOperationsService {
+    private interface DeploymentOperationsService {
         @GET("subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/deployments/{deploymentName}/operations/{operationId}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Single<RestResponse<Void, DeploymentOperationInner>> get(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("deploymentName") String deploymentName, @PathParam("operationId") String operationId, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
+        Single<BodyResponse<DeploymentOperationInner>> get(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("deploymentName") String deploymentName, @PathParam("operationId") String operationId, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
         @GET("subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/deployments/{deploymentName}/operations")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Single<RestResponse<Void, PageImpl<DeploymentOperationInner>>> listByResourceGroup(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("deploymentName") String deploymentName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("$top") Integer top, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
+        Single<BodyResponse<PageImpl<DeploymentOperationInner>>> listByResourceGroup(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("deploymentName") String deploymentName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("$top") Integer top, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
         @GET("{nextUrl}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Single<RestResponse<Void, PageImpl<DeploymentOperationInner>>> listNext(@PathParam(value = "nextUrl", encoded = true) String nextUrl, @HeaderParam("accept-language") String acceptLanguage);
+        Single<BodyResponse<PageImpl<DeploymentOperationInner>>> listNext(@PathParam(value = "nextUrl", encoded = true) String nextUrl, @HeaderParam("accept-language") String acceptLanguage);
     }
 
     /**
@@ -85,7 +85,7 @@ public class DeploymentOperationsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the DeploymentOperationInner object if successful.
      */
-    public DeploymentOperationInner get(String resourceGroupName, String deploymentName, String operationId) {
+    public DeploymentOperationInner get(@NonNull String resourceGroupName, @NonNull String deploymentName, @NonNull String operationId) {
         return getAsync(resourceGroupName, deploymentName, operationId).blockingGet();
     }
 
@@ -97,9 +97,9 @@ public class DeploymentOperationsInner {
      * @param operationId The ID of the operation to get.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link ServiceFuture&lt;DeploymentOperationInner&gt;} object.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<DeploymentOperationInner> getAsync(String resourceGroupName, String deploymentName, String operationId, final ServiceCallback<DeploymentOperationInner> serviceCallback) {
+    public ServiceFuture<DeploymentOperationInner> getAsync(@NonNull String resourceGroupName, @NonNull String deploymentName, @NonNull String operationId, ServiceCallback<DeploymentOperationInner> serviceCallback) {
         return ServiceFuture.fromBody(getAsync(resourceGroupName, deploymentName, operationId), serviceCallback);
     }
 
@@ -110,9 +110,9 @@ public class DeploymentOperationsInner {
      * @param deploymentName The name of the deployment.
      * @param operationId The ID of the operation to get.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Single&lt;RestResponse&lt;Void, DeploymentOperationInner&gt;&gt;} object if successful.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Single<RestResponse<Void, DeploymentOperationInner>> getWithRestResponseAsync(String resourceGroupName, String deploymentName, String operationId) {
+    public Single<BodyResponse<DeploymentOperationInner>> getWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String deploymentName, @NonNull String operationId) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -138,19 +138,11 @@ public class DeploymentOperationsInner {
      * @param deploymentName The name of the deployment.
      * @param operationId The ID of the operation to get.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Maybe&lt;DeploymentOperationInner&gt;} object if successful.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Maybe<DeploymentOperationInner> getAsync(String resourceGroupName, String deploymentName, String operationId) {
+    public Maybe<DeploymentOperationInner> getAsync(@NonNull String resourceGroupName, @NonNull String deploymentName, @NonNull String operationId) {
         return getWithRestResponseAsync(resourceGroupName, deploymentName, operationId)
-            .flatMapMaybe(new Function<RestResponse<Void, DeploymentOperationInner>, Maybe<DeploymentOperationInner>>() {
-                public Maybe<DeploymentOperationInner> apply(RestResponse<Void, DeploymentOperationInner> restResponse) {
-                    if (restResponse.body() == null) {
-                        return Maybe.empty();
-                    } else {
-                        return Maybe.just(restResponse.body());
-                    }
-                }
-            });
+            .flatMapMaybe((BodyResponse<DeploymentOperationInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
@@ -163,7 +155,7 @@ public class DeploymentOperationsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;DeploymentOperationInner&gt; object if successful.
      */
-    public PagedList<DeploymentOperationInner> listByResourceGroup(final String resourceGroupName, final String deploymentName) {
+    public PagedList<DeploymentOperationInner> listByResourceGroup(@NonNull String resourceGroupName, @NonNull String deploymentName) {
         Page<DeploymentOperationInner> response = listByResourceGroupSinglePageAsync(resourceGroupName, deploymentName).blockingGet();
         return new PagedList<DeploymentOperationInner>(response) {
             @Override
@@ -181,18 +173,15 @@ public class DeploymentOperationsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @return the observable to the PagedList&lt;DeploymentOperationInner&gt; object.
      */
-    public Observable<Page<DeploymentOperationInner>> listByResourceGroupAsync(final String resourceGroupName, final String deploymentName) {
+    public Observable<Page<DeploymentOperationInner>> listByResourceGroupAsync(@NonNull String resourceGroupName, @NonNull String deploymentName) {
         return listByResourceGroupSinglePageAsync(resourceGroupName, deploymentName)
             .toObservable()
-            .concatMap(new Function<Page<DeploymentOperationInner>, Observable<Page<DeploymentOperationInner>>>() {
-                @Override
-                public Observable<Page<DeploymentOperationInner>> apply(Page<DeploymentOperationInner> page) {
-                    String nextPageLink = page.nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listNextAsync(nextPageLink));
+            .concatMap((Page<DeploymentOperationInner> page) -> {
+                String nextPageLink = page.nextPageLink();
+                if (nextPageLink == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listNextAsync(nextPageLink));
             });
     }
 
@@ -202,9 +191,9 @@ public class DeploymentOperationsInner {
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param deploymentName The name of the deployment with the operation to get.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Single&lt;Page&lt;DeploymentOperationInner&gt;&gt;} object if successful.
+     * @return the Single&lt;Page&lt;DeploymentOperationInner&gt;&gt; object if successful.
      */
-    public Single<Page<DeploymentOperationInner>> listByResourceGroupSinglePageAsync(final String resourceGroupName, final String deploymentName) {
+    public Single<Page<DeploymentOperationInner>> listByResourceGroupSinglePageAsync(@NonNull String resourceGroupName, @NonNull String deploymentName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -218,12 +207,8 @@ public class DeploymentOperationsInner {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
         final Integer top = null;
-        return service.listByResourceGroup(resourceGroupName, deploymentName, this.client.subscriptionId(), top, this.client.apiVersion(), this.client.acceptLanguage()).map(new Function<RestResponse<Void, PageImpl<DeploymentOperationInner>>, Page<DeploymentOperationInner>>() {
-            @Override
-            public Page<DeploymentOperationInner> apply(RestResponse<Void, PageImpl<DeploymentOperationInner>> response) {
-                return response.body();
-            }
-        });
+        return service.listByResourceGroup(resourceGroupName, deploymentName, this.client.subscriptionId(), top, this.client.apiVersion(), this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl<DeploymentOperationInner>> res) -> res.body());
     }
 
     /**
@@ -237,7 +222,7 @@ public class DeploymentOperationsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;DeploymentOperationInner&gt; object if successful.
      */
-    public PagedList<DeploymentOperationInner> listByResourceGroup(final String resourceGroupName, final String deploymentName, final Integer top) {
+    public PagedList<DeploymentOperationInner> listByResourceGroup(@NonNull String resourceGroupName, @NonNull String deploymentName, Integer top) {
         Page<DeploymentOperationInner> response = listByResourceGroupSinglePageAsync(resourceGroupName, deploymentName, top).blockingGet();
         return new PagedList<DeploymentOperationInner>(response) {
             @Override
@@ -256,18 +241,15 @@ public class DeploymentOperationsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @return the observable to the PagedList&lt;DeploymentOperationInner&gt; object.
      */
-    public Observable<Page<DeploymentOperationInner>> listByResourceGroupAsync(final String resourceGroupName, final String deploymentName, final Integer top) {
+    public Observable<Page<DeploymentOperationInner>> listByResourceGroupAsync(@NonNull String resourceGroupName, @NonNull String deploymentName, Integer top) {
         return listByResourceGroupSinglePageAsync(resourceGroupName, deploymentName, top)
             .toObservable()
-            .concatMap(new Function<Page<DeploymentOperationInner>, Observable<Page<DeploymentOperationInner>>>() {
-                @Override
-                public Observable<Page<DeploymentOperationInner>> apply(Page<DeploymentOperationInner> page) {
-                    String nextPageLink = page.nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listNextAsync(nextPageLink));
+            .concatMap((Page<DeploymentOperationInner> page) -> {
+                String nextPageLink = page.nextPageLink();
+                if (nextPageLink == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listNextAsync(nextPageLink));
             });
     }
 
@@ -278,9 +260,9 @@ public class DeploymentOperationsInner {
      * @param deploymentName The name of the deployment with the operation to get.
      * @param top The number of results to return.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Single&lt;Page&lt;DeploymentOperationInner&gt;&gt;} object if successful.
+     * @return the Single&lt;Page&lt;DeploymentOperationInner&gt;&gt; object if successful.
      */
-    public Single<Page<DeploymentOperationInner>> listByResourceGroupSinglePageAsync(final String resourceGroupName, final String deploymentName, final Integer top) {
+    public Single<Page<DeploymentOperationInner>> listByResourceGroupSinglePageAsync(@NonNull String resourceGroupName, @NonNull String deploymentName, Integer top) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -293,12 +275,8 @@ public class DeploymentOperationsInner {
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        return service.listByResourceGroup(resourceGroupName, deploymentName, this.client.subscriptionId(), top, this.client.apiVersion(), this.client.acceptLanguage()).map(new Function<RestResponse<Void, PageImpl<DeploymentOperationInner>>, Page<DeploymentOperationInner>>() {
-            @Override
-            public Page<DeploymentOperationInner> apply(RestResponse<Void, PageImpl<DeploymentOperationInner>> response) {
-                return response.body();
-            }
-        });
+        return service.listByResourceGroup(resourceGroupName, deploymentName, this.client.subscriptionId(), top, this.client.apiVersion(), this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl<DeploymentOperationInner>> res) -> res.body());
     }
 
     /**
@@ -310,7 +288,7 @@ public class DeploymentOperationsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;DeploymentOperationInner&gt; object if successful.
      */
-    public PagedList<DeploymentOperationInner> listNext(final String nextPageLink) {
+    public PagedList<DeploymentOperationInner> listNext(@NonNull String nextPageLink) {
         Page<DeploymentOperationInner> response = listNextSinglePageAsync(nextPageLink).blockingGet();
         return new PagedList<DeploymentOperationInner>(response) {
             @Override
@@ -327,18 +305,15 @@ public class DeploymentOperationsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @return the observable to the PagedList&lt;DeploymentOperationInner&gt; object.
      */
-    public Observable<Page<DeploymentOperationInner>> listNextAsync(final String nextPageLink) {
+    public Observable<Page<DeploymentOperationInner>> listNextAsync(@NonNull String nextPageLink) {
         return listNextSinglePageAsync(nextPageLink)
             .toObservable()
-            .concatMap(new Function<Page<DeploymentOperationInner>, Observable<Page<DeploymentOperationInner>>>() {
-                @Override
-                public Observable<Page<DeploymentOperationInner>> apply(Page<DeploymentOperationInner> page) {
-                    String nextPageLink = page.nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listNextAsync(nextPageLink));
+            .concatMap((Page<DeploymentOperationInner> page) -> {
+                String nextPageLink1 = page.nextPageLink();
+                if (nextPageLink1 == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listNextAsync(nextPageLink1));
             });
     }
 
@@ -347,18 +322,14 @@ public class DeploymentOperationsInner {
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Single&lt;Page&lt;DeploymentOperationInner&gt;&gt;} object if successful.
+     * @return the Single&lt;Page&lt;DeploymentOperationInner&gt;&gt; object if successful.
      */
-    public Single<Page<DeploymentOperationInner>> listNextSinglePageAsync(final String nextPageLink) {
+    public Single<Page<DeploymentOperationInner>> listNextSinglePageAsync(@NonNull String nextPageLink) {
         if (nextPageLink == null) {
             throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
         }
         String nextUrl = String.format("%s", nextPageLink);
-        return service.listNext(nextUrl, this.client.acceptLanguage()).map(new Function<RestResponse<Void, PageImpl<DeploymentOperationInner>>, Page<DeploymentOperationInner>>() {
-            @Override
-            public Page<DeploymentOperationInner> apply(RestResponse<Void, PageImpl<DeploymentOperationInner>> response) {
-                return response.body();
-            }
-        });
+        return service.listNext(nextUrl, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl<DeploymentOperationInner>> res) -> res.body());
     }
 }

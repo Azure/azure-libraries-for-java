@@ -15,7 +15,7 @@ import java.util.Map;
 /**
  * Resource type managed by the resource provider.
  */
-public class ProviderResourceType {
+public final class ProviderResourceType {
     /**
      * The resource type.
      */

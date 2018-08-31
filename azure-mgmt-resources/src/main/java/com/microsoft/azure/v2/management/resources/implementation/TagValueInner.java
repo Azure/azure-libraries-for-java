@@ -14,11 +14,11 @@ import com.microsoft.azure.v2.management.resources.TagCount;
 /**
  * Tag information.
  */
-public class TagValueInner {
+public final class TagValueInner {
     /**
      * The tag ID.
      */
-    @JsonProperty(value = "id")
+    @JsonProperty(value = "id", access = JsonProperty.Access.WRITE_ONLY)
     private String id;
 
     /**
@@ -40,17 +40,6 @@ public class TagValueInner {
      */
     public String id() {
         return this.id;
-    }
-
-    /**
-     * Set the id value.
-     *
-     * @param id the id value to set.
-     * @return the TagValueInner object itself.
-     */
-    public TagValueInner withId(String id) {
-        this.id = id;
-        return this;
     }
 
     /**

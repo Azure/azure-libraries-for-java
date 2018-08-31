@@ -11,8 +11,7 @@ import com.microsoft.rest.v2.http.HttpResponse;
 import io.reactivex.Flowable;
 import io.reactivex.Single;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
+import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 
 /**
@@ -51,22 +50,17 @@ public final class MockHttpResponse extends HttpResponse {
     }
 
     @Override
-    public Single<? extends InputStream> bodyAsInputStreamAsync() {
-        return Single.just(new ByteArrayInputStream(body.getBytes(StandardCharsets.UTF_8)));
-    }
-
-    @Override
-    public Single<byte[]> bodyAsByteArrayAsync() {
+    public Single<byte[]> bodyAsByteArray() {
         return Single.just(body.getBytes(StandardCharsets.UTF_8));
     }
 
     @Override
-    public Single<String> bodyAsStringAsync() {
+    public Single<String> bodyAsString() {
         return Single.just(body);
     }
 
     @Override
-    public Flowable<byte[]> streamBodyAsync() {
-        return Flowable.just(body.getBytes(StandardCharsets.UTF_8));
+    public Flowable<ByteBuffer> body() {
+        return Flowable.just(ByteBuffer.wrap(body.getBytes(StandardCharsets.UTF_8)));
     }
 }

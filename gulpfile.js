@@ -8,7 +8,7 @@ var os = require('os');
 var fs = require('fs');
 
 const mappings = require('./api-specs.json');
-const defaultSpecRoot = "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/current";
+const defaultSpecRoot = "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master";
 
 gulp.task('default', function() {
     console.log("Usage: gulp codegen " +
@@ -103,7 +103,7 @@ var codegen = function(project, cb) {
     }
 
     console.log('Generating "' + project + '" from spec file ' + specRoot + '/' + mappings[project].source);
-    var generator = '--fluent';
+    var generator = '--fluent=true';
     if (mappings[project].fluent !== null && mappings[project].fluent === false) {
         generator = '';
     }
@@ -118,7 +118,7 @@ var codegen = function(project, cb) {
     // path.join won't work if specRoot is a URL
     cmd = autoRestExe + ' ' + specRoot + "/" + mappings[project].source +
                         ' --java ' +
-                        ' --azure-arm ' +
+                        ' --azure-arm=true ' +
                         generator +
                         ` --namespace=${mappings[project].package} ` +
                         ` --output-folder=${outDir} ` +

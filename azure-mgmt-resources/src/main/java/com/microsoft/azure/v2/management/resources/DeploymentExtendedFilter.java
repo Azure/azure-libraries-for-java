@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Deployment filter.
  */
-public class DeploymentExtendedFilter {
+public final class DeploymentExtendedFilter {
     /**
      * The provisioning state.
      */

@@ -7,11 +7,12 @@
 package com.microsoft.azure.v2.management.resources;
 
 import com.microsoft.azure.management.apigeneration.Fluent;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Indexable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Refreshable;
-import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.v2.management.resources.implementation.DeploymentOperationInner;
-import org.joda.time.DateTime;
+
+import java.time.OffsetDateTime;
 
 /**
  * An immutable client-side representation of a deployment operation.
@@ -36,7 +37,7 @@ public interface DeploymentOperation extends
     /**
      * @return the date and time of the operation
      */
-    DateTime timestamp();
+    OffsetDateTime timestamp();
 
     /**
      * @return the operation status code.=

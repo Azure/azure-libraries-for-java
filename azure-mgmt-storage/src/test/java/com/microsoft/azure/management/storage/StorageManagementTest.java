@@ -6,10 +6,10 @@
 
 package com.microsoft.azure.management.storage;
 
-import com.microsoft.azure.management.resources.core.TestBase;
-import com.microsoft.azure.management.resources.implementation.ResourceManager;
-import com.microsoft.azure.management.storage.implementation.StorageManager;
-import com.microsoft.rest.RestClient;
+import com.microsoft.azure.v2.management.resources.core.TestBase;
+import com.microsoft.azure.v2.management.resources.implementation.ResourceManager;
+import com.microsoft.azure.v2.management.storage.implementation.StorageManager;
+import com.microsoft.rest.v2.http.HttpPipeline;
 
 /**
  * The base for storage manager tests.
@@ -19,13 +19,13 @@ public abstract class StorageManagementTest extends TestBase {
     protected static StorageManager storageManager;
 
     @Override
-    protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {
+    protected void initializeClients(HttpPipeline httpPipeline, String defaultSubscription, String domain) {
         resourceManager = ResourceManager
-                .authenticate(restClient)
+                .authenticate(httpPipeline)
                 .withSubscription(defaultSubscription);
 
         storageManager = StorageManager
-                .authenticate(restClient, defaultSubscription);
+                .authenticate(httpPipeline, defaultSubscription);
     }
 
 }

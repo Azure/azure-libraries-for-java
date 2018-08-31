@@ -11,9 +11,10 @@ import com.microsoft.azure.v2.management.resources.fluentcore.arm.AzureConfigura
 import com.microsoft.azure.v2.management.resources.fluentcore.utils.ProviderRegistrationPolicyFactory;
 import com.microsoft.azure.v2.management.resources.fluentcore.utils.ResourceManagerThrottlingPolicyFactory;
 import com.microsoft.rest.v2.http.HttpClient;
+import com.microsoft.rest.v2.http.HttpClientConfiguration;
+import com.microsoft.rest.v2.http.HttpPipeline;
 import com.microsoft.rest.v2.http.HttpPipelineBuilder;
 import com.microsoft.rest.v2.policy.CredentialsPolicyFactory;
-import com.microsoft.rest.v2.http.HttpPipeline;
 import com.microsoft.rest.v2.policy.RequestPolicyFactory;
 
 import java.net.Proxy;
@@ -52,7 +53,7 @@ public class AzureConfigurableImpl<T extends AzureConfigurable<T>>
                 .withRequestPolicy(new CredentialsPolicyFactory(credentials))
                 .withRequestPolicy(new ProviderRegistrationPolicyFactory(credentials))
                 .withRequestPolicy(new ResourceManagerThrottlingPolicyFactory())
-                .withHttpClient(HttpClient.createDefault(new HttpClient.Configuration(proxy)))
+                .withHttpClient(HttpClient.createDefault(new HttpClientConfiguration(proxy)))
                 .build();
 
         if (proxy != null) {

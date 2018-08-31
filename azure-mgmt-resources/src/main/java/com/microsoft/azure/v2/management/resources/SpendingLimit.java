@@ -33,9 +33,9 @@ public enum SpendingLimit {
     /**
      * The actual serialized value for a SpendingLimit instance.
      */
-    private String value;
+    private final String value;
 
-    SpendingLimit(String value) {
+    private SpendingLimit(String value) {
         this.value = value;
     }
 

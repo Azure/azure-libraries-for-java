@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Target resource.
  */
-public class TargetResource {
+public final class TargetResource {
     /**
      * The ID of the resource.
      */

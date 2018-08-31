@@ -12,9 +12,10 @@ import com.microsoft.azure.v2.AzureProxy;
 import com.microsoft.azure.v2.CloudException;
 import com.microsoft.azure.v2.Page;
 import com.microsoft.azure.v2.PagedList;
-import com.microsoft.rest.v2.RestResponse;
+import com.microsoft.rest.v2.BodyResponse;
 import com.microsoft.rest.v2.ServiceCallback;
 import com.microsoft.rest.v2.ServiceFuture;
+import com.microsoft.rest.v2.VoidResponse;
 import com.microsoft.rest.v2.annotations.DELETE;
 import com.microsoft.rest.v2.annotations.ExpectedResponses;
 import com.microsoft.rest.v2.annotations.GET;
@@ -28,13 +29,13 @@ import io.reactivex.Completable;
 import io.reactivex.Maybe;
 import io.reactivex.Observable;
 import io.reactivex.Single;
-import io.reactivex.functions.Function;
+import io.reactivex.annotations.NonNull;
 
 /**
  * An instance of this class provides access to all the operations defined in
  * Tags.
  */
-public class TagsInner {
+public final class TagsInner {
     /**
      * The proxy service used to perform REST calls.
      */
@@ -60,36 +61,36 @@ public class TagsInner {
      * service to perform REST calls.
      */
     @Host("https://management.azure.com")
-    interface TagsService {
+    private interface TagsService {
         @DELETE("subscriptions/{subscriptionId}/tagNames/{tagName}/tagValues/{tagValue}")
         @ExpectedResponses({200, 204})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Single<RestResponse<Void, Void>> deleteValue(@PathParam("tagName") String tagName, @PathParam("tagValue") String tagValue, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
+        Single<VoidResponse> deleteValue(@PathParam("tagName") String tagName, @PathParam("tagValue") String tagValue, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
         @PUT("subscriptions/{subscriptionId}/tagNames/{tagName}/tagValues/{tagValue}")
         @ExpectedResponses({200, 201})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Single<RestResponse<Void, TagValueInner>> createOrUpdateValue(@PathParam("tagName") String tagName, @PathParam("tagValue") String tagValue, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
+        Single<BodyResponse<TagValueInner>> createOrUpdateValue(@PathParam("tagName") String tagName, @PathParam("tagValue") String tagValue, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
         @PUT("subscriptions/{subscriptionId}/tagNames/{tagName}")
         @ExpectedResponses({200, 201})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Single<RestResponse<Void, TagDetailsInner>> createOrUpdate(@PathParam("tagName") String tagName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
+        Single<BodyResponse<TagDetailsInner>> createOrUpdate(@PathParam("tagName") String tagName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
         @DELETE("subscriptions/{subscriptionId}/tagNames/{tagName}")
         @ExpectedResponses({200, 204})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Single<RestResponse<Void, Void>> delete(@PathParam("tagName") String tagName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
+        Single<VoidResponse> delete(@PathParam("tagName") String tagName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
         @GET("subscriptions/{subscriptionId}/tagNames")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Single<RestResponse<Void, PageImpl<TagDetailsInner>>> list(@PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
+        Single<BodyResponse<PageImpl<TagDetailsInner>>> list(@PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
         @GET("{nextUrl}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Single<RestResponse<Void, PageImpl<TagDetailsInner>>> listNext(@PathParam(value = "nextUrl", encoded = true) String nextUrl, @HeaderParam("accept-language") String acceptLanguage);
+        Single<BodyResponse<PageImpl<TagDetailsInner>>> listNext(@PathParam(value = "nextUrl", encoded = true) String nextUrl, @HeaderParam("accept-language") String acceptLanguage);
     }
 
     /**
@@ -101,7 +102,7 @@ public class TagsInner {
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void deleteValue(String tagName, String tagValue) {
+    public void deleteValue(@NonNull String tagName, @NonNull String tagValue) {
         deleteValueAsync(tagName, tagValue).blockingAwait();
     }
 
@@ -112,9 +113,9 @@ public class TagsInner {
      * @param tagValue The value of the tag to delete.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link ServiceFuture&lt;Void&gt;} object.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<Void> deleteValueAsync(String tagName, String tagValue, final ServiceCallback<Void> serviceCallback) {
+    public ServiceFuture<Void> deleteValueAsync(@NonNull String tagName, @NonNull String tagValue, ServiceCallback<Void> serviceCallback) {
         return ServiceFuture.fromBody(deleteValueAsync(tagName, tagValue), serviceCallback);
     }
 
@@ -124,9 +125,9 @@ public class TagsInner {
      * @param tagName The name of the tag.
      * @param tagValue The value of the tag to delete.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Single&lt;RestResponse&lt;Void, Void&gt;&gt;} object if successful.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Single<RestResponse<Void, Void>> deleteValueWithRestResponseAsync(String tagName, String tagValue) {
+    public Single<VoidResponse> deleteValueWithRestResponseAsync(@NonNull String tagName, @NonNull String tagValue) {
         if (tagName == null) {
             throw new IllegalArgumentException("Parameter tagName is required and cannot be null.");
         }
@@ -148,9 +149,9 @@ public class TagsInner {
      * @param tagName The name of the tag.
      * @param tagValue The value of the tag to delete.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Completable} object if successful.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Completable deleteValueAsync(String tagName, String tagValue) {
+    public Completable deleteValueAsync(@NonNull String tagName, @NonNull String tagValue) {
         return deleteValueWithRestResponseAsync(tagName, tagValue)
             .toCompletable();
     }
@@ -165,7 +166,7 @@ public class TagsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the TagValueInner object if successful.
      */
-    public TagValueInner createOrUpdateValue(String tagName, String tagValue) {
+    public TagValueInner createOrUpdateValue(@NonNull String tagName, @NonNull String tagValue) {
         return createOrUpdateValueAsync(tagName, tagValue).blockingGet();
     }
 
@@ -176,9 +177,9 @@ public class TagsInner {
      * @param tagValue The value of the tag to create.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link ServiceFuture&lt;TagValueInner&gt;} object.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<TagValueInner> createOrUpdateValueAsync(String tagName, String tagValue, final ServiceCallback<TagValueInner> serviceCallback) {
+    public ServiceFuture<TagValueInner> createOrUpdateValueAsync(@NonNull String tagName, @NonNull String tagValue, ServiceCallback<TagValueInner> serviceCallback) {
         return ServiceFuture.fromBody(createOrUpdateValueAsync(tagName, tagValue), serviceCallback);
     }
 
@@ -188,9 +189,9 @@ public class TagsInner {
      * @param tagName The name of the tag.
      * @param tagValue The value of the tag to create.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Single&lt;RestResponse&lt;Void, TagValueInner&gt;&gt;} object if successful.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Single<RestResponse<Void, TagValueInner>> createOrUpdateValueWithRestResponseAsync(String tagName, String tagValue) {
+    public Single<BodyResponse<TagValueInner>> createOrUpdateValueWithRestResponseAsync(@NonNull String tagName, @NonNull String tagValue) {
         if (tagName == null) {
             throw new IllegalArgumentException("Parameter tagName is required and cannot be null.");
         }
@@ -212,19 +213,11 @@ public class TagsInner {
      * @param tagName The name of the tag.
      * @param tagValue The value of the tag to create.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Maybe&lt;TagValueInner&gt;} object if successful.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Maybe<TagValueInner> createOrUpdateValueAsync(String tagName, String tagValue) {
+    public Maybe<TagValueInner> createOrUpdateValueAsync(@NonNull String tagName, @NonNull String tagValue) {
         return createOrUpdateValueWithRestResponseAsync(tagName, tagValue)
-            .flatMapMaybe(new Function<RestResponse<Void, TagValueInner>, Maybe<TagValueInner>>() {
-                public Maybe<TagValueInner> apply(RestResponse<Void, TagValueInner> restResponse) {
-                    if (restResponse.body() == null) {
-                        return Maybe.empty();
-                    } else {
-                        return Maybe.just(restResponse.body());
-                    }
-                }
-            });
+            .flatMapMaybe((BodyResponse<TagValueInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
@@ -237,7 +230,7 @@ public class TagsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the TagDetailsInner object if successful.
      */
-    public TagDetailsInner createOrUpdate(String tagName) {
+    public TagDetailsInner createOrUpdate(@NonNull String tagName) {
         return createOrUpdateAsync(tagName).blockingGet();
     }
 
@@ -248,9 +241,9 @@ public class TagsInner {
      * @param tagName The name of the tag to create.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link ServiceFuture&lt;TagDetailsInner&gt;} object.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<TagDetailsInner> createOrUpdateAsync(String tagName, final ServiceCallback<TagDetailsInner> serviceCallback) {
+    public ServiceFuture<TagDetailsInner> createOrUpdateAsync(@NonNull String tagName, ServiceCallback<TagDetailsInner> serviceCallback) {
         return ServiceFuture.fromBody(createOrUpdateAsync(tagName), serviceCallback);
     }
 
@@ -260,9 +253,9 @@ public class TagsInner {
      *
      * @param tagName The name of the tag to create.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Single&lt;RestResponse&lt;Void, TagDetailsInner&gt;&gt;} object if successful.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Single<RestResponse<Void, TagDetailsInner>> createOrUpdateWithRestResponseAsync(String tagName) {
+    public Single<BodyResponse<TagDetailsInner>> createOrUpdateWithRestResponseAsync(@NonNull String tagName) {
         if (tagName == null) {
             throw new IllegalArgumentException("Parameter tagName is required and cannot be null.");
         }
@@ -281,19 +274,11 @@ public class TagsInner {
      *
      * @param tagName The name of the tag to create.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Maybe&lt;TagDetailsInner&gt;} object if successful.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Maybe<TagDetailsInner> createOrUpdateAsync(String tagName) {
+    public Maybe<TagDetailsInner> createOrUpdateAsync(@NonNull String tagName) {
         return createOrUpdateWithRestResponseAsync(tagName)
-            .flatMapMaybe(new Function<RestResponse<Void, TagDetailsInner>, Maybe<TagDetailsInner>>() {
-                public Maybe<TagDetailsInner> apply(RestResponse<Void, TagDetailsInner> restResponse) {
-                    if (restResponse.body() == null) {
-                        return Maybe.empty();
-                    } else {
-                        return Maybe.just(restResponse.body());
-                    }
-                }
-            });
+            .flatMapMaybe((BodyResponse<TagDetailsInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
@@ -305,7 +290,7 @@ public class TagsInner {
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void delete(String tagName) {
+    public void delete(@NonNull String tagName) {
         deleteAsync(tagName).blockingAwait();
     }
 
@@ -316,9 +301,9 @@ public class TagsInner {
      * @param tagName The name of the tag.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link ServiceFuture&lt;Void&gt;} object.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<Void> deleteAsync(String tagName, final ServiceCallback<Void> serviceCallback) {
+    public ServiceFuture<Void> deleteAsync(@NonNull String tagName, ServiceCallback<Void> serviceCallback) {
         return ServiceFuture.fromBody(deleteAsync(tagName), serviceCallback);
     }
 
@@ -328,9 +313,9 @@ public class TagsInner {
      *
      * @param tagName The name of the tag.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Single&lt;RestResponse&lt;Void, Void&gt;&gt;} object if successful.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Single<RestResponse<Void, Void>> deleteWithRestResponseAsync(String tagName) {
+    public Single<VoidResponse> deleteWithRestResponseAsync(@NonNull String tagName) {
         if (tagName == null) {
             throw new IllegalArgumentException("Parameter tagName is required and cannot be null.");
         }
@@ -349,9 +334,9 @@ public class TagsInner {
      *
      * @param tagName The name of the tag.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Completable} object if successful.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Completable deleteAsync(String tagName) {
+    public Completable deleteAsync(@NonNull String tagName) {
         return deleteWithRestResponseAsync(tagName)
             .toCompletable();
     }
@@ -359,7 +344,6 @@ public class TagsInner {
     /**
      * Gets the names and values of all resource tags that are defined in a subscription.
      *
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;TagDetailsInner&gt; object if successful.
@@ -377,29 +361,24 @@ public class TagsInner {
     /**
      * Gets the names and values of all resource tags that are defined in a subscription.
      *
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @return the observable to the PagedList&lt;TagDetailsInner&gt; object.
      */
     public Observable<Page<TagDetailsInner>> listAsync() {
         return listSinglePageAsync()
             .toObservable()
-            .concatMap(new Function<Page<TagDetailsInner>, Observable<Page<TagDetailsInner>>>() {
-                @Override
-                public Observable<Page<TagDetailsInner>> apply(Page<TagDetailsInner> page) {
-                    String nextPageLink = page.nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listNextAsync(nextPageLink));
+            .concatMap((Page<TagDetailsInner> page) -> {
+                String nextPageLink = page.nextPageLink();
+                if (nextPageLink == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listNextAsync(nextPageLink));
             });
     }
 
     /**
      * Gets the names and values of all resource tags that are defined in a subscription.
      *
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Single&lt;Page&lt;TagDetailsInner&gt;&gt;} object if successful.
+     * @return the Single&lt;Page&lt;TagDetailsInner&gt;&gt; object if successful.
      */
     public Single<Page<TagDetailsInner>> listSinglePageAsync() {
         if (this.client.subscriptionId() == null) {
@@ -408,12 +387,8 @@ public class TagsInner {
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        return service.list(this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage()).map(new Function<RestResponse<Void, PageImpl<TagDetailsInner>>, Page<TagDetailsInner>>() {
-            @Override
-            public Page<TagDetailsInner> apply(RestResponse<Void, PageImpl<TagDetailsInner>> response) {
-                return response.body();
-            }
-        });
+        return service.list(this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl<TagDetailsInner>> res) -> res.body());
     }
 
     /**
@@ -425,7 +400,7 @@ public class TagsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;TagDetailsInner&gt; object if successful.
      */
-    public PagedList<TagDetailsInner> listNext(final String nextPageLink) {
+    public PagedList<TagDetailsInner> listNext(@NonNull String nextPageLink) {
         Page<TagDetailsInner> response = listNextSinglePageAsync(nextPageLink).blockingGet();
         return new PagedList<TagDetailsInner>(response) {
             @Override
@@ -442,18 +417,15 @@ public class TagsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @return the observable to the PagedList&lt;TagDetailsInner&gt; object.
      */
-    public Observable<Page<TagDetailsInner>> listNextAsync(final String nextPageLink) {
+    public Observable<Page<TagDetailsInner>> listNextAsync(@NonNull String nextPageLink) {
         return listNextSinglePageAsync(nextPageLink)
             .toObservable()
-            .concatMap(new Function<Page<TagDetailsInner>, Observable<Page<TagDetailsInner>>>() {
-                @Override
-                public Observable<Page<TagDetailsInner>> apply(Page<TagDetailsInner> page) {
-                    String nextPageLink = page.nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listNextAsync(nextPageLink));
+            .concatMap((Page<TagDetailsInner> page) -> {
+                String nextPageLink1 = page.nextPageLink();
+                if (nextPageLink1 == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listNextAsync(nextPageLink1));
             });
     }
 
@@ -462,18 +434,14 @@ public class TagsInner {
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Single&lt;Page&lt;TagDetailsInner&gt;&gt;} object if successful.
+     * @return the Single&lt;Page&lt;TagDetailsInner&gt;&gt; object if successful.
      */
-    public Single<Page<TagDetailsInner>> listNextSinglePageAsync(final String nextPageLink) {
+    public Single<Page<TagDetailsInner>> listNextSinglePageAsync(@NonNull String nextPageLink) {
         if (nextPageLink == null) {
             throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
         }
         String nextUrl = String.format("%s", nextPageLink);
-        return service.listNext(nextUrl, this.client.acceptLanguage()).map(new Function<RestResponse<Void, PageImpl<TagDetailsInner>>, Page<TagDetailsInner>>() {
-            @Override
-            public Page<TagDetailsInner> apply(RestResponse<Void, PageImpl<TagDetailsInner>> response) {
-                return response.body();
-            }
-        });
+        return service.listNext(nextUrl, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl<TagDetailsInner>> res) -> res.body());
     }
 }

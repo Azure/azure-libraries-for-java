@@ -12,7 +12,7 @@ import com.microsoft.azure.v2.AzureProxy;
 import com.microsoft.azure.v2.CloudException;
 import com.microsoft.azure.v2.Page;
 import com.microsoft.azure.v2.PagedList;
-import com.microsoft.rest.v2.RestResponse;
+import com.microsoft.rest.v2.BodyResponse;
 import com.microsoft.rest.v2.ServiceCallback;
 import com.microsoft.rest.v2.ServiceFuture;
 import com.microsoft.rest.v2.annotations.ExpectedResponses;
@@ -26,13 +26,13 @@ import com.microsoft.rest.v2.annotations.UnexpectedResponseExceptionType;
 import io.reactivex.Maybe;
 import io.reactivex.Observable;
 import io.reactivex.Single;
-import io.reactivex.functions.Function;
+import io.reactivex.annotations.NonNull;
 
 /**
  * An instance of this class provides access to all the operations defined in
  * Providers.
  */
-public class ProvidersInner {
+public final class ProvidersInner {
     /**
      * The proxy service used to perform REST calls.
      */
@@ -58,31 +58,31 @@ public class ProvidersInner {
      * proxy service to perform REST calls.
      */
     @Host("https://management.azure.com")
-    interface ProvidersService {
+    private interface ProvidersService {
         @POST("subscriptions/{subscriptionId}/providers/{resourceProviderNamespace}/unregister")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Single<RestResponse<Void, ProviderInner>> unregister(@PathParam("resourceProviderNamespace") String resourceProviderNamespace, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
+        Single<BodyResponse<ProviderInner>> unregister(@PathParam("resourceProviderNamespace") String resourceProviderNamespace, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
         @POST("subscriptions/{subscriptionId}/providers/{resourceProviderNamespace}/register")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Single<RestResponse<Void, ProviderInner>> register(@PathParam("resourceProviderNamespace") String resourceProviderNamespace, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
+        Single<BodyResponse<ProviderInner>> register(@PathParam("resourceProviderNamespace") String resourceProviderNamespace, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
         @GET("subscriptions/{subscriptionId}/providers")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Single<RestResponse<Void, PageImpl<ProviderInner>>> list(@PathParam("subscriptionId") String subscriptionId, @QueryParam("$top") Integer top, @QueryParam("$expand") String expand, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
+        Single<BodyResponse<PageImpl<ProviderInner>>> list(@PathParam("subscriptionId") String subscriptionId, @QueryParam("$top") Integer top, @QueryParam("$expand") String expand, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
         @GET("subscriptions/{subscriptionId}/providers/{resourceProviderNamespace}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Single<RestResponse<Void, ProviderInner>> get(@PathParam("resourceProviderNamespace") String resourceProviderNamespace, @PathParam("subscriptionId") String subscriptionId, @QueryParam("$expand") String expand, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
+        Single<BodyResponse<ProviderInner>> get(@PathParam("resourceProviderNamespace") String resourceProviderNamespace, @PathParam("subscriptionId") String subscriptionId, @QueryParam("$expand") String expand, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
         @GET("{nextUrl}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Single<RestResponse<Void, PageImpl<ProviderInner>>> listNext(@PathParam(value = "nextUrl", encoded = true) String nextUrl, @HeaderParam("accept-language") String acceptLanguage);
+        Single<BodyResponse<PageImpl<ProviderInner>>> listNext(@PathParam(value = "nextUrl", encoded = true) String nextUrl, @HeaderParam("accept-language") String acceptLanguage);
     }
 
     /**
@@ -94,7 +94,7 @@ public class ProvidersInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the ProviderInner object if successful.
      */
-    public ProviderInner unregister(String resourceProviderNamespace) {
+    public ProviderInner unregister(@NonNull String resourceProviderNamespace) {
         return unregisterAsync(resourceProviderNamespace).blockingGet();
     }
 
@@ -104,9 +104,9 @@ public class ProvidersInner {
      * @param resourceProviderNamespace The namespace of the resource provider to unregister.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link ServiceFuture&lt;ProviderInner&gt;} object.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<ProviderInner> unregisterAsync(String resourceProviderNamespace, final ServiceCallback<ProviderInner> serviceCallback) {
+    public ServiceFuture<ProviderInner> unregisterAsync(@NonNull String resourceProviderNamespace, ServiceCallback<ProviderInner> serviceCallback) {
         return ServiceFuture.fromBody(unregisterAsync(resourceProviderNamespace), serviceCallback);
     }
 
@@ -115,9 +115,9 @@ public class ProvidersInner {
      *
      * @param resourceProviderNamespace The namespace of the resource provider to unregister.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Single&lt;RestResponse&lt;Void, ProviderInner&gt;&gt;} object if successful.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Single<RestResponse<Void, ProviderInner>> unregisterWithRestResponseAsync(String resourceProviderNamespace) {
+    public Single<BodyResponse<ProviderInner>> unregisterWithRestResponseAsync(@NonNull String resourceProviderNamespace) {
         if (resourceProviderNamespace == null) {
             throw new IllegalArgumentException("Parameter resourceProviderNamespace is required and cannot be null.");
         }
@@ -135,19 +135,11 @@ public class ProvidersInner {
      *
      * @param resourceProviderNamespace The namespace of the resource provider to unregister.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Maybe&lt;ProviderInner&gt;} object if successful.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Maybe<ProviderInner> unregisterAsync(String resourceProviderNamespace) {
+    public Maybe<ProviderInner> unregisterAsync(@NonNull String resourceProviderNamespace) {
         return unregisterWithRestResponseAsync(resourceProviderNamespace)
-            .flatMapMaybe(new Function<RestResponse<Void, ProviderInner>, Maybe<ProviderInner>>() {
-                public Maybe<ProviderInner> apply(RestResponse<Void, ProviderInner> restResponse) {
-                    if (restResponse.body() == null) {
-                        return Maybe.empty();
-                    } else {
-                        return Maybe.just(restResponse.body());
-                    }
-                }
-            });
+            .flatMapMaybe((BodyResponse<ProviderInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
@@ -159,7 +151,7 @@ public class ProvidersInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the ProviderInner object if successful.
      */
-    public ProviderInner register(String resourceProviderNamespace) {
+    public ProviderInner register(@NonNull String resourceProviderNamespace) {
         return registerAsync(resourceProviderNamespace).blockingGet();
     }
 
@@ -169,9 +161,9 @@ public class ProvidersInner {
      * @param resourceProviderNamespace The namespace of the resource provider to register.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link ServiceFuture&lt;ProviderInner&gt;} object.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<ProviderInner> registerAsync(String resourceProviderNamespace, final ServiceCallback<ProviderInner> serviceCallback) {
+    public ServiceFuture<ProviderInner> registerAsync(@NonNull String resourceProviderNamespace, ServiceCallback<ProviderInner> serviceCallback) {
         return ServiceFuture.fromBody(registerAsync(resourceProviderNamespace), serviceCallback);
     }
 
@@ -180,9 +172,9 @@ public class ProvidersInner {
      *
      * @param resourceProviderNamespace The namespace of the resource provider to register.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Single&lt;RestResponse&lt;Void, ProviderInner&gt;&gt;} object if successful.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Single<RestResponse<Void, ProviderInner>> registerWithRestResponseAsync(String resourceProviderNamespace) {
+    public Single<BodyResponse<ProviderInner>> registerWithRestResponseAsync(@NonNull String resourceProviderNamespace) {
         if (resourceProviderNamespace == null) {
             throw new IllegalArgumentException("Parameter resourceProviderNamespace is required and cannot be null.");
         }
@@ -200,25 +192,16 @@ public class ProvidersInner {
      *
      * @param resourceProviderNamespace The namespace of the resource provider to register.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Maybe&lt;ProviderInner&gt;} object if successful.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Maybe<ProviderInner> registerAsync(String resourceProviderNamespace) {
+    public Maybe<ProviderInner> registerAsync(@NonNull String resourceProviderNamespace) {
         return registerWithRestResponseAsync(resourceProviderNamespace)
-            .flatMapMaybe(new Function<RestResponse<Void, ProviderInner>, Maybe<ProviderInner>>() {
-                public Maybe<ProviderInner> apply(RestResponse<Void, ProviderInner> restResponse) {
-                    if (restResponse.body() == null) {
-                        return Maybe.empty();
-                    } else {
-                        return Maybe.just(restResponse.body());
-                    }
-                }
-            });
+            .flatMapMaybe((BodyResponse<ProviderInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
      * Gets all resource providers for a subscription.
      *
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;ProviderInner&gt; object if successful.
@@ -236,29 +219,24 @@ public class ProvidersInner {
     /**
      * Gets all resource providers for a subscription.
      *
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @return the observable to the PagedList&lt;ProviderInner&gt; object.
      */
     public Observable<Page<ProviderInner>> listAsync() {
         return listSinglePageAsync()
             .toObservable()
-            .concatMap(new Function<Page<ProviderInner>, Observable<Page<ProviderInner>>>() {
-                @Override
-                public Observable<Page<ProviderInner>> apply(Page<ProviderInner> page) {
-                    String nextPageLink = page.nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listNextAsync(nextPageLink));
+            .concatMap((Page<ProviderInner> page) -> {
+                String nextPageLink = page.nextPageLink();
+                if (nextPageLink == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listNextAsync(nextPageLink));
             });
     }
 
     /**
      * Gets all resource providers for a subscription.
      *
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Single&lt;Page&lt;ProviderInner&gt;&gt;} object if successful.
+     * @return the Single&lt;Page&lt;ProviderInner&gt;&gt; object if successful.
      */
     public Single<Page<ProviderInner>> listSinglePageAsync() {
         if (this.client.subscriptionId() == null) {
@@ -269,12 +247,8 @@ public class ProvidersInner {
         }
         final Integer top = null;
         final String expand = null;
-        return service.list(this.client.subscriptionId(), top, expand, this.client.apiVersion(), this.client.acceptLanguage()).map(new Function<RestResponse<Void, PageImpl<ProviderInner>>, Page<ProviderInner>>() {
-            @Override
-            public Page<ProviderInner> apply(RestResponse<Void, PageImpl<ProviderInner>> response) {
-                return response.body();
-            }
-        });
+        return service.list(this.client.subscriptionId(), top, expand, this.client.apiVersion(), this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl<ProviderInner>> res) -> res.body());
     }
 
     /**
@@ -287,7 +261,7 @@ public class ProvidersInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;ProviderInner&gt; object if successful.
      */
-    public PagedList<ProviderInner> list(final Integer top, final String expand) {
+    public PagedList<ProviderInner> list(Integer top, String expand) {
         Page<ProviderInner> response = listSinglePageAsync(top, expand).blockingGet();
         return new PagedList<ProviderInner>(response) {
             @Override
@@ -305,18 +279,15 @@ public class ProvidersInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @return the observable to the PagedList&lt;ProviderInner&gt; object.
      */
-    public Observable<Page<ProviderInner>> listAsync(final Integer top, final String expand) {
+    public Observable<Page<ProviderInner>> listAsync(Integer top, String expand) {
         return listSinglePageAsync(top, expand)
             .toObservable()
-            .concatMap(new Function<Page<ProviderInner>, Observable<Page<ProviderInner>>>() {
-                @Override
-                public Observable<Page<ProviderInner>> apply(Page<ProviderInner> page) {
-                    String nextPageLink = page.nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listNextAsync(nextPageLink));
+            .concatMap((Page<ProviderInner> page) -> {
+                String nextPageLink = page.nextPageLink();
+                if (nextPageLink == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listNextAsync(nextPageLink));
             });
     }
 
@@ -326,21 +297,17 @@ public class ProvidersInner {
      * @param top The number of results to return. If null is passed returns all deployments.
      * @param expand The properties to include in the results. For example, use &amp;$expand=metadata in the query string to retrieve resource provider metadata. To include property aliases in response, use $expand=resourceTypes/aliases.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Single&lt;Page&lt;ProviderInner&gt;&gt;} object if successful.
+     * @return the Single&lt;Page&lt;ProviderInner&gt;&gt; object if successful.
      */
-    public Single<Page<ProviderInner>> listSinglePageAsync(final Integer top, final String expand) {
+    public Single<Page<ProviderInner>> listSinglePageAsync(Integer top, String expand) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        return service.list(this.client.subscriptionId(), top, expand, this.client.apiVersion(), this.client.acceptLanguage()).map(new Function<RestResponse<Void, PageImpl<ProviderInner>>, Page<ProviderInner>>() {
-            @Override
-            public Page<ProviderInner> apply(RestResponse<Void, PageImpl<ProviderInner>> response) {
-                return response.body();
-            }
-        });
+        return service.list(this.client.subscriptionId(), top, expand, this.client.apiVersion(), this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl<ProviderInner>> res) -> res.body());
     }
 
     /**
@@ -352,7 +319,7 @@ public class ProvidersInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the ProviderInner object if successful.
      */
-    public ProviderInner get(String resourceProviderNamespace) {
+    public ProviderInner get(@NonNull String resourceProviderNamespace) {
         return getAsync(resourceProviderNamespace).blockingGet();
     }
 
@@ -362,9 +329,9 @@ public class ProvidersInner {
      * @param resourceProviderNamespace The namespace of the resource provider.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link ServiceFuture&lt;ProviderInner&gt;} object.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<ProviderInner> getAsync(String resourceProviderNamespace, final ServiceCallback<ProviderInner> serviceCallback) {
+    public ServiceFuture<ProviderInner> getAsync(@NonNull String resourceProviderNamespace, ServiceCallback<ProviderInner> serviceCallback) {
         return ServiceFuture.fromBody(getAsync(resourceProviderNamespace), serviceCallback);
     }
 
@@ -373,9 +340,9 @@ public class ProvidersInner {
      *
      * @param resourceProviderNamespace The namespace of the resource provider.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Single&lt;RestResponse&lt;Void, ProviderInner&gt;&gt;} object if successful.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Single<RestResponse<Void, ProviderInner>> getWithRestResponseAsync(String resourceProviderNamespace) {
+    public Single<BodyResponse<ProviderInner>> getWithRestResponseAsync(@NonNull String resourceProviderNamespace) {
         if (resourceProviderNamespace == null) {
             throw new IllegalArgumentException("Parameter resourceProviderNamespace is required and cannot be null.");
         }
@@ -394,19 +361,11 @@ public class ProvidersInner {
      *
      * @param resourceProviderNamespace The namespace of the resource provider.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Maybe&lt;ProviderInner&gt;} object if successful.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Maybe<ProviderInner> getAsync(String resourceProviderNamespace) {
+    public Maybe<ProviderInner> getAsync(@NonNull String resourceProviderNamespace) {
         return getWithRestResponseAsync(resourceProviderNamespace)
-            .flatMapMaybe(new Function<RestResponse<Void, ProviderInner>, Maybe<ProviderInner>>() {
-                public Maybe<ProviderInner> apply(RestResponse<Void, ProviderInner> restResponse) {
-                    if (restResponse.body() == null) {
-                        return Maybe.empty();
-                    } else {
-                        return Maybe.just(restResponse.body());
-                    }
-                }
-            });
+            .flatMapMaybe((BodyResponse<ProviderInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
@@ -419,7 +378,7 @@ public class ProvidersInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the ProviderInner object if successful.
      */
-    public ProviderInner get(String resourceProviderNamespace, String expand) {
+    public ProviderInner get(@NonNull String resourceProviderNamespace, String expand) {
         return getAsync(resourceProviderNamespace, expand).blockingGet();
     }
 
@@ -430,9 +389,9 @@ public class ProvidersInner {
      * @param expand The $expand query parameter. For example, to include property aliases in response, use $expand=resourceTypes/aliases.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link ServiceFuture&lt;ProviderInner&gt;} object.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<ProviderInner> getAsync(String resourceProviderNamespace, String expand, final ServiceCallback<ProviderInner> serviceCallback) {
+    public ServiceFuture<ProviderInner> getAsync(@NonNull String resourceProviderNamespace, String expand, ServiceCallback<ProviderInner> serviceCallback) {
         return ServiceFuture.fromBody(getAsync(resourceProviderNamespace, expand), serviceCallback);
     }
 
@@ -442,9 +401,9 @@ public class ProvidersInner {
      * @param resourceProviderNamespace The namespace of the resource provider.
      * @param expand The $expand query parameter. For example, to include property aliases in response, use $expand=resourceTypes/aliases.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Single&lt;RestResponse&lt;Void, ProviderInner&gt;&gt;} object if successful.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Single<RestResponse<Void, ProviderInner>> getWithRestResponseAsync(String resourceProviderNamespace, String expand) {
+    public Single<BodyResponse<ProviderInner>> getWithRestResponseAsync(@NonNull String resourceProviderNamespace, String expand) {
         if (resourceProviderNamespace == null) {
             throw new IllegalArgumentException("Parameter resourceProviderNamespace is required and cannot be null.");
         }
@@ -463,19 +422,11 @@ public class ProvidersInner {
      * @param resourceProviderNamespace The namespace of the resource provider.
      * @param expand The $expand query parameter. For example, to include property aliases in response, use $expand=resourceTypes/aliases.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Maybe&lt;ProviderInner&gt;} object if successful.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Maybe<ProviderInner> getAsync(String resourceProviderNamespace, String expand) {
+    public Maybe<ProviderInner> getAsync(@NonNull String resourceProviderNamespace, String expand) {
         return getWithRestResponseAsync(resourceProviderNamespace, expand)
-            .flatMapMaybe(new Function<RestResponse<Void, ProviderInner>, Maybe<ProviderInner>>() {
-                public Maybe<ProviderInner> apply(RestResponse<Void, ProviderInner> restResponse) {
-                    if (restResponse.body() == null) {
-                        return Maybe.empty();
-                    } else {
-                        return Maybe.just(restResponse.body());
-                    }
-                }
-            });
+            .flatMapMaybe((BodyResponse<ProviderInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
@@ -487,7 +438,7 @@ public class ProvidersInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;ProviderInner&gt; object if successful.
      */
-    public PagedList<ProviderInner> listNext(final String nextPageLink) {
+    public PagedList<ProviderInner> listNext(@NonNull String nextPageLink) {
         Page<ProviderInner> response = listNextSinglePageAsync(nextPageLink).blockingGet();
         return new PagedList<ProviderInner>(response) {
             @Override
@@ -504,18 +455,15 @@ public class ProvidersInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @return the observable to the PagedList&lt;ProviderInner&gt; object.
      */
-    public Observable<Page<ProviderInner>> listNextAsync(final String nextPageLink) {
+    public Observable<Page<ProviderInner>> listNextAsync(@NonNull String nextPageLink) {
         return listNextSinglePageAsync(nextPageLink)
             .toObservable()
-            .concatMap(new Function<Page<ProviderInner>, Observable<Page<ProviderInner>>>() {
-                @Override
-                public Observable<Page<ProviderInner>> apply(Page<ProviderInner> page) {
-                    String nextPageLink = page.nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listNextAsync(nextPageLink));
+            .concatMap((Page<ProviderInner> page) -> {
+                String nextPageLink1 = page.nextPageLink();
+                if (nextPageLink1 == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listNextAsync(nextPageLink1));
             });
     }
 
@@ -524,18 +472,14 @@ public class ProvidersInner {
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Single&lt;Page&lt;ProviderInner&gt;&gt;} object if successful.
+     * @return the Single&lt;Page&lt;ProviderInner&gt;&gt; object if successful.
      */
-    public Single<Page<ProviderInner>> listNextSinglePageAsync(final String nextPageLink) {
+    public Single<Page<ProviderInner>> listNextSinglePageAsync(@NonNull String nextPageLink) {
         if (nextPageLink == null) {
             throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
         }
         String nextUrl = String.format("%s", nextPageLink);
-        return service.listNext(nextUrl, this.client.acceptLanguage()).map(new Function<RestResponse<Void, PageImpl<ProviderInner>>, Page<ProviderInner>>() {
-            @Override
-            public Page<ProviderInner> apply(RestResponse<Void, PageImpl<ProviderInner>> response) {
-                return response.body();
-            }
-        });
+        return service.listNext(nextUrl, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl<ProviderInner>> res) -> res.body());
     }
 }

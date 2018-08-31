@@ -21,9 +21,7 @@ import com.microsoft.rest.v2.policy.RequestPolicy;
 import com.microsoft.rest.v2.policy.RequestPolicyFactory;
 import com.microsoft.rest.v2.policy.RequestPolicyOptions;
 import io.reactivex.Completable;
-import io.reactivex.CompletableSource;
 import io.reactivex.Single;
-import io.reactivex.SingleSource;
 import io.reactivex.functions.Function;
 
 import java.util.concurrent.TimeUnit;
@@ -62,51 +60,41 @@ public final class ProviderRegistrationPolicyFactory implements RequestPolicyFac
 
         @Override
         public Single<HttpResponse> sendAsync(final HttpRequest request) {
-            return next.sendAsync(request).flatMap(new Function<HttpResponse, SingleSource<? extends HttpResponse>>() {
-                @Override
-                public SingleSource<? extends HttpResponse> apply(HttpResponse response) throws Exception {
-                    if (response.statusCode() >= 200 && response.statusCode() < 300) {
-                        return Single.just(response);
-                    } else {
-                        return registerProviderIfNeeded(request, response.buffer());
-                    }
+            return next.sendAsync(request).flatMap(response -> {
+                if (response.statusCode() >= 200 && response.statusCode() < 300) {
+                    return Single.just(response);
+                } else {
+                    return registerProviderIfNeeded(request, response.buffer());
                 }
             });
         }
 
         private Single<HttpResponse> registerProviderIfNeeded(final HttpRequest request, final HttpResponse bufferedResponse) {
-            return bufferedResponse.bodyAsStringAsync().flatMap(new Function<String, Single<? extends HttpResponse>>() {
-                @Override
-                public Single<? extends HttpResponse> apply(String bodyContent) throws Exception {
-                    CloudError cloudError = SERIALIZER.deserialize(bodyContent, CloudError.class);
-                    boolean isMissingProviderError = cloudError != null && "MissingSubscriptionRegistration".equals(cloudError.code());
-                    if (!isMissingProviderError) {
-                        return Single.just(bufferedResponse);
-                    } else {
-                        Matcher matcher = SUBSCRIPTION_PATTERN.matcher(request.url().toString());
-                        matcher.find();
+            return bufferedResponse.bodyAsString().flatMap((Function<String, Single<? extends HttpResponse>>) bodyContent -> {
+                CloudError cloudError = SERIALIZER.deserialize(bodyContent, CloudError.class);
+                boolean isMissingProviderError = cloudError != null && "MissingSubscriptionRegistration".equals(cloudError.code());
+                if (!isMissingProviderError) {
+                    return Single.just(bufferedResponse);
+                } else {
+                    Matcher matcher = SUBSCRIPTION_PATTERN.matcher(request.url().toString());
+                    matcher.find();
 
-                        HttpPipeline pipeline = HttpPipeline.build(
-                                new HostPolicyFactory(request.url().getHost()),
-                                new CredentialsPolicyFactory(credentials));
+                    HttpPipeline pipeline = HttpPipeline.build(
+                            new HostPolicyFactory(request.url().getHost()),
+                            new CredentialsPolicyFactory(credentials));
 
-                        final Providers providers = ResourceManager.authenticate(pipeline)
-                                .withSubscription(matcher.group(1))
-                                .providers();
+                    final Providers providers = ResourceManager.authenticate(pipeline)
+                            .withSubscription(matcher.group(1))
+                            .providers();
 
-                        matcher = PROVIDER_PATTERN.matcher(cloudError.message());
-                        matcher.find();
+                    matcher = PROVIDER_PATTERN.matcher(cloudError.message());
+                    matcher.find();
 
-                        final String namespace = matcher.group(1);
-                        return providers.registerAsync(matcher.group(1))
-                                .toSingle()
-                                .flatMapCompletable(new Function<Provider, Completable>() {
-                                    @Override
-                                    public Completable apply(Provider provider) throws Exception {
-                                        return pollProviderAsync(provider, providers, namespace);
-                                    }
-                                }).andThen(next.sendAsync(request));
-                    }
+                    final String namespace = matcher.group(1);
+                    return providers.registerAsync(matcher.group(1))
+                            .toSingle()
+                            .flatMapCompletable((Function<Provider, Completable>) provider -> pollProviderAsync(provider, providers, namespace))
+                            .andThen(next.sendAsync(request));
                 }
             });
         }
@@ -116,13 +104,8 @@ public final class ProviderRegistrationPolicyFactory implements RequestPolicyFac
                     || currentProvider.registrationState().equalsIgnoreCase("Registering")) {
                 return providers.getByNameAsync(namespace)
                         .toSingle()
-                        .flatMapCompletable(new Function<Provider, CompletableSource>() {
-                            @Override
-                            public CompletableSource apply(Provider newProvider) throws Exception {
-                                return Completable.complete().delay(5000, TimeUnit.MILLISECONDS)
-                                        .andThen(pollProviderAsync(newProvider, providers, namespace));
-                            }
-                        });
+                        .flatMapCompletable(newProvider -> Completable.complete().delay(5000, TimeUnit.MILLISECONDS)
+                                .andThen(pollProviderAsync(newProvider, providers, namespace)));
             } else {
                 return Completable.complete();
             }

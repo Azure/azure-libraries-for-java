@@ -12,7 +12,7 @@ import com.microsoft.azure.v2.AzureProxy;
 import com.microsoft.azure.v2.CloudException;
 import com.microsoft.azure.v2.Page;
 import com.microsoft.azure.v2.PagedList;
-import com.microsoft.rest.v2.RestResponse;
+import com.microsoft.rest.v2.BodyResponse;
 import com.microsoft.rest.v2.ServiceCallback;
 import com.microsoft.rest.v2.ServiceFuture;
 import com.microsoft.rest.v2.annotations.ExpectedResponses;
@@ -25,15 +25,15 @@ import com.microsoft.rest.v2.annotations.UnexpectedResponseExceptionType;
 import io.reactivex.Maybe;
 import io.reactivex.Observable;
 import io.reactivex.Single;
-import io.reactivex.functions.Function;
-
+import io.reactivex.annotations.NonNull;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * An instance of this class provides access to all the operations defined in
  * Subscriptions.
  */
-public class SubscriptionsInner {
+public final class SubscriptionsInner {
     /**
      * The proxy service used to perform REST calls.
      */
@@ -59,26 +59,26 @@ public class SubscriptionsInner {
      * the proxy service to perform REST calls.
      */
     @Host("https://management.azure.com")
-    interface SubscriptionsService {
+    private interface SubscriptionsService {
         @GET("subscriptions/{subscriptionId}/locations")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Single<RestResponse<Void, List<LocationInner>>> listLocations(@PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
+        Single<BodyResponse<List<LocationInner>>> listLocations(@PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
         @GET("subscriptions/{subscriptionId}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Single<RestResponse<Void, SubscriptionInner>> get(@PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
+        Single<BodyResponse<SubscriptionInner>> get(@PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
         @GET("subscriptions")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Single<RestResponse<Void, PageImpl1<SubscriptionInner>>> list(@QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
+        Single<BodyResponse<PageImpl1<SubscriptionInner>>> list(@QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
         @GET("{nextUrl}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Single<RestResponse<Void, PageImpl1<SubscriptionInner>>> listNext(@PathParam(value = "nextUrl", encoded = true) String nextUrl, @HeaderParam("accept-language") String acceptLanguage);
+        Single<BodyResponse<PageImpl1<SubscriptionInner>>> listNext(@PathParam(value = "nextUrl", encoded = true) String nextUrl, @HeaderParam("accept-language") String acceptLanguage);
     }
 
     /**
@@ -91,7 +91,7 @@ public class SubscriptionsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the List&lt;LocationInner&gt; object if successful.
      */
-    public List<LocationInner> listLocations(String subscriptionId) {
+    public List<LocationInner> listLocations(@NonNull String subscriptionId) {
         return listLocationsAsync(subscriptionId).blockingGet();
     }
 
@@ -102,9 +102,9 @@ public class SubscriptionsInner {
      * @param subscriptionId The ID of the target subscription.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link ServiceFuture&lt;List&lt;LocationInner&gt;&gt;} object.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<List<LocationInner>> listLocationsAsync(String subscriptionId, final ServiceCallback<List<LocationInner>> serviceCallback) {
+    public ServiceFuture<List<LocationInner>> listLocationsAsync(@NonNull String subscriptionId, ServiceCallback<List<LocationInner>> serviceCallback) {
         return ServiceFuture.fromBody(listLocationsAsync(subscriptionId), serviceCallback);
     }
 
@@ -114,9 +114,9 @@ public class SubscriptionsInner {
      *
      * @param subscriptionId The ID of the target subscription.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Single&lt;RestResponse&lt;Void, List&lt;LocationInner&gt;&gt;&gt;} object if successful.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Single<RestResponse<Void, List<LocationInner>>> listLocationsWithRestResponseAsync(String subscriptionId) {
+    public Single<BodyResponse<List<LocationInner>>> listLocationsWithRestResponseAsync(@NonNull String subscriptionId) {
         if (subscriptionId == null) {
             throw new IllegalArgumentException("Parameter subscriptionId is required and cannot be null.");
         }
@@ -132,19 +132,11 @@ public class SubscriptionsInner {
      *
      * @param subscriptionId The ID of the target subscription.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Maybe&lt;List&lt;LocationInner&gt;&gt;} object if successful.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Maybe<List<LocationInner>> listLocationsAsync(String subscriptionId) {
+    public Maybe<List<LocationInner>> listLocationsAsync(@NonNull String subscriptionId) {
         return listLocationsWithRestResponseAsync(subscriptionId)
-            .flatMapMaybe(new Function<RestResponse<Void, List<LocationInner>>, Maybe<List<LocationInner>>>() {
-                public Maybe<List<LocationInner>> apply(RestResponse<Void, List<LocationInner>> restResponse) {
-                    if (restResponse.body() == null) {
-                        return Maybe.empty();
-                    } else {
-                        return Maybe.just(restResponse.body());
-                    }
-                }
-            });
+            .flatMapMaybe((BodyResponse<List<LocationInner>> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
@@ -156,7 +148,7 @@ public class SubscriptionsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the SubscriptionInner object if successful.
      */
-    public SubscriptionInner get(String subscriptionId) {
+    public SubscriptionInner get(@NonNull String subscriptionId) {
         return getAsync(subscriptionId).blockingGet();
     }
 
@@ -166,9 +158,9 @@ public class SubscriptionsInner {
      * @param subscriptionId The ID of the target subscription.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link ServiceFuture&lt;SubscriptionInner&gt;} object.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<SubscriptionInner> getAsync(String subscriptionId, final ServiceCallback<SubscriptionInner> serviceCallback) {
+    public ServiceFuture<SubscriptionInner> getAsync(@NonNull String subscriptionId, ServiceCallback<SubscriptionInner> serviceCallback) {
         return ServiceFuture.fromBody(getAsync(subscriptionId), serviceCallback);
     }
 
@@ -177,9 +169,9 @@ public class SubscriptionsInner {
      *
      * @param subscriptionId The ID of the target subscription.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Single&lt;RestResponse&lt;Void, SubscriptionInner&gt;&gt;} object if successful.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Single<RestResponse<Void, SubscriptionInner>> getWithRestResponseAsync(String subscriptionId) {
+    public Single<BodyResponse<SubscriptionInner>> getWithRestResponseAsync(@NonNull String subscriptionId) {
         if (subscriptionId == null) {
             throw new IllegalArgumentException("Parameter subscriptionId is required and cannot be null.");
         }
@@ -194,25 +186,16 @@ public class SubscriptionsInner {
      *
      * @param subscriptionId The ID of the target subscription.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Maybe&lt;SubscriptionInner&gt;} object if successful.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Maybe<SubscriptionInner> getAsync(String subscriptionId) {
+    public Maybe<SubscriptionInner> getAsync(@NonNull String subscriptionId) {
         return getWithRestResponseAsync(subscriptionId)
-            .flatMapMaybe(new Function<RestResponse<Void, SubscriptionInner>, Maybe<SubscriptionInner>>() {
-                public Maybe<SubscriptionInner> apply(RestResponse<Void, SubscriptionInner> restResponse) {
-                    if (restResponse.body() == null) {
-                        return Maybe.empty();
-                    } else {
-                        return Maybe.just(restResponse.body());
-                    }
-                }
-            });
+            .flatMapMaybe((BodyResponse<SubscriptionInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
      * Gets all subscriptions for a tenant.
      *
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;SubscriptionInner&gt; object if successful.
@@ -230,40 +213,31 @@ public class SubscriptionsInner {
     /**
      * Gets all subscriptions for a tenant.
      *
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @return the observable to the PagedList&lt;SubscriptionInner&gt; object.
      */
     public Observable<Page<SubscriptionInner>> listAsync() {
         return listSinglePageAsync()
             .toObservable()
-            .concatMap(new Function<Page<SubscriptionInner>, Observable<Page<SubscriptionInner>>>() {
-                @Override
-                public Observable<Page<SubscriptionInner>> apply(Page<SubscriptionInner> page) {
-                    String nextPageLink = page.nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listNextAsync(nextPageLink));
+            .concatMap((Page<SubscriptionInner> page) -> {
+                String nextPageLink = page.nextPageLink();
+                if (nextPageLink == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listNextAsync(nextPageLink));
             });
     }
 
     /**
      * Gets all subscriptions for a tenant.
      *
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Single&lt;Page&lt;SubscriptionInner&gt;&gt;} object if successful.
+     * @return the Single&lt;Page&lt;SubscriptionInner&gt;&gt; object if successful.
      */
     public Single<Page<SubscriptionInner>> listSinglePageAsync() {
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        return service.list(this.client.apiVersion(), this.client.acceptLanguage()).map(new Function<RestResponse<Void, PageImpl1<SubscriptionInner>>, Page<SubscriptionInner>>() {
-            @Override
-            public Page<SubscriptionInner> apply(RestResponse<Void, PageImpl1<SubscriptionInner>> response) {
-                return response.body();
-            }
-        });
+        return service.list(this.client.apiVersion(), this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl1<SubscriptionInner>> res) -> res.body());
     }
 
     /**
@@ -275,7 +249,7 @@ public class SubscriptionsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;SubscriptionInner&gt; object if successful.
      */
-    public PagedList<SubscriptionInner> listNext(final String nextPageLink) {
+    public PagedList<SubscriptionInner> listNext(@NonNull String nextPageLink) {
         Page<SubscriptionInner> response = listNextSinglePageAsync(nextPageLink).blockingGet();
         return new PagedList<SubscriptionInner>(response) {
             @Override
@@ -292,18 +266,15 @@ public class SubscriptionsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @return the observable to the PagedList&lt;SubscriptionInner&gt; object.
      */
-    public Observable<Page<SubscriptionInner>> listNextAsync(final String nextPageLink) {
+    public Observable<Page<SubscriptionInner>> listNextAsync(@NonNull String nextPageLink) {
         return listNextSinglePageAsync(nextPageLink)
             .toObservable()
-            .concatMap(new Function<Page<SubscriptionInner>, Observable<Page<SubscriptionInner>>>() {
-                @Override
-                public Observable<Page<SubscriptionInner>> apply(Page<SubscriptionInner> page) {
-                    String nextPageLink = page.nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listNextAsync(nextPageLink));
+            .concatMap((Page<SubscriptionInner> page) -> {
+                String nextPageLink1 = page.nextPageLink();
+                if (nextPageLink1 == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listNextAsync(nextPageLink1));
             });
     }
 
@@ -312,18 +283,14 @@ public class SubscriptionsInner {
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Single&lt;Page&lt;SubscriptionInner&gt;&gt;} object if successful.
+     * @return the Single&lt;Page&lt;SubscriptionInner&gt;&gt; object if successful.
      */
-    public Single<Page<SubscriptionInner>> listNextSinglePageAsync(final String nextPageLink) {
+    public Single<Page<SubscriptionInner>> listNextSinglePageAsync(@NonNull String nextPageLink) {
         if (nextPageLink == null) {
             throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
         }
         String nextUrl = String.format("%s", nextPageLink);
-        return service.listNext(nextUrl, this.client.acceptLanguage()).map(new Function<RestResponse<Void, PageImpl1<SubscriptionInner>>, Page<SubscriptionInner>>() {
-            @Override
-            public Page<SubscriptionInner> apply(RestResponse<Void, PageImpl1<SubscriptionInner>> response) {
-                return response.body();
-            }
-        });
+        return service.listNext(nextUrl, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl1<SubscriptionInner>> res) -> res.body());
     }
 }

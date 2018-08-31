@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Tenant Id information.
  */
-public class TenantIdDescriptionInner {
+public final class TenantIdDescriptionInner {
     /**
      * The fully qualified ID of the tenant. For example,
      * /tenants/00000000-0000-0000-0000-000000000000.

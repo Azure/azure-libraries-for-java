@@ -14,7 +14,7 @@ import com.microsoft.azure.v2.management.resources.FeatureProperties;
 /**
  * Previewed feature information.
  */
-public class FeatureResultInner {
+public final class FeatureResultInner {
     /**
      * The name of the feature.
      */

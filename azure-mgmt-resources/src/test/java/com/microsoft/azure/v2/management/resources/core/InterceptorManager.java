@@ -2,12 +2,7 @@ package com.microsoft.azure.v2.management.resources.core;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.google.common.base.Predicate;
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 import com.microsoft.azure.v2.management.resources.fluentcore.utils.SdkContext;
-
-import com.microsoft.rest.v2.http.BufferedHttpResponse;
 import com.microsoft.rest.v2.http.HttpClient;
 import com.microsoft.rest.v2.http.HttpHeader;
 import com.microsoft.rest.v2.http.HttpHeaders;
@@ -16,27 +11,24 @@ import com.microsoft.rest.v2.http.HttpResponse;
 import com.microsoft.rest.v2.policy.RequestPolicy;
 import com.microsoft.rest.v2.policy.RequestPolicyFactory;
 import com.microsoft.rest.v2.policy.RequestPolicyOptions;
-import io.reactivex.SingleSource;
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.tuple.Pair;
-import org.apache.http.HttpStatus;
 import io.reactivex.Single;
+import io.reactivex.SingleSource;
 import io.reactivex.exceptions.Exceptions;
-import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
+import org.apache.commons.io.IOUtils;
+import org.apache.http.HttpStatus;
 import org.junit.Assert;
 import org.slf4j.LoggerFactory;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URI;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -266,32 +258,24 @@ public class InterceptorManager {
 
         Single<Map<String, String>> result;
         if (response.headerValue("content-encoding") == null) {
-            result = response.bodyAsStringAsync().map(new Function<String, Map<String, String>>() {
-                @Override
-                public Map<String, String> apply(String content) {
-                    content = applyReplacementRule(content);
-                    responseData.put("Body", content);
-                    return responseData;
-                }
+            result = response.bodyAsString().map(content -> {
+                content = applyReplacementRule(content);
+                responseData.put("Body", content);
+                return responseData;
             });
         } else {
-            result = response.bodyAsInputStreamAsync().map(new Function<InputStream, Map<String, String>>() {
-                @Override
-                public Map<String, String> apply(InputStream inputStream) throws Exception {
-                    try {
-                        GZIPInputStream gis = new GZIPInputStream(inputStream);
-                        String content = IOUtils.toString(gis, StandardCharsets.UTF_8);
-                        responseData.remove("content-encoding");
-                        responseData.put("content-length", Integer.toString(content.length()));
+            result = response.bodyAsByteArray().map(bytes -> {
+                try {
+                    GZIPInputStream gis = new GZIPInputStream(new ByteArrayInputStream(bytes));
+                    String content = IOUtils.toString(gis, StandardCharsets.UTF_8);
+                    responseData.remove("content-encoding");
+                    responseData.put("content-length", Integer.toString(content.length()));
 
-                        content = applyReplacementRule(content);
-                        responseData.put("body", content);
-                        return responseData;
-                    } catch (IOException e) {
-                        throw Exceptions.propagate(e);
-                    } finally {
-                        inputStream.close();
-                    }
+                    content = applyReplacementRule(content);
+                    responseData.put("body", content);
+                    return responseData;
+                } catch (IOException e) {
+                    throw Exceptions.propagate(e);
                 }
             });
         }

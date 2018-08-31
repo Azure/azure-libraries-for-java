@@ -9,12 +9,12 @@
 package com.microsoft.azure.v2.management.resources;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.joda.time.DateTime;
+import java.time.OffsetDateTime;
 
 /**
  * Deployment operation properties.
  */
-public class DeploymentOperationProperties {
+public final class DeploymentOperationProperties {
     /**
      * The state of the provisioning.
      */
@@ -25,7 +25,7 @@ public class DeploymentOperationProperties {
      * The date and time of the operation.
      */
     @JsonProperty(value = "timestamp", access = JsonProperty.Access.WRITE_ONLY)
-    private DateTime timestamp;
+    private OffsetDateTime timestamp;
 
     /**
      * Deployment operation service request id.
@@ -77,7 +77,7 @@ public class DeploymentOperationProperties {
      *
      * @return the timestamp value.
      */
-    public DateTime timestamp() {
+    public OffsetDateTime timestamp() {
         return this.timestamp;
     }
 

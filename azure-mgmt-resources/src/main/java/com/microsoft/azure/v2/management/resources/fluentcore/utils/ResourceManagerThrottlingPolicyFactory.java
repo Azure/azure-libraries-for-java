@@ -13,13 +13,13 @@ import com.microsoft.rest.v2.policy.RequestPolicy;
 import com.microsoft.rest.v2.policy.RequestPolicyFactory;
 import com.microsoft.rest.v2.policy.RequestPolicyOptions;
 import io.reactivex.Completable;
+import io.reactivex.Single;
 import io.reactivex.SingleSource;
+import io.reactivex.functions.Function;
 import io.reactivex.functions.Predicate;
 import io.reactivex.subjects.BehaviorSubject;
 import io.reactivex.subjects.Subject;
 import org.slf4j.LoggerFactory;
-import io.reactivex.Single;
-import io.reactivex.functions.Function;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
@@ -63,21 +63,16 @@ public final class ResourceManagerThrottlingPolicyFactory implements RequestPoli
 
         @Override
         public Single<HttpResponse> sendAsync(final HttpRequest request) {
-            Single<HttpResponse> asyncResponse = next.sendAsync(request).flatMap(new Function<HttpResponse, Single<HttpResponse>>() {
-                @Override
-                public Single<HttpResponse> apply(final HttpResponse response) {
-                    if (response.statusCode() != HTTP_TOO_MANY_REQUESTS) {
-                        return Single.just(response);
-                    } else {
-                        final HttpResponse bufferedResponse = response.buffer();
-                        return bufferedResponse.bodyAsStringAsync().flatMap(new Function<String, Single<HttpResponse>>() {
-                            @Override
-                            public Single<HttpResponse> apply(String body) {
-                                isDelayingSubject.onNext(true);
-                                return delayIfTooManyRequests(request, bufferedResponse, body);
-                            }
-                        });
-                    }
+            Single<HttpResponse> asyncResponse = next.sendAsync(request).flatMap((Function<HttpResponse, Single<HttpResponse>>) response -> {
+                if (response.statusCode() != HTTP_TOO_MANY_REQUESTS) {
+                    return Single.just(response);
+                } else {
+                    final HttpResponse bufferedResponse = response.buffer();
+                    return bufferedResponse.bodyAsString()
+                            .flatMap((Function<String, Single<HttpResponse>>) body -> {
+                        isDelayingSubject.onNext(true);
+                        return delayIfTooManyRequests(request, bufferedResponse, body);
+                    });
                 }
             });
 
@@ -110,12 +105,9 @@ public final class ResourceManagerThrottlingPolicyFactory implements RequestPoli
                         .info("Azure Resource Manager read/write per hour limit reached. Will retry in: " + retryAfter + " seconds");
 
                 return Completable.complete().delay(retryAfter, TimeUnit.SECONDS)
-                        .andThen(Single.defer(new Callable<SingleSource<HttpResponse>>() {
-                            @Override
-                            public SingleSource<HttpResponse> call() throws Exception {
-                                isDelayingSubject.onNext(false);
-                                return next.sendAsync(request);
-                            }
+                        .andThen(Single.defer((Callable<SingleSource<HttpResponse>>) () -> {
+                            isDelayingSubject.onNext(false);
+                            return next.sendAsync(request);
                         }));
             }
 

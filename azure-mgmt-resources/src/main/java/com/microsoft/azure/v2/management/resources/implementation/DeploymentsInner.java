@@ -13,13 +13,14 @@ import com.microsoft.azure.v2.CloudException;
 import com.microsoft.azure.v2.OperationStatus;
 import com.microsoft.azure.v2.Page;
 import com.microsoft.azure.v2.PagedList;
-import com.microsoft.azure.v2.management.resources.fluentcore.collection.InnerSupportsDelete;
-import com.microsoft.azure.v2.management.resources.fluentcore.collection.InnerSupportsGet;
+import com.microsoft.azure.v2.management.resources.DeploymentProperties;
 import com.microsoft.azure.v2.util.ServiceFutureUtil;
-import com.microsoft.rest.v2.RestResponse;
+import com.microsoft.rest.v2.BodyResponse;
+import com.microsoft.rest.v2.OperationDescription;
 import com.microsoft.rest.v2.ServiceCallback;
 import com.microsoft.rest.v2.ServiceFuture;
 import com.microsoft.rest.v2.Validator;
+import com.microsoft.rest.v2.VoidResponse;
 import com.microsoft.rest.v2.annotations.BodyParam;
 import com.microsoft.rest.v2.annotations.DELETE;
 import com.microsoft.rest.v2.annotations.ExpectedResponses;
@@ -31,18 +32,19 @@ import com.microsoft.rest.v2.annotations.PathParam;
 import com.microsoft.rest.v2.annotations.POST;
 import com.microsoft.rest.v2.annotations.PUT;
 import com.microsoft.rest.v2.annotations.QueryParam;
+import com.microsoft.rest.v2.annotations.ResumeOperation;
 import com.microsoft.rest.v2.annotations.UnexpectedResponseExceptionType;
 import io.reactivex.Completable;
 import io.reactivex.Maybe;
 import io.reactivex.Observable;
 import io.reactivex.Single;
-import io.reactivex.functions.Function;
+import io.reactivex.annotations.NonNull;
 
 /**
  * An instance of this class provides access to all the operations defined in
  * Deployments.
  */
-public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInner>, InnerSupportsDelete<Void> {
+public final class DeploymentsInner {
     /**
      * The proxy service used to perform REST calls.
      */
@@ -68,7 +70,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      * the proxy service to perform REST calls.
      */
     @Host("https://management.azure.com")
-    interface DeploymentsService {
+    private interface DeploymentsService {
         @DELETE("subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Resources/deployments/{deploymentName}")
         @ExpectedResponses({200, 202, 204})
         @UnexpectedResponseExceptionType(CloudException.class)
@@ -77,52 +79,64 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
         @DELETE("subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Resources/deployments/{deploymentName}")
         @ExpectedResponses({200, 202, 204})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Single<RestResponse<Void, Void>> delete(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("deploymentName") String deploymentName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
+        Single<VoidResponse> delete(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("deploymentName") String deploymentName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
+
+        @DELETE("subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Resources/deployments/{deploymentName}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<Void>> resumeDelete(OperationDescription operationDescription);
 
         @HEAD("subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Resources/deployments/{deploymentName}")
         @ExpectedResponses({204, 404})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Single<RestResponse<Void, Boolean>> checkExistence(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("deploymentName") String deploymentName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
+        Single<BodyResponse<Boolean>> checkExistence(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("deploymentName") String deploymentName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
         @PUT("subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Resources/deployments/{deploymentName}")
         @ExpectedResponses({200, 201, 202, 204})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Observable<OperationStatus<DeploymentExtendedInner>> beginCreateOrUpdate(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("deploymentName") String deploymentName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json; charset=utf-8") DeploymentInner parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
+        Observable<OperationStatus<DeploymentExtendedInner>> beginCreateOrUpdate(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("deploymentName") String deploymentName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @BodyParam("application/json; charset=utf-8") DeploymentInner parameters);
 
         @PUT("subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Resources/deployments/{deploymentName}")
         @ExpectedResponses({200, 201, 202, 204})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Single<RestResponse<Void, DeploymentExtendedInner>> createOrUpdate(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("deploymentName") String deploymentName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json; charset=utf-8") DeploymentInner parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
+        Single<BodyResponse<DeploymentExtendedInner>> createOrUpdate(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("deploymentName") String deploymentName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @BodyParam("application/json; charset=utf-8") DeploymentInner parameters);
+
+        @PUT("subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Resources/deployments/{deploymentName}")
+        @ExpectedResponses({200, 201, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<DeploymentExtendedInner>> resumeCreateOrUpdate(OperationDescription operationDescription);
 
         @GET("subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Resources/deployments/{deploymentName}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Single<RestResponse<Void, DeploymentExtendedInner>> getByResourceGroup(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("deploymentName") String deploymentName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
+        Single<BodyResponse<DeploymentExtendedInner>> getByResourceGroup(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("deploymentName") String deploymentName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
         @POST("subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Resources/deployments/{deploymentName}/cancel")
         @ExpectedResponses({204})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Single<RestResponse<Void, Void>> cancel(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("deploymentName") String deploymentName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
+        Single<VoidResponse> cancel(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("deploymentName") String deploymentName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
         @POST("subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Resources/deployments/{deploymentName}/validate")
         @ExpectedResponses({200, 400})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Single<RestResponse<Void, DeploymentValidateResultInner>> validate(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("deploymentName") String deploymentName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json; charset=utf-8") DeploymentInner parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
+        Single<BodyResponse<DeploymentValidateResultInner>> validate(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("deploymentName") String deploymentName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @BodyParam("application/json; charset=utf-8") DeploymentInner parameters);
 
         @POST("subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Resources/deployments/{deploymentName}/exportTemplate")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Single<RestResponse<Void, DeploymentExportResultInner>> exportTemplate(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("deploymentName") String deploymentName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
+        Single<BodyResponse<DeploymentExportResultInner>> exportTemplate(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("deploymentName") String deploymentName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
         @GET("subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Resources/deployments/")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Single<RestResponse<Void, PageImpl<DeploymentExtendedInner>>> listByResourceGroup(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("$filter") String filter, @QueryParam("$top") Integer top, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
+        Single<BodyResponse<PageImpl<DeploymentExtendedInner>>> listByResourceGroup(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("$filter") String filter, @QueryParam("$top") Integer top, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
         @GET("{nextUrl}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Single<RestResponse<Void, PageImpl<DeploymentExtendedInner>>> listNext(@PathParam(value = "nextUrl", encoded = true) String nextUrl, @HeaderParam("accept-language") String acceptLanguage);
+        Single<BodyResponse<PageImpl<DeploymentExtendedInner>>> listNext(@PathParam(value = "nextUrl", encoded = true) String nextUrl, @HeaderParam("accept-language") String acceptLanguage);
     }
 
     /**
@@ -135,8 +149,8 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void beginDelete(String resourceGroupName, String deploymentName) {
-        beginDeleteAsync(resourceGroupName, deploymentName).blockingFirst();
+    public void beginDelete(@NonNull String resourceGroupName, @NonNull String deploymentName) {
+        beginDeleteAsync(resourceGroupName, deploymentName).blockingLast();
     }
 
     /**
@@ -147,9 +161,9 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      * @param deploymentName The name of the deployment to delete.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link ServiceFuture&lt;Void&gt;} object.
+     * @return the ServiceFuture&lt;Void&gt; object.
      */
-    public ServiceFuture<Void> beginDeleteAsync(String resourceGroupName, String deploymentName, final ServiceCallback<Void> serviceCallback) {
+    public ServiceFuture<Void> beginDeleteAsync(@NonNull String resourceGroupName, @NonNull String deploymentName, ServiceCallback<Void> serviceCallback) {
         return ServiceFutureUtil.fromLRO(beginDeleteAsync(resourceGroupName, deploymentName), serviceCallback);
     }
 
@@ -162,7 +176,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @return the observable for the request.
      */
-    public Observable<OperationStatus<Void>> beginDeleteAsync(String resourceGroupName, String deploymentName) {
+    public Observable<OperationStatus<Void>> beginDeleteAsync(@NonNull String resourceGroupName, @NonNull String deploymentName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -188,7 +202,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void delete(String resourceGroupName, String deploymentName) {
+    public void delete(@NonNull String resourceGroupName, @NonNull String deploymentName) {
         deleteAsync(resourceGroupName, deploymentName).blockingGet();
     }
 
@@ -200,9 +214,9 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      * @param deploymentName The name of the deployment to delete.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link ServiceFuture&lt;Void&gt;} object.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<Void> deleteAsync(String resourceGroupName, String deploymentName, final ServiceCallback<Void> serviceCallback) {
+    public ServiceFuture<Void> deleteAsync(@NonNull String resourceGroupName, @NonNull String deploymentName, ServiceCallback<Void> serviceCallback) {
         return ServiceFuture.fromBody(deleteAsync(resourceGroupName, deploymentName), serviceCallback);
     }
 
@@ -213,9 +227,9 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      * @param resourceGroupName The name of the resource group with the deployment to delete. The name is case insensitive.
      * @param deploymentName The name of the deployment to delete.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Single&lt;RestResponse&lt;Void, Void&gt;&gt;} object if successful.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Single<RestResponse<Void, Void>> deleteWithRestResponseAsync(String resourceGroupName, String deploymentName) {
+    public Single<VoidResponse> deleteWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String deploymentName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -238,15 +252,26 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      * @param resourceGroupName The name of the resource group with the deployment to delete. The name is case insensitive.
      * @param deploymentName The name of the deployment to delete.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Maybe&lt;Void&gt;} object if successful.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Maybe<Void> deleteAsync(String resourceGroupName, String deploymentName) {
+    public Maybe<Void> deleteAsync(@NonNull String resourceGroupName, @NonNull String deploymentName) {
         return deleteWithRestResponseAsync(resourceGroupName, deploymentName)
-            .flatMapMaybe(new Function<RestResponse<?, ?>, Maybe<Void>>() {
-                public Maybe<Void> apply(RestResponse<?, ?> restResponse) {
-                    return Maybe.empty();
-                }
-            });
+            .flatMapMaybe((VoidResponse res) -> Maybe.empty());
+    }
+
+    /**
+     * Deletes a deployment from the deployment history.
+     * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. Deleting a template deployment does not affect the state of the resource group. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<Void>> resumeDelete(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeDelete(operationDescription);
     }
 
     /**
@@ -259,7 +284,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the boolean object if successful.
      */
-    public boolean checkExistence(String resourceGroupName, String deploymentName) {
+    public boolean checkExistence(@NonNull String resourceGroupName, @NonNull String deploymentName) {
         return checkExistenceAsync(resourceGroupName, deploymentName).blockingGet();
     }
 
@@ -270,9 +295,9 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      * @param deploymentName The name of the deployment to check.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link ServiceFuture&lt;Boolean&gt;} object.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<Boolean> checkExistenceAsync(String resourceGroupName, String deploymentName, final ServiceCallback<Boolean> serviceCallback) {
+    public ServiceFuture<Boolean> checkExistenceAsync(@NonNull String resourceGroupName, @NonNull String deploymentName, ServiceCallback<Boolean> serviceCallback) {
         return ServiceFuture.fromBody(checkExistenceAsync(resourceGroupName, deploymentName), serviceCallback);
     }
 
@@ -282,9 +307,9 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      * @param resourceGroupName The name of the resource group with the deployment to check. The name is case insensitive.
      * @param deploymentName The name of the deployment to check.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Single&lt;RestResponse&lt;Void, Boolean&gt;&gt;} object if successful.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Single<RestResponse<Void, Boolean>> checkExistenceWithRestResponseAsync(String resourceGroupName, String deploymentName) {
+    public Single<BodyResponse<Boolean>> checkExistenceWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String deploymentName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -306,19 +331,11 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      * @param resourceGroupName The name of the resource group with the deployment to check. The name is case insensitive.
      * @param deploymentName The name of the deployment to check.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Maybe&lt;Boolean&gt;} object if successful.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Maybe<Boolean> checkExistenceAsync(String resourceGroupName, String deploymentName) {
+    public Maybe<Boolean> checkExistenceAsync(@NonNull String resourceGroupName, @NonNull String deploymentName) {
         return checkExistenceWithRestResponseAsync(resourceGroupName, deploymentName)
-            .flatMapMaybe(new Function<RestResponse<Void, Boolean>, Maybe<Boolean>>() {
-                public Maybe<Boolean> apply(RestResponse<Void, Boolean> restResponse) {
-                    if (restResponse.body() == null) {
-                        return Maybe.empty();
-                    } else {
-                        return Maybe.just(restResponse.body());
-                    }
-                }
-            });
+            .flatMapMaybe((BodyResponse<Boolean> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
@@ -327,14 +344,14 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      *
      * @param resourceGroupName The name of the resource group to deploy the resources to. The name is case insensitive. The resource group must already exist.
      * @param deploymentName The name of the deployment.
-     * @param parameters Additional parameters supplied to the operation.
+     * @param properties The deployment properties.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the DeploymentExtendedInner object if successful.
      */
-    public DeploymentExtendedInner beginCreateOrUpdate(String resourceGroupName, String deploymentName, DeploymentInner parameters) {
-        return beginCreateOrUpdateAsync(resourceGroupName, deploymentName, parameters).blockingFirst().result();
+    public DeploymentExtendedInner beginCreateOrUpdate(@NonNull String resourceGroupName, @NonNull String deploymentName, @NonNull DeploymentProperties properties) {
+        return beginCreateOrUpdateAsync(resourceGroupName, deploymentName, properties).blockingLast().result();
     }
 
     /**
@@ -343,13 +360,13 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      *
      * @param resourceGroupName The name of the resource group to deploy the resources to. The name is case insensitive. The resource group must already exist.
      * @param deploymentName The name of the deployment.
-     * @param parameters Additional parameters supplied to the operation.
+     * @param properties The deployment properties.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link ServiceFuture&lt;DeploymentExtendedInner&gt;} object.
+     * @return the ServiceFuture&lt;DeploymentExtendedInner&gt; object.
      */
-    public ServiceFuture<DeploymentExtendedInner> beginCreateOrUpdateAsync(String resourceGroupName, String deploymentName, DeploymentInner parameters, final ServiceCallback<DeploymentExtendedInner> serviceCallback) {
-        return ServiceFutureUtil.fromLRO(beginCreateOrUpdateAsync(resourceGroupName, deploymentName, parameters), serviceCallback);
+    public ServiceFuture<DeploymentExtendedInner> beginCreateOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String deploymentName, @NonNull DeploymentProperties properties, ServiceCallback<DeploymentExtendedInner> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginCreateOrUpdateAsync(resourceGroupName, deploymentName, properties), serviceCallback);
     }
 
     /**
@@ -358,11 +375,11 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      *
      * @param resourceGroupName The name of the resource group to deploy the resources to. The name is case insensitive. The resource group must already exist.
      * @param deploymentName The name of the deployment.
-     * @param parameters Additional parameters supplied to the operation.
+     * @param properties The deployment properties.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @return the observable for the request.
      */
-    public Observable<OperationStatus<DeploymentExtendedInner>> beginCreateOrUpdateAsync(String resourceGroupName, String deploymentName, DeploymentInner parameters) {
+    public Observable<OperationStatus<DeploymentExtendedInner>> beginCreateOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String deploymentName, @NonNull DeploymentProperties properties) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -372,14 +389,16 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        if (parameters == null) {
-            throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
-        }
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        Validator.validate(parameters);
-        return service.beginCreateOrUpdate(resourceGroupName, deploymentName, this.client.subscriptionId(), parameters, this.client.apiVersion(), this.client.acceptLanguage());
+        if (properties == null) {
+            throw new IllegalArgumentException("Parameter properties is required and cannot be null.");
+        }
+        Validator.validate(properties);
+        DeploymentInner parameters = new DeploymentInner();
+        parameters.withProperties(properties);
+        return service.beginCreateOrUpdate(resourceGroupName, deploymentName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), parameters);
     }
 
     /**
@@ -388,14 +407,14 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      *
      * @param resourceGroupName The name of the resource group to deploy the resources to. The name is case insensitive. The resource group must already exist.
      * @param deploymentName The name of the deployment.
-     * @param parameters Additional parameters supplied to the operation.
+     * @param properties The deployment properties.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the DeploymentExtendedInner object if successful.
      */
-    public DeploymentExtendedInner createOrUpdate(String resourceGroupName, String deploymentName, DeploymentInner parameters) {
-        return createOrUpdateAsync(resourceGroupName, deploymentName, parameters).blockingGet();
+    public DeploymentExtendedInner createOrUpdate(@NonNull String resourceGroupName, @NonNull String deploymentName, @NonNull DeploymentProperties properties) {
+        return createOrUpdateAsync(resourceGroupName, deploymentName, properties).blockingGet();
     }
 
     /**
@@ -404,13 +423,13 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      *
      * @param resourceGroupName The name of the resource group to deploy the resources to. The name is case insensitive. The resource group must already exist.
      * @param deploymentName The name of the deployment.
-     * @param parameters Additional parameters supplied to the operation.
+     * @param properties The deployment properties.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link ServiceFuture&lt;DeploymentExtendedInner&gt;} object.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<DeploymentExtendedInner> createOrUpdateAsync(String resourceGroupName, String deploymentName, DeploymentInner parameters, final ServiceCallback<DeploymentExtendedInner> serviceCallback) {
-        return ServiceFuture.fromBody(createOrUpdateAsync(resourceGroupName, deploymentName, parameters), serviceCallback);
+    public ServiceFuture<DeploymentExtendedInner> createOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String deploymentName, @NonNull DeploymentProperties properties, ServiceCallback<DeploymentExtendedInner> serviceCallback) {
+        return ServiceFuture.fromBody(createOrUpdateAsync(resourceGroupName, deploymentName, properties), serviceCallback);
     }
 
     /**
@@ -419,11 +438,11 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      *
      * @param resourceGroupName The name of the resource group to deploy the resources to. The name is case insensitive. The resource group must already exist.
      * @param deploymentName The name of the deployment.
-     * @param parameters Additional parameters supplied to the operation.
+     * @param properties The deployment properties.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Single&lt;RestResponse&lt;Void, DeploymentExtendedInner&gt;&gt;} object if successful.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Single<RestResponse<Void, DeploymentExtendedInner>> createOrUpdateWithRestResponseAsync(String resourceGroupName, String deploymentName, DeploymentInner parameters) {
+    public Single<BodyResponse<DeploymentExtendedInner>> createOrUpdateWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String deploymentName, @NonNull DeploymentProperties properties) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -433,14 +452,16 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        if (parameters == null) {
-            throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
-        }
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        Validator.validate(parameters);
-        return service.createOrUpdate(resourceGroupName, deploymentName, this.client.subscriptionId(), parameters, this.client.apiVersion(), this.client.acceptLanguage());
+        if (properties == null) {
+            throw new IllegalArgumentException("Parameter properties is required and cannot be null.");
+        }
+        Validator.validate(properties);
+        DeploymentInner parameters = new DeploymentInner();
+        parameters.withProperties(properties);
+        return service.createOrUpdate(resourceGroupName, deploymentName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), parameters);
     }
 
     /**
@@ -449,21 +470,28 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      *
      * @param resourceGroupName The name of the resource group to deploy the resources to. The name is case insensitive. The resource group must already exist.
      * @param deploymentName The name of the deployment.
-     * @param parameters Additional parameters supplied to the operation.
+     * @param properties The deployment properties.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Maybe&lt;DeploymentExtendedInner&gt;} object if successful.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Maybe<DeploymentExtendedInner> createOrUpdateAsync(String resourceGroupName, String deploymentName, DeploymentInner parameters) {
-        return createOrUpdateWithRestResponseAsync(resourceGroupName, deploymentName, parameters)
-            .flatMapMaybe(new Function<RestResponse<Void, DeploymentExtendedInner>, Maybe<DeploymentExtendedInner>>() {
-                public Maybe<DeploymentExtendedInner> apply(RestResponse<Void, DeploymentExtendedInner> restResponse) {
-                    if (restResponse.body() == null) {
-                        return Maybe.empty();
-                    } else {
-                        return Maybe.just(restResponse.body());
-                    }
-                }
-            });
+    public Maybe<DeploymentExtendedInner> createOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String deploymentName, @NonNull DeploymentProperties properties) {
+        return createOrUpdateWithRestResponseAsync(resourceGroupName, deploymentName, properties)
+            .flatMapMaybe((BodyResponse<DeploymentExtendedInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
+    }
+
+    /**
+     * Deploys resources to a resource group.
+     * You can provide the template and parameters directly in the request or link to JSON files. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<DeploymentExtendedInner>> resumeCreateOrUpdate(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeCreateOrUpdate(operationDescription);
     }
 
     /**
@@ -476,7 +504,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the DeploymentExtendedInner object if successful.
      */
-    public DeploymentExtendedInner getByResourceGroup(String resourceGroupName, String deploymentName) {
+    public DeploymentExtendedInner getByResourceGroup(@NonNull String resourceGroupName, @NonNull String deploymentName) {
         return getByResourceGroupAsync(resourceGroupName, deploymentName).blockingGet();
     }
 
@@ -487,9 +515,9 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      * @param deploymentName The name of the deployment to get.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link ServiceFuture&lt;DeploymentExtendedInner&gt;} object.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<DeploymentExtendedInner> getByResourceGroupAsync(String resourceGroupName, String deploymentName, final ServiceCallback<DeploymentExtendedInner> serviceCallback) {
+    public ServiceFuture<DeploymentExtendedInner> getByResourceGroupAsync(@NonNull String resourceGroupName, @NonNull String deploymentName, ServiceCallback<DeploymentExtendedInner> serviceCallback) {
         return ServiceFuture.fromBody(getByResourceGroupAsync(resourceGroupName, deploymentName), serviceCallback);
     }
 
@@ -499,9 +527,9 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param deploymentName The name of the deployment to get.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Single&lt;RestResponse&lt;Void, DeploymentExtendedInner&gt;&gt;} object if successful.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Single<RestResponse<Void, DeploymentExtendedInner>> getByResourceGroupWithRestResponseAsync(String resourceGroupName, String deploymentName) {
+    public Single<BodyResponse<DeploymentExtendedInner>> getByResourceGroupWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String deploymentName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -523,19 +551,11 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param deploymentName The name of the deployment to get.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Maybe&lt;DeploymentExtendedInner&gt;} object if successful.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Maybe<DeploymentExtendedInner> getByResourceGroupAsync(String resourceGroupName, String deploymentName) {
+    public Maybe<DeploymentExtendedInner> getByResourceGroupAsync(@NonNull String resourceGroupName, @NonNull String deploymentName) {
         return getByResourceGroupWithRestResponseAsync(resourceGroupName, deploymentName)
-            .flatMapMaybe(new Function<RestResponse<Void, DeploymentExtendedInner>, Maybe<DeploymentExtendedInner>>() {
-                public Maybe<DeploymentExtendedInner> apply(RestResponse<Void, DeploymentExtendedInner> restResponse) {
-                    if (restResponse.body() == null) {
-                        return Maybe.empty();
-                    } else {
-                        return Maybe.just(restResponse.body());
-                    }
-                }
-            });
+            .flatMapMaybe((BodyResponse<DeploymentExtendedInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
@@ -548,7 +568,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void cancel(String resourceGroupName, String deploymentName) {
+    public void cancel(@NonNull String resourceGroupName, @NonNull String deploymentName) {
         cancelAsync(resourceGroupName, deploymentName).blockingAwait();
     }
 
@@ -560,9 +580,9 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      * @param deploymentName The name of the deployment to cancel.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link ServiceFuture&lt;Void&gt;} object.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<Void> cancelAsync(String resourceGroupName, String deploymentName, final ServiceCallback<Void> serviceCallback) {
+    public ServiceFuture<Void> cancelAsync(@NonNull String resourceGroupName, @NonNull String deploymentName, ServiceCallback<Void> serviceCallback) {
         return ServiceFuture.fromBody(cancelAsync(resourceGroupName, deploymentName), serviceCallback);
     }
 
@@ -573,9 +593,9 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param deploymentName The name of the deployment to cancel.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Single&lt;RestResponse&lt;Void, Void&gt;&gt;} object if successful.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Single<RestResponse<Void, Void>> cancelWithRestResponseAsync(String resourceGroupName, String deploymentName) {
+    public Single<VoidResponse> cancelWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String deploymentName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -598,9 +618,9 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param deploymentName The name of the deployment to cancel.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Completable} object if successful.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Completable cancelAsync(String resourceGroupName, String deploymentName) {
+    public Completable cancelAsync(@NonNull String resourceGroupName, @NonNull String deploymentName) {
         return cancelWithRestResponseAsync(resourceGroupName, deploymentName)
             .toCompletable();
     }
@@ -610,14 +630,14 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      *
      * @param resourceGroupName The name of the resource group the template will be deployed to. The name is case insensitive.
      * @param deploymentName The name of the deployment.
-     * @param parameters Parameters to validate.
+     * @param properties The deployment properties.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the DeploymentValidateResultInner object if successful.
      */
-    public DeploymentValidateResultInner validate(String resourceGroupName, String deploymentName, DeploymentInner parameters) {
-        return validateAsync(resourceGroupName, deploymentName, parameters).blockingGet();
+    public DeploymentValidateResultInner validate(@NonNull String resourceGroupName, @NonNull String deploymentName, @NonNull DeploymentProperties properties) {
+        return validateAsync(resourceGroupName, deploymentName, properties).blockingGet();
     }
 
     /**
@@ -625,13 +645,13 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      *
      * @param resourceGroupName The name of the resource group the template will be deployed to. The name is case insensitive.
      * @param deploymentName The name of the deployment.
-     * @param parameters Parameters to validate.
+     * @param properties The deployment properties.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link ServiceFuture&lt;DeploymentValidateResultInner&gt;} object.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<DeploymentValidateResultInner> validateAsync(String resourceGroupName, String deploymentName, DeploymentInner parameters, final ServiceCallback<DeploymentValidateResultInner> serviceCallback) {
-        return ServiceFuture.fromBody(validateAsync(resourceGroupName, deploymentName, parameters), serviceCallback);
+    public ServiceFuture<DeploymentValidateResultInner> validateAsync(@NonNull String resourceGroupName, @NonNull String deploymentName, @NonNull DeploymentProperties properties, ServiceCallback<DeploymentValidateResultInner> serviceCallback) {
+        return ServiceFuture.fromBody(validateAsync(resourceGroupName, deploymentName, properties), serviceCallback);
     }
 
     /**
@@ -639,11 +659,11 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      *
      * @param resourceGroupName The name of the resource group the template will be deployed to. The name is case insensitive.
      * @param deploymentName The name of the deployment.
-     * @param parameters Parameters to validate.
+     * @param properties The deployment properties.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Single&lt;RestResponse&lt;Void, DeploymentValidateResultInner&gt;&gt;} object if successful.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Single<RestResponse<Void, DeploymentValidateResultInner>> validateWithRestResponseAsync(String resourceGroupName, String deploymentName, DeploymentInner parameters) {
+    public Single<BodyResponse<DeploymentValidateResultInner>> validateWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String deploymentName, @NonNull DeploymentProperties properties) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -653,14 +673,16 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        if (parameters == null) {
-            throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
-        }
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        Validator.validate(parameters);
-        return service.validate(resourceGroupName, deploymentName, this.client.subscriptionId(), parameters, this.client.apiVersion(), this.client.acceptLanguage());
+        if (properties == null) {
+            throw new IllegalArgumentException("Parameter properties is required and cannot be null.");
+        }
+        Validator.validate(properties);
+        DeploymentInner parameters = new DeploymentInner();
+        parameters.withProperties(properties);
+        return service.validate(resourceGroupName, deploymentName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), parameters);
     }
 
     /**
@@ -668,21 +690,13 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      *
      * @param resourceGroupName The name of the resource group the template will be deployed to. The name is case insensitive.
      * @param deploymentName The name of the deployment.
-     * @param parameters Parameters to validate.
+     * @param properties The deployment properties.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Maybe&lt;DeploymentValidateResultInner&gt;} object if successful.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Maybe<DeploymentValidateResultInner> validateAsync(String resourceGroupName, String deploymentName, DeploymentInner parameters) {
-        return validateWithRestResponseAsync(resourceGroupName, deploymentName, parameters)
-            .flatMapMaybe(new Function<RestResponse<Void, DeploymentValidateResultInner>, Maybe<DeploymentValidateResultInner>>() {
-                public Maybe<DeploymentValidateResultInner> apply(RestResponse<Void, DeploymentValidateResultInner> restResponse) {
-                    if (restResponse.body() == null) {
-                        return Maybe.empty();
-                    } else {
-                        return Maybe.just(restResponse.body());
-                    }
-                }
-            });
+    public Maybe<DeploymentValidateResultInner> validateAsync(@NonNull String resourceGroupName, @NonNull String deploymentName, @NonNull DeploymentProperties properties) {
+        return validateWithRestResponseAsync(resourceGroupName, deploymentName, properties)
+            .flatMapMaybe((BodyResponse<DeploymentValidateResultInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
@@ -695,7 +709,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the DeploymentExportResultInner object if successful.
      */
-    public DeploymentExportResultInner exportTemplate(String resourceGroupName, String deploymentName) {
+    public DeploymentExportResultInner exportTemplate(@NonNull String resourceGroupName, @NonNull String deploymentName) {
         return exportTemplateAsync(resourceGroupName, deploymentName).blockingGet();
     }
 
@@ -706,9 +720,9 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      * @param deploymentName The name of the deployment from which to get the template.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link ServiceFuture&lt;DeploymentExportResultInner&gt;} object.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<DeploymentExportResultInner> exportTemplateAsync(String resourceGroupName, String deploymentName, final ServiceCallback<DeploymentExportResultInner> serviceCallback) {
+    public ServiceFuture<DeploymentExportResultInner> exportTemplateAsync(@NonNull String resourceGroupName, @NonNull String deploymentName, ServiceCallback<DeploymentExportResultInner> serviceCallback) {
         return ServiceFuture.fromBody(exportTemplateAsync(resourceGroupName, deploymentName), serviceCallback);
     }
 
@@ -718,9 +732,9 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param deploymentName The name of the deployment from which to get the template.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Single&lt;RestResponse&lt;Void, DeploymentExportResultInner&gt;&gt;} object if successful.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Single<RestResponse<Void, DeploymentExportResultInner>> exportTemplateWithRestResponseAsync(String resourceGroupName, String deploymentName) {
+    public Single<BodyResponse<DeploymentExportResultInner>> exportTemplateWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String deploymentName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -742,19 +756,11 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param deploymentName The name of the deployment from which to get the template.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Maybe&lt;DeploymentExportResultInner&gt;} object if successful.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Maybe<DeploymentExportResultInner> exportTemplateAsync(String resourceGroupName, String deploymentName) {
+    public Maybe<DeploymentExportResultInner> exportTemplateAsync(@NonNull String resourceGroupName, @NonNull String deploymentName) {
         return exportTemplateWithRestResponseAsync(resourceGroupName, deploymentName)
-            .flatMapMaybe(new Function<RestResponse<Void, DeploymentExportResultInner>, Maybe<DeploymentExportResultInner>>() {
-                public Maybe<DeploymentExportResultInner> apply(RestResponse<Void, DeploymentExportResultInner> restResponse) {
-                    if (restResponse.body() == null) {
-                        return Maybe.empty();
-                    } else {
-                        return Maybe.just(restResponse.body());
-                    }
-                }
-            });
+            .flatMapMaybe((BodyResponse<DeploymentExportResultInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
@@ -766,7 +772,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;DeploymentExtendedInner&gt; object if successful.
      */
-    public PagedList<DeploymentExtendedInner> listByResourceGroup(final String resourceGroupName) {
+    public PagedList<DeploymentExtendedInner> listByResourceGroup(@NonNull String resourceGroupName) {
         Page<DeploymentExtendedInner> response = listByResourceGroupSinglePageAsync(resourceGroupName).blockingGet();
         return new PagedList<DeploymentExtendedInner>(response) {
             @Override
@@ -783,18 +789,15 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @return the observable to the PagedList&lt;DeploymentExtendedInner&gt; object.
      */
-    public Observable<Page<DeploymentExtendedInner>> listByResourceGroupAsync(final String resourceGroupName) {
+    public Observable<Page<DeploymentExtendedInner>> listByResourceGroupAsync(@NonNull String resourceGroupName) {
         return listByResourceGroupSinglePageAsync(resourceGroupName)
             .toObservable()
-            .concatMap(new Function<Page<DeploymentExtendedInner>, Observable<Page<DeploymentExtendedInner>>>() {
-                @Override
-                public Observable<Page<DeploymentExtendedInner>> apply(Page<DeploymentExtendedInner> page) {
-                    String nextPageLink = page.nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listNextAsync(nextPageLink));
+            .concatMap((Page<DeploymentExtendedInner> page) -> {
+                String nextPageLink = page.nextPageLink();
+                if (nextPageLink == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listNextAsync(nextPageLink));
             });
     }
 
@@ -803,9 +806,9 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      *
      * @param resourceGroupName The name of the resource group with the deployments to get. The name is case insensitive.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Single&lt;Page&lt;DeploymentExtendedInner&gt;&gt;} object if successful.
+     * @return the Single&lt;Page&lt;DeploymentExtendedInner&gt;&gt; object if successful.
      */
-    public Single<Page<DeploymentExtendedInner>> listByResourceGroupSinglePageAsync(final String resourceGroupName) {
+    public Single<Page<DeploymentExtendedInner>> listByResourceGroupSinglePageAsync(@NonNull String resourceGroupName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -817,12 +820,8 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
         }
         final String filter = null;
         final Integer top = null;
-        return service.listByResourceGroup(resourceGroupName, this.client.subscriptionId(), filter, top, this.client.apiVersion(), this.client.acceptLanguage()).map(new Function<RestResponse<Void, PageImpl<DeploymentExtendedInner>>, Page<DeploymentExtendedInner>>() {
-            @Override
-            public Page<DeploymentExtendedInner> apply(RestResponse<Void, PageImpl<DeploymentExtendedInner>> response) {
-                return response.body();
-            }
-        });
+        return service.listByResourceGroup(resourceGroupName, this.client.subscriptionId(), filter, top, this.client.apiVersion(), this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl<DeploymentExtendedInner>> res) -> res.body());
     }
 
     /**
@@ -836,7 +835,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;DeploymentExtendedInner&gt; object if successful.
      */
-    public PagedList<DeploymentExtendedInner> listByResourceGroup(final String resourceGroupName, final String filter, final Integer top) {
+    public PagedList<DeploymentExtendedInner> listByResourceGroup(@NonNull String resourceGroupName, String filter, Integer top) {
         Page<DeploymentExtendedInner> response = listByResourceGroupSinglePageAsync(resourceGroupName, filter, top).blockingGet();
         return new PagedList<DeploymentExtendedInner>(response) {
             @Override
@@ -855,18 +854,15 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @return the observable to the PagedList&lt;DeploymentExtendedInner&gt; object.
      */
-    public Observable<Page<DeploymentExtendedInner>> listByResourceGroupAsync(final String resourceGroupName, final String filter, final Integer top) {
+    public Observable<Page<DeploymentExtendedInner>> listByResourceGroupAsync(@NonNull String resourceGroupName, String filter, Integer top) {
         return listByResourceGroupSinglePageAsync(resourceGroupName, filter, top)
             .toObservable()
-            .concatMap(new Function<Page<DeploymentExtendedInner>, Observable<Page<DeploymentExtendedInner>>>() {
-                @Override
-                public Observable<Page<DeploymentExtendedInner>> apply(Page<DeploymentExtendedInner> page) {
-                    String nextPageLink = page.nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listNextAsync(nextPageLink));
+            .concatMap((Page<DeploymentExtendedInner> page) -> {
+                String nextPageLink = page.nextPageLink();
+                if (nextPageLink == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listNextAsync(nextPageLink));
             });
     }
 
@@ -877,9 +873,9 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      * @param filter The filter to apply on the operation. For example, you can use $filter=provisioningState eq '{state}'.
      * @param top The number of results to get. If null is passed, returns all deployments.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Single&lt;Page&lt;DeploymentExtendedInner&gt;&gt;} object if successful.
+     * @return the Single&lt;Page&lt;DeploymentExtendedInner&gt;&gt; object if successful.
      */
-    public Single<Page<DeploymentExtendedInner>> listByResourceGroupSinglePageAsync(final String resourceGroupName, final String filter, final Integer top) {
+    public Single<Page<DeploymentExtendedInner>> listByResourceGroupSinglePageAsync(@NonNull String resourceGroupName, String filter, Integer top) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -889,12 +885,8 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        return service.listByResourceGroup(resourceGroupName, this.client.subscriptionId(), filter, top, this.client.apiVersion(), this.client.acceptLanguage()).map(new Function<RestResponse<Void, PageImpl<DeploymentExtendedInner>>, Page<DeploymentExtendedInner>>() {
-            @Override
-            public Page<DeploymentExtendedInner> apply(RestResponse<Void, PageImpl<DeploymentExtendedInner>> response) {
-                return response.body();
-            }
-        });
+        return service.listByResourceGroup(resourceGroupName, this.client.subscriptionId(), filter, top, this.client.apiVersion(), this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl<DeploymentExtendedInner>> res) -> res.body());
     }
 
     /**
@@ -906,7 +898,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;DeploymentExtendedInner&gt; object if successful.
      */
-    public PagedList<DeploymentExtendedInner> listNext(final String nextPageLink) {
+    public PagedList<DeploymentExtendedInner> listNext(@NonNull String nextPageLink) {
         Page<DeploymentExtendedInner> response = listNextSinglePageAsync(nextPageLink).blockingGet();
         return new PagedList<DeploymentExtendedInner>(response) {
             @Override
@@ -923,18 +915,15 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @return the observable to the PagedList&lt;DeploymentExtendedInner&gt; object.
      */
-    public Observable<Page<DeploymentExtendedInner>> listNextAsync(final String nextPageLink) {
+    public Observable<Page<DeploymentExtendedInner>> listNextAsync(@NonNull String nextPageLink) {
         return listNextSinglePageAsync(nextPageLink)
             .toObservable()
-            .concatMap(new Function<Page<DeploymentExtendedInner>, Observable<Page<DeploymentExtendedInner>>>() {
-                @Override
-                public Observable<Page<DeploymentExtendedInner>> apply(Page<DeploymentExtendedInner> page) {
-                    String nextPageLink = page.nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listNextAsync(nextPageLink));
+            .concatMap((Page<DeploymentExtendedInner> page) -> {
+                String nextPageLink1 = page.nextPageLink();
+                if (nextPageLink1 == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listNextAsync(nextPageLink1));
             });
     }
 
@@ -943,18 +932,14 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Single&lt;Page&lt;DeploymentExtendedInner&gt;&gt;} object if successful.
+     * @return the Single&lt;Page&lt;DeploymentExtendedInner&gt;&gt; object if successful.
      */
-    public Single<Page<DeploymentExtendedInner>> listNextSinglePageAsync(final String nextPageLink) {
+    public Single<Page<DeploymentExtendedInner>> listNextSinglePageAsync(@NonNull String nextPageLink) {
         if (nextPageLink == null) {
             throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
         }
         String nextUrl = String.format("%s", nextPageLink);
-        return service.listNext(nextUrl, this.client.acceptLanguage()).map(new Function<RestResponse<Void, PageImpl<DeploymentExtendedInner>>, Page<DeploymentExtendedInner>>() {
-            @Override
-            public Page<DeploymentExtendedInner> apply(RestResponse<Void, PageImpl<DeploymentExtendedInner>> response) {
-                return response.body();
-            }
-        });
+        return service.listNext(nextUrl, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl<DeploymentExtendedInner>> res) -> res.body());
     }
 }

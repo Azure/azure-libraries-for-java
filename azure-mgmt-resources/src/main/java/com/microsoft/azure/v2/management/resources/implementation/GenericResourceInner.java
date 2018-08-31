@@ -17,7 +17,7 @@ import com.microsoft.azure.v2.management.resources.Sku;
 /**
  * Resource information.
  */
-public class GenericResourceInner extends Resource {
+public final class GenericResourceInner extends Resource {
     /**
      * The plan of the resource.
      */

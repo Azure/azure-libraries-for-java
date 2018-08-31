@@ -14,7 +14,7 @@ import com.microsoft.azure.v2.management.resources.DeploymentProperties;
 /**
  * Deployment operation parameters.
  */
-public class DeploymentInner {
+public final class DeploymentInner {
     /**
      * The deployment properties.
      */

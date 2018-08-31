@@ -14,11 +14,11 @@ import com.microsoft.azure.v2.management.resources.DeploymentPropertiesExtended;
 /**
  * Deployment information.
  */
-public class DeploymentExtendedInner {
+public final class DeploymentExtendedInner {
     /**
      * The ID of the deployment.
      */
-    @JsonProperty(value = "id")
+    @JsonProperty(value = "id", access = JsonProperty.Access.WRITE_ONLY)
     private String id;
 
     /**
@@ -40,17 +40,6 @@ public class DeploymentExtendedInner {
      */
     public String id() {
         return this.id;
-    }
-
-    /**
-     * Set the id value.
-     *
-     * @param id the id value to set.
-     * @return the DeploymentExtendedInner object itself.
-     */
-    public DeploymentExtendedInner withId(String id) {
-        this.id = id;
-        return this;
     }
 
     /**

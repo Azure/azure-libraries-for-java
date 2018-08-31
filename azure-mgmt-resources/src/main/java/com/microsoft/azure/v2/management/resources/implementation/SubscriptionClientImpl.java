@@ -13,11 +13,12 @@ import com.microsoft.azure.v2.AzureProxy;
 import com.microsoft.azure.v2.AzureServiceClient;
 import com.microsoft.rest.v2.credentials.ServiceClientCredentials;
 import com.microsoft.rest.v2.http.HttpPipeline;
+import io.reactivex.annotations.NonNull;
 
 /**
  * Initializes a new instance of the SubscriptionClientImpl type.
  */
-public class SubscriptionClientImpl extends AzureServiceClient {
+public final class SubscriptionClientImpl extends AzureServiceClient {
     /**
      * The API version to use for the operation.
      */
@@ -33,12 +34,12 @@ public class SubscriptionClientImpl extends AzureServiceClient {
     }
 
     /**
-     * Gets or sets the preferred language for the response.
+     * The preferred language for the response.
      */
     private String acceptLanguage;
 
     /**
-     * Gets Gets or sets the preferred language for the response.
+     * Gets The preferred language for the response.
      *
      * @return the acceptLanguage value.
      */
@@ -47,7 +48,7 @@ public class SubscriptionClientImpl extends AzureServiceClient {
     }
 
     /**
-     * Sets Gets or sets the preferred language for the response.
+     * Sets The preferred language for the response.
      *
      * @param acceptLanguage the acceptLanguage value.
      * @return the service client itself.
@@ -58,12 +59,12 @@ public class SubscriptionClientImpl extends AzureServiceClient {
     }
 
     /**
-     * Gets or sets the retry timeout in seconds for Long Running Operations. Default value is 30.
+     * The retry timeout in seconds for Long Running Operations. Default value is 30.
      */
     private int longRunningOperationRetryTimeout;
 
     /**
-     * Gets Gets or sets the retry timeout in seconds for Long Running Operations. Default value is 30.
+     * Gets The retry timeout in seconds for Long Running Operations. Default value is 30.
      *
      * @return the longRunningOperationRetryTimeout value.
      */
@@ -72,7 +73,7 @@ public class SubscriptionClientImpl extends AzureServiceClient {
     }
 
     /**
-     * Sets Gets or sets the retry timeout in seconds for Long Running Operations. Default value is 30.
+     * Sets The retry timeout in seconds for Long Running Operations. Default value is 30.
      *
      * @param longRunningOperationRetryTimeout the longRunningOperationRetryTimeout value.
      * @return the service client itself.
@@ -83,12 +84,12 @@ public class SubscriptionClientImpl extends AzureServiceClient {
     }
 
     /**
-     * When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true.
+     * Whether a unique x-ms-client-request-id should be generated. When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true.
      */
     private boolean generateClientRequestId;
 
     /**
-     * Gets When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true.
+     * Gets Whether a unique x-ms-client-request-id should be generated. When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true.
      *
      * @return the generateClientRequestId value.
      */
@@ -97,7 +98,7 @@ public class SubscriptionClientImpl extends AzureServiceClient {
     }
 
     /**
-     * Sets When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true.
+     * Sets Whether a unique x-ms-client-request-id should be generated. When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true.
      *
      * @param generateClientRequestId the generateClientRequestId value.
      * @return the service client itself.
@@ -140,7 +141,7 @@ public class SubscriptionClientImpl extends AzureServiceClient {
      *
      * @param credentials the management credentials for Azure.
      */
-    public SubscriptionClientImpl(ServiceClientCredentials credentials) {
+    public SubscriptionClientImpl(@NonNull ServiceClientCredentials credentials) {
         this(AzureProxy.createDefaultPipeline(SubscriptionClientImpl.class, credentials));
     }
 
@@ -150,7 +151,7 @@ public class SubscriptionClientImpl extends AzureServiceClient {
      * @param credentials the management credentials for Azure.
      * @param azureEnvironment The environment that requests will target.
      */
-    public SubscriptionClientImpl(ServiceClientCredentials credentials, AzureEnvironment azureEnvironment) {
+    public SubscriptionClientImpl(@NonNull ServiceClientCredentials credentials, @NonNull AzureEnvironment azureEnvironment) {
         this(AzureProxy.createDefaultPipeline(SubscriptionClientImpl.class, credentials), azureEnvironment);
     }
 
@@ -159,7 +160,7 @@ public class SubscriptionClientImpl extends AzureServiceClient {
      *
      * @param httpPipeline The HTTP pipeline to send requests through.
      */
-    public SubscriptionClientImpl(HttpPipeline httpPipeline) {
+    public SubscriptionClientImpl(@NonNull HttpPipeline httpPipeline) {
         this(httpPipeline, null);
     }
 
@@ -169,7 +170,7 @@ public class SubscriptionClientImpl extends AzureServiceClient {
      * @param httpPipeline The HTTP pipeline to send requests through.
      * @param azureEnvironment The environment that requests will target.
      */
-    public SubscriptionClientImpl(HttpPipeline httpPipeline, AzureEnvironment azureEnvironment) {
+    public SubscriptionClientImpl(@NonNull HttpPipeline httpPipeline, @NonNull AzureEnvironment azureEnvironment) {
         super(httpPipeline, azureEnvironment);
         this.apiVersion = "2016-06-01";
         this.acceptLanguage = "en-US";

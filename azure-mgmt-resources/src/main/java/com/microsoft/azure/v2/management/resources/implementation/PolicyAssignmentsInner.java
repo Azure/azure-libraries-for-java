@@ -12,9 +12,7 @@ import com.microsoft.azure.v2.AzureProxy;
 import com.microsoft.azure.v2.CloudException;
 import com.microsoft.azure.v2.Page;
 import com.microsoft.azure.v2.PagedList;
-import com.microsoft.azure.v2.management.resources.fluentcore.collection.InnerSupportsDelete;
-import com.microsoft.azure.v2.management.resources.fluentcore.collection.InnerSupportsListing;
-import com.microsoft.rest.v2.RestResponse;
+import com.microsoft.rest.v2.BodyResponse;
 import com.microsoft.rest.v2.ServiceCallback;
 import com.microsoft.rest.v2.ServiceFuture;
 import com.microsoft.rest.v2.Validator;
@@ -31,13 +29,13 @@ import com.microsoft.rest.v2.annotations.UnexpectedResponseExceptionType;
 import io.reactivex.Maybe;
 import io.reactivex.Observable;
 import io.reactivex.Single;
-import io.reactivex.functions.Function;
+import io.reactivex.annotations.NonNull;
 
 /**
  * An instance of this class provides access to all the operations defined in
  * PolicyAssignments.
  */
-public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignmentInner>, InnerSupportsListing<PolicyAssignmentInner> {
+public final class PolicyAssignmentsInner {
     /**
      * The proxy service used to perform REST calls.
      */
@@ -63,66 +61,66 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
      * by the proxy service to perform REST calls.
      */
     @Host("https://management.azure.com")
-    interface PolicyAssignmentsService {
+    private interface PolicyAssignmentsService {
         @DELETE("{scope}/providers/Microsoft.Authorization/policyassignments/{policyAssignmentName}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Single<RestResponse<Void, PolicyAssignmentInner>> delete(@PathParam(value = "scope", encoded = true) String scope, @PathParam("policyAssignmentName") String policyAssignmentName, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
+        Single<BodyResponse<PolicyAssignmentInner>> delete(@PathParam(value = "scope", encoded = true) String scope, @PathParam("policyAssignmentName") String policyAssignmentName, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
         @PUT("{scope}/providers/Microsoft.Authorization/policyassignments/{policyAssignmentName}")
         @ExpectedResponses({201})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Single<RestResponse<Void, PolicyAssignmentInner>> create(@PathParam(value = "scope", encoded = true) String scope, @PathParam("policyAssignmentName") String policyAssignmentName, @BodyParam("application/json; charset=utf-8") PolicyAssignmentInner parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
+        Single<BodyResponse<PolicyAssignmentInner>> create(@PathParam(value = "scope", encoded = true) String scope, @PathParam("policyAssignmentName") String policyAssignmentName, @BodyParam("application/json; charset=utf-8") PolicyAssignmentInner parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
         @GET("{scope}/providers/Microsoft.Authorization/policyassignments/{policyAssignmentName}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Single<RestResponse<Void, PolicyAssignmentInner>> get(@PathParam(value = "scope", encoded = true) String scope, @PathParam("policyAssignmentName") String policyAssignmentName, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
+        Single<BodyResponse<PolicyAssignmentInner>> get(@PathParam(value = "scope", encoded = true) String scope, @PathParam("policyAssignmentName") String policyAssignmentName, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Authorization/policyAssignments")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Single<RestResponse<Void, PageImpl<PolicyAssignmentInner>>> listByResourceGroup(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("subscriptionId") String subscriptionId, @QueryParam(value = "$filter", encoded = true) String filter, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
+        Single<BodyResponse<PageImpl<PolicyAssignmentInner>>> listByResourceGroup(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("subscriptionId") String subscriptionId, @QueryParam(value = "$filter", encoded = true) String filter, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
         @GET("subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePath}/{resourceType}/{resourceName}/providers/Microsoft.Authorization/policyassignments")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Single<RestResponse<Void, PageImpl<PolicyAssignmentInner>>> listForResource(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("resourceProviderNamespace") String resourceProviderNamespace, @PathParam(value = "parentResourcePath", encoded = true) String parentResourcePath, @PathParam(value = "resourceType", encoded = true) String resourceType, @PathParam("resourceName") String resourceName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("$filter") String filter, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
+        Single<BodyResponse<PageImpl<PolicyAssignmentInner>>> listForResource(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("resourceProviderNamespace") String resourceProviderNamespace, @PathParam(value = "parentResourcePath", encoded = true) String parentResourcePath, @PathParam(value = "resourceType", encoded = true) String resourceType, @PathParam("resourceName") String resourceName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("$filter") String filter, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
         @GET("subscriptions/{subscriptionId}/providers/Microsoft.Authorization/policyassignments")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Single<RestResponse<Void, PageImpl<PolicyAssignmentInner>>> list(@PathParam("subscriptionId") String subscriptionId, @QueryParam("$filter") String filter, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
+        Single<BodyResponse<PageImpl<PolicyAssignmentInner>>> list(@PathParam("subscriptionId") String subscriptionId, @QueryParam("$filter") String filter, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
         @DELETE("{policyAssignmentId}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Single<RestResponse<Void, PolicyAssignmentInner>> deleteById(@PathParam(value = "policyAssignmentId", encoded = true) String policyAssignmentId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
+        Single<BodyResponse<PolicyAssignmentInner>> deleteById(@PathParam(value = "policyAssignmentId", encoded = true) String policyAssignmentId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
         @PUT("{policyAssignmentId}")
         @ExpectedResponses({201})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Single<RestResponse<Void, PolicyAssignmentInner>> createById(@PathParam(value = "policyAssignmentId", encoded = true) String policyAssignmentId, @BodyParam("application/json; charset=utf-8") PolicyAssignmentInner parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
+        Single<BodyResponse<PolicyAssignmentInner>> createById(@PathParam(value = "policyAssignmentId", encoded = true) String policyAssignmentId, @BodyParam("application/json; charset=utf-8") PolicyAssignmentInner parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
         @GET("{policyAssignmentId}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Single<RestResponse<Void, PolicyAssignmentInner>> getById(@PathParam(value = "policyAssignmentId", encoded = true) String policyAssignmentId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
+        Single<BodyResponse<PolicyAssignmentInner>> getById(@PathParam(value = "policyAssignmentId", encoded = true) String policyAssignmentId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
         @GET("{nextUrl}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Single<RestResponse<Void, PageImpl<PolicyAssignmentInner>>> listForResourceGroupNext(@PathParam(value = "nextUrl", encoded = true) String nextUrl, @HeaderParam("accept-language") String acceptLanguage);
+        Single<BodyResponse<PageImpl<PolicyAssignmentInner>>> listForResourceGroupNext(@PathParam(value = "nextUrl", encoded = true) String nextUrl, @HeaderParam("accept-language") String acceptLanguage);
 
         @GET("{nextUrl}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Single<RestResponse<Void, PageImpl<PolicyAssignmentInner>>> listForResourceNext(@PathParam(value = "nextUrl", encoded = true) String nextUrl, @HeaderParam("accept-language") String acceptLanguage);
+        Single<BodyResponse<PageImpl<PolicyAssignmentInner>>> listForResourceNext(@PathParam(value = "nextUrl", encoded = true) String nextUrl, @HeaderParam("accept-language") String acceptLanguage);
 
         @GET("{nextUrl}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Single<RestResponse<Void, PageImpl<PolicyAssignmentInner>>> listNext(@PathParam(value = "nextUrl", encoded = true) String nextUrl, @HeaderParam("accept-language") String acceptLanguage);
+        Single<BodyResponse<PageImpl<PolicyAssignmentInner>>> listNext(@PathParam(value = "nextUrl", encoded = true) String nextUrl, @HeaderParam("accept-language") String acceptLanguage);
     }
 
     /**
@@ -135,7 +133,7 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PolicyAssignmentInner object if successful.
      */
-    public PolicyAssignmentInner delete(String scope, String policyAssignmentName) {
+    public PolicyAssignmentInner delete(@NonNull String scope, @NonNull String policyAssignmentName) {
         return deleteAsync(scope, policyAssignmentName).blockingGet();
     }
 
@@ -146,9 +144,9 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
      * @param policyAssignmentName The name of the policy assignment to delete.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link ServiceFuture&lt;PolicyAssignmentInner&gt;} object.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<PolicyAssignmentInner> deleteAsync(String scope, String policyAssignmentName, final ServiceCallback<PolicyAssignmentInner> serviceCallback) {
+    public ServiceFuture<PolicyAssignmentInner> deleteAsync(@NonNull String scope, @NonNull String policyAssignmentName, ServiceCallback<PolicyAssignmentInner> serviceCallback) {
         return ServiceFuture.fromBody(deleteAsync(scope, policyAssignmentName), serviceCallback);
     }
 
@@ -158,9 +156,9 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
      * @param scope The scope of the policy assignment.
      * @param policyAssignmentName The name of the policy assignment to delete.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Single&lt;RestResponse&lt;Void, PolicyAssignmentInner&gt;&gt;} object if successful.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Single<RestResponse<Void, PolicyAssignmentInner>> deleteWithRestResponseAsync(String scope, String policyAssignmentName) {
+    public Single<BodyResponse<PolicyAssignmentInner>> deleteWithRestResponseAsync(@NonNull String scope, @NonNull String policyAssignmentName) {
         if (scope == null) {
             throw new IllegalArgumentException("Parameter scope is required and cannot be null.");
         }
@@ -179,19 +177,11 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
      * @param scope The scope of the policy assignment.
      * @param policyAssignmentName The name of the policy assignment to delete.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Maybe&lt;PolicyAssignmentInner&gt;} object if successful.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Maybe<PolicyAssignmentInner> deleteAsync(String scope, String policyAssignmentName) {
+    public Maybe<PolicyAssignmentInner> deleteAsync(@NonNull String scope, @NonNull String policyAssignmentName) {
         return deleteWithRestResponseAsync(scope, policyAssignmentName)
-            .flatMapMaybe(new Function<RestResponse<Void, PolicyAssignmentInner>, Maybe<PolicyAssignmentInner>>() {
-                public Maybe<PolicyAssignmentInner> apply(RestResponse<Void, PolicyAssignmentInner> restResponse) {
-                    if (restResponse.body() == null) {
-                        return Maybe.empty();
-                    } else {
-                        return Maybe.just(restResponse.body());
-                    }
-                }
-            });
+            .flatMapMaybe((BodyResponse<PolicyAssignmentInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
@@ -206,7 +196,7 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PolicyAssignmentInner object if successful.
      */
-    public PolicyAssignmentInner create(String scope, String policyAssignmentName, PolicyAssignmentInner parameters) {
+    public PolicyAssignmentInner create(@NonNull String scope, @NonNull String policyAssignmentName, @NonNull PolicyAssignmentInner parameters) {
         return createAsync(scope, policyAssignmentName, parameters).blockingGet();
     }
 
@@ -219,9 +209,9 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
      * @param parameters Parameters for the policy assignment.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link ServiceFuture&lt;PolicyAssignmentInner&gt;} object.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<PolicyAssignmentInner> createAsync(String scope, String policyAssignmentName, PolicyAssignmentInner parameters, final ServiceCallback<PolicyAssignmentInner> serviceCallback) {
+    public ServiceFuture<PolicyAssignmentInner> createAsync(@NonNull String scope, @NonNull String policyAssignmentName, @NonNull PolicyAssignmentInner parameters, ServiceCallback<PolicyAssignmentInner> serviceCallback) {
         return ServiceFuture.fromBody(createAsync(scope, policyAssignmentName, parameters), serviceCallback);
     }
 
@@ -233,9 +223,9 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
      * @param policyAssignmentName The name of the policy assignment.
      * @param parameters Parameters for the policy assignment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Single&lt;RestResponse&lt;Void, PolicyAssignmentInner&gt;&gt;} object if successful.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Single<RestResponse<Void, PolicyAssignmentInner>> createWithRestResponseAsync(String scope, String policyAssignmentName, PolicyAssignmentInner parameters) {
+    public Single<BodyResponse<PolicyAssignmentInner>> createWithRestResponseAsync(@NonNull String scope, @NonNull String policyAssignmentName, @NonNull PolicyAssignmentInner parameters) {
         if (scope == null) {
             throw new IllegalArgumentException("Parameter scope is required and cannot be null.");
         }
@@ -260,19 +250,11 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
      * @param policyAssignmentName The name of the policy assignment.
      * @param parameters Parameters for the policy assignment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Maybe&lt;PolicyAssignmentInner&gt;} object if successful.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Maybe<PolicyAssignmentInner> createAsync(String scope, String policyAssignmentName, PolicyAssignmentInner parameters) {
+    public Maybe<PolicyAssignmentInner> createAsync(@NonNull String scope, @NonNull String policyAssignmentName, @NonNull PolicyAssignmentInner parameters) {
         return createWithRestResponseAsync(scope, policyAssignmentName, parameters)
-            .flatMapMaybe(new Function<RestResponse<Void, PolicyAssignmentInner>, Maybe<PolicyAssignmentInner>>() {
-                public Maybe<PolicyAssignmentInner> apply(RestResponse<Void, PolicyAssignmentInner> restResponse) {
-                    if (restResponse.body() == null) {
-                        return Maybe.empty();
-                    } else {
-                        return Maybe.just(restResponse.body());
-                    }
-                }
-            });
+            .flatMapMaybe((BodyResponse<PolicyAssignmentInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
@@ -285,7 +267,7 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PolicyAssignmentInner object if successful.
      */
-    public PolicyAssignmentInner get(String scope, String policyAssignmentName) {
+    public PolicyAssignmentInner get(@NonNull String scope, @NonNull String policyAssignmentName) {
         return getAsync(scope, policyAssignmentName).blockingGet();
     }
 
@@ -296,9 +278,9 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
      * @param policyAssignmentName The name of the policy assignment to get.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link ServiceFuture&lt;PolicyAssignmentInner&gt;} object.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<PolicyAssignmentInner> getAsync(String scope, String policyAssignmentName, final ServiceCallback<PolicyAssignmentInner> serviceCallback) {
+    public ServiceFuture<PolicyAssignmentInner> getAsync(@NonNull String scope, @NonNull String policyAssignmentName, ServiceCallback<PolicyAssignmentInner> serviceCallback) {
         return ServiceFuture.fromBody(getAsync(scope, policyAssignmentName), serviceCallback);
     }
 
@@ -308,9 +290,9 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
      * @param scope The scope of the policy assignment.
      * @param policyAssignmentName The name of the policy assignment to get.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Single&lt;RestResponse&lt;Void, PolicyAssignmentInner&gt;&gt;} object if successful.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Single<RestResponse<Void, PolicyAssignmentInner>> getWithRestResponseAsync(String scope, String policyAssignmentName) {
+    public Single<BodyResponse<PolicyAssignmentInner>> getWithRestResponseAsync(@NonNull String scope, @NonNull String policyAssignmentName) {
         if (scope == null) {
             throw new IllegalArgumentException("Parameter scope is required and cannot be null.");
         }
@@ -329,19 +311,11 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
      * @param scope The scope of the policy assignment.
      * @param policyAssignmentName The name of the policy assignment to get.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Maybe&lt;PolicyAssignmentInner&gt;} object if successful.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Maybe<PolicyAssignmentInner> getAsync(String scope, String policyAssignmentName) {
+    public Maybe<PolicyAssignmentInner> getAsync(@NonNull String scope, @NonNull String policyAssignmentName) {
         return getWithRestResponseAsync(scope, policyAssignmentName)
-            .flatMapMaybe(new Function<RestResponse<Void, PolicyAssignmentInner>, Maybe<PolicyAssignmentInner>>() {
-                public Maybe<PolicyAssignmentInner> apply(RestResponse<Void, PolicyAssignmentInner> restResponse) {
-                    if (restResponse.body() == null) {
-                        return Maybe.empty();
-                    } else {
-                        return Maybe.just(restResponse.body());
-                    }
-                }
-            });
+            .flatMapMaybe((BodyResponse<PolicyAssignmentInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
@@ -353,7 +327,7 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;PolicyAssignmentInner&gt; object if successful.
      */
-    public PagedList<PolicyAssignmentInner> listByResourceGroup(final String resourceGroupName) {
+    public PagedList<PolicyAssignmentInner> listByResourceGroup(@NonNull String resourceGroupName) {
         Page<PolicyAssignmentInner> response = listByResourceGroupSinglePageAsync(resourceGroupName).blockingGet();
         return new PagedList<PolicyAssignmentInner>(response) {
             @Override
@@ -370,18 +344,15 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @return the observable to the PagedList&lt;PolicyAssignmentInner&gt; object.
      */
-    public Observable<Page<PolicyAssignmentInner>> listByResourceGroupAsync(final String resourceGroupName) {
+    public Observable<Page<PolicyAssignmentInner>> listByResourceGroupAsync(@NonNull String resourceGroupName) {
         return listByResourceGroupSinglePageAsync(resourceGroupName)
             .toObservable()
-            .concatMap(new Function<Page<PolicyAssignmentInner>, Observable<Page<PolicyAssignmentInner>>>() {
-                @Override
-                public Observable<Page<PolicyAssignmentInner>> apply(Page<PolicyAssignmentInner> page) {
-                    String nextPageLink = page.nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listForResourceGroupNextAsync(nextPageLink));
+            .concatMap((Page<PolicyAssignmentInner> page) -> {
+                String nextPageLink = page.nextPageLink();
+                if (nextPageLink == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listForResourceGroupNextAsync(nextPageLink));
             });
     }
 
@@ -390,9 +361,9 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
      *
      * @param resourceGroupName The name of the resource group that contains policy assignments.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Single&lt;Page&lt;PolicyAssignmentInner&gt;&gt;} object if successful.
+     * @return the Single&lt;Page&lt;PolicyAssignmentInner&gt;&gt; object if successful.
      */
-    public Single<Page<PolicyAssignmentInner>> listByResourceGroupSinglePageAsync(final String resourceGroupName) {
+    public Single<Page<PolicyAssignmentInner>> listByResourceGroupSinglePageAsync(@NonNull String resourceGroupName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -403,12 +374,8 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
         final String filter = null;
-        return service.listByResourceGroup(resourceGroupName, this.client.subscriptionId(), filter, this.client.apiVersion(), this.client.acceptLanguage()).map(new Function<RestResponse<Void, PageImpl<PolicyAssignmentInner>>, Page<PolicyAssignmentInner>>() {
-            @Override
-            public Page<PolicyAssignmentInner> apply(RestResponse<Void, PageImpl<PolicyAssignmentInner>> response) {
-                return response.body();
-            }
-        });
+        return service.listByResourceGroup(resourceGroupName, this.client.subscriptionId(), filter, this.client.apiVersion(), this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl<PolicyAssignmentInner>> res) -> res.body());
     }
 
     /**
@@ -421,7 +388,7 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;PolicyAssignmentInner&gt; object if successful.
      */
-    public PagedList<PolicyAssignmentInner> listByResourceGroup(final String resourceGroupName, final String filter) {
+    public PagedList<PolicyAssignmentInner> listByResourceGroup(@NonNull String resourceGroupName, String filter) {
         Page<PolicyAssignmentInner> response = listByResourceGroupSinglePageAsync(resourceGroupName, filter).blockingGet();
         return new PagedList<PolicyAssignmentInner>(response) {
             @Override
@@ -439,18 +406,15 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @return the observable to the PagedList&lt;PolicyAssignmentInner&gt; object.
      */
-    public Observable<Page<PolicyAssignmentInner>> listByResourceGroupAsync(final String resourceGroupName, final String filter) {
+    public Observable<Page<PolicyAssignmentInner>> listByResourceGroupAsync(@NonNull String resourceGroupName, String filter) {
         return listByResourceGroupSinglePageAsync(resourceGroupName, filter)
             .toObservable()
-            .concatMap(new Function<Page<PolicyAssignmentInner>, Observable<Page<PolicyAssignmentInner>>>() {
-                @Override
-                public Observable<Page<PolicyAssignmentInner>> apply(Page<PolicyAssignmentInner> page) {
-                    String nextPageLink = page.nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listForResourceGroupNextAsync(nextPageLink));
+            .concatMap((Page<PolicyAssignmentInner> page) -> {
+                String nextPageLink = page.nextPageLink();
+                if (nextPageLink == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listForResourceGroupNextAsync(nextPageLink));
             });
     }
 
@@ -460,9 +424,9 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
      * @param resourceGroupName The name of the resource group that contains policy assignments.
      * @param filter The filter to apply on the operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Single&lt;Page&lt;PolicyAssignmentInner&gt;&gt;} object if successful.
+     * @return the Single&lt;Page&lt;PolicyAssignmentInner&gt;&gt; object if successful.
      */
-    public Single<Page<PolicyAssignmentInner>> listByResourceGroupSinglePageAsync(final String resourceGroupName, final String filter) {
+    public Single<Page<PolicyAssignmentInner>> listByResourceGroupSinglePageAsync(@NonNull String resourceGroupName, String filter) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -472,12 +436,8 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        return service.listByResourceGroup(resourceGroupName, this.client.subscriptionId(), filter, this.client.apiVersion(), this.client.acceptLanguage()).map(new Function<RestResponse<Void, PageImpl<PolicyAssignmentInner>>, Page<PolicyAssignmentInner>>() {
-            @Override
-            public Page<PolicyAssignmentInner> apply(RestResponse<Void, PageImpl<PolicyAssignmentInner>> response) {
-                return response.body();
-            }
-        });
+        return service.listByResourceGroup(resourceGroupName, this.client.subscriptionId(), filter, this.client.apiVersion(), this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl<PolicyAssignmentInner>> res) -> res.body());
     }
 
     /**
@@ -493,7 +453,7 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;PolicyAssignmentInner&gt; object if successful.
      */
-    public PagedList<PolicyAssignmentInner> listForResource(final String resourceGroupName, final String resourceProviderNamespace, final String parentResourcePath, final String resourceType, final String resourceName) {
+    public PagedList<PolicyAssignmentInner> listForResource(@NonNull String resourceGroupName, @NonNull String resourceProviderNamespace, @NonNull String parentResourcePath, @NonNull String resourceType, @NonNull String resourceName) {
         Page<PolicyAssignmentInner> response = listForResourceSinglePageAsync(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName).blockingGet();
         return new PagedList<PolicyAssignmentInner>(response) {
             @Override
@@ -514,18 +474,15 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @return the observable to the PagedList&lt;PolicyAssignmentInner&gt; object.
      */
-    public Observable<Page<PolicyAssignmentInner>> listForResourceAsync(final String resourceGroupName, final String resourceProviderNamespace, final String parentResourcePath, final String resourceType, final String resourceName) {
+    public Observable<Page<PolicyAssignmentInner>> listForResourceAsync(@NonNull String resourceGroupName, @NonNull String resourceProviderNamespace, @NonNull String parentResourcePath, @NonNull String resourceType, @NonNull String resourceName) {
         return listForResourceSinglePageAsync(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName)
             .toObservable()
-            .concatMap(new Function<Page<PolicyAssignmentInner>, Observable<Page<PolicyAssignmentInner>>>() {
-                @Override
-                public Observable<Page<PolicyAssignmentInner>> apply(Page<PolicyAssignmentInner> page) {
-                    String nextPageLink = page.nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listForResourceNextAsync(nextPageLink));
+            .concatMap((Page<PolicyAssignmentInner> page) -> {
+                String nextPageLink = page.nextPageLink();
+                if (nextPageLink == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listForResourceNextAsync(nextPageLink));
             });
     }
 
@@ -538,9 +495,9 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
      * @param resourceType The resource type.
      * @param resourceName The name of the resource with policy assignments.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Single&lt;Page&lt;PolicyAssignmentInner&gt;&gt;} object if successful.
+     * @return the Single&lt;Page&lt;PolicyAssignmentInner&gt;&gt; object if successful.
      */
-    public Single<Page<PolicyAssignmentInner>> listForResourceSinglePageAsync(final String resourceGroupName, final String resourceProviderNamespace, final String parentResourcePath, final String resourceType, final String resourceName) {
+    public Single<Page<PolicyAssignmentInner>> listForResourceSinglePageAsync(@NonNull String resourceGroupName, @NonNull String resourceProviderNamespace, @NonNull String parentResourcePath, @NonNull String resourceType, @NonNull String resourceName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -563,12 +520,8 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
         final String filter = null;
-        return service.listForResource(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, this.client.subscriptionId(), filter, this.client.apiVersion(), this.client.acceptLanguage()).map(new Function<RestResponse<Void, PageImpl<PolicyAssignmentInner>>, Page<PolicyAssignmentInner>>() {
-            @Override
-            public Page<PolicyAssignmentInner> apply(RestResponse<Void, PageImpl<PolicyAssignmentInner>> response) {
-                return response.body();
-            }
-        });
+        return service.listForResource(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, this.client.subscriptionId(), filter, this.client.apiVersion(), this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl<PolicyAssignmentInner>> res) -> res.body());
     }
 
     /**
@@ -585,7 +538,7 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;PolicyAssignmentInner&gt; object if successful.
      */
-    public PagedList<PolicyAssignmentInner> listForResource(final String resourceGroupName, final String resourceProviderNamespace, final String parentResourcePath, final String resourceType, final String resourceName, final String filter) {
+    public PagedList<PolicyAssignmentInner> listForResource(@NonNull String resourceGroupName, @NonNull String resourceProviderNamespace, @NonNull String parentResourcePath, @NonNull String resourceType, @NonNull String resourceName, String filter) {
         Page<PolicyAssignmentInner> response = listForResourceSinglePageAsync(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, filter).blockingGet();
         return new PagedList<PolicyAssignmentInner>(response) {
             @Override
@@ -607,18 +560,15 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @return the observable to the PagedList&lt;PolicyAssignmentInner&gt; object.
      */
-    public Observable<Page<PolicyAssignmentInner>> listForResourceAsync(final String resourceGroupName, final String resourceProviderNamespace, final String parentResourcePath, final String resourceType, final String resourceName, final String filter) {
+    public Observable<Page<PolicyAssignmentInner>> listForResourceAsync(@NonNull String resourceGroupName, @NonNull String resourceProviderNamespace, @NonNull String parentResourcePath, @NonNull String resourceType, @NonNull String resourceName, String filter) {
         return listForResourceSinglePageAsync(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, filter)
             .toObservable()
-            .concatMap(new Function<Page<PolicyAssignmentInner>, Observable<Page<PolicyAssignmentInner>>>() {
-                @Override
-                public Observable<Page<PolicyAssignmentInner>> apply(Page<PolicyAssignmentInner> page) {
-                    String nextPageLink = page.nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listForResourceNextAsync(nextPageLink));
+            .concatMap((Page<PolicyAssignmentInner> page) -> {
+                String nextPageLink = page.nextPageLink();
+                if (nextPageLink == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listForResourceNextAsync(nextPageLink));
             });
     }
 
@@ -632,9 +582,9 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
      * @param resourceName The name of the resource with policy assignments.
      * @param filter The filter to apply on the operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Single&lt;Page&lt;PolicyAssignmentInner&gt;&gt;} object if successful.
+     * @return the Single&lt;Page&lt;PolicyAssignmentInner&gt;&gt; object if successful.
      */
-    public Single<Page<PolicyAssignmentInner>> listForResourceSinglePageAsync(final String resourceGroupName, final String resourceProviderNamespace, final String parentResourcePath, final String resourceType, final String resourceName, final String filter) {
+    public Single<Page<PolicyAssignmentInner>> listForResourceSinglePageAsync(@NonNull String resourceGroupName, @NonNull String resourceProviderNamespace, @NonNull String parentResourcePath, @NonNull String resourceType, @NonNull String resourceName, String filter) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -656,18 +606,13 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        return service.listForResource(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, this.client.subscriptionId(), filter, this.client.apiVersion(), this.client.acceptLanguage()).map(new Function<RestResponse<Void, PageImpl<PolicyAssignmentInner>>, Page<PolicyAssignmentInner>>() {
-            @Override
-            public Page<PolicyAssignmentInner> apply(RestResponse<Void, PageImpl<PolicyAssignmentInner>> response) {
-                return response.body();
-            }
-        });
+        return service.listForResource(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, this.client.subscriptionId(), filter, this.client.apiVersion(), this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl<PolicyAssignmentInner>> res) -> res.body());
     }
 
     /**
      * Gets all the policy assignments for a subscription.
      *
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;PolicyAssignmentInner&gt; object if successful.
@@ -685,29 +630,24 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
     /**
      * Gets all the policy assignments for a subscription.
      *
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @return the observable to the PagedList&lt;PolicyAssignmentInner&gt; object.
      */
     public Observable<Page<PolicyAssignmentInner>> listAsync() {
         return listSinglePageAsync()
             .toObservable()
-            .concatMap(new Function<Page<PolicyAssignmentInner>, Observable<Page<PolicyAssignmentInner>>>() {
-                @Override
-                public Observable<Page<PolicyAssignmentInner>> apply(Page<PolicyAssignmentInner> page) {
-                    String nextPageLink = page.nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listNextAsync(nextPageLink));
+            .concatMap((Page<PolicyAssignmentInner> page) -> {
+                String nextPageLink = page.nextPageLink();
+                if (nextPageLink == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listNextAsync(nextPageLink));
             });
     }
 
     /**
      * Gets all the policy assignments for a subscription.
      *
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Single&lt;Page&lt;PolicyAssignmentInner&gt;&gt;} object if successful.
+     * @return the Single&lt;Page&lt;PolicyAssignmentInner&gt;&gt; object if successful.
      */
     public Single<Page<PolicyAssignmentInner>> listSinglePageAsync() {
         if (this.client.subscriptionId() == null) {
@@ -717,12 +657,8 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
         final String filter = null;
-        return service.list(this.client.subscriptionId(), filter, this.client.apiVersion(), this.client.acceptLanguage()).map(new Function<RestResponse<Void, PageImpl<PolicyAssignmentInner>>, Page<PolicyAssignmentInner>>() {
-            @Override
-            public Page<PolicyAssignmentInner> apply(RestResponse<Void, PageImpl<PolicyAssignmentInner>> response) {
-                return response.body();
-            }
-        });
+        return service.list(this.client.subscriptionId(), filter, this.client.apiVersion(), this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl<PolicyAssignmentInner>> res) -> res.body());
     }
 
     /**
@@ -734,7 +670,7 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;PolicyAssignmentInner&gt; object if successful.
      */
-    public PagedList<PolicyAssignmentInner> list(final String filter) {
+    public PagedList<PolicyAssignmentInner> list(String filter) {
         Page<PolicyAssignmentInner> response = listSinglePageAsync(filter).blockingGet();
         return new PagedList<PolicyAssignmentInner>(response) {
             @Override
@@ -751,18 +687,15 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @return the observable to the PagedList&lt;PolicyAssignmentInner&gt; object.
      */
-    public Observable<Page<PolicyAssignmentInner>> listAsync(final String filter) {
+    public Observable<Page<PolicyAssignmentInner>> listAsync(String filter) {
         return listSinglePageAsync(filter)
             .toObservable()
-            .concatMap(new Function<Page<PolicyAssignmentInner>, Observable<Page<PolicyAssignmentInner>>>() {
-                @Override
-                public Observable<Page<PolicyAssignmentInner>> apply(Page<PolicyAssignmentInner> page) {
-                    String nextPageLink = page.nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listNextAsync(nextPageLink));
+            .concatMap((Page<PolicyAssignmentInner> page) -> {
+                String nextPageLink = page.nextPageLink();
+                if (nextPageLink == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listNextAsync(nextPageLink));
             });
     }
 
@@ -771,21 +704,17 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
      *
      * @param filter The filter to apply on the operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Single&lt;Page&lt;PolicyAssignmentInner&gt;&gt;} object if successful.
+     * @return the Single&lt;Page&lt;PolicyAssignmentInner&gt;&gt; object if successful.
      */
-    public Single<Page<PolicyAssignmentInner>> listSinglePageAsync(final String filter) {
+    public Single<Page<PolicyAssignmentInner>> listSinglePageAsync(String filter) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        return service.list(this.client.subscriptionId(), filter, this.client.apiVersion(), this.client.acceptLanguage()).map(new Function<RestResponse<Void, PageImpl<PolicyAssignmentInner>>, Page<PolicyAssignmentInner>>() {
-            @Override
-            public Page<PolicyAssignmentInner> apply(RestResponse<Void, PageImpl<PolicyAssignmentInner>> response) {
-                return response.body();
-            }
-        });
+        return service.list(this.client.subscriptionId(), filter, this.client.apiVersion(), this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl<PolicyAssignmentInner>> res) -> res.body());
     }
 
     /**
@@ -798,7 +727,7 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PolicyAssignmentInner object if successful.
      */
-    public PolicyAssignmentInner deleteById(String policyAssignmentId) {
+    public PolicyAssignmentInner deleteById(@NonNull String policyAssignmentId) {
         return deleteByIdAsync(policyAssignmentId).blockingGet();
     }
 
@@ -809,9 +738,9 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
      * @param policyAssignmentId The ID of the policy assignment to delete. Use the format '/{scope}/providers/Microsoft.Authorization/policyAssignments/{policy-assignment-name}'.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link ServiceFuture&lt;PolicyAssignmentInner&gt;} object.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<PolicyAssignmentInner> deleteByIdAsync(String policyAssignmentId, final ServiceCallback<PolicyAssignmentInner> serviceCallback) {
+    public ServiceFuture<PolicyAssignmentInner> deleteByIdAsync(@NonNull String policyAssignmentId, ServiceCallback<PolicyAssignmentInner> serviceCallback) {
         return ServiceFuture.fromBody(deleteByIdAsync(policyAssignmentId), serviceCallback);
     }
 
@@ -821,9 +750,9 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
      *
      * @param policyAssignmentId The ID of the policy assignment to delete. Use the format '/{scope}/providers/Microsoft.Authorization/policyAssignments/{policy-assignment-name}'.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Single&lt;RestResponse&lt;Void, PolicyAssignmentInner&gt;&gt;} object if successful.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Single<RestResponse<Void, PolicyAssignmentInner>> deleteByIdWithRestResponseAsync(String policyAssignmentId) {
+    public Single<BodyResponse<PolicyAssignmentInner>> deleteByIdWithRestResponseAsync(@NonNull String policyAssignmentId) {
         if (policyAssignmentId == null) {
             throw new IllegalArgumentException("Parameter policyAssignmentId is required and cannot be null.");
         }
@@ -839,19 +768,11 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
      *
      * @param policyAssignmentId The ID of the policy assignment to delete. Use the format '/{scope}/providers/Microsoft.Authorization/policyAssignments/{policy-assignment-name}'.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Maybe&lt;PolicyAssignmentInner&gt;} object if successful.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Maybe<PolicyAssignmentInner> deleteByIdAsync(String policyAssignmentId) {
+    public Maybe<PolicyAssignmentInner> deleteByIdAsync(@NonNull String policyAssignmentId) {
         return deleteByIdWithRestResponseAsync(policyAssignmentId)
-            .flatMapMaybe(new Function<RestResponse<Void, PolicyAssignmentInner>, Maybe<PolicyAssignmentInner>>() {
-                public Maybe<PolicyAssignmentInner> apply(RestResponse<Void, PolicyAssignmentInner> restResponse) {
-                    if (restResponse.body() == null) {
-                        return Maybe.empty();
-                    } else {
-                        return Maybe.just(restResponse.body());
-                    }
-                }
-            });
+            .flatMapMaybe((BodyResponse<PolicyAssignmentInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
@@ -865,7 +786,7 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PolicyAssignmentInner object if successful.
      */
-    public PolicyAssignmentInner createById(String policyAssignmentId, PolicyAssignmentInner parameters) {
+    public PolicyAssignmentInner createById(@NonNull String policyAssignmentId, @NonNull PolicyAssignmentInner parameters) {
         return createByIdAsync(policyAssignmentId, parameters).blockingGet();
     }
 
@@ -877,9 +798,9 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
      * @param parameters Parameters for policy assignment.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link ServiceFuture&lt;PolicyAssignmentInner&gt;} object.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<PolicyAssignmentInner> createByIdAsync(String policyAssignmentId, PolicyAssignmentInner parameters, final ServiceCallback<PolicyAssignmentInner> serviceCallback) {
+    public ServiceFuture<PolicyAssignmentInner> createByIdAsync(@NonNull String policyAssignmentId, @NonNull PolicyAssignmentInner parameters, ServiceCallback<PolicyAssignmentInner> serviceCallback) {
         return ServiceFuture.fromBody(createByIdAsync(policyAssignmentId, parameters), serviceCallback);
     }
 
@@ -890,9 +811,9 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
      * @param policyAssignmentId The ID of the policy assignment to create. Use the format '/{scope}/providers/Microsoft.Authorization/policyAssignments/{policy-assignment-name}'.
      * @param parameters Parameters for policy assignment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Single&lt;RestResponse&lt;Void, PolicyAssignmentInner&gt;&gt;} object if successful.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Single<RestResponse<Void, PolicyAssignmentInner>> createByIdWithRestResponseAsync(String policyAssignmentId, PolicyAssignmentInner parameters) {
+    public Single<BodyResponse<PolicyAssignmentInner>> createByIdWithRestResponseAsync(@NonNull String policyAssignmentId, @NonNull PolicyAssignmentInner parameters) {
         if (policyAssignmentId == null) {
             throw new IllegalArgumentException("Parameter policyAssignmentId is required and cannot be null.");
         }
@@ -913,19 +834,11 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
      * @param policyAssignmentId The ID of the policy assignment to create. Use the format '/{scope}/providers/Microsoft.Authorization/policyAssignments/{policy-assignment-name}'.
      * @param parameters Parameters for policy assignment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Maybe&lt;PolicyAssignmentInner&gt;} object if successful.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Maybe<PolicyAssignmentInner> createByIdAsync(String policyAssignmentId, PolicyAssignmentInner parameters) {
+    public Maybe<PolicyAssignmentInner> createByIdAsync(@NonNull String policyAssignmentId, @NonNull PolicyAssignmentInner parameters) {
         return createByIdWithRestResponseAsync(policyAssignmentId, parameters)
-            .flatMapMaybe(new Function<RestResponse<Void, PolicyAssignmentInner>, Maybe<PolicyAssignmentInner>>() {
-                public Maybe<PolicyAssignmentInner> apply(RestResponse<Void, PolicyAssignmentInner> restResponse) {
-                    if (restResponse.body() == null) {
-                        return Maybe.empty();
-                    } else {
-                        return Maybe.just(restResponse.body());
-                    }
-                }
-            });
+            .flatMapMaybe((BodyResponse<PolicyAssignmentInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
@@ -938,7 +851,7 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PolicyAssignmentInner object if successful.
      */
-    public PolicyAssignmentInner getById(String policyAssignmentId) {
+    public PolicyAssignmentInner getById(@NonNull String policyAssignmentId) {
         return getByIdAsync(policyAssignmentId).blockingGet();
     }
 
@@ -949,9 +862,9 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
      * @param policyAssignmentId The ID of the policy assignment to get. Use the format '/{scope}/providers/Microsoft.Authorization/policyAssignments/{policy-assignment-name}'.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link ServiceFuture&lt;PolicyAssignmentInner&gt;} object.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<PolicyAssignmentInner> getByIdAsync(String policyAssignmentId, final ServiceCallback<PolicyAssignmentInner> serviceCallback) {
+    public ServiceFuture<PolicyAssignmentInner> getByIdAsync(@NonNull String policyAssignmentId, ServiceCallback<PolicyAssignmentInner> serviceCallback) {
         return ServiceFuture.fromBody(getByIdAsync(policyAssignmentId), serviceCallback);
     }
 
@@ -961,9 +874,9 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
      *
      * @param policyAssignmentId The ID of the policy assignment to get. Use the format '/{scope}/providers/Microsoft.Authorization/policyAssignments/{policy-assignment-name}'.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Single&lt;RestResponse&lt;Void, PolicyAssignmentInner&gt;&gt;} object if successful.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Single<RestResponse<Void, PolicyAssignmentInner>> getByIdWithRestResponseAsync(String policyAssignmentId) {
+    public Single<BodyResponse<PolicyAssignmentInner>> getByIdWithRestResponseAsync(@NonNull String policyAssignmentId) {
         if (policyAssignmentId == null) {
             throw new IllegalArgumentException("Parameter policyAssignmentId is required and cannot be null.");
         }
@@ -979,19 +892,11 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
      *
      * @param policyAssignmentId The ID of the policy assignment to get. Use the format '/{scope}/providers/Microsoft.Authorization/policyAssignments/{policy-assignment-name}'.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Maybe&lt;PolicyAssignmentInner&gt;} object if successful.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Maybe<PolicyAssignmentInner> getByIdAsync(String policyAssignmentId) {
+    public Maybe<PolicyAssignmentInner> getByIdAsync(@NonNull String policyAssignmentId) {
         return getByIdWithRestResponseAsync(policyAssignmentId)
-            .flatMapMaybe(new Function<RestResponse<Void, PolicyAssignmentInner>, Maybe<PolicyAssignmentInner>>() {
-                public Maybe<PolicyAssignmentInner> apply(RestResponse<Void, PolicyAssignmentInner> restResponse) {
-                    if (restResponse.body() == null) {
-                        return Maybe.empty();
-                    } else {
-                        return Maybe.just(restResponse.body());
-                    }
-                }
-            });
+            .flatMapMaybe((BodyResponse<PolicyAssignmentInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
@@ -1003,7 +908,7 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;PolicyAssignmentInner&gt; object if successful.
      */
-    public PagedList<PolicyAssignmentInner> listForResourceGroupNext(final String nextPageLink) {
+    public PagedList<PolicyAssignmentInner> listForResourceGroupNext(@NonNull String nextPageLink) {
         Page<PolicyAssignmentInner> response = listForResourceGroupNextSinglePageAsync(nextPageLink).blockingGet();
         return new PagedList<PolicyAssignmentInner>(response) {
             @Override
@@ -1020,18 +925,15 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @return the observable to the PagedList&lt;PolicyAssignmentInner&gt; object.
      */
-    public Observable<Page<PolicyAssignmentInner>> listForResourceGroupNextAsync(final String nextPageLink) {
+    public Observable<Page<PolicyAssignmentInner>> listForResourceGroupNextAsync(@NonNull String nextPageLink) {
         return listForResourceGroupNextSinglePageAsync(nextPageLink)
             .toObservable()
-            .concatMap(new Function<Page<PolicyAssignmentInner>, Observable<Page<PolicyAssignmentInner>>>() {
-                @Override
-                public Observable<Page<PolicyAssignmentInner>> apply(Page<PolicyAssignmentInner> page) {
-                    String nextPageLink = page.nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listForResourceGroupNextAsync(nextPageLink));
+            .concatMap((Page<PolicyAssignmentInner> page) -> {
+                String nextPageLink1 = page.nextPageLink();
+                if (nextPageLink1 == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listForResourceGroupNextAsync(nextPageLink1));
             });
     }
 
@@ -1040,19 +942,15 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Single&lt;Page&lt;PolicyAssignmentInner&gt;&gt;} object if successful.
+     * @return the Single&lt;Page&lt;PolicyAssignmentInner&gt;&gt; object if successful.
      */
-    public Single<Page<PolicyAssignmentInner>> listForResourceGroupNextSinglePageAsync(final String nextPageLink) {
+    public Single<Page<PolicyAssignmentInner>> listForResourceGroupNextSinglePageAsync(@NonNull String nextPageLink) {
         if (nextPageLink == null) {
             throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
         }
         String nextUrl = String.format("%s", nextPageLink);
-        return service.listForResourceGroupNext(nextUrl, this.client.acceptLanguage()).map(new Function<RestResponse<Void, PageImpl<PolicyAssignmentInner>>, Page<PolicyAssignmentInner>>() {
-            @Override
-            public Page<PolicyAssignmentInner> apply(RestResponse<Void, PageImpl<PolicyAssignmentInner>> response) {
-                return response.body();
-            }
-        });
+        return service.listForResourceGroupNext(nextUrl, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl<PolicyAssignmentInner>> res) -> res.body());
     }
 
     /**
@@ -1064,7 +962,7 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;PolicyAssignmentInner&gt; object if successful.
      */
-    public PagedList<PolicyAssignmentInner> listForResourceNext(final String nextPageLink) {
+    public PagedList<PolicyAssignmentInner> listForResourceNext(@NonNull String nextPageLink) {
         Page<PolicyAssignmentInner> response = listForResourceNextSinglePageAsync(nextPageLink).blockingGet();
         return new PagedList<PolicyAssignmentInner>(response) {
             @Override
@@ -1081,18 +979,15 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @return the observable to the PagedList&lt;PolicyAssignmentInner&gt; object.
      */
-    public Observable<Page<PolicyAssignmentInner>> listForResourceNextAsync(final String nextPageLink) {
+    public Observable<Page<PolicyAssignmentInner>> listForResourceNextAsync(@NonNull String nextPageLink) {
         return listForResourceNextSinglePageAsync(nextPageLink)
             .toObservable()
-            .concatMap(new Function<Page<PolicyAssignmentInner>, Observable<Page<PolicyAssignmentInner>>>() {
-                @Override
-                public Observable<Page<PolicyAssignmentInner>> apply(Page<PolicyAssignmentInner> page) {
-                    String nextPageLink = page.nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listForResourceNextAsync(nextPageLink));
+            .concatMap((Page<PolicyAssignmentInner> page) -> {
+                String nextPageLink1 = page.nextPageLink();
+                if (nextPageLink1 == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listForResourceNextAsync(nextPageLink1));
             });
     }
 
@@ -1101,19 +996,15 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Single&lt;Page&lt;PolicyAssignmentInner&gt;&gt;} object if successful.
+     * @return the Single&lt;Page&lt;PolicyAssignmentInner&gt;&gt; object if successful.
      */
-    public Single<Page<PolicyAssignmentInner>> listForResourceNextSinglePageAsync(final String nextPageLink) {
+    public Single<Page<PolicyAssignmentInner>> listForResourceNextSinglePageAsync(@NonNull String nextPageLink) {
         if (nextPageLink == null) {
             throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
         }
         String nextUrl = String.format("%s", nextPageLink);
-        return service.listForResourceNext(nextUrl, this.client.acceptLanguage()).map(new Function<RestResponse<Void, PageImpl<PolicyAssignmentInner>>, Page<PolicyAssignmentInner>>() {
-            @Override
-            public Page<PolicyAssignmentInner> apply(RestResponse<Void, PageImpl<PolicyAssignmentInner>> response) {
-                return response.body();
-            }
-        });
+        return service.listForResourceNext(nextUrl, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl<PolicyAssignmentInner>> res) -> res.body());
     }
 
     /**
@@ -1125,7 +1016,7 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;PolicyAssignmentInner&gt; object if successful.
      */
-    public PagedList<PolicyAssignmentInner> listNext(final String nextPageLink) {
+    public PagedList<PolicyAssignmentInner> listNext(@NonNull String nextPageLink) {
         Page<PolicyAssignmentInner> response = listNextSinglePageAsync(nextPageLink).blockingGet();
         return new PagedList<PolicyAssignmentInner>(response) {
             @Override
@@ -1142,18 +1033,15 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @return the observable to the PagedList&lt;PolicyAssignmentInner&gt; object.
      */
-    public Observable<Page<PolicyAssignmentInner>> listNextAsync(final String nextPageLink) {
+    public Observable<Page<PolicyAssignmentInner>> listNextAsync(@NonNull String nextPageLink) {
         return listNextSinglePageAsync(nextPageLink)
             .toObservable()
-            .concatMap(new Function<Page<PolicyAssignmentInner>, Observable<Page<PolicyAssignmentInner>>>() {
-                @Override
-                public Observable<Page<PolicyAssignmentInner>> apply(Page<PolicyAssignmentInner> page) {
-                    String nextPageLink = page.nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listNextAsync(nextPageLink));
+            .concatMap((Page<PolicyAssignmentInner> page) -> {
+                String nextPageLink1 = page.nextPageLink();
+                if (nextPageLink1 == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listNextAsync(nextPageLink1));
             });
     }
 
@@ -1162,18 +1050,14 @@ public class PolicyAssignmentsInner implements InnerSupportsDelete<PolicyAssignm
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the {@link Single&lt;Page&lt;PolicyAssignmentInner&gt;&gt;} object if successful.
+     * @return the Single&lt;Page&lt;PolicyAssignmentInner&gt;&gt; object if successful.
      */
-    public Single<Page<PolicyAssignmentInner>> listNextSinglePageAsync(final String nextPageLink) {
+    public Single<Page<PolicyAssignmentInner>> listNextSinglePageAsync(@NonNull String nextPageLink) {
         if (nextPageLink == null) {
             throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
         }
         String nextUrl = String.format("%s", nextPageLink);
-        return service.listNext(nextUrl, this.client.acceptLanguage()).map(new Function<RestResponse<Void, PageImpl<PolicyAssignmentInner>>, Page<PolicyAssignmentInner>>() {
-            @Override
-            public Page<PolicyAssignmentInner> apply(RestResponse<Void, PageImpl<PolicyAssignmentInner>> response) {
-                return response.body();
-            }
-        });
+        return service.listNext(nextUrl, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl<PolicyAssignmentInner>> res) -> res.body());
     }
 }

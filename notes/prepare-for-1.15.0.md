@@ -27,21 +27,21 @@ The following methods and/or types have been changed in V1.15 compared to the pr
     <td><code>withVirtualMachineCount()</code></td>
     <td><code>withAgentPoolVirtualMachineCount()</code></td>
     <td></td>
-    <td><a href="https://github.com/Azure/azure-libraries-for-java/542"></a></td>
+    <td><a href="https://github.com/Azure/azure-libraries-for-java/542">PR #542</a></td>
   </tr>
   <tr>
     <td><code>Azure Container Services</code></td>
     <td><code>withKeyVaultSecret()</code></td>
     <td><code>N/A</code></td>
     <td>Removed because the service does not expose it</td>
-    <td><a href="https://github.com/Azure/azure-libraries-for-java/542"></a></td>
+    <td><a href="https://github.com/Azure/azure-libraries-for-java/542">PR #542</a></td>
   </tr>
   <tr>
     <td><code>Azure Container Services</code></td>
     <td><code>defineAgentPool()</code></td>
     <td></td>
     <td>Re-ordered the definition flow to start with <code>withVirtualMachineSize()</code></td>
-    <td><a href="https://github.com/Azure/azure-libraries-for-java/542"></a></td>
+    <td><a href="https://github.com/Azure/azure-libraries-for-java/542">PR #542</a></td>
   </tr>
 </table>
 

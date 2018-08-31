@@ -26,33 +26,23 @@ public interface AutoscaleSetting extends
     Refreshable<AutoscaleSetting>,
     Updatable<AutoscaleSetting.Update> {
 
-    /**
-     * the collection of automatic scaling profiles that specify different scaling parameters for different time periods. A maximum of 20 profiles can be specified.
-     */
-    Map<String, AutoscaleProfile> profiles();
-    /**
-     * the enabled flag. Specifies whether automatic scaling is enabled for the resource. The default value is 'true'.
-     */
-    boolean enabled();
-    /**
-     * the name of the autoscale setting.
-     */
-    String name();
-    /**
-     * the resource identifier of the resource that the autoscale setting should be added to.
-     */
-    String targetResourceUri();
-
 
     interface Definition extends
         DefinitionStages.Blank,
-        DefinitionStages.WithCreate {
+        DefinitionStages.WithCreate,
+        DefinitionStages.DefineAutoscaleSettingResourceProfiles,
+        DefinitionStages.WithAutoscaleSettingResourceTargetResourceUri,
+        DefinitionStages.WithAutoscaleSettingResourceEnabled {
     }
 
     interface DefinitionStages {
 
         interface Blank extends
                 GroupableResource.DefinitionStages.WithGroupAndRegion<WithAutoscaleSettingResourceTargetResourceUri>{
+        }
+
+        interface WithAutoscaleSettingResourceTargetResourceUri {
+            DefineAutoscaleSettingResourceProfiles withTargetResource(String targetResourceId);
         }
 
         interface DefineAutoscaleSettingResourceProfiles {
@@ -74,10 +64,6 @@ public interface AutoscaleSetting extends
 
         interface WithAutoscaleSettingResourceEnabled {
             WithCreate withAutoscaleDisabled();
-        }
-
-        interface WithAutoscaleSettingResourceTargetResourceUri {
-            DefineAutoscaleSettingResourceProfiles withTargetResource(String targetResourceId);
         }
 
         interface WithCreate extends

@@ -7,17 +7,26 @@
 package com.microsoft.azure.management.monitor;
 
 import com.microsoft.azure.management.apigeneration.Fluent;
+import com.microsoft.azure.management.monitor.implementation.ScaleRuleInner;
+import com.microsoft.azure.management.resources.fluentcore.arm.models.HasParent;
 import com.microsoft.azure.management.resources.fluentcore.model.Attachable;
+import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.management.resources.fluentcore.model.Settable;
 import org.joda.time.Period;
 
 /**
  */
 @Fluent
-public interface ScaleRule {
+public interface ScaleRule extends
+        HasInner<ScaleRuleInner>,
+        HasParent<AutoscaleProfile> {
 
     interface Definition extends
             DefinitionStages.Blank,
+            DefinitionStages.WithMetricName,
+            DefinitionStages.WithStatistic,
+            DefinitionStages.WithCondition,
+            DefinitionStages.WithScaleAction,
             DefinitionStages.WithAttach {
     }
 
@@ -51,6 +60,10 @@ public interface ScaleRule {
 
     interface ParentUpdateDefinition extends
             ParentUpdateDefinitionStages.Blank,
+            ParentUpdateDefinitionStages.WithMetricName,
+            ParentUpdateDefinitionStages.WithStatistic,
+            ParentUpdateDefinitionStages.WithCondition,
+            ParentUpdateDefinitionStages.WithScaleAction,
             ParentUpdateDefinitionStages.WithAttach {
     }
 
@@ -84,6 +97,10 @@ public interface ScaleRule {
 
     interface UpdateDefinition extends
             UpdateDefinitionStages.Blank,
+            UpdateDefinitionStages.WithMetricName,
+            UpdateDefinitionStages.WithStatistic,
+            UpdateDefinitionStages.WithCondition,
+            UpdateDefinitionStages.WithScaleAction,
             UpdateDefinitionStages.WithAttach {
     }
 

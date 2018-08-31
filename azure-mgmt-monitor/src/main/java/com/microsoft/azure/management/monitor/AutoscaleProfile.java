@@ -8,7 +8,7 @@ package com.microsoft.azure.management.monitor;
 
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.monitor.implementation.AutoscaleProfileInner;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.ExternalChildResource;
+import com.microsoft.azure.management.resources.fluentcore.arm.models.HasParent;
 import com.microsoft.azure.management.resources.fluentcore.model.Attachable;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.management.resources.fluentcore.model.Settable;
@@ -20,9 +20,8 @@ import java.util.List;
  */
 @Fluent
 public interface AutoscaleProfile extends
-        ExternalChildResource<AutoscaleProfile, AutoscaleSetting>,
-        HasInner<AutoscaleProfileInner> {
-
+        HasInner<AutoscaleProfileInner>,
+        HasParent<AutoscaleSetting> {
     /**
      * the name of the profile.
      */

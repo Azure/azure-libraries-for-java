@@ -145,7 +145,7 @@ public final class MonitorManager extends Manager<MonitorManager, MonitorManagem
     @Beta(SinceVersion.V1_15_0)
     public AutoscaleSettings autoscaleSettings() {
         if (this.autoscaleSettings == null) {
-            //this.autoscaleSettings = new AlertRulesImpl(this);
+            this.autoscaleSettings = new AutoscaleSettingsImpl(this);
         }
         return this.autoscaleSettings;
     }

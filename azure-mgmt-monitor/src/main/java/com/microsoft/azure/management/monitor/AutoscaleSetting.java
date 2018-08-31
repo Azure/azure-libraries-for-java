@@ -7,6 +7,7 @@
 package com.microsoft.azure.management.monitor;
 
 import com.microsoft.azure.management.apigeneration.Fluent;
+import com.microsoft.azure.management.apigeneration.LangMethodDefinition;
 import com.microsoft.azure.management.monitor.implementation.AutoscaleSettingResourceInner;
 import com.microsoft.azure.management.monitor.implementation.MonitorManager;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
@@ -16,6 +17,7 @@ import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
 import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -26,6 +28,32 @@ public interface AutoscaleSetting extends
     Refreshable<AutoscaleSetting>,
     Updatable<AutoscaleSetting.Update> {
 
+    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
+    String targetResourceId();
+
+
+    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
+    Map<String, AutoscaleProfile> profiles();
+
+
+    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
+    boolean autoscaleEnabled();
+
+
+    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
+    boolean adminEmailNotificationEnabled();
+
+
+    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
+    boolean coAdminEmailNotificationEnabled();
+
+
+    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
+    List<String> customEmailsNotification();
+
+
+    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
+    String webhookNotification();
 
     interface Definition extends
         DefinitionStages.Blank,
@@ -58,7 +86,7 @@ public interface AutoscaleSetting extends
         interface DefineAutoscaleSettingResourceNotifications {
             WithCreate withAdminEmailNotification();
             WithCreate withCoAdminEmailNotification();
-            WithCreate withCustomEmailNotification(String customEmailAddresses);
+            WithCreate withCustomEmailsNotification(String... customEmailAddresses);
             WithCreate withWebhookNotification(String serviceUri);
         }
 
@@ -104,13 +132,13 @@ public interface AutoscaleSetting extends
 
             Update withAdminEmailNotification();
             Update withCoAdminEmailNotification();
-            Update withCustomEmailNotification(String customEmailAddresses);
+            Update withCustomEmailsNotification(String... customEmailAddresses);
             Update withWebhookNotification(String serviceUri);
 
             Update withoutAdminEmailNotification();
             Update withoutCoAdminEmailNotification();
-            Update withoutCustomEmailNotification(String customEmailAddresses);
-            Update withoutWebhookNotification(String serviceUri);
+            Update withoutCustomEmailsNotification();
+            Update withoutWebhookNotification();
         }
     }
 

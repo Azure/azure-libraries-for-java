@@ -6,27 +6,18 @@
 
 package com.microsoft.azure.management.monitor.implementation;
 
+import com.google.common.base.Strings;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.monitor.AutoscaleProfile;
-import com.microsoft.azure.management.monitor.AutoscaleSetting;
 import com.microsoft.azure.management.monitor.DayOfWeek;
-import com.microsoft.azure.management.monitor.MetricAlert;
-import com.microsoft.azure.management.monitor.MetricAlertCondition;
-import com.microsoft.azure.management.monitor.MetricAlertRuleCondition;
-import com.microsoft.azure.management.monitor.MetricAlertRuleTimeAggregation;
-import com.microsoft.azure.management.monitor.MetricCriteria;
-import com.microsoft.azure.management.monitor.MetricDimension;
+import com.microsoft.azure.management.monitor.RecurrenceFrequency;
+import com.microsoft.azure.management.monitor.RecurrentSchedule;
 import com.microsoft.azure.management.monitor.ScaleCapacity;
-import com.microsoft.azure.management.monitor.ScaleRule;
 import com.microsoft.azure.management.monitor.TimeWindow;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.TreeMap;
 
 /**
  * Implementation for AutoscaleProfile.
@@ -39,79 +30,114 @@ class AutoscaleProfileImpl
             AutoscaleProfile.Definition,
             AutoscaleProfile.UpdateDefinition,
             AutoscaleProfile.Update {
-
     private final AutoscaleSettingImpl parent;
-    private TreeMap<String, MetricDimension> dimensions;
 
     AutoscaleProfileImpl(String name, AutoscaleProfileInner innerObject, AutoscaleSettingImpl parent) {
         super(innerObject);
         this.inner().withName(name);
         this.parent = parent;
-    }
-
-    @Override
-    public AutoscaleSettingImpl parent() {
-        return null;
-    }
-
-    @Override
-    public AutoscaleSettingImpl attach() {
-        return null;
+        if(this.inner().capacity() == null) {
+            this.inner().withCapacity(new ScaleCapacity());
+        }
+        if(this.inner().rules() == null) {
+            this.inner().withRules(new ArrayList<ScaleRuleInner>());
+        }
     }
 
     @Override
     public String name() {
-        return null;
+        return this.inner().name();
     }
 
     @Override
-    public ScaleCapacity capacity() {
-        return null;
+    public AutoscaleSettingImpl parent() {
+        return parent;
     }
 
     @Override
-    public List<ScaleRule> rules() {
-        return null;
-    }
-
-    @Override
-    public TimeWindow fixedDate() {
-        return null;
+    public AutoscaleSettingImpl attach() {
+        return parent.addNewAutoscaleProfile(this);
     }
 
     @Override
     public AutoscaleProfileImpl withMetricBasedScale(int minimumInstanceCount, int maximumInstanceCount, int defaultInstanceCount) {
-        return null;
+        this.inner().capacity().withMinimum(Integer.toString(minimumInstanceCount));
+        this.inner().capacity().withMaximum(Integer.toString(maximumInstanceCount));
+        this.inner().capacity().withDefaultProperty(Integer.toString(defaultInstanceCount));
+        return this;
     }
 
     @Override
     public AutoscaleProfileImpl withScheduleBasedScale(int instanceCount) {
-        return null;
-    }
-
-    @Override
-    public AutoscaleProfileImpl withoutScaleRule(int ruleIndex) {
-        return null;
+        return this.withMetricBasedScale(instanceCount, instanceCount, instanceCount);
     }
 
     @Override
     public AutoscaleProfileImpl withFixedDateSchedule(String timeZone, DateTime start, DateTime end) {
-        return null;
+        this.inner().withFixedDate(new TimeWindow()
+                                        .withTimeZone(timeZone)
+                                        .withStart(start)
+                                        .withEnd(end));
+        if(this.inner().recurrence() != null) {
+            this.inner().withRecurrence(null);
+        }
+        return this;
     }
 
     @Override
     public AutoscaleProfileImpl withRecurrentSchedule(String scheduleTimeZone, String startTime, DayOfWeek... weekday) {
-        return null;
+        int hh, mm;
+        if(Strings.isNullOrEmpty(startTime) ||
+                startTime.length() != 5 ||
+                startTime.charAt(2) != ':' ||
+                !Character.isDigit(startTime.charAt(0)) ||
+                !Character.isDigit(startTime.charAt(1)) ||
+                !Character.isDigit(startTime.charAt(3)) ||
+                !Character.isDigit(startTime.charAt(4)) ||
+                (hh = Integer.parseInt(startTime.substring(0,2))) > 23 ||
+                (mm = Integer.parseInt(startTime.substring(3))) > 60) {
+            throw new IllegalArgumentException("Start time should have format of 'hh:mm' where hh is in 24-hour clock (AM/PM times are not supported).");
+        }
+
+        this.inner().withRecurrence(new RecurrenceInner());
+
+        this.inner().recurrence().withFrequency(RecurrenceFrequency.WEEK);
+        this.inner().recurrence().withSchedule(new RecurrentSchedule());
+        this.inner().recurrence().schedule().withTimeZone(scheduleTimeZone);
+        this.inner().recurrence().schedule().withHours(new ArrayList<Integer>());
+        this.inner().recurrence().schedule().withMinutes(new ArrayList<Integer>());
+        this.inner().recurrence().schedule().hours().add(hh);
+        this.inner().recurrence().schedule().minutes().add(mm);
+        this.inner().recurrence().schedule().withDays(new ArrayList<String>());
+
+        for(DayOfWeek dof : weekday) {
+            this.inner().recurrence().schedule().days().add(dof.toString());
+        }
+
+        this.inner().withFixedDate(null);
+        return this;
     }
 
     @Override
     public ScaleRuleImpl defineScaleRule() {
-        return null;
+        return new ScaleRuleImpl(new ScaleRuleInner(), this);
     }
 
     @Override
     public ScaleRuleImpl updateScaleRule(int ruleIndex) {
-        return null;
+        ScaleRuleImpl srToUpdate = new ScaleRuleImpl(this.inner().rules().get(ruleIndex), this);
+        return srToUpdate;
+    }
+
+    @Override
+    public AutoscaleProfileImpl withoutScaleRule(int ruleIndex) {
+        this.inner().rules().remove(ruleIndex);
+        return this;
+    }
+
+    AutoscaleProfileImpl addNewScaleRule(ScaleRuleImpl scaleRule) {
+        this.inner().rules().add(scaleRule.inner());
+        return this;
     }
 }
 

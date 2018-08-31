@@ -58,7 +58,9 @@ public class AutoscaleTests extends MonitorManagementTest {
                         .withMetricBasedScale(1, 10, 1)
                         .defineScaleRule()
                             .withMetricSource(servicePlan.id())
-                            .withMetricName("CPUPercentage", "Microsoft.Web/serverfarms")
+                            // current swagger does not support namespace selection
+                            //.withMetricName("CPUPercentage", "Microsoft.Web/serverfarms")
+                            .withMetricName("CPUPercentage")
                             .withStatistic(Period.minutes(10), Period.minutes(1), MetricStatisticType.AVERAGE)
                             .withCondition(ComparisonOperationType.GREATER_THAN, TimeAggregationType.AVERAGE, 70)
                             .withScaleAction(ScaleDirection.INCREASE, ScaleType.EXACT_COUNT, 10, Period.hours(12))
@@ -70,7 +72,7 @@ public class AutoscaleTests extends MonitorManagementTest {
                         .withMetricBasedScale(1, 5, 3)
                         .defineScaleRule()
                             .withMetricSource(servicePlan.id())
-                            .withMetricName("CPUPercentage", "Microsoft.Web/serverfarms")
+                            .withMetricName("CPUPercentage")
                             .withStatistic(Period.minutes(10), Period.minutes(1), MetricStatisticType.AVERAGE)
                             .withCondition(ComparisonOperationType.LESS_THAN, TimeAggregationType.AVERAGE, 20)
                             .withScaleAction(ScaleDirection.DECREASE, ScaleType.EXACT_COUNT, 1, Period.hours(3))
@@ -85,9 +87,12 @@ public class AutoscaleTests extends MonitorManagementTest {
 
                     .withAdminEmailNotification()
                     .withCoAdminEmailNotification()
-                    .withCustomEmailNotification("me@mycorp.com;you@mycorp.com;him@mycorp.com")
+                    .withCustomEmailsNotification("me@mycorp.com;you@mycorp.com;him@mycorp.com")
                     .withAutoscaleDisabled()
                     .create();
+
+            setting.id();
+            setting.name();
 
             setting.update()
                     .defineAutoscaleProfile("very new profile")
@@ -98,7 +103,7 @@ public class AutoscaleTests extends MonitorManagementTest {
                         .withMetricBasedScale(5, 7, 6)
                         .defineScaleRule()
                             .withMetricSource(servicePlan.id())
-                            .withMetricName("CPUPercentage", "Microsoft.Web/serverfarms")
+                            .withMetricName("CPUPercentage")
                             .withStatistic(Period.days(10), Period.days(1), MetricStatisticType.AVERAGE)
                             .withCondition(ComparisonOperationType.LESS_THAN, TimeAggregationType.TOTAL, 6)
                             .withScaleAction(ScaleDirection.DECREASE, ScaleType.PERCENT_CHANGE_COUNT, 10, Period.hours(10))
@@ -107,11 +112,11 @@ public class AutoscaleTests extends MonitorManagementTest {
                     .updateAutoscaleProfile("AutoScaleProfile2")
                         .updateScaleRule(0)
                             .withStatistic(Period.minutes(15), Period.minutes(1), MetricStatisticType.AVERAGE)
-                        .parent()
+                            .parent()
                         .withFixedDateSchedule("PST", DateTime.now().minusDays(2), DateTime.now())
                         .defineScaleRule()
                             .withMetricSource(servicePlan.id())
-                            .withMetricName("CPUPercentage", "Microsoft.Web/serverfarms")
+                            .withMetricName("CPUPercentage")
                             .withStatistic(Period.days(5), Period.days(3), MetricStatisticType.AVERAGE)
                             .withCondition(ComparisonOperationType.LESS_THAN, TimeAggregationType.TOTAL, 50)
                             .withScaleAction(ScaleDirection.DECREASE, ScaleType.PERCENT_CHANGE_COUNT, 25, Period.hours(2))

@@ -37,7 +37,6 @@ public interface ScaleRule extends
 
         interface WithMetricName {
             WithStatistic withMetricName(String metricName);
-            WithStatistic withMetricName(String metricName, String metricNamespace);
         }
 
         interface WithStatistic {
@@ -74,7 +73,6 @@ public interface ScaleRule extends
 
         interface WithMetricName {
             WithStatistic withMetricName(String metricName);
-            WithStatistic withMetricName(String metricName, String metricNamespace);
         }
 
         interface WithStatistic {
@@ -111,7 +109,6 @@ public interface ScaleRule extends
 
         interface WithMetricName {
             WithStatistic withMetricName(String metricName);
-            WithStatistic withMetricName(String metricName, String metricNamespace);
         }
 
         interface WithStatistic {
@@ -136,7 +133,6 @@ public interface ScaleRule extends
             Settable<AutoscaleProfile.Update>{
         Update withMetricSource(String metricSourceResourceId);
         Update withMetricName(String metricName);
-        Update withMetricName(String metricName, String metricNamespace);
         Update withStatistic(Period duration, Period frequency, MetricStatisticType statisticType);
         Update withCondition(ComparisonOperationType condition, TimeAggregationType timeAggregation, double threshold);
         Update withScaleAction(ScaleDirection direction, ScaleType type, int instanceCountChange, Period cooldown);

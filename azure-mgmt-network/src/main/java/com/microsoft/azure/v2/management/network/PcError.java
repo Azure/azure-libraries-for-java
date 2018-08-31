@@ -8,33 +8,44 @@
 
 package com.microsoft.azure.v2.management.network;
 
-import java.util.Collection;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.microsoft.rest.ExpandableStringEnum;
+import com.microsoft.rest.v2.ExpandableStringEnum;
+import java.util.Collection;
 
 /**
  * Defines values for PcError.
  */
 public final class PcError extends ExpandableStringEnum<PcError> {
-    /** Static value InternalError for PcError. */
+    /**
+     * Static value InternalError for PcError.
+     */
     public static final PcError INTERNAL_ERROR = fromString("InternalError");
 
-    /** Static value AgentStopped for PcError. */
+    /**
+     * Static value AgentStopped for PcError.
+     */
     public static final PcError AGENT_STOPPED = fromString("AgentStopped");
 
-    /** Static value CaptureFailed for PcError. */
+    /**
+     * Static value CaptureFailed for PcError.
+     */
     public static final PcError CAPTURE_FAILED = fromString("CaptureFailed");
 
-    /** Static value LocalFileFailed for PcError. */
+    /**
+     * Static value LocalFileFailed for PcError.
+     */
     public static final PcError LOCAL_FILE_FAILED = fromString("LocalFileFailed");
 
-    /** Static value StorageFailed for PcError. */
+    /**
+     * Static value StorageFailed for PcError.
+     */
     public static final PcError STORAGE_FAILED = fromString("StorageFailed");
 
     /**
      * Creates or finds a PcError from its string representation.
-     * @param name a name to look for
-     * @return the corresponding PcError
+     *
+     * @param name a name to look for.
+     * @return the corresponding PcError.
      */
     @JsonCreator
     public static PcError fromString(String name) {
@@ -42,7 +53,7 @@ public final class PcError extends ExpandableStringEnum<PcError> {
     }
 
     /**
-     * @return known PcError values
+     * @return known PcError values.
      */
     public static Collection<PcError> values() {
         return values(PcError.class);

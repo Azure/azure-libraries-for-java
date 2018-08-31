@@ -8,11 +8,11 @@
 
 package com.microsoft.azure.v2.management.network.implementation;
 
-import java.util.List;
-import com.microsoft.azure.v2.management.network.ApplicationGatewayBackendAddress;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.SubResource;
+import com.microsoft.azure.v2.SubResource;
+import com.microsoft.azure.v2.management.network.ApplicationGatewayBackendAddress;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
+import java.util.List;
 
 /**
  * Backend Address Pool of an application gateway.
@@ -60,7 +60,7 @@ public class ApplicationGatewayBackendAddressPoolInner extends SubResource {
     /**
      * Get the backendIPConfigurations value.
      *
-     * @return the backendIPConfigurations value
+     * @return the backendIPConfigurations value.
      */
     public List<NetworkInterfaceIPConfigurationInner> backendIPConfigurations() {
         return this.backendIPConfigurations;
@@ -69,7 +69,7 @@ public class ApplicationGatewayBackendAddressPoolInner extends SubResource {
     /**
      * Set the backendIPConfigurations value.
      *
-     * @param backendIPConfigurations the backendIPConfigurations value to set
+     * @param backendIPConfigurations the backendIPConfigurations value to set.
      * @return the ApplicationGatewayBackendAddressPoolInner object itself.
      */
     public ApplicationGatewayBackendAddressPoolInner withBackendIPConfigurations(List<NetworkInterfaceIPConfigurationInner> backendIPConfigurations) {
@@ -80,7 +80,7 @@ public class ApplicationGatewayBackendAddressPoolInner extends SubResource {
     /**
      * Get the backendAddresses value.
      *
-     * @return the backendAddresses value
+     * @return the backendAddresses value.
      */
     public List<ApplicationGatewayBackendAddress> backendAddresses() {
         return this.backendAddresses;
@@ -89,7 +89,7 @@ public class ApplicationGatewayBackendAddressPoolInner extends SubResource {
     /**
      * Set the backendAddresses value.
      *
-     * @param backendAddresses the backendAddresses value to set
+     * @param backendAddresses the backendAddresses value to set.
      * @return the ApplicationGatewayBackendAddressPoolInner object itself.
      */
     public ApplicationGatewayBackendAddressPoolInner withBackendAddresses(List<ApplicationGatewayBackendAddress> backendAddresses) {
@@ -100,7 +100,7 @@ public class ApplicationGatewayBackendAddressPoolInner extends SubResource {
     /**
      * Get the provisioningState value.
      *
-     * @return the provisioningState value
+     * @return the provisioningState value.
      */
     public String provisioningState() {
         return this.provisioningState;
@@ -109,7 +109,7 @@ public class ApplicationGatewayBackendAddressPoolInner extends SubResource {
     /**
      * Set the provisioningState value.
      *
-     * @param provisioningState the provisioningState value to set
+     * @param provisioningState the provisioningState value to set.
      * @return the ApplicationGatewayBackendAddressPoolInner object itself.
      */
     public ApplicationGatewayBackendAddressPoolInner withProvisioningState(String provisioningState) {
@@ -120,7 +120,7 @@ public class ApplicationGatewayBackendAddressPoolInner extends SubResource {
     /**
      * Get the name value.
      *
-     * @return the name value
+     * @return the name value.
      */
     public String name() {
         return this.name;
@@ -129,7 +129,7 @@ public class ApplicationGatewayBackendAddressPoolInner extends SubResource {
     /**
      * Set the name value.
      *
-     * @param name the name value to set
+     * @param name the name value to set.
      * @return the ApplicationGatewayBackendAddressPoolInner object itself.
      */
     public ApplicationGatewayBackendAddressPoolInner withName(String name) {
@@ -140,7 +140,7 @@ public class ApplicationGatewayBackendAddressPoolInner extends SubResource {
     /**
      * Get the etag value.
      *
-     * @return the etag value
+     * @return the etag value.
      */
     public String etag() {
         return this.etag;
@@ -149,7 +149,7 @@ public class ApplicationGatewayBackendAddressPoolInner extends SubResource {
     /**
      * Set the etag value.
      *
-     * @param etag the etag value to set
+     * @param etag the etag value to set.
      * @return the ApplicationGatewayBackendAddressPoolInner object itself.
      */
     public ApplicationGatewayBackendAddressPoolInner withEtag(String etag) {
@@ -160,7 +160,7 @@ public class ApplicationGatewayBackendAddressPoolInner extends SubResource {
     /**
      * Get the type value.
      *
-     * @return the type value
+     * @return the type value.
      */
     public String type() {
         return this.type;
@@ -169,12 +169,11 @@ public class ApplicationGatewayBackendAddressPoolInner extends SubResource {
     /**
      * Set the type value.
      *
-     * @param type the type value to set
+     * @param type the type value to set.
      * @return the ApplicationGatewayBackendAddressPoolInner object itself.
      */
     public ApplicationGatewayBackendAddressPoolInner withType(String type) {
         this.type = type;
         return this;
     }
-
 }

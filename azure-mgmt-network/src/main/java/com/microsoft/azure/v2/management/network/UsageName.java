@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * The usage names.
  */
-public class UsageName {
+public final class UsageName {
     /**
      * A string describing the resource name.
      */
@@ -29,7 +29,7 @@ public class UsageName {
     /**
      * Get the value value.
      *
-     * @return the value value
+     * @return the value value.
      */
     public String value() {
         return this.value;
@@ -38,7 +38,7 @@ public class UsageName {
     /**
      * Set the value value.
      *
-     * @param value the value value to set
+     * @param value the value value to set.
      * @return the UsageName object itself.
      */
     public UsageName withValue(String value) {
@@ -49,7 +49,7 @@ public class UsageName {
     /**
      * Get the localizedValue value.
      *
-     * @return the localizedValue value
+     * @return the localizedValue value.
      */
     public String localizedValue() {
         return this.localizedValue;
@@ -58,12 +58,11 @@ public class UsageName {
     /**
      * Set the localizedValue value.
      *
-     * @param localizedValue the localizedValue value to set
+     * @param localizedValue the localizedValue value to set.
      * @return the UsageName object itself.
      */
     public UsageName withLocalizedValue(String localizedValue) {
         this.localizedValue = localizedValue;
         return this;
     }
-
 }

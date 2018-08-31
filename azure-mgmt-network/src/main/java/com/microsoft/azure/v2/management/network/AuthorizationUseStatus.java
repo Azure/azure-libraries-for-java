@@ -8,24 +8,29 @@
 
 package com.microsoft.azure.v2.management.network;
 
-import java.util.Collection;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.microsoft.rest.ExpandableStringEnum;
+import com.microsoft.rest.v2.ExpandableStringEnum;
+import java.util.Collection;
 
 /**
  * Defines values for AuthorizationUseStatus.
  */
 public final class AuthorizationUseStatus extends ExpandableStringEnum<AuthorizationUseStatus> {
-    /** Static value Available for AuthorizationUseStatus. */
+    /**
+     * Static value Available for AuthorizationUseStatus.
+     */
     public static final AuthorizationUseStatus AVAILABLE = fromString("Available");
 
-    /** Static value InUse for AuthorizationUseStatus. */
+    /**
+     * Static value InUse for AuthorizationUseStatus.
+     */
     public static final AuthorizationUseStatus IN_USE = fromString("InUse");
 
     /**
      * Creates or finds a AuthorizationUseStatus from its string representation.
-     * @param name a name to look for
-     * @return the corresponding AuthorizationUseStatus
+     *
+     * @param name a name to look for.
+     * @return the corresponding AuthorizationUseStatus.
      */
     @JsonCreator
     public static AuthorizationUseStatus fromString(String name) {
@@ -33,7 +38,7 @@ public final class AuthorizationUseStatus extends ExpandableStringEnum<Authoriza
     }
 
     /**
-     * @return known AuthorizationUseStatus values
+     * @return known AuthorizationUseStatus values.
      */
     public static Collection<AuthorizationUseStatus> values() {
         return values(AuthorizationUseStatus.class);

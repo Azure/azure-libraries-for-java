@@ -8,24 +8,29 @@
 
 package com.microsoft.azure.v2.management.network;
 
-import java.util.Collection;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.microsoft.rest.ExpandableStringEnum;
+import com.microsoft.rest.v2.ExpandableStringEnum;
+import java.util.Collection;
 
 /**
  * Defines values for Access.
  */
 public final class Access extends ExpandableStringEnum<Access> {
-    /** Static value Allow for Access. */
+    /**
+     * Static value Allow for Access.
+     */
     public static final Access ALLOW = fromString("Allow");
 
-    /** Static value Deny for Access. */
+    /**
+     * Static value Deny for Access.
+     */
     public static final Access DENY = fromString("Deny");
 
     /**
      * Creates or finds a Access from its string representation.
-     * @param name a name to look for
-     * @return the corresponding Access
+     *
+     * @param name a name to look for.
+     * @return the corresponding Access.
      */
     @JsonCreator
     public static Access fromString(String name) {
@@ -33,7 +38,7 @@ public final class Access extends ExpandableStringEnum<Access> {
     }
 
     /**
-     * @return known Access values
+     * @return known Access values.
      */
     public static Collection<Access> values() {
         return values(Access.class);

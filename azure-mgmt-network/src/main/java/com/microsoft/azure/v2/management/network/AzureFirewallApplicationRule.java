@@ -8,13 +8,13 @@
 
 package com.microsoft.azure.v2.management.network;
 
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 
 /**
  * Properties of an application rule.
  */
-public class AzureFirewallApplicationRule {
+public final class AzureFirewallApplicationRule {
     /**
      * Name of the application rule.
      */
@@ -48,7 +48,7 @@ public class AzureFirewallApplicationRule {
     /**
      * Get the name value.
      *
-     * @return the name value
+     * @return the name value.
      */
     public String name() {
         return this.name;
@@ -57,7 +57,7 @@ public class AzureFirewallApplicationRule {
     /**
      * Set the name value.
      *
-     * @param name the name value to set
+     * @param name the name value to set.
      * @return the AzureFirewallApplicationRule object itself.
      */
     public AzureFirewallApplicationRule withName(String name) {
@@ -68,7 +68,7 @@ public class AzureFirewallApplicationRule {
     /**
      * Get the description value.
      *
-     * @return the description value
+     * @return the description value.
      */
     public String description() {
         return this.description;
@@ -77,7 +77,7 @@ public class AzureFirewallApplicationRule {
     /**
      * Set the description value.
      *
-     * @param description the description value to set
+     * @param description the description value to set.
      * @return the AzureFirewallApplicationRule object itself.
      */
     public AzureFirewallApplicationRule withDescription(String description) {
@@ -88,7 +88,7 @@ public class AzureFirewallApplicationRule {
     /**
      * Get the sourceAddresses value.
      *
-     * @return the sourceAddresses value
+     * @return the sourceAddresses value.
      */
     public List<String> sourceAddresses() {
         return this.sourceAddresses;
@@ -97,7 +97,7 @@ public class AzureFirewallApplicationRule {
     /**
      * Set the sourceAddresses value.
      *
-     * @param sourceAddresses the sourceAddresses value to set
+     * @param sourceAddresses the sourceAddresses value to set.
      * @return the AzureFirewallApplicationRule object itself.
      */
     public AzureFirewallApplicationRule withSourceAddresses(List<String> sourceAddresses) {
@@ -108,7 +108,7 @@ public class AzureFirewallApplicationRule {
     /**
      * Get the protocols value.
      *
-     * @return the protocols value
+     * @return the protocols value.
      */
     public List<AzureFirewallApplicationRuleProtocol> protocols() {
         return this.protocols;
@@ -117,7 +117,7 @@ public class AzureFirewallApplicationRule {
     /**
      * Set the protocols value.
      *
-     * @param protocols the protocols value to set
+     * @param protocols the protocols value to set.
      * @return the AzureFirewallApplicationRule object itself.
      */
     public AzureFirewallApplicationRule withProtocols(List<AzureFirewallApplicationRuleProtocol> protocols) {
@@ -128,7 +128,7 @@ public class AzureFirewallApplicationRule {
     /**
      * Get the targetUrls value.
      *
-     * @return the targetUrls value
+     * @return the targetUrls value.
      */
     public List<String> targetUrls() {
         return this.targetUrls;
@@ -137,12 +137,11 @@ public class AzureFirewallApplicationRule {
     /**
      * Set the targetUrls value.
      *
-     * @param targetUrls the targetUrls value to set
+     * @param targetUrls the targetUrls value to set.
      * @return the AzureFirewallApplicationRule object itself.
      */
     public AzureFirewallApplicationRule withTargetUrls(List<String> targetUrls) {
         this.targetUrls = targetUrls;
         return this;
     }
-
 }

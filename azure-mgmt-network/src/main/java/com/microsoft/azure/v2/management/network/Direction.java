@@ -8,24 +8,29 @@
 
 package com.microsoft.azure.v2.management.network;
 
-import java.util.Collection;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.microsoft.rest.ExpandableStringEnum;
+import com.microsoft.rest.v2.ExpandableStringEnum;
+import java.util.Collection;
 
 /**
  * Defines values for Direction.
  */
 public final class Direction extends ExpandableStringEnum<Direction> {
-    /** Static value Inbound for Direction. */
+    /**
+     * Static value Inbound for Direction.
+     */
     public static final Direction INBOUND = fromString("Inbound");
 
-    /** Static value Outbound for Direction. */
+    /**
+     * Static value Outbound for Direction.
+     */
     public static final Direction OUTBOUND = fromString("Outbound");
 
     /**
      * Creates or finds a Direction from its string representation.
-     * @param name a name to look for
-     * @return the corresponding Direction
+     *
+     * @param name a name to look for.
+     * @return the corresponding Direction.
      */
     @JsonCreator
     public static Direction fromString(String name) {
@@ -33,7 +38,7 @@ public final class Direction extends ExpandableStringEnum<Direction> {
     }
 
     /**
-     * @return known Direction values
+     * @return known Direction values.
      */
     public static Collection<Direction> values() {
         return values(Direction.class);

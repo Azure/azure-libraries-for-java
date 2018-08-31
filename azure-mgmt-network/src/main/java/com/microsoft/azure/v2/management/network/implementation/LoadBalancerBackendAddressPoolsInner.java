@@ -8,67 +8,71 @@
 
 package com.microsoft.azure.v2.management.network.implementation;
 
-import retrofit2.Retrofit;
-import com.google.common.reflect.TypeToken;
-import com.microsoft.azure.AzureServiceFuture;
-import com.microsoft.azure.CloudException;
-import com.microsoft.azure.ListOperationCallback;
-import com.microsoft.azure.Page;
-import com.microsoft.azure.PagedList;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import com.microsoft.rest.ServiceResponse;
-import java.io.IOException;
-import java.util.List;
-import okhttp3.ResponseBody;
-import retrofit2.http.GET;
-import retrofit2.http.Header;
-import retrofit2.http.Headers;
-import retrofit2.http.Path;
-import retrofit2.http.Query;
-import retrofit2.http.Url;
-import retrofit2.Response;
-import rx.functions.Func1;
-import rx.Observable;
+import com.microsoft.azure.v2.AzureProxy;
+import com.microsoft.azure.v2.CloudException;
+import com.microsoft.azure.v2.Page;
+import com.microsoft.azure.v2.PagedList;
+import com.microsoft.rest.v2.BodyResponse;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
+import com.microsoft.rest.v2.annotations.ExpectedResponses;
+import com.microsoft.rest.v2.annotations.GET;
+import com.microsoft.rest.v2.annotations.HeaderParam;
+import com.microsoft.rest.v2.annotations.Host;
+import com.microsoft.rest.v2.annotations.PathParam;
+import com.microsoft.rest.v2.annotations.QueryParam;
+import com.microsoft.rest.v2.annotations.UnexpectedResponseExceptionType;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
+import io.reactivex.Single;
+import io.reactivex.annotations.NonNull;
 
 /**
- * An instance of this class provides access to all the operations defined
- * in LoadBalancerBackendAddressPools.
+ * An instance of this class provides access to all the operations defined in
+ * LoadBalancerBackendAddressPools.
  */
-public class LoadBalancerBackendAddressPoolsInner {
-    /** The Retrofit service to perform REST calls. */
+public final class LoadBalancerBackendAddressPoolsInner {
+    /**
+     * The proxy service used to perform REST calls.
+     */
     private LoadBalancerBackendAddressPoolsService service;
-    /** The service client containing this operation class. */
+
+    /**
+     * The service client containing this operation class.
+     */
     private NetworkManagementClientImpl client;
 
     /**
      * Initializes an instance of LoadBalancerBackendAddressPoolsInner.
      *
-     * @param retrofit the Retrofit instance built from a Retrofit Builder.
      * @param client the instance of the service client containing this operation class.
      */
-    public LoadBalancerBackendAddressPoolsInner(Retrofit retrofit, NetworkManagementClientImpl client) {
-        this.service = retrofit.create(LoadBalancerBackendAddressPoolsService.class);
+    public LoadBalancerBackendAddressPoolsInner(NetworkManagementClientImpl client) {
+        this.service = AzureProxy.create(LoadBalancerBackendAddressPoolsService.class, client);
         this.client = client;
     }
 
     /**
-     * The interface defining all the services for LoadBalancerBackendAddressPools to be
-     * used by Retrofit to perform actually REST calls.
+     * The interface defining all the services for
+     * LoadBalancerBackendAddressPools to be used by the proxy service to
+     * perform REST calls.
      */
-    interface LoadBalancerBackendAddressPoolsService {
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.LoadBalancerBackendAddressPools list" })
+    @Host("https://management.azure.com")
+    private interface LoadBalancerBackendAddressPoolsService {
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/backendAddressPools")
-        Observable<Response<ResponseBody>> list(@Path("resourceGroupName") String resourceGroupName, @Path("loadBalancerName") String loadBalancerName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl<BackendAddressPoolInner>>> list(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("loadBalancerName") String loadBalancerName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.LoadBalancerBackendAddressPools get" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/backendAddressPools/{backendAddressPoolName}")
-        Observable<Response<ResponseBody>> get(@Path("resourceGroupName") String resourceGroupName, @Path("loadBalancerName") String loadBalancerName, @Path("backendAddressPoolName") String backendAddressPoolName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<BackendAddressPoolInner>> get(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("loadBalancerName") String loadBalancerName, @PathParam("backendAddressPoolName") String backendAddressPoolName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.LoadBalancerBackendAddressPools listNext" })
-        @GET
-        Observable<Response<ResponseBody>> listNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
-
+        @GET("{nextUrl}")
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl<BackendAddressPoolInner>>> listNext(@PathParam(value = "nextUrl", encoded = true) String nextUrl, @HeaderParam("accept-language") String acceptLanguage);
     }
 
     /**
@@ -76,17 +80,17 @@ public class LoadBalancerBackendAddressPoolsInner {
      *
      * @param resourceGroupName The name of the resource group.
      * @param loadBalancerName The name of the load balancer.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;BackendAddressPoolInner&gt; object if successful.
      */
-    public PagedList<BackendAddressPoolInner> list(final String resourceGroupName, final String loadBalancerName) {
-        ServiceResponse<Page<BackendAddressPoolInner>> response = listSinglePageAsync(resourceGroupName, loadBalancerName).toBlocking().single();
-        return new PagedList<BackendAddressPoolInner>(response.body()) {
+    public PagedList<BackendAddressPoolInner> list(@NonNull String resourceGroupName, @NonNull String loadBalancerName) {
+        Page<BackendAddressPoolInner> response = listSinglePageAsync(resourceGroupName, loadBalancerName).blockingGet();
+        return new PagedList<BackendAddressPoolInner>(response) {
             @Override
             public Page<BackendAddressPoolInner> nextPage(String nextPageLink) {
-                return listNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -96,71 +100,30 @@ public class LoadBalancerBackendAddressPoolsInner {
      *
      * @param resourceGroupName The name of the resource group.
      * @param loadBalancerName The name of the load balancer.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;BackendAddressPoolInner&gt; object.
      */
-    public ServiceFuture<List<BackendAddressPoolInner>> listAsync(final String resourceGroupName, final String loadBalancerName, final ListOperationCallback<BackendAddressPoolInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listSinglePageAsync(resourceGroupName, loadBalancerName),
-            new Func1<String, Observable<ServiceResponse<Page<BackendAddressPoolInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<BackendAddressPoolInner>>> call(String nextPageLink) {
-                    return listNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets all the load balancer backed address pools.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param loadBalancerName The name of the load balancer.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;BackendAddressPoolInner&gt; object
-     */
-    public Observable<Page<BackendAddressPoolInner>> listAsync(final String resourceGroupName, final String loadBalancerName) {
-        return listWithServiceResponseAsync(resourceGroupName, loadBalancerName)
-            .map(new Func1<ServiceResponse<Page<BackendAddressPoolInner>>, Page<BackendAddressPoolInner>>() {
-                @Override
-                public Page<BackendAddressPoolInner> call(ServiceResponse<Page<BackendAddressPoolInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets all the load balancer backed address pools.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param loadBalancerName The name of the load balancer.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;BackendAddressPoolInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<BackendAddressPoolInner>>> listWithServiceResponseAsync(final String resourceGroupName, final String loadBalancerName) {
+    public Observable<Page<BackendAddressPoolInner>> listAsync(@NonNull String resourceGroupName, @NonNull String loadBalancerName) {
         return listSinglePageAsync(resourceGroupName, loadBalancerName)
-            .concatMap(new Func1<ServiceResponse<Page<BackendAddressPoolInner>>, Observable<ServiceResponse<Page<BackendAddressPoolInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<BackendAddressPoolInner>>> call(ServiceResponse<Page<BackendAddressPoolInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<BackendAddressPoolInner> page) -> {
+                String nextPageLink = page.nextPageLink();
+                if (nextPageLink == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listNextAsync(nextPageLink));
             });
     }
 
     /**
      * Gets all the load balancer backed address pools.
      *
-    ServiceResponse<PageImpl<BackendAddressPoolInner>> * @param resourceGroupName The name of the resource group.
-    ServiceResponse<PageImpl<BackendAddressPoolInner>> * @param loadBalancerName The name of the load balancer.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;BackendAddressPoolInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param resourceGroupName The name of the resource group.
+     * @param loadBalancerName The name of the load balancer.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;BackendAddressPoolInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<BackendAddressPoolInner>>> listSinglePageAsync(final String resourceGroupName, final String loadBalancerName) {
+    public Single<Page<BackendAddressPoolInner>> listSinglePageAsync(@NonNull String resourceGroupName, @NonNull String loadBalancerName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -171,25 +134,8 @@ public class LoadBalancerBackendAddressPoolsInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        return service.list(resourceGroupName, loadBalancerName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<BackendAddressPoolInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<BackendAddressPoolInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<BackendAddressPoolInner>> result = listDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<BackendAddressPoolInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl<BackendAddressPoolInner>> listDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<BackendAddressPoolInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<BackendAddressPoolInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+        return service.list(resourceGroupName, loadBalancerName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl<BackendAddressPoolInner>> res) -> res.body());
     }
 
     /**
@@ -198,13 +144,13 @@ public class LoadBalancerBackendAddressPoolsInner {
      * @param resourceGroupName The name of the resource group.
      * @param loadBalancerName The name of the load balancer.
      * @param backendAddressPoolName The name of the backend address pool.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the BackendAddressPoolInner object if successful.
      */
-    public BackendAddressPoolInner get(String resourceGroupName, String loadBalancerName, String backendAddressPoolName) {
-        return getWithServiceResponseAsync(resourceGroupName, loadBalancerName, backendAddressPoolName).toBlocking().single().body();
+    public BackendAddressPoolInner get(@NonNull String resourceGroupName, @NonNull String loadBalancerName, @NonNull String backendAddressPoolName) {
+        return getAsync(resourceGroupName, loadBalancerName, backendAddressPoolName).blockingGet();
     }
 
     /**
@@ -214,11 +160,11 @@ public class LoadBalancerBackendAddressPoolsInner {
      * @param loadBalancerName The name of the load balancer.
      * @param backendAddressPoolName The name of the backend address pool.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<BackendAddressPoolInner> getAsync(String resourceGroupName, String loadBalancerName, String backendAddressPoolName, final ServiceCallback<BackendAddressPoolInner> serviceCallback) {
-        return ServiceFuture.fromResponse(getWithServiceResponseAsync(resourceGroupName, loadBalancerName, backendAddressPoolName), serviceCallback);
+    public ServiceFuture<BackendAddressPoolInner> getAsync(@NonNull String resourceGroupName, @NonNull String loadBalancerName, @NonNull String backendAddressPoolName, ServiceCallback<BackendAddressPoolInner> serviceCallback) {
+        return ServiceFuture.fromBody(getAsync(resourceGroupName, loadBalancerName, backendAddressPoolName), serviceCallback);
     }
 
     /**
@@ -227,28 +173,10 @@ public class LoadBalancerBackendAddressPoolsInner {
      * @param resourceGroupName The name of the resource group.
      * @param loadBalancerName The name of the load balancer.
      * @param backendAddressPoolName The name of the backend address pool.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the BackendAddressPoolInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<BackendAddressPoolInner> getAsync(String resourceGroupName, String loadBalancerName, String backendAddressPoolName) {
-        return getWithServiceResponseAsync(resourceGroupName, loadBalancerName, backendAddressPoolName).map(new Func1<ServiceResponse<BackendAddressPoolInner>, BackendAddressPoolInner>() {
-            @Override
-            public BackendAddressPoolInner call(ServiceResponse<BackendAddressPoolInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Gets load balancer backend address pool.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param loadBalancerName The name of the load balancer.
-     * @param backendAddressPoolName The name of the backend address pool.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the BackendAddressPoolInner object
-     */
-    public Observable<ServiceResponse<BackendAddressPoolInner>> getWithServiceResponseAsync(String resourceGroupName, String loadBalancerName, String backendAddressPoolName) {
+    public Single<BodyResponse<BackendAddressPoolInner>> getWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String loadBalancerName, @NonNull String backendAddressPoolName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -262,42 +190,38 @@ public class LoadBalancerBackendAddressPoolsInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        return service.get(resourceGroupName, loadBalancerName, backendAddressPoolName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<BackendAddressPoolInner>>>() {
-                @Override
-                public Observable<ServiceResponse<BackendAddressPoolInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<BackendAddressPoolInner> clientResponse = getDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.get(resourceGroupName, loadBalancerName, backendAddressPoolName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<BackendAddressPoolInner> getDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<BackendAddressPoolInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<BackendAddressPoolInner>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Gets load balancer backend address pool.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param loadBalancerName The name of the load balancer.
+     * @param backendAddressPoolName The name of the backend address pool.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<BackendAddressPoolInner> getAsync(@NonNull String resourceGroupName, @NonNull String loadBalancerName, @NonNull String backendAddressPoolName) {
+        return getWithRestResponseAsync(resourceGroupName, loadBalancerName, backendAddressPoolName)
+            .flatMapMaybe((BodyResponse<BackendAddressPoolInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
      * Gets all the load balancer backed address pools.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;BackendAddressPoolInner&gt; object if successful.
      */
-    public PagedList<BackendAddressPoolInner> listNext(final String nextPageLink) {
-        ServiceResponse<Page<BackendAddressPoolInner>> response = listNextSinglePageAsync(nextPageLink).toBlocking().single();
-        return new PagedList<BackendAddressPoolInner>(response.body()) {
+    public PagedList<BackendAddressPoolInner> listNext(@NonNull String nextPageLink) {
+        Page<BackendAddressPoolInner> response = listNextSinglePageAsync(nextPageLink).blockingGet();
+        return new PagedList<BackendAddressPoolInner>(response) {
             @Override
             public Page<BackendAddressPoolInner> nextPage(String nextPageLink) {
-                return listNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -306,92 +230,34 @@ public class LoadBalancerBackendAddressPoolsInner {
      * Gets all the load balancer backed address pools.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;BackendAddressPoolInner&gt; object.
      */
-    public ServiceFuture<List<BackendAddressPoolInner>> listNextAsync(final String nextPageLink, final ServiceFuture<List<BackendAddressPoolInner>> serviceFuture, final ListOperationCallback<BackendAddressPoolInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listNextSinglePageAsync(nextPageLink),
-            new Func1<String, Observable<ServiceResponse<Page<BackendAddressPoolInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<BackendAddressPoolInner>>> call(String nextPageLink) {
-                    return listNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets all the load balancer backed address pools.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;BackendAddressPoolInner&gt; object
-     */
-    public Observable<Page<BackendAddressPoolInner>> listNextAsync(final String nextPageLink) {
-        return listNextWithServiceResponseAsync(nextPageLink)
-            .map(new Func1<ServiceResponse<Page<BackendAddressPoolInner>>, Page<BackendAddressPoolInner>>() {
-                @Override
-                public Page<BackendAddressPoolInner> call(ServiceResponse<Page<BackendAddressPoolInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets all the load balancer backed address pools.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;BackendAddressPoolInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<BackendAddressPoolInner>>> listNextWithServiceResponseAsync(final String nextPageLink) {
+    public Observable<Page<BackendAddressPoolInner>> listNextAsync(@NonNull String nextPageLink) {
         return listNextSinglePageAsync(nextPageLink)
-            .concatMap(new Func1<ServiceResponse<Page<BackendAddressPoolInner>>, Observable<ServiceResponse<Page<BackendAddressPoolInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<BackendAddressPoolInner>>> call(ServiceResponse<Page<BackendAddressPoolInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<BackendAddressPoolInner> page) -> {
+                String nextPageLink1 = page.nextPageLink();
+                if (nextPageLink1 == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listNextAsync(nextPageLink1));
             });
     }
 
     /**
      * Gets all the load balancer backed address pools.
      *
-    ServiceResponse<PageImpl<BackendAddressPoolInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;BackendAddressPoolInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;BackendAddressPoolInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<BackendAddressPoolInner>>> listNextSinglePageAsync(final String nextPageLink) {
+    public Single<Page<BackendAddressPoolInner>> listNextSinglePageAsync(@NonNull String nextPageLink) {
         if (nextPageLink == null) {
             throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
         }
         String nextUrl = String.format("%s", nextPageLink);
-        return service.listNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<BackendAddressPoolInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<BackendAddressPoolInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<BackendAddressPoolInner>> result = listNextDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<BackendAddressPoolInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.listNext(nextUrl, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl<BackendAddressPoolInner>> res) -> res.body());
     }
-
-    private ServiceResponse<PageImpl<BackendAddressPoolInner>> listNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<BackendAddressPoolInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<BackendAddressPoolInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
-    }
-
 }

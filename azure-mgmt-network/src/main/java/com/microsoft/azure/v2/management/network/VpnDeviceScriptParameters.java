@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Vpn device configuration script generation parameters.
  */
-public class VpnDeviceScriptParameters {
+public final class VpnDeviceScriptParameters {
     /**
      * The vendor for the vpn device.
      */
@@ -35,7 +35,7 @@ public class VpnDeviceScriptParameters {
     /**
      * Get the vendor value.
      *
-     * @return the vendor value
+     * @return the vendor value.
      */
     public String vendor() {
         return this.vendor;
@@ -44,7 +44,7 @@ public class VpnDeviceScriptParameters {
     /**
      * Set the vendor value.
      *
-     * @param vendor the vendor value to set
+     * @param vendor the vendor value to set.
      * @return the VpnDeviceScriptParameters object itself.
      */
     public VpnDeviceScriptParameters withVendor(String vendor) {
@@ -55,7 +55,7 @@ public class VpnDeviceScriptParameters {
     /**
      * Get the deviceFamily value.
      *
-     * @return the deviceFamily value
+     * @return the deviceFamily value.
      */
     public String deviceFamily() {
         return this.deviceFamily;
@@ -64,7 +64,7 @@ public class VpnDeviceScriptParameters {
     /**
      * Set the deviceFamily value.
      *
-     * @param deviceFamily the deviceFamily value to set
+     * @param deviceFamily the deviceFamily value to set.
      * @return the VpnDeviceScriptParameters object itself.
      */
     public VpnDeviceScriptParameters withDeviceFamily(String deviceFamily) {
@@ -75,7 +75,7 @@ public class VpnDeviceScriptParameters {
     /**
      * Get the firmwareVersion value.
      *
-     * @return the firmwareVersion value
+     * @return the firmwareVersion value.
      */
     public String firmwareVersion() {
         return this.firmwareVersion;
@@ -84,12 +84,11 @@ public class VpnDeviceScriptParameters {
     /**
      * Set the firmwareVersion value.
      *
-     * @param firmwareVersion the firmwareVersion value to set
+     * @param firmwareVersion the firmwareVersion value to set.
      * @return the VpnDeviceScriptParameters object itself.
      */
     public VpnDeviceScriptParameters withFirmwareVersion(String firmwareVersion) {
         this.firmwareVersion = firmwareVersion;
         return this;
     }
-
 }

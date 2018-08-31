@@ -8,13 +8,13 @@
 
 package com.microsoft.azure.v2.management.network;
 
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 
 /**
  * City or town details.
  */
-public class AvailableProvidersListCity {
+public final class AvailableProvidersListCity {
     /**
      * The city or town name.
      */
@@ -30,7 +30,7 @@ public class AvailableProvidersListCity {
     /**
      * Get the cityName value.
      *
-     * @return the cityName value
+     * @return the cityName value.
      */
     public String cityName() {
         return this.cityName;
@@ -39,7 +39,7 @@ public class AvailableProvidersListCity {
     /**
      * Set the cityName value.
      *
-     * @param cityName the cityName value to set
+     * @param cityName the cityName value to set.
      * @return the AvailableProvidersListCity object itself.
      */
     public AvailableProvidersListCity withCityName(String cityName) {
@@ -50,7 +50,7 @@ public class AvailableProvidersListCity {
     /**
      * Get the providers value.
      *
-     * @return the providers value
+     * @return the providers value.
      */
     public List<String> providers() {
         return this.providers;
@@ -59,12 +59,11 @@ public class AvailableProvidersListCity {
     /**
      * Set the providers value.
      *
-     * @param providers the providers value to set
+     * @param providers the providers value to set.
      * @return the AvailableProvidersListCity object itself.
      */
     public AvailableProvidersListCity withProviders(List<String> providers) {
         this.providers = providers;
         return this;
     }
-
 }

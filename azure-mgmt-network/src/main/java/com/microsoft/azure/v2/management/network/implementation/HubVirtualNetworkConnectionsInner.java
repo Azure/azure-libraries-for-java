@@ -8,67 +8,70 @@
 
 package com.microsoft.azure.v2.management.network.implementation;
 
-import retrofit2.Retrofit;
-import com.google.common.reflect.TypeToken;
-import com.microsoft.azure.AzureServiceFuture;
-import com.microsoft.azure.ListOperationCallback;
+import com.microsoft.azure.v2.AzureProxy;
+import com.microsoft.azure.v2.Page;
+import com.microsoft.azure.v2.PagedList;
 import com.microsoft.azure.v2.management.network.ErrorException;
-import com.microsoft.azure.Page;
-import com.microsoft.azure.PagedList;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import com.microsoft.rest.ServiceResponse;
-import java.io.IOException;
-import java.util.List;
-import okhttp3.ResponseBody;
-import retrofit2.http.GET;
-import retrofit2.http.Header;
-import retrofit2.http.Headers;
-import retrofit2.http.Path;
-import retrofit2.http.Query;
-import retrofit2.http.Url;
-import retrofit2.Response;
-import rx.functions.Func1;
-import rx.Observable;
+import com.microsoft.rest.v2.BodyResponse;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
+import com.microsoft.rest.v2.annotations.ExpectedResponses;
+import com.microsoft.rest.v2.annotations.GET;
+import com.microsoft.rest.v2.annotations.HeaderParam;
+import com.microsoft.rest.v2.annotations.Host;
+import com.microsoft.rest.v2.annotations.PathParam;
+import com.microsoft.rest.v2.annotations.QueryParam;
+import com.microsoft.rest.v2.annotations.UnexpectedResponseExceptionType;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
+import io.reactivex.Single;
+import io.reactivex.annotations.NonNull;
 
 /**
- * An instance of this class provides access to all the operations defined
- * in HubVirtualNetworkConnections.
+ * An instance of this class provides access to all the operations defined in
+ * HubVirtualNetworkConnections.
  */
-public class HubVirtualNetworkConnectionsInner {
-    /** The Retrofit service to perform REST calls. */
+public final class HubVirtualNetworkConnectionsInner {
+    /**
+     * The proxy service used to perform REST calls.
+     */
     private HubVirtualNetworkConnectionsService service;
-    /** The service client containing this operation class. */
+
+    /**
+     * The service client containing this operation class.
+     */
     private NetworkManagementClientImpl client;
 
     /**
      * Initializes an instance of HubVirtualNetworkConnectionsInner.
      *
-     * @param retrofit the Retrofit instance built from a Retrofit Builder.
      * @param client the instance of the service client containing this operation class.
      */
-    public HubVirtualNetworkConnectionsInner(Retrofit retrofit, NetworkManagementClientImpl client) {
-        this.service = retrofit.create(HubVirtualNetworkConnectionsService.class);
+    public HubVirtualNetworkConnectionsInner(NetworkManagementClientImpl client) {
+        this.service = AzureProxy.create(HubVirtualNetworkConnectionsService.class, client);
         this.client = client;
     }
 
     /**
-     * The interface defining all the services for HubVirtualNetworkConnections to be
-     * used by Retrofit to perform actually REST calls.
+     * The interface defining all the services for HubVirtualNetworkConnections
+     * to be used by the proxy service to perform REST calls.
      */
-    interface HubVirtualNetworkConnectionsService {
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.HubVirtualNetworkConnections get" })
+    @Host("https://management.azure.com")
+    private interface HubVirtualNetworkConnectionsService {
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/hubVirtualNetworkConnections/{connectionName}")
-        Observable<Response<ResponseBody>> get(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("virtualHubName") String virtualHubName, @Path("connectionName") String connectionName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(ErrorException.class)
+        Single<BodyResponse<HubVirtualNetworkConnectionInner>> get(@PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("virtualHubName") String virtualHubName, @PathParam("connectionName") String connectionName, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.HubVirtualNetworkConnections list" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/hubVirtualNetworkConnections")
-        Observable<Response<ResponseBody>> list(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("virtualHubName") String virtualHubName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(ErrorException.class)
+        Single<BodyResponse<PageImpl<HubVirtualNetworkConnectionInner>>> list(@PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("virtualHubName") String virtualHubName, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.HubVirtualNetworkConnections listNext" })
-        @GET
-        Observable<Response<ResponseBody>> listNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
-
+        @GET("{nextUrl}")
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(ErrorException.class)
+        Single<BodyResponse<PageImpl<HubVirtualNetworkConnectionInner>>> listNext(@PathParam(value = "nextUrl", encoded = true) String nextUrl, @HeaderParam("accept-language") String acceptLanguage);
     }
 
     /**
@@ -77,13 +80,13 @@ public class HubVirtualNetworkConnectionsInner {
      * @param resourceGroupName The resource group name of the VirtualHub.
      * @param virtualHubName The name of the VirtualHub.
      * @param connectionName The name of the vpn connection.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws ErrorException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the HubVirtualNetworkConnectionInner object if successful.
      */
-    public HubVirtualNetworkConnectionInner get(String resourceGroupName, String virtualHubName, String connectionName) {
-        return getWithServiceResponseAsync(resourceGroupName, virtualHubName, connectionName).toBlocking().single().body();
+    public HubVirtualNetworkConnectionInner get(@NonNull String resourceGroupName, @NonNull String virtualHubName, @NonNull String connectionName) {
+        return getAsync(resourceGroupName, virtualHubName, connectionName).blockingGet();
     }
 
     /**
@@ -93,11 +96,11 @@ public class HubVirtualNetworkConnectionsInner {
      * @param virtualHubName The name of the VirtualHub.
      * @param connectionName The name of the vpn connection.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<HubVirtualNetworkConnectionInner> getAsync(String resourceGroupName, String virtualHubName, String connectionName, final ServiceCallback<HubVirtualNetworkConnectionInner> serviceCallback) {
-        return ServiceFuture.fromResponse(getWithServiceResponseAsync(resourceGroupName, virtualHubName, connectionName), serviceCallback);
+    public ServiceFuture<HubVirtualNetworkConnectionInner> getAsync(@NonNull String resourceGroupName, @NonNull String virtualHubName, @NonNull String connectionName, ServiceCallback<HubVirtualNetworkConnectionInner> serviceCallback) {
+        return ServiceFuture.fromBody(getAsync(resourceGroupName, virtualHubName, connectionName), serviceCallback);
     }
 
     /**
@@ -106,28 +109,10 @@ public class HubVirtualNetworkConnectionsInner {
      * @param resourceGroupName The resource group name of the VirtualHub.
      * @param virtualHubName The name of the VirtualHub.
      * @param connectionName The name of the vpn connection.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the HubVirtualNetworkConnectionInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<HubVirtualNetworkConnectionInner> getAsync(String resourceGroupName, String virtualHubName, String connectionName) {
-        return getWithServiceResponseAsync(resourceGroupName, virtualHubName, connectionName).map(new Func1<ServiceResponse<HubVirtualNetworkConnectionInner>, HubVirtualNetworkConnectionInner>() {
-            @Override
-            public HubVirtualNetworkConnectionInner call(ServiceResponse<HubVirtualNetworkConnectionInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Retrieves the details of a HubVirtualNetworkConnection.
-     *
-     * @param resourceGroupName The resource group name of the VirtualHub.
-     * @param virtualHubName The name of the VirtualHub.
-     * @param connectionName The name of the vpn connection.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the HubVirtualNetworkConnectionInner object
-     */
-    public Observable<ServiceResponse<HubVirtualNetworkConnectionInner>> getWithServiceResponseAsync(String resourceGroupName, String virtualHubName, String connectionName) {
+    public Single<BodyResponse<HubVirtualNetworkConnectionInner>> getWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String virtualHubName, @NonNull String connectionName) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
@@ -141,25 +126,21 @@ public class HubVirtualNetworkConnectionsInner {
             throw new IllegalArgumentException("Parameter connectionName is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        return service.get(this.client.subscriptionId(), resourceGroupName, virtualHubName, connectionName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<HubVirtualNetworkConnectionInner>>>() {
-                @Override
-                public Observable<ServiceResponse<HubVirtualNetworkConnectionInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<HubVirtualNetworkConnectionInner> clientResponse = getDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.get(this.client.subscriptionId(), resourceGroupName, virtualHubName, connectionName, apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<HubVirtualNetworkConnectionInner> getDelegate(Response<ResponseBody> response) throws ErrorException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<HubVirtualNetworkConnectionInner, ErrorException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<HubVirtualNetworkConnectionInner>() { }.getType())
-                .registerError(ErrorException.class)
-                .build(response);
+    /**
+     * Retrieves the details of a HubVirtualNetworkConnection.
+     *
+     * @param resourceGroupName The resource group name of the VirtualHub.
+     * @param virtualHubName The name of the VirtualHub.
+     * @param connectionName The name of the vpn connection.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<HubVirtualNetworkConnectionInner> getAsync(@NonNull String resourceGroupName, @NonNull String virtualHubName, @NonNull String connectionName) {
+        return getWithRestResponseAsync(resourceGroupName, virtualHubName, connectionName)
+            .flatMapMaybe((BodyResponse<HubVirtualNetworkConnectionInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
@@ -167,17 +148,17 @@ public class HubVirtualNetworkConnectionsInner {
      *
      * @param resourceGroupName The resource group name of the VirtualHub.
      * @param virtualHubName The name of the VirtualHub.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws ErrorException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;HubVirtualNetworkConnectionInner&gt; object if successful.
      */
-    public PagedList<HubVirtualNetworkConnectionInner> list(final String resourceGroupName, final String virtualHubName) {
-        ServiceResponse<Page<HubVirtualNetworkConnectionInner>> response = listSinglePageAsync(resourceGroupName, virtualHubName).toBlocking().single();
-        return new PagedList<HubVirtualNetworkConnectionInner>(response.body()) {
+    public PagedList<HubVirtualNetworkConnectionInner> list(@NonNull String resourceGroupName, @NonNull String virtualHubName) {
+        Page<HubVirtualNetworkConnectionInner> response = listSinglePageAsync(resourceGroupName, virtualHubName).blockingGet();
+        return new PagedList<HubVirtualNetworkConnectionInner>(response) {
             @Override
             public Page<HubVirtualNetworkConnectionInner> nextPage(String nextPageLink) {
-                return listNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -187,71 +168,30 @@ public class HubVirtualNetworkConnectionsInner {
      *
      * @param resourceGroupName The resource group name of the VirtualHub.
      * @param virtualHubName The name of the VirtualHub.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;HubVirtualNetworkConnectionInner&gt; object.
      */
-    public ServiceFuture<List<HubVirtualNetworkConnectionInner>> listAsync(final String resourceGroupName, final String virtualHubName, final ListOperationCallback<HubVirtualNetworkConnectionInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listSinglePageAsync(resourceGroupName, virtualHubName),
-            new Func1<String, Observable<ServiceResponse<Page<HubVirtualNetworkConnectionInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<HubVirtualNetworkConnectionInner>>> call(String nextPageLink) {
-                    return listNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Retrieves the details of all HubVirtualNetworkConnections.
-     *
-     * @param resourceGroupName The resource group name of the VirtualHub.
-     * @param virtualHubName The name of the VirtualHub.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;HubVirtualNetworkConnectionInner&gt; object
-     */
-    public Observable<Page<HubVirtualNetworkConnectionInner>> listAsync(final String resourceGroupName, final String virtualHubName) {
-        return listWithServiceResponseAsync(resourceGroupName, virtualHubName)
-            .map(new Func1<ServiceResponse<Page<HubVirtualNetworkConnectionInner>>, Page<HubVirtualNetworkConnectionInner>>() {
-                @Override
-                public Page<HubVirtualNetworkConnectionInner> call(ServiceResponse<Page<HubVirtualNetworkConnectionInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Retrieves the details of all HubVirtualNetworkConnections.
-     *
-     * @param resourceGroupName The resource group name of the VirtualHub.
-     * @param virtualHubName The name of the VirtualHub.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;HubVirtualNetworkConnectionInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<HubVirtualNetworkConnectionInner>>> listWithServiceResponseAsync(final String resourceGroupName, final String virtualHubName) {
+    public Observable<Page<HubVirtualNetworkConnectionInner>> listAsync(@NonNull String resourceGroupName, @NonNull String virtualHubName) {
         return listSinglePageAsync(resourceGroupName, virtualHubName)
-            .concatMap(new Func1<ServiceResponse<Page<HubVirtualNetworkConnectionInner>>, Observable<ServiceResponse<Page<HubVirtualNetworkConnectionInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<HubVirtualNetworkConnectionInner>>> call(ServiceResponse<Page<HubVirtualNetworkConnectionInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<HubVirtualNetworkConnectionInner> page) -> {
+                String nextPageLink = page.nextPageLink();
+                if (nextPageLink == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listNextAsync(nextPageLink));
             });
     }
 
     /**
      * Retrieves the details of all HubVirtualNetworkConnections.
      *
-    ServiceResponse<PageImpl<HubVirtualNetworkConnectionInner>> * @param resourceGroupName The resource group name of the VirtualHub.
-    ServiceResponse<PageImpl<HubVirtualNetworkConnectionInner>> * @param virtualHubName The name of the VirtualHub.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;HubVirtualNetworkConnectionInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param resourceGroupName The resource group name of the VirtualHub.
+     * @param virtualHubName The name of the VirtualHub.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;HubVirtualNetworkConnectionInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<HubVirtualNetworkConnectionInner>>> listSinglePageAsync(final String resourceGroupName, final String virtualHubName) {
+    public Single<Page<HubVirtualNetworkConnectionInner>> listSinglePageAsync(@NonNull String resourceGroupName, @NonNull String virtualHubName) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
@@ -262,42 +202,25 @@ public class HubVirtualNetworkConnectionsInner {
             throw new IllegalArgumentException("Parameter virtualHubName is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        return service.list(this.client.subscriptionId(), resourceGroupName, virtualHubName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<HubVirtualNetworkConnectionInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<HubVirtualNetworkConnectionInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<HubVirtualNetworkConnectionInner>> result = listDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<HubVirtualNetworkConnectionInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl<HubVirtualNetworkConnectionInner>> listDelegate(Response<ResponseBody> response) throws ErrorException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<HubVirtualNetworkConnectionInner>, ErrorException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<HubVirtualNetworkConnectionInner>>() { }.getType())
-                .registerError(ErrorException.class)
-                .build(response);
+        return service.list(this.client.subscriptionId(), resourceGroupName, virtualHubName, apiVersion, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl<HubVirtualNetworkConnectionInner>> res) -> res.body());
     }
 
     /**
      * Retrieves the details of all HubVirtualNetworkConnections.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws ErrorException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;HubVirtualNetworkConnectionInner&gt; object if successful.
      */
-    public PagedList<HubVirtualNetworkConnectionInner> listNext(final String nextPageLink) {
-        ServiceResponse<Page<HubVirtualNetworkConnectionInner>> response = listNextSinglePageAsync(nextPageLink).toBlocking().single();
-        return new PagedList<HubVirtualNetworkConnectionInner>(response.body()) {
+    public PagedList<HubVirtualNetworkConnectionInner> listNext(@NonNull String nextPageLink) {
+        Page<HubVirtualNetworkConnectionInner> response = listNextSinglePageAsync(nextPageLink).blockingGet();
+        return new PagedList<HubVirtualNetworkConnectionInner>(response) {
             @Override
             public Page<HubVirtualNetworkConnectionInner> nextPage(String nextPageLink) {
-                return listNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -306,92 +229,34 @@ public class HubVirtualNetworkConnectionsInner {
      * Retrieves the details of all HubVirtualNetworkConnections.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;HubVirtualNetworkConnectionInner&gt; object.
      */
-    public ServiceFuture<List<HubVirtualNetworkConnectionInner>> listNextAsync(final String nextPageLink, final ServiceFuture<List<HubVirtualNetworkConnectionInner>> serviceFuture, final ListOperationCallback<HubVirtualNetworkConnectionInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listNextSinglePageAsync(nextPageLink),
-            new Func1<String, Observable<ServiceResponse<Page<HubVirtualNetworkConnectionInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<HubVirtualNetworkConnectionInner>>> call(String nextPageLink) {
-                    return listNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Retrieves the details of all HubVirtualNetworkConnections.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;HubVirtualNetworkConnectionInner&gt; object
-     */
-    public Observable<Page<HubVirtualNetworkConnectionInner>> listNextAsync(final String nextPageLink) {
-        return listNextWithServiceResponseAsync(nextPageLink)
-            .map(new Func1<ServiceResponse<Page<HubVirtualNetworkConnectionInner>>, Page<HubVirtualNetworkConnectionInner>>() {
-                @Override
-                public Page<HubVirtualNetworkConnectionInner> call(ServiceResponse<Page<HubVirtualNetworkConnectionInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Retrieves the details of all HubVirtualNetworkConnections.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;HubVirtualNetworkConnectionInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<HubVirtualNetworkConnectionInner>>> listNextWithServiceResponseAsync(final String nextPageLink) {
+    public Observable<Page<HubVirtualNetworkConnectionInner>> listNextAsync(@NonNull String nextPageLink) {
         return listNextSinglePageAsync(nextPageLink)
-            .concatMap(new Func1<ServiceResponse<Page<HubVirtualNetworkConnectionInner>>, Observable<ServiceResponse<Page<HubVirtualNetworkConnectionInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<HubVirtualNetworkConnectionInner>>> call(ServiceResponse<Page<HubVirtualNetworkConnectionInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<HubVirtualNetworkConnectionInner> page) -> {
+                String nextPageLink1 = page.nextPageLink();
+                if (nextPageLink1 == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listNextAsync(nextPageLink1));
             });
     }
 
     /**
      * Retrieves the details of all HubVirtualNetworkConnections.
      *
-    ServiceResponse<PageImpl<HubVirtualNetworkConnectionInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;HubVirtualNetworkConnectionInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;HubVirtualNetworkConnectionInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<HubVirtualNetworkConnectionInner>>> listNextSinglePageAsync(final String nextPageLink) {
+    public Single<Page<HubVirtualNetworkConnectionInner>> listNextSinglePageAsync(@NonNull String nextPageLink) {
         if (nextPageLink == null) {
             throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
         }
         String nextUrl = String.format("%s", nextPageLink);
-        return service.listNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<HubVirtualNetworkConnectionInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<HubVirtualNetworkConnectionInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<HubVirtualNetworkConnectionInner>> result = listNextDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<HubVirtualNetworkConnectionInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.listNext(nextUrl, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl<HubVirtualNetworkConnectionInner>> res) -> res.body());
     }
-
-    private ServiceResponse<PageImpl<HubVirtualNetworkConnectionInner>> listNextDelegate(Response<ResponseBody> response) throws ErrorException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<HubVirtualNetworkConnectionInner>, ErrorException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<HubVirtualNetworkConnectionInner>>() { }.getType())
-                .registerError(ErrorException.class)
-                .build(response);
-    }
-
 }

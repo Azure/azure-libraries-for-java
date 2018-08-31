@@ -8,13 +8,13 @@
 
 package com.microsoft.azure.v2.management.network;
 
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 
 /**
  * The Error model.
  */
-public class Error {
+public final class Error {
     /**
      * The code property.
      */
@@ -48,7 +48,7 @@ public class Error {
     /**
      * Get the code value.
      *
-     * @return the code value
+     * @return the code value.
      */
     public String code() {
         return this.code;
@@ -57,7 +57,7 @@ public class Error {
     /**
      * Set the code value.
      *
-     * @param code the code value to set
+     * @param code the code value to set.
      * @return the Error object itself.
      */
     public Error withCode(String code) {
@@ -68,7 +68,7 @@ public class Error {
     /**
      * Get the message value.
      *
-     * @return the message value
+     * @return the message value.
      */
     public String message() {
         return this.message;
@@ -77,7 +77,7 @@ public class Error {
     /**
      * Set the message value.
      *
-     * @param message the message value to set
+     * @param message the message value to set.
      * @return the Error object itself.
      */
     public Error withMessage(String message) {
@@ -88,7 +88,7 @@ public class Error {
     /**
      * Get the target value.
      *
-     * @return the target value
+     * @return the target value.
      */
     public String target() {
         return this.target;
@@ -97,7 +97,7 @@ public class Error {
     /**
      * Set the target value.
      *
-     * @param target the target value to set
+     * @param target the target value to set.
      * @return the Error object itself.
      */
     public Error withTarget(String target) {
@@ -108,7 +108,7 @@ public class Error {
     /**
      * Get the details value.
      *
-     * @return the details value
+     * @return the details value.
      */
     public List<ErrorDetails> details() {
         return this.details;
@@ -117,7 +117,7 @@ public class Error {
     /**
      * Set the details value.
      *
-     * @param details the details value to set
+     * @param details the details value to set.
      * @return the Error object itself.
      */
     public Error withDetails(List<ErrorDetails> details) {
@@ -128,7 +128,7 @@ public class Error {
     /**
      * Get the innerError value.
      *
-     * @return the innerError value
+     * @return the innerError value.
      */
     public String innerError() {
         return this.innerError;
@@ -137,12 +137,11 @@ public class Error {
     /**
      * Set the innerError value.
      *
-     * @param innerError the innerError value to set
+     * @param innerError the innerError value to set.
      * @return the Error object itself.
      */
     public Error withInnerError(String innerError) {
         this.innerError = innerError;
         return this;
     }
-
 }

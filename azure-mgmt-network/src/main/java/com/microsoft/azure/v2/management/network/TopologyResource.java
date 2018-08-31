@@ -8,13 +8,13 @@
 
 package com.microsoft.azure.v2.management.network;
 
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 
 /**
  * The network resource topology information for the given resource group.
  */
-public class TopologyResource {
+public final class TopologyResource {
     /**
      * Name of the resource.
      */
@@ -43,7 +43,7 @@ public class TopologyResource {
     /**
      * Get the name value.
      *
-     * @return the name value
+     * @return the name value.
      */
     public String name() {
         return this.name;
@@ -52,7 +52,7 @@ public class TopologyResource {
     /**
      * Set the name value.
      *
-     * @param name the name value to set
+     * @param name the name value to set.
      * @return the TopologyResource object itself.
      */
     public TopologyResource withName(String name) {
@@ -63,7 +63,7 @@ public class TopologyResource {
     /**
      * Get the id value.
      *
-     * @return the id value
+     * @return the id value.
      */
     public String id() {
         return this.id;
@@ -72,7 +72,7 @@ public class TopologyResource {
     /**
      * Set the id value.
      *
-     * @param id the id value to set
+     * @param id the id value to set.
      * @return the TopologyResource object itself.
      */
     public TopologyResource withId(String id) {
@@ -83,7 +83,7 @@ public class TopologyResource {
     /**
      * Get the location value.
      *
-     * @return the location value
+     * @return the location value.
      */
     public String location() {
         return this.location;
@@ -92,7 +92,7 @@ public class TopologyResource {
     /**
      * Set the location value.
      *
-     * @param location the location value to set
+     * @param location the location value to set.
      * @return the TopologyResource object itself.
      */
     public TopologyResource withLocation(String location) {
@@ -103,7 +103,7 @@ public class TopologyResource {
     /**
      * Get the associations value.
      *
-     * @return the associations value
+     * @return the associations value.
      */
     public List<TopologyAssociation> associations() {
         return this.associations;
@@ -112,12 +112,11 @@ public class TopologyResource {
     /**
      * Set the associations value.
      *
-     * @param associations the associations value to set
+     * @param associations the associations value to set.
      * @return the TopologyResource object itself.
      */
     public TopologyResource withAssociations(List<TopologyAssociation> associations) {
         this.associations = associations;
         return this;
     }
-
 }

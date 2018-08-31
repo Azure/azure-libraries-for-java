@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * BGP settings details.
  */
-public class BgpSettings {
+public final class BgpSettings {
     /**
      * The BGP speaker's ASN.
      */
@@ -35,7 +35,7 @@ public class BgpSettings {
     /**
      * Get the asn value.
      *
-     * @return the asn value
+     * @return the asn value.
      */
     public Long asn() {
         return this.asn;
@@ -44,7 +44,7 @@ public class BgpSettings {
     /**
      * Set the asn value.
      *
-     * @param asn the asn value to set
+     * @param asn the asn value to set.
      * @return the BgpSettings object itself.
      */
     public BgpSettings withAsn(Long asn) {
@@ -55,7 +55,7 @@ public class BgpSettings {
     /**
      * Get the bgpPeeringAddress value.
      *
-     * @return the bgpPeeringAddress value
+     * @return the bgpPeeringAddress value.
      */
     public String bgpPeeringAddress() {
         return this.bgpPeeringAddress;
@@ -64,7 +64,7 @@ public class BgpSettings {
     /**
      * Set the bgpPeeringAddress value.
      *
-     * @param bgpPeeringAddress the bgpPeeringAddress value to set
+     * @param bgpPeeringAddress the bgpPeeringAddress value to set.
      * @return the BgpSettings object itself.
      */
     public BgpSettings withBgpPeeringAddress(String bgpPeeringAddress) {
@@ -75,7 +75,7 @@ public class BgpSettings {
     /**
      * Get the peerWeight value.
      *
-     * @return the peerWeight value
+     * @return the peerWeight value.
      */
     public Integer peerWeight() {
         return this.peerWeight;
@@ -84,12 +84,11 @@ public class BgpSettings {
     /**
      * Set the peerWeight value.
      *
-     * @param peerWeight the peerWeight value to set
+     * @param peerWeight the peerWeight value to set.
      * @return the BgpSettings object itself.
      */
     public BgpSettings withPeerWeight(Integer peerWeight) {
         this.peerWeight = peerWeight;
         return this;
     }
-
 }

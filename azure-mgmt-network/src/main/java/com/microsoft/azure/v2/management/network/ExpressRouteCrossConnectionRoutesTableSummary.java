@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * The routes table associated with the ExpressRouteCircuit.
  */
-public class ExpressRouteCrossConnectionRoutesTableSummary {
+public final class ExpressRouteCrossConnectionRoutesTableSummary {
     /**
      * IP address of Neighbor router.
      */
@@ -43,7 +43,7 @@ public class ExpressRouteCrossConnectionRoutesTableSummary {
     /**
      * Get the neighbor value.
      *
-     * @return the neighbor value
+     * @return the neighbor value.
      */
     public String neighbor() {
         return this.neighbor;
@@ -52,7 +52,7 @@ public class ExpressRouteCrossConnectionRoutesTableSummary {
     /**
      * Set the neighbor value.
      *
-     * @param neighbor the neighbor value to set
+     * @param neighbor the neighbor value to set.
      * @return the ExpressRouteCrossConnectionRoutesTableSummary object itself.
      */
     public ExpressRouteCrossConnectionRoutesTableSummary withNeighbor(String neighbor) {
@@ -63,7 +63,7 @@ public class ExpressRouteCrossConnectionRoutesTableSummary {
     /**
      * Get the asn value.
      *
-     * @return the asn value
+     * @return the asn value.
      */
     public Integer asn() {
         return this.asn;
@@ -72,7 +72,7 @@ public class ExpressRouteCrossConnectionRoutesTableSummary {
     /**
      * Set the asn value.
      *
-     * @param asn the asn value to set
+     * @param asn the asn value to set.
      * @return the ExpressRouteCrossConnectionRoutesTableSummary object itself.
      */
     public ExpressRouteCrossConnectionRoutesTableSummary withAsn(Integer asn) {
@@ -83,7 +83,7 @@ public class ExpressRouteCrossConnectionRoutesTableSummary {
     /**
      * Get the upDown value.
      *
-     * @return the upDown value
+     * @return the upDown value.
      */
     public String upDown() {
         return this.upDown;
@@ -92,7 +92,7 @@ public class ExpressRouteCrossConnectionRoutesTableSummary {
     /**
      * Set the upDown value.
      *
-     * @param upDown the upDown value to set
+     * @param upDown the upDown value to set.
      * @return the ExpressRouteCrossConnectionRoutesTableSummary object itself.
      */
     public ExpressRouteCrossConnectionRoutesTableSummary withUpDown(String upDown) {
@@ -103,7 +103,7 @@ public class ExpressRouteCrossConnectionRoutesTableSummary {
     /**
      * Get the stateOrPrefixesReceived value.
      *
-     * @return the stateOrPrefixesReceived value
+     * @return the stateOrPrefixesReceived value.
      */
     public String stateOrPrefixesReceived() {
         return this.stateOrPrefixesReceived;
@@ -112,12 +112,11 @@ public class ExpressRouteCrossConnectionRoutesTableSummary {
     /**
      * Set the stateOrPrefixesReceived value.
      *
-     * @param stateOrPrefixesReceived the stateOrPrefixesReceived value to set
+     * @param stateOrPrefixesReceived the stateOrPrefixesReceived value to set.
      * @return the ExpressRouteCrossConnectionRoutesTableSummary object itself.
      */
     public ExpressRouteCrossConnectionRoutesTableSummary withStateOrPrefixesReceived(String stateOrPrefixesReceived) {
         this.stateOrPrefixesReceived = stateOrPrefixesReceived;
         return this;
     }
-
 }

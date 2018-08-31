@@ -8,13 +8,13 @@
 
 package com.microsoft.azure.v2.management.network;
 
-import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.Map;
 
 /**
  * Tags object for patch operations.
  */
-public class TagsObject {
+public final class TagsObject {
     /**
      * Resource tags.
      */
@@ -24,7 +24,7 @@ public class TagsObject {
     /**
      * Get the tags value.
      *
-     * @return the tags value
+     * @return the tags value.
      */
     public Map<String, String> tags() {
         return this.tags;
@@ -33,12 +33,11 @@ public class TagsObject {
     /**
      * Set the tags value.
      *
-     * @param tags the tags value to set
+     * @param tags the tags value to set.
      * @return the TagsObject object itself.
      */
     public TagsObject withTags(Map<String, String> tags) {
         this.tags = tags;
         return this;
     }
-
 }

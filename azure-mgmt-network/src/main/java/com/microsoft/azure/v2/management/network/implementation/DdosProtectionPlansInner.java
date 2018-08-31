@@ -8,98 +8,124 @@
 
 package com.microsoft.azure.v2.management.network.implementation;
 
-import com.microsoft.azure.v2.management.resources.fluentcore.collection.InnerSupportsGet;
+import com.microsoft.azure.v2.AzureProxy;
+import com.microsoft.azure.v2.CloudException;
+import com.microsoft.azure.v2.OperationStatus;
+import com.microsoft.azure.v2.Page;
+import com.microsoft.azure.v2.PagedList;
 import com.microsoft.azure.v2.management.resources.fluentcore.collection.InnerSupportsDelete;
+import com.microsoft.azure.v2.management.resources.fluentcore.collection.InnerSupportsGet;
 import com.microsoft.azure.v2.management.resources.fluentcore.collection.InnerSupportsListing;
-import retrofit2.Retrofit;
-import com.google.common.reflect.TypeToken;
-import com.microsoft.azure.AzureServiceFuture;
-import com.microsoft.azure.CloudException;
-import com.microsoft.azure.ListOperationCallback;
-import com.microsoft.azure.Page;
-import com.microsoft.azure.PagedList;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import com.microsoft.rest.ServiceResponse;
-import com.microsoft.rest.Validator;
-import java.io.IOException;
-import java.util.List;
-import okhttp3.ResponseBody;
-import retrofit2.http.Body;
-import retrofit2.http.GET;
-import retrofit2.http.Header;
-import retrofit2.http.Headers;
-import retrofit2.http.HTTP;
-import retrofit2.http.Path;
-import retrofit2.http.PUT;
-import retrofit2.http.Query;
-import retrofit2.http.Url;
-import retrofit2.Response;
-import rx.functions.Func1;
-import rx.Observable;
+import com.microsoft.azure.v2.util.ServiceFutureUtil;
+import com.microsoft.rest.v2.BodyResponse;
+import com.microsoft.rest.v2.OperationDescription;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
+import com.microsoft.rest.v2.Validator;
+import com.microsoft.rest.v2.VoidResponse;
+import com.microsoft.rest.v2.annotations.BodyParam;
+import com.microsoft.rest.v2.annotations.DELETE;
+import com.microsoft.rest.v2.annotations.ExpectedResponses;
+import com.microsoft.rest.v2.annotations.GET;
+import com.microsoft.rest.v2.annotations.HeaderParam;
+import com.microsoft.rest.v2.annotations.Host;
+import com.microsoft.rest.v2.annotations.PathParam;
+import com.microsoft.rest.v2.annotations.PUT;
+import com.microsoft.rest.v2.annotations.QueryParam;
+import com.microsoft.rest.v2.annotations.ResumeOperation;
+import com.microsoft.rest.v2.annotations.UnexpectedResponseExceptionType;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
+import io.reactivex.Single;
+import io.reactivex.annotations.NonNull;
 
 /**
- * An instance of this class provides access to all the operations defined
- * in DdosProtectionPlans.
+ * An instance of this class provides access to all the operations defined in
+ * DdosProtectionPlans.
  */
-public class DdosProtectionPlansInner implements InnerSupportsGet<DdosProtectionPlanInner>, InnerSupportsDelete<Void>, InnerSupportsListing<DdosProtectionPlanInner> {
-    /** The Retrofit service to perform REST calls. */
+public final class DdosProtectionPlansInner implements InnerSupportsGet<DdosProtectionPlanInner>, InnerSupportsDelete<Void>, InnerSupportsListing<DdosProtectionPlanInner> {
+    /**
+     * The proxy service used to perform REST calls.
+     */
     private DdosProtectionPlansService service;
-    /** The service client containing this operation class. */
+
+    /**
+     * The service client containing this operation class.
+     */
     private NetworkManagementClientImpl client;
 
     /**
      * Initializes an instance of DdosProtectionPlansInner.
      *
-     * @param retrofit the Retrofit instance built from a Retrofit Builder.
      * @param client the instance of the service client containing this operation class.
      */
-    public DdosProtectionPlansInner(Retrofit retrofit, NetworkManagementClientImpl client) {
-        this.service = retrofit.create(DdosProtectionPlansService.class);
+    public DdosProtectionPlansInner(NetworkManagementClientImpl client) {
+        this.service = AzureProxy.create(DdosProtectionPlansService.class, client);
         this.client = client;
     }
 
     /**
      * The interface defining all the services for DdosProtectionPlans to be
-     * used by Retrofit to perform actually REST calls.
+     * used by the proxy service to perform REST calls.
      */
-    interface DdosProtectionPlansService {
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.DdosProtectionPlans delete" })
-        @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosProtectionPlans/{ddosProtectionPlanName}", method = "DELETE", hasBody = true)
-        Observable<Response<ResponseBody>> delete(@Path("resourceGroupName") String resourceGroupName, @Path("ddosProtectionPlanName") String ddosProtectionPlanName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+    @Host("https://management.azure.com")
+    private interface DdosProtectionPlansService {
+        @DELETE("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosProtectionPlans/{ddosProtectionPlanName}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Observable<OperationStatus<Void>> beginDelete(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("ddosProtectionPlanName") String ddosProtectionPlanName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.DdosProtectionPlans beginDelete" })
-        @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosProtectionPlans/{ddosProtectionPlanName}", method = "DELETE", hasBody = true)
-        Observable<Response<ResponseBody>> beginDelete(@Path("resourceGroupName") String resourceGroupName, @Path("ddosProtectionPlanName") String ddosProtectionPlanName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @DELETE("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosProtectionPlans/{ddosProtectionPlanName}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<VoidResponse> delete(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("ddosProtectionPlanName") String ddosProtectionPlanName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.DdosProtectionPlans getByResourceGroup" })
+        @DELETE("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosProtectionPlans/{ddosProtectionPlanName}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<Void>> resumeDelete(OperationDescription operationDescription);
+
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosProtectionPlans/{ddosProtectionPlanName}")
-        Observable<Response<ResponseBody>> getByResourceGroup(@Path("resourceGroupName") String resourceGroupName, @Path("ddosProtectionPlanName") String ddosProtectionPlanName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<DdosProtectionPlanInner>> getByResourceGroup(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("ddosProtectionPlanName") String ddosProtectionPlanName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.DdosProtectionPlans createOrUpdate" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosProtectionPlans/{ddosProtectionPlanName}")
-        Observable<Response<ResponseBody>> createOrUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("ddosProtectionPlanName") String ddosProtectionPlanName, @Path("subscriptionId") String subscriptionId, @Body DdosProtectionPlanInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 201, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Observable<OperationStatus<DdosProtectionPlanInner>> beginCreateOrUpdate(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("ddosProtectionPlanName") String ddosProtectionPlanName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json; charset=utf-8") DdosProtectionPlanInner parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.DdosProtectionPlans beginCreateOrUpdate" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosProtectionPlans/{ddosProtectionPlanName}")
-        Observable<Response<ResponseBody>> beginCreateOrUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("ddosProtectionPlanName") String ddosProtectionPlanName, @Path("subscriptionId") String subscriptionId, @Body DdosProtectionPlanInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 201, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<DdosProtectionPlanInner>> createOrUpdate(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("ddosProtectionPlanName") String ddosProtectionPlanName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json; charset=utf-8") DdosProtectionPlanInner parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.DdosProtectionPlans list" })
+        @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosProtectionPlans/{ddosProtectionPlanName}")
+        @ExpectedResponses({200, 201, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<DdosProtectionPlanInner>> resumeCreateOrUpdate(OperationDescription operationDescription);
+
         @GET("subscriptions/{subscriptionId}/providers/Microsoft.Network/ddosProtectionPlans")
-        Observable<Response<ResponseBody>> list(@Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl<DdosProtectionPlanInner>>> list(@PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.DdosProtectionPlans listByResourceGroup" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosProtectionPlans")
-        Observable<Response<ResponseBody>> listByResourceGroup(@Path("resourceGroupName") String resourceGroupName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl<DdosProtectionPlanInner>>> listByResourceGroup(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.DdosProtectionPlans listNext" })
-        @GET
-        Observable<Response<ResponseBody>> listNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @GET("{nextUrl}")
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl<DdosProtectionPlanInner>>> listNext(@PathParam(value = "nextUrl", encoded = true) String nextUrl, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.DdosProtectionPlans listByResourceGroupNext" })
-        @GET
-        Observable<Response<ResponseBody>> listByResourceGroupNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
-
+        @GET("{nextUrl}")
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl<DdosProtectionPlanInner>>> listByResourceGroupNext(@PathParam(value = "nextUrl", encoded = true) String nextUrl, @HeaderParam("accept-language") String acceptLanguage);
     }
 
     /**
@@ -107,12 +133,12 @@ public class DdosProtectionPlansInner implements InnerSupportsGet<DdosProtection
      *
      * @param resourceGroupName The name of the resource group.
      * @param ddosProtectionPlanName The name of the DDoS protection plan.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void delete(String resourceGroupName, String ddosProtectionPlanName) {
-        deleteWithServiceResponseAsync(resourceGroupName, ddosProtectionPlanName).toBlocking().last().body();
+    public void beginDelete(@NonNull String resourceGroupName, @NonNull String ddosProtectionPlanName) {
+        beginDeleteAsync(resourceGroupName, ddosProtectionPlanName).blockingLast();
     }
 
     /**
@@ -121,11 +147,11 @@ public class DdosProtectionPlansInner implements InnerSupportsGet<DdosProtection
      * @param resourceGroupName The name of the resource group.
      * @param ddosProtectionPlanName The name of the DDoS protection plan.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;Void&gt; object.
      */
-    public ServiceFuture<Void> deleteAsync(String resourceGroupName, String ddosProtectionPlanName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(deleteWithServiceResponseAsync(resourceGroupName, ddosProtectionPlanName), serviceCallback);
+    public ServiceFuture<Void> beginDeleteAsync(@NonNull String resourceGroupName, @NonNull String ddosProtectionPlanName, ServiceCallback<Void> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginDeleteAsync(resourceGroupName, ddosProtectionPlanName), serviceCallback);
     }
 
     /**
@@ -133,27 +159,10 @@ public class DdosProtectionPlansInner implements InnerSupportsGet<DdosProtection
      *
      * @param resourceGroupName The name of the resource group.
      * @param ddosProtectionPlanName The name of the DDoS protection plan.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<Void> deleteAsync(String resourceGroupName, String ddosProtectionPlanName) {
-        return deleteWithServiceResponseAsync(resourceGroupName, ddosProtectionPlanName).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Deletes the specified DDoS protection plan.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param ddosProtectionPlanName The name of the DDoS protection plan.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<Void>> deleteWithServiceResponseAsync(String resourceGroupName, String ddosProtectionPlanName) {
+    public Observable<OperationStatus<Void>> beginDeleteAsync(@NonNull String resourceGroupName, @NonNull String ddosProtectionPlanName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -164,8 +173,7 @@ public class DdosProtectionPlansInner implements InnerSupportsGet<DdosProtection
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        Observable<Response<ResponseBody>> observable = service.delete(resourceGroupName, ddosProtectionPlanName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
+        return service.beginDelete(resourceGroupName, ddosProtectionPlanName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
     /**
@@ -173,12 +181,12 @@ public class DdosProtectionPlansInner implements InnerSupportsGet<DdosProtection
      *
      * @param resourceGroupName The name of the resource group.
      * @param ddosProtectionPlanName The name of the DDoS protection plan.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void beginDelete(String resourceGroupName, String ddosProtectionPlanName) {
-        beginDeleteWithServiceResponseAsync(resourceGroupName, ddosProtectionPlanName).toBlocking().single().body();
+    public void delete(@NonNull String resourceGroupName, @NonNull String ddosProtectionPlanName) {
+        deleteAsync(resourceGroupName, ddosProtectionPlanName).blockingGet();
     }
 
     /**
@@ -187,11 +195,11 @@ public class DdosProtectionPlansInner implements InnerSupportsGet<DdosProtection
      * @param resourceGroupName The name of the resource group.
      * @param ddosProtectionPlanName The name of the DDoS protection plan.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<Void> beginDeleteAsync(String resourceGroupName, String ddosProtectionPlanName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(beginDeleteWithServiceResponseAsync(resourceGroupName, ddosProtectionPlanName), serviceCallback);
+    public ServiceFuture<Void> deleteAsync(@NonNull String resourceGroupName, @NonNull String ddosProtectionPlanName, ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromBody(deleteAsync(resourceGroupName, ddosProtectionPlanName), serviceCallback);
     }
 
     /**
@@ -199,27 +207,10 @@ public class DdosProtectionPlansInner implements InnerSupportsGet<DdosProtection
      *
      * @param resourceGroupName The name of the resource group.
      * @param ddosProtectionPlanName The name of the DDoS protection plan.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<Void> beginDeleteAsync(String resourceGroupName, String ddosProtectionPlanName) {
-        return beginDeleteWithServiceResponseAsync(resourceGroupName, ddosProtectionPlanName).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Deletes the specified DDoS protection plan.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param ddosProtectionPlanName The name of the DDoS protection plan.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
-     */
-    public Observable<ServiceResponse<Void>> beginDeleteWithServiceResponseAsync(String resourceGroupName, String ddosProtectionPlanName) {
+    public Single<VoidResponse> deleteWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String ddosProtectionPlanName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -230,27 +221,34 @@ public class DdosProtectionPlansInner implements InnerSupportsGet<DdosProtection
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        return service.beginDelete(resourceGroupName, ddosProtectionPlanName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
-                @Override
-                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<Void> clientResponse = beginDeleteDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.delete(resourceGroupName, ddosProtectionPlanName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<Void> beginDeleteDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<Void>() { }.getType())
-                .register(202, new TypeToken<Void>() { }.getType())
-                .register(204, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Deletes the specified DDoS protection plan.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param ddosProtectionPlanName The name of the DDoS protection plan.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<Void> deleteAsync(@NonNull String resourceGroupName, @NonNull String ddosProtectionPlanName) {
+        return deleteWithRestResponseAsync(resourceGroupName, ddosProtectionPlanName)
+            .flatMapMaybe((VoidResponse res) -> Maybe.empty());
+    }
+
+    /**
+     * Deletes the specified DDoS protection plan. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<Void>> resumeDelete(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeDelete(operationDescription);
     }
 
     /**
@@ -258,13 +256,13 @@ public class DdosProtectionPlansInner implements InnerSupportsGet<DdosProtection
      *
      * @param resourceGroupName The name of the resource group.
      * @param ddosProtectionPlanName The name of the DDoS protection plan.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the DdosProtectionPlanInner object if successful.
      */
-    public DdosProtectionPlanInner getByResourceGroup(String resourceGroupName, String ddosProtectionPlanName) {
-        return getByResourceGroupWithServiceResponseAsync(resourceGroupName, ddosProtectionPlanName).toBlocking().single().body();
+    public DdosProtectionPlanInner getByResourceGroup(@NonNull String resourceGroupName, @NonNull String ddosProtectionPlanName) {
+        return getByResourceGroupAsync(resourceGroupName, ddosProtectionPlanName).blockingGet();
     }
 
     /**
@@ -273,11 +271,11 @@ public class DdosProtectionPlansInner implements InnerSupportsGet<DdosProtection
      * @param resourceGroupName The name of the resource group.
      * @param ddosProtectionPlanName The name of the DDoS protection plan.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<DdosProtectionPlanInner> getByResourceGroupAsync(String resourceGroupName, String ddosProtectionPlanName, final ServiceCallback<DdosProtectionPlanInner> serviceCallback) {
-        return ServiceFuture.fromResponse(getByResourceGroupWithServiceResponseAsync(resourceGroupName, ddosProtectionPlanName), serviceCallback);
+    public ServiceFuture<DdosProtectionPlanInner> getByResourceGroupAsync(@NonNull String resourceGroupName, @NonNull String ddosProtectionPlanName, ServiceCallback<DdosProtectionPlanInner> serviceCallback) {
+        return ServiceFuture.fromBody(getByResourceGroupAsync(resourceGroupName, ddosProtectionPlanName), serviceCallback);
     }
 
     /**
@@ -285,27 +283,10 @@ public class DdosProtectionPlansInner implements InnerSupportsGet<DdosProtection
      *
      * @param resourceGroupName The name of the resource group.
      * @param ddosProtectionPlanName The name of the DDoS protection plan.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the DdosProtectionPlanInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<DdosProtectionPlanInner> getByResourceGroupAsync(String resourceGroupName, String ddosProtectionPlanName) {
-        return getByResourceGroupWithServiceResponseAsync(resourceGroupName, ddosProtectionPlanName).map(new Func1<ServiceResponse<DdosProtectionPlanInner>, DdosProtectionPlanInner>() {
-            @Override
-            public DdosProtectionPlanInner call(ServiceResponse<DdosProtectionPlanInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Gets information about the specified DDoS protection plan.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param ddosProtectionPlanName The name of the DDoS protection plan.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the DdosProtectionPlanInner object
-     */
-    public Observable<ServiceResponse<DdosProtectionPlanInner>> getByResourceGroupWithServiceResponseAsync(String resourceGroupName, String ddosProtectionPlanName) {
+    public Single<BodyResponse<DdosProtectionPlanInner>> getByResourceGroupWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String ddosProtectionPlanName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -316,25 +297,20 @@ public class DdosProtectionPlansInner implements InnerSupportsGet<DdosProtection
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        return service.getByResourceGroup(resourceGroupName, ddosProtectionPlanName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DdosProtectionPlanInner>>>() {
-                @Override
-                public Observable<ServiceResponse<DdosProtectionPlanInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<DdosProtectionPlanInner> clientResponse = getByResourceGroupDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.getByResourceGroup(resourceGroupName, ddosProtectionPlanName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<DdosProtectionPlanInner> getByResourceGroupDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<DdosProtectionPlanInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<DdosProtectionPlanInner>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Gets information about the specified DDoS protection plan.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param ddosProtectionPlanName The name of the DDoS protection plan.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<DdosProtectionPlanInner> getByResourceGroupAsync(@NonNull String resourceGroupName, @NonNull String ddosProtectionPlanName) {
+        return getByResourceGroupWithRestResponseAsync(resourceGroupName, ddosProtectionPlanName)
+            .flatMapMaybe((BodyResponse<DdosProtectionPlanInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
@@ -343,13 +319,13 @@ public class DdosProtectionPlansInner implements InnerSupportsGet<DdosProtection
      * @param resourceGroupName The name of the resource group.
      * @param ddosProtectionPlanName The name of the DDoS protection plan.
      * @param parameters Parameters supplied to the create or update operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the DdosProtectionPlanInner object if successful.
      */
-    public DdosProtectionPlanInner createOrUpdate(String resourceGroupName, String ddosProtectionPlanName, DdosProtectionPlanInner parameters) {
-        return createOrUpdateWithServiceResponseAsync(resourceGroupName, ddosProtectionPlanName, parameters).toBlocking().last().body();
+    public DdosProtectionPlanInner beginCreateOrUpdate(@NonNull String resourceGroupName, @NonNull String ddosProtectionPlanName, @NonNull DdosProtectionPlanInner parameters) {
+        return beginCreateOrUpdateAsync(resourceGroupName, ddosProtectionPlanName, parameters).blockingLast().result();
     }
 
     /**
@@ -359,11 +335,11 @@ public class DdosProtectionPlansInner implements InnerSupportsGet<DdosProtection
      * @param ddosProtectionPlanName The name of the DDoS protection plan.
      * @param parameters Parameters supplied to the create or update operation.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;DdosProtectionPlanInner&gt; object.
      */
-    public ServiceFuture<DdosProtectionPlanInner> createOrUpdateAsync(String resourceGroupName, String ddosProtectionPlanName, DdosProtectionPlanInner parameters, final ServiceCallback<DdosProtectionPlanInner> serviceCallback) {
-        return ServiceFuture.fromResponse(createOrUpdateWithServiceResponseAsync(resourceGroupName, ddosProtectionPlanName, parameters), serviceCallback);
+    public ServiceFuture<DdosProtectionPlanInner> beginCreateOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String ddosProtectionPlanName, @NonNull DdosProtectionPlanInner parameters, ServiceCallback<DdosProtectionPlanInner> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginCreateOrUpdateAsync(resourceGroupName, ddosProtectionPlanName, parameters), serviceCallback);
     }
 
     /**
@@ -372,28 +348,10 @@ public class DdosProtectionPlansInner implements InnerSupportsGet<DdosProtection
      * @param resourceGroupName The name of the resource group.
      * @param ddosProtectionPlanName The name of the DDoS protection plan.
      * @param parameters Parameters supplied to the create or update operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<DdosProtectionPlanInner> createOrUpdateAsync(String resourceGroupName, String ddosProtectionPlanName, DdosProtectionPlanInner parameters) {
-        return createOrUpdateWithServiceResponseAsync(resourceGroupName, ddosProtectionPlanName, parameters).map(new Func1<ServiceResponse<DdosProtectionPlanInner>, DdosProtectionPlanInner>() {
-            @Override
-            public DdosProtectionPlanInner call(ServiceResponse<DdosProtectionPlanInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Creates or updates a DDoS protection plan.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param ddosProtectionPlanName The name of the DDoS protection plan.
-     * @param parameters Parameters supplied to the create or update operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<DdosProtectionPlanInner>> createOrUpdateWithServiceResponseAsync(String resourceGroupName, String ddosProtectionPlanName, DdosProtectionPlanInner parameters) {
+    public Observable<OperationStatus<DdosProtectionPlanInner>> beginCreateOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String ddosProtectionPlanName, @NonNull DdosProtectionPlanInner parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -408,8 +366,7 @@ public class DdosProtectionPlansInner implements InnerSupportsGet<DdosProtection
         }
         Validator.validate(parameters);
         final String apiVersion = "2018-06-01";
-        Observable<Response<ResponseBody>> observable = service.createOrUpdate(resourceGroupName, ddosProtectionPlanName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<DdosProtectionPlanInner>() { }.getType());
+        return service.beginCreateOrUpdate(resourceGroupName, ddosProtectionPlanName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage());
     }
 
     /**
@@ -418,13 +375,13 @@ public class DdosProtectionPlansInner implements InnerSupportsGet<DdosProtection
      * @param resourceGroupName The name of the resource group.
      * @param ddosProtectionPlanName The name of the DDoS protection plan.
      * @param parameters Parameters supplied to the create or update operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the DdosProtectionPlanInner object if successful.
      */
-    public DdosProtectionPlanInner beginCreateOrUpdate(String resourceGroupName, String ddosProtectionPlanName, DdosProtectionPlanInner parameters) {
-        return beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, ddosProtectionPlanName, parameters).toBlocking().single().body();
+    public DdosProtectionPlanInner createOrUpdate(@NonNull String resourceGroupName, @NonNull String ddosProtectionPlanName, @NonNull DdosProtectionPlanInner parameters) {
+        return createOrUpdateAsync(resourceGroupName, ddosProtectionPlanName, parameters).blockingGet();
     }
 
     /**
@@ -434,11 +391,11 @@ public class DdosProtectionPlansInner implements InnerSupportsGet<DdosProtection
      * @param ddosProtectionPlanName The name of the DDoS protection plan.
      * @param parameters Parameters supplied to the create or update operation.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<DdosProtectionPlanInner> beginCreateOrUpdateAsync(String resourceGroupName, String ddosProtectionPlanName, DdosProtectionPlanInner parameters, final ServiceCallback<DdosProtectionPlanInner> serviceCallback) {
-        return ServiceFuture.fromResponse(beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, ddosProtectionPlanName, parameters), serviceCallback);
+    public ServiceFuture<DdosProtectionPlanInner> createOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String ddosProtectionPlanName, @NonNull DdosProtectionPlanInner parameters, ServiceCallback<DdosProtectionPlanInner> serviceCallback) {
+        return ServiceFuture.fromBody(createOrUpdateAsync(resourceGroupName, ddosProtectionPlanName, parameters), serviceCallback);
     }
 
     /**
@@ -447,28 +404,10 @@ public class DdosProtectionPlansInner implements InnerSupportsGet<DdosProtection
      * @param resourceGroupName The name of the resource group.
      * @param ddosProtectionPlanName The name of the DDoS protection plan.
      * @param parameters Parameters supplied to the create or update operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the DdosProtectionPlanInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<DdosProtectionPlanInner> beginCreateOrUpdateAsync(String resourceGroupName, String ddosProtectionPlanName, DdosProtectionPlanInner parameters) {
-        return beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, ddosProtectionPlanName, parameters).map(new Func1<ServiceResponse<DdosProtectionPlanInner>, DdosProtectionPlanInner>() {
-            @Override
-            public DdosProtectionPlanInner call(ServiceResponse<DdosProtectionPlanInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Creates or updates a DDoS protection plan.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param ddosProtectionPlanName The name of the DDoS protection plan.
-     * @param parameters Parameters supplied to the create or update operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the DdosProtectionPlanInner object
-     */
-    public Observable<ServiceResponse<DdosProtectionPlanInner>> beginCreateOrUpdateWithServiceResponseAsync(String resourceGroupName, String ddosProtectionPlanName, DdosProtectionPlanInner parameters) {
+    public Single<BodyResponse<DdosProtectionPlanInner>> createOrUpdateWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String ddosProtectionPlanName, @NonNull DdosProtectionPlanInner parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -483,42 +422,50 @@ public class DdosProtectionPlansInner implements InnerSupportsGet<DdosProtection
         }
         Validator.validate(parameters);
         final String apiVersion = "2018-06-01";
-        return service.beginCreateOrUpdate(resourceGroupName, ddosProtectionPlanName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DdosProtectionPlanInner>>>() {
-                @Override
-                public Observable<ServiceResponse<DdosProtectionPlanInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<DdosProtectionPlanInner> clientResponse = beginCreateOrUpdateDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.createOrUpdate(resourceGroupName, ddosProtectionPlanName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<DdosProtectionPlanInner> beginCreateOrUpdateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<DdosProtectionPlanInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<DdosProtectionPlanInner>() { }.getType())
-                .register(201, new TypeToken<DdosProtectionPlanInner>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Creates or updates a DDoS protection plan.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param ddosProtectionPlanName The name of the DDoS protection plan.
+     * @param parameters Parameters supplied to the create or update operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<DdosProtectionPlanInner> createOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String ddosProtectionPlanName, @NonNull DdosProtectionPlanInner parameters) {
+        return createOrUpdateWithRestResponseAsync(resourceGroupName, ddosProtectionPlanName, parameters)
+            .flatMapMaybe((BodyResponse<DdosProtectionPlanInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
+    }
+
+    /**
+     * Creates or updates a DDoS protection plan. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<DdosProtectionPlanInner>> resumeCreateOrUpdate(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeCreateOrUpdate(operationDescription);
     }
 
     /**
      * Gets all DDoS protection plans in a subscription.
      *
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;DdosProtectionPlanInner&gt; object if successful.
      */
     public PagedList<DdosProtectionPlanInner> list() {
-        ServiceResponse<Page<DdosProtectionPlanInner>> response = listSinglePageAsync().toBlocking().single();
-        return new PagedList<DdosProtectionPlanInner>(response.body()) {
+        Page<DdosProtectionPlanInner> response = listSinglePageAsync().blockingGet();
+        return new PagedList<DdosProtectionPlanInner>(response) {
             @Override
             public Page<DdosProtectionPlanInner> nextPage(String nextPageLink) {
-                return listNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -526,105 +473,49 @@ public class DdosProtectionPlansInner implements InnerSupportsGet<DdosProtection
     /**
      * Gets all DDoS protection plans in a subscription.
      *
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<List<DdosProtectionPlanInner>> listAsync(final ListOperationCallback<DdosProtectionPlanInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listSinglePageAsync(),
-            new Func1<String, Observable<ServiceResponse<Page<DdosProtectionPlanInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<DdosProtectionPlanInner>>> call(String nextPageLink) {
-                    return listNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets all DDoS protection plans in a subscription.
-     *
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;DdosProtectionPlanInner&gt; object
+     * @return the observable to the PagedList&lt;DdosProtectionPlanInner&gt; object.
      */
     public Observable<Page<DdosProtectionPlanInner>> listAsync() {
-        return listWithServiceResponseAsync()
-            .map(new Func1<ServiceResponse<Page<DdosProtectionPlanInner>>, Page<DdosProtectionPlanInner>>() {
-                @Override
-                public Page<DdosProtectionPlanInner> call(ServiceResponse<Page<DdosProtectionPlanInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets all DDoS protection plans in a subscription.
-     *
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;DdosProtectionPlanInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<DdosProtectionPlanInner>>> listWithServiceResponseAsync() {
         return listSinglePageAsync()
-            .concatMap(new Func1<ServiceResponse<Page<DdosProtectionPlanInner>>, Observable<ServiceResponse<Page<DdosProtectionPlanInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<DdosProtectionPlanInner>>> call(ServiceResponse<Page<DdosProtectionPlanInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<DdosProtectionPlanInner> page) -> {
+                String nextPageLink = page.nextPageLink();
+                if (nextPageLink == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listNextAsync(nextPageLink));
             });
     }
 
     /**
      * Gets all DDoS protection plans in a subscription.
      *
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;DdosProtectionPlanInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @return the Single&lt;Page&lt;DdosProtectionPlanInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<DdosProtectionPlanInner>>> listSinglePageAsync() {
+    public Single<Page<DdosProtectionPlanInner>> listSinglePageAsync() {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        return service.list(this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<DdosProtectionPlanInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<DdosProtectionPlanInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<DdosProtectionPlanInner>> result = listDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<DdosProtectionPlanInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl<DdosProtectionPlanInner>> listDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<DdosProtectionPlanInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<DdosProtectionPlanInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+        return service.list(this.client.subscriptionId(), apiVersion, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl<DdosProtectionPlanInner>> res) -> res.body());
     }
 
     /**
      * Gets all the DDoS protection plans in a resource group.
      *
      * @param resourceGroupName The name of the resource group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;DdosProtectionPlanInner&gt; object if successful.
      */
-    public PagedList<DdosProtectionPlanInner> listByResourceGroup(final String resourceGroupName) {
-        ServiceResponse<Page<DdosProtectionPlanInner>> response = listByResourceGroupSinglePageAsync(resourceGroupName).toBlocking().single();
-        return new PagedList<DdosProtectionPlanInner>(response.body()) {
+    public PagedList<DdosProtectionPlanInner> listByResourceGroup(@NonNull String resourceGroupName) {
+        Page<DdosProtectionPlanInner> response = listByResourceGroupSinglePageAsync(resourceGroupName).blockingGet();
+        return new PagedList<DdosProtectionPlanInner>(response) {
             @Override
             public Page<DdosProtectionPlanInner> nextPage(String nextPageLink) {
-                return listByResourceGroupNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listByResourceGroupNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -633,68 +524,29 @@ public class DdosProtectionPlansInner implements InnerSupportsGet<DdosProtection
      * Gets all the DDoS protection plans in a resource group.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;DdosProtectionPlanInner&gt; object.
      */
-    public ServiceFuture<List<DdosProtectionPlanInner>> listByResourceGroupAsync(final String resourceGroupName, final ListOperationCallback<DdosProtectionPlanInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listByResourceGroupSinglePageAsync(resourceGroupName),
-            new Func1<String, Observable<ServiceResponse<Page<DdosProtectionPlanInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<DdosProtectionPlanInner>>> call(String nextPageLink) {
-                    return listByResourceGroupNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets all the DDoS protection plans in a resource group.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;DdosProtectionPlanInner&gt; object
-     */
-    public Observable<Page<DdosProtectionPlanInner>> listByResourceGroupAsync(final String resourceGroupName) {
-        return listByResourceGroupWithServiceResponseAsync(resourceGroupName)
-            .map(new Func1<ServiceResponse<Page<DdosProtectionPlanInner>>, Page<DdosProtectionPlanInner>>() {
-                @Override
-                public Page<DdosProtectionPlanInner> call(ServiceResponse<Page<DdosProtectionPlanInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets all the DDoS protection plans in a resource group.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;DdosProtectionPlanInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<DdosProtectionPlanInner>>> listByResourceGroupWithServiceResponseAsync(final String resourceGroupName) {
+    public Observable<Page<DdosProtectionPlanInner>> listByResourceGroupAsync(@NonNull String resourceGroupName) {
         return listByResourceGroupSinglePageAsync(resourceGroupName)
-            .concatMap(new Func1<ServiceResponse<Page<DdosProtectionPlanInner>>, Observable<ServiceResponse<Page<DdosProtectionPlanInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<DdosProtectionPlanInner>>> call(ServiceResponse<Page<DdosProtectionPlanInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listByResourceGroupNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<DdosProtectionPlanInner> page) -> {
+                String nextPageLink = page.nextPageLink();
+                if (nextPageLink == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listByResourceGroupNextAsync(nextPageLink));
             });
     }
 
     /**
      * Gets all the DDoS protection plans in a resource group.
      *
-    ServiceResponse<PageImpl<DdosProtectionPlanInner>> * @param resourceGroupName The name of the resource group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;DdosProtectionPlanInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param resourceGroupName The name of the resource group.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;DdosProtectionPlanInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<DdosProtectionPlanInner>>> listByResourceGroupSinglePageAsync(final String resourceGroupName) {
+    public Single<Page<DdosProtectionPlanInner>> listByResourceGroupSinglePageAsync(@NonNull String resourceGroupName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -702,42 +554,25 @@ public class DdosProtectionPlansInner implements InnerSupportsGet<DdosProtection
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        return service.listByResourceGroup(resourceGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<DdosProtectionPlanInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<DdosProtectionPlanInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<DdosProtectionPlanInner>> result = listByResourceGroupDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<DdosProtectionPlanInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl<DdosProtectionPlanInner>> listByResourceGroupDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<DdosProtectionPlanInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<DdosProtectionPlanInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+        return service.listByResourceGroup(resourceGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl<DdosProtectionPlanInner>> res) -> res.body());
     }
 
     /**
      * Gets all DDoS protection plans in a subscription.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;DdosProtectionPlanInner&gt; object if successful.
      */
-    public PagedList<DdosProtectionPlanInner> listNext(final String nextPageLink) {
-        ServiceResponse<Page<DdosProtectionPlanInner>> response = listNextSinglePageAsync(nextPageLink).toBlocking().single();
-        return new PagedList<DdosProtectionPlanInner>(response.body()) {
+    public PagedList<DdosProtectionPlanInner> listNext(@NonNull String nextPageLink) {
+        Page<DdosProtectionPlanInner> response = listNextSinglePageAsync(nextPageLink).blockingGet();
+        return new PagedList<DdosProtectionPlanInner>(response) {
             @Override
             public Page<DdosProtectionPlanInner> nextPage(String nextPageLink) {
-                return listNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -746,109 +581,52 @@ public class DdosProtectionPlansInner implements InnerSupportsGet<DdosProtection
      * Gets all DDoS protection plans in a subscription.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;DdosProtectionPlanInner&gt; object.
      */
-    public ServiceFuture<List<DdosProtectionPlanInner>> listNextAsync(final String nextPageLink, final ServiceFuture<List<DdosProtectionPlanInner>> serviceFuture, final ListOperationCallback<DdosProtectionPlanInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listNextSinglePageAsync(nextPageLink),
-            new Func1<String, Observable<ServiceResponse<Page<DdosProtectionPlanInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<DdosProtectionPlanInner>>> call(String nextPageLink) {
-                    return listNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets all DDoS protection plans in a subscription.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;DdosProtectionPlanInner&gt; object
-     */
-    public Observable<Page<DdosProtectionPlanInner>> listNextAsync(final String nextPageLink) {
-        return listNextWithServiceResponseAsync(nextPageLink)
-            .map(new Func1<ServiceResponse<Page<DdosProtectionPlanInner>>, Page<DdosProtectionPlanInner>>() {
-                @Override
-                public Page<DdosProtectionPlanInner> call(ServiceResponse<Page<DdosProtectionPlanInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets all DDoS protection plans in a subscription.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;DdosProtectionPlanInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<DdosProtectionPlanInner>>> listNextWithServiceResponseAsync(final String nextPageLink) {
+    public Observable<Page<DdosProtectionPlanInner>> listNextAsync(@NonNull String nextPageLink) {
         return listNextSinglePageAsync(nextPageLink)
-            .concatMap(new Func1<ServiceResponse<Page<DdosProtectionPlanInner>>, Observable<ServiceResponse<Page<DdosProtectionPlanInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<DdosProtectionPlanInner>>> call(ServiceResponse<Page<DdosProtectionPlanInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<DdosProtectionPlanInner> page) -> {
+                String nextPageLink1 = page.nextPageLink();
+                if (nextPageLink1 == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listNextAsync(nextPageLink1));
             });
     }
 
     /**
      * Gets all DDoS protection plans in a subscription.
      *
-    ServiceResponse<PageImpl<DdosProtectionPlanInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;DdosProtectionPlanInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;DdosProtectionPlanInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<DdosProtectionPlanInner>>> listNextSinglePageAsync(final String nextPageLink) {
+    public Single<Page<DdosProtectionPlanInner>> listNextSinglePageAsync(@NonNull String nextPageLink) {
         if (nextPageLink == null) {
             throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
         }
         String nextUrl = String.format("%s", nextPageLink);
-        return service.listNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<DdosProtectionPlanInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<DdosProtectionPlanInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<DdosProtectionPlanInner>> result = listNextDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<DdosProtectionPlanInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl<DdosProtectionPlanInner>> listNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<DdosProtectionPlanInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<DdosProtectionPlanInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+        return service.listNext(nextUrl, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl<DdosProtectionPlanInner>> res) -> res.body());
     }
 
     /**
      * Gets all the DDoS protection plans in a resource group.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;DdosProtectionPlanInner&gt; object if successful.
      */
-    public PagedList<DdosProtectionPlanInner> listByResourceGroupNext(final String nextPageLink) {
-        ServiceResponse<Page<DdosProtectionPlanInner>> response = listByResourceGroupNextSinglePageAsync(nextPageLink).toBlocking().single();
-        return new PagedList<DdosProtectionPlanInner>(response.body()) {
+    public PagedList<DdosProtectionPlanInner> listByResourceGroupNext(@NonNull String nextPageLink) {
+        Page<DdosProtectionPlanInner> response = listByResourceGroupNextSinglePageAsync(nextPageLink).blockingGet();
+        return new PagedList<DdosProtectionPlanInner>(response) {
             @Override
             public Page<DdosProtectionPlanInner> nextPage(String nextPageLink) {
-                return listByResourceGroupNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listByResourceGroupNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -857,92 +635,34 @@ public class DdosProtectionPlansInner implements InnerSupportsGet<DdosProtection
      * Gets all the DDoS protection plans in a resource group.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;DdosProtectionPlanInner&gt; object.
      */
-    public ServiceFuture<List<DdosProtectionPlanInner>> listByResourceGroupNextAsync(final String nextPageLink, final ServiceFuture<List<DdosProtectionPlanInner>> serviceFuture, final ListOperationCallback<DdosProtectionPlanInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listByResourceGroupNextSinglePageAsync(nextPageLink),
-            new Func1<String, Observable<ServiceResponse<Page<DdosProtectionPlanInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<DdosProtectionPlanInner>>> call(String nextPageLink) {
-                    return listByResourceGroupNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets all the DDoS protection plans in a resource group.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;DdosProtectionPlanInner&gt; object
-     */
-    public Observable<Page<DdosProtectionPlanInner>> listByResourceGroupNextAsync(final String nextPageLink) {
-        return listByResourceGroupNextWithServiceResponseAsync(nextPageLink)
-            .map(new Func1<ServiceResponse<Page<DdosProtectionPlanInner>>, Page<DdosProtectionPlanInner>>() {
-                @Override
-                public Page<DdosProtectionPlanInner> call(ServiceResponse<Page<DdosProtectionPlanInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets all the DDoS protection plans in a resource group.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;DdosProtectionPlanInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<DdosProtectionPlanInner>>> listByResourceGroupNextWithServiceResponseAsync(final String nextPageLink) {
+    public Observable<Page<DdosProtectionPlanInner>> listByResourceGroupNextAsync(@NonNull String nextPageLink) {
         return listByResourceGroupNextSinglePageAsync(nextPageLink)
-            .concatMap(new Func1<ServiceResponse<Page<DdosProtectionPlanInner>>, Observable<ServiceResponse<Page<DdosProtectionPlanInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<DdosProtectionPlanInner>>> call(ServiceResponse<Page<DdosProtectionPlanInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listByResourceGroupNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<DdosProtectionPlanInner> page) -> {
+                String nextPageLink1 = page.nextPageLink();
+                if (nextPageLink1 == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listByResourceGroupNextAsync(nextPageLink1));
             });
     }
 
     /**
      * Gets all the DDoS protection plans in a resource group.
      *
-    ServiceResponse<PageImpl<DdosProtectionPlanInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;DdosProtectionPlanInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;DdosProtectionPlanInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<DdosProtectionPlanInner>>> listByResourceGroupNextSinglePageAsync(final String nextPageLink) {
+    public Single<Page<DdosProtectionPlanInner>> listByResourceGroupNextSinglePageAsync(@NonNull String nextPageLink) {
         if (nextPageLink == null) {
             throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
         }
         String nextUrl = String.format("%s", nextPageLink);
-        return service.listByResourceGroupNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<DdosProtectionPlanInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<DdosProtectionPlanInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<DdosProtectionPlanInner>> result = listByResourceGroupNextDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<DdosProtectionPlanInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.listByResourceGroupNext(nextUrl, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl<DdosProtectionPlanInner>> res) -> res.body());
     }
-
-    private ServiceResponse<PageImpl<DdosProtectionPlanInner>> listByResourceGroupNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<DdosProtectionPlanInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<DdosProtectionPlanInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
-    }
-
 }

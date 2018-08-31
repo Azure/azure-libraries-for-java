@@ -8,15 +8,15 @@
 
 package com.microsoft.azure.v2.management.network.implementation;
 
-import java.util.List;
-import com.microsoft.azure.v2.management.network.ConnectivityHop;
-import com.microsoft.azure.v2.management.network.ConnectionStatus;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.v2.management.network.ConnectionStatus;
+import com.microsoft.azure.v2.management.network.ConnectivityHop;
+import java.util.List;
 
 /**
  * Information on the connectivity status.
  */
-public class ConnectivityInformationInner {
+public final class ConnectivityInformationInner {
     /**
      * List of hops between the source and the destination.
      */
@@ -63,7 +63,7 @@ public class ConnectivityInformationInner {
     /**
      * Get the hops value.
      *
-     * @return the hops value
+     * @return the hops value.
      */
     public List<ConnectivityHop> hops() {
         return this.hops;
@@ -72,7 +72,7 @@ public class ConnectivityInformationInner {
     /**
      * Get the connectionStatus value.
      *
-     * @return the connectionStatus value
+     * @return the connectionStatus value.
      */
     public ConnectionStatus connectionStatus() {
         return this.connectionStatus;
@@ -81,7 +81,7 @@ public class ConnectivityInformationInner {
     /**
      * Get the avgLatencyInMs value.
      *
-     * @return the avgLatencyInMs value
+     * @return the avgLatencyInMs value.
      */
     public Integer avgLatencyInMs() {
         return this.avgLatencyInMs;
@@ -90,7 +90,7 @@ public class ConnectivityInformationInner {
     /**
      * Get the minLatencyInMs value.
      *
-     * @return the minLatencyInMs value
+     * @return the minLatencyInMs value.
      */
     public Integer minLatencyInMs() {
         return this.minLatencyInMs;
@@ -99,7 +99,7 @@ public class ConnectivityInformationInner {
     /**
      * Get the maxLatencyInMs value.
      *
-     * @return the maxLatencyInMs value
+     * @return the maxLatencyInMs value.
      */
     public Integer maxLatencyInMs() {
         return this.maxLatencyInMs;
@@ -108,7 +108,7 @@ public class ConnectivityInformationInner {
     /**
      * Get the probesSent value.
      *
-     * @return the probesSent value
+     * @return the probesSent value.
      */
     public Integer probesSent() {
         return this.probesSent;
@@ -117,10 +117,9 @@ public class ConnectivityInformationInner {
     /**
      * Get the probesFailed value.
      *
-     * @return the probesFailed value
+     * @return the probesFailed value.
      */
     public Integer probesFailed() {
         return this.probesFailed;
     }
-
 }

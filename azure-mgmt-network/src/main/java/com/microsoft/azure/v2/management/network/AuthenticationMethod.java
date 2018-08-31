@@ -8,24 +8,29 @@
 
 package com.microsoft.azure.v2.management.network;
 
-import java.util.Collection;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.microsoft.rest.ExpandableStringEnum;
+import com.microsoft.rest.v2.ExpandableStringEnum;
+import java.util.Collection;
 
 /**
  * Defines values for AuthenticationMethod.
  */
 public final class AuthenticationMethod extends ExpandableStringEnum<AuthenticationMethod> {
-    /** Static value EAPTLS for AuthenticationMethod. */
+    /**
+     * Static value EAPTLS for AuthenticationMethod.
+     */
     public static final AuthenticationMethod EAPTLS = fromString("EAPTLS");
 
-    /** Static value EAPMSCHAPv2 for AuthenticationMethod. */
+    /**
+     * Static value EAPMSCHAPv2 for AuthenticationMethod.
+     */
     public static final AuthenticationMethod EAPMSCHAPV2 = fromString("EAPMSCHAPv2");
 
     /**
      * Creates or finds a AuthenticationMethod from its string representation.
-     * @param name a name to look for
-     * @return the corresponding AuthenticationMethod
+     *
+     * @param name a name to look for.
+     * @return the corresponding AuthenticationMethod.
      */
     @JsonCreator
     public static AuthenticationMethod fromString(String name) {
@@ -33,7 +38,7 @@ public final class AuthenticationMethod extends ExpandableStringEnum<Authenticat
     }
 
     /**
-     * @return known AuthenticationMethod values
+     * @return known AuthenticationMethod values.
      */
     public static Collection<AuthenticationMethod> values() {
         return values(AuthenticationMethod.class);

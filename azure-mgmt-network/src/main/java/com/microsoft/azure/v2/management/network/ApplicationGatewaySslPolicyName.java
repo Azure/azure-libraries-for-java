@@ -8,27 +8,34 @@
 
 package com.microsoft.azure.v2.management.network;
 
-import java.util.Collection;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.microsoft.rest.ExpandableStringEnum;
+import com.microsoft.rest.v2.ExpandableStringEnum;
+import java.util.Collection;
 
 /**
  * Defines values for ApplicationGatewaySslPolicyName.
  */
 public final class ApplicationGatewaySslPolicyName extends ExpandableStringEnum<ApplicationGatewaySslPolicyName> {
-    /** Static value AppGwSslPolicy20150501 for ApplicationGatewaySslPolicyName. */
+    /**
+     * Static value AppGwSslPolicy20150501 for ApplicationGatewaySslPolicyName.
+     */
     public static final ApplicationGatewaySslPolicyName APP_GW_SSL_POLICY20150501 = fromString("AppGwSslPolicy20150501");
 
-    /** Static value AppGwSslPolicy20170401 for ApplicationGatewaySslPolicyName. */
+    /**
+     * Static value AppGwSslPolicy20170401 for ApplicationGatewaySslPolicyName.
+     */
     public static final ApplicationGatewaySslPolicyName APP_GW_SSL_POLICY20170401 = fromString("AppGwSslPolicy20170401");
 
-    /** Static value AppGwSslPolicy20170401S for ApplicationGatewaySslPolicyName. */
+    /**
+     * Static value AppGwSslPolicy20170401S for ApplicationGatewaySslPolicyName.
+     */
     public static final ApplicationGatewaySslPolicyName APP_GW_SSL_POLICY20170401S = fromString("AppGwSslPolicy20170401S");
 
     /**
      * Creates or finds a ApplicationGatewaySslPolicyName from its string representation.
-     * @param name a name to look for
-     * @return the corresponding ApplicationGatewaySslPolicyName
+     *
+     * @param name a name to look for.
+     * @return the corresponding ApplicationGatewaySslPolicyName.
      */
     @JsonCreator
     public static ApplicationGatewaySslPolicyName fromString(String name) {
@@ -36,7 +43,7 @@ public final class ApplicationGatewaySslPolicyName extends ExpandableStringEnum<
     }
 
     /**
-     * @return known ApplicationGatewaySslPolicyName values
+     * @return known ApplicationGatewaySslPolicyName values.
      */
     public static Collection<ApplicationGatewaySslPolicyName> values() {
         return values(ApplicationGatewaySslPolicyName.class);

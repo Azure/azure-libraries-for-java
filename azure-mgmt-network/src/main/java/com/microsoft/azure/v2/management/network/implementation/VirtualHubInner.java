@@ -8,13 +8,12 @@
 
 package com.microsoft.azure.v2.management.network.implementation;
 
-import com.microsoft.azure.SubResource;
-import java.util.List;
-import com.microsoft.azure.v2.management.network.ProvisioningState;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.rest.SkipParentValidation;
-import com.microsoft.azure.Resource;
+import com.microsoft.azure.v2.Resource;
+import com.microsoft.azure.v2.SubResource;
+import com.microsoft.azure.v2.management.network.ProvisioningState;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
+import java.util.List;
 
 /**
  * VirtualHub Resource.
@@ -32,7 +31,7 @@ public class VirtualHubInner extends Resource {
      * list of all vnet connections with this VirtualHub.
      */
     @JsonProperty(value = "properties.hubVirtualNetworkConnections")
-    private List<HubVirtualNetworkConnectionInner> hubVirtualNetworkConnections;
+    private List<HubVirtualNetworkConnectionInner> hubVirtualNetworkConnectionsProperty;
 
     /**
      * Address-prefix for this VirtualHub.
@@ -63,7 +62,7 @@ public class VirtualHubInner extends Resource {
     /**
      * Get the virtualWan value.
      *
-     * @return the virtualWan value
+     * @return the virtualWan value.
      */
     public SubResource virtualWan() {
         return this.virtualWan;
@@ -72,7 +71,7 @@ public class VirtualHubInner extends Resource {
     /**
      * Set the virtualWan value.
      *
-     * @param virtualWan the virtualWan value to set
+     * @param virtualWan the virtualWan value to set.
      * @return the VirtualHubInner object itself.
      */
     public VirtualHubInner withVirtualWan(SubResource virtualWan) {
@@ -81,29 +80,30 @@ public class VirtualHubInner extends Resource {
     }
 
     /**
-     * Get the hubVirtualNetworkConnections value.
+     * Get the hubVirtualNetworkConnectionsProperty value.
      *
-     * @return the hubVirtualNetworkConnections value
+     * @return the hubVirtualNetworkConnectionsProperty value.
      */
-    public List<HubVirtualNetworkConnectionInner> hubVirtualNetworkConnections() {
-        return this.hubVirtualNetworkConnections;
+    public List<HubVirtualNetworkConnectionInner> hubVirtualNetworkConnectionsProperty() {
+        return this.hubVirtualNetworkConnectionsProperty;
     }
 
     /**
-     * Set the hubVirtualNetworkConnections value.
+     * Set the hubVirtualNetworkConnectionsProperty value.
      *
-     * @param hubVirtualNetworkConnections the hubVirtualNetworkConnections value to set
+     * @param hubVirtualNetworkConnectionsProperty the
+     * hubVirtualNetworkConnectionsProperty value to set.
      * @return the VirtualHubInner object itself.
      */
-    public VirtualHubInner withHubVirtualNetworkConnections(List<HubVirtualNetworkConnectionInner> hubVirtualNetworkConnections) {
-        this.hubVirtualNetworkConnections = hubVirtualNetworkConnections;
+    public VirtualHubInner withHubVirtualNetworkConnectionsProperty(List<HubVirtualNetworkConnectionInner> hubVirtualNetworkConnectionsProperty) {
+        this.hubVirtualNetworkConnectionsProperty = hubVirtualNetworkConnectionsProperty;
         return this;
     }
 
     /**
      * Get the addressPrefix value.
      *
-     * @return the addressPrefix value
+     * @return the addressPrefix value.
      */
     public String addressPrefix() {
         return this.addressPrefix;
@@ -112,7 +112,7 @@ public class VirtualHubInner extends Resource {
     /**
      * Set the addressPrefix value.
      *
-     * @param addressPrefix the addressPrefix value to set
+     * @param addressPrefix the addressPrefix value to set.
      * @return the VirtualHubInner object itself.
      */
     public VirtualHubInner withAddressPrefix(String addressPrefix) {
@@ -123,7 +123,7 @@ public class VirtualHubInner extends Resource {
     /**
      * Get the provisioningState value.
      *
-     * @return the provisioningState value
+     * @return the provisioningState value.
      */
     public ProvisioningState provisioningState() {
         return this.provisioningState;
@@ -132,7 +132,7 @@ public class VirtualHubInner extends Resource {
     /**
      * Set the provisioningState value.
      *
-     * @param provisioningState the provisioningState value to set
+     * @param provisioningState the provisioningState value to set.
      * @return the VirtualHubInner object itself.
      */
     public VirtualHubInner withProvisioningState(ProvisioningState provisioningState) {
@@ -143,7 +143,7 @@ public class VirtualHubInner extends Resource {
     /**
      * Get the etag value.
      *
-     * @return the etag value
+     * @return the etag value.
      */
     public String etag() {
         return this.etag;
@@ -152,7 +152,7 @@ public class VirtualHubInner extends Resource {
     /**
      * Get the id value.
      *
-     * @return the id value
+     * @return the id value.
      */
     public String id() {
         return this.id;
@@ -161,12 +161,11 @@ public class VirtualHubInner extends Resource {
     /**
      * Set the id value.
      *
-     * @param id the id value to set
+     * @param id the id value to set.
      * @return the VirtualHubInner object itself.
      */
     public VirtualHubInner withId(String id) {
         this.id = id;
         return this;
     }
-
 }

@@ -8,12 +8,13 @@
 
 package com.microsoft.azure.v2.management.network.implementation;
 
-import com.microsoft.azure.v2.management.network.LoadBalancerSku;
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.rest.SkipParentValidation;
-import com.microsoft.azure.Resource;
+import com.microsoft.azure.v2.Resource;
+import com.microsoft.azure.v2.management.network.InboundNatPool;
+import com.microsoft.azure.v2.management.network.LoadBalancerSku;
+import com.microsoft.azure.v2.management.network.OutboundNatRule;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
+import java.util.List;
 
 /**
  * LoadBalancer resource.
@@ -61,7 +62,7 @@ public class LoadBalancerInner extends Resource {
      * reference individual inbound NAT rules.
      */
     @JsonProperty(value = "properties.inboundNatRules")
-    private List<InboundNatRuleInner> inboundNatRules;
+    private List<InboundNatRuleInner> inboundNatRulesProperty;
 
     /**
      * Defines an external port range for inbound NAT to a single backend port
@@ -74,13 +75,13 @@ public class LoadBalancerInner extends Resource {
      * NAT pool. They have to reference individual inbound NAT rules.
      */
     @JsonProperty(value = "properties.inboundNatPools")
-    private List<InboundNatPoolInner> inboundNatPools;
+    private List<InboundNatPool> inboundNatPools;
 
     /**
      * The outbound NAT rules.
      */
     @JsonProperty(value = "properties.outboundNatRules")
-    private List<OutboundNatRuleInner> outboundNatRules;
+    private List<OutboundNatRule> outboundNatRules;
 
     /**
      * The resource GUID property of the load balancer resource.
@@ -110,7 +111,7 @@ public class LoadBalancerInner extends Resource {
     /**
      * Get the sku value.
      *
-     * @return the sku value
+     * @return the sku value.
      */
     public LoadBalancerSku sku() {
         return this.sku;
@@ -119,7 +120,7 @@ public class LoadBalancerInner extends Resource {
     /**
      * Set the sku value.
      *
-     * @param sku the sku value to set
+     * @param sku the sku value to set.
      * @return the LoadBalancerInner object itself.
      */
     public LoadBalancerInner withSku(LoadBalancerSku sku) {
@@ -130,7 +131,7 @@ public class LoadBalancerInner extends Resource {
     /**
      * Get the frontendIPConfigurations value.
      *
-     * @return the frontendIPConfigurations value
+     * @return the frontendIPConfigurations value.
      */
     public List<FrontendIPConfigurationInner> frontendIPConfigurations() {
         return this.frontendIPConfigurations;
@@ -139,7 +140,8 @@ public class LoadBalancerInner extends Resource {
     /**
      * Set the frontendIPConfigurations value.
      *
-     * @param frontendIPConfigurations the frontendIPConfigurations value to set
+     * @param frontendIPConfigurations the frontendIPConfigurations value to
+     * set.
      * @return the LoadBalancerInner object itself.
      */
     public LoadBalancerInner withFrontendIPConfigurations(List<FrontendIPConfigurationInner> frontendIPConfigurations) {
@@ -150,7 +152,7 @@ public class LoadBalancerInner extends Resource {
     /**
      * Get the backendAddressPools value.
      *
-     * @return the backendAddressPools value
+     * @return the backendAddressPools value.
      */
     public List<BackendAddressPoolInner> backendAddressPools() {
         return this.backendAddressPools;
@@ -159,7 +161,7 @@ public class LoadBalancerInner extends Resource {
     /**
      * Set the backendAddressPools value.
      *
-     * @param backendAddressPools the backendAddressPools value to set
+     * @param backendAddressPools the backendAddressPools value to set.
      * @return the LoadBalancerInner object itself.
      */
     public LoadBalancerInner withBackendAddressPools(List<BackendAddressPoolInner> backendAddressPools) {
@@ -170,7 +172,7 @@ public class LoadBalancerInner extends Resource {
     /**
      * Get the loadBalancingRules value.
      *
-     * @return the loadBalancingRules value
+     * @return the loadBalancingRules value.
      */
     public List<LoadBalancingRuleInner> loadBalancingRules() {
         return this.loadBalancingRules;
@@ -179,7 +181,7 @@ public class LoadBalancerInner extends Resource {
     /**
      * Set the loadBalancingRules value.
      *
-     * @param loadBalancingRules the loadBalancingRules value to set
+     * @param loadBalancingRules the loadBalancingRules value to set.
      * @return the LoadBalancerInner object itself.
      */
     public LoadBalancerInner withLoadBalancingRules(List<LoadBalancingRuleInner> loadBalancingRules) {
@@ -190,7 +192,7 @@ public class LoadBalancerInner extends Resource {
     /**
      * Get the probes value.
      *
-     * @return the probes value
+     * @return the probes value.
      */
     public List<ProbeInner> probes() {
         return this.probes;
@@ -199,7 +201,7 @@ public class LoadBalancerInner extends Resource {
     /**
      * Set the probes value.
      *
-     * @param probes the probes value to set
+     * @param probes the probes value to set.
      * @return the LoadBalancerInner object itself.
      */
     public LoadBalancerInner withProbes(List<ProbeInner> probes) {
@@ -208,41 +210,41 @@ public class LoadBalancerInner extends Resource {
     }
 
     /**
-     * Get the inboundNatRules value.
+     * Get the inboundNatRulesProperty value.
      *
-     * @return the inboundNatRules value
+     * @return the inboundNatRulesProperty value.
      */
-    public List<InboundNatRuleInner> inboundNatRules() {
-        return this.inboundNatRules;
+    public List<InboundNatRuleInner> inboundNatRulesProperty() {
+        return this.inboundNatRulesProperty;
     }
 
     /**
-     * Set the inboundNatRules value.
+     * Set the inboundNatRulesProperty value.
      *
-     * @param inboundNatRules the inboundNatRules value to set
+     * @param inboundNatRulesProperty the inboundNatRulesProperty value to set.
      * @return the LoadBalancerInner object itself.
      */
-    public LoadBalancerInner withInboundNatRules(List<InboundNatRuleInner> inboundNatRules) {
-        this.inboundNatRules = inboundNatRules;
+    public LoadBalancerInner withInboundNatRulesProperty(List<InboundNatRuleInner> inboundNatRulesProperty) {
+        this.inboundNatRulesProperty = inboundNatRulesProperty;
         return this;
     }
 
     /**
      * Get the inboundNatPools value.
      *
-     * @return the inboundNatPools value
+     * @return the inboundNatPools value.
      */
-    public List<InboundNatPoolInner> inboundNatPools() {
+    public List<InboundNatPool> inboundNatPools() {
         return this.inboundNatPools;
     }
 
     /**
      * Set the inboundNatPools value.
      *
-     * @param inboundNatPools the inboundNatPools value to set
+     * @param inboundNatPools the inboundNatPools value to set.
      * @return the LoadBalancerInner object itself.
      */
-    public LoadBalancerInner withInboundNatPools(List<InboundNatPoolInner> inboundNatPools) {
+    public LoadBalancerInner withInboundNatPools(List<InboundNatPool> inboundNatPools) {
         this.inboundNatPools = inboundNatPools;
         return this;
     }
@@ -250,19 +252,19 @@ public class LoadBalancerInner extends Resource {
     /**
      * Get the outboundNatRules value.
      *
-     * @return the outboundNatRules value
+     * @return the outboundNatRules value.
      */
-    public List<OutboundNatRuleInner> outboundNatRules() {
+    public List<OutboundNatRule> outboundNatRules() {
         return this.outboundNatRules;
     }
 
     /**
      * Set the outboundNatRules value.
      *
-     * @param outboundNatRules the outboundNatRules value to set
+     * @param outboundNatRules the outboundNatRules value to set.
      * @return the LoadBalancerInner object itself.
      */
-    public LoadBalancerInner withOutboundNatRules(List<OutboundNatRuleInner> outboundNatRules) {
+    public LoadBalancerInner withOutboundNatRules(List<OutboundNatRule> outboundNatRules) {
         this.outboundNatRules = outboundNatRules;
         return this;
     }
@@ -270,7 +272,7 @@ public class LoadBalancerInner extends Resource {
     /**
      * Get the resourceGuid value.
      *
-     * @return the resourceGuid value
+     * @return the resourceGuid value.
      */
     public String resourceGuid() {
         return this.resourceGuid;
@@ -279,7 +281,7 @@ public class LoadBalancerInner extends Resource {
     /**
      * Set the resourceGuid value.
      *
-     * @param resourceGuid the resourceGuid value to set
+     * @param resourceGuid the resourceGuid value to set.
      * @return the LoadBalancerInner object itself.
      */
     public LoadBalancerInner withResourceGuid(String resourceGuid) {
@@ -290,7 +292,7 @@ public class LoadBalancerInner extends Resource {
     /**
      * Get the provisioningState value.
      *
-     * @return the provisioningState value
+     * @return the provisioningState value.
      */
     public String provisioningState() {
         return this.provisioningState;
@@ -299,7 +301,7 @@ public class LoadBalancerInner extends Resource {
     /**
      * Set the provisioningState value.
      *
-     * @param provisioningState the provisioningState value to set
+     * @param provisioningState the provisioningState value to set.
      * @return the LoadBalancerInner object itself.
      */
     public LoadBalancerInner withProvisioningState(String provisioningState) {
@@ -310,7 +312,7 @@ public class LoadBalancerInner extends Resource {
     /**
      * Get the etag value.
      *
-     * @return the etag value
+     * @return the etag value.
      */
     public String etag() {
         return this.etag;
@@ -319,7 +321,7 @@ public class LoadBalancerInner extends Resource {
     /**
      * Set the etag value.
      *
-     * @param etag the etag value to set
+     * @param etag the etag value to set.
      * @return the LoadBalancerInner object itself.
      */
     public LoadBalancerInner withEtag(String etag) {
@@ -330,7 +332,7 @@ public class LoadBalancerInner extends Resource {
     /**
      * Get the id value.
      *
-     * @return the id value
+     * @return the id value.
      */
     public String id() {
         return this.id;
@@ -339,12 +341,11 @@ public class LoadBalancerInner extends Resource {
     /**
      * Set the id value.
      *
-     * @param id the id value to set
+     * @param id the id value to set.
      * @return the LoadBalancerInner object itself.
      */
     public LoadBalancerInner withId(String id) {
         this.id = id;
         return this;
     }
-
 }

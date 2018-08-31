@@ -8,11 +8,11 @@
 
 package com.microsoft.azure.v2.management.network.implementation;
 
-import com.microsoft.azure.v2.management.network.PacketCaptureStorageLocation;
-import java.util.List;
-import com.microsoft.azure.v2.management.network.PacketCaptureFilter;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.v2.management.network.PacketCaptureFilter;
+import com.microsoft.azure.v2.management.network.PacketCaptureStorageLocation;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
+import java.util.List;
 
 /**
  * Parameters that define the create packet capture operation.
@@ -58,7 +58,7 @@ public class PacketCaptureInner {
     /**
      * Get the target value.
      *
-     * @return the target value
+     * @return the target value.
      */
     public String target() {
         return this.target;
@@ -67,7 +67,7 @@ public class PacketCaptureInner {
     /**
      * Set the target value.
      *
-     * @param target the target value to set
+     * @param target the target value to set.
      * @return the PacketCaptureInner object itself.
      */
     public PacketCaptureInner withTarget(String target) {
@@ -78,7 +78,7 @@ public class PacketCaptureInner {
     /**
      * Get the bytesToCapturePerPacket value.
      *
-     * @return the bytesToCapturePerPacket value
+     * @return the bytesToCapturePerPacket value.
      */
     public Integer bytesToCapturePerPacket() {
         return this.bytesToCapturePerPacket;
@@ -87,7 +87,7 @@ public class PacketCaptureInner {
     /**
      * Set the bytesToCapturePerPacket value.
      *
-     * @param bytesToCapturePerPacket the bytesToCapturePerPacket value to set
+     * @param bytesToCapturePerPacket the bytesToCapturePerPacket value to set.
      * @return the PacketCaptureInner object itself.
      */
     public PacketCaptureInner withBytesToCapturePerPacket(Integer bytesToCapturePerPacket) {
@@ -98,7 +98,7 @@ public class PacketCaptureInner {
     /**
      * Get the totalBytesPerSession value.
      *
-     * @return the totalBytesPerSession value
+     * @return the totalBytesPerSession value.
      */
     public Integer totalBytesPerSession() {
         return this.totalBytesPerSession;
@@ -107,7 +107,7 @@ public class PacketCaptureInner {
     /**
      * Set the totalBytesPerSession value.
      *
-     * @param totalBytesPerSession the totalBytesPerSession value to set
+     * @param totalBytesPerSession the totalBytesPerSession value to set.
      * @return the PacketCaptureInner object itself.
      */
     public PacketCaptureInner withTotalBytesPerSession(Integer totalBytesPerSession) {
@@ -118,7 +118,7 @@ public class PacketCaptureInner {
     /**
      * Get the timeLimitInSeconds value.
      *
-     * @return the timeLimitInSeconds value
+     * @return the timeLimitInSeconds value.
      */
     public Integer timeLimitInSeconds() {
         return this.timeLimitInSeconds;
@@ -127,7 +127,7 @@ public class PacketCaptureInner {
     /**
      * Set the timeLimitInSeconds value.
      *
-     * @param timeLimitInSeconds the timeLimitInSeconds value to set
+     * @param timeLimitInSeconds the timeLimitInSeconds value to set.
      * @return the PacketCaptureInner object itself.
      */
     public PacketCaptureInner withTimeLimitInSeconds(Integer timeLimitInSeconds) {
@@ -138,7 +138,7 @@ public class PacketCaptureInner {
     /**
      * Get the storageLocation value.
      *
-     * @return the storageLocation value
+     * @return the storageLocation value.
      */
     public PacketCaptureStorageLocation storageLocation() {
         return this.storageLocation;
@@ -147,7 +147,7 @@ public class PacketCaptureInner {
     /**
      * Set the storageLocation value.
      *
-     * @param storageLocation the storageLocation value to set
+     * @param storageLocation the storageLocation value to set.
      * @return the PacketCaptureInner object itself.
      */
     public PacketCaptureInner withStorageLocation(PacketCaptureStorageLocation storageLocation) {
@@ -158,7 +158,7 @@ public class PacketCaptureInner {
     /**
      * Get the filters value.
      *
-     * @return the filters value
+     * @return the filters value.
      */
     public List<PacketCaptureFilter> filters() {
         return this.filters;
@@ -167,12 +167,11 @@ public class PacketCaptureInner {
     /**
      * Set the filters value.
      *
-     * @param filters the filters value to set
+     * @param filters the filters value to set.
      * @return the PacketCaptureInner object itself.
      */
     public PacketCaptureInner withFilters(List<PacketCaptureFilter> filters) {
         this.filters = filters;
         return this;
     }
-
 }

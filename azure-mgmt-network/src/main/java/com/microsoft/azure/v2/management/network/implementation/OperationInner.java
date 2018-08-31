@@ -8,10 +8,10 @@
 
 package com.microsoft.azure.v2.management.network.implementation;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.azure.v2.management.network.OperationDisplay;
 import com.microsoft.azure.v2.management.network.OperationPropertiesFormatServiceSpecification;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
 
 /**
  * Network REST API operation definition.
@@ -45,7 +45,7 @@ public class OperationInner {
     /**
      * Get the name value.
      *
-     * @return the name value
+     * @return the name value.
      */
     public String name() {
         return this.name;
@@ -54,7 +54,7 @@ public class OperationInner {
     /**
      * Set the name value.
      *
-     * @param name the name value to set
+     * @param name the name value to set.
      * @return the OperationInner object itself.
      */
     public OperationInner withName(String name) {
@@ -65,7 +65,7 @@ public class OperationInner {
     /**
      * Get the display value.
      *
-     * @return the display value
+     * @return the display value.
      */
     public OperationDisplay display() {
         return this.display;
@@ -74,7 +74,7 @@ public class OperationInner {
     /**
      * Set the display value.
      *
-     * @param display the display value to set
+     * @param display the display value to set.
      * @return the OperationInner object itself.
      */
     public OperationInner withDisplay(OperationDisplay display) {
@@ -85,7 +85,7 @@ public class OperationInner {
     /**
      * Get the origin value.
      *
-     * @return the origin value
+     * @return the origin value.
      */
     public String origin() {
         return this.origin;
@@ -94,7 +94,7 @@ public class OperationInner {
     /**
      * Set the origin value.
      *
-     * @param origin the origin value to set
+     * @param origin the origin value to set.
      * @return the OperationInner object itself.
      */
     public OperationInner withOrigin(String origin) {
@@ -105,7 +105,7 @@ public class OperationInner {
     /**
      * Get the serviceSpecification value.
      *
-     * @return the serviceSpecification value
+     * @return the serviceSpecification value.
      */
     public OperationPropertiesFormatServiceSpecification serviceSpecification() {
         return this.serviceSpecification;
@@ -114,12 +114,11 @@ public class OperationInner {
     /**
      * Set the serviceSpecification value.
      *
-     * @param serviceSpecification the serviceSpecification value to set
+     * @param serviceSpecification the serviceSpecification value to set.
      * @return the OperationInner object itself.
      */
     public OperationInner withServiceSpecification(OperationPropertiesFormatServiceSpecification serviceSpecification) {
         this.serviceSpecification = serviceSpecification;
         return this;
     }
-
 }

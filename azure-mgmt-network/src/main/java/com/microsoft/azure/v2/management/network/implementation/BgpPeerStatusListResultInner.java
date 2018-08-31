@@ -8,14 +8,14 @@
 
 package com.microsoft.azure.v2.management.network.implementation;
 
-import java.util.List;
-import com.microsoft.azure.v2.management.network.BgpPeerStatus;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.v2.management.network.BgpPeerStatus;
+import java.util.List;
 
 /**
  * Response for list BGP peer status API service call.
  */
-public class BgpPeerStatusListResultInner {
+public final class BgpPeerStatusListResultInner {
     /**
      * List of BGP peers.
      */
@@ -25,7 +25,7 @@ public class BgpPeerStatusListResultInner {
     /**
      * Get the value value.
      *
-     * @return the value value
+     * @return the value value.
      */
     public List<BgpPeerStatus> value() {
         return this.value;
@@ -34,12 +34,11 @@ public class BgpPeerStatusListResultInner {
     /**
      * Set the value value.
      *
-     * @param value the value value to set
+     * @param value the value value to set.
      * @return the BgpPeerStatusListResultInner object itself.
      */
     public BgpPeerStatusListResultInner withValue(List<BgpPeerStatus> value) {
         this.value = value;
         return this;
     }
-
 }

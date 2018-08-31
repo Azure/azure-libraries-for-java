@@ -8,13 +8,13 @@
 
 package com.microsoft.azure.v2.management.network;
 
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 
 /**
  * Effective Route.
  */
-public class EffectiveRoute {
+public final class EffectiveRoute {
     /**
      * The name of the user defined route. This is optional.
      */
@@ -60,7 +60,7 @@ public class EffectiveRoute {
     /**
      * Get the name value.
      *
-     * @return the name value
+     * @return the name value.
      */
     public String name() {
         return this.name;
@@ -69,7 +69,7 @@ public class EffectiveRoute {
     /**
      * Set the name value.
      *
-     * @param name the name value to set
+     * @param name the name value to set.
      * @return the EffectiveRoute object itself.
      */
     public EffectiveRoute withName(String name) {
@@ -80,7 +80,7 @@ public class EffectiveRoute {
     /**
      * Get the source value.
      *
-     * @return the source value
+     * @return the source value.
      */
     public EffectiveRouteSource source() {
         return this.source;
@@ -89,7 +89,7 @@ public class EffectiveRoute {
     /**
      * Set the source value.
      *
-     * @param source the source value to set
+     * @param source the source value to set.
      * @return the EffectiveRoute object itself.
      */
     public EffectiveRoute withSource(EffectiveRouteSource source) {
@@ -100,7 +100,7 @@ public class EffectiveRoute {
     /**
      * Get the state value.
      *
-     * @return the state value
+     * @return the state value.
      */
     public EffectiveRouteState state() {
         return this.state;
@@ -109,7 +109,7 @@ public class EffectiveRoute {
     /**
      * Set the state value.
      *
-     * @param state the state value to set
+     * @param state the state value to set.
      * @return the EffectiveRoute object itself.
      */
     public EffectiveRoute withState(EffectiveRouteState state) {
@@ -120,7 +120,7 @@ public class EffectiveRoute {
     /**
      * Get the addressPrefix value.
      *
-     * @return the addressPrefix value
+     * @return the addressPrefix value.
      */
     public List<String> addressPrefix() {
         return this.addressPrefix;
@@ -129,7 +129,7 @@ public class EffectiveRoute {
     /**
      * Set the addressPrefix value.
      *
-     * @param addressPrefix the addressPrefix value to set
+     * @param addressPrefix the addressPrefix value to set.
      * @return the EffectiveRoute object itself.
      */
     public EffectiveRoute withAddressPrefix(List<String> addressPrefix) {
@@ -140,7 +140,7 @@ public class EffectiveRoute {
     /**
      * Get the nextHopIpAddress value.
      *
-     * @return the nextHopIpAddress value
+     * @return the nextHopIpAddress value.
      */
     public List<String> nextHopIpAddress() {
         return this.nextHopIpAddress;
@@ -149,7 +149,7 @@ public class EffectiveRoute {
     /**
      * Set the nextHopIpAddress value.
      *
-     * @param nextHopIpAddress the nextHopIpAddress value to set
+     * @param nextHopIpAddress the nextHopIpAddress value to set.
      * @return the EffectiveRoute object itself.
      */
     public EffectiveRoute withNextHopIpAddress(List<String> nextHopIpAddress) {
@@ -160,7 +160,7 @@ public class EffectiveRoute {
     /**
      * Get the nextHopType value.
      *
-     * @return the nextHopType value
+     * @return the nextHopType value.
      */
     public RouteNextHopType nextHopType() {
         return this.nextHopType;
@@ -169,12 +169,11 @@ public class EffectiveRoute {
     /**
      * Set the nextHopType value.
      *
-     * @param nextHopType the nextHopType value to set
+     * @param nextHopType the nextHopType value to set.
      * @return the EffectiveRoute object itself.
      */
     public EffectiveRoute withNextHopType(RouteNextHopType nextHopType) {
         this.nextHopType = nextHopType;
         return this;
     }
-
 }

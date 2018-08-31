@@ -8,98 +8,124 @@
 
 package com.microsoft.azure.v2.management.network.implementation;
 
-import com.microsoft.azure.v2.management.resources.fluentcore.collection.InnerSupportsGet;
+import com.microsoft.azure.v2.AzureProxy;
+import com.microsoft.azure.v2.CloudException;
+import com.microsoft.azure.v2.OperationStatus;
+import com.microsoft.azure.v2.Page;
+import com.microsoft.azure.v2.PagedList;
 import com.microsoft.azure.v2.management.resources.fluentcore.collection.InnerSupportsDelete;
+import com.microsoft.azure.v2.management.resources.fluentcore.collection.InnerSupportsGet;
 import com.microsoft.azure.v2.management.resources.fluentcore.collection.InnerSupportsListing;
-import retrofit2.Retrofit;
-import com.google.common.reflect.TypeToken;
-import com.microsoft.azure.AzureServiceFuture;
-import com.microsoft.azure.CloudException;
-import com.microsoft.azure.ListOperationCallback;
-import com.microsoft.azure.Page;
-import com.microsoft.azure.PagedList;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import com.microsoft.rest.ServiceResponse;
-import com.microsoft.rest.Validator;
-import java.io.IOException;
-import java.util.List;
-import okhttp3.ResponseBody;
-import retrofit2.http.Body;
-import retrofit2.http.GET;
-import retrofit2.http.Header;
-import retrofit2.http.Headers;
-import retrofit2.http.HTTP;
-import retrofit2.http.Path;
-import retrofit2.http.PUT;
-import retrofit2.http.Query;
-import retrofit2.http.Url;
-import retrofit2.Response;
-import rx.functions.Func1;
-import rx.Observable;
+import com.microsoft.azure.v2.util.ServiceFutureUtil;
+import com.microsoft.rest.v2.BodyResponse;
+import com.microsoft.rest.v2.OperationDescription;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
+import com.microsoft.rest.v2.Validator;
+import com.microsoft.rest.v2.VoidResponse;
+import com.microsoft.rest.v2.annotations.BodyParam;
+import com.microsoft.rest.v2.annotations.DELETE;
+import com.microsoft.rest.v2.annotations.ExpectedResponses;
+import com.microsoft.rest.v2.annotations.GET;
+import com.microsoft.rest.v2.annotations.HeaderParam;
+import com.microsoft.rest.v2.annotations.Host;
+import com.microsoft.rest.v2.annotations.PathParam;
+import com.microsoft.rest.v2.annotations.PUT;
+import com.microsoft.rest.v2.annotations.QueryParam;
+import com.microsoft.rest.v2.annotations.ResumeOperation;
+import com.microsoft.rest.v2.annotations.UnexpectedResponseExceptionType;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
+import io.reactivex.Single;
+import io.reactivex.annotations.NonNull;
 
 /**
- * An instance of this class provides access to all the operations defined
- * in ApplicationSecurityGroups.
+ * An instance of this class provides access to all the operations defined in
+ * ApplicationSecurityGroups.
  */
-public class ApplicationSecurityGroupsInner implements InnerSupportsGet<ApplicationSecurityGroupInner>, InnerSupportsDelete<Void>, InnerSupportsListing<ApplicationSecurityGroupInner> {
-    /** The Retrofit service to perform REST calls. */
+public final class ApplicationSecurityGroupsInner implements InnerSupportsGet<ApplicationSecurityGroupInner>, InnerSupportsDelete<Void>, InnerSupportsListing<ApplicationSecurityGroupInner> {
+    /**
+     * The proxy service used to perform REST calls.
+     */
     private ApplicationSecurityGroupsService service;
-    /** The service client containing this operation class. */
+
+    /**
+     * The service client containing this operation class.
+     */
     private NetworkManagementClientImpl client;
 
     /**
      * Initializes an instance of ApplicationSecurityGroupsInner.
      *
-     * @param retrofit the Retrofit instance built from a Retrofit Builder.
      * @param client the instance of the service client containing this operation class.
      */
-    public ApplicationSecurityGroupsInner(Retrofit retrofit, NetworkManagementClientImpl client) {
-        this.service = retrofit.create(ApplicationSecurityGroupsService.class);
+    public ApplicationSecurityGroupsInner(NetworkManagementClientImpl client) {
+        this.service = AzureProxy.create(ApplicationSecurityGroupsService.class, client);
         this.client = client;
     }
 
     /**
-     * The interface defining all the services for ApplicationSecurityGroups to be
-     * used by Retrofit to perform actually REST calls.
+     * The interface defining all the services for ApplicationSecurityGroups to
+     * be used by the proxy service to perform REST calls.
      */
-    interface ApplicationSecurityGroupsService {
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.ApplicationSecurityGroups delete" })
-        @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationSecurityGroups/{applicationSecurityGroupName}", method = "DELETE", hasBody = true)
-        Observable<Response<ResponseBody>> delete(@Path("resourceGroupName") String resourceGroupName, @Path("applicationSecurityGroupName") String applicationSecurityGroupName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+    @Host("https://management.azure.com")
+    private interface ApplicationSecurityGroupsService {
+        @DELETE("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationSecurityGroups/{applicationSecurityGroupName}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Observable<OperationStatus<Void>> beginDelete(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("applicationSecurityGroupName") String applicationSecurityGroupName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.ApplicationSecurityGroups beginDelete" })
-        @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationSecurityGroups/{applicationSecurityGroupName}", method = "DELETE", hasBody = true)
-        Observable<Response<ResponseBody>> beginDelete(@Path("resourceGroupName") String resourceGroupName, @Path("applicationSecurityGroupName") String applicationSecurityGroupName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @DELETE("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationSecurityGroups/{applicationSecurityGroupName}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<VoidResponse> delete(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("applicationSecurityGroupName") String applicationSecurityGroupName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.ApplicationSecurityGroups getByResourceGroup" })
+        @DELETE("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationSecurityGroups/{applicationSecurityGroupName}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<Void>> resumeDelete(OperationDescription operationDescription);
+
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationSecurityGroups/{applicationSecurityGroupName}")
-        Observable<Response<ResponseBody>> getByResourceGroup(@Path("resourceGroupName") String resourceGroupName, @Path("applicationSecurityGroupName") String applicationSecurityGroupName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<ApplicationSecurityGroupInner>> getByResourceGroup(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("applicationSecurityGroupName") String applicationSecurityGroupName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.ApplicationSecurityGroups createOrUpdate" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationSecurityGroups/{applicationSecurityGroupName}")
-        Observable<Response<ResponseBody>> createOrUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("applicationSecurityGroupName") String applicationSecurityGroupName, @Path("subscriptionId") String subscriptionId, @Body ApplicationSecurityGroupInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 201, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Observable<OperationStatus<ApplicationSecurityGroupInner>> beginCreateOrUpdate(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("applicationSecurityGroupName") String applicationSecurityGroupName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json; charset=utf-8") ApplicationSecurityGroupInner parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.ApplicationSecurityGroups beginCreateOrUpdate" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationSecurityGroups/{applicationSecurityGroupName}")
-        Observable<Response<ResponseBody>> beginCreateOrUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("applicationSecurityGroupName") String applicationSecurityGroupName, @Path("subscriptionId") String subscriptionId, @Body ApplicationSecurityGroupInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 201, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<ApplicationSecurityGroupInner>> createOrUpdate(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("applicationSecurityGroupName") String applicationSecurityGroupName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json; charset=utf-8") ApplicationSecurityGroupInner parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.ApplicationSecurityGroups list" })
+        @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationSecurityGroups/{applicationSecurityGroupName}")
+        @ExpectedResponses({200, 201, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<ApplicationSecurityGroupInner>> resumeCreateOrUpdate(OperationDescription operationDescription);
+
         @GET("subscriptions/{subscriptionId}/providers/Microsoft.Network/applicationSecurityGroups")
-        Observable<Response<ResponseBody>> list(@Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl<ApplicationSecurityGroupInner>>> list(@PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.ApplicationSecurityGroups listByResourceGroup" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationSecurityGroups")
-        Observable<Response<ResponseBody>> listByResourceGroup(@Path("resourceGroupName") String resourceGroupName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl<ApplicationSecurityGroupInner>>> listByResourceGroup(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.ApplicationSecurityGroups listNext" })
-        @GET
-        Observable<Response<ResponseBody>> listNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @GET("{nextUrl}")
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl<ApplicationSecurityGroupInner>>> listAllNext(@PathParam(value = "nextUrl", encoded = true) String nextUrl, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.ApplicationSecurityGroups listByResourceGroupNext" })
-        @GET
-        Observable<Response<ResponseBody>> listByResourceGroupNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
-
+        @GET("{nextUrl}")
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl<ApplicationSecurityGroupInner>>> listNext(@PathParam(value = "nextUrl", encoded = true) String nextUrl, @HeaderParam("accept-language") String acceptLanguage);
     }
 
     /**
@@ -107,12 +133,12 @@ public class ApplicationSecurityGroupsInner implements InnerSupportsGet<Applicat
      *
      * @param resourceGroupName The name of the resource group.
      * @param applicationSecurityGroupName The name of the application security group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void delete(String resourceGroupName, String applicationSecurityGroupName) {
-        deleteWithServiceResponseAsync(resourceGroupName, applicationSecurityGroupName).toBlocking().last().body();
+    public void beginDelete(@NonNull String resourceGroupName, @NonNull String applicationSecurityGroupName) {
+        beginDeleteAsync(resourceGroupName, applicationSecurityGroupName).blockingLast();
     }
 
     /**
@@ -121,11 +147,11 @@ public class ApplicationSecurityGroupsInner implements InnerSupportsGet<Applicat
      * @param resourceGroupName The name of the resource group.
      * @param applicationSecurityGroupName The name of the application security group.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;Void&gt; object.
      */
-    public ServiceFuture<Void> deleteAsync(String resourceGroupName, String applicationSecurityGroupName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(deleteWithServiceResponseAsync(resourceGroupName, applicationSecurityGroupName), serviceCallback);
+    public ServiceFuture<Void> beginDeleteAsync(@NonNull String resourceGroupName, @NonNull String applicationSecurityGroupName, ServiceCallback<Void> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginDeleteAsync(resourceGroupName, applicationSecurityGroupName), serviceCallback);
     }
 
     /**
@@ -133,27 +159,10 @@ public class ApplicationSecurityGroupsInner implements InnerSupportsGet<Applicat
      *
      * @param resourceGroupName The name of the resource group.
      * @param applicationSecurityGroupName The name of the application security group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<Void> deleteAsync(String resourceGroupName, String applicationSecurityGroupName) {
-        return deleteWithServiceResponseAsync(resourceGroupName, applicationSecurityGroupName).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Deletes the specified application security group.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param applicationSecurityGroupName The name of the application security group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<Void>> deleteWithServiceResponseAsync(String resourceGroupName, String applicationSecurityGroupName) {
+    public Observable<OperationStatus<Void>> beginDeleteAsync(@NonNull String resourceGroupName, @NonNull String applicationSecurityGroupName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -164,8 +173,7 @@ public class ApplicationSecurityGroupsInner implements InnerSupportsGet<Applicat
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        Observable<Response<ResponseBody>> observable = service.delete(resourceGroupName, applicationSecurityGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
+        return service.beginDelete(resourceGroupName, applicationSecurityGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
     /**
@@ -173,12 +181,12 @@ public class ApplicationSecurityGroupsInner implements InnerSupportsGet<Applicat
      *
      * @param resourceGroupName The name of the resource group.
      * @param applicationSecurityGroupName The name of the application security group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void beginDelete(String resourceGroupName, String applicationSecurityGroupName) {
-        beginDeleteWithServiceResponseAsync(resourceGroupName, applicationSecurityGroupName).toBlocking().single().body();
+    public void delete(@NonNull String resourceGroupName, @NonNull String applicationSecurityGroupName) {
+        deleteAsync(resourceGroupName, applicationSecurityGroupName).blockingGet();
     }
 
     /**
@@ -187,11 +195,11 @@ public class ApplicationSecurityGroupsInner implements InnerSupportsGet<Applicat
      * @param resourceGroupName The name of the resource group.
      * @param applicationSecurityGroupName The name of the application security group.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<Void> beginDeleteAsync(String resourceGroupName, String applicationSecurityGroupName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(beginDeleteWithServiceResponseAsync(resourceGroupName, applicationSecurityGroupName), serviceCallback);
+    public ServiceFuture<Void> deleteAsync(@NonNull String resourceGroupName, @NonNull String applicationSecurityGroupName, ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromBody(deleteAsync(resourceGroupName, applicationSecurityGroupName), serviceCallback);
     }
 
     /**
@@ -199,27 +207,10 @@ public class ApplicationSecurityGroupsInner implements InnerSupportsGet<Applicat
      *
      * @param resourceGroupName The name of the resource group.
      * @param applicationSecurityGroupName The name of the application security group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<Void> beginDeleteAsync(String resourceGroupName, String applicationSecurityGroupName) {
-        return beginDeleteWithServiceResponseAsync(resourceGroupName, applicationSecurityGroupName).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Deletes the specified application security group.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param applicationSecurityGroupName The name of the application security group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
-     */
-    public Observable<ServiceResponse<Void>> beginDeleteWithServiceResponseAsync(String resourceGroupName, String applicationSecurityGroupName) {
+    public Single<VoidResponse> deleteWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String applicationSecurityGroupName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -230,27 +221,34 @@ public class ApplicationSecurityGroupsInner implements InnerSupportsGet<Applicat
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        return service.beginDelete(resourceGroupName, applicationSecurityGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
-                @Override
-                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<Void> clientResponse = beginDeleteDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.delete(resourceGroupName, applicationSecurityGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<Void> beginDeleteDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<Void>() { }.getType())
-                .register(202, new TypeToken<Void>() { }.getType())
-                .register(204, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Deletes the specified application security group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param applicationSecurityGroupName The name of the application security group.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<Void> deleteAsync(@NonNull String resourceGroupName, @NonNull String applicationSecurityGroupName) {
+        return deleteWithRestResponseAsync(resourceGroupName, applicationSecurityGroupName)
+            .flatMapMaybe((VoidResponse res) -> Maybe.empty());
+    }
+
+    /**
+     * Deletes the specified application security group. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<Void>> resumeDelete(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeDelete(operationDescription);
     }
 
     /**
@@ -258,13 +256,13 @@ public class ApplicationSecurityGroupsInner implements InnerSupportsGet<Applicat
      *
      * @param resourceGroupName The name of the resource group.
      * @param applicationSecurityGroupName The name of the application security group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the ApplicationSecurityGroupInner object if successful.
      */
-    public ApplicationSecurityGroupInner getByResourceGroup(String resourceGroupName, String applicationSecurityGroupName) {
-        return getByResourceGroupWithServiceResponseAsync(resourceGroupName, applicationSecurityGroupName).toBlocking().single().body();
+    public ApplicationSecurityGroupInner getByResourceGroup(@NonNull String resourceGroupName, @NonNull String applicationSecurityGroupName) {
+        return getByResourceGroupAsync(resourceGroupName, applicationSecurityGroupName).blockingGet();
     }
 
     /**
@@ -273,11 +271,11 @@ public class ApplicationSecurityGroupsInner implements InnerSupportsGet<Applicat
      * @param resourceGroupName The name of the resource group.
      * @param applicationSecurityGroupName The name of the application security group.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<ApplicationSecurityGroupInner> getByResourceGroupAsync(String resourceGroupName, String applicationSecurityGroupName, final ServiceCallback<ApplicationSecurityGroupInner> serviceCallback) {
-        return ServiceFuture.fromResponse(getByResourceGroupWithServiceResponseAsync(resourceGroupName, applicationSecurityGroupName), serviceCallback);
+    public ServiceFuture<ApplicationSecurityGroupInner> getByResourceGroupAsync(@NonNull String resourceGroupName, @NonNull String applicationSecurityGroupName, ServiceCallback<ApplicationSecurityGroupInner> serviceCallback) {
+        return ServiceFuture.fromBody(getByResourceGroupAsync(resourceGroupName, applicationSecurityGroupName), serviceCallback);
     }
 
     /**
@@ -285,27 +283,10 @@ public class ApplicationSecurityGroupsInner implements InnerSupportsGet<Applicat
      *
      * @param resourceGroupName The name of the resource group.
      * @param applicationSecurityGroupName The name of the application security group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ApplicationSecurityGroupInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<ApplicationSecurityGroupInner> getByResourceGroupAsync(String resourceGroupName, String applicationSecurityGroupName) {
-        return getByResourceGroupWithServiceResponseAsync(resourceGroupName, applicationSecurityGroupName).map(new Func1<ServiceResponse<ApplicationSecurityGroupInner>, ApplicationSecurityGroupInner>() {
-            @Override
-            public ApplicationSecurityGroupInner call(ServiceResponse<ApplicationSecurityGroupInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Gets information about the specified application security group.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param applicationSecurityGroupName The name of the application security group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ApplicationSecurityGroupInner object
-     */
-    public Observable<ServiceResponse<ApplicationSecurityGroupInner>> getByResourceGroupWithServiceResponseAsync(String resourceGroupName, String applicationSecurityGroupName) {
+    public Single<BodyResponse<ApplicationSecurityGroupInner>> getByResourceGroupWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String applicationSecurityGroupName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -316,25 +297,20 @@ public class ApplicationSecurityGroupsInner implements InnerSupportsGet<Applicat
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        return service.getByResourceGroup(resourceGroupName, applicationSecurityGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ApplicationSecurityGroupInner>>>() {
-                @Override
-                public Observable<ServiceResponse<ApplicationSecurityGroupInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<ApplicationSecurityGroupInner> clientResponse = getByResourceGroupDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.getByResourceGroup(resourceGroupName, applicationSecurityGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<ApplicationSecurityGroupInner> getByResourceGroupDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<ApplicationSecurityGroupInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<ApplicationSecurityGroupInner>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Gets information about the specified application security group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param applicationSecurityGroupName The name of the application security group.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<ApplicationSecurityGroupInner> getByResourceGroupAsync(@NonNull String resourceGroupName, @NonNull String applicationSecurityGroupName) {
+        return getByResourceGroupWithRestResponseAsync(resourceGroupName, applicationSecurityGroupName)
+            .flatMapMaybe((BodyResponse<ApplicationSecurityGroupInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
@@ -343,13 +319,13 @@ public class ApplicationSecurityGroupsInner implements InnerSupportsGet<Applicat
      * @param resourceGroupName The name of the resource group.
      * @param applicationSecurityGroupName The name of the application security group.
      * @param parameters Parameters supplied to the create or update ApplicationSecurityGroup operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the ApplicationSecurityGroupInner object if successful.
      */
-    public ApplicationSecurityGroupInner createOrUpdate(String resourceGroupName, String applicationSecurityGroupName, ApplicationSecurityGroupInner parameters) {
-        return createOrUpdateWithServiceResponseAsync(resourceGroupName, applicationSecurityGroupName, parameters).toBlocking().last().body();
+    public ApplicationSecurityGroupInner beginCreateOrUpdate(@NonNull String resourceGroupName, @NonNull String applicationSecurityGroupName, @NonNull ApplicationSecurityGroupInner parameters) {
+        return beginCreateOrUpdateAsync(resourceGroupName, applicationSecurityGroupName, parameters).blockingLast().result();
     }
 
     /**
@@ -359,11 +335,11 @@ public class ApplicationSecurityGroupsInner implements InnerSupportsGet<Applicat
      * @param applicationSecurityGroupName The name of the application security group.
      * @param parameters Parameters supplied to the create or update ApplicationSecurityGroup operation.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;ApplicationSecurityGroupInner&gt; object.
      */
-    public ServiceFuture<ApplicationSecurityGroupInner> createOrUpdateAsync(String resourceGroupName, String applicationSecurityGroupName, ApplicationSecurityGroupInner parameters, final ServiceCallback<ApplicationSecurityGroupInner> serviceCallback) {
-        return ServiceFuture.fromResponse(createOrUpdateWithServiceResponseAsync(resourceGroupName, applicationSecurityGroupName, parameters), serviceCallback);
+    public ServiceFuture<ApplicationSecurityGroupInner> beginCreateOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String applicationSecurityGroupName, @NonNull ApplicationSecurityGroupInner parameters, ServiceCallback<ApplicationSecurityGroupInner> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginCreateOrUpdateAsync(resourceGroupName, applicationSecurityGroupName, parameters), serviceCallback);
     }
 
     /**
@@ -372,28 +348,10 @@ public class ApplicationSecurityGroupsInner implements InnerSupportsGet<Applicat
      * @param resourceGroupName The name of the resource group.
      * @param applicationSecurityGroupName The name of the application security group.
      * @param parameters Parameters supplied to the create or update ApplicationSecurityGroup operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<ApplicationSecurityGroupInner> createOrUpdateAsync(String resourceGroupName, String applicationSecurityGroupName, ApplicationSecurityGroupInner parameters) {
-        return createOrUpdateWithServiceResponseAsync(resourceGroupName, applicationSecurityGroupName, parameters).map(new Func1<ServiceResponse<ApplicationSecurityGroupInner>, ApplicationSecurityGroupInner>() {
-            @Override
-            public ApplicationSecurityGroupInner call(ServiceResponse<ApplicationSecurityGroupInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Creates or updates an application security group.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param applicationSecurityGroupName The name of the application security group.
-     * @param parameters Parameters supplied to the create or update ApplicationSecurityGroup operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<ApplicationSecurityGroupInner>> createOrUpdateWithServiceResponseAsync(String resourceGroupName, String applicationSecurityGroupName, ApplicationSecurityGroupInner parameters) {
+    public Observable<OperationStatus<ApplicationSecurityGroupInner>> beginCreateOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String applicationSecurityGroupName, @NonNull ApplicationSecurityGroupInner parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -408,8 +366,7 @@ public class ApplicationSecurityGroupsInner implements InnerSupportsGet<Applicat
         }
         Validator.validate(parameters);
         final String apiVersion = "2018-06-01";
-        Observable<Response<ResponseBody>> observable = service.createOrUpdate(resourceGroupName, applicationSecurityGroupName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<ApplicationSecurityGroupInner>() { }.getType());
+        return service.beginCreateOrUpdate(resourceGroupName, applicationSecurityGroupName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage());
     }
 
     /**
@@ -418,13 +375,13 @@ public class ApplicationSecurityGroupsInner implements InnerSupportsGet<Applicat
      * @param resourceGroupName The name of the resource group.
      * @param applicationSecurityGroupName The name of the application security group.
      * @param parameters Parameters supplied to the create or update ApplicationSecurityGroup operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the ApplicationSecurityGroupInner object if successful.
      */
-    public ApplicationSecurityGroupInner beginCreateOrUpdate(String resourceGroupName, String applicationSecurityGroupName, ApplicationSecurityGroupInner parameters) {
-        return beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, applicationSecurityGroupName, parameters).toBlocking().single().body();
+    public ApplicationSecurityGroupInner createOrUpdate(@NonNull String resourceGroupName, @NonNull String applicationSecurityGroupName, @NonNull ApplicationSecurityGroupInner parameters) {
+        return createOrUpdateAsync(resourceGroupName, applicationSecurityGroupName, parameters).blockingGet();
     }
 
     /**
@@ -434,11 +391,11 @@ public class ApplicationSecurityGroupsInner implements InnerSupportsGet<Applicat
      * @param applicationSecurityGroupName The name of the application security group.
      * @param parameters Parameters supplied to the create or update ApplicationSecurityGroup operation.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<ApplicationSecurityGroupInner> beginCreateOrUpdateAsync(String resourceGroupName, String applicationSecurityGroupName, ApplicationSecurityGroupInner parameters, final ServiceCallback<ApplicationSecurityGroupInner> serviceCallback) {
-        return ServiceFuture.fromResponse(beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, applicationSecurityGroupName, parameters), serviceCallback);
+    public ServiceFuture<ApplicationSecurityGroupInner> createOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String applicationSecurityGroupName, @NonNull ApplicationSecurityGroupInner parameters, ServiceCallback<ApplicationSecurityGroupInner> serviceCallback) {
+        return ServiceFuture.fromBody(createOrUpdateAsync(resourceGroupName, applicationSecurityGroupName, parameters), serviceCallback);
     }
 
     /**
@@ -447,28 +404,10 @@ public class ApplicationSecurityGroupsInner implements InnerSupportsGet<Applicat
      * @param resourceGroupName The name of the resource group.
      * @param applicationSecurityGroupName The name of the application security group.
      * @param parameters Parameters supplied to the create or update ApplicationSecurityGroup operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ApplicationSecurityGroupInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<ApplicationSecurityGroupInner> beginCreateOrUpdateAsync(String resourceGroupName, String applicationSecurityGroupName, ApplicationSecurityGroupInner parameters) {
-        return beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, applicationSecurityGroupName, parameters).map(new Func1<ServiceResponse<ApplicationSecurityGroupInner>, ApplicationSecurityGroupInner>() {
-            @Override
-            public ApplicationSecurityGroupInner call(ServiceResponse<ApplicationSecurityGroupInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Creates or updates an application security group.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param applicationSecurityGroupName The name of the application security group.
-     * @param parameters Parameters supplied to the create or update ApplicationSecurityGroup operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ApplicationSecurityGroupInner object
-     */
-    public Observable<ServiceResponse<ApplicationSecurityGroupInner>> beginCreateOrUpdateWithServiceResponseAsync(String resourceGroupName, String applicationSecurityGroupName, ApplicationSecurityGroupInner parameters) {
+    public Single<BodyResponse<ApplicationSecurityGroupInner>> createOrUpdateWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String applicationSecurityGroupName, @NonNull ApplicationSecurityGroupInner parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -483,42 +422,50 @@ public class ApplicationSecurityGroupsInner implements InnerSupportsGet<Applicat
         }
         Validator.validate(parameters);
         final String apiVersion = "2018-06-01";
-        return service.beginCreateOrUpdate(resourceGroupName, applicationSecurityGroupName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ApplicationSecurityGroupInner>>>() {
-                @Override
-                public Observable<ServiceResponse<ApplicationSecurityGroupInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<ApplicationSecurityGroupInner> clientResponse = beginCreateOrUpdateDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.createOrUpdate(resourceGroupName, applicationSecurityGroupName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<ApplicationSecurityGroupInner> beginCreateOrUpdateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<ApplicationSecurityGroupInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<ApplicationSecurityGroupInner>() { }.getType())
-                .register(201, new TypeToken<ApplicationSecurityGroupInner>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Creates or updates an application security group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param applicationSecurityGroupName The name of the application security group.
+     * @param parameters Parameters supplied to the create or update ApplicationSecurityGroup operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<ApplicationSecurityGroupInner> createOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String applicationSecurityGroupName, @NonNull ApplicationSecurityGroupInner parameters) {
+        return createOrUpdateWithRestResponseAsync(resourceGroupName, applicationSecurityGroupName, parameters)
+            .flatMapMaybe((BodyResponse<ApplicationSecurityGroupInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
+    }
+
+    /**
+     * Creates or updates an application security group. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<ApplicationSecurityGroupInner>> resumeCreateOrUpdate(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeCreateOrUpdate(operationDescription);
     }
 
     /**
      * Gets all application security groups in a subscription.
      *
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;ApplicationSecurityGroupInner&gt; object if successful.
      */
     public PagedList<ApplicationSecurityGroupInner> list() {
-        ServiceResponse<Page<ApplicationSecurityGroupInner>> response = listSinglePageAsync().toBlocking().single();
-        return new PagedList<ApplicationSecurityGroupInner>(response.body()) {
+        Page<ApplicationSecurityGroupInner> response = listSinglePageAsync().blockingGet();
+        return new PagedList<ApplicationSecurityGroupInner>(response) {
             @Override
             public Page<ApplicationSecurityGroupInner> nextPage(String nextPageLink) {
-                return listNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listAllNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -526,105 +473,49 @@ public class ApplicationSecurityGroupsInner implements InnerSupportsGet<Applicat
     /**
      * Gets all application security groups in a subscription.
      *
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<List<ApplicationSecurityGroupInner>> listAsync(final ListOperationCallback<ApplicationSecurityGroupInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listSinglePageAsync(),
-            new Func1<String, Observable<ServiceResponse<Page<ApplicationSecurityGroupInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ApplicationSecurityGroupInner>>> call(String nextPageLink) {
-                    return listNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets all application security groups in a subscription.
-     *
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ApplicationSecurityGroupInner&gt; object
+     * @return the observable to the PagedList&lt;ApplicationSecurityGroupInner&gt; object.
      */
     public Observable<Page<ApplicationSecurityGroupInner>> listAsync() {
-        return listWithServiceResponseAsync()
-            .map(new Func1<ServiceResponse<Page<ApplicationSecurityGroupInner>>, Page<ApplicationSecurityGroupInner>>() {
-                @Override
-                public Page<ApplicationSecurityGroupInner> call(ServiceResponse<Page<ApplicationSecurityGroupInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets all application security groups in a subscription.
-     *
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ApplicationSecurityGroupInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<ApplicationSecurityGroupInner>>> listWithServiceResponseAsync() {
         return listSinglePageAsync()
-            .concatMap(new Func1<ServiceResponse<Page<ApplicationSecurityGroupInner>>, Observable<ServiceResponse<Page<ApplicationSecurityGroupInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ApplicationSecurityGroupInner>>> call(ServiceResponse<Page<ApplicationSecurityGroupInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<ApplicationSecurityGroupInner> page) -> {
+                String nextPageLink = page.nextPageLink();
+                if (nextPageLink == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listAllNextAsync(nextPageLink));
             });
     }
 
     /**
      * Gets all application security groups in a subscription.
      *
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;ApplicationSecurityGroupInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @return the Single&lt;Page&lt;ApplicationSecurityGroupInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<ApplicationSecurityGroupInner>>> listSinglePageAsync() {
+    public Single<Page<ApplicationSecurityGroupInner>> listSinglePageAsync() {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        return service.list(this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ApplicationSecurityGroupInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ApplicationSecurityGroupInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<ApplicationSecurityGroupInner>> result = listDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<ApplicationSecurityGroupInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl<ApplicationSecurityGroupInner>> listDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<ApplicationSecurityGroupInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<ApplicationSecurityGroupInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+        return service.list(this.client.subscriptionId(), apiVersion, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl<ApplicationSecurityGroupInner>> res) -> res.body());
     }
 
     /**
      * Gets all the application security groups in a resource group.
      *
      * @param resourceGroupName The name of the resource group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;ApplicationSecurityGroupInner&gt; object if successful.
      */
-    public PagedList<ApplicationSecurityGroupInner> listByResourceGroup(final String resourceGroupName) {
-        ServiceResponse<Page<ApplicationSecurityGroupInner>> response = listByResourceGroupSinglePageAsync(resourceGroupName).toBlocking().single();
-        return new PagedList<ApplicationSecurityGroupInner>(response.body()) {
+    public PagedList<ApplicationSecurityGroupInner> listByResourceGroup(@NonNull String resourceGroupName) {
+        Page<ApplicationSecurityGroupInner> response = listByResourceGroupSinglePageAsync(resourceGroupName).blockingGet();
+        return new PagedList<ApplicationSecurityGroupInner>(response) {
             @Override
             public Page<ApplicationSecurityGroupInner> nextPage(String nextPageLink) {
-                return listByResourceGroupNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -633,68 +524,29 @@ public class ApplicationSecurityGroupsInner implements InnerSupportsGet<Applicat
      * Gets all the application security groups in a resource group.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;ApplicationSecurityGroupInner&gt; object.
      */
-    public ServiceFuture<List<ApplicationSecurityGroupInner>> listByResourceGroupAsync(final String resourceGroupName, final ListOperationCallback<ApplicationSecurityGroupInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listByResourceGroupSinglePageAsync(resourceGroupName),
-            new Func1<String, Observable<ServiceResponse<Page<ApplicationSecurityGroupInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ApplicationSecurityGroupInner>>> call(String nextPageLink) {
-                    return listByResourceGroupNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets all the application security groups in a resource group.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ApplicationSecurityGroupInner&gt; object
-     */
-    public Observable<Page<ApplicationSecurityGroupInner>> listByResourceGroupAsync(final String resourceGroupName) {
-        return listByResourceGroupWithServiceResponseAsync(resourceGroupName)
-            .map(new Func1<ServiceResponse<Page<ApplicationSecurityGroupInner>>, Page<ApplicationSecurityGroupInner>>() {
-                @Override
-                public Page<ApplicationSecurityGroupInner> call(ServiceResponse<Page<ApplicationSecurityGroupInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets all the application security groups in a resource group.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ApplicationSecurityGroupInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<ApplicationSecurityGroupInner>>> listByResourceGroupWithServiceResponseAsync(final String resourceGroupName) {
+    public Observable<Page<ApplicationSecurityGroupInner>> listByResourceGroupAsync(@NonNull String resourceGroupName) {
         return listByResourceGroupSinglePageAsync(resourceGroupName)
-            .concatMap(new Func1<ServiceResponse<Page<ApplicationSecurityGroupInner>>, Observable<ServiceResponse<Page<ApplicationSecurityGroupInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ApplicationSecurityGroupInner>>> call(ServiceResponse<Page<ApplicationSecurityGroupInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listByResourceGroupNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<ApplicationSecurityGroupInner> page) -> {
+                String nextPageLink = page.nextPageLink();
+                if (nextPageLink == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listNextAsync(nextPageLink));
             });
     }
 
     /**
      * Gets all the application security groups in a resource group.
      *
-    ServiceResponse<PageImpl<ApplicationSecurityGroupInner>> * @param resourceGroupName The name of the resource group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;ApplicationSecurityGroupInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param resourceGroupName The name of the resource group.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;ApplicationSecurityGroupInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<ApplicationSecurityGroupInner>>> listByResourceGroupSinglePageAsync(final String resourceGroupName) {
+    public Single<Page<ApplicationSecurityGroupInner>> listByResourceGroupSinglePageAsync(@NonNull String resourceGroupName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -702,42 +554,25 @@ public class ApplicationSecurityGroupsInner implements InnerSupportsGet<Applicat
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        return service.listByResourceGroup(resourceGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ApplicationSecurityGroupInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ApplicationSecurityGroupInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<ApplicationSecurityGroupInner>> result = listByResourceGroupDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<ApplicationSecurityGroupInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl<ApplicationSecurityGroupInner>> listByResourceGroupDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<ApplicationSecurityGroupInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<ApplicationSecurityGroupInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+        return service.listByResourceGroup(resourceGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl<ApplicationSecurityGroupInner>> res) -> res.body());
     }
 
     /**
      * Gets all application security groups in a subscription.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;ApplicationSecurityGroupInner&gt; object if successful.
      */
-    public PagedList<ApplicationSecurityGroupInner> listNext(final String nextPageLink) {
-        ServiceResponse<Page<ApplicationSecurityGroupInner>> response = listNextSinglePageAsync(nextPageLink).toBlocking().single();
-        return new PagedList<ApplicationSecurityGroupInner>(response.body()) {
+    public PagedList<ApplicationSecurityGroupInner> listAllNext(@NonNull String nextPageLink) {
+        Page<ApplicationSecurityGroupInner> response = listAllNextSinglePageAsync(nextPageLink).blockingGet();
+        return new PagedList<ApplicationSecurityGroupInner>(response) {
             @Override
             public Page<ApplicationSecurityGroupInner> nextPage(String nextPageLink) {
-                return listNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listAllNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -746,37 +581,18 @@ public class ApplicationSecurityGroupsInner implements InnerSupportsGet<Applicat
      * Gets all application security groups in a subscription.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;ApplicationSecurityGroupInner&gt; object.
      */
-    public ServiceFuture<List<ApplicationSecurityGroupInner>> listNextAsync(final String nextPageLink, final ServiceFuture<List<ApplicationSecurityGroupInner>> serviceFuture, final ListOperationCallback<ApplicationSecurityGroupInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listNextSinglePageAsync(nextPageLink),
-            new Func1<String, Observable<ServiceResponse<Page<ApplicationSecurityGroupInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ApplicationSecurityGroupInner>>> call(String nextPageLink) {
-                    return listNextSinglePageAsync(nextPageLink);
+    public Observable<Page<ApplicationSecurityGroupInner>> listAllNextAsync(@NonNull String nextPageLink) {
+        return listAllNextSinglePageAsync(nextPageLink)
+            .toObservable()
+            .concatMap((Page<ApplicationSecurityGroupInner> page) -> {
+                String nextPageLink1 = page.nextPageLink();
+                if (nextPageLink1 == null) {
+                    return Observable.just(page);
                 }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets all application security groups in a subscription.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ApplicationSecurityGroupInner&gt; object
-     */
-    public Observable<Page<ApplicationSecurityGroupInner>> listNextAsync(final String nextPageLink) {
-        return listNextWithServiceResponseAsync(nextPageLink)
-            .map(new Func1<ServiceResponse<Page<ApplicationSecurityGroupInner>>, Page<ApplicationSecurityGroupInner>>() {
-                @Override
-                public Page<ApplicationSecurityGroupInner> call(ServiceResponse<Page<ApplicationSecurityGroupInner>> response) {
-                    return response.body();
-                }
+                return Observable.just(page).concatWith(listAllNextAsync(nextPageLink1));
             });
     }
 
@@ -784,165 +600,69 @@ public class ApplicationSecurityGroupsInner implements InnerSupportsGet<Applicat
      * Gets all application security groups in a subscription.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ApplicationSecurityGroupInner&gt; object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;ApplicationSecurityGroupInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<ApplicationSecurityGroupInner>>> listNextWithServiceResponseAsync(final String nextPageLink) {
+    public Single<Page<ApplicationSecurityGroupInner>> listAllNextSinglePageAsync(@NonNull String nextPageLink) {
+        if (nextPageLink == null) {
+            throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
+        }
+        String nextUrl = String.format("%s", nextPageLink);
+        return service.listAllNext(nextUrl, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl<ApplicationSecurityGroupInner>> res) -> res.body());
+    }
+
+    /**
+     * Gets all the application security groups in a resource group.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the PagedList&lt;ApplicationSecurityGroupInner&gt; object if successful.
+     */
+    public PagedList<ApplicationSecurityGroupInner> listNext(@NonNull String nextPageLink) {
+        Page<ApplicationSecurityGroupInner> response = listNextSinglePageAsync(nextPageLink).blockingGet();
+        return new PagedList<ApplicationSecurityGroupInner>(response) {
+            @Override
+            public Page<ApplicationSecurityGroupInner> nextPage(String nextPageLink) {
+                return listNextSinglePageAsync(nextPageLink).blockingGet();
+            }
+        };
+    }
+
+    /**
+     * Gets all the application security groups in a resource group.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;ApplicationSecurityGroupInner&gt; object.
+     */
+    public Observable<Page<ApplicationSecurityGroupInner>> listNextAsync(@NonNull String nextPageLink) {
         return listNextSinglePageAsync(nextPageLink)
-            .concatMap(new Func1<ServiceResponse<Page<ApplicationSecurityGroupInner>>, Observable<ServiceResponse<Page<ApplicationSecurityGroupInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ApplicationSecurityGroupInner>>> call(ServiceResponse<Page<ApplicationSecurityGroupInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<ApplicationSecurityGroupInner> page) -> {
+                String nextPageLink1 = page.nextPageLink();
+                if (nextPageLink1 == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listNextAsync(nextPageLink1));
             });
     }
 
     /**
-     * Gets all application security groups in a subscription.
+     * Gets all the application security groups in a resource group.
      *
-    ServiceResponse<PageImpl<ApplicationSecurityGroupInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;ApplicationSecurityGroupInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;ApplicationSecurityGroupInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<ApplicationSecurityGroupInner>>> listNextSinglePageAsync(final String nextPageLink) {
+    public Single<Page<ApplicationSecurityGroupInner>> listNextSinglePageAsync(@NonNull String nextPageLink) {
         if (nextPageLink == null) {
             throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
         }
         String nextUrl = String.format("%s", nextPageLink);
-        return service.listNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ApplicationSecurityGroupInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ApplicationSecurityGroupInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<ApplicationSecurityGroupInner>> result = listNextDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<ApplicationSecurityGroupInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.listNext(nextUrl, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl<ApplicationSecurityGroupInner>> res) -> res.body());
     }
-
-    private ServiceResponse<PageImpl<ApplicationSecurityGroupInner>> listNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<ApplicationSecurityGroupInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<ApplicationSecurityGroupInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
-    }
-
-    /**
-     * Gets all the application security groups in a resource group.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the PagedList&lt;ApplicationSecurityGroupInner&gt; object if successful.
-     */
-    public PagedList<ApplicationSecurityGroupInner> listByResourceGroupNext(final String nextPageLink) {
-        ServiceResponse<Page<ApplicationSecurityGroupInner>> response = listByResourceGroupNextSinglePageAsync(nextPageLink).toBlocking().single();
-        return new PagedList<ApplicationSecurityGroupInner>(response.body()) {
-            @Override
-            public Page<ApplicationSecurityGroupInner> nextPage(String nextPageLink) {
-                return listByResourceGroupNextSinglePageAsync(nextPageLink).toBlocking().single().body();
-            }
-        };
-    }
-
-    /**
-     * Gets all the application security groups in a resource group.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<List<ApplicationSecurityGroupInner>> listByResourceGroupNextAsync(final String nextPageLink, final ServiceFuture<List<ApplicationSecurityGroupInner>> serviceFuture, final ListOperationCallback<ApplicationSecurityGroupInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listByResourceGroupNextSinglePageAsync(nextPageLink),
-            new Func1<String, Observable<ServiceResponse<Page<ApplicationSecurityGroupInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ApplicationSecurityGroupInner>>> call(String nextPageLink) {
-                    return listByResourceGroupNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets all the application security groups in a resource group.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ApplicationSecurityGroupInner&gt; object
-     */
-    public Observable<Page<ApplicationSecurityGroupInner>> listByResourceGroupNextAsync(final String nextPageLink) {
-        return listByResourceGroupNextWithServiceResponseAsync(nextPageLink)
-            .map(new Func1<ServiceResponse<Page<ApplicationSecurityGroupInner>>, Page<ApplicationSecurityGroupInner>>() {
-                @Override
-                public Page<ApplicationSecurityGroupInner> call(ServiceResponse<Page<ApplicationSecurityGroupInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets all the application security groups in a resource group.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ApplicationSecurityGroupInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<ApplicationSecurityGroupInner>>> listByResourceGroupNextWithServiceResponseAsync(final String nextPageLink) {
-        return listByResourceGroupNextSinglePageAsync(nextPageLink)
-            .concatMap(new Func1<ServiceResponse<Page<ApplicationSecurityGroupInner>>, Observable<ServiceResponse<Page<ApplicationSecurityGroupInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ApplicationSecurityGroupInner>>> call(ServiceResponse<Page<ApplicationSecurityGroupInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listByResourceGroupNextWithServiceResponseAsync(nextPageLink));
-                }
-            });
-    }
-
-    /**
-     * Gets all the application security groups in a resource group.
-     *
-    ServiceResponse<PageImpl<ApplicationSecurityGroupInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;ApplicationSecurityGroupInner&gt; object wrapped in {@link ServiceResponse} if successful.
-     */
-    public Observable<ServiceResponse<Page<ApplicationSecurityGroupInner>>> listByResourceGroupNextSinglePageAsync(final String nextPageLink) {
-        if (nextPageLink == null) {
-            throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
-        }
-        String nextUrl = String.format("%s", nextPageLink);
-        return service.listByResourceGroupNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ApplicationSecurityGroupInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ApplicationSecurityGroupInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<ApplicationSecurityGroupInner>> result = listByResourceGroupNextDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<ApplicationSecurityGroupInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl<ApplicationSecurityGroupInner>> listByResourceGroupNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<ApplicationSecurityGroupInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<ApplicationSecurityGroupInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
-    }
-
 }

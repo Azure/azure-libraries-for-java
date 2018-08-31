@@ -8,13 +8,12 @@
 
 package com.microsoft.azure.v2.management.network.implementation;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.v2.Resource;
 import com.microsoft.azure.v2.management.network.ExpressRouteCircuitReference;
 import com.microsoft.azure.v2.management.network.ServiceProviderProvisioningState;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
 import java.util.List;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.rest.SkipParentValidation;
-import com.microsoft.azure.Resource;
 
 /**
  * ExpressRouteCrossConnection resource.
@@ -102,7 +101,7 @@ public class ExpressRouteCrossConnectionInner extends Resource {
     /**
      * Get the primaryAzurePort value.
      *
-     * @return the primaryAzurePort value
+     * @return the primaryAzurePort value.
      */
     public String primaryAzurePort() {
         return this.primaryAzurePort;
@@ -111,7 +110,7 @@ public class ExpressRouteCrossConnectionInner extends Resource {
     /**
      * Get the secondaryAzurePort value.
      *
-     * @return the secondaryAzurePort value
+     * @return the secondaryAzurePort value.
      */
     public String secondaryAzurePort() {
         return this.secondaryAzurePort;
@@ -120,7 +119,7 @@ public class ExpressRouteCrossConnectionInner extends Resource {
     /**
      * Get the sTag value.
      *
-     * @return the sTag value
+     * @return the sTag value.
      */
     public Integer sTag() {
         return this.sTag;
@@ -129,7 +128,7 @@ public class ExpressRouteCrossConnectionInner extends Resource {
     /**
      * Get the peeringLocation value.
      *
-     * @return the peeringLocation value
+     * @return the peeringLocation value.
      */
     public String peeringLocation() {
         return this.peeringLocation;
@@ -138,7 +137,7 @@ public class ExpressRouteCrossConnectionInner extends Resource {
     /**
      * Set the peeringLocation value.
      *
-     * @param peeringLocation the peeringLocation value to set
+     * @param peeringLocation the peeringLocation value to set.
      * @return the ExpressRouteCrossConnectionInner object itself.
      */
     public ExpressRouteCrossConnectionInner withPeeringLocation(String peeringLocation) {
@@ -149,7 +148,7 @@ public class ExpressRouteCrossConnectionInner extends Resource {
     /**
      * Get the bandwidthInMbps value.
      *
-     * @return the bandwidthInMbps value
+     * @return the bandwidthInMbps value.
      */
     public Integer bandwidthInMbps() {
         return this.bandwidthInMbps;
@@ -158,7 +157,7 @@ public class ExpressRouteCrossConnectionInner extends Resource {
     /**
      * Set the bandwidthInMbps value.
      *
-     * @param bandwidthInMbps the bandwidthInMbps value to set
+     * @param bandwidthInMbps the bandwidthInMbps value to set.
      * @return the ExpressRouteCrossConnectionInner object itself.
      */
     public ExpressRouteCrossConnectionInner withBandwidthInMbps(Integer bandwidthInMbps) {
@@ -169,7 +168,7 @@ public class ExpressRouteCrossConnectionInner extends Resource {
     /**
      * Get the expressRouteCircuit value.
      *
-     * @return the expressRouteCircuit value
+     * @return the expressRouteCircuit value.
      */
     public ExpressRouteCircuitReference expressRouteCircuit() {
         return this.expressRouteCircuit;
@@ -178,7 +177,7 @@ public class ExpressRouteCrossConnectionInner extends Resource {
     /**
      * Set the expressRouteCircuit value.
      *
-     * @param expressRouteCircuit the expressRouteCircuit value to set
+     * @param expressRouteCircuit the expressRouteCircuit value to set.
      * @return the ExpressRouteCrossConnectionInner object itself.
      */
     public ExpressRouteCrossConnectionInner withExpressRouteCircuit(ExpressRouteCircuitReference expressRouteCircuit) {
@@ -189,7 +188,7 @@ public class ExpressRouteCrossConnectionInner extends Resource {
     /**
      * Get the serviceProviderProvisioningState value.
      *
-     * @return the serviceProviderProvisioningState value
+     * @return the serviceProviderProvisioningState value.
      */
     public ServiceProviderProvisioningState serviceProviderProvisioningState() {
         return this.serviceProviderProvisioningState;
@@ -198,7 +197,8 @@ public class ExpressRouteCrossConnectionInner extends Resource {
     /**
      * Set the serviceProviderProvisioningState value.
      *
-     * @param serviceProviderProvisioningState the serviceProviderProvisioningState value to set
+     * @param serviceProviderProvisioningState the
+     * serviceProviderProvisioningState value to set.
      * @return the ExpressRouteCrossConnectionInner object itself.
      */
     public ExpressRouteCrossConnectionInner withServiceProviderProvisioningState(ServiceProviderProvisioningState serviceProviderProvisioningState) {
@@ -209,7 +209,7 @@ public class ExpressRouteCrossConnectionInner extends Resource {
     /**
      * Get the serviceProviderNotes value.
      *
-     * @return the serviceProviderNotes value
+     * @return the serviceProviderNotes value.
      */
     public String serviceProviderNotes() {
         return this.serviceProviderNotes;
@@ -218,7 +218,7 @@ public class ExpressRouteCrossConnectionInner extends Resource {
     /**
      * Set the serviceProviderNotes value.
      *
-     * @param serviceProviderNotes the serviceProviderNotes value to set
+     * @param serviceProviderNotes the serviceProviderNotes value to set.
      * @return the ExpressRouteCrossConnectionInner object itself.
      */
     public ExpressRouteCrossConnectionInner withServiceProviderNotes(String serviceProviderNotes) {
@@ -229,7 +229,7 @@ public class ExpressRouteCrossConnectionInner extends Resource {
     /**
      * Get the provisioningState value.
      *
-     * @return the provisioningState value
+     * @return the provisioningState value.
      */
     public String provisioningState() {
         return this.provisioningState;
@@ -238,7 +238,7 @@ public class ExpressRouteCrossConnectionInner extends Resource {
     /**
      * Get the peerings value.
      *
-     * @return the peerings value
+     * @return the peerings value.
      */
     public List<ExpressRouteCrossConnectionPeeringInner> peerings() {
         return this.peerings;
@@ -247,7 +247,7 @@ public class ExpressRouteCrossConnectionInner extends Resource {
     /**
      * Set the peerings value.
      *
-     * @param peerings the peerings value to set
+     * @param peerings the peerings value to set.
      * @return the ExpressRouteCrossConnectionInner object itself.
      */
     public ExpressRouteCrossConnectionInner withPeerings(List<ExpressRouteCrossConnectionPeeringInner> peerings) {
@@ -258,7 +258,7 @@ public class ExpressRouteCrossConnectionInner extends Resource {
     /**
      * Get the etag value.
      *
-     * @return the etag value
+     * @return the etag value.
      */
     public String etag() {
         return this.etag;
@@ -267,7 +267,7 @@ public class ExpressRouteCrossConnectionInner extends Resource {
     /**
      * Get the id value.
      *
-     * @return the id value
+     * @return the id value.
      */
     public String id() {
         return this.id;
@@ -276,12 +276,11 @@ public class ExpressRouteCrossConnectionInner extends Resource {
     /**
      * Set the id value.
      *
-     * @param id the id value to set
+     * @param id the id value to set.
      * @return the ExpressRouteCrossConnectionInner object itself.
      */
     public ExpressRouteCrossConnectionInner withId(String id) {
         this.id = id;
         return this;
     }
-
 }

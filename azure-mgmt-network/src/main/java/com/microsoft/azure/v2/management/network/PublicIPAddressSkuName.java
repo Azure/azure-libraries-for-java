@@ -8,24 +8,29 @@
 
 package com.microsoft.azure.v2.management.network;
 
-import java.util.Collection;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.microsoft.rest.ExpandableStringEnum;
+import com.microsoft.rest.v2.ExpandableStringEnum;
+import java.util.Collection;
 
 /**
  * Defines values for PublicIPAddressSkuName.
  */
 public final class PublicIPAddressSkuName extends ExpandableStringEnum<PublicIPAddressSkuName> {
-    /** Static value Basic for PublicIPAddressSkuName. */
+    /**
+     * Static value Basic for PublicIPAddressSkuName.
+     */
     public static final PublicIPAddressSkuName BASIC = fromString("Basic");
 
-    /** Static value Standard for PublicIPAddressSkuName. */
+    /**
+     * Static value Standard for PublicIPAddressSkuName.
+     */
     public static final PublicIPAddressSkuName STANDARD = fromString("Standard");
 
     /**
      * Creates or finds a PublicIPAddressSkuName from its string representation.
-     * @param name a name to look for
-     * @return the corresponding PublicIPAddressSkuName
+     *
+     * @param name a name to look for.
+     * @return the corresponding PublicIPAddressSkuName.
      */
     @JsonCreator
     public static PublicIPAddressSkuName fromString(String name) {
@@ -33,7 +38,7 @@ public final class PublicIPAddressSkuName extends ExpandableStringEnum<PublicIPA
     }
 
     /**
-     * @return known PublicIPAddressSkuName values
+     * @return known PublicIPAddressSkuName values.
      */
     public static Collection<PublicIPAddressSkuName> values() {
         return values(PublicIPAddressSkuName.class);

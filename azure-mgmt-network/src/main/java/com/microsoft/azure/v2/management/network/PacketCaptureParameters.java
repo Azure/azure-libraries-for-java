@@ -8,13 +8,13 @@
 
 package com.microsoft.azure.v2.management.network;
 
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 
 /**
  * Parameters that define the create packet capture operation.
  */
-public class PacketCaptureParameters {
+public final class PacketCaptureParameters {
     /**
      * The ID of the targeted resource, only VM is currently supported.
      */
@@ -54,7 +54,7 @@ public class PacketCaptureParameters {
     /**
      * Get the target value.
      *
-     * @return the target value
+     * @return the target value.
      */
     public String target() {
         return this.target;
@@ -63,7 +63,7 @@ public class PacketCaptureParameters {
     /**
      * Set the target value.
      *
-     * @param target the target value to set
+     * @param target the target value to set.
      * @return the PacketCaptureParameters object itself.
      */
     public PacketCaptureParameters withTarget(String target) {
@@ -74,7 +74,7 @@ public class PacketCaptureParameters {
     /**
      * Get the bytesToCapturePerPacket value.
      *
-     * @return the bytesToCapturePerPacket value
+     * @return the bytesToCapturePerPacket value.
      */
     public Integer bytesToCapturePerPacket() {
         return this.bytesToCapturePerPacket;
@@ -83,7 +83,7 @@ public class PacketCaptureParameters {
     /**
      * Set the bytesToCapturePerPacket value.
      *
-     * @param bytesToCapturePerPacket the bytesToCapturePerPacket value to set
+     * @param bytesToCapturePerPacket the bytesToCapturePerPacket value to set.
      * @return the PacketCaptureParameters object itself.
      */
     public PacketCaptureParameters withBytesToCapturePerPacket(Integer bytesToCapturePerPacket) {
@@ -94,7 +94,7 @@ public class PacketCaptureParameters {
     /**
      * Get the totalBytesPerSession value.
      *
-     * @return the totalBytesPerSession value
+     * @return the totalBytesPerSession value.
      */
     public Integer totalBytesPerSession() {
         return this.totalBytesPerSession;
@@ -103,7 +103,7 @@ public class PacketCaptureParameters {
     /**
      * Set the totalBytesPerSession value.
      *
-     * @param totalBytesPerSession the totalBytesPerSession value to set
+     * @param totalBytesPerSession the totalBytesPerSession value to set.
      * @return the PacketCaptureParameters object itself.
      */
     public PacketCaptureParameters withTotalBytesPerSession(Integer totalBytesPerSession) {
@@ -114,7 +114,7 @@ public class PacketCaptureParameters {
     /**
      * Get the timeLimitInSeconds value.
      *
-     * @return the timeLimitInSeconds value
+     * @return the timeLimitInSeconds value.
      */
     public Integer timeLimitInSeconds() {
         return this.timeLimitInSeconds;
@@ -123,7 +123,7 @@ public class PacketCaptureParameters {
     /**
      * Set the timeLimitInSeconds value.
      *
-     * @param timeLimitInSeconds the timeLimitInSeconds value to set
+     * @param timeLimitInSeconds the timeLimitInSeconds value to set.
      * @return the PacketCaptureParameters object itself.
      */
     public PacketCaptureParameters withTimeLimitInSeconds(Integer timeLimitInSeconds) {
@@ -134,7 +134,7 @@ public class PacketCaptureParameters {
     /**
      * Get the storageLocation value.
      *
-     * @return the storageLocation value
+     * @return the storageLocation value.
      */
     public PacketCaptureStorageLocation storageLocation() {
         return this.storageLocation;
@@ -143,7 +143,7 @@ public class PacketCaptureParameters {
     /**
      * Set the storageLocation value.
      *
-     * @param storageLocation the storageLocation value to set
+     * @param storageLocation the storageLocation value to set.
      * @return the PacketCaptureParameters object itself.
      */
     public PacketCaptureParameters withStorageLocation(PacketCaptureStorageLocation storageLocation) {
@@ -154,7 +154,7 @@ public class PacketCaptureParameters {
     /**
      * Get the filters value.
      *
-     * @return the filters value
+     * @return the filters value.
      */
     public List<PacketCaptureFilter> filters() {
         return this.filters;
@@ -163,12 +163,11 @@ public class PacketCaptureParameters {
     /**
      * Set the filters value.
      *
-     * @param filters the filters value to set
+     * @param filters the filters value to set.
      * @return the PacketCaptureParameters object itself.
      */
     public PacketCaptureParameters withFilters(List<PacketCaptureFilter> filters) {
         this.filters = filters;
         return this;
     }
-
 }

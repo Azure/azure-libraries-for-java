@@ -8,109 +8,144 @@
 
 package com.microsoft.azure.v2.management.network.implementation;
 
-import com.microsoft.azure.v2.management.resources.fluentcore.collection.InnerSupportsGet;
-import com.microsoft.azure.v2.management.resources.fluentcore.collection.InnerSupportsDelete;
-import com.microsoft.azure.v2.management.resources.fluentcore.collection.InnerSupportsListing;
-import retrofit2.Retrofit;
-import com.google.common.reflect.TypeToken;
-import com.microsoft.azure.AzureServiceFuture;
-import com.microsoft.azure.ListOperationCallback;
+import com.microsoft.azure.v2.AzureProxy;
+import com.microsoft.azure.v2.OperationStatus;
+import com.microsoft.azure.v2.Page;
+import com.microsoft.azure.v2.PagedList;
 import com.microsoft.azure.v2.management.network.ErrorException;
 import com.microsoft.azure.v2.management.network.TagsObject;
-import com.microsoft.azure.Page;
-import com.microsoft.azure.PagedList;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import com.microsoft.rest.ServiceResponse;
-import com.microsoft.rest.Validator;
-import java.io.IOException;
-import java.util.List;
+import com.microsoft.azure.v2.management.resources.fluentcore.collection.InnerSupportsDelete;
+import com.microsoft.azure.v2.management.resources.fluentcore.collection.InnerSupportsGet;
+import com.microsoft.azure.v2.management.resources.fluentcore.collection.InnerSupportsListing;
+import com.microsoft.azure.v2.util.ServiceFutureUtil;
+import com.microsoft.rest.v2.BodyResponse;
+import com.microsoft.rest.v2.OperationDescription;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
+import com.microsoft.rest.v2.Validator;
+import com.microsoft.rest.v2.VoidResponse;
+import com.microsoft.rest.v2.annotations.BodyParam;
+import com.microsoft.rest.v2.annotations.DELETE;
+import com.microsoft.rest.v2.annotations.ExpectedResponses;
+import com.microsoft.rest.v2.annotations.GET;
+import com.microsoft.rest.v2.annotations.HeaderParam;
+import com.microsoft.rest.v2.annotations.Host;
+import com.microsoft.rest.v2.annotations.PATCH;
+import com.microsoft.rest.v2.annotations.PathParam;
+import com.microsoft.rest.v2.annotations.PUT;
+import com.microsoft.rest.v2.annotations.QueryParam;
+import com.microsoft.rest.v2.annotations.ResumeOperation;
+import com.microsoft.rest.v2.annotations.UnexpectedResponseExceptionType;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
+import io.reactivex.Single;
+import io.reactivex.annotations.NonNull;
+import java.util.HashMap;
 import java.util.Map;
-import okhttp3.ResponseBody;
-import retrofit2.http.Body;
-import retrofit2.http.GET;
-import retrofit2.http.Header;
-import retrofit2.http.Headers;
-import retrofit2.http.HTTP;
-import retrofit2.http.PATCH;
-import retrofit2.http.Path;
-import retrofit2.http.PUT;
-import retrofit2.http.Query;
-import retrofit2.http.Url;
-import retrofit2.Response;
-import rx.functions.Func1;
-import rx.Observable;
 
 /**
- * An instance of this class provides access to all the operations defined
- * in VpnGateways.
+ * An instance of this class provides access to all the operations defined in
+ * VpnGateways.
  */
-public class VpnGatewaysInner implements InnerSupportsGet<VpnGatewayInner>, InnerSupportsDelete<Void>, InnerSupportsListing<VpnGatewayInner> {
-    /** The Retrofit service to perform REST calls. */
+public final class VpnGatewaysInner implements InnerSupportsGet<VpnGatewayInner>, InnerSupportsDelete<Void>, InnerSupportsListing<VpnGatewayInner> {
+    /**
+     * The proxy service used to perform REST calls.
+     */
     private VpnGatewaysService service;
-    /** The service client containing this operation class. */
+
+    /**
+     * The service client containing this operation class.
+     */
     private NetworkManagementClientImpl client;
 
     /**
      * Initializes an instance of VpnGatewaysInner.
      *
-     * @param retrofit the Retrofit instance built from a Retrofit Builder.
      * @param client the instance of the service client containing this operation class.
      */
-    public VpnGatewaysInner(Retrofit retrofit, NetworkManagementClientImpl client) {
-        this.service = retrofit.create(VpnGatewaysService.class);
+    public VpnGatewaysInner(NetworkManagementClientImpl client) {
+        this.service = AzureProxy.create(VpnGatewaysService.class, client);
         this.client = client;
     }
 
     /**
-     * The interface defining all the services for VpnGateways to be
-     * used by Retrofit to perform actually REST calls.
+     * The interface defining all the services for VpnGateways to be used by
+     * the proxy service to perform REST calls.
      */
-    interface VpnGatewaysService {
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.VpnGateways getByResourceGroup" })
+    @Host("https://management.azure.com")
+    private interface VpnGatewaysService {
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}")
-        Observable<Response<ResponseBody>> getByResourceGroup(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("gatewayName") String gatewayName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(ErrorException.class)
+        Single<BodyResponse<VpnGatewayInner>> getByResourceGroup(@PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("gatewayName") String gatewayName, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.VpnGateways createOrUpdate" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}")
-        Observable<Response<ResponseBody>> createOrUpdate(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("gatewayName") String gatewayName, @Query("api-version") String apiVersion, @Body VpnGatewayInner vpnGatewayParameters, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 201, 202, 204})
+        @UnexpectedResponseExceptionType(ErrorException.class)
+        Observable<OperationStatus<VpnGatewayInner>> beginCreateOrUpdate(@PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("gatewayName") String gatewayName, @QueryParam("api-version") String apiVersion, @BodyParam("application/json; charset=utf-8") VpnGatewayInner vpnGatewayParameters, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.VpnGateways beginCreateOrUpdate" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}")
-        Observable<Response<ResponseBody>> beginCreateOrUpdate(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("gatewayName") String gatewayName, @Query("api-version") String apiVersion, @Body VpnGatewayInner vpnGatewayParameters, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 201, 202, 204})
+        @UnexpectedResponseExceptionType(ErrorException.class)
+        Single<BodyResponse<VpnGatewayInner>> createOrUpdate(@PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("gatewayName") String gatewayName, @QueryParam("api-version") String apiVersion, @BodyParam("application/json; charset=utf-8") VpnGatewayInner vpnGatewayParameters, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.VpnGateways updateTags" })
+        @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}")
+        @ExpectedResponses({200, 201, 202, 204})
+        @UnexpectedResponseExceptionType(ErrorException.class)
+        @ResumeOperation
+        Observable<OperationStatus<VpnGatewayInner>> resumeCreateOrUpdate(OperationDescription operationDescription);
+
         @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}")
-        Observable<Response<ResponseBody>> updateTags(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("gatewayName") String gatewayName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body TagsObject vpnGatewayParameters, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 201, 202, 204})
+        @UnexpectedResponseExceptionType(ErrorException.class)
+        Observable<OperationStatus<VpnGatewayInner>> beginUpdateTags(@PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("gatewayName") String gatewayName, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @BodyParam("application/json; charset=utf-8") TagsObject vpnGatewayParameters);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.VpnGateways beginUpdateTags" })
         @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}")
-        Observable<Response<ResponseBody>> beginUpdateTags(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("gatewayName") String gatewayName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body TagsObject vpnGatewayParameters, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 201, 202, 204})
+        @UnexpectedResponseExceptionType(ErrorException.class)
+        Single<BodyResponse<VpnGatewayInner>> updateTags(@PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("gatewayName") String gatewayName, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @BodyParam("application/json; charset=utf-8") TagsObject vpnGatewayParameters);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.VpnGateways delete" })
-        @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}", method = "DELETE", hasBody = true)
-        Observable<Response<ResponseBody>> delete(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("gatewayName") String gatewayName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}")
+        @ExpectedResponses({200, 201, 202, 204})
+        @UnexpectedResponseExceptionType(ErrorException.class)
+        @ResumeOperation
+        Observable<OperationStatus<VpnGatewayInner>> resumeUpdateTags(OperationDescription operationDescription);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.VpnGateways beginDelete" })
-        @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}", method = "DELETE", hasBody = true)
-        Observable<Response<ResponseBody>> beginDelete(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("gatewayName") String gatewayName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @DELETE("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(ErrorException.class)
+        Observable<OperationStatus<Void>> beginDelete(@PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("gatewayName") String gatewayName, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.VpnGateways listByResourceGroup" })
+        @DELETE("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(ErrorException.class)
+        Single<VoidResponse> delete(@PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("gatewayName") String gatewayName, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
+
+        @DELETE("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(ErrorException.class)
+        @ResumeOperation
+        Observable<OperationStatus<Void>> resumeDelete(OperationDescription operationDescription);
+
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways")
-        Observable<Response<ResponseBody>> listByResourceGroup(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(ErrorException.class)
+        Single<BodyResponse<PageImpl<VpnGatewayInner>>> listByResourceGroup(@PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.VpnGateways list" })
         @GET("subscriptions/{subscriptionId}/providers/Microsoft.Network/vpnGateways")
-        Observable<Response<ResponseBody>> list(@Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(ErrorException.class)
+        Single<BodyResponse<PageImpl<VpnGatewayInner>>> list(@PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.VpnGateways listByResourceGroupNext" })
-        @GET
-        Observable<Response<ResponseBody>> listByResourceGroupNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @GET("{nextUrl}")
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(ErrorException.class)
+        Single<BodyResponse<PageImpl<VpnGatewayInner>>> listByResourceGroupNext(@PathParam(value = "nextUrl", encoded = true) String nextUrl, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.VpnGateways listNext" })
-        @GET
-        Observable<Response<ResponseBody>> listNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
-
+        @GET("{nextUrl}")
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(ErrorException.class)
+        Single<BodyResponse<PageImpl<VpnGatewayInner>>> listNext(@PathParam(value = "nextUrl", encoded = true) String nextUrl, @HeaderParam("accept-language") String acceptLanguage);
     }
 
     /**
@@ -118,13 +153,13 @@ public class VpnGatewaysInner implements InnerSupportsGet<VpnGatewayInner>, Inne
      *
      * @param resourceGroupName The resource group name of the VpnGateway.
      * @param gatewayName The name of the gateway.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws ErrorException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the VpnGatewayInner object if successful.
      */
-    public VpnGatewayInner getByResourceGroup(String resourceGroupName, String gatewayName) {
-        return getByResourceGroupWithServiceResponseAsync(resourceGroupName, gatewayName).toBlocking().single().body();
+    public VpnGatewayInner getByResourceGroup(@NonNull String resourceGroupName, @NonNull String gatewayName) {
+        return getByResourceGroupAsync(resourceGroupName, gatewayName).blockingGet();
     }
 
     /**
@@ -133,11 +168,11 @@ public class VpnGatewaysInner implements InnerSupportsGet<VpnGatewayInner>, Inne
      * @param resourceGroupName The resource group name of the VpnGateway.
      * @param gatewayName The name of the gateway.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<VpnGatewayInner> getByResourceGroupAsync(String resourceGroupName, String gatewayName, final ServiceCallback<VpnGatewayInner> serviceCallback) {
-        return ServiceFuture.fromResponse(getByResourceGroupWithServiceResponseAsync(resourceGroupName, gatewayName), serviceCallback);
+    public ServiceFuture<VpnGatewayInner> getByResourceGroupAsync(@NonNull String resourceGroupName, @NonNull String gatewayName, ServiceCallback<VpnGatewayInner> serviceCallback) {
+        return ServiceFuture.fromBody(getByResourceGroupAsync(resourceGroupName, gatewayName), serviceCallback);
     }
 
     /**
@@ -145,27 +180,10 @@ public class VpnGatewaysInner implements InnerSupportsGet<VpnGatewayInner>, Inne
      *
      * @param resourceGroupName The resource group name of the VpnGateway.
      * @param gatewayName The name of the gateway.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the VpnGatewayInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<VpnGatewayInner> getByResourceGroupAsync(String resourceGroupName, String gatewayName) {
-        return getByResourceGroupWithServiceResponseAsync(resourceGroupName, gatewayName).map(new Func1<ServiceResponse<VpnGatewayInner>, VpnGatewayInner>() {
-            @Override
-            public VpnGatewayInner call(ServiceResponse<VpnGatewayInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Retrieves the details of a virtual wan vpn gateway.
-     *
-     * @param resourceGroupName The resource group name of the VpnGateway.
-     * @param gatewayName The name of the gateway.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the VpnGatewayInner object
-     */
-    public Observable<ServiceResponse<VpnGatewayInner>> getByResourceGroupWithServiceResponseAsync(String resourceGroupName, String gatewayName) {
+    public Single<BodyResponse<VpnGatewayInner>> getByResourceGroupWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String gatewayName) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
@@ -176,25 +194,20 @@ public class VpnGatewaysInner implements InnerSupportsGet<VpnGatewayInner>, Inne
             throw new IllegalArgumentException("Parameter gatewayName is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        return service.getByResourceGroup(this.client.subscriptionId(), resourceGroupName, gatewayName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<VpnGatewayInner>>>() {
-                @Override
-                public Observable<ServiceResponse<VpnGatewayInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<VpnGatewayInner> clientResponse = getByResourceGroupDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.getByResourceGroup(this.client.subscriptionId(), resourceGroupName, gatewayName, apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<VpnGatewayInner> getByResourceGroupDelegate(Response<ResponseBody> response) throws ErrorException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<VpnGatewayInner, ErrorException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<VpnGatewayInner>() { }.getType())
-                .registerError(ErrorException.class)
-                .build(response);
+    /**
+     * Retrieves the details of a virtual wan vpn gateway.
+     *
+     * @param resourceGroupName The resource group name of the VpnGateway.
+     * @param gatewayName The name of the gateway.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<VpnGatewayInner> getByResourceGroupAsync(@NonNull String resourceGroupName, @NonNull String gatewayName) {
+        return getByResourceGroupWithRestResponseAsync(resourceGroupName, gatewayName)
+            .flatMapMaybe((BodyResponse<VpnGatewayInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
@@ -203,13 +216,13 @@ public class VpnGatewaysInner implements InnerSupportsGet<VpnGatewayInner>, Inne
      * @param resourceGroupName The resource group name of the VpnGateway.
      * @param gatewayName The name of the gateway.
      * @param vpnGatewayParameters Parameters supplied to create or Update a virtual wan vpn gateway.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws ErrorException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the VpnGatewayInner object if successful.
      */
-    public VpnGatewayInner createOrUpdate(String resourceGroupName, String gatewayName, VpnGatewayInner vpnGatewayParameters) {
-        return createOrUpdateWithServiceResponseAsync(resourceGroupName, gatewayName, vpnGatewayParameters).toBlocking().last().body();
+    public VpnGatewayInner beginCreateOrUpdate(@NonNull String resourceGroupName, @NonNull String gatewayName, @NonNull VpnGatewayInner vpnGatewayParameters) {
+        return beginCreateOrUpdateAsync(resourceGroupName, gatewayName, vpnGatewayParameters).blockingLast().result();
     }
 
     /**
@@ -219,11 +232,11 @@ public class VpnGatewaysInner implements InnerSupportsGet<VpnGatewayInner>, Inne
      * @param gatewayName The name of the gateway.
      * @param vpnGatewayParameters Parameters supplied to create or Update a virtual wan vpn gateway.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;VpnGatewayInner&gt; object.
      */
-    public ServiceFuture<VpnGatewayInner> createOrUpdateAsync(String resourceGroupName, String gatewayName, VpnGatewayInner vpnGatewayParameters, final ServiceCallback<VpnGatewayInner> serviceCallback) {
-        return ServiceFuture.fromResponse(createOrUpdateWithServiceResponseAsync(resourceGroupName, gatewayName, vpnGatewayParameters), serviceCallback);
+    public ServiceFuture<VpnGatewayInner> beginCreateOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String gatewayName, @NonNull VpnGatewayInner vpnGatewayParameters, ServiceCallback<VpnGatewayInner> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginCreateOrUpdateAsync(resourceGroupName, gatewayName, vpnGatewayParameters), serviceCallback);
     }
 
     /**
@@ -232,28 +245,10 @@ public class VpnGatewaysInner implements InnerSupportsGet<VpnGatewayInner>, Inne
      * @param resourceGroupName The resource group name of the VpnGateway.
      * @param gatewayName The name of the gateway.
      * @param vpnGatewayParameters Parameters supplied to create or Update a virtual wan vpn gateway.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<VpnGatewayInner> createOrUpdateAsync(String resourceGroupName, String gatewayName, VpnGatewayInner vpnGatewayParameters) {
-        return createOrUpdateWithServiceResponseAsync(resourceGroupName, gatewayName, vpnGatewayParameters).map(new Func1<ServiceResponse<VpnGatewayInner>, VpnGatewayInner>() {
-            @Override
-            public VpnGatewayInner call(ServiceResponse<VpnGatewayInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Creates a virtual wan vpn gateway if it doesn't exist else updates the existing gateway.
-     *
-     * @param resourceGroupName The resource group name of the VpnGateway.
-     * @param gatewayName The name of the gateway.
-     * @param vpnGatewayParameters Parameters supplied to create or Update a virtual wan vpn gateway.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<VpnGatewayInner>> createOrUpdateWithServiceResponseAsync(String resourceGroupName, String gatewayName, VpnGatewayInner vpnGatewayParameters) {
+    public Observable<OperationStatus<VpnGatewayInner>> beginCreateOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String gatewayName, @NonNull VpnGatewayInner vpnGatewayParameters) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
@@ -268,8 +263,7 @@ public class VpnGatewaysInner implements InnerSupportsGet<VpnGatewayInner>, Inne
         }
         Validator.validate(vpnGatewayParameters);
         final String apiVersion = "2018-06-01";
-        Observable<Response<ResponseBody>> observable = service.createOrUpdate(this.client.subscriptionId(), resourceGroupName, gatewayName, apiVersion, vpnGatewayParameters, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<VpnGatewayInner>() { }.getType());
+        return service.beginCreateOrUpdate(this.client.subscriptionId(), resourceGroupName, gatewayName, apiVersion, vpnGatewayParameters, this.client.acceptLanguage());
     }
 
     /**
@@ -278,13 +272,13 @@ public class VpnGatewaysInner implements InnerSupportsGet<VpnGatewayInner>, Inne
      * @param resourceGroupName The resource group name of the VpnGateway.
      * @param gatewayName The name of the gateway.
      * @param vpnGatewayParameters Parameters supplied to create or Update a virtual wan vpn gateway.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws ErrorException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the VpnGatewayInner object if successful.
      */
-    public VpnGatewayInner beginCreateOrUpdate(String resourceGroupName, String gatewayName, VpnGatewayInner vpnGatewayParameters) {
-        return beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, gatewayName, vpnGatewayParameters).toBlocking().single().body();
+    public VpnGatewayInner createOrUpdate(@NonNull String resourceGroupName, @NonNull String gatewayName, @NonNull VpnGatewayInner vpnGatewayParameters) {
+        return createOrUpdateAsync(resourceGroupName, gatewayName, vpnGatewayParameters).blockingGet();
     }
 
     /**
@@ -294,11 +288,11 @@ public class VpnGatewaysInner implements InnerSupportsGet<VpnGatewayInner>, Inne
      * @param gatewayName The name of the gateway.
      * @param vpnGatewayParameters Parameters supplied to create or Update a virtual wan vpn gateway.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<VpnGatewayInner> beginCreateOrUpdateAsync(String resourceGroupName, String gatewayName, VpnGatewayInner vpnGatewayParameters, final ServiceCallback<VpnGatewayInner> serviceCallback) {
-        return ServiceFuture.fromResponse(beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, gatewayName, vpnGatewayParameters), serviceCallback);
+    public ServiceFuture<VpnGatewayInner> createOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String gatewayName, @NonNull VpnGatewayInner vpnGatewayParameters, ServiceCallback<VpnGatewayInner> serviceCallback) {
+        return ServiceFuture.fromBody(createOrUpdateAsync(resourceGroupName, gatewayName, vpnGatewayParameters), serviceCallback);
     }
 
     /**
@@ -307,28 +301,10 @@ public class VpnGatewaysInner implements InnerSupportsGet<VpnGatewayInner>, Inne
      * @param resourceGroupName The resource group name of the VpnGateway.
      * @param gatewayName The name of the gateway.
      * @param vpnGatewayParameters Parameters supplied to create or Update a virtual wan vpn gateway.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the VpnGatewayInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<VpnGatewayInner> beginCreateOrUpdateAsync(String resourceGroupName, String gatewayName, VpnGatewayInner vpnGatewayParameters) {
-        return beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, gatewayName, vpnGatewayParameters).map(new Func1<ServiceResponse<VpnGatewayInner>, VpnGatewayInner>() {
-            @Override
-            public VpnGatewayInner call(ServiceResponse<VpnGatewayInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Creates a virtual wan vpn gateway if it doesn't exist else updates the existing gateway.
-     *
-     * @param resourceGroupName The resource group name of the VpnGateway.
-     * @param gatewayName The name of the gateway.
-     * @param vpnGatewayParameters Parameters supplied to create or Update a virtual wan vpn gateway.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the VpnGatewayInner object
-     */
-    public Observable<ServiceResponse<VpnGatewayInner>> beginCreateOrUpdateWithServiceResponseAsync(String resourceGroupName, String gatewayName, VpnGatewayInner vpnGatewayParameters) {
+    public Single<BodyResponse<VpnGatewayInner>> createOrUpdateWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String gatewayName, @NonNull VpnGatewayInner vpnGatewayParameters) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
@@ -343,26 +319,35 @@ public class VpnGatewaysInner implements InnerSupportsGet<VpnGatewayInner>, Inne
         }
         Validator.validate(vpnGatewayParameters);
         final String apiVersion = "2018-06-01";
-        return service.beginCreateOrUpdate(this.client.subscriptionId(), resourceGroupName, gatewayName, apiVersion, vpnGatewayParameters, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<VpnGatewayInner>>>() {
-                @Override
-                public Observable<ServiceResponse<VpnGatewayInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<VpnGatewayInner> clientResponse = beginCreateOrUpdateDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.createOrUpdate(this.client.subscriptionId(), resourceGroupName, gatewayName, apiVersion, vpnGatewayParameters, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<VpnGatewayInner> beginCreateOrUpdateDelegate(Response<ResponseBody> response) throws ErrorException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<VpnGatewayInner, ErrorException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<VpnGatewayInner>() { }.getType())
-                .register(201, new TypeToken<VpnGatewayInner>() { }.getType())
-                .registerError(ErrorException.class)
-                .build(response);
+    /**
+     * Creates a virtual wan vpn gateway if it doesn't exist else updates the existing gateway.
+     *
+     * @param resourceGroupName The resource group name of the VpnGateway.
+     * @param gatewayName The name of the gateway.
+     * @param vpnGatewayParameters Parameters supplied to create or Update a virtual wan vpn gateway.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<VpnGatewayInner> createOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String gatewayName, @NonNull VpnGatewayInner vpnGatewayParameters) {
+        return createOrUpdateWithRestResponseAsync(resourceGroupName, gatewayName, vpnGatewayParameters)
+            .flatMapMaybe((BodyResponse<VpnGatewayInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
+    }
+
+    /**
+     * Creates a virtual wan vpn gateway if it doesn't exist else updates the existing gateway. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<VpnGatewayInner>> resumeCreateOrUpdate(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeCreateOrUpdate(operationDescription);
     }
 
     /**
@@ -370,13 +355,13 @@ public class VpnGatewaysInner implements InnerSupportsGet<VpnGatewayInner>, Inne
      *
      * @param resourceGroupName The resource group name of the VpnGateway.
      * @param gatewayName The name of the gateway.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws ErrorException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the VpnGatewayInner object if successful.
      */
-    public VpnGatewayInner updateTags(String resourceGroupName, String gatewayName) {
-        return updateTagsWithServiceResponseAsync(resourceGroupName, gatewayName).toBlocking().last().body();
+    public VpnGatewayInner beginUpdateTags(@NonNull String resourceGroupName, @NonNull String gatewayName) {
+        return beginUpdateTagsAsync(resourceGroupName, gatewayName).blockingLast().result();
     }
 
     /**
@@ -385,11 +370,11 @@ public class VpnGatewaysInner implements InnerSupportsGet<VpnGatewayInner>, Inne
      * @param resourceGroupName The resource group name of the VpnGateway.
      * @param gatewayName The name of the gateway.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;VpnGatewayInner&gt; object.
      */
-    public ServiceFuture<VpnGatewayInner> updateTagsAsync(String resourceGroupName, String gatewayName, final ServiceCallback<VpnGatewayInner> serviceCallback) {
-        return ServiceFuture.fromResponse(updateTagsWithServiceResponseAsync(resourceGroupName, gatewayName), serviceCallback);
+    public ServiceFuture<VpnGatewayInner> beginUpdateTagsAsync(@NonNull String resourceGroupName, @NonNull String gatewayName, ServiceCallback<VpnGatewayInner> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginUpdateTagsAsync(resourceGroupName, gatewayName), serviceCallback);
     }
 
     /**
@@ -397,27 +382,10 @@ public class VpnGatewaysInner implements InnerSupportsGet<VpnGatewayInner>, Inne
      *
      * @param resourceGroupName The resource group name of the VpnGateway.
      * @param gatewayName The name of the gateway.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<VpnGatewayInner> updateTagsAsync(String resourceGroupName, String gatewayName) {
-        return updateTagsWithServiceResponseAsync(resourceGroupName, gatewayName).map(new Func1<ServiceResponse<VpnGatewayInner>, VpnGatewayInner>() {
-            @Override
-            public VpnGatewayInner call(ServiceResponse<VpnGatewayInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Updates virtual wan vpn gateway tags.
-     *
-     * @param resourceGroupName The resource group name of the VpnGateway.
-     * @param gatewayName The name of the gateway.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<VpnGatewayInner>> updateTagsWithServiceResponseAsync(String resourceGroupName, String gatewayName) {
+    public Observable<OperationStatus<VpnGatewayInner>> beginUpdateTagsAsync(@NonNull String resourceGroupName, @NonNull String gatewayName) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
@@ -431,22 +399,22 @@ public class VpnGatewaysInner implements InnerSupportsGet<VpnGatewayInner>, Inne
         final Map<String, String> tags = null;
         TagsObject vpnGatewayParameters = new TagsObject();
         vpnGatewayParameters.withTags(null);
-        Observable<Response<ResponseBody>> observable = service.updateTags(this.client.subscriptionId(), resourceGroupName, gatewayName, apiVersion, this.client.acceptLanguage(), vpnGatewayParameters, this.client.userAgent());
-        return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<VpnGatewayInner>() { }.getType());
+        return service.beginUpdateTags(this.client.subscriptionId(), resourceGroupName, gatewayName, apiVersion, this.client.acceptLanguage(), vpnGatewayParameters);
     }
+
     /**
      * Updates virtual wan vpn gateway tags.
      *
      * @param resourceGroupName The resource group name of the VpnGateway.
      * @param gatewayName The name of the gateway.
      * @param tags Resource tags.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws ErrorException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the VpnGatewayInner object if successful.
      */
-    public VpnGatewayInner updateTags(String resourceGroupName, String gatewayName, Map<String, String> tags) {
-        return updateTagsWithServiceResponseAsync(resourceGroupName, gatewayName, tags).toBlocking().last().body();
+    public VpnGatewayInner beginUpdateTags(@NonNull String resourceGroupName, @NonNull String gatewayName, Map<String, String> tags) {
+        return beginUpdateTagsAsync(resourceGroupName, gatewayName, tags).blockingLast().result();
     }
 
     /**
@@ -456,11 +424,11 @@ public class VpnGatewaysInner implements InnerSupportsGet<VpnGatewayInner>, Inne
      * @param gatewayName The name of the gateway.
      * @param tags Resource tags.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;VpnGatewayInner&gt; object.
      */
-    public ServiceFuture<VpnGatewayInner> updateTagsAsync(String resourceGroupName, String gatewayName, Map<String, String> tags, final ServiceCallback<VpnGatewayInner> serviceCallback) {
-        return ServiceFuture.fromResponse(updateTagsWithServiceResponseAsync(resourceGroupName, gatewayName, tags), serviceCallback);
+    public ServiceFuture<VpnGatewayInner> beginUpdateTagsAsync(@NonNull String resourceGroupName, @NonNull String gatewayName, Map<String, String> tags, ServiceCallback<VpnGatewayInner> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginUpdateTagsAsync(resourceGroupName, gatewayName, tags), serviceCallback);
     }
 
     /**
@@ -469,28 +437,10 @@ public class VpnGatewaysInner implements InnerSupportsGet<VpnGatewayInner>, Inne
      * @param resourceGroupName The resource group name of the VpnGateway.
      * @param gatewayName The name of the gateway.
      * @param tags Resource tags.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<VpnGatewayInner> updateTagsAsync(String resourceGroupName, String gatewayName, Map<String, String> tags) {
-        return updateTagsWithServiceResponseAsync(resourceGroupName, gatewayName, tags).map(new Func1<ServiceResponse<VpnGatewayInner>, VpnGatewayInner>() {
-            @Override
-            public VpnGatewayInner call(ServiceResponse<VpnGatewayInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Updates virtual wan vpn gateway tags.
-     *
-     * @param resourceGroupName The resource group name of the VpnGateway.
-     * @param gatewayName The name of the gateway.
-     * @param tags Resource tags.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<VpnGatewayInner>> updateTagsWithServiceResponseAsync(String resourceGroupName, String gatewayName, Map<String, String> tags) {
+    public Observable<OperationStatus<VpnGatewayInner>> beginUpdateTagsAsync(@NonNull String resourceGroupName, @NonNull String gatewayName, Map<String, String> tags) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
@@ -504,8 +454,7 @@ public class VpnGatewaysInner implements InnerSupportsGet<VpnGatewayInner>, Inne
         final String apiVersion = "2018-06-01";
         TagsObject vpnGatewayParameters = new TagsObject();
         vpnGatewayParameters.withTags(tags);
-        Observable<Response<ResponseBody>> observable = service.updateTags(this.client.subscriptionId(), resourceGroupName, gatewayName, apiVersion, this.client.acceptLanguage(), vpnGatewayParameters, this.client.userAgent());
-        return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<VpnGatewayInner>() { }.getType());
+        return service.beginUpdateTags(this.client.subscriptionId(), resourceGroupName, gatewayName, apiVersion, this.client.acceptLanguage(), vpnGatewayParameters);
     }
 
     /**
@@ -513,13 +462,13 @@ public class VpnGatewaysInner implements InnerSupportsGet<VpnGatewayInner>, Inne
      *
      * @param resourceGroupName The resource group name of the VpnGateway.
      * @param gatewayName The name of the gateway.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws ErrorException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the VpnGatewayInner object if successful.
      */
-    public VpnGatewayInner beginUpdateTags(String resourceGroupName, String gatewayName) {
-        return beginUpdateTagsWithServiceResponseAsync(resourceGroupName, gatewayName).toBlocking().single().body();
+    public VpnGatewayInner updateTags(@NonNull String resourceGroupName, @NonNull String gatewayName) {
+        return updateTagsAsync(resourceGroupName, gatewayName).blockingGet();
     }
 
     /**
@@ -528,11 +477,11 @@ public class VpnGatewaysInner implements InnerSupportsGet<VpnGatewayInner>, Inne
      * @param resourceGroupName The resource group name of the VpnGateway.
      * @param gatewayName The name of the gateway.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<VpnGatewayInner> beginUpdateTagsAsync(String resourceGroupName, String gatewayName, final ServiceCallback<VpnGatewayInner> serviceCallback) {
-        return ServiceFuture.fromResponse(beginUpdateTagsWithServiceResponseAsync(resourceGroupName, gatewayName), serviceCallback);
+    public ServiceFuture<VpnGatewayInner> updateTagsAsync(@NonNull String resourceGroupName, @NonNull String gatewayName, ServiceCallback<VpnGatewayInner> serviceCallback) {
+        return ServiceFuture.fromBody(updateTagsAsync(resourceGroupName, gatewayName), serviceCallback);
     }
 
     /**
@@ -540,27 +489,10 @@ public class VpnGatewaysInner implements InnerSupportsGet<VpnGatewayInner>, Inne
      *
      * @param resourceGroupName The resource group name of the VpnGateway.
      * @param gatewayName The name of the gateway.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the VpnGatewayInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<VpnGatewayInner> beginUpdateTagsAsync(String resourceGroupName, String gatewayName) {
-        return beginUpdateTagsWithServiceResponseAsync(resourceGroupName, gatewayName).map(new Func1<ServiceResponse<VpnGatewayInner>, VpnGatewayInner>() {
-            @Override
-            public VpnGatewayInner call(ServiceResponse<VpnGatewayInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Updates virtual wan vpn gateway tags.
-     *
-     * @param resourceGroupName The resource group name of the VpnGateway.
-     * @param gatewayName The name of the gateway.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the VpnGatewayInner object
-     */
-    public Observable<ServiceResponse<VpnGatewayInner>> beginUpdateTagsWithServiceResponseAsync(String resourceGroupName, String gatewayName) {
+    public Single<BodyResponse<VpnGatewayInner>> updateTagsWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String gatewayName) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
@@ -574,18 +506,20 @@ public class VpnGatewaysInner implements InnerSupportsGet<VpnGatewayInner>, Inne
         final Map<String, String> tags = null;
         TagsObject vpnGatewayParameters = new TagsObject();
         vpnGatewayParameters.withTags(null);
-        return service.beginUpdateTags(this.client.subscriptionId(), resourceGroupName, gatewayName, apiVersion, this.client.acceptLanguage(), vpnGatewayParameters, this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<VpnGatewayInner>>>() {
-                @Override
-                public Observable<ServiceResponse<VpnGatewayInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<VpnGatewayInner> clientResponse = beginUpdateTagsDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.updateTags(this.client.subscriptionId(), resourceGroupName, gatewayName, apiVersion, this.client.acceptLanguage(), vpnGatewayParameters);
+    }
+
+    /**
+     * Updates virtual wan vpn gateway tags.
+     *
+     * @param resourceGroupName The resource group name of the VpnGateway.
+     * @param gatewayName The name of the gateway.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<VpnGatewayInner> updateTagsAsync(@NonNull String resourceGroupName, @NonNull String gatewayName) {
+        return updateTagsWithRestResponseAsync(resourceGroupName, gatewayName)
+            .flatMapMaybe((BodyResponse<VpnGatewayInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
@@ -594,13 +528,13 @@ public class VpnGatewaysInner implements InnerSupportsGet<VpnGatewayInner>, Inne
      * @param resourceGroupName The resource group name of the VpnGateway.
      * @param gatewayName The name of the gateway.
      * @param tags Resource tags.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws ErrorException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the VpnGatewayInner object if successful.
      */
-    public VpnGatewayInner beginUpdateTags(String resourceGroupName, String gatewayName, Map<String, String> tags) {
-        return beginUpdateTagsWithServiceResponseAsync(resourceGroupName, gatewayName, tags).toBlocking().single().body();
+    public VpnGatewayInner updateTags(@NonNull String resourceGroupName, @NonNull String gatewayName, Map<String, String> tags) {
+        return updateTagsAsync(resourceGroupName, gatewayName, tags).blockingGet();
     }
 
     /**
@@ -610,11 +544,11 @@ public class VpnGatewaysInner implements InnerSupportsGet<VpnGatewayInner>, Inne
      * @param gatewayName The name of the gateway.
      * @param tags Resource tags.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<VpnGatewayInner> beginUpdateTagsAsync(String resourceGroupName, String gatewayName, Map<String, String> tags, final ServiceCallback<VpnGatewayInner> serviceCallback) {
-        return ServiceFuture.fromResponse(beginUpdateTagsWithServiceResponseAsync(resourceGroupName, gatewayName, tags), serviceCallback);
+    public ServiceFuture<VpnGatewayInner> updateTagsAsync(@NonNull String resourceGroupName, @NonNull String gatewayName, Map<String, String> tags, ServiceCallback<VpnGatewayInner> serviceCallback) {
+        return ServiceFuture.fromBody(updateTagsAsync(resourceGroupName, gatewayName, tags), serviceCallback);
     }
 
     /**
@@ -623,28 +557,10 @@ public class VpnGatewaysInner implements InnerSupportsGet<VpnGatewayInner>, Inne
      * @param resourceGroupName The resource group name of the VpnGateway.
      * @param gatewayName The name of the gateway.
      * @param tags Resource tags.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the VpnGatewayInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<VpnGatewayInner> beginUpdateTagsAsync(String resourceGroupName, String gatewayName, Map<String, String> tags) {
-        return beginUpdateTagsWithServiceResponseAsync(resourceGroupName, gatewayName, tags).map(new Func1<ServiceResponse<VpnGatewayInner>, VpnGatewayInner>() {
-            @Override
-            public VpnGatewayInner call(ServiceResponse<VpnGatewayInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Updates virtual wan vpn gateway tags.
-     *
-     * @param resourceGroupName The resource group name of the VpnGateway.
-     * @param gatewayName The name of the gateway.
-     * @param tags Resource tags.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the VpnGatewayInner object
-     */
-    public Observable<ServiceResponse<VpnGatewayInner>> beginUpdateTagsWithServiceResponseAsync(String resourceGroupName, String gatewayName, Map<String, String> tags) {
+    public Single<BodyResponse<VpnGatewayInner>> updateTagsWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String gatewayName, Map<String, String> tags) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
@@ -658,26 +574,35 @@ public class VpnGatewaysInner implements InnerSupportsGet<VpnGatewayInner>, Inne
         final String apiVersion = "2018-06-01";
         TagsObject vpnGatewayParameters = new TagsObject();
         vpnGatewayParameters.withTags(tags);
-        return service.beginUpdateTags(this.client.subscriptionId(), resourceGroupName, gatewayName, apiVersion, this.client.acceptLanguage(), vpnGatewayParameters, this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<VpnGatewayInner>>>() {
-                @Override
-                public Observable<ServiceResponse<VpnGatewayInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<VpnGatewayInner> clientResponse = beginUpdateTagsDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.updateTags(this.client.subscriptionId(), resourceGroupName, gatewayName, apiVersion, this.client.acceptLanguage(), vpnGatewayParameters);
     }
 
-    private ServiceResponse<VpnGatewayInner> beginUpdateTagsDelegate(Response<ResponseBody> response) throws ErrorException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<VpnGatewayInner, ErrorException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<VpnGatewayInner>() { }.getType())
-                .register(201, new TypeToken<VpnGatewayInner>() { }.getType())
-                .registerError(ErrorException.class)
-                .build(response);
+    /**
+     * Updates virtual wan vpn gateway tags.
+     *
+     * @param resourceGroupName The resource group name of the VpnGateway.
+     * @param gatewayName The name of the gateway.
+     * @param tags Resource tags.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<VpnGatewayInner> updateTagsAsync(@NonNull String resourceGroupName, @NonNull String gatewayName, Map<String, String> tags) {
+        return updateTagsWithRestResponseAsync(resourceGroupName, gatewayName, tags)
+            .flatMapMaybe((BodyResponse<VpnGatewayInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
+    }
+
+    /**
+     * Updates virtual wan vpn gateway tags. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<VpnGatewayInner>> resumeUpdateTags(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeUpdateTags(operationDescription);
     }
 
     /**
@@ -685,12 +610,12 @@ public class VpnGatewaysInner implements InnerSupportsGet<VpnGatewayInner>, Inne
      *
      * @param resourceGroupName The resource group name of the VpnGateway.
      * @param gatewayName The name of the gateway.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws ErrorException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void delete(String resourceGroupName, String gatewayName) {
-        deleteWithServiceResponseAsync(resourceGroupName, gatewayName).toBlocking().last().body();
+    public void beginDelete(@NonNull String resourceGroupName, @NonNull String gatewayName) {
+        beginDeleteAsync(resourceGroupName, gatewayName).blockingLast();
     }
 
     /**
@@ -699,11 +624,11 @@ public class VpnGatewaysInner implements InnerSupportsGet<VpnGatewayInner>, Inne
      * @param resourceGroupName The resource group name of the VpnGateway.
      * @param gatewayName The name of the gateway.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;Void&gt; object.
      */
-    public ServiceFuture<Void> deleteAsync(String resourceGroupName, String gatewayName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(deleteWithServiceResponseAsync(resourceGroupName, gatewayName), serviceCallback);
+    public ServiceFuture<Void> beginDeleteAsync(@NonNull String resourceGroupName, @NonNull String gatewayName, ServiceCallback<Void> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginDeleteAsync(resourceGroupName, gatewayName), serviceCallback);
     }
 
     /**
@@ -711,27 +636,10 @@ public class VpnGatewaysInner implements InnerSupportsGet<VpnGatewayInner>, Inne
      *
      * @param resourceGroupName The resource group name of the VpnGateway.
      * @param gatewayName The name of the gateway.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<Void> deleteAsync(String resourceGroupName, String gatewayName) {
-        return deleteWithServiceResponseAsync(resourceGroupName, gatewayName).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Deletes a virtual wan vpn gateway.
-     *
-     * @param resourceGroupName The resource group name of the VpnGateway.
-     * @param gatewayName The name of the gateway.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<Void>> deleteWithServiceResponseAsync(String resourceGroupName, String gatewayName) {
+    public Observable<OperationStatus<Void>> beginDeleteAsync(@NonNull String resourceGroupName, @NonNull String gatewayName) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
@@ -742,8 +650,7 @@ public class VpnGatewaysInner implements InnerSupportsGet<VpnGatewayInner>, Inne
             throw new IllegalArgumentException("Parameter gatewayName is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        Observable<Response<ResponseBody>> observable = service.delete(this.client.subscriptionId(), resourceGroupName, gatewayName, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
+        return service.beginDelete(this.client.subscriptionId(), resourceGroupName, gatewayName, apiVersion, this.client.acceptLanguage());
     }
 
     /**
@@ -751,12 +658,12 @@ public class VpnGatewaysInner implements InnerSupportsGet<VpnGatewayInner>, Inne
      *
      * @param resourceGroupName The resource group name of the VpnGateway.
      * @param gatewayName The name of the gateway.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws ErrorException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void beginDelete(String resourceGroupName, String gatewayName) {
-        beginDeleteWithServiceResponseAsync(resourceGroupName, gatewayName).toBlocking().single().body();
+    public void delete(@NonNull String resourceGroupName, @NonNull String gatewayName) {
+        deleteAsync(resourceGroupName, gatewayName).blockingGet();
     }
 
     /**
@@ -765,11 +672,11 @@ public class VpnGatewaysInner implements InnerSupportsGet<VpnGatewayInner>, Inne
      * @param resourceGroupName The resource group name of the VpnGateway.
      * @param gatewayName The name of the gateway.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<Void> beginDeleteAsync(String resourceGroupName, String gatewayName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(beginDeleteWithServiceResponseAsync(resourceGroupName, gatewayName), serviceCallback);
+    public ServiceFuture<Void> deleteAsync(@NonNull String resourceGroupName, @NonNull String gatewayName, ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromBody(deleteAsync(resourceGroupName, gatewayName), serviceCallback);
     }
 
     /**
@@ -777,27 +684,10 @@ public class VpnGatewaysInner implements InnerSupportsGet<VpnGatewayInner>, Inne
      *
      * @param resourceGroupName The resource group name of the VpnGateway.
      * @param gatewayName The name of the gateway.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<Void> beginDeleteAsync(String resourceGroupName, String gatewayName) {
-        return beginDeleteWithServiceResponseAsync(resourceGroupName, gatewayName).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Deletes a virtual wan vpn gateway.
-     *
-     * @param resourceGroupName The resource group name of the VpnGateway.
-     * @param gatewayName The name of the gateway.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
-     */
-    public Observable<ServiceResponse<Void>> beginDeleteWithServiceResponseAsync(String resourceGroupName, String gatewayName) {
+    public Single<VoidResponse> deleteWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String gatewayName) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
@@ -808,44 +698,51 @@ public class VpnGatewaysInner implements InnerSupportsGet<VpnGatewayInner>, Inne
             throw new IllegalArgumentException("Parameter gatewayName is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        return service.beginDelete(this.client.subscriptionId(), resourceGroupName, gatewayName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
-                @Override
-                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<Void> clientResponse = beginDeleteDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.delete(this.client.subscriptionId(), resourceGroupName, gatewayName, apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<Void> beginDeleteDelegate(Response<ResponseBody> response) throws ErrorException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, ErrorException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<Void>() { }.getType())
-                .register(202, new TypeToken<Void>() { }.getType())
-                .register(204, new TypeToken<Void>() { }.getType())
-                .registerError(ErrorException.class)
-                .build(response);
+    /**
+     * Deletes a virtual wan vpn gateway.
+     *
+     * @param resourceGroupName The resource group name of the VpnGateway.
+     * @param gatewayName The name of the gateway.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<Void> deleteAsync(@NonNull String resourceGroupName, @NonNull String gatewayName) {
+        return deleteWithRestResponseAsync(resourceGroupName, gatewayName)
+            .flatMapMaybe((VoidResponse res) -> Maybe.empty());
+    }
+
+    /**
+     * Deletes a virtual wan vpn gateway. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<Void>> resumeDelete(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeDelete(operationDescription);
     }
 
     /**
      * Lists all the VpnGateways in a resource group.
      *
      * @param resourceGroupName The resource group name of the VpnGateway.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws ErrorException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;VpnGatewayInner&gt; object if successful.
      */
-    public PagedList<VpnGatewayInner> listByResourceGroup(final String resourceGroupName) {
-        ServiceResponse<Page<VpnGatewayInner>> response = listByResourceGroupSinglePageAsync(resourceGroupName).toBlocking().single();
-        return new PagedList<VpnGatewayInner>(response.body()) {
+    public PagedList<VpnGatewayInner> listByResourceGroup(@NonNull String resourceGroupName) {
+        Page<VpnGatewayInner> response = listByResourceGroupSinglePageAsync(resourceGroupName).blockingGet();
+        return new PagedList<VpnGatewayInner>(response) {
             @Override
             public Page<VpnGatewayInner> nextPage(String nextPageLink) {
-                return listByResourceGroupNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listByResourceGroupNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -854,68 +751,29 @@ public class VpnGatewaysInner implements InnerSupportsGet<VpnGatewayInner>, Inne
      * Lists all the VpnGateways in a resource group.
      *
      * @param resourceGroupName The resource group name of the VpnGateway.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;VpnGatewayInner&gt; object.
      */
-    public ServiceFuture<List<VpnGatewayInner>> listByResourceGroupAsync(final String resourceGroupName, final ListOperationCallback<VpnGatewayInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listByResourceGroupSinglePageAsync(resourceGroupName),
-            new Func1<String, Observable<ServiceResponse<Page<VpnGatewayInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<VpnGatewayInner>>> call(String nextPageLink) {
-                    return listByResourceGroupNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Lists all the VpnGateways in a resource group.
-     *
-     * @param resourceGroupName The resource group name of the VpnGateway.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;VpnGatewayInner&gt; object
-     */
-    public Observable<Page<VpnGatewayInner>> listByResourceGroupAsync(final String resourceGroupName) {
-        return listByResourceGroupWithServiceResponseAsync(resourceGroupName)
-            .map(new Func1<ServiceResponse<Page<VpnGatewayInner>>, Page<VpnGatewayInner>>() {
-                @Override
-                public Page<VpnGatewayInner> call(ServiceResponse<Page<VpnGatewayInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Lists all the VpnGateways in a resource group.
-     *
-     * @param resourceGroupName The resource group name of the VpnGateway.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;VpnGatewayInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<VpnGatewayInner>>> listByResourceGroupWithServiceResponseAsync(final String resourceGroupName) {
+    public Observable<Page<VpnGatewayInner>> listByResourceGroupAsync(@NonNull String resourceGroupName) {
         return listByResourceGroupSinglePageAsync(resourceGroupName)
-            .concatMap(new Func1<ServiceResponse<Page<VpnGatewayInner>>, Observable<ServiceResponse<Page<VpnGatewayInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<VpnGatewayInner>>> call(ServiceResponse<Page<VpnGatewayInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listByResourceGroupNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<VpnGatewayInner> page) -> {
+                String nextPageLink = page.nextPageLink();
+                if (nextPageLink == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listByResourceGroupNextAsync(nextPageLink));
             });
     }
 
     /**
      * Lists all the VpnGateways in a resource group.
      *
-    ServiceResponse<PageImpl<VpnGatewayInner>> * @param resourceGroupName The resource group name of the VpnGateway.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;VpnGatewayInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param resourceGroupName The resource group name of the VpnGateway.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;VpnGatewayInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<VpnGatewayInner>>> listByResourceGroupSinglePageAsync(final String resourceGroupName) {
+    public Single<Page<VpnGatewayInner>> listByResourceGroupSinglePageAsync(@NonNull String resourceGroupName) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
@@ -923,41 +781,23 @@ public class VpnGatewaysInner implements InnerSupportsGet<VpnGatewayInner>, Inne
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        return service.listByResourceGroup(this.client.subscriptionId(), resourceGroupName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<VpnGatewayInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<VpnGatewayInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<VpnGatewayInner>> result = listByResourceGroupDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<VpnGatewayInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl<VpnGatewayInner>> listByResourceGroupDelegate(Response<ResponseBody> response) throws ErrorException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<VpnGatewayInner>, ErrorException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<VpnGatewayInner>>() { }.getType())
-                .registerError(ErrorException.class)
-                .build(response);
+        return service.listByResourceGroup(this.client.subscriptionId(), resourceGroupName, apiVersion, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl<VpnGatewayInner>> res) -> res.body());
     }
 
     /**
      * Lists all the VpnGateways in a subscription.
      *
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws ErrorException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws ErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;VpnGatewayInner&gt; object if successful.
      */
     public PagedList<VpnGatewayInner> list() {
-        ServiceResponse<Page<VpnGatewayInner>> response = listSinglePageAsync().toBlocking().single();
-        return new PagedList<VpnGatewayInner>(response.body()) {
+        Page<VpnGatewayInner> response = listSinglePageAsync().blockingGet();
+        return new PagedList<VpnGatewayInner>(response) {
             @Override
             public Page<VpnGatewayInner> nextPage(String nextPageLink) {
-                return listNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -965,105 +805,49 @@ public class VpnGatewaysInner implements InnerSupportsGet<VpnGatewayInner>, Inne
     /**
      * Lists all the VpnGateways in a subscription.
      *
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<List<VpnGatewayInner>> listAsync(final ListOperationCallback<VpnGatewayInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listSinglePageAsync(),
-            new Func1<String, Observable<ServiceResponse<Page<VpnGatewayInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<VpnGatewayInner>>> call(String nextPageLink) {
-                    return listNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Lists all the VpnGateways in a subscription.
-     *
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;VpnGatewayInner&gt; object
+     * @return the observable to the PagedList&lt;VpnGatewayInner&gt; object.
      */
     public Observable<Page<VpnGatewayInner>> listAsync() {
-        return listWithServiceResponseAsync()
-            .map(new Func1<ServiceResponse<Page<VpnGatewayInner>>, Page<VpnGatewayInner>>() {
-                @Override
-                public Page<VpnGatewayInner> call(ServiceResponse<Page<VpnGatewayInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Lists all the VpnGateways in a subscription.
-     *
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;VpnGatewayInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<VpnGatewayInner>>> listWithServiceResponseAsync() {
         return listSinglePageAsync()
-            .concatMap(new Func1<ServiceResponse<Page<VpnGatewayInner>>, Observable<ServiceResponse<Page<VpnGatewayInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<VpnGatewayInner>>> call(ServiceResponse<Page<VpnGatewayInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<VpnGatewayInner> page) -> {
+                String nextPageLink = page.nextPageLink();
+                if (nextPageLink == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listNextAsync(nextPageLink));
             });
     }
 
     /**
      * Lists all the VpnGateways in a subscription.
      *
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;VpnGatewayInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @return the Single&lt;Page&lt;VpnGatewayInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<VpnGatewayInner>>> listSinglePageAsync() {
+    public Single<Page<VpnGatewayInner>> listSinglePageAsync() {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        return service.list(this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<VpnGatewayInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<VpnGatewayInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<VpnGatewayInner>> result = listDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<VpnGatewayInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl<VpnGatewayInner>> listDelegate(Response<ResponseBody> response) throws ErrorException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<VpnGatewayInner>, ErrorException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<VpnGatewayInner>>() { }.getType())
-                .registerError(ErrorException.class)
-                .build(response);
+        return service.list(this.client.subscriptionId(), apiVersion, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl<VpnGatewayInner>> res) -> res.body());
     }
 
     /**
      * Lists all the VpnGateways in a resource group.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws ErrorException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;VpnGatewayInner&gt; object if successful.
      */
-    public PagedList<VpnGatewayInner> listByResourceGroupNext(final String nextPageLink) {
-        ServiceResponse<Page<VpnGatewayInner>> response = listByResourceGroupNextSinglePageAsync(nextPageLink).toBlocking().single();
-        return new PagedList<VpnGatewayInner>(response.body()) {
+    public PagedList<VpnGatewayInner> listByResourceGroupNext(@NonNull String nextPageLink) {
+        Page<VpnGatewayInner> response = listByResourceGroupNextSinglePageAsync(nextPageLink).blockingGet();
+        return new PagedList<VpnGatewayInner>(response) {
             @Override
             public Page<VpnGatewayInner> nextPage(String nextPageLink) {
-                return listByResourceGroupNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listByResourceGroupNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -1072,109 +856,52 @@ public class VpnGatewaysInner implements InnerSupportsGet<VpnGatewayInner>, Inne
      * Lists all the VpnGateways in a resource group.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;VpnGatewayInner&gt; object.
      */
-    public ServiceFuture<List<VpnGatewayInner>> listByResourceGroupNextAsync(final String nextPageLink, final ServiceFuture<List<VpnGatewayInner>> serviceFuture, final ListOperationCallback<VpnGatewayInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listByResourceGroupNextSinglePageAsync(nextPageLink),
-            new Func1<String, Observable<ServiceResponse<Page<VpnGatewayInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<VpnGatewayInner>>> call(String nextPageLink) {
-                    return listByResourceGroupNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Lists all the VpnGateways in a resource group.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;VpnGatewayInner&gt; object
-     */
-    public Observable<Page<VpnGatewayInner>> listByResourceGroupNextAsync(final String nextPageLink) {
-        return listByResourceGroupNextWithServiceResponseAsync(nextPageLink)
-            .map(new Func1<ServiceResponse<Page<VpnGatewayInner>>, Page<VpnGatewayInner>>() {
-                @Override
-                public Page<VpnGatewayInner> call(ServiceResponse<Page<VpnGatewayInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Lists all the VpnGateways in a resource group.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;VpnGatewayInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<VpnGatewayInner>>> listByResourceGroupNextWithServiceResponseAsync(final String nextPageLink) {
+    public Observable<Page<VpnGatewayInner>> listByResourceGroupNextAsync(@NonNull String nextPageLink) {
         return listByResourceGroupNextSinglePageAsync(nextPageLink)
-            .concatMap(new Func1<ServiceResponse<Page<VpnGatewayInner>>, Observable<ServiceResponse<Page<VpnGatewayInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<VpnGatewayInner>>> call(ServiceResponse<Page<VpnGatewayInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listByResourceGroupNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<VpnGatewayInner> page) -> {
+                String nextPageLink1 = page.nextPageLink();
+                if (nextPageLink1 == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listByResourceGroupNextAsync(nextPageLink1));
             });
     }
 
     /**
      * Lists all the VpnGateways in a resource group.
      *
-    ServiceResponse<PageImpl<VpnGatewayInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;VpnGatewayInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;VpnGatewayInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<VpnGatewayInner>>> listByResourceGroupNextSinglePageAsync(final String nextPageLink) {
+    public Single<Page<VpnGatewayInner>> listByResourceGroupNextSinglePageAsync(@NonNull String nextPageLink) {
         if (nextPageLink == null) {
             throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
         }
         String nextUrl = String.format("%s", nextPageLink);
-        return service.listByResourceGroupNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<VpnGatewayInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<VpnGatewayInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<VpnGatewayInner>> result = listByResourceGroupNextDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<VpnGatewayInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl<VpnGatewayInner>> listByResourceGroupNextDelegate(Response<ResponseBody> response) throws ErrorException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<VpnGatewayInner>, ErrorException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<VpnGatewayInner>>() { }.getType())
-                .registerError(ErrorException.class)
-                .build(response);
+        return service.listByResourceGroupNext(nextUrl, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl<VpnGatewayInner>> res) -> res.body());
     }
 
     /**
      * Lists all the VpnGateways in a subscription.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws ErrorException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;VpnGatewayInner&gt; object if successful.
      */
-    public PagedList<VpnGatewayInner> listNext(final String nextPageLink) {
-        ServiceResponse<Page<VpnGatewayInner>> response = listNextSinglePageAsync(nextPageLink).toBlocking().single();
-        return new PagedList<VpnGatewayInner>(response.body()) {
+    public PagedList<VpnGatewayInner> listNext(@NonNull String nextPageLink) {
+        Page<VpnGatewayInner> response = listNextSinglePageAsync(nextPageLink).blockingGet();
+        return new PagedList<VpnGatewayInner>(response) {
             @Override
             public Page<VpnGatewayInner> nextPage(String nextPageLink) {
-                return listNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -1183,92 +910,34 @@ public class VpnGatewaysInner implements InnerSupportsGet<VpnGatewayInner>, Inne
      * Lists all the VpnGateways in a subscription.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;VpnGatewayInner&gt; object.
      */
-    public ServiceFuture<List<VpnGatewayInner>> listNextAsync(final String nextPageLink, final ServiceFuture<List<VpnGatewayInner>> serviceFuture, final ListOperationCallback<VpnGatewayInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listNextSinglePageAsync(nextPageLink),
-            new Func1<String, Observable<ServiceResponse<Page<VpnGatewayInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<VpnGatewayInner>>> call(String nextPageLink) {
-                    return listNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Lists all the VpnGateways in a subscription.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;VpnGatewayInner&gt; object
-     */
-    public Observable<Page<VpnGatewayInner>> listNextAsync(final String nextPageLink) {
-        return listNextWithServiceResponseAsync(nextPageLink)
-            .map(new Func1<ServiceResponse<Page<VpnGatewayInner>>, Page<VpnGatewayInner>>() {
-                @Override
-                public Page<VpnGatewayInner> call(ServiceResponse<Page<VpnGatewayInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Lists all the VpnGateways in a subscription.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;VpnGatewayInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<VpnGatewayInner>>> listNextWithServiceResponseAsync(final String nextPageLink) {
+    public Observable<Page<VpnGatewayInner>> listNextAsync(@NonNull String nextPageLink) {
         return listNextSinglePageAsync(nextPageLink)
-            .concatMap(new Func1<ServiceResponse<Page<VpnGatewayInner>>, Observable<ServiceResponse<Page<VpnGatewayInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<VpnGatewayInner>>> call(ServiceResponse<Page<VpnGatewayInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<VpnGatewayInner> page) -> {
+                String nextPageLink1 = page.nextPageLink();
+                if (nextPageLink1 == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listNextAsync(nextPageLink1));
             });
     }
 
     /**
      * Lists all the VpnGateways in a subscription.
      *
-    ServiceResponse<PageImpl<VpnGatewayInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;VpnGatewayInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;VpnGatewayInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<VpnGatewayInner>>> listNextSinglePageAsync(final String nextPageLink) {
+    public Single<Page<VpnGatewayInner>> listNextSinglePageAsync(@NonNull String nextPageLink) {
         if (nextPageLink == null) {
             throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
         }
         String nextUrl = String.format("%s", nextPageLink);
-        return service.listNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<VpnGatewayInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<VpnGatewayInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<VpnGatewayInner>> result = listNextDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<VpnGatewayInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.listNext(nextUrl, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl<VpnGatewayInner>> res) -> res.body());
     }
-
-    private ServiceResponse<PageImpl<VpnGatewayInner>> listNextDelegate(Response<ResponseBody> response) throws ErrorException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<VpnGatewayInner>, ErrorException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<VpnGatewayInner>>() { }.getType())
-                .registerError(ErrorException.class)
-                .build(response);
-    }
-
 }

@@ -8,11 +8,11 @@
 
 package com.microsoft.azure.v2.management.network.implementation;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.v2.SubResource;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
 import java.util.List;
 import java.util.Map;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.SubResource;
 
 /**
  * Route Filter Resource.
@@ -66,7 +66,7 @@ public class PatchRouteFilterInner extends SubResource {
     /**
      * Get the rules value.
      *
-     * @return the rules value
+     * @return the rules value.
      */
     public List<RouteFilterRuleInner> rules() {
         return this.rules;
@@ -75,7 +75,7 @@ public class PatchRouteFilterInner extends SubResource {
     /**
      * Set the rules value.
      *
-     * @param rules the rules value to set
+     * @param rules the rules value to set.
      * @return the PatchRouteFilterInner object itself.
      */
     public PatchRouteFilterInner withRules(List<RouteFilterRuleInner> rules) {
@@ -86,7 +86,7 @@ public class PatchRouteFilterInner extends SubResource {
     /**
      * Get the peerings value.
      *
-     * @return the peerings value
+     * @return the peerings value.
      */
     public List<ExpressRouteCircuitPeeringInner> peerings() {
         return this.peerings;
@@ -95,7 +95,7 @@ public class PatchRouteFilterInner extends SubResource {
     /**
      * Set the peerings value.
      *
-     * @param peerings the peerings value to set
+     * @param peerings the peerings value to set.
      * @return the PatchRouteFilterInner object itself.
      */
     public PatchRouteFilterInner withPeerings(List<ExpressRouteCircuitPeeringInner> peerings) {
@@ -106,7 +106,7 @@ public class PatchRouteFilterInner extends SubResource {
     /**
      * Get the provisioningState value.
      *
-     * @return the provisioningState value
+     * @return the provisioningState value.
      */
     public String provisioningState() {
         return this.provisioningState;
@@ -115,7 +115,7 @@ public class PatchRouteFilterInner extends SubResource {
     /**
      * Get the name value.
      *
-     * @return the name value
+     * @return the name value.
      */
     public String name() {
         return this.name;
@@ -124,7 +124,7 @@ public class PatchRouteFilterInner extends SubResource {
     /**
      * Get the etag value.
      *
-     * @return the etag value
+     * @return the etag value.
      */
     public String etag() {
         return this.etag;
@@ -133,7 +133,7 @@ public class PatchRouteFilterInner extends SubResource {
     /**
      * Get the type value.
      *
-     * @return the type value
+     * @return the type value.
      */
     public String type() {
         return this.type;
@@ -142,7 +142,7 @@ public class PatchRouteFilterInner extends SubResource {
     /**
      * Get the tags value.
      *
-     * @return the tags value
+     * @return the tags value.
      */
     public Map<String, String> tags() {
         return this.tags;
@@ -151,12 +151,11 @@ public class PatchRouteFilterInner extends SubResource {
     /**
      * Set the tags value.
      *
-     * @param tags the tags value to set
+     * @param tags the tags value to set.
      * @return the PatchRouteFilterInner object itself.
      */
     public PatchRouteFilterInner withTags(Map<String, String> tags) {
         this.tags = tags;
         return this;
     }
-
 }

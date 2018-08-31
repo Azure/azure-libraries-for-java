@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Parameters that define destination of connection.
  */
-public class ConnectivityDestination {
+public final class ConnectivityDestination {
     /**
      * The ID of the resource to which a connection attempt will be made.
      */
@@ -36,7 +36,7 @@ public class ConnectivityDestination {
     /**
      * Get the resourceId value.
      *
-     * @return the resourceId value
+     * @return the resourceId value.
      */
     public String resourceId() {
         return this.resourceId;
@@ -45,7 +45,7 @@ public class ConnectivityDestination {
     /**
      * Set the resourceId value.
      *
-     * @param resourceId the resourceId value to set
+     * @param resourceId the resourceId value to set.
      * @return the ConnectivityDestination object itself.
      */
     public ConnectivityDestination withResourceId(String resourceId) {
@@ -56,7 +56,7 @@ public class ConnectivityDestination {
     /**
      * Get the address value.
      *
-     * @return the address value
+     * @return the address value.
      */
     public String address() {
         return this.address;
@@ -65,7 +65,7 @@ public class ConnectivityDestination {
     /**
      * Set the address value.
      *
-     * @param address the address value to set
+     * @param address the address value to set.
      * @return the ConnectivityDestination object itself.
      */
     public ConnectivityDestination withAddress(String address) {
@@ -76,7 +76,7 @@ public class ConnectivityDestination {
     /**
      * Get the port value.
      *
-     * @return the port value
+     * @return the port value.
      */
     public Integer port() {
         return this.port;
@@ -85,12 +85,11 @@ public class ConnectivityDestination {
     /**
      * Set the port value.
      *
-     * @param port the port value to set
+     * @param port the port value to set.
      * @return the ConnectivityDestination object itself.
      */
     public ConnectivityDestination withPort(Integer port) {
         this.port = port;
         return this;
     }
-
 }

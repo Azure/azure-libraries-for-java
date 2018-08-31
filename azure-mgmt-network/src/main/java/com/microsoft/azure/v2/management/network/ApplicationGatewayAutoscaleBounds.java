@@ -14,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * Application Gateway autoscale bounds on number of Application Gateway
  * instance.
  */
-public class ApplicationGatewayAutoscaleBounds {
+public final class ApplicationGatewayAutoscaleBounds {
     /**
      * Lower bound on number of Application Gateway instances.
      */
@@ -30,7 +30,7 @@ public class ApplicationGatewayAutoscaleBounds {
     /**
      * Get the min value.
      *
-     * @return the min value
+     * @return the min value.
      */
     public int min() {
         return this.min;
@@ -39,7 +39,7 @@ public class ApplicationGatewayAutoscaleBounds {
     /**
      * Set the min value.
      *
-     * @param min the min value to set
+     * @param min the min value to set.
      * @return the ApplicationGatewayAutoscaleBounds object itself.
      */
     public ApplicationGatewayAutoscaleBounds withMin(int min) {
@@ -50,7 +50,7 @@ public class ApplicationGatewayAutoscaleBounds {
     /**
      * Get the max value.
      *
-     * @return the max value
+     * @return the max value.
      */
     public int max() {
         return this.max;
@@ -59,12 +59,11 @@ public class ApplicationGatewayAutoscaleBounds {
     /**
      * Set the max value.
      *
-     * @param max the max value to set
+     * @param max the max value to set.
      * @return the ApplicationGatewayAutoscaleBounds object itself.
      */
     public ApplicationGatewayAutoscaleBounds withMax(int max) {
         this.max = max;
         return this;
     }
-
 }

@@ -8,13 +8,13 @@
 
 package com.microsoft.azure.v2.management.network.implementation;
 
-import com.microsoft.azure.v2.management.network.NextHopType;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.v2.management.network.NextHopType;
 
 /**
  * The information about next hop from the specified VM.
  */
-public class NextHopResultInner {
+public final class NextHopResultInner {
     /**
      * Next hop type. Possible values include: 'Internet', 'VirtualAppliance',
      * 'VirtualNetworkGateway', 'VnetLocal', 'HyperNetGateway', 'None'.
@@ -39,7 +39,7 @@ public class NextHopResultInner {
     /**
      * Get the nextHopType value.
      *
-     * @return the nextHopType value
+     * @return the nextHopType value.
      */
     public NextHopType nextHopType() {
         return this.nextHopType;
@@ -48,7 +48,7 @@ public class NextHopResultInner {
     /**
      * Set the nextHopType value.
      *
-     * @param nextHopType the nextHopType value to set
+     * @param nextHopType the nextHopType value to set.
      * @return the NextHopResultInner object itself.
      */
     public NextHopResultInner withNextHopType(NextHopType nextHopType) {
@@ -59,7 +59,7 @@ public class NextHopResultInner {
     /**
      * Get the nextHopIpAddress value.
      *
-     * @return the nextHopIpAddress value
+     * @return the nextHopIpAddress value.
      */
     public String nextHopIpAddress() {
         return this.nextHopIpAddress;
@@ -68,7 +68,7 @@ public class NextHopResultInner {
     /**
      * Set the nextHopIpAddress value.
      *
-     * @param nextHopIpAddress the nextHopIpAddress value to set
+     * @param nextHopIpAddress the nextHopIpAddress value to set.
      * @return the NextHopResultInner object itself.
      */
     public NextHopResultInner withNextHopIpAddress(String nextHopIpAddress) {
@@ -79,7 +79,7 @@ public class NextHopResultInner {
     /**
      * Get the routeTableId value.
      *
-     * @return the routeTableId value
+     * @return the routeTableId value.
      */
     public String routeTableId() {
         return this.routeTableId;
@@ -88,12 +88,11 @@ public class NextHopResultInner {
     /**
      * Set the routeTableId value.
      *
-     * @param routeTableId the routeTableId value to set
+     * @param routeTableId the routeTableId value to set.
      * @return the NextHopResultInner object itself.
      */
     public NextHopResultInner withRouteTableId(String routeTableId) {
         this.routeTableId = routeTableId;
         return this;
     }
-
 }

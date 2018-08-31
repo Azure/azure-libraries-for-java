@@ -8,12 +8,14 @@
 
 package com.microsoft.azure.v2.management.network.implementation;
 
-import java.util.List;
-import com.microsoft.azure.v2.management.network.ProvisioningState;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.rest.SkipParentValidation;
-import com.microsoft.azure.Resource;
+import com.microsoft.azure.v2.Resource;
+import com.microsoft.azure.v2.management.network.AzureFirewallApplicationRuleCollection;
+import com.microsoft.azure.v2.management.network.AzureFirewallIPConfiguration;
+import com.microsoft.azure.v2.management.network.AzureFirewallNetworkRuleCollection;
+import com.microsoft.azure.v2.management.network.ProvisioningState;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
+import java.util.List;
 
 /**
  * Azure Firewall resource.
@@ -25,19 +27,19 @@ public class AzureFirewallInner extends Resource {
      * Collection of application rule collections used by a Azure Firewall.
      */
     @JsonProperty(value = "properties.applicationRuleCollections")
-    private List<AzureFirewallApplicationRuleCollectionInner> applicationRuleCollections;
+    private List<AzureFirewallApplicationRuleCollection> applicationRuleCollections;
 
     /**
      * Collection of network rule collections used by a Azure Firewall.
      */
     @JsonProperty(value = "properties.networkRuleCollections")
-    private List<AzureFirewallNetworkRuleCollectionInner> networkRuleCollections;
+    private List<AzureFirewallNetworkRuleCollection> networkRuleCollections;
 
     /**
      * IP configuration of the Azure Firewall resource.
      */
     @JsonProperty(value = "properties.ipConfigurations")
-    private List<AzureFirewallIPConfigurationInner> ipConfigurations;
+    private List<AzureFirewallIPConfiguration> ipConfigurations;
 
     /**
      * The provisioning state of the resource. Possible values include:
@@ -62,19 +64,20 @@ public class AzureFirewallInner extends Resource {
     /**
      * Get the applicationRuleCollections value.
      *
-     * @return the applicationRuleCollections value
+     * @return the applicationRuleCollections value.
      */
-    public List<AzureFirewallApplicationRuleCollectionInner> applicationRuleCollections() {
+    public List<AzureFirewallApplicationRuleCollection> applicationRuleCollections() {
         return this.applicationRuleCollections;
     }
 
     /**
      * Set the applicationRuleCollections value.
      *
-     * @param applicationRuleCollections the applicationRuleCollections value to set
+     * @param applicationRuleCollections the applicationRuleCollections value
+     * to set.
      * @return the AzureFirewallInner object itself.
      */
-    public AzureFirewallInner withApplicationRuleCollections(List<AzureFirewallApplicationRuleCollectionInner> applicationRuleCollections) {
+    public AzureFirewallInner withApplicationRuleCollections(List<AzureFirewallApplicationRuleCollection> applicationRuleCollections) {
         this.applicationRuleCollections = applicationRuleCollections;
         return this;
     }
@@ -82,19 +85,19 @@ public class AzureFirewallInner extends Resource {
     /**
      * Get the networkRuleCollections value.
      *
-     * @return the networkRuleCollections value
+     * @return the networkRuleCollections value.
      */
-    public List<AzureFirewallNetworkRuleCollectionInner> networkRuleCollections() {
+    public List<AzureFirewallNetworkRuleCollection> networkRuleCollections() {
         return this.networkRuleCollections;
     }
 
     /**
      * Set the networkRuleCollections value.
      *
-     * @param networkRuleCollections the networkRuleCollections value to set
+     * @param networkRuleCollections the networkRuleCollections value to set.
      * @return the AzureFirewallInner object itself.
      */
-    public AzureFirewallInner withNetworkRuleCollections(List<AzureFirewallNetworkRuleCollectionInner> networkRuleCollections) {
+    public AzureFirewallInner withNetworkRuleCollections(List<AzureFirewallNetworkRuleCollection> networkRuleCollections) {
         this.networkRuleCollections = networkRuleCollections;
         return this;
     }
@@ -102,19 +105,19 @@ public class AzureFirewallInner extends Resource {
     /**
      * Get the ipConfigurations value.
      *
-     * @return the ipConfigurations value
+     * @return the ipConfigurations value.
      */
-    public List<AzureFirewallIPConfigurationInner> ipConfigurations() {
+    public List<AzureFirewallIPConfiguration> ipConfigurations() {
         return this.ipConfigurations;
     }
 
     /**
      * Set the ipConfigurations value.
      *
-     * @param ipConfigurations the ipConfigurations value to set
+     * @param ipConfigurations the ipConfigurations value to set.
      * @return the AzureFirewallInner object itself.
      */
-    public AzureFirewallInner withIpConfigurations(List<AzureFirewallIPConfigurationInner> ipConfigurations) {
+    public AzureFirewallInner withIpConfigurations(List<AzureFirewallIPConfiguration> ipConfigurations) {
         this.ipConfigurations = ipConfigurations;
         return this;
     }
@@ -122,7 +125,7 @@ public class AzureFirewallInner extends Resource {
     /**
      * Get the provisioningState value.
      *
-     * @return the provisioningState value
+     * @return the provisioningState value.
      */
     public ProvisioningState provisioningState() {
         return this.provisioningState;
@@ -131,7 +134,7 @@ public class AzureFirewallInner extends Resource {
     /**
      * Set the provisioningState value.
      *
-     * @param provisioningState the provisioningState value to set
+     * @param provisioningState the provisioningState value to set.
      * @return the AzureFirewallInner object itself.
      */
     public AzureFirewallInner withProvisioningState(ProvisioningState provisioningState) {
@@ -142,7 +145,7 @@ public class AzureFirewallInner extends Resource {
     /**
      * Get the etag value.
      *
-     * @return the etag value
+     * @return the etag value.
      */
     public String etag() {
         return this.etag;
@@ -151,7 +154,7 @@ public class AzureFirewallInner extends Resource {
     /**
      * Get the id value.
      *
-     * @return the id value
+     * @return the id value.
      */
     public String id() {
         return this.id;
@@ -160,12 +163,11 @@ public class AzureFirewallInner extends Resource {
     /**
      * Set the id value.
      *
-     * @param id the id value to set
+     * @param id the id value to set.
      * @return the AzureFirewallInner object itself.
      */
     public AzureFirewallInner withId(String id) {
         this.id = id;
         return this;
     }
-
 }

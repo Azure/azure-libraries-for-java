@@ -8,87 +8,112 @@
 
 package com.microsoft.azure.v2.management.network.implementation;
 
-import retrofit2.Retrofit;
-import com.google.common.reflect.TypeToken;
-import com.microsoft.azure.AzureServiceFuture;
-import com.microsoft.azure.CloudException;
-import com.microsoft.azure.ListOperationCallback;
-import com.microsoft.azure.Page;
-import com.microsoft.azure.PagedList;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import com.microsoft.rest.ServiceResponse;
-import com.microsoft.rest.Validator;
-import java.io.IOException;
-import java.util.List;
-import okhttp3.ResponseBody;
-import retrofit2.http.Body;
-import retrofit2.http.GET;
-import retrofit2.http.Header;
-import retrofit2.http.Headers;
-import retrofit2.http.HTTP;
-import retrofit2.http.Path;
-import retrofit2.http.PUT;
-import retrofit2.http.Query;
-import retrofit2.http.Url;
-import retrofit2.Response;
-import rx.functions.Func1;
-import rx.Observable;
+import com.microsoft.azure.v2.AzureProxy;
+import com.microsoft.azure.v2.CloudException;
+import com.microsoft.azure.v2.OperationStatus;
+import com.microsoft.azure.v2.Page;
+import com.microsoft.azure.v2.PagedList;
+import com.microsoft.azure.v2.util.ServiceFutureUtil;
+import com.microsoft.rest.v2.BodyResponse;
+import com.microsoft.rest.v2.OperationDescription;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
+import com.microsoft.rest.v2.Validator;
+import com.microsoft.rest.v2.VoidResponse;
+import com.microsoft.rest.v2.annotations.BodyParam;
+import com.microsoft.rest.v2.annotations.DELETE;
+import com.microsoft.rest.v2.annotations.ExpectedResponses;
+import com.microsoft.rest.v2.annotations.GET;
+import com.microsoft.rest.v2.annotations.HeaderParam;
+import com.microsoft.rest.v2.annotations.Host;
+import com.microsoft.rest.v2.annotations.PathParam;
+import com.microsoft.rest.v2.annotations.PUT;
+import com.microsoft.rest.v2.annotations.QueryParam;
+import com.microsoft.rest.v2.annotations.ResumeOperation;
+import com.microsoft.rest.v2.annotations.UnexpectedResponseExceptionType;
+import io.reactivex.Completable;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
+import io.reactivex.Single;
+import io.reactivex.annotations.NonNull;
 
 /**
- * An instance of this class provides access to all the operations defined
- * in InboundNatRules.
+ * An instance of this class provides access to all the operations defined in
+ * InboundNatRules.
  */
-public class InboundNatRulesInner {
-    /** The Retrofit service to perform REST calls. */
+public final class InboundNatRulesInner {
+    /**
+     * The proxy service used to perform REST calls.
+     */
     private InboundNatRulesService service;
-    /** The service client containing this operation class. */
+
+    /**
+     * The service client containing this operation class.
+     */
     private NetworkManagementClientImpl client;
 
     /**
      * Initializes an instance of InboundNatRulesInner.
      *
-     * @param retrofit the Retrofit instance built from a Retrofit Builder.
      * @param client the instance of the service client containing this operation class.
      */
-    public InboundNatRulesInner(Retrofit retrofit, NetworkManagementClientImpl client) {
-        this.service = retrofit.create(InboundNatRulesService.class);
+    public InboundNatRulesInner(NetworkManagementClientImpl client) {
+        this.service = AzureProxy.create(InboundNatRulesService.class, client);
         this.client = client;
     }
 
     /**
-     * The interface defining all the services for InboundNatRules to be
-     * used by Retrofit to perform actually REST calls.
+     * The interface defining all the services for InboundNatRules to be used
+     * by the proxy service to perform REST calls.
      */
-    interface InboundNatRulesService {
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.InboundNatRules list" })
+    @Host("https://management.azure.com")
+    private interface InboundNatRulesService {
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/inboundNatRules")
-        Observable<Response<ResponseBody>> list(@Path("resourceGroupName") String resourceGroupName, @Path("loadBalancerName") String loadBalancerName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl<InboundNatRuleInner>>> list(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("loadBalancerName") String loadBalancerName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.InboundNatRules delete" })
-        @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/inboundNatRules/{inboundNatRuleName}", method = "DELETE", hasBody = true)
-        Observable<Response<ResponseBody>> delete(@Path("resourceGroupName") String resourceGroupName, @Path("loadBalancerName") String loadBalancerName, @Path("inboundNatRuleName") String inboundNatRuleName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @DELETE("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/inboundNatRules/{inboundNatRuleName}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Observable<OperationStatus<Void>> beginDelete(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("loadBalancerName") String loadBalancerName, @PathParam("inboundNatRuleName") String inboundNatRuleName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.InboundNatRules beginDelete" })
-        @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/inboundNatRules/{inboundNatRuleName}", method = "DELETE", hasBody = true)
-        Observable<Response<ResponseBody>> beginDelete(@Path("resourceGroupName") String resourceGroupName, @Path("loadBalancerName") String loadBalancerName, @Path("inboundNatRuleName") String inboundNatRuleName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @DELETE("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/inboundNatRules/{inboundNatRuleName}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<VoidResponse> delete(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("loadBalancerName") String loadBalancerName, @PathParam("inboundNatRuleName") String inboundNatRuleName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.InboundNatRules get" })
+        @DELETE("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/inboundNatRules/{inboundNatRuleName}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<Void>> resumeDelete(OperationDescription operationDescription);
+
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/inboundNatRules/{inboundNatRuleName}")
-        Observable<Response<ResponseBody>> get(@Path("resourceGroupName") String resourceGroupName, @Path("loadBalancerName") String loadBalancerName, @Path("inboundNatRuleName") String inboundNatRuleName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Query("$expand") String expand, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<InboundNatRuleInner>> get(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("loadBalancerName") String loadBalancerName, @PathParam("inboundNatRuleName") String inboundNatRuleName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @QueryParam("$expand") String expand, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.InboundNatRules createOrUpdate" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/inboundNatRules/{inboundNatRuleName}")
-        Observable<Response<ResponseBody>> createOrUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("loadBalancerName") String loadBalancerName, @Path("inboundNatRuleName") String inboundNatRuleName, @Path("subscriptionId") String subscriptionId, @Body InboundNatRuleInner inboundNatRuleParameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 201, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Observable<OperationStatus<InboundNatRuleInner>> beginCreateOrUpdate(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("loadBalancerName") String loadBalancerName, @PathParam("inboundNatRuleName") String inboundNatRuleName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json; charset=utf-8") InboundNatRuleInner inboundNatRuleParameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.InboundNatRules beginCreateOrUpdate" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/inboundNatRules/{inboundNatRuleName}")
-        Observable<Response<ResponseBody>> beginCreateOrUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("loadBalancerName") String loadBalancerName, @Path("inboundNatRuleName") String inboundNatRuleName, @Path("subscriptionId") String subscriptionId, @Body InboundNatRuleInner inboundNatRuleParameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 201, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<InboundNatRuleInner>> createOrUpdate(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("loadBalancerName") String loadBalancerName, @PathParam("inboundNatRuleName") String inboundNatRuleName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json; charset=utf-8") InboundNatRuleInner inboundNatRuleParameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.InboundNatRules listNext" })
-        @GET
-        Observable<Response<ResponseBody>> listNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/inboundNatRules/{inboundNatRuleName}")
+        @ExpectedResponses({200, 201, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<InboundNatRuleInner>> resumeCreateOrUpdate(OperationDescription operationDescription);
 
+        @GET("{nextUrl}")
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl<InboundNatRuleInner>>> listNext(@PathParam(value = "nextUrl", encoded = true) String nextUrl, @HeaderParam("accept-language") String acceptLanguage);
     }
 
     /**
@@ -96,17 +121,17 @@ public class InboundNatRulesInner {
      *
      * @param resourceGroupName The name of the resource group.
      * @param loadBalancerName The name of the load balancer.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;InboundNatRuleInner&gt; object if successful.
      */
-    public PagedList<InboundNatRuleInner> list(final String resourceGroupName, final String loadBalancerName) {
-        ServiceResponse<Page<InboundNatRuleInner>> response = listSinglePageAsync(resourceGroupName, loadBalancerName).toBlocking().single();
-        return new PagedList<InboundNatRuleInner>(response.body()) {
+    public PagedList<InboundNatRuleInner> list(@NonNull String resourceGroupName, @NonNull String loadBalancerName) {
+        Page<InboundNatRuleInner> response = listSinglePageAsync(resourceGroupName, loadBalancerName).blockingGet();
+        return new PagedList<InboundNatRuleInner>(response) {
             @Override
             public Page<InboundNatRuleInner> nextPage(String nextPageLink) {
-                return listNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -116,71 +141,30 @@ public class InboundNatRulesInner {
      *
      * @param resourceGroupName The name of the resource group.
      * @param loadBalancerName The name of the load balancer.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;InboundNatRuleInner&gt; object.
      */
-    public ServiceFuture<List<InboundNatRuleInner>> listAsync(final String resourceGroupName, final String loadBalancerName, final ListOperationCallback<InboundNatRuleInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listSinglePageAsync(resourceGroupName, loadBalancerName),
-            new Func1<String, Observable<ServiceResponse<Page<InboundNatRuleInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<InboundNatRuleInner>>> call(String nextPageLink) {
-                    return listNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets all the inbound nat rules in a load balancer.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param loadBalancerName The name of the load balancer.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;InboundNatRuleInner&gt; object
-     */
-    public Observable<Page<InboundNatRuleInner>> listAsync(final String resourceGroupName, final String loadBalancerName) {
-        return listWithServiceResponseAsync(resourceGroupName, loadBalancerName)
-            .map(new Func1<ServiceResponse<Page<InboundNatRuleInner>>, Page<InboundNatRuleInner>>() {
-                @Override
-                public Page<InboundNatRuleInner> call(ServiceResponse<Page<InboundNatRuleInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets all the inbound nat rules in a load balancer.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param loadBalancerName The name of the load balancer.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;InboundNatRuleInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<InboundNatRuleInner>>> listWithServiceResponseAsync(final String resourceGroupName, final String loadBalancerName) {
+    public Observable<Page<InboundNatRuleInner>> listAsync(@NonNull String resourceGroupName, @NonNull String loadBalancerName) {
         return listSinglePageAsync(resourceGroupName, loadBalancerName)
-            .concatMap(new Func1<ServiceResponse<Page<InboundNatRuleInner>>, Observable<ServiceResponse<Page<InboundNatRuleInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<InboundNatRuleInner>>> call(ServiceResponse<Page<InboundNatRuleInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<InboundNatRuleInner> page) -> {
+                String nextPageLink = page.nextPageLink();
+                if (nextPageLink == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listNextAsync(nextPageLink));
             });
     }
 
     /**
      * Gets all the inbound nat rules in a load balancer.
      *
-    ServiceResponse<PageImpl<InboundNatRuleInner>> * @param resourceGroupName The name of the resource group.
-    ServiceResponse<PageImpl<InboundNatRuleInner>> * @param loadBalancerName The name of the load balancer.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;InboundNatRuleInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param resourceGroupName The name of the resource group.
+     * @param loadBalancerName The name of the load balancer.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;InboundNatRuleInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<InboundNatRuleInner>>> listSinglePageAsync(final String resourceGroupName, final String loadBalancerName) {
+    public Single<Page<InboundNatRuleInner>> listSinglePageAsync(@NonNull String resourceGroupName, @NonNull String loadBalancerName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -191,25 +175,8 @@ public class InboundNatRulesInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        return service.list(resourceGroupName, loadBalancerName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<InboundNatRuleInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<InboundNatRuleInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<InboundNatRuleInner>> result = listDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<InboundNatRuleInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl<InboundNatRuleInner>> listDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<InboundNatRuleInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<InboundNatRuleInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+        return service.list(resourceGroupName, loadBalancerName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl<InboundNatRuleInner>> res) -> res.body());
     }
 
     /**
@@ -218,12 +185,12 @@ public class InboundNatRulesInner {
      * @param resourceGroupName The name of the resource group.
      * @param loadBalancerName The name of the load balancer.
      * @param inboundNatRuleName The name of the inbound nat rule.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void delete(String resourceGroupName, String loadBalancerName, String inboundNatRuleName) {
-        deleteWithServiceResponseAsync(resourceGroupName, loadBalancerName, inboundNatRuleName).toBlocking().last().body();
+    public void beginDelete(@NonNull String resourceGroupName, @NonNull String loadBalancerName, @NonNull String inboundNatRuleName) {
+        beginDeleteAsync(resourceGroupName, loadBalancerName, inboundNatRuleName).blockingLast();
     }
 
     /**
@@ -233,11 +200,11 @@ public class InboundNatRulesInner {
      * @param loadBalancerName The name of the load balancer.
      * @param inboundNatRuleName The name of the inbound nat rule.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;Void&gt; object.
      */
-    public ServiceFuture<Void> deleteAsync(String resourceGroupName, String loadBalancerName, String inboundNatRuleName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(deleteWithServiceResponseAsync(resourceGroupName, loadBalancerName, inboundNatRuleName), serviceCallback);
+    public ServiceFuture<Void> beginDeleteAsync(@NonNull String resourceGroupName, @NonNull String loadBalancerName, @NonNull String inboundNatRuleName, ServiceCallback<Void> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginDeleteAsync(resourceGroupName, loadBalancerName, inboundNatRuleName), serviceCallback);
     }
 
     /**
@@ -246,28 +213,10 @@ public class InboundNatRulesInner {
      * @param resourceGroupName The name of the resource group.
      * @param loadBalancerName The name of the load balancer.
      * @param inboundNatRuleName The name of the inbound nat rule.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<Void> deleteAsync(String resourceGroupName, String loadBalancerName, String inboundNatRuleName) {
-        return deleteWithServiceResponseAsync(resourceGroupName, loadBalancerName, inboundNatRuleName).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Deletes the specified load balancer inbound nat rule.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param loadBalancerName The name of the load balancer.
-     * @param inboundNatRuleName The name of the inbound nat rule.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<Void>> deleteWithServiceResponseAsync(String resourceGroupName, String loadBalancerName, String inboundNatRuleName) {
+    public Observable<OperationStatus<Void>> beginDeleteAsync(@NonNull String resourceGroupName, @NonNull String loadBalancerName, @NonNull String inboundNatRuleName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -281,8 +230,7 @@ public class InboundNatRulesInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        Observable<Response<ResponseBody>> observable = service.delete(resourceGroupName, loadBalancerName, inboundNatRuleName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
+        return service.beginDelete(resourceGroupName, loadBalancerName, inboundNatRuleName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
     /**
@@ -291,12 +239,12 @@ public class InboundNatRulesInner {
      * @param resourceGroupName The name of the resource group.
      * @param loadBalancerName The name of the load balancer.
      * @param inboundNatRuleName The name of the inbound nat rule.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void beginDelete(String resourceGroupName, String loadBalancerName, String inboundNatRuleName) {
-        beginDeleteWithServiceResponseAsync(resourceGroupName, loadBalancerName, inboundNatRuleName).toBlocking().single().body();
+    public void delete(@NonNull String resourceGroupName, @NonNull String loadBalancerName, @NonNull String inboundNatRuleName) {
+        deleteAsync(resourceGroupName, loadBalancerName, inboundNatRuleName).blockingAwait();
     }
 
     /**
@@ -306,11 +254,11 @@ public class InboundNatRulesInner {
      * @param loadBalancerName The name of the load balancer.
      * @param inboundNatRuleName The name of the inbound nat rule.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<Void> beginDeleteAsync(String resourceGroupName, String loadBalancerName, String inboundNatRuleName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(beginDeleteWithServiceResponseAsync(resourceGroupName, loadBalancerName, inboundNatRuleName), serviceCallback);
+    public ServiceFuture<Void> deleteAsync(@NonNull String resourceGroupName, @NonNull String loadBalancerName, @NonNull String inboundNatRuleName, ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromBody(deleteAsync(resourceGroupName, loadBalancerName, inboundNatRuleName), serviceCallback);
     }
 
     /**
@@ -319,28 +267,10 @@ public class InboundNatRulesInner {
      * @param resourceGroupName The name of the resource group.
      * @param loadBalancerName The name of the load balancer.
      * @param inboundNatRuleName The name of the inbound nat rule.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<Void> beginDeleteAsync(String resourceGroupName, String loadBalancerName, String inboundNatRuleName) {
-        return beginDeleteWithServiceResponseAsync(resourceGroupName, loadBalancerName, inboundNatRuleName).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Deletes the specified load balancer inbound nat rule.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param loadBalancerName The name of the load balancer.
-     * @param inboundNatRuleName The name of the inbound nat rule.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
-     */
-    public Observable<ServiceResponse<Void>> beginDeleteWithServiceResponseAsync(String resourceGroupName, String loadBalancerName, String inboundNatRuleName) {
+    public Single<VoidResponse> deleteWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String loadBalancerName, @NonNull String inboundNatRuleName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -354,27 +284,35 @@ public class InboundNatRulesInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        return service.beginDelete(resourceGroupName, loadBalancerName, inboundNatRuleName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
-                @Override
-                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<Void> clientResponse = beginDeleteDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.delete(resourceGroupName, loadBalancerName, inboundNatRuleName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<Void> beginDeleteDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<Void>() { }.getType())
-                .register(202, new TypeToken<Void>() { }.getType())
-                .register(204, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Deletes the specified load balancer inbound nat rule.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param loadBalancerName The name of the load balancer.
+     * @param inboundNatRuleName The name of the inbound nat rule.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Completable deleteAsync(@NonNull String resourceGroupName, @NonNull String loadBalancerName, @NonNull String inboundNatRuleName) {
+        return deleteWithRestResponseAsync(resourceGroupName, loadBalancerName, inboundNatRuleName)
+            .toCompletable();
+    }
+
+    /**
+     * Deletes the specified load balancer inbound nat rule. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<Void>> resumeDelete(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeDelete(operationDescription);
     }
 
     /**
@@ -383,13 +321,13 @@ public class InboundNatRulesInner {
      * @param resourceGroupName The name of the resource group.
      * @param loadBalancerName The name of the load balancer.
      * @param inboundNatRuleName The name of the inbound nat rule.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the InboundNatRuleInner object if successful.
      */
-    public InboundNatRuleInner get(String resourceGroupName, String loadBalancerName, String inboundNatRuleName) {
-        return getWithServiceResponseAsync(resourceGroupName, loadBalancerName, inboundNatRuleName).toBlocking().single().body();
+    public InboundNatRuleInner get(@NonNull String resourceGroupName, @NonNull String loadBalancerName, @NonNull String inboundNatRuleName) {
+        return getAsync(resourceGroupName, loadBalancerName, inboundNatRuleName).blockingGet();
     }
 
     /**
@@ -399,11 +337,11 @@ public class InboundNatRulesInner {
      * @param loadBalancerName The name of the load balancer.
      * @param inboundNatRuleName The name of the inbound nat rule.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<InboundNatRuleInner> getAsync(String resourceGroupName, String loadBalancerName, String inboundNatRuleName, final ServiceCallback<InboundNatRuleInner> serviceCallback) {
-        return ServiceFuture.fromResponse(getWithServiceResponseAsync(resourceGroupName, loadBalancerName, inboundNatRuleName), serviceCallback);
+    public ServiceFuture<InboundNatRuleInner> getAsync(@NonNull String resourceGroupName, @NonNull String loadBalancerName, @NonNull String inboundNatRuleName, ServiceCallback<InboundNatRuleInner> serviceCallback) {
+        return ServiceFuture.fromBody(getAsync(resourceGroupName, loadBalancerName, inboundNatRuleName), serviceCallback);
     }
 
     /**
@@ -412,28 +350,10 @@ public class InboundNatRulesInner {
      * @param resourceGroupName The name of the resource group.
      * @param loadBalancerName The name of the load balancer.
      * @param inboundNatRuleName The name of the inbound nat rule.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the InboundNatRuleInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<InboundNatRuleInner> getAsync(String resourceGroupName, String loadBalancerName, String inboundNatRuleName) {
-        return getWithServiceResponseAsync(resourceGroupName, loadBalancerName, inboundNatRuleName).map(new Func1<ServiceResponse<InboundNatRuleInner>, InboundNatRuleInner>() {
-            @Override
-            public InboundNatRuleInner call(ServiceResponse<InboundNatRuleInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Gets the specified load balancer inbound nat rule.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param loadBalancerName The name of the load balancer.
-     * @param inboundNatRuleName The name of the inbound nat rule.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the InboundNatRuleInner object
-     */
-    public Observable<ServiceResponse<InboundNatRuleInner>> getWithServiceResponseAsync(String resourceGroupName, String loadBalancerName, String inboundNatRuleName) {
+    public Single<BodyResponse<InboundNatRuleInner>> getWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String loadBalancerName, @NonNull String inboundNatRuleName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -448,18 +368,21 @@ public class InboundNatRulesInner {
         }
         final String apiVersion = "2018-06-01";
         final String expand = null;
-        return service.get(resourceGroupName, loadBalancerName, inboundNatRuleName, this.client.subscriptionId(), apiVersion, expand, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<InboundNatRuleInner>>>() {
-                @Override
-                public Observable<ServiceResponse<InboundNatRuleInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<InboundNatRuleInner> clientResponse = getDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.get(resourceGroupName, loadBalancerName, inboundNatRuleName, this.client.subscriptionId(), apiVersion, expand, this.client.acceptLanguage());
+    }
+
+    /**
+     * Gets the specified load balancer inbound nat rule.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param loadBalancerName The name of the load balancer.
+     * @param inboundNatRuleName The name of the inbound nat rule.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<InboundNatRuleInner> getAsync(@NonNull String resourceGroupName, @NonNull String loadBalancerName, @NonNull String inboundNatRuleName) {
+        return getWithRestResponseAsync(resourceGroupName, loadBalancerName, inboundNatRuleName)
+            .flatMapMaybe((BodyResponse<InboundNatRuleInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
@@ -469,13 +392,13 @@ public class InboundNatRulesInner {
      * @param loadBalancerName The name of the load balancer.
      * @param inboundNatRuleName The name of the inbound nat rule.
      * @param expand Expands referenced resources.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the InboundNatRuleInner object if successful.
      */
-    public InboundNatRuleInner get(String resourceGroupName, String loadBalancerName, String inboundNatRuleName, String expand) {
-        return getWithServiceResponseAsync(resourceGroupName, loadBalancerName, inboundNatRuleName, expand).toBlocking().single().body();
+    public InboundNatRuleInner get(@NonNull String resourceGroupName, @NonNull String loadBalancerName, @NonNull String inboundNatRuleName, String expand) {
+        return getAsync(resourceGroupName, loadBalancerName, inboundNatRuleName, expand).blockingGet();
     }
 
     /**
@@ -486,11 +409,11 @@ public class InboundNatRulesInner {
      * @param inboundNatRuleName The name of the inbound nat rule.
      * @param expand Expands referenced resources.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<InboundNatRuleInner> getAsync(String resourceGroupName, String loadBalancerName, String inboundNatRuleName, String expand, final ServiceCallback<InboundNatRuleInner> serviceCallback) {
-        return ServiceFuture.fromResponse(getWithServiceResponseAsync(resourceGroupName, loadBalancerName, inboundNatRuleName, expand), serviceCallback);
+    public ServiceFuture<InboundNatRuleInner> getAsync(@NonNull String resourceGroupName, @NonNull String loadBalancerName, @NonNull String inboundNatRuleName, String expand, ServiceCallback<InboundNatRuleInner> serviceCallback) {
+        return ServiceFuture.fromBody(getAsync(resourceGroupName, loadBalancerName, inboundNatRuleName, expand), serviceCallback);
     }
 
     /**
@@ -500,29 +423,10 @@ public class InboundNatRulesInner {
      * @param loadBalancerName The name of the load balancer.
      * @param inboundNatRuleName The name of the inbound nat rule.
      * @param expand Expands referenced resources.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the InboundNatRuleInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<InboundNatRuleInner> getAsync(String resourceGroupName, String loadBalancerName, String inboundNatRuleName, String expand) {
-        return getWithServiceResponseAsync(resourceGroupName, loadBalancerName, inboundNatRuleName, expand).map(new Func1<ServiceResponse<InboundNatRuleInner>, InboundNatRuleInner>() {
-            @Override
-            public InboundNatRuleInner call(ServiceResponse<InboundNatRuleInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Gets the specified load balancer inbound nat rule.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param loadBalancerName The name of the load balancer.
-     * @param inboundNatRuleName The name of the inbound nat rule.
-     * @param expand Expands referenced resources.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the InboundNatRuleInner object
-     */
-    public Observable<ServiceResponse<InboundNatRuleInner>> getWithServiceResponseAsync(String resourceGroupName, String loadBalancerName, String inboundNatRuleName, String expand) {
+    public Single<BodyResponse<InboundNatRuleInner>> getWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String loadBalancerName, @NonNull String inboundNatRuleName, String expand) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -536,25 +440,22 @@ public class InboundNatRulesInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        return service.get(resourceGroupName, loadBalancerName, inboundNatRuleName, this.client.subscriptionId(), apiVersion, expand, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<InboundNatRuleInner>>>() {
-                @Override
-                public Observable<ServiceResponse<InboundNatRuleInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<InboundNatRuleInner> clientResponse = getDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.get(resourceGroupName, loadBalancerName, inboundNatRuleName, this.client.subscriptionId(), apiVersion, expand, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<InboundNatRuleInner> getDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<InboundNatRuleInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<InboundNatRuleInner>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Gets the specified load balancer inbound nat rule.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param loadBalancerName The name of the load balancer.
+     * @param inboundNatRuleName The name of the inbound nat rule.
+     * @param expand Expands referenced resources.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<InboundNatRuleInner> getAsync(@NonNull String resourceGroupName, @NonNull String loadBalancerName, @NonNull String inboundNatRuleName, String expand) {
+        return getWithRestResponseAsync(resourceGroupName, loadBalancerName, inboundNatRuleName, expand)
+            .flatMapMaybe((BodyResponse<InboundNatRuleInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
@@ -564,13 +465,13 @@ public class InboundNatRulesInner {
      * @param loadBalancerName The name of the load balancer.
      * @param inboundNatRuleName The name of the inbound nat rule.
      * @param inboundNatRuleParameters Parameters supplied to the create or update inbound nat rule operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the InboundNatRuleInner object if successful.
      */
-    public InboundNatRuleInner createOrUpdate(String resourceGroupName, String loadBalancerName, String inboundNatRuleName, InboundNatRuleInner inboundNatRuleParameters) {
-        return createOrUpdateWithServiceResponseAsync(resourceGroupName, loadBalancerName, inboundNatRuleName, inboundNatRuleParameters).toBlocking().last().body();
+    public InboundNatRuleInner beginCreateOrUpdate(@NonNull String resourceGroupName, @NonNull String loadBalancerName, @NonNull String inboundNatRuleName, @NonNull InboundNatRuleInner inboundNatRuleParameters) {
+        return beginCreateOrUpdateAsync(resourceGroupName, loadBalancerName, inboundNatRuleName, inboundNatRuleParameters).blockingLast().result();
     }
 
     /**
@@ -581,11 +482,11 @@ public class InboundNatRulesInner {
      * @param inboundNatRuleName The name of the inbound nat rule.
      * @param inboundNatRuleParameters Parameters supplied to the create or update inbound nat rule operation.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;InboundNatRuleInner&gt; object.
      */
-    public ServiceFuture<InboundNatRuleInner> createOrUpdateAsync(String resourceGroupName, String loadBalancerName, String inboundNatRuleName, InboundNatRuleInner inboundNatRuleParameters, final ServiceCallback<InboundNatRuleInner> serviceCallback) {
-        return ServiceFuture.fromResponse(createOrUpdateWithServiceResponseAsync(resourceGroupName, loadBalancerName, inboundNatRuleName, inboundNatRuleParameters), serviceCallback);
+    public ServiceFuture<InboundNatRuleInner> beginCreateOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String loadBalancerName, @NonNull String inboundNatRuleName, @NonNull InboundNatRuleInner inboundNatRuleParameters, ServiceCallback<InboundNatRuleInner> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginCreateOrUpdateAsync(resourceGroupName, loadBalancerName, inboundNatRuleName, inboundNatRuleParameters), serviceCallback);
     }
 
     /**
@@ -595,29 +496,10 @@ public class InboundNatRulesInner {
      * @param loadBalancerName The name of the load balancer.
      * @param inboundNatRuleName The name of the inbound nat rule.
      * @param inboundNatRuleParameters Parameters supplied to the create or update inbound nat rule operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<InboundNatRuleInner> createOrUpdateAsync(String resourceGroupName, String loadBalancerName, String inboundNatRuleName, InboundNatRuleInner inboundNatRuleParameters) {
-        return createOrUpdateWithServiceResponseAsync(resourceGroupName, loadBalancerName, inboundNatRuleName, inboundNatRuleParameters).map(new Func1<ServiceResponse<InboundNatRuleInner>, InboundNatRuleInner>() {
-            @Override
-            public InboundNatRuleInner call(ServiceResponse<InboundNatRuleInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Creates or updates a load balancer inbound nat rule.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param loadBalancerName The name of the load balancer.
-     * @param inboundNatRuleName The name of the inbound nat rule.
-     * @param inboundNatRuleParameters Parameters supplied to the create or update inbound nat rule operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<InboundNatRuleInner>> createOrUpdateWithServiceResponseAsync(String resourceGroupName, String loadBalancerName, String inboundNatRuleName, InboundNatRuleInner inboundNatRuleParameters) {
+    public Observable<OperationStatus<InboundNatRuleInner>> beginCreateOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String loadBalancerName, @NonNull String inboundNatRuleName, @NonNull InboundNatRuleInner inboundNatRuleParameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -635,8 +517,7 @@ public class InboundNatRulesInner {
         }
         Validator.validate(inboundNatRuleParameters);
         final String apiVersion = "2018-06-01";
-        Observable<Response<ResponseBody>> observable = service.createOrUpdate(resourceGroupName, loadBalancerName, inboundNatRuleName, this.client.subscriptionId(), inboundNatRuleParameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<InboundNatRuleInner>() { }.getType());
+        return service.beginCreateOrUpdate(resourceGroupName, loadBalancerName, inboundNatRuleName, this.client.subscriptionId(), inboundNatRuleParameters, apiVersion, this.client.acceptLanguage());
     }
 
     /**
@@ -646,13 +527,13 @@ public class InboundNatRulesInner {
      * @param loadBalancerName The name of the load balancer.
      * @param inboundNatRuleName The name of the inbound nat rule.
      * @param inboundNatRuleParameters Parameters supplied to the create or update inbound nat rule operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the InboundNatRuleInner object if successful.
      */
-    public InboundNatRuleInner beginCreateOrUpdate(String resourceGroupName, String loadBalancerName, String inboundNatRuleName, InboundNatRuleInner inboundNatRuleParameters) {
-        return beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, loadBalancerName, inboundNatRuleName, inboundNatRuleParameters).toBlocking().single().body();
+    public InboundNatRuleInner createOrUpdate(@NonNull String resourceGroupName, @NonNull String loadBalancerName, @NonNull String inboundNatRuleName, @NonNull InboundNatRuleInner inboundNatRuleParameters) {
+        return createOrUpdateAsync(resourceGroupName, loadBalancerName, inboundNatRuleName, inboundNatRuleParameters).blockingGet();
     }
 
     /**
@@ -663,11 +544,11 @@ public class InboundNatRulesInner {
      * @param inboundNatRuleName The name of the inbound nat rule.
      * @param inboundNatRuleParameters Parameters supplied to the create or update inbound nat rule operation.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<InboundNatRuleInner> beginCreateOrUpdateAsync(String resourceGroupName, String loadBalancerName, String inboundNatRuleName, InboundNatRuleInner inboundNatRuleParameters, final ServiceCallback<InboundNatRuleInner> serviceCallback) {
-        return ServiceFuture.fromResponse(beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, loadBalancerName, inboundNatRuleName, inboundNatRuleParameters), serviceCallback);
+    public ServiceFuture<InboundNatRuleInner> createOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String loadBalancerName, @NonNull String inboundNatRuleName, @NonNull InboundNatRuleInner inboundNatRuleParameters, ServiceCallback<InboundNatRuleInner> serviceCallback) {
+        return ServiceFuture.fromBody(createOrUpdateAsync(resourceGroupName, loadBalancerName, inboundNatRuleName, inboundNatRuleParameters), serviceCallback);
     }
 
     /**
@@ -677,29 +558,10 @@ public class InboundNatRulesInner {
      * @param loadBalancerName The name of the load balancer.
      * @param inboundNatRuleName The name of the inbound nat rule.
      * @param inboundNatRuleParameters Parameters supplied to the create or update inbound nat rule operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the InboundNatRuleInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<InboundNatRuleInner> beginCreateOrUpdateAsync(String resourceGroupName, String loadBalancerName, String inboundNatRuleName, InboundNatRuleInner inboundNatRuleParameters) {
-        return beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, loadBalancerName, inboundNatRuleName, inboundNatRuleParameters).map(new Func1<ServiceResponse<InboundNatRuleInner>, InboundNatRuleInner>() {
-            @Override
-            public InboundNatRuleInner call(ServiceResponse<InboundNatRuleInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Creates or updates a load balancer inbound nat rule.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param loadBalancerName The name of the load balancer.
-     * @param inboundNatRuleName The name of the inbound nat rule.
-     * @param inboundNatRuleParameters Parameters supplied to the create or update inbound nat rule operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the InboundNatRuleInner object
-     */
-    public Observable<ServiceResponse<InboundNatRuleInner>> beginCreateOrUpdateWithServiceResponseAsync(String resourceGroupName, String loadBalancerName, String inboundNatRuleName, InboundNatRuleInner inboundNatRuleParameters) {
+    public Single<BodyResponse<InboundNatRuleInner>> createOrUpdateWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String loadBalancerName, @NonNull String inboundNatRuleName, @NonNull InboundNatRuleInner inboundNatRuleParameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -717,43 +579,53 @@ public class InboundNatRulesInner {
         }
         Validator.validate(inboundNatRuleParameters);
         final String apiVersion = "2018-06-01";
-        return service.beginCreateOrUpdate(resourceGroupName, loadBalancerName, inboundNatRuleName, this.client.subscriptionId(), inboundNatRuleParameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<InboundNatRuleInner>>>() {
-                @Override
-                public Observable<ServiceResponse<InboundNatRuleInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<InboundNatRuleInner> clientResponse = beginCreateOrUpdateDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.createOrUpdate(resourceGroupName, loadBalancerName, inboundNatRuleName, this.client.subscriptionId(), inboundNatRuleParameters, apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<InboundNatRuleInner> beginCreateOrUpdateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<InboundNatRuleInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<InboundNatRuleInner>() { }.getType())
-                .register(201, new TypeToken<InboundNatRuleInner>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Creates or updates a load balancer inbound nat rule.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param loadBalancerName The name of the load balancer.
+     * @param inboundNatRuleName The name of the inbound nat rule.
+     * @param inboundNatRuleParameters Parameters supplied to the create or update inbound nat rule operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<InboundNatRuleInner> createOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String loadBalancerName, @NonNull String inboundNatRuleName, @NonNull InboundNatRuleInner inboundNatRuleParameters) {
+        return createOrUpdateWithRestResponseAsync(resourceGroupName, loadBalancerName, inboundNatRuleName, inboundNatRuleParameters)
+            .flatMapMaybe((BodyResponse<InboundNatRuleInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
+    }
+
+    /**
+     * Creates or updates a load balancer inbound nat rule. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<InboundNatRuleInner>> resumeCreateOrUpdate(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeCreateOrUpdate(operationDescription);
     }
 
     /**
      * Gets all the inbound nat rules in a load balancer.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;InboundNatRuleInner&gt; object if successful.
      */
-    public PagedList<InboundNatRuleInner> listNext(final String nextPageLink) {
-        ServiceResponse<Page<InboundNatRuleInner>> response = listNextSinglePageAsync(nextPageLink).toBlocking().single();
-        return new PagedList<InboundNatRuleInner>(response.body()) {
+    public PagedList<InboundNatRuleInner> listNext(@NonNull String nextPageLink) {
+        Page<InboundNatRuleInner> response = listNextSinglePageAsync(nextPageLink).blockingGet();
+        return new PagedList<InboundNatRuleInner>(response) {
             @Override
             public Page<InboundNatRuleInner> nextPage(String nextPageLink) {
-                return listNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -762,92 +634,34 @@ public class InboundNatRulesInner {
      * Gets all the inbound nat rules in a load balancer.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;InboundNatRuleInner&gt; object.
      */
-    public ServiceFuture<List<InboundNatRuleInner>> listNextAsync(final String nextPageLink, final ServiceFuture<List<InboundNatRuleInner>> serviceFuture, final ListOperationCallback<InboundNatRuleInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listNextSinglePageAsync(nextPageLink),
-            new Func1<String, Observable<ServiceResponse<Page<InboundNatRuleInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<InboundNatRuleInner>>> call(String nextPageLink) {
-                    return listNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets all the inbound nat rules in a load balancer.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;InboundNatRuleInner&gt; object
-     */
-    public Observable<Page<InboundNatRuleInner>> listNextAsync(final String nextPageLink) {
-        return listNextWithServiceResponseAsync(nextPageLink)
-            .map(new Func1<ServiceResponse<Page<InboundNatRuleInner>>, Page<InboundNatRuleInner>>() {
-                @Override
-                public Page<InboundNatRuleInner> call(ServiceResponse<Page<InboundNatRuleInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets all the inbound nat rules in a load balancer.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;InboundNatRuleInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<InboundNatRuleInner>>> listNextWithServiceResponseAsync(final String nextPageLink) {
+    public Observable<Page<InboundNatRuleInner>> listNextAsync(@NonNull String nextPageLink) {
         return listNextSinglePageAsync(nextPageLink)
-            .concatMap(new Func1<ServiceResponse<Page<InboundNatRuleInner>>, Observable<ServiceResponse<Page<InboundNatRuleInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<InboundNatRuleInner>>> call(ServiceResponse<Page<InboundNatRuleInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<InboundNatRuleInner> page) -> {
+                String nextPageLink1 = page.nextPageLink();
+                if (nextPageLink1 == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listNextAsync(nextPageLink1));
             });
     }
 
     /**
      * Gets all the inbound nat rules in a load balancer.
      *
-    ServiceResponse<PageImpl<InboundNatRuleInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;InboundNatRuleInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;InboundNatRuleInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<InboundNatRuleInner>>> listNextSinglePageAsync(final String nextPageLink) {
+    public Single<Page<InboundNatRuleInner>> listNextSinglePageAsync(@NonNull String nextPageLink) {
         if (nextPageLink == null) {
             throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
         }
         String nextUrl = String.format("%s", nextPageLink);
-        return service.listNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<InboundNatRuleInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<InboundNatRuleInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<InboundNatRuleInner>> result = listNextDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<InboundNatRuleInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.listNext(nextUrl, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl<InboundNatRuleInner>> res) -> res.body());
     }
-
-    private ServiceResponse<PageImpl<InboundNatRuleInner>> listNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<InboundNatRuleInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<InboundNatRuleInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
-    }
-
 }

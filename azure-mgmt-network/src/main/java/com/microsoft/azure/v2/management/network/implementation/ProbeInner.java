@@ -8,11 +8,11 @@
 
 package com.microsoft.azure.v2.management.network.implementation;
 
-import java.util.List;
-import com.microsoft.azure.SubResource;
-import com.microsoft.azure.v2.management.network.ProbeProtocol;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.v2.SubResource;
+import com.microsoft.azure.v2.management.network.ProbeProtocol;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
+import java.util.List;
 
 /**
  * A load balancer probe.
@@ -92,7 +92,7 @@ public class ProbeInner extends SubResource {
     /**
      * Get the loadBalancingRules value.
      *
-     * @return the loadBalancingRules value
+     * @return the loadBalancingRules value.
      */
     public List<SubResource> loadBalancingRules() {
         return this.loadBalancingRules;
@@ -101,7 +101,7 @@ public class ProbeInner extends SubResource {
     /**
      * Get the protocol value.
      *
-     * @return the protocol value
+     * @return the protocol value.
      */
     public ProbeProtocol protocol() {
         return this.protocol;
@@ -110,7 +110,7 @@ public class ProbeInner extends SubResource {
     /**
      * Set the protocol value.
      *
-     * @param protocol the protocol value to set
+     * @param protocol the protocol value to set.
      * @return the ProbeInner object itself.
      */
     public ProbeInner withProtocol(ProbeProtocol protocol) {
@@ -121,7 +121,7 @@ public class ProbeInner extends SubResource {
     /**
      * Get the port value.
      *
-     * @return the port value
+     * @return the port value.
      */
     public int port() {
         return this.port;
@@ -130,7 +130,7 @@ public class ProbeInner extends SubResource {
     /**
      * Set the port value.
      *
-     * @param port the port value to set
+     * @param port the port value to set.
      * @return the ProbeInner object itself.
      */
     public ProbeInner withPort(int port) {
@@ -141,7 +141,7 @@ public class ProbeInner extends SubResource {
     /**
      * Get the intervalInSeconds value.
      *
-     * @return the intervalInSeconds value
+     * @return the intervalInSeconds value.
      */
     public Integer intervalInSeconds() {
         return this.intervalInSeconds;
@@ -150,7 +150,7 @@ public class ProbeInner extends SubResource {
     /**
      * Set the intervalInSeconds value.
      *
-     * @param intervalInSeconds the intervalInSeconds value to set
+     * @param intervalInSeconds the intervalInSeconds value to set.
      * @return the ProbeInner object itself.
      */
     public ProbeInner withIntervalInSeconds(Integer intervalInSeconds) {
@@ -161,7 +161,7 @@ public class ProbeInner extends SubResource {
     /**
      * Get the numberOfProbes value.
      *
-     * @return the numberOfProbes value
+     * @return the numberOfProbes value.
      */
     public Integer numberOfProbes() {
         return this.numberOfProbes;
@@ -170,7 +170,7 @@ public class ProbeInner extends SubResource {
     /**
      * Set the numberOfProbes value.
      *
-     * @param numberOfProbes the numberOfProbes value to set
+     * @param numberOfProbes the numberOfProbes value to set.
      * @return the ProbeInner object itself.
      */
     public ProbeInner withNumberOfProbes(Integer numberOfProbes) {
@@ -181,7 +181,7 @@ public class ProbeInner extends SubResource {
     /**
      * Get the requestPath value.
      *
-     * @return the requestPath value
+     * @return the requestPath value.
      */
     public String requestPath() {
         return this.requestPath;
@@ -190,7 +190,7 @@ public class ProbeInner extends SubResource {
     /**
      * Set the requestPath value.
      *
-     * @param requestPath the requestPath value to set
+     * @param requestPath the requestPath value to set.
      * @return the ProbeInner object itself.
      */
     public ProbeInner withRequestPath(String requestPath) {
@@ -201,7 +201,7 @@ public class ProbeInner extends SubResource {
     /**
      * Get the provisioningState value.
      *
-     * @return the provisioningState value
+     * @return the provisioningState value.
      */
     public String provisioningState() {
         return this.provisioningState;
@@ -210,7 +210,7 @@ public class ProbeInner extends SubResource {
     /**
      * Set the provisioningState value.
      *
-     * @param provisioningState the provisioningState value to set
+     * @param provisioningState the provisioningState value to set.
      * @return the ProbeInner object itself.
      */
     public ProbeInner withProvisioningState(String provisioningState) {
@@ -221,7 +221,7 @@ public class ProbeInner extends SubResource {
     /**
      * Get the name value.
      *
-     * @return the name value
+     * @return the name value.
      */
     public String name() {
         return this.name;
@@ -230,7 +230,7 @@ public class ProbeInner extends SubResource {
     /**
      * Set the name value.
      *
-     * @param name the name value to set
+     * @param name the name value to set.
      * @return the ProbeInner object itself.
      */
     public ProbeInner withName(String name) {
@@ -241,7 +241,7 @@ public class ProbeInner extends SubResource {
     /**
      * Get the etag value.
      *
-     * @return the etag value
+     * @return the etag value.
      */
     public String etag() {
         return this.etag;
@@ -250,12 +250,11 @@ public class ProbeInner extends SubResource {
     /**
      * Set the etag value.
      *
-     * @param etag the etag value to set
+     * @param etag the etag value to set.
      * @return the ProbeInner object itself.
      */
     public ProbeInner withEtag(String etag) {
         this.etag = etag;
         return this;
     }
-
 }

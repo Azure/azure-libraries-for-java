@@ -8,44 +8,38 @@
 
 package com.microsoft.azure.v2.management.network.implementation;
 
-import com.google.common.reflect.TypeToken;
-import com.microsoft.azure.AzureClient;
-import com.microsoft.azure.AzureServiceClient;
-import com.microsoft.azure.CloudException;
-import com.microsoft.rest.credentials.ServiceClientCredentials;
-import com.microsoft.rest.RestClient;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import com.microsoft.rest.ServiceResponse;
-import java.io.IOException;
-import okhttp3.ResponseBody;
-import retrofit2.http.GET;
-import retrofit2.http.Header;
-import retrofit2.http.Headers;
-import retrofit2.http.Path;
-import retrofit2.http.Query;
-import retrofit2.Response;
-import rx.functions.Func1;
-import rx.Observable;
+import com.microsoft.azure.v2.AzureEnvironment;
+import com.microsoft.azure.v2.AzureProxy;
+import com.microsoft.azure.v2.AzureServiceClient;
+import com.microsoft.azure.v2.CloudException;
+import com.microsoft.rest.v2.BodyResponse;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
+import com.microsoft.rest.v2.annotations.ExpectedResponses;
+import com.microsoft.rest.v2.annotations.GET;
+import com.microsoft.rest.v2.annotations.HeaderParam;
+import com.microsoft.rest.v2.annotations.Host;
+import com.microsoft.rest.v2.annotations.PathParam;
+import com.microsoft.rest.v2.annotations.QueryParam;
+import com.microsoft.rest.v2.annotations.UnexpectedResponseExceptionType;
+import com.microsoft.rest.v2.credentials.ServiceClientCredentials;
+import com.microsoft.rest.v2.http.HttpPipeline;
+import io.reactivex.Maybe;
+import io.reactivex.Single;
+import io.reactivex.annotations.NonNull;
 
 /**
- * Initializes a new instance of the NetworkManagementClientImpl class.
+ * Initializes a new instance of the NetworkManagementClientImpl type.
  */
-public class NetworkManagementClientImpl extends AzureServiceClient {
-    /** The Retrofit service to perform REST calls. */
+public final class NetworkManagementClientImpl extends AzureServiceClient {
+    /**
+     * The proxy service used to perform REST calls.
+     */
     private NetworkManagementClientService service;
-    /** the {@link AzureClient} used for long running operations. */
-    private AzureClient azureClient;
 
     /**
-     * Gets the {@link AzureClient} used for long running operations.
-     * @return the azure client;
+     * The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
      */
-    public AzureClient getAzureClient() {
-        return this.azureClient;
-    }
-
-    /** The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
     private String subscriptionId;
 
     /**
@@ -61,18 +55,20 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
      * Sets The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
      *
      * @param subscriptionId the subscriptionId value.
-     * @return the service client itself
+     * @return the service client itself.
      */
     public NetworkManagementClientImpl withSubscriptionId(String subscriptionId) {
         this.subscriptionId = subscriptionId;
         return this;
     }
 
-    /** Gets or sets the preferred language for the response. */
+    /**
+     * The preferred language for the response.
+     */
     private String acceptLanguage;
 
     /**
-     * Gets Gets or sets the preferred language for the response.
+     * Gets The preferred language for the response.
      *
      * @return the acceptLanguage value.
      */
@@ -81,21 +77,23 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
     }
 
     /**
-     * Sets Gets or sets the preferred language for the response.
+     * Sets The preferred language for the response.
      *
      * @param acceptLanguage the acceptLanguage value.
-     * @return the service client itself
+     * @return the service client itself.
      */
     public NetworkManagementClientImpl withAcceptLanguage(String acceptLanguage) {
         this.acceptLanguage = acceptLanguage;
         return this;
     }
 
-    /** Gets or sets the retry timeout in seconds for Long Running Operations. Default value is 30. */
+    /**
+     * The retry timeout in seconds for Long Running Operations. Default value is 30.
+     */
     private int longRunningOperationRetryTimeout;
 
     /**
-     * Gets Gets or sets the retry timeout in seconds for Long Running Operations. Default value is 30.
+     * Gets The retry timeout in seconds for Long Running Operations. Default value is 30.
      *
      * @return the longRunningOperationRetryTimeout value.
      */
@@ -104,21 +102,23 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
     }
 
     /**
-     * Sets Gets or sets the retry timeout in seconds for Long Running Operations. Default value is 30.
+     * Sets The retry timeout in seconds for Long Running Operations. Default value is 30.
      *
      * @param longRunningOperationRetryTimeout the longRunningOperationRetryTimeout value.
-     * @return the service client itself
+     * @return the service client itself.
      */
     public NetworkManagementClientImpl withLongRunningOperationRetryTimeout(int longRunningOperationRetryTimeout) {
         this.longRunningOperationRetryTimeout = longRunningOperationRetryTimeout;
         return this;
     }
 
-    /** When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true. */
+    /**
+     * Whether a unique x-ms-client-request-id should be generated. When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true.
+     */
     private boolean generateClientRequestId;
 
     /**
-     * Gets When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true.
+     * Gets Whether a unique x-ms-client-request-id should be generated. When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true.
      *
      * @return the generateClientRequestId value.
      */
@@ -127,10 +127,10 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
     }
 
     /**
-     * Sets When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true.
+     * Sets Whether a unique x-ms-client-request-id should be generated. When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true.
      *
      * @param generateClientRequestId the generateClientRequestId value.
-     * @return the service client itself
+     * @return the service client itself.
      */
     public NetworkManagementClientImpl withGenerateClientRequestId(boolean generateClientRequestId) {
         this.generateClientRequestId = generateClientRequestId;
@@ -144,6 +144,7 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets the AzureFirewallsInner object to access its operations.
+     *
      * @return the AzureFirewallsInner object.
      */
     public AzureFirewallsInner azureFirewalls() {
@@ -157,6 +158,7 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets the ApplicationGatewaysInner object to access its operations.
+     *
      * @return the ApplicationGatewaysInner object.
      */
     public ApplicationGatewaysInner applicationGateways() {
@@ -170,6 +172,7 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets the ApplicationSecurityGroupsInner object to access its operations.
+     *
      * @return the ApplicationSecurityGroupsInner object.
      */
     public ApplicationSecurityGroupsInner applicationSecurityGroups() {
@@ -183,6 +186,7 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets the DdosProtectionPlansInner object to access its operations.
+     *
      * @return the DdosProtectionPlansInner object.
      */
     public DdosProtectionPlansInner ddosProtectionPlans() {
@@ -196,6 +200,7 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets the AvailableEndpointServicesInner object to access its operations.
+     *
      * @return the AvailableEndpointServicesInner object.
      */
     public AvailableEndpointServicesInner availableEndpointServices() {
@@ -209,6 +214,7 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets the ExpressRouteCircuitAuthorizationsInner object to access its operations.
+     *
      * @return the ExpressRouteCircuitAuthorizationsInner object.
      */
     public ExpressRouteCircuitAuthorizationsInner expressRouteCircuitAuthorizations() {
@@ -222,6 +228,7 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets the ExpressRouteCircuitPeeringsInner object to access its operations.
+     *
      * @return the ExpressRouteCircuitPeeringsInner object.
      */
     public ExpressRouteCircuitPeeringsInner expressRouteCircuitPeerings() {
@@ -235,6 +242,7 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets the ExpressRouteCircuitConnectionsInner object to access its operations.
+     *
      * @return the ExpressRouteCircuitConnectionsInner object.
      */
     public ExpressRouteCircuitConnectionsInner expressRouteCircuitConnections() {
@@ -248,6 +256,7 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets the ExpressRouteCircuitsInner object to access its operations.
+     *
      * @return the ExpressRouteCircuitsInner object.
      */
     public ExpressRouteCircuitsInner expressRouteCircuits() {
@@ -261,6 +270,7 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets the ExpressRouteServiceProvidersInner object to access its operations.
+     *
      * @return the ExpressRouteServiceProvidersInner object.
      */
     public ExpressRouteServiceProvidersInner expressRouteServiceProviders() {
@@ -274,6 +284,7 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets the ExpressRouteCrossConnectionsInner object to access its operations.
+     *
      * @return the ExpressRouteCrossConnectionsInner object.
      */
     public ExpressRouteCrossConnectionsInner expressRouteCrossConnections() {
@@ -287,6 +298,7 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets the ExpressRouteCrossConnectionPeeringsInner object to access its operations.
+     *
      * @return the ExpressRouteCrossConnectionPeeringsInner object.
      */
     public ExpressRouteCrossConnectionPeeringsInner expressRouteCrossConnectionPeerings() {
@@ -300,6 +312,7 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets the LoadBalancersInner object to access its operations.
+     *
      * @return the LoadBalancersInner object.
      */
     public LoadBalancersInner loadBalancers() {
@@ -313,6 +326,7 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets the LoadBalancerBackendAddressPoolsInner object to access its operations.
+     *
      * @return the LoadBalancerBackendAddressPoolsInner object.
      */
     public LoadBalancerBackendAddressPoolsInner loadBalancerBackendAddressPools() {
@@ -326,6 +340,7 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets the LoadBalancerFrontendIPConfigurationsInner object to access its operations.
+     *
      * @return the LoadBalancerFrontendIPConfigurationsInner object.
      */
     public LoadBalancerFrontendIPConfigurationsInner loadBalancerFrontendIPConfigurations() {
@@ -339,6 +354,7 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets the InboundNatRulesInner object to access its operations.
+     *
      * @return the InboundNatRulesInner object.
      */
     public InboundNatRulesInner inboundNatRules() {
@@ -352,6 +368,7 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets the LoadBalancerLoadBalancingRulesInner object to access its operations.
+     *
      * @return the LoadBalancerLoadBalancingRulesInner object.
      */
     public LoadBalancerLoadBalancingRulesInner loadBalancerLoadBalancingRules() {
@@ -365,6 +382,7 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets the LoadBalancerNetworkInterfacesInner object to access its operations.
+     *
      * @return the LoadBalancerNetworkInterfacesInner object.
      */
     public LoadBalancerNetworkInterfacesInner loadBalancerNetworkInterfaces() {
@@ -378,6 +396,7 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets the LoadBalancerProbesInner object to access its operations.
+     *
      * @return the LoadBalancerProbesInner object.
      */
     public LoadBalancerProbesInner loadBalancerProbes() {
@@ -391,6 +410,7 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets the NetworkInterfacesInner object to access its operations.
+     *
      * @return the NetworkInterfacesInner object.
      */
     public NetworkInterfacesInner networkInterfaces() {
@@ -404,6 +424,7 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets the NetworkInterfaceIPConfigurationsInner object to access its operations.
+     *
      * @return the NetworkInterfaceIPConfigurationsInner object.
      */
     public NetworkInterfaceIPConfigurationsInner networkInterfaceIPConfigurations() {
@@ -417,6 +438,7 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets the NetworkInterfaceLoadBalancersInner object to access its operations.
+     *
      * @return the NetworkInterfaceLoadBalancersInner object.
      */
     public NetworkInterfaceLoadBalancersInner networkInterfaceLoadBalancers() {
@@ -430,6 +452,7 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets the NetworkSecurityGroupsInner object to access its operations.
+     *
      * @return the NetworkSecurityGroupsInner object.
      */
     public NetworkSecurityGroupsInner networkSecurityGroups() {
@@ -443,6 +466,7 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets the SecurityRulesInner object to access its operations.
+     *
      * @return the SecurityRulesInner object.
      */
     public SecurityRulesInner securityRules() {
@@ -456,6 +480,7 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets the DefaultSecurityRulesInner object to access its operations.
+     *
      * @return the DefaultSecurityRulesInner object.
      */
     public DefaultSecurityRulesInner defaultSecurityRules() {
@@ -469,6 +494,7 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets the NetworkWatchersInner object to access its operations.
+     *
      * @return the NetworkWatchersInner object.
      */
     public NetworkWatchersInner networkWatchers() {
@@ -482,6 +508,7 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets the PacketCapturesInner object to access its operations.
+     *
      * @return the PacketCapturesInner object.
      */
     public PacketCapturesInner packetCaptures() {
@@ -495,6 +522,7 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets the ConnectionMonitorsInner object to access its operations.
+     *
      * @return the ConnectionMonitorsInner object.
      */
     public ConnectionMonitorsInner connectionMonitors() {
@@ -508,6 +536,7 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets the OperationsInner object to access its operations.
+     *
      * @return the OperationsInner object.
      */
     public OperationsInner operations() {
@@ -521,6 +550,7 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets the PublicIPAddressesInner object to access its operations.
+     *
      * @return the PublicIPAddressesInner object.
      */
     public PublicIPAddressesInner publicIPAddresses() {
@@ -534,6 +564,7 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets the RouteFiltersInner object to access its operations.
+     *
      * @return the RouteFiltersInner object.
      */
     public RouteFiltersInner routeFilters() {
@@ -547,6 +578,7 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets the RouteFilterRulesInner object to access its operations.
+     *
      * @return the RouteFilterRulesInner object.
      */
     public RouteFilterRulesInner routeFilterRules() {
@@ -560,6 +592,7 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets the RouteTablesInner object to access its operations.
+     *
      * @return the RouteTablesInner object.
      */
     public RouteTablesInner routeTables() {
@@ -573,6 +606,7 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets the RoutesInner object to access its operations.
+     *
      * @return the RoutesInner object.
      */
     public RoutesInner routes() {
@@ -586,6 +620,7 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets the BgpServiceCommunitiesInner object to access its operations.
+     *
      * @return the BgpServiceCommunitiesInner object.
      */
     public BgpServiceCommunitiesInner bgpServiceCommunities() {
@@ -599,6 +634,7 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets the UsagesInner object to access its operations.
+     *
      * @return the UsagesInner object.
      */
     public UsagesInner usages() {
@@ -612,6 +648,7 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets the VirtualNetworksInner object to access its operations.
+     *
      * @return the VirtualNetworksInner object.
      */
     public VirtualNetworksInner virtualNetworks() {
@@ -625,6 +662,7 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets the SubnetsInner object to access its operations.
+     *
      * @return the SubnetsInner object.
      */
     public SubnetsInner subnets() {
@@ -638,6 +676,7 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets the VirtualNetworkPeeringsInner object to access its operations.
+     *
      * @return the VirtualNetworkPeeringsInner object.
      */
     public VirtualNetworkPeeringsInner virtualNetworkPeerings() {
@@ -651,6 +690,7 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets the VirtualNetworkGatewaysInner object to access its operations.
+     *
      * @return the VirtualNetworkGatewaysInner object.
      */
     public VirtualNetworkGatewaysInner virtualNetworkGateways() {
@@ -664,6 +704,7 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets the VirtualNetworkGatewayConnectionsInner object to access its operations.
+     *
      * @return the VirtualNetworkGatewayConnectionsInner object.
      */
     public VirtualNetworkGatewayConnectionsInner virtualNetworkGatewayConnections() {
@@ -677,6 +718,7 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets the LocalNetworkGatewaysInner object to access its operations.
+     *
      * @return the LocalNetworkGatewaysInner object.
      */
     public LocalNetworkGatewaysInner localNetworkGateways() {
@@ -690,6 +732,7 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets the VirtualWANsInner object to access its operations.
+     *
      * @return the VirtualWANsInner object.
      */
     public VirtualWANsInner virtualWANs() {
@@ -703,6 +746,7 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets the VpnSitesInner object to access its operations.
+     *
      * @return the VpnSitesInner object.
      */
     public VpnSitesInner vpnSites() {
@@ -716,6 +760,7 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets the VpnSitesConfigurationsInner object to access its operations.
+     *
      * @return the VpnSitesConfigurationsInner object.
      */
     public VpnSitesConfigurationsInner vpnSitesConfigurations() {
@@ -729,6 +774,7 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets the VirtualHubsInner object to access its operations.
+     *
      * @return the VirtualHubsInner object.
      */
     public VirtualHubsInner virtualHubs() {
@@ -742,6 +788,7 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets the HubVirtualNetworkConnectionsInner object to access its operations.
+     *
      * @return the HubVirtualNetworkConnectionsInner object.
      */
     public HubVirtualNetworkConnectionsInner hubVirtualNetworkConnections() {
@@ -755,6 +802,7 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets the VpnGatewaysInner object to access its operations.
+     *
      * @return the VpnGatewaysInner object.
      */
     public VpnGatewaysInner vpnGateways() {
@@ -768,6 +816,7 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets the VpnConnectionsInner object to access its operations.
+     *
      * @return the VpnConnectionsInner object.
      */
     public VpnConnectionsInner vpnConnections() {
@@ -777,113 +826,104 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
     /**
      * Initializes an instance of NetworkManagementClient client.
      *
-     * @param credentials the management credentials for Azure
+     * @param credentials the management credentials for Azure.
      */
-    public NetworkManagementClientImpl(ServiceClientCredentials credentials) {
-        this("https://management.azure.com", credentials);
+    public NetworkManagementClientImpl(@NonNull ServiceClientCredentials credentials) {
+        this(AzureProxy.createDefaultPipeline(NetworkManagementClientImpl.class, credentials));
     }
 
     /**
      * Initializes an instance of NetworkManagementClient client.
      *
-     * @param baseUrl the base URL of the host
-     * @param credentials the management credentials for Azure
+     * @param credentials the management credentials for Azure.
+     * @param azureEnvironment The environment that requests will target.
      */
-    public NetworkManagementClientImpl(String baseUrl, ServiceClientCredentials credentials) {
-        super(baseUrl, credentials);
-        initialize();
+    public NetworkManagementClientImpl(@NonNull ServiceClientCredentials credentials, @NonNull AzureEnvironment azureEnvironment) {
+        this(AzureProxy.createDefaultPipeline(NetworkManagementClientImpl.class, credentials), azureEnvironment);
     }
 
     /**
      * Initializes an instance of NetworkManagementClient client.
      *
-     * @param restClient the REST client to connect to Azure.
+     * @param httpPipeline The HTTP pipeline to send requests through.
      */
-    public NetworkManagementClientImpl(RestClient restClient) {
-        super(restClient);
-        initialize();
+    public NetworkManagementClientImpl(@NonNull HttpPipeline httpPipeline) {
+        this(httpPipeline, null);
     }
 
-    protected void initialize() {
+    /**
+     * Initializes an instance of NetworkManagementClient client.
+     *
+     * @param httpPipeline The HTTP pipeline to send requests through.
+     * @param azureEnvironment The environment that requests will target.
+     */
+    public NetworkManagementClientImpl(@NonNull HttpPipeline httpPipeline, @NonNull AzureEnvironment azureEnvironment) {
+        super(httpPipeline, azureEnvironment);
         this.acceptLanguage = "en-US";
         this.longRunningOperationRetryTimeout = 30;
         this.generateClientRequestId = true;
-        this.azureFirewalls = new AzureFirewallsInner(restClient().retrofit(), this);
-        this.applicationGateways = new ApplicationGatewaysInner(restClient().retrofit(), this);
-        this.applicationSecurityGroups = new ApplicationSecurityGroupsInner(restClient().retrofit(), this);
-        this.ddosProtectionPlans = new DdosProtectionPlansInner(restClient().retrofit(), this);
-        this.availableEndpointServices = new AvailableEndpointServicesInner(restClient().retrofit(), this);
-        this.expressRouteCircuitAuthorizations = new ExpressRouteCircuitAuthorizationsInner(restClient().retrofit(), this);
-        this.expressRouteCircuitPeerings = new ExpressRouteCircuitPeeringsInner(restClient().retrofit(), this);
-        this.expressRouteCircuitConnections = new ExpressRouteCircuitConnectionsInner(restClient().retrofit(), this);
-        this.expressRouteCircuits = new ExpressRouteCircuitsInner(restClient().retrofit(), this);
-        this.expressRouteServiceProviders = new ExpressRouteServiceProvidersInner(restClient().retrofit(), this);
-        this.expressRouteCrossConnections = new ExpressRouteCrossConnectionsInner(restClient().retrofit(), this);
-        this.expressRouteCrossConnectionPeerings = new ExpressRouteCrossConnectionPeeringsInner(restClient().retrofit(), this);
-        this.loadBalancers = new LoadBalancersInner(restClient().retrofit(), this);
-        this.loadBalancerBackendAddressPools = new LoadBalancerBackendAddressPoolsInner(restClient().retrofit(), this);
-        this.loadBalancerFrontendIPConfigurations = new LoadBalancerFrontendIPConfigurationsInner(restClient().retrofit(), this);
-        this.inboundNatRules = new InboundNatRulesInner(restClient().retrofit(), this);
-        this.loadBalancerLoadBalancingRules = new LoadBalancerLoadBalancingRulesInner(restClient().retrofit(), this);
-        this.loadBalancerNetworkInterfaces = new LoadBalancerNetworkInterfacesInner(restClient().retrofit(), this);
-        this.loadBalancerProbes = new LoadBalancerProbesInner(restClient().retrofit(), this);
-        this.networkInterfaces = new NetworkInterfacesInner(restClient().retrofit(), this);
-        this.networkInterfaceIPConfigurations = new NetworkInterfaceIPConfigurationsInner(restClient().retrofit(), this);
-        this.networkInterfaceLoadBalancers = new NetworkInterfaceLoadBalancersInner(restClient().retrofit(), this);
-        this.networkSecurityGroups = new NetworkSecurityGroupsInner(restClient().retrofit(), this);
-        this.securityRules = new SecurityRulesInner(restClient().retrofit(), this);
-        this.defaultSecurityRules = new DefaultSecurityRulesInner(restClient().retrofit(), this);
-        this.networkWatchers = new NetworkWatchersInner(restClient().retrofit(), this);
-        this.packetCaptures = new PacketCapturesInner(restClient().retrofit(), this);
-        this.connectionMonitors = new ConnectionMonitorsInner(restClient().retrofit(), this);
-        this.operations = new OperationsInner(restClient().retrofit(), this);
-        this.publicIPAddresses = new PublicIPAddressesInner(restClient().retrofit(), this);
-        this.routeFilters = new RouteFiltersInner(restClient().retrofit(), this);
-        this.routeFilterRules = new RouteFilterRulesInner(restClient().retrofit(), this);
-        this.routeTables = new RouteTablesInner(restClient().retrofit(), this);
-        this.routes = new RoutesInner(restClient().retrofit(), this);
-        this.bgpServiceCommunities = new BgpServiceCommunitiesInner(restClient().retrofit(), this);
-        this.usages = new UsagesInner(restClient().retrofit(), this);
-        this.virtualNetworks = new VirtualNetworksInner(restClient().retrofit(), this);
-        this.subnets = new SubnetsInner(restClient().retrofit(), this);
-        this.virtualNetworkPeerings = new VirtualNetworkPeeringsInner(restClient().retrofit(), this);
-        this.virtualNetworkGateways = new VirtualNetworkGatewaysInner(restClient().retrofit(), this);
-        this.virtualNetworkGatewayConnections = new VirtualNetworkGatewayConnectionsInner(restClient().retrofit(), this);
-        this.localNetworkGateways = new LocalNetworkGatewaysInner(restClient().retrofit(), this);
-        this.virtualWANs = new VirtualWANsInner(restClient().retrofit(), this);
-        this.vpnSites = new VpnSitesInner(restClient().retrofit(), this);
-        this.vpnSitesConfigurations = new VpnSitesConfigurationsInner(restClient().retrofit(), this);
-        this.virtualHubs = new VirtualHubsInner(restClient().retrofit(), this);
-        this.hubVirtualNetworkConnections = new HubVirtualNetworkConnectionsInner(restClient().retrofit(), this);
-        this.vpnGateways = new VpnGatewaysInner(restClient().retrofit(), this);
-        this.vpnConnections = new VpnConnectionsInner(restClient().retrofit(), this);
-        this.azureClient = new AzureClient(this);
-        initializeService();
+        this.azureFirewalls = new AzureFirewallsInner(this);
+        this.applicationGateways = new ApplicationGatewaysInner(this);
+        this.applicationSecurityGroups = new ApplicationSecurityGroupsInner(this);
+        this.ddosProtectionPlans = new DdosProtectionPlansInner(this);
+        this.availableEndpointServices = new AvailableEndpointServicesInner(this);
+        this.expressRouteCircuitAuthorizations = new ExpressRouteCircuitAuthorizationsInner(this);
+        this.expressRouteCircuitPeerings = new ExpressRouteCircuitPeeringsInner(this);
+        this.expressRouteCircuitConnections = new ExpressRouteCircuitConnectionsInner(this);
+        this.expressRouteCircuits = new ExpressRouteCircuitsInner(this);
+        this.expressRouteServiceProviders = new ExpressRouteServiceProvidersInner(this);
+        this.expressRouteCrossConnections = new ExpressRouteCrossConnectionsInner(this);
+        this.expressRouteCrossConnectionPeerings = new ExpressRouteCrossConnectionPeeringsInner(this);
+        this.loadBalancers = new LoadBalancersInner(this);
+        this.loadBalancerBackendAddressPools = new LoadBalancerBackendAddressPoolsInner(this);
+        this.loadBalancerFrontendIPConfigurations = new LoadBalancerFrontendIPConfigurationsInner(this);
+        this.inboundNatRules = new InboundNatRulesInner(this);
+        this.loadBalancerLoadBalancingRules = new LoadBalancerLoadBalancingRulesInner(this);
+        this.loadBalancerNetworkInterfaces = new LoadBalancerNetworkInterfacesInner(this);
+        this.loadBalancerProbes = new LoadBalancerProbesInner(this);
+        this.networkInterfaces = new NetworkInterfacesInner(this);
+        this.networkInterfaceIPConfigurations = new NetworkInterfaceIPConfigurationsInner(this);
+        this.networkInterfaceLoadBalancers = new NetworkInterfaceLoadBalancersInner(this);
+        this.networkSecurityGroups = new NetworkSecurityGroupsInner(this);
+        this.securityRules = new SecurityRulesInner(this);
+        this.defaultSecurityRules = new DefaultSecurityRulesInner(this);
+        this.networkWatchers = new NetworkWatchersInner(this);
+        this.packetCaptures = new PacketCapturesInner(this);
+        this.connectionMonitors = new ConnectionMonitorsInner(this);
+        this.operations = new OperationsInner(this);
+        this.publicIPAddresses = new PublicIPAddressesInner(this);
+        this.routeFilters = new RouteFiltersInner(this);
+        this.routeFilterRules = new RouteFilterRulesInner(this);
+        this.routeTables = new RouteTablesInner(this);
+        this.routes = new RoutesInner(this);
+        this.bgpServiceCommunities = new BgpServiceCommunitiesInner(this);
+        this.usages = new UsagesInner(this);
+        this.virtualNetworks = new VirtualNetworksInner(this);
+        this.subnets = new SubnetsInner(this);
+        this.virtualNetworkPeerings = new VirtualNetworkPeeringsInner(this);
+        this.virtualNetworkGateways = new VirtualNetworkGatewaysInner(this);
+        this.virtualNetworkGatewayConnections = new VirtualNetworkGatewayConnectionsInner(this);
+        this.localNetworkGateways = new LocalNetworkGatewaysInner(this);
+        this.virtualWANs = new VirtualWANsInner(this);
+        this.vpnSites = new VpnSitesInner(this);
+        this.vpnSitesConfigurations = new VpnSitesConfigurationsInner(this);
+        this.virtualHubs = new VirtualHubsInner(this);
+        this.hubVirtualNetworkConnections = new HubVirtualNetworkConnectionsInner(this);
+        this.vpnGateways = new VpnGatewaysInner(this);
+        this.vpnConnections = new VpnConnectionsInner(this);
+        this.service = AzureProxy.create(NetworkManagementClientService.class, this);
     }
 
     /**
-     * Gets the User-Agent header for the client.
-     *
-     * @return the user agent string.
+     * The interface defining all the services for NetworkManagementClient to
+     * be used by the proxy service to perform REST calls.
      */
-    @Override
-    public String userAgent() {
-        return String.format("%s (%s)", super.userAgent(), "NetworkManagementClient");
-    }
-
-    private void initializeService() {
-        service = restClient().retrofit().create(NetworkManagementClientService.class);
-    }
-
-    /**
-     * The interface defining all the services for NetworkManagementClient to be
-     * used by Retrofit to perform actually REST calls.
-     */
-    interface NetworkManagementClientService {
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.NetworkManagementClient checkDnsNameAvailability" })
+    @Host("https://management.azure.com")
+    private interface NetworkManagementClientService {
         @GET("subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/CheckDnsNameAvailability")
-        Observable<Response<ResponseBody>> checkDnsNameAvailability(@Path("location") String location, @Path("subscriptionId") String subscriptionId, @Query("domainNameLabel") String domainNameLabel, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
-
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<DnsNameAvailabilityResultInner>> checkDnsNameAvailability(@PathParam("location") String location, @PathParam("subscriptionId") String subscriptionId, @QueryParam("domainNameLabel") String domainNameLabel, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
     }
 
     /**
@@ -891,13 +931,13 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
      *
      * @param location The location of the domain name.
      * @param domainNameLabel The domain name to be verified. It must conform to the following regular expression: ^[a-z][a-z0-9-]{1,61}[a-z0-9]$.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the DnsNameAvailabilityResultInner object if successful.
      */
-    public DnsNameAvailabilityResultInner checkDnsNameAvailability(String location, String domainNameLabel) {
-        return checkDnsNameAvailabilityWithServiceResponseAsync(location, domainNameLabel).toBlocking().single().body();
+    public DnsNameAvailabilityResultInner checkDnsNameAvailability(@NonNull String location, @NonNull String domainNameLabel) {
+        return checkDnsNameAvailabilityAsync(location, domainNameLabel).blockingGet();
     }
 
     /**
@@ -906,11 +946,11 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
      * @param location The location of the domain name.
      * @param domainNameLabel The domain name to be verified. It must conform to the following regular expression: ^[a-z][a-z0-9-]{1,61}[a-z0-9]$.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<DnsNameAvailabilityResultInner> checkDnsNameAvailabilityAsync(String location, String domainNameLabel, final ServiceCallback<DnsNameAvailabilityResultInner> serviceCallback) {
-        return ServiceFuture.fromResponse(checkDnsNameAvailabilityWithServiceResponseAsync(location, domainNameLabel), serviceCallback);
+    public ServiceFuture<DnsNameAvailabilityResultInner> checkDnsNameAvailabilityAsync(@NonNull String location, @NonNull String domainNameLabel, ServiceCallback<DnsNameAvailabilityResultInner> serviceCallback) {
+        return ServiceFuture.fromBody(checkDnsNameAvailabilityAsync(location, domainNameLabel), serviceCallback);
     }
 
     /**
@@ -918,27 +958,10 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
      *
      * @param location The location of the domain name.
      * @param domainNameLabel The domain name to be verified. It must conform to the following regular expression: ^[a-z][a-z0-9-]{1,61}[a-z0-9]$.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the DnsNameAvailabilityResultInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<DnsNameAvailabilityResultInner> checkDnsNameAvailabilityAsync(String location, String domainNameLabel) {
-        return checkDnsNameAvailabilityWithServiceResponseAsync(location, domainNameLabel).map(new Func1<ServiceResponse<DnsNameAvailabilityResultInner>, DnsNameAvailabilityResultInner>() {
-            @Override
-            public DnsNameAvailabilityResultInner call(ServiceResponse<DnsNameAvailabilityResultInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Checks whether a domain name in the cloudapp.azure.com zone is available for use.
-     *
-     * @param location The location of the domain name.
-     * @param domainNameLabel The domain name to be verified. It must conform to the following regular expression: ^[a-z][a-z0-9-]{1,61}[a-z0-9]$.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the DnsNameAvailabilityResultInner object
-     */
-    public Observable<ServiceResponse<DnsNameAvailabilityResultInner>> checkDnsNameAvailabilityWithServiceResponseAsync(String location, String domainNameLabel) {
+    public Single<BodyResponse<DnsNameAvailabilityResultInner>> checkDnsNameAvailabilityWithRestResponseAsync(@NonNull String location, @NonNull String domainNameLabel) {
         if (location == null) {
             throw new IllegalArgumentException("Parameter location is required and cannot be null.");
         }
@@ -949,25 +972,19 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
             throw new IllegalArgumentException("Parameter domainNameLabel is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        return service.checkDnsNameAvailability(location, this.subscriptionId(), domainNameLabel, apiVersion, this.acceptLanguage(), this.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DnsNameAvailabilityResultInner>>>() {
-                @Override
-                public Observable<ServiceResponse<DnsNameAvailabilityResultInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<DnsNameAvailabilityResultInner> clientResponse = checkDnsNameAvailabilityDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.checkDnsNameAvailability(location, this.subscriptionId(), domainNameLabel, apiVersion, this.acceptLanguage());
     }
 
-    private ServiceResponse<DnsNameAvailabilityResultInner> checkDnsNameAvailabilityDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.restClient().responseBuilderFactory().<DnsNameAvailabilityResultInner, CloudException>newInstance(this.serializerAdapter())
-                .register(200, new TypeToken<DnsNameAvailabilityResultInner>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Checks whether a domain name in the cloudapp.azure.com zone is available for use.
+     *
+     * @param location The location of the domain name.
+     * @param domainNameLabel The domain name to be verified. It must conform to the following regular expression: ^[a-z][a-z0-9-]{1,61}[a-z0-9]$.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<DnsNameAvailabilityResultInner> checkDnsNameAvailabilityAsync(@NonNull String location, @NonNull String domainNameLabel) {
+        return checkDnsNameAvailabilityWithRestResponseAsync(location, domainNameLabel)
+            .flatMapMaybe((BodyResponse<DnsNameAvailabilityResultInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
-
 }

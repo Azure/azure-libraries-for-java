@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Properties of the AzureFirewallRCAction.
  */
-public class AzureFirewallRCAction {
+public final class AzureFirewallRCAction {
     /**
      * The type of action. Possible values include: 'Allow', 'Deny'.
      */
@@ -23,7 +23,7 @@ public class AzureFirewallRCAction {
     /**
      * Get the type value.
      *
-     * @return the type value
+     * @return the type value.
      */
     public AzureFirewallRCActionType type() {
         return this.type;
@@ -32,12 +32,11 @@ public class AzureFirewallRCAction {
     /**
      * Set the type value.
      *
-     * @param type the type value to set
+     * @param type the type value to set.
      * @return the AzureFirewallRCAction object itself.
      */
     public AzureFirewallRCAction withType(AzureFirewallRCActionType type) {
         this.type = type;
         return this;
     }
-
 }

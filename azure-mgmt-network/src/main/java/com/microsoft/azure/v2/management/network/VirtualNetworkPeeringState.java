@@ -8,27 +8,34 @@
 
 package com.microsoft.azure.v2.management.network;
 
-import java.util.Collection;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.microsoft.rest.ExpandableStringEnum;
+import com.microsoft.rest.v2.ExpandableStringEnum;
+import java.util.Collection;
 
 /**
  * Defines values for VirtualNetworkPeeringState.
  */
 public final class VirtualNetworkPeeringState extends ExpandableStringEnum<VirtualNetworkPeeringState> {
-    /** Static value Initiated for VirtualNetworkPeeringState. */
+    /**
+     * Static value Initiated for VirtualNetworkPeeringState.
+     */
     public static final VirtualNetworkPeeringState INITIATED = fromString("Initiated");
 
-    /** Static value Connected for VirtualNetworkPeeringState. */
+    /**
+     * Static value Connected for VirtualNetworkPeeringState.
+     */
     public static final VirtualNetworkPeeringState CONNECTED = fromString("Connected");
 
-    /** Static value Disconnected for VirtualNetworkPeeringState. */
+    /**
+     * Static value Disconnected for VirtualNetworkPeeringState.
+     */
     public static final VirtualNetworkPeeringState DISCONNECTED = fromString("Disconnected");
 
     /**
      * Creates or finds a VirtualNetworkPeeringState from its string representation.
-     * @param name a name to look for
-     * @return the corresponding VirtualNetworkPeeringState
+     *
+     * @param name a name to look for.
+     * @return the corresponding VirtualNetworkPeeringState.
      */
     @JsonCreator
     public static VirtualNetworkPeeringState fromString(String name) {
@@ -36,7 +43,7 @@ public final class VirtualNetworkPeeringState extends ExpandableStringEnum<Virtu
     }
 
     /**
-     * @return known VirtualNetworkPeeringState values
+     * @return known VirtualNetworkPeeringState values.
      */
     public static Collection<VirtualNetworkPeeringState> values() {
         return values(VirtualNetworkPeeringState.class);

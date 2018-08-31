@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * SKU of a load balancer.
  */
-public class LoadBalancerSku {
+public final class LoadBalancerSku {
     /**
      * Name of a load balancer SKU. Possible values include: 'Basic',
      * 'Standard'.
@@ -24,7 +24,7 @@ public class LoadBalancerSku {
     /**
      * Get the name value.
      *
-     * @return the name value
+     * @return the name value.
      */
     public LoadBalancerSkuName name() {
         return this.name;
@@ -33,12 +33,11 @@ public class LoadBalancerSku {
     /**
      * Set the name value.
      *
-     * @param name the name value to set
+     * @param name the name value to set.
      * @return the LoadBalancerSku object itself.
      */
     public LoadBalancerSku withName(LoadBalancerSkuName name) {
         this.name = name;
         return this;
     }
-
 }

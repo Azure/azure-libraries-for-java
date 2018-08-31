@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Response for the CheckDnsNameAvailability API service call.
  */
-public class DnsNameAvailabilityResultInner {
+public final class DnsNameAvailabilityResultInner {
     /**
      * Domain availability (True/False).
      */
@@ -23,7 +23,7 @@ public class DnsNameAvailabilityResultInner {
     /**
      * Get the available value.
      *
-     * @return the available value
+     * @return the available value.
      */
     public Boolean available() {
         return this.available;
@@ -32,12 +32,11 @@ public class DnsNameAvailabilityResultInner {
     /**
      * Set the available value.
      *
-     * @param available the available value to set
+     * @param available the available value to set.
      * @return the DnsNameAvailabilityResultInner object itself.
      */
     public DnsNameAvailabilityResultInner withAvailable(Boolean available) {
         this.available = available;
         return this;
     }
-
 }

@@ -8,24 +8,29 @@
 
 package com.microsoft.azure.v2.management.network;
 
-import java.util.Collection;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.microsoft.rest.ExpandableStringEnum;
+import com.microsoft.rest.v2.ExpandableStringEnum;
+import java.util.Collection;
 
 /**
  * Defines values for EffectiveRouteState.
  */
 public final class EffectiveRouteState extends ExpandableStringEnum<EffectiveRouteState> {
-    /** Static value Active for EffectiveRouteState. */
+    /**
+     * Static value Active for EffectiveRouteState.
+     */
     public static final EffectiveRouteState ACTIVE = fromString("Active");
 
-    /** Static value Invalid for EffectiveRouteState. */
+    /**
+     * Static value Invalid for EffectiveRouteState.
+     */
     public static final EffectiveRouteState INVALID = fromString("Invalid");
 
     /**
      * Creates or finds a EffectiveRouteState from its string representation.
-     * @param name a name to look for
-     * @return the corresponding EffectiveRouteState
+     *
+     * @param name a name to look for.
+     * @return the corresponding EffectiveRouteState.
      */
     @JsonCreator
     public static EffectiveRouteState fromString(String name) {
@@ -33,7 +38,7 @@ public final class EffectiveRouteState extends ExpandableStringEnum<EffectiveRou
     }
 
     /**
-     * @return known EffectiveRouteState values
+     * @return known EffectiveRouteState values.
      */
     public static Collection<EffectiveRouteState> values() {
         return values(EffectiveRouteState.class);

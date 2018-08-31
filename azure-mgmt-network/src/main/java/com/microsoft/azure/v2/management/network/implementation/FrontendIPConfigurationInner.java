@@ -8,11 +8,11 @@
 
 package com.microsoft.azure.v2.management.network.implementation;
 
-import java.util.List;
-import com.microsoft.azure.SubResource;
-import com.microsoft.azure.v2.management.network.IPAllocationMethod;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.v2.SubResource;
+import com.microsoft.azure.v2.management.network.IPAllocationMethod;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
+import java.util.List;
 
 /**
  * Frontend IP address of the load balancer.
@@ -23,7 +23,7 @@ public class FrontendIPConfigurationInner extends SubResource {
      * Read only. Inbound rules URIs that use this frontend IP.
      */
     @JsonProperty(value = "properties.inboundNatRules", access = JsonProperty.Access.WRITE_ONLY)
-    private List<SubResource> inboundNatRules;
+    private List<SubResource> inboundNatRulesProperty;
 
     /**
      * Read only. Inbound pools URIs that use this frontend IP.
@@ -96,18 +96,18 @@ public class FrontendIPConfigurationInner extends SubResource {
     private List<String> zones;
 
     /**
-     * Get the inboundNatRules value.
+     * Get the inboundNatRulesProperty value.
      *
-     * @return the inboundNatRules value
+     * @return the inboundNatRulesProperty value.
      */
-    public List<SubResource> inboundNatRules() {
-        return this.inboundNatRules;
+    public List<SubResource> inboundNatRulesProperty() {
+        return this.inboundNatRulesProperty;
     }
 
     /**
      * Get the inboundNatPools value.
      *
-     * @return the inboundNatPools value
+     * @return the inboundNatPools value.
      */
     public List<SubResource> inboundNatPools() {
         return this.inboundNatPools;
@@ -116,7 +116,7 @@ public class FrontendIPConfigurationInner extends SubResource {
     /**
      * Get the outboundNatRules value.
      *
-     * @return the outboundNatRules value
+     * @return the outboundNatRules value.
      */
     public List<SubResource> outboundNatRules() {
         return this.outboundNatRules;
@@ -125,7 +125,7 @@ public class FrontendIPConfigurationInner extends SubResource {
     /**
      * Get the loadBalancingRules value.
      *
-     * @return the loadBalancingRules value
+     * @return the loadBalancingRules value.
      */
     public List<SubResource> loadBalancingRules() {
         return this.loadBalancingRules;
@@ -134,7 +134,7 @@ public class FrontendIPConfigurationInner extends SubResource {
     /**
      * Get the privateIPAddress value.
      *
-     * @return the privateIPAddress value
+     * @return the privateIPAddress value.
      */
     public String privateIPAddress() {
         return this.privateIPAddress;
@@ -143,7 +143,7 @@ public class FrontendIPConfigurationInner extends SubResource {
     /**
      * Set the privateIPAddress value.
      *
-     * @param privateIPAddress the privateIPAddress value to set
+     * @param privateIPAddress the privateIPAddress value to set.
      * @return the FrontendIPConfigurationInner object itself.
      */
     public FrontendIPConfigurationInner withPrivateIPAddress(String privateIPAddress) {
@@ -154,7 +154,7 @@ public class FrontendIPConfigurationInner extends SubResource {
     /**
      * Get the privateIPAllocationMethod value.
      *
-     * @return the privateIPAllocationMethod value
+     * @return the privateIPAllocationMethod value.
      */
     public IPAllocationMethod privateIPAllocationMethod() {
         return this.privateIPAllocationMethod;
@@ -163,7 +163,8 @@ public class FrontendIPConfigurationInner extends SubResource {
     /**
      * Set the privateIPAllocationMethod value.
      *
-     * @param privateIPAllocationMethod the privateIPAllocationMethod value to set
+     * @param privateIPAllocationMethod the privateIPAllocationMethod value to
+     * set.
      * @return the FrontendIPConfigurationInner object itself.
      */
     public FrontendIPConfigurationInner withPrivateIPAllocationMethod(IPAllocationMethod privateIPAllocationMethod) {
@@ -174,7 +175,7 @@ public class FrontendIPConfigurationInner extends SubResource {
     /**
      * Get the subnet value.
      *
-     * @return the subnet value
+     * @return the subnet value.
      */
     public SubnetInner subnet() {
         return this.subnet;
@@ -183,7 +184,7 @@ public class FrontendIPConfigurationInner extends SubResource {
     /**
      * Set the subnet value.
      *
-     * @param subnet the subnet value to set
+     * @param subnet the subnet value to set.
      * @return the FrontendIPConfigurationInner object itself.
      */
     public FrontendIPConfigurationInner withSubnet(SubnetInner subnet) {
@@ -194,7 +195,7 @@ public class FrontendIPConfigurationInner extends SubResource {
     /**
      * Get the publicIPAddress value.
      *
-     * @return the publicIPAddress value
+     * @return the publicIPAddress value.
      */
     public PublicIPAddressInner publicIPAddress() {
         return this.publicIPAddress;
@@ -203,7 +204,7 @@ public class FrontendIPConfigurationInner extends SubResource {
     /**
      * Set the publicIPAddress value.
      *
-     * @param publicIPAddress the publicIPAddress value to set
+     * @param publicIPAddress the publicIPAddress value to set.
      * @return the FrontendIPConfigurationInner object itself.
      */
     public FrontendIPConfigurationInner withPublicIPAddress(PublicIPAddressInner publicIPAddress) {
@@ -214,7 +215,7 @@ public class FrontendIPConfigurationInner extends SubResource {
     /**
      * Get the provisioningState value.
      *
-     * @return the provisioningState value
+     * @return the provisioningState value.
      */
     public String provisioningState() {
         return this.provisioningState;
@@ -223,7 +224,7 @@ public class FrontendIPConfigurationInner extends SubResource {
     /**
      * Set the provisioningState value.
      *
-     * @param provisioningState the provisioningState value to set
+     * @param provisioningState the provisioningState value to set.
      * @return the FrontendIPConfigurationInner object itself.
      */
     public FrontendIPConfigurationInner withProvisioningState(String provisioningState) {
@@ -234,7 +235,7 @@ public class FrontendIPConfigurationInner extends SubResource {
     /**
      * Get the name value.
      *
-     * @return the name value
+     * @return the name value.
      */
     public String name() {
         return this.name;
@@ -243,7 +244,7 @@ public class FrontendIPConfigurationInner extends SubResource {
     /**
      * Set the name value.
      *
-     * @param name the name value to set
+     * @param name the name value to set.
      * @return the FrontendIPConfigurationInner object itself.
      */
     public FrontendIPConfigurationInner withName(String name) {
@@ -254,7 +255,7 @@ public class FrontendIPConfigurationInner extends SubResource {
     /**
      * Get the etag value.
      *
-     * @return the etag value
+     * @return the etag value.
      */
     public String etag() {
         return this.etag;
@@ -263,7 +264,7 @@ public class FrontendIPConfigurationInner extends SubResource {
     /**
      * Set the etag value.
      *
-     * @param etag the etag value to set
+     * @param etag the etag value to set.
      * @return the FrontendIPConfigurationInner object itself.
      */
     public FrontendIPConfigurationInner withEtag(String etag) {
@@ -274,7 +275,7 @@ public class FrontendIPConfigurationInner extends SubResource {
     /**
      * Get the zones value.
      *
-     * @return the zones value
+     * @return the zones value.
      */
     public List<String> zones() {
         return this.zones;
@@ -283,12 +284,11 @@ public class FrontendIPConfigurationInner extends SubResource {
     /**
      * Set the zones value.
      *
-     * @param zones the zones value to set
+     * @param zones the zones value to set.
      * @return the FrontendIPConfigurationInner object itself.
      */
     public FrontendIPConfigurationInner withZones(List<String> zones) {
         this.zones = zones;
         return this;
     }
-
 }

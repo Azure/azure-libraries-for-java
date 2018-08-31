@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Policies for vpn gateway.
  */
-public class Policies {
+public final class Policies {
     /**
      * True if branch to branch traffic is allowed.
      */
@@ -29,7 +29,7 @@ public class Policies {
     /**
      * Get the allowBranchToBranchTraffic value.
      *
-     * @return the allowBranchToBranchTraffic value
+     * @return the allowBranchToBranchTraffic value.
      */
     public Boolean allowBranchToBranchTraffic() {
         return this.allowBranchToBranchTraffic;
@@ -38,7 +38,8 @@ public class Policies {
     /**
      * Set the allowBranchToBranchTraffic value.
      *
-     * @param allowBranchToBranchTraffic the allowBranchToBranchTraffic value to set
+     * @param allowBranchToBranchTraffic the allowBranchToBranchTraffic value
+     * to set.
      * @return the Policies object itself.
      */
     public Policies withAllowBranchToBranchTraffic(Boolean allowBranchToBranchTraffic) {
@@ -49,7 +50,7 @@ public class Policies {
     /**
      * Get the allowVnetToVnetTraffic value.
      *
-     * @return the allowVnetToVnetTraffic value
+     * @return the allowVnetToVnetTraffic value.
      */
     public Boolean allowVnetToVnetTraffic() {
         return this.allowVnetToVnetTraffic;
@@ -58,12 +59,11 @@ public class Policies {
     /**
      * Set the allowVnetToVnetTraffic value.
      *
-     * @param allowVnetToVnetTraffic the allowVnetToVnetTraffic value to set
+     * @param allowVnetToVnetTraffic the allowVnetToVnetTraffic value to set.
      * @return the Policies object itself.
      */
     public Policies withAllowVnetToVnetTraffic(Boolean allowVnetToVnetTraffic) {
         this.allowVnetToVnetTraffic = allowVnetToVnetTraffic;
         return this;
     }
-
 }

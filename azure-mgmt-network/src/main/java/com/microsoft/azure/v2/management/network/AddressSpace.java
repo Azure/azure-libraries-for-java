@@ -8,14 +8,14 @@
 
 package com.microsoft.azure.v2.management.network;
 
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 
 /**
  * AddressSpace contains an array of IP address ranges that can be used by
  * subnets of the virtual network.
  */
-public class AddressSpace {
+public final class AddressSpace {
     /**
      * A list of address blocks reserved for this virtual network in CIDR
      * notation.
@@ -26,7 +26,7 @@ public class AddressSpace {
     /**
      * Get the addressPrefixes value.
      *
-     * @return the addressPrefixes value
+     * @return the addressPrefixes value.
      */
     public List<String> addressPrefixes() {
         return this.addressPrefixes;
@@ -35,12 +35,11 @@ public class AddressSpace {
     /**
      * Set the addressPrefixes value.
      *
-     * @param addressPrefixes the addressPrefixes value to set
+     * @param addressPrefixes the addressPrefixes value to set.
      * @return the AddressSpace object itself.
      */
     public AddressSpace withAddressPrefixes(List<String> addressPrefixes) {
         this.addressPrefixes = addressPrefixes;
         return this;
     }
-
 }

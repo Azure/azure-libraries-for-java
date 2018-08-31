@@ -8,13 +8,13 @@
 
 package com.microsoft.azure.v2.management.network;
 
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 
 /**
  * The service endpoint properties.
  */
-public class ServiceEndpointPropertiesFormat {
+public final class ServiceEndpointPropertiesFormat {
     /**
      * The type of the endpoint service.
      */
@@ -36,7 +36,7 @@ public class ServiceEndpointPropertiesFormat {
     /**
      * Get the service value.
      *
-     * @return the service value
+     * @return the service value.
      */
     public String service() {
         return this.service;
@@ -45,7 +45,7 @@ public class ServiceEndpointPropertiesFormat {
     /**
      * Set the service value.
      *
-     * @param service the service value to set
+     * @param service the service value to set.
      * @return the ServiceEndpointPropertiesFormat object itself.
      */
     public ServiceEndpointPropertiesFormat withService(String service) {
@@ -56,7 +56,7 @@ public class ServiceEndpointPropertiesFormat {
     /**
      * Get the locations value.
      *
-     * @return the locations value
+     * @return the locations value.
      */
     public List<String> locations() {
         return this.locations;
@@ -65,7 +65,7 @@ public class ServiceEndpointPropertiesFormat {
     /**
      * Set the locations value.
      *
-     * @param locations the locations value to set
+     * @param locations the locations value to set.
      * @return the ServiceEndpointPropertiesFormat object itself.
      */
     public ServiceEndpointPropertiesFormat withLocations(List<String> locations) {
@@ -76,7 +76,7 @@ public class ServiceEndpointPropertiesFormat {
     /**
      * Get the provisioningState value.
      *
-     * @return the provisioningState value
+     * @return the provisioningState value.
      */
     public String provisioningState() {
         return this.provisioningState;
@@ -85,12 +85,11 @@ public class ServiceEndpointPropertiesFormat {
     /**
      * Set the provisioningState value.
      *
-     * @param provisioningState the provisioningState value to set
+     * @param provisioningState the provisioningState value to set.
      * @return the ServiceEndpointPropertiesFormat object itself.
      */
     public ServiceEndpointPropertiesFormat withProvisioningState(String provisioningState) {
         this.provisioningState = provisioningState;
         return this;
     }
-
 }

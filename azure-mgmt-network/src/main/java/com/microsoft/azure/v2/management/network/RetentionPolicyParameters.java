@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Parameters that define the retention policy for flow log.
  */
-public class RetentionPolicyParameters {
+public final class RetentionPolicyParameters {
     /**
      * Number of days to retain flow log records.
      */
@@ -29,7 +29,7 @@ public class RetentionPolicyParameters {
     /**
      * Get the days value.
      *
-     * @return the days value
+     * @return the days value.
      */
     public Integer days() {
         return this.days;
@@ -38,7 +38,7 @@ public class RetentionPolicyParameters {
     /**
      * Set the days value.
      *
-     * @param days the days value to set
+     * @param days the days value to set.
      * @return the RetentionPolicyParameters object itself.
      */
     public RetentionPolicyParameters withDays(Integer days) {
@@ -49,7 +49,7 @@ public class RetentionPolicyParameters {
     /**
      * Get the enabled value.
      *
-     * @return the enabled value
+     * @return the enabled value.
      */
     public Boolean enabled() {
         return this.enabled;
@@ -58,12 +58,11 @@ public class RetentionPolicyParameters {
     /**
      * Set the enabled value.
      *
-     * @param enabled the enabled value to set
+     * @param enabled the enabled value to set.
      * @return the RetentionPolicyParameters object itself.
      */
     public RetentionPolicyParameters withEnabled(Boolean enabled) {
         this.enabled = enabled;
         return this;
     }
-
 }

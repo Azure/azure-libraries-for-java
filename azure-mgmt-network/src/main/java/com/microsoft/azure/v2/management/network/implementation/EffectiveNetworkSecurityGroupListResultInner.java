@@ -8,14 +8,14 @@
 
 package com.microsoft.azure.v2.management.network.implementation;
 
-import java.util.List;
-import com.microsoft.azure.v2.management.network.EffectiveNetworkSecurityGroup;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.v2.management.network.EffectiveNetworkSecurityGroup;
+import java.util.List;
 
 /**
  * Response for list effective network security groups API service call.
  */
-public class EffectiveNetworkSecurityGroupListResultInner {
+public final class EffectiveNetworkSecurityGroupListResultInner {
     /**
      * A list of effective network security groups.
      */
@@ -31,7 +31,7 @@ public class EffectiveNetworkSecurityGroupListResultInner {
     /**
      * Get the value value.
      *
-     * @return the value value
+     * @return the value value.
      */
     public List<EffectiveNetworkSecurityGroup> value() {
         return this.value;
@@ -40,7 +40,7 @@ public class EffectiveNetworkSecurityGroupListResultInner {
     /**
      * Set the value value.
      *
-     * @param value the value value to set
+     * @param value the value value to set.
      * @return the EffectiveNetworkSecurityGroupListResultInner object itself.
      */
     public EffectiveNetworkSecurityGroupListResultInner withValue(List<EffectiveNetworkSecurityGroup> value) {
@@ -51,10 +51,9 @@ public class EffectiveNetworkSecurityGroupListResultInner {
     /**
      * Get the nextLink value.
      *
-     * @return the nextLink value
+     * @return the nextLink value.
      */
     public String nextLink() {
         return this.nextLink;
     }
-
 }

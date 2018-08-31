@@ -8,103 +8,156 @@
 
 package com.microsoft.azure.v2.management.network.implementation;
 
-import retrofit2.Retrofit;
-import com.google.common.reflect.TypeToken;
-import com.microsoft.azure.CloudException;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import com.microsoft.rest.ServiceResponse;
-import com.microsoft.rest.Validator;
-import java.io.IOException;
+import com.microsoft.azure.v2.AzureProxy;
+import com.microsoft.azure.v2.OperationStatus;
+import com.microsoft.azure.v2.management.network.ErrorResponseException;
+import com.microsoft.azure.v2.util.ServiceFutureUtil;
+import com.microsoft.rest.v2.BodyResponse;
+import com.microsoft.rest.v2.OperationDescription;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
+import com.microsoft.rest.v2.Validator;
+import com.microsoft.rest.v2.VoidResponse;
+import com.microsoft.rest.v2.annotations.BodyParam;
+import com.microsoft.rest.v2.annotations.DELETE;
+import com.microsoft.rest.v2.annotations.ExpectedResponses;
+import com.microsoft.rest.v2.annotations.GET;
+import com.microsoft.rest.v2.annotations.HeaderParam;
+import com.microsoft.rest.v2.annotations.Host;
+import com.microsoft.rest.v2.annotations.PathParam;
+import com.microsoft.rest.v2.annotations.POST;
+import com.microsoft.rest.v2.annotations.PUT;
+import com.microsoft.rest.v2.annotations.QueryParam;
+import com.microsoft.rest.v2.annotations.ResumeOperation;
+import com.microsoft.rest.v2.annotations.UnexpectedResponseExceptionType;
+import io.reactivex.Completable;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
+import io.reactivex.Single;
+import io.reactivex.annotations.NonNull;
+import java.util.ArrayList;
 import java.util.List;
-import okhttp3.ResponseBody;
-import retrofit2.http.Body;
-import retrofit2.http.GET;
-import retrofit2.http.Header;
-import retrofit2.http.Headers;
-import retrofit2.http.HTTP;
-import retrofit2.http.Path;
-import retrofit2.http.POST;
-import retrofit2.http.PUT;
-import retrofit2.http.Query;
-import retrofit2.Response;
-import rx.functions.Func1;
-import rx.Observable;
 
 /**
- * An instance of this class provides access to all the operations defined
- * in ConnectionMonitors.
+ * An instance of this class provides access to all the operations defined in
+ * ConnectionMonitors.
  */
-public class ConnectionMonitorsInner {
-    /** The Retrofit service to perform REST calls. */
+public final class ConnectionMonitorsInner {
+    /**
+     * The proxy service used to perform REST calls.
+     */
     private ConnectionMonitorsService service;
-    /** The service client containing this operation class. */
+
+    /**
+     * The service client containing this operation class.
+     */
     private NetworkManagementClientImpl client;
 
     /**
      * Initializes an instance of ConnectionMonitorsInner.
      *
-     * @param retrofit the Retrofit instance built from a Retrofit Builder.
      * @param client the instance of the service client containing this operation class.
      */
-    public ConnectionMonitorsInner(Retrofit retrofit, NetworkManagementClientImpl client) {
-        this.service = retrofit.create(ConnectionMonitorsService.class);
+    public ConnectionMonitorsInner(NetworkManagementClientImpl client) {
+        this.service = AzureProxy.create(ConnectionMonitorsService.class, client);
         this.client = client;
     }
 
     /**
      * The interface defining all the services for ConnectionMonitors to be
-     * used by Retrofit to perform actually REST calls.
+     * used by the proxy service to perform REST calls.
      */
-    interface ConnectionMonitorsService {
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.ConnectionMonitors createOrUpdate" })
+    @Host("https://management.azure.com")
+    private interface ConnectionMonitorsService {
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}")
-        Observable<Response<ResponseBody>> createOrUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("networkWatcherName") String networkWatcherName, @Path("connectionMonitorName") String connectionMonitorName, @Path("subscriptionId") String subscriptionId, @Body ConnectionMonitorInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 201, 202, 204})
+        @UnexpectedResponseExceptionType(ErrorResponseException.class)
+        Observable<OperationStatus<ConnectionMonitorResultInner>> beginCreateOrUpdate(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("networkWatcherName") String networkWatcherName, @PathParam("connectionMonitorName") String connectionMonitorName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json; charset=utf-8") ConnectionMonitorInner parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.ConnectionMonitors beginCreateOrUpdate" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}")
-        Observable<Response<ResponseBody>> beginCreateOrUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("networkWatcherName") String networkWatcherName, @Path("connectionMonitorName") String connectionMonitorName, @Path("subscriptionId") String subscriptionId, @Body ConnectionMonitorInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 201, 202, 204})
+        @UnexpectedResponseExceptionType(ErrorResponseException.class)
+        Single<BodyResponse<ConnectionMonitorResultInner>> createOrUpdate(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("networkWatcherName") String networkWatcherName, @PathParam("connectionMonitorName") String connectionMonitorName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json; charset=utf-8") ConnectionMonitorInner parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.ConnectionMonitors get" })
+        @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}")
+        @ExpectedResponses({200, 201, 202, 204})
+        @UnexpectedResponseExceptionType(ErrorResponseException.class)
+        @ResumeOperation
+        Observable<OperationStatus<ConnectionMonitorResultInner>> resumeCreateOrUpdate(OperationDescription operationDescription);
+
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}")
-        Observable<Response<ResponseBody>> get(@Path("resourceGroupName") String resourceGroupName, @Path("networkWatcherName") String networkWatcherName, @Path("connectionMonitorName") String connectionMonitorName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(ErrorResponseException.class)
+        Single<BodyResponse<ConnectionMonitorResultInner>> get(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("networkWatcherName") String networkWatcherName, @PathParam("connectionMonitorName") String connectionMonitorName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.ConnectionMonitors delete" })
-        @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}", method = "DELETE", hasBody = true)
-        Observable<Response<ResponseBody>> delete(@Path("resourceGroupName") String resourceGroupName, @Path("networkWatcherName") String networkWatcherName, @Path("connectionMonitorName") String connectionMonitorName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @DELETE("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(ErrorResponseException.class)
+        Observable<OperationStatus<Void>> beginDelete(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("networkWatcherName") String networkWatcherName, @PathParam("connectionMonitorName") String connectionMonitorName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.ConnectionMonitors beginDelete" })
-        @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}", method = "DELETE", hasBody = true)
-        Observable<Response<ResponseBody>> beginDelete(@Path("resourceGroupName") String resourceGroupName, @Path("networkWatcherName") String networkWatcherName, @Path("connectionMonitorName") String connectionMonitorName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @DELETE("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(ErrorResponseException.class)
+        Single<VoidResponse> delete(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("networkWatcherName") String networkWatcherName, @PathParam("connectionMonitorName") String connectionMonitorName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.ConnectionMonitors stop" })
+        @DELETE("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(ErrorResponseException.class)
+        @ResumeOperation
+        Observable<OperationStatus<Void>> resumeDelete(OperationDescription operationDescription);
+
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}/stop")
-        Observable<Response<ResponseBody>> stop(@Path("resourceGroupName") String resourceGroupName, @Path("networkWatcherName") String networkWatcherName, @Path("connectionMonitorName") String connectionMonitorName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(ErrorResponseException.class)
+        Observable<OperationStatus<Void>> beginStop(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("networkWatcherName") String networkWatcherName, @PathParam("connectionMonitorName") String connectionMonitorName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.ConnectionMonitors beginStop" })
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}/stop")
-        Observable<Response<ResponseBody>> beginStop(@Path("resourceGroupName") String resourceGroupName, @Path("networkWatcherName") String networkWatcherName, @Path("connectionMonitorName") String connectionMonitorName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(ErrorResponseException.class)
+        Single<VoidResponse> stop(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("networkWatcherName") String networkWatcherName, @PathParam("connectionMonitorName") String connectionMonitorName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.ConnectionMonitors start" })
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}/stop")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(ErrorResponseException.class)
+        @ResumeOperation
+        Observable<OperationStatus<Void>> resumeStop(OperationDescription operationDescription);
+
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}/start")
-        Observable<Response<ResponseBody>> start(@Path("resourceGroupName") String resourceGroupName, @Path("networkWatcherName") String networkWatcherName, @Path("connectionMonitorName") String connectionMonitorName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(ErrorResponseException.class)
+        Observable<OperationStatus<Void>> beginStart(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("networkWatcherName") String networkWatcherName, @PathParam("connectionMonitorName") String connectionMonitorName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.ConnectionMonitors beginStart" })
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}/start")
-        Observable<Response<ResponseBody>> beginStart(@Path("resourceGroupName") String resourceGroupName, @Path("networkWatcherName") String networkWatcherName, @Path("connectionMonitorName") String connectionMonitorName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(ErrorResponseException.class)
+        Single<VoidResponse> start(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("networkWatcherName") String networkWatcherName, @PathParam("connectionMonitorName") String connectionMonitorName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.ConnectionMonitors query" })
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}/start")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(ErrorResponseException.class)
+        @ResumeOperation
+        Observable<OperationStatus<Void>> resumeStart(OperationDescription operationDescription);
+
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}/query")
-        Observable<Response<ResponseBody>> query(@Path("resourceGroupName") String resourceGroupName, @Path("networkWatcherName") String networkWatcherName, @Path("connectionMonitorName") String connectionMonitorName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(ErrorResponseException.class)
+        Observable<OperationStatus<ConnectionMonitorQueryResultInner>> beginQuery(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("networkWatcherName") String networkWatcherName, @PathParam("connectionMonitorName") String connectionMonitorName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.ConnectionMonitors beginQuery" })
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}/query")
-        Observable<Response<ResponseBody>> beginQuery(@Path("resourceGroupName") String resourceGroupName, @Path("networkWatcherName") String networkWatcherName, @Path("connectionMonitorName") String connectionMonitorName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(ErrorResponseException.class)
+        Single<BodyResponse<ConnectionMonitorQueryResultInner>> query(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("networkWatcherName") String networkWatcherName, @PathParam("connectionMonitorName") String connectionMonitorName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.ConnectionMonitors list" })
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}/query")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(ErrorResponseException.class)
+        @ResumeOperation
+        Observable<OperationStatus<ConnectionMonitorQueryResultInner>> resumeQuery(OperationDescription operationDescription);
+
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors")
-        Observable<Response<ResponseBody>> list(@Path("resourceGroupName") String resourceGroupName, @Path("networkWatcherName") String networkWatcherName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
-
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(ErrorResponseException.class)
+        Single<BodyResponse<List<ConnectionMonitorResultInner>>> list(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("networkWatcherName") String networkWatcherName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
     }
 
     /**
@@ -114,13 +167,13 @@ public class ConnectionMonitorsInner {
      * @param networkWatcherName The name of the Network Watcher resource.
      * @param connectionMonitorName The name of the connection monitor.
      * @param parameters Parameters that define the operation to create a connection monitor.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ErrorResponseException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the ConnectionMonitorResultInner object if successful.
      */
-    public ConnectionMonitorResultInner createOrUpdate(String resourceGroupName, String networkWatcherName, String connectionMonitorName, ConnectionMonitorInner parameters) {
-        return createOrUpdateWithServiceResponseAsync(resourceGroupName, networkWatcherName, connectionMonitorName, parameters).toBlocking().last().body();
+    public ConnectionMonitorResultInner beginCreateOrUpdate(@NonNull String resourceGroupName, @NonNull String networkWatcherName, @NonNull String connectionMonitorName, @NonNull ConnectionMonitorInner parameters) {
+        return beginCreateOrUpdateAsync(resourceGroupName, networkWatcherName, connectionMonitorName, parameters).blockingLast().result();
     }
 
     /**
@@ -131,11 +184,11 @@ public class ConnectionMonitorsInner {
      * @param connectionMonitorName The name of the connection monitor.
      * @param parameters Parameters that define the operation to create a connection monitor.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;ConnectionMonitorResultInner&gt; object.
      */
-    public ServiceFuture<ConnectionMonitorResultInner> createOrUpdateAsync(String resourceGroupName, String networkWatcherName, String connectionMonitorName, ConnectionMonitorInner parameters, final ServiceCallback<ConnectionMonitorResultInner> serviceCallback) {
-        return ServiceFuture.fromResponse(createOrUpdateWithServiceResponseAsync(resourceGroupName, networkWatcherName, connectionMonitorName, parameters), serviceCallback);
+    public ServiceFuture<ConnectionMonitorResultInner> beginCreateOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String networkWatcherName, @NonNull String connectionMonitorName, @NonNull ConnectionMonitorInner parameters, ServiceCallback<ConnectionMonitorResultInner> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginCreateOrUpdateAsync(resourceGroupName, networkWatcherName, connectionMonitorName, parameters), serviceCallback);
     }
 
     /**
@@ -145,29 +198,10 @@ public class ConnectionMonitorsInner {
      * @param networkWatcherName The name of the Network Watcher resource.
      * @param connectionMonitorName The name of the connection monitor.
      * @param parameters Parameters that define the operation to create a connection monitor.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<ConnectionMonitorResultInner> createOrUpdateAsync(String resourceGroupName, String networkWatcherName, String connectionMonitorName, ConnectionMonitorInner parameters) {
-        return createOrUpdateWithServiceResponseAsync(resourceGroupName, networkWatcherName, connectionMonitorName, parameters).map(new Func1<ServiceResponse<ConnectionMonitorResultInner>, ConnectionMonitorResultInner>() {
-            @Override
-            public ConnectionMonitorResultInner call(ServiceResponse<ConnectionMonitorResultInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Create or update a connection monitor.
-     *
-     * @param resourceGroupName The name of the resource group containing Network Watcher.
-     * @param networkWatcherName The name of the Network Watcher resource.
-     * @param connectionMonitorName The name of the connection monitor.
-     * @param parameters Parameters that define the operation to create a connection monitor.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<ConnectionMonitorResultInner>> createOrUpdateWithServiceResponseAsync(String resourceGroupName, String networkWatcherName, String connectionMonitorName, ConnectionMonitorInner parameters) {
+    public Observable<OperationStatus<ConnectionMonitorResultInner>> beginCreateOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String networkWatcherName, @NonNull String connectionMonitorName, @NonNull ConnectionMonitorInner parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -185,8 +219,7 @@ public class ConnectionMonitorsInner {
         }
         Validator.validate(parameters);
         final String apiVersion = "2018-06-01";
-        Observable<Response<ResponseBody>> observable = service.createOrUpdate(resourceGroupName, networkWatcherName, connectionMonitorName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<ConnectionMonitorResultInner>() { }.getType());
+        return service.beginCreateOrUpdate(resourceGroupName, networkWatcherName, connectionMonitorName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage());
     }
 
     /**
@@ -196,13 +229,13 @@ public class ConnectionMonitorsInner {
      * @param networkWatcherName The name of the Network Watcher resource.
      * @param connectionMonitorName The name of the connection monitor.
      * @param parameters Parameters that define the operation to create a connection monitor.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ErrorResponseException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the ConnectionMonitorResultInner object if successful.
      */
-    public ConnectionMonitorResultInner beginCreateOrUpdate(String resourceGroupName, String networkWatcherName, String connectionMonitorName, ConnectionMonitorInner parameters) {
-        return beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, networkWatcherName, connectionMonitorName, parameters).toBlocking().single().body();
+    public ConnectionMonitorResultInner createOrUpdate(@NonNull String resourceGroupName, @NonNull String networkWatcherName, @NonNull String connectionMonitorName, @NonNull ConnectionMonitorInner parameters) {
+        return createOrUpdateAsync(resourceGroupName, networkWatcherName, connectionMonitorName, parameters).blockingGet();
     }
 
     /**
@@ -213,11 +246,11 @@ public class ConnectionMonitorsInner {
      * @param connectionMonitorName The name of the connection monitor.
      * @param parameters Parameters that define the operation to create a connection monitor.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<ConnectionMonitorResultInner> beginCreateOrUpdateAsync(String resourceGroupName, String networkWatcherName, String connectionMonitorName, ConnectionMonitorInner parameters, final ServiceCallback<ConnectionMonitorResultInner> serviceCallback) {
-        return ServiceFuture.fromResponse(beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, networkWatcherName, connectionMonitorName, parameters), serviceCallback);
+    public ServiceFuture<ConnectionMonitorResultInner> createOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String networkWatcherName, @NonNull String connectionMonitorName, @NonNull ConnectionMonitorInner parameters, ServiceCallback<ConnectionMonitorResultInner> serviceCallback) {
+        return ServiceFuture.fromBody(createOrUpdateAsync(resourceGroupName, networkWatcherName, connectionMonitorName, parameters), serviceCallback);
     }
 
     /**
@@ -227,29 +260,10 @@ public class ConnectionMonitorsInner {
      * @param networkWatcherName The name of the Network Watcher resource.
      * @param connectionMonitorName The name of the connection monitor.
      * @param parameters Parameters that define the operation to create a connection monitor.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ConnectionMonitorResultInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<ConnectionMonitorResultInner> beginCreateOrUpdateAsync(String resourceGroupName, String networkWatcherName, String connectionMonitorName, ConnectionMonitorInner parameters) {
-        return beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, networkWatcherName, connectionMonitorName, parameters).map(new Func1<ServiceResponse<ConnectionMonitorResultInner>, ConnectionMonitorResultInner>() {
-            @Override
-            public ConnectionMonitorResultInner call(ServiceResponse<ConnectionMonitorResultInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Create or update a connection monitor.
-     *
-     * @param resourceGroupName The name of the resource group containing Network Watcher.
-     * @param networkWatcherName The name of the Network Watcher resource.
-     * @param connectionMonitorName The name of the connection monitor.
-     * @param parameters Parameters that define the operation to create a connection monitor.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ConnectionMonitorResultInner object
-     */
-    public Observable<ServiceResponse<ConnectionMonitorResultInner>> beginCreateOrUpdateWithServiceResponseAsync(String resourceGroupName, String networkWatcherName, String connectionMonitorName, ConnectionMonitorInner parameters) {
+    public Single<BodyResponse<ConnectionMonitorResultInner>> createOrUpdateWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String networkWatcherName, @NonNull String connectionMonitorName, @NonNull ConnectionMonitorInner parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -267,26 +281,36 @@ public class ConnectionMonitorsInner {
         }
         Validator.validate(parameters);
         final String apiVersion = "2018-06-01";
-        return service.beginCreateOrUpdate(resourceGroupName, networkWatcherName, connectionMonitorName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ConnectionMonitorResultInner>>>() {
-                @Override
-                public Observable<ServiceResponse<ConnectionMonitorResultInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<ConnectionMonitorResultInner> clientResponse = beginCreateOrUpdateDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.createOrUpdate(resourceGroupName, networkWatcherName, connectionMonitorName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<ConnectionMonitorResultInner> beginCreateOrUpdateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<ConnectionMonitorResultInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<ConnectionMonitorResultInner>() { }.getType())
-                .register(201, new TypeToken<ConnectionMonitorResultInner>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Create or update a connection monitor.
+     *
+     * @param resourceGroupName The name of the resource group containing Network Watcher.
+     * @param networkWatcherName The name of the Network Watcher resource.
+     * @param connectionMonitorName The name of the connection monitor.
+     * @param parameters Parameters that define the operation to create a connection monitor.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<ConnectionMonitorResultInner> createOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String networkWatcherName, @NonNull String connectionMonitorName, @NonNull ConnectionMonitorInner parameters) {
+        return createOrUpdateWithRestResponseAsync(resourceGroupName, networkWatcherName, connectionMonitorName, parameters)
+            .flatMapMaybe((BodyResponse<ConnectionMonitorResultInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
+    }
+
+    /**
+     * Create or update a connection monitor. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<ConnectionMonitorResultInner>> resumeCreateOrUpdate(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeCreateOrUpdate(operationDescription);
     }
 
     /**
@@ -295,13 +319,13 @@ public class ConnectionMonitorsInner {
      * @param resourceGroupName The name of the resource group containing Network Watcher.
      * @param networkWatcherName The name of the Network Watcher resource.
      * @param connectionMonitorName The name of the connection monitor.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ErrorResponseException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the ConnectionMonitorResultInner object if successful.
      */
-    public ConnectionMonitorResultInner get(String resourceGroupName, String networkWatcherName, String connectionMonitorName) {
-        return getWithServiceResponseAsync(resourceGroupName, networkWatcherName, connectionMonitorName).toBlocking().single().body();
+    public ConnectionMonitorResultInner get(@NonNull String resourceGroupName, @NonNull String networkWatcherName, @NonNull String connectionMonitorName) {
+        return getAsync(resourceGroupName, networkWatcherName, connectionMonitorName).blockingGet();
     }
 
     /**
@@ -311,11 +335,11 @@ public class ConnectionMonitorsInner {
      * @param networkWatcherName The name of the Network Watcher resource.
      * @param connectionMonitorName The name of the connection monitor.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<ConnectionMonitorResultInner> getAsync(String resourceGroupName, String networkWatcherName, String connectionMonitorName, final ServiceCallback<ConnectionMonitorResultInner> serviceCallback) {
-        return ServiceFuture.fromResponse(getWithServiceResponseAsync(resourceGroupName, networkWatcherName, connectionMonitorName), serviceCallback);
+    public ServiceFuture<ConnectionMonitorResultInner> getAsync(@NonNull String resourceGroupName, @NonNull String networkWatcherName, @NonNull String connectionMonitorName, ServiceCallback<ConnectionMonitorResultInner> serviceCallback) {
+        return ServiceFuture.fromBody(getAsync(resourceGroupName, networkWatcherName, connectionMonitorName), serviceCallback);
     }
 
     /**
@@ -324,16 +348,24 @@ public class ConnectionMonitorsInner {
      * @param resourceGroupName The name of the resource group containing Network Watcher.
      * @param networkWatcherName The name of the Network Watcher resource.
      * @param connectionMonitorName The name of the connection monitor.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ConnectionMonitorResultInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<ConnectionMonitorResultInner> getAsync(String resourceGroupName, String networkWatcherName, String connectionMonitorName) {
-        return getWithServiceResponseAsync(resourceGroupName, networkWatcherName, connectionMonitorName).map(new Func1<ServiceResponse<ConnectionMonitorResultInner>, ConnectionMonitorResultInner>() {
-            @Override
-            public ConnectionMonitorResultInner call(ServiceResponse<ConnectionMonitorResultInner> response) {
-                return response.body();
-            }
-        });
+    public Single<BodyResponse<ConnectionMonitorResultInner>> getWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String networkWatcherName, @NonNull String connectionMonitorName) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (networkWatcherName == null) {
+            throw new IllegalArgumentException("Parameter networkWatcherName is required and cannot be null.");
+        }
+        if (connectionMonitorName == null) {
+            throw new IllegalArgumentException("Parameter connectionMonitorName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        final String apiVersion = "2018-06-01";
+        return service.get(resourceGroupName, networkWatcherName, connectionMonitorName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
     /**
@@ -342,42 +374,12 @@ public class ConnectionMonitorsInner {
      * @param resourceGroupName The name of the resource group containing Network Watcher.
      * @param networkWatcherName The name of the Network Watcher resource.
      * @param connectionMonitorName The name of the connection monitor.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ConnectionMonitorResultInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<ServiceResponse<ConnectionMonitorResultInner>> getWithServiceResponseAsync(String resourceGroupName, String networkWatcherName, String connectionMonitorName) {
-        if (resourceGroupName == null) {
-            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
-        }
-        if (networkWatcherName == null) {
-            throw new IllegalArgumentException("Parameter networkWatcherName is required and cannot be null.");
-        }
-        if (connectionMonitorName == null) {
-            throw new IllegalArgumentException("Parameter connectionMonitorName is required and cannot be null.");
-        }
-        if (this.client.subscriptionId() == null) {
-            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
-        }
-        final String apiVersion = "2018-06-01";
-        return service.get(resourceGroupName, networkWatcherName, connectionMonitorName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ConnectionMonitorResultInner>>>() {
-                @Override
-                public Observable<ServiceResponse<ConnectionMonitorResultInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<ConnectionMonitorResultInner> clientResponse = getDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<ConnectionMonitorResultInner> getDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<ConnectionMonitorResultInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<ConnectionMonitorResultInner>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    public Maybe<ConnectionMonitorResultInner> getAsync(@NonNull String resourceGroupName, @NonNull String networkWatcherName, @NonNull String connectionMonitorName) {
+        return getWithRestResponseAsync(resourceGroupName, networkWatcherName, connectionMonitorName)
+            .flatMapMaybe((BodyResponse<ConnectionMonitorResultInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
@@ -386,12 +388,12 @@ public class ConnectionMonitorsInner {
      * @param resourceGroupName The name of the resource group containing Network Watcher.
      * @param networkWatcherName The name of the Network Watcher resource.
      * @param connectionMonitorName The name of the connection monitor.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ErrorResponseException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void delete(String resourceGroupName, String networkWatcherName, String connectionMonitorName) {
-        deleteWithServiceResponseAsync(resourceGroupName, networkWatcherName, connectionMonitorName).toBlocking().last().body();
+    public void beginDelete(@NonNull String resourceGroupName, @NonNull String networkWatcherName, @NonNull String connectionMonitorName) {
+        beginDeleteAsync(resourceGroupName, networkWatcherName, connectionMonitorName).blockingLast();
     }
 
     /**
@@ -401,11 +403,11 @@ public class ConnectionMonitorsInner {
      * @param networkWatcherName The name of the Network Watcher resource.
      * @param connectionMonitorName The name of the connection monitor.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;Void&gt; object.
      */
-    public ServiceFuture<Void> deleteAsync(String resourceGroupName, String networkWatcherName, String connectionMonitorName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(deleteWithServiceResponseAsync(resourceGroupName, networkWatcherName, connectionMonitorName), serviceCallback);
+    public ServiceFuture<Void> beginDeleteAsync(@NonNull String resourceGroupName, @NonNull String networkWatcherName, @NonNull String connectionMonitorName, ServiceCallback<Void> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginDeleteAsync(resourceGroupName, networkWatcherName, connectionMonitorName), serviceCallback);
     }
 
     /**
@@ -414,28 +416,10 @@ public class ConnectionMonitorsInner {
      * @param resourceGroupName The name of the resource group containing Network Watcher.
      * @param networkWatcherName The name of the Network Watcher resource.
      * @param connectionMonitorName The name of the connection monitor.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<Void> deleteAsync(String resourceGroupName, String networkWatcherName, String connectionMonitorName) {
-        return deleteWithServiceResponseAsync(resourceGroupName, networkWatcherName, connectionMonitorName).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Deletes the specified connection monitor.
-     *
-     * @param resourceGroupName The name of the resource group containing Network Watcher.
-     * @param networkWatcherName The name of the Network Watcher resource.
-     * @param connectionMonitorName The name of the connection monitor.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<Void>> deleteWithServiceResponseAsync(String resourceGroupName, String networkWatcherName, String connectionMonitorName) {
+    public Observable<OperationStatus<Void>> beginDeleteAsync(@NonNull String resourceGroupName, @NonNull String networkWatcherName, @NonNull String connectionMonitorName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -449,8 +433,7 @@ public class ConnectionMonitorsInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        Observable<Response<ResponseBody>> observable = service.delete(resourceGroupName, networkWatcherName, connectionMonitorName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
+        return service.beginDelete(resourceGroupName, networkWatcherName, connectionMonitorName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
     /**
@@ -459,12 +442,12 @@ public class ConnectionMonitorsInner {
      * @param resourceGroupName The name of the resource group containing Network Watcher.
      * @param networkWatcherName The name of the Network Watcher resource.
      * @param connectionMonitorName The name of the connection monitor.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ErrorResponseException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void beginDelete(String resourceGroupName, String networkWatcherName, String connectionMonitorName) {
-        beginDeleteWithServiceResponseAsync(resourceGroupName, networkWatcherName, connectionMonitorName).toBlocking().single().body();
+    public void delete(@NonNull String resourceGroupName, @NonNull String networkWatcherName, @NonNull String connectionMonitorName) {
+        deleteAsync(resourceGroupName, networkWatcherName, connectionMonitorName).blockingAwait();
     }
 
     /**
@@ -474,11 +457,11 @@ public class ConnectionMonitorsInner {
      * @param networkWatcherName The name of the Network Watcher resource.
      * @param connectionMonitorName The name of the connection monitor.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<Void> beginDeleteAsync(String resourceGroupName, String networkWatcherName, String connectionMonitorName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(beginDeleteWithServiceResponseAsync(resourceGroupName, networkWatcherName, connectionMonitorName), serviceCallback);
+    public ServiceFuture<Void> deleteAsync(@NonNull String resourceGroupName, @NonNull String networkWatcherName, @NonNull String connectionMonitorName, ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromBody(deleteAsync(resourceGroupName, networkWatcherName, connectionMonitorName), serviceCallback);
     }
 
     /**
@@ -487,16 +470,24 @@ public class ConnectionMonitorsInner {
      * @param resourceGroupName The name of the resource group containing Network Watcher.
      * @param networkWatcherName The name of the Network Watcher resource.
      * @param connectionMonitorName The name of the connection monitor.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<Void> beginDeleteAsync(String resourceGroupName, String networkWatcherName, String connectionMonitorName) {
-        return beginDeleteWithServiceResponseAsync(resourceGroupName, networkWatcherName, connectionMonitorName).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
+    public Single<VoidResponse> deleteWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String networkWatcherName, @NonNull String connectionMonitorName) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (networkWatcherName == null) {
+            throw new IllegalArgumentException("Parameter networkWatcherName is required and cannot be null.");
+        }
+        if (connectionMonitorName == null) {
+            throw new IllegalArgumentException("Parameter connectionMonitorName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        final String apiVersion = "2018-06-01";
+        return service.delete(resourceGroupName, networkWatcherName, connectionMonitorName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
     /**
@@ -505,43 +496,26 @@ public class ConnectionMonitorsInner {
      * @param resourceGroupName The name of the resource group containing Network Watcher.
      * @param networkWatcherName The name of the Network Watcher resource.
      * @param connectionMonitorName The name of the connection monitor.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<ServiceResponse<Void>> beginDeleteWithServiceResponseAsync(String resourceGroupName, String networkWatcherName, String connectionMonitorName) {
-        if (resourceGroupName == null) {
-            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
-        }
-        if (networkWatcherName == null) {
-            throw new IllegalArgumentException("Parameter networkWatcherName is required and cannot be null.");
-        }
-        if (connectionMonitorName == null) {
-            throw new IllegalArgumentException("Parameter connectionMonitorName is required and cannot be null.");
-        }
-        if (this.client.subscriptionId() == null) {
-            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
-        }
-        final String apiVersion = "2018-06-01";
-        return service.beginDelete(resourceGroupName, networkWatcherName, connectionMonitorName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
-                @Override
-                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<Void> clientResponse = beginDeleteDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+    public Completable deleteAsync(@NonNull String resourceGroupName, @NonNull String networkWatcherName, @NonNull String connectionMonitorName) {
+        return deleteWithRestResponseAsync(resourceGroupName, networkWatcherName, connectionMonitorName)
+            .toCompletable();
     }
 
-    private ServiceResponse<Void> beginDeleteDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-                .register(202, new TypeToken<Void>() { }.getType())
-                .register(204, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Deletes the specified connection monitor. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<Void>> resumeDelete(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeDelete(operationDescription);
     }
 
     /**
@@ -550,12 +524,12 @@ public class ConnectionMonitorsInner {
      * @param resourceGroupName The name of the resource group containing Network Watcher.
      * @param networkWatcherName The name of the Network Watcher resource.
      * @param connectionMonitorName The name of the connection monitor.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ErrorResponseException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void stop(String resourceGroupName, String networkWatcherName, String connectionMonitorName) {
-        stopWithServiceResponseAsync(resourceGroupName, networkWatcherName, connectionMonitorName).toBlocking().last().body();
+    public void beginStop(@NonNull String resourceGroupName, @NonNull String networkWatcherName, @NonNull String connectionMonitorName) {
+        beginStopAsync(resourceGroupName, networkWatcherName, connectionMonitorName).blockingLast();
     }
 
     /**
@@ -565,11 +539,11 @@ public class ConnectionMonitorsInner {
      * @param networkWatcherName The name of the Network Watcher resource.
      * @param connectionMonitorName The name of the connection monitor.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;Void&gt; object.
      */
-    public ServiceFuture<Void> stopAsync(String resourceGroupName, String networkWatcherName, String connectionMonitorName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(stopWithServiceResponseAsync(resourceGroupName, networkWatcherName, connectionMonitorName), serviceCallback);
+    public ServiceFuture<Void> beginStopAsync(@NonNull String resourceGroupName, @NonNull String networkWatcherName, @NonNull String connectionMonitorName, ServiceCallback<Void> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginStopAsync(resourceGroupName, networkWatcherName, connectionMonitorName), serviceCallback);
     }
 
     /**
@@ -578,28 +552,10 @@ public class ConnectionMonitorsInner {
      * @param resourceGroupName The name of the resource group containing Network Watcher.
      * @param networkWatcherName The name of the Network Watcher resource.
      * @param connectionMonitorName The name of the connection monitor.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<Void> stopAsync(String resourceGroupName, String networkWatcherName, String connectionMonitorName) {
-        return stopWithServiceResponseAsync(resourceGroupName, networkWatcherName, connectionMonitorName).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Stops the specified connection monitor.
-     *
-     * @param resourceGroupName The name of the resource group containing Network Watcher.
-     * @param networkWatcherName The name of the Network Watcher resource.
-     * @param connectionMonitorName The name of the connection monitor.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<Void>> stopWithServiceResponseAsync(String resourceGroupName, String networkWatcherName, String connectionMonitorName) {
+    public Observable<OperationStatus<Void>> beginStopAsync(@NonNull String resourceGroupName, @NonNull String networkWatcherName, @NonNull String connectionMonitorName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -613,8 +569,7 @@ public class ConnectionMonitorsInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        Observable<Response<ResponseBody>> observable = service.stop(resourceGroupName, networkWatcherName, connectionMonitorName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
+        return service.beginStop(resourceGroupName, networkWatcherName, connectionMonitorName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
     /**
@@ -623,12 +578,12 @@ public class ConnectionMonitorsInner {
      * @param resourceGroupName The name of the resource group containing Network Watcher.
      * @param networkWatcherName The name of the Network Watcher resource.
      * @param connectionMonitorName The name of the connection monitor.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ErrorResponseException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void beginStop(String resourceGroupName, String networkWatcherName, String connectionMonitorName) {
-        beginStopWithServiceResponseAsync(resourceGroupName, networkWatcherName, connectionMonitorName).toBlocking().single().body();
+    public void stop(@NonNull String resourceGroupName, @NonNull String networkWatcherName, @NonNull String connectionMonitorName) {
+        stopAsync(resourceGroupName, networkWatcherName, connectionMonitorName).blockingAwait();
     }
 
     /**
@@ -638,11 +593,11 @@ public class ConnectionMonitorsInner {
      * @param networkWatcherName The name of the Network Watcher resource.
      * @param connectionMonitorName The name of the connection monitor.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<Void> beginStopAsync(String resourceGroupName, String networkWatcherName, String connectionMonitorName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(beginStopWithServiceResponseAsync(resourceGroupName, networkWatcherName, connectionMonitorName), serviceCallback);
+    public ServiceFuture<Void> stopAsync(@NonNull String resourceGroupName, @NonNull String networkWatcherName, @NonNull String connectionMonitorName, ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromBody(stopAsync(resourceGroupName, networkWatcherName, connectionMonitorName), serviceCallback);
     }
 
     /**
@@ -651,28 +606,10 @@ public class ConnectionMonitorsInner {
      * @param resourceGroupName The name of the resource group containing Network Watcher.
      * @param networkWatcherName The name of the Network Watcher resource.
      * @param connectionMonitorName The name of the connection monitor.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<Void> beginStopAsync(String resourceGroupName, String networkWatcherName, String connectionMonitorName) {
-        return beginStopWithServiceResponseAsync(resourceGroupName, networkWatcherName, connectionMonitorName).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Stops the specified connection monitor.
-     *
-     * @param resourceGroupName The name of the resource group containing Network Watcher.
-     * @param networkWatcherName The name of the Network Watcher resource.
-     * @param connectionMonitorName The name of the connection monitor.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
-     */
-    public Observable<ServiceResponse<Void>> beginStopWithServiceResponseAsync(String resourceGroupName, String networkWatcherName, String connectionMonitorName) {
+    public Single<VoidResponse> stopWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String networkWatcherName, @NonNull String connectionMonitorName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -686,26 +623,35 @@ public class ConnectionMonitorsInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        return service.beginStop(resourceGroupName, networkWatcherName, connectionMonitorName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
-                @Override
-                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<Void> clientResponse = beginStopDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.stop(resourceGroupName, networkWatcherName, connectionMonitorName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<Void> beginStopDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<Void>() { }.getType())
-                .register(202, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Stops the specified connection monitor.
+     *
+     * @param resourceGroupName The name of the resource group containing Network Watcher.
+     * @param networkWatcherName The name of the Network Watcher resource.
+     * @param connectionMonitorName The name of the connection monitor.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Completable stopAsync(@NonNull String resourceGroupName, @NonNull String networkWatcherName, @NonNull String connectionMonitorName) {
+        return stopWithRestResponseAsync(resourceGroupName, networkWatcherName, connectionMonitorName)
+            .toCompletable();
+    }
+
+    /**
+     * Stops the specified connection monitor. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<Void>> resumeStop(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeStop(operationDescription);
     }
 
     /**
@@ -714,12 +660,12 @@ public class ConnectionMonitorsInner {
      * @param resourceGroupName The name of the resource group containing Network Watcher.
      * @param networkWatcherName The name of the Network Watcher resource.
      * @param connectionMonitorName The name of the connection monitor.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ErrorResponseException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void start(String resourceGroupName, String networkWatcherName, String connectionMonitorName) {
-        startWithServiceResponseAsync(resourceGroupName, networkWatcherName, connectionMonitorName).toBlocking().last().body();
+    public void beginStart(@NonNull String resourceGroupName, @NonNull String networkWatcherName, @NonNull String connectionMonitorName) {
+        beginStartAsync(resourceGroupName, networkWatcherName, connectionMonitorName).blockingLast();
     }
 
     /**
@@ -729,11 +675,11 @@ public class ConnectionMonitorsInner {
      * @param networkWatcherName The name of the Network Watcher resource.
      * @param connectionMonitorName The name of the connection monitor.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;Void&gt; object.
      */
-    public ServiceFuture<Void> startAsync(String resourceGroupName, String networkWatcherName, String connectionMonitorName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(startWithServiceResponseAsync(resourceGroupName, networkWatcherName, connectionMonitorName), serviceCallback);
+    public ServiceFuture<Void> beginStartAsync(@NonNull String resourceGroupName, @NonNull String networkWatcherName, @NonNull String connectionMonitorName, ServiceCallback<Void> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginStartAsync(resourceGroupName, networkWatcherName, connectionMonitorName), serviceCallback);
     }
 
     /**
@@ -742,28 +688,10 @@ public class ConnectionMonitorsInner {
      * @param resourceGroupName The name of the resource group containing Network Watcher.
      * @param networkWatcherName The name of the Network Watcher resource.
      * @param connectionMonitorName The name of the connection monitor.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<Void> startAsync(String resourceGroupName, String networkWatcherName, String connectionMonitorName) {
-        return startWithServiceResponseAsync(resourceGroupName, networkWatcherName, connectionMonitorName).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Starts the specified connection monitor.
-     *
-     * @param resourceGroupName The name of the resource group containing Network Watcher.
-     * @param networkWatcherName The name of the Network Watcher resource.
-     * @param connectionMonitorName The name of the connection monitor.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<Void>> startWithServiceResponseAsync(String resourceGroupName, String networkWatcherName, String connectionMonitorName) {
+    public Observable<OperationStatus<Void>> beginStartAsync(@NonNull String resourceGroupName, @NonNull String networkWatcherName, @NonNull String connectionMonitorName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -777,8 +705,7 @@ public class ConnectionMonitorsInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        Observable<Response<ResponseBody>> observable = service.start(resourceGroupName, networkWatcherName, connectionMonitorName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
+        return service.beginStart(resourceGroupName, networkWatcherName, connectionMonitorName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
     /**
@@ -787,12 +714,12 @@ public class ConnectionMonitorsInner {
      * @param resourceGroupName The name of the resource group containing Network Watcher.
      * @param networkWatcherName The name of the Network Watcher resource.
      * @param connectionMonitorName The name of the connection monitor.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ErrorResponseException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void beginStart(String resourceGroupName, String networkWatcherName, String connectionMonitorName) {
-        beginStartWithServiceResponseAsync(resourceGroupName, networkWatcherName, connectionMonitorName).toBlocking().single().body();
+    public void start(@NonNull String resourceGroupName, @NonNull String networkWatcherName, @NonNull String connectionMonitorName) {
+        startAsync(resourceGroupName, networkWatcherName, connectionMonitorName).blockingAwait();
     }
 
     /**
@@ -802,11 +729,11 @@ public class ConnectionMonitorsInner {
      * @param networkWatcherName The name of the Network Watcher resource.
      * @param connectionMonitorName The name of the connection monitor.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<Void> beginStartAsync(String resourceGroupName, String networkWatcherName, String connectionMonitorName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(beginStartWithServiceResponseAsync(resourceGroupName, networkWatcherName, connectionMonitorName), serviceCallback);
+    public ServiceFuture<Void> startAsync(@NonNull String resourceGroupName, @NonNull String networkWatcherName, @NonNull String connectionMonitorName, ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromBody(startAsync(resourceGroupName, networkWatcherName, connectionMonitorName), serviceCallback);
     }
 
     /**
@@ -815,28 +742,10 @@ public class ConnectionMonitorsInner {
      * @param resourceGroupName The name of the resource group containing Network Watcher.
      * @param networkWatcherName The name of the Network Watcher resource.
      * @param connectionMonitorName The name of the connection monitor.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<Void> beginStartAsync(String resourceGroupName, String networkWatcherName, String connectionMonitorName) {
-        return beginStartWithServiceResponseAsync(resourceGroupName, networkWatcherName, connectionMonitorName).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Starts the specified connection monitor.
-     *
-     * @param resourceGroupName The name of the resource group containing Network Watcher.
-     * @param networkWatcherName The name of the Network Watcher resource.
-     * @param connectionMonitorName The name of the connection monitor.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
-     */
-    public Observable<ServiceResponse<Void>> beginStartWithServiceResponseAsync(String resourceGroupName, String networkWatcherName, String connectionMonitorName) {
+    public Single<VoidResponse> startWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String networkWatcherName, @NonNull String connectionMonitorName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -850,26 +759,35 @@ public class ConnectionMonitorsInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        return service.beginStart(resourceGroupName, networkWatcherName, connectionMonitorName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
-                @Override
-                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<Void> clientResponse = beginStartDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.start(resourceGroupName, networkWatcherName, connectionMonitorName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<Void> beginStartDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<Void>() { }.getType())
-                .register(202, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Starts the specified connection monitor.
+     *
+     * @param resourceGroupName The name of the resource group containing Network Watcher.
+     * @param networkWatcherName The name of the Network Watcher resource.
+     * @param connectionMonitorName The name of the connection monitor.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Completable startAsync(@NonNull String resourceGroupName, @NonNull String networkWatcherName, @NonNull String connectionMonitorName) {
+        return startWithRestResponseAsync(resourceGroupName, networkWatcherName, connectionMonitorName)
+            .toCompletable();
+    }
+
+    /**
+     * Starts the specified connection monitor. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<Void>> resumeStart(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeStart(operationDescription);
     }
 
     /**
@@ -878,13 +796,13 @@ public class ConnectionMonitorsInner {
      * @param resourceGroupName The name of the resource group containing Network Watcher.
      * @param networkWatcherName The name of the Network Watcher resource.
      * @param connectionMonitorName The name given to the connection monitor.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ErrorResponseException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the ConnectionMonitorQueryResultInner object if successful.
      */
-    public ConnectionMonitorQueryResultInner query(String resourceGroupName, String networkWatcherName, String connectionMonitorName) {
-        return queryWithServiceResponseAsync(resourceGroupName, networkWatcherName, connectionMonitorName).toBlocking().last().body();
+    public ConnectionMonitorQueryResultInner beginQuery(@NonNull String resourceGroupName, @NonNull String networkWatcherName, @NonNull String connectionMonitorName) {
+        return beginQueryAsync(resourceGroupName, networkWatcherName, connectionMonitorName).blockingLast().result();
     }
 
     /**
@@ -894,11 +812,11 @@ public class ConnectionMonitorsInner {
      * @param networkWatcherName The name of the Network Watcher resource.
      * @param connectionMonitorName The name given to the connection monitor.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;ConnectionMonitorQueryResultInner&gt; object.
      */
-    public ServiceFuture<ConnectionMonitorQueryResultInner> queryAsync(String resourceGroupName, String networkWatcherName, String connectionMonitorName, final ServiceCallback<ConnectionMonitorQueryResultInner> serviceCallback) {
-        return ServiceFuture.fromResponse(queryWithServiceResponseAsync(resourceGroupName, networkWatcherName, connectionMonitorName), serviceCallback);
+    public ServiceFuture<ConnectionMonitorQueryResultInner> beginQueryAsync(@NonNull String resourceGroupName, @NonNull String networkWatcherName, @NonNull String connectionMonitorName, ServiceCallback<ConnectionMonitorQueryResultInner> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginQueryAsync(resourceGroupName, networkWatcherName, connectionMonitorName), serviceCallback);
     }
 
     /**
@@ -907,28 +825,10 @@ public class ConnectionMonitorsInner {
      * @param resourceGroupName The name of the resource group containing Network Watcher.
      * @param networkWatcherName The name of the Network Watcher resource.
      * @param connectionMonitorName The name given to the connection monitor.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<ConnectionMonitorQueryResultInner> queryAsync(String resourceGroupName, String networkWatcherName, String connectionMonitorName) {
-        return queryWithServiceResponseAsync(resourceGroupName, networkWatcherName, connectionMonitorName).map(new Func1<ServiceResponse<ConnectionMonitorQueryResultInner>, ConnectionMonitorQueryResultInner>() {
-            @Override
-            public ConnectionMonitorQueryResultInner call(ServiceResponse<ConnectionMonitorQueryResultInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Query a snapshot of the most recent connection states.
-     *
-     * @param resourceGroupName The name of the resource group containing Network Watcher.
-     * @param networkWatcherName The name of the Network Watcher resource.
-     * @param connectionMonitorName The name given to the connection monitor.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<ConnectionMonitorQueryResultInner>> queryWithServiceResponseAsync(String resourceGroupName, String networkWatcherName, String connectionMonitorName) {
+    public Observable<OperationStatus<ConnectionMonitorQueryResultInner>> beginQueryAsync(@NonNull String resourceGroupName, @NonNull String networkWatcherName, @NonNull String connectionMonitorName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -942,8 +842,7 @@ public class ConnectionMonitorsInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        Observable<Response<ResponseBody>> observable = service.query(resourceGroupName, networkWatcherName, connectionMonitorName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<ConnectionMonitorQueryResultInner>() { }.getType());
+        return service.beginQuery(resourceGroupName, networkWatcherName, connectionMonitorName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
     /**
@@ -952,13 +851,13 @@ public class ConnectionMonitorsInner {
      * @param resourceGroupName The name of the resource group containing Network Watcher.
      * @param networkWatcherName The name of the Network Watcher resource.
      * @param connectionMonitorName The name given to the connection monitor.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ErrorResponseException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the ConnectionMonitorQueryResultInner object if successful.
      */
-    public ConnectionMonitorQueryResultInner beginQuery(String resourceGroupName, String networkWatcherName, String connectionMonitorName) {
-        return beginQueryWithServiceResponseAsync(resourceGroupName, networkWatcherName, connectionMonitorName).toBlocking().single().body();
+    public ConnectionMonitorQueryResultInner query(@NonNull String resourceGroupName, @NonNull String networkWatcherName, @NonNull String connectionMonitorName) {
+        return queryAsync(resourceGroupName, networkWatcherName, connectionMonitorName).blockingGet();
     }
 
     /**
@@ -968,11 +867,11 @@ public class ConnectionMonitorsInner {
      * @param networkWatcherName The name of the Network Watcher resource.
      * @param connectionMonitorName The name given to the connection monitor.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<ConnectionMonitorQueryResultInner> beginQueryAsync(String resourceGroupName, String networkWatcherName, String connectionMonitorName, final ServiceCallback<ConnectionMonitorQueryResultInner> serviceCallback) {
-        return ServiceFuture.fromResponse(beginQueryWithServiceResponseAsync(resourceGroupName, networkWatcherName, connectionMonitorName), serviceCallback);
+    public ServiceFuture<ConnectionMonitorQueryResultInner> queryAsync(@NonNull String resourceGroupName, @NonNull String networkWatcherName, @NonNull String connectionMonitorName, ServiceCallback<ConnectionMonitorQueryResultInner> serviceCallback) {
+        return ServiceFuture.fromBody(queryAsync(resourceGroupName, networkWatcherName, connectionMonitorName), serviceCallback);
     }
 
     /**
@@ -981,28 +880,10 @@ public class ConnectionMonitorsInner {
      * @param resourceGroupName The name of the resource group containing Network Watcher.
      * @param networkWatcherName The name of the Network Watcher resource.
      * @param connectionMonitorName The name given to the connection monitor.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ConnectionMonitorQueryResultInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<ConnectionMonitorQueryResultInner> beginQueryAsync(String resourceGroupName, String networkWatcherName, String connectionMonitorName) {
-        return beginQueryWithServiceResponseAsync(resourceGroupName, networkWatcherName, connectionMonitorName).map(new Func1<ServiceResponse<ConnectionMonitorQueryResultInner>, ConnectionMonitorQueryResultInner>() {
-            @Override
-            public ConnectionMonitorQueryResultInner call(ServiceResponse<ConnectionMonitorQueryResultInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Query a snapshot of the most recent connection states.
-     *
-     * @param resourceGroupName The name of the resource group containing Network Watcher.
-     * @param networkWatcherName The name of the Network Watcher resource.
-     * @param connectionMonitorName The name given to the connection monitor.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ConnectionMonitorQueryResultInner object
-     */
-    public Observable<ServiceResponse<ConnectionMonitorQueryResultInner>> beginQueryWithServiceResponseAsync(String resourceGroupName, String networkWatcherName, String connectionMonitorName) {
+    public Single<BodyResponse<ConnectionMonitorQueryResultInner>> queryWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String networkWatcherName, @NonNull String connectionMonitorName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -1016,26 +897,35 @@ public class ConnectionMonitorsInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        return service.beginQuery(resourceGroupName, networkWatcherName, connectionMonitorName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ConnectionMonitorQueryResultInner>>>() {
-                @Override
-                public Observable<ServiceResponse<ConnectionMonitorQueryResultInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<ConnectionMonitorQueryResultInner> clientResponse = beginQueryDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.query(resourceGroupName, networkWatcherName, connectionMonitorName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<ConnectionMonitorQueryResultInner> beginQueryDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<ConnectionMonitorQueryResultInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<ConnectionMonitorQueryResultInner>() { }.getType())
-                .register(202, new TypeToken<ConnectionMonitorQueryResultInner>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Query a snapshot of the most recent connection states.
+     *
+     * @param resourceGroupName The name of the resource group containing Network Watcher.
+     * @param networkWatcherName The name of the Network Watcher resource.
+     * @param connectionMonitorName The name given to the connection monitor.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<ConnectionMonitorQueryResultInner> queryAsync(@NonNull String resourceGroupName, @NonNull String networkWatcherName, @NonNull String connectionMonitorName) {
+        return queryWithRestResponseAsync(resourceGroupName, networkWatcherName, connectionMonitorName)
+            .flatMapMaybe((BodyResponse<ConnectionMonitorQueryResultInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
+    }
+
+    /**
+     * Query a snapshot of the most recent connection states. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<ConnectionMonitorQueryResultInner>> resumeQuery(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeQuery(operationDescription);
     }
 
     /**
@@ -1043,13 +933,13 @@ public class ConnectionMonitorsInner {
      *
      * @param resourceGroupName The name of the resource group containing Network Watcher.
      * @param networkWatcherName The name of the Network Watcher resource.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ErrorResponseException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the List&lt;ConnectionMonitorResultInner&gt; object if successful.
      */
-    public List<ConnectionMonitorResultInner> list(String resourceGroupName, String networkWatcherName) {
-        return listWithServiceResponseAsync(resourceGroupName, networkWatcherName).toBlocking().single().body();
+    public List<ConnectionMonitorResultInner> list(@NonNull String resourceGroupName, @NonNull String networkWatcherName) {
+        return listAsync(resourceGroupName, networkWatcherName).blockingGet();
     }
 
     /**
@@ -1058,11 +948,11 @@ public class ConnectionMonitorsInner {
      * @param resourceGroupName The name of the resource group containing Network Watcher.
      * @param networkWatcherName The name of the Network Watcher resource.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<List<ConnectionMonitorResultInner>> listAsync(String resourceGroupName, String networkWatcherName, final ServiceCallback<List<ConnectionMonitorResultInner>> serviceCallback) {
-        return ServiceFuture.fromResponse(listWithServiceResponseAsync(resourceGroupName, networkWatcherName), serviceCallback);
+    public ServiceFuture<List<ConnectionMonitorResultInner>> listAsync(@NonNull String resourceGroupName, @NonNull String networkWatcherName, ServiceCallback<List<ConnectionMonitorResultInner>> serviceCallback) {
+        return ServiceFuture.fromBody(listAsync(resourceGroupName, networkWatcherName), serviceCallback);
     }
 
     /**
@@ -1070,27 +960,10 @@ public class ConnectionMonitorsInner {
      *
      * @param resourceGroupName The name of the resource group containing Network Watcher.
      * @param networkWatcherName The name of the Network Watcher resource.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the List&lt;ConnectionMonitorResultInner&gt; object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<List<ConnectionMonitorResultInner>> listAsync(String resourceGroupName, String networkWatcherName) {
-        return listWithServiceResponseAsync(resourceGroupName, networkWatcherName).map(new Func1<ServiceResponse<List<ConnectionMonitorResultInner>>, List<ConnectionMonitorResultInner>>() {
-            @Override
-            public List<ConnectionMonitorResultInner> call(ServiceResponse<List<ConnectionMonitorResultInner>> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Lists all connection monitors for the specified Network Watcher.
-     *
-     * @param resourceGroupName The name of the resource group containing Network Watcher.
-     * @param networkWatcherName The name of the Network Watcher resource.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the List&lt;ConnectionMonitorResultInner&gt; object
-     */
-    public Observable<ServiceResponse<List<ConnectionMonitorResultInner>>> listWithServiceResponseAsync(String resourceGroupName, String networkWatcherName) {
+    public Single<BodyResponse<List<ConnectionMonitorResultInner>>> listWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String networkWatcherName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -1101,30 +974,19 @@ public class ConnectionMonitorsInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        return service.list(resourceGroupName, networkWatcherName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<List<ConnectionMonitorResultInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<List<ConnectionMonitorResultInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl1<ConnectionMonitorResultInner>> result = listDelegate(response);
-                        List<ConnectionMonitorResultInner> items = null;
-                        if (result.body() != null) {
-                            items = result.body().items();
-                        }
-                        ServiceResponse<List<ConnectionMonitorResultInner>> clientResponse = new ServiceResponse<List<ConnectionMonitorResultInner>>(items, result.response());
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.list(resourceGroupName, networkWatcherName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<PageImpl1<ConnectionMonitorResultInner>> listDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl1<ConnectionMonitorResultInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl1<ConnectionMonitorResultInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Lists all connection monitors for the specified Network Watcher.
+     *
+     * @param resourceGroupName The name of the resource group containing Network Watcher.
+     * @param networkWatcherName The name of the Network Watcher resource.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<List<ConnectionMonitorResultInner>> listAsync(@NonNull String resourceGroupName, @NonNull String networkWatcherName) {
+        return listWithRestResponseAsync(resourceGroupName, networkWatcherName)
+            .flatMapMaybe((BodyResponse<List<ConnectionMonitorResultInner>> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
-
 }

@@ -8,18 +8,18 @@
 
 package com.microsoft.azure.v2.management.network.implementation;
 
-import com.microsoft.azure.v2.management.network.IpsecEncryption;
-import com.microsoft.azure.v2.management.network.IpsecIntegrity;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.v2.management.network.DhGroup;
 import com.microsoft.azure.v2.management.network.IkeEncryption;
 import com.microsoft.azure.v2.management.network.IkeIntegrity;
-import com.microsoft.azure.v2.management.network.DhGroup;
+import com.microsoft.azure.v2.management.network.IpsecEncryption;
+import com.microsoft.azure.v2.management.network.IpsecIntegrity;
 import com.microsoft.azure.v2.management.network.PfsGroup;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * An IPSec parameters for a virtual network gateway P2S connection.
  */
-public class VpnClientIPsecParametersInner {
+public final class VpnClientIPsecParametersInner {
     /**
      * The IPSec Security Association (also called Quick Mode or Phase 2 SA)
      * lifetime in seconds for P2S client.
@@ -82,7 +82,7 @@ public class VpnClientIPsecParametersInner {
     /**
      * Get the saLifeTimeSeconds value.
      *
-     * @return the saLifeTimeSeconds value
+     * @return the saLifeTimeSeconds value.
      */
     public int saLifeTimeSeconds() {
         return this.saLifeTimeSeconds;
@@ -91,7 +91,7 @@ public class VpnClientIPsecParametersInner {
     /**
      * Set the saLifeTimeSeconds value.
      *
-     * @param saLifeTimeSeconds the saLifeTimeSeconds value to set
+     * @param saLifeTimeSeconds the saLifeTimeSeconds value to set.
      * @return the VpnClientIPsecParametersInner object itself.
      */
     public VpnClientIPsecParametersInner withSaLifeTimeSeconds(int saLifeTimeSeconds) {
@@ -102,7 +102,7 @@ public class VpnClientIPsecParametersInner {
     /**
      * Get the saDataSizeKilobytes value.
      *
-     * @return the saDataSizeKilobytes value
+     * @return the saDataSizeKilobytes value.
      */
     public int saDataSizeKilobytes() {
         return this.saDataSizeKilobytes;
@@ -111,7 +111,7 @@ public class VpnClientIPsecParametersInner {
     /**
      * Set the saDataSizeKilobytes value.
      *
-     * @param saDataSizeKilobytes the saDataSizeKilobytes value to set
+     * @param saDataSizeKilobytes the saDataSizeKilobytes value to set.
      * @return the VpnClientIPsecParametersInner object itself.
      */
     public VpnClientIPsecParametersInner withSaDataSizeKilobytes(int saDataSizeKilobytes) {
@@ -122,7 +122,7 @@ public class VpnClientIPsecParametersInner {
     /**
      * Get the ipsecEncryption value.
      *
-     * @return the ipsecEncryption value
+     * @return the ipsecEncryption value.
      */
     public IpsecEncryption ipsecEncryption() {
         return this.ipsecEncryption;
@@ -131,7 +131,7 @@ public class VpnClientIPsecParametersInner {
     /**
      * Set the ipsecEncryption value.
      *
-     * @param ipsecEncryption the ipsecEncryption value to set
+     * @param ipsecEncryption the ipsecEncryption value to set.
      * @return the VpnClientIPsecParametersInner object itself.
      */
     public VpnClientIPsecParametersInner withIpsecEncryption(IpsecEncryption ipsecEncryption) {
@@ -142,7 +142,7 @@ public class VpnClientIPsecParametersInner {
     /**
      * Get the ipsecIntegrity value.
      *
-     * @return the ipsecIntegrity value
+     * @return the ipsecIntegrity value.
      */
     public IpsecIntegrity ipsecIntegrity() {
         return this.ipsecIntegrity;
@@ -151,7 +151,7 @@ public class VpnClientIPsecParametersInner {
     /**
      * Set the ipsecIntegrity value.
      *
-     * @param ipsecIntegrity the ipsecIntegrity value to set
+     * @param ipsecIntegrity the ipsecIntegrity value to set.
      * @return the VpnClientIPsecParametersInner object itself.
      */
     public VpnClientIPsecParametersInner withIpsecIntegrity(IpsecIntegrity ipsecIntegrity) {
@@ -162,7 +162,7 @@ public class VpnClientIPsecParametersInner {
     /**
      * Get the ikeEncryption value.
      *
-     * @return the ikeEncryption value
+     * @return the ikeEncryption value.
      */
     public IkeEncryption ikeEncryption() {
         return this.ikeEncryption;
@@ -171,7 +171,7 @@ public class VpnClientIPsecParametersInner {
     /**
      * Set the ikeEncryption value.
      *
-     * @param ikeEncryption the ikeEncryption value to set
+     * @param ikeEncryption the ikeEncryption value to set.
      * @return the VpnClientIPsecParametersInner object itself.
      */
     public VpnClientIPsecParametersInner withIkeEncryption(IkeEncryption ikeEncryption) {
@@ -182,7 +182,7 @@ public class VpnClientIPsecParametersInner {
     /**
      * Get the ikeIntegrity value.
      *
-     * @return the ikeIntegrity value
+     * @return the ikeIntegrity value.
      */
     public IkeIntegrity ikeIntegrity() {
         return this.ikeIntegrity;
@@ -191,7 +191,7 @@ public class VpnClientIPsecParametersInner {
     /**
      * Set the ikeIntegrity value.
      *
-     * @param ikeIntegrity the ikeIntegrity value to set
+     * @param ikeIntegrity the ikeIntegrity value to set.
      * @return the VpnClientIPsecParametersInner object itself.
      */
     public VpnClientIPsecParametersInner withIkeIntegrity(IkeIntegrity ikeIntegrity) {
@@ -202,7 +202,7 @@ public class VpnClientIPsecParametersInner {
     /**
      * Get the dhGroup value.
      *
-     * @return the dhGroup value
+     * @return the dhGroup value.
      */
     public DhGroup dhGroup() {
         return this.dhGroup;
@@ -211,7 +211,7 @@ public class VpnClientIPsecParametersInner {
     /**
      * Set the dhGroup value.
      *
-     * @param dhGroup the dhGroup value to set
+     * @param dhGroup the dhGroup value to set.
      * @return the VpnClientIPsecParametersInner object itself.
      */
     public VpnClientIPsecParametersInner withDhGroup(DhGroup dhGroup) {
@@ -222,7 +222,7 @@ public class VpnClientIPsecParametersInner {
     /**
      * Get the pfsGroup value.
      *
-     * @return the pfsGroup value
+     * @return the pfsGroup value.
      */
     public PfsGroup pfsGroup() {
         return this.pfsGroup;
@@ -231,12 +231,11 @@ public class VpnClientIPsecParametersInner {
     /**
      * Set the pfsGroup value.
      *
-     * @param pfsGroup the pfsGroup value to set
+     * @param pfsGroup the pfsGroup value to set.
      * @return the VpnClientIPsecParametersInner object itself.
      */
     public VpnClientIPsecParametersInner withPfsGroup(PfsGroup pfsGroup) {
         this.pfsGroup = pfsGroup;
         return this;
     }
-
 }

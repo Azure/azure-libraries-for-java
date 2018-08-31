@@ -8,18 +8,18 @@
 
 package com.microsoft.azure.v2.management.network;
 
-import org.joda.time.DateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.time.OffsetDateTime;
 
 /**
  * Details on latency for a time series.
  */
-public class AzureReachabilityReportLatencyInfo {
+public final class AzureReachabilityReportLatencyInfo {
     /**
      * The time stamp.
      */
     @JsonProperty(value = "timeStamp")
-    private DateTime timeStamp;
+    private OffsetDateTime timeStamp;
 
     /**
      * The relative latency score between 1 and 100, higher values indicating a
@@ -31,19 +31,19 @@ public class AzureReachabilityReportLatencyInfo {
     /**
      * Get the timeStamp value.
      *
-     * @return the timeStamp value
+     * @return the timeStamp value.
      */
-    public DateTime timeStamp() {
+    public OffsetDateTime timeStamp() {
         return this.timeStamp;
     }
 
     /**
      * Set the timeStamp value.
      *
-     * @param timeStamp the timeStamp value to set
+     * @param timeStamp the timeStamp value to set.
      * @return the AzureReachabilityReportLatencyInfo object itself.
      */
-    public AzureReachabilityReportLatencyInfo withTimeStamp(DateTime timeStamp) {
+    public AzureReachabilityReportLatencyInfo withTimeStamp(OffsetDateTime timeStamp) {
         this.timeStamp = timeStamp;
         return this;
     }
@@ -51,7 +51,7 @@ public class AzureReachabilityReportLatencyInfo {
     /**
      * Get the score value.
      *
-     * @return the score value
+     * @return the score value.
      */
     public Integer score() {
         return this.score;
@@ -60,12 +60,11 @@ public class AzureReachabilityReportLatencyInfo {
     /**
      * Set the score value.
      *
-     * @param score the score value to set
+     * @param score the score value to set.
      * @return the AzureReachabilityReportLatencyInfo object itself.
      */
     public AzureReachabilityReportLatencyInfo withScore(Integer score) {
         this.score = score;
         return this;
     }
-
 }

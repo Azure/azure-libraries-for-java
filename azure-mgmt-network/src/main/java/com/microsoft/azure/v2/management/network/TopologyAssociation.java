@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Resources that have an association with the parent resource.
  */
-public class TopologyAssociation {
+public final class TopologyAssociation {
     /**
      * The name of the resource that is associated with the parent resource.
      */
@@ -36,7 +36,7 @@ public class TopologyAssociation {
     /**
      * Get the name value.
      *
-     * @return the name value
+     * @return the name value.
      */
     public String name() {
         return this.name;
@@ -45,7 +45,7 @@ public class TopologyAssociation {
     /**
      * Set the name value.
      *
-     * @param name the name value to set
+     * @param name the name value to set.
      * @return the TopologyAssociation object itself.
      */
     public TopologyAssociation withName(String name) {
@@ -56,7 +56,7 @@ public class TopologyAssociation {
     /**
      * Get the resourceId value.
      *
-     * @return the resourceId value
+     * @return the resourceId value.
      */
     public String resourceId() {
         return this.resourceId;
@@ -65,7 +65,7 @@ public class TopologyAssociation {
     /**
      * Set the resourceId value.
      *
-     * @param resourceId the resourceId value to set
+     * @param resourceId the resourceId value to set.
      * @return the TopologyAssociation object itself.
      */
     public TopologyAssociation withResourceId(String resourceId) {
@@ -76,7 +76,7 @@ public class TopologyAssociation {
     /**
      * Get the associationType value.
      *
-     * @return the associationType value
+     * @return the associationType value.
      */
     public AssociationType associationType() {
         return this.associationType;
@@ -85,12 +85,11 @@ public class TopologyAssociation {
     /**
      * Set the associationType value.
      *
-     * @param associationType the associationType value to set
+     * @param associationType the associationType value to set.
      * @return the TopologyAssociation object itself.
      */
     public TopologyAssociation withAssociationType(AssociationType associationType) {
         this.associationType = associationType;
         return this;
     }
-
 }

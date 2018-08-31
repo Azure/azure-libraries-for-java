@@ -8,10 +8,10 @@
 
 package com.microsoft.azure.v2.management.network.implementation;
 
-import com.microsoft.azure.v2.management.network.RouteNextHopType;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.SubResource;
+import com.microsoft.azure.v2.SubResource;
+import com.microsoft.azure.v2.management.network.RouteNextHopType;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
 
 /**
  * Route resource.
@@ -63,7 +63,7 @@ public class RouteInner extends SubResource {
     /**
      * Get the addressPrefix value.
      *
-     * @return the addressPrefix value
+     * @return the addressPrefix value.
      */
     public String addressPrefix() {
         return this.addressPrefix;
@@ -72,7 +72,7 @@ public class RouteInner extends SubResource {
     /**
      * Set the addressPrefix value.
      *
-     * @param addressPrefix the addressPrefix value to set
+     * @param addressPrefix the addressPrefix value to set.
      * @return the RouteInner object itself.
      */
     public RouteInner withAddressPrefix(String addressPrefix) {
@@ -83,7 +83,7 @@ public class RouteInner extends SubResource {
     /**
      * Get the nextHopType value.
      *
-     * @return the nextHopType value
+     * @return the nextHopType value.
      */
     public RouteNextHopType nextHopType() {
         return this.nextHopType;
@@ -92,7 +92,7 @@ public class RouteInner extends SubResource {
     /**
      * Set the nextHopType value.
      *
-     * @param nextHopType the nextHopType value to set
+     * @param nextHopType the nextHopType value to set.
      * @return the RouteInner object itself.
      */
     public RouteInner withNextHopType(RouteNextHopType nextHopType) {
@@ -103,7 +103,7 @@ public class RouteInner extends SubResource {
     /**
      * Get the nextHopIpAddress value.
      *
-     * @return the nextHopIpAddress value
+     * @return the nextHopIpAddress value.
      */
     public String nextHopIpAddress() {
         return this.nextHopIpAddress;
@@ -112,7 +112,7 @@ public class RouteInner extends SubResource {
     /**
      * Set the nextHopIpAddress value.
      *
-     * @param nextHopIpAddress the nextHopIpAddress value to set
+     * @param nextHopIpAddress the nextHopIpAddress value to set.
      * @return the RouteInner object itself.
      */
     public RouteInner withNextHopIpAddress(String nextHopIpAddress) {
@@ -123,7 +123,7 @@ public class RouteInner extends SubResource {
     /**
      * Get the provisioningState value.
      *
-     * @return the provisioningState value
+     * @return the provisioningState value.
      */
     public String provisioningState() {
         return this.provisioningState;
@@ -132,7 +132,7 @@ public class RouteInner extends SubResource {
     /**
      * Set the provisioningState value.
      *
-     * @param provisioningState the provisioningState value to set
+     * @param provisioningState the provisioningState value to set.
      * @return the RouteInner object itself.
      */
     public RouteInner withProvisioningState(String provisioningState) {
@@ -143,7 +143,7 @@ public class RouteInner extends SubResource {
     /**
      * Get the name value.
      *
-     * @return the name value
+     * @return the name value.
      */
     public String name() {
         return this.name;
@@ -152,7 +152,7 @@ public class RouteInner extends SubResource {
     /**
      * Set the name value.
      *
-     * @param name the name value to set
+     * @param name the name value to set.
      * @return the RouteInner object itself.
      */
     public RouteInner withName(String name) {
@@ -163,7 +163,7 @@ public class RouteInner extends SubResource {
     /**
      * Get the etag value.
      *
-     * @return the etag value
+     * @return the etag value.
      */
     public String etag() {
         return this.etag;
@@ -172,12 +172,11 @@ public class RouteInner extends SubResource {
     /**
      * Set the etag value.
      *
-     * @param etag the etag value to set
+     * @param etag the etag value to set.
      * @return the RouteInner object itself.
      */
     public RouteInner withEtag(String etag) {
         this.etag = etag;
         return this;
     }
-
 }

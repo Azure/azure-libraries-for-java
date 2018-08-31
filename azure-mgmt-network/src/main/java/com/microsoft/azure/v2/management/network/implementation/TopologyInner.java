@@ -8,15 +8,15 @@
 
 package com.microsoft.azure.v2.management.network.implementation;
 
-import org.joda.time.DateTime;
-import java.util.List;
-import com.microsoft.azure.v2.management.network.TopologyResource;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.v2.management.network.TopologyResource;
+import java.time.OffsetDateTime;
+import java.util.List;
 
 /**
  * Topology of the specified resource group.
  */
-public class TopologyInner {
+public final class TopologyInner {
     /**
      * GUID representing the operation id.
      */
@@ -28,13 +28,13 @@ public class TopologyInner {
      * group.
      */
     @JsonProperty(value = "createdDateTime", access = JsonProperty.Access.WRITE_ONLY)
-    private DateTime createdDateTime;
+    private OffsetDateTime createdDateTime;
 
     /**
      * The datetime when the topology was last modified.
      */
     @JsonProperty(value = "lastModified", access = JsonProperty.Access.WRITE_ONLY)
-    private DateTime lastModified;
+    private OffsetDateTime lastModified;
 
     /**
      * The resources property.
@@ -45,7 +45,7 @@ public class TopologyInner {
     /**
      * Get the id value.
      *
-     * @return the id value
+     * @return the id value.
      */
     public String id() {
         return this.id;
@@ -54,25 +54,25 @@ public class TopologyInner {
     /**
      * Get the createdDateTime value.
      *
-     * @return the createdDateTime value
+     * @return the createdDateTime value.
      */
-    public DateTime createdDateTime() {
+    public OffsetDateTime createdDateTime() {
         return this.createdDateTime;
     }
 
     /**
      * Get the lastModified value.
      *
-     * @return the lastModified value
+     * @return the lastModified value.
      */
-    public DateTime lastModified() {
+    public OffsetDateTime lastModified() {
         return this.lastModified;
     }
 
     /**
      * Get the resources value.
      *
-     * @return the resources value
+     * @return the resources value.
      */
     public List<TopologyResource> resources() {
         return this.resources;
@@ -81,12 +81,11 @@ public class TopologyInner {
     /**
      * Set the resources value.
      *
-     * @param resources the resources value to set
+     * @param resources the resources value to set.
      * @return the TopologyInner object itself.
      */
     public TopologyInner withResources(List<TopologyResource> resources) {
         this.resources = resources;
         return this;
     }
-
 }

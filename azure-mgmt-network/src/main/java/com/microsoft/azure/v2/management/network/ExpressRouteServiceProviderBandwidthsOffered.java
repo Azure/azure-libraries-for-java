@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Contains bandwidths offered in ExpressRouteServiceProvider resources.
  */
-public class ExpressRouteServiceProviderBandwidthsOffered {
+public final class ExpressRouteServiceProviderBandwidthsOffered {
     /**
      * The OfferName.
      */
@@ -29,7 +29,7 @@ public class ExpressRouteServiceProviderBandwidthsOffered {
     /**
      * Get the offerName value.
      *
-     * @return the offerName value
+     * @return the offerName value.
      */
     public String offerName() {
         return this.offerName;
@@ -38,7 +38,7 @@ public class ExpressRouteServiceProviderBandwidthsOffered {
     /**
      * Set the offerName value.
      *
-     * @param offerName the offerName value to set
+     * @param offerName the offerName value to set.
      * @return the ExpressRouteServiceProviderBandwidthsOffered object itself.
      */
     public ExpressRouteServiceProviderBandwidthsOffered withOfferName(String offerName) {
@@ -49,7 +49,7 @@ public class ExpressRouteServiceProviderBandwidthsOffered {
     /**
      * Get the valueInMbps value.
      *
-     * @return the valueInMbps value
+     * @return the valueInMbps value.
      */
     public Integer valueInMbps() {
         return this.valueInMbps;
@@ -58,12 +58,11 @@ public class ExpressRouteServiceProviderBandwidthsOffered {
     /**
      * Set the valueInMbps value.
      *
-     * @param valueInMbps the valueInMbps value to set
+     * @param valueInMbps the valueInMbps value to set.
      * @return the ExpressRouteServiceProviderBandwidthsOffered object itself.
      */
     public ExpressRouteServiceProviderBandwidthsOffered withValueInMbps(Integer valueInMbps) {
         this.valueInMbps = valueInMbps;
         return this;
     }
-
 }

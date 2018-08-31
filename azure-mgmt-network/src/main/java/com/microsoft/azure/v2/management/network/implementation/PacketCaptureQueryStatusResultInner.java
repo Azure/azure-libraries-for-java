@@ -8,16 +8,16 @@
 
 package com.microsoft.azure.v2.management.network.implementation;
 
-import org.joda.time.DateTime;
-import com.microsoft.azure.v2.management.network.PcStatus;
-import java.util.List;
-import com.microsoft.azure.v2.management.network.PcError;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.v2.management.network.PcError;
+import com.microsoft.azure.v2.management.network.PcStatus;
+import java.time.OffsetDateTime;
+import java.util.List;
 
 /**
  * Status of packet capture session.
  */
-public class PacketCaptureQueryStatusResultInner {
+public final class PacketCaptureQueryStatusResultInner {
     /**
      * The name of the packet capture resource.
      */
@@ -34,7 +34,7 @@ public class PacketCaptureQueryStatusResultInner {
      * The start time of the packet capture session.
      */
     @JsonProperty(value = "captureStartTime")
-    private DateTime captureStartTime;
+    private OffsetDateTime captureStartTime;
 
     /**
      * The status of the packet capture session. Possible values include:
@@ -58,7 +58,7 @@ public class PacketCaptureQueryStatusResultInner {
     /**
      * Get the name value.
      *
-     * @return the name value
+     * @return the name value.
      */
     public String name() {
         return this.name;
@@ -67,7 +67,7 @@ public class PacketCaptureQueryStatusResultInner {
     /**
      * Set the name value.
      *
-     * @param name the name value to set
+     * @param name the name value to set.
      * @return the PacketCaptureQueryStatusResultInner object itself.
      */
     public PacketCaptureQueryStatusResultInner withName(String name) {
@@ -78,7 +78,7 @@ public class PacketCaptureQueryStatusResultInner {
     /**
      * Get the id value.
      *
-     * @return the id value
+     * @return the id value.
      */
     public String id() {
         return this.id;
@@ -87,7 +87,7 @@ public class PacketCaptureQueryStatusResultInner {
     /**
      * Set the id value.
      *
-     * @param id the id value to set
+     * @param id the id value to set.
      * @return the PacketCaptureQueryStatusResultInner object itself.
      */
     public PacketCaptureQueryStatusResultInner withId(String id) {
@@ -98,19 +98,19 @@ public class PacketCaptureQueryStatusResultInner {
     /**
      * Get the captureStartTime value.
      *
-     * @return the captureStartTime value
+     * @return the captureStartTime value.
      */
-    public DateTime captureStartTime() {
+    public OffsetDateTime captureStartTime() {
         return this.captureStartTime;
     }
 
     /**
      * Set the captureStartTime value.
      *
-     * @param captureStartTime the captureStartTime value to set
+     * @param captureStartTime the captureStartTime value to set.
      * @return the PacketCaptureQueryStatusResultInner object itself.
      */
-    public PacketCaptureQueryStatusResultInner withCaptureStartTime(DateTime captureStartTime) {
+    public PacketCaptureQueryStatusResultInner withCaptureStartTime(OffsetDateTime captureStartTime) {
         this.captureStartTime = captureStartTime;
         return this;
     }
@@ -118,7 +118,7 @@ public class PacketCaptureQueryStatusResultInner {
     /**
      * Get the packetCaptureStatus value.
      *
-     * @return the packetCaptureStatus value
+     * @return the packetCaptureStatus value.
      */
     public PcStatus packetCaptureStatus() {
         return this.packetCaptureStatus;
@@ -127,7 +127,7 @@ public class PacketCaptureQueryStatusResultInner {
     /**
      * Set the packetCaptureStatus value.
      *
-     * @param packetCaptureStatus the packetCaptureStatus value to set
+     * @param packetCaptureStatus the packetCaptureStatus value to set.
      * @return the PacketCaptureQueryStatusResultInner object itself.
      */
     public PacketCaptureQueryStatusResultInner withPacketCaptureStatus(PcStatus packetCaptureStatus) {
@@ -138,7 +138,7 @@ public class PacketCaptureQueryStatusResultInner {
     /**
      * Get the stopReason value.
      *
-     * @return the stopReason value
+     * @return the stopReason value.
      */
     public String stopReason() {
         return this.stopReason;
@@ -147,7 +147,7 @@ public class PacketCaptureQueryStatusResultInner {
     /**
      * Set the stopReason value.
      *
-     * @param stopReason the stopReason value to set
+     * @param stopReason the stopReason value to set.
      * @return the PacketCaptureQueryStatusResultInner object itself.
      */
     public PacketCaptureQueryStatusResultInner withStopReason(String stopReason) {
@@ -158,7 +158,7 @@ public class PacketCaptureQueryStatusResultInner {
     /**
      * Get the packetCaptureError value.
      *
-     * @return the packetCaptureError value
+     * @return the packetCaptureError value.
      */
     public List<PcError> packetCaptureError() {
         return this.packetCaptureError;
@@ -167,12 +167,11 @@ public class PacketCaptureQueryStatusResultInner {
     /**
      * Set the packetCaptureError value.
      *
-     * @param packetCaptureError the packetCaptureError value to set
+     * @param packetCaptureError the packetCaptureError value to set.
      * @return the PacketCaptureQueryStatusResultInner object itself.
      */
     public PacketCaptureQueryStatusResultInner withPacketCaptureError(List<PcError> packetCaptureError) {
         this.packetCaptureError = packetCaptureError;
         return this;
     }
-
 }

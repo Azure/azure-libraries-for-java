@@ -8,27 +8,34 @@
 
 package com.microsoft.azure.v2.management.network;
 
-import java.util.Collection;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.microsoft.rest.ExpandableStringEnum;
+import com.microsoft.rest.v2.ExpandableStringEnum;
+import java.util.Collection;
 
 /**
  * Defines values for CircuitConnectionStatus.
  */
 public final class CircuitConnectionStatus extends ExpandableStringEnum<CircuitConnectionStatus> {
-    /** Static value Connected for CircuitConnectionStatus. */
+    /**
+     * Static value Connected for CircuitConnectionStatus.
+     */
     public static final CircuitConnectionStatus CONNECTED = fromString("Connected");
 
-    /** Static value Connecting for CircuitConnectionStatus. */
+    /**
+     * Static value Connecting for CircuitConnectionStatus.
+     */
     public static final CircuitConnectionStatus CONNECTING = fromString("Connecting");
 
-    /** Static value Disconnected for CircuitConnectionStatus. */
+    /**
+     * Static value Disconnected for CircuitConnectionStatus.
+     */
     public static final CircuitConnectionStatus DISCONNECTED = fromString("Disconnected");
 
     /**
      * Creates or finds a CircuitConnectionStatus from its string representation.
-     * @param name a name to look for
-     * @return the corresponding CircuitConnectionStatus
+     *
+     * @param name a name to look for.
+     * @return the corresponding CircuitConnectionStatus.
      */
     @JsonCreator
     public static CircuitConnectionStatus fromString(String name) {
@@ -36,7 +43,7 @@ public final class CircuitConnectionStatus extends ExpandableStringEnum<CircuitC
     }
 
     /**
-     * @return known CircuitConnectionStatus values
+     * @return known CircuitConnectionStatus values.
      */
     public static Collection<CircuitConnectionStatus> values() {
         return values(CircuitConnectionStatus.class);

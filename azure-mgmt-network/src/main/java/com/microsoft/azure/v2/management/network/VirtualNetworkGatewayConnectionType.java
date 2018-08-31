@@ -8,30 +8,39 @@
 
 package com.microsoft.azure.v2.management.network;
 
-import java.util.Collection;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.microsoft.rest.ExpandableStringEnum;
+import com.microsoft.rest.v2.ExpandableStringEnum;
+import java.util.Collection;
 
 /**
  * Defines values for VirtualNetworkGatewayConnectionType.
  */
 public final class VirtualNetworkGatewayConnectionType extends ExpandableStringEnum<VirtualNetworkGatewayConnectionType> {
-    /** Static value IPsec for VirtualNetworkGatewayConnectionType. */
+    /**
+     * Static value IPsec for VirtualNetworkGatewayConnectionType.
+     */
     public static final VirtualNetworkGatewayConnectionType IPSEC = fromString("IPsec");
 
-    /** Static value Vnet2Vnet for VirtualNetworkGatewayConnectionType. */
+    /**
+     * Static value Vnet2Vnet for VirtualNetworkGatewayConnectionType.
+     */
     public static final VirtualNetworkGatewayConnectionType VNET2VNET = fromString("Vnet2Vnet");
 
-    /** Static value ExpressRoute for VirtualNetworkGatewayConnectionType. */
+    /**
+     * Static value ExpressRoute for VirtualNetworkGatewayConnectionType.
+     */
     public static final VirtualNetworkGatewayConnectionType EXPRESS_ROUTE = fromString("ExpressRoute");
 
-    /** Static value VPNClient for VirtualNetworkGatewayConnectionType. */
+    /**
+     * Static value VPNClient for VirtualNetworkGatewayConnectionType.
+     */
     public static final VirtualNetworkGatewayConnectionType VPNCLIENT = fromString("VPNClient");
 
     /**
      * Creates or finds a VirtualNetworkGatewayConnectionType from its string representation.
-     * @param name a name to look for
-     * @return the corresponding VirtualNetworkGatewayConnectionType
+     *
+     * @param name a name to look for.
+     * @return the corresponding VirtualNetworkGatewayConnectionType.
      */
     @JsonCreator
     public static VirtualNetworkGatewayConnectionType fromString(String name) {
@@ -39,7 +48,7 @@ public final class VirtualNetworkGatewayConnectionType extends ExpandableStringE
     }
 
     /**
-     * @return known VirtualNetworkGatewayConnectionType values
+     * @return known VirtualNetworkGatewayConnectionType values.
      */
     public static Collection<VirtualNetworkGatewayConnectionType> values() {
         return values(VirtualNetworkGatewayConnectionType.class);

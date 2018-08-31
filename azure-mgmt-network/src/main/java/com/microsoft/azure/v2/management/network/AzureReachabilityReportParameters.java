@@ -8,14 +8,14 @@
 
 package com.microsoft.azure.v2.management.network;
 
-import java.util.List;
-import org.joda.time.DateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.time.OffsetDateTime;
+import java.util.List;
 
 /**
  * Geographic and time constraints for Azure reachability report.
  */
-public class AzureReachabilityReportParameters {
+public final class AzureReachabilityReportParameters {
     /**
      * The providerLocation property.
      */
@@ -38,18 +38,18 @@ public class AzureReachabilityReportParameters {
      * The start time for the Azure reachability report.
      */
     @JsonProperty(value = "startTime", required = true)
-    private DateTime startTime;
+    private OffsetDateTime startTime;
 
     /**
      * The end time for the Azure reachability report.
      */
     @JsonProperty(value = "endTime", required = true)
-    private DateTime endTime;
+    private OffsetDateTime endTime;
 
     /**
      * Get the providerLocation value.
      *
-     * @return the providerLocation value
+     * @return the providerLocation value.
      */
     public AzureReachabilityReportLocation providerLocation() {
         return this.providerLocation;
@@ -58,7 +58,7 @@ public class AzureReachabilityReportParameters {
     /**
      * Set the providerLocation value.
      *
-     * @param providerLocation the providerLocation value to set
+     * @param providerLocation the providerLocation value to set.
      * @return the AzureReachabilityReportParameters object itself.
      */
     public AzureReachabilityReportParameters withProviderLocation(AzureReachabilityReportLocation providerLocation) {
@@ -69,7 +69,7 @@ public class AzureReachabilityReportParameters {
     /**
      * Get the providers value.
      *
-     * @return the providers value
+     * @return the providers value.
      */
     public List<String> providers() {
         return this.providers;
@@ -78,7 +78,7 @@ public class AzureReachabilityReportParameters {
     /**
      * Set the providers value.
      *
-     * @param providers the providers value to set
+     * @param providers the providers value to set.
      * @return the AzureReachabilityReportParameters object itself.
      */
     public AzureReachabilityReportParameters withProviders(List<String> providers) {
@@ -89,7 +89,7 @@ public class AzureReachabilityReportParameters {
     /**
      * Get the azureLocations value.
      *
-     * @return the azureLocations value
+     * @return the azureLocations value.
      */
     public List<String> azureLocations() {
         return this.azureLocations;
@@ -98,7 +98,7 @@ public class AzureReachabilityReportParameters {
     /**
      * Set the azureLocations value.
      *
-     * @param azureLocations the azureLocations value to set
+     * @param azureLocations the azureLocations value to set.
      * @return the AzureReachabilityReportParameters object itself.
      */
     public AzureReachabilityReportParameters withAzureLocations(List<String> azureLocations) {
@@ -109,19 +109,19 @@ public class AzureReachabilityReportParameters {
     /**
      * Get the startTime value.
      *
-     * @return the startTime value
+     * @return the startTime value.
      */
-    public DateTime startTime() {
+    public OffsetDateTime startTime() {
         return this.startTime;
     }
 
     /**
      * Set the startTime value.
      *
-     * @param startTime the startTime value to set
+     * @param startTime the startTime value to set.
      * @return the AzureReachabilityReportParameters object itself.
      */
-    public AzureReachabilityReportParameters withStartTime(DateTime startTime) {
+    public AzureReachabilityReportParameters withStartTime(OffsetDateTime startTime) {
         this.startTime = startTime;
         return this;
     }
@@ -129,21 +129,20 @@ public class AzureReachabilityReportParameters {
     /**
      * Get the endTime value.
      *
-     * @return the endTime value
+     * @return the endTime value.
      */
-    public DateTime endTime() {
+    public OffsetDateTime endTime() {
         return this.endTime;
     }
 
     /**
      * Set the endTime value.
      *
-     * @param endTime the endTime value to set
+     * @param endTime the endTime value to set.
      * @return the AzureReachabilityReportParameters object itself.
      */
-    public AzureReachabilityReportParameters withEndTime(DateTime endTime) {
+    public AzureReachabilityReportParameters withEndTime(OffsetDateTime endTime) {
         this.endTime = endTime;
         return this;
     }
-
 }

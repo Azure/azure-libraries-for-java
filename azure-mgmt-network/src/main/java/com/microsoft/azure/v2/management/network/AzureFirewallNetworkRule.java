@@ -8,13 +8,13 @@
 
 package com.microsoft.azure.v2.management.network;
 
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 
 /**
  * Properties of the network rule.
  */
-public class AzureFirewallNetworkRule {
+public final class AzureFirewallNetworkRule {
     /**
      * Name of the network rule.
      */
@@ -54,7 +54,7 @@ public class AzureFirewallNetworkRule {
     /**
      * Get the name value.
      *
-     * @return the name value
+     * @return the name value.
      */
     public String name() {
         return this.name;
@@ -63,7 +63,7 @@ public class AzureFirewallNetworkRule {
     /**
      * Set the name value.
      *
-     * @param name the name value to set
+     * @param name the name value to set.
      * @return the AzureFirewallNetworkRule object itself.
      */
     public AzureFirewallNetworkRule withName(String name) {
@@ -74,7 +74,7 @@ public class AzureFirewallNetworkRule {
     /**
      * Get the description value.
      *
-     * @return the description value
+     * @return the description value.
      */
     public String description() {
         return this.description;
@@ -83,7 +83,7 @@ public class AzureFirewallNetworkRule {
     /**
      * Set the description value.
      *
-     * @param description the description value to set
+     * @param description the description value to set.
      * @return the AzureFirewallNetworkRule object itself.
      */
     public AzureFirewallNetworkRule withDescription(String description) {
@@ -94,7 +94,7 @@ public class AzureFirewallNetworkRule {
     /**
      * Get the protocols value.
      *
-     * @return the protocols value
+     * @return the protocols value.
      */
     public List<AzureFirewallNetworkRuleProtocol> protocols() {
         return this.protocols;
@@ -103,7 +103,7 @@ public class AzureFirewallNetworkRule {
     /**
      * Set the protocols value.
      *
-     * @param protocols the protocols value to set
+     * @param protocols the protocols value to set.
      * @return the AzureFirewallNetworkRule object itself.
      */
     public AzureFirewallNetworkRule withProtocols(List<AzureFirewallNetworkRuleProtocol> protocols) {
@@ -114,7 +114,7 @@ public class AzureFirewallNetworkRule {
     /**
      * Get the sourceAddresses value.
      *
-     * @return the sourceAddresses value
+     * @return the sourceAddresses value.
      */
     public List<String> sourceAddresses() {
         return this.sourceAddresses;
@@ -123,7 +123,7 @@ public class AzureFirewallNetworkRule {
     /**
      * Set the sourceAddresses value.
      *
-     * @param sourceAddresses the sourceAddresses value to set
+     * @param sourceAddresses the sourceAddresses value to set.
      * @return the AzureFirewallNetworkRule object itself.
      */
     public AzureFirewallNetworkRule withSourceAddresses(List<String> sourceAddresses) {
@@ -134,7 +134,7 @@ public class AzureFirewallNetworkRule {
     /**
      * Get the destinationAddresses value.
      *
-     * @return the destinationAddresses value
+     * @return the destinationAddresses value.
      */
     public List<String> destinationAddresses() {
         return this.destinationAddresses;
@@ -143,7 +143,7 @@ public class AzureFirewallNetworkRule {
     /**
      * Set the destinationAddresses value.
      *
-     * @param destinationAddresses the destinationAddresses value to set
+     * @param destinationAddresses the destinationAddresses value to set.
      * @return the AzureFirewallNetworkRule object itself.
      */
     public AzureFirewallNetworkRule withDestinationAddresses(List<String> destinationAddresses) {
@@ -154,7 +154,7 @@ public class AzureFirewallNetworkRule {
     /**
      * Get the destinationPorts value.
      *
-     * @return the destinationPorts value
+     * @return the destinationPorts value.
      */
     public List<String> destinationPorts() {
         return this.destinationPorts;
@@ -163,12 +163,11 @@ public class AzureFirewallNetworkRule {
     /**
      * Set the destinationPorts value.
      *
-     * @param destinationPorts the destinationPorts value to set
+     * @param destinationPorts the destinationPorts value to set.
      * @return the AzureFirewallNetworkRule object itself.
      */
     public AzureFirewallNetworkRule withDestinationPorts(List<String> destinationPorts) {
         this.destinationPorts = destinationPorts;
         return this;
     }
-
 }

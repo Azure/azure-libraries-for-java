@@ -8,24 +8,29 @@
 
 package com.microsoft.azure.v2.management.network;
 
-import java.util.Collection;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.microsoft.rest.ExpandableStringEnum;
+import com.microsoft.rest.v2.ExpandableStringEnum;
+import java.util.Collection;
 
 /**
  * Defines values for AzureFirewallRCActionType.
  */
 public final class AzureFirewallRCActionType extends ExpandableStringEnum<AzureFirewallRCActionType> {
-    /** Static value Allow for AzureFirewallRCActionType. */
+    /**
+     * Static value Allow for AzureFirewallRCActionType.
+     */
     public static final AzureFirewallRCActionType ALLOW = fromString("Allow");
 
-    /** Static value Deny for AzureFirewallRCActionType. */
+    /**
+     * Static value Deny for AzureFirewallRCActionType.
+     */
     public static final AzureFirewallRCActionType DENY = fromString("Deny");
 
     /**
      * Creates or finds a AzureFirewallRCActionType from its string representation.
-     * @param name a name to look for
-     * @return the corresponding AzureFirewallRCActionType
+     *
+     * @param name a name to look for.
+     * @return the corresponding AzureFirewallRCActionType.
      */
     @JsonCreator
     public static AzureFirewallRCActionType fromString(String name) {
@@ -33,7 +38,7 @@ public final class AzureFirewallRCActionType extends ExpandableStringEnum<AzureF
     }
 
     /**
-     * @return known AzureFirewallRCActionType values
+     * @return known AzureFirewallRCActionType values.
      */
     public static Collection<AzureFirewallRCActionType> values() {
         return values(AzureFirewallRCActionType.class);

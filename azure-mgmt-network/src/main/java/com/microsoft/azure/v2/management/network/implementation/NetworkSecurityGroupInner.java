@@ -8,11 +8,10 @@
 
 package com.microsoft.azure.v2.management.network.implementation;
 
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.rest.SkipParentValidation;
-import com.microsoft.azure.Resource;
+import com.microsoft.azure.v2.Resource;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
+import java.util.List;
 
 /**
  * NetworkSecurityGroup resource.
@@ -24,25 +23,25 @@ public class NetworkSecurityGroupInner extends Resource {
      * A collection of security rules of the network security group.
      */
     @JsonProperty(value = "properties.securityRules")
-    private List<SecurityRuleInner> securityRules;
+    private List<SecurityRuleInner> securityRulesProperty;
 
     /**
      * The default security rules of network security group.
      */
     @JsonProperty(value = "properties.defaultSecurityRules")
-    private List<SecurityRuleInner> defaultSecurityRules;
+    private List<SecurityRuleInner> defaultSecurityRulesProperty;
 
     /**
      * A collection of references to network interfaces.
      */
     @JsonProperty(value = "properties.networkInterfaces", access = JsonProperty.Access.WRITE_ONLY)
-    private List<NetworkInterfaceInner> networkInterfaces;
+    private List<NetworkInterfaceInner> networkInterfacesProperty;
 
     /**
      * A collection of references to subnets.
      */
     @JsonProperty(value = "properties.subnets", access = JsonProperty.Access.WRITE_ONLY)
-    private List<SubnetInner> subnets;
+    private List<SubnetInner> subnetsProperty;
 
     /**
      * The resource GUID property of the network security group resource.
@@ -70,67 +69,68 @@ public class NetworkSecurityGroupInner extends Resource {
     private String id;
 
     /**
-     * Get the securityRules value.
+     * Get the securityRulesProperty value.
      *
-     * @return the securityRules value
+     * @return the securityRulesProperty value.
      */
-    public List<SecurityRuleInner> securityRules() {
-        return this.securityRules;
+    public List<SecurityRuleInner> securityRulesProperty() {
+        return this.securityRulesProperty;
     }
 
     /**
-     * Set the securityRules value.
+     * Set the securityRulesProperty value.
      *
-     * @param securityRules the securityRules value to set
+     * @param securityRulesProperty the securityRulesProperty value to set.
      * @return the NetworkSecurityGroupInner object itself.
      */
-    public NetworkSecurityGroupInner withSecurityRules(List<SecurityRuleInner> securityRules) {
-        this.securityRules = securityRules;
+    public NetworkSecurityGroupInner withSecurityRulesProperty(List<SecurityRuleInner> securityRulesProperty) {
+        this.securityRulesProperty = securityRulesProperty;
         return this;
     }
 
     /**
-     * Get the defaultSecurityRules value.
+     * Get the defaultSecurityRulesProperty value.
      *
-     * @return the defaultSecurityRules value
+     * @return the defaultSecurityRulesProperty value.
      */
-    public List<SecurityRuleInner> defaultSecurityRules() {
-        return this.defaultSecurityRules;
+    public List<SecurityRuleInner> defaultSecurityRulesProperty() {
+        return this.defaultSecurityRulesProperty;
     }
 
     /**
-     * Set the defaultSecurityRules value.
+     * Set the defaultSecurityRulesProperty value.
      *
-     * @param defaultSecurityRules the defaultSecurityRules value to set
+     * @param defaultSecurityRulesProperty the defaultSecurityRulesProperty
+     * value to set.
      * @return the NetworkSecurityGroupInner object itself.
      */
-    public NetworkSecurityGroupInner withDefaultSecurityRules(List<SecurityRuleInner> defaultSecurityRules) {
-        this.defaultSecurityRules = defaultSecurityRules;
+    public NetworkSecurityGroupInner withDefaultSecurityRulesProperty(List<SecurityRuleInner> defaultSecurityRulesProperty) {
+        this.defaultSecurityRulesProperty = defaultSecurityRulesProperty;
         return this;
     }
 
     /**
-     * Get the networkInterfaces value.
+     * Get the networkInterfacesProperty value.
      *
-     * @return the networkInterfaces value
+     * @return the networkInterfacesProperty value.
      */
-    public List<NetworkInterfaceInner> networkInterfaces() {
-        return this.networkInterfaces;
+    public List<NetworkInterfaceInner> networkInterfacesProperty() {
+        return this.networkInterfacesProperty;
     }
 
     /**
-     * Get the subnets value.
+     * Get the subnetsProperty value.
      *
-     * @return the subnets value
+     * @return the subnetsProperty value.
      */
-    public List<SubnetInner> subnets() {
-        return this.subnets;
+    public List<SubnetInner> subnetsProperty() {
+        return this.subnetsProperty;
     }
 
     /**
      * Get the resourceGuid value.
      *
-     * @return the resourceGuid value
+     * @return the resourceGuid value.
      */
     public String resourceGuid() {
         return this.resourceGuid;
@@ -139,7 +139,7 @@ public class NetworkSecurityGroupInner extends Resource {
     /**
      * Set the resourceGuid value.
      *
-     * @param resourceGuid the resourceGuid value to set
+     * @param resourceGuid the resourceGuid value to set.
      * @return the NetworkSecurityGroupInner object itself.
      */
     public NetworkSecurityGroupInner withResourceGuid(String resourceGuid) {
@@ -150,7 +150,7 @@ public class NetworkSecurityGroupInner extends Resource {
     /**
      * Get the provisioningState value.
      *
-     * @return the provisioningState value
+     * @return the provisioningState value.
      */
     public String provisioningState() {
         return this.provisioningState;
@@ -159,7 +159,7 @@ public class NetworkSecurityGroupInner extends Resource {
     /**
      * Set the provisioningState value.
      *
-     * @param provisioningState the provisioningState value to set
+     * @param provisioningState the provisioningState value to set.
      * @return the NetworkSecurityGroupInner object itself.
      */
     public NetworkSecurityGroupInner withProvisioningState(String provisioningState) {
@@ -170,7 +170,7 @@ public class NetworkSecurityGroupInner extends Resource {
     /**
      * Get the etag value.
      *
-     * @return the etag value
+     * @return the etag value.
      */
     public String etag() {
         return this.etag;
@@ -179,7 +179,7 @@ public class NetworkSecurityGroupInner extends Resource {
     /**
      * Set the etag value.
      *
-     * @param etag the etag value to set
+     * @param etag the etag value to set.
      * @return the NetworkSecurityGroupInner object itself.
      */
     public NetworkSecurityGroupInner withEtag(String etag) {
@@ -190,7 +190,7 @@ public class NetworkSecurityGroupInner extends Resource {
     /**
      * Get the id value.
      *
-     * @return the id value
+     * @return the id value.
      */
     public String id() {
         return this.id;
@@ -199,12 +199,11 @@ public class NetworkSecurityGroupInner extends Resource {
     /**
      * Set the id value.
      *
-     * @param id the id value to set
+     * @param id the id value to set.
      * @return the NetworkSecurityGroupInner object itself.
      */
     public NetworkSecurityGroupInner withId(String id) {
         this.id = id;
         return this;
     }
-
 }

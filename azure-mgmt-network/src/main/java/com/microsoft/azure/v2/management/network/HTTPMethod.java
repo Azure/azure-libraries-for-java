@@ -8,21 +8,24 @@
 
 package com.microsoft.azure.v2.management.network;
 
-import java.util.Collection;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.microsoft.rest.ExpandableStringEnum;
+import com.microsoft.rest.v2.ExpandableStringEnum;
+import java.util.Collection;
 
 /**
  * Defines values for HTTPMethod.
  */
 public final class HTTPMethod extends ExpandableStringEnum<HTTPMethod> {
-    /** Static value Get for HTTPMethod. */
+    /**
+     * Static value Get for HTTPMethod.
+     */
     public static final HTTPMethod GET = fromString("Get");
 
     /**
      * Creates or finds a HTTPMethod from its string representation.
-     * @param name a name to look for
-     * @return the corresponding HTTPMethod
+     *
+     * @param name a name to look for.
+     * @return the corresponding HTTPMethod.
      */
     @JsonCreator
     public static HTTPMethod fromString(String name) {
@@ -30,7 +33,7 @@ public final class HTTPMethod extends ExpandableStringEnum<HTTPMethod> {
     }
 
     /**
-     * @return known HTTPMethod values
+     * @return known HTTPMethod values.
      */
     public static Collection<HTTPMethod> values() {
         return values(HTTPMethod.class);

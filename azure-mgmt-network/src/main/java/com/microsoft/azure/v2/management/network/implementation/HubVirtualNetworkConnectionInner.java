@@ -8,12 +8,11 @@
 
 package com.microsoft.azure.v2.management.network.implementation;
 
-import com.microsoft.azure.SubResource;
-import com.microsoft.azure.v2.management.network.ProvisioningState;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.rest.SkipParentValidation;
-import com.microsoft.azure.Resource;
+import com.microsoft.azure.v2.Resource;
+import com.microsoft.azure.v2.SubResource;
+import com.microsoft.azure.v2.management.network.ProvisioningState;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
 
 /**
  * HubVirtualNetworkConnection Resource.
@@ -62,7 +61,7 @@ public class HubVirtualNetworkConnectionInner extends Resource {
     /**
      * Get the remoteVirtualNetwork value.
      *
-     * @return the remoteVirtualNetwork value
+     * @return the remoteVirtualNetwork value.
      */
     public SubResource remoteVirtualNetwork() {
         return this.remoteVirtualNetwork;
@@ -71,7 +70,7 @@ public class HubVirtualNetworkConnectionInner extends Resource {
     /**
      * Set the remoteVirtualNetwork value.
      *
-     * @param remoteVirtualNetwork the remoteVirtualNetwork value to set
+     * @param remoteVirtualNetwork the remoteVirtualNetwork value to set.
      * @return the HubVirtualNetworkConnectionInner object itself.
      */
     public HubVirtualNetworkConnectionInner withRemoteVirtualNetwork(SubResource remoteVirtualNetwork) {
@@ -82,7 +81,7 @@ public class HubVirtualNetworkConnectionInner extends Resource {
     /**
      * Get the allowHubToRemoteVnetTransit value.
      *
-     * @return the allowHubToRemoteVnetTransit value
+     * @return the allowHubToRemoteVnetTransit value.
      */
     public Boolean allowHubToRemoteVnetTransit() {
         return this.allowHubToRemoteVnetTransit;
@@ -91,7 +90,8 @@ public class HubVirtualNetworkConnectionInner extends Resource {
     /**
      * Set the allowHubToRemoteVnetTransit value.
      *
-     * @param allowHubToRemoteVnetTransit the allowHubToRemoteVnetTransit value to set
+     * @param allowHubToRemoteVnetTransit the allowHubToRemoteVnetTransit value
+     * to set.
      * @return the HubVirtualNetworkConnectionInner object itself.
      */
     public HubVirtualNetworkConnectionInner withAllowHubToRemoteVnetTransit(Boolean allowHubToRemoteVnetTransit) {
@@ -102,7 +102,7 @@ public class HubVirtualNetworkConnectionInner extends Resource {
     /**
      * Get the allowRemoteVnetToUseHubVnetGateways value.
      *
-     * @return the allowRemoteVnetToUseHubVnetGateways value
+     * @return the allowRemoteVnetToUseHubVnetGateways value.
      */
     public Boolean allowRemoteVnetToUseHubVnetGateways() {
         return this.allowRemoteVnetToUseHubVnetGateways;
@@ -111,7 +111,8 @@ public class HubVirtualNetworkConnectionInner extends Resource {
     /**
      * Set the allowRemoteVnetToUseHubVnetGateways value.
      *
-     * @param allowRemoteVnetToUseHubVnetGateways the allowRemoteVnetToUseHubVnetGateways value to set
+     * @param allowRemoteVnetToUseHubVnetGateways the
+     * allowRemoteVnetToUseHubVnetGateways value to set.
      * @return the HubVirtualNetworkConnectionInner object itself.
      */
     public HubVirtualNetworkConnectionInner withAllowRemoteVnetToUseHubVnetGateways(Boolean allowRemoteVnetToUseHubVnetGateways) {
@@ -122,7 +123,7 @@ public class HubVirtualNetworkConnectionInner extends Resource {
     /**
      * Get the provisioningState value.
      *
-     * @return the provisioningState value
+     * @return the provisioningState value.
      */
     public ProvisioningState provisioningState() {
         return this.provisioningState;
@@ -131,7 +132,7 @@ public class HubVirtualNetworkConnectionInner extends Resource {
     /**
      * Set the provisioningState value.
      *
-     * @param provisioningState the provisioningState value to set
+     * @param provisioningState the provisioningState value to set.
      * @return the HubVirtualNetworkConnectionInner object itself.
      */
     public HubVirtualNetworkConnectionInner withProvisioningState(ProvisioningState provisioningState) {
@@ -142,7 +143,7 @@ public class HubVirtualNetworkConnectionInner extends Resource {
     /**
      * Get the etag value.
      *
-     * @return the etag value
+     * @return the etag value.
      */
     public String etag() {
         return this.etag;
@@ -151,7 +152,7 @@ public class HubVirtualNetworkConnectionInner extends Resource {
     /**
      * Get the id value.
      *
-     * @return the id value
+     * @return the id value.
      */
     public String id() {
         return this.id;
@@ -160,12 +161,11 @@ public class HubVirtualNetworkConnectionInner extends Resource {
     /**
      * Set the id value.
      *
-     * @param id the id value to set
+     * @param id the id value to set.
      * @return the HubVirtualNetworkConnectionInner object itself.
      */
     public HubVirtualNetworkConnectionInner withId(String id) {
         this.id = id;
         return this;
     }
-
 }

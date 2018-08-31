@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * List of properties of the device.
  */
-public class DeviceProperties {
+public final class DeviceProperties {
     /**
      * Name of the device Vendor.
      */
@@ -35,7 +35,7 @@ public class DeviceProperties {
     /**
      * Get the deviceVendor value.
      *
-     * @return the deviceVendor value
+     * @return the deviceVendor value.
      */
     public String deviceVendor() {
         return this.deviceVendor;
@@ -44,7 +44,7 @@ public class DeviceProperties {
     /**
      * Set the deviceVendor value.
      *
-     * @param deviceVendor the deviceVendor value to set
+     * @param deviceVendor the deviceVendor value to set.
      * @return the DeviceProperties object itself.
      */
     public DeviceProperties withDeviceVendor(String deviceVendor) {
@@ -55,7 +55,7 @@ public class DeviceProperties {
     /**
      * Get the deviceModel value.
      *
-     * @return the deviceModel value
+     * @return the deviceModel value.
      */
     public String deviceModel() {
         return this.deviceModel;
@@ -64,7 +64,7 @@ public class DeviceProperties {
     /**
      * Set the deviceModel value.
      *
-     * @param deviceModel the deviceModel value to set
+     * @param deviceModel the deviceModel value to set.
      * @return the DeviceProperties object itself.
      */
     public DeviceProperties withDeviceModel(String deviceModel) {
@@ -75,7 +75,7 @@ public class DeviceProperties {
     /**
      * Get the linkSpeedInMbps value.
      *
-     * @return the linkSpeedInMbps value
+     * @return the linkSpeedInMbps value.
      */
     public Integer linkSpeedInMbps() {
         return this.linkSpeedInMbps;
@@ -84,12 +84,11 @@ public class DeviceProperties {
     /**
      * Set the linkSpeedInMbps value.
      *
-     * @param linkSpeedInMbps the linkSpeedInMbps value to set
+     * @param linkSpeedInMbps the linkSpeedInMbps value to set.
      * @return the DeviceProperties object itself.
      */
     public DeviceProperties withLinkSpeedInMbps(Integer linkSpeedInMbps) {
         this.linkSpeedInMbps = linkSpeedInMbps;
         return this;
     }
-
 }

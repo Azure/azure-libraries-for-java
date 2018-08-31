@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Properties of the application rule protocol.
  */
-public class AzureFirewallApplicationRuleProtocol {
+public final class AzureFirewallApplicationRuleProtocol {
     /**
      * Protocol type. Possible values include: 'Http', 'Https'.
      */
@@ -30,7 +30,7 @@ public class AzureFirewallApplicationRuleProtocol {
     /**
      * Get the protocolType value.
      *
-     * @return the protocolType value
+     * @return the protocolType value.
      */
     public AzureFirewallApplicationRuleProtocolType protocolType() {
         return this.protocolType;
@@ -39,7 +39,7 @@ public class AzureFirewallApplicationRuleProtocol {
     /**
      * Set the protocolType value.
      *
-     * @param protocolType the protocolType value to set
+     * @param protocolType the protocolType value to set.
      * @return the AzureFirewallApplicationRuleProtocol object itself.
      */
     public AzureFirewallApplicationRuleProtocol withProtocolType(AzureFirewallApplicationRuleProtocolType protocolType) {
@@ -50,7 +50,7 @@ public class AzureFirewallApplicationRuleProtocol {
     /**
      * Get the port value.
      *
-     * @return the port value
+     * @return the port value.
      */
     public Integer port() {
         return this.port;
@@ -59,12 +59,11 @@ public class AzureFirewallApplicationRuleProtocol {
     /**
      * Set the port value.
      *
-     * @param port the port value to set
+     * @param port the port value to set.
      * @return the AzureFirewallApplicationRuleProtocol object itself.
      */
     public AzureFirewallApplicationRuleProtocol withPort(Integer port) {
         this.port = port;
         return this;
     }
-
 }

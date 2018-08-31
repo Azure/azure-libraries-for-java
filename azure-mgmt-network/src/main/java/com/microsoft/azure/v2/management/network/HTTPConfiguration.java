@@ -8,13 +8,13 @@
 
 package com.microsoft.azure.v2.management.network;
 
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 
 /**
  * HTTP configuration of the connectivity check.
  */
-public class HTTPConfiguration {
+public final class HTTPConfiguration {
     /**
      * HTTP method. Possible values include: 'Get'.
      */
@@ -36,7 +36,7 @@ public class HTTPConfiguration {
     /**
      * Get the method value.
      *
-     * @return the method value
+     * @return the method value.
      */
     public HTTPMethod method() {
         return this.method;
@@ -45,7 +45,7 @@ public class HTTPConfiguration {
     /**
      * Set the method value.
      *
-     * @param method the method value to set
+     * @param method the method value to set.
      * @return the HTTPConfiguration object itself.
      */
     public HTTPConfiguration withMethod(HTTPMethod method) {
@@ -56,7 +56,7 @@ public class HTTPConfiguration {
     /**
      * Get the headers value.
      *
-     * @return the headers value
+     * @return the headers value.
      */
     public List<HTTPHeader> headers() {
         return this.headers;
@@ -65,7 +65,7 @@ public class HTTPConfiguration {
     /**
      * Set the headers value.
      *
-     * @param headers the headers value to set
+     * @param headers the headers value to set.
      * @return the HTTPConfiguration object itself.
      */
     public HTTPConfiguration withHeaders(List<HTTPHeader> headers) {
@@ -76,7 +76,7 @@ public class HTTPConfiguration {
     /**
      * Get the validStatusCodes value.
      *
-     * @return the validStatusCodes value
+     * @return the validStatusCodes value.
      */
     public List<Integer> validStatusCodes() {
         return this.validStatusCodes;
@@ -85,12 +85,11 @@ public class HTTPConfiguration {
     /**
      * Set the validStatusCodes value.
      *
-     * @param validStatusCodes the validStatusCodes value to set
+     * @param validStatusCodes the validStatusCodes value to set.
      * @return the HTTPConfiguration object itself.
      */
     public HTTPConfiguration withValidStatusCodes(List<Integer> validStatusCodes) {
         this.validStatusCodes = validStatusCodes;
         return this;
     }
-
 }

@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Gateway routing details.
  */
-public class GatewayRoute {
+public final class GatewayRoute {
     /**
      * The gateway's local address.
      */
@@ -59,7 +59,7 @@ public class GatewayRoute {
     /**
      * Get the localAddress value.
      *
-     * @return the localAddress value
+     * @return the localAddress value.
      */
     public String localAddress() {
         return this.localAddress;
@@ -68,7 +68,7 @@ public class GatewayRoute {
     /**
      * Get the network value.
      *
-     * @return the network value
+     * @return the network value.
      */
     public String network() {
         return this.network;
@@ -77,7 +77,7 @@ public class GatewayRoute {
     /**
      * Get the nextHop value.
      *
-     * @return the nextHop value
+     * @return the nextHop value.
      */
     public String nextHop() {
         return this.nextHop;
@@ -86,7 +86,7 @@ public class GatewayRoute {
     /**
      * Get the sourcePeer value.
      *
-     * @return the sourcePeer value
+     * @return the sourcePeer value.
      */
     public String sourcePeer() {
         return this.sourcePeer;
@@ -95,7 +95,7 @@ public class GatewayRoute {
     /**
      * Get the origin value.
      *
-     * @return the origin value
+     * @return the origin value.
      */
     public String origin() {
         return this.origin;
@@ -104,7 +104,7 @@ public class GatewayRoute {
     /**
      * Get the asPath value.
      *
-     * @return the asPath value
+     * @return the asPath value.
      */
     public String asPath() {
         return this.asPath;
@@ -113,10 +113,9 @@ public class GatewayRoute {
     /**
      * Get the weight value.
      *
-     * @return the weight value
+     * @return the weight value.
      */
     public Integer weight() {
         return this.weight;
     }
-
 }

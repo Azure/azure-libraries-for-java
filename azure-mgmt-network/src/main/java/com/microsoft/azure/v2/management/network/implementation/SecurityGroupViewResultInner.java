@@ -8,38 +8,36 @@
 
 package com.microsoft.azure.v2.management.network.implementation;
 
-import java.util.List;
-import com.microsoft.azure.v2.management.network.SecurityGroupNetworkInterface;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 
 /**
  * The information about security rules applied to the specified VM.
  */
-public class SecurityGroupViewResultInner {
+public final class SecurityGroupViewResultInner {
     /**
      * List of network interfaces on the specified VM.
      */
     @JsonProperty(value = "networkInterfaces")
-    private List<SecurityGroupNetworkInterface> networkInterfaces;
+    private List<SecurityGroupNetworkInterfaceInner> networkInterfaces;
 
     /**
      * Get the networkInterfaces value.
      *
-     * @return the networkInterfaces value
+     * @return the networkInterfaces value.
      */
-    public List<SecurityGroupNetworkInterface> networkInterfaces() {
+    public List<SecurityGroupNetworkInterfaceInner> networkInterfaces() {
         return this.networkInterfaces;
     }
 
     /**
      * Set the networkInterfaces value.
      *
-     * @param networkInterfaces the networkInterfaces value to set
+     * @param networkInterfaces the networkInterfaces value to set.
      * @return the SecurityGroupViewResultInner object itself.
      */
-    public SecurityGroupViewResultInner withNetworkInterfaces(List<SecurityGroupNetworkInterface> networkInterfaces) {
+    public SecurityGroupViewResultInner withNetworkInterfaces(List<SecurityGroupNetworkInterfaceInner> networkInterfaces) {
         this.networkInterfaces = networkInterfaces;
         return this;
     }
-
 }

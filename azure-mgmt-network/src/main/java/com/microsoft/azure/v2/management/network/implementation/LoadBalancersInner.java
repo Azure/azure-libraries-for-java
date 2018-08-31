@@ -8,109 +8,144 @@
 
 package com.microsoft.azure.v2.management.network.implementation;
 
-import com.microsoft.azure.v2.management.resources.fluentcore.collection.InnerSupportsGet;
-import com.microsoft.azure.v2.management.resources.fluentcore.collection.InnerSupportsDelete;
-import com.microsoft.azure.v2.management.resources.fluentcore.collection.InnerSupportsListing;
-import retrofit2.Retrofit;
-import com.google.common.reflect.TypeToken;
-import com.microsoft.azure.AzureServiceFuture;
-import com.microsoft.azure.CloudException;
-import com.microsoft.azure.ListOperationCallback;
+import com.microsoft.azure.v2.AzureProxy;
+import com.microsoft.azure.v2.CloudException;
+import com.microsoft.azure.v2.OperationStatus;
+import com.microsoft.azure.v2.Page;
+import com.microsoft.azure.v2.PagedList;
 import com.microsoft.azure.v2.management.network.TagsObject;
-import com.microsoft.azure.Page;
-import com.microsoft.azure.PagedList;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import com.microsoft.rest.ServiceResponse;
-import com.microsoft.rest.Validator;
-import java.io.IOException;
-import java.util.List;
+import com.microsoft.azure.v2.management.resources.fluentcore.collection.InnerSupportsDelete;
+import com.microsoft.azure.v2.management.resources.fluentcore.collection.InnerSupportsGet;
+import com.microsoft.azure.v2.management.resources.fluentcore.collection.InnerSupportsListing;
+import com.microsoft.azure.v2.util.ServiceFutureUtil;
+import com.microsoft.rest.v2.BodyResponse;
+import com.microsoft.rest.v2.OperationDescription;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
+import com.microsoft.rest.v2.Validator;
+import com.microsoft.rest.v2.VoidResponse;
+import com.microsoft.rest.v2.annotations.BodyParam;
+import com.microsoft.rest.v2.annotations.DELETE;
+import com.microsoft.rest.v2.annotations.ExpectedResponses;
+import com.microsoft.rest.v2.annotations.GET;
+import com.microsoft.rest.v2.annotations.HeaderParam;
+import com.microsoft.rest.v2.annotations.Host;
+import com.microsoft.rest.v2.annotations.PATCH;
+import com.microsoft.rest.v2.annotations.PathParam;
+import com.microsoft.rest.v2.annotations.PUT;
+import com.microsoft.rest.v2.annotations.QueryParam;
+import com.microsoft.rest.v2.annotations.ResumeOperation;
+import com.microsoft.rest.v2.annotations.UnexpectedResponseExceptionType;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
+import io.reactivex.Single;
+import io.reactivex.annotations.NonNull;
+import java.util.HashMap;
 import java.util.Map;
-import okhttp3.ResponseBody;
-import retrofit2.http.Body;
-import retrofit2.http.GET;
-import retrofit2.http.Header;
-import retrofit2.http.Headers;
-import retrofit2.http.HTTP;
-import retrofit2.http.PATCH;
-import retrofit2.http.Path;
-import retrofit2.http.PUT;
-import retrofit2.http.Query;
-import retrofit2.http.Url;
-import retrofit2.Response;
-import rx.functions.Func1;
-import rx.Observable;
 
 /**
- * An instance of this class provides access to all the operations defined
- * in LoadBalancers.
+ * An instance of this class provides access to all the operations defined in
+ * LoadBalancers.
  */
-public class LoadBalancersInner implements InnerSupportsGet<LoadBalancerInner>, InnerSupportsDelete<Void>, InnerSupportsListing<LoadBalancerInner> {
-    /** The Retrofit service to perform REST calls. */
+public final class LoadBalancersInner implements InnerSupportsGet<LoadBalancerInner>, InnerSupportsDelete<Void>, InnerSupportsListing<LoadBalancerInner> {
+    /**
+     * The proxy service used to perform REST calls.
+     */
     private LoadBalancersService service;
-    /** The service client containing this operation class. */
+
+    /**
+     * The service client containing this operation class.
+     */
     private NetworkManagementClientImpl client;
 
     /**
      * Initializes an instance of LoadBalancersInner.
      *
-     * @param retrofit the Retrofit instance built from a Retrofit Builder.
      * @param client the instance of the service client containing this operation class.
      */
-    public LoadBalancersInner(Retrofit retrofit, NetworkManagementClientImpl client) {
-        this.service = retrofit.create(LoadBalancersService.class);
+    public LoadBalancersInner(NetworkManagementClientImpl client) {
+        this.service = AzureProxy.create(LoadBalancersService.class, client);
         this.client = client;
     }
 
     /**
-     * The interface defining all the services for LoadBalancers to be
-     * used by Retrofit to perform actually REST calls.
+     * The interface defining all the services for LoadBalancers to be used by
+     * the proxy service to perform REST calls.
      */
-    interface LoadBalancersService {
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.LoadBalancers delete" })
-        @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}", method = "DELETE", hasBody = true)
-        Observable<Response<ResponseBody>> delete(@Path("resourceGroupName") String resourceGroupName, @Path("loadBalancerName") String loadBalancerName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+    @Host("https://management.azure.com")
+    private interface LoadBalancersService {
+        @DELETE("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Observable<OperationStatus<Void>> beginDelete(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("loadBalancerName") String loadBalancerName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.LoadBalancers beginDelete" })
-        @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}", method = "DELETE", hasBody = true)
-        Observable<Response<ResponseBody>> beginDelete(@Path("resourceGroupName") String resourceGroupName, @Path("loadBalancerName") String loadBalancerName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @DELETE("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<VoidResponse> delete(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("loadBalancerName") String loadBalancerName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.LoadBalancers getByResourceGroup" })
+        @DELETE("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<Void>> resumeDelete(OperationDescription operationDescription);
+
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}")
-        Observable<Response<ResponseBody>> getByResourceGroup(@Path("resourceGroupName") String resourceGroupName, @Path("loadBalancerName") String loadBalancerName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Query("$expand") String expand, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<LoadBalancerInner>> getByResourceGroup(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("loadBalancerName") String loadBalancerName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @QueryParam("$expand") String expand, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.LoadBalancers createOrUpdate" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}")
-        Observable<Response<ResponseBody>> createOrUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("loadBalancerName") String loadBalancerName, @Path("subscriptionId") String subscriptionId, @Body LoadBalancerInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 201, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Observable<OperationStatus<LoadBalancerInner>> beginCreateOrUpdate(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("loadBalancerName") String loadBalancerName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json; charset=utf-8") LoadBalancerInner parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.LoadBalancers beginCreateOrUpdate" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}")
-        Observable<Response<ResponseBody>> beginCreateOrUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("loadBalancerName") String loadBalancerName, @Path("subscriptionId") String subscriptionId, @Body LoadBalancerInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 201, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<LoadBalancerInner>> createOrUpdate(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("loadBalancerName") String loadBalancerName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json; charset=utf-8") LoadBalancerInner parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.LoadBalancers updateTags" })
+        @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}")
+        @ExpectedResponses({200, 201, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<LoadBalancerInner>> resumeCreateOrUpdate(OperationDescription operationDescription);
+
         @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}")
-        Observable<Response<ResponseBody>> updateTags(@Path("resourceGroupName") String resourceGroupName, @Path("loadBalancerName") String loadBalancerName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body TagsObject parameters, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Observable<OperationStatus<LoadBalancerInner>> beginUpdateTags(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("loadBalancerName") String loadBalancerName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @BodyParam("application/json; charset=utf-8") TagsObject parameters);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.LoadBalancers beginUpdateTags" })
         @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}")
-        Observable<Response<ResponseBody>> beginUpdateTags(@Path("resourceGroupName") String resourceGroupName, @Path("loadBalancerName") String loadBalancerName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body TagsObject parameters, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<LoadBalancerInner>> updateTags(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("loadBalancerName") String loadBalancerName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @BodyParam("application/json; charset=utf-8") TagsObject parameters);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.LoadBalancers list" })
+        @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<LoadBalancerInner>> resumeUpdateTags(OperationDescription operationDescription);
+
         @GET("subscriptions/{subscriptionId}/providers/Microsoft.Network/loadBalancers")
-        Observable<Response<ResponseBody>> list(@Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl<LoadBalancerInner>>> list(@PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.LoadBalancers listByResourceGroup" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers")
-        Observable<Response<ResponseBody>> listByResourceGroup(@Path("resourceGroupName") String resourceGroupName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl<LoadBalancerInner>>> listByResourceGroup(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.LoadBalancers listNext" })
-        @GET
-        Observable<Response<ResponseBody>> listNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @GET("{nextUrl}")
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl<LoadBalancerInner>>> listAllNext(@PathParam(value = "nextUrl", encoded = true) String nextUrl, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.LoadBalancers listByResourceGroupNext" })
-        @GET
-        Observable<Response<ResponseBody>> listByResourceGroupNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
-
+        @GET("{nextUrl}")
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl<LoadBalancerInner>>> listNext(@PathParam(value = "nextUrl", encoded = true) String nextUrl, @HeaderParam("accept-language") String acceptLanguage);
     }
 
     /**
@@ -118,12 +153,12 @@ public class LoadBalancersInner implements InnerSupportsGet<LoadBalancerInner>, 
      *
      * @param resourceGroupName The name of the resource group.
      * @param loadBalancerName The name of the load balancer.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void delete(String resourceGroupName, String loadBalancerName) {
-        deleteWithServiceResponseAsync(resourceGroupName, loadBalancerName).toBlocking().last().body();
+    public void beginDelete(@NonNull String resourceGroupName, @NonNull String loadBalancerName) {
+        beginDeleteAsync(resourceGroupName, loadBalancerName).blockingLast();
     }
 
     /**
@@ -132,11 +167,11 @@ public class LoadBalancersInner implements InnerSupportsGet<LoadBalancerInner>, 
      * @param resourceGroupName The name of the resource group.
      * @param loadBalancerName The name of the load balancer.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;Void&gt; object.
      */
-    public ServiceFuture<Void> deleteAsync(String resourceGroupName, String loadBalancerName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(deleteWithServiceResponseAsync(resourceGroupName, loadBalancerName), serviceCallback);
+    public ServiceFuture<Void> beginDeleteAsync(@NonNull String resourceGroupName, @NonNull String loadBalancerName, ServiceCallback<Void> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginDeleteAsync(resourceGroupName, loadBalancerName), serviceCallback);
     }
 
     /**
@@ -144,27 +179,10 @@ public class LoadBalancersInner implements InnerSupportsGet<LoadBalancerInner>, 
      *
      * @param resourceGroupName The name of the resource group.
      * @param loadBalancerName The name of the load balancer.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<Void> deleteAsync(String resourceGroupName, String loadBalancerName) {
-        return deleteWithServiceResponseAsync(resourceGroupName, loadBalancerName).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Deletes the specified load balancer.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param loadBalancerName The name of the load balancer.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<Void>> deleteWithServiceResponseAsync(String resourceGroupName, String loadBalancerName) {
+    public Observable<OperationStatus<Void>> beginDeleteAsync(@NonNull String resourceGroupName, @NonNull String loadBalancerName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -175,8 +193,7 @@ public class LoadBalancersInner implements InnerSupportsGet<LoadBalancerInner>, 
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        Observable<Response<ResponseBody>> observable = service.delete(resourceGroupName, loadBalancerName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
+        return service.beginDelete(resourceGroupName, loadBalancerName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
     /**
@@ -184,12 +201,12 @@ public class LoadBalancersInner implements InnerSupportsGet<LoadBalancerInner>, 
      *
      * @param resourceGroupName The name of the resource group.
      * @param loadBalancerName The name of the load balancer.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void beginDelete(String resourceGroupName, String loadBalancerName) {
-        beginDeleteWithServiceResponseAsync(resourceGroupName, loadBalancerName).toBlocking().single().body();
+    public void delete(@NonNull String resourceGroupName, @NonNull String loadBalancerName) {
+        deleteAsync(resourceGroupName, loadBalancerName).blockingGet();
     }
 
     /**
@@ -198,11 +215,11 @@ public class LoadBalancersInner implements InnerSupportsGet<LoadBalancerInner>, 
      * @param resourceGroupName The name of the resource group.
      * @param loadBalancerName The name of the load balancer.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<Void> beginDeleteAsync(String resourceGroupName, String loadBalancerName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(beginDeleteWithServiceResponseAsync(resourceGroupName, loadBalancerName), serviceCallback);
+    public ServiceFuture<Void> deleteAsync(@NonNull String resourceGroupName, @NonNull String loadBalancerName, ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromBody(deleteAsync(resourceGroupName, loadBalancerName), serviceCallback);
     }
 
     /**
@@ -210,27 +227,10 @@ public class LoadBalancersInner implements InnerSupportsGet<LoadBalancerInner>, 
      *
      * @param resourceGroupName The name of the resource group.
      * @param loadBalancerName The name of the load balancer.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<Void> beginDeleteAsync(String resourceGroupName, String loadBalancerName) {
-        return beginDeleteWithServiceResponseAsync(resourceGroupName, loadBalancerName).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Deletes the specified load balancer.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param loadBalancerName The name of the load balancer.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
-     */
-    public Observable<ServiceResponse<Void>> beginDeleteWithServiceResponseAsync(String resourceGroupName, String loadBalancerName) {
+    public Single<VoidResponse> deleteWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String loadBalancerName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -241,27 +241,34 @@ public class LoadBalancersInner implements InnerSupportsGet<LoadBalancerInner>, 
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        return service.beginDelete(resourceGroupName, loadBalancerName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
-                @Override
-                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<Void> clientResponse = beginDeleteDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.delete(resourceGroupName, loadBalancerName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<Void> beginDeleteDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<Void>() { }.getType())
-                .register(202, new TypeToken<Void>() { }.getType())
-                .register(204, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Deletes the specified load balancer.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param loadBalancerName The name of the load balancer.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<Void> deleteAsync(@NonNull String resourceGroupName, @NonNull String loadBalancerName) {
+        return deleteWithRestResponseAsync(resourceGroupName, loadBalancerName)
+            .flatMapMaybe((VoidResponse res) -> Maybe.empty());
+    }
+
+    /**
+     * Deletes the specified load balancer. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<Void>> resumeDelete(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeDelete(operationDescription);
     }
 
     /**
@@ -269,13 +276,13 @@ public class LoadBalancersInner implements InnerSupportsGet<LoadBalancerInner>, 
      *
      * @param resourceGroupName The name of the resource group.
      * @param loadBalancerName The name of the load balancer.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the LoadBalancerInner object if successful.
      */
-    public LoadBalancerInner getByResourceGroup(String resourceGroupName, String loadBalancerName) {
-        return getByResourceGroupWithServiceResponseAsync(resourceGroupName, loadBalancerName).toBlocking().single().body();
+    public LoadBalancerInner getByResourceGroup(@NonNull String resourceGroupName, @NonNull String loadBalancerName) {
+        return getByResourceGroupAsync(resourceGroupName, loadBalancerName).blockingGet();
     }
 
     /**
@@ -284,11 +291,11 @@ public class LoadBalancersInner implements InnerSupportsGet<LoadBalancerInner>, 
      * @param resourceGroupName The name of the resource group.
      * @param loadBalancerName The name of the load balancer.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<LoadBalancerInner> getByResourceGroupAsync(String resourceGroupName, String loadBalancerName, final ServiceCallback<LoadBalancerInner> serviceCallback) {
-        return ServiceFuture.fromResponse(getByResourceGroupWithServiceResponseAsync(resourceGroupName, loadBalancerName), serviceCallback);
+    public ServiceFuture<LoadBalancerInner> getByResourceGroupAsync(@NonNull String resourceGroupName, @NonNull String loadBalancerName, ServiceCallback<LoadBalancerInner> serviceCallback) {
+        return ServiceFuture.fromBody(getByResourceGroupAsync(resourceGroupName, loadBalancerName), serviceCallback);
     }
 
     /**
@@ -296,27 +303,10 @@ public class LoadBalancersInner implements InnerSupportsGet<LoadBalancerInner>, 
      *
      * @param resourceGroupName The name of the resource group.
      * @param loadBalancerName The name of the load balancer.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the LoadBalancerInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<LoadBalancerInner> getByResourceGroupAsync(String resourceGroupName, String loadBalancerName) {
-        return getByResourceGroupWithServiceResponseAsync(resourceGroupName, loadBalancerName).map(new Func1<ServiceResponse<LoadBalancerInner>, LoadBalancerInner>() {
-            @Override
-            public LoadBalancerInner call(ServiceResponse<LoadBalancerInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Gets the specified load balancer.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param loadBalancerName The name of the load balancer.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the LoadBalancerInner object
-     */
-    public Observable<ServiceResponse<LoadBalancerInner>> getByResourceGroupWithServiceResponseAsync(String resourceGroupName, String loadBalancerName) {
+    public Single<BodyResponse<LoadBalancerInner>> getByResourceGroupWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String loadBalancerName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -328,18 +318,20 @@ public class LoadBalancersInner implements InnerSupportsGet<LoadBalancerInner>, 
         }
         final String apiVersion = "2018-06-01";
         final String expand = null;
-        return service.getByResourceGroup(resourceGroupName, loadBalancerName, this.client.subscriptionId(), apiVersion, expand, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<LoadBalancerInner>>>() {
-                @Override
-                public Observable<ServiceResponse<LoadBalancerInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<LoadBalancerInner> clientResponse = getByResourceGroupDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.getByResourceGroup(resourceGroupName, loadBalancerName, this.client.subscriptionId(), apiVersion, expand, this.client.acceptLanguage());
+    }
+
+    /**
+     * Gets the specified load balancer.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param loadBalancerName The name of the load balancer.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<LoadBalancerInner> getByResourceGroupAsync(@NonNull String resourceGroupName, @NonNull String loadBalancerName) {
+        return getByResourceGroupWithRestResponseAsync(resourceGroupName, loadBalancerName)
+            .flatMapMaybe((BodyResponse<LoadBalancerInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
@@ -348,13 +340,13 @@ public class LoadBalancersInner implements InnerSupportsGet<LoadBalancerInner>, 
      * @param resourceGroupName The name of the resource group.
      * @param loadBalancerName The name of the load balancer.
      * @param expand Expands referenced resources.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the LoadBalancerInner object if successful.
      */
-    public LoadBalancerInner getByResourceGroup(String resourceGroupName, String loadBalancerName, String expand) {
-        return getByResourceGroupWithServiceResponseAsync(resourceGroupName, loadBalancerName, expand).toBlocking().single().body();
+    public LoadBalancerInner getByResourceGroup(@NonNull String resourceGroupName, @NonNull String loadBalancerName, String expand) {
+        return getByResourceGroupAsync(resourceGroupName, loadBalancerName, expand).blockingGet();
     }
 
     /**
@@ -364,11 +356,11 @@ public class LoadBalancersInner implements InnerSupportsGet<LoadBalancerInner>, 
      * @param loadBalancerName The name of the load balancer.
      * @param expand Expands referenced resources.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<LoadBalancerInner> getByResourceGroupAsync(String resourceGroupName, String loadBalancerName, String expand, final ServiceCallback<LoadBalancerInner> serviceCallback) {
-        return ServiceFuture.fromResponse(getByResourceGroupWithServiceResponseAsync(resourceGroupName, loadBalancerName, expand), serviceCallback);
+    public ServiceFuture<LoadBalancerInner> getByResourceGroupAsync(@NonNull String resourceGroupName, @NonNull String loadBalancerName, String expand, ServiceCallback<LoadBalancerInner> serviceCallback) {
+        return ServiceFuture.fromBody(getByResourceGroupAsync(resourceGroupName, loadBalancerName, expand), serviceCallback);
     }
 
     /**
@@ -377,28 +369,10 @@ public class LoadBalancersInner implements InnerSupportsGet<LoadBalancerInner>, 
      * @param resourceGroupName The name of the resource group.
      * @param loadBalancerName The name of the load balancer.
      * @param expand Expands referenced resources.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the LoadBalancerInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<LoadBalancerInner> getByResourceGroupAsync(String resourceGroupName, String loadBalancerName, String expand) {
-        return getByResourceGroupWithServiceResponseAsync(resourceGroupName, loadBalancerName, expand).map(new Func1<ServiceResponse<LoadBalancerInner>, LoadBalancerInner>() {
-            @Override
-            public LoadBalancerInner call(ServiceResponse<LoadBalancerInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Gets the specified load balancer.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param loadBalancerName The name of the load balancer.
-     * @param expand Expands referenced resources.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the LoadBalancerInner object
-     */
-    public Observable<ServiceResponse<LoadBalancerInner>> getByResourceGroupWithServiceResponseAsync(String resourceGroupName, String loadBalancerName, String expand) {
+    public Single<BodyResponse<LoadBalancerInner>> getByResourceGroupWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String loadBalancerName, String expand) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -409,25 +383,21 @@ public class LoadBalancersInner implements InnerSupportsGet<LoadBalancerInner>, 
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        return service.getByResourceGroup(resourceGroupName, loadBalancerName, this.client.subscriptionId(), apiVersion, expand, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<LoadBalancerInner>>>() {
-                @Override
-                public Observable<ServiceResponse<LoadBalancerInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<LoadBalancerInner> clientResponse = getByResourceGroupDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.getByResourceGroup(resourceGroupName, loadBalancerName, this.client.subscriptionId(), apiVersion, expand, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<LoadBalancerInner> getByResourceGroupDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<LoadBalancerInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<LoadBalancerInner>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Gets the specified load balancer.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param loadBalancerName The name of the load balancer.
+     * @param expand Expands referenced resources.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<LoadBalancerInner> getByResourceGroupAsync(@NonNull String resourceGroupName, @NonNull String loadBalancerName, String expand) {
+        return getByResourceGroupWithRestResponseAsync(resourceGroupName, loadBalancerName, expand)
+            .flatMapMaybe((BodyResponse<LoadBalancerInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
@@ -436,13 +406,13 @@ public class LoadBalancersInner implements InnerSupportsGet<LoadBalancerInner>, 
      * @param resourceGroupName The name of the resource group.
      * @param loadBalancerName The name of the load balancer.
      * @param parameters Parameters supplied to the create or update load balancer operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the LoadBalancerInner object if successful.
      */
-    public LoadBalancerInner createOrUpdate(String resourceGroupName, String loadBalancerName, LoadBalancerInner parameters) {
-        return createOrUpdateWithServiceResponseAsync(resourceGroupName, loadBalancerName, parameters).toBlocking().last().body();
+    public LoadBalancerInner beginCreateOrUpdate(@NonNull String resourceGroupName, @NonNull String loadBalancerName, @NonNull LoadBalancerInner parameters) {
+        return beginCreateOrUpdateAsync(resourceGroupName, loadBalancerName, parameters).blockingLast().result();
     }
 
     /**
@@ -452,11 +422,11 @@ public class LoadBalancersInner implements InnerSupportsGet<LoadBalancerInner>, 
      * @param loadBalancerName The name of the load balancer.
      * @param parameters Parameters supplied to the create or update load balancer operation.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;LoadBalancerInner&gt; object.
      */
-    public ServiceFuture<LoadBalancerInner> createOrUpdateAsync(String resourceGroupName, String loadBalancerName, LoadBalancerInner parameters, final ServiceCallback<LoadBalancerInner> serviceCallback) {
-        return ServiceFuture.fromResponse(createOrUpdateWithServiceResponseAsync(resourceGroupName, loadBalancerName, parameters), serviceCallback);
+    public ServiceFuture<LoadBalancerInner> beginCreateOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String loadBalancerName, @NonNull LoadBalancerInner parameters, ServiceCallback<LoadBalancerInner> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginCreateOrUpdateAsync(resourceGroupName, loadBalancerName, parameters), serviceCallback);
     }
 
     /**
@@ -465,28 +435,10 @@ public class LoadBalancersInner implements InnerSupportsGet<LoadBalancerInner>, 
      * @param resourceGroupName The name of the resource group.
      * @param loadBalancerName The name of the load balancer.
      * @param parameters Parameters supplied to the create or update load balancer operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<LoadBalancerInner> createOrUpdateAsync(String resourceGroupName, String loadBalancerName, LoadBalancerInner parameters) {
-        return createOrUpdateWithServiceResponseAsync(resourceGroupName, loadBalancerName, parameters).map(new Func1<ServiceResponse<LoadBalancerInner>, LoadBalancerInner>() {
-            @Override
-            public LoadBalancerInner call(ServiceResponse<LoadBalancerInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Creates or updates a load balancer.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param loadBalancerName The name of the load balancer.
-     * @param parameters Parameters supplied to the create or update load balancer operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<LoadBalancerInner>> createOrUpdateWithServiceResponseAsync(String resourceGroupName, String loadBalancerName, LoadBalancerInner parameters) {
+    public Observable<OperationStatus<LoadBalancerInner>> beginCreateOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String loadBalancerName, @NonNull LoadBalancerInner parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -501,8 +453,7 @@ public class LoadBalancersInner implements InnerSupportsGet<LoadBalancerInner>, 
         }
         Validator.validate(parameters);
         final String apiVersion = "2018-06-01";
-        Observable<Response<ResponseBody>> observable = service.createOrUpdate(resourceGroupName, loadBalancerName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<LoadBalancerInner>() { }.getType());
+        return service.beginCreateOrUpdate(resourceGroupName, loadBalancerName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage());
     }
 
     /**
@@ -511,13 +462,13 @@ public class LoadBalancersInner implements InnerSupportsGet<LoadBalancerInner>, 
      * @param resourceGroupName The name of the resource group.
      * @param loadBalancerName The name of the load balancer.
      * @param parameters Parameters supplied to the create or update load balancer operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the LoadBalancerInner object if successful.
      */
-    public LoadBalancerInner beginCreateOrUpdate(String resourceGroupName, String loadBalancerName, LoadBalancerInner parameters) {
-        return beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, loadBalancerName, parameters).toBlocking().single().body();
+    public LoadBalancerInner createOrUpdate(@NonNull String resourceGroupName, @NonNull String loadBalancerName, @NonNull LoadBalancerInner parameters) {
+        return createOrUpdateAsync(resourceGroupName, loadBalancerName, parameters).blockingGet();
     }
 
     /**
@@ -527,11 +478,11 @@ public class LoadBalancersInner implements InnerSupportsGet<LoadBalancerInner>, 
      * @param loadBalancerName The name of the load balancer.
      * @param parameters Parameters supplied to the create or update load balancer operation.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<LoadBalancerInner> beginCreateOrUpdateAsync(String resourceGroupName, String loadBalancerName, LoadBalancerInner parameters, final ServiceCallback<LoadBalancerInner> serviceCallback) {
-        return ServiceFuture.fromResponse(beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, loadBalancerName, parameters), serviceCallback);
+    public ServiceFuture<LoadBalancerInner> createOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String loadBalancerName, @NonNull LoadBalancerInner parameters, ServiceCallback<LoadBalancerInner> serviceCallback) {
+        return ServiceFuture.fromBody(createOrUpdateAsync(resourceGroupName, loadBalancerName, parameters), serviceCallback);
     }
 
     /**
@@ -540,28 +491,10 @@ public class LoadBalancersInner implements InnerSupportsGet<LoadBalancerInner>, 
      * @param resourceGroupName The name of the resource group.
      * @param loadBalancerName The name of the load balancer.
      * @param parameters Parameters supplied to the create or update load balancer operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the LoadBalancerInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<LoadBalancerInner> beginCreateOrUpdateAsync(String resourceGroupName, String loadBalancerName, LoadBalancerInner parameters) {
-        return beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, loadBalancerName, parameters).map(new Func1<ServiceResponse<LoadBalancerInner>, LoadBalancerInner>() {
-            @Override
-            public LoadBalancerInner call(ServiceResponse<LoadBalancerInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Creates or updates a load balancer.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param loadBalancerName The name of the load balancer.
-     * @param parameters Parameters supplied to the create or update load balancer operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the LoadBalancerInner object
-     */
-    public Observable<ServiceResponse<LoadBalancerInner>> beginCreateOrUpdateWithServiceResponseAsync(String resourceGroupName, String loadBalancerName, LoadBalancerInner parameters) {
+    public Single<BodyResponse<LoadBalancerInner>> createOrUpdateWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String loadBalancerName, @NonNull LoadBalancerInner parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -576,26 +509,35 @@ public class LoadBalancersInner implements InnerSupportsGet<LoadBalancerInner>, 
         }
         Validator.validate(parameters);
         final String apiVersion = "2018-06-01";
-        return service.beginCreateOrUpdate(resourceGroupName, loadBalancerName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<LoadBalancerInner>>>() {
-                @Override
-                public Observable<ServiceResponse<LoadBalancerInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<LoadBalancerInner> clientResponse = beginCreateOrUpdateDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.createOrUpdate(resourceGroupName, loadBalancerName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<LoadBalancerInner> beginCreateOrUpdateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<LoadBalancerInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<LoadBalancerInner>() { }.getType())
-                .register(201, new TypeToken<LoadBalancerInner>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Creates or updates a load balancer.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param loadBalancerName The name of the load balancer.
+     * @param parameters Parameters supplied to the create or update load balancer operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<LoadBalancerInner> createOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String loadBalancerName, @NonNull LoadBalancerInner parameters) {
+        return createOrUpdateWithRestResponseAsync(resourceGroupName, loadBalancerName, parameters)
+            .flatMapMaybe((BodyResponse<LoadBalancerInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
+    }
+
+    /**
+     * Creates or updates a load balancer. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<LoadBalancerInner>> resumeCreateOrUpdate(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeCreateOrUpdate(operationDescription);
     }
 
     /**
@@ -603,13 +545,13 @@ public class LoadBalancersInner implements InnerSupportsGet<LoadBalancerInner>, 
      *
      * @param resourceGroupName The name of the resource group.
      * @param loadBalancerName The name of the load balancer.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the LoadBalancerInner object if successful.
      */
-    public LoadBalancerInner updateTags(String resourceGroupName, String loadBalancerName) {
-        return updateTagsWithServiceResponseAsync(resourceGroupName, loadBalancerName).toBlocking().last().body();
+    public LoadBalancerInner beginUpdateTags(@NonNull String resourceGroupName, @NonNull String loadBalancerName) {
+        return beginUpdateTagsAsync(resourceGroupName, loadBalancerName).blockingLast().result();
     }
 
     /**
@@ -618,11 +560,11 @@ public class LoadBalancersInner implements InnerSupportsGet<LoadBalancerInner>, 
      * @param resourceGroupName The name of the resource group.
      * @param loadBalancerName The name of the load balancer.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;LoadBalancerInner&gt; object.
      */
-    public ServiceFuture<LoadBalancerInner> updateTagsAsync(String resourceGroupName, String loadBalancerName, final ServiceCallback<LoadBalancerInner> serviceCallback) {
-        return ServiceFuture.fromResponse(updateTagsWithServiceResponseAsync(resourceGroupName, loadBalancerName), serviceCallback);
+    public ServiceFuture<LoadBalancerInner> beginUpdateTagsAsync(@NonNull String resourceGroupName, @NonNull String loadBalancerName, ServiceCallback<LoadBalancerInner> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginUpdateTagsAsync(resourceGroupName, loadBalancerName), serviceCallback);
     }
 
     /**
@@ -630,27 +572,10 @@ public class LoadBalancersInner implements InnerSupportsGet<LoadBalancerInner>, 
      *
      * @param resourceGroupName The name of the resource group.
      * @param loadBalancerName The name of the load balancer.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<LoadBalancerInner> updateTagsAsync(String resourceGroupName, String loadBalancerName) {
-        return updateTagsWithServiceResponseAsync(resourceGroupName, loadBalancerName).map(new Func1<ServiceResponse<LoadBalancerInner>, LoadBalancerInner>() {
-            @Override
-            public LoadBalancerInner call(ServiceResponse<LoadBalancerInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Updates a load balancer tags.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param loadBalancerName The name of the load balancer.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<LoadBalancerInner>> updateTagsWithServiceResponseAsync(String resourceGroupName, String loadBalancerName) {
+    public Observable<OperationStatus<LoadBalancerInner>> beginUpdateTagsAsync(@NonNull String resourceGroupName, @NonNull String loadBalancerName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -664,22 +589,22 @@ public class LoadBalancersInner implements InnerSupportsGet<LoadBalancerInner>, 
         final Map<String, String> tags = null;
         TagsObject parameters = new TagsObject();
         parameters.withTags(null);
-        Observable<Response<ResponseBody>> observable = service.updateTags(resourceGroupName, loadBalancerName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent());
-        return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<LoadBalancerInner>() { }.getType());
+        return service.beginUpdateTags(resourceGroupName, loadBalancerName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters);
     }
+
     /**
      * Updates a load balancer tags.
      *
      * @param resourceGroupName The name of the resource group.
      * @param loadBalancerName The name of the load balancer.
      * @param tags Resource tags.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the LoadBalancerInner object if successful.
      */
-    public LoadBalancerInner updateTags(String resourceGroupName, String loadBalancerName, Map<String, String> tags) {
-        return updateTagsWithServiceResponseAsync(resourceGroupName, loadBalancerName, tags).toBlocking().last().body();
+    public LoadBalancerInner beginUpdateTags(@NonNull String resourceGroupName, @NonNull String loadBalancerName, Map<String, String> tags) {
+        return beginUpdateTagsAsync(resourceGroupName, loadBalancerName, tags).blockingLast().result();
     }
 
     /**
@@ -689,11 +614,11 @@ public class LoadBalancersInner implements InnerSupportsGet<LoadBalancerInner>, 
      * @param loadBalancerName The name of the load balancer.
      * @param tags Resource tags.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;LoadBalancerInner&gt; object.
      */
-    public ServiceFuture<LoadBalancerInner> updateTagsAsync(String resourceGroupName, String loadBalancerName, Map<String, String> tags, final ServiceCallback<LoadBalancerInner> serviceCallback) {
-        return ServiceFuture.fromResponse(updateTagsWithServiceResponseAsync(resourceGroupName, loadBalancerName, tags), serviceCallback);
+    public ServiceFuture<LoadBalancerInner> beginUpdateTagsAsync(@NonNull String resourceGroupName, @NonNull String loadBalancerName, Map<String, String> tags, ServiceCallback<LoadBalancerInner> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginUpdateTagsAsync(resourceGroupName, loadBalancerName, tags), serviceCallback);
     }
 
     /**
@@ -702,28 +627,10 @@ public class LoadBalancersInner implements InnerSupportsGet<LoadBalancerInner>, 
      * @param resourceGroupName The name of the resource group.
      * @param loadBalancerName The name of the load balancer.
      * @param tags Resource tags.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<LoadBalancerInner> updateTagsAsync(String resourceGroupName, String loadBalancerName, Map<String, String> tags) {
-        return updateTagsWithServiceResponseAsync(resourceGroupName, loadBalancerName, tags).map(new Func1<ServiceResponse<LoadBalancerInner>, LoadBalancerInner>() {
-            @Override
-            public LoadBalancerInner call(ServiceResponse<LoadBalancerInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Updates a load balancer tags.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param loadBalancerName The name of the load balancer.
-     * @param tags Resource tags.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<LoadBalancerInner>> updateTagsWithServiceResponseAsync(String resourceGroupName, String loadBalancerName, Map<String, String> tags) {
+    public Observable<OperationStatus<LoadBalancerInner>> beginUpdateTagsAsync(@NonNull String resourceGroupName, @NonNull String loadBalancerName, Map<String, String> tags) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -737,8 +644,7 @@ public class LoadBalancersInner implements InnerSupportsGet<LoadBalancerInner>, 
         final String apiVersion = "2018-06-01";
         TagsObject parameters = new TagsObject();
         parameters.withTags(tags);
-        Observable<Response<ResponseBody>> observable = service.updateTags(resourceGroupName, loadBalancerName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent());
-        return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<LoadBalancerInner>() { }.getType());
+        return service.beginUpdateTags(resourceGroupName, loadBalancerName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters);
     }
 
     /**
@@ -746,13 +652,13 @@ public class LoadBalancersInner implements InnerSupportsGet<LoadBalancerInner>, 
      *
      * @param resourceGroupName The name of the resource group.
      * @param loadBalancerName The name of the load balancer.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the LoadBalancerInner object if successful.
      */
-    public LoadBalancerInner beginUpdateTags(String resourceGroupName, String loadBalancerName) {
-        return beginUpdateTagsWithServiceResponseAsync(resourceGroupName, loadBalancerName).toBlocking().single().body();
+    public LoadBalancerInner updateTags(@NonNull String resourceGroupName, @NonNull String loadBalancerName) {
+        return updateTagsAsync(resourceGroupName, loadBalancerName).blockingGet();
     }
 
     /**
@@ -761,11 +667,11 @@ public class LoadBalancersInner implements InnerSupportsGet<LoadBalancerInner>, 
      * @param resourceGroupName The name of the resource group.
      * @param loadBalancerName The name of the load balancer.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<LoadBalancerInner> beginUpdateTagsAsync(String resourceGroupName, String loadBalancerName, final ServiceCallback<LoadBalancerInner> serviceCallback) {
-        return ServiceFuture.fromResponse(beginUpdateTagsWithServiceResponseAsync(resourceGroupName, loadBalancerName), serviceCallback);
+    public ServiceFuture<LoadBalancerInner> updateTagsAsync(@NonNull String resourceGroupName, @NonNull String loadBalancerName, ServiceCallback<LoadBalancerInner> serviceCallback) {
+        return ServiceFuture.fromBody(updateTagsAsync(resourceGroupName, loadBalancerName), serviceCallback);
     }
 
     /**
@@ -773,27 +679,10 @@ public class LoadBalancersInner implements InnerSupportsGet<LoadBalancerInner>, 
      *
      * @param resourceGroupName The name of the resource group.
      * @param loadBalancerName The name of the load balancer.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the LoadBalancerInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<LoadBalancerInner> beginUpdateTagsAsync(String resourceGroupName, String loadBalancerName) {
-        return beginUpdateTagsWithServiceResponseAsync(resourceGroupName, loadBalancerName).map(new Func1<ServiceResponse<LoadBalancerInner>, LoadBalancerInner>() {
-            @Override
-            public LoadBalancerInner call(ServiceResponse<LoadBalancerInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Updates a load balancer tags.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param loadBalancerName The name of the load balancer.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the LoadBalancerInner object
-     */
-    public Observable<ServiceResponse<LoadBalancerInner>> beginUpdateTagsWithServiceResponseAsync(String resourceGroupName, String loadBalancerName) {
+    public Single<BodyResponse<LoadBalancerInner>> updateTagsWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String loadBalancerName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -807,18 +696,20 @@ public class LoadBalancersInner implements InnerSupportsGet<LoadBalancerInner>, 
         final Map<String, String> tags = null;
         TagsObject parameters = new TagsObject();
         parameters.withTags(null);
-        return service.beginUpdateTags(resourceGroupName, loadBalancerName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<LoadBalancerInner>>>() {
-                @Override
-                public Observable<ServiceResponse<LoadBalancerInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<LoadBalancerInner> clientResponse = beginUpdateTagsDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.updateTags(resourceGroupName, loadBalancerName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters);
+    }
+
+    /**
+     * Updates a load balancer tags.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param loadBalancerName The name of the load balancer.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<LoadBalancerInner> updateTagsAsync(@NonNull String resourceGroupName, @NonNull String loadBalancerName) {
+        return updateTagsWithRestResponseAsync(resourceGroupName, loadBalancerName)
+            .flatMapMaybe((BodyResponse<LoadBalancerInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
@@ -827,13 +718,13 @@ public class LoadBalancersInner implements InnerSupportsGet<LoadBalancerInner>, 
      * @param resourceGroupName The name of the resource group.
      * @param loadBalancerName The name of the load balancer.
      * @param tags Resource tags.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the LoadBalancerInner object if successful.
      */
-    public LoadBalancerInner beginUpdateTags(String resourceGroupName, String loadBalancerName, Map<String, String> tags) {
-        return beginUpdateTagsWithServiceResponseAsync(resourceGroupName, loadBalancerName, tags).toBlocking().single().body();
+    public LoadBalancerInner updateTags(@NonNull String resourceGroupName, @NonNull String loadBalancerName, Map<String, String> tags) {
+        return updateTagsAsync(resourceGroupName, loadBalancerName, tags).blockingGet();
     }
 
     /**
@@ -843,11 +734,11 @@ public class LoadBalancersInner implements InnerSupportsGet<LoadBalancerInner>, 
      * @param loadBalancerName The name of the load balancer.
      * @param tags Resource tags.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<LoadBalancerInner> beginUpdateTagsAsync(String resourceGroupName, String loadBalancerName, Map<String, String> tags, final ServiceCallback<LoadBalancerInner> serviceCallback) {
-        return ServiceFuture.fromResponse(beginUpdateTagsWithServiceResponseAsync(resourceGroupName, loadBalancerName, tags), serviceCallback);
+    public ServiceFuture<LoadBalancerInner> updateTagsAsync(@NonNull String resourceGroupName, @NonNull String loadBalancerName, Map<String, String> tags, ServiceCallback<LoadBalancerInner> serviceCallback) {
+        return ServiceFuture.fromBody(updateTagsAsync(resourceGroupName, loadBalancerName, tags), serviceCallback);
     }
 
     /**
@@ -856,28 +747,10 @@ public class LoadBalancersInner implements InnerSupportsGet<LoadBalancerInner>, 
      * @param resourceGroupName The name of the resource group.
      * @param loadBalancerName The name of the load balancer.
      * @param tags Resource tags.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the LoadBalancerInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<LoadBalancerInner> beginUpdateTagsAsync(String resourceGroupName, String loadBalancerName, Map<String, String> tags) {
-        return beginUpdateTagsWithServiceResponseAsync(resourceGroupName, loadBalancerName, tags).map(new Func1<ServiceResponse<LoadBalancerInner>, LoadBalancerInner>() {
-            @Override
-            public LoadBalancerInner call(ServiceResponse<LoadBalancerInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Updates a load balancer tags.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param loadBalancerName The name of the load balancer.
-     * @param tags Resource tags.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the LoadBalancerInner object
-     */
-    public Observable<ServiceResponse<LoadBalancerInner>> beginUpdateTagsWithServiceResponseAsync(String resourceGroupName, String loadBalancerName, Map<String, String> tags) {
+    public Single<BodyResponse<LoadBalancerInner>> updateTagsWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String loadBalancerName, Map<String, String> tags) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -891,41 +764,50 @@ public class LoadBalancersInner implements InnerSupportsGet<LoadBalancerInner>, 
         final String apiVersion = "2018-06-01";
         TagsObject parameters = new TagsObject();
         parameters.withTags(tags);
-        return service.beginUpdateTags(resourceGroupName, loadBalancerName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<LoadBalancerInner>>>() {
-                @Override
-                public Observable<ServiceResponse<LoadBalancerInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<LoadBalancerInner> clientResponse = beginUpdateTagsDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.updateTags(resourceGroupName, loadBalancerName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters);
     }
 
-    private ServiceResponse<LoadBalancerInner> beginUpdateTagsDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<LoadBalancerInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<LoadBalancerInner>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Updates a load balancer tags.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param loadBalancerName The name of the load balancer.
+     * @param tags Resource tags.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<LoadBalancerInner> updateTagsAsync(@NonNull String resourceGroupName, @NonNull String loadBalancerName, Map<String, String> tags) {
+        return updateTagsWithRestResponseAsync(resourceGroupName, loadBalancerName, tags)
+            .flatMapMaybe((BodyResponse<LoadBalancerInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
+    }
+
+    /**
+     * Updates a load balancer tags. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<LoadBalancerInner>> resumeUpdateTags(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeUpdateTags(operationDescription);
     }
 
     /**
      * Gets all the load balancers in a subscription.
      *
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;LoadBalancerInner&gt; object if successful.
      */
     public PagedList<LoadBalancerInner> list() {
-        ServiceResponse<Page<LoadBalancerInner>> response = listSinglePageAsync().toBlocking().single();
-        return new PagedList<LoadBalancerInner>(response.body()) {
+        Page<LoadBalancerInner> response = listSinglePageAsync().blockingGet();
+        return new PagedList<LoadBalancerInner>(response) {
             @Override
             public Page<LoadBalancerInner> nextPage(String nextPageLink) {
-                return listNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listAllNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -933,105 +815,49 @@ public class LoadBalancersInner implements InnerSupportsGet<LoadBalancerInner>, 
     /**
      * Gets all the load balancers in a subscription.
      *
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<List<LoadBalancerInner>> listAsync(final ListOperationCallback<LoadBalancerInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listSinglePageAsync(),
-            new Func1<String, Observable<ServiceResponse<Page<LoadBalancerInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<LoadBalancerInner>>> call(String nextPageLink) {
-                    return listNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets all the load balancers in a subscription.
-     *
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;LoadBalancerInner&gt; object
+     * @return the observable to the PagedList&lt;LoadBalancerInner&gt; object.
      */
     public Observable<Page<LoadBalancerInner>> listAsync() {
-        return listWithServiceResponseAsync()
-            .map(new Func1<ServiceResponse<Page<LoadBalancerInner>>, Page<LoadBalancerInner>>() {
-                @Override
-                public Page<LoadBalancerInner> call(ServiceResponse<Page<LoadBalancerInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets all the load balancers in a subscription.
-     *
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;LoadBalancerInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<LoadBalancerInner>>> listWithServiceResponseAsync() {
         return listSinglePageAsync()
-            .concatMap(new Func1<ServiceResponse<Page<LoadBalancerInner>>, Observable<ServiceResponse<Page<LoadBalancerInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<LoadBalancerInner>>> call(ServiceResponse<Page<LoadBalancerInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<LoadBalancerInner> page) -> {
+                String nextPageLink = page.nextPageLink();
+                if (nextPageLink == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listAllNextAsync(nextPageLink));
             });
     }
 
     /**
      * Gets all the load balancers in a subscription.
      *
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;LoadBalancerInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @return the Single&lt;Page&lt;LoadBalancerInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<LoadBalancerInner>>> listSinglePageAsync() {
+    public Single<Page<LoadBalancerInner>> listSinglePageAsync() {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        return service.list(this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<LoadBalancerInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<LoadBalancerInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<LoadBalancerInner>> result = listDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<LoadBalancerInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl<LoadBalancerInner>> listDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<LoadBalancerInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<LoadBalancerInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+        return service.list(this.client.subscriptionId(), apiVersion, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl<LoadBalancerInner>> res) -> res.body());
     }
 
     /**
      * Gets all the load balancers in a resource group.
      *
      * @param resourceGroupName The name of the resource group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;LoadBalancerInner&gt; object if successful.
      */
-    public PagedList<LoadBalancerInner> listByResourceGroup(final String resourceGroupName) {
-        ServiceResponse<Page<LoadBalancerInner>> response = listByResourceGroupSinglePageAsync(resourceGroupName).toBlocking().single();
-        return new PagedList<LoadBalancerInner>(response.body()) {
+    public PagedList<LoadBalancerInner> listByResourceGroup(@NonNull String resourceGroupName) {
+        Page<LoadBalancerInner> response = listByResourceGroupSinglePageAsync(resourceGroupName).blockingGet();
+        return new PagedList<LoadBalancerInner>(response) {
             @Override
             public Page<LoadBalancerInner> nextPage(String nextPageLink) {
-                return listByResourceGroupNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -1040,68 +866,29 @@ public class LoadBalancersInner implements InnerSupportsGet<LoadBalancerInner>, 
      * Gets all the load balancers in a resource group.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;LoadBalancerInner&gt; object.
      */
-    public ServiceFuture<List<LoadBalancerInner>> listByResourceGroupAsync(final String resourceGroupName, final ListOperationCallback<LoadBalancerInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listByResourceGroupSinglePageAsync(resourceGroupName),
-            new Func1<String, Observable<ServiceResponse<Page<LoadBalancerInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<LoadBalancerInner>>> call(String nextPageLink) {
-                    return listByResourceGroupNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets all the load balancers in a resource group.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;LoadBalancerInner&gt; object
-     */
-    public Observable<Page<LoadBalancerInner>> listByResourceGroupAsync(final String resourceGroupName) {
-        return listByResourceGroupWithServiceResponseAsync(resourceGroupName)
-            .map(new Func1<ServiceResponse<Page<LoadBalancerInner>>, Page<LoadBalancerInner>>() {
-                @Override
-                public Page<LoadBalancerInner> call(ServiceResponse<Page<LoadBalancerInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets all the load balancers in a resource group.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;LoadBalancerInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<LoadBalancerInner>>> listByResourceGroupWithServiceResponseAsync(final String resourceGroupName) {
+    public Observable<Page<LoadBalancerInner>> listByResourceGroupAsync(@NonNull String resourceGroupName) {
         return listByResourceGroupSinglePageAsync(resourceGroupName)
-            .concatMap(new Func1<ServiceResponse<Page<LoadBalancerInner>>, Observable<ServiceResponse<Page<LoadBalancerInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<LoadBalancerInner>>> call(ServiceResponse<Page<LoadBalancerInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listByResourceGroupNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<LoadBalancerInner> page) -> {
+                String nextPageLink = page.nextPageLink();
+                if (nextPageLink == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listNextAsync(nextPageLink));
             });
     }
 
     /**
      * Gets all the load balancers in a resource group.
      *
-    ServiceResponse<PageImpl<LoadBalancerInner>> * @param resourceGroupName The name of the resource group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;LoadBalancerInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param resourceGroupName The name of the resource group.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;LoadBalancerInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<LoadBalancerInner>>> listByResourceGroupSinglePageAsync(final String resourceGroupName) {
+    public Single<Page<LoadBalancerInner>> listByResourceGroupSinglePageAsync(@NonNull String resourceGroupName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -1109,42 +896,25 @@ public class LoadBalancersInner implements InnerSupportsGet<LoadBalancerInner>, 
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        return service.listByResourceGroup(resourceGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<LoadBalancerInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<LoadBalancerInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<LoadBalancerInner>> result = listByResourceGroupDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<LoadBalancerInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl<LoadBalancerInner>> listByResourceGroupDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<LoadBalancerInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<LoadBalancerInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+        return service.listByResourceGroup(resourceGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl<LoadBalancerInner>> res) -> res.body());
     }
 
     /**
      * Gets all the load balancers in a subscription.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;LoadBalancerInner&gt; object if successful.
      */
-    public PagedList<LoadBalancerInner> listNext(final String nextPageLink) {
-        ServiceResponse<Page<LoadBalancerInner>> response = listNextSinglePageAsync(nextPageLink).toBlocking().single();
-        return new PagedList<LoadBalancerInner>(response.body()) {
+    public PagedList<LoadBalancerInner> listAllNext(@NonNull String nextPageLink) {
+        Page<LoadBalancerInner> response = listAllNextSinglePageAsync(nextPageLink).blockingGet();
+        return new PagedList<LoadBalancerInner>(response) {
             @Override
             public Page<LoadBalancerInner> nextPage(String nextPageLink) {
-                return listNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listAllNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -1153,37 +923,18 @@ public class LoadBalancersInner implements InnerSupportsGet<LoadBalancerInner>, 
      * Gets all the load balancers in a subscription.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;LoadBalancerInner&gt; object.
      */
-    public ServiceFuture<List<LoadBalancerInner>> listNextAsync(final String nextPageLink, final ServiceFuture<List<LoadBalancerInner>> serviceFuture, final ListOperationCallback<LoadBalancerInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listNextSinglePageAsync(nextPageLink),
-            new Func1<String, Observable<ServiceResponse<Page<LoadBalancerInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<LoadBalancerInner>>> call(String nextPageLink) {
-                    return listNextSinglePageAsync(nextPageLink);
+    public Observable<Page<LoadBalancerInner>> listAllNextAsync(@NonNull String nextPageLink) {
+        return listAllNextSinglePageAsync(nextPageLink)
+            .toObservable()
+            .concatMap((Page<LoadBalancerInner> page) -> {
+                String nextPageLink1 = page.nextPageLink();
+                if (nextPageLink1 == null) {
+                    return Observable.just(page);
                 }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets all the load balancers in a subscription.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;LoadBalancerInner&gt; object
-     */
-    public Observable<Page<LoadBalancerInner>> listNextAsync(final String nextPageLink) {
-        return listNextWithServiceResponseAsync(nextPageLink)
-            .map(new Func1<ServiceResponse<Page<LoadBalancerInner>>, Page<LoadBalancerInner>>() {
-                @Override
-                public Page<LoadBalancerInner> call(ServiceResponse<Page<LoadBalancerInner>> response) {
-                    return response.body();
-                }
+                return Observable.just(page).concatWith(listAllNextAsync(nextPageLink1));
             });
     }
 
@@ -1191,165 +942,69 @@ public class LoadBalancersInner implements InnerSupportsGet<LoadBalancerInner>, 
      * Gets all the load balancers in a subscription.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;LoadBalancerInner&gt; object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;LoadBalancerInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<LoadBalancerInner>>> listNextWithServiceResponseAsync(final String nextPageLink) {
+    public Single<Page<LoadBalancerInner>> listAllNextSinglePageAsync(@NonNull String nextPageLink) {
+        if (nextPageLink == null) {
+            throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
+        }
+        String nextUrl = String.format("%s", nextPageLink);
+        return service.listAllNext(nextUrl, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl<LoadBalancerInner>> res) -> res.body());
+    }
+
+    /**
+     * Gets all the load balancers in a resource group.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the PagedList&lt;LoadBalancerInner&gt; object if successful.
+     */
+    public PagedList<LoadBalancerInner> listNext(@NonNull String nextPageLink) {
+        Page<LoadBalancerInner> response = listNextSinglePageAsync(nextPageLink).blockingGet();
+        return new PagedList<LoadBalancerInner>(response) {
+            @Override
+            public Page<LoadBalancerInner> nextPage(String nextPageLink) {
+                return listNextSinglePageAsync(nextPageLink).blockingGet();
+            }
+        };
+    }
+
+    /**
+     * Gets all the load balancers in a resource group.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;LoadBalancerInner&gt; object.
+     */
+    public Observable<Page<LoadBalancerInner>> listNextAsync(@NonNull String nextPageLink) {
         return listNextSinglePageAsync(nextPageLink)
-            .concatMap(new Func1<ServiceResponse<Page<LoadBalancerInner>>, Observable<ServiceResponse<Page<LoadBalancerInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<LoadBalancerInner>>> call(ServiceResponse<Page<LoadBalancerInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<LoadBalancerInner> page) -> {
+                String nextPageLink1 = page.nextPageLink();
+                if (nextPageLink1 == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listNextAsync(nextPageLink1));
             });
     }
 
     /**
-     * Gets all the load balancers in a subscription.
+     * Gets all the load balancers in a resource group.
      *
-    ServiceResponse<PageImpl<LoadBalancerInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;LoadBalancerInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;LoadBalancerInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<LoadBalancerInner>>> listNextSinglePageAsync(final String nextPageLink) {
+    public Single<Page<LoadBalancerInner>> listNextSinglePageAsync(@NonNull String nextPageLink) {
         if (nextPageLink == null) {
             throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
         }
         String nextUrl = String.format("%s", nextPageLink);
-        return service.listNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<LoadBalancerInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<LoadBalancerInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<LoadBalancerInner>> result = listNextDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<LoadBalancerInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.listNext(nextUrl, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl<LoadBalancerInner>> res) -> res.body());
     }
-
-    private ServiceResponse<PageImpl<LoadBalancerInner>> listNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<LoadBalancerInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<LoadBalancerInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
-    }
-
-    /**
-     * Gets all the load balancers in a resource group.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the PagedList&lt;LoadBalancerInner&gt; object if successful.
-     */
-    public PagedList<LoadBalancerInner> listByResourceGroupNext(final String nextPageLink) {
-        ServiceResponse<Page<LoadBalancerInner>> response = listByResourceGroupNextSinglePageAsync(nextPageLink).toBlocking().single();
-        return new PagedList<LoadBalancerInner>(response.body()) {
-            @Override
-            public Page<LoadBalancerInner> nextPage(String nextPageLink) {
-                return listByResourceGroupNextSinglePageAsync(nextPageLink).toBlocking().single().body();
-            }
-        };
-    }
-
-    /**
-     * Gets all the load balancers in a resource group.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<List<LoadBalancerInner>> listByResourceGroupNextAsync(final String nextPageLink, final ServiceFuture<List<LoadBalancerInner>> serviceFuture, final ListOperationCallback<LoadBalancerInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listByResourceGroupNextSinglePageAsync(nextPageLink),
-            new Func1<String, Observable<ServiceResponse<Page<LoadBalancerInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<LoadBalancerInner>>> call(String nextPageLink) {
-                    return listByResourceGroupNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets all the load balancers in a resource group.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;LoadBalancerInner&gt; object
-     */
-    public Observable<Page<LoadBalancerInner>> listByResourceGroupNextAsync(final String nextPageLink) {
-        return listByResourceGroupNextWithServiceResponseAsync(nextPageLink)
-            .map(new Func1<ServiceResponse<Page<LoadBalancerInner>>, Page<LoadBalancerInner>>() {
-                @Override
-                public Page<LoadBalancerInner> call(ServiceResponse<Page<LoadBalancerInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets all the load balancers in a resource group.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;LoadBalancerInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<LoadBalancerInner>>> listByResourceGroupNextWithServiceResponseAsync(final String nextPageLink) {
-        return listByResourceGroupNextSinglePageAsync(nextPageLink)
-            .concatMap(new Func1<ServiceResponse<Page<LoadBalancerInner>>, Observable<ServiceResponse<Page<LoadBalancerInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<LoadBalancerInner>>> call(ServiceResponse<Page<LoadBalancerInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listByResourceGroupNextWithServiceResponseAsync(nextPageLink));
-                }
-            });
-    }
-
-    /**
-     * Gets all the load balancers in a resource group.
-     *
-    ServiceResponse<PageImpl<LoadBalancerInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;LoadBalancerInner&gt; object wrapped in {@link ServiceResponse} if successful.
-     */
-    public Observable<ServiceResponse<Page<LoadBalancerInner>>> listByResourceGroupNextSinglePageAsync(final String nextPageLink) {
-        if (nextPageLink == null) {
-            throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
-        }
-        String nextUrl = String.format("%s", nextPageLink);
-        return service.listByResourceGroupNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<LoadBalancerInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<LoadBalancerInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<LoadBalancerInner>> result = listByResourceGroupNextDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<LoadBalancerInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl<LoadBalancerInner>> listByResourceGroupNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<LoadBalancerInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<LoadBalancerInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
-    }
-
 }

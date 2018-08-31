@@ -8,16 +8,15 @@
 
 package com.microsoft.azure.v2.management.network.implementation;
 
-import com.microsoft.azure.v2.management.network.VirtualNetworkGatewayConnectionType;
-import com.microsoft.azure.v2.management.network.VirtualNetworkGatewayConnectionStatus;
-import java.util.List;
-import com.microsoft.azure.v2.management.network.TunnelConnectionHealth;
-import com.microsoft.azure.SubResource;
-import com.microsoft.azure.v2.management.network.IpsecPolicy;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.rest.SkipParentValidation;
-import com.microsoft.azure.Resource;
+import com.microsoft.azure.v2.Resource;
+import com.microsoft.azure.v2.SubResource;
+import com.microsoft.azure.v2.management.network.IpsecPolicy;
+import com.microsoft.azure.v2.management.network.TunnelConnectionHealth;
+import com.microsoft.azure.v2.management.network.VirtualNetworkGatewayConnectionStatus;
+import com.microsoft.azure.v2.management.network.VirtualNetworkGatewayConnectionType;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
+import java.util.List;
 
 /**
  * A common class for general resource information.
@@ -149,7 +148,7 @@ public class VirtualNetworkGatewayConnectionInner extends Resource {
     /**
      * Get the authorizationKey value.
      *
-     * @return the authorizationKey value
+     * @return the authorizationKey value.
      */
     public String authorizationKey() {
         return this.authorizationKey;
@@ -158,7 +157,7 @@ public class VirtualNetworkGatewayConnectionInner extends Resource {
     /**
      * Set the authorizationKey value.
      *
-     * @param authorizationKey the authorizationKey value to set
+     * @param authorizationKey the authorizationKey value to set.
      * @return the VirtualNetworkGatewayConnectionInner object itself.
      */
     public VirtualNetworkGatewayConnectionInner withAuthorizationKey(String authorizationKey) {
@@ -169,7 +168,7 @@ public class VirtualNetworkGatewayConnectionInner extends Resource {
     /**
      * Get the virtualNetworkGateway1 value.
      *
-     * @return the virtualNetworkGateway1 value
+     * @return the virtualNetworkGateway1 value.
      */
     public VirtualNetworkGatewayInner virtualNetworkGateway1() {
         return this.virtualNetworkGateway1;
@@ -178,7 +177,7 @@ public class VirtualNetworkGatewayConnectionInner extends Resource {
     /**
      * Set the virtualNetworkGateway1 value.
      *
-     * @param virtualNetworkGateway1 the virtualNetworkGateway1 value to set
+     * @param virtualNetworkGateway1 the virtualNetworkGateway1 value to set.
      * @return the VirtualNetworkGatewayConnectionInner object itself.
      */
     public VirtualNetworkGatewayConnectionInner withVirtualNetworkGateway1(VirtualNetworkGatewayInner virtualNetworkGateway1) {
@@ -189,7 +188,7 @@ public class VirtualNetworkGatewayConnectionInner extends Resource {
     /**
      * Get the virtualNetworkGateway2 value.
      *
-     * @return the virtualNetworkGateway2 value
+     * @return the virtualNetworkGateway2 value.
      */
     public VirtualNetworkGatewayInner virtualNetworkGateway2() {
         return this.virtualNetworkGateway2;
@@ -198,7 +197,7 @@ public class VirtualNetworkGatewayConnectionInner extends Resource {
     /**
      * Set the virtualNetworkGateway2 value.
      *
-     * @param virtualNetworkGateway2 the virtualNetworkGateway2 value to set
+     * @param virtualNetworkGateway2 the virtualNetworkGateway2 value to set.
      * @return the VirtualNetworkGatewayConnectionInner object itself.
      */
     public VirtualNetworkGatewayConnectionInner withVirtualNetworkGateway2(VirtualNetworkGatewayInner virtualNetworkGateway2) {
@@ -209,7 +208,7 @@ public class VirtualNetworkGatewayConnectionInner extends Resource {
     /**
      * Get the localNetworkGateway2 value.
      *
-     * @return the localNetworkGateway2 value
+     * @return the localNetworkGateway2 value.
      */
     public LocalNetworkGatewayInner localNetworkGateway2() {
         return this.localNetworkGateway2;
@@ -218,7 +217,7 @@ public class VirtualNetworkGatewayConnectionInner extends Resource {
     /**
      * Set the localNetworkGateway2 value.
      *
-     * @param localNetworkGateway2 the localNetworkGateway2 value to set
+     * @param localNetworkGateway2 the localNetworkGateway2 value to set.
      * @return the VirtualNetworkGatewayConnectionInner object itself.
      */
     public VirtualNetworkGatewayConnectionInner withLocalNetworkGateway2(LocalNetworkGatewayInner localNetworkGateway2) {
@@ -229,7 +228,7 @@ public class VirtualNetworkGatewayConnectionInner extends Resource {
     /**
      * Get the connectionType value.
      *
-     * @return the connectionType value
+     * @return the connectionType value.
      */
     public VirtualNetworkGatewayConnectionType connectionType() {
         return this.connectionType;
@@ -238,7 +237,7 @@ public class VirtualNetworkGatewayConnectionInner extends Resource {
     /**
      * Set the connectionType value.
      *
-     * @param connectionType the connectionType value to set
+     * @param connectionType the connectionType value to set.
      * @return the VirtualNetworkGatewayConnectionInner object itself.
      */
     public VirtualNetworkGatewayConnectionInner withConnectionType(VirtualNetworkGatewayConnectionType connectionType) {
@@ -249,7 +248,7 @@ public class VirtualNetworkGatewayConnectionInner extends Resource {
     /**
      * Get the routingWeight value.
      *
-     * @return the routingWeight value
+     * @return the routingWeight value.
      */
     public Integer routingWeight() {
         return this.routingWeight;
@@ -258,7 +257,7 @@ public class VirtualNetworkGatewayConnectionInner extends Resource {
     /**
      * Set the routingWeight value.
      *
-     * @param routingWeight the routingWeight value to set
+     * @param routingWeight the routingWeight value to set.
      * @return the VirtualNetworkGatewayConnectionInner object itself.
      */
     public VirtualNetworkGatewayConnectionInner withRoutingWeight(Integer routingWeight) {
@@ -269,7 +268,7 @@ public class VirtualNetworkGatewayConnectionInner extends Resource {
     /**
      * Get the sharedKey value.
      *
-     * @return the sharedKey value
+     * @return the sharedKey value.
      */
     public String sharedKey() {
         return this.sharedKey;
@@ -278,7 +277,7 @@ public class VirtualNetworkGatewayConnectionInner extends Resource {
     /**
      * Set the sharedKey value.
      *
-     * @param sharedKey the sharedKey value to set
+     * @param sharedKey the sharedKey value to set.
      * @return the VirtualNetworkGatewayConnectionInner object itself.
      */
     public VirtualNetworkGatewayConnectionInner withSharedKey(String sharedKey) {
@@ -289,7 +288,7 @@ public class VirtualNetworkGatewayConnectionInner extends Resource {
     /**
      * Get the connectionStatus value.
      *
-     * @return the connectionStatus value
+     * @return the connectionStatus value.
      */
     public VirtualNetworkGatewayConnectionStatus connectionStatus() {
         return this.connectionStatus;
@@ -298,7 +297,7 @@ public class VirtualNetworkGatewayConnectionInner extends Resource {
     /**
      * Get the tunnelConnectionStatus value.
      *
-     * @return the tunnelConnectionStatus value
+     * @return the tunnelConnectionStatus value.
      */
     public List<TunnelConnectionHealth> tunnelConnectionStatus() {
         return this.tunnelConnectionStatus;
@@ -307,7 +306,7 @@ public class VirtualNetworkGatewayConnectionInner extends Resource {
     /**
      * Get the egressBytesTransferred value.
      *
-     * @return the egressBytesTransferred value
+     * @return the egressBytesTransferred value.
      */
     public Long egressBytesTransferred() {
         return this.egressBytesTransferred;
@@ -316,7 +315,7 @@ public class VirtualNetworkGatewayConnectionInner extends Resource {
     /**
      * Get the ingressBytesTransferred value.
      *
-     * @return the ingressBytesTransferred value
+     * @return the ingressBytesTransferred value.
      */
     public Long ingressBytesTransferred() {
         return this.ingressBytesTransferred;
@@ -325,7 +324,7 @@ public class VirtualNetworkGatewayConnectionInner extends Resource {
     /**
      * Get the peer value.
      *
-     * @return the peer value
+     * @return the peer value.
      */
     public SubResource peer() {
         return this.peer;
@@ -334,7 +333,7 @@ public class VirtualNetworkGatewayConnectionInner extends Resource {
     /**
      * Set the peer value.
      *
-     * @param peer the peer value to set
+     * @param peer the peer value to set.
      * @return the VirtualNetworkGatewayConnectionInner object itself.
      */
     public VirtualNetworkGatewayConnectionInner withPeer(SubResource peer) {
@@ -345,7 +344,7 @@ public class VirtualNetworkGatewayConnectionInner extends Resource {
     /**
      * Get the enableBgp value.
      *
-     * @return the enableBgp value
+     * @return the enableBgp value.
      */
     public Boolean enableBgp() {
         return this.enableBgp;
@@ -354,7 +353,7 @@ public class VirtualNetworkGatewayConnectionInner extends Resource {
     /**
      * Set the enableBgp value.
      *
-     * @param enableBgp the enableBgp value to set
+     * @param enableBgp the enableBgp value to set.
      * @return the VirtualNetworkGatewayConnectionInner object itself.
      */
     public VirtualNetworkGatewayConnectionInner withEnableBgp(Boolean enableBgp) {
@@ -365,7 +364,7 @@ public class VirtualNetworkGatewayConnectionInner extends Resource {
     /**
      * Get the usePolicyBasedTrafficSelectors value.
      *
-     * @return the usePolicyBasedTrafficSelectors value
+     * @return the usePolicyBasedTrafficSelectors value.
      */
     public Boolean usePolicyBasedTrafficSelectors() {
         return this.usePolicyBasedTrafficSelectors;
@@ -374,7 +373,8 @@ public class VirtualNetworkGatewayConnectionInner extends Resource {
     /**
      * Set the usePolicyBasedTrafficSelectors value.
      *
-     * @param usePolicyBasedTrafficSelectors the usePolicyBasedTrafficSelectors value to set
+     * @param usePolicyBasedTrafficSelectors the usePolicyBasedTrafficSelectors
+     * value to set.
      * @return the VirtualNetworkGatewayConnectionInner object itself.
      */
     public VirtualNetworkGatewayConnectionInner withUsePolicyBasedTrafficSelectors(Boolean usePolicyBasedTrafficSelectors) {
@@ -385,7 +385,7 @@ public class VirtualNetworkGatewayConnectionInner extends Resource {
     /**
      * Get the ipsecPolicies value.
      *
-     * @return the ipsecPolicies value
+     * @return the ipsecPolicies value.
      */
     public List<IpsecPolicy> ipsecPolicies() {
         return this.ipsecPolicies;
@@ -394,7 +394,7 @@ public class VirtualNetworkGatewayConnectionInner extends Resource {
     /**
      * Set the ipsecPolicies value.
      *
-     * @param ipsecPolicies the ipsecPolicies value to set
+     * @param ipsecPolicies the ipsecPolicies value to set.
      * @return the VirtualNetworkGatewayConnectionInner object itself.
      */
     public VirtualNetworkGatewayConnectionInner withIpsecPolicies(List<IpsecPolicy> ipsecPolicies) {
@@ -405,7 +405,7 @@ public class VirtualNetworkGatewayConnectionInner extends Resource {
     /**
      * Get the resourceGuid value.
      *
-     * @return the resourceGuid value
+     * @return the resourceGuid value.
      */
     public String resourceGuid() {
         return this.resourceGuid;
@@ -414,7 +414,7 @@ public class VirtualNetworkGatewayConnectionInner extends Resource {
     /**
      * Set the resourceGuid value.
      *
-     * @param resourceGuid the resourceGuid value to set
+     * @param resourceGuid the resourceGuid value to set.
      * @return the VirtualNetworkGatewayConnectionInner object itself.
      */
     public VirtualNetworkGatewayConnectionInner withResourceGuid(String resourceGuid) {
@@ -425,7 +425,7 @@ public class VirtualNetworkGatewayConnectionInner extends Resource {
     /**
      * Get the provisioningState value.
      *
-     * @return the provisioningState value
+     * @return the provisioningState value.
      */
     public String provisioningState() {
         return this.provisioningState;
@@ -434,7 +434,7 @@ public class VirtualNetworkGatewayConnectionInner extends Resource {
     /**
      * Get the etag value.
      *
-     * @return the etag value
+     * @return the etag value.
      */
     public String etag() {
         return this.etag;
@@ -443,7 +443,7 @@ public class VirtualNetworkGatewayConnectionInner extends Resource {
     /**
      * Set the etag value.
      *
-     * @param etag the etag value to set
+     * @param etag the etag value to set.
      * @return the VirtualNetworkGatewayConnectionInner object itself.
      */
     public VirtualNetworkGatewayConnectionInner withEtag(String etag) {
@@ -454,7 +454,7 @@ public class VirtualNetworkGatewayConnectionInner extends Resource {
     /**
      * Get the id value.
      *
-     * @return the id value
+     * @return the id value.
      */
     public String id() {
         return this.id;
@@ -463,12 +463,11 @@ public class VirtualNetworkGatewayConnectionInner extends Resource {
     /**
      * Set the id value.
      *
-     * @param id the id value to set
+     * @param id the id value to set.
      * @return the VirtualNetworkGatewayConnectionInner object itself.
      */
     public VirtualNetworkGatewayConnectionInner withId(String id) {
         this.id = id;
         return this;
     }
-
 }

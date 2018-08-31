@@ -8,13 +8,13 @@
 
 package com.microsoft.azure.v2.management.network;
 
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 
 /**
  * Country details.
  */
-public class AvailableProvidersListCountry {
+public final class AvailableProvidersListCountry {
     /**
      * The country name.
      */
@@ -36,7 +36,7 @@ public class AvailableProvidersListCountry {
     /**
      * Get the countryName value.
      *
-     * @return the countryName value
+     * @return the countryName value.
      */
     public String countryName() {
         return this.countryName;
@@ -45,7 +45,7 @@ public class AvailableProvidersListCountry {
     /**
      * Set the countryName value.
      *
-     * @param countryName the countryName value to set
+     * @param countryName the countryName value to set.
      * @return the AvailableProvidersListCountry object itself.
      */
     public AvailableProvidersListCountry withCountryName(String countryName) {
@@ -56,7 +56,7 @@ public class AvailableProvidersListCountry {
     /**
      * Get the providers value.
      *
-     * @return the providers value
+     * @return the providers value.
      */
     public List<String> providers() {
         return this.providers;
@@ -65,7 +65,7 @@ public class AvailableProvidersListCountry {
     /**
      * Set the providers value.
      *
-     * @param providers the providers value to set
+     * @param providers the providers value to set.
      * @return the AvailableProvidersListCountry object itself.
      */
     public AvailableProvidersListCountry withProviders(List<String> providers) {
@@ -76,7 +76,7 @@ public class AvailableProvidersListCountry {
     /**
      * Get the states value.
      *
-     * @return the states value
+     * @return the states value.
      */
     public List<AvailableProvidersListState> states() {
         return this.states;
@@ -85,12 +85,11 @@ public class AvailableProvidersListCountry {
     /**
      * Set the states value.
      *
-     * @param states the states value to set
+     * @param states the states value to set.
      * @return the AvailableProvidersListCountry object itself.
      */
     public AvailableProvidersListCountry withStates(List<AvailableProvidersListState> states) {
         this.states = states;
         return this;
     }
-
 }

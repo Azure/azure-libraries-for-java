@@ -8,12 +8,12 @@
 
 package com.microsoft.azure.v2.management.network.implementation;
 
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.v2.SubResource;
 import com.microsoft.azure.v2.management.network.ApplicationGatewaySslCipherSuite;
 import com.microsoft.azure.v2.management.network.ApplicationGatewaySslProtocol;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.SubResource;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
+import java.util.List;
 
 /**
  * An Ssl predefined policy.
@@ -43,7 +43,7 @@ public class ApplicationGatewaySslPredefinedPolicyInner extends SubResource {
     /**
      * Get the name value.
      *
-     * @return the name value
+     * @return the name value.
      */
     public String name() {
         return this.name;
@@ -52,7 +52,7 @@ public class ApplicationGatewaySslPredefinedPolicyInner extends SubResource {
     /**
      * Set the name value.
      *
-     * @param name the name value to set
+     * @param name the name value to set.
      * @return the ApplicationGatewaySslPredefinedPolicyInner object itself.
      */
     public ApplicationGatewaySslPredefinedPolicyInner withName(String name) {
@@ -63,7 +63,7 @@ public class ApplicationGatewaySslPredefinedPolicyInner extends SubResource {
     /**
      * Get the cipherSuites value.
      *
-     * @return the cipherSuites value
+     * @return the cipherSuites value.
      */
     public List<ApplicationGatewaySslCipherSuite> cipherSuites() {
         return this.cipherSuites;
@@ -72,7 +72,7 @@ public class ApplicationGatewaySslPredefinedPolicyInner extends SubResource {
     /**
      * Set the cipherSuites value.
      *
-     * @param cipherSuites the cipherSuites value to set
+     * @param cipherSuites the cipherSuites value to set.
      * @return the ApplicationGatewaySslPredefinedPolicyInner object itself.
      */
     public ApplicationGatewaySslPredefinedPolicyInner withCipherSuites(List<ApplicationGatewaySslCipherSuite> cipherSuites) {
@@ -83,7 +83,7 @@ public class ApplicationGatewaySslPredefinedPolicyInner extends SubResource {
     /**
      * Get the minProtocolVersion value.
      *
-     * @return the minProtocolVersion value
+     * @return the minProtocolVersion value.
      */
     public ApplicationGatewaySslProtocol minProtocolVersion() {
         return this.minProtocolVersion;
@@ -92,12 +92,11 @@ public class ApplicationGatewaySslPredefinedPolicyInner extends SubResource {
     /**
      * Set the minProtocolVersion value.
      *
-     * @param minProtocolVersion the minProtocolVersion value to set
+     * @param minProtocolVersion the minProtocolVersion value to set.
      * @return the ApplicationGatewaySslPredefinedPolicyInner object itself.
      */
     public ApplicationGatewaySslPredefinedPolicyInner withMinProtocolVersion(ApplicationGatewaySslProtocol minProtocolVersion) {
         this.minProtocolVersion = minProtocolVersion;
         return this;
     }
-
 }

@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * The ExpressRouteCircuitReference model.
  */
-public class ExpressRouteCircuitReference {
+public final class ExpressRouteCircuitReference {
     /**
      * Corresponding Express Route Circuit Id.
      */
@@ -23,7 +23,7 @@ public class ExpressRouteCircuitReference {
     /**
      * Get the id value.
      *
-     * @return the id value
+     * @return the id value.
      */
     public String id() {
         return this.id;
@@ -32,12 +32,11 @@ public class ExpressRouteCircuitReference {
     /**
      * Set the id value.
      *
-     * @param id the id value to set
+     * @param id the id value to set.
      * @return the ExpressRouteCircuitReference object itself.
      */
     public ExpressRouteCircuitReference withId(String id) {
         this.id = id;
         return this;
     }
-
 }

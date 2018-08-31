@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Describes the HTTP header.
  */
-public class HTTPHeader {
+public final class HTTPHeader {
     /**
      * The name in HTTP header.
      */
@@ -29,7 +29,7 @@ public class HTTPHeader {
     /**
      * Get the name value.
      *
-     * @return the name value
+     * @return the name value.
      */
     public String name() {
         return this.name;
@@ -38,7 +38,7 @@ public class HTTPHeader {
     /**
      * Set the name value.
      *
-     * @param name the name value to set
+     * @param name the name value to set.
      * @return the HTTPHeader object itself.
      */
     public HTTPHeader withName(String name) {
@@ -49,7 +49,7 @@ public class HTTPHeader {
     /**
      * Get the value value.
      *
-     * @return the value value
+     * @return the value value.
      */
     public String value() {
         return this.value;
@@ -58,12 +58,11 @@ public class HTTPHeader {
     /**
      * Set the value value.
      *
-     * @param value the value value to set
+     * @param value the value value to set.
      * @return the HTTPHeader object itself.
      */
     public HTTPHeader withValue(String value) {
         this.value = value;
         return this;
     }
-
 }

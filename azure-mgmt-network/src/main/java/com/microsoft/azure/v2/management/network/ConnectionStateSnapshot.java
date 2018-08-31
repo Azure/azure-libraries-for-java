@@ -8,14 +8,14 @@
 
 package com.microsoft.azure.v2.management.network;
 
-import org.joda.time.DateTime;
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.time.OffsetDateTime;
+import java.util.List;
 
 /**
  * Connection state snapshot.
  */
-public class ConnectionStateSnapshot {
+public final class ConnectionStateSnapshot {
     /**
      * The connection state. Possible values include: 'Reachable',
      * 'Unreachable', 'Unknown'.
@@ -27,13 +27,13 @@ public class ConnectionStateSnapshot {
      * The start time of the connection snapshot.
      */
     @JsonProperty(value = "startTime")
-    private DateTime startTime;
+    private OffsetDateTime startTime;
 
     /**
      * The end time of the connection snapshot.
      */
     @JsonProperty(value = "endTime")
-    private DateTime endTime;
+    private OffsetDateTime endTime;
 
     /**
      * Connectivity analysis evaluation state. Possible values include:
@@ -41,6 +41,36 @@ public class ConnectionStateSnapshot {
      */
     @JsonProperty(value = "evaluationState")
     private EvaluationState evaluationState;
+
+    /**
+     * Average latency in ms.
+     */
+    @JsonProperty(value = "avgLatencyInMs")
+    private Integer avgLatencyInMs;
+
+    /**
+     * Minimum latency in ms.
+     */
+    @JsonProperty(value = "minLatencyInMs")
+    private Integer minLatencyInMs;
+
+    /**
+     * Maximum latency in ms.
+     */
+    @JsonProperty(value = "maxLatencyInMs")
+    private Integer maxLatencyInMs;
+
+    /**
+     * The number of sent probes.
+     */
+    @JsonProperty(value = "probesSent")
+    private Integer probesSent;
+
+    /**
+     * The number of failed probes.
+     */
+    @JsonProperty(value = "probesFailed")
+    private Integer probesFailed;
 
     /**
      * List of hops between the source and the destination.
@@ -51,7 +81,7 @@ public class ConnectionStateSnapshot {
     /**
      * Get the connectionState value.
      *
-     * @return the connectionState value
+     * @return the connectionState value.
      */
     public ConnectionState connectionState() {
         return this.connectionState;
@@ -60,7 +90,7 @@ public class ConnectionStateSnapshot {
     /**
      * Set the connectionState value.
      *
-     * @param connectionState the connectionState value to set
+     * @param connectionState the connectionState value to set.
      * @return the ConnectionStateSnapshot object itself.
      */
     public ConnectionStateSnapshot withConnectionState(ConnectionState connectionState) {
@@ -71,19 +101,19 @@ public class ConnectionStateSnapshot {
     /**
      * Get the startTime value.
      *
-     * @return the startTime value
+     * @return the startTime value.
      */
-    public DateTime startTime() {
+    public OffsetDateTime startTime() {
         return this.startTime;
     }
 
     /**
      * Set the startTime value.
      *
-     * @param startTime the startTime value to set
+     * @param startTime the startTime value to set.
      * @return the ConnectionStateSnapshot object itself.
      */
-    public ConnectionStateSnapshot withStartTime(DateTime startTime) {
+    public ConnectionStateSnapshot withStartTime(OffsetDateTime startTime) {
         this.startTime = startTime;
         return this;
     }
@@ -91,19 +121,19 @@ public class ConnectionStateSnapshot {
     /**
      * Get the endTime value.
      *
-     * @return the endTime value
+     * @return the endTime value.
      */
-    public DateTime endTime() {
+    public OffsetDateTime endTime() {
         return this.endTime;
     }
 
     /**
      * Set the endTime value.
      *
-     * @param endTime the endTime value to set
+     * @param endTime the endTime value to set.
      * @return the ConnectionStateSnapshot object itself.
      */
-    public ConnectionStateSnapshot withEndTime(DateTime endTime) {
+    public ConnectionStateSnapshot withEndTime(OffsetDateTime endTime) {
         this.endTime = endTime;
         return this;
     }
@@ -111,7 +141,7 @@ public class ConnectionStateSnapshot {
     /**
      * Get the evaluationState value.
      *
-     * @return the evaluationState value
+     * @return the evaluationState value.
      */
     public EvaluationState evaluationState() {
         return this.evaluationState;
@@ -120,7 +150,7 @@ public class ConnectionStateSnapshot {
     /**
      * Set the evaluationState value.
      *
-     * @param evaluationState the evaluationState value to set
+     * @param evaluationState the evaluationState value to set.
      * @return the ConnectionStateSnapshot object itself.
      */
     public ConnectionStateSnapshot withEvaluationState(EvaluationState evaluationState) {
@@ -129,12 +159,111 @@ public class ConnectionStateSnapshot {
     }
 
     /**
+     * Get the avgLatencyInMs value.
+     *
+     * @return the avgLatencyInMs value.
+     */
+    public Integer avgLatencyInMs() {
+        return this.avgLatencyInMs;
+    }
+
+    /**
+     * Set the avgLatencyInMs value.
+     *
+     * @param avgLatencyInMs the avgLatencyInMs value to set.
+     * @return the ConnectionStateSnapshot object itself.
+     */
+    public ConnectionStateSnapshot withAvgLatencyInMs(Integer avgLatencyInMs) {
+        this.avgLatencyInMs = avgLatencyInMs;
+        return this;
+    }
+
+    /**
+     * Get the minLatencyInMs value.
+     *
+     * @return the minLatencyInMs value.
+     */
+    public Integer minLatencyInMs() {
+        return this.minLatencyInMs;
+    }
+
+    /**
+     * Set the minLatencyInMs value.
+     *
+     * @param minLatencyInMs the minLatencyInMs value to set.
+     * @return the ConnectionStateSnapshot object itself.
+     */
+    public ConnectionStateSnapshot withMinLatencyInMs(Integer minLatencyInMs) {
+        this.minLatencyInMs = minLatencyInMs;
+        return this;
+    }
+
+    /**
+     * Get the maxLatencyInMs value.
+     *
+     * @return the maxLatencyInMs value.
+     */
+    public Integer maxLatencyInMs() {
+        return this.maxLatencyInMs;
+    }
+
+    /**
+     * Set the maxLatencyInMs value.
+     *
+     * @param maxLatencyInMs the maxLatencyInMs value to set.
+     * @return the ConnectionStateSnapshot object itself.
+     */
+    public ConnectionStateSnapshot withMaxLatencyInMs(Integer maxLatencyInMs) {
+        this.maxLatencyInMs = maxLatencyInMs;
+        return this;
+    }
+
+    /**
+     * Get the probesSent value.
+     *
+     * @return the probesSent value.
+     */
+    public Integer probesSent() {
+        return this.probesSent;
+    }
+
+    /**
+     * Set the probesSent value.
+     *
+     * @param probesSent the probesSent value to set.
+     * @return the ConnectionStateSnapshot object itself.
+     */
+    public ConnectionStateSnapshot withProbesSent(Integer probesSent) {
+        this.probesSent = probesSent;
+        return this;
+    }
+
+    /**
+     * Get the probesFailed value.
+     *
+     * @return the probesFailed value.
+     */
+    public Integer probesFailed() {
+        return this.probesFailed;
+    }
+
+    /**
+     * Set the probesFailed value.
+     *
+     * @param probesFailed the probesFailed value to set.
+     * @return the ConnectionStateSnapshot object itself.
+     */
+    public ConnectionStateSnapshot withProbesFailed(Integer probesFailed) {
+        this.probesFailed = probesFailed;
+        return this;
+    }
+
+    /**
      * Get the hops value.
      *
-     * @return the hops value
+     * @return the hops value.
      */
     public List<ConnectivityHop> hops() {
         return this.hops;
     }
-
 }

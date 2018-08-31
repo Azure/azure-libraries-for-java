@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * The routes table associated with the ExpressRouteCircuit.
  */
-public class ExpressRouteCircuitRoutesTableSummary {
+public final class ExpressRouteCircuitRoutesTableSummary {
     /**
      * IP address of the neighbor.
      */
@@ -49,7 +49,7 @@ public class ExpressRouteCircuitRoutesTableSummary {
     /**
      * Get the neighbor value.
      *
-     * @return the neighbor value
+     * @return the neighbor value.
      */
     public String neighbor() {
         return this.neighbor;
@@ -58,7 +58,7 @@ public class ExpressRouteCircuitRoutesTableSummary {
     /**
      * Set the neighbor value.
      *
-     * @param neighbor the neighbor value to set
+     * @param neighbor the neighbor value to set.
      * @return the ExpressRouteCircuitRoutesTableSummary object itself.
      */
     public ExpressRouteCircuitRoutesTableSummary withNeighbor(String neighbor) {
@@ -69,7 +69,7 @@ public class ExpressRouteCircuitRoutesTableSummary {
     /**
      * Get the v value.
      *
-     * @return the v value
+     * @return the v value.
      */
     public Integer v() {
         return this.v;
@@ -78,7 +78,7 @@ public class ExpressRouteCircuitRoutesTableSummary {
     /**
      * Set the v value.
      *
-     * @param v the v value to set
+     * @param v the v value to set.
      * @return the ExpressRouteCircuitRoutesTableSummary object itself.
      */
     public ExpressRouteCircuitRoutesTableSummary withV(Integer v) {
@@ -89,7 +89,7 @@ public class ExpressRouteCircuitRoutesTableSummary {
     /**
      * Get the as value.
      *
-     * @return the as value
+     * @return the as value.
      */
     public Integer as() {
         return this.as;
@@ -98,7 +98,7 @@ public class ExpressRouteCircuitRoutesTableSummary {
     /**
      * Set the as value.
      *
-     * @param as the as value to set
+     * @param as the as value to set.
      * @return the ExpressRouteCircuitRoutesTableSummary object itself.
      */
     public ExpressRouteCircuitRoutesTableSummary withAs(Integer as) {
@@ -109,7 +109,7 @@ public class ExpressRouteCircuitRoutesTableSummary {
     /**
      * Get the upDown value.
      *
-     * @return the upDown value
+     * @return the upDown value.
      */
     public String upDown() {
         return this.upDown;
@@ -118,7 +118,7 @@ public class ExpressRouteCircuitRoutesTableSummary {
     /**
      * Set the upDown value.
      *
-     * @param upDown the upDown value to set
+     * @param upDown the upDown value to set.
      * @return the ExpressRouteCircuitRoutesTableSummary object itself.
      */
     public ExpressRouteCircuitRoutesTableSummary withUpDown(String upDown) {
@@ -129,7 +129,7 @@ public class ExpressRouteCircuitRoutesTableSummary {
     /**
      * Get the statePfxRcd value.
      *
-     * @return the statePfxRcd value
+     * @return the statePfxRcd value.
      */
     public String statePfxRcd() {
         return this.statePfxRcd;
@@ -138,12 +138,11 @@ public class ExpressRouteCircuitRoutesTableSummary {
     /**
      * Set the statePfxRcd value.
      *
-     * @param statePfxRcd the statePfxRcd value to set
+     * @param statePfxRcd the statePfxRcd value to set.
      * @return the ExpressRouteCircuitRoutesTableSummary object itself.
      */
     public ExpressRouteCircuitRoutesTableSummary withStatePfxRcd(String statePfxRcd) {
         this.statePfxRcd = statePfxRcd;
         return this;
     }
-
 }

@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Parameters that define the source of the connection.
  */
-public class ConnectivitySource {
+public final class ConnectivitySource {
     /**
      * The ID of the resource from which a connectivity check will be
      * initiated.
@@ -30,7 +30,7 @@ public class ConnectivitySource {
     /**
      * Get the resourceId value.
      *
-     * @return the resourceId value
+     * @return the resourceId value.
      */
     public String resourceId() {
         return this.resourceId;
@@ -39,7 +39,7 @@ public class ConnectivitySource {
     /**
      * Set the resourceId value.
      *
-     * @param resourceId the resourceId value to set
+     * @param resourceId the resourceId value to set.
      * @return the ConnectivitySource object itself.
      */
     public ConnectivitySource withResourceId(String resourceId) {
@@ -50,7 +50,7 @@ public class ConnectivitySource {
     /**
      * Get the port value.
      *
-     * @return the port value
+     * @return the port value.
      */
     public Integer port() {
         return this.port;
@@ -59,12 +59,11 @@ public class ConnectivitySource {
     /**
      * Set the port value.
      *
-     * @param port the port value to set
+     * @param port the port value to set.
      * @return the ConnectivitySource object itself.
      */
     public ConnectivitySource withPort(Integer port) {
         this.port = port;
         return this;
     }
-
 }

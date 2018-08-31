@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Describes the source of connection monitor.
  */
-public class ConnectionMonitorSource {
+public final class ConnectionMonitorSource {
     /**
      * The ID of the resource used as the source by connection monitor.
      */
@@ -29,7 +29,7 @@ public class ConnectionMonitorSource {
     /**
      * Get the resourceId value.
      *
-     * @return the resourceId value
+     * @return the resourceId value.
      */
     public String resourceId() {
         return this.resourceId;
@@ -38,7 +38,7 @@ public class ConnectionMonitorSource {
     /**
      * Set the resourceId value.
      *
-     * @param resourceId the resourceId value to set
+     * @param resourceId the resourceId value to set.
      * @return the ConnectionMonitorSource object itself.
      */
     public ConnectionMonitorSource withResourceId(String resourceId) {
@@ -49,7 +49,7 @@ public class ConnectionMonitorSource {
     /**
      * Get the port value.
      *
-     * @return the port value
+     * @return the port value.
      */
     public Integer port() {
         return this.port;
@@ -58,12 +58,11 @@ public class ConnectionMonitorSource {
     /**
      * Set the port value.
      *
-     * @param port the port value to set
+     * @param port the port value to set.
      * @return the ConnectionMonitorSource object itself.
      */
     public ConnectionMonitorSource withPort(Integer port) {
         this.port = port;
         return this;
     }
-
 }

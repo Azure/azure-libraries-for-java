@@ -8,15 +8,15 @@
 
 package com.microsoft.azure.v2.management.network;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 import java.util.Map;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Information about an issue encountered in the process of checking for
  * connectivity.
  */
-public class ConnectivityIssue {
+public final class ConnectivityIssue {
     /**
      * The origin of the issue. Possible values include: 'Local', 'Inbound',
      * 'Outbound'.
@@ -47,7 +47,7 @@ public class ConnectivityIssue {
     /**
      * Get the origin value.
      *
-     * @return the origin value
+     * @return the origin value.
      */
     public Origin origin() {
         return this.origin;
@@ -56,7 +56,7 @@ public class ConnectivityIssue {
     /**
      * Get the severity value.
      *
-     * @return the severity value
+     * @return the severity value.
      */
     public Severity severity() {
         return this.severity;
@@ -65,7 +65,7 @@ public class ConnectivityIssue {
     /**
      * Get the type value.
      *
-     * @return the type value
+     * @return the type value.
      */
     public IssueType type() {
         return this.type;
@@ -74,10 +74,9 @@ public class ConnectivityIssue {
     /**
      * Get the context value.
      *
-     * @return the context value
+     * @return the context value.
      */
     public List<Map<String, String>> context() {
         return this.context;
     }
-
 }

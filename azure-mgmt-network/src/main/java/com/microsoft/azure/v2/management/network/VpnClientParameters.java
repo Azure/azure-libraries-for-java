@@ -8,13 +8,13 @@
 
 package com.microsoft.azure.v2.management.network;
 
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 
 /**
  * Vpn Client Parameters for package generation.
  */
-public class VpnClientParameters {
+public final class VpnClientParameters {
     /**
      * VPN client Processor Architecture. Possible values are: 'AMD64' and
      * 'X86'. Possible values include: 'Amd64', 'X86'.
@@ -48,7 +48,7 @@ public class VpnClientParameters {
     /**
      * Get the processorArchitecture value.
      *
-     * @return the processorArchitecture value
+     * @return the processorArchitecture value.
      */
     public ProcessorArchitecture processorArchitecture() {
         return this.processorArchitecture;
@@ -57,7 +57,7 @@ public class VpnClientParameters {
     /**
      * Set the processorArchitecture value.
      *
-     * @param processorArchitecture the processorArchitecture value to set
+     * @param processorArchitecture the processorArchitecture value to set.
      * @return the VpnClientParameters object itself.
      */
     public VpnClientParameters withProcessorArchitecture(ProcessorArchitecture processorArchitecture) {
@@ -68,7 +68,7 @@ public class VpnClientParameters {
     /**
      * Get the authenticationMethod value.
      *
-     * @return the authenticationMethod value
+     * @return the authenticationMethod value.
      */
     public AuthenticationMethod authenticationMethod() {
         return this.authenticationMethod;
@@ -77,7 +77,7 @@ public class VpnClientParameters {
     /**
      * Set the authenticationMethod value.
      *
-     * @param authenticationMethod the authenticationMethod value to set
+     * @param authenticationMethod the authenticationMethod value to set.
      * @return the VpnClientParameters object itself.
      */
     public VpnClientParameters withAuthenticationMethod(AuthenticationMethod authenticationMethod) {
@@ -88,7 +88,7 @@ public class VpnClientParameters {
     /**
      * Get the radiusServerAuthCertificate value.
      *
-     * @return the radiusServerAuthCertificate value
+     * @return the radiusServerAuthCertificate value.
      */
     public String radiusServerAuthCertificate() {
         return this.radiusServerAuthCertificate;
@@ -97,7 +97,8 @@ public class VpnClientParameters {
     /**
      * Set the radiusServerAuthCertificate value.
      *
-     * @param radiusServerAuthCertificate the radiusServerAuthCertificate value to set
+     * @param radiusServerAuthCertificate the radiusServerAuthCertificate value
+     * to set.
      * @return the VpnClientParameters object itself.
      */
     public VpnClientParameters withRadiusServerAuthCertificate(String radiusServerAuthCertificate) {
@@ -108,7 +109,7 @@ public class VpnClientParameters {
     /**
      * Get the clientRootCertificates value.
      *
-     * @return the clientRootCertificates value
+     * @return the clientRootCertificates value.
      */
     public List<String> clientRootCertificates() {
         return this.clientRootCertificates;
@@ -117,12 +118,11 @@ public class VpnClientParameters {
     /**
      * Set the clientRootCertificates value.
      *
-     * @param clientRootCertificates the clientRootCertificates value to set
+     * @param clientRootCertificates the clientRootCertificates value to set.
      * @return the VpnClientParameters object itself.
      */
     public VpnClientParameters withClientRootCertificates(List<String> clientRootCertificates) {
         this.clientRootCertificates = clientRootCertificates;
         return this;
     }
-
 }

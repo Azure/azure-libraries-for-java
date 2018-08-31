@@ -9,12 +9,12 @@
 package com.microsoft.azure.v2.management.network.implementation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.azure.SubResource;
+import com.microsoft.azure.v2.SubResource;
 
 /**
  * Response for GetConnectionSharedKey API service call.
  */
-public class ConnectionSharedKeyInner extends SubResource {
+public final class ConnectionSharedKeyInner extends SubResource {
     /**
      * The virtual network connection shared key value.
      */
@@ -24,7 +24,7 @@ public class ConnectionSharedKeyInner extends SubResource {
     /**
      * Get the value value.
      *
-     * @return the value value
+     * @return the value value.
      */
     public String value() {
         return this.value;
@@ -33,12 +33,11 @@ public class ConnectionSharedKeyInner extends SubResource {
     /**
      * Set the value value.
      *
-     * @param value the value value to set
+     * @param value the value value to set.
      * @return the ConnectionSharedKeyInner object itself.
      */
     public ConnectionSharedKeyInner withValue(String value) {
         this.value = value;
         return this;
     }
-
 }

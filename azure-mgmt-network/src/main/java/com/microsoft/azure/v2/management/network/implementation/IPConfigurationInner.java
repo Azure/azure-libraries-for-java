@@ -8,10 +8,10 @@
 
 package com.microsoft.azure.v2.management.network.implementation;
 
-import com.microsoft.azure.v2.management.network.IPAllocationMethod;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.SubResource;
+import com.microsoft.azure.v2.SubResource;
+import com.microsoft.azure.v2.management.network.IPAllocationMethod;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
 
 /**
  * IP configuration.
@@ -66,7 +66,7 @@ public class IPConfigurationInner extends SubResource {
     /**
      * Get the privateIPAddress value.
      *
-     * @return the privateIPAddress value
+     * @return the privateIPAddress value.
      */
     public String privateIPAddress() {
         return this.privateIPAddress;
@@ -75,7 +75,7 @@ public class IPConfigurationInner extends SubResource {
     /**
      * Set the privateIPAddress value.
      *
-     * @param privateIPAddress the privateIPAddress value to set
+     * @param privateIPAddress the privateIPAddress value to set.
      * @return the IPConfigurationInner object itself.
      */
     public IPConfigurationInner withPrivateIPAddress(String privateIPAddress) {
@@ -86,7 +86,7 @@ public class IPConfigurationInner extends SubResource {
     /**
      * Get the privateIPAllocationMethod value.
      *
-     * @return the privateIPAllocationMethod value
+     * @return the privateIPAllocationMethod value.
      */
     public IPAllocationMethod privateIPAllocationMethod() {
         return this.privateIPAllocationMethod;
@@ -95,7 +95,8 @@ public class IPConfigurationInner extends SubResource {
     /**
      * Set the privateIPAllocationMethod value.
      *
-     * @param privateIPAllocationMethod the privateIPAllocationMethod value to set
+     * @param privateIPAllocationMethod the privateIPAllocationMethod value to
+     * set.
      * @return the IPConfigurationInner object itself.
      */
     public IPConfigurationInner withPrivateIPAllocationMethod(IPAllocationMethod privateIPAllocationMethod) {
@@ -106,7 +107,7 @@ public class IPConfigurationInner extends SubResource {
     /**
      * Get the subnet value.
      *
-     * @return the subnet value
+     * @return the subnet value.
      */
     public SubnetInner subnet() {
         return this.subnet;
@@ -115,7 +116,7 @@ public class IPConfigurationInner extends SubResource {
     /**
      * Set the subnet value.
      *
-     * @param subnet the subnet value to set
+     * @param subnet the subnet value to set.
      * @return the IPConfigurationInner object itself.
      */
     public IPConfigurationInner withSubnet(SubnetInner subnet) {
@@ -126,7 +127,7 @@ public class IPConfigurationInner extends SubResource {
     /**
      * Get the publicIPAddress value.
      *
-     * @return the publicIPAddress value
+     * @return the publicIPAddress value.
      */
     public PublicIPAddressInner publicIPAddress() {
         return this.publicIPAddress;
@@ -135,7 +136,7 @@ public class IPConfigurationInner extends SubResource {
     /**
      * Set the publicIPAddress value.
      *
-     * @param publicIPAddress the publicIPAddress value to set
+     * @param publicIPAddress the publicIPAddress value to set.
      * @return the IPConfigurationInner object itself.
      */
     public IPConfigurationInner withPublicIPAddress(PublicIPAddressInner publicIPAddress) {
@@ -146,7 +147,7 @@ public class IPConfigurationInner extends SubResource {
     /**
      * Get the provisioningState value.
      *
-     * @return the provisioningState value
+     * @return the provisioningState value.
      */
     public String provisioningState() {
         return this.provisioningState;
@@ -155,7 +156,7 @@ public class IPConfigurationInner extends SubResource {
     /**
      * Set the provisioningState value.
      *
-     * @param provisioningState the provisioningState value to set
+     * @param provisioningState the provisioningState value to set.
      * @return the IPConfigurationInner object itself.
      */
     public IPConfigurationInner withProvisioningState(String provisioningState) {
@@ -166,7 +167,7 @@ public class IPConfigurationInner extends SubResource {
     /**
      * Get the name value.
      *
-     * @return the name value
+     * @return the name value.
      */
     public String name() {
         return this.name;
@@ -175,7 +176,7 @@ public class IPConfigurationInner extends SubResource {
     /**
      * Set the name value.
      *
-     * @param name the name value to set
+     * @param name the name value to set.
      * @return the IPConfigurationInner object itself.
      */
     public IPConfigurationInner withName(String name) {
@@ -186,7 +187,7 @@ public class IPConfigurationInner extends SubResource {
     /**
      * Get the etag value.
      *
-     * @return the etag value
+     * @return the etag value.
      */
     public String etag() {
         return this.etag;
@@ -195,12 +196,11 @@ public class IPConfigurationInner extends SubResource {
     /**
      * Set the etag value.
      *
-     * @param etag the etag value to set
+     * @param etag the etag value to set.
      * @return the IPConfigurationInner object itself.
      */
     public IPConfigurationInner withEtag(String etag) {
         this.etag = etag;
         return this;
     }
-
 }

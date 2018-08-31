@@ -14,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * Filter that is applied to packet capture request. Multiple filters can be
  * applied.
  */
-public class PacketCaptureFilter {
+public final class PacketCaptureFilter {
     /**
      * Protocol to be filtered on. Possible values include: 'TCP', 'UDP',
      * 'Any'.
@@ -61,7 +61,7 @@ public class PacketCaptureFilter {
     /**
      * Get the protocol value.
      *
-     * @return the protocol value
+     * @return the protocol value.
      */
     public PcProtocol protocol() {
         return this.protocol;
@@ -70,7 +70,7 @@ public class PacketCaptureFilter {
     /**
      * Set the protocol value.
      *
-     * @param protocol the protocol value to set
+     * @param protocol the protocol value to set.
      * @return the PacketCaptureFilter object itself.
      */
     public PacketCaptureFilter withProtocol(PcProtocol protocol) {
@@ -81,7 +81,7 @@ public class PacketCaptureFilter {
     /**
      * Get the localIPAddress value.
      *
-     * @return the localIPAddress value
+     * @return the localIPAddress value.
      */
     public String localIPAddress() {
         return this.localIPAddress;
@@ -90,7 +90,7 @@ public class PacketCaptureFilter {
     /**
      * Set the localIPAddress value.
      *
-     * @param localIPAddress the localIPAddress value to set
+     * @param localIPAddress the localIPAddress value to set.
      * @return the PacketCaptureFilter object itself.
      */
     public PacketCaptureFilter withLocalIPAddress(String localIPAddress) {
@@ -101,7 +101,7 @@ public class PacketCaptureFilter {
     /**
      * Get the remoteIPAddress value.
      *
-     * @return the remoteIPAddress value
+     * @return the remoteIPAddress value.
      */
     public String remoteIPAddress() {
         return this.remoteIPAddress;
@@ -110,7 +110,7 @@ public class PacketCaptureFilter {
     /**
      * Set the remoteIPAddress value.
      *
-     * @param remoteIPAddress the remoteIPAddress value to set
+     * @param remoteIPAddress the remoteIPAddress value to set.
      * @return the PacketCaptureFilter object itself.
      */
     public PacketCaptureFilter withRemoteIPAddress(String remoteIPAddress) {
@@ -121,7 +121,7 @@ public class PacketCaptureFilter {
     /**
      * Get the localPort value.
      *
-     * @return the localPort value
+     * @return the localPort value.
      */
     public String localPort() {
         return this.localPort;
@@ -130,7 +130,7 @@ public class PacketCaptureFilter {
     /**
      * Set the localPort value.
      *
-     * @param localPort the localPort value to set
+     * @param localPort the localPort value to set.
      * @return the PacketCaptureFilter object itself.
      */
     public PacketCaptureFilter withLocalPort(String localPort) {
@@ -141,7 +141,7 @@ public class PacketCaptureFilter {
     /**
      * Get the remotePort value.
      *
-     * @return the remotePort value
+     * @return the remotePort value.
      */
     public String remotePort() {
         return this.remotePort;
@@ -150,12 +150,11 @@ public class PacketCaptureFilter {
     /**
      * Set the remotePort value.
      *
-     * @param remotePort the remotePort value to set
+     * @param remotePort the remotePort value to set.
      * @return the PacketCaptureFilter object itself.
      */
     public PacketCaptureFilter withRemotePort(String remotePort) {
         this.remotePort = remotePort;
         return this;
     }
-
 }

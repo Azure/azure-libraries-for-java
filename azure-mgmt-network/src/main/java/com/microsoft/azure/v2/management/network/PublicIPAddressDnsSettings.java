@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Contains FQDN of the DNS record associated with the public IP address.
  */
-public class PublicIPAddressDnsSettings {
+public final class PublicIPAddressDnsSettings {
     /**
      * Gets or sets the Domain name label.The concatenation of the domain name
      * label and the regionalized DNS zone make up the fully qualified domain
@@ -44,7 +44,7 @@ public class PublicIPAddressDnsSettings {
     /**
      * Get the domainNameLabel value.
      *
-     * @return the domainNameLabel value
+     * @return the domainNameLabel value.
      */
     public String domainNameLabel() {
         return this.domainNameLabel;
@@ -53,7 +53,7 @@ public class PublicIPAddressDnsSettings {
     /**
      * Set the domainNameLabel value.
      *
-     * @param domainNameLabel the domainNameLabel value to set
+     * @param domainNameLabel the domainNameLabel value to set.
      * @return the PublicIPAddressDnsSettings object itself.
      */
     public PublicIPAddressDnsSettings withDomainNameLabel(String domainNameLabel) {
@@ -64,7 +64,7 @@ public class PublicIPAddressDnsSettings {
     /**
      * Get the fqdn value.
      *
-     * @return the fqdn value
+     * @return the fqdn value.
      */
     public String fqdn() {
         return this.fqdn;
@@ -73,7 +73,7 @@ public class PublicIPAddressDnsSettings {
     /**
      * Set the fqdn value.
      *
-     * @param fqdn the fqdn value to set
+     * @param fqdn the fqdn value to set.
      * @return the PublicIPAddressDnsSettings object itself.
      */
     public PublicIPAddressDnsSettings withFqdn(String fqdn) {
@@ -84,7 +84,7 @@ public class PublicIPAddressDnsSettings {
     /**
      * Get the reverseFqdn value.
      *
-     * @return the reverseFqdn value
+     * @return the reverseFqdn value.
      */
     public String reverseFqdn() {
         return this.reverseFqdn;
@@ -93,12 +93,11 @@ public class PublicIPAddressDnsSettings {
     /**
      * Set the reverseFqdn value.
      *
-     * @param reverseFqdn the reverseFqdn value to set
+     * @param reverseFqdn the reverseFqdn value to set.
      * @return the PublicIPAddressDnsSettings object itself.
      */
     public PublicIPAddressDnsSettings withReverseFqdn(String reverseFqdn) {
         this.reverseFqdn = reverseFqdn;
         return this;
     }
-
 }

@@ -8,10 +8,10 @@
 
 package com.microsoft.azure.v2.management.network.implementation;
 
-import java.util.List;
-import com.microsoft.azure.SubResource;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.v2.SubResource;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
+import java.util.List;
 
 /**
  * Pool of backend IP addresses.
@@ -60,7 +60,7 @@ public class BackendAddressPoolInner extends SubResource {
     /**
      * Get the backendIPConfigurations value.
      *
-     * @return the backendIPConfigurations value
+     * @return the backendIPConfigurations value.
      */
     public List<NetworkInterfaceIPConfigurationInner> backendIPConfigurations() {
         return this.backendIPConfigurations;
@@ -69,7 +69,7 @@ public class BackendAddressPoolInner extends SubResource {
     /**
      * Get the loadBalancingRules value.
      *
-     * @return the loadBalancingRules value
+     * @return the loadBalancingRules value.
      */
     public List<SubResource> loadBalancingRules() {
         return this.loadBalancingRules;
@@ -78,7 +78,7 @@ public class BackendAddressPoolInner extends SubResource {
     /**
      * Get the outboundNatRule value.
      *
-     * @return the outboundNatRule value
+     * @return the outboundNatRule value.
      */
     public SubResource outboundNatRule() {
         return this.outboundNatRule;
@@ -87,7 +87,7 @@ public class BackendAddressPoolInner extends SubResource {
     /**
      * Get the provisioningState value.
      *
-     * @return the provisioningState value
+     * @return the provisioningState value.
      */
     public String provisioningState() {
         return this.provisioningState;
@@ -96,7 +96,7 @@ public class BackendAddressPoolInner extends SubResource {
     /**
      * Set the provisioningState value.
      *
-     * @param provisioningState the provisioningState value to set
+     * @param provisioningState the provisioningState value to set.
      * @return the BackendAddressPoolInner object itself.
      */
     public BackendAddressPoolInner withProvisioningState(String provisioningState) {
@@ -107,7 +107,7 @@ public class BackendAddressPoolInner extends SubResource {
     /**
      * Get the name value.
      *
-     * @return the name value
+     * @return the name value.
      */
     public String name() {
         return this.name;
@@ -116,7 +116,7 @@ public class BackendAddressPoolInner extends SubResource {
     /**
      * Set the name value.
      *
-     * @param name the name value to set
+     * @param name the name value to set.
      * @return the BackendAddressPoolInner object itself.
      */
     public BackendAddressPoolInner withName(String name) {
@@ -127,7 +127,7 @@ public class BackendAddressPoolInner extends SubResource {
     /**
      * Get the etag value.
      *
-     * @return the etag value
+     * @return the etag value.
      */
     public String etag() {
         return this.etag;
@@ -136,12 +136,11 @@ public class BackendAddressPoolInner extends SubResource {
     /**
      * Set the etag value.
      *
-     * @param etag the etag value to set
+     * @param etag the etag value to set.
      * @return the BackendAddressPoolInner object itself.
      */
     public BackendAddressPoolInner withEtag(String etag) {
         this.etag = etag;
         return this;
     }
-
 }

@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Recommended actions based on discovered issues.
  */
-public class TroubleshootingRecommendedActions {
+public final class TroubleshootingRecommendedActions {
     /**
      * ID of the recommended action.
      */
@@ -43,7 +43,7 @@ public class TroubleshootingRecommendedActions {
     /**
      * Get the actionId value.
      *
-     * @return the actionId value
+     * @return the actionId value.
      */
     public String actionId() {
         return this.actionId;
@@ -52,7 +52,7 @@ public class TroubleshootingRecommendedActions {
     /**
      * Set the actionId value.
      *
-     * @param actionId the actionId value to set
+     * @param actionId the actionId value to set.
      * @return the TroubleshootingRecommendedActions object itself.
      */
     public TroubleshootingRecommendedActions withActionId(String actionId) {
@@ -63,7 +63,7 @@ public class TroubleshootingRecommendedActions {
     /**
      * Get the actionText value.
      *
-     * @return the actionText value
+     * @return the actionText value.
      */
     public String actionText() {
         return this.actionText;
@@ -72,7 +72,7 @@ public class TroubleshootingRecommendedActions {
     /**
      * Set the actionText value.
      *
-     * @param actionText the actionText value to set
+     * @param actionText the actionText value to set.
      * @return the TroubleshootingRecommendedActions object itself.
      */
     public TroubleshootingRecommendedActions withActionText(String actionText) {
@@ -83,7 +83,7 @@ public class TroubleshootingRecommendedActions {
     /**
      * Get the actionUri value.
      *
-     * @return the actionUri value
+     * @return the actionUri value.
      */
     public String actionUri() {
         return this.actionUri;
@@ -92,7 +92,7 @@ public class TroubleshootingRecommendedActions {
     /**
      * Set the actionUri value.
      *
-     * @param actionUri the actionUri value to set
+     * @param actionUri the actionUri value to set.
      * @return the TroubleshootingRecommendedActions object itself.
      */
     public TroubleshootingRecommendedActions withActionUri(String actionUri) {
@@ -103,7 +103,7 @@ public class TroubleshootingRecommendedActions {
     /**
      * Get the actionUriText value.
      *
-     * @return the actionUriText value
+     * @return the actionUriText value.
      */
     public String actionUriText() {
         return this.actionUriText;
@@ -112,12 +112,11 @@ public class TroubleshootingRecommendedActions {
     /**
      * Set the actionUriText value.
      *
-     * @param actionUriText the actionUriText value to set
+     * @param actionUriText the actionUriText value to set.
      * @return the TroubleshootingRecommendedActions object itself.
      */
     public TroubleshootingRecommendedActions withActionUriText(String actionUriText) {
         this.actionUriText = actionUriText;
         return this;
     }
-
 }

@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Parameters that define the configuration of traffic analytics.
  */
-public class TrafficAnalyticsConfigurationProperties {
+public final class TrafficAnalyticsConfigurationProperties {
     /**
      * Flag to enable/disable traffic analytics.
      */
@@ -41,7 +41,7 @@ public class TrafficAnalyticsConfigurationProperties {
     /**
      * Get the enabled value.
      *
-     * @return the enabled value
+     * @return the enabled value.
      */
     public boolean enabled() {
         return this.enabled;
@@ -50,7 +50,7 @@ public class TrafficAnalyticsConfigurationProperties {
     /**
      * Set the enabled value.
      *
-     * @param enabled the enabled value to set
+     * @param enabled the enabled value to set.
      * @return the TrafficAnalyticsConfigurationProperties object itself.
      */
     public TrafficAnalyticsConfigurationProperties withEnabled(boolean enabled) {
@@ -61,7 +61,7 @@ public class TrafficAnalyticsConfigurationProperties {
     /**
      * Get the workspaceId value.
      *
-     * @return the workspaceId value
+     * @return the workspaceId value.
      */
     public String workspaceId() {
         return this.workspaceId;
@@ -70,7 +70,7 @@ public class TrafficAnalyticsConfigurationProperties {
     /**
      * Set the workspaceId value.
      *
-     * @param workspaceId the workspaceId value to set
+     * @param workspaceId the workspaceId value to set.
      * @return the TrafficAnalyticsConfigurationProperties object itself.
      */
     public TrafficAnalyticsConfigurationProperties withWorkspaceId(String workspaceId) {
@@ -81,7 +81,7 @@ public class TrafficAnalyticsConfigurationProperties {
     /**
      * Get the workspaceRegion value.
      *
-     * @return the workspaceRegion value
+     * @return the workspaceRegion value.
      */
     public String workspaceRegion() {
         return this.workspaceRegion;
@@ -90,7 +90,7 @@ public class TrafficAnalyticsConfigurationProperties {
     /**
      * Set the workspaceRegion value.
      *
-     * @param workspaceRegion the workspaceRegion value to set
+     * @param workspaceRegion the workspaceRegion value to set.
      * @return the TrafficAnalyticsConfigurationProperties object itself.
      */
     public TrafficAnalyticsConfigurationProperties withWorkspaceRegion(String workspaceRegion) {
@@ -101,7 +101,7 @@ public class TrafficAnalyticsConfigurationProperties {
     /**
      * Get the workspaceResourceId value.
      *
-     * @return the workspaceResourceId value
+     * @return the workspaceResourceId value.
      */
     public String workspaceResourceId() {
         return this.workspaceResourceId;
@@ -110,12 +110,11 @@ public class TrafficAnalyticsConfigurationProperties {
     /**
      * Set the workspaceResourceId value.
      *
-     * @param workspaceResourceId the workspaceResourceId value to set
+     * @param workspaceResourceId the workspaceResourceId value to set.
      * @return the TrafficAnalyticsConfigurationProperties object itself.
      */
     public TrafficAnalyticsConfigurationProperties withWorkspaceResourceId(String workspaceResourceId) {
         this.workspaceResourceId = workspaceResourceId;
         return this;
     }
-
 }

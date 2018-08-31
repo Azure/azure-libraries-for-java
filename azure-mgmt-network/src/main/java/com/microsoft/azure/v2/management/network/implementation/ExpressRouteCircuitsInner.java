@@ -8,142 +8,203 @@
 
 package com.microsoft.azure.v2.management.network.implementation;
 
-import com.microsoft.azure.v2.management.resources.fluentcore.collection.InnerSupportsGet;
-import com.microsoft.azure.v2.management.resources.fluentcore.collection.InnerSupportsDelete;
-import com.microsoft.azure.v2.management.resources.fluentcore.collection.InnerSupportsListing;
-import retrofit2.Retrofit;
-import com.google.common.reflect.TypeToken;
-import com.microsoft.azure.AzureServiceFuture;
-import com.microsoft.azure.CloudException;
-import com.microsoft.azure.ListOperationCallback;
+import com.microsoft.azure.v2.AzureProxy;
+import com.microsoft.azure.v2.CloudException;
+import com.microsoft.azure.v2.OperationStatus;
+import com.microsoft.azure.v2.Page;
+import com.microsoft.azure.v2.PagedList;
 import com.microsoft.azure.v2.management.network.TagsObject;
-import com.microsoft.azure.Page;
-import com.microsoft.azure.PagedList;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import com.microsoft.rest.ServiceResponse;
-import com.microsoft.rest.Validator;
-import java.io.IOException;
-import java.util.List;
+import com.microsoft.azure.v2.management.resources.fluentcore.collection.InnerSupportsDelete;
+import com.microsoft.azure.v2.management.resources.fluentcore.collection.InnerSupportsGet;
+import com.microsoft.azure.v2.management.resources.fluentcore.collection.InnerSupportsListing;
+import com.microsoft.azure.v2.util.ServiceFutureUtil;
+import com.microsoft.rest.v2.BodyResponse;
+import com.microsoft.rest.v2.OperationDescription;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
+import com.microsoft.rest.v2.Validator;
+import com.microsoft.rest.v2.VoidResponse;
+import com.microsoft.rest.v2.annotations.BodyParam;
+import com.microsoft.rest.v2.annotations.DELETE;
+import com.microsoft.rest.v2.annotations.ExpectedResponses;
+import com.microsoft.rest.v2.annotations.GET;
+import com.microsoft.rest.v2.annotations.HeaderParam;
+import com.microsoft.rest.v2.annotations.Host;
+import com.microsoft.rest.v2.annotations.PATCH;
+import com.microsoft.rest.v2.annotations.PathParam;
+import com.microsoft.rest.v2.annotations.POST;
+import com.microsoft.rest.v2.annotations.PUT;
+import com.microsoft.rest.v2.annotations.QueryParam;
+import com.microsoft.rest.v2.annotations.ResumeOperation;
+import com.microsoft.rest.v2.annotations.UnexpectedResponseExceptionType;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
+import io.reactivex.Single;
+import io.reactivex.annotations.NonNull;
+import java.util.HashMap;
 import java.util.Map;
-import okhttp3.ResponseBody;
-import retrofit2.http.Body;
-import retrofit2.http.GET;
-import retrofit2.http.Header;
-import retrofit2.http.Headers;
-import retrofit2.http.HTTP;
-import retrofit2.http.PATCH;
-import retrofit2.http.Path;
-import retrofit2.http.POST;
-import retrofit2.http.PUT;
-import retrofit2.http.Query;
-import retrofit2.http.Url;
-import retrofit2.Response;
-import rx.functions.Func1;
-import rx.Observable;
 
 /**
- * An instance of this class provides access to all the operations defined
- * in ExpressRouteCircuits.
+ * An instance of this class provides access to all the operations defined in
+ * ExpressRouteCircuits.
  */
-public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteCircuitInner>, InnerSupportsDelete<Void>, InnerSupportsListing<ExpressRouteCircuitInner> {
-    /** The Retrofit service to perform REST calls. */
+public final class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteCircuitInner>, InnerSupportsDelete<Void>, InnerSupportsListing<ExpressRouteCircuitInner> {
+    /**
+     * The proxy service used to perform REST calls.
+     */
     private ExpressRouteCircuitsService service;
-    /** The service client containing this operation class. */
+
+    /**
+     * The service client containing this operation class.
+     */
     private NetworkManagementClientImpl client;
 
     /**
      * Initializes an instance of ExpressRouteCircuitsInner.
      *
-     * @param retrofit the Retrofit instance built from a Retrofit Builder.
      * @param client the instance of the service client containing this operation class.
      */
-    public ExpressRouteCircuitsInner(Retrofit retrofit, NetworkManagementClientImpl client) {
-        this.service = retrofit.create(ExpressRouteCircuitsService.class);
+    public ExpressRouteCircuitsInner(NetworkManagementClientImpl client) {
+        this.service = AzureProxy.create(ExpressRouteCircuitsService.class, client);
         this.client = client;
     }
 
     /**
      * The interface defining all the services for ExpressRouteCircuits to be
-     * used by Retrofit to perform actually REST calls.
+     * used by the proxy service to perform REST calls.
      */
-    interface ExpressRouteCircuitsService {
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.ExpressRouteCircuits delete" })
-        @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}", method = "DELETE", hasBody = true)
-        Observable<Response<ResponseBody>> delete(@Path("resourceGroupName") String resourceGroupName, @Path("circuitName") String circuitName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+    @Host("https://management.azure.com")
+    private interface ExpressRouteCircuitsService {
+        @DELETE("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Observable<OperationStatus<Void>> beginDelete(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("circuitName") String circuitName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.ExpressRouteCircuits beginDelete" })
-        @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}", method = "DELETE", hasBody = true)
-        Observable<Response<ResponseBody>> beginDelete(@Path("resourceGroupName") String resourceGroupName, @Path("circuitName") String circuitName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @DELETE("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<VoidResponse> delete(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("circuitName") String circuitName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.ExpressRouteCircuits getByResourceGroup" })
+        @DELETE("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<Void>> resumeDelete(OperationDescription operationDescription);
+
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}")
-        Observable<Response<ResponseBody>> getByResourceGroup(@Path("resourceGroupName") String resourceGroupName, @Path("circuitName") String circuitName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<ExpressRouteCircuitInner>> getByResourceGroup(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("circuitName") String circuitName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.ExpressRouteCircuits createOrUpdate" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}")
-        Observable<Response<ResponseBody>> createOrUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("circuitName") String circuitName, @Path("subscriptionId") String subscriptionId, @Body ExpressRouteCircuitInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 201, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Observable<OperationStatus<ExpressRouteCircuitInner>> beginCreateOrUpdate(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("circuitName") String circuitName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json; charset=utf-8") ExpressRouteCircuitInner parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.ExpressRouteCircuits beginCreateOrUpdate" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}")
-        Observable<Response<ResponseBody>> beginCreateOrUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("circuitName") String circuitName, @Path("subscriptionId") String subscriptionId, @Body ExpressRouteCircuitInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 201, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<ExpressRouteCircuitInner>> createOrUpdate(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("circuitName") String circuitName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json; charset=utf-8") ExpressRouteCircuitInner parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.ExpressRouteCircuits updateTags" })
+        @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}")
+        @ExpectedResponses({200, 201, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<ExpressRouteCircuitInner>> resumeCreateOrUpdate(OperationDescription operationDescription);
+
         @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}")
-        Observable<Response<ResponseBody>> updateTags(@Path("resourceGroupName") String resourceGroupName, @Path("circuitName") String circuitName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body TagsObject parameters, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Observable<OperationStatus<ExpressRouteCircuitInner>> beginUpdateTags(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("circuitName") String circuitName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @BodyParam("application/json; charset=utf-8") TagsObject parameters);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.ExpressRouteCircuits beginUpdateTags" })
         @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}")
-        Observable<Response<ResponseBody>> beginUpdateTags(@Path("resourceGroupName") String resourceGroupName, @Path("circuitName") String circuitName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body TagsObject parameters, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<ExpressRouteCircuitInner>> updateTags(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("circuitName") String circuitName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @BodyParam("application/json; charset=utf-8") TagsObject parameters);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.ExpressRouteCircuits listArpTable" })
+        @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<ExpressRouteCircuitInner>> resumeUpdateTags(OperationDescription operationDescription);
+
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/arpTables/{devicePath}")
-        Observable<Response<ResponseBody>> listArpTable(@Path("resourceGroupName") String resourceGroupName, @Path("circuitName") String circuitName, @Path("peeringName") String peeringName, @Path("devicePath") String devicePath, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Observable<OperationStatus<ExpressRouteCircuitsArpTableListResultInner>> beginListArpTable(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("circuitName") String circuitName, @PathParam("peeringName") String peeringName, @PathParam("devicePath") String devicePath, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.ExpressRouteCircuits beginListArpTable" })
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/arpTables/{devicePath}")
-        Observable<Response<ResponseBody>> beginListArpTable(@Path("resourceGroupName") String resourceGroupName, @Path("circuitName") String circuitName, @Path("peeringName") String peeringName, @Path("devicePath") String devicePath, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<ExpressRouteCircuitsArpTableListResultInner>> listArpTable(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("circuitName") String circuitName, @PathParam("peeringName") String peeringName, @PathParam("devicePath") String devicePath, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.ExpressRouteCircuits listRoutesTable" })
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/arpTables/{devicePath}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<ExpressRouteCircuitsArpTableListResultInner>> resumeListArpTable(OperationDescription operationDescription);
+
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/routeTables/{devicePath}")
-        Observable<Response<ResponseBody>> listRoutesTable(@Path("resourceGroupName") String resourceGroupName, @Path("circuitName") String circuitName, @Path("peeringName") String peeringName, @Path("devicePath") String devicePath, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Observable<OperationStatus<ExpressRouteCircuitsRoutesTableListResultInner>> beginListRoutesTable(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("circuitName") String circuitName, @PathParam("peeringName") String peeringName, @PathParam("devicePath") String devicePath, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.ExpressRouteCircuits beginListRoutesTable" })
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/routeTables/{devicePath}")
-        Observable<Response<ResponseBody>> beginListRoutesTable(@Path("resourceGroupName") String resourceGroupName, @Path("circuitName") String circuitName, @Path("peeringName") String peeringName, @Path("devicePath") String devicePath, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<ExpressRouteCircuitsRoutesTableListResultInner>> listRoutesTable(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("circuitName") String circuitName, @PathParam("peeringName") String peeringName, @PathParam("devicePath") String devicePath, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.ExpressRouteCircuits listRoutesTableSummary" })
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/routeTables/{devicePath}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<ExpressRouteCircuitsRoutesTableListResultInner>> resumeListRoutesTable(OperationDescription operationDescription);
+
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/routeTablesSummary/{devicePath}")
-        Observable<Response<ResponseBody>> listRoutesTableSummary(@Path("resourceGroupName") String resourceGroupName, @Path("circuitName") String circuitName, @Path("peeringName") String peeringName, @Path("devicePath") String devicePath, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Observable<OperationStatus<ExpressRouteCircuitsRoutesTableSummaryListResultInner>> beginListRoutesTableSummary(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("circuitName") String circuitName, @PathParam("peeringName") String peeringName, @PathParam("devicePath") String devicePath, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.ExpressRouteCircuits beginListRoutesTableSummary" })
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/routeTablesSummary/{devicePath}")
-        Observable<Response<ResponseBody>> beginListRoutesTableSummary(@Path("resourceGroupName") String resourceGroupName, @Path("circuitName") String circuitName, @Path("peeringName") String peeringName, @Path("devicePath") String devicePath, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<ExpressRouteCircuitsRoutesTableSummaryListResultInner>> listRoutesTableSummary(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("circuitName") String circuitName, @PathParam("peeringName") String peeringName, @PathParam("devicePath") String devicePath, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.ExpressRouteCircuits getStats" })
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/routeTablesSummary/{devicePath}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<ExpressRouteCircuitsRoutesTableSummaryListResultInner>> resumeListRoutesTableSummary(OperationDescription operationDescription);
+
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/stats")
-        Observable<Response<ResponseBody>> getStats(@Path("resourceGroupName") String resourceGroupName, @Path("circuitName") String circuitName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<ExpressRouteCircuitStatsInner>> getStats(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("circuitName") String circuitName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.ExpressRouteCircuits getPeeringStats" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/stats")
-        Observable<Response<ResponseBody>> getPeeringStats(@Path("resourceGroupName") String resourceGroupName, @Path("circuitName") String circuitName, @Path("peeringName") String peeringName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<ExpressRouteCircuitStatsInner>> getPeeringStats(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("circuitName") String circuitName, @PathParam("peeringName") String peeringName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.ExpressRouteCircuits listByResourceGroup" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits")
-        Observable<Response<ResponseBody>> listByResourceGroup(@Path("resourceGroupName") String resourceGroupName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl<ExpressRouteCircuitInner>>> listByResourceGroup(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.ExpressRouteCircuits list" })
         @GET("subscriptions/{subscriptionId}/providers/Microsoft.Network/expressRouteCircuits")
-        Observable<Response<ResponseBody>> list(@Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl<ExpressRouteCircuitInner>>> list(@PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.ExpressRouteCircuits listByResourceGroupNext" })
-        @GET
-        Observable<Response<ResponseBody>> listByResourceGroupNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @GET("{nextUrl}")
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl<ExpressRouteCircuitInner>>> listNext(@PathParam(value = "nextUrl", encoded = true) String nextUrl, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.ExpressRouteCircuits listNext" })
-        @GET
-        Observable<Response<ResponseBody>> listNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
-
+        @GET("{nextUrl}")
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl<ExpressRouteCircuitInner>>> listAllNext(@PathParam(value = "nextUrl", encoded = true) String nextUrl, @HeaderParam("accept-language") String acceptLanguage);
     }
 
     /**
@@ -151,12 +212,12 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
      *
      * @param resourceGroupName The name of the resource group.
      * @param circuitName The name of the express route circuit.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void delete(String resourceGroupName, String circuitName) {
-        deleteWithServiceResponseAsync(resourceGroupName, circuitName).toBlocking().last().body();
+    public void beginDelete(@NonNull String resourceGroupName, @NonNull String circuitName) {
+        beginDeleteAsync(resourceGroupName, circuitName).blockingLast();
     }
 
     /**
@@ -165,11 +226,11 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
      * @param resourceGroupName The name of the resource group.
      * @param circuitName The name of the express route circuit.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;Void&gt; object.
      */
-    public ServiceFuture<Void> deleteAsync(String resourceGroupName, String circuitName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(deleteWithServiceResponseAsync(resourceGroupName, circuitName), serviceCallback);
+    public ServiceFuture<Void> beginDeleteAsync(@NonNull String resourceGroupName, @NonNull String circuitName, ServiceCallback<Void> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginDeleteAsync(resourceGroupName, circuitName), serviceCallback);
     }
 
     /**
@@ -177,27 +238,10 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
      *
      * @param resourceGroupName The name of the resource group.
      * @param circuitName The name of the express route circuit.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<Void> deleteAsync(String resourceGroupName, String circuitName) {
-        return deleteWithServiceResponseAsync(resourceGroupName, circuitName).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Deletes the specified express route circuit.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param circuitName The name of the express route circuit.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<Void>> deleteWithServiceResponseAsync(String resourceGroupName, String circuitName) {
+    public Observable<OperationStatus<Void>> beginDeleteAsync(@NonNull String resourceGroupName, @NonNull String circuitName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -208,8 +252,7 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        Observable<Response<ResponseBody>> observable = service.delete(resourceGroupName, circuitName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
+        return service.beginDelete(resourceGroupName, circuitName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
     /**
@@ -217,12 +260,12 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
      *
      * @param resourceGroupName The name of the resource group.
      * @param circuitName The name of the express route circuit.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void beginDelete(String resourceGroupName, String circuitName) {
-        beginDeleteWithServiceResponseAsync(resourceGroupName, circuitName).toBlocking().single().body();
+    public void delete(@NonNull String resourceGroupName, @NonNull String circuitName) {
+        deleteAsync(resourceGroupName, circuitName).blockingGet();
     }
 
     /**
@@ -231,11 +274,11 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
      * @param resourceGroupName The name of the resource group.
      * @param circuitName The name of the express route circuit.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<Void> beginDeleteAsync(String resourceGroupName, String circuitName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(beginDeleteWithServiceResponseAsync(resourceGroupName, circuitName), serviceCallback);
+    public ServiceFuture<Void> deleteAsync(@NonNull String resourceGroupName, @NonNull String circuitName, ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromBody(deleteAsync(resourceGroupName, circuitName), serviceCallback);
     }
 
     /**
@@ -243,27 +286,10 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
      *
      * @param resourceGroupName The name of the resource group.
      * @param circuitName The name of the express route circuit.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<Void> beginDeleteAsync(String resourceGroupName, String circuitName) {
-        return beginDeleteWithServiceResponseAsync(resourceGroupName, circuitName).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Deletes the specified express route circuit.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param circuitName The name of the express route circuit.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
-     */
-    public Observable<ServiceResponse<Void>> beginDeleteWithServiceResponseAsync(String resourceGroupName, String circuitName) {
+    public Single<VoidResponse> deleteWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String circuitName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -274,27 +300,34 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        return service.beginDelete(resourceGroupName, circuitName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
-                @Override
-                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<Void> clientResponse = beginDeleteDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.delete(resourceGroupName, circuitName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<Void> beginDeleteDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<Void>() { }.getType())
-                .register(202, new TypeToken<Void>() { }.getType())
-                .register(204, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Deletes the specified express route circuit.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param circuitName The name of the express route circuit.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<Void> deleteAsync(@NonNull String resourceGroupName, @NonNull String circuitName) {
+        return deleteWithRestResponseAsync(resourceGroupName, circuitName)
+            .flatMapMaybe((VoidResponse res) -> Maybe.empty());
+    }
+
+    /**
+     * Deletes the specified express route circuit. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<Void>> resumeDelete(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeDelete(operationDescription);
     }
 
     /**
@@ -302,13 +335,13 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
      *
      * @param resourceGroupName The name of the resource group.
      * @param circuitName The name of express route circuit.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the ExpressRouteCircuitInner object if successful.
      */
-    public ExpressRouteCircuitInner getByResourceGroup(String resourceGroupName, String circuitName) {
-        return getByResourceGroupWithServiceResponseAsync(resourceGroupName, circuitName).toBlocking().single().body();
+    public ExpressRouteCircuitInner getByResourceGroup(@NonNull String resourceGroupName, @NonNull String circuitName) {
+        return getByResourceGroupAsync(resourceGroupName, circuitName).blockingGet();
     }
 
     /**
@@ -317,11 +350,11 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
      * @param resourceGroupName The name of the resource group.
      * @param circuitName The name of express route circuit.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<ExpressRouteCircuitInner> getByResourceGroupAsync(String resourceGroupName, String circuitName, final ServiceCallback<ExpressRouteCircuitInner> serviceCallback) {
-        return ServiceFuture.fromResponse(getByResourceGroupWithServiceResponseAsync(resourceGroupName, circuitName), serviceCallback);
+    public ServiceFuture<ExpressRouteCircuitInner> getByResourceGroupAsync(@NonNull String resourceGroupName, @NonNull String circuitName, ServiceCallback<ExpressRouteCircuitInner> serviceCallback) {
+        return ServiceFuture.fromBody(getByResourceGroupAsync(resourceGroupName, circuitName), serviceCallback);
     }
 
     /**
@@ -329,27 +362,10 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
      *
      * @param resourceGroupName The name of the resource group.
      * @param circuitName The name of express route circuit.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ExpressRouteCircuitInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<ExpressRouteCircuitInner> getByResourceGroupAsync(String resourceGroupName, String circuitName) {
-        return getByResourceGroupWithServiceResponseAsync(resourceGroupName, circuitName).map(new Func1<ServiceResponse<ExpressRouteCircuitInner>, ExpressRouteCircuitInner>() {
-            @Override
-            public ExpressRouteCircuitInner call(ServiceResponse<ExpressRouteCircuitInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Gets information about the specified express route circuit.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param circuitName The name of express route circuit.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ExpressRouteCircuitInner object
-     */
-    public Observable<ServiceResponse<ExpressRouteCircuitInner>> getByResourceGroupWithServiceResponseAsync(String resourceGroupName, String circuitName) {
+    public Single<BodyResponse<ExpressRouteCircuitInner>> getByResourceGroupWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String circuitName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -360,25 +376,20 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        return service.getByResourceGroup(resourceGroupName, circuitName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ExpressRouteCircuitInner>>>() {
-                @Override
-                public Observable<ServiceResponse<ExpressRouteCircuitInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<ExpressRouteCircuitInner> clientResponse = getByResourceGroupDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.getByResourceGroup(resourceGroupName, circuitName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<ExpressRouteCircuitInner> getByResourceGroupDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<ExpressRouteCircuitInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<ExpressRouteCircuitInner>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Gets information about the specified express route circuit.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param circuitName The name of express route circuit.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<ExpressRouteCircuitInner> getByResourceGroupAsync(@NonNull String resourceGroupName, @NonNull String circuitName) {
+        return getByResourceGroupWithRestResponseAsync(resourceGroupName, circuitName)
+            .flatMapMaybe((BodyResponse<ExpressRouteCircuitInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
@@ -387,13 +398,13 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
      * @param resourceGroupName The name of the resource group.
      * @param circuitName The name of the circuit.
      * @param parameters Parameters supplied to the create or update express route circuit operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the ExpressRouteCircuitInner object if successful.
      */
-    public ExpressRouteCircuitInner createOrUpdate(String resourceGroupName, String circuitName, ExpressRouteCircuitInner parameters) {
-        return createOrUpdateWithServiceResponseAsync(resourceGroupName, circuitName, parameters).toBlocking().last().body();
+    public ExpressRouteCircuitInner beginCreateOrUpdate(@NonNull String resourceGroupName, @NonNull String circuitName, @NonNull ExpressRouteCircuitInner parameters) {
+        return beginCreateOrUpdateAsync(resourceGroupName, circuitName, parameters).blockingLast().result();
     }
 
     /**
@@ -403,11 +414,11 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
      * @param circuitName The name of the circuit.
      * @param parameters Parameters supplied to the create or update express route circuit operation.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;ExpressRouteCircuitInner&gt; object.
      */
-    public ServiceFuture<ExpressRouteCircuitInner> createOrUpdateAsync(String resourceGroupName, String circuitName, ExpressRouteCircuitInner parameters, final ServiceCallback<ExpressRouteCircuitInner> serviceCallback) {
-        return ServiceFuture.fromResponse(createOrUpdateWithServiceResponseAsync(resourceGroupName, circuitName, parameters), serviceCallback);
+    public ServiceFuture<ExpressRouteCircuitInner> beginCreateOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String circuitName, @NonNull ExpressRouteCircuitInner parameters, ServiceCallback<ExpressRouteCircuitInner> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginCreateOrUpdateAsync(resourceGroupName, circuitName, parameters), serviceCallback);
     }
 
     /**
@@ -416,28 +427,10 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
      * @param resourceGroupName The name of the resource group.
      * @param circuitName The name of the circuit.
      * @param parameters Parameters supplied to the create or update express route circuit operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<ExpressRouteCircuitInner> createOrUpdateAsync(String resourceGroupName, String circuitName, ExpressRouteCircuitInner parameters) {
-        return createOrUpdateWithServiceResponseAsync(resourceGroupName, circuitName, parameters).map(new Func1<ServiceResponse<ExpressRouteCircuitInner>, ExpressRouteCircuitInner>() {
-            @Override
-            public ExpressRouteCircuitInner call(ServiceResponse<ExpressRouteCircuitInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Creates or updates an express route circuit.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param circuitName The name of the circuit.
-     * @param parameters Parameters supplied to the create or update express route circuit operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<ExpressRouteCircuitInner>> createOrUpdateWithServiceResponseAsync(String resourceGroupName, String circuitName, ExpressRouteCircuitInner parameters) {
+    public Observable<OperationStatus<ExpressRouteCircuitInner>> beginCreateOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String circuitName, @NonNull ExpressRouteCircuitInner parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -452,8 +445,7 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
         }
         Validator.validate(parameters);
         final String apiVersion = "2018-06-01";
-        Observable<Response<ResponseBody>> observable = service.createOrUpdate(resourceGroupName, circuitName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<ExpressRouteCircuitInner>() { }.getType());
+        return service.beginCreateOrUpdate(resourceGroupName, circuitName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage());
     }
 
     /**
@@ -462,13 +454,13 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
      * @param resourceGroupName The name of the resource group.
      * @param circuitName The name of the circuit.
      * @param parameters Parameters supplied to the create or update express route circuit operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the ExpressRouteCircuitInner object if successful.
      */
-    public ExpressRouteCircuitInner beginCreateOrUpdate(String resourceGroupName, String circuitName, ExpressRouteCircuitInner parameters) {
-        return beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, circuitName, parameters).toBlocking().single().body();
+    public ExpressRouteCircuitInner createOrUpdate(@NonNull String resourceGroupName, @NonNull String circuitName, @NonNull ExpressRouteCircuitInner parameters) {
+        return createOrUpdateAsync(resourceGroupName, circuitName, parameters).blockingGet();
     }
 
     /**
@@ -478,11 +470,11 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
      * @param circuitName The name of the circuit.
      * @param parameters Parameters supplied to the create or update express route circuit operation.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<ExpressRouteCircuitInner> beginCreateOrUpdateAsync(String resourceGroupName, String circuitName, ExpressRouteCircuitInner parameters, final ServiceCallback<ExpressRouteCircuitInner> serviceCallback) {
-        return ServiceFuture.fromResponse(beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, circuitName, parameters), serviceCallback);
+    public ServiceFuture<ExpressRouteCircuitInner> createOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String circuitName, @NonNull ExpressRouteCircuitInner parameters, ServiceCallback<ExpressRouteCircuitInner> serviceCallback) {
+        return ServiceFuture.fromBody(createOrUpdateAsync(resourceGroupName, circuitName, parameters), serviceCallback);
     }
 
     /**
@@ -491,28 +483,10 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
      * @param resourceGroupName The name of the resource group.
      * @param circuitName The name of the circuit.
      * @param parameters Parameters supplied to the create or update express route circuit operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ExpressRouteCircuitInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<ExpressRouteCircuitInner> beginCreateOrUpdateAsync(String resourceGroupName, String circuitName, ExpressRouteCircuitInner parameters) {
-        return beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, circuitName, parameters).map(new Func1<ServiceResponse<ExpressRouteCircuitInner>, ExpressRouteCircuitInner>() {
-            @Override
-            public ExpressRouteCircuitInner call(ServiceResponse<ExpressRouteCircuitInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Creates or updates an express route circuit.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param circuitName The name of the circuit.
-     * @param parameters Parameters supplied to the create or update express route circuit operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ExpressRouteCircuitInner object
-     */
-    public Observable<ServiceResponse<ExpressRouteCircuitInner>> beginCreateOrUpdateWithServiceResponseAsync(String resourceGroupName, String circuitName, ExpressRouteCircuitInner parameters) {
+    public Single<BodyResponse<ExpressRouteCircuitInner>> createOrUpdateWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String circuitName, @NonNull ExpressRouteCircuitInner parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -527,26 +501,35 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
         }
         Validator.validate(parameters);
         final String apiVersion = "2018-06-01";
-        return service.beginCreateOrUpdate(resourceGroupName, circuitName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ExpressRouteCircuitInner>>>() {
-                @Override
-                public Observable<ServiceResponse<ExpressRouteCircuitInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<ExpressRouteCircuitInner> clientResponse = beginCreateOrUpdateDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.createOrUpdate(resourceGroupName, circuitName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<ExpressRouteCircuitInner> beginCreateOrUpdateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<ExpressRouteCircuitInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<ExpressRouteCircuitInner>() { }.getType())
-                .register(201, new TypeToken<ExpressRouteCircuitInner>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Creates or updates an express route circuit.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param circuitName The name of the circuit.
+     * @param parameters Parameters supplied to the create or update express route circuit operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<ExpressRouteCircuitInner> createOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String circuitName, @NonNull ExpressRouteCircuitInner parameters) {
+        return createOrUpdateWithRestResponseAsync(resourceGroupName, circuitName, parameters)
+            .flatMapMaybe((BodyResponse<ExpressRouteCircuitInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
+    }
+
+    /**
+     * Creates or updates an express route circuit. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<ExpressRouteCircuitInner>> resumeCreateOrUpdate(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeCreateOrUpdate(operationDescription);
     }
 
     /**
@@ -554,13 +537,13 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
      *
      * @param resourceGroupName The name of the resource group.
      * @param circuitName The name of the circuit.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the ExpressRouteCircuitInner object if successful.
      */
-    public ExpressRouteCircuitInner updateTags(String resourceGroupName, String circuitName) {
-        return updateTagsWithServiceResponseAsync(resourceGroupName, circuitName).toBlocking().last().body();
+    public ExpressRouteCircuitInner beginUpdateTags(@NonNull String resourceGroupName, @NonNull String circuitName) {
+        return beginUpdateTagsAsync(resourceGroupName, circuitName).blockingLast().result();
     }
 
     /**
@@ -569,11 +552,11 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
      * @param resourceGroupName The name of the resource group.
      * @param circuitName The name of the circuit.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;ExpressRouteCircuitInner&gt; object.
      */
-    public ServiceFuture<ExpressRouteCircuitInner> updateTagsAsync(String resourceGroupName, String circuitName, final ServiceCallback<ExpressRouteCircuitInner> serviceCallback) {
-        return ServiceFuture.fromResponse(updateTagsWithServiceResponseAsync(resourceGroupName, circuitName), serviceCallback);
+    public ServiceFuture<ExpressRouteCircuitInner> beginUpdateTagsAsync(@NonNull String resourceGroupName, @NonNull String circuitName, ServiceCallback<ExpressRouteCircuitInner> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginUpdateTagsAsync(resourceGroupName, circuitName), serviceCallback);
     }
 
     /**
@@ -581,27 +564,10 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
      *
      * @param resourceGroupName The name of the resource group.
      * @param circuitName The name of the circuit.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<ExpressRouteCircuitInner> updateTagsAsync(String resourceGroupName, String circuitName) {
-        return updateTagsWithServiceResponseAsync(resourceGroupName, circuitName).map(new Func1<ServiceResponse<ExpressRouteCircuitInner>, ExpressRouteCircuitInner>() {
-            @Override
-            public ExpressRouteCircuitInner call(ServiceResponse<ExpressRouteCircuitInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Updates an express route circuit tags.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param circuitName The name of the circuit.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<ExpressRouteCircuitInner>> updateTagsWithServiceResponseAsync(String resourceGroupName, String circuitName) {
+    public Observable<OperationStatus<ExpressRouteCircuitInner>> beginUpdateTagsAsync(@NonNull String resourceGroupName, @NonNull String circuitName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -615,22 +581,22 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
         final Map<String, String> tags = null;
         TagsObject parameters = new TagsObject();
         parameters.withTags(null);
-        Observable<Response<ResponseBody>> observable = service.updateTags(resourceGroupName, circuitName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent());
-        return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<ExpressRouteCircuitInner>() { }.getType());
+        return service.beginUpdateTags(resourceGroupName, circuitName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters);
     }
+
     /**
      * Updates an express route circuit tags.
      *
      * @param resourceGroupName The name of the resource group.
      * @param circuitName The name of the circuit.
      * @param tags Resource tags.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the ExpressRouteCircuitInner object if successful.
      */
-    public ExpressRouteCircuitInner updateTags(String resourceGroupName, String circuitName, Map<String, String> tags) {
-        return updateTagsWithServiceResponseAsync(resourceGroupName, circuitName, tags).toBlocking().last().body();
+    public ExpressRouteCircuitInner beginUpdateTags(@NonNull String resourceGroupName, @NonNull String circuitName, Map<String, String> tags) {
+        return beginUpdateTagsAsync(resourceGroupName, circuitName, tags).blockingLast().result();
     }
 
     /**
@@ -640,11 +606,11 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
      * @param circuitName The name of the circuit.
      * @param tags Resource tags.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;ExpressRouteCircuitInner&gt; object.
      */
-    public ServiceFuture<ExpressRouteCircuitInner> updateTagsAsync(String resourceGroupName, String circuitName, Map<String, String> tags, final ServiceCallback<ExpressRouteCircuitInner> serviceCallback) {
-        return ServiceFuture.fromResponse(updateTagsWithServiceResponseAsync(resourceGroupName, circuitName, tags), serviceCallback);
+    public ServiceFuture<ExpressRouteCircuitInner> beginUpdateTagsAsync(@NonNull String resourceGroupName, @NonNull String circuitName, Map<String, String> tags, ServiceCallback<ExpressRouteCircuitInner> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginUpdateTagsAsync(resourceGroupName, circuitName, tags), serviceCallback);
     }
 
     /**
@@ -653,28 +619,10 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
      * @param resourceGroupName The name of the resource group.
      * @param circuitName The name of the circuit.
      * @param tags Resource tags.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<ExpressRouteCircuitInner> updateTagsAsync(String resourceGroupName, String circuitName, Map<String, String> tags) {
-        return updateTagsWithServiceResponseAsync(resourceGroupName, circuitName, tags).map(new Func1<ServiceResponse<ExpressRouteCircuitInner>, ExpressRouteCircuitInner>() {
-            @Override
-            public ExpressRouteCircuitInner call(ServiceResponse<ExpressRouteCircuitInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Updates an express route circuit tags.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param circuitName The name of the circuit.
-     * @param tags Resource tags.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<ExpressRouteCircuitInner>> updateTagsWithServiceResponseAsync(String resourceGroupName, String circuitName, Map<String, String> tags) {
+    public Observable<OperationStatus<ExpressRouteCircuitInner>> beginUpdateTagsAsync(@NonNull String resourceGroupName, @NonNull String circuitName, Map<String, String> tags) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -688,8 +636,7 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
         final String apiVersion = "2018-06-01";
         TagsObject parameters = new TagsObject();
         parameters.withTags(tags);
-        Observable<Response<ResponseBody>> observable = service.updateTags(resourceGroupName, circuitName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent());
-        return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<ExpressRouteCircuitInner>() { }.getType());
+        return service.beginUpdateTags(resourceGroupName, circuitName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters);
     }
 
     /**
@@ -697,13 +644,13 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
      *
      * @param resourceGroupName The name of the resource group.
      * @param circuitName The name of the circuit.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the ExpressRouteCircuitInner object if successful.
      */
-    public ExpressRouteCircuitInner beginUpdateTags(String resourceGroupName, String circuitName) {
-        return beginUpdateTagsWithServiceResponseAsync(resourceGroupName, circuitName).toBlocking().single().body();
+    public ExpressRouteCircuitInner updateTags(@NonNull String resourceGroupName, @NonNull String circuitName) {
+        return updateTagsAsync(resourceGroupName, circuitName).blockingGet();
     }
 
     /**
@@ -712,11 +659,11 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
      * @param resourceGroupName The name of the resource group.
      * @param circuitName The name of the circuit.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<ExpressRouteCircuitInner> beginUpdateTagsAsync(String resourceGroupName, String circuitName, final ServiceCallback<ExpressRouteCircuitInner> serviceCallback) {
-        return ServiceFuture.fromResponse(beginUpdateTagsWithServiceResponseAsync(resourceGroupName, circuitName), serviceCallback);
+    public ServiceFuture<ExpressRouteCircuitInner> updateTagsAsync(@NonNull String resourceGroupName, @NonNull String circuitName, ServiceCallback<ExpressRouteCircuitInner> serviceCallback) {
+        return ServiceFuture.fromBody(updateTagsAsync(resourceGroupName, circuitName), serviceCallback);
     }
 
     /**
@@ -724,27 +671,10 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
      *
      * @param resourceGroupName The name of the resource group.
      * @param circuitName The name of the circuit.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ExpressRouteCircuitInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<ExpressRouteCircuitInner> beginUpdateTagsAsync(String resourceGroupName, String circuitName) {
-        return beginUpdateTagsWithServiceResponseAsync(resourceGroupName, circuitName).map(new Func1<ServiceResponse<ExpressRouteCircuitInner>, ExpressRouteCircuitInner>() {
-            @Override
-            public ExpressRouteCircuitInner call(ServiceResponse<ExpressRouteCircuitInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Updates an express route circuit tags.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param circuitName The name of the circuit.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ExpressRouteCircuitInner object
-     */
-    public Observable<ServiceResponse<ExpressRouteCircuitInner>> beginUpdateTagsWithServiceResponseAsync(String resourceGroupName, String circuitName) {
+    public Single<BodyResponse<ExpressRouteCircuitInner>> updateTagsWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String circuitName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -758,18 +688,20 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
         final Map<String, String> tags = null;
         TagsObject parameters = new TagsObject();
         parameters.withTags(null);
-        return service.beginUpdateTags(resourceGroupName, circuitName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ExpressRouteCircuitInner>>>() {
-                @Override
-                public Observable<ServiceResponse<ExpressRouteCircuitInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<ExpressRouteCircuitInner> clientResponse = beginUpdateTagsDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.updateTags(resourceGroupName, circuitName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters);
+    }
+
+    /**
+     * Updates an express route circuit tags.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param circuitName The name of the circuit.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<ExpressRouteCircuitInner> updateTagsAsync(@NonNull String resourceGroupName, @NonNull String circuitName) {
+        return updateTagsWithRestResponseAsync(resourceGroupName, circuitName)
+            .flatMapMaybe((BodyResponse<ExpressRouteCircuitInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
@@ -778,13 +710,13 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
      * @param resourceGroupName The name of the resource group.
      * @param circuitName The name of the circuit.
      * @param tags Resource tags.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the ExpressRouteCircuitInner object if successful.
      */
-    public ExpressRouteCircuitInner beginUpdateTags(String resourceGroupName, String circuitName, Map<String, String> tags) {
-        return beginUpdateTagsWithServiceResponseAsync(resourceGroupName, circuitName, tags).toBlocking().single().body();
+    public ExpressRouteCircuitInner updateTags(@NonNull String resourceGroupName, @NonNull String circuitName, Map<String, String> tags) {
+        return updateTagsAsync(resourceGroupName, circuitName, tags).blockingGet();
     }
 
     /**
@@ -794,11 +726,11 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
      * @param circuitName The name of the circuit.
      * @param tags Resource tags.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<ExpressRouteCircuitInner> beginUpdateTagsAsync(String resourceGroupName, String circuitName, Map<String, String> tags, final ServiceCallback<ExpressRouteCircuitInner> serviceCallback) {
-        return ServiceFuture.fromResponse(beginUpdateTagsWithServiceResponseAsync(resourceGroupName, circuitName, tags), serviceCallback);
+    public ServiceFuture<ExpressRouteCircuitInner> updateTagsAsync(@NonNull String resourceGroupName, @NonNull String circuitName, Map<String, String> tags, ServiceCallback<ExpressRouteCircuitInner> serviceCallback) {
+        return ServiceFuture.fromBody(updateTagsAsync(resourceGroupName, circuitName, tags), serviceCallback);
     }
 
     /**
@@ -807,28 +739,10 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
      * @param resourceGroupName The name of the resource group.
      * @param circuitName The name of the circuit.
      * @param tags Resource tags.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ExpressRouteCircuitInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<ExpressRouteCircuitInner> beginUpdateTagsAsync(String resourceGroupName, String circuitName, Map<String, String> tags) {
-        return beginUpdateTagsWithServiceResponseAsync(resourceGroupName, circuitName, tags).map(new Func1<ServiceResponse<ExpressRouteCircuitInner>, ExpressRouteCircuitInner>() {
-            @Override
-            public ExpressRouteCircuitInner call(ServiceResponse<ExpressRouteCircuitInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Updates an express route circuit tags.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param circuitName The name of the circuit.
-     * @param tags Resource tags.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ExpressRouteCircuitInner object
-     */
-    public Observable<ServiceResponse<ExpressRouteCircuitInner>> beginUpdateTagsWithServiceResponseAsync(String resourceGroupName, String circuitName, Map<String, String> tags) {
+    public Single<BodyResponse<ExpressRouteCircuitInner>> updateTagsWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String circuitName, Map<String, String> tags) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -842,25 +756,35 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
         final String apiVersion = "2018-06-01";
         TagsObject parameters = new TagsObject();
         parameters.withTags(tags);
-        return service.beginUpdateTags(resourceGroupName, circuitName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ExpressRouteCircuitInner>>>() {
-                @Override
-                public Observable<ServiceResponse<ExpressRouteCircuitInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<ExpressRouteCircuitInner> clientResponse = beginUpdateTagsDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.updateTags(resourceGroupName, circuitName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters);
     }
 
-    private ServiceResponse<ExpressRouteCircuitInner> beginUpdateTagsDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<ExpressRouteCircuitInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<ExpressRouteCircuitInner>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Updates an express route circuit tags.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param circuitName The name of the circuit.
+     * @param tags Resource tags.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<ExpressRouteCircuitInner> updateTagsAsync(@NonNull String resourceGroupName, @NonNull String circuitName, Map<String, String> tags) {
+        return updateTagsWithRestResponseAsync(resourceGroupName, circuitName, tags)
+            .flatMapMaybe((BodyResponse<ExpressRouteCircuitInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
+    }
+
+    /**
+     * Updates an express route circuit tags. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<ExpressRouteCircuitInner>> resumeUpdateTags(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeUpdateTags(operationDescription);
     }
 
     /**
@@ -870,13 +794,13 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
      * @param circuitName The name of the express route circuit.
      * @param peeringName The name of the peering.
      * @param devicePath The path of the device.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the ExpressRouteCircuitsArpTableListResultInner object if successful.
      */
-    public ExpressRouteCircuitsArpTableListResultInner listArpTable(String resourceGroupName, String circuitName, String peeringName, String devicePath) {
-        return listArpTableWithServiceResponseAsync(resourceGroupName, circuitName, peeringName, devicePath).toBlocking().last().body();
+    public ExpressRouteCircuitsArpTableListResultInner beginListArpTable(@NonNull String resourceGroupName, @NonNull String circuitName, @NonNull String peeringName, @NonNull String devicePath) {
+        return beginListArpTableAsync(resourceGroupName, circuitName, peeringName, devicePath).blockingLast().result();
     }
 
     /**
@@ -887,11 +811,11 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
      * @param peeringName The name of the peering.
      * @param devicePath The path of the device.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;ExpressRouteCircuitsArpTableListResultInner&gt; object.
      */
-    public ServiceFuture<ExpressRouteCircuitsArpTableListResultInner> listArpTableAsync(String resourceGroupName, String circuitName, String peeringName, String devicePath, final ServiceCallback<ExpressRouteCircuitsArpTableListResultInner> serviceCallback) {
-        return ServiceFuture.fromResponse(listArpTableWithServiceResponseAsync(resourceGroupName, circuitName, peeringName, devicePath), serviceCallback);
+    public ServiceFuture<ExpressRouteCircuitsArpTableListResultInner> beginListArpTableAsync(@NonNull String resourceGroupName, @NonNull String circuitName, @NonNull String peeringName, @NonNull String devicePath, ServiceCallback<ExpressRouteCircuitsArpTableListResultInner> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginListArpTableAsync(resourceGroupName, circuitName, peeringName, devicePath), serviceCallback);
     }
 
     /**
@@ -901,29 +825,10 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
      * @param circuitName The name of the express route circuit.
      * @param peeringName The name of the peering.
      * @param devicePath The path of the device.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<ExpressRouteCircuitsArpTableListResultInner> listArpTableAsync(String resourceGroupName, String circuitName, String peeringName, String devicePath) {
-        return listArpTableWithServiceResponseAsync(resourceGroupName, circuitName, peeringName, devicePath).map(new Func1<ServiceResponse<ExpressRouteCircuitsArpTableListResultInner>, ExpressRouteCircuitsArpTableListResultInner>() {
-            @Override
-            public ExpressRouteCircuitsArpTableListResultInner call(ServiceResponse<ExpressRouteCircuitsArpTableListResultInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Gets the currently advertised ARP table associated with the express route circuit in a resource group.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param circuitName The name of the express route circuit.
-     * @param peeringName The name of the peering.
-     * @param devicePath The path of the device.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<ExpressRouteCircuitsArpTableListResultInner>> listArpTableWithServiceResponseAsync(String resourceGroupName, String circuitName, String peeringName, String devicePath) {
+    public Observable<OperationStatus<ExpressRouteCircuitsArpTableListResultInner>> beginListArpTableAsync(@NonNull String resourceGroupName, @NonNull String circuitName, @NonNull String peeringName, @NonNull String devicePath) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -940,8 +845,7 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        Observable<Response<ResponseBody>> observable = service.listArpTable(resourceGroupName, circuitName, peeringName, devicePath, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<ExpressRouteCircuitsArpTableListResultInner>() { }.getType());
+        return service.beginListArpTable(resourceGroupName, circuitName, peeringName, devicePath, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
     /**
@@ -951,13 +855,13 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
      * @param circuitName The name of the express route circuit.
      * @param peeringName The name of the peering.
      * @param devicePath The path of the device.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the ExpressRouteCircuitsArpTableListResultInner object if successful.
      */
-    public ExpressRouteCircuitsArpTableListResultInner beginListArpTable(String resourceGroupName, String circuitName, String peeringName, String devicePath) {
-        return beginListArpTableWithServiceResponseAsync(resourceGroupName, circuitName, peeringName, devicePath).toBlocking().single().body();
+    public ExpressRouteCircuitsArpTableListResultInner listArpTable(@NonNull String resourceGroupName, @NonNull String circuitName, @NonNull String peeringName, @NonNull String devicePath) {
+        return listArpTableAsync(resourceGroupName, circuitName, peeringName, devicePath).blockingGet();
     }
 
     /**
@@ -968,11 +872,11 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
      * @param peeringName The name of the peering.
      * @param devicePath The path of the device.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<ExpressRouteCircuitsArpTableListResultInner> beginListArpTableAsync(String resourceGroupName, String circuitName, String peeringName, String devicePath, final ServiceCallback<ExpressRouteCircuitsArpTableListResultInner> serviceCallback) {
-        return ServiceFuture.fromResponse(beginListArpTableWithServiceResponseAsync(resourceGroupName, circuitName, peeringName, devicePath), serviceCallback);
+    public ServiceFuture<ExpressRouteCircuitsArpTableListResultInner> listArpTableAsync(@NonNull String resourceGroupName, @NonNull String circuitName, @NonNull String peeringName, @NonNull String devicePath, ServiceCallback<ExpressRouteCircuitsArpTableListResultInner> serviceCallback) {
+        return ServiceFuture.fromBody(listArpTableAsync(resourceGroupName, circuitName, peeringName, devicePath), serviceCallback);
     }
 
     /**
@@ -982,29 +886,10 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
      * @param circuitName The name of the express route circuit.
      * @param peeringName The name of the peering.
      * @param devicePath The path of the device.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ExpressRouteCircuitsArpTableListResultInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<ExpressRouteCircuitsArpTableListResultInner> beginListArpTableAsync(String resourceGroupName, String circuitName, String peeringName, String devicePath) {
-        return beginListArpTableWithServiceResponseAsync(resourceGroupName, circuitName, peeringName, devicePath).map(new Func1<ServiceResponse<ExpressRouteCircuitsArpTableListResultInner>, ExpressRouteCircuitsArpTableListResultInner>() {
-            @Override
-            public ExpressRouteCircuitsArpTableListResultInner call(ServiceResponse<ExpressRouteCircuitsArpTableListResultInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Gets the currently advertised ARP table associated with the express route circuit in a resource group.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param circuitName The name of the express route circuit.
-     * @param peeringName The name of the peering.
-     * @param devicePath The path of the device.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ExpressRouteCircuitsArpTableListResultInner object
-     */
-    public Observable<ServiceResponse<ExpressRouteCircuitsArpTableListResultInner>> beginListArpTableWithServiceResponseAsync(String resourceGroupName, String circuitName, String peeringName, String devicePath) {
+    public Single<BodyResponse<ExpressRouteCircuitsArpTableListResultInner>> listArpTableWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String circuitName, @NonNull String peeringName, @NonNull String devicePath) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -1021,26 +906,36 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        return service.beginListArpTable(resourceGroupName, circuitName, peeringName, devicePath, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ExpressRouteCircuitsArpTableListResultInner>>>() {
-                @Override
-                public Observable<ServiceResponse<ExpressRouteCircuitsArpTableListResultInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<ExpressRouteCircuitsArpTableListResultInner> clientResponse = beginListArpTableDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.listArpTable(resourceGroupName, circuitName, peeringName, devicePath, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<ExpressRouteCircuitsArpTableListResultInner> beginListArpTableDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<ExpressRouteCircuitsArpTableListResultInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<ExpressRouteCircuitsArpTableListResultInner>() { }.getType())
-                .register(202, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Gets the currently advertised ARP table associated with the express route circuit in a resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param circuitName The name of the express route circuit.
+     * @param peeringName The name of the peering.
+     * @param devicePath The path of the device.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<ExpressRouteCircuitsArpTableListResultInner> listArpTableAsync(@NonNull String resourceGroupName, @NonNull String circuitName, @NonNull String peeringName, @NonNull String devicePath) {
+        return listArpTableWithRestResponseAsync(resourceGroupName, circuitName, peeringName, devicePath)
+            .flatMapMaybe((BodyResponse<ExpressRouteCircuitsArpTableListResultInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
+    }
+
+    /**
+     * Gets the currently advertised ARP table associated with the express route circuit in a resource group. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<ExpressRouteCircuitsArpTableListResultInner>> resumeListArpTable(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeListArpTable(operationDescription);
     }
 
     /**
@@ -1050,13 +945,13 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
      * @param circuitName The name of the express route circuit.
      * @param peeringName The name of the peering.
      * @param devicePath The path of the device.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the ExpressRouteCircuitsRoutesTableListResultInner object if successful.
      */
-    public ExpressRouteCircuitsRoutesTableListResultInner listRoutesTable(String resourceGroupName, String circuitName, String peeringName, String devicePath) {
-        return listRoutesTableWithServiceResponseAsync(resourceGroupName, circuitName, peeringName, devicePath).toBlocking().last().body();
+    public ExpressRouteCircuitsRoutesTableListResultInner beginListRoutesTable(@NonNull String resourceGroupName, @NonNull String circuitName, @NonNull String peeringName, @NonNull String devicePath) {
+        return beginListRoutesTableAsync(resourceGroupName, circuitName, peeringName, devicePath).blockingLast().result();
     }
 
     /**
@@ -1067,11 +962,11 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
      * @param peeringName The name of the peering.
      * @param devicePath The path of the device.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;ExpressRouteCircuitsRoutesTableListResultInner&gt; object.
      */
-    public ServiceFuture<ExpressRouteCircuitsRoutesTableListResultInner> listRoutesTableAsync(String resourceGroupName, String circuitName, String peeringName, String devicePath, final ServiceCallback<ExpressRouteCircuitsRoutesTableListResultInner> serviceCallback) {
-        return ServiceFuture.fromResponse(listRoutesTableWithServiceResponseAsync(resourceGroupName, circuitName, peeringName, devicePath), serviceCallback);
+    public ServiceFuture<ExpressRouteCircuitsRoutesTableListResultInner> beginListRoutesTableAsync(@NonNull String resourceGroupName, @NonNull String circuitName, @NonNull String peeringName, @NonNull String devicePath, ServiceCallback<ExpressRouteCircuitsRoutesTableListResultInner> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginListRoutesTableAsync(resourceGroupName, circuitName, peeringName, devicePath), serviceCallback);
     }
 
     /**
@@ -1081,29 +976,10 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
      * @param circuitName The name of the express route circuit.
      * @param peeringName The name of the peering.
      * @param devicePath The path of the device.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<ExpressRouteCircuitsRoutesTableListResultInner> listRoutesTableAsync(String resourceGroupName, String circuitName, String peeringName, String devicePath) {
-        return listRoutesTableWithServiceResponseAsync(resourceGroupName, circuitName, peeringName, devicePath).map(new Func1<ServiceResponse<ExpressRouteCircuitsRoutesTableListResultInner>, ExpressRouteCircuitsRoutesTableListResultInner>() {
-            @Override
-            public ExpressRouteCircuitsRoutesTableListResultInner call(ServiceResponse<ExpressRouteCircuitsRoutesTableListResultInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Gets the currently advertised routes table associated with the express route circuit in a resource group.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param circuitName The name of the express route circuit.
-     * @param peeringName The name of the peering.
-     * @param devicePath The path of the device.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<ExpressRouteCircuitsRoutesTableListResultInner>> listRoutesTableWithServiceResponseAsync(String resourceGroupName, String circuitName, String peeringName, String devicePath) {
+    public Observable<OperationStatus<ExpressRouteCircuitsRoutesTableListResultInner>> beginListRoutesTableAsync(@NonNull String resourceGroupName, @NonNull String circuitName, @NonNull String peeringName, @NonNull String devicePath) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -1120,8 +996,7 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        Observable<Response<ResponseBody>> observable = service.listRoutesTable(resourceGroupName, circuitName, peeringName, devicePath, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<ExpressRouteCircuitsRoutesTableListResultInner>() { }.getType());
+        return service.beginListRoutesTable(resourceGroupName, circuitName, peeringName, devicePath, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
     /**
@@ -1131,13 +1006,13 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
      * @param circuitName The name of the express route circuit.
      * @param peeringName The name of the peering.
      * @param devicePath The path of the device.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the ExpressRouteCircuitsRoutesTableListResultInner object if successful.
      */
-    public ExpressRouteCircuitsRoutesTableListResultInner beginListRoutesTable(String resourceGroupName, String circuitName, String peeringName, String devicePath) {
-        return beginListRoutesTableWithServiceResponseAsync(resourceGroupName, circuitName, peeringName, devicePath).toBlocking().single().body();
+    public ExpressRouteCircuitsRoutesTableListResultInner listRoutesTable(@NonNull String resourceGroupName, @NonNull String circuitName, @NonNull String peeringName, @NonNull String devicePath) {
+        return listRoutesTableAsync(resourceGroupName, circuitName, peeringName, devicePath).blockingGet();
     }
 
     /**
@@ -1148,11 +1023,11 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
      * @param peeringName The name of the peering.
      * @param devicePath The path of the device.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<ExpressRouteCircuitsRoutesTableListResultInner> beginListRoutesTableAsync(String resourceGroupName, String circuitName, String peeringName, String devicePath, final ServiceCallback<ExpressRouteCircuitsRoutesTableListResultInner> serviceCallback) {
-        return ServiceFuture.fromResponse(beginListRoutesTableWithServiceResponseAsync(resourceGroupName, circuitName, peeringName, devicePath), serviceCallback);
+    public ServiceFuture<ExpressRouteCircuitsRoutesTableListResultInner> listRoutesTableAsync(@NonNull String resourceGroupName, @NonNull String circuitName, @NonNull String peeringName, @NonNull String devicePath, ServiceCallback<ExpressRouteCircuitsRoutesTableListResultInner> serviceCallback) {
+        return ServiceFuture.fromBody(listRoutesTableAsync(resourceGroupName, circuitName, peeringName, devicePath), serviceCallback);
     }
 
     /**
@@ -1162,29 +1037,10 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
      * @param circuitName The name of the express route circuit.
      * @param peeringName The name of the peering.
      * @param devicePath The path of the device.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ExpressRouteCircuitsRoutesTableListResultInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<ExpressRouteCircuitsRoutesTableListResultInner> beginListRoutesTableAsync(String resourceGroupName, String circuitName, String peeringName, String devicePath) {
-        return beginListRoutesTableWithServiceResponseAsync(resourceGroupName, circuitName, peeringName, devicePath).map(new Func1<ServiceResponse<ExpressRouteCircuitsRoutesTableListResultInner>, ExpressRouteCircuitsRoutesTableListResultInner>() {
-            @Override
-            public ExpressRouteCircuitsRoutesTableListResultInner call(ServiceResponse<ExpressRouteCircuitsRoutesTableListResultInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Gets the currently advertised routes table associated with the express route circuit in a resource group.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param circuitName The name of the express route circuit.
-     * @param peeringName The name of the peering.
-     * @param devicePath The path of the device.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ExpressRouteCircuitsRoutesTableListResultInner object
-     */
-    public Observable<ServiceResponse<ExpressRouteCircuitsRoutesTableListResultInner>> beginListRoutesTableWithServiceResponseAsync(String resourceGroupName, String circuitName, String peeringName, String devicePath) {
+    public Single<BodyResponse<ExpressRouteCircuitsRoutesTableListResultInner>> listRoutesTableWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String circuitName, @NonNull String peeringName, @NonNull String devicePath) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -1201,26 +1057,36 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        return service.beginListRoutesTable(resourceGroupName, circuitName, peeringName, devicePath, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ExpressRouteCircuitsRoutesTableListResultInner>>>() {
-                @Override
-                public Observable<ServiceResponse<ExpressRouteCircuitsRoutesTableListResultInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<ExpressRouteCircuitsRoutesTableListResultInner> clientResponse = beginListRoutesTableDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.listRoutesTable(resourceGroupName, circuitName, peeringName, devicePath, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<ExpressRouteCircuitsRoutesTableListResultInner> beginListRoutesTableDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<ExpressRouteCircuitsRoutesTableListResultInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<ExpressRouteCircuitsRoutesTableListResultInner>() { }.getType())
-                .register(202, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Gets the currently advertised routes table associated with the express route circuit in a resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param circuitName The name of the express route circuit.
+     * @param peeringName The name of the peering.
+     * @param devicePath The path of the device.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<ExpressRouteCircuitsRoutesTableListResultInner> listRoutesTableAsync(@NonNull String resourceGroupName, @NonNull String circuitName, @NonNull String peeringName, @NonNull String devicePath) {
+        return listRoutesTableWithRestResponseAsync(resourceGroupName, circuitName, peeringName, devicePath)
+            .flatMapMaybe((BodyResponse<ExpressRouteCircuitsRoutesTableListResultInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
+    }
+
+    /**
+     * Gets the currently advertised routes table associated with the express route circuit in a resource group. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<ExpressRouteCircuitsRoutesTableListResultInner>> resumeListRoutesTable(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeListRoutesTable(operationDescription);
     }
 
     /**
@@ -1230,13 +1096,13 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
      * @param circuitName The name of the express route circuit.
      * @param peeringName The name of the peering.
      * @param devicePath The path of the device.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the ExpressRouteCircuitsRoutesTableSummaryListResultInner object if successful.
      */
-    public ExpressRouteCircuitsRoutesTableSummaryListResultInner listRoutesTableSummary(String resourceGroupName, String circuitName, String peeringName, String devicePath) {
-        return listRoutesTableSummaryWithServiceResponseAsync(resourceGroupName, circuitName, peeringName, devicePath).toBlocking().last().body();
+    public ExpressRouteCircuitsRoutesTableSummaryListResultInner beginListRoutesTableSummary(@NonNull String resourceGroupName, @NonNull String circuitName, @NonNull String peeringName, @NonNull String devicePath) {
+        return beginListRoutesTableSummaryAsync(resourceGroupName, circuitName, peeringName, devicePath).blockingLast().result();
     }
 
     /**
@@ -1247,11 +1113,11 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
      * @param peeringName The name of the peering.
      * @param devicePath The path of the device.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;ExpressRouteCircuitsRoutesTableSummaryListResultInner&gt; object.
      */
-    public ServiceFuture<ExpressRouteCircuitsRoutesTableSummaryListResultInner> listRoutesTableSummaryAsync(String resourceGroupName, String circuitName, String peeringName, String devicePath, final ServiceCallback<ExpressRouteCircuitsRoutesTableSummaryListResultInner> serviceCallback) {
-        return ServiceFuture.fromResponse(listRoutesTableSummaryWithServiceResponseAsync(resourceGroupName, circuitName, peeringName, devicePath), serviceCallback);
+    public ServiceFuture<ExpressRouteCircuitsRoutesTableSummaryListResultInner> beginListRoutesTableSummaryAsync(@NonNull String resourceGroupName, @NonNull String circuitName, @NonNull String peeringName, @NonNull String devicePath, ServiceCallback<ExpressRouteCircuitsRoutesTableSummaryListResultInner> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginListRoutesTableSummaryAsync(resourceGroupName, circuitName, peeringName, devicePath), serviceCallback);
     }
 
     /**
@@ -1261,29 +1127,10 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
      * @param circuitName The name of the express route circuit.
      * @param peeringName The name of the peering.
      * @param devicePath The path of the device.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<ExpressRouteCircuitsRoutesTableSummaryListResultInner> listRoutesTableSummaryAsync(String resourceGroupName, String circuitName, String peeringName, String devicePath) {
-        return listRoutesTableSummaryWithServiceResponseAsync(resourceGroupName, circuitName, peeringName, devicePath).map(new Func1<ServiceResponse<ExpressRouteCircuitsRoutesTableSummaryListResultInner>, ExpressRouteCircuitsRoutesTableSummaryListResultInner>() {
-            @Override
-            public ExpressRouteCircuitsRoutesTableSummaryListResultInner call(ServiceResponse<ExpressRouteCircuitsRoutesTableSummaryListResultInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Gets the currently advertised routes table summary associated with the express route circuit in a resource group.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param circuitName The name of the express route circuit.
-     * @param peeringName The name of the peering.
-     * @param devicePath The path of the device.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<ExpressRouteCircuitsRoutesTableSummaryListResultInner>> listRoutesTableSummaryWithServiceResponseAsync(String resourceGroupName, String circuitName, String peeringName, String devicePath) {
+    public Observable<OperationStatus<ExpressRouteCircuitsRoutesTableSummaryListResultInner>> beginListRoutesTableSummaryAsync(@NonNull String resourceGroupName, @NonNull String circuitName, @NonNull String peeringName, @NonNull String devicePath) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -1300,8 +1147,7 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        Observable<Response<ResponseBody>> observable = service.listRoutesTableSummary(resourceGroupName, circuitName, peeringName, devicePath, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<ExpressRouteCircuitsRoutesTableSummaryListResultInner>() { }.getType());
+        return service.beginListRoutesTableSummary(resourceGroupName, circuitName, peeringName, devicePath, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
     /**
@@ -1311,13 +1157,13 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
      * @param circuitName The name of the express route circuit.
      * @param peeringName The name of the peering.
      * @param devicePath The path of the device.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the ExpressRouteCircuitsRoutesTableSummaryListResultInner object if successful.
      */
-    public ExpressRouteCircuitsRoutesTableSummaryListResultInner beginListRoutesTableSummary(String resourceGroupName, String circuitName, String peeringName, String devicePath) {
-        return beginListRoutesTableSummaryWithServiceResponseAsync(resourceGroupName, circuitName, peeringName, devicePath).toBlocking().single().body();
+    public ExpressRouteCircuitsRoutesTableSummaryListResultInner listRoutesTableSummary(@NonNull String resourceGroupName, @NonNull String circuitName, @NonNull String peeringName, @NonNull String devicePath) {
+        return listRoutesTableSummaryAsync(resourceGroupName, circuitName, peeringName, devicePath).blockingGet();
     }
 
     /**
@@ -1328,11 +1174,11 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
      * @param peeringName The name of the peering.
      * @param devicePath The path of the device.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<ExpressRouteCircuitsRoutesTableSummaryListResultInner> beginListRoutesTableSummaryAsync(String resourceGroupName, String circuitName, String peeringName, String devicePath, final ServiceCallback<ExpressRouteCircuitsRoutesTableSummaryListResultInner> serviceCallback) {
-        return ServiceFuture.fromResponse(beginListRoutesTableSummaryWithServiceResponseAsync(resourceGroupName, circuitName, peeringName, devicePath), serviceCallback);
+    public ServiceFuture<ExpressRouteCircuitsRoutesTableSummaryListResultInner> listRoutesTableSummaryAsync(@NonNull String resourceGroupName, @NonNull String circuitName, @NonNull String peeringName, @NonNull String devicePath, ServiceCallback<ExpressRouteCircuitsRoutesTableSummaryListResultInner> serviceCallback) {
+        return ServiceFuture.fromBody(listRoutesTableSummaryAsync(resourceGroupName, circuitName, peeringName, devicePath), serviceCallback);
     }
 
     /**
@@ -1342,29 +1188,10 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
      * @param circuitName The name of the express route circuit.
      * @param peeringName The name of the peering.
      * @param devicePath The path of the device.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ExpressRouteCircuitsRoutesTableSummaryListResultInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<ExpressRouteCircuitsRoutesTableSummaryListResultInner> beginListRoutesTableSummaryAsync(String resourceGroupName, String circuitName, String peeringName, String devicePath) {
-        return beginListRoutesTableSummaryWithServiceResponseAsync(resourceGroupName, circuitName, peeringName, devicePath).map(new Func1<ServiceResponse<ExpressRouteCircuitsRoutesTableSummaryListResultInner>, ExpressRouteCircuitsRoutesTableSummaryListResultInner>() {
-            @Override
-            public ExpressRouteCircuitsRoutesTableSummaryListResultInner call(ServiceResponse<ExpressRouteCircuitsRoutesTableSummaryListResultInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Gets the currently advertised routes table summary associated with the express route circuit in a resource group.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param circuitName The name of the express route circuit.
-     * @param peeringName The name of the peering.
-     * @param devicePath The path of the device.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ExpressRouteCircuitsRoutesTableSummaryListResultInner object
-     */
-    public Observable<ServiceResponse<ExpressRouteCircuitsRoutesTableSummaryListResultInner>> beginListRoutesTableSummaryWithServiceResponseAsync(String resourceGroupName, String circuitName, String peeringName, String devicePath) {
+    public Single<BodyResponse<ExpressRouteCircuitsRoutesTableSummaryListResultInner>> listRoutesTableSummaryWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String circuitName, @NonNull String peeringName, @NonNull String devicePath) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -1381,26 +1208,36 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        return service.beginListRoutesTableSummary(resourceGroupName, circuitName, peeringName, devicePath, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ExpressRouteCircuitsRoutesTableSummaryListResultInner>>>() {
-                @Override
-                public Observable<ServiceResponse<ExpressRouteCircuitsRoutesTableSummaryListResultInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<ExpressRouteCircuitsRoutesTableSummaryListResultInner> clientResponse = beginListRoutesTableSummaryDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.listRoutesTableSummary(resourceGroupName, circuitName, peeringName, devicePath, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<ExpressRouteCircuitsRoutesTableSummaryListResultInner> beginListRoutesTableSummaryDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<ExpressRouteCircuitsRoutesTableSummaryListResultInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<ExpressRouteCircuitsRoutesTableSummaryListResultInner>() { }.getType())
-                .register(202, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Gets the currently advertised routes table summary associated with the express route circuit in a resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param circuitName The name of the express route circuit.
+     * @param peeringName The name of the peering.
+     * @param devicePath The path of the device.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<ExpressRouteCircuitsRoutesTableSummaryListResultInner> listRoutesTableSummaryAsync(@NonNull String resourceGroupName, @NonNull String circuitName, @NonNull String peeringName, @NonNull String devicePath) {
+        return listRoutesTableSummaryWithRestResponseAsync(resourceGroupName, circuitName, peeringName, devicePath)
+            .flatMapMaybe((BodyResponse<ExpressRouteCircuitsRoutesTableSummaryListResultInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
+    }
+
+    /**
+     * Gets the currently advertised routes table summary associated with the express route circuit in a resource group. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<ExpressRouteCircuitsRoutesTableSummaryListResultInner>> resumeListRoutesTableSummary(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeListRoutesTableSummary(operationDescription);
     }
 
     /**
@@ -1408,13 +1245,13 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
      *
      * @param resourceGroupName The name of the resource group.
      * @param circuitName The name of the express route circuit.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the ExpressRouteCircuitStatsInner object if successful.
      */
-    public ExpressRouteCircuitStatsInner getStats(String resourceGroupName, String circuitName) {
-        return getStatsWithServiceResponseAsync(resourceGroupName, circuitName).toBlocking().single().body();
+    public ExpressRouteCircuitStatsInner getStats(@NonNull String resourceGroupName, @NonNull String circuitName) {
+        return getStatsAsync(resourceGroupName, circuitName).blockingGet();
     }
 
     /**
@@ -1423,11 +1260,11 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
      * @param resourceGroupName The name of the resource group.
      * @param circuitName The name of the express route circuit.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<ExpressRouteCircuitStatsInner> getStatsAsync(String resourceGroupName, String circuitName, final ServiceCallback<ExpressRouteCircuitStatsInner> serviceCallback) {
-        return ServiceFuture.fromResponse(getStatsWithServiceResponseAsync(resourceGroupName, circuitName), serviceCallback);
+    public ServiceFuture<ExpressRouteCircuitStatsInner> getStatsAsync(@NonNull String resourceGroupName, @NonNull String circuitName, ServiceCallback<ExpressRouteCircuitStatsInner> serviceCallback) {
+        return ServiceFuture.fromBody(getStatsAsync(resourceGroupName, circuitName), serviceCallback);
     }
 
     /**
@@ -1435,27 +1272,10 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
      *
      * @param resourceGroupName The name of the resource group.
      * @param circuitName The name of the express route circuit.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ExpressRouteCircuitStatsInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<ExpressRouteCircuitStatsInner> getStatsAsync(String resourceGroupName, String circuitName) {
-        return getStatsWithServiceResponseAsync(resourceGroupName, circuitName).map(new Func1<ServiceResponse<ExpressRouteCircuitStatsInner>, ExpressRouteCircuitStatsInner>() {
-            @Override
-            public ExpressRouteCircuitStatsInner call(ServiceResponse<ExpressRouteCircuitStatsInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Gets all the stats from an express route circuit in a resource group.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param circuitName The name of the express route circuit.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ExpressRouteCircuitStatsInner object
-     */
-    public Observable<ServiceResponse<ExpressRouteCircuitStatsInner>> getStatsWithServiceResponseAsync(String resourceGroupName, String circuitName) {
+    public Single<BodyResponse<ExpressRouteCircuitStatsInner>> getStatsWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String circuitName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -1466,25 +1286,20 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        return service.getStats(resourceGroupName, circuitName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ExpressRouteCircuitStatsInner>>>() {
-                @Override
-                public Observable<ServiceResponse<ExpressRouteCircuitStatsInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<ExpressRouteCircuitStatsInner> clientResponse = getStatsDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.getStats(resourceGroupName, circuitName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<ExpressRouteCircuitStatsInner> getStatsDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<ExpressRouteCircuitStatsInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<ExpressRouteCircuitStatsInner>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Gets all the stats from an express route circuit in a resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param circuitName The name of the express route circuit.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<ExpressRouteCircuitStatsInner> getStatsAsync(@NonNull String resourceGroupName, @NonNull String circuitName) {
+        return getStatsWithRestResponseAsync(resourceGroupName, circuitName)
+            .flatMapMaybe((BodyResponse<ExpressRouteCircuitStatsInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
@@ -1493,13 +1308,13 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
      * @param resourceGroupName The name of the resource group.
      * @param circuitName The name of the express route circuit.
      * @param peeringName The name of the peering.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the ExpressRouteCircuitStatsInner object if successful.
      */
-    public ExpressRouteCircuitStatsInner getPeeringStats(String resourceGroupName, String circuitName, String peeringName) {
-        return getPeeringStatsWithServiceResponseAsync(resourceGroupName, circuitName, peeringName).toBlocking().single().body();
+    public ExpressRouteCircuitStatsInner getPeeringStats(@NonNull String resourceGroupName, @NonNull String circuitName, @NonNull String peeringName) {
+        return getPeeringStatsAsync(resourceGroupName, circuitName, peeringName).blockingGet();
     }
 
     /**
@@ -1509,11 +1324,11 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
      * @param circuitName The name of the express route circuit.
      * @param peeringName The name of the peering.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<ExpressRouteCircuitStatsInner> getPeeringStatsAsync(String resourceGroupName, String circuitName, String peeringName, final ServiceCallback<ExpressRouteCircuitStatsInner> serviceCallback) {
-        return ServiceFuture.fromResponse(getPeeringStatsWithServiceResponseAsync(resourceGroupName, circuitName, peeringName), serviceCallback);
+    public ServiceFuture<ExpressRouteCircuitStatsInner> getPeeringStatsAsync(@NonNull String resourceGroupName, @NonNull String circuitName, @NonNull String peeringName, ServiceCallback<ExpressRouteCircuitStatsInner> serviceCallback) {
+        return ServiceFuture.fromBody(getPeeringStatsAsync(resourceGroupName, circuitName, peeringName), serviceCallback);
     }
 
     /**
@@ -1522,28 +1337,10 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
      * @param resourceGroupName The name of the resource group.
      * @param circuitName The name of the express route circuit.
      * @param peeringName The name of the peering.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ExpressRouteCircuitStatsInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<ExpressRouteCircuitStatsInner> getPeeringStatsAsync(String resourceGroupName, String circuitName, String peeringName) {
-        return getPeeringStatsWithServiceResponseAsync(resourceGroupName, circuitName, peeringName).map(new Func1<ServiceResponse<ExpressRouteCircuitStatsInner>, ExpressRouteCircuitStatsInner>() {
-            @Override
-            public ExpressRouteCircuitStatsInner call(ServiceResponse<ExpressRouteCircuitStatsInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Gets all stats from an express route circuit in a resource group.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param circuitName The name of the express route circuit.
-     * @param peeringName The name of the peering.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ExpressRouteCircuitStatsInner object
-     */
-    public Observable<ServiceResponse<ExpressRouteCircuitStatsInner>> getPeeringStatsWithServiceResponseAsync(String resourceGroupName, String circuitName, String peeringName) {
+    public Single<BodyResponse<ExpressRouteCircuitStatsInner>> getPeeringStatsWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String circuitName, @NonNull String peeringName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -1557,42 +1354,38 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        return service.getPeeringStats(resourceGroupName, circuitName, peeringName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ExpressRouteCircuitStatsInner>>>() {
-                @Override
-                public Observable<ServiceResponse<ExpressRouteCircuitStatsInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<ExpressRouteCircuitStatsInner> clientResponse = getPeeringStatsDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.getPeeringStats(resourceGroupName, circuitName, peeringName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<ExpressRouteCircuitStatsInner> getPeeringStatsDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<ExpressRouteCircuitStatsInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<ExpressRouteCircuitStatsInner>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Gets all stats from an express route circuit in a resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param circuitName The name of the express route circuit.
+     * @param peeringName The name of the peering.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<ExpressRouteCircuitStatsInner> getPeeringStatsAsync(@NonNull String resourceGroupName, @NonNull String circuitName, @NonNull String peeringName) {
+        return getPeeringStatsWithRestResponseAsync(resourceGroupName, circuitName, peeringName)
+            .flatMapMaybe((BodyResponse<ExpressRouteCircuitStatsInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
      * Gets all the express route circuits in a resource group.
      *
      * @param resourceGroupName The name of the resource group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;ExpressRouteCircuitInner&gt; object if successful.
      */
-    public PagedList<ExpressRouteCircuitInner> listByResourceGroup(final String resourceGroupName) {
-        ServiceResponse<Page<ExpressRouteCircuitInner>> response = listByResourceGroupSinglePageAsync(resourceGroupName).toBlocking().single();
-        return new PagedList<ExpressRouteCircuitInner>(response.body()) {
+    public PagedList<ExpressRouteCircuitInner> listByResourceGroup(@NonNull String resourceGroupName) {
+        Page<ExpressRouteCircuitInner> response = listByResourceGroupSinglePageAsync(resourceGroupName).blockingGet();
+        return new PagedList<ExpressRouteCircuitInner>(response) {
             @Override
             public Page<ExpressRouteCircuitInner> nextPage(String nextPageLink) {
-                return listByResourceGroupNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -1601,68 +1394,29 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
      * Gets all the express route circuits in a resource group.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;ExpressRouteCircuitInner&gt; object.
      */
-    public ServiceFuture<List<ExpressRouteCircuitInner>> listByResourceGroupAsync(final String resourceGroupName, final ListOperationCallback<ExpressRouteCircuitInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listByResourceGroupSinglePageAsync(resourceGroupName),
-            new Func1<String, Observable<ServiceResponse<Page<ExpressRouteCircuitInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ExpressRouteCircuitInner>>> call(String nextPageLink) {
-                    return listByResourceGroupNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets all the express route circuits in a resource group.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ExpressRouteCircuitInner&gt; object
-     */
-    public Observable<Page<ExpressRouteCircuitInner>> listByResourceGroupAsync(final String resourceGroupName) {
-        return listByResourceGroupWithServiceResponseAsync(resourceGroupName)
-            .map(new Func1<ServiceResponse<Page<ExpressRouteCircuitInner>>, Page<ExpressRouteCircuitInner>>() {
-                @Override
-                public Page<ExpressRouteCircuitInner> call(ServiceResponse<Page<ExpressRouteCircuitInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets all the express route circuits in a resource group.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ExpressRouteCircuitInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<ExpressRouteCircuitInner>>> listByResourceGroupWithServiceResponseAsync(final String resourceGroupName) {
+    public Observable<Page<ExpressRouteCircuitInner>> listByResourceGroupAsync(@NonNull String resourceGroupName) {
         return listByResourceGroupSinglePageAsync(resourceGroupName)
-            .concatMap(new Func1<ServiceResponse<Page<ExpressRouteCircuitInner>>, Observable<ServiceResponse<Page<ExpressRouteCircuitInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ExpressRouteCircuitInner>>> call(ServiceResponse<Page<ExpressRouteCircuitInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listByResourceGroupNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<ExpressRouteCircuitInner> page) -> {
+                String nextPageLink = page.nextPageLink();
+                if (nextPageLink == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listNextAsync(nextPageLink));
             });
     }
 
     /**
      * Gets all the express route circuits in a resource group.
      *
-    ServiceResponse<PageImpl<ExpressRouteCircuitInner>> * @param resourceGroupName The name of the resource group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;ExpressRouteCircuitInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param resourceGroupName The name of the resource group.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;ExpressRouteCircuitInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<ExpressRouteCircuitInner>>> listByResourceGroupSinglePageAsync(final String resourceGroupName) {
+    public Single<Page<ExpressRouteCircuitInner>> listByResourceGroupSinglePageAsync(@NonNull String resourceGroupName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -1670,41 +1424,23 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        return service.listByResourceGroup(resourceGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ExpressRouteCircuitInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ExpressRouteCircuitInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<ExpressRouteCircuitInner>> result = listByResourceGroupDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<ExpressRouteCircuitInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl<ExpressRouteCircuitInner>> listByResourceGroupDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<ExpressRouteCircuitInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<ExpressRouteCircuitInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+        return service.listByResourceGroup(resourceGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl<ExpressRouteCircuitInner>> res) -> res.body());
     }
 
     /**
      * Gets all the express route circuits in a subscription.
      *
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;ExpressRouteCircuitInner&gt; object if successful.
      */
     public PagedList<ExpressRouteCircuitInner> list() {
-        ServiceResponse<Page<ExpressRouteCircuitInner>> response = listSinglePageAsync().toBlocking().single();
-        return new PagedList<ExpressRouteCircuitInner>(response.body()) {
+        Page<ExpressRouteCircuitInner> response = listSinglePageAsync().blockingGet();
+        return new PagedList<ExpressRouteCircuitInner>(response) {
             @Override
             public Page<ExpressRouteCircuitInner> nextPage(String nextPageLink) {
-                return listNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listAllNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -1712,105 +1448,49 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
     /**
      * Gets all the express route circuits in a subscription.
      *
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<List<ExpressRouteCircuitInner>> listAsync(final ListOperationCallback<ExpressRouteCircuitInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listSinglePageAsync(),
-            new Func1<String, Observable<ServiceResponse<Page<ExpressRouteCircuitInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ExpressRouteCircuitInner>>> call(String nextPageLink) {
-                    return listNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets all the express route circuits in a subscription.
-     *
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ExpressRouteCircuitInner&gt; object
+     * @return the observable to the PagedList&lt;ExpressRouteCircuitInner&gt; object.
      */
     public Observable<Page<ExpressRouteCircuitInner>> listAsync() {
-        return listWithServiceResponseAsync()
-            .map(new Func1<ServiceResponse<Page<ExpressRouteCircuitInner>>, Page<ExpressRouteCircuitInner>>() {
-                @Override
-                public Page<ExpressRouteCircuitInner> call(ServiceResponse<Page<ExpressRouteCircuitInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets all the express route circuits in a subscription.
-     *
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ExpressRouteCircuitInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<ExpressRouteCircuitInner>>> listWithServiceResponseAsync() {
         return listSinglePageAsync()
-            .concatMap(new Func1<ServiceResponse<Page<ExpressRouteCircuitInner>>, Observable<ServiceResponse<Page<ExpressRouteCircuitInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ExpressRouteCircuitInner>>> call(ServiceResponse<Page<ExpressRouteCircuitInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<ExpressRouteCircuitInner> page) -> {
+                String nextPageLink = page.nextPageLink();
+                if (nextPageLink == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listAllNextAsync(nextPageLink));
             });
     }
 
     /**
      * Gets all the express route circuits in a subscription.
      *
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;ExpressRouteCircuitInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @return the Single&lt;Page&lt;ExpressRouteCircuitInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<ExpressRouteCircuitInner>>> listSinglePageAsync() {
+    public Single<Page<ExpressRouteCircuitInner>> listSinglePageAsync() {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        return service.list(this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ExpressRouteCircuitInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ExpressRouteCircuitInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<ExpressRouteCircuitInner>> result = listDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<ExpressRouteCircuitInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl<ExpressRouteCircuitInner>> listDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<ExpressRouteCircuitInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<ExpressRouteCircuitInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+        return service.list(this.client.subscriptionId(), apiVersion, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl<ExpressRouteCircuitInner>> res) -> res.body());
     }
 
     /**
      * Gets all the express route circuits in a resource group.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;ExpressRouteCircuitInner&gt; object if successful.
      */
-    public PagedList<ExpressRouteCircuitInner> listByResourceGroupNext(final String nextPageLink) {
-        ServiceResponse<Page<ExpressRouteCircuitInner>> response = listByResourceGroupNextSinglePageAsync(nextPageLink).toBlocking().single();
-        return new PagedList<ExpressRouteCircuitInner>(response.body()) {
+    public PagedList<ExpressRouteCircuitInner> listNext(@NonNull String nextPageLink) {
+        Page<ExpressRouteCircuitInner> response = listNextSinglePageAsync(nextPageLink).blockingGet();
+        return new PagedList<ExpressRouteCircuitInner>(response) {
             @Override
             public Page<ExpressRouteCircuitInner> nextPage(String nextPageLink) {
-                return listByResourceGroupNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -1819,203 +1499,88 @@ public class ExpressRouteCircuitsInner implements InnerSupportsGet<ExpressRouteC
      * Gets all the express route circuits in a resource group.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;ExpressRouteCircuitInner&gt; object.
      */
-    public ServiceFuture<List<ExpressRouteCircuitInner>> listByResourceGroupNextAsync(final String nextPageLink, final ServiceFuture<List<ExpressRouteCircuitInner>> serviceFuture, final ListOperationCallback<ExpressRouteCircuitInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listByResourceGroupNextSinglePageAsync(nextPageLink),
-            new Func1<String, Observable<ServiceResponse<Page<ExpressRouteCircuitInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ExpressRouteCircuitInner>>> call(String nextPageLink) {
-                    return listByResourceGroupNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets all the express route circuits in a resource group.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ExpressRouteCircuitInner&gt; object
-     */
-    public Observable<Page<ExpressRouteCircuitInner>> listByResourceGroupNextAsync(final String nextPageLink) {
-        return listByResourceGroupNextWithServiceResponseAsync(nextPageLink)
-            .map(new Func1<ServiceResponse<Page<ExpressRouteCircuitInner>>, Page<ExpressRouteCircuitInner>>() {
-                @Override
-                public Page<ExpressRouteCircuitInner> call(ServiceResponse<Page<ExpressRouteCircuitInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets all the express route circuits in a resource group.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ExpressRouteCircuitInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<ExpressRouteCircuitInner>>> listByResourceGroupNextWithServiceResponseAsync(final String nextPageLink) {
-        return listByResourceGroupNextSinglePageAsync(nextPageLink)
-            .concatMap(new Func1<ServiceResponse<Page<ExpressRouteCircuitInner>>, Observable<ServiceResponse<Page<ExpressRouteCircuitInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ExpressRouteCircuitInner>>> call(ServiceResponse<Page<ExpressRouteCircuitInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listByResourceGroupNextWithServiceResponseAsync(nextPageLink));
-                }
-            });
-    }
-
-    /**
-     * Gets all the express route circuits in a resource group.
-     *
-    ServiceResponse<PageImpl<ExpressRouteCircuitInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;ExpressRouteCircuitInner&gt; object wrapped in {@link ServiceResponse} if successful.
-     */
-    public Observable<ServiceResponse<Page<ExpressRouteCircuitInner>>> listByResourceGroupNextSinglePageAsync(final String nextPageLink) {
-        if (nextPageLink == null) {
-            throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
-        }
-        String nextUrl = String.format("%s", nextPageLink);
-        return service.listByResourceGroupNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ExpressRouteCircuitInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ExpressRouteCircuitInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<ExpressRouteCircuitInner>> result = listByResourceGroupNextDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<ExpressRouteCircuitInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl<ExpressRouteCircuitInner>> listByResourceGroupNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<ExpressRouteCircuitInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<ExpressRouteCircuitInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
-    }
-
-    /**
-     * Gets all the express route circuits in a subscription.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the PagedList&lt;ExpressRouteCircuitInner&gt; object if successful.
-     */
-    public PagedList<ExpressRouteCircuitInner> listNext(final String nextPageLink) {
-        ServiceResponse<Page<ExpressRouteCircuitInner>> response = listNextSinglePageAsync(nextPageLink).toBlocking().single();
-        return new PagedList<ExpressRouteCircuitInner>(response.body()) {
-            @Override
-            public Page<ExpressRouteCircuitInner> nextPage(String nextPageLink) {
-                return listNextSinglePageAsync(nextPageLink).toBlocking().single().body();
-            }
-        };
-    }
-
-    /**
-     * Gets all the express route circuits in a subscription.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<List<ExpressRouteCircuitInner>> listNextAsync(final String nextPageLink, final ServiceFuture<List<ExpressRouteCircuitInner>> serviceFuture, final ListOperationCallback<ExpressRouteCircuitInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listNextSinglePageAsync(nextPageLink),
-            new Func1<String, Observable<ServiceResponse<Page<ExpressRouteCircuitInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ExpressRouteCircuitInner>>> call(String nextPageLink) {
-                    return listNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets all the express route circuits in a subscription.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ExpressRouteCircuitInner&gt; object
-     */
-    public Observable<Page<ExpressRouteCircuitInner>> listNextAsync(final String nextPageLink) {
-        return listNextWithServiceResponseAsync(nextPageLink)
-            .map(new Func1<ServiceResponse<Page<ExpressRouteCircuitInner>>, Page<ExpressRouteCircuitInner>>() {
-                @Override
-                public Page<ExpressRouteCircuitInner> call(ServiceResponse<Page<ExpressRouteCircuitInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets all the express route circuits in a subscription.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ExpressRouteCircuitInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<ExpressRouteCircuitInner>>> listNextWithServiceResponseAsync(final String nextPageLink) {
+    public Observable<Page<ExpressRouteCircuitInner>> listNextAsync(@NonNull String nextPageLink) {
         return listNextSinglePageAsync(nextPageLink)
-            .concatMap(new Func1<ServiceResponse<Page<ExpressRouteCircuitInner>>, Observable<ServiceResponse<Page<ExpressRouteCircuitInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ExpressRouteCircuitInner>>> call(ServiceResponse<Page<ExpressRouteCircuitInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<ExpressRouteCircuitInner> page) -> {
+                String nextPageLink1 = page.nextPageLink();
+                if (nextPageLink1 == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listNextAsync(nextPageLink1));
+            });
+    }
+
+    /**
+     * Gets all the express route circuits in a resource group.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;ExpressRouteCircuitInner&gt;&gt; object if successful.
+     */
+    public Single<Page<ExpressRouteCircuitInner>> listNextSinglePageAsync(@NonNull String nextPageLink) {
+        if (nextPageLink == null) {
+            throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
+        }
+        String nextUrl = String.format("%s", nextPageLink);
+        return service.listNext(nextUrl, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl<ExpressRouteCircuitInner>> res) -> res.body());
+    }
+
+    /**
+     * Gets all the express route circuits in a subscription.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the PagedList&lt;ExpressRouteCircuitInner&gt; object if successful.
+     */
+    public PagedList<ExpressRouteCircuitInner> listAllNext(@NonNull String nextPageLink) {
+        Page<ExpressRouteCircuitInner> response = listAllNextSinglePageAsync(nextPageLink).blockingGet();
+        return new PagedList<ExpressRouteCircuitInner>(response) {
+            @Override
+            public Page<ExpressRouteCircuitInner> nextPage(String nextPageLink) {
+                return listAllNextSinglePageAsync(nextPageLink).blockingGet();
+            }
+        };
+    }
+
+    /**
+     * Gets all the express route circuits in a subscription.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;ExpressRouteCircuitInner&gt; object.
+     */
+    public Observable<Page<ExpressRouteCircuitInner>> listAllNextAsync(@NonNull String nextPageLink) {
+        return listAllNextSinglePageAsync(nextPageLink)
+            .toObservable()
+            .concatMap((Page<ExpressRouteCircuitInner> page) -> {
+                String nextPageLink1 = page.nextPageLink();
+                if (nextPageLink1 == null) {
+                    return Observable.just(page);
+                }
+                return Observable.just(page).concatWith(listAllNextAsync(nextPageLink1));
             });
     }
 
     /**
      * Gets all the express route circuits in a subscription.
      *
-    ServiceResponse<PageImpl<ExpressRouteCircuitInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;ExpressRouteCircuitInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;ExpressRouteCircuitInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<ExpressRouteCircuitInner>>> listNextSinglePageAsync(final String nextPageLink) {
+    public Single<Page<ExpressRouteCircuitInner>> listAllNextSinglePageAsync(@NonNull String nextPageLink) {
         if (nextPageLink == null) {
             throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
         }
         String nextUrl = String.format("%s", nextPageLink);
-        return service.listNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ExpressRouteCircuitInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ExpressRouteCircuitInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<ExpressRouteCircuitInner>> result = listNextDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<ExpressRouteCircuitInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.listAllNext(nextUrl, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl<ExpressRouteCircuitInner>> res) -> res.body());
     }
-
-    private ServiceResponse<PageImpl<ExpressRouteCircuitInner>> listNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<ExpressRouteCircuitInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<ExpressRouteCircuitInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
-    }
-
 }

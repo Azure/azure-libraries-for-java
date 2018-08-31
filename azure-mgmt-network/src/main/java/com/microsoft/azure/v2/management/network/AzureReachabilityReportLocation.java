@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Parameters that define a geographic location.
  */
-public class AzureReachabilityReportLocation {
+public final class AzureReachabilityReportLocation {
     /**
      * The name of the country.
      */
@@ -35,7 +35,7 @@ public class AzureReachabilityReportLocation {
     /**
      * Get the country value.
      *
-     * @return the country value
+     * @return the country value.
      */
     public String country() {
         return this.country;
@@ -44,7 +44,7 @@ public class AzureReachabilityReportLocation {
     /**
      * Set the country value.
      *
-     * @param country the country value to set
+     * @param country the country value to set.
      * @return the AzureReachabilityReportLocation object itself.
      */
     public AzureReachabilityReportLocation withCountry(String country) {
@@ -55,7 +55,7 @@ public class AzureReachabilityReportLocation {
     /**
      * Get the state value.
      *
-     * @return the state value
+     * @return the state value.
      */
     public String state() {
         return this.state;
@@ -64,7 +64,7 @@ public class AzureReachabilityReportLocation {
     /**
      * Set the state value.
      *
-     * @param state the state value to set
+     * @param state the state value to set.
      * @return the AzureReachabilityReportLocation object itself.
      */
     public AzureReachabilityReportLocation withState(String state) {
@@ -75,7 +75,7 @@ public class AzureReachabilityReportLocation {
     /**
      * Get the city value.
      *
-     * @return the city value
+     * @return the city value.
      */
     public String city() {
         return this.city;
@@ -84,12 +84,11 @@ public class AzureReachabilityReportLocation {
     /**
      * Set the city value.
      *
-     * @param city the city value to set
+     * @param city the city value to set.
      * @return the AzureReachabilityReportLocation object itself.
      */
     public AzureReachabilityReportLocation withCity(String city) {
         this.city = city;
         return this;
     }
-
 }

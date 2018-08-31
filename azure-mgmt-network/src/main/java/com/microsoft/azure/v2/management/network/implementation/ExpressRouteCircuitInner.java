@@ -8,14 +8,13 @@
 
 package com.microsoft.azure.v2.management.network.implementation;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.v2.Resource;
+import com.microsoft.azure.v2.management.network.ExpressRouteCircuitServiceProviderProperties;
 import com.microsoft.azure.v2.management.network.ExpressRouteCircuitSku;
 import com.microsoft.azure.v2.management.network.ServiceProviderProvisioningState;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
 import java.util.List;
-import com.microsoft.azure.v2.management.network.ExpressRouteCircuitServiceProviderProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.rest.SkipParentValidation;
-import com.microsoft.azure.Resource;
 
 /**
  * ExpressRouteCircuit resource.
@@ -109,7 +108,7 @@ public class ExpressRouteCircuitInner extends Resource {
     /**
      * Get the sku value.
      *
-     * @return the sku value
+     * @return the sku value.
      */
     public ExpressRouteCircuitSku sku() {
         return this.sku;
@@ -118,7 +117,7 @@ public class ExpressRouteCircuitInner extends Resource {
     /**
      * Set the sku value.
      *
-     * @param sku the sku value to set
+     * @param sku the sku value to set.
      * @return the ExpressRouteCircuitInner object itself.
      */
     public ExpressRouteCircuitInner withSku(ExpressRouteCircuitSku sku) {
@@ -129,7 +128,7 @@ public class ExpressRouteCircuitInner extends Resource {
     /**
      * Get the allowClassicOperations value.
      *
-     * @return the allowClassicOperations value
+     * @return the allowClassicOperations value.
      */
     public Boolean allowClassicOperations() {
         return this.allowClassicOperations;
@@ -138,7 +137,7 @@ public class ExpressRouteCircuitInner extends Resource {
     /**
      * Set the allowClassicOperations value.
      *
-     * @param allowClassicOperations the allowClassicOperations value to set
+     * @param allowClassicOperations the allowClassicOperations value to set.
      * @return the ExpressRouteCircuitInner object itself.
      */
     public ExpressRouteCircuitInner withAllowClassicOperations(Boolean allowClassicOperations) {
@@ -149,7 +148,7 @@ public class ExpressRouteCircuitInner extends Resource {
     /**
      * Get the circuitProvisioningState value.
      *
-     * @return the circuitProvisioningState value
+     * @return the circuitProvisioningState value.
      */
     public String circuitProvisioningState() {
         return this.circuitProvisioningState;
@@ -158,7 +157,8 @@ public class ExpressRouteCircuitInner extends Resource {
     /**
      * Set the circuitProvisioningState value.
      *
-     * @param circuitProvisioningState the circuitProvisioningState value to set
+     * @param circuitProvisioningState the circuitProvisioningState value to
+     * set.
      * @return the ExpressRouteCircuitInner object itself.
      */
     public ExpressRouteCircuitInner withCircuitProvisioningState(String circuitProvisioningState) {
@@ -169,7 +169,7 @@ public class ExpressRouteCircuitInner extends Resource {
     /**
      * Get the serviceProviderProvisioningState value.
      *
-     * @return the serviceProviderProvisioningState value
+     * @return the serviceProviderProvisioningState value.
      */
     public ServiceProviderProvisioningState serviceProviderProvisioningState() {
         return this.serviceProviderProvisioningState;
@@ -178,7 +178,8 @@ public class ExpressRouteCircuitInner extends Resource {
     /**
      * Set the serviceProviderProvisioningState value.
      *
-     * @param serviceProviderProvisioningState the serviceProviderProvisioningState value to set
+     * @param serviceProviderProvisioningState the
+     * serviceProviderProvisioningState value to set.
      * @return the ExpressRouteCircuitInner object itself.
      */
     public ExpressRouteCircuitInner withServiceProviderProvisioningState(ServiceProviderProvisioningState serviceProviderProvisioningState) {
@@ -189,7 +190,7 @@ public class ExpressRouteCircuitInner extends Resource {
     /**
      * Get the authorizations value.
      *
-     * @return the authorizations value
+     * @return the authorizations value.
      */
     public List<ExpressRouteCircuitAuthorizationInner> authorizations() {
         return this.authorizations;
@@ -198,7 +199,7 @@ public class ExpressRouteCircuitInner extends Resource {
     /**
      * Set the authorizations value.
      *
-     * @param authorizations the authorizations value to set
+     * @param authorizations the authorizations value to set.
      * @return the ExpressRouteCircuitInner object itself.
      */
     public ExpressRouteCircuitInner withAuthorizations(List<ExpressRouteCircuitAuthorizationInner> authorizations) {
@@ -209,7 +210,7 @@ public class ExpressRouteCircuitInner extends Resource {
     /**
      * Get the peerings value.
      *
-     * @return the peerings value
+     * @return the peerings value.
      */
     public List<ExpressRouteCircuitPeeringInner> peerings() {
         return this.peerings;
@@ -218,7 +219,7 @@ public class ExpressRouteCircuitInner extends Resource {
     /**
      * Set the peerings value.
      *
-     * @param peerings the peerings value to set
+     * @param peerings the peerings value to set.
      * @return the ExpressRouteCircuitInner object itself.
      */
     public ExpressRouteCircuitInner withPeerings(List<ExpressRouteCircuitPeeringInner> peerings) {
@@ -229,7 +230,7 @@ public class ExpressRouteCircuitInner extends Resource {
     /**
      * Get the serviceKey value.
      *
-     * @return the serviceKey value
+     * @return the serviceKey value.
      */
     public String serviceKey() {
         return this.serviceKey;
@@ -238,7 +239,7 @@ public class ExpressRouteCircuitInner extends Resource {
     /**
      * Set the serviceKey value.
      *
-     * @param serviceKey the serviceKey value to set
+     * @param serviceKey the serviceKey value to set.
      * @return the ExpressRouteCircuitInner object itself.
      */
     public ExpressRouteCircuitInner withServiceKey(String serviceKey) {
@@ -249,7 +250,7 @@ public class ExpressRouteCircuitInner extends Resource {
     /**
      * Get the serviceProviderNotes value.
      *
-     * @return the serviceProviderNotes value
+     * @return the serviceProviderNotes value.
      */
     public String serviceProviderNotes() {
         return this.serviceProviderNotes;
@@ -258,7 +259,7 @@ public class ExpressRouteCircuitInner extends Resource {
     /**
      * Set the serviceProviderNotes value.
      *
-     * @param serviceProviderNotes the serviceProviderNotes value to set
+     * @param serviceProviderNotes the serviceProviderNotes value to set.
      * @return the ExpressRouteCircuitInner object itself.
      */
     public ExpressRouteCircuitInner withServiceProviderNotes(String serviceProviderNotes) {
@@ -269,7 +270,7 @@ public class ExpressRouteCircuitInner extends Resource {
     /**
      * Get the serviceProviderProperties value.
      *
-     * @return the serviceProviderProperties value
+     * @return the serviceProviderProperties value.
      */
     public ExpressRouteCircuitServiceProviderProperties serviceProviderProperties() {
         return this.serviceProviderProperties;
@@ -278,7 +279,8 @@ public class ExpressRouteCircuitInner extends Resource {
     /**
      * Set the serviceProviderProperties value.
      *
-     * @param serviceProviderProperties the serviceProviderProperties value to set
+     * @param serviceProviderProperties the serviceProviderProperties value to
+     * set.
      * @return the ExpressRouteCircuitInner object itself.
      */
     public ExpressRouteCircuitInner withServiceProviderProperties(ExpressRouteCircuitServiceProviderProperties serviceProviderProperties) {
@@ -289,7 +291,7 @@ public class ExpressRouteCircuitInner extends Resource {
     /**
      * Get the provisioningState value.
      *
-     * @return the provisioningState value
+     * @return the provisioningState value.
      */
     public String provisioningState() {
         return this.provisioningState;
@@ -298,7 +300,7 @@ public class ExpressRouteCircuitInner extends Resource {
     /**
      * Set the provisioningState value.
      *
-     * @param provisioningState the provisioningState value to set
+     * @param provisioningState the provisioningState value to set.
      * @return the ExpressRouteCircuitInner object itself.
      */
     public ExpressRouteCircuitInner withProvisioningState(String provisioningState) {
@@ -309,7 +311,7 @@ public class ExpressRouteCircuitInner extends Resource {
     /**
      * Get the gatewayManagerEtag value.
      *
-     * @return the gatewayManagerEtag value
+     * @return the gatewayManagerEtag value.
      */
     public String gatewayManagerEtag() {
         return this.gatewayManagerEtag;
@@ -318,7 +320,7 @@ public class ExpressRouteCircuitInner extends Resource {
     /**
      * Set the gatewayManagerEtag value.
      *
-     * @param gatewayManagerEtag the gatewayManagerEtag value to set
+     * @param gatewayManagerEtag the gatewayManagerEtag value to set.
      * @return the ExpressRouteCircuitInner object itself.
      */
     public ExpressRouteCircuitInner withGatewayManagerEtag(String gatewayManagerEtag) {
@@ -329,7 +331,7 @@ public class ExpressRouteCircuitInner extends Resource {
     /**
      * Get the etag value.
      *
-     * @return the etag value
+     * @return the etag value.
      */
     public String etag() {
         return this.etag;
@@ -338,7 +340,7 @@ public class ExpressRouteCircuitInner extends Resource {
     /**
      * Get the id value.
      *
-     * @return the id value
+     * @return the id value.
      */
     public String id() {
         return this.id;
@@ -347,12 +349,11 @@ public class ExpressRouteCircuitInner extends Resource {
     /**
      * Set the id value.
      *
-     * @param id the id value to set
+     * @param id the id value to set.
      * @return the ExpressRouteCircuitInner object itself.
      */
     public ExpressRouteCircuitInner withId(String id) {
         this.id = id;
         return this;
     }
-
 }

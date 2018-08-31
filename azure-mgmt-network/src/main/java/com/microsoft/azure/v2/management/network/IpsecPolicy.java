@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * An IPSec Policy configuration for a virtual network gateway connection.
  */
-public class IpsecPolicy {
+public final class IpsecPolicy {
     /**
      * The IPSec Security Association (also called Quick Mode or Phase 2 SA)
      * lifetime in seconds for a site to site VPN tunnel.
@@ -76,7 +76,7 @@ public class IpsecPolicy {
     /**
      * Get the saLifeTimeSeconds value.
      *
-     * @return the saLifeTimeSeconds value
+     * @return the saLifeTimeSeconds value.
      */
     public int saLifeTimeSeconds() {
         return this.saLifeTimeSeconds;
@@ -85,7 +85,7 @@ public class IpsecPolicy {
     /**
      * Set the saLifeTimeSeconds value.
      *
-     * @param saLifeTimeSeconds the saLifeTimeSeconds value to set
+     * @param saLifeTimeSeconds the saLifeTimeSeconds value to set.
      * @return the IpsecPolicy object itself.
      */
     public IpsecPolicy withSaLifeTimeSeconds(int saLifeTimeSeconds) {
@@ -96,7 +96,7 @@ public class IpsecPolicy {
     /**
      * Get the saDataSizeKilobytes value.
      *
-     * @return the saDataSizeKilobytes value
+     * @return the saDataSizeKilobytes value.
      */
     public int saDataSizeKilobytes() {
         return this.saDataSizeKilobytes;
@@ -105,7 +105,7 @@ public class IpsecPolicy {
     /**
      * Set the saDataSizeKilobytes value.
      *
-     * @param saDataSizeKilobytes the saDataSizeKilobytes value to set
+     * @param saDataSizeKilobytes the saDataSizeKilobytes value to set.
      * @return the IpsecPolicy object itself.
      */
     public IpsecPolicy withSaDataSizeKilobytes(int saDataSizeKilobytes) {
@@ -116,7 +116,7 @@ public class IpsecPolicy {
     /**
      * Get the ipsecEncryption value.
      *
-     * @return the ipsecEncryption value
+     * @return the ipsecEncryption value.
      */
     public IpsecEncryption ipsecEncryption() {
         return this.ipsecEncryption;
@@ -125,7 +125,7 @@ public class IpsecPolicy {
     /**
      * Set the ipsecEncryption value.
      *
-     * @param ipsecEncryption the ipsecEncryption value to set
+     * @param ipsecEncryption the ipsecEncryption value to set.
      * @return the IpsecPolicy object itself.
      */
     public IpsecPolicy withIpsecEncryption(IpsecEncryption ipsecEncryption) {
@@ -136,7 +136,7 @@ public class IpsecPolicy {
     /**
      * Get the ipsecIntegrity value.
      *
-     * @return the ipsecIntegrity value
+     * @return the ipsecIntegrity value.
      */
     public IpsecIntegrity ipsecIntegrity() {
         return this.ipsecIntegrity;
@@ -145,7 +145,7 @@ public class IpsecPolicy {
     /**
      * Set the ipsecIntegrity value.
      *
-     * @param ipsecIntegrity the ipsecIntegrity value to set
+     * @param ipsecIntegrity the ipsecIntegrity value to set.
      * @return the IpsecPolicy object itself.
      */
     public IpsecPolicy withIpsecIntegrity(IpsecIntegrity ipsecIntegrity) {
@@ -156,7 +156,7 @@ public class IpsecPolicy {
     /**
      * Get the ikeEncryption value.
      *
-     * @return the ikeEncryption value
+     * @return the ikeEncryption value.
      */
     public IkeEncryption ikeEncryption() {
         return this.ikeEncryption;
@@ -165,7 +165,7 @@ public class IpsecPolicy {
     /**
      * Set the ikeEncryption value.
      *
-     * @param ikeEncryption the ikeEncryption value to set
+     * @param ikeEncryption the ikeEncryption value to set.
      * @return the IpsecPolicy object itself.
      */
     public IpsecPolicy withIkeEncryption(IkeEncryption ikeEncryption) {
@@ -176,7 +176,7 @@ public class IpsecPolicy {
     /**
      * Get the ikeIntegrity value.
      *
-     * @return the ikeIntegrity value
+     * @return the ikeIntegrity value.
      */
     public IkeIntegrity ikeIntegrity() {
         return this.ikeIntegrity;
@@ -185,7 +185,7 @@ public class IpsecPolicy {
     /**
      * Set the ikeIntegrity value.
      *
-     * @param ikeIntegrity the ikeIntegrity value to set
+     * @param ikeIntegrity the ikeIntegrity value to set.
      * @return the IpsecPolicy object itself.
      */
     public IpsecPolicy withIkeIntegrity(IkeIntegrity ikeIntegrity) {
@@ -196,7 +196,7 @@ public class IpsecPolicy {
     /**
      * Get the dhGroup value.
      *
-     * @return the dhGroup value
+     * @return the dhGroup value.
      */
     public DhGroup dhGroup() {
         return this.dhGroup;
@@ -205,7 +205,7 @@ public class IpsecPolicy {
     /**
      * Set the dhGroup value.
      *
-     * @param dhGroup the dhGroup value to set
+     * @param dhGroup the dhGroup value to set.
      * @return the IpsecPolicy object itself.
      */
     public IpsecPolicy withDhGroup(DhGroup dhGroup) {
@@ -216,7 +216,7 @@ public class IpsecPolicy {
     /**
      * Get the pfsGroup value.
      *
-     * @return the pfsGroup value
+     * @return the pfsGroup value.
      */
     public PfsGroup pfsGroup() {
         return this.pfsGroup;
@@ -225,12 +225,11 @@ public class IpsecPolicy {
     /**
      * Set the pfsGroup value.
      *
-     * @param pfsGroup the pfsGroup value to set
+     * @param pfsGroup the pfsGroup value to set.
      * @return the IpsecPolicy object itself.
      */
     public IpsecPolicy withPfsGroup(PfsGroup pfsGroup) {
         this.pfsGroup = pfsGroup;
         return this;
     }
-
 }

@@ -8,27 +8,34 @@
 
 package com.microsoft.azure.v2.management.network;
 
-import java.util.Collection;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.microsoft.rest.ExpandableStringEnum;
+import com.microsoft.rest.v2.ExpandableStringEnum;
+import java.util.Collection;
 
 /**
  * Defines values for TransportProtocol.
  */
 public final class TransportProtocol extends ExpandableStringEnum<TransportProtocol> {
-    /** Static value Udp for TransportProtocol. */
+    /**
+     * Static value Udp for TransportProtocol.
+     */
     public static final TransportProtocol UDP = fromString("Udp");
 
-    /** Static value Tcp for TransportProtocol. */
+    /**
+     * Static value Tcp for TransportProtocol.
+     */
     public static final TransportProtocol TCP = fromString("Tcp");
 
-    /** Static value All for TransportProtocol. */
+    /**
+     * Static value All for TransportProtocol.
+     */
     public static final TransportProtocol ALL = fromString("All");
 
     /**
      * Creates or finds a TransportProtocol from its string representation.
-     * @param name a name to look for
-     * @return the corresponding TransportProtocol
+     *
+     * @param name a name to look for.
+     * @return the corresponding TransportProtocol.
      */
     @JsonCreator
     public static TransportProtocol fromString(String name) {
@@ -36,7 +43,7 @@ public final class TransportProtocol extends ExpandableStringEnum<TransportProto
     }
 
     /**
-     * @return known TransportProtocol values
+     * @return known TransportProtocol values.
      */
     public static Collection<TransportProtocol> values() {
         return values(TransportProtocol.class);

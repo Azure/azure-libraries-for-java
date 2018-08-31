@@ -8,13 +8,13 @@
 
 package com.microsoft.azure.v2.management.network;
 
-import com.microsoft.azure.SubResource;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.v2.SubResource;
 
 /**
  * The effective network security group association.
  */
-public class EffectiveNetworkSecurityGroupAssociation {
+public final class EffectiveNetworkSecurityGroupAssociation {
     /**
      * The ID of the subnet if assigned.
      */
@@ -30,7 +30,7 @@ public class EffectiveNetworkSecurityGroupAssociation {
     /**
      * Get the subnet value.
      *
-     * @return the subnet value
+     * @return the subnet value.
      */
     public SubResource subnet() {
         return this.subnet;
@@ -39,7 +39,7 @@ public class EffectiveNetworkSecurityGroupAssociation {
     /**
      * Set the subnet value.
      *
-     * @param subnet the subnet value to set
+     * @param subnet the subnet value to set.
      * @return the EffectiveNetworkSecurityGroupAssociation object itself.
      */
     public EffectiveNetworkSecurityGroupAssociation withSubnet(SubResource subnet) {
@@ -50,7 +50,7 @@ public class EffectiveNetworkSecurityGroupAssociation {
     /**
      * Get the networkInterface value.
      *
-     * @return the networkInterface value
+     * @return the networkInterface value.
      */
     public SubResource networkInterface() {
         return this.networkInterface;
@@ -59,12 +59,11 @@ public class EffectiveNetworkSecurityGroupAssociation {
     /**
      * Set the networkInterface value.
      *
-     * @param networkInterface the networkInterface value to set
+     * @param networkInterface the networkInterface value to set.
      * @return the EffectiveNetworkSecurityGroupAssociation object itself.
      */
     public EffectiveNetworkSecurityGroupAssociation withNetworkInterface(SubResource networkInterface) {
         this.networkInterface = networkInterface;
         return this;
     }
-
 }

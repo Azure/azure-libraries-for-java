@@ -8,26 +8,26 @@
 
 package com.microsoft.azure.v2.management.network.implementation;
 
-import org.joda.time.DateTime;
-import java.util.List;
-import com.microsoft.azure.v2.management.network.TroubleshootingDetails;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.v2.management.network.TroubleshootingDetails;
+import java.time.OffsetDateTime;
+import java.util.List;
 
 /**
  * Troubleshooting information gained from specified resource.
  */
-public class TroubleshootingResultInner {
+public final class TroubleshootingResultInner {
     /**
      * The start time of the troubleshooting.
      */
     @JsonProperty(value = "startTime")
-    private DateTime startTime;
+    private OffsetDateTime startTime;
 
     /**
      * The end time of the troubleshooting.
      */
     @JsonProperty(value = "endTime")
-    private DateTime endTime;
+    private OffsetDateTime endTime;
 
     /**
      * The result code of the troubleshooting.
@@ -44,19 +44,19 @@ public class TroubleshootingResultInner {
     /**
      * Get the startTime value.
      *
-     * @return the startTime value
+     * @return the startTime value.
      */
-    public DateTime startTime() {
+    public OffsetDateTime startTime() {
         return this.startTime;
     }
 
     /**
      * Set the startTime value.
      *
-     * @param startTime the startTime value to set
+     * @param startTime the startTime value to set.
      * @return the TroubleshootingResultInner object itself.
      */
-    public TroubleshootingResultInner withStartTime(DateTime startTime) {
+    public TroubleshootingResultInner withStartTime(OffsetDateTime startTime) {
         this.startTime = startTime;
         return this;
     }
@@ -64,19 +64,19 @@ public class TroubleshootingResultInner {
     /**
      * Get the endTime value.
      *
-     * @return the endTime value
+     * @return the endTime value.
      */
-    public DateTime endTime() {
+    public OffsetDateTime endTime() {
         return this.endTime;
     }
 
     /**
      * Set the endTime value.
      *
-     * @param endTime the endTime value to set
+     * @param endTime the endTime value to set.
      * @return the TroubleshootingResultInner object itself.
      */
-    public TroubleshootingResultInner withEndTime(DateTime endTime) {
+    public TroubleshootingResultInner withEndTime(OffsetDateTime endTime) {
         this.endTime = endTime;
         return this;
     }
@@ -84,7 +84,7 @@ public class TroubleshootingResultInner {
     /**
      * Get the code value.
      *
-     * @return the code value
+     * @return the code value.
      */
     public String code() {
         return this.code;
@@ -93,7 +93,7 @@ public class TroubleshootingResultInner {
     /**
      * Set the code value.
      *
-     * @param code the code value to set
+     * @param code the code value to set.
      * @return the TroubleshootingResultInner object itself.
      */
     public TroubleshootingResultInner withCode(String code) {
@@ -104,7 +104,7 @@ public class TroubleshootingResultInner {
     /**
      * Get the results value.
      *
-     * @return the results value
+     * @return the results value.
      */
     public List<TroubleshootingDetails> results() {
         return this.results;
@@ -113,12 +113,11 @@ public class TroubleshootingResultInner {
     /**
      * Set the results value.
      *
-     * @param results the results value to set
+     * @param results the results value to set.
      * @return the TroubleshootingResultInner object itself.
      */
     public TroubleshootingResultInner withResults(List<TroubleshootingDetails> results) {
         this.results = results;
         return this;
     }
-
 }

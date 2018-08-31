@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Application Gateway autoscale configuration.
  */
-public class ApplicationGatewayAutoscaleConfiguration {
+public final class ApplicationGatewayAutoscaleConfiguration {
     /**
      * Autoscale bounds.
      */
@@ -23,7 +23,7 @@ public class ApplicationGatewayAutoscaleConfiguration {
     /**
      * Get the bounds value.
      *
-     * @return the bounds value
+     * @return the bounds value.
      */
     public ApplicationGatewayAutoscaleBounds bounds() {
         return this.bounds;
@@ -32,12 +32,11 @@ public class ApplicationGatewayAutoscaleConfiguration {
     /**
      * Set the bounds value.
      *
-     * @param bounds the bounds value to set
+     * @param bounds the bounds value to set.
      * @return the ApplicationGatewayAutoscaleConfiguration object itself.
      */
     public ApplicationGatewayAutoscaleConfiguration withBounds(ApplicationGatewayAutoscaleBounds bounds) {
         this.bounds = bounds;
         return this;
     }
-
 }

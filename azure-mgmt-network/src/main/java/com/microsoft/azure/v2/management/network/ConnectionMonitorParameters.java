@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Parameters that define the operation to create a connection monitor.
  */
-public class ConnectionMonitorParameters {
+public final class ConnectionMonitorParameters {
     /**
      * The source property.
      */
@@ -42,7 +42,7 @@ public class ConnectionMonitorParameters {
     /**
      * Get the source value.
      *
-     * @return the source value
+     * @return the source value.
      */
     public ConnectionMonitorSource source() {
         return this.source;
@@ -51,7 +51,7 @@ public class ConnectionMonitorParameters {
     /**
      * Set the source value.
      *
-     * @param source the source value to set
+     * @param source the source value to set.
      * @return the ConnectionMonitorParameters object itself.
      */
     public ConnectionMonitorParameters withSource(ConnectionMonitorSource source) {
@@ -62,7 +62,7 @@ public class ConnectionMonitorParameters {
     /**
      * Get the destination value.
      *
-     * @return the destination value
+     * @return the destination value.
      */
     public ConnectionMonitorDestination destination() {
         return this.destination;
@@ -71,7 +71,7 @@ public class ConnectionMonitorParameters {
     /**
      * Set the destination value.
      *
-     * @param destination the destination value to set
+     * @param destination the destination value to set.
      * @return the ConnectionMonitorParameters object itself.
      */
     public ConnectionMonitorParameters withDestination(ConnectionMonitorDestination destination) {
@@ -82,7 +82,7 @@ public class ConnectionMonitorParameters {
     /**
      * Get the autoStart value.
      *
-     * @return the autoStart value
+     * @return the autoStart value.
      */
     public Boolean autoStart() {
         return this.autoStart;
@@ -91,7 +91,7 @@ public class ConnectionMonitorParameters {
     /**
      * Set the autoStart value.
      *
-     * @param autoStart the autoStart value to set
+     * @param autoStart the autoStart value to set.
      * @return the ConnectionMonitorParameters object itself.
      */
     public ConnectionMonitorParameters withAutoStart(Boolean autoStart) {
@@ -102,7 +102,7 @@ public class ConnectionMonitorParameters {
     /**
      * Get the monitoringIntervalInSeconds value.
      *
-     * @return the monitoringIntervalInSeconds value
+     * @return the monitoringIntervalInSeconds value.
      */
     public Integer monitoringIntervalInSeconds() {
         return this.monitoringIntervalInSeconds;
@@ -111,12 +111,12 @@ public class ConnectionMonitorParameters {
     /**
      * Set the monitoringIntervalInSeconds value.
      *
-     * @param monitoringIntervalInSeconds the monitoringIntervalInSeconds value to set
+     * @param monitoringIntervalInSeconds the monitoringIntervalInSeconds value
+     * to set.
      * @return the ConnectionMonitorParameters object itself.
      */
     public ConnectionMonitorParameters withMonitoringIntervalInSeconds(Integer monitoringIntervalInSeconds) {
         this.monitoringIntervalInSeconds = monitoringIntervalInSeconds;
         return this;
     }
-
 }

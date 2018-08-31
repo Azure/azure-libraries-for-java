@@ -8,13 +8,13 @@
 
 package com.microsoft.azure.v2.management.network;
 
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 
 /**
  * Information about a hop between the source and the destination.
  */
-public class ConnectivityHop {
+public final class ConnectivityHop {
     /**
      * The type of the hop.
      */
@@ -54,7 +54,7 @@ public class ConnectivityHop {
     /**
      * Get the type value.
      *
-     * @return the type value
+     * @return the type value.
      */
     public String type() {
         return this.type;
@@ -63,7 +63,7 @@ public class ConnectivityHop {
     /**
      * Get the id value.
      *
-     * @return the id value
+     * @return the id value.
      */
     public String id() {
         return this.id;
@@ -72,7 +72,7 @@ public class ConnectivityHop {
     /**
      * Get the address value.
      *
-     * @return the address value
+     * @return the address value.
      */
     public String address() {
         return this.address;
@@ -81,7 +81,7 @@ public class ConnectivityHop {
     /**
      * Get the resourceId value.
      *
-     * @return the resourceId value
+     * @return the resourceId value.
      */
     public String resourceId() {
         return this.resourceId;
@@ -90,7 +90,7 @@ public class ConnectivityHop {
     /**
      * Get the nextHopIds value.
      *
-     * @return the nextHopIds value
+     * @return the nextHopIds value.
      */
     public List<String> nextHopIds() {
         return this.nextHopIds;
@@ -99,10 +99,9 @@ public class ConnectivityHop {
     /**
      * Get the issues value.
      *
-     * @return the issues value
+     * @return the issues value.
      */
     public List<ConnectivityIssue> issues() {
         return this.issues;
     }
-
 }

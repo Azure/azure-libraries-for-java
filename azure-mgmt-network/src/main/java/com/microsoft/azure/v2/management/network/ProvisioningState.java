@@ -8,30 +8,39 @@
 
 package com.microsoft.azure.v2.management.network;
 
-import java.util.Collection;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.microsoft.rest.ExpandableStringEnum;
+import com.microsoft.rest.v2.ExpandableStringEnum;
+import java.util.Collection;
 
 /**
  * Defines values for ProvisioningState.
  */
 public final class ProvisioningState extends ExpandableStringEnum<ProvisioningState> {
-    /** Static value Succeeded for ProvisioningState. */
+    /**
+     * Static value Succeeded for ProvisioningState.
+     */
     public static final ProvisioningState SUCCEEDED = fromString("Succeeded");
 
-    /** Static value Updating for ProvisioningState. */
+    /**
+     * Static value Updating for ProvisioningState.
+     */
     public static final ProvisioningState UPDATING = fromString("Updating");
 
-    /** Static value Deleting for ProvisioningState. */
+    /**
+     * Static value Deleting for ProvisioningState.
+     */
     public static final ProvisioningState DELETING = fromString("Deleting");
 
-    /** Static value Failed for ProvisioningState. */
+    /**
+     * Static value Failed for ProvisioningState.
+     */
     public static final ProvisioningState FAILED = fromString("Failed");
 
     /**
      * Creates or finds a ProvisioningState from its string representation.
-     * @param name a name to look for
-     * @return the corresponding ProvisioningState
+     *
+     * @param name a name to look for.
+     * @return the corresponding ProvisioningState.
      */
     @JsonCreator
     public static ProvisioningState fromString(String name) {
@@ -39,7 +48,7 @@ public final class ProvisioningState extends ExpandableStringEnum<ProvisioningSt
     }
 
     /**
-     * @return known ProvisioningState values
+     * @return known ProvisioningState values.
      */
     public static Collection<ProvisioningState> values() {
         return values(ProvisioningState.class);

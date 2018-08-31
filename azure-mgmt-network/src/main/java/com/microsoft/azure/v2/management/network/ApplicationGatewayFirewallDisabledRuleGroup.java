@@ -8,13 +8,13 @@
 
 package com.microsoft.azure.v2.management.network;
 
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 
 /**
  * Allows to disable rules within a rule group or an entire rule group.
  */
-public class ApplicationGatewayFirewallDisabledRuleGroup {
+public final class ApplicationGatewayFirewallDisabledRuleGroup {
     /**
      * The name of the rule group that will be disabled.
      */
@@ -31,7 +31,7 @@ public class ApplicationGatewayFirewallDisabledRuleGroup {
     /**
      * Get the ruleGroupName value.
      *
-     * @return the ruleGroupName value
+     * @return the ruleGroupName value.
      */
     public String ruleGroupName() {
         return this.ruleGroupName;
@@ -40,7 +40,7 @@ public class ApplicationGatewayFirewallDisabledRuleGroup {
     /**
      * Set the ruleGroupName value.
      *
-     * @param ruleGroupName the ruleGroupName value to set
+     * @param ruleGroupName the ruleGroupName value to set.
      * @return the ApplicationGatewayFirewallDisabledRuleGroup object itself.
      */
     public ApplicationGatewayFirewallDisabledRuleGroup withRuleGroupName(String ruleGroupName) {
@@ -51,7 +51,7 @@ public class ApplicationGatewayFirewallDisabledRuleGroup {
     /**
      * Get the rules value.
      *
-     * @return the rules value
+     * @return the rules value.
      */
     public List<Integer> rules() {
         return this.rules;
@@ -60,12 +60,11 @@ public class ApplicationGatewayFirewallDisabledRuleGroup {
     /**
      * Set the rules value.
      *
-     * @param rules the rules value to set
+     * @param rules the rules value to set.
      * @return the ApplicationGatewayFirewallDisabledRuleGroup object itself.
      */
     public ApplicationGatewayFirewallDisabledRuleGroup withRules(List<Integer> rules) {
         this.rules = rules;
         return this;
     }
-
 }

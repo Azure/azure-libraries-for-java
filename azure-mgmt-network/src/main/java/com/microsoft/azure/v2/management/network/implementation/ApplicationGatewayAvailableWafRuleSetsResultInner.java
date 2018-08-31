@@ -8,37 +8,38 @@
 
 package com.microsoft.azure.v2.management.network.implementation;
 
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.v2.management.network.ApplicationGatewayFirewallRuleSet;
+import java.util.List;
 
 /**
  * Response for ApplicationGatewayAvailableWafRuleSets API service call.
  */
-public class ApplicationGatewayAvailableWafRuleSetsResultInner {
+public final class ApplicationGatewayAvailableWafRuleSetsResultInner {
     /**
      * The list of application gateway rule sets.
      */
     @JsonProperty(value = "value")
-    private List<ApplicationGatewayFirewallRuleSetInner> value;
+    private List<ApplicationGatewayFirewallRuleSet> value;
 
     /**
      * Get the value value.
      *
-     * @return the value value
+     * @return the value value.
      */
-    public List<ApplicationGatewayFirewallRuleSetInner> value() {
+    public List<ApplicationGatewayFirewallRuleSet> value() {
         return this.value;
     }
 
     /**
      * Set the value value.
      *
-     * @param value the value value to set
-     * @return the ApplicationGatewayAvailableWafRuleSetsResultInner object itself.
+     * @param value the value value to set.
+     * @return the ApplicationGatewayAvailableWafRuleSetsResultInner object
+     * itself.
      */
-    public ApplicationGatewayAvailableWafRuleSetsResultInner withValue(List<ApplicationGatewayFirewallRuleSetInner> value) {
+    public ApplicationGatewayAvailableWafRuleSetsResultInner withValue(List<ApplicationGatewayFirewallRuleSet> value) {
         this.value = value;
         return this;
     }
-
 }

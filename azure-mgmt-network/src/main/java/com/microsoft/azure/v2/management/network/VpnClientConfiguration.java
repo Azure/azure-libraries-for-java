@@ -8,15 +8,13 @@
 
 package com.microsoft.azure.v2.management.network;
 
-import java.util.List;
-import com.microsoft.azure.v2.management.network.implementation.VpnClientRootCertificateInner;
-import com.microsoft.azure.v2.management.network.implementation.VpnClientRevokedCertificateInner;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 
 /**
  * VpnClientConfiguration for P2S client.
  */
-public class VpnClientConfiguration {
+public final class VpnClientConfiguration {
     /**
      * The reference of the address space resource which represents Address
      * space for P2S VpnClient.
@@ -28,13 +26,13 @@ public class VpnClientConfiguration {
      * VpnClientRootCertificate for virtual network gateway.
      */
     @JsonProperty(value = "vpnClientRootCertificates")
-    private List<VpnClientRootCertificateInner> vpnClientRootCertificates;
+    private List<VpnClientRootCertificate> vpnClientRootCertificates;
 
     /**
      * VpnClientRevokedCertificate for Virtual network gateway.
      */
     @JsonProperty(value = "vpnClientRevokedCertificates")
-    private List<VpnClientRevokedCertificateInner> vpnClientRevokedCertificates;
+    private List<VpnClientRevokedCertificate> vpnClientRevokedCertificates;
 
     /**
      * VpnClientProtocols for Virtual network gateway.
@@ -65,7 +63,7 @@ public class VpnClientConfiguration {
     /**
      * Get the vpnClientAddressPool value.
      *
-     * @return the vpnClientAddressPool value
+     * @return the vpnClientAddressPool value.
      */
     public AddressSpace vpnClientAddressPool() {
         return this.vpnClientAddressPool;
@@ -74,7 +72,7 @@ public class VpnClientConfiguration {
     /**
      * Set the vpnClientAddressPool value.
      *
-     * @param vpnClientAddressPool the vpnClientAddressPool value to set
+     * @param vpnClientAddressPool the vpnClientAddressPool value to set.
      * @return the VpnClientConfiguration object itself.
      */
     public VpnClientConfiguration withVpnClientAddressPool(AddressSpace vpnClientAddressPool) {
@@ -85,19 +83,20 @@ public class VpnClientConfiguration {
     /**
      * Get the vpnClientRootCertificates value.
      *
-     * @return the vpnClientRootCertificates value
+     * @return the vpnClientRootCertificates value.
      */
-    public List<VpnClientRootCertificateInner> vpnClientRootCertificates() {
+    public List<VpnClientRootCertificate> vpnClientRootCertificates() {
         return this.vpnClientRootCertificates;
     }
 
     /**
      * Set the vpnClientRootCertificates value.
      *
-     * @param vpnClientRootCertificates the vpnClientRootCertificates value to set
+     * @param vpnClientRootCertificates the vpnClientRootCertificates value to
+     * set.
      * @return the VpnClientConfiguration object itself.
      */
-    public VpnClientConfiguration withVpnClientRootCertificates(List<VpnClientRootCertificateInner> vpnClientRootCertificates) {
+    public VpnClientConfiguration withVpnClientRootCertificates(List<VpnClientRootCertificate> vpnClientRootCertificates) {
         this.vpnClientRootCertificates = vpnClientRootCertificates;
         return this;
     }
@@ -105,19 +104,20 @@ public class VpnClientConfiguration {
     /**
      * Get the vpnClientRevokedCertificates value.
      *
-     * @return the vpnClientRevokedCertificates value
+     * @return the vpnClientRevokedCertificates value.
      */
-    public List<VpnClientRevokedCertificateInner> vpnClientRevokedCertificates() {
+    public List<VpnClientRevokedCertificate> vpnClientRevokedCertificates() {
         return this.vpnClientRevokedCertificates;
     }
 
     /**
      * Set the vpnClientRevokedCertificates value.
      *
-     * @param vpnClientRevokedCertificates the vpnClientRevokedCertificates value to set
+     * @param vpnClientRevokedCertificates the vpnClientRevokedCertificates
+     * value to set.
      * @return the VpnClientConfiguration object itself.
      */
-    public VpnClientConfiguration withVpnClientRevokedCertificates(List<VpnClientRevokedCertificateInner> vpnClientRevokedCertificates) {
+    public VpnClientConfiguration withVpnClientRevokedCertificates(List<VpnClientRevokedCertificate> vpnClientRevokedCertificates) {
         this.vpnClientRevokedCertificates = vpnClientRevokedCertificates;
         return this;
     }
@@ -125,7 +125,7 @@ public class VpnClientConfiguration {
     /**
      * Get the vpnClientProtocols value.
      *
-     * @return the vpnClientProtocols value
+     * @return the vpnClientProtocols value.
      */
     public List<VpnClientProtocol> vpnClientProtocols() {
         return this.vpnClientProtocols;
@@ -134,7 +134,7 @@ public class VpnClientConfiguration {
     /**
      * Set the vpnClientProtocols value.
      *
-     * @param vpnClientProtocols the vpnClientProtocols value to set
+     * @param vpnClientProtocols the vpnClientProtocols value to set.
      * @return the VpnClientConfiguration object itself.
      */
     public VpnClientConfiguration withVpnClientProtocols(List<VpnClientProtocol> vpnClientProtocols) {
@@ -145,7 +145,7 @@ public class VpnClientConfiguration {
     /**
      * Get the vpnClientIpsecPolicies value.
      *
-     * @return the vpnClientIpsecPolicies value
+     * @return the vpnClientIpsecPolicies value.
      */
     public List<IpsecPolicy> vpnClientIpsecPolicies() {
         return this.vpnClientIpsecPolicies;
@@ -154,7 +154,7 @@ public class VpnClientConfiguration {
     /**
      * Set the vpnClientIpsecPolicies value.
      *
-     * @param vpnClientIpsecPolicies the vpnClientIpsecPolicies value to set
+     * @param vpnClientIpsecPolicies the vpnClientIpsecPolicies value to set.
      * @return the VpnClientConfiguration object itself.
      */
     public VpnClientConfiguration withVpnClientIpsecPolicies(List<IpsecPolicy> vpnClientIpsecPolicies) {
@@ -165,7 +165,7 @@ public class VpnClientConfiguration {
     /**
      * Get the radiusServerAddress value.
      *
-     * @return the radiusServerAddress value
+     * @return the radiusServerAddress value.
      */
     public String radiusServerAddress() {
         return this.radiusServerAddress;
@@ -174,7 +174,7 @@ public class VpnClientConfiguration {
     /**
      * Set the radiusServerAddress value.
      *
-     * @param radiusServerAddress the radiusServerAddress value to set
+     * @param radiusServerAddress the radiusServerAddress value to set.
      * @return the VpnClientConfiguration object itself.
      */
     public VpnClientConfiguration withRadiusServerAddress(String radiusServerAddress) {
@@ -185,7 +185,7 @@ public class VpnClientConfiguration {
     /**
      * Get the radiusServerSecret value.
      *
-     * @return the radiusServerSecret value
+     * @return the radiusServerSecret value.
      */
     public String radiusServerSecret() {
         return this.radiusServerSecret;
@@ -194,12 +194,11 @@ public class VpnClientConfiguration {
     /**
      * Set the radiusServerSecret value.
      *
-     * @param radiusServerSecret the radiusServerSecret value to set
+     * @param radiusServerSecret the radiusServerSecret value to set.
      * @return the VpnClientConfiguration object itself.
      */
     public VpnClientConfiguration withRadiusServerSecret(String radiusServerSecret) {
         this.radiusServerSecret = radiusServerSecret;
         return this;
     }
-
 }

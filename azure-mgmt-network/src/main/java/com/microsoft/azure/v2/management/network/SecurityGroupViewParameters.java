@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Parameters that define the VM to check security groups for.
  */
-public class SecurityGroupViewParameters {
+public final class SecurityGroupViewParameters {
     /**
      * ID of the target VM.
      */
@@ -23,7 +23,7 @@ public class SecurityGroupViewParameters {
     /**
      * Get the targetResourceId value.
      *
-     * @return the targetResourceId value
+     * @return the targetResourceId value.
      */
     public String targetResourceId() {
         return this.targetResourceId;
@@ -32,12 +32,11 @@ public class SecurityGroupViewParameters {
     /**
      * Set the targetResourceId value.
      *
-     * @param targetResourceId the targetResourceId value to set
+     * @param targetResourceId the targetResourceId value to set.
      * @return the SecurityGroupViewParameters object itself.
      */
     public SecurityGroupViewParameters withTargetResourceId(String targetResourceId) {
         this.targetResourceId = targetResourceId;
         return this;
     }
-
 }

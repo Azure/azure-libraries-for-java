@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * SKU of a public IP address.
  */
-public class PublicIPAddressSku {
+public final class PublicIPAddressSku {
     /**
      * Name of a public IP address SKU. Possible values include: 'Basic',
      * 'Standard'.
@@ -24,7 +24,7 @@ public class PublicIPAddressSku {
     /**
      * Get the name value.
      *
-     * @return the name value
+     * @return the name value.
      */
     public PublicIPAddressSkuName name() {
         return this.name;
@@ -33,12 +33,11 @@ public class PublicIPAddressSku {
     /**
      * Set the name value.
      *
-     * @param name the name value to set
+     * @param name the name value to set.
      * @return the PublicIPAddressSku object itself.
      */
     public PublicIPAddressSku withName(PublicIPAddressSkuName name) {
         this.name = name;
         return this;
     }
-
 }

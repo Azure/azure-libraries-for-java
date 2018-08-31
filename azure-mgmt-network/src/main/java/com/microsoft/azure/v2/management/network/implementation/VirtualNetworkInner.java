@@ -8,14 +8,13 @@
 
 package com.microsoft.azure.v2.management.network.implementation;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.v2.Resource;
+import com.microsoft.azure.v2.SubResource;
 import com.microsoft.azure.v2.management.network.AddressSpace;
 import com.microsoft.azure.v2.management.network.DhcpOptions;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
 import java.util.List;
-import com.microsoft.azure.SubResource;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.rest.SkipParentValidation;
-import com.microsoft.azure.Resource;
 
 /**
  * Virtual Network resource.
@@ -41,13 +40,13 @@ public class VirtualNetworkInner extends Resource {
      * A list of subnets in a Virtual Network.
      */
     @JsonProperty(value = "properties.subnets")
-    private List<SubnetInner> subnets;
+    private List<SubnetInner> subnetsProperty;
 
     /**
      * A list of peerings in a Virtual Network.
      */
     @JsonProperty(value = "properties.virtualNetworkPeerings")
-    private List<VirtualNetworkPeeringInner> virtualNetworkPeerings;
+    private List<VirtualNetworkPeeringInner> virtualNetworkPeeringsProperty;
 
     /**
      * The resourceGuid property of the Virtual Network resource.
@@ -99,7 +98,7 @@ public class VirtualNetworkInner extends Resource {
     /**
      * Get the addressSpace value.
      *
-     * @return the addressSpace value
+     * @return the addressSpace value.
      */
     public AddressSpace addressSpace() {
         return this.addressSpace;
@@ -108,7 +107,7 @@ public class VirtualNetworkInner extends Resource {
     /**
      * Set the addressSpace value.
      *
-     * @param addressSpace the addressSpace value to set
+     * @param addressSpace the addressSpace value to set.
      * @return the VirtualNetworkInner object itself.
      */
     public VirtualNetworkInner withAddressSpace(AddressSpace addressSpace) {
@@ -119,7 +118,7 @@ public class VirtualNetworkInner extends Resource {
     /**
      * Get the dhcpOptions value.
      *
-     * @return the dhcpOptions value
+     * @return the dhcpOptions value.
      */
     public DhcpOptions dhcpOptions() {
         return this.dhcpOptions;
@@ -128,7 +127,7 @@ public class VirtualNetworkInner extends Resource {
     /**
      * Set the dhcpOptions value.
      *
-     * @param dhcpOptions the dhcpOptions value to set
+     * @param dhcpOptions the dhcpOptions value to set.
      * @return the VirtualNetworkInner object itself.
      */
     public VirtualNetworkInner withDhcpOptions(DhcpOptions dhcpOptions) {
@@ -137,49 +136,50 @@ public class VirtualNetworkInner extends Resource {
     }
 
     /**
-     * Get the subnets value.
+     * Get the subnetsProperty value.
      *
-     * @return the subnets value
+     * @return the subnetsProperty value.
      */
-    public List<SubnetInner> subnets() {
-        return this.subnets;
+    public List<SubnetInner> subnetsProperty() {
+        return this.subnetsProperty;
     }
 
     /**
-     * Set the subnets value.
+     * Set the subnetsProperty value.
      *
-     * @param subnets the subnets value to set
+     * @param subnetsProperty the subnetsProperty value to set.
      * @return the VirtualNetworkInner object itself.
      */
-    public VirtualNetworkInner withSubnets(List<SubnetInner> subnets) {
-        this.subnets = subnets;
+    public VirtualNetworkInner withSubnetsProperty(List<SubnetInner> subnetsProperty) {
+        this.subnetsProperty = subnetsProperty;
         return this;
     }
 
     /**
-     * Get the virtualNetworkPeerings value.
+     * Get the virtualNetworkPeeringsProperty value.
      *
-     * @return the virtualNetworkPeerings value
+     * @return the virtualNetworkPeeringsProperty value.
      */
-    public List<VirtualNetworkPeeringInner> virtualNetworkPeerings() {
-        return this.virtualNetworkPeerings;
+    public List<VirtualNetworkPeeringInner> virtualNetworkPeeringsProperty() {
+        return this.virtualNetworkPeeringsProperty;
     }
 
     /**
-     * Set the virtualNetworkPeerings value.
+     * Set the virtualNetworkPeeringsProperty value.
      *
-     * @param virtualNetworkPeerings the virtualNetworkPeerings value to set
+     * @param virtualNetworkPeeringsProperty the virtualNetworkPeeringsProperty
+     * value to set.
      * @return the VirtualNetworkInner object itself.
      */
-    public VirtualNetworkInner withVirtualNetworkPeerings(List<VirtualNetworkPeeringInner> virtualNetworkPeerings) {
-        this.virtualNetworkPeerings = virtualNetworkPeerings;
+    public VirtualNetworkInner withVirtualNetworkPeeringsProperty(List<VirtualNetworkPeeringInner> virtualNetworkPeeringsProperty) {
+        this.virtualNetworkPeeringsProperty = virtualNetworkPeeringsProperty;
         return this;
     }
 
     /**
      * Get the resourceGuid value.
      *
-     * @return the resourceGuid value
+     * @return the resourceGuid value.
      */
     public String resourceGuid() {
         return this.resourceGuid;
@@ -188,7 +188,7 @@ public class VirtualNetworkInner extends Resource {
     /**
      * Set the resourceGuid value.
      *
-     * @param resourceGuid the resourceGuid value to set
+     * @param resourceGuid the resourceGuid value to set.
      * @return the VirtualNetworkInner object itself.
      */
     public VirtualNetworkInner withResourceGuid(String resourceGuid) {
@@ -199,7 +199,7 @@ public class VirtualNetworkInner extends Resource {
     /**
      * Get the provisioningState value.
      *
-     * @return the provisioningState value
+     * @return the provisioningState value.
      */
     public String provisioningState() {
         return this.provisioningState;
@@ -208,7 +208,7 @@ public class VirtualNetworkInner extends Resource {
     /**
      * Set the provisioningState value.
      *
-     * @param provisioningState the provisioningState value to set
+     * @param provisioningState the provisioningState value to set.
      * @return the VirtualNetworkInner object itself.
      */
     public VirtualNetworkInner withProvisioningState(String provisioningState) {
@@ -219,7 +219,7 @@ public class VirtualNetworkInner extends Resource {
     /**
      * Get the enableDdosProtection value.
      *
-     * @return the enableDdosProtection value
+     * @return the enableDdosProtection value.
      */
     public Boolean enableDdosProtection() {
         return this.enableDdosProtection;
@@ -228,7 +228,7 @@ public class VirtualNetworkInner extends Resource {
     /**
      * Set the enableDdosProtection value.
      *
-     * @param enableDdosProtection the enableDdosProtection value to set
+     * @param enableDdosProtection the enableDdosProtection value to set.
      * @return the VirtualNetworkInner object itself.
      */
     public VirtualNetworkInner withEnableDdosProtection(Boolean enableDdosProtection) {
@@ -239,7 +239,7 @@ public class VirtualNetworkInner extends Resource {
     /**
      * Get the enableVmProtection value.
      *
-     * @return the enableVmProtection value
+     * @return the enableVmProtection value.
      */
     public Boolean enableVmProtection() {
         return this.enableVmProtection;
@@ -248,7 +248,7 @@ public class VirtualNetworkInner extends Resource {
     /**
      * Set the enableVmProtection value.
      *
-     * @param enableVmProtection the enableVmProtection value to set
+     * @param enableVmProtection the enableVmProtection value to set.
      * @return the VirtualNetworkInner object itself.
      */
     public VirtualNetworkInner withEnableVmProtection(Boolean enableVmProtection) {
@@ -259,7 +259,7 @@ public class VirtualNetworkInner extends Resource {
     /**
      * Get the ddosProtectionPlan value.
      *
-     * @return the ddosProtectionPlan value
+     * @return the ddosProtectionPlan value.
      */
     public SubResource ddosProtectionPlan() {
         return this.ddosProtectionPlan;
@@ -268,7 +268,7 @@ public class VirtualNetworkInner extends Resource {
     /**
      * Set the ddosProtectionPlan value.
      *
-     * @param ddosProtectionPlan the ddosProtectionPlan value to set
+     * @param ddosProtectionPlan the ddosProtectionPlan value to set.
      * @return the VirtualNetworkInner object itself.
      */
     public VirtualNetworkInner withDdosProtectionPlan(SubResource ddosProtectionPlan) {
@@ -279,7 +279,7 @@ public class VirtualNetworkInner extends Resource {
     /**
      * Get the etag value.
      *
-     * @return the etag value
+     * @return the etag value.
      */
     public String etag() {
         return this.etag;
@@ -288,7 +288,7 @@ public class VirtualNetworkInner extends Resource {
     /**
      * Set the etag value.
      *
-     * @param etag the etag value to set
+     * @param etag the etag value to set.
      * @return the VirtualNetworkInner object itself.
      */
     public VirtualNetworkInner withEtag(String etag) {
@@ -299,7 +299,7 @@ public class VirtualNetworkInner extends Resource {
     /**
      * Get the id value.
      *
-     * @return the id value
+     * @return the id value.
      */
     public String id() {
         return this.id;
@@ -308,12 +308,11 @@ public class VirtualNetworkInner extends Resource {
     /**
      * Set the id value.
      *
-     * @param id the id value to set
+     * @param id the id value to set.
      * @return the VirtualNetworkInner object itself.
      */
     public VirtualNetworkInner withId(String id) {
         this.id = id;
         return this;
     }
-
 }

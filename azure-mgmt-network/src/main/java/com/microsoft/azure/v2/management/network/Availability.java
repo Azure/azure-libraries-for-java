@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Availability of the metric.
  */
-public class Availability {
+public final class Availability {
     /**
      * The time grain of the availability.
      */
@@ -35,7 +35,7 @@ public class Availability {
     /**
      * Get the timeGrain value.
      *
-     * @return the timeGrain value
+     * @return the timeGrain value.
      */
     public String timeGrain() {
         return this.timeGrain;
@@ -44,7 +44,7 @@ public class Availability {
     /**
      * Set the timeGrain value.
      *
-     * @param timeGrain the timeGrain value to set
+     * @param timeGrain the timeGrain value to set.
      * @return the Availability object itself.
      */
     public Availability withTimeGrain(String timeGrain) {
@@ -55,7 +55,7 @@ public class Availability {
     /**
      * Get the retention value.
      *
-     * @return the retention value
+     * @return the retention value.
      */
     public String retention() {
         return this.retention;
@@ -64,7 +64,7 @@ public class Availability {
     /**
      * Set the retention value.
      *
-     * @param retention the retention value to set
+     * @param retention the retention value to set.
      * @return the Availability object itself.
      */
     public Availability withRetention(String retention) {
@@ -75,7 +75,7 @@ public class Availability {
     /**
      * Get the blobDuration value.
      *
-     * @return the blobDuration value
+     * @return the blobDuration value.
      */
     public String blobDuration() {
         return this.blobDuration;
@@ -84,12 +84,11 @@ public class Availability {
     /**
      * Set the blobDuration value.
      *
-     * @param blobDuration the blobDuration value to set
+     * @param blobDuration the blobDuration value to set.
      * @return the Availability object itself.
      */
     public Availability withBlobDuration(String blobDuration) {
         this.blobDuration = blobDuration;
         return this;
     }
-
 }

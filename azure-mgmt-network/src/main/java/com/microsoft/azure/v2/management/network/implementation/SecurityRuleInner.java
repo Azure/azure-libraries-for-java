@@ -8,13 +8,13 @@
 
 package com.microsoft.azure.v2.management.network.implementation;
 
-import com.microsoft.azure.v2.management.network.SecurityRuleProtocol;
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.v2.SubResource;
 import com.microsoft.azure.v2.management.network.SecurityRuleAccess;
 import com.microsoft.azure.v2.management.network.SecurityRuleDirection;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.SubResource;
+import com.microsoft.azure.v2.management.network.SecurityRuleProtocol;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
+import java.util.List;
 
 /**
  * Network security rule.
@@ -148,7 +148,7 @@ public class SecurityRuleInner extends SubResource {
     /**
      * Get the description value.
      *
-     * @return the description value
+     * @return the description value.
      */
     public String description() {
         return this.description;
@@ -157,7 +157,7 @@ public class SecurityRuleInner extends SubResource {
     /**
      * Set the description value.
      *
-     * @param description the description value to set
+     * @param description the description value to set.
      * @return the SecurityRuleInner object itself.
      */
     public SecurityRuleInner withDescription(String description) {
@@ -168,7 +168,7 @@ public class SecurityRuleInner extends SubResource {
     /**
      * Get the protocol value.
      *
-     * @return the protocol value
+     * @return the protocol value.
      */
     public SecurityRuleProtocol protocol() {
         return this.protocol;
@@ -177,7 +177,7 @@ public class SecurityRuleInner extends SubResource {
     /**
      * Set the protocol value.
      *
-     * @param protocol the protocol value to set
+     * @param protocol the protocol value to set.
      * @return the SecurityRuleInner object itself.
      */
     public SecurityRuleInner withProtocol(SecurityRuleProtocol protocol) {
@@ -188,7 +188,7 @@ public class SecurityRuleInner extends SubResource {
     /**
      * Get the sourcePortRange value.
      *
-     * @return the sourcePortRange value
+     * @return the sourcePortRange value.
      */
     public String sourcePortRange() {
         return this.sourcePortRange;
@@ -197,7 +197,7 @@ public class SecurityRuleInner extends SubResource {
     /**
      * Set the sourcePortRange value.
      *
-     * @param sourcePortRange the sourcePortRange value to set
+     * @param sourcePortRange the sourcePortRange value to set.
      * @return the SecurityRuleInner object itself.
      */
     public SecurityRuleInner withSourcePortRange(String sourcePortRange) {
@@ -208,7 +208,7 @@ public class SecurityRuleInner extends SubResource {
     /**
      * Get the destinationPortRange value.
      *
-     * @return the destinationPortRange value
+     * @return the destinationPortRange value.
      */
     public String destinationPortRange() {
         return this.destinationPortRange;
@@ -217,7 +217,7 @@ public class SecurityRuleInner extends SubResource {
     /**
      * Set the destinationPortRange value.
      *
-     * @param destinationPortRange the destinationPortRange value to set
+     * @param destinationPortRange the destinationPortRange value to set.
      * @return the SecurityRuleInner object itself.
      */
     public SecurityRuleInner withDestinationPortRange(String destinationPortRange) {
@@ -228,7 +228,7 @@ public class SecurityRuleInner extends SubResource {
     /**
      * Get the sourceAddressPrefix value.
      *
-     * @return the sourceAddressPrefix value
+     * @return the sourceAddressPrefix value.
      */
     public String sourceAddressPrefix() {
         return this.sourceAddressPrefix;
@@ -237,7 +237,7 @@ public class SecurityRuleInner extends SubResource {
     /**
      * Set the sourceAddressPrefix value.
      *
-     * @param sourceAddressPrefix the sourceAddressPrefix value to set
+     * @param sourceAddressPrefix the sourceAddressPrefix value to set.
      * @return the SecurityRuleInner object itself.
      */
     public SecurityRuleInner withSourceAddressPrefix(String sourceAddressPrefix) {
@@ -248,7 +248,7 @@ public class SecurityRuleInner extends SubResource {
     /**
      * Get the sourceAddressPrefixes value.
      *
-     * @return the sourceAddressPrefixes value
+     * @return the sourceAddressPrefixes value.
      */
     public List<String> sourceAddressPrefixes() {
         return this.sourceAddressPrefixes;
@@ -257,7 +257,7 @@ public class SecurityRuleInner extends SubResource {
     /**
      * Set the sourceAddressPrefixes value.
      *
-     * @param sourceAddressPrefixes the sourceAddressPrefixes value to set
+     * @param sourceAddressPrefixes the sourceAddressPrefixes value to set.
      * @return the SecurityRuleInner object itself.
      */
     public SecurityRuleInner withSourceAddressPrefixes(List<String> sourceAddressPrefixes) {
@@ -268,7 +268,7 @@ public class SecurityRuleInner extends SubResource {
     /**
      * Get the sourceApplicationSecurityGroups value.
      *
-     * @return the sourceApplicationSecurityGroups value
+     * @return the sourceApplicationSecurityGroups value.
      */
     public List<ApplicationSecurityGroupInner> sourceApplicationSecurityGroups() {
         return this.sourceApplicationSecurityGroups;
@@ -277,7 +277,8 @@ public class SecurityRuleInner extends SubResource {
     /**
      * Set the sourceApplicationSecurityGroups value.
      *
-     * @param sourceApplicationSecurityGroups the sourceApplicationSecurityGroups value to set
+     * @param sourceApplicationSecurityGroups the
+     * sourceApplicationSecurityGroups value to set.
      * @return the SecurityRuleInner object itself.
      */
     public SecurityRuleInner withSourceApplicationSecurityGroups(List<ApplicationSecurityGroupInner> sourceApplicationSecurityGroups) {
@@ -288,7 +289,7 @@ public class SecurityRuleInner extends SubResource {
     /**
      * Get the destinationAddressPrefix value.
      *
-     * @return the destinationAddressPrefix value
+     * @return the destinationAddressPrefix value.
      */
     public String destinationAddressPrefix() {
         return this.destinationAddressPrefix;
@@ -297,7 +298,8 @@ public class SecurityRuleInner extends SubResource {
     /**
      * Set the destinationAddressPrefix value.
      *
-     * @param destinationAddressPrefix the destinationAddressPrefix value to set
+     * @param destinationAddressPrefix the destinationAddressPrefix value to
+     * set.
      * @return the SecurityRuleInner object itself.
      */
     public SecurityRuleInner withDestinationAddressPrefix(String destinationAddressPrefix) {
@@ -308,7 +310,7 @@ public class SecurityRuleInner extends SubResource {
     /**
      * Get the destinationAddressPrefixes value.
      *
-     * @return the destinationAddressPrefixes value
+     * @return the destinationAddressPrefixes value.
      */
     public List<String> destinationAddressPrefixes() {
         return this.destinationAddressPrefixes;
@@ -317,7 +319,8 @@ public class SecurityRuleInner extends SubResource {
     /**
      * Set the destinationAddressPrefixes value.
      *
-     * @param destinationAddressPrefixes the destinationAddressPrefixes value to set
+     * @param destinationAddressPrefixes the destinationAddressPrefixes value
+     * to set.
      * @return the SecurityRuleInner object itself.
      */
     public SecurityRuleInner withDestinationAddressPrefixes(List<String> destinationAddressPrefixes) {
@@ -328,7 +331,7 @@ public class SecurityRuleInner extends SubResource {
     /**
      * Get the destinationApplicationSecurityGroups value.
      *
-     * @return the destinationApplicationSecurityGroups value
+     * @return the destinationApplicationSecurityGroups value.
      */
     public List<ApplicationSecurityGroupInner> destinationApplicationSecurityGroups() {
         return this.destinationApplicationSecurityGroups;
@@ -337,7 +340,8 @@ public class SecurityRuleInner extends SubResource {
     /**
      * Set the destinationApplicationSecurityGroups value.
      *
-     * @param destinationApplicationSecurityGroups the destinationApplicationSecurityGroups value to set
+     * @param destinationApplicationSecurityGroups the
+     * destinationApplicationSecurityGroups value to set.
      * @return the SecurityRuleInner object itself.
      */
     public SecurityRuleInner withDestinationApplicationSecurityGroups(List<ApplicationSecurityGroupInner> destinationApplicationSecurityGroups) {
@@ -348,7 +352,7 @@ public class SecurityRuleInner extends SubResource {
     /**
      * Get the sourcePortRanges value.
      *
-     * @return the sourcePortRanges value
+     * @return the sourcePortRanges value.
      */
     public List<String> sourcePortRanges() {
         return this.sourcePortRanges;
@@ -357,7 +361,7 @@ public class SecurityRuleInner extends SubResource {
     /**
      * Set the sourcePortRanges value.
      *
-     * @param sourcePortRanges the sourcePortRanges value to set
+     * @param sourcePortRanges the sourcePortRanges value to set.
      * @return the SecurityRuleInner object itself.
      */
     public SecurityRuleInner withSourcePortRanges(List<String> sourcePortRanges) {
@@ -368,7 +372,7 @@ public class SecurityRuleInner extends SubResource {
     /**
      * Get the destinationPortRanges value.
      *
-     * @return the destinationPortRanges value
+     * @return the destinationPortRanges value.
      */
     public List<String> destinationPortRanges() {
         return this.destinationPortRanges;
@@ -377,7 +381,7 @@ public class SecurityRuleInner extends SubResource {
     /**
      * Set the destinationPortRanges value.
      *
-     * @param destinationPortRanges the destinationPortRanges value to set
+     * @param destinationPortRanges the destinationPortRanges value to set.
      * @return the SecurityRuleInner object itself.
      */
     public SecurityRuleInner withDestinationPortRanges(List<String> destinationPortRanges) {
@@ -388,7 +392,7 @@ public class SecurityRuleInner extends SubResource {
     /**
      * Get the access value.
      *
-     * @return the access value
+     * @return the access value.
      */
     public SecurityRuleAccess access() {
         return this.access;
@@ -397,7 +401,7 @@ public class SecurityRuleInner extends SubResource {
     /**
      * Set the access value.
      *
-     * @param access the access value to set
+     * @param access the access value to set.
      * @return the SecurityRuleInner object itself.
      */
     public SecurityRuleInner withAccess(SecurityRuleAccess access) {
@@ -408,7 +412,7 @@ public class SecurityRuleInner extends SubResource {
     /**
      * Get the priority value.
      *
-     * @return the priority value
+     * @return the priority value.
      */
     public Integer priority() {
         return this.priority;
@@ -417,7 +421,7 @@ public class SecurityRuleInner extends SubResource {
     /**
      * Set the priority value.
      *
-     * @param priority the priority value to set
+     * @param priority the priority value to set.
      * @return the SecurityRuleInner object itself.
      */
     public SecurityRuleInner withPriority(Integer priority) {
@@ -428,7 +432,7 @@ public class SecurityRuleInner extends SubResource {
     /**
      * Get the direction value.
      *
-     * @return the direction value
+     * @return the direction value.
      */
     public SecurityRuleDirection direction() {
         return this.direction;
@@ -437,7 +441,7 @@ public class SecurityRuleInner extends SubResource {
     /**
      * Set the direction value.
      *
-     * @param direction the direction value to set
+     * @param direction the direction value to set.
      * @return the SecurityRuleInner object itself.
      */
     public SecurityRuleInner withDirection(SecurityRuleDirection direction) {
@@ -448,7 +452,7 @@ public class SecurityRuleInner extends SubResource {
     /**
      * Get the provisioningState value.
      *
-     * @return the provisioningState value
+     * @return the provisioningState value.
      */
     public String provisioningState() {
         return this.provisioningState;
@@ -457,7 +461,7 @@ public class SecurityRuleInner extends SubResource {
     /**
      * Set the provisioningState value.
      *
-     * @param provisioningState the provisioningState value to set
+     * @param provisioningState the provisioningState value to set.
      * @return the SecurityRuleInner object itself.
      */
     public SecurityRuleInner withProvisioningState(String provisioningState) {
@@ -468,7 +472,7 @@ public class SecurityRuleInner extends SubResource {
     /**
      * Get the name value.
      *
-     * @return the name value
+     * @return the name value.
      */
     public String name() {
         return this.name;
@@ -477,7 +481,7 @@ public class SecurityRuleInner extends SubResource {
     /**
      * Set the name value.
      *
-     * @param name the name value to set
+     * @param name the name value to set.
      * @return the SecurityRuleInner object itself.
      */
     public SecurityRuleInner withName(String name) {
@@ -488,7 +492,7 @@ public class SecurityRuleInner extends SubResource {
     /**
      * Get the etag value.
      *
-     * @return the etag value
+     * @return the etag value.
      */
     public String etag() {
         return this.etag;
@@ -497,12 +501,11 @@ public class SecurityRuleInner extends SubResource {
     /**
      * Set the etag value.
      *
-     * @param etag the etag value to set
+     * @param etag the etag value to set.
      * @return the SecurityRuleInner object itself.
      */
     public SecurityRuleInner withEtag(String etag) {
         this.etag = etag;
         return this;
     }
-
 }

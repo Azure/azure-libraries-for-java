@@ -8,10 +8,10 @@
 
 package com.microsoft.azure.v2.management.network.implementation;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.azure.v2.management.network.RetentionPolicyParameters;
 import com.microsoft.azure.v2.management.network.TrafficAnalyticsProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
 
 /**
  * Information on the configuration of flow log and traffic analytics
@@ -53,7 +53,7 @@ public class FlowLogInformationInner {
     /**
      * Get the targetResourceId value.
      *
-     * @return the targetResourceId value
+     * @return the targetResourceId value.
      */
     public String targetResourceId() {
         return this.targetResourceId;
@@ -62,7 +62,7 @@ public class FlowLogInformationInner {
     /**
      * Set the targetResourceId value.
      *
-     * @param targetResourceId the targetResourceId value to set
+     * @param targetResourceId the targetResourceId value to set.
      * @return the FlowLogInformationInner object itself.
      */
     public FlowLogInformationInner withTargetResourceId(String targetResourceId) {
@@ -73,7 +73,7 @@ public class FlowLogInformationInner {
     /**
      * Get the storageId value.
      *
-     * @return the storageId value
+     * @return the storageId value.
      */
     public String storageId() {
         return this.storageId;
@@ -82,7 +82,7 @@ public class FlowLogInformationInner {
     /**
      * Set the storageId value.
      *
-     * @param storageId the storageId value to set
+     * @param storageId the storageId value to set.
      * @return the FlowLogInformationInner object itself.
      */
     public FlowLogInformationInner withStorageId(String storageId) {
@@ -93,7 +93,7 @@ public class FlowLogInformationInner {
     /**
      * Get the enabled value.
      *
-     * @return the enabled value
+     * @return the enabled value.
      */
     public boolean enabled() {
         return this.enabled;
@@ -102,7 +102,7 @@ public class FlowLogInformationInner {
     /**
      * Set the enabled value.
      *
-     * @param enabled the enabled value to set
+     * @param enabled the enabled value to set.
      * @return the FlowLogInformationInner object itself.
      */
     public FlowLogInformationInner withEnabled(boolean enabled) {
@@ -113,7 +113,7 @@ public class FlowLogInformationInner {
     /**
      * Get the retentionPolicy value.
      *
-     * @return the retentionPolicy value
+     * @return the retentionPolicy value.
      */
     public RetentionPolicyParameters retentionPolicy() {
         return this.retentionPolicy;
@@ -122,7 +122,7 @@ public class FlowLogInformationInner {
     /**
      * Set the retentionPolicy value.
      *
-     * @param retentionPolicy the retentionPolicy value to set
+     * @param retentionPolicy the retentionPolicy value to set.
      * @return the FlowLogInformationInner object itself.
      */
     public FlowLogInformationInner withRetentionPolicy(RetentionPolicyParameters retentionPolicy) {
@@ -133,7 +133,7 @@ public class FlowLogInformationInner {
     /**
      * Get the flowAnalyticsConfiguration value.
      *
-     * @return the flowAnalyticsConfiguration value
+     * @return the flowAnalyticsConfiguration value.
      */
     public TrafficAnalyticsProperties flowAnalyticsConfiguration() {
         return this.flowAnalyticsConfiguration;
@@ -142,12 +142,12 @@ public class FlowLogInformationInner {
     /**
      * Set the flowAnalyticsConfiguration value.
      *
-     * @param flowAnalyticsConfiguration the flowAnalyticsConfiguration value to set
+     * @param flowAnalyticsConfiguration the flowAnalyticsConfiguration value
+     * to set.
      * @return the FlowLogInformationInner object itself.
      */
     public FlowLogInformationInner withFlowAnalyticsConfiguration(TrafficAnalyticsProperties flowAnalyticsConfiguration) {
         this.flowAnalyticsConfiguration = flowAnalyticsConfiguration;
         return this;
     }
-
 }

@@ -8,11 +8,10 @@
 
 package com.microsoft.azure.v2.management.network.implementation;
 
-import com.microsoft.azure.v2.management.network.ProvisioningState;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.rest.SkipParentValidation;
-import com.microsoft.azure.Resource;
+import com.microsoft.azure.v2.Resource;
+import com.microsoft.azure.v2.management.network.ProvisioningState;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
 
 /**
  * Network watcher in a resource group.
@@ -42,7 +41,7 @@ public class NetworkWatcherInner extends Resource {
     /**
      * Get the etag value.
      *
-     * @return the etag value
+     * @return the etag value.
      */
     public String etag() {
         return this.etag;
@@ -51,7 +50,7 @@ public class NetworkWatcherInner extends Resource {
     /**
      * Set the etag value.
      *
-     * @param etag the etag value to set
+     * @param etag the etag value to set.
      * @return the NetworkWatcherInner object itself.
      */
     public NetworkWatcherInner withEtag(String etag) {
@@ -62,7 +61,7 @@ public class NetworkWatcherInner extends Resource {
     /**
      * Get the provisioningState value.
      *
-     * @return the provisioningState value
+     * @return the provisioningState value.
      */
     public ProvisioningState provisioningState() {
         return this.provisioningState;
@@ -71,7 +70,7 @@ public class NetworkWatcherInner extends Resource {
     /**
      * Get the id value.
      *
-     * @return the id value
+     * @return the id value.
      */
     public String id() {
         return this.id;
@@ -80,12 +79,11 @@ public class NetworkWatcherInner extends Resource {
     /**
      * Set the id value.
      *
-     * @param id the id value to set
+     * @param id the id value to set.
      * @return the NetworkWatcherInner object itself.
      */
     public NetworkWatcherInner withId(String id) {
         this.id = id;
         return this;
     }
-
 }

@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Describes the storage location for a packet capture session.
  */
-public class PacketCaptureStorageLocation {
+public final class PacketCaptureStorageLocation {
     /**
      * The ID of the storage account to save the packet capture session.
      * Required if no local file path is provided.
@@ -40,7 +40,7 @@ public class PacketCaptureStorageLocation {
     /**
      * Get the storageId value.
      *
-     * @return the storageId value
+     * @return the storageId value.
      */
     public String storageId() {
         return this.storageId;
@@ -49,7 +49,7 @@ public class PacketCaptureStorageLocation {
     /**
      * Set the storageId value.
      *
-     * @param storageId the storageId value to set
+     * @param storageId the storageId value to set.
      * @return the PacketCaptureStorageLocation object itself.
      */
     public PacketCaptureStorageLocation withStorageId(String storageId) {
@@ -60,7 +60,7 @@ public class PacketCaptureStorageLocation {
     /**
      * Get the storagePath value.
      *
-     * @return the storagePath value
+     * @return the storagePath value.
      */
     public String storagePath() {
         return this.storagePath;
@@ -69,7 +69,7 @@ public class PacketCaptureStorageLocation {
     /**
      * Set the storagePath value.
      *
-     * @param storagePath the storagePath value to set
+     * @param storagePath the storagePath value to set.
      * @return the PacketCaptureStorageLocation object itself.
      */
     public PacketCaptureStorageLocation withStoragePath(String storagePath) {
@@ -80,7 +80,7 @@ public class PacketCaptureStorageLocation {
     /**
      * Get the filePath value.
      *
-     * @return the filePath value
+     * @return the filePath value.
      */
     public String filePath() {
         return this.filePath;
@@ -89,12 +89,11 @@ public class PacketCaptureStorageLocation {
     /**
      * Set the filePath value.
      *
-     * @param filePath the filePath value to set
+     * @param filePath the filePath value to set.
      * @return the PacketCaptureStorageLocation object itself.
      */
     public PacketCaptureStorageLocation withFilePath(String filePath) {
         this.filePath = filePath;
         return this;
     }
-
 }

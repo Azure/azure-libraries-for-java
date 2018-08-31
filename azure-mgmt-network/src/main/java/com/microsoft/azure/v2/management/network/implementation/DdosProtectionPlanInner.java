@@ -8,18 +8,16 @@
 
 package com.microsoft.azure.v2.management.network.implementation;
 
-import java.util.List;
-import com.microsoft.azure.SubResource;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.rest.SkipParentValidation;
-import com.microsoft.azure.Resource;
+import com.microsoft.azure.v2.Resource;
+import com.microsoft.azure.v2.SubResource;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
+import java.util.List;
 
 /**
  * A DDoS protection plan in a resource group.
  */
 @JsonFlatten
-@SkipParentValidation
 public class DdosProtectionPlanInner extends Resource {
     /**
      * The resource GUID property of the DDoS protection plan resource. It
@@ -41,7 +39,7 @@ public class DdosProtectionPlanInner extends Resource {
      * resource. This list is read-only.
      */
     @JsonProperty(value = "properties.virtualNetworks", access = JsonProperty.Access.WRITE_ONLY)
-    private List<SubResource> virtualNetworks;
+    private List<SubResource> virtualNetworksProperty;
 
     /**
      * A unique read-only string that changes whenever the resource is updated.
@@ -50,15 +48,9 @@ public class DdosProtectionPlanInner extends Resource {
     private String etag;
 
     /**
-     * Resource ID.
-     */
-    @JsonProperty(value = "id")
-    private String id;
-
-    /**
      * Get the resourceGuid value.
      *
-     * @return the resourceGuid value
+     * @return the resourceGuid value.
      */
     public String resourceGuid() {
         return this.resourceGuid;
@@ -67,47 +59,27 @@ public class DdosProtectionPlanInner extends Resource {
     /**
      * Get the provisioningState value.
      *
-     * @return the provisioningState value
+     * @return the provisioningState value.
      */
     public String provisioningState() {
         return this.provisioningState;
     }
 
     /**
-     * Get the virtualNetworks value.
+     * Get the virtualNetworksProperty value.
      *
-     * @return the virtualNetworks value
+     * @return the virtualNetworksProperty value.
      */
-    public List<SubResource> virtualNetworks() {
-        return this.virtualNetworks;
+    public List<SubResource> virtualNetworksProperty() {
+        return this.virtualNetworksProperty;
     }
 
     /**
      * Get the etag value.
      *
-     * @return the etag value
+     * @return the etag value.
      */
     public String etag() {
         return this.etag;
-    }
-
-    /**
-     * Get the id value.
-     *
-     * @return the id value
-     */
-    public String id() {
-        return this.id;
-    }
-
-    /**
-     * Set the id value.
-     *
-     * @param id the id value to set
-     * @return the DdosProtectionPlanInner object itself.
-     */
-    public DdosProtectionPlanInner withId(String id) {
-        this.id = id;
-        return this;
     }
 }

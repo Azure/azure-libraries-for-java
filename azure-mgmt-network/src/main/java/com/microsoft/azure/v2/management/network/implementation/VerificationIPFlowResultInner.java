@@ -8,13 +8,13 @@
 
 package com.microsoft.azure.v2.management.network.implementation;
 
-import com.microsoft.azure.v2.management.network.Access;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.v2.management.network.Access;
 
 /**
  * Results of IP flow verification on the target resource.
  */
-public class VerificationIPFlowResultInner {
+public final class VerificationIPFlowResultInner {
     /**
      * Indicates whether the traffic is allowed or denied. Possible values
      * include: 'Allow', 'Deny'.
@@ -32,7 +32,7 @@ public class VerificationIPFlowResultInner {
     /**
      * Get the access value.
      *
-     * @return the access value
+     * @return the access value.
      */
     public Access access() {
         return this.access;
@@ -41,7 +41,7 @@ public class VerificationIPFlowResultInner {
     /**
      * Set the access value.
      *
-     * @param access the access value to set
+     * @param access the access value to set.
      * @return the VerificationIPFlowResultInner object itself.
      */
     public VerificationIPFlowResultInner withAccess(Access access) {
@@ -52,7 +52,7 @@ public class VerificationIPFlowResultInner {
     /**
      * Get the ruleName value.
      *
-     * @return the ruleName value
+     * @return the ruleName value.
      */
     public String ruleName() {
         return this.ruleName;
@@ -61,12 +61,11 @@ public class VerificationIPFlowResultInner {
     /**
      * Set the ruleName value.
      *
-     * @param ruleName the ruleName value to set
+     * @param ruleName the ruleName value to set.
      * @return the VerificationIPFlowResultInner object itself.
      */
     public VerificationIPFlowResultInner withRuleName(String ruleName) {
         this.ruleName = ruleName;
         return this;
     }
-
 }

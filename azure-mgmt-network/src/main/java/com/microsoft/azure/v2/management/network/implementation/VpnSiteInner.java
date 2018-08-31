@@ -8,15 +8,14 @@
 
 package com.microsoft.azure.v2.management.network.implementation;
 
-import com.microsoft.azure.SubResource;
-import com.microsoft.azure.v2.management.network.DeviceProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.v2.Resource;
+import com.microsoft.azure.v2.SubResource;
 import com.microsoft.azure.v2.management.network.AddressSpace;
 import com.microsoft.azure.v2.management.network.BgpSettings;
+import com.microsoft.azure.v2.management.network.DeviceProperties;
 import com.microsoft.azure.v2.management.network.ProvisioningState;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.rest.SkipParentValidation;
-import com.microsoft.azure.Resource;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
 
 /**
  * VpnSite Resource.
@@ -83,7 +82,7 @@ public class VpnSiteInner extends Resource {
     /**
      * Get the virtualWAN value.
      *
-     * @return the virtualWAN value
+     * @return the virtualWAN value.
      */
     public SubResource virtualWAN() {
         return this.virtualWAN;
@@ -92,7 +91,7 @@ public class VpnSiteInner extends Resource {
     /**
      * Set the virtualWAN value.
      *
-     * @param virtualWAN the virtualWAN value to set
+     * @param virtualWAN the virtualWAN value to set.
      * @return the VpnSiteInner object itself.
      */
     public VpnSiteInner withVirtualWAN(SubResource virtualWAN) {
@@ -103,7 +102,7 @@ public class VpnSiteInner extends Resource {
     /**
      * Get the deviceProperties value.
      *
-     * @return the deviceProperties value
+     * @return the deviceProperties value.
      */
     public DeviceProperties deviceProperties() {
         return this.deviceProperties;
@@ -112,7 +111,7 @@ public class VpnSiteInner extends Resource {
     /**
      * Set the deviceProperties value.
      *
-     * @param deviceProperties the deviceProperties value to set
+     * @param deviceProperties the deviceProperties value to set.
      * @return the VpnSiteInner object itself.
      */
     public VpnSiteInner withDeviceProperties(DeviceProperties deviceProperties) {
@@ -123,7 +122,7 @@ public class VpnSiteInner extends Resource {
     /**
      * Get the ipAddress value.
      *
-     * @return the ipAddress value
+     * @return the ipAddress value.
      */
     public String ipAddress() {
         return this.ipAddress;
@@ -132,7 +131,7 @@ public class VpnSiteInner extends Resource {
     /**
      * Set the ipAddress value.
      *
-     * @param ipAddress the ipAddress value to set
+     * @param ipAddress the ipAddress value to set.
      * @return the VpnSiteInner object itself.
      */
     public VpnSiteInner withIpAddress(String ipAddress) {
@@ -143,7 +142,7 @@ public class VpnSiteInner extends Resource {
     /**
      * Get the siteKey value.
      *
-     * @return the siteKey value
+     * @return the siteKey value.
      */
     public String siteKey() {
         return this.siteKey;
@@ -152,7 +151,7 @@ public class VpnSiteInner extends Resource {
     /**
      * Set the siteKey value.
      *
-     * @param siteKey the siteKey value to set
+     * @param siteKey the siteKey value to set.
      * @return the VpnSiteInner object itself.
      */
     public VpnSiteInner withSiteKey(String siteKey) {
@@ -163,7 +162,7 @@ public class VpnSiteInner extends Resource {
     /**
      * Get the addressSpace value.
      *
-     * @return the addressSpace value
+     * @return the addressSpace value.
      */
     public AddressSpace addressSpace() {
         return this.addressSpace;
@@ -172,7 +171,7 @@ public class VpnSiteInner extends Resource {
     /**
      * Set the addressSpace value.
      *
-     * @param addressSpace the addressSpace value to set
+     * @param addressSpace the addressSpace value to set.
      * @return the VpnSiteInner object itself.
      */
     public VpnSiteInner withAddressSpace(AddressSpace addressSpace) {
@@ -183,7 +182,7 @@ public class VpnSiteInner extends Resource {
     /**
      * Get the bgpProperties value.
      *
-     * @return the bgpProperties value
+     * @return the bgpProperties value.
      */
     public BgpSettings bgpProperties() {
         return this.bgpProperties;
@@ -192,7 +191,7 @@ public class VpnSiteInner extends Resource {
     /**
      * Set the bgpProperties value.
      *
-     * @param bgpProperties the bgpProperties value to set
+     * @param bgpProperties the bgpProperties value to set.
      * @return the VpnSiteInner object itself.
      */
     public VpnSiteInner withBgpProperties(BgpSettings bgpProperties) {
@@ -203,7 +202,7 @@ public class VpnSiteInner extends Resource {
     /**
      * Get the provisioningState value.
      *
-     * @return the provisioningState value
+     * @return the provisioningState value.
      */
     public ProvisioningState provisioningState() {
         return this.provisioningState;
@@ -212,7 +211,7 @@ public class VpnSiteInner extends Resource {
     /**
      * Set the provisioningState value.
      *
-     * @param provisioningState the provisioningState value to set
+     * @param provisioningState the provisioningState value to set.
      * @return the VpnSiteInner object itself.
      */
     public VpnSiteInner withProvisioningState(ProvisioningState provisioningState) {
@@ -223,7 +222,7 @@ public class VpnSiteInner extends Resource {
     /**
      * Get the etag value.
      *
-     * @return the etag value
+     * @return the etag value.
      */
     public String etag() {
         return this.etag;
@@ -232,7 +231,7 @@ public class VpnSiteInner extends Resource {
     /**
      * Get the id value.
      *
-     * @return the id value
+     * @return the id value.
      */
     public String id() {
         return this.id;
@@ -241,12 +240,11 @@ public class VpnSiteInner extends Resource {
     /**
      * Set the id value.
      *
-     * @param id the id value to set
+     * @param id the id value to set.
      * @return the VpnSiteInner object itself.
      */
     public VpnSiteInner withId(String id) {
         this.id = id;
         return this;
     }
-
 }

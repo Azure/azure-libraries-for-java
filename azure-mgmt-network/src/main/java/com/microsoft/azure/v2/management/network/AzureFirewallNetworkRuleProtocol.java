@@ -8,30 +8,39 @@
 
 package com.microsoft.azure.v2.management.network;
 
-import java.util.Collection;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.microsoft.rest.ExpandableStringEnum;
+import com.microsoft.rest.v2.ExpandableStringEnum;
+import java.util.Collection;
 
 /**
  * Defines values for AzureFirewallNetworkRuleProtocol.
  */
 public final class AzureFirewallNetworkRuleProtocol extends ExpandableStringEnum<AzureFirewallNetworkRuleProtocol> {
-    /** Static value TCP for AzureFirewallNetworkRuleProtocol. */
+    /**
+     * Static value TCP for AzureFirewallNetworkRuleProtocol.
+     */
     public static final AzureFirewallNetworkRuleProtocol TCP = fromString("TCP");
 
-    /** Static value UDP for AzureFirewallNetworkRuleProtocol. */
+    /**
+     * Static value UDP for AzureFirewallNetworkRuleProtocol.
+     */
     public static final AzureFirewallNetworkRuleProtocol UDP = fromString("UDP");
 
-    /** Static value Any for AzureFirewallNetworkRuleProtocol. */
+    /**
+     * Static value Any for AzureFirewallNetworkRuleProtocol.
+     */
     public static final AzureFirewallNetworkRuleProtocol ANY = fromString("Any");
 
-    /** Static value ICMP for AzureFirewallNetworkRuleProtocol. */
+    /**
+     * Static value ICMP for AzureFirewallNetworkRuleProtocol.
+     */
     public static final AzureFirewallNetworkRuleProtocol ICMP = fromString("ICMP");
 
     /**
      * Creates or finds a AzureFirewallNetworkRuleProtocol from its string representation.
-     * @param name a name to look for
-     * @return the corresponding AzureFirewallNetworkRuleProtocol
+     *
+     * @param name a name to look for.
+     * @return the corresponding AzureFirewallNetworkRuleProtocol.
      */
     @JsonCreator
     public static AzureFirewallNetworkRuleProtocol fromString(String name) {
@@ -39,7 +48,7 @@ public final class AzureFirewallNetworkRuleProtocol extends ExpandableStringEnum
     }
 
     /**
-     * @return known AzureFirewallNetworkRuleProtocol values
+     * @return known AzureFirewallNetworkRuleProtocol values.
      */
     public static Collection<AzureFirewallNetworkRuleProtocol> values() {
         return values(AzureFirewallNetworkRuleProtocol.class);

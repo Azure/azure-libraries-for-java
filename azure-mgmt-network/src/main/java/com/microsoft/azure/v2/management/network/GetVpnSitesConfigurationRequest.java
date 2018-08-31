@@ -8,14 +8,14 @@
 
 package com.microsoft.azure.v2.management.network;
 
-import java.util.List;
-import com.microsoft.azure.SubResource;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.v2.SubResource;
+import java.util.List;
 
 /**
  * List of Vpn-Sites.
  */
-public class GetVpnSitesConfigurationRequest {
+public final class GetVpnSitesConfigurationRequest {
     /**
      * List of resource-ids of the vpn-sites for which config is to be
      * downloaded.
@@ -32,7 +32,7 @@ public class GetVpnSitesConfigurationRequest {
     /**
      * Get the vpnSites value.
      *
-     * @return the vpnSites value
+     * @return the vpnSites value.
      */
     public List<SubResource> vpnSites() {
         return this.vpnSites;
@@ -41,7 +41,7 @@ public class GetVpnSitesConfigurationRequest {
     /**
      * Set the vpnSites value.
      *
-     * @param vpnSites the vpnSites value to set
+     * @param vpnSites the vpnSites value to set.
      * @return the GetVpnSitesConfigurationRequest object itself.
      */
     public GetVpnSitesConfigurationRequest withVpnSites(List<SubResource> vpnSites) {
@@ -52,7 +52,7 @@ public class GetVpnSitesConfigurationRequest {
     /**
      * Get the outputBlobSasUrl value.
      *
-     * @return the outputBlobSasUrl value
+     * @return the outputBlobSasUrl value.
      */
     public String outputBlobSasUrl() {
         return this.outputBlobSasUrl;
@@ -61,12 +61,11 @@ public class GetVpnSitesConfigurationRequest {
     /**
      * Set the outputBlobSasUrl value.
      *
-     * @param outputBlobSasUrl the outputBlobSasUrl value to set
+     * @param outputBlobSasUrl the outputBlobSasUrl value to set.
      * @return the GetVpnSitesConfigurationRequest object itself.
      */
     public GetVpnSitesConfigurationRequest withOutputBlobSasUrl(String outputBlobSasUrl) {
         this.outputBlobSasUrl = outputBlobSasUrl;
         return this;
     }
-
 }

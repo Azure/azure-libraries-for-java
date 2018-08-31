@@ -8,13 +8,13 @@
 
 package com.microsoft.azure.v2.management.network;
 
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 
 /**
  * Constraints that determine the list of available Internet service providers.
  */
-public class AvailableProvidersListParameters {
+public final class AvailableProvidersListParameters {
     /**
      * A list of Azure regions.
      */
@@ -42,7 +42,7 @@ public class AvailableProvidersListParameters {
     /**
      * Get the azureLocations value.
      *
-     * @return the azureLocations value
+     * @return the azureLocations value.
      */
     public List<String> azureLocations() {
         return this.azureLocations;
@@ -51,7 +51,7 @@ public class AvailableProvidersListParameters {
     /**
      * Set the azureLocations value.
      *
-     * @param azureLocations the azureLocations value to set
+     * @param azureLocations the azureLocations value to set.
      * @return the AvailableProvidersListParameters object itself.
      */
     public AvailableProvidersListParameters withAzureLocations(List<String> azureLocations) {
@@ -62,7 +62,7 @@ public class AvailableProvidersListParameters {
     /**
      * Get the country value.
      *
-     * @return the country value
+     * @return the country value.
      */
     public String country() {
         return this.country;
@@ -71,7 +71,7 @@ public class AvailableProvidersListParameters {
     /**
      * Set the country value.
      *
-     * @param country the country value to set
+     * @param country the country value to set.
      * @return the AvailableProvidersListParameters object itself.
      */
     public AvailableProvidersListParameters withCountry(String country) {
@@ -82,7 +82,7 @@ public class AvailableProvidersListParameters {
     /**
      * Get the state value.
      *
-     * @return the state value
+     * @return the state value.
      */
     public String state() {
         return this.state;
@@ -91,7 +91,7 @@ public class AvailableProvidersListParameters {
     /**
      * Set the state value.
      *
-     * @param state the state value to set
+     * @param state the state value to set.
      * @return the AvailableProvidersListParameters object itself.
      */
     public AvailableProvidersListParameters withState(String state) {
@@ -102,7 +102,7 @@ public class AvailableProvidersListParameters {
     /**
      * Get the city value.
      *
-     * @return the city value
+     * @return the city value.
      */
     public String city() {
         return this.city;
@@ -111,12 +111,11 @@ public class AvailableProvidersListParameters {
     /**
      * Set the city value.
      *
-     * @param city the city value to set
+     * @param city the city value to set.
      * @return the AvailableProvidersListParameters object itself.
      */
     public AvailableProvidersListParameters withCity(String city) {
         this.city = city;
         return this;
     }
-
 }

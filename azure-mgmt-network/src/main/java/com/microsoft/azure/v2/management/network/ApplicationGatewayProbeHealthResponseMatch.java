@@ -8,13 +8,13 @@
 
 package com.microsoft.azure.v2.management.network;
 
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 
 /**
  * Application gateway probe health response match.
  */
-public class ApplicationGatewayProbeHealthResponseMatch {
+public final class ApplicationGatewayProbeHealthResponseMatch {
     /**
      * Body that must be contained in the health response. Default value is
      * empty.
@@ -32,7 +32,7 @@ public class ApplicationGatewayProbeHealthResponseMatch {
     /**
      * Get the body value.
      *
-     * @return the body value
+     * @return the body value.
      */
     public String body() {
         return this.body;
@@ -41,7 +41,7 @@ public class ApplicationGatewayProbeHealthResponseMatch {
     /**
      * Set the body value.
      *
-     * @param body the body value to set
+     * @param body the body value to set.
      * @return the ApplicationGatewayProbeHealthResponseMatch object itself.
      */
     public ApplicationGatewayProbeHealthResponseMatch withBody(String body) {
@@ -52,7 +52,7 @@ public class ApplicationGatewayProbeHealthResponseMatch {
     /**
      * Get the statusCodes value.
      *
-     * @return the statusCodes value
+     * @return the statusCodes value.
      */
     public List<String> statusCodes() {
         return this.statusCodes;
@@ -61,12 +61,11 @@ public class ApplicationGatewayProbeHealthResponseMatch {
     /**
      * Set the statusCodes value.
      *
-     * @param statusCodes the statusCodes value to set
+     * @param statusCodes the statusCodes value to set.
      * @return the ApplicationGatewayProbeHealthResponseMatch object itself.
      */
     public ApplicationGatewayProbeHealthResponseMatch withStatusCodes(List<String> statusCodes) {
         this.statusCodes = statusCodes;
         return this;
     }
-
 }

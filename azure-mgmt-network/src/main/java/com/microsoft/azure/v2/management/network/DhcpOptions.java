@@ -8,15 +8,15 @@
 
 package com.microsoft.azure.v2.management.network;
 
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 
 /**
  * DhcpOptions contains an array of DNS servers available to VMs deployed in
  * the virtual network. Standard DHCP option for a subnet overrides VNET DHCP
  * options.
  */
-public class DhcpOptions {
+public final class DhcpOptions {
     /**
      * The list of DNS servers IP addresses.
      */
@@ -26,7 +26,7 @@ public class DhcpOptions {
     /**
      * Get the dnsServers value.
      *
-     * @return the dnsServers value
+     * @return the dnsServers value.
      */
     public List<String> dnsServers() {
         return this.dnsServers;
@@ -35,12 +35,11 @@ public class DhcpOptions {
     /**
      * Set the dnsServers value.
      *
-     * @param dnsServers the dnsServers value to set
+     * @param dnsServers the dnsServers value to set.
      * @return the DhcpOptions object itself.
      */
     public DhcpOptions withDnsServers(List<String> dnsServers) {
         this.dnsServers = dnsServers;
         return this;
     }
-
 }

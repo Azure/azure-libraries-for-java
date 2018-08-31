@@ -8,13 +8,13 @@
 
 package com.microsoft.azure.v2.management.network;
 
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 
 /**
  * Application Gateway Ssl policy.
  */
-public class ApplicationGatewaySslPolicy {
+public final class ApplicationGatewaySslPolicy {
     /**
      * Ssl protocols to be disabled on application gateway.
      */
@@ -52,7 +52,7 @@ public class ApplicationGatewaySslPolicy {
     /**
      * Get the disabledSslProtocols value.
      *
-     * @return the disabledSslProtocols value
+     * @return the disabledSslProtocols value.
      */
     public List<ApplicationGatewaySslProtocol> disabledSslProtocols() {
         return this.disabledSslProtocols;
@@ -61,7 +61,7 @@ public class ApplicationGatewaySslPolicy {
     /**
      * Set the disabledSslProtocols value.
      *
-     * @param disabledSslProtocols the disabledSslProtocols value to set
+     * @param disabledSslProtocols the disabledSslProtocols value to set.
      * @return the ApplicationGatewaySslPolicy object itself.
      */
     public ApplicationGatewaySslPolicy withDisabledSslProtocols(List<ApplicationGatewaySslProtocol> disabledSslProtocols) {
@@ -72,7 +72,7 @@ public class ApplicationGatewaySslPolicy {
     /**
      * Get the policyType value.
      *
-     * @return the policyType value
+     * @return the policyType value.
      */
     public ApplicationGatewaySslPolicyType policyType() {
         return this.policyType;
@@ -81,7 +81,7 @@ public class ApplicationGatewaySslPolicy {
     /**
      * Set the policyType value.
      *
-     * @param policyType the policyType value to set
+     * @param policyType the policyType value to set.
      * @return the ApplicationGatewaySslPolicy object itself.
      */
     public ApplicationGatewaySslPolicy withPolicyType(ApplicationGatewaySslPolicyType policyType) {
@@ -92,7 +92,7 @@ public class ApplicationGatewaySslPolicy {
     /**
      * Get the policyName value.
      *
-     * @return the policyName value
+     * @return the policyName value.
      */
     public ApplicationGatewaySslPolicyName policyName() {
         return this.policyName;
@@ -101,7 +101,7 @@ public class ApplicationGatewaySslPolicy {
     /**
      * Set the policyName value.
      *
-     * @param policyName the policyName value to set
+     * @param policyName the policyName value to set.
      * @return the ApplicationGatewaySslPolicy object itself.
      */
     public ApplicationGatewaySslPolicy withPolicyName(ApplicationGatewaySslPolicyName policyName) {
@@ -112,7 +112,7 @@ public class ApplicationGatewaySslPolicy {
     /**
      * Get the cipherSuites value.
      *
-     * @return the cipherSuites value
+     * @return the cipherSuites value.
      */
     public List<ApplicationGatewaySslCipherSuite> cipherSuites() {
         return this.cipherSuites;
@@ -121,7 +121,7 @@ public class ApplicationGatewaySslPolicy {
     /**
      * Set the cipherSuites value.
      *
-     * @param cipherSuites the cipherSuites value to set
+     * @param cipherSuites the cipherSuites value to set.
      * @return the ApplicationGatewaySslPolicy object itself.
      */
     public ApplicationGatewaySslPolicy withCipherSuites(List<ApplicationGatewaySslCipherSuite> cipherSuites) {
@@ -132,7 +132,7 @@ public class ApplicationGatewaySslPolicy {
     /**
      * Get the minProtocolVersion value.
      *
-     * @return the minProtocolVersion value
+     * @return the minProtocolVersion value.
      */
     public ApplicationGatewaySslProtocol minProtocolVersion() {
         return this.minProtocolVersion;
@@ -141,12 +141,11 @@ public class ApplicationGatewaySslPolicy {
     /**
      * Set the minProtocolVersion value.
      *
-     * @param minProtocolVersion the minProtocolVersion value to set
+     * @param minProtocolVersion the minProtocolVersion value to set.
      * @return the ApplicationGatewaySslPolicy object itself.
      */
     public ApplicationGatewaySslPolicy withMinProtocolVersion(ApplicationGatewaySslProtocol minProtocolVersion) {
         this.minProtocolVersion = minProtocolVersion;
         return this;
     }
-
 }

@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * VpnSite Resource.
  */
-public class VpnSiteId {
+public final class VpnSiteId {
     /**
      * The resource-uri of the vpn-site for which config is to be fetched.
      */
@@ -23,10 +23,9 @@ public class VpnSiteId {
     /**
      * Get the vpnSite value.
      *
-     * @return the vpnSite value
+     * @return the vpnSite value.
      */
     public String vpnSite() {
         return this.vpnSite;
     }
-
 }

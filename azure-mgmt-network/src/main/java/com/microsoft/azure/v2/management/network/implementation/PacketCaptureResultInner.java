@@ -8,12 +8,12 @@
 
 package com.microsoft.azure.v2.management.network.implementation;
 
-import com.microsoft.azure.v2.management.network.PacketCaptureStorageLocation;
-import java.util.List;
-import com.microsoft.azure.v2.management.network.PacketCaptureFilter;
-import com.microsoft.azure.v2.management.network.ProvisioningState;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.v2.management.network.PacketCaptureFilter;
+import com.microsoft.azure.v2.management.network.PacketCaptureStorageLocation;
+import com.microsoft.azure.v2.management.network.ProvisioningState;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
+import java.util.List;
 
 /**
  * Information about packet capture session.
@@ -84,7 +84,7 @@ public class PacketCaptureResultInner {
     /**
      * Get the name value.
      *
-     * @return the name value
+     * @return the name value.
      */
     public String name() {
         return this.name;
@@ -93,7 +93,7 @@ public class PacketCaptureResultInner {
     /**
      * Get the id value.
      *
-     * @return the id value
+     * @return the id value.
      */
     public String id() {
         return this.id;
@@ -102,7 +102,7 @@ public class PacketCaptureResultInner {
     /**
      * Get the etag value.
      *
-     * @return the etag value
+     * @return the etag value.
      */
     public String etag() {
         return this.etag;
@@ -111,7 +111,7 @@ public class PacketCaptureResultInner {
     /**
      * Set the etag value.
      *
-     * @param etag the etag value to set
+     * @param etag the etag value to set.
      * @return the PacketCaptureResultInner object itself.
      */
     public PacketCaptureResultInner withEtag(String etag) {
@@ -122,7 +122,7 @@ public class PacketCaptureResultInner {
     /**
      * Get the target value.
      *
-     * @return the target value
+     * @return the target value.
      */
     public String target() {
         return this.target;
@@ -131,7 +131,7 @@ public class PacketCaptureResultInner {
     /**
      * Set the target value.
      *
-     * @param target the target value to set
+     * @param target the target value to set.
      * @return the PacketCaptureResultInner object itself.
      */
     public PacketCaptureResultInner withTarget(String target) {
@@ -142,7 +142,7 @@ public class PacketCaptureResultInner {
     /**
      * Get the bytesToCapturePerPacket value.
      *
-     * @return the bytesToCapturePerPacket value
+     * @return the bytesToCapturePerPacket value.
      */
     public Integer bytesToCapturePerPacket() {
         return this.bytesToCapturePerPacket;
@@ -151,7 +151,7 @@ public class PacketCaptureResultInner {
     /**
      * Set the bytesToCapturePerPacket value.
      *
-     * @param bytesToCapturePerPacket the bytesToCapturePerPacket value to set
+     * @param bytesToCapturePerPacket the bytesToCapturePerPacket value to set.
      * @return the PacketCaptureResultInner object itself.
      */
     public PacketCaptureResultInner withBytesToCapturePerPacket(Integer bytesToCapturePerPacket) {
@@ -162,7 +162,7 @@ public class PacketCaptureResultInner {
     /**
      * Get the totalBytesPerSession value.
      *
-     * @return the totalBytesPerSession value
+     * @return the totalBytesPerSession value.
      */
     public Integer totalBytesPerSession() {
         return this.totalBytesPerSession;
@@ -171,7 +171,7 @@ public class PacketCaptureResultInner {
     /**
      * Set the totalBytesPerSession value.
      *
-     * @param totalBytesPerSession the totalBytesPerSession value to set
+     * @param totalBytesPerSession the totalBytesPerSession value to set.
      * @return the PacketCaptureResultInner object itself.
      */
     public PacketCaptureResultInner withTotalBytesPerSession(Integer totalBytesPerSession) {
@@ -182,7 +182,7 @@ public class PacketCaptureResultInner {
     /**
      * Get the timeLimitInSeconds value.
      *
-     * @return the timeLimitInSeconds value
+     * @return the timeLimitInSeconds value.
      */
     public Integer timeLimitInSeconds() {
         return this.timeLimitInSeconds;
@@ -191,7 +191,7 @@ public class PacketCaptureResultInner {
     /**
      * Set the timeLimitInSeconds value.
      *
-     * @param timeLimitInSeconds the timeLimitInSeconds value to set
+     * @param timeLimitInSeconds the timeLimitInSeconds value to set.
      * @return the PacketCaptureResultInner object itself.
      */
     public PacketCaptureResultInner withTimeLimitInSeconds(Integer timeLimitInSeconds) {
@@ -202,7 +202,7 @@ public class PacketCaptureResultInner {
     /**
      * Get the storageLocation value.
      *
-     * @return the storageLocation value
+     * @return the storageLocation value.
      */
     public PacketCaptureStorageLocation storageLocation() {
         return this.storageLocation;
@@ -211,7 +211,7 @@ public class PacketCaptureResultInner {
     /**
      * Set the storageLocation value.
      *
-     * @param storageLocation the storageLocation value to set
+     * @param storageLocation the storageLocation value to set.
      * @return the PacketCaptureResultInner object itself.
      */
     public PacketCaptureResultInner withStorageLocation(PacketCaptureStorageLocation storageLocation) {
@@ -222,7 +222,7 @@ public class PacketCaptureResultInner {
     /**
      * Get the filters value.
      *
-     * @return the filters value
+     * @return the filters value.
      */
     public List<PacketCaptureFilter> filters() {
         return this.filters;
@@ -231,7 +231,7 @@ public class PacketCaptureResultInner {
     /**
      * Set the filters value.
      *
-     * @param filters the filters value to set
+     * @param filters the filters value to set.
      * @return the PacketCaptureResultInner object itself.
      */
     public PacketCaptureResultInner withFilters(List<PacketCaptureFilter> filters) {
@@ -242,7 +242,7 @@ public class PacketCaptureResultInner {
     /**
      * Get the provisioningState value.
      *
-     * @return the provisioningState value
+     * @return the provisioningState value.
      */
     public ProvisioningState provisioningState() {
         return this.provisioningState;
@@ -251,12 +251,11 @@ public class PacketCaptureResultInner {
     /**
      * Set the provisioningState value.
      *
-     * @param provisioningState the provisioningState value to set
+     * @param provisioningState the provisioningState value to set.
      * @return the PacketCaptureResultInner object itself.
      */
     public PacketCaptureResultInner withProvisioningState(ProvisioningState provisioningState) {
         this.provisioningState = provisioningState;
         return this;
     }
-
 }

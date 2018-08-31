@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Contains the IpTag associated with the public IP address.
  */
-public class IpTag {
+public final class IpTag {
     /**
      * Gets or sets the ipTag type: Example FirstPartyUsage.
      */
@@ -30,7 +30,7 @@ public class IpTag {
     /**
      * Get the ipTagType value.
      *
-     * @return the ipTagType value
+     * @return the ipTagType value.
      */
     public String ipTagType() {
         return this.ipTagType;
@@ -39,7 +39,7 @@ public class IpTag {
     /**
      * Set the ipTagType value.
      *
-     * @param ipTagType the ipTagType value to set
+     * @param ipTagType the ipTagType value to set.
      * @return the IpTag object itself.
      */
     public IpTag withIpTagType(String ipTagType) {
@@ -50,7 +50,7 @@ public class IpTag {
     /**
      * Get the tag value.
      *
-     * @return the tag value
+     * @return the tag value.
      */
     public String tag() {
         return this.tag;
@@ -59,12 +59,11 @@ public class IpTag {
     /**
      * Set the tag value.
      *
-     * @param tag the tag value to set
+     * @param tag the tag value to set.
      * @return the IpTag object itself.
      */
     public IpTag withTag(String tag) {
         this.tag = tag;
         return this;
     }
-
 }

@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * SKU of an application gateway.
  */
-public class ApplicationGatewaySku {
+public final class ApplicationGatewaySku {
     /**
      * Name of an application gateway SKU. Possible values include:
      * 'Standard_Small', 'Standard_Medium', 'Standard_Large', 'WAF_Medium',
@@ -38,7 +38,7 @@ public class ApplicationGatewaySku {
     /**
      * Get the name value.
      *
-     * @return the name value
+     * @return the name value.
      */
     public ApplicationGatewaySkuName name() {
         return this.name;
@@ -47,7 +47,7 @@ public class ApplicationGatewaySku {
     /**
      * Set the name value.
      *
-     * @param name the name value to set
+     * @param name the name value to set.
      * @return the ApplicationGatewaySku object itself.
      */
     public ApplicationGatewaySku withName(ApplicationGatewaySkuName name) {
@@ -58,7 +58,7 @@ public class ApplicationGatewaySku {
     /**
      * Get the tier value.
      *
-     * @return the tier value
+     * @return the tier value.
      */
     public ApplicationGatewayTier tier() {
         return this.tier;
@@ -67,7 +67,7 @@ public class ApplicationGatewaySku {
     /**
      * Set the tier value.
      *
-     * @param tier the tier value to set
+     * @param tier the tier value to set.
      * @return the ApplicationGatewaySku object itself.
      */
     public ApplicationGatewaySku withTier(ApplicationGatewayTier tier) {
@@ -78,7 +78,7 @@ public class ApplicationGatewaySku {
     /**
      * Get the capacity value.
      *
-     * @return the capacity value
+     * @return the capacity value.
      */
     public Integer capacity() {
         return this.capacity;
@@ -87,12 +87,11 @@ public class ApplicationGatewaySku {
     /**
      * Set the capacity value.
      *
-     * @param capacity the capacity value to set
+     * @param capacity the capacity value to set.
      * @return the ApplicationGatewaySku object itself.
      */
     public ApplicationGatewaySku withCapacity(Integer capacity) {
         this.capacity = capacity;
         return this;
     }
-
 }

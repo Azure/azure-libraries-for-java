@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Describes the destination of connection monitor.
  */
-public class ConnectionMonitorDestination {
+public final class ConnectionMonitorDestination {
     /**
      * The ID of the resource used as the destination by connection monitor.
      */
@@ -35,7 +35,7 @@ public class ConnectionMonitorDestination {
     /**
      * Get the resourceId value.
      *
-     * @return the resourceId value
+     * @return the resourceId value.
      */
     public String resourceId() {
         return this.resourceId;
@@ -44,7 +44,7 @@ public class ConnectionMonitorDestination {
     /**
      * Set the resourceId value.
      *
-     * @param resourceId the resourceId value to set
+     * @param resourceId the resourceId value to set.
      * @return the ConnectionMonitorDestination object itself.
      */
     public ConnectionMonitorDestination withResourceId(String resourceId) {
@@ -55,7 +55,7 @@ public class ConnectionMonitorDestination {
     /**
      * Get the address value.
      *
-     * @return the address value
+     * @return the address value.
      */
     public String address() {
         return this.address;
@@ -64,7 +64,7 @@ public class ConnectionMonitorDestination {
     /**
      * Set the address value.
      *
-     * @param address the address value to set
+     * @param address the address value to set.
      * @return the ConnectionMonitorDestination object itself.
      */
     public ConnectionMonitorDestination withAddress(String address) {
@@ -75,7 +75,7 @@ public class ConnectionMonitorDestination {
     /**
      * Get the port value.
      *
-     * @return the port value
+     * @return the port value.
      */
     public Integer port() {
         return this.port;
@@ -84,12 +84,11 @@ public class ConnectionMonitorDestination {
     /**
      * Set the port value.
      *
-     * @param port the port value to set
+     * @param port the port value to set.
      * @return the ConnectionMonitorDestination object itself.
      */
     public ConnectionMonitorDestination withPort(Integer port) {
         this.port = port;
         return this;
     }
-
 }

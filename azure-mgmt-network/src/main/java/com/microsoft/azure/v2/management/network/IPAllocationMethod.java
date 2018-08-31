@@ -8,24 +8,29 @@
 
 package com.microsoft.azure.v2.management.network;
 
-import java.util.Collection;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.microsoft.rest.ExpandableStringEnum;
+import com.microsoft.rest.v2.ExpandableStringEnum;
+import java.util.Collection;
 
 /**
  * Defines values for IPAllocationMethod.
  */
 public final class IPAllocationMethod extends ExpandableStringEnum<IPAllocationMethod> {
-    /** Static value Static for IPAllocationMethod. */
+    /**
+     * Static value Static for IPAllocationMethod.
+     */
     public static final IPAllocationMethod STATIC = fromString("Static");
 
-    /** Static value Dynamic for IPAllocationMethod. */
+    /**
+     * Static value Dynamic for IPAllocationMethod.
+     */
     public static final IPAllocationMethod DYNAMIC = fromString("Dynamic");
 
     /**
      * Creates or finds a IPAllocationMethod from its string representation.
-     * @param name a name to look for
-     * @return the corresponding IPAllocationMethod
+     *
+     * @param name a name to look for.
+     * @return the corresponding IPAllocationMethod.
      */
     @JsonCreator
     public static IPAllocationMethod fromString(String name) {
@@ -33,7 +38,7 @@ public final class IPAllocationMethod extends ExpandableStringEnum<IPAllocationM
     }
 
     /**
-     * @return known IPAllocationMethod values
+     * @return known IPAllocationMethod values.
      */
     public static Collection<IPAllocationMethod> values() {
         return values(IPAllocationMethod.class);

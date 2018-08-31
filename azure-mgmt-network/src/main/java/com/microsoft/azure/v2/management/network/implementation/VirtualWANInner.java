@@ -8,13 +8,12 @@
 
 package com.microsoft.azure.v2.management.network.implementation;
 
-import java.util.List;
-import com.microsoft.azure.SubResource;
-import com.microsoft.azure.v2.management.network.ProvisioningState;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.rest.SkipParentValidation;
-import com.microsoft.azure.Resource;
+import com.microsoft.azure.v2.Resource;
+import com.microsoft.azure.v2.SubResource;
+import com.microsoft.azure.v2.management.network.ProvisioningState;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
+import java.util.List;
 
 /**
  * VirtualWAN Resource.
@@ -32,13 +31,13 @@ public class VirtualWANInner extends Resource {
      * List of VirtualHubs in the VirtualWAN.
      */
     @JsonProperty(value = "properties.virtualHubs", access = JsonProperty.Access.WRITE_ONLY)
-    private List<SubResource> virtualHubs;
+    private List<SubResource> virtualHubsProperty;
 
     /**
-     * The vpnSites property.
+     * The vpnSitesProperty property.
      */
     @JsonProperty(value = "properties.vpnSites", access = JsonProperty.Access.WRITE_ONLY)
-    private List<SubResource> vpnSites;
+    private List<SubResource> vpnSitesProperty;
 
     /**
      * The provisioning state of the resource. Possible values include:
@@ -63,7 +62,7 @@ public class VirtualWANInner extends Resource {
     /**
      * Get the disableVpnEncryption value.
      *
-     * @return the disableVpnEncryption value
+     * @return the disableVpnEncryption value.
      */
     public Boolean disableVpnEncryption() {
         return this.disableVpnEncryption;
@@ -72,7 +71,7 @@ public class VirtualWANInner extends Resource {
     /**
      * Set the disableVpnEncryption value.
      *
-     * @param disableVpnEncryption the disableVpnEncryption value to set
+     * @param disableVpnEncryption the disableVpnEncryption value to set.
      * @return the VirtualWANInner object itself.
      */
     public VirtualWANInner withDisableVpnEncryption(Boolean disableVpnEncryption) {
@@ -81,27 +80,27 @@ public class VirtualWANInner extends Resource {
     }
 
     /**
-     * Get the virtualHubs value.
+     * Get the virtualHubsProperty value.
      *
-     * @return the virtualHubs value
+     * @return the virtualHubsProperty value.
      */
-    public List<SubResource> virtualHubs() {
-        return this.virtualHubs;
+    public List<SubResource> virtualHubsProperty() {
+        return this.virtualHubsProperty;
     }
 
     /**
-     * Get the vpnSites value.
+     * Get the vpnSitesProperty value.
      *
-     * @return the vpnSites value
+     * @return the vpnSitesProperty value.
      */
-    public List<SubResource> vpnSites() {
-        return this.vpnSites;
+    public List<SubResource> vpnSitesProperty() {
+        return this.vpnSitesProperty;
     }
 
     /**
      * Get the provisioningState value.
      *
-     * @return the provisioningState value
+     * @return the provisioningState value.
      */
     public ProvisioningState provisioningState() {
         return this.provisioningState;
@@ -110,7 +109,7 @@ public class VirtualWANInner extends Resource {
     /**
      * Set the provisioningState value.
      *
-     * @param provisioningState the provisioningState value to set
+     * @param provisioningState the provisioningState value to set.
      * @return the VirtualWANInner object itself.
      */
     public VirtualWANInner withProvisioningState(ProvisioningState provisioningState) {
@@ -121,7 +120,7 @@ public class VirtualWANInner extends Resource {
     /**
      * Get the etag value.
      *
-     * @return the etag value
+     * @return the etag value.
      */
     public String etag() {
         return this.etag;
@@ -130,7 +129,7 @@ public class VirtualWANInner extends Resource {
     /**
      * Get the id value.
      *
-     * @return the id value
+     * @return the id value.
      */
     public String id() {
         return this.id;
@@ -139,12 +138,11 @@ public class VirtualWANInner extends Resource {
     /**
      * Set the id value.
      *
-     * @param id the id value to set
+     * @param id the id value to set.
      * @return the VirtualWANInner object itself.
      */
     public VirtualWANInner withId(String id) {
         this.id = id;
         return this;
     }
-
 }

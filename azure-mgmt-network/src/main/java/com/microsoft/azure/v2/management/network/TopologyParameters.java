@@ -8,13 +8,13 @@
 
 package com.microsoft.azure.v2.management.network;
 
-import com.microsoft.azure.SubResource;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.v2.SubResource;
 
 /**
  * Parameters that define the representation of topology.
  */
-public class TopologyParameters {
+public final class TopologyParameters {
     /**
      * The name of the target resource group to perform topology on.
      */
@@ -36,7 +36,7 @@ public class TopologyParameters {
     /**
      * Get the targetResourceGroupName value.
      *
-     * @return the targetResourceGroupName value
+     * @return the targetResourceGroupName value.
      */
     public String targetResourceGroupName() {
         return this.targetResourceGroupName;
@@ -45,7 +45,7 @@ public class TopologyParameters {
     /**
      * Set the targetResourceGroupName value.
      *
-     * @param targetResourceGroupName the targetResourceGroupName value to set
+     * @param targetResourceGroupName the targetResourceGroupName value to set.
      * @return the TopologyParameters object itself.
      */
     public TopologyParameters withTargetResourceGroupName(String targetResourceGroupName) {
@@ -56,7 +56,7 @@ public class TopologyParameters {
     /**
      * Get the targetVirtualNetwork value.
      *
-     * @return the targetVirtualNetwork value
+     * @return the targetVirtualNetwork value.
      */
     public SubResource targetVirtualNetwork() {
         return this.targetVirtualNetwork;
@@ -65,7 +65,7 @@ public class TopologyParameters {
     /**
      * Set the targetVirtualNetwork value.
      *
-     * @param targetVirtualNetwork the targetVirtualNetwork value to set
+     * @param targetVirtualNetwork the targetVirtualNetwork value to set.
      * @return the TopologyParameters object itself.
      */
     public TopologyParameters withTargetVirtualNetwork(SubResource targetVirtualNetwork) {
@@ -76,7 +76,7 @@ public class TopologyParameters {
     /**
      * Get the targetSubnet value.
      *
-     * @return the targetSubnet value
+     * @return the targetSubnet value.
      */
     public SubResource targetSubnet() {
         return this.targetSubnet;
@@ -85,12 +85,11 @@ public class TopologyParameters {
     /**
      * Set the targetSubnet value.
      *
-     * @param targetSubnet the targetSubnet value to set
+     * @param targetSubnet the targetSubnet value to set.
      * @return the TopologyParameters object itself.
      */
     public TopologyParameters withTargetSubnet(SubResource targetSubnet) {
         this.targetSubnet = targetSubnet;
         return this;
     }
-
 }

@@ -8,15 +8,14 @@
 
 package com.microsoft.azure.v2.management.network.implementation;
 
-import com.microsoft.azure.SubResource;
-import com.microsoft.azure.v2.management.network.VpnConnectionStatus;
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.v2.Resource;
+import com.microsoft.azure.v2.SubResource;
 import com.microsoft.azure.v2.management.network.IpsecPolicy;
 import com.microsoft.azure.v2.management.network.ProvisioningState;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.rest.SkipParentValidation;
-import com.microsoft.azure.Resource;
+import com.microsoft.azure.v2.management.network.VpnConnectionStatus;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
+import java.util.List;
 
 /**
  * VpnConnection Resource.
@@ -102,7 +101,7 @@ public class VpnConnectionInner extends Resource {
     /**
      * Get the remoteVpnSite value.
      *
-     * @return the remoteVpnSite value
+     * @return the remoteVpnSite value.
      */
     public SubResource remoteVpnSite() {
         return this.remoteVpnSite;
@@ -111,7 +110,7 @@ public class VpnConnectionInner extends Resource {
     /**
      * Set the remoteVpnSite value.
      *
-     * @param remoteVpnSite the remoteVpnSite value to set
+     * @param remoteVpnSite the remoteVpnSite value to set.
      * @return the VpnConnectionInner object itself.
      */
     public VpnConnectionInner withRemoteVpnSite(SubResource remoteVpnSite) {
@@ -122,7 +121,7 @@ public class VpnConnectionInner extends Resource {
     /**
      * Get the routingWeight value.
      *
-     * @return the routingWeight value
+     * @return the routingWeight value.
      */
     public Integer routingWeight() {
         return this.routingWeight;
@@ -131,7 +130,7 @@ public class VpnConnectionInner extends Resource {
     /**
      * Set the routingWeight value.
      *
-     * @param routingWeight the routingWeight value to set
+     * @param routingWeight the routingWeight value to set.
      * @return the VpnConnectionInner object itself.
      */
     public VpnConnectionInner withRoutingWeight(Integer routingWeight) {
@@ -142,7 +141,7 @@ public class VpnConnectionInner extends Resource {
     /**
      * Get the connectionStatus value.
      *
-     * @return the connectionStatus value
+     * @return the connectionStatus value.
      */
     public VpnConnectionStatus connectionStatus() {
         return this.connectionStatus;
@@ -151,7 +150,7 @@ public class VpnConnectionInner extends Resource {
     /**
      * Set the connectionStatus value.
      *
-     * @param connectionStatus the connectionStatus value to set
+     * @param connectionStatus the connectionStatus value to set.
      * @return the VpnConnectionInner object itself.
      */
     public VpnConnectionInner withConnectionStatus(VpnConnectionStatus connectionStatus) {
@@ -162,7 +161,7 @@ public class VpnConnectionInner extends Resource {
     /**
      * Get the ingressBytesTransferred value.
      *
-     * @return the ingressBytesTransferred value
+     * @return the ingressBytesTransferred value.
      */
     public Long ingressBytesTransferred() {
         return this.ingressBytesTransferred;
@@ -171,7 +170,7 @@ public class VpnConnectionInner extends Resource {
     /**
      * Get the egressBytesTransferred value.
      *
-     * @return the egressBytesTransferred value
+     * @return the egressBytesTransferred value.
      */
     public Long egressBytesTransferred() {
         return this.egressBytesTransferred;
@@ -180,7 +179,7 @@ public class VpnConnectionInner extends Resource {
     /**
      * Get the connectionBandwidthInMbps value.
      *
-     * @return the connectionBandwidthInMbps value
+     * @return the connectionBandwidthInMbps value.
      */
     public Integer connectionBandwidthInMbps() {
         return this.connectionBandwidthInMbps;
@@ -189,7 +188,7 @@ public class VpnConnectionInner extends Resource {
     /**
      * Get the sharedKey value.
      *
-     * @return the sharedKey value
+     * @return the sharedKey value.
      */
     public String sharedKey() {
         return this.sharedKey;
@@ -198,7 +197,7 @@ public class VpnConnectionInner extends Resource {
     /**
      * Set the sharedKey value.
      *
-     * @param sharedKey the sharedKey value to set
+     * @param sharedKey the sharedKey value to set.
      * @return the VpnConnectionInner object itself.
      */
     public VpnConnectionInner withSharedKey(String sharedKey) {
@@ -209,7 +208,7 @@ public class VpnConnectionInner extends Resource {
     /**
      * Get the enableBgp value.
      *
-     * @return the enableBgp value
+     * @return the enableBgp value.
      */
     public Boolean enableBgp() {
         return this.enableBgp;
@@ -218,7 +217,7 @@ public class VpnConnectionInner extends Resource {
     /**
      * Set the enableBgp value.
      *
-     * @param enableBgp the enableBgp value to set
+     * @param enableBgp the enableBgp value to set.
      * @return the VpnConnectionInner object itself.
      */
     public VpnConnectionInner withEnableBgp(Boolean enableBgp) {
@@ -229,7 +228,7 @@ public class VpnConnectionInner extends Resource {
     /**
      * Get the ipsecPolicies value.
      *
-     * @return the ipsecPolicies value
+     * @return the ipsecPolicies value.
      */
     public List<IpsecPolicy> ipsecPolicies() {
         return this.ipsecPolicies;
@@ -238,7 +237,7 @@ public class VpnConnectionInner extends Resource {
     /**
      * Set the ipsecPolicies value.
      *
-     * @param ipsecPolicies the ipsecPolicies value to set
+     * @param ipsecPolicies the ipsecPolicies value to set.
      * @return the VpnConnectionInner object itself.
      */
     public VpnConnectionInner withIpsecPolicies(List<IpsecPolicy> ipsecPolicies) {
@@ -249,7 +248,7 @@ public class VpnConnectionInner extends Resource {
     /**
      * Get the provisioningState value.
      *
-     * @return the provisioningState value
+     * @return the provisioningState value.
      */
     public ProvisioningState provisioningState() {
         return this.provisioningState;
@@ -258,7 +257,7 @@ public class VpnConnectionInner extends Resource {
     /**
      * Set the provisioningState value.
      *
-     * @param provisioningState the provisioningState value to set
+     * @param provisioningState the provisioningState value to set.
      * @return the VpnConnectionInner object itself.
      */
     public VpnConnectionInner withProvisioningState(ProvisioningState provisioningState) {
@@ -269,7 +268,7 @@ public class VpnConnectionInner extends Resource {
     /**
      * Get the etag value.
      *
-     * @return the etag value
+     * @return the etag value.
      */
     public String etag() {
         return this.etag;
@@ -278,7 +277,7 @@ public class VpnConnectionInner extends Resource {
     /**
      * Get the id value.
      *
-     * @return the id value
+     * @return the id value.
      */
     public String id() {
         return this.id;
@@ -287,12 +286,11 @@ public class VpnConnectionInner extends Resource {
     /**
      * Set the id value.
      *
-     * @param id the id value to set
+     * @param id the id value to set.
      * @return the VpnConnectionInner object itself.
      */
     public VpnConnectionInner withId(String id) {
         this.id = id;
         return this;
     }
-
 }

@@ -8,24 +8,29 @@
 
 package com.microsoft.azure.v2.management.network;
 
-import java.util.Collection;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.microsoft.rest.ExpandableStringEnum;
+import com.microsoft.rest.v2.ExpandableStringEnum;
+import java.util.Collection;
 
 /**
  * Defines values for SecurityRuleDirection.
  */
 public final class SecurityRuleDirection extends ExpandableStringEnum<SecurityRuleDirection> {
-    /** Static value Inbound for SecurityRuleDirection. */
+    /**
+     * Static value Inbound for SecurityRuleDirection.
+     */
     public static final SecurityRuleDirection INBOUND = fromString("Inbound");
 
-    /** Static value Outbound for SecurityRuleDirection. */
+    /**
+     * Static value Outbound for SecurityRuleDirection.
+     */
     public static final SecurityRuleDirection OUTBOUND = fromString("Outbound");
 
     /**
      * Creates or finds a SecurityRuleDirection from its string representation.
-     * @param name a name to look for
-     * @return the corresponding SecurityRuleDirection
+     *
+     * @param name a name to look for.
+     * @return the corresponding SecurityRuleDirection.
      */
     @JsonCreator
     public static SecurityRuleDirection fromString(String name) {
@@ -33,7 +38,7 @@ public final class SecurityRuleDirection extends ExpandableStringEnum<SecurityRu
     }
 
     /**
-     * @return known SecurityRuleDirection values
+     * @return known SecurityRuleDirection values.
      */
     public static Collection<SecurityRuleDirection> values() {
         return values(SecurityRuleDirection.class);

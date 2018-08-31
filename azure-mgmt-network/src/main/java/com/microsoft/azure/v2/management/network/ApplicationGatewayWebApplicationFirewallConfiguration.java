@@ -8,13 +8,13 @@
 
 package com.microsoft.azure.v2.management.network;
 
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 
 /**
  * Application gateway web application firewall configuration.
  */
-public class ApplicationGatewayWebApplicationFirewallConfiguration {
+public final class ApplicationGatewayWebApplicationFirewallConfiguration {
     /**
      * Whether the web application firewall is enabled or not.
      */
@@ -62,7 +62,7 @@ public class ApplicationGatewayWebApplicationFirewallConfiguration {
     /**
      * Get the enabled value.
      *
-     * @return the enabled value
+     * @return the enabled value.
      */
     public boolean enabled() {
         return this.enabled;
@@ -71,8 +71,9 @@ public class ApplicationGatewayWebApplicationFirewallConfiguration {
     /**
      * Set the enabled value.
      *
-     * @param enabled the enabled value to set
-     * @return the ApplicationGatewayWebApplicationFirewallConfiguration object itself.
+     * @param enabled the enabled value to set.
+     * @return the ApplicationGatewayWebApplicationFirewallConfiguration object
+     * itself.
      */
     public ApplicationGatewayWebApplicationFirewallConfiguration withEnabled(boolean enabled) {
         this.enabled = enabled;
@@ -82,7 +83,7 @@ public class ApplicationGatewayWebApplicationFirewallConfiguration {
     /**
      * Get the firewallMode value.
      *
-     * @return the firewallMode value
+     * @return the firewallMode value.
      */
     public ApplicationGatewayFirewallMode firewallMode() {
         return this.firewallMode;
@@ -91,8 +92,9 @@ public class ApplicationGatewayWebApplicationFirewallConfiguration {
     /**
      * Set the firewallMode value.
      *
-     * @param firewallMode the firewallMode value to set
-     * @return the ApplicationGatewayWebApplicationFirewallConfiguration object itself.
+     * @param firewallMode the firewallMode value to set.
+     * @return the ApplicationGatewayWebApplicationFirewallConfiguration object
+     * itself.
      */
     public ApplicationGatewayWebApplicationFirewallConfiguration withFirewallMode(ApplicationGatewayFirewallMode firewallMode) {
         this.firewallMode = firewallMode;
@@ -102,7 +104,7 @@ public class ApplicationGatewayWebApplicationFirewallConfiguration {
     /**
      * Get the ruleSetType value.
      *
-     * @return the ruleSetType value
+     * @return the ruleSetType value.
      */
     public String ruleSetType() {
         return this.ruleSetType;
@@ -111,8 +113,9 @@ public class ApplicationGatewayWebApplicationFirewallConfiguration {
     /**
      * Set the ruleSetType value.
      *
-     * @param ruleSetType the ruleSetType value to set
-     * @return the ApplicationGatewayWebApplicationFirewallConfiguration object itself.
+     * @param ruleSetType the ruleSetType value to set.
+     * @return the ApplicationGatewayWebApplicationFirewallConfiguration object
+     * itself.
      */
     public ApplicationGatewayWebApplicationFirewallConfiguration withRuleSetType(String ruleSetType) {
         this.ruleSetType = ruleSetType;
@@ -122,7 +125,7 @@ public class ApplicationGatewayWebApplicationFirewallConfiguration {
     /**
      * Get the ruleSetVersion value.
      *
-     * @return the ruleSetVersion value
+     * @return the ruleSetVersion value.
      */
     public String ruleSetVersion() {
         return this.ruleSetVersion;
@@ -131,8 +134,9 @@ public class ApplicationGatewayWebApplicationFirewallConfiguration {
     /**
      * Set the ruleSetVersion value.
      *
-     * @param ruleSetVersion the ruleSetVersion value to set
-     * @return the ApplicationGatewayWebApplicationFirewallConfiguration object itself.
+     * @param ruleSetVersion the ruleSetVersion value to set.
+     * @return the ApplicationGatewayWebApplicationFirewallConfiguration object
+     * itself.
      */
     public ApplicationGatewayWebApplicationFirewallConfiguration withRuleSetVersion(String ruleSetVersion) {
         this.ruleSetVersion = ruleSetVersion;
@@ -142,7 +146,7 @@ public class ApplicationGatewayWebApplicationFirewallConfiguration {
     /**
      * Get the disabledRuleGroups value.
      *
-     * @return the disabledRuleGroups value
+     * @return the disabledRuleGroups value.
      */
     public List<ApplicationGatewayFirewallDisabledRuleGroup> disabledRuleGroups() {
         return this.disabledRuleGroups;
@@ -151,8 +155,9 @@ public class ApplicationGatewayWebApplicationFirewallConfiguration {
     /**
      * Set the disabledRuleGroups value.
      *
-     * @param disabledRuleGroups the disabledRuleGroups value to set
-     * @return the ApplicationGatewayWebApplicationFirewallConfiguration object itself.
+     * @param disabledRuleGroups the disabledRuleGroups value to set.
+     * @return the ApplicationGatewayWebApplicationFirewallConfiguration object
+     * itself.
      */
     public ApplicationGatewayWebApplicationFirewallConfiguration withDisabledRuleGroups(List<ApplicationGatewayFirewallDisabledRuleGroup> disabledRuleGroups) {
         this.disabledRuleGroups = disabledRuleGroups;
@@ -162,7 +167,7 @@ public class ApplicationGatewayWebApplicationFirewallConfiguration {
     /**
      * Get the requestBodyCheck value.
      *
-     * @return the requestBodyCheck value
+     * @return the requestBodyCheck value.
      */
     public Boolean requestBodyCheck() {
         return this.requestBodyCheck;
@@ -171,8 +176,9 @@ public class ApplicationGatewayWebApplicationFirewallConfiguration {
     /**
      * Set the requestBodyCheck value.
      *
-     * @param requestBodyCheck the requestBodyCheck value to set
-     * @return the ApplicationGatewayWebApplicationFirewallConfiguration object itself.
+     * @param requestBodyCheck the requestBodyCheck value to set.
+     * @return the ApplicationGatewayWebApplicationFirewallConfiguration object
+     * itself.
      */
     public ApplicationGatewayWebApplicationFirewallConfiguration withRequestBodyCheck(Boolean requestBodyCheck) {
         this.requestBodyCheck = requestBodyCheck;
@@ -182,7 +188,7 @@ public class ApplicationGatewayWebApplicationFirewallConfiguration {
     /**
      * Get the maxRequestBodySize value.
      *
-     * @return the maxRequestBodySize value
+     * @return the maxRequestBodySize value.
      */
     public Integer maxRequestBodySize() {
         return this.maxRequestBodySize;
@@ -191,12 +197,12 @@ public class ApplicationGatewayWebApplicationFirewallConfiguration {
     /**
      * Set the maxRequestBodySize value.
      *
-     * @param maxRequestBodySize the maxRequestBodySize value to set
-     * @return the ApplicationGatewayWebApplicationFirewallConfiguration object itself.
+     * @param maxRequestBodySize the maxRequestBodySize value to set.
+     * @return the ApplicationGatewayWebApplicationFirewallConfiguration object
+     * itself.
      */
     public ApplicationGatewayWebApplicationFirewallConfiguration withMaxRequestBodySize(Integer maxRequestBodySize) {
         this.maxRequestBodySize = maxRequestBodySize;
         return this;
     }
-
 }

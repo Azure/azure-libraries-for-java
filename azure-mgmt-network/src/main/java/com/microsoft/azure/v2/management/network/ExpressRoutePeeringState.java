@@ -8,24 +8,29 @@
 
 package com.microsoft.azure.v2.management.network;
 
-import java.util.Collection;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.microsoft.rest.ExpandableStringEnum;
+import com.microsoft.rest.v2.ExpandableStringEnum;
+import java.util.Collection;
 
 /**
  * Defines values for ExpressRoutePeeringState.
  */
 public final class ExpressRoutePeeringState extends ExpandableStringEnum<ExpressRoutePeeringState> {
-    /** Static value Disabled for ExpressRoutePeeringState. */
+    /**
+     * Static value Disabled for ExpressRoutePeeringState.
+     */
     public static final ExpressRoutePeeringState DISABLED = fromString("Disabled");
 
-    /** Static value Enabled for ExpressRoutePeeringState. */
+    /**
+     * Static value Enabled for ExpressRoutePeeringState.
+     */
     public static final ExpressRoutePeeringState ENABLED = fromString("Enabled");
 
     /**
      * Creates or finds a ExpressRoutePeeringState from its string representation.
-     * @param name a name to look for
-     * @return the corresponding ExpressRoutePeeringState
+     *
+     * @param name a name to look for.
+     * @return the corresponding ExpressRoutePeeringState.
      */
     @JsonCreator
     public static ExpressRoutePeeringState fromString(String name) {
@@ -33,7 +38,7 @@ public final class ExpressRoutePeeringState extends ExpandableStringEnum<Express
     }
 
     /**
-     * @return known ExpressRoutePeeringState values
+     * @return known ExpressRoutePeeringState values.
      */
     public static Collection<ExpressRoutePeeringState> values() {
         return values(ExpressRoutePeeringState.class);

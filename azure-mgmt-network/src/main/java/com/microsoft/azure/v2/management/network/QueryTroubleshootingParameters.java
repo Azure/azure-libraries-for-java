@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Parameters that define the resource to query the troubleshooting result.
  */
-public class QueryTroubleshootingParameters {
+public final class QueryTroubleshootingParameters {
     /**
      * The target resource ID to query the troubleshooting result.
      */
@@ -23,7 +23,7 @@ public class QueryTroubleshootingParameters {
     /**
      * Get the targetResourceId value.
      *
-     * @return the targetResourceId value
+     * @return the targetResourceId value.
      */
     public String targetResourceId() {
         return this.targetResourceId;
@@ -32,12 +32,11 @@ public class QueryTroubleshootingParameters {
     /**
      * Set the targetResourceId value.
      *
-     * @param targetResourceId the targetResourceId value to set
+     * @param targetResourceId the targetResourceId value to set.
      * @return the QueryTroubleshootingParameters object itself.
      */
     public QueryTroubleshootingParameters withTargetResourceId(String targetResourceId) {
         this.targetResourceId = targetResourceId;
         return this;
     }
-
 }

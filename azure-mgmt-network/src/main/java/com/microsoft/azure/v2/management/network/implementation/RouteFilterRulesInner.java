@@ -8,96 +8,130 @@
 
 package com.microsoft.azure.v2.management.network.implementation;
 
-import retrofit2.Retrofit;
-import com.google.common.reflect.TypeToken;
-import com.microsoft.azure.AzureServiceFuture;
-import com.microsoft.azure.CloudException;
-import com.microsoft.azure.ListOperationCallback;
-import com.microsoft.azure.Page;
-import com.microsoft.azure.PagedList;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import com.microsoft.rest.ServiceResponse;
-import com.microsoft.rest.Validator;
-import java.io.IOException;
-import java.util.List;
-import okhttp3.ResponseBody;
-import retrofit2.http.Body;
-import retrofit2.http.GET;
-import retrofit2.http.Header;
-import retrofit2.http.Headers;
-import retrofit2.http.HTTP;
-import retrofit2.http.PATCH;
-import retrofit2.http.Path;
-import retrofit2.http.PUT;
-import retrofit2.http.Query;
-import retrofit2.http.Url;
-import retrofit2.Response;
-import rx.functions.Func1;
-import rx.Observable;
+import com.microsoft.azure.v2.AzureProxy;
+import com.microsoft.azure.v2.CloudException;
+import com.microsoft.azure.v2.OperationStatus;
+import com.microsoft.azure.v2.Page;
+import com.microsoft.azure.v2.PagedList;
+import com.microsoft.azure.v2.management.network.PatchRouteFilterRule;
+import com.microsoft.azure.v2.util.ServiceFutureUtil;
+import com.microsoft.rest.v2.BodyResponse;
+import com.microsoft.rest.v2.OperationDescription;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
+import com.microsoft.rest.v2.Validator;
+import com.microsoft.rest.v2.VoidResponse;
+import com.microsoft.rest.v2.annotations.BodyParam;
+import com.microsoft.rest.v2.annotations.DELETE;
+import com.microsoft.rest.v2.annotations.ExpectedResponses;
+import com.microsoft.rest.v2.annotations.GET;
+import com.microsoft.rest.v2.annotations.HeaderParam;
+import com.microsoft.rest.v2.annotations.Host;
+import com.microsoft.rest.v2.annotations.PATCH;
+import com.microsoft.rest.v2.annotations.PathParam;
+import com.microsoft.rest.v2.annotations.PUT;
+import com.microsoft.rest.v2.annotations.QueryParam;
+import com.microsoft.rest.v2.annotations.ResumeOperation;
+import com.microsoft.rest.v2.annotations.UnexpectedResponseExceptionType;
+import io.reactivex.Completable;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
+import io.reactivex.Single;
+import io.reactivex.annotations.NonNull;
 
 /**
- * An instance of this class provides access to all the operations defined
- * in RouteFilterRules.
+ * An instance of this class provides access to all the operations defined in
+ * RouteFilterRules.
  */
-public class RouteFilterRulesInner {
-    /** The Retrofit service to perform REST calls. */
+public final class RouteFilterRulesInner {
+    /**
+     * The proxy service used to perform REST calls.
+     */
     private RouteFilterRulesService service;
-    /** The service client containing this operation class. */
+
+    /**
+     * The service client containing this operation class.
+     */
     private NetworkManagementClientImpl client;
 
     /**
      * Initializes an instance of RouteFilterRulesInner.
      *
-     * @param retrofit the Retrofit instance built from a Retrofit Builder.
      * @param client the instance of the service client containing this operation class.
      */
-    public RouteFilterRulesInner(Retrofit retrofit, NetworkManagementClientImpl client) {
-        this.service = retrofit.create(RouteFilterRulesService.class);
+    public RouteFilterRulesInner(NetworkManagementClientImpl client) {
+        this.service = AzureProxy.create(RouteFilterRulesService.class, client);
         this.client = client;
     }
 
     /**
-     * The interface defining all the services for RouteFilterRules to be
-     * used by Retrofit to perform actually REST calls.
+     * The interface defining all the services for RouteFilterRules to be used
+     * by the proxy service to perform REST calls.
      */
-    interface RouteFilterRulesService {
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.RouteFilterRules delete" })
-        @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeFilters/{routeFilterName}/routeFilterRules/{ruleName}", method = "DELETE", hasBody = true)
-        Observable<Response<ResponseBody>> delete(@Path("resourceGroupName") String resourceGroupName, @Path("routeFilterName") String routeFilterName, @Path("ruleName") String ruleName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+    @Host("https://management.azure.com")
+    private interface RouteFilterRulesService {
+        @DELETE("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeFilters/{routeFilterName}/routeFilterRules/{ruleName}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Observable<OperationStatus<Void>> beginDelete(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("routeFilterName") String routeFilterName, @PathParam("ruleName") String ruleName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.RouteFilterRules beginDelete" })
-        @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeFilters/{routeFilterName}/routeFilterRules/{ruleName}", method = "DELETE", hasBody = true)
-        Observable<Response<ResponseBody>> beginDelete(@Path("resourceGroupName") String resourceGroupName, @Path("routeFilterName") String routeFilterName, @Path("ruleName") String ruleName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @DELETE("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeFilters/{routeFilterName}/routeFilterRules/{ruleName}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<VoidResponse> delete(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("routeFilterName") String routeFilterName, @PathParam("ruleName") String ruleName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.RouteFilterRules get" })
+        @DELETE("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeFilters/{routeFilterName}/routeFilterRules/{ruleName}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<Void>> resumeDelete(OperationDescription operationDescription);
+
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeFilters/{routeFilterName}/routeFilterRules/{ruleName}")
-        Observable<Response<ResponseBody>> get(@Path("resourceGroupName") String resourceGroupName, @Path("routeFilterName") String routeFilterName, @Path("ruleName") String ruleName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<RouteFilterRuleInner>> get(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("routeFilterName") String routeFilterName, @PathParam("ruleName") String ruleName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.RouteFilterRules createOrUpdate" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeFilters/{routeFilterName}/routeFilterRules/{ruleName}")
-        Observable<Response<ResponseBody>> createOrUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("routeFilterName") String routeFilterName, @Path("ruleName") String ruleName, @Path("subscriptionId") String subscriptionId, @Body RouteFilterRuleInner routeFilterRuleParameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 201, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Observable<OperationStatus<RouteFilterRuleInner>> beginCreateOrUpdate(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("routeFilterName") String routeFilterName, @PathParam("ruleName") String ruleName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json; charset=utf-8") RouteFilterRuleInner routeFilterRuleParameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.RouteFilterRules beginCreateOrUpdate" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeFilters/{routeFilterName}/routeFilterRules/{ruleName}")
-        Observable<Response<ResponseBody>> beginCreateOrUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("routeFilterName") String routeFilterName, @Path("ruleName") String ruleName, @Path("subscriptionId") String subscriptionId, @Body RouteFilterRuleInner routeFilterRuleParameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 201, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<RouteFilterRuleInner>> createOrUpdate(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("routeFilterName") String routeFilterName, @PathParam("ruleName") String ruleName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json; charset=utf-8") RouteFilterRuleInner routeFilterRuleParameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.RouteFilterRules update" })
+        @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeFilters/{routeFilterName}/routeFilterRules/{ruleName}")
+        @ExpectedResponses({200, 201, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<RouteFilterRuleInner>> resumeCreateOrUpdate(OperationDescription operationDescription);
+
         @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeFilters/{routeFilterName}/routeFilterRules/{ruleName}")
-        Observable<Response<ResponseBody>> update(@Path("resourceGroupName") String resourceGroupName, @Path("routeFilterName") String routeFilterName, @Path("ruleName") String ruleName, @Path("subscriptionId") String subscriptionId, @Body PatchRouteFilterRuleInner routeFilterRuleParameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Observable<OperationStatus<RouteFilterRuleInner>> beginUpdate(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("routeFilterName") String routeFilterName, @PathParam("ruleName") String ruleName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json; charset=utf-8") PatchRouteFilterRule routeFilterRuleParameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.RouteFilterRules beginUpdate" })
         @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeFilters/{routeFilterName}/routeFilterRules/{ruleName}")
-        Observable<Response<ResponseBody>> beginUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("routeFilterName") String routeFilterName, @Path("ruleName") String ruleName, @Path("subscriptionId") String subscriptionId, @Body PatchRouteFilterRuleInner routeFilterRuleParameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<RouteFilterRuleInner>> update(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("routeFilterName") String routeFilterName, @PathParam("ruleName") String ruleName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json; charset=utf-8") PatchRouteFilterRule routeFilterRuleParameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.RouteFilterRules listByRouteFilter" })
+        @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeFilters/{routeFilterName}/routeFilterRules/{ruleName}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<RouteFilterRuleInner>> resumeUpdate(OperationDescription operationDescription);
+
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeFilters/{routeFilterName}/routeFilterRules")
-        Observable<Response<ResponseBody>> listByRouteFilter(@Path("resourceGroupName") String resourceGroupName, @Path("routeFilterName") String routeFilterName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl<RouteFilterRuleInner>>> listByRouteFilter(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("routeFilterName") String routeFilterName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.RouteFilterRules listByRouteFilterNext" })
-        @GET
-        Observable<Response<ResponseBody>> listByRouteFilterNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
-
+        @GET("{nextUrl}")
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl<RouteFilterRuleInner>>> listByRouteFilterNext(@PathParam(value = "nextUrl", encoded = true) String nextUrl, @HeaderParam("accept-language") String acceptLanguage);
     }
 
     /**
@@ -106,12 +140,12 @@ public class RouteFilterRulesInner {
      * @param resourceGroupName The name of the resource group.
      * @param routeFilterName The name of the route filter.
      * @param ruleName The name of the rule.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void delete(String resourceGroupName, String routeFilterName, String ruleName) {
-        deleteWithServiceResponseAsync(resourceGroupName, routeFilterName, ruleName).toBlocking().last().body();
+    public void beginDelete(@NonNull String resourceGroupName, @NonNull String routeFilterName, @NonNull String ruleName) {
+        beginDeleteAsync(resourceGroupName, routeFilterName, ruleName).blockingLast();
     }
 
     /**
@@ -121,11 +155,11 @@ public class RouteFilterRulesInner {
      * @param routeFilterName The name of the route filter.
      * @param ruleName The name of the rule.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;Void&gt; object.
      */
-    public ServiceFuture<Void> deleteAsync(String resourceGroupName, String routeFilterName, String ruleName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(deleteWithServiceResponseAsync(resourceGroupName, routeFilterName, ruleName), serviceCallback);
+    public ServiceFuture<Void> beginDeleteAsync(@NonNull String resourceGroupName, @NonNull String routeFilterName, @NonNull String ruleName, ServiceCallback<Void> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginDeleteAsync(resourceGroupName, routeFilterName, ruleName), serviceCallback);
     }
 
     /**
@@ -134,28 +168,10 @@ public class RouteFilterRulesInner {
      * @param resourceGroupName The name of the resource group.
      * @param routeFilterName The name of the route filter.
      * @param ruleName The name of the rule.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<Void> deleteAsync(String resourceGroupName, String routeFilterName, String ruleName) {
-        return deleteWithServiceResponseAsync(resourceGroupName, routeFilterName, ruleName).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Deletes the specified rule from a route filter.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param routeFilterName The name of the route filter.
-     * @param ruleName The name of the rule.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<Void>> deleteWithServiceResponseAsync(String resourceGroupName, String routeFilterName, String ruleName) {
+    public Observable<OperationStatus<Void>> beginDeleteAsync(@NonNull String resourceGroupName, @NonNull String routeFilterName, @NonNull String ruleName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -169,8 +185,7 @@ public class RouteFilterRulesInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        Observable<Response<ResponseBody>> observable = service.delete(resourceGroupName, routeFilterName, ruleName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
+        return service.beginDelete(resourceGroupName, routeFilterName, ruleName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
     /**
@@ -179,12 +194,12 @@ public class RouteFilterRulesInner {
      * @param resourceGroupName The name of the resource group.
      * @param routeFilterName The name of the route filter.
      * @param ruleName The name of the rule.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void beginDelete(String resourceGroupName, String routeFilterName, String ruleName) {
-        beginDeleteWithServiceResponseAsync(resourceGroupName, routeFilterName, ruleName).toBlocking().single().body();
+    public void delete(@NonNull String resourceGroupName, @NonNull String routeFilterName, @NonNull String ruleName) {
+        deleteAsync(resourceGroupName, routeFilterName, ruleName).blockingAwait();
     }
 
     /**
@@ -194,11 +209,11 @@ public class RouteFilterRulesInner {
      * @param routeFilterName The name of the route filter.
      * @param ruleName The name of the rule.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<Void> beginDeleteAsync(String resourceGroupName, String routeFilterName, String ruleName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(beginDeleteWithServiceResponseAsync(resourceGroupName, routeFilterName, ruleName), serviceCallback);
+    public ServiceFuture<Void> deleteAsync(@NonNull String resourceGroupName, @NonNull String routeFilterName, @NonNull String ruleName, ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromBody(deleteAsync(resourceGroupName, routeFilterName, ruleName), serviceCallback);
     }
 
     /**
@@ -207,28 +222,10 @@ public class RouteFilterRulesInner {
      * @param resourceGroupName The name of the resource group.
      * @param routeFilterName The name of the route filter.
      * @param ruleName The name of the rule.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<Void> beginDeleteAsync(String resourceGroupName, String routeFilterName, String ruleName) {
-        return beginDeleteWithServiceResponseAsync(resourceGroupName, routeFilterName, ruleName).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Deletes the specified rule from a route filter.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param routeFilterName The name of the route filter.
-     * @param ruleName The name of the rule.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
-     */
-    public Observable<ServiceResponse<Void>> beginDeleteWithServiceResponseAsync(String resourceGroupName, String routeFilterName, String ruleName) {
+    public Single<VoidResponse> deleteWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String routeFilterName, @NonNull String ruleName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -242,27 +239,35 @@ public class RouteFilterRulesInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        return service.beginDelete(resourceGroupName, routeFilterName, ruleName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
-                @Override
-                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<Void> clientResponse = beginDeleteDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.delete(resourceGroupName, routeFilterName, ruleName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<Void> beginDeleteDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<Void>() { }.getType())
-                .register(202, new TypeToken<Void>() { }.getType())
-                .register(204, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Deletes the specified rule from a route filter.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param routeFilterName The name of the route filter.
+     * @param ruleName The name of the rule.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Completable deleteAsync(@NonNull String resourceGroupName, @NonNull String routeFilterName, @NonNull String ruleName) {
+        return deleteWithRestResponseAsync(resourceGroupName, routeFilterName, ruleName)
+            .toCompletable();
+    }
+
+    /**
+     * Deletes the specified rule from a route filter. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<Void>> resumeDelete(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeDelete(operationDescription);
     }
 
     /**
@@ -271,13 +276,13 @@ public class RouteFilterRulesInner {
      * @param resourceGroupName The name of the resource group.
      * @param routeFilterName The name of the route filter.
      * @param ruleName The name of the rule.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the RouteFilterRuleInner object if successful.
      */
-    public RouteFilterRuleInner get(String resourceGroupName, String routeFilterName, String ruleName) {
-        return getWithServiceResponseAsync(resourceGroupName, routeFilterName, ruleName).toBlocking().single().body();
+    public RouteFilterRuleInner get(@NonNull String resourceGroupName, @NonNull String routeFilterName, @NonNull String ruleName) {
+        return getAsync(resourceGroupName, routeFilterName, ruleName).blockingGet();
     }
 
     /**
@@ -287,11 +292,11 @@ public class RouteFilterRulesInner {
      * @param routeFilterName The name of the route filter.
      * @param ruleName The name of the rule.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<RouteFilterRuleInner> getAsync(String resourceGroupName, String routeFilterName, String ruleName, final ServiceCallback<RouteFilterRuleInner> serviceCallback) {
-        return ServiceFuture.fromResponse(getWithServiceResponseAsync(resourceGroupName, routeFilterName, ruleName), serviceCallback);
+    public ServiceFuture<RouteFilterRuleInner> getAsync(@NonNull String resourceGroupName, @NonNull String routeFilterName, @NonNull String ruleName, ServiceCallback<RouteFilterRuleInner> serviceCallback) {
+        return ServiceFuture.fromBody(getAsync(resourceGroupName, routeFilterName, ruleName), serviceCallback);
     }
 
     /**
@@ -300,28 +305,10 @@ public class RouteFilterRulesInner {
      * @param resourceGroupName The name of the resource group.
      * @param routeFilterName The name of the route filter.
      * @param ruleName The name of the rule.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the RouteFilterRuleInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<RouteFilterRuleInner> getAsync(String resourceGroupName, String routeFilterName, String ruleName) {
-        return getWithServiceResponseAsync(resourceGroupName, routeFilterName, ruleName).map(new Func1<ServiceResponse<RouteFilterRuleInner>, RouteFilterRuleInner>() {
-            @Override
-            public RouteFilterRuleInner call(ServiceResponse<RouteFilterRuleInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Gets the specified rule from a route filter.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param routeFilterName The name of the route filter.
-     * @param ruleName The name of the rule.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the RouteFilterRuleInner object
-     */
-    public Observable<ServiceResponse<RouteFilterRuleInner>> getWithServiceResponseAsync(String resourceGroupName, String routeFilterName, String ruleName) {
+    public Single<BodyResponse<RouteFilterRuleInner>> getWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String routeFilterName, @NonNull String ruleName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -335,25 +322,21 @@ public class RouteFilterRulesInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        return service.get(resourceGroupName, routeFilterName, ruleName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<RouteFilterRuleInner>>>() {
-                @Override
-                public Observable<ServiceResponse<RouteFilterRuleInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<RouteFilterRuleInner> clientResponse = getDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.get(resourceGroupName, routeFilterName, ruleName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<RouteFilterRuleInner> getDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<RouteFilterRuleInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<RouteFilterRuleInner>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Gets the specified rule from a route filter.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param routeFilterName The name of the route filter.
+     * @param ruleName The name of the rule.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<RouteFilterRuleInner> getAsync(@NonNull String resourceGroupName, @NonNull String routeFilterName, @NonNull String ruleName) {
+        return getWithRestResponseAsync(resourceGroupName, routeFilterName, ruleName)
+            .flatMapMaybe((BodyResponse<RouteFilterRuleInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
@@ -363,13 +346,13 @@ public class RouteFilterRulesInner {
      * @param routeFilterName The name of the route filter.
      * @param ruleName The name of the route filter rule.
      * @param routeFilterRuleParameters Parameters supplied to the create or update route filter rule operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the RouteFilterRuleInner object if successful.
      */
-    public RouteFilterRuleInner createOrUpdate(String resourceGroupName, String routeFilterName, String ruleName, RouteFilterRuleInner routeFilterRuleParameters) {
-        return createOrUpdateWithServiceResponseAsync(resourceGroupName, routeFilterName, ruleName, routeFilterRuleParameters).toBlocking().last().body();
+    public RouteFilterRuleInner beginCreateOrUpdate(@NonNull String resourceGroupName, @NonNull String routeFilterName, @NonNull String ruleName, @NonNull RouteFilterRuleInner routeFilterRuleParameters) {
+        return beginCreateOrUpdateAsync(resourceGroupName, routeFilterName, ruleName, routeFilterRuleParameters).blockingLast().result();
     }
 
     /**
@@ -380,11 +363,11 @@ public class RouteFilterRulesInner {
      * @param ruleName The name of the route filter rule.
      * @param routeFilterRuleParameters Parameters supplied to the create or update route filter rule operation.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;RouteFilterRuleInner&gt; object.
      */
-    public ServiceFuture<RouteFilterRuleInner> createOrUpdateAsync(String resourceGroupName, String routeFilterName, String ruleName, RouteFilterRuleInner routeFilterRuleParameters, final ServiceCallback<RouteFilterRuleInner> serviceCallback) {
-        return ServiceFuture.fromResponse(createOrUpdateWithServiceResponseAsync(resourceGroupName, routeFilterName, ruleName, routeFilterRuleParameters), serviceCallback);
+    public ServiceFuture<RouteFilterRuleInner> beginCreateOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String routeFilterName, @NonNull String ruleName, @NonNull RouteFilterRuleInner routeFilterRuleParameters, ServiceCallback<RouteFilterRuleInner> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginCreateOrUpdateAsync(resourceGroupName, routeFilterName, ruleName, routeFilterRuleParameters), serviceCallback);
     }
 
     /**
@@ -394,29 +377,10 @@ public class RouteFilterRulesInner {
      * @param routeFilterName The name of the route filter.
      * @param ruleName The name of the route filter rule.
      * @param routeFilterRuleParameters Parameters supplied to the create or update route filter rule operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<RouteFilterRuleInner> createOrUpdateAsync(String resourceGroupName, String routeFilterName, String ruleName, RouteFilterRuleInner routeFilterRuleParameters) {
-        return createOrUpdateWithServiceResponseAsync(resourceGroupName, routeFilterName, ruleName, routeFilterRuleParameters).map(new Func1<ServiceResponse<RouteFilterRuleInner>, RouteFilterRuleInner>() {
-            @Override
-            public RouteFilterRuleInner call(ServiceResponse<RouteFilterRuleInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Creates or updates a route in the specified route filter.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param routeFilterName The name of the route filter.
-     * @param ruleName The name of the route filter rule.
-     * @param routeFilterRuleParameters Parameters supplied to the create or update route filter rule operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<RouteFilterRuleInner>> createOrUpdateWithServiceResponseAsync(String resourceGroupName, String routeFilterName, String ruleName, RouteFilterRuleInner routeFilterRuleParameters) {
+    public Observable<OperationStatus<RouteFilterRuleInner>> beginCreateOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String routeFilterName, @NonNull String ruleName, @NonNull RouteFilterRuleInner routeFilterRuleParameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -434,8 +398,7 @@ public class RouteFilterRulesInner {
         }
         Validator.validate(routeFilterRuleParameters);
         final String apiVersion = "2018-06-01";
-        Observable<Response<ResponseBody>> observable = service.createOrUpdate(resourceGroupName, routeFilterName, ruleName, this.client.subscriptionId(), routeFilterRuleParameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<RouteFilterRuleInner>() { }.getType());
+        return service.beginCreateOrUpdate(resourceGroupName, routeFilterName, ruleName, this.client.subscriptionId(), routeFilterRuleParameters, apiVersion, this.client.acceptLanguage());
     }
 
     /**
@@ -445,13 +408,13 @@ public class RouteFilterRulesInner {
      * @param routeFilterName The name of the route filter.
      * @param ruleName The name of the route filter rule.
      * @param routeFilterRuleParameters Parameters supplied to the create or update route filter rule operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the RouteFilterRuleInner object if successful.
      */
-    public RouteFilterRuleInner beginCreateOrUpdate(String resourceGroupName, String routeFilterName, String ruleName, RouteFilterRuleInner routeFilterRuleParameters) {
-        return beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, routeFilterName, ruleName, routeFilterRuleParameters).toBlocking().single().body();
+    public RouteFilterRuleInner createOrUpdate(@NonNull String resourceGroupName, @NonNull String routeFilterName, @NonNull String ruleName, @NonNull RouteFilterRuleInner routeFilterRuleParameters) {
+        return createOrUpdateAsync(resourceGroupName, routeFilterName, ruleName, routeFilterRuleParameters).blockingGet();
     }
 
     /**
@@ -462,11 +425,11 @@ public class RouteFilterRulesInner {
      * @param ruleName The name of the route filter rule.
      * @param routeFilterRuleParameters Parameters supplied to the create or update route filter rule operation.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<RouteFilterRuleInner> beginCreateOrUpdateAsync(String resourceGroupName, String routeFilterName, String ruleName, RouteFilterRuleInner routeFilterRuleParameters, final ServiceCallback<RouteFilterRuleInner> serviceCallback) {
-        return ServiceFuture.fromResponse(beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, routeFilterName, ruleName, routeFilterRuleParameters), serviceCallback);
+    public ServiceFuture<RouteFilterRuleInner> createOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String routeFilterName, @NonNull String ruleName, @NonNull RouteFilterRuleInner routeFilterRuleParameters, ServiceCallback<RouteFilterRuleInner> serviceCallback) {
+        return ServiceFuture.fromBody(createOrUpdateAsync(resourceGroupName, routeFilterName, ruleName, routeFilterRuleParameters), serviceCallback);
     }
 
     /**
@@ -476,29 +439,10 @@ public class RouteFilterRulesInner {
      * @param routeFilterName The name of the route filter.
      * @param ruleName The name of the route filter rule.
      * @param routeFilterRuleParameters Parameters supplied to the create or update route filter rule operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the RouteFilterRuleInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<RouteFilterRuleInner> beginCreateOrUpdateAsync(String resourceGroupName, String routeFilterName, String ruleName, RouteFilterRuleInner routeFilterRuleParameters) {
-        return beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, routeFilterName, ruleName, routeFilterRuleParameters).map(new Func1<ServiceResponse<RouteFilterRuleInner>, RouteFilterRuleInner>() {
-            @Override
-            public RouteFilterRuleInner call(ServiceResponse<RouteFilterRuleInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Creates or updates a route in the specified route filter.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param routeFilterName The name of the route filter.
-     * @param ruleName The name of the route filter rule.
-     * @param routeFilterRuleParameters Parameters supplied to the create or update route filter rule operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the RouteFilterRuleInner object
-     */
-    public Observable<ServiceResponse<RouteFilterRuleInner>> beginCreateOrUpdateWithServiceResponseAsync(String resourceGroupName, String routeFilterName, String ruleName, RouteFilterRuleInner routeFilterRuleParameters) {
+    public Single<BodyResponse<RouteFilterRuleInner>> createOrUpdateWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String routeFilterName, @NonNull String ruleName, @NonNull RouteFilterRuleInner routeFilterRuleParameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -516,26 +460,36 @@ public class RouteFilterRulesInner {
         }
         Validator.validate(routeFilterRuleParameters);
         final String apiVersion = "2018-06-01";
-        return service.beginCreateOrUpdate(resourceGroupName, routeFilterName, ruleName, this.client.subscriptionId(), routeFilterRuleParameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<RouteFilterRuleInner>>>() {
-                @Override
-                public Observable<ServiceResponse<RouteFilterRuleInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<RouteFilterRuleInner> clientResponse = beginCreateOrUpdateDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.createOrUpdate(resourceGroupName, routeFilterName, ruleName, this.client.subscriptionId(), routeFilterRuleParameters, apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<RouteFilterRuleInner> beginCreateOrUpdateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<RouteFilterRuleInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<RouteFilterRuleInner>() { }.getType())
-                .register(201, new TypeToken<RouteFilterRuleInner>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Creates or updates a route in the specified route filter.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param routeFilterName The name of the route filter.
+     * @param ruleName The name of the route filter rule.
+     * @param routeFilterRuleParameters Parameters supplied to the create or update route filter rule operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<RouteFilterRuleInner> createOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String routeFilterName, @NonNull String ruleName, @NonNull RouteFilterRuleInner routeFilterRuleParameters) {
+        return createOrUpdateWithRestResponseAsync(resourceGroupName, routeFilterName, ruleName, routeFilterRuleParameters)
+            .flatMapMaybe((BodyResponse<RouteFilterRuleInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
+    }
+
+    /**
+     * Creates or updates a route in the specified route filter. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<RouteFilterRuleInner>> resumeCreateOrUpdate(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeCreateOrUpdate(operationDescription);
     }
 
     /**
@@ -545,13 +499,13 @@ public class RouteFilterRulesInner {
      * @param routeFilterName The name of the route filter.
      * @param ruleName The name of the route filter rule.
      * @param routeFilterRuleParameters Parameters supplied to the update route filter rule operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the RouteFilterRuleInner object if successful.
      */
-    public RouteFilterRuleInner update(String resourceGroupName, String routeFilterName, String ruleName, PatchRouteFilterRuleInner routeFilterRuleParameters) {
-        return updateWithServiceResponseAsync(resourceGroupName, routeFilterName, ruleName, routeFilterRuleParameters).toBlocking().last().body();
+    public RouteFilterRuleInner beginUpdate(@NonNull String resourceGroupName, @NonNull String routeFilterName, @NonNull String ruleName, @NonNull PatchRouteFilterRule routeFilterRuleParameters) {
+        return beginUpdateAsync(resourceGroupName, routeFilterName, ruleName, routeFilterRuleParameters).blockingLast().result();
     }
 
     /**
@@ -562,11 +516,11 @@ public class RouteFilterRulesInner {
      * @param ruleName The name of the route filter rule.
      * @param routeFilterRuleParameters Parameters supplied to the update route filter rule operation.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;RouteFilterRuleInner&gt; object.
      */
-    public ServiceFuture<RouteFilterRuleInner> updateAsync(String resourceGroupName, String routeFilterName, String ruleName, PatchRouteFilterRuleInner routeFilterRuleParameters, final ServiceCallback<RouteFilterRuleInner> serviceCallback) {
-        return ServiceFuture.fromResponse(updateWithServiceResponseAsync(resourceGroupName, routeFilterName, ruleName, routeFilterRuleParameters), serviceCallback);
+    public ServiceFuture<RouteFilterRuleInner> beginUpdateAsync(@NonNull String resourceGroupName, @NonNull String routeFilterName, @NonNull String ruleName, @NonNull PatchRouteFilterRule routeFilterRuleParameters, ServiceCallback<RouteFilterRuleInner> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginUpdateAsync(resourceGroupName, routeFilterName, ruleName, routeFilterRuleParameters), serviceCallback);
     }
 
     /**
@@ -576,29 +530,10 @@ public class RouteFilterRulesInner {
      * @param routeFilterName The name of the route filter.
      * @param ruleName The name of the route filter rule.
      * @param routeFilterRuleParameters Parameters supplied to the update route filter rule operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<RouteFilterRuleInner> updateAsync(String resourceGroupName, String routeFilterName, String ruleName, PatchRouteFilterRuleInner routeFilterRuleParameters) {
-        return updateWithServiceResponseAsync(resourceGroupName, routeFilterName, ruleName, routeFilterRuleParameters).map(new Func1<ServiceResponse<RouteFilterRuleInner>, RouteFilterRuleInner>() {
-            @Override
-            public RouteFilterRuleInner call(ServiceResponse<RouteFilterRuleInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Updates a route in the specified route filter.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param routeFilterName The name of the route filter.
-     * @param ruleName The name of the route filter rule.
-     * @param routeFilterRuleParameters Parameters supplied to the update route filter rule operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<RouteFilterRuleInner>> updateWithServiceResponseAsync(String resourceGroupName, String routeFilterName, String ruleName, PatchRouteFilterRuleInner routeFilterRuleParameters) {
+    public Observable<OperationStatus<RouteFilterRuleInner>> beginUpdateAsync(@NonNull String resourceGroupName, @NonNull String routeFilterName, @NonNull String ruleName, @NonNull PatchRouteFilterRule routeFilterRuleParameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -616,8 +551,7 @@ public class RouteFilterRulesInner {
         }
         Validator.validate(routeFilterRuleParameters);
         final String apiVersion = "2018-06-01";
-        Observable<Response<ResponseBody>> observable = service.update(resourceGroupName, routeFilterName, ruleName, this.client.subscriptionId(), routeFilterRuleParameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<RouteFilterRuleInner>() { }.getType());
+        return service.beginUpdate(resourceGroupName, routeFilterName, ruleName, this.client.subscriptionId(), routeFilterRuleParameters, apiVersion, this.client.acceptLanguage());
     }
 
     /**
@@ -627,13 +561,13 @@ public class RouteFilterRulesInner {
      * @param routeFilterName The name of the route filter.
      * @param ruleName The name of the route filter rule.
      * @param routeFilterRuleParameters Parameters supplied to the update route filter rule operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the RouteFilterRuleInner object if successful.
      */
-    public RouteFilterRuleInner beginUpdate(String resourceGroupName, String routeFilterName, String ruleName, PatchRouteFilterRuleInner routeFilterRuleParameters) {
-        return beginUpdateWithServiceResponseAsync(resourceGroupName, routeFilterName, ruleName, routeFilterRuleParameters).toBlocking().single().body();
+    public RouteFilterRuleInner update(@NonNull String resourceGroupName, @NonNull String routeFilterName, @NonNull String ruleName, @NonNull PatchRouteFilterRule routeFilterRuleParameters) {
+        return updateAsync(resourceGroupName, routeFilterName, ruleName, routeFilterRuleParameters).blockingGet();
     }
 
     /**
@@ -644,11 +578,11 @@ public class RouteFilterRulesInner {
      * @param ruleName The name of the route filter rule.
      * @param routeFilterRuleParameters Parameters supplied to the update route filter rule operation.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<RouteFilterRuleInner> beginUpdateAsync(String resourceGroupName, String routeFilterName, String ruleName, PatchRouteFilterRuleInner routeFilterRuleParameters, final ServiceCallback<RouteFilterRuleInner> serviceCallback) {
-        return ServiceFuture.fromResponse(beginUpdateWithServiceResponseAsync(resourceGroupName, routeFilterName, ruleName, routeFilterRuleParameters), serviceCallback);
+    public ServiceFuture<RouteFilterRuleInner> updateAsync(@NonNull String resourceGroupName, @NonNull String routeFilterName, @NonNull String ruleName, @NonNull PatchRouteFilterRule routeFilterRuleParameters, ServiceCallback<RouteFilterRuleInner> serviceCallback) {
+        return ServiceFuture.fromBody(updateAsync(resourceGroupName, routeFilterName, ruleName, routeFilterRuleParameters), serviceCallback);
     }
 
     /**
@@ -658,29 +592,10 @@ public class RouteFilterRulesInner {
      * @param routeFilterName The name of the route filter.
      * @param ruleName The name of the route filter rule.
      * @param routeFilterRuleParameters Parameters supplied to the update route filter rule operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the RouteFilterRuleInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<RouteFilterRuleInner> beginUpdateAsync(String resourceGroupName, String routeFilterName, String ruleName, PatchRouteFilterRuleInner routeFilterRuleParameters) {
-        return beginUpdateWithServiceResponseAsync(resourceGroupName, routeFilterName, ruleName, routeFilterRuleParameters).map(new Func1<ServiceResponse<RouteFilterRuleInner>, RouteFilterRuleInner>() {
-            @Override
-            public RouteFilterRuleInner call(ServiceResponse<RouteFilterRuleInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Updates a route in the specified route filter.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param routeFilterName The name of the route filter.
-     * @param ruleName The name of the route filter rule.
-     * @param routeFilterRuleParameters Parameters supplied to the update route filter rule operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the RouteFilterRuleInner object
-     */
-    public Observable<ServiceResponse<RouteFilterRuleInner>> beginUpdateWithServiceResponseAsync(String resourceGroupName, String routeFilterName, String ruleName, PatchRouteFilterRuleInner routeFilterRuleParameters) {
+    public Single<BodyResponse<RouteFilterRuleInner>> updateWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String routeFilterName, @NonNull String ruleName, @NonNull PatchRouteFilterRule routeFilterRuleParameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -698,25 +613,36 @@ public class RouteFilterRulesInner {
         }
         Validator.validate(routeFilterRuleParameters);
         final String apiVersion = "2018-06-01";
-        return service.beginUpdate(resourceGroupName, routeFilterName, ruleName, this.client.subscriptionId(), routeFilterRuleParameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<RouteFilterRuleInner>>>() {
-                @Override
-                public Observable<ServiceResponse<RouteFilterRuleInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<RouteFilterRuleInner> clientResponse = beginUpdateDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.update(resourceGroupName, routeFilterName, ruleName, this.client.subscriptionId(), routeFilterRuleParameters, apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<RouteFilterRuleInner> beginUpdateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<RouteFilterRuleInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<RouteFilterRuleInner>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Updates a route in the specified route filter.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param routeFilterName The name of the route filter.
+     * @param ruleName The name of the route filter rule.
+     * @param routeFilterRuleParameters Parameters supplied to the update route filter rule operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<RouteFilterRuleInner> updateAsync(@NonNull String resourceGroupName, @NonNull String routeFilterName, @NonNull String ruleName, @NonNull PatchRouteFilterRule routeFilterRuleParameters) {
+        return updateWithRestResponseAsync(resourceGroupName, routeFilterName, ruleName, routeFilterRuleParameters)
+            .flatMapMaybe((BodyResponse<RouteFilterRuleInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
+    }
+
+    /**
+     * Updates a route in the specified route filter. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<RouteFilterRuleInner>> resumeUpdate(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeUpdate(operationDescription);
     }
 
     /**
@@ -724,17 +650,17 @@ public class RouteFilterRulesInner {
      *
      * @param resourceGroupName The name of the resource group.
      * @param routeFilterName The name of the route filter.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;RouteFilterRuleInner&gt; object if successful.
      */
-    public PagedList<RouteFilterRuleInner> listByRouteFilter(final String resourceGroupName, final String routeFilterName) {
-        ServiceResponse<Page<RouteFilterRuleInner>> response = listByRouteFilterSinglePageAsync(resourceGroupName, routeFilterName).toBlocking().single();
-        return new PagedList<RouteFilterRuleInner>(response.body()) {
+    public PagedList<RouteFilterRuleInner> listByRouteFilter(@NonNull String resourceGroupName, @NonNull String routeFilterName) {
+        Page<RouteFilterRuleInner> response = listByRouteFilterSinglePageAsync(resourceGroupName, routeFilterName).blockingGet();
+        return new PagedList<RouteFilterRuleInner>(response) {
             @Override
             public Page<RouteFilterRuleInner> nextPage(String nextPageLink) {
-                return listByRouteFilterNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listByRouteFilterNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -744,71 +670,30 @@ public class RouteFilterRulesInner {
      *
      * @param resourceGroupName The name of the resource group.
      * @param routeFilterName The name of the route filter.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;RouteFilterRuleInner&gt; object.
      */
-    public ServiceFuture<List<RouteFilterRuleInner>> listByRouteFilterAsync(final String resourceGroupName, final String routeFilterName, final ListOperationCallback<RouteFilterRuleInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listByRouteFilterSinglePageAsync(resourceGroupName, routeFilterName),
-            new Func1<String, Observable<ServiceResponse<Page<RouteFilterRuleInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<RouteFilterRuleInner>>> call(String nextPageLink) {
-                    return listByRouteFilterNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets all RouteFilterRules in a route filter.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param routeFilterName The name of the route filter.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;RouteFilterRuleInner&gt; object
-     */
-    public Observable<Page<RouteFilterRuleInner>> listByRouteFilterAsync(final String resourceGroupName, final String routeFilterName) {
-        return listByRouteFilterWithServiceResponseAsync(resourceGroupName, routeFilterName)
-            .map(new Func1<ServiceResponse<Page<RouteFilterRuleInner>>, Page<RouteFilterRuleInner>>() {
-                @Override
-                public Page<RouteFilterRuleInner> call(ServiceResponse<Page<RouteFilterRuleInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets all RouteFilterRules in a route filter.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param routeFilterName The name of the route filter.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;RouteFilterRuleInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<RouteFilterRuleInner>>> listByRouteFilterWithServiceResponseAsync(final String resourceGroupName, final String routeFilterName) {
+    public Observable<Page<RouteFilterRuleInner>> listByRouteFilterAsync(@NonNull String resourceGroupName, @NonNull String routeFilterName) {
         return listByRouteFilterSinglePageAsync(resourceGroupName, routeFilterName)
-            .concatMap(new Func1<ServiceResponse<Page<RouteFilterRuleInner>>, Observable<ServiceResponse<Page<RouteFilterRuleInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<RouteFilterRuleInner>>> call(ServiceResponse<Page<RouteFilterRuleInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listByRouteFilterNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<RouteFilterRuleInner> page) -> {
+                String nextPageLink = page.nextPageLink();
+                if (nextPageLink == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listByRouteFilterNextAsync(nextPageLink));
             });
     }
 
     /**
      * Gets all RouteFilterRules in a route filter.
      *
-    ServiceResponse<PageImpl<RouteFilterRuleInner>> * @param resourceGroupName The name of the resource group.
-    ServiceResponse<PageImpl<RouteFilterRuleInner>> * @param routeFilterName The name of the route filter.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;RouteFilterRuleInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param resourceGroupName The name of the resource group.
+     * @param routeFilterName The name of the route filter.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;RouteFilterRuleInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<RouteFilterRuleInner>>> listByRouteFilterSinglePageAsync(final String resourceGroupName, final String routeFilterName) {
+    public Single<Page<RouteFilterRuleInner>> listByRouteFilterSinglePageAsync(@NonNull String resourceGroupName, @NonNull String routeFilterName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -819,42 +704,25 @@ public class RouteFilterRulesInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        return service.listByRouteFilter(resourceGroupName, routeFilterName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<RouteFilterRuleInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<RouteFilterRuleInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<RouteFilterRuleInner>> result = listByRouteFilterDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<RouteFilterRuleInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl<RouteFilterRuleInner>> listByRouteFilterDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<RouteFilterRuleInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<RouteFilterRuleInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+        return service.listByRouteFilter(resourceGroupName, routeFilterName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl<RouteFilterRuleInner>> res) -> res.body());
     }
 
     /**
      * Gets all RouteFilterRules in a route filter.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;RouteFilterRuleInner&gt; object if successful.
      */
-    public PagedList<RouteFilterRuleInner> listByRouteFilterNext(final String nextPageLink) {
-        ServiceResponse<Page<RouteFilterRuleInner>> response = listByRouteFilterNextSinglePageAsync(nextPageLink).toBlocking().single();
-        return new PagedList<RouteFilterRuleInner>(response.body()) {
+    public PagedList<RouteFilterRuleInner> listByRouteFilterNext(@NonNull String nextPageLink) {
+        Page<RouteFilterRuleInner> response = listByRouteFilterNextSinglePageAsync(nextPageLink).blockingGet();
+        return new PagedList<RouteFilterRuleInner>(response) {
             @Override
             public Page<RouteFilterRuleInner> nextPage(String nextPageLink) {
-                return listByRouteFilterNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listByRouteFilterNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -863,92 +731,34 @@ public class RouteFilterRulesInner {
      * Gets all RouteFilterRules in a route filter.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;RouteFilterRuleInner&gt; object.
      */
-    public ServiceFuture<List<RouteFilterRuleInner>> listByRouteFilterNextAsync(final String nextPageLink, final ServiceFuture<List<RouteFilterRuleInner>> serviceFuture, final ListOperationCallback<RouteFilterRuleInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listByRouteFilterNextSinglePageAsync(nextPageLink),
-            new Func1<String, Observable<ServiceResponse<Page<RouteFilterRuleInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<RouteFilterRuleInner>>> call(String nextPageLink) {
-                    return listByRouteFilterNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets all RouteFilterRules in a route filter.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;RouteFilterRuleInner&gt; object
-     */
-    public Observable<Page<RouteFilterRuleInner>> listByRouteFilterNextAsync(final String nextPageLink) {
-        return listByRouteFilterNextWithServiceResponseAsync(nextPageLink)
-            .map(new Func1<ServiceResponse<Page<RouteFilterRuleInner>>, Page<RouteFilterRuleInner>>() {
-                @Override
-                public Page<RouteFilterRuleInner> call(ServiceResponse<Page<RouteFilterRuleInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets all RouteFilterRules in a route filter.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;RouteFilterRuleInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<RouteFilterRuleInner>>> listByRouteFilterNextWithServiceResponseAsync(final String nextPageLink) {
+    public Observable<Page<RouteFilterRuleInner>> listByRouteFilterNextAsync(@NonNull String nextPageLink) {
         return listByRouteFilterNextSinglePageAsync(nextPageLink)
-            .concatMap(new Func1<ServiceResponse<Page<RouteFilterRuleInner>>, Observable<ServiceResponse<Page<RouteFilterRuleInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<RouteFilterRuleInner>>> call(ServiceResponse<Page<RouteFilterRuleInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listByRouteFilterNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<RouteFilterRuleInner> page) -> {
+                String nextPageLink1 = page.nextPageLink();
+                if (nextPageLink1 == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listByRouteFilterNextAsync(nextPageLink1));
             });
     }
 
     /**
      * Gets all RouteFilterRules in a route filter.
      *
-    ServiceResponse<PageImpl<RouteFilterRuleInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;RouteFilterRuleInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;RouteFilterRuleInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<RouteFilterRuleInner>>> listByRouteFilterNextSinglePageAsync(final String nextPageLink) {
+    public Single<Page<RouteFilterRuleInner>> listByRouteFilterNextSinglePageAsync(@NonNull String nextPageLink) {
         if (nextPageLink == null) {
             throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
         }
         String nextUrl = String.format("%s", nextPageLink);
-        return service.listByRouteFilterNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<RouteFilterRuleInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<RouteFilterRuleInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<RouteFilterRuleInner>> result = listByRouteFilterNextDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<RouteFilterRuleInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.listByRouteFilterNext(nextUrl, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl<RouteFilterRuleInner>> res) -> res.body());
     }
-
-    private ServiceResponse<PageImpl<RouteFilterRuleInner>> listByRouteFilterNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<RouteFilterRuleInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<RouteFilterRuleInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
-    }
-
 }

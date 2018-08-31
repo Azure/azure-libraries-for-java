@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Contains SKU in an ExpressRouteCircuit.
  */
-public class ExpressRouteCircuitSku {
+public final class ExpressRouteCircuitSku {
     /**
      * The name of the SKU.
      */
@@ -37,7 +37,7 @@ public class ExpressRouteCircuitSku {
     /**
      * Get the name value.
      *
-     * @return the name value
+     * @return the name value.
      */
     public String name() {
         return this.name;
@@ -46,7 +46,7 @@ public class ExpressRouteCircuitSku {
     /**
      * Set the name value.
      *
-     * @param name the name value to set
+     * @param name the name value to set.
      * @return the ExpressRouteCircuitSku object itself.
      */
     public ExpressRouteCircuitSku withName(String name) {
@@ -57,7 +57,7 @@ public class ExpressRouteCircuitSku {
     /**
      * Get the tier value.
      *
-     * @return the tier value
+     * @return the tier value.
      */
     public ExpressRouteCircuitSkuTier tier() {
         return this.tier;
@@ -66,7 +66,7 @@ public class ExpressRouteCircuitSku {
     /**
      * Set the tier value.
      *
-     * @param tier the tier value to set
+     * @param tier the tier value to set.
      * @return the ExpressRouteCircuitSku object itself.
      */
     public ExpressRouteCircuitSku withTier(ExpressRouteCircuitSkuTier tier) {
@@ -77,7 +77,7 @@ public class ExpressRouteCircuitSku {
     /**
      * Get the family value.
      *
-     * @return the family value
+     * @return the family value.
      */
     public ExpressRouteCircuitSkuFamily family() {
         return this.family;
@@ -86,12 +86,11 @@ public class ExpressRouteCircuitSku {
     /**
      * Set the family value.
      *
-     * @param family the family value to set
+     * @param family the family value to set.
      * @return the ExpressRouteCircuitSku object itself.
      */
     public ExpressRouteCircuitSku withFamily(ExpressRouteCircuitSkuFamily family) {
         this.family = family;
         return this;
     }
-
 }

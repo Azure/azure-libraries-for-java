@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Parameters that determine how the connectivity check will be performed.
  */
-public class ConnectivityParameters {
+public final class ConnectivityParameters {
     /**
      * The source property.
      */
@@ -42,7 +42,7 @@ public class ConnectivityParameters {
     /**
      * Get the source value.
      *
-     * @return the source value
+     * @return the source value.
      */
     public ConnectivitySource source() {
         return this.source;
@@ -51,7 +51,7 @@ public class ConnectivityParameters {
     /**
      * Set the source value.
      *
-     * @param source the source value to set
+     * @param source the source value to set.
      * @return the ConnectivityParameters object itself.
      */
     public ConnectivityParameters withSource(ConnectivitySource source) {
@@ -62,7 +62,7 @@ public class ConnectivityParameters {
     /**
      * Get the destination value.
      *
-     * @return the destination value
+     * @return the destination value.
      */
     public ConnectivityDestination destination() {
         return this.destination;
@@ -71,7 +71,7 @@ public class ConnectivityParameters {
     /**
      * Set the destination value.
      *
-     * @param destination the destination value to set
+     * @param destination the destination value to set.
      * @return the ConnectivityParameters object itself.
      */
     public ConnectivityParameters withDestination(ConnectivityDestination destination) {
@@ -82,7 +82,7 @@ public class ConnectivityParameters {
     /**
      * Get the protocol value.
      *
-     * @return the protocol value
+     * @return the protocol value.
      */
     public Protocol protocol() {
         return this.protocol;
@@ -91,7 +91,7 @@ public class ConnectivityParameters {
     /**
      * Set the protocol value.
      *
-     * @param protocol the protocol value to set
+     * @param protocol the protocol value to set.
      * @return the ConnectivityParameters object itself.
      */
     public ConnectivityParameters withProtocol(Protocol protocol) {
@@ -102,7 +102,7 @@ public class ConnectivityParameters {
     /**
      * Get the protocolConfiguration value.
      *
-     * @return the protocolConfiguration value
+     * @return the protocolConfiguration value.
      */
     public ProtocolConfiguration protocolConfiguration() {
         return this.protocolConfiguration;
@@ -111,12 +111,11 @@ public class ConnectivityParameters {
     /**
      * Set the protocolConfiguration value.
      *
-     * @param protocolConfiguration the protocolConfiguration value to set
+     * @param protocolConfiguration the protocolConfiguration value to set.
      * @return the ConnectivityParameters object itself.
      */
     public ConnectivityParameters withProtocolConfiguration(ProtocolConfiguration protocolConfiguration) {
         this.protocolConfiguration = protocolConfiguration;
         return this;
     }
-
 }

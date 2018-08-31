@@ -8,10 +8,10 @@
 
 package com.microsoft.azure.v2.management.network.implementation;
 
-import com.microsoft.azure.v2.management.network.AuthorizationUseStatus;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.SubResource;
+import com.microsoft.azure.v2.SubResource;
+import com.microsoft.azure.v2.management.network.AuthorizationUseStatus;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
 
 /**
  * Authorization in an ExpressRouteCircuit resource.
@@ -54,7 +54,7 @@ public class ExpressRouteCircuitAuthorizationInner extends SubResource {
     /**
      * Get the authorizationKey value.
      *
-     * @return the authorizationKey value
+     * @return the authorizationKey value.
      */
     public String authorizationKey() {
         return this.authorizationKey;
@@ -63,7 +63,7 @@ public class ExpressRouteCircuitAuthorizationInner extends SubResource {
     /**
      * Set the authorizationKey value.
      *
-     * @param authorizationKey the authorizationKey value to set
+     * @param authorizationKey the authorizationKey value to set.
      * @return the ExpressRouteCircuitAuthorizationInner object itself.
      */
     public ExpressRouteCircuitAuthorizationInner withAuthorizationKey(String authorizationKey) {
@@ -74,7 +74,7 @@ public class ExpressRouteCircuitAuthorizationInner extends SubResource {
     /**
      * Get the authorizationUseStatus value.
      *
-     * @return the authorizationUseStatus value
+     * @return the authorizationUseStatus value.
      */
     public AuthorizationUseStatus authorizationUseStatus() {
         return this.authorizationUseStatus;
@@ -83,7 +83,7 @@ public class ExpressRouteCircuitAuthorizationInner extends SubResource {
     /**
      * Set the authorizationUseStatus value.
      *
-     * @param authorizationUseStatus the authorizationUseStatus value to set
+     * @param authorizationUseStatus the authorizationUseStatus value to set.
      * @return the ExpressRouteCircuitAuthorizationInner object itself.
      */
     public ExpressRouteCircuitAuthorizationInner withAuthorizationUseStatus(AuthorizationUseStatus authorizationUseStatus) {
@@ -94,7 +94,7 @@ public class ExpressRouteCircuitAuthorizationInner extends SubResource {
     /**
      * Get the provisioningState value.
      *
-     * @return the provisioningState value
+     * @return the provisioningState value.
      */
     public String provisioningState() {
         return this.provisioningState;
@@ -103,7 +103,7 @@ public class ExpressRouteCircuitAuthorizationInner extends SubResource {
     /**
      * Set the provisioningState value.
      *
-     * @param provisioningState the provisioningState value to set
+     * @param provisioningState the provisioningState value to set.
      * @return the ExpressRouteCircuitAuthorizationInner object itself.
      */
     public ExpressRouteCircuitAuthorizationInner withProvisioningState(String provisioningState) {
@@ -114,7 +114,7 @@ public class ExpressRouteCircuitAuthorizationInner extends SubResource {
     /**
      * Get the name value.
      *
-     * @return the name value
+     * @return the name value.
      */
     public String name() {
         return this.name;
@@ -123,7 +123,7 @@ public class ExpressRouteCircuitAuthorizationInner extends SubResource {
     /**
      * Set the name value.
      *
-     * @param name the name value to set
+     * @param name the name value to set.
      * @return the ExpressRouteCircuitAuthorizationInner object itself.
      */
     public ExpressRouteCircuitAuthorizationInner withName(String name) {
@@ -134,10 +134,9 @@ public class ExpressRouteCircuitAuthorizationInner extends SubResource {
     /**
      * Get the etag value.
      *
-     * @return the etag value
+     * @return the etag value.
      */
     public String etag() {
         return this.etag;
     }
-
 }

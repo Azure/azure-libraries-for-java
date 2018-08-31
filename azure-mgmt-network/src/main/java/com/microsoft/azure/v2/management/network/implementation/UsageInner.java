@@ -8,13 +8,13 @@
 
 package com.microsoft.azure.v2.management.network.implementation;
 
-import com.microsoft.azure.v2.management.network.UsageName;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.v2.management.network.UsageName;
 
 /**
  * Describes network resource usage.
  */
-public class UsageInner {
+public final class UsageInner {
     /**
      * Resource identifier.
      */
@@ -55,7 +55,7 @@ public class UsageInner {
     /**
      * Get the id value.
      *
-     * @return the id value
+     * @return the id value.
      */
     public String id() {
         return this.id;
@@ -64,7 +64,7 @@ public class UsageInner {
     /**
      * Get the unit value.
      *
-     * @return the unit value
+     * @return the unit value.
      */
     public String unit() {
         return this.unit;
@@ -73,7 +73,7 @@ public class UsageInner {
     /**
      * Set the unit value.
      *
-     * @param unit the unit value to set
+     * @param unit the unit value to set.
      * @return the UsageInner object itself.
      */
     public UsageInner withUnit(String unit) {
@@ -84,7 +84,7 @@ public class UsageInner {
     /**
      * Get the currentValue value.
      *
-     * @return the currentValue value
+     * @return the currentValue value.
      */
     public long currentValue() {
         return this.currentValue;
@@ -93,7 +93,7 @@ public class UsageInner {
     /**
      * Set the currentValue value.
      *
-     * @param currentValue the currentValue value to set
+     * @param currentValue the currentValue value to set.
      * @return the UsageInner object itself.
      */
     public UsageInner withCurrentValue(long currentValue) {
@@ -104,7 +104,7 @@ public class UsageInner {
     /**
      * Get the limit value.
      *
-     * @return the limit value
+     * @return the limit value.
      */
     public long limit() {
         return this.limit;
@@ -113,7 +113,7 @@ public class UsageInner {
     /**
      * Set the limit value.
      *
-     * @param limit the limit value to set
+     * @param limit the limit value to set.
      * @return the UsageInner object itself.
      */
     public UsageInner withLimit(long limit) {
@@ -124,7 +124,7 @@ public class UsageInner {
     /**
      * Get the name value.
      *
-     * @return the name value
+     * @return the name value.
      */
     public UsageName name() {
         return this.name;
@@ -133,12 +133,11 @@ public class UsageInner {
     /**
      * Set the name value.
      *
-     * @param name the name value to set
+     * @param name the name value to set.
      * @return the UsageInner object itself.
      */
     public UsageInner withName(UsageName name) {
         this.name = name;
         return this;
     }
-
 }

@@ -9,7 +9,7 @@
 package com.microsoft.azure.v2.management.network;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
 
 /**
  * Parameters that define the resource to troubleshoot.
@@ -37,7 +37,7 @@ public class TroubleshootingParameters {
     /**
      * Get the targetResourceId value.
      *
-     * @return the targetResourceId value
+     * @return the targetResourceId value.
      */
     public String targetResourceId() {
         return this.targetResourceId;
@@ -46,7 +46,7 @@ public class TroubleshootingParameters {
     /**
      * Set the targetResourceId value.
      *
-     * @param targetResourceId the targetResourceId value to set
+     * @param targetResourceId the targetResourceId value to set.
      * @return the TroubleshootingParameters object itself.
      */
     public TroubleshootingParameters withTargetResourceId(String targetResourceId) {
@@ -57,7 +57,7 @@ public class TroubleshootingParameters {
     /**
      * Get the storageId value.
      *
-     * @return the storageId value
+     * @return the storageId value.
      */
     public String storageId() {
         return this.storageId;
@@ -66,7 +66,7 @@ public class TroubleshootingParameters {
     /**
      * Set the storageId value.
      *
-     * @param storageId the storageId value to set
+     * @param storageId the storageId value to set.
      * @return the TroubleshootingParameters object itself.
      */
     public TroubleshootingParameters withStorageId(String storageId) {
@@ -77,7 +77,7 @@ public class TroubleshootingParameters {
     /**
      * Get the storagePath value.
      *
-     * @return the storagePath value
+     * @return the storagePath value.
      */
     public String storagePath() {
         return this.storagePath;
@@ -86,12 +86,11 @@ public class TroubleshootingParameters {
     /**
      * Set the storagePath value.
      *
-     * @param storagePath the storagePath value to set
+     * @param storagePath the storagePath value to set.
      * @return the TroubleshootingParameters object itself.
      */
     public TroubleshootingParameters withStoragePath(String storagePath) {
         this.storagePath = storagePath;
         return this;
     }
-
 }

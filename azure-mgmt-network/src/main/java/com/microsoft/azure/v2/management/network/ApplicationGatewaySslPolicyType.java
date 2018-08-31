@@ -8,24 +8,29 @@
 
 package com.microsoft.azure.v2.management.network;
 
-import java.util.Collection;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.microsoft.rest.ExpandableStringEnum;
+import com.microsoft.rest.v2.ExpandableStringEnum;
+import java.util.Collection;
 
 /**
  * Defines values for ApplicationGatewaySslPolicyType.
  */
 public final class ApplicationGatewaySslPolicyType extends ExpandableStringEnum<ApplicationGatewaySslPolicyType> {
-    /** Static value Predefined for ApplicationGatewaySslPolicyType. */
+    /**
+     * Static value Predefined for ApplicationGatewaySslPolicyType.
+     */
     public static final ApplicationGatewaySslPolicyType PREDEFINED = fromString("Predefined");
 
-    /** Static value Custom for ApplicationGatewaySslPolicyType. */
+    /**
+     * Static value Custom for ApplicationGatewaySslPolicyType.
+     */
     public static final ApplicationGatewaySslPolicyType CUSTOM = fromString("Custom");
 
     /**
      * Creates or finds a ApplicationGatewaySslPolicyType from its string representation.
-     * @param name a name to look for
-     * @return the corresponding ApplicationGatewaySslPolicyType
+     *
+     * @param name a name to look for.
+     * @return the corresponding ApplicationGatewaySslPolicyType.
      */
     @JsonCreator
     public static ApplicationGatewaySslPolicyType fromString(String name) {
@@ -33,7 +38,7 @@ public final class ApplicationGatewaySslPolicyType extends ExpandableStringEnum<
     }
 
     /**
-     * @return known ApplicationGatewaySslPolicyType values
+     * @return known ApplicationGatewaySslPolicyType values.
      */
     public static Collection<ApplicationGatewaySslPolicyType> values() {
         return values(ApplicationGatewaySslPolicyType.class);

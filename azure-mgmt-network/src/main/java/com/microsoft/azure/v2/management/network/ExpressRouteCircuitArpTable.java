@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * The ARP table associated with the ExpressRouteCircuit.
  */
-public class ExpressRouteCircuitArpTable {
+public final class ExpressRouteCircuitArpTable {
     /**
      * Entry age in minutes.
      */
@@ -41,7 +41,7 @@ public class ExpressRouteCircuitArpTable {
     /**
      * Get the age value.
      *
-     * @return the age value
+     * @return the age value.
      */
     public Integer age() {
         return this.age;
@@ -50,7 +50,7 @@ public class ExpressRouteCircuitArpTable {
     /**
      * Set the age value.
      *
-     * @param age the age value to set
+     * @param age the age value to set.
      * @return the ExpressRouteCircuitArpTable object itself.
      */
     public ExpressRouteCircuitArpTable withAge(Integer age) {
@@ -61,7 +61,7 @@ public class ExpressRouteCircuitArpTable {
     /**
      * Get the interfaceProperty value.
      *
-     * @return the interfaceProperty value
+     * @return the interfaceProperty value.
      */
     public String interfaceProperty() {
         return this.interfaceProperty;
@@ -70,7 +70,7 @@ public class ExpressRouteCircuitArpTable {
     /**
      * Set the interfaceProperty value.
      *
-     * @param interfaceProperty the interfaceProperty value to set
+     * @param interfaceProperty the interfaceProperty value to set.
      * @return the ExpressRouteCircuitArpTable object itself.
      */
     public ExpressRouteCircuitArpTable withInterfaceProperty(String interfaceProperty) {
@@ -81,7 +81,7 @@ public class ExpressRouteCircuitArpTable {
     /**
      * Get the ipAddress value.
      *
-     * @return the ipAddress value
+     * @return the ipAddress value.
      */
     public String ipAddress() {
         return this.ipAddress;
@@ -90,7 +90,7 @@ public class ExpressRouteCircuitArpTable {
     /**
      * Set the ipAddress value.
      *
-     * @param ipAddress the ipAddress value to set
+     * @param ipAddress the ipAddress value to set.
      * @return the ExpressRouteCircuitArpTable object itself.
      */
     public ExpressRouteCircuitArpTable withIpAddress(String ipAddress) {
@@ -101,7 +101,7 @@ public class ExpressRouteCircuitArpTable {
     /**
      * Get the macAddress value.
      *
-     * @return the macAddress value
+     * @return the macAddress value.
      */
     public String macAddress() {
         return this.macAddress;
@@ -110,12 +110,11 @@ public class ExpressRouteCircuitArpTable {
     /**
      * Set the macAddress value.
      *
-     * @param macAddress the macAddress value to set
+     * @param macAddress the macAddress value to set.
      * @return the ExpressRouteCircuitArpTable object itself.
      */
     public ExpressRouteCircuitArpTable withMacAddress(String macAddress) {
         this.macAddress = macAddress;
         return this;
     }
-
 }

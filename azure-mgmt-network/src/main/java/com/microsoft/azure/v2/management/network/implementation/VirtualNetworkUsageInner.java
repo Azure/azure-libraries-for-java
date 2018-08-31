@@ -8,13 +8,13 @@
 
 package com.microsoft.azure.v2.management.network.implementation;
 
-import com.microsoft.azure.v2.management.network.VirtualNetworkUsageName;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.v2.management.network.VirtualNetworkUsageName;
 
 /**
  * Usage details for subnet.
  */
-public class VirtualNetworkUsageInner {
+public final class VirtualNetworkUsageInner {
     /**
      * Indicates number of IPs used from the Subnet.
      */
@@ -48,7 +48,7 @@ public class VirtualNetworkUsageInner {
     /**
      * Get the currentValue value.
      *
-     * @return the currentValue value
+     * @return the currentValue value.
      */
     public Double currentValue() {
         return this.currentValue;
@@ -57,7 +57,7 @@ public class VirtualNetworkUsageInner {
     /**
      * Get the id value.
      *
-     * @return the id value
+     * @return the id value.
      */
     public String id() {
         return this.id;
@@ -66,7 +66,7 @@ public class VirtualNetworkUsageInner {
     /**
      * Get the limit value.
      *
-     * @return the limit value
+     * @return the limit value.
      */
     public Double limit() {
         return this.limit;
@@ -75,7 +75,7 @@ public class VirtualNetworkUsageInner {
     /**
      * Get the name value.
      *
-     * @return the name value
+     * @return the name value.
      */
     public VirtualNetworkUsageName name() {
         return this.name;
@@ -84,10 +84,9 @@ public class VirtualNetworkUsageInner {
     /**
      * Get the unit value.
      *
-     * @return the unit value
+     * @return the unit value.
      */
     public String unit() {
         return this.unit;
     }
-
 }

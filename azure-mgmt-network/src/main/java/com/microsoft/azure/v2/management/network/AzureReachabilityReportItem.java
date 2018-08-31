@@ -8,13 +8,13 @@
 
 package com.microsoft.azure.v2.management.network;
 
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 
 /**
  * Azure reachability report details for a given provider location.
  */
-public class AzureReachabilityReportItem {
+public final class AzureReachabilityReportItem {
     /**
      * The Internet service provider.
      */
@@ -36,7 +36,7 @@ public class AzureReachabilityReportItem {
     /**
      * Get the provider value.
      *
-     * @return the provider value
+     * @return the provider value.
      */
     public String provider() {
         return this.provider;
@@ -45,7 +45,7 @@ public class AzureReachabilityReportItem {
     /**
      * Set the provider value.
      *
-     * @param provider the provider value to set
+     * @param provider the provider value to set.
      * @return the AzureReachabilityReportItem object itself.
      */
     public AzureReachabilityReportItem withProvider(String provider) {
@@ -56,7 +56,7 @@ public class AzureReachabilityReportItem {
     /**
      * Get the azureLocation value.
      *
-     * @return the azureLocation value
+     * @return the azureLocation value.
      */
     public String azureLocation() {
         return this.azureLocation;
@@ -65,7 +65,7 @@ public class AzureReachabilityReportItem {
     /**
      * Set the azureLocation value.
      *
-     * @param azureLocation the azureLocation value to set
+     * @param azureLocation the azureLocation value to set.
      * @return the AzureReachabilityReportItem object itself.
      */
     public AzureReachabilityReportItem withAzureLocation(String azureLocation) {
@@ -76,7 +76,7 @@ public class AzureReachabilityReportItem {
     /**
      * Get the latencies value.
      *
-     * @return the latencies value
+     * @return the latencies value.
      */
     public List<AzureReachabilityReportLatencyInfo> latencies() {
         return this.latencies;
@@ -85,12 +85,11 @@ public class AzureReachabilityReportItem {
     /**
      * Set the latencies value.
      *
-     * @param latencies the latencies value to set
+     * @param latencies the latencies value to set.
      * @return the AzureReachabilityReportItem object itself.
      */
     public AzureReachabilityReportItem withLatencies(List<AzureReachabilityReportLatencyInfo> latencies) {
         this.latencies = latencies;
         return this;
     }
-
 }

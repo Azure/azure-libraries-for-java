@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Parameters that define the configuration of traffic analytics.
  */
-public class TrafficAnalyticsProperties {
+public final class TrafficAnalyticsProperties {
     /**
      * The networkWatcherFlowAnalyticsConfiguration property.
      */
@@ -23,7 +23,7 @@ public class TrafficAnalyticsProperties {
     /**
      * Get the networkWatcherFlowAnalyticsConfiguration value.
      *
-     * @return the networkWatcherFlowAnalyticsConfiguration value
+     * @return the networkWatcherFlowAnalyticsConfiguration value.
      */
     public TrafficAnalyticsConfigurationProperties networkWatcherFlowAnalyticsConfiguration() {
         return this.networkWatcherFlowAnalyticsConfiguration;
@@ -32,12 +32,12 @@ public class TrafficAnalyticsProperties {
     /**
      * Set the networkWatcherFlowAnalyticsConfiguration value.
      *
-     * @param networkWatcherFlowAnalyticsConfiguration the networkWatcherFlowAnalyticsConfiguration value to set
+     * @param networkWatcherFlowAnalyticsConfiguration the
+     * networkWatcherFlowAnalyticsConfiguration value to set.
      * @return the TrafficAnalyticsProperties object itself.
      */
     public TrafficAnalyticsProperties withNetworkWatcherFlowAnalyticsConfiguration(TrafficAnalyticsConfigurationProperties networkWatcherFlowAnalyticsConfiguration) {
         this.networkWatcherFlowAnalyticsConfiguration = networkWatcherFlowAnalyticsConfiguration;
         return this;
     }
-
 }

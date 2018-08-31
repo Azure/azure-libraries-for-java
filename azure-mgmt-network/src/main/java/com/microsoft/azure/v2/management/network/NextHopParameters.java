@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Parameters that define the source and destination endpoint.
  */
-public class NextHopParameters {
+public final class NextHopParameters {
     /**
      * The resource identifier of the target resource against which the action
      * is to be performed.
@@ -43,7 +43,7 @@ public class NextHopParameters {
     /**
      * Get the targetResourceId value.
      *
-     * @return the targetResourceId value
+     * @return the targetResourceId value.
      */
     public String targetResourceId() {
         return this.targetResourceId;
@@ -52,7 +52,7 @@ public class NextHopParameters {
     /**
      * Set the targetResourceId value.
      *
-     * @param targetResourceId the targetResourceId value to set
+     * @param targetResourceId the targetResourceId value to set.
      * @return the NextHopParameters object itself.
      */
     public NextHopParameters withTargetResourceId(String targetResourceId) {
@@ -63,7 +63,7 @@ public class NextHopParameters {
     /**
      * Get the sourceIPAddress value.
      *
-     * @return the sourceIPAddress value
+     * @return the sourceIPAddress value.
      */
     public String sourceIPAddress() {
         return this.sourceIPAddress;
@@ -72,7 +72,7 @@ public class NextHopParameters {
     /**
      * Set the sourceIPAddress value.
      *
-     * @param sourceIPAddress the sourceIPAddress value to set
+     * @param sourceIPAddress the sourceIPAddress value to set.
      * @return the NextHopParameters object itself.
      */
     public NextHopParameters withSourceIPAddress(String sourceIPAddress) {
@@ -83,7 +83,7 @@ public class NextHopParameters {
     /**
      * Get the destinationIPAddress value.
      *
-     * @return the destinationIPAddress value
+     * @return the destinationIPAddress value.
      */
     public String destinationIPAddress() {
         return this.destinationIPAddress;
@@ -92,7 +92,7 @@ public class NextHopParameters {
     /**
      * Set the destinationIPAddress value.
      *
-     * @param destinationIPAddress the destinationIPAddress value to set
+     * @param destinationIPAddress the destinationIPAddress value to set.
      * @return the NextHopParameters object itself.
      */
     public NextHopParameters withDestinationIPAddress(String destinationIPAddress) {
@@ -103,7 +103,7 @@ public class NextHopParameters {
     /**
      * Get the targetNicResourceId value.
      *
-     * @return the targetNicResourceId value
+     * @return the targetNicResourceId value.
      */
     public String targetNicResourceId() {
         return this.targetNicResourceId;
@@ -112,12 +112,11 @@ public class NextHopParameters {
     /**
      * Set the targetNicResourceId value.
      *
-     * @param targetNicResourceId the targetNicResourceId value to set
+     * @param targetNicResourceId the targetNicResourceId value to set.
      * @return the NextHopParameters object itself.
      */
     public NextHopParameters withTargetNicResourceId(String targetNicResourceId) {
         this.targetNicResourceId = targetNicResourceId;
         return this;
     }
-
 }

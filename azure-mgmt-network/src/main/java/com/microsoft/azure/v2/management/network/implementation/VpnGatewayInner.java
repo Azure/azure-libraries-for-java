@@ -8,15 +8,14 @@
 
 package com.microsoft.azure.v2.management.network.implementation;
 
-import com.microsoft.azure.SubResource;
-import java.util.List;
-import com.microsoft.azure.v2.management.network.BgpSettings;
-import com.microsoft.azure.v2.management.network.ProvisioningState;
-import com.microsoft.azure.v2.management.network.Policies;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.rest.SkipParentValidation;
-import com.microsoft.azure.Resource;
+import com.microsoft.azure.v2.Resource;
+import com.microsoft.azure.v2.SubResource;
+import com.microsoft.azure.v2.management.network.BgpSettings;
+import com.microsoft.azure.v2.management.network.Policies;
+import com.microsoft.azure.v2.management.network.ProvisioningState;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
+import java.util.List;
 
 /**
  * VpnGateway Resource.
@@ -71,7 +70,7 @@ public class VpnGatewayInner extends Resource {
     /**
      * Get the virtualHub value.
      *
-     * @return the virtualHub value
+     * @return the virtualHub value.
      */
     public SubResource virtualHub() {
         return this.virtualHub;
@@ -80,7 +79,7 @@ public class VpnGatewayInner extends Resource {
     /**
      * Set the virtualHub value.
      *
-     * @param virtualHub the virtualHub value to set
+     * @param virtualHub the virtualHub value to set.
      * @return the VpnGatewayInner object itself.
      */
     public VpnGatewayInner withVirtualHub(SubResource virtualHub) {
@@ -91,7 +90,7 @@ public class VpnGatewayInner extends Resource {
     /**
      * Get the connections value.
      *
-     * @return the connections value
+     * @return the connections value.
      */
     public List<VpnConnectionInner> connections() {
         return this.connections;
@@ -100,7 +99,7 @@ public class VpnGatewayInner extends Resource {
     /**
      * Set the connections value.
      *
-     * @param connections the connections value to set
+     * @param connections the connections value to set.
      * @return the VpnGatewayInner object itself.
      */
     public VpnGatewayInner withConnections(List<VpnConnectionInner> connections) {
@@ -111,7 +110,7 @@ public class VpnGatewayInner extends Resource {
     /**
      * Get the bgpSettings value.
      *
-     * @return the bgpSettings value
+     * @return the bgpSettings value.
      */
     public BgpSettings bgpSettings() {
         return this.bgpSettings;
@@ -120,7 +119,7 @@ public class VpnGatewayInner extends Resource {
     /**
      * Set the bgpSettings value.
      *
-     * @param bgpSettings the bgpSettings value to set
+     * @param bgpSettings the bgpSettings value to set.
      * @return the VpnGatewayInner object itself.
      */
     public VpnGatewayInner withBgpSettings(BgpSettings bgpSettings) {
@@ -131,7 +130,7 @@ public class VpnGatewayInner extends Resource {
     /**
      * Get the provisioningState value.
      *
-     * @return the provisioningState value
+     * @return the provisioningState value.
      */
     public ProvisioningState provisioningState() {
         return this.provisioningState;
@@ -140,7 +139,7 @@ public class VpnGatewayInner extends Resource {
     /**
      * Set the provisioningState value.
      *
-     * @param provisioningState the provisioningState value to set
+     * @param provisioningState the provisioningState value to set.
      * @return the VpnGatewayInner object itself.
      */
     public VpnGatewayInner withProvisioningState(ProvisioningState provisioningState) {
@@ -151,7 +150,7 @@ public class VpnGatewayInner extends Resource {
     /**
      * Get the policies value.
      *
-     * @return the policies value
+     * @return the policies value.
      */
     public Policies policies() {
         return this.policies;
@@ -160,7 +159,7 @@ public class VpnGatewayInner extends Resource {
     /**
      * Set the policies value.
      *
-     * @param policies the policies value to set
+     * @param policies the policies value to set.
      * @return the VpnGatewayInner object itself.
      */
     public VpnGatewayInner withPolicies(Policies policies) {
@@ -171,7 +170,7 @@ public class VpnGatewayInner extends Resource {
     /**
      * Get the etag value.
      *
-     * @return the etag value
+     * @return the etag value.
      */
     public String etag() {
         return this.etag;
@@ -180,7 +179,7 @@ public class VpnGatewayInner extends Resource {
     /**
      * Get the id value.
      *
-     * @return the id value
+     * @return the id value.
      */
     public String id() {
         return this.id;
@@ -189,12 +188,11 @@ public class VpnGatewayInner extends Resource {
     /**
      * Set the id value.
      *
-     * @param id the id value to set
+     * @param id the id value to set.
      * @return the VpnGatewayInner object itself.
      */
     public VpnGatewayInner withId(String id) {
         this.id = id;
         return this;
     }
-
 }

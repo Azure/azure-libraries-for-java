@@ -8,13 +8,13 @@
 
 package com.microsoft.azure.v2.management.network;
 
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 
 /**
  * Contains bgp community information offered in Service Community resources.
  */
-public class BGPCommunity {
+public final class BGPCommunity {
     /**
      * The region which the service support. e.g. For O365, region is Global.
      */
@@ -55,7 +55,7 @@ public class BGPCommunity {
     /**
      * Get the serviceSupportedRegion value.
      *
-     * @return the serviceSupportedRegion value
+     * @return the serviceSupportedRegion value.
      */
     public String serviceSupportedRegion() {
         return this.serviceSupportedRegion;
@@ -64,7 +64,7 @@ public class BGPCommunity {
     /**
      * Set the serviceSupportedRegion value.
      *
-     * @param serviceSupportedRegion the serviceSupportedRegion value to set
+     * @param serviceSupportedRegion the serviceSupportedRegion value to set.
      * @return the BGPCommunity object itself.
      */
     public BGPCommunity withServiceSupportedRegion(String serviceSupportedRegion) {
@@ -75,7 +75,7 @@ public class BGPCommunity {
     /**
      * Get the communityName value.
      *
-     * @return the communityName value
+     * @return the communityName value.
      */
     public String communityName() {
         return this.communityName;
@@ -84,7 +84,7 @@ public class BGPCommunity {
     /**
      * Set the communityName value.
      *
-     * @param communityName the communityName value to set
+     * @param communityName the communityName value to set.
      * @return the BGPCommunity object itself.
      */
     public BGPCommunity withCommunityName(String communityName) {
@@ -95,7 +95,7 @@ public class BGPCommunity {
     /**
      * Get the communityValue value.
      *
-     * @return the communityValue value
+     * @return the communityValue value.
      */
     public String communityValue() {
         return this.communityValue;
@@ -104,7 +104,7 @@ public class BGPCommunity {
     /**
      * Set the communityValue value.
      *
-     * @param communityValue the communityValue value to set
+     * @param communityValue the communityValue value to set.
      * @return the BGPCommunity object itself.
      */
     public BGPCommunity withCommunityValue(String communityValue) {
@@ -115,7 +115,7 @@ public class BGPCommunity {
     /**
      * Get the communityPrefixes value.
      *
-     * @return the communityPrefixes value
+     * @return the communityPrefixes value.
      */
     public List<String> communityPrefixes() {
         return this.communityPrefixes;
@@ -124,7 +124,7 @@ public class BGPCommunity {
     /**
      * Set the communityPrefixes value.
      *
-     * @param communityPrefixes the communityPrefixes value to set
+     * @param communityPrefixes the communityPrefixes value to set.
      * @return the BGPCommunity object itself.
      */
     public BGPCommunity withCommunityPrefixes(List<String> communityPrefixes) {
@@ -135,7 +135,7 @@ public class BGPCommunity {
     /**
      * Get the isAuthorizedToUse value.
      *
-     * @return the isAuthorizedToUse value
+     * @return the isAuthorizedToUse value.
      */
     public Boolean isAuthorizedToUse() {
         return this.isAuthorizedToUse;
@@ -144,7 +144,7 @@ public class BGPCommunity {
     /**
      * Set the isAuthorizedToUse value.
      *
-     * @param isAuthorizedToUse the isAuthorizedToUse value to set
+     * @param isAuthorizedToUse the isAuthorizedToUse value to set.
      * @return the BGPCommunity object itself.
      */
     public BGPCommunity withIsAuthorizedToUse(Boolean isAuthorizedToUse) {
@@ -155,7 +155,7 @@ public class BGPCommunity {
     /**
      * Get the serviceGroup value.
      *
-     * @return the serviceGroup value
+     * @return the serviceGroup value.
      */
     public String serviceGroup() {
         return this.serviceGroup;
@@ -164,12 +164,11 @@ public class BGPCommunity {
     /**
      * Set the serviceGroup value.
      *
-     * @param serviceGroup the serviceGroup value to set
+     * @param serviceGroup the serviceGroup value to set.
      * @return the BGPCommunity object itself.
      */
     public BGPCommunity withServiceGroup(String serviceGroup) {
         this.serviceGroup = serviceGroup;
         return this;
     }
-
 }

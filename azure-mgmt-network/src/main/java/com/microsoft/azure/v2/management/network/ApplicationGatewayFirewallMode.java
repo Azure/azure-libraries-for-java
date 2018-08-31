@@ -8,24 +8,29 @@
 
 package com.microsoft.azure.v2.management.network;
 
-import java.util.Collection;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.microsoft.rest.ExpandableStringEnum;
+import com.microsoft.rest.v2.ExpandableStringEnum;
+import java.util.Collection;
 
 /**
  * Defines values for ApplicationGatewayFirewallMode.
  */
 public final class ApplicationGatewayFirewallMode extends ExpandableStringEnum<ApplicationGatewayFirewallMode> {
-    /** Static value Detection for ApplicationGatewayFirewallMode. */
+    /**
+     * Static value Detection for ApplicationGatewayFirewallMode.
+     */
     public static final ApplicationGatewayFirewallMode DETECTION = fromString("Detection");
 
-    /** Static value Prevention for ApplicationGatewayFirewallMode. */
+    /**
+     * Static value Prevention for ApplicationGatewayFirewallMode.
+     */
     public static final ApplicationGatewayFirewallMode PREVENTION = fromString("Prevention");
 
     /**
      * Creates or finds a ApplicationGatewayFirewallMode from its string representation.
-     * @param name a name to look for
-     * @return the corresponding ApplicationGatewayFirewallMode
+     *
+     * @param name a name to look for.
+     * @return the corresponding ApplicationGatewayFirewallMode.
      */
     @JsonCreator
     public static ApplicationGatewayFirewallMode fromString(String name) {
@@ -33,7 +38,7 @@ public final class ApplicationGatewayFirewallMode extends ExpandableStringEnum<A
     }
 
     /**
-     * @return known ApplicationGatewayFirewallMode values
+     * @return known ApplicationGatewayFirewallMode values.
      */
     public static Collection<ApplicationGatewayFirewallMode> values() {
         return values(ApplicationGatewayFirewallMode.class);

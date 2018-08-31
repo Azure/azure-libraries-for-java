@@ -9,12 +9,12 @@
 package com.microsoft.azure.v2.management.network.implementation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.azure.SubResource;
+import com.microsoft.azure.v2.SubResource;
 
 /**
  * Endpoint service.
  */
-public class EndpointServiceResultInner extends SubResource {
+public final class EndpointServiceResultInner extends SubResource {
     /**
      * Name of the endpoint service.
      */
@@ -30,7 +30,7 @@ public class EndpointServiceResultInner extends SubResource {
     /**
      * Get the name value.
      *
-     * @return the name value
+     * @return the name value.
      */
     public String name() {
         return this.name;
@@ -39,10 +39,9 @@ public class EndpointServiceResultInner extends SubResource {
     /**
      * Get the type value.
      *
-     * @return the type value
+     * @return the type value.
      */
     public String type() {
         return this.type;
     }
-
 }

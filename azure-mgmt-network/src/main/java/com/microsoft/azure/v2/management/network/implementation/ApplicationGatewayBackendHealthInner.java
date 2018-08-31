@@ -8,38 +8,36 @@
 
 package com.microsoft.azure.v2.management.network.implementation;
 
-import java.util.List;
-import com.microsoft.azure.v2.management.network.ApplicationGatewayBackendHealthPool;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 
 /**
  * List of ApplicationGatewayBackendHealthPool resources.
  */
-public class ApplicationGatewayBackendHealthInner {
+public final class ApplicationGatewayBackendHealthInner {
     /**
      * The backendAddressPools property.
      */
     @JsonProperty(value = "backendAddressPools")
-    private List<ApplicationGatewayBackendHealthPool> backendAddressPools;
+    private List<ApplicationGatewayBackendHealthPoolInner> backendAddressPools;
 
     /**
      * Get the backendAddressPools value.
      *
-     * @return the backendAddressPools value
+     * @return the backendAddressPools value.
      */
-    public List<ApplicationGatewayBackendHealthPool> backendAddressPools() {
+    public List<ApplicationGatewayBackendHealthPoolInner> backendAddressPools() {
         return this.backendAddressPools;
     }
 
     /**
      * Set the backendAddressPools value.
      *
-     * @param backendAddressPools the backendAddressPools value to set
+     * @param backendAddressPools the backendAddressPools value to set.
      * @return the ApplicationGatewayBackendHealthInner object itself.
      */
-    public ApplicationGatewayBackendHealthInner withBackendAddressPools(List<ApplicationGatewayBackendHealthPool> backendAddressPools) {
+    public ApplicationGatewayBackendHealthInner withBackendAddressPools(List<ApplicationGatewayBackendHealthPoolInner> backendAddressPools) {
         this.backendAddressPools = backendAddressPools;
         return this;
     }
-
 }

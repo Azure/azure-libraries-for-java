@@ -8,24 +8,29 @@
 
 package com.microsoft.azure.v2.management.network;
 
-import java.util.Collection;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.microsoft.rest.ExpandableStringEnum;
+import com.microsoft.rest.v2.ExpandableStringEnum;
+import java.util.Collection;
 
 /**
  * Defines values for ApplicationGatewayProtocol.
  */
 public final class ApplicationGatewayProtocol extends ExpandableStringEnum<ApplicationGatewayProtocol> {
-    /** Static value Http for ApplicationGatewayProtocol. */
+    /**
+     * Static value Http for ApplicationGatewayProtocol.
+     */
     public static final ApplicationGatewayProtocol HTTP = fromString("Http");
 
-    /** Static value Https for ApplicationGatewayProtocol. */
+    /**
+     * Static value Https for ApplicationGatewayProtocol.
+     */
     public static final ApplicationGatewayProtocol HTTPS = fromString("Https");
 
     /**
      * Creates or finds a ApplicationGatewayProtocol from its string representation.
-     * @param name a name to look for
-     * @return the corresponding ApplicationGatewayProtocol
+     *
+     * @param name a name to look for.
+     * @return the corresponding ApplicationGatewayProtocol.
      */
     @JsonCreator
     public static ApplicationGatewayProtocol fromString(String name) {
@@ -33,7 +38,7 @@ public final class ApplicationGatewayProtocol extends ExpandableStringEnum<Appli
     }
 
     /**
-     * @return known ApplicationGatewayProtocol values
+     * @return known ApplicationGatewayProtocol values.
      */
     public static Collection<ApplicationGatewayProtocol> values() {
         return values(ApplicationGatewayProtocol.class);

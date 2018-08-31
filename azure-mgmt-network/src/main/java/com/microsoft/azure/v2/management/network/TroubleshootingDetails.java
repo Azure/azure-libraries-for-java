@@ -8,13 +8,13 @@
 
 package com.microsoft.azure.v2.management.network;
 
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 
 /**
  * Information gained from troubleshooting of specified resource.
  */
-public class TroubleshootingDetails {
+public final class TroubleshootingDetails {
     /**
      * The id of the get troubleshoot operation.
      */
@@ -48,7 +48,7 @@ public class TroubleshootingDetails {
     /**
      * Get the id value.
      *
-     * @return the id value
+     * @return the id value.
      */
     public String id() {
         return this.id;
@@ -57,7 +57,7 @@ public class TroubleshootingDetails {
     /**
      * Set the id value.
      *
-     * @param id the id value to set
+     * @param id the id value to set.
      * @return the TroubleshootingDetails object itself.
      */
     public TroubleshootingDetails withId(String id) {
@@ -68,7 +68,7 @@ public class TroubleshootingDetails {
     /**
      * Get the reasonType value.
      *
-     * @return the reasonType value
+     * @return the reasonType value.
      */
     public String reasonType() {
         return this.reasonType;
@@ -77,7 +77,7 @@ public class TroubleshootingDetails {
     /**
      * Set the reasonType value.
      *
-     * @param reasonType the reasonType value to set
+     * @param reasonType the reasonType value to set.
      * @return the TroubleshootingDetails object itself.
      */
     public TroubleshootingDetails withReasonType(String reasonType) {
@@ -88,7 +88,7 @@ public class TroubleshootingDetails {
     /**
      * Get the summary value.
      *
-     * @return the summary value
+     * @return the summary value.
      */
     public String summary() {
         return this.summary;
@@ -97,7 +97,7 @@ public class TroubleshootingDetails {
     /**
      * Set the summary value.
      *
-     * @param summary the summary value to set
+     * @param summary the summary value to set.
      * @return the TroubleshootingDetails object itself.
      */
     public TroubleshootingDetails withSummary(String summary) {
@@ -108,7 +108,7 @@ public class TroubleshootingDetails {
     /**
      * Get the detail value.
      *
-     * @return the detail value
+     * @return the detail value.
      */
     public String detail() {
         return this.detail;
@@ -117,7 +117,7 @@ public class TroubleshootingDetails {
     /**
      * Set the detail value.
      *
-     * @param detail the detail value to set
+     * @param detail the detail value to set.
      * @return the TroubleshootingDetails object itself.
      */
     public TroubleshootingDetails withDetail(String detail) {
@@ -128,7 +128,7 @@ public class TroubleshootingDetails {
     /**
      * Get the recommendedActions value.
      *
-     * @return the recommendedActions value
+     * @return the recommendedActions value.
      */
     public List<TroubleshootingRecommendedActions> recommendedActions() {
         return this.recommendedActions;
@@ -137,12 +137,11 @@ public class TroubleshootingDetails {
     /**
      * Set the recommendedActions value.
      *
-     * @param recommendedActions the recommendedActions value to set
+     * @param recommendedActions the recommendedActions value to set.
      * @return the TroubleshootingDetails object itself.
      */
     public TroubleshootingDetails withRecommendedActions(List<TroubleshootingRecommendedActions> recommendedActions) {
         this.recommendedActions = recommendedActions;
         return this;
     }
-
 }

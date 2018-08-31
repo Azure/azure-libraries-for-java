@@ -8,24 +8,29 @@
 
 package com.microsoft.azure.v2.management.network;
 
-import java.util.Collection;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.microsoft.rest.ExpandableStringEnum;
+import com.microsoft.rest.v2.ExpandableStringEnum;
+import java.util.Collection;
 
 /**
  * Defines values for IPVersion.
  */
 public final class IPVersion extends ExpandableStringEnum<IPVersion> {
-    /** Static value IPv4 for IPVersion. */
+    /**
+     * Static value IPv4 for IPVersion.
+     */
     public static final IPVersion IPV4 = fromString("IPv4");
 
-    /** Static value IPv6 for IPVersion. */
+    /**
+     * Static value IPv6 for IPVersion.
+     */
     public static final IPVersion IPV6 = fromString("IPv6");
 
     /**
      * Creates or finds a IPVersion from its string representation.
-     * @param name a name to look for
-     * @return the corresponding IPVersion
+     *
+     * @param name a name to look for.
+     * @return the corresponding IPVersion.
      */
     @JsonCreator
     public static IPVersion fromString(String name) {
@@ -33,7 +38,7 @@ public final class IPVersion extends ExpandableStringEnum<IPVersion> {
     }
 
     /**
-     * @return known IPVersion values
+     * @return known IPVersion values.
      */
     public static Collection<IPVersion> values() {
         return values(IPVersion.class);

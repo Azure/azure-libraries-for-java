@@ -8,10 +8,10 @@
 
 package com.microsoft.azure.v2.management.network.implementation;
 
-import com.microsoft.azure.SubResource;
-import com.microsoft.azure.v2.management.network.CircuitConnectionStatus;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.v2.SubResource;
+import com.microsoft.azure.v2.management.network.CircuitConnectionStatus;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
 
 /**
  * Express Route Circuit Connection in an ExpressRouteCircuitPeering resource.
@@ -75,7 +75,7 @@ public class ExpressRouteCircuitConnectionInner extends SubResource {
     /**
      * Get the expressRouteCircuitPeering value.
      *
-     * @return the expressRouteCircuitPeering value
+     * @return the expressRouteCircuitPeering value.
      */
     public SubResource expressRouteCircuitPeering() {
         return this.expressRouteCircuitPeering;
@@ -84,7 +84,8 @@ public class ExpressRouteCircuitConnectionInner extends SubResource {
     /**
      * Set the expressRouteCircuitPeering value.
      *
-     * @param expressRouteCircuitPeering the expressRouteCircuitPeering value to set
+     * @param expressRouteCircuitPeering the expressRouteCircuitPeering value
+     * to set.
      * @return the ExpressRouteCircuitConnectionInner object itself.
      */
     public ExpressRouteCircuitConnectionInner withExpressRouteCircuitPeering(SubResource expressRouteCircuitPeering) {
@@ -95,7 +96,7 @@ public class ExpressRouteCircuitConnectionInner extends SubResource {
     /**
      * Get the peerExpressRouteCircuitPeering value.
      *
-     * @return the peerExpressRouteCircuitPeering value
+     * @return the peerExpressRouteCircuitPeering value.
      */
     public SubResource peerExpressRouteCircuitPeering() {
         return this.peerExpressRouteCircuitPeering;
@@ -104,7 +105,8 @@ public class ExpressRouteCircuitConnectionInner extends SubResource {
     /**
      * Set the peerExpressRouteCircuitPeering value.
      *
-     * @param peerExpressRouteCircuitPeering the peerExpressRouteCircuitPeering value to set
+     * @param peerExpressRouteCircuitPeering the peerExpressRouteCircuitPeering
+     * value to set.
      * @return the ExpressRouteCircuitConnectionInner object itself.
      */
     public ExpressRouteCircuitConnectionInner withPeerExpressRouteCircuitPeering(SubResource peerExpressRouteCircuitPeering) {
@@ -115,7 +117,7 @@ public class ExpressRouteCircuitConnectionInner extends SubResource {
     /**
      * Get the addressPrefix value.
      *
-     * @return the addressPrefix value
+     * @return the addressPrefix value.
      */
     public String addressPrefix() {
         return this.addressPrefix;
@@ -124,7 +126,7 @@ public class ExpressRouteCircuitConnectionInner extends SubResource {
     /**
      * Set the addressPrefix value.
      *
-     * @param addressPrefix the addressPrefix value to set
+     * @param addressPrefix the addressPrefix value to set.
      * @return the ExpressRouteCircuitConnectionInner object itself.
      */
     public ExpressRouteCircuitConnectionInner withAddressPrefix(String addressPrefix) {
@@ -135,7 +137,7 @@ public class ExpressRouteCircuitConnectionInner extends SubResource {
     /**
      * Get the authorizationKey value.
      *
-     * @return the authorizationKey value
+     * @return the authorizationKey value.
      */
     public String authorizationKey() {
         return this.authorizationKey;
@@ -144,7 +146,7 @@ public class ExpressRouteCircuitConnectionInner extends SubResource {
     /**
      * Set the authorizationKey value.
      *
-     * @param authorizationKey the authorizationKey value to set
+     * @param authorizationKey the authorizationKey value to set.
      * @return the ExpressRouteCircuitConnectionInner object itself.
      */
     public ExpressRouteCircuitConnectionInner withAuthorizationKey(String authorizationKey) {
@@ -155,7 +157,7 @@ public class ExpressRouteCircuitConnectionInner extends SubResource {
     /**
      * Get the circuitConnectionStatus value.
      *
-     * @return the circuitConnectionStatus value
+     * @return the circuitConnectionStatus value.
      */
     public CircuitConnectionStatus circuitConnectionStatus() {
         return this.circuitConnectionStatus;
@@ -164,7 +166,7 @@ public class ExpressRouteCircuitConnectionInner extends SubResource {
     /**
      * Get the provisioningState value.
      *
-     * @return the provisioningState value
+     * @return the provisioningState value.
      */
     public String provisioningState() {
         return this.provisioningState;
@@ -173,7 +175,7 @@ public class ExpressRouteCircuitConnectionInner extends SubResource {
     /**
      * Get the name value.
      *
-     * @return the name value
+     * @return the name value.
      */
     public String name() {
         return this.name;
@@ -182,7 +184,7 @@ public class ExpressRouteCircuitConnectionInner extends SubResource {
     /**
      * Set the name value.
      *
-     * @param name the name value to set
+     * @param name the name value to set.
      * @return the ExpressRouteCircuitConnectionInner object itself.
      */
     public ExpressRouteCircuitConnectionInner withName(String name) {
@@ -193,10 +195,9 @@ public class ExpressRouteCircuitConnectionInner extends SubResource {
     /**
      * Get the etag value.
      *
-     * @return the etag value
+     * @return the etag value.
      */
     public String etag() {
         return this.etag;
     }
-
 }

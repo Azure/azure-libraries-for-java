@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * VirtualNetworkGatewayConnection properties.
  */
-public class TunnelConnectionHealth {
+public final class TunnelConnectionHealth {
     /**
      * Tunnel name.
      */
@@ -48,7 +48,7 @@ public class TunnelConnectionHealth {
     /**
      * Get the tunnel value.
      *
-     * @return the tunnel value
+     * @return the tunnel value.
      */
     public String tunnel() {
         return this.tunnel;
@@ -57,7 +57,7 @@ public class TunnelConnectionHealth {
     /**
      * Get the connectionStatus value.
      *
-     * @return the connectionStatus value
+     * @return the connectionStatus value.
      */
     public VirtualNetworkGatewayConnectionStatus connectionStatus() {
         return this.connectionStatus;
@@ -66,7 +66,7 @@ public class TunnelConnectionHealth {
     /**
      * Get the ingressBytesTransferred value.
      *
-     * @return the ingressBytesTransferred value
+     * @return the ingressBytesTransferred value.
      */
     public Long ingressBytesTransferred() {
         return this.ingressBytesTransferred;
@@ -75,7 +75,7 @@ public class TunnelConnectionHealth {
     /**
      * Get the egressBytesTransferred value.
      *
-     * @return the egressBytesTransferred value
+     * @return the egressBytesTransferred value.
      */
     public Long egressBytesTransferred() {
         return this.egressBytesTransferred;
@@ -84,10 +84,9 @@ public class TunnelConnectionHealth {
     /**
      * Get the lastConnectionEstablishedUtcTime value.
      *
-     * @return the lastConnectionEstablishedUtcTime value
+     * @return the lastConnectionEstablishedUtcTime value.
      */
     public String lastConnectionEstablishedUtcTime() {
         return this.lastConnectionEstablishedUtcTime;
     }
-
 }

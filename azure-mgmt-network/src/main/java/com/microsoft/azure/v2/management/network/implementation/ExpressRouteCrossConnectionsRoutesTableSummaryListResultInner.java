@@ -8,15 +8,15 @@
 
 package com.microsoft.azure.v2.management.network.implementation;
 
-import java.util.List;
-import com.microsoft.azure.v2.management.network.ExpressRouteCrossConnectionRoutesTableSummary;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.v2.management.network.ExpressRouteCrossConnectionRoutesTableSummary;
+import java.util.List;
 
 /**
  * Response for ListRoutesTable associated with the Express Route Cross
  * Connections.
  */
-public class ExpressRouteCrossConnectionsRoutesTableSummaryListResultInner {
+public final class ExpressRouteCrossConnectionsRoutesTableSummaryListResultInner {
     /**
      * A list of the routes table.
      */
@@ -32,7 +32,7 @@ public class ExpressRouteCrossConnectionsRoutesTableSummaryListResultInner {
     /**
      * Get the value value.
      *
-     * @return the value value
+     * @return the value value.
      */
     public List<ExpressRouteCrossConnectionRoutesTableSummary> value() {
         return this.value;
@@ -41,8 +41,10 @@ public class ExpressRouteCrossConnectionsRoutesTableSummaryListResultInner {
     /**
      * Set the value value.
      *
-     * @param value the value value to set
-     * @return the ExpressRouteCrossConnectionsRoutesTableSummaryListResultInner object itself.
+     * @param value the value value to set.
+     * @return the
+     * ExpressRouteCrossConnectionsRoutesTableSummaryListResultInner object
+     * itself.
      */
     public ExpressRouteCrossConnectionsRoutesTableSummaryListResultInner withValue(List<ExpressRouteCrossConnectionRoutesTableSummary> value) {
         this.value = value;
@@ -52,10 +54,9 @@ public class ExpressRouteCrossConnectionsRoutesTableSummaryListResultInner {
     /**
      * Get the nextLink value.
      *
-     * @return the nextLink value
+     * @return the nextLink value.
      */
     public String nextLink() {
         return this.nextLink;
     }
-
 }

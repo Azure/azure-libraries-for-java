@@ -8,14 +8,14 @@
 
 package com.microsoft.azure.v2.management.network.implementation;
 
-import java.util.List;
-import com.microsoft.azure.v2.management.network.GatewayRoute;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.v2.management.network.GatewayRoute;
+import java.util.List;
 
 /**
  * List of virtual network gateway routes.
  */
-public class GatewayRouteListResultInner {
+public final class GatewayRouteListResultInner {
     /**
      * List of gateway routes.
      */
@@ -25,7 +25,7 @@ public class GatewayRouteListResultInner {
     /**
      * Get the value value.
      *
-     * @return the value value
+     * @return the value value.
      */
     public List<GatewayRoute> value() {
         return this.value;
@@ -34,12 +34,11 @@ public class GatewayRouteListResultInner {
     /**
      * Set the value value.
      *
-     * @param value the value value to set
+     * @param value the value value to set.
      * @return the GatewayRouteListResultInner object itself.
      */
     public GatewayRouteListResultInner withValue(List<GatewayRoute> value) {
         this.value = value;
         return this;
     }
-
 }

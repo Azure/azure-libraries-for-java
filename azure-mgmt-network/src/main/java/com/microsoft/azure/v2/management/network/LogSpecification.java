@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Description of logging specification.
  */
-public class LogSpecification {
+public final class LogSpecification {
     /**
      * The name of the specification.
      */
@@ -35,7 +35,7 @@ public class LogSpecification {
     /**
      * Get the name value.
      *
-     * @return the name value
+     * @return the name value.
      */
     public String name() {
         return this.name;
@@ -44,7 +44,7 @@ public class LogSpecification {
     /**
      * Set the name value.
      *
-     * @param name the name value to set
+     * @param name the name value to set.
      * @return the LogSpecification object itself.
      */
     public LogSpecification withName(String name) {
@@ -55,7 +55,7 @@ public class LogSpecification {
     /**
      * Get the displayName value.
      *
-     * @return the displayName value
+     * @return the displayName value.
      */
     public String displayName() {
         return this.displayName;
@@ -64,7 +64,7 @@ public class LogSpecification {
     /**
      * Set the displayName value.
      *
-     * @param displayName the displayName value to set
+     * @param displayName the displayName value to set.
      * @return the LogSpecification object itself.
      */
     public LogSpecification withDisplayName(String displayName) {
@@ -75,7 +75,7 @@ public class LogSpecification {
     /**
      * Get the blobDuration value.
      *
-     * @return the blobDuration value
+     * @return the blobDuration value.
      */
     public String blobDuration() {
         return this.blobDuration;
@@ -84,12 +84,11 @@ public class LogSpecification {
     /**
      * Set the blobDuration value.
      *
-     * @param blobDuration the blobDuration value to set
+     * @param blobDuration the blobDuration value to set.
      * @return the LogSpecification object itself.
      */
     public LogSpecification withBlobDuration(String blobDuration) {
         this.blobDuration = blobDuration;
         return this;
     }
-
 }

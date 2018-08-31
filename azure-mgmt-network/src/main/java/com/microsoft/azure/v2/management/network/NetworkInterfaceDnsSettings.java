@@ -8,13 +8,13 @@
 
 package com.microsoft.azure.v2.management.network;
 
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 
 /**
  * DNS settings of a network interface.
  */
-public class NetworkInterfaceDnsSettings {
+public final class NetworkInterfaceDnsSettings {
     /**
      * List of DNS servers IP addresses. Use 'AzureProvidedDNS' to switch to
      * azure provided DNS resolution. 'AzureProvidedDNS' value cannot be
@@ -58,7 +58,7 @@ public class NetworkInterfaceDnsSettings {
     /**
      * Get the dnsServers value.
      *
-     * @return the dnsServers value
+     * @return the dnsServers value.
      */
     public List<String> dnsServers() {
         return this.dnsServers;
@@ -67,7 +67,7 @@ public class NetworkInterfaceDnsSettings {
     /**
      * Set the dnsServers value.
      *
-     * @param dnsServers the dnsServers value to set
+     * @param dnsServers the dnsServers value to set.
      * @return the NetworkInterfaceDnsSettings object itself.
      */
     public NetworkInterfaceDnsSettings withDnsServers(List<String> dnsServers) {
@@ -78,7 +78,7 @@ public class NetworkInterfaceDnsSettings {
     /**
      * Get the appliedDnsServers value.
      *
-     * @return the appliedDnsServers value
+     * @return the appliedDnsServers value.
      */
     public List<String> appliedDnsServers() {
         return this.appliedDnsServers;
@@ -87,7 +87,7 @@ public class NetworkInterfaceDnsSettings {
     /**
      * Set the appliedDnsServers value.
      *
-     * @param appliedDnsServers the appliedDnsServers value to set
+     * @param appliedDnsServers the appliedDnsServers value to set.
      * @return the NetworkInterfaceDnsSettings object itself.
      */
     public NetworkInterfaceDnsSettings withAppliedDnsServers(List<String> appliedDnsServers) {
@@ -98,7 +98,7 @@ public class NetworkInterfaceDnsSettings {
     /**
      * Get the internalDnsNameLabel value.
      *
-     * @return the internalDnsNameLabel value
+     * @return the internalDnsNameLabel value.
      */
     public String internalDnsNameLabel() {
         return this.internalDnsNameLabel;
@@ -107,7 +107,7 @@ public class NetworkInterfaceDnsSettings {
     /**
      * Set the internalDnsNameLabel value.
      *
-     * @param internalDnsNameLabel the internalDnsNameLabel value to set
+     * @param internalDnsNameLabel the internalDnsNameLabel value to set.
      * @return the NetworkInterfaceDnsSettings object itself.
      */
     public NetworkInterfaceDnsSettings withInternalDnsNameLabel(String internalDnsNameLabel) {
@@ -118,7 +118,7 @@ public class NetworkInterfaceDnsSettings {
     /**
      * Get the internalFqdn value.
      *
-     * @return the internalFqdn value
+     * @return the internalFqdn value.
      */
     public String internalFqdn() {
         return this.internalFqdn;
@@ -127,7 +127,7 @@ public class NetworkInterfaceDnsSettings {
     /**
      * Set the internalFqdn value.
      *
-     * @param internalFqdn the internalFqdn value to set
+     * @param internalFqdn the internalFqdn value to set.
      * @return the NetworkInterfaceDnsSettings object itself.
      */
     public NetworkInterfaceDnsSettings withInternalFqdn(String internalFqdn) {
@@ -138,7 +138,7 @@ public class NetworkInterfaceDnsSettings {
     /**
      * Get the internalDomainNameSuffix value.
      *
-     * @return the internalDomainNameSuffix value
+     * @return the internalDomainNameSuffix value.
      */
     public String internalDomainNameSuffix() {
         return this.internalDomainNameSuffix;
@@ -147,12 +147,12 @@ public class NetworkInterfaceDnsSettings {
     /**
      * Set the internalDomainNameSuffix value.
      *
-     * @param internalDomainNameSuffix the internalDomainNameSuffix value to set
+     * @param internalDomainNameSuffix the internalDomainNameSuffix value to
+     * set.
      * @return the NetworkInterfaceDnsSettings object itself.
      */
     public NetworkInterfaceDnsSettings withInternalDomainNameSuffix(String internalDomainNameSuffix) {
         this.internalDomainNameSuffix = internalDomainNameSuffix;
         return this;
     }
-
 }

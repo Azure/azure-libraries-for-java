@@ -8,14 +8,14 @@
 
 package com.microsoft.azure.v2.management.network.implementation;
 
-import java.util.List;
-import com.microsoft.azure.v2.management.network.AvailableProvidersListCountry;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.v2.management.network.AvailableProvidersListCountry;
+import java.util.List;
 
 /**
  * List of available countries with details.
  */
-public class AvailableProvidersListInner {
+public final class AvailableProvidersListInner {
     /**
      * List of available countries.
      */
@@ -25,7 +25,7 @@ public class AvailableProvidersListInner {
     /**
      * Get the countries value.
      *
-     * @return the countries value
+     * @return the countries value.
      */
     public List<AvailableProvidersListCountry> countries() {
         return this.countries;
@@ -34,12 +34,11 @@ public class AvailableProvidersListInner {
     /**
      * Set the countries value.
      *
-     * @param countries the countries value to set
+     * @param countries the countries value to set.
      * @return the AvailableProvidersListInner object itself.
      */
     public AvailableProvidersListInner withCountries(List<AvailableProvidersListCountry> countries) {
         this.countries = countries;
         return this;
     }
-
 }

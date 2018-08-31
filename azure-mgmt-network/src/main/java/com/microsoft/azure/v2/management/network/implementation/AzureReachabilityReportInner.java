@@ -8,15 +8,15 @@
 
 package com.microsoft.azure.v2.management.network.implementation;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.v2.management.network.AzureReachabilityReportItem;
 import com.microsoft.azure.v2.management.network.AzureReachabilityReportLocation;
 import java.util.List;
-import com.microsoft.azure.v2.management.network.AzureReachabilityReportItem;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Azure reachability report details.
  */
-public class AzureReachabilityReportInner {
+public final class AzureReachabilityReportInner {
     /**
      * The aggregation level of Azure reachability report. Can be Country,
      * State or City.
@@ -39,7 +39,7 @@ public class AzureReachabilityReportInner {
     /**
      * Get the aggregationLevel value.
      *
-     * @return the aggregationLevel value
+     * @return the aggregationLevel value.
      */
     public String aggregationLevel() {
         return this.aggregationLevel;
@@ -48,7 +48,7 @@ public class AzureReachabilityReportInner {
     /**
      * Set the aggregationLevel value.
      *
-     * @param aggregationLevel the aggregationLevel value to set
+     * @param aggregationLevel the aggregationLevel value to set.
      * @return the AzureReachabilityReportInner object itself.
      */
     public AzureReachabilityReportInner withAggregationLevel(String aggregationLevel) {
@@ -59,7 +59,7 @@ public class AzureReachabilityReportInner {
     /**
      * Get the providerLocation value.
      *
-     * @return the providerLocation value
+     * @return the providerLocation value.
      */
     public AzureReachabilityReportLocation providerLocation() {
         return this.providerLocation;
@@ -68,7 +68,7 @@ public class AzureReachabilityReportInner {
     /**
      * Set the providerLocation value.
      *
-     * @param providerLocation the providerLocation value to set
+     * @param providerLocation the providerLocation value to set.
      * @return the AzureReachabilityReportInner object itself.
      */
     public AzureReachabilityReportInner withProviderLocation(AzureReachabilityReportLocation providerLocation) {
@@ -79,7 +79,7 @@ public class AzureReachabilityReportInner {
     /**
      * Get the reachabilityReport value.
      *
-     * @return the reachabilityReport value
+     * @return the reachabilityReport value.
      */
     public List<AzureReachabilityReportItem> reachabilityReport() {
         return this.reachabilityReport;
@@ -88,12 +88,11 @@ public class AzureReachabilityReportInner {
     /**
      * Set the reachabilityReport value.
      *
-     * @param reachabilityReport the reachabilityReport value to set
+     * @param reachabilityReport the reachabilityReport value to set.
      * @return the AzureReachabilityReportInner object itself.
      */
     public AzureReachabilityReportInner withReachabilityReport(List<AzureReachabilityReportItem> reachabilityReport) {
         this.reachabilityReport = reachabilityReport;
         return this;
     }
-
 }

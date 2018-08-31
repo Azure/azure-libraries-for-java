@@ -8,13 +8,13 @@
 
 package com.microsoft.azure.v2.management.network;
 
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 
 /**
  * Specifies the peering configuration.
  */
-public class ExpressRouteCircuitPeeringConfig {
+public final class ExpressRouteCircuitPeeringConfig {
     /**
      * The reference of AdvertisedPublicPrefixes.
      */
@@ -57,7 +57,7 @@ public class ExpressRouteCircuitPeeringConfig {
     /**
      * Get the advertisedPublicPrefixes value.
      *
-     * @return the advertisedPublicPrefixes value
+     * @return the advertisedPublicPrefixes value.
      */
     public List<String> advertisedPublicPrefixes() {
         return this.advertisedPublicPrefixes;
@@ -66,7 +66,8 @@ public class ExpressRouteCircuitPeeringConfig {
     /**
      * Set the advertisedPublicPrefixes value.
      *
-     * @param advertisedPublicPrefixes the advertisedPublicPrefixes value to set
+     * @param advertisedPublicPrefixes the advertisedPublicPrefixes value to
+     * set.
      * @return the ExpressRouteCircuitPeeringConfig object itself.
      */
     public ExpressRouteCircuitPeeringConfig withAdvertisedPublicPrefixes(List<String> advertisedPublicPrefixes) {
@@ -77,7 +78,7 @@ public class ExpressRouteCircuitPeeringConfig {
     /**
      * Get the advertisedCommunities value.
      *
-     * @return the advertisedCommunities value
+     * @return the advertisedCommunities value.
      */
     public List<String> advertisedCommunities() {
         return this.advertisedCommunities;
@@ -86,7 +87,7 @@ public class ExpressRouteCircuitPeeringConfig {
     /**
      * Set the advertisedCommunities value.
      *
-     * @param advertisedCommunities the advertisedCommunities value to set
+     * @param advertisedCommunities the advertisedCommunities value to set.
      * @return the ExpressRouteCircuitPeeringConfig object itself.
      */
     public ExpressRouteCircuitPeeringConfig withAdvertisedCommunities(List<String> advertisedCommunities) {
@@ -97,7 +98,7 @@ public class ExpressRouteCircuitPeeringConfig {
     /**
      * Get the advertisedPublicPrefixesState value.
      *
-     * @return the advertisedPublicPrefixesState value
+     * @return the advertisedPublicPrefixesState value.
      */
     public ExpressRouteCircuitPeeringAdvertisedPublicPrefixState advertisedPublicPrefixesState() {
         return this.advertisedPublicPrefixesState;
@@ -106,7 +107,8 @@ public class ExpressRouteCircuitPeeringConfig {
     /**
      * Set the advertisedPublicPrefixesState value.
      *
-     * @param advertisedPublicPrefixesState the advertisedPublicPrefixesState value to set
+     * @param advertisedPublicPrefixesState the advertisedPublicPrefixesState
+     * value to set.
      * @return the ExpressRouteCircuitPeeringConfig object itself.
      */
     public ExpressRouteCircuitPeeringConfig withAdvertisedPublicPrefixesState(ExpressRouteCircuitPeeringAdvertisedPublicPrefixState advertisedPublicPrefixesState) {
@@ -117,7 +119,7 @@ public class ExpressRouteCircuitPeeringConfig {
     /**
      * Get the legacyMode value.
      *
-     * @return the legacyMode value
+     * @return the legacyMode value.
      */
     public Integer legacyMode() {
         return this.legacyMode;
@@ -126,7 +128,7 @@ public class ExpressRouteCircuitPeeringConfig {
     /**
      * Set the legacyMode value.
      *
-     * @param legacyMode the legacyMode value to set
+     * @param legacyMode the legacyMode value to set.
      * @return the ExpressRouteCircuitPeeringConfig object itself.
      */
     public ExpressRouteCircuitPeeringConfig withLegacyMode(Integer legacyMode) {
@@ -137,7 +139,7 @@ public class ExpressRouteCircuitPeeringConfig {
     /**
      * Get the customerASN value.
      *
-     * @return the customerASN value
+     * @return the customerASN value.
      */
     public Integer customerASN() {
         return this.customerASN;
@@ -146,7 +148,7 @@ public class ExpressRouteCircuitPeeringConfig {
     /**
      * Set the customerASN value.
      *
-     * @param customerASN the customerASN value to set
+     * @param customerASN the customerASN value to set.
      * @return the ExpressRouteCircuitPeeringConfig object itself.
      */
     public ExpressRouteCircuitPeeringConfig withCustomerASN(Integer customerASN) {
@@ -157,7 +159,7 @@ public class ExpressRouteCircuitPeeringConfig {
     /**
      * Get the routingRegistryName value.
      *
-     * @return the routingRegistryName value
+     * @return the routingRegistryName value.
      */
     public String routingRegistryName() {
         return this.routingRegistryName;
@@ -166,12 +168,11 @@ public class ExpressRouteCircuitPeeringConfig {
     /**
      * Set the routingRegistryName value.
      *
-     * @param routingRegistryName the routingRegistryName value to set
+     * @param routingRegistryName the routingRegistryName value to set.
      * @return the ExpressRouteCircuitPeeringConfig object itself.
      */
     public ExpressRouteCircuitPeeringConfig withRoutingRegistryName(String routingRegistryName) {
         this.routingRegistryName = routingRegistryName;
         return this;
     }
-
 }

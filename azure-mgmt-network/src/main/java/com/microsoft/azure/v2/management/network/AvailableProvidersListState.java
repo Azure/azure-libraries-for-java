@@ -8,13 +8,13 @@
 
 package com.microsoft.azure.v2.management.network;
 
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 
 /**
  * State details.
  */
-public class AvailableProvidersListState {
+public final class AvailableProvidersListState {
     /**
      * The state name.
      */
@@ -36,7 +36,7 @@ public class AvailableProvidersListState {
     /**
      * Get the stateName value.
      *
-     * @return the stateName value
+     * @return the stateName value.
      */
     public String stateName() {
         return this.stateName;
@@ -45,7 +45,7 @@ public class AvailableProvidersListState {
     /**
      * Set the stateName value.
      *
-     * @param stateName the stateName value to set
+     * @param stateName the stateName value to set.
      * @return the AvailableProvidersListState object itself.
      */
     public AvailableProvidersListState withStateName(String stateName) {
@@ -56,7 +56,7 @@ public class AvailableProvidersListState {
     /**
      * Get the providers value.
      *
-     * @return the providers value
+     * @return the providers value.
      */
     public List<String> providers() {
         return this.providers;
@@ -65,7 +65,7 @@ public class AvailableProvidersListState {
     /**
      * Set the providers value.
      *
-     * @param providers the providers value to set
+     * @param providers the providers value to set.
      * @return the AvailableProvidersListState object itself.
      */
     public AvailableProvidersListState withProviders(List<String> providers) {
@@ -76,7 +76,7 @@ public class AvailableProvidersListState {
     /**
      * Get the cities value.
      *
-     * @return the cities value
+     * @return the cities value.
      */
     public List<AvailableProvidersListCity> cities() {
         return this.cities;
@@ -85,12 +85,11 @@ public class AvailableProvidersListState {
     /**
      * Set the cities value.
      *
-     * @param cities the cities value to set
+     * @param cities the cities value to set.
      * @return the AvailableProvidersListState object itself.
      */
     public AvailableProvidersListState withCities(List<AvailableProvidersListCity> cities) {
         this.cities = cities;
         return this;
     }
-
 }

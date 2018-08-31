@@ -8,54 +8,24 @@
 
 package com.microsoft.azure.v2.management.network.implementation;
 
-import java.util.Map;
-import com.microsoft.azure.v2.management.network.ConnectionMonitorSource;
-import com.microsoft.azure.v2.management.network.ConnectionMonitorDestination;
-import com.microsoft.azure.v2.management.network.ProvisioningState;
-import org.joda.time.DateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.v2.Resource;
+import com.microsoft.azure.v2.management.network.ConnectionMonitorDestination;
+import com.microsoft.azure.v2.management.network.ConnectionMonitorSource;
+import com.microsoft.azure.v2.management.network.ProvisioningState;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
+import java.time.OffsetDateTime;
 
 /**
  * Information about the connection monitor.
  */
 @JsonFlatten
-public class ConnectionMonitorResultInner {
-    /**
-     * Name of the connection monitor.
-     */
-    @JsonProperty(value = "name", access = JsonProperty.Access.WRITE_ONLY)
-    private String name;
-
-    /**
-     * ID of the connection monitor.
-     */
-    @JsonProperty(value = "id", access = JsonProperty.Access.WRITE_ONLY)
-    private String id;
-
+public class ConnectionMonitorResultInner extends Resource {
     /**
      * The etag property.
      */
     @JsonProperty(value = "etag")
     private String etag;
-
-    /**
-     * Connection monitor type.
-     */
-    @JsonProperty(value = "type", access = JsonProperty.Access.WRITE_ONLY)
-    private String type;
-
-    /**
-     * Connection monitor location.
-     */
-    @JsonProperty(value = "location")
-    private String location;
-
-    /**
-     * Connection monitor tags.
-     */
-    @JsonProperty(value = "tags")
-    private Map<String, String> tags;
 
     /**
      * The source property.
@@ -93,7 +63,7 @@ public class ConnectionMonitorResultInner {
      * The date and time when the connection monitor was started.
      */
     @JsonProperty(value = "properties.startTime")
-    private DateTime startTime;
+    private OffsetDateTime startTime;
 
     /**
      * The monitoring status of the connection monitor.
@@ -102,27 +72,9 @@ public class ConnectionMonitorResultInner {
     private String monitoringStatus;
 
     /**
-     * Get the name value.
-     *
-     * @return the name value
-     */
-    public String name() {
-        return this.name;
-    }
-
-    /**
-     * Get the id value.
-     *
-     * @return the id value
-     */
-    public String id() {
-        return this.id;
-    }
-
-    /**
      * Get the etag value.
      *
-     * @return the etag value
+     * @return the etag value.
      */
     public String etag() {
         return this.etag;
@@ -131,7 +83,7 @@ public class ConnectionMonitorResultInner {
     /**
      * Set the etag value.
      *
-     * @param etag the etag value to set
+     * @param etag the etag value to set.
      * @return the ConnectionMonitorResultInner object itself.
      */
     public ConnectionMonitorResultInner withEtag(String etag) {
@@ -140,58 +92,9 @@ public class ConnectionMonitorResultInner {
     }
 
     /**
-     * Get the type value.
-     *
-     * @return the type value
-     */
-    public String type() {
-        return this.type;
-    }
-
-    /**
-     * Get the location value.
-     *
-     * @return the location value
-     */
-    public String location() {
-        return this.location;
-    }
-
-    /**
-     * Set the location value.
-     *
-     * @param location the location value to set
-     * @return the ConnectionMonitorResultInner object itself.
-     */
-    public ConnectionMonitorResultInner withLocation(String location) {
-        this.location = location;
-        return this;
-    }
-
-    /**
-     * Get the tags value.
-     *
-     * @return the tags value
-     */
-    public Map<String, String> tags() {
-        return this.tags;
-    }
-
-    /**
-     * Set the tags value.
-     *
-     * @param tags the tags value to set
-     * @return the ConnectionMonitorResultInner object itself.
-     */
-    public ConnectionMonitorResultInner withTags(Map<String, String> tags) {
-        this.tags = tags;
-        return this;
-    }
-
-    /**
      * Get the source value.
      *
-     * @return the source value
+     * @return the source value.
      */
     public ConnectionMonitorSource source() {
         return this.source;
@@ -200,7 +103,7 @@ public class ConnectionMonitorResultInner {
     /**
      * Set the source value.
      *
-     * @param source the source value to set
+     * @param source the source value to set.
      * @return the ConnectionMonitorResultInner object itself.
      */
     public ConnectionMonitorResultInner withSource(ConnectionMonitorSource source) {
@@ -211,7 +114,7 @@ public class ConnectionMonitorResultInner {
     /**
      * Get the destination value.
      *
-     * @return the destination value
+     * @return the destination value.
      */
     public ConnectionMonitorDestination destination() {
         return this.destination;
@@ -220,7 +123,7 @@ public class ConnectionMonitorResultInner {
     /**
      * Set the destination value.
      *
-     * @param destination the destination value to set
+     * @param destination the destination value to set.
      * @return the ConnectionMonitorResultInner object itself.
      */
     public ConnectionMonitorResultInner withDestination(ConnectionMonitorDestination destination) {
@@ -231,7 +134,7 @@ public class ConnectionMonitorResultInner {
     /**
      * Get the autoStart value.
      *
-     * @return the autoStart value
+     * @return the autoStart value.
      */
     public Boolean autoStart() {
         return this.autoStart;
@@ -240,7 +143,7 @@ public class ConnectionMonitorResultInner {
     /**
      * Set the autoStart value.
      *
-     * @param autoStart the autoStart value to set
+     * @param autoStart the autoStart value to set.
      * @return the ConnectionMonitorResultInner object itself.
      */
     public ConnectionMonitorResultInner withAutoStart(Boolean autoStart) {
@@ -251,7 +154,7 @@ public class ConnectionMonitorResultInner {
     /**
      * Get the monitoringIntervalInSeconds value.
      *
-     * @return the monitoringIntervalInSeconds value
+     * @return the monitoringIntervalInSeconds value.
      */
     public Integer monitoringIntervalInSeconds() {
         return this.monitoringIntervalInSeconds;
@@ -260,7 +163,8 @@ public class ConnectionMonitorResultInner {
     /**
      * Set the monitoringIntervalInSeconds value.
      *
-     * @param monitoringIntervalInSeconds the monitoringIntervalInSeconds value to set
+     * @param monitoringIntervalInSeconds the monitoringIntervalInSeconds value
+     * to set.
      * @return the ConnectionMonitorResultInner object itself.
      */
     public ConnectionMonitorResultInner withMonitoringIntervalInSeconds(Integer monitoringIntervalInSeconds) {
@@ -271,7 +175,7 @@ public class ConnectionMonitorResultInner {
     /**
      * Get the provisioningState value.
      *
-     * @return the provisioningState value
+     * @return the provisioningState value.
      */
     public ProvisioningState provisioningState() {
         return this.provisioningState;
@@ -280,7 +184,7 @@ public class ConnectionMonitorResultInner {
     /**
      * Set the provisioningState value.
      *
-     * @param provisioningState the provisioningState value to set
+     * @param provisioningState the provisioningState value to set.
      * @return the ConnectionMonitorResultInner object itself.
      */
     public ConnectionMonitorResultInner withProvisioningState(ProvisioningState provisioningState) {
@@ -291,19 +195,19 @@ public class ConnectionMonitorResultInner {
     /**
      * Get the startTime value.
      *
-     * @return the startTime value
+     * @return the startTime value.
      */
-    public DateTime startTime() {
+    public OffsetDateTime startTime() {
         return this.startTime;
     }
 
     /**
      * Set the startTime value.
      *
-     * @param startTime the startTime value to set
+     * @param startTime the startTime value to set.
      * @return the ConnectionMonitorResultInner object itself.
      */
-    public ConnectionMonitorResultInner withStartTime(DateTime startTime) {
+    public ConnectionMonitorResultInner withStartTime(OffsetDateTime startTime) {
         this.startTime = startTime;
         return this;
     }
@@ -311,7 +215,7 @@ public class ConnectionMonitorResultInner {
     /**
      * Get the monitoringStatus value.
      *
-     * @return the monitoringStatus value
+     * @return the monitoringStatus value.
      */
     public String monitoringStatus() {
         return this.monitoringStatus;
@@ -320,12 +224,11 @@ public class ConnectionMonitorResultInner {
     /**
      * Set the monitoringStatus value.
      *
-     * @param monitoringStatus the monitoringStatus value to set
+     * @param monitoringStatus the monitoringStatus value to set.
      * @return the ConnectionMonitorResultInner object itself.
      */
     public ConnectionMonitorResultInner withMonitoringStatus(String monitoringStatus) {
         this.monitoringStatus = monitoringStatus;
         return this;
     }
-
 }

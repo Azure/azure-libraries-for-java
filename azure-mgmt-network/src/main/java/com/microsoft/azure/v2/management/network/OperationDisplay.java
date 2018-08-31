@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Display metadata associated with the operation.
  */
-public class OperationDisplay {
+public final class OperationDisplay {
     /**
      * Service provider: Microsoft Network.
      */
@@ -41,7 +41,7 @@ public class OperationDisplay {
     /**
      * Get the provider value.
      *
-     * @return the provider value
+     * @return the provider value.
      */
     public String provider() {
         return this.provider;
@@ -50,7 +50,7 @@ public class OperationDisplay {
     /**
      * Set the provider value.
      *
-     * @param provider the provider value to set
+     * @param provider the provider value to set.
      * @return the OperationDisplay object itself.
      */
     public OperationDisplay withProvider(String provider) {
@@ -61,7 +61,7 @@ public class OperationDisplay {
     /**
      * Get the resource value.
      *
-     * @return the resource value
+     * @return the resource value.
      */
     public String resource() {
         return this.resource;
@@ -70,7 +70,7 @@ public class OperationDisplay {
     /**
      * Set the resource value.
      *
-     * @param resource the resource value to set
+     * @param resource the resource value to set.
      * @return the OperationDisplay object itself.
      */
     public OperationDisplay withResource(String resource) {
@@ -81,7 +81,7 @@ public class OperationDisplay {
     /**
      * Get the operation value.
      *
-     * @return the operation value
+     * @return the operation value.
      */
     public String operation() {
         return this.operation;
@@ -90,7 +90,7 @@ public class OperationDisplay {
     /**
      * Set the operation value.
      *
-     * @param operation the operation value to set
+     * @param operation the operation value to set.
      * @return the OperationDisplay object itself.
      */
     public OperationDisplay withOperation(String operation) {
@@ -101,7 +101,7 @@ public class OperationDisplay {
     /**
      * Get the description value.
      *
-     * @return the description value
+     * @return the description value.
      */
     public String description() {
         return this.description;
@@ -110,12 +110,11 @@ public class OperationDisplay {
     /**
      * Set the description value.
      *
-     * @param description the description value to set
+     * @param description the description value to set.
      * @return the OperationDisplay object itself.
      */
     public OperationDisplay withDescription(String description) {
         this.description = description;
         return this;
     }
-
 }

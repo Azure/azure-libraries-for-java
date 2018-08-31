@@ -8,15 +8,15 @@
 
 package com.microsoft.azure.v2.management.network;
 
-import com.microsoft.azure.SubResource;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.v2.SubResource;
 import java.util.List;
 import java.util.Map;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Effective network security group.
  */
-public class EffectiveNetworkSecurityGroup {
+public final class EffectiveNetworkSecurityGroup {
     /**
      * The ID of network security group that is applied.
      */
@@ -44,7 +44,7 @@ public class EffectiveNetworkSecurityGroup {
     /**
      * Get the networkSecurityGroup value.
      *
-     * @return the networkSecurityGroup value
+     * @return the networkSecurityGroup value.
      */
     public SubResource networkSecurityGroup() {
         return this.networkSecurityGroup;
@@ -53,7 +53,7 @@ public class EffectiveNetworkSecurityGroup {
     /**
      * Set the networkSecurityGroup value.
      *
-     * @param networkSecurityGroup the networkSecurityGroup value to set
+     * @param networkSecurityGroup the networkSecurityGroup value to set.
      * @return the EffectiveNetworkSecurityGroup object itself.
      */
     public EffectiveNetworkSecurityGroup withNetworkSecurityGroup(SubResource networkSecurityGroup) {
@@ -64,7 +64,7 @@ public class EffectiveNetworkSecurityGroup {
     /**
      * Get the association value.
      *
-     * @return the association value
+     * @return the association value.
      */
     public EffectiveNetworkSecurityGroupAssociation association() {
         return this.association;
@@ -73,7 +73,7 @@ public class EffectiveNetworkSecurityGroup {
     /**
      * Set the association value.
      *
-     * @param association the association value to set
+     * @param association the association value to set.
      * @return the EffectiveNetworkSecurityGroup object itself.
      */
     public EffectiveNetworkSecurityGroup withAssociation(EffectiveNetworkSecurityGroupAssociation association) {
@@ -84,7 +84,7 @@ public class EffectiveNetworkSecurityGroup {
     /**
      * Get the effectiveSecurityRules value.
      *
-     * @return the effectiveSecurityRules value
+     * @return the effectiveSecurityRules value.
      */
     public List<EffectiveNetworkSecurityRule> effectiveSecurityRules() {
         return this.effectiveSecurityRules;
@@ -93,7 +93,7 @@ public class EffectiveNetworkSecurityGroup {
     /**
      * Set the effectiveSecurityRules value.
      *
-     * @param effectiveSecurityRules the effectiveSecurityRules value to set
+     * @param effectiveSecurityRules the effectiveSecurityRules value to set.
      * @return the EffectiveNetworkSecurityGroup object itself.
      */
     public EffectiveNetworkSecurityGroup withEffectiveSecurityRules(List<EffectiveNetworkSecurityRule> effectiveSecurityRules) {
@@ -104,7 +104,7 @@ public class EffectiveNetworkSecurityGroup {
     /**
      * Get the tagMap value.
      *
-     * @return the tagMap value
+     * @return the tagMap value.
      */
     public Map<String, List<String>> tagMap() {
         return this.tagMap;
@@ -113,12 +113,11 @@ public class EffectiveNetworkSecurityGroup {
     /**
      * Set the tagMap value.
      *
-     * @param tagMap the tagMap value to set
+     * @param tagMap the tagMap value to set.
      * @return the EffectiveNetworkSecurityGroup object itself.
      */
     public EffectiveNetworkSecurityGroup withTagMap(Map<String, List<String>> tagMap) {
         this.tagMap = tagMap;
         return this;
     }
-
 }

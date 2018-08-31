@@ -8,14 +8,14 @@
 
 package com.microsoft.azure.v2.management.network.implementation;
 
-import java.util.List;
-import com.microsoft.azure.v2.management.network.ExpressRouteCircuitRoutesTable;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.v2.management.network.ExpressRouteCircuitRoutesTable;
+import java.util.List;
 
 /**
  * Response for ListRoutesTable associated with the Express Route Circuits API.
  */
-public class ExpressRouteCircuitsRoutesTableListResultInner {
+public final class ExpressRouteCircuitsRoutesTableListResultInner {
     /**
      * The list of routes table.
      */
@@ -31,7 +31,7 @@ public class ExpressRouteCircuitsRoutesTableListResultInner {
     /**
      * Get the value value.
      *
-     * @return the value value
+     * @return the value value.
      */
     public List<ExpressRouteCircuitRoutesTable> value() {
         return this.value;
@@ -40,8 +40,9 @@ public class ExpressRouteCircuitsRoutesTableListResultInner {
     /**
      * Set the value value.
      *
-     * @param value the value value to set
-     * @return the ExpressRouteCircuitsRoutesTableListResultInner object itself.
+     * @param value the value value to set.
+     * @return the ExpressRouteCircuitsRoutesTableListResultInner object
+     * itself.
      */
     public ExpressRouteCircuitsRoutesTableListResultInner withValue(List<ExpressRouteCircuitRoutesTable> value) {
         this.value = value;
@@ -51,7 +52,7 @@ public class ExpressRouteCircuitsRoutesTableListResultInner {
     /**
      * Get the nextLink value.
      *
-     * @return the nextLink value
+     * @return the nextLink value.
      */
     public String nextLink() {
         return this.nextLink;
@@ -60,12 +61,12 @@ public class ExpressRouteCircuitsRoutesTableListResultInner {
     /**
      * Set the nextLink value.
      *
-     * @param nextLink the nextLink value to set
-     * @return the ExpressRouteCircuitsRoutesTableListResultInner object itself.
+     * @param nextLink the nextLink value to set.
+     * @return the ExpressRouteCircuitsRoutesTableListResultInner object
+     * itself.
      */
     public ExpressRouteCircuitsRoutesTableListResultInner withNextLink(String nextLink) {
         this.nextLink = nextLink;
         return this;
     }
-
 }

@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Backend address of an application gateway.
  */
-public class ApplicationGatewayBackendAddress {
+public final class ApplicationGatewayBackendAddress {
     /**
      * Fully qualified domain name (FQDN).
      */
@@ -29,7 +29,7 @@ public class ApplicationGatewayBackendAddress {
     /**
      * Get the fqdn value.
      *
-     * @return the fqdn value
+     * @return the fqdn value.
      */
     public String fqdn() {
         return this.fqdn;
@@ -38,7 +38,7 @@ public class ApplicationGatewayBackendAddress {
     /**
      * Set the fqdn value.
      *
-     * @param fqdn the fqdn value to set
+     * @param fqdn the fqdn value to set.
      * @return the ApplicationGatewayBackendAddress object itself.
      */
     public ApplicationGatewayBackendAddress withFqdn(String fqdn) {
@@ -49,7 +49,7 @@ public class ApplicationGatewayBackendAddress {
     /**
      * Get the ipAddress value.
      *
-     * @return the ipAddress value
+     * @return the ipAddress value.
      */
     public String ipAddress() {
         return this.ipAddress;
@@ -58,12 +58,11 @@ public class ApplicationGatewayBackendAddress {
     /**
      * Set the ipAddress value.
      *
-     * @param ipAddress the ipAddress value to set
+     * @param ipAddress the ipAddress value to set.
      * @return the ApplicationGatewayBackendAddress object itself.
      */
     public ApplicationGatewayBackendAddress withIpAddress(String ipAddress) {
         this.ipAddress = ipAddress;
         return this;
     }
-
 }

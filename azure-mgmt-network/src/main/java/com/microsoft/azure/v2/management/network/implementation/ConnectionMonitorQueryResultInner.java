@@ -8,15 +8,15 @@
 
 package com.microsoft.azure.v2.management.network.implementation;
 
-import com.microsoft.azure.v2.management.network.ConnectionMonitorSourceStatus;
-import java.util.List;
-import com.microsoft.azure.v2.management.network.ConnectionStateSnapshot;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.v2.management.network.ConnectionMonitorSourceStatus;
+import com.microsoft.azure.v2.management.network.ConnectionStateSnapshot;
+import java.util.List;
 
 /**
  * List of connection states snaphots.
  */
-public class ConnectionMonitorQueryResultInner {
+public final class ConnectionMonitorQueryResultInner {
     /**
      * Status of connection monitor source. Possible values include: 'Uknown',
      * 'Active', 'Inactive'.
@@ -33,7 +33,7 @@ public class ConnectionMonitorQueryResultInner {
     /**
      * Get the sourceStatus value.
      *
-     * @return the sourceStatus value
+     * @return the sourceStatus value.
      */
     public ConnectionMonitorSourceStatus sourceStatus() {
         return this.sourceStatus;
@@ -42,7 +42,7 @@ public class ConnectionMonitorQueryResultInner {
     /**
      * Set the sourceStatus value.
      *
-     * @param sourceStatus the sourceStatus value to set
+     * @param sourceStatus the sourceStatus value to set.
      * @return the ConnectionMonitorQueryResultInner object itself.
      */
     public ConnectionMonitorQueryResultInner withSourceStatus(ConnectionMonitorSourceStatus sourceStatus) {
@@ -53,7 +53,7 @@ public class ConnectionMonitorQueryResultInner {
     /**
      * Get the states value.
      *
-     * @return the states value
+     * @return the states value.
      */
     public List<ConnectionStateSnapshot> states() {
         return this.states;
@@ -62,12 +62,11 @@ public class ConnectionMonitorQueryResultInner {
     /**
      * Set the states value.
      *
-     * @param states the states value to set
+     * @param states the states value to set.
      * @return the ConnectionMonitorQueryResultInner object itself.
      */
     public ConnectionMonitorQueryResultInner withStates(List<ConnectionStateSnapshot> states) {
         this.states = states;
         return this;
     }
-
 }

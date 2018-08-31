@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * BGP peer status details.
  */
-public class BgpPeerStatus {
+public final class BgpPeerStatus {
     /**
      * The virtual network gateway's local address.
      */
@@ -66,7 +66,7 @@ public class BgpPeerStatus {
     /**
      * Get the localAddress value.
      *
-     * @return the localAddress value
+     * @return the localAddress value.
      */
     public String localAddress() {
         return this.localAddress;
@@ -75,7 +75,7 @@ public class BgpPeerStatus {
     /**
      * Get the neighbor value.
      *
-     * @return the neighbor value
+     * @return the neighbor value.
      */
     public String neighbor() {
         return this.neighbor;
@@ -84,7 +84,7 @@ public class BgpPeerStatus {
     /**
      * Get the asn value.
      *
-     * @return the asn value
+     * @return the asn value.
      */
     public Integer asn() {
         return this.asn;
@@ -93,7 +93,7 @@ public class BgpPeerStatus {
     /**
      * Get the state value.
      *
-     * @return the state value
+     * @return the state value.
      */
     public BgpPeerState state() {
         return this.state;
@@ -102,7 +102,7 @@ public class BgpPeerStatus {
     /**
      * Get the connectedDuration value.
      *
-     * @return the connectedDuration value
+     * @return the connectedDuration value.
      */
     public String connectedDuration() {
         return this.connectedDuration;
@@ -111,7 +111,7 @@ public class BgpPeerStatus {
     /**
      * Get the routesReceived value.
      *
-     * @return the routesReceived value
+     * @return the routesReceived value.
      */
     public Long routesReceived() {
         return this.routesReceived;
@@ -120,7 +120,7 @@ public class BgpPeerStatus {
     /**
      * Get the messagesSent value.
      *
-     * @return the messagesSent value
+     * @return the messagesSent value.
      */
     public Long messagesSent() {
         return this.messagesSent;
@@ -129,10 +129,9 @@ public class BgpPeerStatus {
     /**
      * Get the messagesReceived value.
      *
-     * @return the messagesReceived value
+     * @return the messagesReceived value.
      */
     public Long messagesReceived() {
         return this.messagesReceived;
     }
-
 }

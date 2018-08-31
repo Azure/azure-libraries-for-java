@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * A reference to VirtualNetworkGateway or LocalNetworkGateway resource.
  */
-public class VirtualNetworkConnectionGatewayReference {
+public final class VirtualNetworkConnectionGatewayReference {
     /**
      * The ID of VirtualNetworkGateway or LocalNetworkGateway resource.
      */
@@ -23,7 +23,7 @@ public class VirtualNetworkConnectionGatewayReference {
     /**
      * Get the id value.
      *
-     * @return the id value
+     * @return the id value.
      */
     public String id() {
         return this.id;
@@ -32,12 +32,11 @@ public class VirtualNetworkConnectionGatewayReference {
     /**
      * Set the id value.
      *
-     * @param id the id value to set
+     * @param id the id value to set.
      * @return the VirtualNetworkConnectionGatewayReference object itself.
      */
     public VirtualNetworkConnectionGatewayReference withId(String id) {
         this.id = id;
         return this;
     }
-
 }

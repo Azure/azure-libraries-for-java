@@ -8,24 +8,29 @@
 
 package com.microsoft.azure.v2.management.network;
 
-import java.util.Collection;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.microsoft.rest.ExpandableStringEnum;
+import com.microsoft.rest.v2.ExpandableStringEnum;
+import java.util.Collection;
 
 /**
  * Defines values for IpFlowProtocol.
  */
 public final class IpFlowProtocol extends ExpandableStringEnum<IpFlowProtocol> {
-    /** Static value TCP for IpFlowProtocol. */
+    /**
+     * Static value TCP for IpFlowProtocol.
+     */
     public static final IpFlowProtocol TCP = fromString("TCP");
 
-    /** Static value UDP for IpFlowProtocol. */
+    /**
+     * Static value UDP for IpFlowProtocol.
+     */
     public static final IpFlowProtocol UDP = fromString("UDP");
 
     /**
      * Creates or finds a IpFlowProtocol from its string representation.
-     * @param name a name to look for
-     * @return the corresponding IpFlowProtocol
+     *
+     * @param name a name to look for.
+     * @return the corresponding IpFlowProtocol.
      */
     @JsonCreator
     public static IpFlowProtocol fromString(String name) {
@@ -33,7 +38,7 @@ public final class IpFlowProtocol extends ExpandableStringEnum<IpFlowProtocol> {
     }
 
     /**
-     * @return known IpFlowProtocol values
+     * @return known IpFlowProtocol values.
      */
     public static Collection<IpFlowProtocol> values() {
         return values(IpFlowProtocol.class);

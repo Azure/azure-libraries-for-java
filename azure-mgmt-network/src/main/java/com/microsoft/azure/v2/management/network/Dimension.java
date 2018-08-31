@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Dimension of the metric.
  */
-public class Dimension {
+public final class Dimension {
     /**
      * The name of the dimension.
      */
@@ -35,7 +35,7 @@ public class Dimension {
     /**
      * Get the name value.
      *
-     * @return the name value
+     * @return the name value.
      */
     public String name() {
         return this.name;
@@ -44,7 +44,7 @@ public class Dimension {
     /**
      * Set the name value.
      *
-     * @param name the name value to set
+     * @param name the name value to set.
      * @return the Dimension object itself.
      */
     public Dimension withName(String name) {
@@ -55,7 +55,7 @@ public class Dimension {
     /**
      * Get the displayName value.
      *
-     * @return the displayName value
+     * @return the displayName value.
      */
     public String displayName() {
         return this.displayName;
@@ -64,7 +64,7 @@ public class Dimension {
     /**
      * Set the displayName value.
      *
-     * @param displayName the displayName value to set
+     * @param displayName the displayName value to set.
      * @return the Dimension object itself.
      */
     public Dimension withDisplayName(String displayName) {
@@ -75,7 +75,7 @@ public class Dimension {
     /**
      * Get the internalName value.
      *
-     * @return the internalName value
+     * @return the internalName value.
      */
     public String internalName() {
         return this.internalName;
@@ -84,12 +84,11 @@ public class Dimension {
     /**
      * Set the internalName value.
      *
-     * @param internalName the internalName value to set
+     * @param internalName the internalName value to set.
      * @return the Dimension object itself.
      */
     public Dimension withInternalName(String internalName) {
         this.internalName = internalName;
         return this;
     }
-
 }

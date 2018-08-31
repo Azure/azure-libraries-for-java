@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Usage strings container.
  */
-public class VirtualNetworkUsageName {
+public final class VirtualNetworkUsageName {
     /**
      * Localized subnet size and usage string.
      */
@@ -29,7 +29,7 @@ public class VirtualNetworkUsageName {
     /**
      * Get the localizedValue value.
      *
-     * @return the localizedValue value
+     * @return the localizedValue value.
      */
     public String localizedValue() {
         return this.localizedValue;
@@ -38,10 +38,9 @@ public class VirtualNetworkUsageName {
     /**
      * Get the value value.
      *
-     * @return the value value
+     * @return the value value.
      */
     public String value() {
         return this.value;
     }
-
 }

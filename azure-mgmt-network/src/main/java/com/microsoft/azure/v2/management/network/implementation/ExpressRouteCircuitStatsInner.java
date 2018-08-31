@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Contains stats associated with the peering.
  */
-public class ExpressRouteCircuitStatsInner {
+public final class ExpressRouteCircuitStatsInner {
     /**
      * Gets BytesIn of the peering.
      */
@@ -41,7 +41,7 @@ public class ExpressRouteCircuitStatsInner {
     /**
      * Get the primarybytesIn value.
      *
-     * @return the primarybytesIn value
+     * @return the primarybytesIn value.
      */
     public Long primarybytesIn() {
         return this.primarybytesIn;
@@ -50,7 +50,7 @@ public class ExpressRouteCircuitStatsInner {
     /**
      * Set the primarybytesIn value.
      *
-     * @param primarybytesIn the primarybytesIn value to set
+     * @param primarybytesIn the primarybytesIn value to set.
      * @return the ExpressRouteCircuitStatsInner object itself.
      */
     public ExpressRouteCircuitStatsInner withPrimarybytesIn(Long primarybytesIn) {
@@ -61,7 +61,7 @@ public class ExpressRouteCircuitStatsInner {
     /**
      * Get the primarybytesOut value.
      *
-     * @return the primarybytesOut value
+     * @return the primarybytesOut value.
      */
     public Long primarybytesOut() {
         return this.primarybytesOut;
@@ -70,7 +70,7 @@ public class ExpressRouteCircuitStatsInner {
     /**
      * Set the primarybytesOut value.
      *
-     * @param primarybytesOut the primarybytesOut value to set
+     * @param primarybytesOut the primarybytesOut value to set.
      * @return the ExpressRouteCircuitStatsInner object itself.
      */
     public ExpressRouteCircuitStatsInner withPrimarybytesOut(Long primarybytesOut) {
@@ -81,7 +81,7 @@ public class ExpressRouteCircuitStatsInner {
     /**
      * Get the secondarybytesIn value.
      *
-     * @return the secondarybytesIn value
+     * @return the secondarybytesIn value.
      */
     public Long secondarybytesIn() {
         return this.secondarybytesIn;
@@ -90,7 +90,7 @@ public class ExpressRouteCircuitStatsInner {
     /**
      * Set the secondarybytesIn value.
      *
-     * @param secondarybytesIn the secondarybytesIn value to set
+     * @param secondarybytesIn the secondarybytesIn value to set.
      * @return the ExpressRouteCircuitStatsInner object itself.
      */
     public ExpressRouteCircuitStatsInner withSecondarybytesIn(Long secondarybytesIn) {
@@ -101,7 +101,7 @@ public class ExpressRouteCircuitStatsInner {
     /**
      * Get the secondarybytesOut value.
      *
-     * @return the secondarybytesOut value
+     * @return the secondarybytesOut value.
      */
     public Long secondarybytesOut() {
         return this.secondarybytesOut;
@@ -110,12 +110,11 @@ public class ExpressRouteCircuitStatsInner {
     /**
      * Set the secondarybytesOut value.
      *
-     * @param secondarybytesOut the secondarybytesOut value to set
+     * @param secondarybytesOut the secondarybytesOut value to set.
      * @return the ExpressRouteCircuitStatsInner object itself.
      */
     public ExpressRouteCircuitStatsInner withSecondarybytesOut(Long secondarybytesOut) {
         this.secondarybytesOut = secondarybytesOut;
         return this;
     }
-
 }

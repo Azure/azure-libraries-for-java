@@ -8,13 +8,13 @@
 
 package com.microsoft.azure.v2.management.network;
 
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 
 /**
  * Specification of the service.
  */
-public class OperationPropertiesFormatServiceSpecification {
+public final class OperationPropertiesFormatServiceSpecification {
     /**
      * Operation service specification.
      */
@@ -30,7 +30,7 @@ public class OperationPropertiesFormatServiceSpecification {
     /**
      * Get the metricSpecifications value.
      *
-     * @return the metricSpecifications value
+     * @return the metricSpecifications value.
      */
     public List<MetricSpecification> metricSpecifications() {
         return this.metricSpecifications;
@@ -39,7 +39,7 @@ public class OperationPropertiesFormatServiceSpecification {
     /**
      * Set the metricSpecifications value.
      *
-     * @param metricSpecifications the metricSpecifications value to set
+     * @param metricSpecifications the metricSpecifications value to set.
      * @return the OperationPropertiesFormatServiceSpecification object itself.
      */
     public OperationPropertiesFormatServiceSpecification withMetricSpecifications(List<MetricSpecification> metricSpecifications) {
@@ -50,7 +50,7 @@ public class OperationPropertiesFormatServiceSpecification {
     /**
      * Get the logSpecifications value.
      *
-     * @return the logSpecifications value
+     * @return the logSpecifications value.
      */
     public List<LogSpecification> logSpecifications() {
         return this.logSpecifications;
@@ -59,12 +59,11 @@ public class OperationPropertiesFormatServiceSpecification {
     /**
      * Set the logSpecifications value.
      *
-     * @param logSpecifications the logSpecifications value to set
+     * @param logSpecifications the logSpecifications value to set.
      * @return the OperationPropertiesFormatServiceSpecification object itself.
      */
     public OperationPropertiesFormatServiceSpecification withLogSpecifications(List<LogSpecification> logSpecifications) {
         this.logSpecifications = logSpecifications;
         return this;
     }
-
 }

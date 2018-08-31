@@ -8,27 +8,34 @@
 
 package com.microsoft.azure.v2.management.network;
 
-import java.util.Collection;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.microsoft.rest.ExpandableStringEnum;
+import com.microsoft.rest.v2.ExpandableStringEnum;
+import java.util.Collection;
 
 /**
  * Defines values for EvaluationState.
  */
 public final class EvaluationState extends ExpandableStringEnum<EvaluationState> {
-    /** Static value NotStarted for EvaluationState. */
+    /**
+     * Static value NotStarted for EvaluationState.
+     */
     public static final EvaluationState NOT_STARTED = fromString("NotStarted");
 
-    /** Static value InProgress for EvaluationState. */
+    /**
+     * Static value InProgress for EvaluationState.
+     */
     public static final EvaluationState IN_PROGRESS = fromString("InProgress");
 
-    /** Static value Completed for EvaluationState. */
+    /**
+     * Static value Completed for EvaluationState.
+     */
     public static final EvaluationState COMPLETED = fromString("Completed");
 
     /**
      * Creates or finds a EvaluationState from its string representation.
-     * @param name a name to look for
-     * @return the corresponding EvaluationState
+     *
+     * @param name a name to look for.
+     * @return the corresponding EvaluationState.
      */
     @JsonCreator
     public static EvaluationState fromString(String name) {
@@ -36,7 +43,7 @@ public final class EvaluationState extends ExpandableStringEnum<EvaluationState>
     }
 
     /**
-     * @return known EvaluationState values
+     * @return known EvaluationState values.
      */
     public static Collection<EvaluationState> values() {
         return values(EvaluationState.class);

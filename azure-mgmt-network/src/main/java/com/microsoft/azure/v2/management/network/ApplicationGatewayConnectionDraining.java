@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * for a specified time after the backend server got removed from the
  * configuration.
  */
-public class ApplicationGatewayConnectionDraining {
+public final class ApplicationGatewayConnectionDraining {
     /**
      * Whether connection draining is enabled or not.
      */
@@ -32,7 +32,7 @@ public class ApplicationGatewayConnectionDraining {
     /**
      * Get the enabled value.
      *
-     * @return the enabled value
+     * @return the enabled value.
      */
     public boolean enabled() {
         return this.enabled;
@@ -41,7 +41,7 @@ public class ApplicationGatewayConnectionDraining {
     /**
      * Set the enabled value.
      *
-     * @param enabled the enabled value to set
+     * @param enabled the enabled value to set.
      * @return the ApplicationGatewayConnectionDraining object itself.
      */
     public ApplicationGatewayConnectionDraining withEnabled(boolean enabled) {
@@ -52,7 +52,7 @@ public class ApplicationGatewayConnectionDraining {
     /**
      * Get the drainTimeoutInSec value.
      *
-     * @return the drainTimeoutInSec value
+     * @return the drainTimeoutInSec value.
      */
     public int drainTimeoutInSec() {
         return this.drainTimeoutInSec;
@@ -61,12 +61,11 @@ public class ApplicationGatewayConnectionDraining {
     /**
      * Set the drainTimeoutInSec value.
      *
-     * @param drainTimeoutInSec the drainTimeoutInSec value to set
+     * @param drainTimeoutInSec the drainTimeoutInSec value to set.
      * @return the ApplicationGatewayConnectionDraining object itself.
      */
     public ApplicationGatewayConnectionDraining withDrainTimeoutInSec(int drainTimeoutInSec) {
         this.drainTimeoutInSec = drainTimeoutInSec;
         return this;
     }
-
 }

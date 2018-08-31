@@ -8,27 +8,34 @@
 
 package com.microsoft.azure.v2.management.network;
 
-import java.util.Collection;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.microsoft.rest.ExpandableStringEnum;
+import com.microsoft.rest.v2.ExpandableStringEnum;
+import java.util.Collection;
 
 /**
  * Defines values for ConnectionMonitorSourceStatus.
  */
 public final class ConnectionMonitorSourceStatus extends ExpandableStringEnum<ConnectionMonitorSourceStatus> {
-    /** Static value Uknown for ConnectionMonitorSourceStatus. */
+    /**
+     * Static value Uknown for ConnectionMonitorSourceStatus.
+     */
     public static final ConnectionMonitorSourceStatus UKNOWN = fromString("Uknown");
 
-    /** Static value Active for ConnectionMonitorSourceStatus. */
+    /**
+     * Static value Active for ConnectionMonitorSourceStatus.
+     */
     public static final ConnectionMonitorSourceStatus ACTIVE = fromString("Active");
 
-    /** Static value Inactive for ConnectionMonitorSourceStatus. */
+    /**
+     * Static value Inactive for ConnectionMonitorSourceStatus.
+     */
     public static final ConnectionMonitorSourceStatus INACTIVE = fromString("Inactive");
 
     /**
      * Creates or finds a ConnectionMonitorSourceStatus from its string representation.
-     * @param name a name to look for
-     * @return the corresponding ConnectionMonitorSourceStatus
+     *
+     * @param name a name to look for.
+     * @return the corresponding ConnectionMonitorSourceStatus.
      */
     @JsonCreator
     public static ConnectionMonitorSourceStatus fromString(String name) {
@@ -36,7 +43,7 @@ public final class ConnectionMonitorSourceStatus extends ExpandableStringEnum<Co
     }
 
     /**
-     * @return known ConnectionMonitorSourceStatus values
+     * @return known ConnectionMonitorSourceStatus values.
      */
     public static Collection<ConnectionMonitorSourceStatus> values() {
         return values(ConnectionMonitorSourceStatus.class);

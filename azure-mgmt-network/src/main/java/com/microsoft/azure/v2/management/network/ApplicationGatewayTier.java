@@ -8,30 +8,39 @@
 
 package com.microsoft.azure.v2.management.network;
 
-import java.util.Collection;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.microsoft.rest.ExpandableStringEnum;
+import com.microsoft.rest.v2.ExpandableStringEnum;
+import java.util.Collection;
 
 /**
  * Defines values for ApplicationGatewayTier.
  */
 public final class ApplicationGatewayTier extends ExpandableStringEnum<ApplicationGatewayTier> {
-    /** Static value Standard for ApplicationGatewayTier. */
+    /**
+     * Static value Standard for ApplicationGatewayTier.
+     */
     public static final ApplicationGatewayTier STANDARD = fromString("Standard");
 
-    /** Static value WAF for ApplicationGatewayTier. */
+    /**
+     * Static value WAF for ApplicationGatewayTier.
+     */
     public static final ApplicationGatewayTier WAF = fromString("WAF");
 
-    /** Static value Standard_v2 for ApplicationGatewayTier. */
+    /**
+     * Static value Standard_v2 for ApplicationGatewayTier.
+     */
     public static final ApplicationGatewayTier STANDARD_V2 = fromString("Standard_v2");
 
-    /** Static value WAF_v2 for ApplicationGatewayTier. */
+    /**
+     * Static value WAF_v2 for ApplicationGatewayTier.
+     */
     public static final ApplicationGatewayTier WAF_V2 = fromString("WAF_v2");
 
     /**
      * Creates or finds a ApplicationGatewayTier from its string representation.
-     * @param name a name to look for
-     * @return the corresponding ApplicationGatewayTier
+     *
+     * @param name a name to look for.
+     * @return the corresponding ApplicationGatewayTier.
      */
     @JsonCreator
     public static ApplicationGatewayTier fromString(String name) {
@@ -39,7 +48,7 @@ public final class ApplicationGatewayTier extends ExpandableStringEnum<Applicati
     }
 
     /**
-     * @return known ApplicationGatewayTier values
+     * @return known ApplicationGatewayTier values.
      */
     public static Collection<ApplicationGatewayTier> values() {
         return values(ApplicationGatewayTier.class);

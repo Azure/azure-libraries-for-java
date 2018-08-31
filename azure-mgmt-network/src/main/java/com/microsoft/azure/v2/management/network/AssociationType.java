@@ -8,24 +8,29 @@
 
 package com.microsoft.azure.v2.management.network;
 
-import java.util.Collection;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.microsoft.rest.ExpandableStringEnum;
+import com.microsoft.rest.v2.ExpandableStringEnum;
+import java.util.Collection;
 
 /**
  * Defines values for AssociationType.
  */
 public final class AssociationType extends ExpandableStringEnum<AssociationType> {
-    /** Static value Associated for AssociationType. */
+    /**
+     * Static value Associated for AssociationType.
+     */
     public static final AssociationType ASSOCIATED = fromString("Associated");
 
-    /** Static value Contains for AssociationType. */
+    /**
+     * Static value Contains for AssociationType.
+     */
     public static final AssociationType CONTAINS = fromString("Contains");
 
     /**
      * Creates or finds a AssociationType from its string representation.
-     * @param name a name to look for
-     * @return the corresponding AssociationType
+     *
+     * @param name a name to look for.
+     * @return the corresponding AssociationType.
      */
     @JsonCreator
     public static AssociationType fromString(String name) {
@@ -33,7 +38,7 @@ public final class AssociationType extends ExpandableStringEnum<AssociationType>
     }
 
     /**
-     * @return known AssociationType values
+     * @return known AssociationType values.
      */
     public static Collection<AssociationType> values() {
         return values(AssociationType.class);

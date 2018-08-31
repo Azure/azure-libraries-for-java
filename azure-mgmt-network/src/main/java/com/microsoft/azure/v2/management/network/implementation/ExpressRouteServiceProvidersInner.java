@@ -8,78 +8,77 @@
 
 package com.microsoft.azure.v2.management.network.implementation;
 
-import retrofit2.Retrofit;
-import com.google.common.reflect.TypeToken;
-import com.microsoft.azure.AzureServiceFuture;
-import com.microsoft.azure.CloudException;
-import com.microsoft.azure.ListOperationCallback;
-import com.microsoft.azure.Page;
-import com.microsoft.azure.PagedList;
-import com.microsoft.rest.ServiceFuture;
-import com.microsoft.rest.ServiceResponse;
-import java.io.IOException;
-import java.util.List;
-import okhttp3.ResponseBody;
-import retrofit2.http.GET;
-import retrofit2.http.Header;
-import retrofit2.http.Headers;
-import retrofit2.http.Path;
-import retrofit2.http.Query;
-import retrofit2.http.Url;
-import retrofit2.Response;
-import rx.functions.Func1;
-import rx.Observable;
+import com.microsoft.azure.v2.AzureProxy;
+import com.microsoft.azure.v2.CloudException;
+import com.microsoft.azure.v2.Page;
+import com.microsoft.azure.v2.PagedList;
+import com.microsoft.rest.v2.BodyResponse;
+import com.microsoft.rest.v2.annotations.ExpectedResponses;
+import com.microsoft.rest.v2.annotations.GET;
+import com.microsoft.rest.v2.annotations.HeaderParam;
+import com.microsoft.rest.v2.annotations.Host;
+import com.microsoft.rest.v2.annotations.PathParam;
+import com.microsoft.rest.v2.annotations.QueryParam;
+import com.microsoft.rest.v2.annotations.UnexpectedResponseExceptionType;
+import io.reactivex.Observable;
+import io.reactivex.Single;
+import io.reactivex.annotations.NonNull;
 
 /**
- * An instance of this class provides access to all the operations defined
- * in ExpressRouteServiceProviders.
+ * An instance of this class provides access to all the operations defined in
+ * ExpressRouteServiceProviders.
  */
-public class ExpressRouteServiceProvidersInner {
-    /** The Retrofit service to perform REST calls. */
+public final class ExpressRouteServiceProvidersInner {
+    /**
+     * The proxy service used to perform REST calls.
+     */
     private ExpressRouteServiceProvidersService service;
-    /** The service client containing this operation class. */
+
+    /**
+     * The service client containing this operation class.
+     */
     private NetworkManagementClientImpl client;
 
     /**
      * Initializes an instance of ExpressRouteServiceProvidersInner.
      *
-     * @param retrofit the Retrofit instance built from a Retrofit Builder.
      * @param client the instance of the service client containing this operation class.
      */
-    public ExpressRouteServiceProvidersInner(Retrofit retrofit, NetworkManagementClientImpl client) {
-        this.service = retrofit.create(ExpressRouteServiceProvidersService.class);
+    public ExpressRouteServiceProvidersInner(NetworkManagementClientImpl client) {
+        this.service = AzureProxy.create(ExpressRouteServiceProvidersService.class, client);
         this.client = client;
     }
 
     /**
-     * The interface defining all the services for ExpressRouteServiceProviders to be
-     * used by Retrofit to perform actually REST calls.
+     * The interface defining all the services for ExpressRouteServiceProviders
+     * to be used by the proxy service to perform REST calls.
      */
-    interface ExpressRouteServiceProvidersService {
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.ExpressRouteServiceProviders list" })
+    @Host("https://management.azure.com")
+    private interface ExpressRouteServiceProvidersService {
         @GET("subscriptions/{subscriptionId}/providers/Microsoft.Network/expressRouteServiceProviders")
-        Observable<Response<ResponseBody>> list(@Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl<ExpressRouteServiceProviderInner>>> list(@PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.ExpressRouteServiceProviders listNext" })
-        @GET
-        Observable<Response<ResponseBody>> listNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
-
+        @GET("{nextUrl}")
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl<ExpressRouteServiceProviderInner>>> listNext(@PathParam(value = "nextUrl", encoded = true) String nextUrl, @HeaderParam("accept-language") String acceptLanguage);
     }
 
     /**
      * Gets all the available express route service providers.
      *
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;ExpressRouteServiceProviderInner&gt; object if successful.
      */
     public PagedList<ExpressRouteServiceProviderInner> list() {
-        ServiceResponse<Page<ExpressRouteServiceProviderInner>> response = listSinglePageAsync().toBlocking().single();
-        return new PagedList<ExpressRouteServiceProviderInner>(response.body()) {
+        Page<ExpressRouteServiceProviderInner> response = listSinglePageAsync().blockingGet();
+        return new PagedList<ExpressRouteServiceProviderInner>(response) {
             @Override
             public Page<ExpressRouteServiceProviderInner> nextPage(String nextPageLink) {
-                return listNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -87,105 +86,49 @@ public class ExpressRouteServiceProvidersInner {
     /**
      * Gets all the available express route service providers.
      *
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<List<ExpressRouteServiceProviderInner>> listAsync(final ListOperationCallback<ExpressRouteServiceProviderInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listSinglePageAsync(),
-            new Func1<String, Observable<ServiceResponse<Page<ExpressRouteServiceProviderInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ExpressRouteServiceProviderInner>>> call(String nextPageLink) {
-                    return listNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets all the available express route service providers.
-     *
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ExpressRouteServiceProviderInner&gt; object
+     * @return the observable to the PagedList&lt;ExpressRouteServiceProviderInner&gt; object.
      */
     public Observable<Page<ExpressRouteServiceProviderInner>> listAsync() {
-        return listWithServiceResponseAsync()
-            .map(new Func1<ServiceResponse<Page<ExpressRouteServiceProviderInner>>, Page<ExpressRouteServiceProviderInner>>() {
-                @Override
-                public Page<ExpressRouteServiceProviderInner> call(ServiceResponse<Page<ExpressRouteServiceProviderInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets all the available express route service providers.
-     *
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ExpressRouteServiceProviderInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<ExpressRouteServiceProviderInner>>> listWithServiceResponseAsync() {
         return listSinglePageAsync()
-            .concatMap(new Func1<ServiceResponse<Page<ExpressRouteServiceProviderInner>>, Observable<ServiceResponse<Page<ExpressRouteServiceProviderInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ExpressRouteServiceProviderInner>>> call(ServiceResponse<Page<ExpressRouteServiceProviderInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<ExpressRouteServiceProviderInner> page) -> {
+                String nextPageLink = page.nextPageLink();
+                if (nextPageLink == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listNextAsync(nextPageLink));
             });
     }
 
     /**
      * Gets all the available express route service providers.
      *
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;ExpressRouteServiceProviderInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @return the Single&lt;Page&lt;ExpressRouteServiceProviderInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<ExpressRouteServiceProviderInner>>> listSinglePageAsync() {
+    public Single<Page<ExpressRouteServiceProviderInner>> listSinglePageAsync() {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        return service.list(this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ExpressRouteServiceProviderInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ExpressRouteServiceProviderInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<ExpressRouteServiceProviderInner>> result = listDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<ExpressRouteServiceProviderInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl<ExpressRouteServiceProviderInner>> listDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<ExpressRouteServiceProviderInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<ExpressRouteServiceProviderInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+        return service.list(this.client.subscriptionId(), apiVersion, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl<ExpressRouteServiceProviderInner>> res) -> res.body());
     }
 
     /**
      * Gets all the available express route service providers.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;ExpressRouteServiceProviderInner&gt; object if successful.
      */
-    public PagedList<ExpressRouteServiceProviderInner> listNext(final String nextPageLink) {
-        ServiceResponse<Page<ExpressRouteServiceProviderInner>> response = listNextSinglePageAsync(nextPageLink).toBlocking().single();
-        return new PagedList<ExpressRouteServiceProviderInner>(response.body()) {
+    public PagedList<ExpressRouteServiceProviderInner> listNext(@NonNull String nextPageLink) {
+        Page<ExpressRouteServiceProviderInner> response = listNextSinglePageAsync(nextPageLink).blockingGet();
+        return new PagedList<ExpressRouteServiceProviderInner>(response) {
             @Override
             public Page<ExpressRouteServiceProviderInner> nextPage(String nextPageLink) {
-                return listNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -194,92 +137,34 @@ public class ExpressRouteServiceProvidersInner {
      * Gets all the available express route service providers.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;ExpressRouteServiceProviderInner&gt; object.
      */
-    public ServiceFuture<List<ExpressRouteServiceProviderInner>> listNextAsync(final String nextPageLink, final ServiceFuture<List<ExpressRouteServiceProviderInner>> serviceFuture, final ListOperationCallback<ExpressRouteServiceProviderInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listNextSinglePageAsync(nextPageLink),
-            new Func1<String, Observable<ServiceResponse<Page<ExpressRouteServiceProviderInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ExpressRouteServiceProviderInner>>> call(String nextPageLink) {
-                    return listNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets all the available express route service providers.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ExpressRouteServiceProviderInner&gt; object
-     */
-    public Observable<Page<ExpressRouteServiceProviderInner>> listNextAsync(final String nextPageLink) {
-        return listNextWithServiceResponseAsync(nextPageLink)
-            .map(new Func1<ServiceResponse<Page<ExpressRouteServiceProviderInner>>, Page<ExpressRouteServiceProviderInner>>() {
-                @Override
-                public Page<ExpressRouteServiceProviderInner> call(ServiceResponse<Page<ExpressRouteServiceProviderInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets all the available express route service providers.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ExpressRouteServiceProviderInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<ExpressRouteServiceProviderInner>>> listNextWithServiceResponseAsync(final String nextPageLink) {
+    public Observable<Page<ExpressRouteServiceProviderInner>> listNextAsync(@NonNull String nextPageLink) {
         return listNextSinglePageAsync(nextPageLink)
-            .concatMap(new Func1<ServiceResponse<Page<ExpressRouteServiceProviderInner>>, Observable<ServiceResponse<Page<ExpressRouteServiceProviderInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ExpressRouteServiceProviderInner>>> call(ServiceResponse<Page<ExpressRouteServiceProviderInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<ExpressRouteServiceProviderInner> page) -> {
+                String nextPageLink1 = page.nextPageLink();
+                if (nextPageLink1 == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listNextAsync(nextPageLink1));
             });
     }
 
     /**
      * Gets all the available express route service providers.
      *
-    ServiceResponse<PageImpl<ExpressRouteServiceProviderInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;ExpressRouteServiceProviderInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;ExpressRouteServiceProviderInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<ExpressRouteServiceProviderInner>>> listNextSinglePageAsync(final String nextPageLink) {
+    public Single<Page<ExpressRouteServiceProviderInner>> listNextSinglePageAsync(@NonNull String nextPageLink) {
         if (nextPageLink == null) {
             throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
         }
         String nextUrl = String.format("%s", nextPageLink);
-        return service.listNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ExpressRouteServiceProviderInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ExpressRouteServiceProviderInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<ExpressRouteServiceProviderInner>> result = listNextDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<ExpressRouteServiceProviderInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.listNext(nextUrl, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl<ExpressRouteServiceProviderInner>> res) -> res.body());
     }
-
-    private ServiceResponse<PageImpl<ExpressRouteServiceProviderInner>> listNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<ExpressRouteServiceProviderInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<ExpressRouteServiceProviderInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
-    }
-
 }

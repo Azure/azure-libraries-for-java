@@ -8,14 +8,14 @@
 
 package com.microsoft.azure.v2.management.network.implementation;
 
-import java.util.List;
-import com.microsoft.azure.v2.management.network.ExpressRouteCircuitArpTable;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.v2.management.network.ExpressRouteCircuitArpTable;
+import java.util.List;
 
 /**
  * Response for ListArpTable associated with the Express Route Circuits API.
  */
-public class ExpressRouteCircuitsArpTableListResultInner {
+public final class ExpressRouteCircuitsArpTableListResultInner {
     /**
      * Gets list of the ARP table.
      */
@@ -31,7 +31,7 @@ public class ExpressRouteCircuitsArpTableListResultInner {
     /**
      * Get the value value.
      *
-     * @return the value value
+     * @return the value value.
      */
     public List<ExpressRouteCircuitArpTable> value() {
         return this.value;
@@ -40,7 +40,7 @@ public class ExpressRouteCircuitsArpTableListResultInner {
     /**
      * Set the value value.
      *
-     * @param value the value value to set
+     * @param value the value value to set.
      * @return the ExpressRouteCircuitsArpTableListResultInner object itself.
      */
     public ExpressRouteCircuitsArpTableListResultInner withValue(List<ExpressRouteCircuitArpTable> value) {
@@ -51,7 +51,7 @@ public class ExpressRouteCircuitsArpTableListResultInner {
     /**
      * Get the nextLink value.
      *
-     * @return the nextLink value
+     * @return the nextLink value.
      */
     public String nextLink() {
         return this.nextLink;
@@ -60,12 +60,11 @@ public class ExpressRouteCircuitsArpTableListResultInner {
     /**
      * Set the nextLink value.
      *
-     * @param nextLink the nextLink value to set
+     * @param nextLink the nextLink value to set.
      * @return the ExpressRouteCircuitsArpTableListResultInner object itself.
      */
     public ExpressRouteCircuitsArpTableListResultInner withNextLink(String nextLink) {
         this.nextLink = nextLink;
         return this;
     }
-
 }

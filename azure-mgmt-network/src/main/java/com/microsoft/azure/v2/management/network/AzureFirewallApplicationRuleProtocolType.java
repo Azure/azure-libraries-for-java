@@ -8,24 +8,29 @@
 
 package com.microsoft.azure.v2.management.network;
 
-import java.util.Collection;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.microsoft.rest.ExpandableStringEnum;
+import com.microsoft.rest.v2.ExpandableStringEnum;
+import java.util.Collection;
 
 /**
  * Defines values for AzureFirewallApplicationRuleProtocolType.
  */
 public final class AzureFirewallApplicationRuleProtocolType extends ExpandableStringEnum<AzureFirewallApplicationRuleProtocolType> {
-    /** Static value Http for AzureFirewallApplicationRuleProtocolType. */
+    /**
+     * Static value Http for AzureFirewallApplicationRuleProtocolType.
+     */
     public static final AzureFirewallApplicationRuleProtocolType HTTP = fromString("Http");
 
-    /** Static value Https for AzureFirewallApplicationRuleProtocolType. */
+    /**
+     * Static value Https for AzureFirewallApplicationRuleProtocolType.
+     */
     public static final AzureFirewallApplicationRuleProtocolType HTTPS = fromString("Https");
 
     /**
      * Creates or finds a AzureFirewallApplicationRuleProtocolType from its string representation.
-     * @param name a name to look for
-     * @return the corresponding AzureFirewallApplicationRuleProtocolType
+     *
+     * @param name a name to look for.
+     * @return the corresponding AzureFirewallApplicationRuleProtocolType.
      */
     @JsonCreator
     public static AzureFirewallApplicationRuleProtocolType fromString(String name) {
@@ -33,7 +38,7 @@ public final class AzureFirewallApplicationRuleProtocolType extends ExpandableSt
     }
 
     /**
-     * @return known AzureFirewallApplicationRuleProtocolType values
+     * @return known AzureFirewallApplicationRuleProtocolType values.
      */
     public static Collection<AzureFirewallApplicationRuleProtocolType> values() {
         return values(AzureFirewallApplicationRuleProtocolType.class);

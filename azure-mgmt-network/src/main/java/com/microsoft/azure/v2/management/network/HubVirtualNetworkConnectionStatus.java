@@ -8,30 +8,39 @@
 
 package com.microsoft.azure.v2.management.network;
 
-import java.util.Collection;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.microsoft.rest.ExpandableStringEnum;
+import com.microsoft.rest.v2.ExpandableStringEnum;
+import java.util.Collection;
 
 /**
  * Defines values for HubVirtualNetworkConnectionStatus.
  */
 public final class HubVirtualNetworkConnectionStatus extends ExpandableStringEnum<HubVirtualNetworkConnectionStatus> {
-    /** Static value Unknown for HubVirtualNetworkConnectionStatus. */
+    /**
+     * Static value Unknown for HubVirtualNetworkConnectionStatus.
+     */
     public static final HubVirtualNetworkConnectionStatus UNKNOWN = fromString("Unknown");
 
-    /** Static value Connecting for HubVirtualNetworkConnectionStatus. */
+    /**
+     * Static value Connecting for HubVirtualNetworkConnectionStatus.
+     */
     public static final HubVirtualNetworkConnectionStatus CONNECTING = fromString("Connecting");
 
-    /** Static value Connected for HubVirtualNetworkConnectionStatus. */
+    /**
+     * Static value Connected for HubVirtualNetworkConnectionStatus.
+     */
     public static final HubVirtualNetworkConnectionStatus CONNECTED = fromString("Connected");
 
-    /** Static value NotConnected for HubVirtualNetworkConnectionStatus. */
+    /**
+     * Static value NotConnected for HubVirtualNetworkConnectionStatus.
+     */
     public static final HubVirtualNetworkConnectionStatus NOT_CONNECTED = fromString("NotConnected");
 
     /**
      * Creates or finds a HubVirtualNetworkConnectionStatus from its string representation.
-     * @param name a name to look for
-     * @return the corresponding HubVirtualNetworkConnectionStatus
+     *
+     * @param name a name to look for.
+     * @return the corresponding HubVirtualNetworkConnectionStatus.
      */
     @JsonCreator
     public static HubVirtualNetworkConnectionStatus fromString(String name) {
@@ -39,7 +48,7 @@ public final class HubVirtualNetworkConnectionStatus extends ExpandableStringEnu
     }
 
     /**
-     * @return known HubVirtualNetworkConnectionStatus values
+     * @return known HubVirtualNetworkConnectionStatus values.
      */
     public static Collection<HubVirtualNetworkConnectionStatus> values() {
         return values(HubVirtualNetworkConnectionStatus.class);

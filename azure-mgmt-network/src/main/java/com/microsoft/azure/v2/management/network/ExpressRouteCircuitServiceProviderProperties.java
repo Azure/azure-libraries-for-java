@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Contains ServiceProviderProperties in an ExpressRouteCircuit.
  */
-public class ExpressRouteCircuitServiceProviderProperties {
+public final class ExpressRouteCircuitServiceProviderProperties {
     /**
      * The serviceProviderName.
      */
@@ -35,7 +35,7 @@ public class ExpressRouteCircuitServiceProviderProperties {
     /**
      * Get the serviceProviderName value.
      *
-     * @return the serviceProviderName value
+     * @return the serviceProviderName value.
      */
     public String serviceProviderName() {
         return this.serviceProviderName;
@@ -44,7 +44,7 @@ public class ExpressRouteCircuitServiceProviderProperties {
     /**
      * Set the serviceProviderName value.
      *
-     * @param serviceProviderName the serviceProviderName value to set
+     * @param serviceProviderName the serviceProviderName value to set.
      * @return the ExpressRouteCircuitServiceProviderProperties object itself.
      */
     public ExpressRouteCircuitServiceProviderProperties withServiceProviderName(String serviceProviderName) {
@@ -55,7 +55,7 @@ public class ExpressRouteCircuitServiceProviderProperties {
     /**
      * Get the peeringLocation value.
      *
-     * @return the peeringLocation value
+     * @return the peeringLocation value.
      */
     public String peeringLocation() {
         return this.peeringLocation;
@@ -64,7 +64,7 @@ public class ExpressRouteCircuitServiceProviderProperties {
     /**
      * Set the peeringLocation value.
      *
-     * @param peeringLocation the peeringLocation value to set
+     * @param peeringLocation the peeringLocation value to set.
      * @return the ExpressRouteCircuitServiceProviderProperties object itself.
      */
     public ExpressRouteCircuitServiceProviderProperties withPeeringLocation(String peeringLocation) {
@@ -75,7 +75,7 @@ public class ExpressRouteCircuitServiceProviderProperties {
     /**
      * Get the bandwidthInMbps value.
      *
-     * @return the bandwidthInMbps value
+     * @return the bandwidthInMbps value.
      */
     public Integer bandwidthInMbps() {
         return this.bandwidthInMbps;
@@ -84,12 +84,11 @@ public class ExpressRouteCircuitServiceProviderProperties {
     /**
      * Set the bandwidthInMbps value.
      *
-     * @param bandwidthInMbps the bandwidthInMbps value to set
+     * @param bandwidthInMbps the bandwidthInMbps value to set.
      * @return the ExpressRouteCircuitServiceProviderProperties object itself.
      */
     public ExpressRouteCircuitServiceProviderProperties withBandwidthInMbps(Integer bandwidthInMbps) {
         this.bandwidthInMbps = bandwidthInMbps;
         return this;
     }
-
 }

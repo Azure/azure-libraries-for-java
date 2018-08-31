@@ -8,13 +8,13 @@
 
 package com.microsoft.azure.v2.management.network;
 
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 
 /**
  * A web application firewall rule group.
  */
-public class ApplicationGatewayFirewallRuleGroup {
+public final class ApplicationGatewayFirewallRuleGroup {
     /**
      * The name of the web application firewall rule group.
      */
@@ -36,7 +36,7 @@ public class ApplicationGatewayFirewallRuleGroup {
     /**
      * Get the ruleGroupName value.
      *
-     * @return the ruleGroupName value
+     * @return the ruleGroupName value.
      */
     public String ruleGroupName() {
         return this.ruleGroupName;
@@ -45,7 +45,7 @@ public class ApplicationGatewayFirewallRuleGroup {
     /**
      * Set the ruleGroupName value.
      *
-     * @param ruleGroupName the ruleGroupName value to set
+     * @param ruleGroupName the ruleGroupName value to set.
      * @return the ApplicationGatewayFirewallRuleGroup object itself.
      */
     public ApplicationGatewayFirewallRuleGroup withRuleGroupName(String ruleGroupName) {
@@ -56,7 +56,7 @@ public class ApplicationGatewayFirewallRuleGroup {
     /**
      * Get the description value.
      *
-     * @return the description value
+     * @return the description value.
      */
     public String description() {
         return this.description;
@@ -65,7 +65,7 @@ public class ApplicationGatewayFirewallRuleGroup {
     /**
      * Set the description value.
      *
-     * @param description the description value to set
+     * @param description the description value to set.
      * @return the ApplicationGatewayFirewallRuleGroup object itself.
      */
     public ApplicationGatewayFirewallRuleGroup withDescription(String description) {
@@ -76,7 +76,7 @@ public class ApplicationGatewayFirewallRuleGroup {
     /**
      * Get the rules value.
      *
-     * @return the rules value
+     * @return the rules value.
      */
     public List<ApplicationGatewayFirewallRule> rules() {
         return this.rules;
@@ -85,12 +85,11 @@ public class ApplicationGatewayFirewallRuleGroup {
     /**
      * Set the rules value.
      *
-     * @param rules the rules value to set
+     * @param rules the rules value to set.
      * @return the ApplicationGatewayFirewallRuleGroup object itself.
      */
     public ApplicationGatewayFirewallRuleGroup withRules(List<ApplicationGatewayFirewallRule> rules) {
         this.rules = rules;
         return this;
     }
-
 }

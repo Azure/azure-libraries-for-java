@@ -8,13 +8,12 @@
 
 package com.microsoft.azure.v2.management.network.implementation;
 
-import com.microsoft.azure.v2.management.network.ExpressRoutePeeringType;
-import com.microsoft.azure.v2.management.network.ExpressRoutePeeringState;
-import com.microsoft.azure.v2.management.network.ExpressRouteCircuitPeeringConfig;
-import com.microsoft.azure.v2.management.network.Ipv6ExpressRouteCircuitPeeringConfig;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.SubResource;
+import com.microsoft.azure.v2.SubResource;
+import com.microsoft.azure.v2.management.network.ExpressRouteCircuitPeeringConfig;
+import com.microsoft.azure.v2.management.network.ExpressRoutePeeringState;
+import com.microsoft.azure.v2.management.network.ExpressRoutePeeringType;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
 
 /**
  * Peering in an ExpressRoute Cross Connection resource.
@@ -111,7 +110,7 @@ public class ExpressRouteCrossConnectionPeeringInner extends SubResource {
      * The IPv6 peering configuration.
      */
     @JsonProperty(value = "properties.ipv6PeeringConfig")
-    private Ipv6ExpressRouteCircuitPeeringConfig ipv6PeeringConfig;
+    private Ipv6ExpressRouteCircuitPeeringConfigInner ipv6PeeringConfig;
 
     /**
      * Gets name of the resource that is unique within a resource group. This
@@ -129,7 +128,7 @@ public class ExpressRouteCrossConnectionPeeringInner extends SubResource {
     /**
      * Get the peeringType value.
      *
-     * @return the peeringType value
+     * @return the peeringType value.
      */
     public ExpressRoutePeeringType peeringType() {
         return this.peeringType;
@@ -138,7 +137,7 @@ public class ExpressRouteCrossConnectionPeeringInner extends SubResource {
     /**
      * Set the peeringType value.
      *
-     * @param peeringType the peeringType value to set
+     * @param peeringType the peeringType value to set.
      * @return the ExpressRouteCrossConnectionPeeringInner object itself.
      */
     public ExpressRouteCrossConnectionPeeringInner withPeeringType(ExpressRoutePeeringType peeringType) {
@@ -149,7 +148,7 @@ public class ExpressRouteCrossConnectionPeeringInner extends SubResource {
     /**
      * Get the state value.
      *
-     * @return the state value
+     * @return the state value.
      */
     public ExpressRoutePeeringState state() {
         return this.state;
@@ -158,7 +157,7 @@ public class ExpressRouteCrossConnectionPeeringInner extends SubResource {
     /**
      * Set the state value.
      *
-     * @param state the state value to set
+     * @param state the state value to set.
      * @return the ExpressRouteCrossConnectionPeeringInner object itself.
      */
     public ExpressRouteCrossConnectionPeeringInner withState(ExpressRoutePeeringState state) {
@@ -169,7 +168,7 @@ public class ExpressRouteCrossConnectionPeeringInner extends SubResource {
     /**
      * Get the azureASN value.
      *
-     * @return the azureASN value
+     * @return the azureASN value.
      */
     public Integer azureASN() {
         return this.azureASN;
@@ -178,7 +177,7 @@ public class ExpressRouteCrossConnectionPeeringInner extends SubResource {
     /**
      * Get the peerASN value.
      *
-     * @return the peerASN value
+     * @return the peerASN value.
      */
     public Long peerASN() {
         return this.peerASN;
@@ -187,7 +186,7 @@ public class ExpressRouteCrossConnectionPeeringInner extends SubResource {
     /**
      * Set the peerASN value.
      *
-     * @param peerASN the peerASN value to set
+     * @param peerASN the peerASN value to set.
      * @return the ExpressRouteCrossConnectionPeeringInner object itself.
      */
     public ExpressRouteCrossConnectionPeeringInner withPeerASN(Long peerASN) {
@@ -198,7 +197,7 @@ public class ExpressRouteCrossConnectionPeeringInner extends SubResource {
     /**
      * Get the primaryPeerAddressPrefix value.
      *
-     * @return the primaryPeerAddressPrefix value
+     * @return the primaryPeerAddressPrefix value.
      */
     public String primaryPeerAddressPrefix() {
         return this.primaryPeerAddressPrefix;
@@ -207,7 +206,8 @@ public class ExpressRouteCrossConnectionPeeringInner extends SubResource {
     /**
      * Set the primaryPeerAddressPrefix value.
      *
-     * @param primaryPeerAddressPrefix the primaryPeerAddressPrefix value to set
+     * @param primaryPeerAddressPrefix the primaryPeerAddressPrefix value to
+     * set.
      * @return the ExpressRouteCrossConnectionPeeringInner object itself.
      */
     public ExpressRouteCrossConnectionPeeringInner withPrimaryPeerAddressPrefix(String primaryPeerAddressPrefix) {
@@ -218,7 +218,7 @@ public class ExpressRouteCrossConnectionPeeringInner extends SubResource {
     /**
      * Get the secondaryPeerAddressPrefix value.
      *
-     * @return the secondaryPeerAddressPrefix value
+     * @return the secondaryPeerAddressPrefix value.
      */
     public String secondaryPeerAddressPrefix() {
         return this.secondaryPeerAddressPrefix;
@@ -227,7 +227,8 @@ public class ExpressRouteCrossConnectionPeeringInner extends SubResource {
     /**
      * Set the secondaryPeerAddressPrefix value.
      *
-     * @param secondaryPeerAddressPrefix the secondaryPeerAddressPrefix value to set
+     * @param secondaryPeerAddressPrefix the secondaryPeerAddressPrefix value
+     * to set.
      * @return the ExpressRouteCrossConnectionPeeringInner object itself.
      */
     public ExpressRouteCrossConnectionPeeringInner withSecondaryPeerAddressPrefix(String secondaryPeerAddressPrefix) {
@@ -238,7 +239,7 @@ public class ExpressRouteCrossConnectionPeeringInner extends SubResource {
     /**
      * Get the primaryAzurePort value.
      *
-     * @return the primaryAzurePort value
+     * @return the primaryAzurePort value.
      */
     public String primaryAzurePort() {
         return this.primaryAzurePort;
@@ -247,7 +248,7 @@ public class ExpressRouteCrossConnectionPeeringInner extends SubResource {
     /**
      * Get the secondaryAzurePort value.
      *
-     * @return the secondaryAzurePort value
+     * @return the secondaryAzurePort value.
      */
     public String secondaryAzurePort() {
         return this.secondaryAzurePort;
@@ -256,7 +257,7 @@ public class ExpressRouteCrossConnectionPeeringInner extends SubResource {
     /**
      * Get the sharedKey value.
      *
-     * @return the sharedKey value
+     * @return the sharedKey value.
      */
     public String sharedKey() {
         return this.sharedKey;
@@ -265,7 +266,7 @@ public class ExpressRouteCrossConnectionPeeringInner extends SubResource {
     /**
      * Set the sharedKey value.
      *
-     * @param sharedKey the sharedKey value to set
+     * @param sharedKey the sharedKey value to set.
      * @return the ExpressRouteCrossConnectionPeeringInner object itself.
      */
     public ExpressRouteCrossConnectionPeeringInner withSharedKey(String sharedKey) {
@@ -276,7 +277,7 @@ public class ExpressRouteCrossConnectionPeeringInner extends SubResource {
     /**
      * Get the vlanId value.
      *
-     * @return the vlanId value
+     * @return the vlanId value.
      */
     public Integer vlanId() {
         return this.vlanId;
@@ -285,7 +286,7 @@ public class ExpressRouteCrossConnectionPeeringInner extends SubResource {
     /**
      * Set the vlanId value.
      *
-     * @param vlanId the vlanId value to set
+     * @param vlanId the vlanId value to set.
      * @return the ExpressRouteCrossConnectionPeeringInner object itself.
      */
     public ExpressRouteCrossConnectionPeeringInner withVlanId(Integer vlanId) {
@@ -296,7 +297,7 @@ public class ExpressRouteCrossConnectionPeeringInner extends SubResource {
     /**
      * Get the microsoftPeeringConfig value.
      *
-     * @return the microsoftPeeringConfig value
+     * @return the microsoftPeeringConfig value.
      */
     public ExpressRouteCircuitPeeringConfig microsoftPeeringConfig() {
         return this.microsoftPeeringConfig;
@@ -305,7 +306,7 @@ public class ExpressRouteCrossConnectionPeeringInner extends SubResource {
     /**
      * Set the microsoftPeeringConfig value.
      *
-     * @param microsoftPeeringConfig the microsoftPeeringConfig value to set
+     * @param microsoftPeeringConfig the microsoftPeeringConfig value to set.
      * @return the ExpressRouteCrossConnectionPeeringInner object itself.
      */
     public ExpressRouteCrossConnectionPeeringInner withMicrosoftPeeringConfig(ExpressRouteCircuitPeeringConfig microsoftPeeringConfig) {
@@ -316,7 +317,7 @@ public class ExpressRouteCrossConnectionPeeringInner extends SubResource {
     /**
      * Get the provisioningState value.
      *
-     * @return the provisioningState value
+     * @return the provisioningState value.
      */
     public String provisioningState() {
         return this.provisioningState;
@@ -325,7 +326,7 @@ public class ExpressRouteCrossConnectionPeeringInner extends SubResource {
     /**
      * Get the gatewayManagerEtag value.
      *
-     * @return the gatewayManagerEtag value
+     * @return the gatewayManagerEtag value.
      */
     public String gatewayManagerEtag() {
         return this.gatewayManagerEtag;
@@ -334,7 +335,7 @@ public class ExpressRouteCrossConnectionPeeringInner extends SubResource {
     /**
      * Set the gatewayManagerEtag value.
      *
-     * @param gatewayManagerEtag the gatewayManagerEtag value to set
+     * @param gatewayManagerEtag the gatewayManagerEtag value to set.
      * @return the ExpressRouteCrossConnectionPeeringInner object itself.
      */
     public ExpressRouteCrossConnectionPeeringInner withGatewayManagerEtag(String gatewayManagerEtag) {
@@ -345,7 +346,7 @@ public class ExpressRouteCrossConnectionPeeringInner extends SubResource {
     /**
      * Get the lastModifiedBy value.
      *
-     * @return the lastModifiedBy value
+     * @return the lastModifiedBy value.
      */
     public String lastModifiedBy() {
         return this.lastModifiedBy;
@@ -354,7 +355,7 @@ public class ExpressRouteCrossConnectionPeeringInner extends SubResource {
     /**
      * Set the lastModifiedBy value.
      *
-     * @param lastModifiedBy the lastModifiedBy value to set
+     * @param lastModifiedBy the lastModifiedBy value to set.
      * @return the ExpressRouteCrossConnectionPeeringInner object itself.
      */
     public ExpressRouteCrossConnectionPeeringInner withLastModifiedBy(String lastModifiedBy) {
@@ -365,19 +366,19 @@ public class ExpressRouteCrossConnectionPeeringInner extends SubResource {
     /**
      * Get the ipv6PeeringConfig value.
      *
-     * @return the ipv6PeeringConfig value
+     * @return the ipv6PeeringConfig value.
      */
-    public Ipv6ExpressRouteCircuitPeeringConfig ipv6PeeringConfig() {
+    public Ipv6ExpressRouteCircuitPeeringConfigInner ipv6PeeringConfig() {
         return this.ipv6PeeringConfig;
     }
 
     /**
      * Set the ipv6PeeringConfig value.
      *
-     * @param ipv6PeeringConfig the ipv6PeeringConfig value to set
+     * @param ipv6PeeringConfig the ipv6PeeringConfig value to set.
      * @return the ExpressRouteCrossConnectionPeeringInner object itself.
      */
-    public ExpressRouteCrossConnectionPeeringInner withIpv6PeeringConfig(Ipv6ExpressRouteCircuitPeeringConfig ipv6PeeringConfig) {
+    public ExpressRouteCrossConnectionPeeringInner withIpv6PeeringConfig(Ipv6ExpressRouteCircuitPeeringConfigInner ipv6PeeringConfig) {
         this.ipv6PeeringConfig = ipv6PeeringConfig;
         return this;
     }
@@ -385,7 +386,7 @@ public class ExpressRouteCrossConnectionPeeringInner extends SubResource {
     /**
      * Get the name value.
      *
-     * @return the name value
+     * @return the name value.
      */
     public String name() {
         return this.name;
@@ -394,7 +395,7 @@ public class ExpressRouteCrossConnectionPeeringInner extends SubResource {
     /**
      * Set the name value.
      *
-     * @param name the name value to set
+     * @param name the name value to set.
      * @return the ExpressRouteCrossConnectionPeeringInner object itself.
      */
     public ExpressRouteCrossConnectionPeeringInner withName(String name) {
@@ -405,10 +406,9 @@ public class ExpressRouteCrossConnectionPeeringInner extends SubResource {
     /**
      * Get the etag value.
      *
-     * @return the etag value
+     * @return the etag value.
      */
     public String etag() {
         return this.etag;
     }
-
 }

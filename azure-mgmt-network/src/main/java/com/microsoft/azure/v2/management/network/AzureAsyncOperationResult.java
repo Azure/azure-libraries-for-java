@@ -20,7 +20,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * includes the HTTP status code for the failed request and error information
  * regarding the failure.
  */
-public class AzureAsyncOperationResult {
+public final class AzureAsyncOperationResult {
     /**
      * Status of the Azure async operation. Possible values are: 'InProgress',
      * 'Succeeded', and 'Failed'. Possible values include: 'InProgress',
@@ -38,7 +38,7 @@ public class AzureAsyncOperationResult {
     /**
      * Get the status value.
      *
-     * @return the status value
+     * @return the status value.
      */
     public NetworkOperationStatus status() {
         return this.status;
@@ -47,7 +47,7 @@ public class AzureAsyncOperationResult {
     /**
      * Set the status value.
      *
-     * @param status the status value to set
+     * @param status the status value to set.
      * @return the AzureAsyncOperationResult object itself.
      */
     public AzureAsyncOperationResult withStatus(NetworkOperationStatus status) {
@@ -58,7 +58,7 @@ public class AzureAsyncOperationResult {
     /**
      * Get the error value.
      *
-     * @return the error value
+     * @return the error value.
      */
     public Error error() {
         return this.error;
@@ -67,12 +67,11 @@ public class AzureAsyncOperationResult {
     /**
      * Set the error value.
      *
-     * @param error the error value to set
+     * @param error the error value to set.
      * @return the AzureAsyncOperationResult object itself.
      */
     public AzureAsyncOperationResult withError(Error error) {
         this.error = error;
         return this;
     }
-
 }

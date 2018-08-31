@@ -14,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * Parameters that define a resource to query flow log and traffic analytics
  * (optional) status.
  */
-public class FlowLogStatusParameters {
+public final class FlowLogStatusParameters {
     /**
      * The target resource where getting the flow log and traffic analytics
      * (optional) status.
@@ -25,7 +25,7 @@ public class FlowLogStatusParameters {
     /**
      * Get the targetResourceId value.
      *
-     * @return the targetResourceId value
+     * @return the targetResourceId value.
      */
     public String targetResourceId() {
         return this.targetResourceId;
@@ -34,12 +34,11 @@ public class FlowLogStatusParameters {
     /**
      * Set the targetResourceId value.
      *
-     * @param targetResourceId the targetResourceId value to set
+     * @param targetResourceId the targetResourceId value to set.
      * @return the FlowLogStatusParameters object itself.
      */
     public FlowLogStatusParameters withTargetResourceId(String targetResourceId) {
         this.targetResourceId = targetResourceId;
         return this;
     }
-
 }

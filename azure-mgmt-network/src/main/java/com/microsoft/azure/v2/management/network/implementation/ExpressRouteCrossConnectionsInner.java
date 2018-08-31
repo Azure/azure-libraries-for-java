@@ -8,140 +8,189 @@
 
 package com.microsoft.azure.v2.management.network.implementation;
 
+import com.microsoft.azure.v2.AzureProxy;
+import com.microsoft.azure.v2.CloudException;
+import com.microsoft.azure.v2.OperationStatus;
+import com.microsoft.azure.v2.Page;
+import com.microsoft.azure.v2.PagedList;
+import com.microsoft.azure.v2.management.network.TagsObject;
 import com.microsoft.azure.v2.management.resources.fluentcore.collection.InnerSupportsGet;
 import com.microsoft.azure.v2.management.resources.fluentcore.collection.InnerSupportsListing;
-import retrofit2.Retrofit;
-import com.google.common.reflect.TypeToken;
-import com.microsoft.azure.AzureServiceFuture;
-import com.microsoft.azure.CloudException;
-import com.microsoft.azure.ListOperationCallback;
-import com.microsoft.azure.v2.management.network.TagsObject;
-import com.microsoft.azure.Page;
-import com.microsoft.azure.PagedList;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import com.microsoft.rest.ServiceResponse;
-import com.microsoft.rest.Validator;
-import java.io.IOException;
-import java.util.List;
+import com.microsoft.azure.v2.util.ServiceFutureUtil;
+import com.microsoft.rest.v2.BodyResponse;
+import com.microsoft.rest.v2.OperationDescription;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
+import com.microsoft.rest.v2.Validator;
+import com.microsoft.rest.v2.annotations.BodyParam;
+import com.microsoft.rest.v2.annotations.ExpectedResponses;
+import com.microsoft.rest.v2.annotations.GET;
+import com.microsoft.rest.v2.annotations.HeaderParam;
+import com.microsoft.rest.v2.annotations.Host;
+import com.microsoft.rest.v2.annotations.PATCH;
+import com.microsoft.rest.v2.annotations.PathParam;
+import com.microsoft.rest.v2.annotations.POST;
+import com.microsoft.rest.v2.annotations.PUT;
+import com.microsoft.rest.v2.annotations.QueryParam;
+import com.microsoft.rest.v2.annotations.ResumeOperation;
+import com.microsoft.rest.v2.annotations.UnexpectedResponseExceptionType;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
+import io.reactivex.Single;
+import io.reactivex.annotations.NonNull;
+import java.util.HashMap;
 import java.util.Map;
-import okhttp3.ResponseBody;
-import retrofit2.http.Body;
-import retrofit2.http.GET;
-import retrofit2.http.Header;
-import retrofit2.http.Headers;
-import retrofit2.http.PATCH;
-import retrofit2.http.Path;
-import retrofit2.http.POST;
-import retrofit2.http.PUT;
-import retrofit2.http.Query;
-import retrofit2.http.Url;
-import retrofit2.Response;
-import rx.functions.Func1;
-import rx.Observable;
 
 /**
- * An instance of this class provides access to all the operations defined
- * in ExpressRouteCrossConnections.
+ * An instance of this class provides access to all the operations defined in
+ * ExpressRouteCrossConnections.
  */
-public class ExpressRouteCrossConnectionsInner implements InnerSupportsGet<ExpressRouteCrossConnectionInner>, InnerSupportsListing<ExpressRouteCrossConnectionInner> {
-    /** The Retrofit service to perform REST calls. */
+public final class ExpressRouteCrossConnectionsInner implements InnerSupportsGet<ExpressRouteCrossConnectionInner>, InnerSupportsListing<ExpressRouteCrossConnectionInner> {
+    /**
+     * The proxy service used to perform REST calls.
+     */
     private ExpressRouteCrossConnectionsService service;
-    /** The service client containing this operation class. */
+
+    /**
+     * The service client containing this operation class.
+     */
     private NetworkManagementClientImpl client;
 
     /**
      * Initializes an instance of ExpressRouteCrossConnectionsInner.
      *
-     * @param retrofit the Retrofit instance built from a Retrofit Builder.
      * @param client the instance of the service client containing this operation class.
      */
-    public ExpressRouteCrossConnectionsInner(Retrofit retrofit, NetworkManagementClientImpl client) {
-        this.service = retrofit.create(ExpressRouteCrossConnectionsService.class);
+    public ExpressRouteCrossConnectionsInner(NetworkManagementClientImpl client) {
+        this.service = AzureProxy.create(ExpressRouteCrossConnectionsService.class, client);
         this.client = client;
     }
 
     /**
-     * The interface defining all the services for ExpressRouteCrossConnections to be
-     * used by Retrofit to perform actually REST calls.
+     * The interface defining all the services for ExpressRouteCrossConnections
+     * to be used by the proxy service to perform REST calls.
      */
-    interface ExpressRouteCrossConnectionsService {
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.ExpressRouteCrossConnections list" })
+    @Host("https://management.azure.com")
+    private interface ExpressRouteCrossConnectionsService {
         @GET("subscriptions/{subscriptionId}/providers/Microsoft.Network/expressRouteCrossConnections")
-        Observable<Response<ResponseBody>> list(@Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl<ExpressRouteCrossConnectionInner>>> list(@PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.ExpressRouteCrossConnections listByResourceGroup" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections")
-        Observable<Response<ResponseBody>> listByResourceGroup(@Path("resourceGroupName") String resourceGroupName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl<ExpressRouteCrossConnectionInner>>> listByResourceGroup(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.ExpressRouteCrossConnections getByResourceGroup" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}")
-        Observable<Response<ResponseBody>> getByResourceGroup(@Path("resourceGroupName") String resourceGroupName, @Path("crossConnectionName") String crossConnectionName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<ExpressRouteCrossConnectionInner>> getByResourceGroup(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("crossConnectionName") String crossConnectionName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.ExpressRouteCrossConnections createOrUpdate" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}")
-        Observable<Response<ResponseBody>> createOrUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("crossConnectionName") String crossConnectionName, @Path("subscriptionId") String subscriptionId, @Body ExpressRouteCrossConnectionInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Observable<OperationStatus<ExpressRouteCrossConnectionInner>> beginCreateOrUpdate(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("crossConnectionName") String crossConnectionName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json; charset=utf-8") ExpressRouteCrossConnectionInner parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.ExpressRouteCrossConnections beginCreateOrUpdate" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}")
-        Observable<Response<ResponseBody>> beginCreateOrUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("crossConnectionName") String crossConnectionName, @Path("subscriptionId") String subscriptionId, @Body ExpressRouteCrossConnectionInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<ExpressRouteCrossConnectionInner>> createOrUpdate(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("crossConnectionName") String crossConnectionName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json; charset=utf-8") ExpressRouteCrossConnectionInner parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.ExpressRouteCrossConnections updateTags" })
+        @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<ExpressRouteCrossConnectionInner>> resumeCreateOrUpdate(OperationDescription operationDescription);
+
         @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}")
-        Observable<Response<ResponseBody>> updateTags(@Path("resourceGroupName") String resourceGroupName, @Path("crossConnectionName") String crossConnectionName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body TagsObject crossConnectionParameters, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Observable<OperationStatus<ExpressRouteCrossConnectionInner>> beginUpdateTags(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("crossConnectionName") String crossConnectionName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @BodyParam("application/json; charset=utf-8") TagsObject crossConnectionParameters);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.ExpressRouteCrossConnections beginUpdateTags" })
         @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}")
-        Observable<Response<ResponseBody>> beginUpdateTags(@Path("resourceGroupName") String resourceGroupName, @Path("crossConnectionName") String crossConnectionName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body TagsObject crossConnectionParameters, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<ExpressRouteCrossConnectionInner>> updateTags(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("crossConnectionName") String crossConnectionName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @BodyParam("application/json; charset=utf-8") TagsObject crossConnectionParameters);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.ExpressRouteCrossConnections listArpTable" })
+        @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<ExpressRouteCrossConnectionInner>> resumeUpdateTags(OperationDescription operationDescription);
+
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}/peerings/{peeringName}/arpTables/{devicePath}")
-        Observable<Response<ResponseBody>> listArpTable(@Path("resourceGroupName") String resourceGroupName, @Path("crossConnectionName") String crossConnectionName, @Path("peeringName") String peeringName, @Path("devicePath") String devicePath, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Observable<OperationStatus<ExpressRouteCircuitsArpTableListResultInner>> beginListArpTable(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("crossConnectionName") String crossConnectionName, @PathParam("peeringName") String peeringName, @PathParam("devicePath") String devicePath, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.ExpressRouteCrossConnections beginListArpTable" })
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}/peerings/{peeringName}/arpTables/{devicePath}")
-        Observable<Response<ResponseBody>> beginListArpTable(@Path("resourceGroupName") String resourceGroupName, @Path("crossConnectionName") String crossConnectionName, @Path("peeringName") String peeringName, @Path("devicePath") String devicePath, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<ExpressRouteCircuitsArpTableListResultInner>> listArpTable(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("crossConnectionName") String crossConnectionName, @PathParam("peeringName") String peeringName, @PathParam("devicePath") String devicePath, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.ExpressRouteCrossConnections listRoutesTableSummary" })
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}/peerings/{peeringName}/arpTables/{devicePath}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<ExpressRouteCircuitsArpTableListResultInner>> resumeListArpTable(OperationDescription operationDescription);
+
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}/peerings/{peeringName}/routeTablesSummary/{devicePath}")
-        Observable<Response<ResponseBody>> listRoutesTableSummary(@Path("resourceGroupName") String resourceGroupName, @Path("crossConnectionName") String crossConnectionName, @Path("peeringName") String peeringName, @Path("devicePath") String devicePath, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Observable<OperationStatus<ExpressRouteCrossConnectionsRoutesTableSummaryListResultInner>> beginListRoutesTableSummary(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("crossConnectionName") String crossConnectionName, @PathParam("peeringName") String peeringName, @PathParam("devicePath") String devicePath, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.ExpressRouteCrossConnections beginListRoutesTableSummary" })
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}/peerings/{peeringName}/routeTablesSummary/{devicePath}")
-        Observable<Response<ResponseBody>> beginListRoutesTableSummary(@Path("resourceGroupName") String resourceGroupName, @Path("crossConnectionName") String crossConnectionName, @Path("peeringName") String peeringName, @Path("devicePath") String devicePath, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<ExpressRouteCrossConnectionsRoutesTableSummaryListResultInner>> listRoutesTableSummary(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("crossConnectionName") String crossConnectionName, @PathParam("peeringName") String peeringName, @PathParam("devicePath") String devicePath, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.ExpressRouteCrossConnections listRoutesTable" })
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}/peerings/{peeringName}/routeTablesSummary/{devicePath}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<ExpressRouteCrossConnectionsRoutesTableSummaryListResultInner>> resumeListRoutesTableSummary(OperationDescription operationDescription);
+
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}/peerings/{peeringName}/routeTables/{devicePath}")
-        Observable<Response<ResponseBody>> listRoutesTable(@Path("resourceGroupName") String resourceGroupName, @Path("crossConnectionName") String crossConnectionName, @Path("peeringName") String peeringName, @Path("devicePath") String devicePath, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Observable<OperationStatus<ExpressRouteCircuitsRoutesTableListResultInner>> beginListRoutesTable(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("crossConnectionName") String crossConnectionName, @PathParam("peeringName") String peeringName, @PathParam("devicePath") String devicePath, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.ExpressRouteCrossConnections beginListRoutesTable" })
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}/peerings/{peeringName}/routeTables/{devicePath}")
-        Observable<Response<ResponseBody>> beginListRoutesTable(@Path("resourceGroupName") String resourceGroupName, @Path("crossConnectionName") String crossConnectionName, @Path("peeringName") String peeringName, @Path("devicePath") String devicePath, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<ExpressRouteCircuitsRoutesTableListResultInner>> listRoutesTable(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("crossConnectionName") String crossConnectionName, @PathParam("peeringName") String peeringName, @PathParam("devicePath") String devicePath, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.ExpressRouteCrossConnections listNext" })
-        @GET
-        Observable<Response<ResponseBody>> listNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}/peerings/{peeringName}/routeTables/{devicePath}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<ExpressRouteCircuitsRoutesTableListResultInner>> resumeListRoutesTable(OperationDescription operationDescription);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.ExpressRouteCrossConnections listByResourceGroupNext" })
-        @GET
-        Observable<Response<ResponseBody>> listByResourceGroupNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @GET("{nextUrl}")
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl<ExpressRouteCrossConnectionInner>>> listNext(@PathParam(value = "nextUrl", encoded = true) String nextUrl, @HeaderParam("accept-language") String acceptLanguage);
 
+        @GET("{nextUrl}")
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl<ExpressRouteCrossConnectionInner>>> listByResourceGroupNext(@PathParam(value = "nextUrl", encoded = true) String nextUrl, @HeaderParam("accept-language") String acceptLanguage);
     }
 
     /**
      * Retrieves all the ExpressRouteCrossConnections in a subscription.
      *
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;ExpressRouteCrossConnectionInner&gt; object if successful.
      */
     public PagedList<ExpressRouteCrossConnectionInner> list() {
-        ServiceResponse<Page<ExpressRouteCrossConnectionInner>> response = listSinglePageAsync().toBlocking().single();
-        return new PagedList<ExpressRouteCrossConnectionInner>(response.body()) {
+        Page<ExpressRouteCrossConnectionInner> response = listSinglePageAsync().blockingGet();
+        return new PagedList<ExpressRouteCrossConnectionInner>(response) {
             @Override
             public Page<ExpressRouteCrossConnectionInner> nextPage(String nextPageLink) {
-                return listNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -149,105 +198,49 @@ public class ExpressRouteCrossConnectionsInner implements InnerSupportsGet<Expre
     /**
      * Retrieves all the ExpressRouteCrossConnections in a subscription.
      *
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<List<ExpressRouteCrossConnectionInner>> listAsync(final ListOperationCallback<ExpressRouteCrossConnectionInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listSinglePageAsync(),
-            new Func1<String, Observable<ServiceResponse<Page<ExpressRouteCrossConnectionInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ExpressRouteCrossConnectionInner>>> call(String nextPageLink) {
-                    return listNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Retrieves all the ExpressRouteCrossConnections in a subscription.
-     *
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ExpressRouteCrossConnectionInner&gt; object
+     * @return the observable to the PagedList&lt;ExpressRouteCrossConnectionInner&gt; object.
      */
     public Observable<Page<ExpressRouteCrossConnectionInner>> listAsync() {
-        return listWithServiceResponseAsync()
-            .map(new Func1<ServiceResponse<Page<ExpressRouteCrossConnectionInner>>, Page<ExpressRouteCrossConnectionInner>>() {
-                @Override
-                public Page<ExpressRouteCrossConnectionInner> call(ServiceResponse<Page<ExpressRouteCrossConnectionInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Retrieves all the ExpressRouteCrossConnections in a subscription.
-     *
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ExpressRouteCrossConnectionInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<ExpressRouteCrossConnectionInner>>> listWithServiceResponseAsync() {
         return listSinglePageAsync()
-            .concatMap(new Func1<ServiceResponse<Page<ExpressRouteCrossConnectionInner>>, Observable<ServiceResponse<Page<ExpressRouteCrossConnectionInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ExpressRouteCrossConnectionInner>>> call(ServiceResponse<Page<ExpressRouteCrossConnectionInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<ExpressRouteCrossConnectionInner> page) -> {
+                String nextPageLink = page.nextPageLink();
+                if (nextPageLink == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listNextAsync(nextPageLink));
             });
     }
 
     /**
      * Retrieves all the ExpressRouteCrossConnections in a subscription.
      *
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;ExpressRouteCrossConnectionInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @return the Single&lt;Page&lt;ExpressRouteCrossConnectionInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<ExpressRouteCrossConnectionInner>>> listSinglePageAsync() {
+    public Single<Page<ExpressRouteCrossConnectionInner>> listSinglePageAsync() {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        return service.list(this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ExpressRouteCrossConnectionInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ExpressRouteCrossConnectionInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<ExpressRouteCrossConnectionInner>> result = listDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<ExpressRouteCrossConnectionInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl<ExpressRouteCrossConnectionInner>> listDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<ExpressRouteCrossConnectionInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<ExpressRouteCrossConnectionInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+        return service.list(this.client.subscriptionId(), apiVersion, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl<ExpressRouteCrossConnectionInner>> res) -> res.body());
     }
 
     /**
      * Retrieves all the ExpressRouteCrossConnections in a resource group.
      *
      * @param resourceGroupName The name of the resource group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;ExpressRouteCrossConnectionInner&gt; object if successful.
      */
-    public PagedList<ExpressRouteCrossConnectionInner> listByResourceGroup(final String resourceGroupName) {
-        ServiceResponse<Page<ExpressRouteCrossConnectionInner>> response = listByResourceGroupSinglePageAsync(resourceGroupName).toBlocking().single();
-        return new PagedList<ExpressRouteCrossConnectionInner>(response.body()) {
+    public PagedList<ExpressRouteCrossConnectionInner> listByResourceGroup(@NonNull String resourceGroupName) {
+        Page<ExpressRouteCrossConnectionInner> response = listByResourceGroupSinglePageAsync(resourceGroupName).blockingGet();
+        return new PagedList<ExpressRouteCrossConnectionInner>(response) {
             @Override
             public Page<ExpressRouteCrossConnectionInner> nextPage(String nextPageLink) {
-                return listByResourceGroupNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listByResourceGroupNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -256,68 +249,29 @@ public class ExpressRouteCrossConnectionsInner implements InnerSupportsGet<Expre
      * Retrieves all the ExpressRouteCrossConnections in a resource group.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;ExpressRouteCrossConnectionInner&gt; object.
      */
-    public ServiceFuture<List<ExpressRouteCrossConnectionInner>> listByResourceGroupAsync(final String resourceGroupName, final ListOperationCallback<ExpressRouteCrossConnectionInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listByResourceGroupSinglePageAsync(resourceGroupName),
-            new Func1<String, Observable<ServiceResponse<Page<ExpressRouteCrossConnectionInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ExpressRouteCrossConnectionInner>>> call(String nextPageLink) {
-                    return listByResourceGroupNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Retrieves all the ExpressRouteCrossConnections in a resource group.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ExpressRouteCrossConnectionInner&gt; object
-     */
-    public Observable<Page<ExpressRouteCrossConnectionInner>> listByResourceGroupAsync(final String resourceGroupName) {
-        return listByResourceGroupWithServiceResponseAsync(resourceGroupName)
-            .map(new Func1<ServiceResponse<Page<ExpressRouteCrossConnectionInner>>, Page<ExpressRouteCrossConnectionInner>>() {
-                @Override
-                public Page<ExpressRouteCrossConnectionInner> call(ServiceResponse<Page<ExpressRouteCrossConnectionInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Retrieves all the ExpressRouteCrossConnections in a resource group.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ExpressRouteCrossConnectionInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<ExpressRouteCrossConnectionInner>>> listByResourceGroupWithServiceResponseAsync(final String resourceGroupName) {
+    public Observable<Page<ExpressRouteCrossConnectionInner>> listByResourceGroupAsync(@NonNull String resourceGroupName) {
         return listByResourceGroupSinglePageAsync(resourceGroupName)
-            .concatMap(new Func1<ServiceResponse<Page<ExpressRouteCrossConnectionInner>>, Observable<ServiceResponse<Page<ExpressRouteCrossConnectionInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ExpressRouteCrossConnectionInner>>> call(ServiceResponse<Page<ExpressRouteCrossConnectionInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listByResourceGroupNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<ExpressRouteCrossConnectionInner> page) -> {
+                String nextPageLink = page.nextPageLink();
+                if (nextPageLink == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listByResourceGroupNextAsync(nextPageLink));
             });
     }
 
     /**
      * Retrieves all the ExpressRouteCrossConnections in a resource group.
      *
-    ServiceResponse<PageImpl<ExpressRouteCrossConnectionInner>> * @param resourceGroupName The name of the resource group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;ExpressRouteCrossConnectionInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param resourceGroupName The name of the resource group.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;ExpressRouteCrossConnectionInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<ExpressRouteCrossConnectionInner>>> listByResourceGroupSinglePageAsync(final String resourceGroupName) {
+    public Single<Page<ExpressRouteCrossConnectionInner>> listByResourceGroupSinglePageAsync(@NonNull String resourceGroupName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -325,25 +279,8 @@ public class ExpressRouteCrossConnectionsInner implements InnerSupportsGet<Expre
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        return service.listByResourceGroup(resourceGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ExpressRouteCrossConnectionInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ExpressRouteCrossConnectionInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<ExpressRouteCrossConnectionInner>> result = listByResourceGroupDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<ExpressRouteCrossConnectionInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl<ExpressRouteCrossConnectionInner>> listByResourceGroupDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<ExpressRouteCrossConnectionInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<ExpressRouteCrossConnectionInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+        return service.listByResourceGroup(resourceGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl<ExpressRouteCrossConnectionInner>> res) -> res.body());
     }
 
     /**
@@ -351,13 +288,13 @@ public class ExpressRouteCrossConnectionsInner implements InnerSupportsGet<Expre
      *
      * @param resourceGroupName The name of the resource group (peering location of the circuit).
      * @param crossConnectionName The name of the ExpressRouteCrossConnection (service key of the circuit).
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the ExpressRouteCrossConnectionInner object if successful.
      */
-    public ExpressRouteCrossConnectionInner getByResourceGroup(String resourceGroupName, String crossConnectionName) {
-        return getByResourceGroupWithServiceResponseAsync(resourceGroupName, crossConnectionName).toBlocking().single().body();
+    public ExpressRouteCrossConnectionInner getByResourceGroup(@NonNull String resourceGroupName, @NonNull String crossConnectionName) {
+        return getByResourceGroupAsync(resourceGroupName, crossConnectionName).blockingGet();
     }
 
     /**
@@ -366,11 +303,11 @@ public class ExpressRouteCrossConnectionsInner implements InnerSupportsGet<Expre
      * @param resourceGroupName The name of the resource group (peering location of the circuit).
      * @param crossConnectionName The name of the ExpressRouteCrossConnection (service key of the circuit).
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<ExpressRouteCrossConnectionInner> getByResourceGroupAsync(String resourceGroupName, String crossConnectionName, final ServiceCallback<ExpressRouteCrossConnectionInner> serviceCallback) {
-        return ServiceFuture.fromResponse(getByResourceGroupWithServiceResponseAsync(resourceGroupName, crossConnectionName), serviceCallback);
+    public ServiceFuture<ExpressRouteCrossConnectionInner> getByResourceGroupAsync(@NonNull String resourceGroupName, @NonNull String crossConnectionName, ServiceCallback<ExpressRouteCrossConnectionInner> serviceCallback) {
+        return ServiceFuture.fromBody(getByResourceGroupAsync(resourceGroupName, crossConnectionName), serviceCallback);
     }
 
     /**
@@ -378,27 +315,10 @@ public class ExpressRouteCrossConnectionsInner implements InnerSupportsGet<Expre
      *
      * @param resourceGroupName The name of the resource group (peering location of the circuit).
      * @param crossConnectionName The name of the ExpressRouteCrossConnection (service key of the circuit).
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ExpressRouteCrossConnectionInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<ExpressRouteCrossConnectionInner> getByResourceGroupAsync(String resourceGroupName, String crossConnectionName) {
-        return getByResourceGroupWithServiceResponseAsync(resourceGroupName, crossConnectionName).map(new Func1<ServiceResponse<ExpressRouteCrossConnectionInner>, ExpressRouteCrossConnectionInner>() {
-            @Override
-            public ExpressRouteCrossConnectionInner call(ServiceResponse<ExpressRouteCrossConnectionInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Gets details about the specified ExpressRouteCrossConnection.
-     *
-     * @param resourceGroupName The name of the resource group (peering location of the circuit).
-     * @param crossConnectionName The name of the ExpressRouteCrossConnection (service key of the circuit).
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ExpressRouteCrossConnectionInner object
-     */
-    public Observable<ServiceResponse<ExpressRouteCrossConnectionInner>> getByResourceGroupWithServiceResponseAsync(String resourceGroupName, String crossConnectionName) {
+    public Single<BodyResponse<ExpressRouteCrossConnectionInner>> getByResourceGroupWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String crossConnectionName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -409,25 +329,20 @@ public class ExpressRouteCrossConnectionsInner implements InnerSupportsGet<Expre
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        return service.getByResourceGroup(resourceGroupName, crossConnectionName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ExpressRouteCrossConnectionInner>>>() {
-                @Override
-                public Observable<ServiceResponse<ExpressRouteCrossConnectionInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<ExpressRouteCrossConnectionInner> clientResponse = getByResourceGroupDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.getByResourceGroup(resourceGroupName, crossConnectionName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<ExpressRouteCrossConnectionInner> getByResourceGroupDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<ExpressRouteCrossConnectionInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<ExpressRouteCrossConnectionInner>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Gets details about the specified ExpressRouteCrossConnection.
+     *
+     * @param resourceGroupName The name of the resource group (peering location of the circuit).
+     * @param crossConnectionName The name of the ExpressRouteCrossConnection (service key of the circuit).
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<ExpressRouteCrossConnectionInner> getByResourceGroupAsync(@NonNull String resourceGroupName, @NonNull String crossConnectionName) {
+        return getByResourceGroupWithRestResponseAsync(resourceGroupName, crossConnectionName)
+            .flatMapMaybe((BodyResponse<ExpressRouteCrossConnectionInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
@@ -436,13 +351,13 @@ public class ExpressRouteCrossConnectionsInner implements InnerSupportsGet<Expre
      * @param resourceGroupName The name of the resource group.
      * @param crossConnectionName The name of the ExpressRouteCrossConnection.
      * @param parameters Parameters supplied to the update express route crossConnection operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the ExpressRouteCrossConnectionInner object if successful.
      */
-    public ExpressRouteCrossConnectionInner createOrUpdate(String resourceGroupName, String crossConnectionName, ExpressRouteCrossConnectionInner parameters) {
-        return createOrUpdateWithServiceResponseAsync(resourceGroupName, crossConnectionName, parameters).toBlocking().last().body();
+    public ExpressRouteCrossConnectionInner beginCreateOrUpdate(@NonNull String resourceGroupName, @NonNull String crossConnectionName, @NonNull ExpressRouteCrossConnectionInner parameters) {
+        return beginCreateOrUpdateAsync(resourceGroupName, crossConnectionName, parameters).blockingLast().result();
     }
 
     /**
@@ -452,11 +367,11 @@ public class ExpressRouteCrossConnectionsInner implements InnerSupportsGet<Expre
      * @param crossConnectionName The name of the ExpressRouteCrossConnection.
      * @param parameters Parameters supplied to the update express route crossConnection operation.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;ExpressRouteCrossConnectionInner&gt; object.
      */
-    public ServiceFuture<ExpressRouteCrossConnectionInner> createOrUpdateAsync(String resourceGroupName, String crossConnectionName, ExpressRouteCrossConnectionInner parameters, final ServiceCallback<ExpressRouteCrossConnectionInner> serviceCallback) {
-        return ServiceFuture.fromResponse(createOrUpdateWithServiceResponseAsync(resourceGroupName, crossConnectionName, parameters), serviceCallback);
+    public ServiceFuture<ExpressRouteCrossConnectionInner> beginCreateOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String crossConnectionName, @NonNull ExpressRouteCrossConnectionInner parameters, ServiceCallback<ExpressRouteCrossConnectionInner> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginCreateOrUpdateAsync(resourceGroupName, crossConnectionName, parameters), serviceCallback);
     }
 
     /**
@@ -465,28 +380,10 @@ public class ExpressRouteCrossConnectionsInner implements InnerSupportsGet<Expre
      * @param resourceGroupName The name of the resource group.
      * @param crossConnectionName The name of the ExpressRouteCrossConnection.
      * @param parameters Parameters supplied to the update express route crossConnection operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<ExpressRouteCrossConnectionInner> createOrUpdateAsync(String resourceGroupName, String crossConnectionName, ExpressRouteCrossConnectionInner parameters) {
-        return createOrUpdateWithServiceResponseAsync(resourceGroupName, crossConnectionName, parameters).map(new Func1<ServiceResponse<ExpressRouteCrossConnectionInner>, ExpressRouteCrossConnectionInner>() {
-            @Override
-            public ExpressRouteCrossConnectionInner call(ServiceResponse<ExpressRouteCrossConnectionInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Update the specified ExpressRouteCrossConnection.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param crossConnectionName The name of the ExpressRouteCrossConnection.
-     * @param parameters Parameters supplied to the update express route crossConnection operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<ExpressRouteCrossConnectionInner>> createOrUpdateWithServiceResponseAsync(String resourceGroupName, String crossConnectionName, ExpressRouteCrossConnectionInner parameters) {
+    public Observable<OperationStatus<ExpressRouteCrossConnectionInner>> beginCreateOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String crossConnectionName, @NonNull ExpressRouteCrossConnectionInner parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -501,8 +398,7 @@ public class ExpressRouteCrossConnectionsInner implements InnerSupportsGet<Expre
         }
         Validator.validate(parameters);
         final String apiVersion = "2018-06-01";
-        Observable<Response<ResponseBody>> observable = service.createOrUpdate(resourceGroupName, crossConnectionName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<ExpressRouteCrossConnectionInner>() { }.getType());
+        return service.beginCreateOrUpdate(resourceGroupName, crossConnectionName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage());
     }
 
     /**
@@ -511,13 +407,13 @@ public class ExpressRouteCrossConnectionsInner implements InnerSupportsGet<Expre
      * @param resourceGroupName The name of the resource group.
      * @param crossConnectionName The name of the ExpressRouteCrossConnection.
      * @param parameters Parameters supplied to the update express route crossConnection operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the ExpressRouteCrossConnectionInner object if successful.
      */
-    public ExpressRouteCrossConnectionInner beginCreateOrUpdate(String resourceGroupName, String crossConnectionName, ExpressRouteCrossConnectionInner parameters) {
-        return beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, crossConnectionName, parameters).toBlocking().single().body();
+    public ExpressRouteCrossConnectionInner createOrUpdate(@NonNull String resourceGroupName, @NonNull String crossConnectionName, @NonNull ExpressRouteCrossConnectionInner parameters) {
+        return createOrUpdateAsync(resourceGroupName, crossConnectionName, parameters).blockingGet();
     }
 
     /**
@@ -527,11 +423,11 @@ public class ExpressRouteCrossConnectionsInner implements InnerSupportsGet<Expre
      * @param crossConnectionName The name of the ExpressRouteCrossConnection.
      * @param parameters Parameters supplied to the update express route crossConnection operation.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<ExpressRouteCrossConnectionInner> beginCreateOrUpdateAsync(String resourceGroupName, String crossConnectionName, ExpressRouteCrossConnectionInner parameters, final ServiceCallback<ExpressRouteCrossConnectionInner> serviceCallback) {
-        return ServiceFuture.fromResponse(beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, crossConnectionName, parameters), serviceCallback);
+    public ServiceFuture<ExpressRouteCrossConnectionInner> createOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String crossConnectionName, @NonNull ExpressRouteCrossConnectionInner parameters, ServiceCallback<ExpressRouteCrossConnectionInner> serviceCallback) {
+        return ServiceFuture.fromBody(createOrUpdateAsync(resourceGroupName, crossConnectionName, parameters), serviceCallback);
     }
 
     /**
@@ -540,28 +436,10 @@ public class ExpressRouteCrossConnectionsInner implements InnerSupportsGet<Expre
      * @param resourceGroupName The name of the resource group.
      * @param crossConnectionName The name of the ExpressRouteCrossConnection.
      * @param parameters Parameters supplied to the update express route crossConnection operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ExpressRouteCrossConnectionInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<ExpressRouteCrossConnectionInner> beginCreateOrUpdateAsync(String resourceGroupName, String crossConnectionName, ExpressRouteCrossConnectionInner parameters) {
-        return beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, crossConnectionName, parameters).map(new Func1<ServiceResponse<ExpressRouteCrossConnectionInner>, ExpressRouteCrossConnectionInner>() {
-            @Override
-            public ExpressRouteCrossConnectionInner call(ServiceResponse<ExpressRouteCrossConnectionInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Update the specified ExpressRouteCrossConnection.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param crossConnectionName The name of the ExpressRouteCrossConnection.
-     * @param parameters Parameters supplied to the update express route crossConnection operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ExpressRouteCrossConnectionInner object
-     */
-    public Observable<ServiceResponse<ExpressRouteCrossConnectionInner>> beginCreateOrUpdateWithServiceResponseAsync(String resourceGroupName, String crossConnectionName, ExpressRouteCrossConnectionInner parameters) {
+    public Single<BodyResponse<ExpressRouteCrossConnectionInner>> createOrUpdateWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String crossConnectionName, @NonNull ExpressRouteCrossConnectionInner parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -576,25 +454,35 @@ public class ExpressRouteCrossConnectionsInner implements InnerSupportsGet<Expre
         }
         Validator.validate(parameters);
         final String apiVersion = "2018-06-01";
-        return service.beginCreateOrUpdate(resourceGroupName, crossConnectionName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ExpressRouteCrossConnectionInner>>>() {
-                @Override
-                public Observable<ServiceResponse<ExpressRouteCrossConnectionInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<ExpressRouteCrossConnectionInner> clientResponse = beginCreateOrUpdateDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.createOrUpdate(resourceGroupName, crossConnectionName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<ExpressRouteCrossConnectionInner> beginCreateOrUpdateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<ExpressRouteCrossConnectionInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<ExpressRouteCrossConnectionInner>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Update the specified ExpressRouteCrossConnection.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param crossConnectionName The name of the ExpressRouteCrossConnection.
+     * @param parameters Parameters supplied to the update express route crossConnection operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<ExpressRouteCrossConnectionInner> createOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String crossConnectionName, @NonNull ExpressRouteCrossConnectionInner parameters) {
+        return createOrUpdateWithRestResponseAsync(resourceGroupName, crossConnectionName, parameters)
+            .flatMapMaybe((BodyResponse<ExpressRouteCrossConnectionInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
+    }
+
+    /**
+     * Update the specified ExpressRouteCrossConnection. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<ExpressRouteCrossConnectionInner>> resumeCreateOrUpdate(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeCreateOrUpdate(operationDescription);
     }
 
     /**
@@ -602,13 +490,13 @@ public class ExpressRouteCrossConnectionsInner implements InnerSupportsGet<Expre
      *
      * @param resourceGroupName The name of the resource group.
      * @param crossConnectionName The name of the cross connection.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the ExpressRouteCrossConnectionInner object if successful.
      */
-    public ExpressRouteCrossConnectionInner updateTags(String resourceGroupName, String crossConnectionName) {
-        return updateTagsWithServiceResponseAsync(resourceGroupName, crossConnectionName).toBlocking().last().body();
+    public ExpressRouteCrossConnectionInner beginUpdateTags(@NonNull String resourceGroupName, @NonNull String crossConnectionName) {
+        return beginUpdateTagsAsync(resourceGroupName, crossConnectionName).blockingLast().result();
     }
 
     /**
@@ -617,11 +505,11 @@ public class ExpressRouteCrossConnectionsInner implements InnerSupportsGet<Expre
      * @param resourceGroupName The name of the resource group.
      * @param crossConnectionName The name of the cross connection.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;ExpressRouteCrossConnectionInner&gt; object.
      */
-    public ServiceFuture<ExpressRouteCrossConnectionInner> updateTagsAsync(String resourceGroupName, String crossConnectionName, final ServiceCallback<ExpressRouteCrossConnectionInner> serviceCallback) {
-        return ServiceFuture.fromResponse(updateTagsWithServiceResponseAsync(resourceGroupName, crossConnectionName), serviceCallback);
+    public ServiceFuture<ExpressRouteCrossConnectionInner> beginUpdateTagsAsync(@NonNull String resourceGroupName, @NonNull String crossConnectionName, ServiceCallback<ExpressRouteCrossConnectionInner> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginUpdateTagsAsync(resourceGroupName, crossConnectionName), serviceCallback);
     }
 
     /**
@@ -629,27 +517,10 @@ public class ExpressRouteCrossConnectionsInner implements InnerSupportsGet<Expre
      *
      * @param resourceGroupName The name of the resource group.
      * @param crossConnectionName The name of the cross connection.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<ExpressRouteCrossConnectionInner> updateTagsAsync(String resourceGroupName, String crossConnectionName) {
-        return updateTagsWithServiceResponseAsync(resourceGroupName, crossConnectionName).map(new Func1<ServiceResponse<ExpressRouteCrossConnectionInner>, ExpressRouteCrossConnectionInner>() {
-            @Override
-            public ExpressRouteCrossConnectionInner call(ServiceResponse<ExpressRouteCrossConnectionInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Updates an express route cross connection tags.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param crossConnectionName The name of the cross connection.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<ExpressRouteCrossConnectionInner>> updateTagsWithServiceResponseAsync(String resourceGroupName, String crossConnectionName) {
+    public Observable<OperationStatus<ExpressRouteCrossConnectionInner>> beginUpdateTagsAsync(@NonNull String resourceGroupName, @NonNull String crossConnectionName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -663,22 +534,22 @@ public class ExpressRouteCrossConnectionsInner implements InnerSupportsGet<Expre
         final Map<String, String> tags = null;
         TagsObject crossConnectionParameters = new TagsObject();
         crossConnectionParameters.withTags(null);
-        Observable<Response<ResponseBody>> observable = service.updateTags(resourceGroupName, crossConnectionName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), crossConnectionParameters, this.client.userAgent());
-        return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<ExpressRouteCrossConnectionInner>() { }.getType());
+        return service.beginUpdateTags(resourceGroupName, crossConnectionName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), crossConnectionParameters);
     }
+
     /**
      * Updates an express route cross connection tags.
      *
      * @param resourceGroupName The name of the resource group.
      * @param crossConnectionName The name of the cross connection.
      * @param tags Resource tags.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the ExpressRouteCrossConnectionInner object if successful.
      */
-    public ExpressRouteCrossConnectionInner updateTags(String resourceGroupName, String crossConnectionName, Map<String, String> tags) {
-        return updateTagsWithServiceResponseAsync(resourceGroupName, crossConnectionName, tags).toBlocking().last().body();
+    public ExpressRouteCrossConnectionInner beginUpdateTags(@NonNull String resourceGroupName, @NonNull String crossConnectionName, Map<String, String> tags) {
+        return beginUpdateTagsAsync(resourceGroupName, crossConnectionName, tags).blockingLast().result();
     }
 
     /**
@@ -688,11 +559,11 @@ public class ExpressRouteCrossConnectionsInner implements InnerSupportsGet<Expre
      * @param crossConnectionName The name of the cross connection.
      * @param tags Resource tags.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;ExpressRouteCrossConnectionInner&gt; object.
      */
-    public ServiceFuture<ExpressRouteCrossConnectionInner> updateTagsAsync(String resourceGroupName, String crossConnectionName, Map<String, String> tags, final ServiceCallback<ExpressRouteCrossConnectionInner> serviceCallback) {
-        return ServiceFuture.fromResponse(updateTagsWithServiceResponseAsync(resourceGroupName, crossConnectionName, tags), serviceCallback);
+    public ServiceFuture<ExpressRouteCrossConnectionInner> beginUpdateTagsAsync(@NonNull String resourceGroupName, @NonNull String crossConnectionName, Map<String, String> tags, ServiceCallback<ExpressRouteCrossConnectionInner> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginUpdateTagsAsync(resourceGroupName, crossConnectionName, tags), serviceCallback);
     }
 
     /**
@@ -701,28 +572,10 @@ public class ExpressRouteCrossConnectionsInner implements InnerSupportsGet<Expre
      * @param resourceGroupName The name of the resource group.
      * @param crossConnectionName The name of the cross connection.
      * @param tags Resource tags.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<ExpressRouteCrossConnectionInner> updateTagsAsync(String resourceGroupName, String crossConnectionName, Map<String, String> tags) {
-        return updateTagsWithServiceResponseAsync(resourceGroupName, crossConnectionName, tags).map(new Func1<ServiceResponse<ExpressRouteCrossConnectionInner>, ExpressRouteCrossConnectionInner>() {
-            @Override
-            public ExpressRouteCrossConnectionInner call(ServiceResponse<ExpressRouteCrossConnectionInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Updates an express route cross connection tags.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param crossConnectionName The name of the cross connection.
-     * @param tags Resource tags.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<ExpressRouteCrossConnectionInner>> updateTagsWithServiceResponseAsync(String resourceGroupName, String crossConnectionName, Map<String, String> tags) {
+    public Observable<OperationStatus<ExpressRouteCrossConnectionInner>> beginUpdateTagsAsync(@NonNull String resourceGroupName, @NonNull String crossConnectionName, Map<String, String> tags) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -736,8 +589,7 @@ public class ExpressRouteCrossConnectionsInner implements InnerSupportsGet<Expre
         final String apiVersion = "2018-06-01";
         TagsObject crossConnectionParameters = new TagsObject();
         crossConnectionParameters.withTags(tags);
-        Observable<Response<ResponseBody>> observable = service.updateTags(resourceGroupName, crossConnectionName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), crossConnectionParameters, this.client.userAgent());
-        return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<ExpressRouteCrossConnectionInner>() { }.getType());
+        return service.beginUpdateTags(resourceGroupName, crossConnectionName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), crossConnectionParameters);
     }
 
     /**
@@ -745,13 +597,13 @@ public class ExpressRouteCrossConnectionsInner implements InnerSupportsGet<Expre
      *
      * @param resourceGroupName The name of the resource group.
      * @param crossConnectionName The name of the cross connection.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the ExpressRouteCrossConnectionInner object if successful.
      */
-    public ExpressRouteCrossConnectionInner beginUpdateTags(String resourceGroupName, String crossConnectionName) {
-        return beginUpdateTagsWithServiceResponseAsync(resourceGroupName, crossConnectionName).toBlocking().single().body();
+    public ExpressRouteCrossConnectionInner updateTags(@NonNull String resourceGroupName, @NonNull String crossConnectionName) {
+        return updateTagsAsync(resourceGroupName, crossConnectionName).blockingGet();
     }
 
     /**
@@ -760,11 +612,11 @@ public class ExpressRouteCrossConnectionsInner implements InnerSupportsGet<Expre
      * @param resourceGroupName The name of the resource group.
      * @param crossConnectionName The name of the cross connection.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<ExpressRouteCrossConnectionInner> beginUpdateTagsAsync(String resourceGroupName, String crossConnectionName, final ServiceCallback<ExpressRouteCrossConnectionInner> serviceCallback) {
-        return ServiceFuture.fromResponse(beginUpdateTagsWithServiceResponseAsync(resourceGroupName, crossConnectionName), serviceCallback);
+    public ServiceFuture<ExpressRouteCrossConnectionInner> updateTagsAsync(@NonNull String resourceGroupName, @NonNull String crossConnectionName, ServiceCallback<ExpressRouteCrossConnectionInner> serviceCallback) {
+        return ServiceFuture.fromBody(updateTagsAsync(resourceGroupName, crossConnectionName), serviceCallback);
     }
 
     /**
@@ -772,27 +624,10 @@ public class ExpressRouteCrossConnectionsInner implements InnerSupportsGet<Expre
      *
      * @param resourceGroupName The name of the resource group.
      * @param crossConnectionName The name of the cross connection.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ExpressRouteCrossConnectionInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<ExpressRouteCrossConnectionInner> beginUpdateTagsAsync(String resourceGroupName, String crossConnectionName) {
-        return beginUpdateTagsWithServiceResponseAsync(resourceGroupName, crossConnectionName).map(new Func1<ServiceResponse<ExpressRouteCrossConnectionInner>, ExpressRouteCrossConnectionInner>() {
-            @Override
-            public ExpressRouteCrossConnectionInner call(ServiceResponse<ExpressRouteCrossConnectionInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Updates an express route cross connection tags.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param crossConnectionName The name of the cross connection.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ExpressRouteCrossConnectionInner object
-     */
-    public Observable<ServiceResponse<ExpressRouteCrossConnectionInner>> beginUpdateTagsWithServiceResponseAsync(String resourceGroupName, String crossConnectionName) {
+    public Single<BodyResponse<ExpressRouteCrossConnectionInner>> updateTagsWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String crossConnectionName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -806,18 +641,20 @@ public class ExpressRouteCrossConnectionsInner implements InnerSupportsGet<Expre
         final Map<String, String> tags = null;
         TagsObject crossConnectionParameters = new TagsObject();
         crossConnectionParameters.withTags(null);
-        return service.beginUpdateTags(resourceGroupName, crossConnectionName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), crossConnectionParameters, this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ExpressRouteCrossConnectionInner>>>() {
-                @Override
-                public Observable<ServiceResponse<ExpressRouteCrossConnectionInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<ExpressRouteCrossConnectionInner> clientResponse = beginUpdateTagsDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.updateTags(resourceGroupName, crossConnectionName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), crossConnectionParameters);
+    }
+
+    /**
+     * Updates an express route cross connection tags.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param crossConnectionName The name of the cross connection.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<ExpressRouteCrossConnectionInner> updateTagsAsync(@NonNull String resourceGroupName, @NonNull String crossConnectionName) {
+        return updateTagsWithRestResponseAsync(resourceGroupName, crossConnectionName)
+            .flatMapMaybe((BodyResponse<ExpressRouteCrossConnectionInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
@@ -826,13 +663,13 @@ public class ExpressRouteCrossConnectionsInner implements InnerSupportsGet<Expre
      * @param resourceGroupName The name of the resource group.
      * @param crossConnectionName The name of the cross connection.
      * @param tags Resource tags.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the ExpressRouteCrossConnectionInner object if successful.
      */
-    public ExpressRouteCrossConnectionInner beginUpdateTags(String resourceGroupName, String crossConnectionName, Map<String, String> tags) {
-        return beginUpdateTagsWithServiceResponseAsync(resourceGroupName, crossConnectionName, tags).toBlocking().single().body();
+    public ExpressRouteCrossConnectionInner updateTags(@NonNull String resourceGroupName, @NonNull String crossConnectionName, Map<String, String> tags) {
+        return updateTagsAsync(resourceGroupName, crossConnectionName, tags).blockingGet();
     }
 
     /**
@@ -842,11 +679,11 @@ public class ExpressRouteCrossConnectionsInner implements InnerSupportsGet<Expre
      * @param crossConnectionName The name of the cross connection.
      * @param tags Resource tags.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<ExpressRouteCrossConnectionInner> beginUpdateTagsAsync(String resourceGroupName, String crossConnectionName, Map<String, String> tags, final ServiceCallback<ExpressRouteCrossConnectionInner> serviceCallback) {
-        return ServiceFuture.fromResponse(beginUpdateTagsWithServiceResponseAsync(resourceGroupName, crossConnectionName, tags), serviceCallback);
+    public ServiceFuture<ExpressRouteCrossConnectionInner> updateTagsAsync(@NonNull String resourceGroupName, @NonNull String crossConnectionName, Map<String, String> tags, ServiceCallback<ExpressRouteCrossConnectionInner> serviceCallback) {
+        return ServiceFuture.fromBody(updateTagsAsync(resourceGroupName, crossConnectionName, tags), serviceCallback);
     }
 
     /**
@@ -855,28 +692,10 @@ public class ExpressRouteCrossConnectionsInner implements InnerSupportsGet<Expre
      * @param resourceGroupName The name of the resource group.
      * @param crossConnectionName The name of the cross connection.
      * @param tags Resource tags.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ExpressRouteCrossConnectionInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<ExpressRouteCrossConnectionInner> beginUpdateTagsAsync(String resourceGroupName, String crossConnectionName, Map<String, String> tags) {
-        return beginUpdateTagsWithServiceResponseAsync(resourceGroupName, crossConnectionName, tags).map(new Func1<ServiceResponse<ExpressRouteCrossConnectionInner>, ExpressRouteCrossConnectionInner>() {
-            @Override
-            public ExpressRouteCrossConnectionInner call(ServiceResponse<ExpressRouteCrossConnectionInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Updates an express route cross connection tags.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param crossConnectionName The name of the cross connection.
-     * @param tags Resource tags.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ExpressRouteCrossConnectionInner object
-     */
-    public Observable<ServiceResponse<ExpressRouteCrossConnectionInner>> beginUpdateTagsWithServiceResponseAsync(String resourceGroupName, String crossConnectionName, Map<String, String> tags) {
+    public Single<BodyResponse<ExpressRouteCrossConnectionInner>> updateTagsWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String crossConnectionName, Map<String, String> tags) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -890,25 +709,35 @@ public class ExpressRouteCrossConnectionsInner implements InnerSupportsGet<Expre
         final String apiVersion = "2018-06-01";
         TagsObject crossConnectionParameters = new TagsObject();
         crossConnectionParameters.withTags(tags);
-        return service.beginUpdateTags(resourceGroupName, crossConnectionName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), crossConnectionParameters, this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ExpressRouteCrossConnectionInner>>>() {
-                @Override
-                public Observable<ServiceResponse<ExpressRouteCrossConnectionInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<ExpressRouteCrossConnectionInner> clientResponse = beginUpdateTagsDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.updateTags(resourceGroupName, crossConnectionName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), crossConnectionParameters);
     }
 
-    private ServiceResponse<ExpressRouteCrossConnectionInner> beginUpdateTagsDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<ExpressRouteCrossConnectionInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<ExpressRouteCrossConnectionInner>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Updates an express route cross connection tags.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param crossConnectionName The name of the cross connection.
+     * @param tags Resource tags.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<ExpressRouteCrossConnectionInner> updateTagsAsync(@NonNull String resourceGroupName, @NonNull String crossConnectionName, Map<String, String> tags) {
+        return updateTagsWithRestResponseAsync(resourceGroupName, crossConnectionName, tags)
+            .flatMapMaybe((BodyResponse<ExpressRouteCrossConnectionInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
+    }
+
+    /**
+     * Updates an express route cross connection tags. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<ExpressRouteCrossConnectionInner>> resumeUpdateTags(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeUpdateTags(operationDescription);
     }
 
     /**
@@ -917,14 +746,14 @@ public class ExpressRouteCrossConnectionsInner implements InnerSupportsGet<Expre
      * @param resourceGroupName The name of the resource group.
      * @param crossConnectionName The name of the ExpressRouteCrossConnection.
      * @param peeringName The name of the peering.
-     * @param devicePath The path of the device
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @param devicePath The path of the device.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the ExpressRouteCircuitsArpTableListResultInner object if successful.
      */
-    public ExpressRouteCircuitsArpTableListResultInner listArpTable(String resourceGroupName, String crossConnectionName, String peeringName, String devicePath) {
-        return listArpTableWithServiceResponseAsync(resourceGroupName, crossConnectionName, peeringName, devicePath).toBlocking().last().body();
+    public ExpressRouteCircuitsArpTableListResultInner beginListArpTable(@NonNull String resourceGroupName, @NonNull String crossConnectionName, @NonNull String peeringName, @NonNull String devicePath) {
+        return beginListArpTableAsync(resourceGroupName, crossConnectionName, peeringName, devicePath).blockingLast().result();
     }
 
     /**
@@ -933,13 +762,13 @@ public class ExpressRouteCrossConnectionsInner implements InnerSupportsGet<Expre
      * @param resourceGroupName The name of the resource group.
      * @param crossConnectionName The name of the ExpressRouteCrossConnection.
      * @param peeringName The name of the peering.
-     * @param devicePath The path of the device
+     * @param devicePath The path of the device.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;ExpressRouteCircuitsArpTableListResultInner&gt; object.
      */
-    public ServiceFuture<ExpressRouteCircuitsArpTableListResultInner> listArpTableAsync(String resourceGroupName, String crossConnectionName, String peeringName, String devicePath, final ServiceCallback<ExpressRouteCircuitsArpTableListResultInner> serviceCallback) {
-        return ServiceFuture.fromResponse(listArpTableWithServiceResponseAsync(resourceGroupName, crossConnectionName, peeringName, devicePath), serviceCallback);
+    public ServiceFuture<ExpressRouteCircuitsArpTableListResultInner> beginListArpTableAsync(@NonNull String resourceGroupName, @NonNull String crossConnectionName, @NonNull String peeringName, @NonNull String devicePath, ServiceCallback<ExpressRouteCircuitsArpTableListResultInner> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginListArpTableAsync(resourceGroupName, crossConnectionName, peeringName, devicePath), serviceCallback);
     }
 
     /**
@@ -948,30 +777,11 @@ public class ExpressRouteCrossConnectionsInner implements InnerSupportsGet<Expre
      * @param resourceGroupName The name of the resource group.
      * @param crossConnectionName The name of the ExpressRouteCrossConnection.
      * @param peeringName The name of the peering.
-     * @param devicePath The path of the device
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @param devicePath The path of the device.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<ExpressRouteCircuitsArpTableListResultInner> listArpTableAsync(String resourceGroupName, String crossConnectionName, String peeringName, String devicePath) {
-        return listArpTableWithServiceResponseAsync(resourceGroupName, crossConnectionName, peeringName, devicePath).map(new Func1<ServiceResponse<ExpressRouteCircuitsArpTableListResultInner>, ExpressRouteCircuitsArpTableListResultInner>() {
-            @Override
-            public ExpressRouteCircuitsArpTableListResultInner call(ServiceResponse<ExpressRouteCircuitsArpTableListResultInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Gets the currently advertised ARP table associated with the express route cross connection in a resource group.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param crossConnectionName The name of the ExpressRouteCrossConnection.
-     * @param peeringName The name of the peering.
-     * @param devicePath The path of the device
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<ExpressRouteCircuitsArpTableListResultInner>> listArpTableWithServiceResponseAsync(String resourceGroupName, String crossConnectionName, String peeringName, String devicePath) {
+    public Observable<OperationStatus<ExpressRouteCircuitsArpTableListResultInner>> beginListArpTableAsync(@NonNull String resourceGroupName, @NonNull String crossConnectionName, @NonNull String peeringName, @NonNull String devicePath) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -988,8 +798,7 @@ public class ExpressRouteCrossConnectionsInner implements InnerSupportsGet<Expre
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        Observable<Response<ResponseBody>> observable = service.listArpTable(resourceGroupName, crossConnectionName, peeringName, devicePath, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<ExpressRouteCircuitsArpTableListResultInner>() { }.getType());
+        return service.beginListArpTable(resourceGroupName, crossConnectionName, peeringName, devicePath, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
     /**
@@ -998,14 +807,14 @@ public class ExpressRouteCrossConnectionsInner implements InnerSupportsGet<Expre
      * @param resourceGroupName The name of the resource group.
      * @param crossConnectionName The name of the ExpressRouteCrossConnection.
      * @param peeringName The name of the peering.
-     * @param devicePath The path of the device
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @param devicePath The path of the device.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the ExpressRouteCircuitsArpTableListResultInner object if successful.
      */
-    public ExpressRouteCircuitsArpTableListResultInner beginListArpTable(String resourceGroupName, String crossConnectionName, String peeringName, String devicePath) {
-        return beginListArpTableWithServiceResponseAsync(resourceGroupName, crossConnectionName, peeringName, devicePath).toBlocking().single().body();
+    public ExpressRouteCircuitsArpTableListResultInner listArpTable(@NonNull String resourceGroupName, @NonNull String crossConnectionName, @NonNull String peeringName, @NonNull String devicePath) {
+        return listArpTableAsync(resourceGroupName, crossConnectionName, peeringName, devicePath).blockingGet();
     }
 
     /**
@@ -1014,13 +823,13 @@ public class ExpressRouteCrossConnectionsInner implements InnerSupportsGet<Expre
      * @param resourceGroupName The name of the resource group.
      * @param crossConnectionName The name of the ExpressRouteCrossConnection.
      * @param peeringName The name of the peering.
-     * @param devicePath The path of the device
+     * @param devicePath The path of the device.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<ExpressRouteCircuitsArpTableListResultInner> beginListArpTableAsync(String resourceGroupName, String crossConnectionName, String peeringName, String devicePath, final ServiceCallback<ExpressRouteCircuitsArpTableListResultInner> serviceCallback) {
-        return ServiceFuture.fromResponse(beginListArpTableWithServiceResponseAsync(resourceGroupName, crossConnectionName, peeringName, devicePath), serviceCallback);
+    public ServiceFuture<ExpressRouteCircuitsArpTableListResultInner> listArpTableAsync(@NonNull String resourceGroupName, @NonNull String crossConnectionName, @NonNull String peeringName, @NonNull String devicePath, ServiceCallback<ExpressRouteCircuitsArpTableListResultInner> serviceCallback) {
+        return ServiceFuture.fromBody(listArpTableAsync(resourceGroupName, crossConnectionName, peeringName, devicePath), serviceCallback);
     }
 
     /**
@@ -1029,30 +838,11 @@ public class ExpressRouteCrossConnectionsInner implements InnerSupportsGet<Expre
      * @param resourceGroupName The name of the resource group.
      * @param crossConnectionName The name of the ExpressRouteCrossConnection.
      * @param peeringName The name of the peering.
-     * @param devicePath The path of the device
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ExpressRouteCircuitsArpTableListResultInner object
+     * @param devicePath The path of the device.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<ExpressRouteCircuitsArpTableListResultInner> beginListArpTableAsync(String resourceGroupName, String crossConnectionName, String peeringName, String devicePath) {
-        return beginListArpTableWithServiceResponseAsync(resourceGroupName, crossConnectionName, peeringName, devicePath).map(new Func1<ServiceResponse<ExpressRouteCircuitsArpTableListResultInner>, ExpressRouteCircuitsArpTableListResultInner>() {
-            @Override
-            public ExpressRouteCircuitsArpTableListResultInner call(ServiceResponse<ExpressRouteCircuitsArpTableListResultInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Gets the currently advertised ARP table associated with the express route cross connection in a resource group.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param crossConnectionName The name of the ExpressRouteCrossConnection.
-     * @param peeringName The name of the peering.
-     * @param devicePath The path of the device
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ExpressRouteCircuitsArpTableListResultInner object
-     */
-    public Observable<ServiceResponse<ExpressRouteCircuitsArpTableListResultInner>> beginListArpTableWithServiceResponseAsync(String resourceGroupName, String crossConnectionName, String peeringName, String devicePath) {
+    public Single<BodyResponse<ExpressRouteCircuitsArpTableListResultInner>> listArpTableWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String crossConnectionName, @NonNull String peeringName, @NonNull String devicePath) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -1069,26 +859,36 @@ public class ExpressRouteCrossConnectionsInner implements InnerSupportsGet<Expre
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        return service.beginListArpTable(resourceGroupName, crossConnectionName, peeringName, devicePath, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ExpressRouteCircuitsArpTableListResultInner>>>() {
-                @Override
-                public Observable<ServiceResponse<ExpressRouteCircuitsArpTableListResultInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<ExpressRouteCircuitsArpTableListResultInner> clientResponse = beginListArpTableDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.listArpTable(resourceGroupName, crossConnectionName, peeringName, devicePath, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<ExpressRouteCircuitsArpTableListResultInner> beginListArpTableDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<ExpressRouteCircuitsArpTableListResultInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<ExpressRouteCircuitsArpTableListResultInner>() { }.getType())
-                .register(202, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Gets the currently advertised ARP table associated with the express route cross connection in a resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param crossConnectionName The name of the ExpressRouteCrossConnection.
+     * @param peeringName The name of the peering.
+     * @param devicePath The path of the device.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<ExpressRouteCircuitsArpTableListResultInner> listArpTableAsync(@NonNull String resourceGroupName, @NonNull String crossConnectionName, @NonNull String peeringName, @NonNull String devicePath) {
+        return listArpTableWithRestResponseAsync(resourceGroupName, crossConnectionName, peeringName, devicePath)
+            .flatMapMaybe((BodyResponse<ExpressRouteCircuitsArpTableListResultInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
+    }
+
+    /**
+     * Gets the currently advertised ARP table associated with the express route cross connection in a resource group. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<ExpressRouteCircuitsArpTableListResultInner>> resumeListArpTable(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeListArpTable(operationDescription);
     }
 
     /**
@@ -1098,13 +898,13 @@ public class ExpressRouteCrossConnectionsInner implements InnerSupportsGet<Expre
      * @param crossConnectionName The name of the ExpressRouteCrossConnection.
      * @param peeringName The name of the peering.
      * @param devicePath The path of the device.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the ExpressRouteCrossConnectionsRoutesTableSummaryListResultInner object if successful.
      */
-    public ExpressRouteCrossConnectionsRoutesTableSummaryListResultInner listRoutesTableSummary(String resourceGroupName, String crossConnectionName, String peeringName, String devicePath) {
-        return listRoutesTableSummaryWithServiceResponseAsync(resourceGroupName, crossConnectionName, peeringName, devicePath).toBlocking().last().body();
+    public ExpressRouteCrossConnectionsRoutesTableSummaryListResultInner beginListRoutesTableSummary(@NonNull String resourceGroupName, @NonNull String crossConnectionName, @NonNull String peeringName, @NonNull String devicePath) {
+        return beginListRoutesTableSummaryAsync(resourceGroupName, crossConnectionName, peeringName, devicePath).blockingLast().result();
     }
 
     /**
@@ -1115,11 +915,11 @@ public class ExpressRouteCrossConnectionsInner implements InnerSupportsGet<Expre
      * @param peeringName The name of the peering.
      * @param devicePath The path of the device.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;ExpressRouteCrossConnectionsRoutesTableSummaryListResultInner&gt; object.
      */
-    public ServiceFuture<ExpressRouteCrossConnectionsRoutesTableSummaryListResultInner> listRoutesTableSummaryAsync(String resourceGroupName, String crossConnectionName, String peeringName, String devicePath, final ServiceCallback<ExpressRouteCrossConnectionsRoutesTableSummaryListResultInner> serviceCallback) {
-        return ServiceFuture.fromResponse(listRoutesTableSummaryWithServiceResponseAsync(resourceGroupName, crossConnectionName, peeringName, devicePath), serviceCallback);
+    public ServiceFuture<ExpressRouteCrossConnectionsRoutesTableSummaryListResultInner> beginListRoutesTableSummaryAsync(@NonNull String resourceGroupName, @NonNull String crossConnectionName, @NonNull String peeringName, @NonNull String devicePath, ServiceCallback<ExpressRouteCrossConnectionsRoutesTableSummaryListResultInner> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginListRoutesTableSummaryAsync(resourceGroupName, crossConnectionName, peeringName, devicePath), serviceCallback);
     }
 
     /**
@@ -1129,29 +929,10 @@ public class ExpressRouteCrossConnectionsInner implements InnerSupportsGet<Expre
      * @param crossConnectionName The name of the ExpressRouteCrossConnection.
      * @param peeringName The name of the peering.
      * @param devicePath The path of the device.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<ExpressRouteCrossConnectionsRoutesTableSummaryListResultInner> listRoutesTableSummaryAsync(String resourceGroupName, String crossConnectionName, String peeringName, String devicePath) {
-        return listRoutesTableSummaryWithServiceResponseAsync(resourceGroupName, crossConnectionName, peeringName, devicePath).map(new Func1<ServiceResponse<ExpressRouteCrossConnectionsRoutesTableSummaryListResultInner>, ExpressRouteCrossConnectionsRoutesTableSummaryListResultInner>() {
-            @Override
-            public ExpressRouteCrossConnectionsRoutesTableSummaryListResultInner call(ServiceResponse<ExpressRouteCrossConnectionsRoutesTableSummaryListResultInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Gets the route table summary associated with the express route cross connection in a resource group.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param crossConnectionName The name of the ExpressRouteCrossConnection.
-     * @param peeringName The name of the peering.
-     * @param devicePath The path of the device.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<ExpressRouteCrossConnectionsRoutesTableSummaryListResultInner>> listRoutesTableSummaryWithServiceResponseAsync(String resourceGroupName, String crossConnectionName, String peeringName, String devicePath) {
+    public Observable<OperationStatus<ExpressRouteCrossConnectionsRoutesTableSummaryListResultInner>> beginListRoutesTableSummaryAsync(@NonNull String resourceGroupName, @NonNull String crossConnectionName, @NonNull String peeringName, @NonNull String devicePath) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -1168,8 +949,7 @@ public class ExpressRouteCrossConnectionsInner implements InnerSupportsGet<Expre
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        Observable<Response<ResponseBody>> observable = service.listRoutesTableSummary(resourceGroupName, crossConnectionName, peeringName, devicePath, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<ExpressRouteCrossConnectionsRoutesTableSummaryListResultInner>() { }.getType());
+        return service.beginListRoutesTableSummary(resourceGroupName, crossConnectionName, peeringName, devicePath, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
     /**
@@ -1179,13 +959,13 @@ public class ExpressRouteCrossConnectionsInner implements InnerSupportsGet<Expre
      * @param crossConnectionName The name of the ExpressRouteCrossConnection.
      * @param peeringName The name of the peering.
      * @param devicePath The path of the device.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the ExpressRouteCrossConnectionsRoutesTableSummaryListResultInner object if successful.
      */
-    public ExpressRouteCrossConnectionsRoutesTableSummaryListResultInner beginListRoutesTableSummary(String resourceGroupName, String crossConnectionName, String peeringName, String devicePath) {
-        return beginListRoutesTableSummaryWithServiceResponseAsync(resourceGroupName, crossConnectionName, peeringName, devicePath).toBlocking().single().body();
+    public ExpressRouteCrossConnectionsRoutesTableSummaryListResultInner listRoutesTableSummary(@NonNull String resourceGroupName, @NonNull String crossConnectionName, @NonNull String peeringName, @NonNull String devicePath) {
+        return listRoutesTableSummaryAsync(resourceGroupName, crossConnectionName, peeringName, devicePath).blockingGet();
     }
 
     /**
@@ -1196,11 +976,11 @@ public class ExpressRouteCrossConnectionsInner implements InnerSupportsGet<Expre
      * @param peeringName The name of the peering.
      * @param devicePath The path of the device.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<ExpressRouteCrossConnectionsRoutesTableSummaryListResultInner> beginListRoutesTableSummaryAsync(String resourceGroupName, String crossConnectionName, String peeringName, String devicePath, final ServiceCallback<ExpressRouteCrossConnectionsRoutesTableSummaryListResultInner> serviceCallback) {
-        return ServiceFuture.fromResponse(beginListRoutesTableSummaryWithServiceResponseAsync(resourceGroupName, crossConnectionName, peeringName, devicePath), serviceCallback);
+    public ServiceFuture<ExpressRouteCrossConnectionsRoutesTableSummaryListResultInner> listRoutesTableSummaryAsync(@NonNull String resourceGroupName, @NonNull String crossConnectionName, @NonNull String peeringName, @NonNull String devicePath, ServiceCallback<ExpressRouteCrossConnectionsRoutesTableSummaryListResultInner> serviceCallback) {
+        return ServiceFuture.fromBody(listRoutesTableSummaryAsync(resourceGroupName, crossConnectionName, peeringName, devicePath), serviceCallback);
     }
 
     /**
@@ -1210,29 +990,10 @@ public class ExpressRouteCrossConnectionsInner implements InnerSupportsGet<Expre
      * @param crossConnectionName The name of the ExpressRouteCrossConnection.
      * @param peeringName The name of the peering.
      * @param devicePath The path of the device.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ExpressRouteCrossConnectionsRoutesTableSummaryListResultInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<ExpressRouteCrossConnectionsRoutesTableSummaryListResultInner> beginListRoutesTableSummaryAsync(String resourceGroupName, String crossConnectionName, String peeringName, String devicePath) {
-        return beginListRoutesTableSummaryWithServiceResponseAsync(resourceGroupName, crossConnectionName, peeringName, devicePath).map(new Func1<ServiceResponse<ExpressRouteCrossConnectionsRoutesTableSummaryListResultInner>, ExpressRouteCrossConnectionsRoutesTableSummaryListResultInner>() {
-            @Override
-            public ExpressRouteCrossConnectionsRoutesTableSummaryListResultInner call(ServiceResponse<ExpressRouteCrossConnectionsRoutesTableSummaryListResultInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Gets the route table summary associated with the express route cross connection in a resource group.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param crossConnectionName The name of the ExpressRouteCrossConnection.
-     * @param peeringName The name of the peering.
-     * @param devicePath The path of the device.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ExpressRouteCrossConnectionsRoutesTableSummaryListResultInner object
-     */
-    public Observable<ServiceResponse<ExpressRouteCrossConnectionsRoutesTableSummaryListResultInner>> beginListRoutesTableSummaryWithServiceResponseAsync(String resourceGroupName, String crossConnectionName, String peeringName, String devicePath) {
+    public Single<BodyResponse<ExpressRouteCrossConnectionsRoutesTableSummaryListResultInner>> listRoutesTableSummaryWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String crossConnectionName, @NonNull String peeringName, @NonNull String devicePath) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -1249,26 +1010,36 @@ public class ExpressRouteCrossConnectionsInner implements InnerSupportsGet<Expre
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        return service.beginListRoutesTableSummary(resourceGroupName, crossConnectionName, peeringName, devicePath, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ExpressRouteCrossConnectionsRoutesTableSummaryListResultInner>>>() {
-                @Override
-                public Observable<ServiceResponse<ExpressRouteCrossConnectionsRoutesTableSummaryListResultInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<ExpressRouteCrossConnectionsRoutesTableSummaryListResultInner> clientResponse = beginListRoutesTableSummaryDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.listRoutesTableSummary(resourceGroupName, crossConnectionName, peeringName, devicePath, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<ExpressRouteCrossConnectionsRoutesTableSummaryListResultInner> beginListRoutesTableSummaryDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<ExpressRouteCrossConnectionsRoutesTableSummaryListResultInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<ExpressRouteCrossConnectionsRoutesTableSummaryListResultInner>() { }.getType())
-                .register(202, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Gets the route table summary associated with the express route cross connection in a resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param crossConnectionName The name of the ExpressRouteCrossConnection.
+     * @param peeringName The name of the peering.
+     * @param devicePath The path of the device.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<ExpressRouteCrossConnectionsRoutesTableSummaryListResultInner> listRoutesTableSummaryAsync(@NonNull String resourceGroupName, @NonNull String crossConnectionName, @NonNull String peeringName, @NonNull String devicePath) {
+        return listRoutesTableSummaryWithRestResponseAsync(resourceGroupName, crossConnectionName, peeringName, devicePath)
+            .flatMapMaybe((BodyResponse<ExpressRouteCrossConnectionsRoutesTableSummaryListResultInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
+    }
+
+    /**
+     * Gets the route table summary associated with the express route cross connection in a resource group. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<ExpressRouteCrossConnectionsRoutesTableSummaryListResultInner>> resumeListRoutesTableSummary(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeListRoutesTableSummary(operationDescription);
     }
 
     /**
@@ -1278,13 +1049,13 @@ public class ExpressRouteCrossConnectionsInner implements InnerSupportsGet<Expre
      * @param crossConnectionName The name of the ExpressRouteCrossConnection.
      * @param peeringName The name of the peering.
      * @param devicePath The path of the device.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the ExpressRouteCircuitsRoutesTableListResultInner object if successful.
      */
-    public ExpressRouteCircuitsRoutesTableListResultInner listRoutesTable(String resourceGroupName, String crossConnectionName, String peeringName, String devicePath) {
-        return listRoutesTableWithServiceResponseAsync(resourceGroupName, crossConnectionName, peeringName, devicePath).toBlocking().last().body();
+    public ExpressRouteCircuitsRoutesTableListResultInner beginListRoutesTable(@NonNull String resourceGroupName, @NonNull String crossConnectionName, @NonNull String peeringName, @NonNull String devicePath) {
+        return beginListRoutesTableAsync(resourceGroupName, crossConnectionName, peeringName, devicePath).blockingLast().result();
     }
 
     /**
@@ -1295,11 +1066,11 @@ public class ExpressRouteCrossConnectionsInner implements InnerSupportsGet<Expre
      * @param peeringName The name of the peering.
      * @param devicePath The path of the device.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;ExpressRouteCircuitsRoutesTableListResultInner&gt; object.
      */
-    public ServiceFuture<ExpressRouteCircuitsRoutesTableListResultInner> listRoutesTableAsync(String resourceGroupName, String crossConnectionName, String peeringName, String devicePath, final ServiceCallback<ExpressRouteCircuitsRoutesTableListResultInner> serviceCallback) {
-        return ServiceFuture.fromResponse(listRoutesTableWithServiceResponseAsync(resourceGroupName, crossConnectionName, peeringName, devicePath), serviceCallback);
+    public ServiceFuture<ExpressRouteCircuitsRoutesTableListResultInner> beginListRoutesTableAsync(@NonNull String resourceGroupName, @NonNull String crossConnectionName, @NonNull String peeringName, @NonNull String devicePath, ServiceCallback<ExpressRouteCircuitsRoutesTableListResultInner> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginListRoutesTableAsync(resourceGroupName, crossConnectionName, peeringName, devicePath), serviceCallback);
     }
 
     /**
@@ -1309,29 +1080,10 @@ public class ExpressRouteCrossConnectionsInner implements InnerSupportsGet<Expre
      * @param crossConnectionName The name of the ExpressRouteCrossConnection.
      * @param peeringName The name of the peering.
      * @param devicePath The path of the device.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<ExpressRouteCircuitsRoutesTableListResultInner> listRoutesTableAsync(String resourceGroupName, String crossConnectionName, String peeringName, String devicePath) {
-        return listRoutesTableWithServiceResponseAsync(resourceGroupName, crossConnectionName, peeringName, devicePath).map(new Func1<ServiceResponse<ExpressRouteCircuitsRoutesTableListResultInner>, ExpressRouteCircuitsRoutesTableListResultInner>() {
-            @Override
-            public ExpressRouteCircuitsRoutesTableListResultInner call(ServiceResponse<ExpressRouteCircuitsRoutesTableListResultInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Gets the currently advertised routes table associated with the express route cross connection in a resource group.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param crossConnectionName The name of the ExpressRouteCrossConnection.
-     * @param peeringName The name of the peering.
-     * @param devicePath The path of the device.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<ExpressRouteCircuitsRoutesTableListResultInner>> listRoutesTableWithServiceResponseAsync(String resourceGroupName, String crossConnectionName, String peeringName, String devicePath) {
+    public Observable<OperationStatus<ExpressRouteCircuitsRoutesTableListResultInner>> beginListRoutesTableAsync(@NonNull String resourceGroupName, @NonNull String crossConnectionName, @NonNull String peeringName, @NonNull String devicePath) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -1348,8 +1100,7 @@ public class ExpressRouteCrossConnectionsInner implements InnerSupportsGet<Expre
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        Observable<Response<ResponseBody>> observable = service.listRoutesTable(resourceGroupName, crossConnectionName, peeringName, devicePath, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<ExpressRouteCircuitsRoutesTableListResultInner>() { }.getType());
+        return service.beginListRoutesTable(resourceGroupName, crossConnectionName, peeringName, devicePath, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
     /**
@@ -1359,13 +1110,13 @@ public class ExpressRouteCrossConnectionsInner implements InnerSupportsGet<Expre
      * @param crossConnectionName The name of the ExpressRouteCrossConnection.
      * @param peeringName The name of the peering.
      * @param devicePath The path of the device.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the ExpressRouteCircuitsRoutesTableListResultInner object if successful.
      */
-    public ExpressRouteCircuitsRoutesTableListResultInner beginListRoutesTable(String resourceGroupName, String crossConnectionName, String peeringName, String devicePath) {
-        return beginListRoutesTableWithServiceResponseAsync(resourceGroupName, crossConnectionName, peeringName, devicePath).toBlocking().single().body();
+    public ExpressRouteCircuitsRoutesTableListResultInner listRoutesTable(@NonNull String resourceGroupName, @NonNull String crossConnectionName, @NonNull String peeringName, @NonNull String devicePath) {
+        return listRoutesTableAsync(resourceGroupName, crossConnectionName, peeringName, devicePath).blockingGet();
     }
 
     /**
@@ -1376,11 +1127,11 @@ public class ExpressRouteCrossConnectionsInner implements InnerSupportsGet<Expre
      * @param peeringName The name of the peering.
      * @param devicePath The path of the device.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<ExpressRouteCircuitsRoutesTableListResultInner> beginListRoutesTableAsync(String resourceGroupName, String crossConnectionName, String peeringName, String devicePath, final ServiceCallback<ExpressRouteCircuitsRoutesTableListResultInner> serviceCallback) {
-        return ServiceFuture.fromResponse(beginListRoutesTableWithServiceResponseAsync(resourceGroupName, crossConnectionName, peeringName, devicePath), serviceCallback);
+    public ServiceFuture<ExpressRouteCircuitsRoutesTableListResultInner> listRoutesTableAsync(@NonNull String resourceGroupName, @NonNull String crossConnectionName, @NonNull String peeringName, @NonNull String devicePath, ServiceCallback<ExpressRouteCircuitsRoutesTableListResultInner> serviceCallback) {
+        return ServiceFuture.fromBody(listRoutesTableAsync(resourceGroupName, crossConnectionName, peeringName, devicePath), serviceCallback);
     }
 
     /**
@@ -1390,29 +1141,10 @@ public class ExpressRouteCrossConnectionsInner implements InnerSupportsGet<Expre
      * @param crossConnectionName The name of the ExpressRouteCrossConnection.
      * @param peeringName The name of the peering.
      * @param devicePath The path of the device.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ExpressRouteCircuitsRoutesTableListResultInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<ExpressRouteCircuitsRoutesTableListResultInner> beginListRoutesTableAsync(String resourceGroupName, String crossConnectionName, String peeringName, String devicePath) {
-        return beginListRoutesTableWithServiceResponseAsync(resourceGroupName, crossConnectionName, peeringName, devicePath).map(new Func1<ServiceResponse<ExpressRouteCircuitsRoutesTableListResultInner>, ExpressRouteCircuitsRoutesTableListResultInner>() {
-            @Override
-            public ExpressRouteCircuitsRoutesTableListResultInner call(ServiceResponse<ExpressRouteCircuitsRoutesTableListResultInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Gets the currently advertised routes table associated with the express route cross connection in a resource group.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param crossConnectionName The name of the ExpressRouteCrossConnection.
-     * @param peeringName The name of the peering.
-     * @param devicePath The path of the device.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ExpressRouteCircuitsRoutesTableListResultInner object
-     */
-    public Observable<ServiceResponse<ExpressRouteCircuitsRoutesTableListResultInner>> beginListRoutesTableWithServiceResponseAsync(String resourceGroupName, String crossConnectionName, String peeringName, String devicePath) {
+    public Single<BodyResponse<ExpressRouteCircuitsRoutesTableListResultInner>> listRoutesTableWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String crossConnectionName, @NonNull String peeringName, @NonNull String devicePath) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -1429,43 +1161,53 @@ public class ExpressRouteCrossConnectionsInner implements InnerSupportsGet<Expre
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        return service.beginListRoutesTable(resourceGroupName, crossConnectionName, peeringName, devicePath, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ExpressRouteCircuitsRoutesTableListResultInner>>>() {
-                @Override
-                public Observable<ServiceResponse<ExpressRouteCircuitsRoutesTableListResultInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<ExpressRouteCircuitsRoutesTableListResultInner> clientResponse = beginListRoutesTableDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.listRoutesTable(resourceGroupName, crossConnectionName, peeringName, devicePath, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<ExpressRouteCircuitsRoutesTableListResultInner> beginListRoutesTableDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<ExpressRouteCircuitsRoutesTableListResultInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<ExpressRouteCircuitsRoutesTableListResultInner>() { }.getType())
-                .register(202, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Gets the currently advertised routes table associated with the express route cross connection in a resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param crossConnectionName The name of the ExpressRouteCrossConnection.
+     * @param peeringName The name of the peering.
+     * @param devicePath The path of the device.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<ExpressRouteCircuitsRoutesTableListResultInner> listRoutesTableAsync(@NonNull String resourceGroupName, @NonNull String crossConnectionName, @NonNull String peeringName, @NonNull String devicePath) {
+        return listRoutesTableWithRestResponseAsync(resourceGroupName, crossConnectionName, peeringName, devicePath)
+            .flatMapMaybe((BodyResponse<ExpressRouteCircuitsRoutesTableListResultInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
+    }
+
+    /**
+     * Gets the currently advertised routes table associated with the express route cross connection in a resource group. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<ExpressRouteCircuitsRoutesTableListResultInner>> resumeListRoutesTable(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeListRoutesTable(operationDescription);
     }
 
     /**
      * Retrieves all the ExpressRouteCrossConnections in a subscription.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;ExpressRouteCrossConnectionInner&gt; object if successful.
      */
-    public PagedList<ExpressRouteCrossConnectionInner> listNext(final String nextPageLink) {
-        ServiceResponse<Page<ExpressRouteCrossConnectionInner>> response = listNextSinglePageAsync(nextPageLink).toBlocking().single();
-        return new PagedList<ExpressRouteCrossConnectionInner>(response.body()) {
+    public PagedList<ExpressRouteCrossConnectionInner> listNext(@NonNull String nextPageLink) {
+        Page<ExpressRouteCrossConnectionInner> response = listNextSinglePageAsync(nextPageLink).blockingGet();
+        return new PagedList<ExpressRouteCrossConnectionInner>(response) {
             @Override
             public Page<ExpressRouteCrossConnectionInner> nextPage(String nextPageLink) {
-                return listNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -1474,109 +1216,52 @@ public class ExpressRouteCrossConnectionsInner implements InnerSupportsGet<Expre
      * Retrieves all the ExpressRouteCrossConnections in a subscription.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;ExpressRouteCrossConnectionInner&gt; object.
      */
-    public ServiceFuture<List<ExpressRouteCrossConnectionInner>> listNextAsync(final String nextPageLink, final ServiceFuture<List<ExpressRouteCrossConnectionInner>> serviceFuture, final ListOperationCallback<ExpressRouteCrossConnectionInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listNextSinglePageAsync(nextPageLink),
-            new Func1<String, Observable<ServiceResponse<Page<ExpressRouteCrossConnectionInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ExpressRouteCrossConnectionInner>>> call(String nextPageLink) {
-                    return listNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Retrieves all the ExpressRouteCrossConnections in a subscription.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ExpressRouteCrossConnectionInner&gt; object
-     */
-    public Observable<Page<ExpressRouteCrossConnectionInner>> listNextAsync(final String nextPageLink) {
-        return listNextWithServiceResponseAsync(nextPageLink)
-            .map(new Func1<ServiceResponse<Page<ExpressRouteCrossConnectionInner>>, Page<ExpressRouteCrossConnectionInner>>() {
-                @Override
-                public Page<ExpressRouteCrossConnectionInner> call(ServiceResponse<Page<ExpressRouteCrossConnectionInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Retrieves all the ExpressRouteCrossConnections in a subscription.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ExpressRouteCrossConnectionInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<ExpressRouteCrossConnectionInner>>> listNextWithServiceResponseAsync(final String nextPageLink) {
+    public Observable<Page<ExpressRouteCrossConnectionInner>> listNextAsync(@NonNull String nextPageLink) {
         return listNextSinglePageAsync(nextPageLink)
-            .concatMap(new Func1<ServiceResponse<Page<ExpressRouteCrossConnectionInner>>, Observable<ServiceResponse<Page<ExpressRouteCrossConnectionInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ExpressRouteCrossConnectionInner>>> call(ServiceResponse<Page<ExpressRouteCrossConnectionInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<ExpressRouteCrossConnectionInner> page) -> {
+                String nextPageLink1 = page.nextPageLink();
+                if (nextPageLink1 == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listNextAsync(nextPageLink1));
             });
     }
 
     /**
      * Retrieves all the ExpressRouteCrossConnections in a subscription.
      *
-    ServiceResponse<PageImpl<ExpressRouteCrossConnectionInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;ExpressRouteCrossConnectionInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;ExpressRouteCrossConnectionInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<ExpressRouteCrossConnectionInner>>> listNextSinglePageAsync(final String nextPageLink) {
+    public Single<Page<ExpressRouteCrossConnectionInner>> listNextSinglePageAsync(@NonNull String nextPageLink) {
         if (nextPageLink == null) {
             throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
         }
         String nextUrl = String.format("%s", nextPageLink);
-        return service.listNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ExpressRouteCrossConnectionInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ExpressRouteCrossConnectionInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<ExpressRouteCrossConnectionInner>> result = listNextDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<ExpressRouteCrossConnectionInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl<ExpressRouteCrossConnectionInner>> listNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<ExpressRouteCrossConnectionInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<ExpressRouteCrossConnectionInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+        return service.listNext(nextUrl, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl<ExpressRouteCrossConnectionInner>> res) -> res.body());
     }
 
     /**
      * Retrieves all the ExpressRouteCrossConnections in a resource group.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;ExpressRouteCrossConnectionInner&gt; object if successful.
      */
-    public PagedList<ExpressRouteCrossConnectionInner> listByResourceGroupNext(final String nextPageLink) {
-        ServiceResponse<Page<ExpressRouteCrossConnectionInner>> response = listByResourceGroupNextSinglePageAsync(nextPageLink).toBlocking().single();
-        return new PagedList<ExpressRouteCrossConnectionInner>(response.body()) {
+    public PagedList<ExpressRouteCrossConnectionInner> listByResourceGroupNext(@NonNull String nextPageLink) {
+        Page<ExpressRouteCrossConnectionInner> response = listByResourceGroupNextSinglePageAsync(nextPageLink).blockingGet();
+        return new PagedList<ExpressRouteCrossConnectionInner>(response) {
             @Override
             public Page<ExpressRouteCrossConnectionInner> nextPage(String nextPageLink) {
-                return listByResourceGroupNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listByResourceGroupNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -1585,92 +1270,34 @@ public class ExpressRouteCrossConnectionsInner implements InnerSupportsGet<Expre
      * Retrieves all the ExpressRouteCrossConnections in a resource group.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;ExpressRouteCrossConnectionInner&gt; object.
      */
-    public ServiceFuture<List<ExpressRouteCrossConnectionInner>> listByResourceGroupNextAsync(final String nextPageLink, final ServiceFuture<List<ExpressRouteCrossConnectionInner>> serviceFuture, final ListOperationCallback<ExpressRouteCrossConnectionInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listByResourceGroupNextSinglePageAsync(nextPageLink),
-            new Func1<String, Observable<ServiceResponse<Page<ExpressRouteCrossConnectionInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ExpressRouteCrossConnectionInner>>> call(String nextPageLink) {
-                    return listByResourceGroupNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Retrieves all the ExpressRouteCrossConnections in a resource group.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ExpressRouteCrossConnectionInner&gt; object
-     */
-    public Observable<Page<ExpressRouteCrossConnectionInner>> listByResourceGroupNextAsync(final String nextPageLink) {
-        return listByResourceGroupNextWithServiceResponseAsync(nextPageLink)
-            .map(new Func1<ServiceResponse<Page<ExpressRouteCrossConnectionInner>>, Page<ExpressRouteCrossConnectionInner>>() {
-                @Override
-                public Page<ExpressRouteCrossConnectionInner> call(ServiceResponse<Page<ExpressRouteCrossConnectionInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Retrieves all the ExpressRouteCrossConnections in a resource group.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ExpressRouteCrossConnectionInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<ExpressRouteCrossConnectionInner>>> listByResourceGroupNextWithServiceResponseAsync(final String nextPageLink) {
+    public Observable<Page<ExpressRouteCrossConnectionInner>> listByResourceGroupNextAsync(@NonNull String nextPageLink) {
         return listByResourceGroupNextSinglePageAsync(nextPageLink)
-            .concatMap(new Func1<ServiceResponse<Page<ExpressRouteCrossConnectionInner>>, Observable<ServiceResponse<Page<ExpressRouteCrossConnectionInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ExpressRouteCrossConnectionInner>>> call(ServiceResponse<Page<ExpressRouteCrossConnectionInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listByResourceGroupNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<ExpressRouteCrossConnectionInner> page) -> {
+                String nextPageLink1 = page.nextPageLink();
+                if (nextPageLink1 == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listByResourceGroupNextAsync(nextPageLink1));
             });
     }
 
     /**
      * Retrieves all the ExpressRouteCrossConnections in a resource group.
      *
-    ServiceResponse<PageImpl<ExpressRouteCrossConnectionInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;ExpressRouteCrossConnectionInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;ExpressRouteCrossConnectionInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<ExpressRouteCrossConnectionInner>>> listByResourceGroupNextSinglePageAsync(final String nextPageLink) {
+    public Single<Page<ExpressRouteCrossConnectionInner>> listByResourceGroupNextSinglePageAsync(@NonNull String nextPageLink) {
         if (nextPageLink == null) {
             throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
         }
         String nextUrl = String.format("%s", nextPageLink);
-        return service.listByResourceGroupNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ExpressRouteCrossConnectionInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ExpressRouteCrossConnectionInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<ExpressRouteCrossConnectionInner>> result = listByResourceGroupNextDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<ExpressRouteCrossConnectionInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.listByResourceGroupNext(nextUrl, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl<ExpressRouteCrossConnectionInner>> res) -> res.body());
     }
-
-    private ServiceResponse<PageImpl<ExpressRouteCrossConnectionInner>> listByResourceGroupNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<ExpressRouteCrossConnectionInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<ExpressRouteCrossConnectionInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
-    }
-
 }

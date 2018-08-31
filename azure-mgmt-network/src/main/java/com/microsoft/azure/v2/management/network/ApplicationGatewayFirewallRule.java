@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * A web application firewall rule.
  */
-public class ApplicationGatewayFirewallRule {
+public final class ApplicationGatewayFirewallRule {
     /**
      * The identifier of the web application firewall rule.
      */
@@ -29,7 +29,7 @@ public class ApplicationGatewayFirewallRule {
     /**
      * Get the ruleId value.
      *
-     * @return the ruleId value
+     * @return the ruleId value.
      */
     public int ruleId() {
         return this.ruleId;
@@ -38,7 +38,7 @@ public class ApplicationGatewayFirewallRule {
     /**
      * Set the ruleId value.
      *
-     * @param ruleId the ruleId value to set
+     * @param ruleId the ruleId value to set.
      * @return the ApplicationGatewayFirewallRule object itself.
      */
     public ApplicationGatewayFirewallRule withRuleId(int ruleId) {
@@ -49,7 +49,7 @@ public class ApplicationGatewayFirewallRule {
     /**
      * Get the description value.
      *
-     * @return the description value
+     * @return the description value.
      */
     public String description() {
         return this.description;
@@ -58,12 +58,11 @@ public class ApplicationGatewayFirewallRule {
     /**
      * Set the description value.
      *
-     * @param description the description value to set
+     * @param description the description value to set.
      * @return the ApplicationGatewayFirewallRule object itself.
      */
     public ApplicationGatewayFirewallRule withDescription(String description) {
         this.description = description;
         return this;
     }
-
 }

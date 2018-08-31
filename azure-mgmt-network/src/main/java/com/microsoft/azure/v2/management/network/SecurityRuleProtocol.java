@@ -8,27 +8,34 @@
 
 package com.microsoft.azure.v2.management.network;
 
-import java.util.Collection;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.microsoft.rest.ExpandableStringEnum;
+import com.microsoft.rest.v2.ExpandableStringEnum;
+import java.util.Collection;
 
 /**
  * Defines values for SecurityRuleProtocol.
  */
 public final class SecurityRuleProtocol extends ExpandableStringEnum<SecurityRuleProtocol> {
-    /** Static value Tcp for SecurityRuleProtocol. */
+    /**
+     * Static value Tcp for SecurityRuleProtocol.
+     */
     public static final SecurityRuleProtocol TCP = fromString("Tcp");
 
-    /** Static value Udp for SecurityRuleProtocol. */
+    /**
+     * Static value Udp for SecurityRuleProtocol.
+     */
     public static final SecurityRuleProtocol UDP = fromString("Udp");
 
-    /** Static value * for SecurityRuleProtocol. */
-    public static final SecurityRuleProtocol ASTERISK = fromString("*");
+    /**
+     * Static value * for SecurityRuleProtocol.
+     */
+    public static final SecurityRuleProtocol * = fromString("*");
 
     /**
      * Creates or finds a SecurityRuleProtocol from its string representation.
-     * @param name a name to look for
-     * @return the corresponding SecurityRuleProtocol
+     *
+     * @param name a name to look for.
+     * @return the corresponding SecurityRuleProtocol.
      */
     @JsonCreator
     public static SecurityRuleProtocol fromString(String name) {
@@ -36,7 +43,7 @@ public final class SecurityRuleProtocol extends ExpandableStringEnum<SecurityRul
     }
 
     /**
-     * @return known SecurityRuleProtocol values
+     * @return known SecurityRuleProtocol values.
      */
     public static Collection<SecurityRuleProtocol> values() {
         return values(SecurityRuleProtocol.class);

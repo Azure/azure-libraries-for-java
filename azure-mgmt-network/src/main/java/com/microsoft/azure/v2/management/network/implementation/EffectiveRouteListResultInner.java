@@ -8,14 +8,14 @@
 
 package com.microsoft.azure.v2.management.network.implementation;
 
-import java.util.List;
-import com.microsoft.azure.v2.management.network.EffectiveRoute;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.v2.management.network.EffectiveRoute;
+import java.util.List;
 
 /**
  * Response for list effective route API service call.
  */
-public class EffectiveRouteListResultInner {
+public final class EffectiveRouteListResultInner {
     /**
      * A list of effective routes.
      */
@@ -31,7 +31,7 @@ public class EffectiveRouteListResultInner {
     /**
      * Get the value value.
      *
-     * @return the value value
+     * @return the value value.
      */
     public List<EffectiveRoute> value() {
         return this.value;
@@ -40,7 +40,7 @@ public class EffectiveRouteListResultInner {
     /**
      * Set the value value.
      *
-     * @param value the value value to set
+     * @param value the value value to set.
      * @return the EffectiveRouteListResultInner object itself.
      */
     public EffectiveRouteListResultInner withValue(List<EffectiveRoute> value) {
@@ -51,10 +51,9 @@ public class EffectiveRouteListResultInner {
     /**
      * Get the nextLink value.
      *
-     * @return the nextLink value
+     * @return the nextLink value.
      */
     public String nextLink() {
         return this.nextLink;
     }
-
 }

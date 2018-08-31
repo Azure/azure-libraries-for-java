@@ -8,24 +8,29 @@
 
 package com.microsoft.azure.v2.management.network;
 
-import java.util.Collection;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.microsoft.rest.ExpandableStringEnum;
+import com.microsoft.rest.v2.ExpandableStringEnum;
+import java.util.Collection;
 
 /**
  * Defines values for SecurityRuleAccess.
  */
 public final class SecurityRuleAccess extends ExpandableStringEnum<SecurityRuleAccess> {
-    /** Static value Allow for SecurityRuleAccess. */
+    /**
+     * Static value Allow for SecurityRuleAccess.
+     */
     public static final SecurityRuleAccess ALLOW = fromString("Allow");
 
-    /** Static value Deny for SecurityRuleAccess. */
+    /**
+     * Static value Deny for SecurityRuleAccess.
+     */
     public static final SecurityRuleAccess DENY = fromString("Deny");
 
     /**
      * Creates or finds a SecurityRuleAccess from its string representation.
-     * @param name a name to look for
-     * @return the corresponding SecurityRuleAccess
+     *
+     * @param name a name to look for.
+     * @return the corresponding SecurityRuleAccess.
      */
     @JsonCreator
     public static SecurityRuleAccess fromString(String name) {
@@ -33,7 +38,7 @@ public final class SecurityRuleAccess extends ExpandableStringEnum<SecurityRuleA
     }
 
     /**
-     * @return known SecurityRuleAccess values
+     * @return known SecurityRuleAccess values.
      */
     public static Collection<SecurityRuleAccess> values() {
         return values(SecurityRuleAccess.class);

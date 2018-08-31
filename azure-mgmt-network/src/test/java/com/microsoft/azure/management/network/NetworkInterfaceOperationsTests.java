@@ -12,6 +12,11 @@ import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.model.CreatedResources;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
+import com.microsoft.azure.v2.management.network.Network;
+import com.microsoft.azure.v2.management.network.NetworkInterface;
+import com.microsoft.azure.v2.management.network.NetworkInterfaces;
+import com.microsoft.azure.v2.management.network.Networks;
+import com.microsoft.azure.v2.management.network.NicIPConfiguration;
 import com.microsoft.rest.ServiceCallback;
 
 import rx.Observable;

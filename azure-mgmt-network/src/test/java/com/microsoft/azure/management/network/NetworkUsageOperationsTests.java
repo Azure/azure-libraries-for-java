@@ -7,6 +7,7 @@
 package com.microsoft.azure.management.network;
 
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.v2.management.network.NetworkUsage;
 import org.junit.Assert;
 import org.junit.Test;
 

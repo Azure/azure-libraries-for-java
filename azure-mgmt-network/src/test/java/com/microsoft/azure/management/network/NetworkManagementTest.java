@@ -6,7 +6,7 @@
 
 package com.microsoft.azure.management.network;
 
-import com.microsoft.azure.management.network.implementation.NetworkManager;
+import com.microsoft.azure.v2.management.network.implementation.NetworkManager;
 import com.microsoft.azure.management.resources.core.TestBase;
 import com.microsoft.azure.management.resources.implementation.ResourceManager;
 import com.microsoft.rest.RestClient;

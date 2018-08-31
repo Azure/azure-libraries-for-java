@@ -21,7 +21,7 @@ import com.microsoft.azure.SubResource;
 @JsonFlatten
 public class ApplicationGatewaySslPredefinedPolicyInner extends SubResource {
     /**
-     * Name of Ssl predefined policy.
+     * Name of the Ssl predefined policy.
      */
     @JsonProperty(value = "name")
     private String name;

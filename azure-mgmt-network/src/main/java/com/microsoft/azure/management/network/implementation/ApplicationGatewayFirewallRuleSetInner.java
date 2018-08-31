@@ -12,12 +12,14 @@ import java.util.List;
 import com.microsoft.azure.management.network.ApplicationGatewayFirewallRuleGroup;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.rest.SkipParentValidation;
 import com.microsoft.azure.Resource;
 
 /**
  * A web application firewall rule set.
  */
 @JsonFlatten
+@SkipParentValidation
 public class ApplicationGatewayFirewallRuleSetInner extends Resource {
     /**
      * The provisioning state of the web application firewall rule set.
@@ -42,6 +44,12 @@ public class ApplicationGatewayFirewallRuleSetInner extends Resource {
      */
     @JsonProperty(value = "properties.ruleGroups", required = true)
     private List<ApplicationGatewayFirewallRuleGroup> ruleGroups;
+
+    /**
+     * Resource ID.
+     */
+    @JsonProperty(value = "id")
+    private String id;
 
     /**
      * Get the provisioningState value.
@@ -120,6 +128,26 @@ public class ApplicationGatewayFirewallRuleSetInner extends Resource {
      */
     public ApplicationGatewayFirewallRuleSetInner withRuleGroups(List<ApplicationGatewayFirewallRuleGroup> ruleGroups) {
         this.ruleGroups = ruleGroups;
+        return this;
+    }
+
+    /**
+     * Get the id value.
+     *
+     * @return the id value
+     */
+    public String id() {
+        return this.id;
+    }
+
+    /**
+     * Set the id value.
+     *
+     * @param id the id value to set
+     * @return the ApplicationGatewayFirewallRuleSetInner object itself.
+     */
+    public ApplicationGatewayFirewallRuleSetInner withId(String id) {
+        this.id = id;
         return this;
     }
 

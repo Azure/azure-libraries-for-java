@@ -14,6 +14,7 @@ import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.management.network.implementation.NetworkManager;
 import com.microsoft.azure.management.network.implementation.VirtualNetworkGatewayInner;
 import com.microsoft.azure.management.network.model.HasPublicIPAddress;
+import com.microsoft.azure.management.network.model.UpdatableWithTags;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
 import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
@@ -33,7 +34,8 @@ import java.util.Collection;
 public interface VirtualNetworkGateway extends
         GroupableResource<NetworkManager, VirtualNetworkGatewayInner>,
         Refreshable<VirtualNetworkGateway>,
-        Updatable<VirtualNetworkGateway.Update> {
+        Updatable<VirtualNetworkGateway.Update>,
+        UpdatableWithTags<VirtualNetworkGateway> {
 
     // Actions
 
@@ -62,6 +64,20 @@ public interface VirtualNetworkGateway extends
      */
     @Method
     Observable<VirtualNetworkGatewayConnection> listConnectionsAsync();
+
+    /**
+     * Generates VPN profile for P2S client of the virtual network gateway in the specified resource group. Used for IKEV2 and radius based authentication.
+     * @return String object if successful
+     */
+    @Method
+    String generateVpnProfile();
+
+    /**
+     * Generates asynchronously VPN profile for P2S client of the virtual network gateway in the specified resource group. Used for IKEV2 and radius based authentication.
+     * @return String object if successful
+     */
+    @Method
+    Observable<String> generateVpnProfileAsync();
 
     /**
      * @return the entry point to virtual network gateway connections management API for this virtual network gateway
@@ -203,7 +219,7 @@ public interface VirtualNetworkGateway extends
             WithGatewayType withNewNetwork(String addressSpaceCidr, String subnetAddressSpaceCidr);
 
             /**
-             * Associate an existing virtual network with the virtual network gateway .
+             * Associate an existing virtual network with the virtual network gateway.
              * @param network an existing virtual network
              * @return the next stage of the definition
              */
@@ -280,6 +296,20 @@ public interface VirtualNetworkGateway extends
             @Method
             Update withoutBgp();
         }
+
+        /**
+         * The stage of update allowing to specify virtual network gateway's point-to-site configuration.
+         */
+        interface WithPointToSiteConfiguration {
+
+            /**
+             * Begins the definition of point-to-site configuration to be added to this virtual network gateway.
+             * @return the first stage of the point-to-site configuration definition
+             */
+            PointToSiteConfiguration.DefinitionStages.Blank<Update> definePointToSiteConfiguration();
+
+            PointToSiteConfiguration.Update updatePointToSiteConfiguration();
+        }
     }
 
     /**
@@ -290,6 +320,7 @@ public interface VirtualNetworkGateway extends
             Appliable<VirtualNetworkGateway>,
             Resource.UpdateWithTags<Update>,
             UpdateStages.WithSku,
-            UpdateStages.WithBgp {
+            UpdateStages.WithBgp,
+            UpdateStages.WithPointToSiteConfiguration {
     }
 }

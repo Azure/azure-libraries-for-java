@@ -13,14 +13,17 @@ import com.microsoft.azure.management.network.ApplicationGatewaySslPolicy;
 import com.microsoft.azure.management.network.ApplicationGatewayOperationalState;
 import java.util.List;
 import com.microsoft.azure.management.network.ApplicationGatewayWebApplicationFirewallConfiguration;
+import com.microsoft.azure.management.network.ApplicationGatewayAutoscaleConfiguration;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.rest.SkipParentValidation;
 import com.microsoft.azure.Resource;
 
 /**
  * Application gateway resource.
  */
 @JsonFlatten
+@SkipParentValidation
 public class ApplicationGatewayInner extends Resource {
     /**
      * SKU of the application gateway resource.
@@ -120,6 +123,24 @@ public class ApplicationGatewayInner extends Resource {
     private ApplicationGatewayWebApplicationFirewallConfiguration webApplicationFirewallConfiguration;
 
     /**
+     * Whether HTTP2 is enabled on the application gateway resource.
+     */
+    @JsonProperty(value = "properties.enableHttp2")
+    private Boolean enableHttp2;
+
+    /**
+     * Whether FIPS is enabled on the application gateway resource.
+     */
+    @JsonProperty(value = "properties.enableFips")
+    private Boolean enableFips;
+
+    /**
+     * Autoscale Configuration.
+     */
+    @JsonProperty(value = "properties.autoscaleConfiguration")
+    private ApplicationGatewayAutoscaleConfiguration autoscaleConfiguration;
+
+    /**
      * Resource GUID property of the application gateway resource.
      */
     @JsonProperty(value = "properties.resourceGuid")
@@ -139,10 +160,17 @@ public class ApplicationGatewayInner extends Resource {
     private String etag;
 
     /**
-     * A list of availability zones denoting where the resource needs to come from..
+     * A list of availability zones denoting where the resource needs to come
+     * from.
      */
     @JsonProperty(value = "zones")
     private List<String> zones;
+
+    /**
+     * Resource ID.
+     */
+    @JsonProperty(value = "id")
+    private String id;
 
     /**
      * Get the sku value.
@@ -454,6 +482,66 @@ public class ApplicationGatewayInner extends Resource {
     }
 
     /**
+     * Get the enableHttp2 value.
+     *
+     * @return the enableHttp2 value
+     */
+    public Boolean enableHttp2() {
+        return this.enableHttp2;
+    }
+
+    /**
+     * Set the enableHttp2 value.
+     *
+     * @param enableHttp2 the enableHttp2 value to set
+     * @return the ApplicationGatewayInner object itself.
+     */
+    public ApplicationGatewayInner withEnableHttp2(Boolean enableHttp2) {
+        this.enableHttp2 = enableHttp2;
+        return this;
+    }
+
+    /**
+     * Get the enableFips value.
+     *
+     * @return the enableFips value
+     */
+    public Boolean enableFips() {
+        return this.enableFips;
+    }
+
+    /**
+     * Set the enableFips value.
+     *
+     * @param enableFips the enableFips value to set
+     * @return the ApplicationGatewayInner object itself.
+     */
+    public ApplicationGatewayInner withEnableFips(Boolean enableFips) {
+        this.enableFips = enableFips;
+        return this;
+    }
+
+    /**
+     * Get the autoscaleConfiguration value.
+     *
+     * @return the autoscaleConfiguration value
+     */
+    public ApplicationGatewayAutoscaleConfiguration autoscaleConfiguration() {
+        return this.autoscaleConfiguration;
+    }
+
+    /**
+     * Set the autoscaleConfiguration value.
+     *
+     * @param autoscaleConfiguration the autoscaleConfiguration value to set
+     * @return the ApplicationGatewayInner object itself.
+     */
+    public ApplicationGatewayInner withAutoscaleConfiguration(ApplicationGatewayAutoscaleConfiguration autoscaleConfiguration) {
+        this.autoscaleConfiguration = autoscaleConfiguration;
+        return this;
+    }
+
+    /**
      * Get the resourceGuid value.
      *
      * @return the resourceGuid value
@@ -532,4 +620,25 @@ public class ApplicationGatewayInner extends Resource {
         this.zones = zones;
         return this;
     }
+
+    /**
+     * Get the id value.
+     *
+     * @return the id value
+     */
+    public String id() {
+        return this.id;
+    }
+
+    /**
+     * Set the id value.
+     *
+     * @param id the id value to set
+     * @return the ApplicationGatewayInner object itself.
+     */
+    public ApplicationGatewayInner withId(String id) {
+        this.id = id;
+        return this;
+    }
+
 }

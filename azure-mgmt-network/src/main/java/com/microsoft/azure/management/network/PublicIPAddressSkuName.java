@@ -8,52 +8,34 @@
 
 package com.microsoft.azure.management.network;
 
-import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.Collection;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.microsoft.rest.ExpandableStringEnum;
 
 /**
  * Defines values for PublicIPAddressSkuName.
  */
-public final class PublicIPAddressSkuName {
+public final class PublicIPAddressSkuName extends ExpandableStringEnum<PublicIPAddressSkuName> {
     /** Static value Basic for PublicIPAddressSkuName. */
-    public static final PublicIPAddressSkuName BASIC = new PublicIPAddressSkuName("Basic");
+    public static final PublicIPAddressSkuName BASIC = fromString("Basic");
 
     /** Static value Standard for PublicIPAddressSkuName. */
-    public static final PublicIPAddressSkuName STANDARD = new PublicIPAddressSkuName("Standard");
-
-    private String value;
+    public static final PublicIPAddressSkuName STANDARD = fromString("Standard");
 
     /**
-     * Creates a custom value for PublicIPAddressSkuName.
-     * @param value the custom value
+     * Creates or finds a PublicIPAddressSkuName from its string representation.
+     * @param name a name to look for
+     * @return the corresponding PublicIPAddressSkuName
      */
-    public PublicIPAddressSkuName(String value) {
-        this.value = value;
+    @JsonCreator
+    public static PublicIPAddressSkuName fromString(String name) {
+        return fromString(name, PublicIPAddressSkuName.class);
     }
 
-    @JsonValue
-    @Override
-    public String toString() {
-        return value;
-    }
-
-    @Override
-    public int hashCode() {
-        return value.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof PublicIPAddressSkuName)) {
-            return false;
-        }
-        if (obj == this) {
-            return true;
-        }
-        PublicIPAddressSkuName rhs = (PublicIPAddressSkuName) obj;
-        if (value == null) {
-            return rhs.value == null;
-        } else {
-            return value.equals(rhs.value);
-        }
+    /**
+     * @return known PublicIPAddressSkuName values
+     */
+    public static Collection<PublicIPAddressSkuName> values() {
+        return values(PublicIPAddressSkuName.class);
     }
 }

@@ -70,8 +70,8 @@ public class ApplicationGatewayRedirectConfigurationInner extends SubResource {
     private List<SubResource> pathRules;
 
     /**
-     * Name of the resource that is unique within a resource group. This name
-     * can be used to access the resource.
+     * Name of the redirect configuration that is unique within an Application
+     * Gateway.
      */
     @JsonProperty(value = "name")
     private String name;

@@ -17,14 +17,14 @@ public class ApplicationGatewaySku {
     /**
      * Name of an application gateway SKU. Possible values include:
      * 'Standard_Small', 'Standard_Medium', 'Standard_Large', 'WAF_Medium',
-     * 'WAF_Large'.
+     * 'WAF_Large', 'Standard_v2', 'WAF_v2'.
      */
     @JsonProperty(value = "name")
     private ApplicationGatewaySkuName name;
 
     /**
      * Tier of an application gateway. Possible values include: 'Standard',
-     * 'WAF'.
+     * 'WAF', 'Standard_v2', 'WAF_v2'.
      */
     @JsonProperty(value = "tier")
     private ApplicationGatewayTier tier;

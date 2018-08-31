@@ -20,7 +20,8 @@ import com.microsoft.azure.SubResource;
 @JsonFlatten
 public class ApplicationGatewayProbeInner extends SubResource {
     /**
-     * Protocol. Possible values include: 'Http', 'Https'.
+     * The protocol used for the probe. Possible values are 'Http' and 'Https'.
+     * Possible values include: 'Http', 'Https'.
      */
     @JsonProperty(value = "properties.protocol")
     private ApplicationGatewayProtocol protocol;
@@ -90,8 +91,7 @@ public class ApplicationGatewayProbeInner extends SubResource {
     private String provisioningState;
 
     /**
-     * Name of the resource that is unique within a resource group. This name
-     * can be used to access the resource.
+     * Name of the probe that is unique within an Application Gateway.
      */
     @JsonProperty(value = "name")
     private String name;

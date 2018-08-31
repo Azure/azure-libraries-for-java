@@ -10,7 +10,6 @@ package com.microsoft.azure.management.network.implementation;
 
 import com.microsoft.azure.management.network.Access;
 import java.util.List;
-import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 import com.microsoft.azure.SubResource;
@@ -65,12 +64,6 @@ public class RouteFilterRuleInner extends SubResource {
      */
     @JsonProperty(value = "etag", access = JsonProperty.Access.WRITE_ONLY)
     private String etag;
-
-    /**
-     * Resource tags.
-     */
-    @JsonProperty(value = "tags")
-    private Map<String, String> tags;
 
     /**
      * Creates an instance of RouteFilterRuleInner class.
@@ -195,26 +188,6 @@ public class RouteFilterRuleInner extends SubResource {
      */
     public String etag() {
         return this.etag;
-    }
-
-    /**
-     * Get the tags value.
-     *
-     * @return the tags value
-     */
-    public Map<String, String> tags() {
-        return this.tags;
-    }
-
-    /**
-     * Set the tags value.
-     *
-     * @param tags the tags value to set
-     * @return the RouteFilterRuleInner object itself.
-     */
-    public RouteFilterRuleInner withTags(Map<String, String> tags) {
-        this.tags = tags;
-        return this;
     }
 
 }

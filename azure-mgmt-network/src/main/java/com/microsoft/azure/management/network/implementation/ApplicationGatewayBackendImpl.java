@@ -97,7 +97,7 @@ class ApplicationGatewayBackendImpl
         }
 
         ApplicationGatewayBackendAddress address = new ApplicationGatewayBackendAddress()
-                .withIPAddress(ipAddress);
+                .withIpAddress(ipAddress);
         List<ApplicationGatewayBackendAddress> addresses = ensureAddresses();
         for (ApplicationGatewayBackendAddress a : addresses) {
             if (ipAddress.equalsIgnoreCase(a.ipAddress())) {

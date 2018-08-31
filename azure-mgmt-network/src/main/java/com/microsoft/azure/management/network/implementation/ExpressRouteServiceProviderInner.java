@@ -12,12 +12,14 @@ import java.util.List;
 import com.microsoft.azure.management.network.ExpressRouteServiceProviderBandwidthsOffered;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.rest.SkipParentValidation;
 import com.microsoft.azure.Resource;
 
 /**
  * A ExpressRouteResourceProvider object.
  */
 @JsonFlatten
+@SkipParentValidation
 public class ExpressRouteServiceProviderInner extends Resource {
     /**
      * Get a list of peering locations.
@@ -36,6 +38,12 @@ public class ExpressRouteServiceProviderInner extends Resource {
      */
     @JsonProperty(value = "properties.provisioningState")
     private String provisioningState;
+
+    /**
+     * Resource ID.
+     */
+    @JsonProperty(value = "id")
+    private String id;
 
     /**
      * Get the peeringLocations value.
@@ -94,6 +102,26 @@ public class ExpressRouteServiceProviderInner extends Resource {
      */
     public ExpressRouteServiceProviderInner withProvisioningState(String provisioningState) {
         this.provisioningState = provisioningState;
+        return this;
+    }
+
+    /**
+     * Get the id value.
+     *
+     * @return the id value
+     */
+    public String id() {
+        return this.id;
+    }
+
+    /**
+     * Set the id value.
+     *
+     * @param id the id value to set
+     * @return the ExpressRouteServiceProviderInner object itself.
+     */
+    public ExpressRouteServiceProviderInner withId(String id) {
+        this.id = id;
         return this;
     }
 

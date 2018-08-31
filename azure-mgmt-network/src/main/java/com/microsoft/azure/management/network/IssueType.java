@@ -8,73 +8,55 @@
 
 package com.microsoft.azure.management.network;
 
-import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.Collection;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.microsoft.rest.ExpandableStringEnum;
 
 /**
  * Defines values for IssueType.
  */
-public final class IssueType {
+public final class IssueType extends ExpandableStringEnum<IssueType> {
     /** Static value Unknown for IssueType. */
-    public static final IssueType UNKNOWN = new IssueType("Unknown");
+    public static final IssueType UNKNOWN = fromString("Unknown");
 
     /** Static value AgentStopped for IssueType. */
-    public static final IssueType AGENT_STOPPED = new IssueType("AgentStopped");
+    public static final IssueType AGENT_STOPPED = fromString("AgentStopped");
 
     /** Static value GuestFirewall for IssueType. */
-    public static final IssueType GUEST_FIREWALL = new IssueType("GuestFirewall");
+    public static final IssueType GUEST_FIREWALL = fromString("GuestFirewall");
 
     /** Static value DnsResolution for IssueType. */
-    public static final IssueType DNS_RESOLUTION = new IssueType("DnsResolution");
+    public static final IssueType DNS_RESOLUTION = fromString("DnsResolution");
 
     /** Static value SocketBind for IssueType. */
-    public static final IssueType SOCKET_BIND = new IssueType("SocketBind");
+    public static final IssueType SOCKET_BIND = fromString("SocketBind");
 
     /** Static value NetworkSecurityRule for IssueType. */
-    public static final IssueType NETWORK_SECURITY_RULE = new IssueType("NetworkSecurityRule");
+    public static final IssueType NETWORK_SECURITY_RULE = fromString("NetworkSecurityRule");
 
     /** Static value UserDefinedRoute for IssueType. */
-    public static final IssueType USER_DEFINED_ROUTE = new IssueType("UserDefinedRoute");
+    public static final IssueType USER_DEFINED_ROUTE = fromString("UserDefinedRoute");
 
     /** Static value PortThrottled for IssueType. */
-    public static final IssueType PORT_THROTTLED = new IssueType("PortThrottled");
+    public static final IssueType PORT_THROTTLED = fromString("PortThrottled");
 
     /** Static value Platform for IssueType. */
-    public static final IssueType PLATFORM = new IssueType("Platform");
-
-    private String value;
+    public static final IssueType PLATFORM = fromString("Platform");
 
     /**
-     * Creates a custom value for IssueType.
-     * @param value the custom value
+     * Creates or finds a IssueType from its string representation.
+     * @param name a name to look for
+     * @return the corresponding IssueType
      */
-    public IssueType(String value) {
-        this.value = value;
+    @JsonCreator
+    public static IssueType fromString(String name) {
+        return fromString(name, IssueType.class);
     }
 
-    @JsonValue
-    @Override
-    public String toString() {
-        return value;
-    }
-
-    @Override
-    public int hashCode() {
-        return value.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof IssueType)) {
-            return false;
-        }
-        if (obj == this) {
-            return true;
-        }
-        IssueType rhs = (IssueType) obj;
-        if (value == null) {
-            return rhs.value == null;
-        } else {
-            return value.equals(rhs.value);
-        }
+    /**
+     * @return known IssueType values
+     */
+    public static Collection<IssueType> values() {
+        return values(IssueType.class);
     }
 }

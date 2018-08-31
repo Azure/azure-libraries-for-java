@@ -11,12 +11,14 @@ package com.microsoft.azure.management.network.implementation;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.rest.SkipParentValidation;
 import com.microsoft.azure.Resource;
 
 /**
  * Route Filter Resource.
  */
 @JsonFlatten
+@SkipParentValidation
 public class RouteFilterInner extends Resource {
     /**
      * Collection of RouteFilterRules contained within a route filter.
@@ -43,6 +45,12 @@ public class RouteFilterInner extends Resource {
      */
     @JsonProperty(value = "etag", access = JsonProperty.Access.WRITE_ONLY)
     private String etag;
+
+    /**
+     * Resource ID.
+     */
+    @JsonProperty(value = "id")
+    private String id;
 
     /**
      * Get the rules value.
@@ -100,6 +108,26 @@ public class RouteFilterInner extends Resource {
      */
     public String etag() {
         return this.etag;
+    }
+
+    /**
+     * Get the id value.
+     *
+     * @return the id value
+     */
+    public String id() {
+        return this.id;
+    }
+
+    /**
+     * Set the id value.
+     *
+     * @param id the id value to set
+     * @return the RouteFilterInner object itself.
+     */
+    public RouteFilterInner withId(String id) {
+        this.id = id;
+        return this;
     }
 
 }

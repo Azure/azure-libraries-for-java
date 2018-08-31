@@ -11,14 +11,17 @@ package com.microsoft.azure.management.network.implementation;
 import com.microsoft.azure.management.network.AddressSpace;
 import com.microsoft.azure.management.network.DhcpOptions;
 import java.util.List;
+import com.microsoft.azure.SubResource;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.rest.SkipParentValidation;
 import com.microsoft.azure.Resource;
 
 /**
  * Virtual Network resource.
  */
 @JsonFlatten
+@SkipParentValidation
 public class VirtualNetworkInner extends Resource {
     /**
      * The AddressSpace that contains an array of IP address ranges that can be
@@ -60,11 +63,38 @@ public class VirtualNetworkInner extends Resource {
     private String provisioningState;
 
     /**
+     * Indicates if DDoS protection is enabled for all the protected resources
+     * in the virtual network. It requires a DDoS protection plan associated
+     * with the resource.
+     */
+    @JsonProperty(value = "properties.enableDdosProtection")
+    private Boolean enableDdosProtection;
+
+    /**
+     * Indicates if VM protection is enabled for all the subnets in the virtual
+     * network.
+     */
+    @JsonProperty(value = "properties.enableVmProtection")
+    private Boolean enableVmProtection;
+
+    /**
+     * The DDoS protection plan associated with the virtual network.
+     */
+    @JsonProperty(value = "properties.ddosProtectionPlan")
+    private SubResource ddosProtectionPlan;
+
+    /**
      * Gets a unique read-only string that changes whenever the resource is
      * updated.
      */
     @JsonProperty(value = "etag")
     private String etag;
+
+    /**
+     * Resource ID.
+     */
+    @JsonProperty(value = "id")
+    private String id;
 
     /**
      * Get the addressSpace value.
@@ -187,6 +217,66 @@ public class VirtualNetworkInner extends Resource {
     }
 
     /**
+     * Get the enableDdosProtection value.
+     *
+     * @return the enableDdosProtection value
+     */
+    public Boolean enableDdosProtection() {
+        return this.enableDdosProtection;
+    }
+
+    /**
+     * Set the enableDdosProtection value.
+     *
+     * @param enableDdosProtection the enableDdosProtection value to set
+     * @return the VirtualNetworkInner object itself.
+     */
+    public VirtualNetworkInner withEnableDdosProtection(Boolean enableDdosProtection) {
+        this.enableDdosProtection = enableDdosProtection;
+        return this;
+    }
+
+    /**
+     * Get the enableVmProtection value.
+     *
+     * @return the enableVmProtection value
+     */
+    public Boolean enableVmProtection() {
+        return this.enableVmProtection;
+    }
+
+    /**
+     * Set the enableVmProtection value.
+     *
+     * @param enableVmProtection the enableVmProtection value to set
+     * @return the VirtualNetworkInner object itself.
+     */
+    public VirtualNetworkInner withEnableVmProtection(Boolean enableVmProtection) {
+        this.enableVmProtection = enableVmProtection;
+        return this;
+    }
+
+    /**
+     * Get the ddosProtectionPlan value.
+     *
+     * @return the ddosProtectionPlan value
+     */
+    public SubResource ddosProtectionPlan() {
+        return this.ddosProtectionPlan;
+    }
+
+    /**
+     * Set the ddosProtectionPlan value.
+     *
+     * @param ddosProtectionPlan the ddosProtectionPlan value to set
+     * @return the VirtualNetworkInner object itself.
+     */
+    public VirtualNetworkInner withDdosProtectionPlan(SubResource ddosProtectionPlan) {
+        this.ddosProtectionPlan = ddosProtectionPlan;
+        return this;
+    }
+
+    /**
      * Get the etag value.
      *
      * @return the etag value
@@ -203,6 +293,26 @@ public class VirtualNetworkInner extends Resource {
      */
     public VirtualNetworkInner withEtag(String etag) {
         this.etag = etag;
+        return this;
+    }
+
+    /**
+     * Get the id value.
+     *
+     * @return the id value
+     */
+    public String id() {
+        return this.id;
+    }
+
+    /**
+     * Set the id value.
+     *
+     * @param id the id value to set
+     * @return the VirtualNetworkInner object itself.
+     */
+    public VirtualNetworkInner withId(String id) {
+        this.id = id;
         return this;
     }
 

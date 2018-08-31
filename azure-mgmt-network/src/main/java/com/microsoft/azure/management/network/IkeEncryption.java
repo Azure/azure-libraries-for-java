@@ -8,61 +8,49 @@
 
 package com.microsoft.azure.management.network;
 
-import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.Collection;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.microsoft.rest.ExpandableStringEnum;
 
 /**
  * Defines values for IkeEncryption.
  */
-public final class IkeEncryption {
+public final class IkeEncryption extends ExpandableStringEnum<IkeEncryption> {
     /** Static value DES for IkeEncryption. */
-    public static final IkeEncryption DES = new IkeEncryption("DES");
+    public static final IkeEncryption DES = fromString("DES");
 
     /** Static value DES3 for IkeEncryption. */
-    public static final IkeEncryption DES3 = new IkeEncryption("DES3");
+    public static final IkeEncryption DES3 = fromString("DES3");
 
     /** Static value AES128 for IkeEncryption. */
-    public static final IkeEncryption AES128 = new IkeEncryption("AES128");
+    public static final IkeEncryption AES128 = fromString("AES128");
 
     /** Static value AES192 for IkeEncryption. */
-    public static final IkeEncryption AES192 = new IkeEncryption("AES192");
+    public static final IkeEncryption AES192 = fromString("AES192");
 
     /** Static value AES256 for IkeEncryption. */
-    public static final IkeEncryption AES256 = new IkeEncryption("AES256");
+    public static final IkeEncryption AES256 = fromString("AES256");
 
-    private String value;
+    /** Static value GCMAES256 for IkeEncryption. */
+    public static final IkeEncryption GCMAES256 = fromString("GCMAES256");
+
+    /** Static value GCMAES128 for IkeEncryption. */
+    public static final IkeEncryption GCMAES128 = fromString("GCMAES128");
 
     /**
-     * Creates a custom value for IkeEncryption.
-     * @param value the custom value
+     * Creates or finds a IkeEncryption from its string representation.
+     * @param name a name to look for
+     * @return the corresponding IkeEncryption
      */
-    public IkeEncryption(String value) {
-        this.value = value;
+    @JsonCreator
+    public static IkeEncryption fromString(String name) {
+        return fromString(name, IkeEncryption.class);
     }
 
-    @JsonValue
-    @Override
-    public String toString() {
-        return value;
-    }
-
-    @Override
-    public int hashCode() {
-        return value.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof IkeEncryption)) {
-            return false;
-        }
-        if (obj == this) {
-            return true;
-        }
-        IkeEncryption rhs = (IkeEncryption) obj;
-        if (value == null) {
-            return rhs.value == null;
-        } else {
-            return value.equals(rhs.value);
-        }
+    /**
+     * @return known IkeEncryption values
+     */
+    public static Collection<IkeEncryption> values() {
+        return values(IkeEncryption.class);
     }
 }

@@ -9,8 +9,10 @@ import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.network.FlowLogSettings;
 import com.microsoft.azure.management.network.NetworkWatcher;
 import com.microsoft.azure.management.network.SecurityGroupView;
-import com.microsoft.azure.management.network.Topology;
+import com.microsoft.azure.management.network.model.AppliableWithTags;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
+import com.microsoft.rest.ServiceCallback;
+import com.microsoft.rest.ServiceFuture;
 import rx.Observable;
 import rx.functions.Func1;
 
@@ -27,40 +29,34 @@ class NetworkWatcherImpl
         implements
         NetworkWatcher,
         NetworkWatcher.Definition,
-        NetworkWatcher.Update {
+        NetworkWatcher.Update,
+        AppliableWithTags<NetworkWatcher> {
 
     private PacketCapturesImpl packetCaptures;
+    private ConnectionMonitorsImpl connectionMonitors;
 
     NetworkWatcherImpl(String name,
                 final NetworkWatcherInner innerModel,
                 final NetworkManager networkManager) {
         super(name, innerModel, networkManager);
         this.packetCaptures = new PacketCapturesImpl(networkManager.inner().packetCaptures(), this);
+        this.connectionMonitors = new ConnectionMonitorsImpl(networkManager.inner().connectionMonitors(), this);
     }
 
     public PacketCapturesImpl packetCaptures() {
         return packetCaptures;
     }
 
+    @Override
+    public ConnectionMonitorsImpl connectionMonitors() {
+        return connectionMonitors;
+    }
+
     // Verbs
 
     @Override
-    public TopologyImpl getTopology(String targetResourceGroup) {
-        TopologyInner topologyInner = this.manager().inner().networkWatchers()
-                .getTopology(this.resourceGroupName(), this.name(), targetResourceGroup);
-        return new TopologyImpl(this, topologyInner, targetResourceGroup);
-    }
-
-    @Override
-    public Observable<Topology> getTopologyAsync(final String targetResourceGroup) {
-        return this.manager().inner().networkWatchers()
-                .getTopologyAsync(this.resourceGroupName(), this.name(), targetResourceGroup)
-                .map(new Func1<TopologyInner, Topology>() {
-                    @Override
-                    public Topology call(TopologyInner inner) {
-                        return new TopologyImpl(NetworkWatcherImpl.this, inner, targetResourceGroup);
-                    }
-                });
+    public TopologyImpl topology() {
+        return new TopologyImpl(this);
     }
 
     @Override
@@ -120,6 +116,16 @@ class NetworkWatcherImpl
     }
 
     @Override
+    public AvailableProvidersImpl availableProviders() {
+        return new AvailableProvidersImpl(this);
+    }
+
+    @Override
+    public AzureReachabilityReportImpl azureReachabilityReport() {
+        return new AzureReachabilityReportImpl(this);
+    }
+
+    @Override
     public Observable<NetworkWatcher> createResourceAsync() {
         return this.manager().inner().networkWatchers().createOrUpdateAsync(
                 this.resourceGroupName(), this.name(), this.inner())
@@ -129,5 +135,31 @@ class NetworkWatcherImpl
     @Override
     protected Observable<NetworkWatcherInner> getInnerAsync() {
         return this.manager().inner().networkWatchers().getByResourceGroupAsync(this.resourceGroupName(), this.name());
+    }
+
+    @Override
+    public NetworkWatcherImpl updateTags() {
+        return this;
+    }
+
+    @Override
+    public NetworkWatcher applyTags() {
+        return applyTagsAsync().toBlocking().last();
+    }
+
+    @Override
+    public Observable<NetworkWatcher> applyTagsAsync() {
+        return this.manager().inner().networkWatchers().updateTagsAsync(resourceGroupName(), name(), inner().getTags())
+                .flatMap(new Func1<NetworkWatcherInner, Observable<NetworkWatcher>>() {
+                    @Override
+                    public Observable<NetworkWatcher> call(NetworkWatcherInner inner) {
+                        setInner(inner);
+                        return Observable.just((NetworkWatcher) NetworkWatcherImpl.this);                    }
+                });
+    }
+
+    @Override
+    public ServiceFuture<NetworkWatcher> applyTagsAsync(ServiceCallback<NetworkWatcher> callback) {
+        return ServiceFuture.fromBody(applyTagsAsync(), callback);
     }
 }

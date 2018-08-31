@@ -19,11 +19,12 @@ import com.microsoft.azure.management.network.VirtualNetworkGatewaySkuName;
 import com.microsoft.azure.management.network.VirtualNetworkGatewaySkuTier;
 import com.microsoft.azure.management.network.VirtualNetworkGatewayType;
 import com.microsoft.azure.management.network.VpnClientConfiguration;
+import com.microsoft.azure.management.network.VpnClientParameters;
 import com.microsoft.azure.management.network.VpnType;
+import com.microsoft.azure.management.network.model.GroupableParentResourceWithTagsImpl;
 import com.microsoft.azure.management.resources.ResourceGroup;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.ReadableWrappersImpl;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableParentResourceImpl;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.utils.PagedListConverter;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
@@ -43,7 +44,7 @@ import java.util.TreeMap;
  */
 @LangDefinition
 class VirtualNetworkGatewayImpl
-        extends GroupableParentResourceImpl<
+        extends GroupableParentResourceWithTagsImpl<
         VirtualNetworkGateway,
         VirtualNetworkGatewayInner,
         VirtualNetworkGatewayImpl,
@@ -74,7 +75,6 @@ class VirtualNetworkGatewayImpl
         super(name, innerModel, networkManager);
     }
 
-
     @Override
     public VirtualNetworkGatewayImpl withExpressRoute() {
         inner().withGatewayType(VirtualNetworkGatewayType.EXPRESS_ROUTE);
@@ -100,7 +100,7 @@ class VirtualNetworkGatewayImpl
         VirtualNetworkGatewaySku sku = new VirtualNetworkGatewaySku()
                 .withName(skuName)
                 // same sku tier as sku name
-                .withTier(new VirtualNetworkGatewaySkuTier(skuName.toString()));
+                .withTier(VirtualNetworkGatewaySkuTier.fromString(skuName.toString()));
         this.inner().withSku(sku);
         return this;
     }
@@ -180,6 +180,10 @@ class VirtualNetworkGatewayImpl
         return this;
     }
 
+    void attachPointToSiteConfiguration(PointToSiteConfigurationImpl pointToSiteConfiguration) {
+        inner().withVpnClientConfiguration(pointToSiteConfiguration.inner());
+    }
+
     @Override
     public void reset() {
         resetAsync().await();
@@ -215,6 +219,21 @@ class VirtualNetworkGatewayImpl
                         return connections().getById(connectionInner.id());
                     }
                 });
+    }
+
+    @Override
+    public String generateVpnProfile() {
+        return this.manager().inner().virtualNetworkGateways().generateVpnProfile(resourceGroupName(), name(), new VpnClientParameters());
+    }
+
+    @Override
+    public Observable<String> generateVpnProfileAsync() {
+        return this.manager().inner().virtualNetworkGateways().generateVpnProfileAsync(resourceGroupName(), name(), new VpnClientParameters());
+    }
+
+    @Override
+    protected Observable<VirtualNetworkGatewayInner> applyTagsToInnerAsync() {
+        return this.manager().inner().virtualNetworkGateways().updateTagsAsync(resourceGroupName(), name(), inner().getTags());
     }
 
     @Override
@@ -420,5 +439,15 @@ class VirtualNetworkGatewayImpl
                         return VirtualNetworkGatewayImpl.this.manager().inner().virtualNetworkGateways().createOrUpdateAsync(resourceGroupName(), name(), inner());
                     }
                 });
+    }
+
+    @Override
+    public PointToSiteConfigurationImpl definePointToSiteConfiguration() {
+        return new PointToSiteConfigurationImpl(new VpnClientConfiguration(), this);
+    }
+
+    @Override
+    public PointToSiteConfigurationImpl updatePointToSiteConfiguration() {
+        return new PointToSiteConfigurationImpl(inner().vpnClientConfiguration(), this);
     }
 }

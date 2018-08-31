@@ -48,6 +48,18 @@ public class ApplicationGatewayWebApplicationFirewallConfiguration {
     private List<ApplicationGatewayFirewallDisabledRuleGroup> disabledRuleGroups;
 
     /**
+     * Whether allow WAF to check request Body.
+     */
+    @JsonProperty(value = "requestBodyCheck")
+    private Boolean requestBodyCheck;
+
+    /**
+     * Maxium request body size for WAF.
+     */
+    @JsonProperty(value = "maxRequestBodySize")
+    private Integer maxRequestBodySize;
+
+    /**
      * Get the enabled value.
      *
      * @return the enabled value
@@ -144,6 +156,46 @@ public class ApplicationGatewayWebApplicationFirewallConfiguration {
      */
     public ApplicationGatewayWebApplicationFirewallConfiguration withDisabledRuleGroups(List<ApplicationGatewayFirewallDisabledRuleGroup> disabledRuleGroups) {
         this.disabledRuleGroups = disabledRuleGroups;
+        return this;
+    }
+
+    /**
+     * Get the requestBodyCheck value.
+     *
+     * @return the requestBodyCheck value
+     */
+    public Boolean requestBodyCheck() {
+        return this.requestBodyCheck;
+    }
+
+    /**
+     * Set the requestBodyCheck value.
+     *
+     * @param requestBodyCheck the requestBodyCheck value to set
+     * @return the ApplicationGatewayWebApplicationFirewallConfiguration object itself.
+     */
+    public ApplicationGatewayWebApplicationFirewallConfiguration withRequestBodyCheck(Boolean requestBodyCheck) {
+        this.requestBodyCheck = requestBodyCheck;
+        return this;
+    }
+
+    /**
+     * Get the maxRequestBodySize value.
+     *
+     * @return the maxRequestBodySize value
+     */
+    public Integer maxRequestBodySize() {
+        return this.maxRequestBodySize;
+    }
+
+    /**
+     * Set the maxRequestBodySize value.
+     *
+     * @param maxRequestBodySize the maxRequestBodySize value to set
+     * @return the ApplicationGatewayWebApplicationFirewallConfiguration object itself.
+     */
+    public ApplicationGatewayWebApplicationFirewallConfiguration withMaxRequestBodySize(Integer maxRequestBodySize) {
+        this.maxRequestBodySize = maxRequestBodySize;
         return this;
     }
 

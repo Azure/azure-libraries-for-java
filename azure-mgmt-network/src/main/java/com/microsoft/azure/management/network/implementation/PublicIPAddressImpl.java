@@ -8,6 +8,7 @@ package com.microsoft.azure.management.network.implementation;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.network.IPAllocationMethod;
 import com.microsoft.azure.management.network.IPVersion;
+import com.microsoft.azure.management.network.IpTag;
 import com.microsoft.azure.management.network.LoadBalancer;
 import com.microsoft.azure.management.network.NetworkInterface;
 import com.microsoft.azure.management.network.NicIPConfiguration;
@@ -15,15 +16,20 @@ import com.microsoft.azure.management.network.LoadBalancerPublicFrontend;
 import com.microsoft.azure.management.network.PublicIPAddressDnsSettings;
 import com.microsoft.azure.management.network.PublicIPAddress;
 import com.microsoft.azure.management.network.PublicIPSkuType;
+import com.microsoft.azure.management.network.model.AppliableWithTags;
 import com.microsoft.azure.management.resources.fluentcore.arm.AvailabilityZoneId;
 import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
 import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
+import com.microsoft.rest.ServiceCallback;
+import com.microsoft.rest.ServiceFuture;
 import rx.Observable;
+import rx.functions.Func1;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -39,7 +45,8 @@ class PublicIPAddressImpl
     implements
         PublicIPAddress,
         PublicIPAddress.Definition,
-        PublicIPAddress.Update {
+        PublicIPAddress.Update,
+        AppliableWithTags<PublicIPAddress> {
 
     PublicIPAddressImpl(String name,
             PublicIPAddressInner innerModel,
@@ -76,7 +83,7 @@ class PublicIPAddressImpl
 
     @Override
     public PublicIPAddressImpl withLeafDomainLabel(String dnsName) {
-        this.inner().dnsSettings().withDomainNameLabel(dnsName.toLowerCase());
+        this.inner().dnsSettings().withDomainNameLabel((dnsName == null) ? null : dnsName.toLowerCase());
         return this;
     }
 
@@ -111,7 +118,7 @@ class PublicIPAddressImpl
 
     @Override
     public PublicIPAddressImpl withReverseFqdn(String reverseFqdn) {
-        this.inner().dnsSettings().withReverseFqdn(reverseFqdn.toLowerCase());
+        this.inner().dnsSettings().withReverseFqdn(reverseFqdn != null ? reverseFqdn.toLowerCase() : null);
         return this;
     }
 
@@ -238,6 +245,11 @@ class PublicIPAddressImpl
     }
 
     @Override
+    public List<IpTag> ipTags() {
+        return Collections.unmodifiableList(inner().ipTags() == null ? new ArrayList<IpTag>() : inner().ipTags());
+    }
+
+    @Override
     public NicIPConfiguration getAssignedNetworkInterfaceIPConfiguration() {
         if (this.hasAssignedNetworkInterface()) {
             final String refId = this.inner().ipConfiguration().id();
@@ -248,5 +260,62 @@ class PublicIPAddressImpl
         } else {
             return null;
         }
+    }
+
+    @Override
+    public PublicIPAddressImpl updateTags() {
+        return this;
+    }
+
+    @Override
+    public PublicIPAddress applyTags() {
+        return applyTagsAsync().toBlocking().last();
+    }
+
+    @Override
+    public Observable<PublicIPAddress> applyTagsAsync() {
+        return this.manager().inner().publicIPAddresses().updateTagsAsync(resourceGroupName(), name(), inner().getTags())
+                .flatMap(new Func1<PublicIPAddressInner, Observable<PublicIPAddress>>() {
+                    @Override
+                    public Observable<PublicIPAddress> call(PublicIPAddressInner inner) {
+                        setInner(inner);
+                        return Observable.just((PublicIPAddress) PublicIPAddressImpl.this);                    }
+                });
+    }
+
+    @Override
+    public ServiceFuture<PublicIPAddress> applyTagsAsync(ServiceCallback<PublicIPAddress> callback) {
+        return ServiceFuture.fromBody(applyTagsAsync(), callback);
+    }
+
+    @Override
+    public PublicIPAddressImpl withIpTag(String tag) {
+        if (inner().ipTags() == null) {
+            inner().withIpTags(new ArrayList<IpTag>());
+        }
+        ipTags().add(new IpTag().withTag(tag));
+        return this;
+    }
+
+    @Override
+    public PublicIPAddressImpl withIpTag(String tag, String ipTagType) {
+        if (inner().ipTags() == null) {
+            inner().withIpTags(new ArrayList<IpTag>());
+        }
+        inner().ipTags().add(new IpTag().withTag(tag).withIpTagType(ipTagType));
+        return this;
+    }
+
+    @Override
+    public PublicIPAddressImpl withoutIpTag(String tag) {
+        if (tag != null && inner().ipTags() != null) {
+            for (IpTag ipTag : inner().ipTags()) {
+                if (tag.equals(ipTag.tag())) {
+                    inner().ipTags().remove(ipTag);
+                    return this;
+                }
+            }
+        }
+        return this;
     }
 }

@@ -12,6 +12,7 @@ import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.network.implementation.NetworkManager;
 import com.microsoft.azure.management.network.implementation.NetworkSecurityGroupInner;
 import com.microsoft.azure.management.network.model.HasAssociatedSubnets;
+import com.microsoft.azure.management.network.model.UpdatableWithTags;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
 import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
@@ -28,6 +29,7 @@ public interface NetworkSecurityGroup extends
         GroupableResource<NetworkManager, NetworkSecurityGroupInner>,
         Refreshable<NetworkSecurityGroup>,
         Updatable<NetworkSecurityGroup.Update>,
+        UpdatableWithTags<NetworkSecurityGroup>,
         HasAssociatedSubnets {
 
     // Getters

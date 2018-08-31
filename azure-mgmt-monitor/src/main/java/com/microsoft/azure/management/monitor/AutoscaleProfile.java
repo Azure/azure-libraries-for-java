@@ -29,7 +29,8 @@ public interface AutoscaleProfile extends
     int maxInstanceCount();
     int defaultInstanceCount();
     TimeWindow fixedDateSchedule();
-    Recurrence RecurrentSchedule();
+    Recurrence recurrentSchedule();
+    List<ScaleRule> rules();
 
     interface Definition extends
             DefinitionStages.WithAttach,

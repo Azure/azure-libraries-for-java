@@ -7,6 +7,7 @@
 package com.microsoft.azure.management.monitor.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
+import com.microsoft.azure.management.monitor.AutoscaleNotification;
 import com.microsoft.azure.management.monitor.AutoscaleProfile;
 import com.microsoft.azure.management.monitor.AutoscaleSetting;
 import com.microsoft.azure.management.monitor.EmailNotification;
@@ -40,8 +41,8 @@ class AutoscaleSettingImpl
             this.inner().withEnabled(true);
         }
         if(this.inner().notifications() == null) {
-            this.inner().withNotifications(new ArrayList<AutoscaleNotificationInner>());
-            this.inner().notifications().add(new AutoscaleNotificationInner());
+            this.inner().withNotifications(new ArrayList<AutoscaleNotification>());
+            this.inner().notifications().add(new AutoscaleNotification());
         }
 
     }
@@ -142,21 +143,21 @@ class AutoscaleSettingImpl
 
     @Override
     public AutoscaleSettingImpl withAdminEmailNotification() {
-        AutoscaleNotificationInner notificationInner = getNotificationInner();
+        AutoscaleNotification notificationInner = getNotificationInner();
         notificationInner.email().withSendToSubscriptionAdministrator(true);
         return this;
     }
 
     @Override
     public AutoscaleSettingImpl withCoAdminEmailNotification() {
-        AutoscaleNotificationInner notificationInner = getNotificationInner();
+        AutoscaleNotification notificationInner = getNotificationInner();
         notificationInner.email().withSendToSubscriptionCoAdministrators(true);
         return this;
     }
 
     @Override
     public AutoscaleSettingImpl withCustomEmailsNotification(String... customEmailAddresses) {
-        AutoscaleNotificationInner notificationInner = getNotificationInner();
+        AutoscaleNotification notificationInner = getNotificationInner();
         notificationInner.email().withCustomEmails(new ArrayList<String>());
         for(String strEmail : customEmailAddresses) {
             notificationInner.email().customEmails().add(strEmail);
@@ -166,35 +167,35 @@ class AutoscaleSettingImpl
 
     @Override
     public AutoscaleSettingImpl withWebhookNotification(String serviceUri) {
-        AutoscaleNotificationInner notificationInner = getNotificationInner();
+        AutoscaleNotification notificationInner = getNotificationInner();
         notificationInner.webhooks().get(0).withServiceUri(serviceUri);
         return this;
     }
 
     @Override
     public AutoscaleSettingImpl withoutAdminEmailNotification() {
-        AutoscaleNotificationInner notificationInner = getNotificationInner();
+        AutoscaleNotification notificationInner = getNotificationInner();
         notificationInner.email().withSendToSubscriptionAdministrator(false);
         return this;
     }
 
     @Override
     public AutoscaleSettingImpl withoutCoAdminEmailNotification() {
-        AutoscaleNotificationInner notificationInner = getNotificationInner();
+        AutoscaleNotification notificationInner = getNotificationInner();
         notificationInner.email().withSendToSubscriptionCoAdministrators(false);
         return this;
     }
 
     @Override
     public AutoscaleSettingImpl withoutCustomEmailsNotification() {
-        AutoscaleNotificationInner notificationInner = getNotificationInner();
+        AutoscaleNotification notificationInner = getNotificationInner();
         notificationInner.email().withCustomEmails(null);
         return this;
     }
 
     @Override
     public AutoscaleSettingImpl withoutWebhookNotification() {
-        AutoscaleNotificationInner notificationInner = getNotificationInner();
+        AutoscaleNotification notificationInner = getNotificationInner();
         notificationInner.webhooks().clear();
         notificationInner.webhooks().add(new WebhookNotification());
         return this;
@@ -240,8 +241,8 @@ class AutoscaleSettingImpl
         return idxResult;
     }
 
-    private AutoscaleNotificationInner getNotificationInner() {
-        AutoscaleNotificationInner notificationInner = this.inner().notifications().get(0);
+    private AutoscaleNotification getNotificationInner() {
+        AutoscaleNotification notificationInner = this.inner().notifications().get(0);
         if(notificationInner.email() == null) {
             notificationInner.withEmail(new EmailNotification());
         }

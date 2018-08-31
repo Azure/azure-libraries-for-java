@@ -9,6 +9,8 @@ package com.microsoft.azure.management.monitor.implementation;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.monitor.ComparisonOperationType;
 import com.microsoft.azure.management.monitor.MetricStatisticType;
+import com.microsoft.azure.management.monitor.MetricTrigger;
+import com.microsoft.azure.management.monitor.ScaleAction;
 import com.microsoft.azure.management.monitor.ScaleDirection;
 import com.microsoft.azure.management.monitor.ScaleRule;
 import com.microsoft.azure.management.monitor.ScaleType;
@@ -35,11 +37,107 @@ class ScaleRuleImpl
         super(innerObject);
         this.parent = parent;
         if(this.inner().metricTrigger() == null) {
-            this.inner().withMetricTrigger(new MetricTriggerInner());
+            this.inner().withMetricTrigger(new MetricTrigger());
         }
         if(this.inner().scaleAction() == null) {
-            this.inner().withScaleAction(new ScaleActionInner());
+            this.inner().withScaleAction(new ScaleAction());
         }
+    }
+
+    @Override
+    public String metricSource() {
+        if(this.inner().metricTrigger() != null) {
+            return this.inner().metricTrigger().metricResourceUri();
+        };
+        return null;
+    }
+
+    @Override
+    public String metricName() {
+        if(this.inner().metricTrigger() != null) {
+            return this.inner().metricTrigger().metricName();
+        };
+        return null;
+    }
+
+    @Override
+    public Period duration() {
+        if(this.inner().metricTrigger() != null) {
+            return this.inner().metricTrigger().timeWindow();
+        };
+        return null;
+    }
+
+    @Override
+    public Period frequency() {
+        if(this.inner().metricTrigger() != null) {
+            return this.inner().metricTrigger().timeGrain();
+        };
+        return null;
+    }
+
+    @Override
+    public MetricStatisticType frequencyStatistic() {
+        if(this.inner().metricTrigger() != null) {
+            return this.inner().metricTrigger().statistic();
+        };
+        return null;
+    }
+
+    @Override
+    public ComparisonOperationType condition() {
+        if(this.inner().metricTrigger() != null) {
+            return this.inner().metricTrigger().operator();
+        };
+        return null;
+    }
+
+    @Override
+    public TimeAggregationType timeAggregation() {
+        if(this.inner().metricTrigger() != null) {
+            return this.inner().metricTrigger().timeAggregation();
+        };
+        return null;
+    }
+
+    @Override
+    public double threshold() {
+        if(this.inner().metricTrigger() != null) {
+            return this.inner().metricTrigger().threshold();
+        };
+        return 0;
+    }
+
+    @Override
+    public ScaleDirection scaleDirection() {
+        if(this.inner().scaleAction() != null) {
+            return this.inner().scaleAction().direction();
+        };
+        return null;
+    }
+
+    @Override
+    public ScaleType scaleType() {
+        if(this.inner().scaleAction() != null) {
+            return this.inner().scaleAction().type();
+        };
+        return null;
+    }
+
+    @Override
+    public int scaleInstanceCount() {
+        if(this.inner().scaleAction() != null) {
+            return Integer.parseInt(this.inner().scaleAction().value());
+        };
+        return 0;
+    }
+
+    @Override
+    public Period coolDown() {
+        if(this.inner().scaleAction() != null) {
+            return this.inner().scaleAction().cooldown();
+        };
+        return null;
     }
 
     @Override

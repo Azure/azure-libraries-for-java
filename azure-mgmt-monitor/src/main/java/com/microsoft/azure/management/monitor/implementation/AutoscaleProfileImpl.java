@@ -10,14 +10,17 @@ import com.google.common.base.Strings;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.monitor.AutoscaleProfile;
 import com.microsoft.azure.management.monitor.DayOfWeek;
+import com.microsoft.azure.management.monitor.Recurrence;
 import com.microsoft.azure.management.monitor.RecurrenceFrequency;
 import com.microsoft.azure.management.monitor.RecurrentSchedule;
 import com.microsoft.azure.management.monitor.ScaleCapacity;
+import com.microsoft.azure.management.monitor.ScaleRule;
 import com.microsoft.azure.management.monitor.TimeWindow;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Implementation for AutoscaleProfile.
@@ -47,6 +50,51 @@ class AutoscaleProfileImpl
     @Override
     public String name() {
         return this.inner().name();
+    }
+
+    @Override
+    public int minInstanceCount() {
+        if(this.inner().capacity() != null) {
+            return Integer.parseInt(this.inner().capacity().minimum());
+        }
+        return 0;
+    }
+
+    @Override
+    public int maxInstanceCount() {
+        if(this.inner().capacity() != null) {
+            return Integer.parseInt(this.inner().capacity().maximum());
+        }
+        return 0;
+    }
+
+    @Override
+    public int defaultInstanceCount() {
+        if(this.inner().capacity() != null) {
+            return Integer.parseInt(this.inner().capacity().defaultProperty());
+        }
+        return 0;
+    }
+
+    @Override
+    public TimeWindow fixedDateSchedule() {
+        return this.inner().fixedDate();
+    }
+
+    @Override
+    public Recurrence recurrentSchedule() {
+        return this.inner().recurrence();
+    }
+
+    @Override
+    public List<ScaleRule> rules() {
+        List<ScaleRule> rules = new ArrayList<>();
+        if(this.inner().rules() != null) {
+            for (ScaleRuleInner ruleInner : this.inner().rules()) {
+                rules.add(new ScaleRuleImpl(ruleInner, this));
+            }
+        }
+        return rules;
     }
 
     @Override
@@ -99,7 +147,7 @@ class AutoscaleProfileImpl
             throw new IllegalArgumentException("Start time should have format of 'hh:mm' where hh is in 24-hour clock (AM/PM times are not supported).");
         }
 
-        this.inner().withRecurrence(new RecurrenceInner());
+        this.inner().withRecurrence(new Recurrence());
 
         this.inner().recurrence().withFrequency(RecurrenceFrequency.WEEK);
         this.inner().recurrence().withSchedule(new RecurrentSchedule());

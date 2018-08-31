@@ -20,6 +20,18 @@ import org.joda.time.Period;
 public interface ScaleRule extends
         HasInner<ScaleRuleInner>,
         HasParent<AutoscaleProfile> {
+    String metricSource();
+    String metricName();
+    Period duration();
+    Period frequency();
+    MetricStatisticType frequencyStatistic();
+    ComparisonOperationType condition();
+    TimeAggregationType timeAggregation();
+    double threshold();
+    ScaleDirection scaleDirection();
+    ScaleType scaleType();
+    int scaleInstanceCount();
+    Period coolDown();
 
     interface Definition extends
             DefinitionStages.Blank,

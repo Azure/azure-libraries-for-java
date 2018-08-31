@@ -11,7 +11,6 @@ package com.microsoft.azure.management.monitor;
 import java.util.Map;
 import java.util.List;
 import com.microsoft.azure.management.monitor.implementation.AutoscaleProfileInner;
-import com.microsoft.azure.management.monitor.implementation.AutoscaleNotificationInner;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 
@@ -38,7 +37,7 @@ public class AutoscaleSettingResourcePatch {
      * the collection of notifications.
      */
     @JsonProperty(value = "properties.notifications")
-    private List<AutoscaleNotificationInner> notifications;
+    private List<AutoscaleNotification> notifications;
 
     /**
      * the enabled flag. Specifies whether automatic scaling is enabled for the
@@ -105,7 +104,7 @@ public class AutoscaleSettingResourcePatch {
      *
      * @return the notifications value
      */
-    public List<AutoscaleNotificationInner> notifications() {
+    public List<AutoscaleNotification> notifications() {
         return this.notifications;
     }
 
@@ -115,7 +114,7 @@ public class AutoscaleSettingResourcePatch {
      * @param notifications the notifications value to set
      * @return the AutoscaleSettingResourcePatch object itself.
      */
-    public AutoscaleSettingResourcePatch withNotifications(List<AutoscaleNotificationInner> notifications) {
+    public AutoscaleSettingResourcePatch withNotifications(List<AutoscaleNotification> notifications) {
         this.notifications = notifications;
         return this;
     }

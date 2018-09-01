@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.management.appservice.implementation;
 
+import com.fasterxml.jackson.core.JsonParseException;
 import com.google.common.io.ByteStreams;
 import com.microsoft.azure.CloudException;
 import com.microsoft.azure.management.appservice.WebAppBase;
@@ -117,7 +118,7 @@ class KuduClient {
                             @Override
                             public Integer call(Throwable throwable, Integer integer) {
                                 if (throwable instanceof CloudException
-                                        && ((CloudException) throwable).response().code() == 502) {
+                                        && ((CloudException) throwable).response().code() == 502 || throwable instanceof JsonParseException) {
                                     return integer;
                                 } else {
                                     throw Exceptions.propagate(throwable);

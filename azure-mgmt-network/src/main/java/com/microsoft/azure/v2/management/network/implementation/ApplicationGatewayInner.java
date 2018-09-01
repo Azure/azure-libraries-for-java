@@ -88,7 +88,7 @@ public class ApplicationGatewayInner extends Resource {
      * Probes of the application gateway resource.
      */
     @JsonProperty(value = "properties.probes")
-    private List<ApplicationGatewayProbe> probes;
+    private List<ApplicationGatewayProbeInner> probes;
 
     /**
      * Backend address pool of the application gateway resource.
@@ -338,7 +338,7 @@ public class ApplicationGatewayInner extends Resource {
      *
      * @return the probes value.
      */
-    public List<ApplicationGatewayProbe> probes() {
+    public List<ApplicationGatewayProbeInner> probes() {
         return this.probes;
     }
 
@@ -348,7 +348,7 @@ public class ApplicationGatewayInner extends Resource {
      * @param probes the probes value to set.
      * @return the ApplicationGatewayInner object itself.
      */
-    public ApplicationGatewayInner withProbes(List<ApplicationGatewayProbe> probes) {
+    public ApplicationGatewayInner withProbes(List<ApplicationGatewayProbeInner> probes) {
         this.probes = probes;
         return this;
     }

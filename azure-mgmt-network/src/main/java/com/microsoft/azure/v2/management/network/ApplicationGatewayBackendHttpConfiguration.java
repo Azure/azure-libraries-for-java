@@ -13,7 +13,6 @@ import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.Method;
-import com.microsoft.azure.v2.management.network.implementation.ApplicationGatewayBackendHttpSettingsInner;
 import com.microsoft.azure.v2.management.network.model.HasPort;
 import com.microsoft.azure.v2.management.network.model.HasProtocol;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.ChildResource;
@@ -26,7 +25,7 @@ import com.microsoft.azure.v2.management.resources.fluentcore.model.Settable;
  */
 @Fluent()
 public interface ApplicationGatewayBackendHttpConfiguration extends
-    HasInner<ApplicationGatewayBackendHttpSettingsInner>,
+    HasInner<ApplicationGatewayBackendHttpSettings>,
     ChildResource<ApplicationGateway>,
     HasProtocol<ApplicationGatewayProtocol>,
     HasPort {

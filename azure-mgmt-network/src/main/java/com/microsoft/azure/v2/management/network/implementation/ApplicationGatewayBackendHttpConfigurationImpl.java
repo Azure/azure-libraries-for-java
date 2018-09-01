@@ -9,17 +9,18 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import com.google.common.io.BaseEncoding;
-import com.microsoft.azure.SubResource;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
+import com.microsoft.azure.v2.SubResource;
 import com.microsoft.azure.v2.management.network.ApplicationGateway;
 import com.microsoft.azure.v2.management.network.ApplicationGatewayAuthenticationCertificate;
 import com.microsoft.azure.v2.management.network.ApplicationGatewayBackendHttpConfiguration;
+import com.microsoft.azure.v2.management.network.ApplicationGatewayBackendHttpSettings;
 import com.microsoft.azure.v2.management.network.ApplicationGatewayConnectionDraining;
 import com.microsoft.azure.v2.management.network.ApplicationGatewayCookieBasedAffinity;
 import com.microsoft.azure.v2.management.network.ApplicationGatewayProbe;
@@ -35,14 +36,14 @@ import com.microsoft.azure.v2.management.resources.fluentcore.utils.Utils;
 @LangDefinition
 class ApplicationGatewayBackendHttpConfigurationImpl
     extends
-        ChildResourceImpl<ApplicationGatewayBackendHttpSettingsInner, ApplicationGatewayImpl, ApplicationGateway>
+        ChildResourceImpl<ApplicationGatewayBackendHttpSettings, ApplicationGatewayImpl, ApplicationGateway>
     implements
         ApplicationGatewayBackendHttpConfiguration,
         ApplicationGatewayBackendHttpConfiguration.Definition<ApplicationGateway.DefinitionStages.WithCreate>,
         ApplicationGatewayBackendHttpConfiguration.UpdateDefinition<ApplicationGateway.Update>,
         ApplicationGatewayBackendHttpConfiguration.Update {
 
-    ApplicationGatewayBackendHttpConfigurationImpl(ApplicationGatewayBackendHttpSettingsInner inner, ApplicationGatewayImpl parent) {
+    ApplicationGatewayBackendHttpConfigurationImpl(ApplicationGatewayBackendHttpSettings inner, ApplicationGatewayImpl parent) {
         super(inner, parent);
     }
 
@@ -265,7 +266,7 @@ class ApplicationGatewayBackendHttpConfigurationImpl
             return this;
         }
 
-        String encoded = new String(BaseEncoding.base64().encode(derData));
+        String encoded = new String(Base64.getEncoder().encode(derData));
         return this.withAuthenticationCertificateFromBase64(encoded);
     }
 

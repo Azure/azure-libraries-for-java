@@ -12,6 +12,7 @@ import com.microsoft.azure.v2.management.network.ApplicationGatewayBackendHealth
 import com.microsoft.azure.v2.management.network.ApplicationGatewayBackendHealthPool;
 import com.microsoft.azure.v2.management.network.ApplicationGatewayBackendHttpConfiguration;
 import com.microsoft.azure.v2.management.network.ApplicationGatewayFrontend;
+import com.microsoft.azure.v2.management.network.ApplicationGatewayFrontendIPConfiguration;
 import com.microsoft.azure.v2.management.network.ApplicationGatewayListener;
 import com.microsoft.azure.v2.management.network.ApplicationGatewayIPConfiguration;
 import com.microsoft.azure.v2.management.network.ApplicationGatewayOperationalState;
@@ -166,9 +167,9 @@ class ApplicationGatewayImpl
 
     private void initializeFrontendsFromInner() {
         this.frontends = new TreeMap<>();
-        List<ApplicationGatewayFrontendIPConfigurationInner> inners = this.inner().frontendIPConfigurations();
+        List<ApplicationGatewayFrontendIPConfiguration> inners = this.inner().frontendIPConfigurations();
         if (inners != null) {
-            for (ApplicationGatewayFrontendIPConfigurationInner inner : inners) {
+            for (ApplicationGatewayFrontendIPConfiguration inner : inners) {
                 ApplicationGatewayFrontendImpl frontend = new ApplicationGatewayFrontendImpl(inner, this);
                 this.frontends.put(inner.name(), frontend);
             }
@@ -793,15 +794,15 @@ class ApplicationGatewayImpl
 
     //TODO @Override - since app gateways don't support more than one today, no need to expose this
     private ApplicationGatewayFrontendImpl defineFrontend(String name) {
-        return defineChild(name, this.frontends, ApplicationGatewayFrontendIPConfigurationInner.class, ApplicationGatewayFrontendImpl.class);
-        }
+        return defineChild(name, this.frontends, onGatewayFrontendIPConfiguration.class, ApplicationGatewayFrontendImpl.class);
+    }
 
     @Override
     public ApplicationGatewayRedirectConfigurationImpl defineRedirectConfiguration(String name) {
         return defineChild(name, this.redirectConfigs, ApplicationGatewayRedirectConfigurationInner.class, ApplicationGatewayRedirectConfigurationImpl.class);
     }
 
-    @Override
+    @OverrideApplicati
     public ApplicationGatewayRequestRoutingRuleImpl defineRequestRoutingRule(String name) {
         return defineChild(name, this.rules, ApplicationGatewayRequestRoutingRuleInner.class, ApplicationGatewayRequestRoutingRuleImpl.class);
     }

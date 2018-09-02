@@ -13,8 +13,6 @@ import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.v2.management.network.ApplicationGateway;
 import com.microsoft.azure.v2.management.network.ApplicationGatewayBackend;
 import com.microsoft.azure.v2.management.network.ApplicationGatewayBackendHealth;
-import com.microsoft.azure.v2.management.network.ApplicationGatewayBackendHealthHttpSettings;
-import com.microsoft.azure.v2.management.network.ApplicationGatewayBackendHealthPool;
 import com.microsoft.azure.v2.management.network.ApplicationGatewayBackendHttpConfigurationHealth;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.ResourceUtils;
 
@@ -32,7 +30,7 @@ public class ApplicationGatewayBackendHealthImpl implements ApplicationGatewayBa
         this.inner = inner;
         this.appGateway = appGateway;
         if (inner != null) {
-            for (ApplicationGatewayBackendHealthHttpSettings httpConfigInner : inner.backendHttpSettingsCollection()) {
+            for (ApplicationGatewayBackendHealthHttpSettingsInner httpConfigInner : inner.backendHttpSettingsCollection()) {
                 ApplicationGatewayBackendHttpConfigurationHealthImpl httpConfigHealth  = new ApplicationGatewayBackendHttpConfigurationHealthImpl(httpConfigInner, this);
                 this.httpConfigHealths.put(httpConfigHealth.name(), httpConfigHealth);
             }

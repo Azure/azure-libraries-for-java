@@ -10,6 +10,7 @@ import java.util.Map;
 import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
 import com.microsoft.azure.management.apigeneration.Fluent;
+import com.microsoft.azure.v2.management.network.implementation.ApplicationGatewayBackendHealthHttpSettingsInner;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.HasName;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.HasParent;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
@@ -20,7 +21,7 @@ import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
 @Fluent
 @Beta(SinceVersion.V1_4_0)
 public interface ApplicationGatewayBackendHttpConfigurationHealth extends
-    HasInner<ApplicationGatewayBackendHealthHttpSettings>,
+    HasInner<ApplicationGatewayBackendHealthHttpSettingsInner>,
     HasParent<ApplicationGatewayBackendHealth>,
     HasName {
 

@@ -11,8 +11,6 @@ import java.util.TreeMap;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.v2.management.network.ApplicationGatewayBackendHealth;
-import com.microsoft.azure.v2.management.network.ApplicationGatewayBackendHealthHttpSettings;
-import com.microsoft.azure.v2.management.network.ApplicationGatewayBackendHealthServer;
 import com.microsoft.azure.v2.management.network.ApplicationGatewayBackendHttpConfiguration;
 import com.microsoft.azure.v2.management.network.ApplicationGatewayBackendHttpConfigurationHealth;
 import com.microsoft.azure.v2.management.network.ApplicationGatewayBackendServerHealth;
@@ -24,16 +22,16 @@ import com.microsoft.azure.v2.management.resources.fluentcore.arm.ResourceUtils;
 @LangDefinition
 public class ApplicationGatewayBackendHttpConfigurationHealthImpl implements ApplicationGatewayBackendHttpConfigurationHealth {
 
-    private final ApplicationGatewayBackendHealthHttpSettings inner;
+    private final ApplicationGatewayBackendHealthHttpSettingsInner inner;
     private final ApplicationGatewayBackendHealthImpl backendHealth;
     private final Map<String, ApplicationGatewayBackendServerHealth> serverHealths = new TreeMap<>();
 
-    ApplicationGatewayBackendHttpConfigurationHealthImpl(ApplicationGatewayBackendHealthHttpSettings inner, ApplicationGatewayBackendHealthImpl backendHealth) {
+    ApplicationGatewayBackendHttpConfigurationHealthImpl(ApplicationGatewayBackendHealthHttpSettingsInner inner, ApplicationGatewayBackendHealthImpl backendHealth) {
         this.inner = inner;
         this.backendHealth = backendHealth;
 
         if (inner.servers() != null) {
-            for (ApplicationGatewayBackendHealthServer serverHealthInner : this.inner().servers()) {
+            for (ApplicationGatewayBackendHealthServerInner serverHealthInner : this.inner().servers()) {
                 ApplicationGatewayBackendServerHealth serverHealth = new ApplicationGatewayBackendServerHealthImpl(serverHealthInner, this);
                 this.serverHealths.put(serverHealth.ipAddress(), serverHealth);
             }
@@ -41,7 +39,7 @@ public class ApplicationGatewayBackendHttpConfigurationHealthImpl implements App
     }
 
     @Override
-    public ApplicationGatewayBackendHealthHttpSettings inner() {
+    public ApplicationGatewayBackendHealthHttpSettingsInner inner() {
         return this.inner;
     }
 

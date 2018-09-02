@@ -24,11 +24,11 @@ import com.microsoft.azure.v2.management.resources.fluentcore.arm.ResourceUtils;
 @LangDefinition
 public class ApplicationGatewayBackendHealthImpl implements ApplicationGatewayBackendHealth {
 
-    private final ApplicationGatewayBackendHealthPool inner;
+    private final ApplicationGatewayBackendHealthPoolInner inner;
     private final ApplicationGatewayImpl appGateway;
     private final Map<String, ApplicationGatewayBackendHttpConfigurationHealth> httpConfigHealths = new TreeMap<>();
 
-    ApplicationGatewayBackendHealthImpl(ApplicationGatewayBackendHealthPool inner, ApplicationGatewayImpl appGateway) {
+    ApplicationGatewayBackendHealthImpl(ApplicationGatewayBackendHealthPoolInner inner, ApplicationGatewayImpl appGateway) {
         this.inner = inner;
         this.appGateway = appGateway;
         if (inner != null) {
@@ -40,7 +40,7 @@ public class ApplicationGatewayBackendHealthImpl implements ApplicationGatewayBa
     }
 
     @Override
-    public ApplicationGatewayBackendHealthPool inner() {
+    public ApplicationGatewayBackendHealthPoolInner inner() {
         return this.inner;
     }
 

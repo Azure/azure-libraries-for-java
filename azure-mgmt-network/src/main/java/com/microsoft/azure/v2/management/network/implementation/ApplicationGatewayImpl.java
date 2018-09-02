@@ -9,7 +9,6 @@ import com.microsoft.azure.v2.management.network.ApplicationGateway;
 import com.microsoft.azure.v2.management.network.ApplicationGatewayAuthenticationCertificate;
 import com.microsoft.azure.v2.management.network.ApplicationGatewayBackend;
 import com.microsoft.azure.v2.management.network.ApplicationGatewayBackendHealth;
-import com.microsoft.azure.v2.management.network.ApplicationGatewayBackendHealthPool;
 import com.microsoft.azure.v2.management.network.ApplicationGatewayBackendHttpConfiguration;
 import com.microsoft.azure.v2.management.network.ApplicationGatewayFrontend;
 import com.microsoft.azure.v2.management.network.ApplicationGatewayFrontendIPConfiguration;
@@ -1567,7 +1566,7 @@ class ApplicationGatewayImpl
                     public Map<String, ApplicationGatewayBackendHealth> call(ApplicationGatewayBackendHealthInner inner) {
                         Map<String, ApplicationGatewayBackendHealth> backendHealths = new TreeMap<>();
                         if (inner != null) {
-                            for (ApplicationGatewayBackendHealthPool healthInner : inner.backendAddressPools()) {
+                            for (ApplicationGatewayBackendHealthPoolInner healthInner : inner.backendAddressPools()) {
                                 ApplicationGatewayBackendHealth backendHealth = new ApplicationGatewayBackendHealthImpl(healthInner, ApplicationGatewayImpl.this);
                                 backendHealths.put(backendHealth.name(), backendHealth);
                             }

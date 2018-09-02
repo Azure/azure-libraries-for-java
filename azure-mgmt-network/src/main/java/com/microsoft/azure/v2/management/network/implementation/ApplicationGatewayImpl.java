@@ -13,6 +13,7 @@ import com.microsoft.azure.v2.management.network.ApplicationGatewayBackendHealth
 import com.microsoft.azure.v2.management.network.ApplicationGatewayBackendHttpConfiguration;
 import com.microsoft.azure.v2.management.network.ApplicationGatewayFrontend;
 import com.microsoft.azure.v2.management.network.ApplicationGatewayFrontendIPConfiguration;
+import com.microsoft.azure.v2.management.network.ApplicationGatewayHttpListener;
 import com.microsoft.azure.v2.management.network.ApplicationGatewayListener;
 import com.microsoft.azure.v2.management.network.ApplicationGatewayIPConfiguration;
 import com.microsoft.azure.v2.management.network.ApplicationGatewayOperationalState;
@@ -30,7 +31,7 @@ import com.microsoft.azure.v2.management.network.ApplicationGatewayUrlPathMap;
 import com.microsoft.azure.v2.management.network.IPAllocationMethod;
 import com.microsoft.azure.v2.management.network.Network;
 import com.microsoft.azure.v2.management.network.PublicIPAddress;
-import com.microsoft.azure.v2.management.network.Subnet;
+import com.microsoft.azure.ApplicationGatewayListener.javav2.management.network.Subnet;
 import com.microsoft.azure.v2.management.network.model.GroupableParentResourceWithTagsImpl;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.AvailabilityZoneId;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.ResourceUtils;
@@ -211,9 +212,9 @@ class ApplicationGatewayImpl
 
     private void initializeHttpListenersFromInner() {
         this.listeners = new TreeMap<>();
-        List<ApplicationGatewayHttpListenerInner> inners = this.inner().httpListeners();
+        List<ApplicationGatewayHttpListener> inners = this.inner().httpListeners();
         if (inners != null) {
-            for (ApplicationGatewayHttpListenerInner inner : inners) {
+            for (ApplicationGatewayHttpListener inner : inners) {
                 ApplicationGatewayListenerImpl httpListener = new ApplicationGatewayListenerImpl(inner, this);
                 this.listeners.put(inner.name(), httpListener);
             }
@@ -837,7 +838,7 @@ class ApplicationGatewayImpl
 
     @Override
     public ApplicationGatewayListenerImpl defineListener(String name) {
-        return defineChild(name, this.listeners, ApplicationGatewayHttpListenerInner.class, ApplicationGatewayListenerImpl.class);
+        return defineChild(name, this.listeners, ApplicationGatewayHttpListener.class, ApplicationGatewayListenerImpl.class);
     }
 
     @Override

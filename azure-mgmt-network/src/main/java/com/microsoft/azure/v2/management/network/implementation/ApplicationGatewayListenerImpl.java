@@ -12,6 +12,7 @@ import com.microsoft.azure.SubResource;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.v2.management.network.ApplicationGateway;
 import com.microsoft.azure.v2.management.network.ApplicationGatewayFrontend;
+import com.microsoft.azure.v2.management.network.ApplicationGatewayHttpListener;
 import com.microsoft.azure.v2.management.network.ApplicationGatewayListener;
 import com.microsoft.azure.v2.management.network.ApplicationGatewayProtocol;
 import com.microsoft.azure.v2.management.network.ApplicationGatewaySslCertificate;
@@ -25,14 +26,14 @@ import com.microsoft.azure.v2.management.resources.fluentcore.utils.SdkContext;
  */
 @LangDefinition
 class ApplicationGatewayListenerImpl
-    extends ChildResourceImpl<ApplicationGatewayHttpListenerInner, ApplicationGatewayImpl, ApplicationGateway>
+    extends ChildResourceImpl<ApplicationGatewayHttpListener, ApplicationGatewayImpl, ApplicationGateway>
     implements
         ApplicationGatewayListener,
         ApplicationGatewayListener.Definition<ApplicationGateway.DefinitionStages.WithCreate>,
         ApplicationGatewayListener.UpdateDefinition<ApplicationGateway.Update>,
         ApplicationGatewayListener.Update {
 
-    ApplicationGatewayListenerImpl(ApplicationGatewayHttpListenerInner inner, ApplicationGatewayImpl parent) {
+    ApplicationGatewayListenerImpl(ApplicationGatewayHttpListener inner, ApplicationGatewayImpl parent) {
         super(inner, parent);
     }
 

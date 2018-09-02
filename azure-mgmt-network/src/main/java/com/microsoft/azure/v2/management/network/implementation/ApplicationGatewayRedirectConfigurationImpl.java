@@ -9,8 +9,8 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.TreeMap;
 
-import com.microsoft.azure.SubResource;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
+import com.microsoft.azure.v2.SubResource;
 import com.microsoft.azure.v2.management.network.ApplicationGateway;
 import com.microsoft.azure.v2.management.network.ApplicationGatewayListener;
 import com.microsoft.azure.v2.management.network.ApplicationGatewayRedirectConfiguration;

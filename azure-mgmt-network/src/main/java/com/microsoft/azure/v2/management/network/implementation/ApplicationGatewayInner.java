@@ -10,7 +10,6 @@ package com.microsoft.azure.v2.management.network.implementation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.azure.v2.Resource;
-import com.microsoft.azure.v2.management.network.ApplicationGatewayAuthenticationCertificate;
 import com.microsoft.azure.v2.management.network.ApplicationGatewayAutoscaleConfiguration;
 import com.microsoft.azure.v2.management.network.ApplicationGatewayBackendHttpSettings;
 import com.microsoft.azure.v2.management.network.ApplicationGatewayFrontendIPConfiguration;
@@ -18,14 +17,11 @@ import com.microsoft.azure.v2.management.network.ApplicationGatewayFrontendPort;
 import com.microsoft.azure.v2.management.network.ApplicationGatewayHttpListener;
 import com.microsoft.azure.v2.management.network.ApplicationGatewayIPConfiguration;
 import com.microsoft.azure.v2.management.network.ApplicationGatewayOperationalState;
-import com.microsoft.azure.v2.management.network.ApplicationGatewayProbe;
-import com.microsoft.azure.v2.management.network.ApplicationGatewayRedirectConfiguration;
-import com.microsoft.azure.v2.management.network.ApplicationGatewayRequestRoutingRule;
 import com.microsoft.azure.v2.management.network.ApplicationGatewaySku;
-import com.microsoft.azure.v2.management.network.ApplicationGatewaySslCertificate;
 import com.microsoft.azure.v2.management.network.ApplicationGatewaySslPolicy;
 import com.microsoft.azure.v2.management.network.ApplicationGatewayUrlPathMap;
 import com.microsoft.azure.v2.management.network.ApplicationGatewayWebApplicationFirewallConfiguration;
+import com.microsoft.rest.v2.annotations.SkipParentValidation;
 import com.microsoft.rest.v2.serializer.JsonFlatten;
 import java.util.List;
 
@@ -118,13 +114,13 @@ public class ApplicationGatewayInner extends Resource {
      * Request routing rules of the application gateway resource.
      */
     @JsonProperty(value = "properties.requestRoutingRules")
-    private List<ApplicationGatewayRequestRoutingRule> requestRoutingRules;
+    private List<ApplicationGatewayRequestRoutingRuleInner> requestRoutingRules;
 
     /**
      * Redirect configurations of the application gateway resource.
      */
     @JsonProperty(value = "properties.redirectConfigurations")
-    private List<ApplicationGatewayRedirectConfiguration> redirectConfigurations;
+    private List<ApplicationGatewayRedirectConfigurationInner> redirectConfigurations;
 
     /**
      * Web application firewall configuration.
@@ -439,7 +435,7 @@ public class ApplicationGatewayInner extends Resource {
      *
      * @return the requestRoutingRules value.
      */
-    public List<ApplicationGatewayRequestRoutingRule> requestRoutingRules() {
+    public List<ApplicationGatewayRequestRoutingRuleInner> requestRoutingRules() {
         return this.requestRoutingRules;
     }
 
@@ -449,7 +445,7 @@ public class ApplicationGatewayInner extends Resource {
      * @param requestRoutingRules the requestRoutingRules value to set.
      * @return the ApplicationGatewayInner object itself.
      */
-    public ApplicationGatewayInner withRequestRoutingRules(List<ApplicationGatewayRequestRoutingRule> requestRoutingRules) {
+    public ApplicationGatewayInner withRequestRoutingRules(List<ApplicationGatewayRequestRoutingRuleInner> requestRoutingRules) {
         this.requestRoutingRules = requestRoutingRules;
         return this;
     }
@@ -459,7 +455,7 @@ public class ApplicationGatewayInner extends Resource {
      *
      * @return the redirectConfigurations value.
      */
-    public List<ApplicationGatewayRedirectConfiguration> redirectConfigurations() {
+    public List<ApplicationGatewayRedirectConfigurationInner> redirectConfigurations() {
         return this.redirectConfigurations;
     }
 
@@ -469,7 +465,7 @@ public class ApplicationGatewayInner extends Resource {
      * @param redirectConfigurations the redirectConfigurations value to set.
      * @return the ApplicationGatewayInner object itself.
      */
-    public ApplicationGatewayInner withRedirectConfigurations(List<ApplicationGatewayRedirectConfiguration> redirectConfigurations) {
+    public ApplicationGatewayInner withRedirectConfigurations(List<ApplicationGatewayRedirectConfigurationInner> redirectConfigurations) {
         this.redirectConfigurations = redirectConfigurations;
         return this;
     }

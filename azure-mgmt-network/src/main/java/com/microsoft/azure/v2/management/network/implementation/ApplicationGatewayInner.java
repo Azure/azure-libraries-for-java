@@ -15,11 +15,9 @@ import com.microsoft.azure.v2.management.network.ApplicationGatewayBackendHttpSe
 import com.microsoft.azure.v2.management.network.ApplicationGatewayFrontendIPConfiguration;
 import com.microsoft.azure.v2.management.network.ApplicationGatewayFrontendPort;
 import com.microsoft.azure.v2.management.network.ApplicationGatewayHttpListener;
-import com.microsoft.azure.v2.management.network.ApplicationGatewayIPConfiguration;
 import com.microsoft.azure.v2.management.network.ApplicationGatewayOperationalState;
 import com.microsoft.azure.v2.management.network.ApplicationGatewaySku;
 import com.microsoft.azure.v2.management.network.ApplicationGatewaySslPolicy;
-import com.microsoft.azure.v2.management.network.ApplicationGatewayUrlPathMap;
 import com.microsoft.azure.v2.management.network.ApplicationGatewayWebApplicationFirewallConfiguration;
 import com.microsoft.rest.v2.annotations.SkipParentValidation;
 import com.microsoft.rest.v2.serializer.JsonFlatten;
@@ -108,7 +106,7 @@ public class ApplicationGatewayInner extends Resource {
      * URL path map of the application gateway resource.
      */
     @JsonProperty(value = "properties.urlPathMaps")
-    private List<ApplicationGatewayUrlPathMap> urlPathMaps;
+    private List<ApplicationGatewayUrlPathMapInner> urlPathMaps;
 
     /**
      * Request routing rules of the application gateway resource.
@@ -415,7 +413,7 @@ public class ApplicationGatewayInner extends Resource {
      *
      * @return the urlPathMaps value.
      */
-    public List<ApplicationGatewayUrlPathMap> urlPathMaps() {
+    public List<ApplicationGatewayUrlPathMapInner> urlPathMaps() {
         return this.urlPathMaps;
     }
 
@@ -425,7 +423,7 @@ public class ApplicationGatewayInner extends Resource {
      * @param urlPathMaps the urlPathMaps value to set.
      * @return the ApplicationGatewayInner object itself.
      */
-    public ApplicationGatewayInner withUrlPathMaps(List<ApplicationGatewayUrlPathMap> urlPathMaps) {
+    public ApplicationGatewayInner withUrlPathMaps(List<ApplicationGatewayUrlPathMapInner> urlPathMaps) {
         this.urlPathMaps = urlPathMaps;
         return this;
     }

@@ -9,8 +9,8 @@ import com.microsoft.azure.v2.management.resources.fluentcore.arm.implementation
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.GroupableResource;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.Resource;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.implementation.GroupableParentResourceImpl;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
 import rx.Observable;
 import rx.functions.Func1;
 
@@ -24,7 +24,7 @@ import rx.functions.Func1;
  */
 public abstract class GroupableParentResourceWithTagsImpl<
         FluentModelT extends Resource,
-        InnerModelT extends com.microsoft.azure.Resource,
+        InnerModelT extends com.microsoft.azure.v2.Resource,
         FluentModelImplT extends GroupableParentResourceWithTagsImpl<FluentModelT, InnerModelT, FluentModelImplT, ManagerT>,
         ManagerT extends ManagerBase>
         extends

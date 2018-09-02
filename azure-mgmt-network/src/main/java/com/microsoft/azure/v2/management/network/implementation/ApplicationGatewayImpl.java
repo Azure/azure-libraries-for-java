@@ -10,8 +10,10 @@ import com.microsoft.azure.v2.management.network.ApplicationGatewayAuthenticatio
 import com.microsoft.azure.v2.management.network.ApplicationGatewayBackend;
 import com.microsoft.azure.v2.management.network.ApplicationGatewayBackendHealth;
 import com.microsoft.azure.v2.management.network.ApplicationGatewayBackendHttpConfiguration;
+import com.microsoft.azure.v2.management.network.ApplicationGatewayBackendHttpSettings;
 import com.microsoft.azure.v2.management.network.ApplicationGatewayFrontend;
 import com.microsoft.azure.v2.management.network.ApplicationGatewayFrontendIPConfiguration;
+import com.microsoft.azure.v2.management.network.ApplicationGatewayFrontendPort;
 import com.microsoft.azure.v2.management.network.ApplicationGatewayHttpListener;
 import com.microsoft.azure.v2.management.network.ApplicationGatewayListener;
 import com.microsoft.azure.v2.management.network.ApplicationGatewayIPConfiguration;
@@ -30,7 +32,7 @@ import com.microsoft.azure.v2.management.network.ApplicationGatewayUrlPathMap;
 import com.microsoft.azure.v2.management.network.IPAllocationMethod;
 import com.microsoft.azure.v2.management.network.Network;
 import com.microsoft.azure.v2.management.network.PublicIPAddress;
-import com.microsoft.azure.ApplicationGatewayListener.javav2.management.network.Subnet;
+import com.microsoft.azure.v2.management.network.Subnet;
 import com.microsoft.azure.v2.management.network.model.GroupableParentResourceWithTagsImpl;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.AvailabilityZoneId;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.ResourceUtils;
@@ -50,7 +52,7 @@ import java.util.TreeMap;
 import java.util.Map.Entry;
 import java.util.TreeSet;
 
-import com.microsoft.azure.SubResource;
+import com.microsoft.azure.v2.SubResource;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 
 import com.microsoft.azure.v2.management.resources.fluentcore.utils.Utils;
@@ -200,9 +202,9 @@ class ApplicationGatewayImpl
 
     private void initializeBackendHttpConfigsFromInner() {
         this.backendConfigs = new TreeMap<>();
-        List<ApplicationGatewayBackendHttpSettingsInner> inners = this.inner().backendHttpSettingsCollection();
+        List<ApplicationGatewayBackendHttpSettings> inners = this.inner().backendHttpSettingsCollection();
         if (inners != null) {
-            for (ApplicationGatewayBackendHttpSettingsInner inner : inners) {
+            for (ApplicationGatewayBackendHttpSettings inner : inners) {
                 ApplicationGatewayBackendHttpConfigurationImpl httpConfig = new ApplicationGatewayBackendHttpConfigurationImpl(inner, this);
                 this.backendConfigs.put(inner.name(), httpConfig);
             }
@@ -794,7 +796,7 @@ class ApplicationGatewayImpl
 
     //TODO @Override - since app gateways don't support more than one today, no need to expose this
     private ApplicationGatewayFrontendImpl defineFrontend(String name) {
-        return defineChild(name, this.frontends, onGatewayFrontendIPConfiguration.class, ApplicationGatewayFrontendImpl.class);
+        return defineChild(name, this.frontends, ApplicationGatewayFrontendIPConfiguration.class, ApplicationGatewayFrontendImpl.class);
     }
 
     @Override
@@ -802,7 +804,7 @@ class ApplicationGatewayImpl
         return defineChild(name, this.redirectConfigs, ApplicationGatewayRedirectConfigurationInner.class, ApplicationGatewayRedirectConfigurationImpl.class);
     }
 
-    @OverrideApplicati
+    @Override
     public ApplicationGatewayRequestRoutingRuleImpl defineRequestRoutingRule(String name) {
         return defineChild(name, this.rules, ApplicationGatewayRequestRoutingRuleInner.class, ApplicationGatewayRequestRoutingRuleImpl.class);
     }
@@ -842,7 +844,7 @@ class ApplicationGatewayImpl
 
     @Override
     public ApplicationGatewayBackendHttpConfigurationImpl defineBackendHttpConfiguration(String name) {
-        ApplicationGatewayBackendHttpConfigurationImpl config = defineChild(name, this.backendConfigs, ApplicationGatewayBackendHttpSettingsInner.class, ApplicationGatewayBackendHttpConfigurationImpl.class);
+        ApplicationGatewayBackendHttpConfigurationImpl config = defineChild(name, this.backendConfigs, ApplicationGatewayBackendHttpSettings.class, ApplicationGatewayBackendHttpConfigurationImpl.class);
         if (config.inner().id() == null) {
             return config.withPort(80); // Default port
         } else {
@@ -915,16 +917,16 @@ class ApplicationGatewayImpl
     @Override
     public ApplicationGatewayImpl withFrontendPort(int portNumber, String name) {
         // Ensure inner ports list initialized
-        List<ApplicationGatewayFrontendPortInner> frontendPorts = this.inner().frontendPorts();
+        List<ApplicationGatewayFrontendPort> frontendPorts = this.inner().frontendPorts();
         if (frontendPorts == null) {
-            frontendPorts = new ArrayList<ApplicationGatewayFrontendPortInner>();
+            frontendPorts = new ArrayList<ApplicationGatewayFrontendPort>();
             this.inner().withFrontendPorts(frontendPorts);
         }
 
         // Attempt to find inner port by name if provided, or port number otherwise
-        ApplicationGatewayFrontendPortInner frontendPortByName = null;
-        ApplicationGatewayFrontendPortInner frontendPortByNumber = null;
-        for (ApplicationGatewayFrontendPortInner inner : this.inner().frontendPorts()) {
+        ApplicationGatewayFrontendPort frontendPortByName = null;
+        ApplicationGatewayFrontendPort frontendPortByNumber = null;
+        for (ApplicationGatewayFrontendPort inner : this.inner().frontendPorts()) {
             if (name != null && name.equalsIgnoreCase(inner.name())) {
                 frontendPortByName = inner;
             }
@@ -941,7 +943,7 @@ class ApplicationGatewayImpl
                 name = SdkContext.randomResourceName("port", 9);
             }
 
-            frontendPortByName = new ApplicationGatewayFrontendPortInner()
+            frontendPortByName = new ApplicationGatewayFrontendPort()
                     .withName(name)
                     .withPort(portNumber);
             frontendPorts.add(frontendPortByName);
@@ -1036,7 +1038,7 @@ class ApplicationGatewayImpl
         }
 
         for (int i = 0; i < this.inner().frontendPorts().size(); i++) {
-            ApplicationGatewayFrontendPortInner inner = this.inner().frontendPorts().get(i);
+            ApplicationGatewayFrontendPort inner = this.inner().frontendPorts().get(i);
             if (inner.name().equalsIgnoreCase(name)) {
                 this.inner().frontendPorts().remove(i);
                 break;
@@ -1049,7 +1051,7 @@ class ApplicationGatewayImpl
     @Override
     public ApplicationGatewayImpl withoutFrontendPort(int portNumber) {
         for (int i = 0; i < this.inner().frontendPorts().size(); i++) {
-            ApplicationGatewayFrontendPortInner inner = this.inner().frontendPorts().get(i);
+            ApplicationGatewayFrontendPort inner = this.inner().frontendPorts().get(i);
             if (inner.port().equals(portNumber)) {
                 this.inner().frontendPorts().remove(i);
                 break;
@@ -1362,7 +1364,7 @@ class ApplicationGatewayImpl
     public Map<String, Integer> frontendPorts() {
         Map<String, Integer> ports = new TreeMap<>();
         if (this.inner().frontendPorts() != null) {
-            for (ApplicationGatewayFrontendPortInner portInner : this.inner().frontendPorts()) {
+            for (ApplicationGatewayFrontendPort portInner : this.inner().frontendPorts()) {
                 ports.put(portInner.name(), portInner.port());
             }
         }

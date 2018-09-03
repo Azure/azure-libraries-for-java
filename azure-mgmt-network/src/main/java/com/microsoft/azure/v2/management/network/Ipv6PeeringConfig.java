@@ -10,6 +10,7 @@ import java.util.List;
 import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.Method;
+import com.microsoft.azure.v2.management.network.implementation.Ipv6ExpressRouteCircuitPeeringConfigInner;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Attachable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Settable;
@@ -20,7 +21,7 @@ import com.microsoft.azure.v2.management.resources.fluentcore.model.Settable;
 @Fluent
 @Beta(Beta.SinceVersion.V1_11_0)
 public interface Ipv6PeeringConfig extends
-        HasInner<Ipv6ExpressRouteCircuitPeeringConfig> {
+        HasInner<Ipv6ExpressRouteCircuitPeeringConfigInner> {
 
     /**
      * Grouping of public frontend definition stages.

@@ -8,7 +8,6 @@ package com.microsoft.azure.v2.management.network.implementation;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.v2.management.network.ExpressRouteCircuitPeeringConfig;
 import com.microsoft.azure.v2.management.network.ExpressRouteCrossConnectionPeering;
-import com.microsoft.azure.v2.management.network.Ipv6ExpressRouteCircuitPeeringConfig;
 import com.microsoft.azure.v2.management.network.Ipv6PeeringConfig;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.implementation.IndexableWrapperImpl;
 
@@ -20,14 +19,14 @@ import java.util.List;
  */
 @LangDefinition
 class Ipv6PeeringConfigImpl
-        extends IndexableWrapperImpl<Ipv6ExpressRouteCircuitPeeringConfig>
+        extends IndexableWrapperImpl<Ipv6ExpressRouteCircuitPeeringConfigInner>
         implements
         Ipv6PeeringConfig,
         Ipv6PeeringConfig.Definition<ExpressRouteCrossConnectionPeering.DefinitionStages.WithCreate>,
         Ipv6PeeringConfig.UpdateDefinition<ExpressRouteCrossConnectionPeering.Update>,
         Ipv6PeeringConfig.Update {
     private final ExpressRouteCrossConnectionPeeringImpl parent;
-    Ipv6PeeringConfigImpl(Ipv6ExpressRouteCircuitPeeringConfig innerObject, ExpressRouteCrossConnectionPeeringImpl parent) {
+    Ipv6PeeringConfigImpl(Ipv6ExpressRouteCircuitPeeringConfigInner innerObject, ExpressRouteCrossConnectionPeeringImpl parent) {
         super(innerObject);
         this.parent = parent;
     }

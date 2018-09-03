@@ -17,6 +17,7 @@ import com.microsoft.azure.v2.management.network.VirtualNetworkGatewaySku;
 import com.microsoft.azure.v2.management.network.VirtualNetworkGatewayType;
 import com.microsoft.azure.v2.management.network.VpnClientConfiguration;
 import com.microsoft.azure.v2.management.network.VpnType;
+import com.microsoft.rest.v2.annotations.SkipParentValidation;
 import com.microsoft.rest.v2.serializer.JsonFlatten;
 import java.util.List;
 

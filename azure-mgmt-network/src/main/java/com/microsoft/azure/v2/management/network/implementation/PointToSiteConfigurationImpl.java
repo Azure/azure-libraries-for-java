@@ -11,6 +11,8 @@ import com.microsoft.azure.v2.management.network.PointToSiteConfiguration;
 import com.microsoft.azure.v2.management.network.VirtualNetworkGateway;
 import com.microsoft.azure.v2.management.network.VpnClientConfiguration;
 import com.microsoft.azure.v2.management.network.VpnClientProtocol;
+import com.microsoft.azure.v2.management.network.VpnClientRevokedCertificate;
+import com.microsoft.azure.v2.management.network.VpnClientRootCertificate;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.implementation.IndexableWrapperImpl;
 
 import java.io.File;
@@ -57,9 +59,9 @@ class PointToSiteConfigurationImpl
     @Override
     public PointToSiteConfigurationImpl withAzureCertificate(String name, String certificateData) {
         if (inner().vpnClientRootCertificates() == null) {
-            inner().withVpnClientRootCertificates(new ArrayList<VpnClientRootCertificateInner>());
+            inner().withVpnClientRootCertificates(new ArrayList<VpnClientRootCertificate>());
         }
-        inner().vpnClientRootCertificates().add(new VpnClientRootCertificateInner().withName(name).withPublicCertData(certificateData));
+        inner().vpnClientRootCertificates().add(new VpnClientRootCertificate().withName(name).withPublicCertData(certificateData));
         inner().withRadiusServerAddress(null).withRadiusServerSecret(null);
         return this;
     }
@@ -78,7 +80,7 @@ class PointToSiteConfigurationImpl
     @Override
     public Update withoutAzureCertificate(String name) {
         if (inner().vpnClientRootCertificates() != null) {
-            for (VpnClientRootCertificateInner certificateInner : inner().vpnClientRootCertificates()) {
+            for (VpnClientRootCertificate certificateInner : inner().vpnClientRootCertificates()) {
                 if (name.equals(certificateInner.name())) {
                     inner().vpnClientRootCertificates().remove(certificateInner);
                     break;
@@ -99,9 +101,9 @@ class PointToSiteConfigurationImpl
     @Override
     public PointToSiteConfigurationImpl withRevokedCertificate(String name, String thumbprint) {
         if (inner().vpnClientRevokedCertificates() == null) {
-            inner().withVpnClientRevokedCertificates(new ArrayList<VpnClientRevokedCertificateInner>());
+            inner().withVpnClientRevokedCertificates(new ArrayList<VpnClientRevokedCertificate>());
         }
-        inner().vpnClientRevokedCertificates().add(new VpnClientRevokedCertificateInner().withName(name).withThumbprint(thumbprint));
+        inner().vpnClientRevokedCertificates().add(new VpnClientRevokedCertificate().withName(name).withThumbprint(thumbprint));
         inner().withRadiusServerAddress(null).withRadiusServerSecret(null);
         return this;
     }

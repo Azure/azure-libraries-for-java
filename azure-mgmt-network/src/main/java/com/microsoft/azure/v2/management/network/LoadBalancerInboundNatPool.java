@@ -6,7 +6,6 @@
 package com.microsoft.azure.v2.management.network;
 
 import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.v2.management.network.implementation.InboundNatPoolInner;
 import com.microsoft.azure.v2.management.network.model.HasBackendPort;
 import com.microsoft.azure.v2.management.network.model.HasFrontend;
 import com.microsoft.azure.v2.management.network.model.HasProtocol;
@@ -23,7 +22,7 @@ public interface LoadBalancerInboundNatPool extends
     HasFrontend,
     HasBackendPort,
     HasProtocol<TransportProtocol>,
-    HasInner<InboundNatPoolInner>,
+    HasInner<InboundNatPool>,
     ChildResource<LoadBalancer> {
 
     /**

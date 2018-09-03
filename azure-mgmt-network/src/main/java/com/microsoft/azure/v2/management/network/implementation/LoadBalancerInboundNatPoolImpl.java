@@ -5,8 +5,9 @@
  */
 package com.microsoft.azure.v2.management.network.implementation;
 
-import com.microsoft.azure.SubResource;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
+import com.microsoft.azure.v2.SubResource;
+import com.microsoft.azure.v2.management.network.InboundNatPool;
 import com.microsoft.azure.v2.management.network.LoadBalancerFrontend;
 import com.microsoft.azure.v2.management.network.LoadBalancerInboundNatPool;
 import com.microsoft.azure.v2.management.network.Network;
@@ -25,14 +26,14 @@ import com.microsoft.azure.v2.management.resources.fluentcore.utils.Utils;
  */
 @LangDefinition
 class LoadBalancerInboundNatPoolImpl
-    extends ChildResourceImpl<InboundNatPoolInner, LoadBalancerImpl, LoadBalancer>
+    extends ChildResourceImpl<InboundNatPool, LoadBalancerImpl, LoadBalancer>
     implements
         LoadBalancerInboundNatPool,
         LoadBalancerInboundNatPool.Definition<LoadBalancer.DefinitionStages.WithCreateAndInboundNatPool>,
         LoadBalancerInboundNatPool.UpdateDefinition<LoadBalancer.Update>,
         LoadBalancerInboundNatPool.Update {
 
-    LoadBalancerInboundNatPoolImpl(InboundNatPoolInner inner, LoadBalancerImpl parent) {
+    LoadBalancerInboundNatPoolImpl(InboundNatPool inner, LoadBalancerImpl parent) {
         super(inner, parent);
     }
 

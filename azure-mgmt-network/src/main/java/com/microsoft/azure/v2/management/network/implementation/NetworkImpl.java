@@ -19,8 +19,8 @@ import com.microsoft.azure.v2.management.network.model.GroupableParentResourceWi
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.v2.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.azure.v2.management.resources.fluentcore.utils.Utils;
-import rx.Observable;
-import rx.functions.Func1;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -53,7 +53,7 @@ class NetworkImpl
             final NetworkManager networkManager) {
         super(name, innerModel, networkManager);
     }
-    subnetsProperty
+
     @Override
     protected void initializeChildrenFromInner() {
         // Initialize subnets
@@ -72,25 +72,24 @@ class NetworkImpl
     // Verbs
 
     @Override
-    public Observable<Network> refreshAsync() {
-        return super.refreshAsync().map(new Func1<Network, Network>() {
-            @Override
-            public Network call(Network network) {
-                NetworkImpl impl = (NetworkImpl) network;
-                impl.initializeChildrenFromInner();
-                return impl;
-            }
-        });
+    public Maybe<Network> refreshAsync() {
+        return super.refreshAsync()
+                .map(network -> {
+                    NetworkImpl impl = (NetworkImpl) network;
+                    impl.initializeChildrenFromInner();
+                    return impl;
+                });
     }
 
     @Override
-    protected Observable<VirtualNetworkInner> getInnerAsync() {
+    protected Maybe<VirtualNetworkInner> getInnerAsync() {
         return this.manager().inner().virtualNetworks().getByResourceGroupAsync(this.resourceGroupName(), this.name());
     }
 
     @Override
     protected Observable<VirtualNetworkInner> applyTagsToInnerAsync() {
-        return this.manager().inner().virtualNetworks().updateTagsAsync(resourceGroupName(), name(), inner().getTags());
+        return this.manager().inner().virtualNetworks().updateTagsAsync(resourceGroupName(), name(), inner().getTags())
+                .toObservable();
     }
 
     @Override
@@ -269,13 +268,11 @@ class NetworkImpl
             withExistingDdosProtectionPlan(ddosProtectionPlan.id());
         }
         return this.manager().inner().virtualNetworks().createOrUpdateAsync(this.resourceGroupName(), this.name(), this.inner())
-                .map(new Func1<VirtualNetworkInner, VirtualNetworkInner>() {
-                    @Override
-                    public VirtualNetworkInner call(VirtualNetworkInner virtualNetworkInner) {
-                        NetworkImpl.this.ddosProtectionPlanCreatable = null;
-                        return virtualNetworkInner;
-                    }
-                });
+                .map(virtualNetworkInner -> {
+                    NetworkImpl.this.ddosProtectionPlanCreatable = null;
+                    return virtualNetworkInner;
+                })
+                .toObservable();
     }
 
     @Override

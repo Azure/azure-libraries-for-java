@@ -29,10 +29,9 @@ import com.microsoft.azure.v2.management.network.model.HasNetworkInterfaces;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.ResourceUtils;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.v2.management.resources.fluentcore.utils.SdkContext;
-
-import rx.Observable;
-import rx.exceptions.CompositeException;
-import rx.functions.Func1;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
+import io.reactivex.exceptions.CompositeException;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -77,25 +76,24 @@ class LoadBalancerImpl
     // Verbs
 
     @Override
-    public Observable<LoadBalancer> refreshAsync() {
-        return super.refreshAsync().map(new Func1<LoadBalancer, LoadBalancer>() {
-            @Override
-            public LoadBalancer call(LoadBalancer loadBalancer) {
-                LoadBalancerImpl impl = (LoadBalancerImpl) loadBalancer;
-                impl.initializeChildrenFromInner();
-                return impl;
-            }
-        });
+    public Maybe<LoadBalancer> refreshAsync() {
+        return super.refreshAsync()
+                .map(loadBalancer -> {
+                    LoadBalancerImpl impl = (LoadBalancerImpl) loadBalancer;
+                    impl.initializeChildrenFromInner();
+                    return impl;
+                });
     }
 
     @Override
-    protected Observable<LoadBalancerInner> getInnerAsync() {
+    protected Maybe<LoadBalancerInner> getInnerAsync() {
         return this.manager().inner().loadBalancers().getByResourceGroupAsync(this.resourceGroupName(), this.name());
     }
 
     @Override
     protected Observable<LoadBalancerInner> applyTagsToInnerAsync() {
-        return this.manager().inner().loadBalancers().updateTagsAsync(resourceGroupName(), name(), inner().getTags());
+        return this.manager().inner().loadBalancers().updateTagsAsync(resourceGroupName(), name(), inner().getTags())
+                .toObservable();
     }
 
     // Helpers
@@ -320,7 +318,8 @@ class LoadBalancerImpl
 
     @Override
     protected Observable<LoadBalancerInner> createInner() {
-        return this.manager().inner().loadBalancers().createOrUpdateAsync(this.resourceGroupName(), this.name(), this.inner());
+        return this.manager().inner().loadBalancers().createOrUpdateAsync(this.resourceGroupName(), this.name(), this.inner())
+                .toObservable();
     }
 
     private void initializeFrontendsFromInner() {

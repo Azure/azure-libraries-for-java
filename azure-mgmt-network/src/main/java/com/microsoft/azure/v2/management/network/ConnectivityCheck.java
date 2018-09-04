@@ -5,13 +5,12 @@
  */
 package com.microsoft.azure.v2.management.network;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.v2.management.network.model.HasNetworkInterfaces;
 import com.microsoft.azure.v2.management.network.model.HasProtocol;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.HasParent;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Executable;
+import com.microsoft.rest.v2.annotations.Beta;
 
 import java.util.List;
 
@@ -20,7 +19,7 @@ import java.util.List;
  * from a virtual machine to a given endpoint including another VM or an arbitrary remote server.
  */
 @Fluent
-@Beta(SinceVersion.V1_3_0)
+@Beta(since = "V1_3_0")
 public interface ConnectivityCheck extends
         Executable<ConnectivityCheck>,
         HasParent<NetworkWatcher> {

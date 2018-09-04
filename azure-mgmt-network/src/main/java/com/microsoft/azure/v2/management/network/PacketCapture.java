@@ -5,7 +5,6 @@
  */
 package com.microsoft.azure.v2.management.network;
 
-import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.v2.management.network.implementation.PacketCaptureResultInner;
@@ -14,6 +13,7 @@ import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.HasName
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Indexable;
+import com.microsoft.rest.v2.annotations.Beta;
 import rx.Completable;
 import rx.Observable;
 

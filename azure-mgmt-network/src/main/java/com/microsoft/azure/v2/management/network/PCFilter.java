@@ -5,13 +5,13 @@
  */
 package com.microsoft.azure.v2.management.network;
 
-import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.v2.management.network.model.HasProtocol;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.HasParent;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Attachable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Indexable;
+import com.microsoft.rest.v2.annotations.Beta;
 
 import java.util.List;
 

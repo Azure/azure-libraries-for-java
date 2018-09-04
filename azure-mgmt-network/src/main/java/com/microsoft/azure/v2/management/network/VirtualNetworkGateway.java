@@ -6,9 +6,7 @@
 package com.microsoft.azure.v2.management.network;
 
 
-import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
+import com.microsoft.azure.v2.PagedList;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.v2.management.network.implementation.NetworkManager;
@@ -21,6 +19,7 @@ import com.microsoft.azure.v2.management.resources.fluentcore.model.Appliable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Refreshable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Updatable;
+import com.microsoft.rest.v2.annotations.Beta;
 import rx.Completable;
 import rx.Observable;
 
@@ -30,7 +29,7 @@ import java.util.Collection;
  * Entry point for Virtual Network Gateway management API in Azure.
  */
 @Fluent
-@Beta(SinceVersion.V1_3_0)
+@Beta(since = "V1_3_0")
 public interface VirtualNetworkGateway extends
         GroupableResource<NetworkManager, VirtualNetworkGatewayInner>,
         Refreshable<VirtualNetworkGateway>,

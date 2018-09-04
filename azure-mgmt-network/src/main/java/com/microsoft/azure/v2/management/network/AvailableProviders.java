@@ -5,13 +5,12 @@
  */
 package com.microsoft.azure.v2.management.network;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.v2.management.network.implementation.AvailableProvidersListInner;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.HasParent;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Executable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
+import com.microsoft.rest.v2.annotations.Beta;
 
 import java.util.Map;
 
@@ -19,7 +18,7 @@ import java.util.Map;
  * An immutable client-side representation of available Internet service providers.
  */
 @Fluent
-@Beta(SinceVersion.V1_10_0)
+@Beta(since = "V1_10_0")
 public interface AvailableProviders extends Executable<AvailableProviders>,
         HasInner<AvailableProvidersListInner>,
         HasParent<NetworkWatcher> {

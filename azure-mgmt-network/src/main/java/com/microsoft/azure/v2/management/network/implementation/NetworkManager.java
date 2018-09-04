@@ -5,12 +5,10 @@
  */
 package com.microsoft.azure.v2.management.network.implementation;
 
-import com.microsoft.azure.AzureEnvironment;
-import com.microsoft.azure.AzureResponseBuilder;
-import com.microsoft.azure.SubResource;
-import com.microsoft.azure.credentials.AzureTokenCredentials;
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
+import com.microsoft.azure.v2.AzureEnvironment;
+import com.microsoft.azure.v2.AzureResponseBuilder;
+import com.microsoft.azure.v2.SubResource;
+import com.microsoft.azure.v2.credentials.AzureTokenCredentials;
 import com.microsoft.azure.v2.management.network.ApplicationGateway;
 import com.microsoft.azure.v2.management.network.ApplicationGatewayBackend;
 import com.microsoft.azure.v2.management.network.ApplicationGateways;
@@ -39,6 +37,7 @@ import com.microsoft.azure.v2.management.resources.fluentcore.utils.ProviderRegi
 import com.microsoft.azure.v2.management.resources.fluentcore.utils.ResourceManagerThrottlingInterceptor;
 import com.microsoft.azure.serializer.AzureJacksonAdapter;
 import com.microsoft.rest.RestClient;
+import com.microsoft.rest.v2.annotations.Beta;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -225,7 +224,7 @@ public final class NetworkManager extends Manager<NetworkManager, NetworkManagem
     /**
      * @return entry point to network watchers management API entry point
      */
-    @Beta(SinceVersion.V1_2_0)
+    @Beta(since = "V1_2_0")
     public NetworkWatchers networkWatchers() {
         if (this.networkWatchers == null) {
             this.networkWatchers = new NetworkWatchersImpl(this);
@@ -236,7 +235,7 @@ public final class NetworkManager extends Manager<NetworkManager, NetworkManagem
     /**
      * @return entry point to virtual network gateways management
      */
-    @Beta(SinceVersion.V1_3_0)
+    @Beta(since = "V1_3_0")
     public VirtualNetworkGateways virtualNetworkGateways() {
         if (this.virtualNetworkGateways == null) {
             this.virtualNetworkGateways = new VirtualNetworkGatewaysImpl(this);
@@ -247,7 +246,7 @@ public final class NetworkManager extends Manager<NetworkManager, NetworkManagem
     /**
      * @return entry point to local network gateway management
      */
-    @Beta(SinceVersion.V1_3_0)
+    @Beta(since = "V1_3_0")
     public LocalNetworkGateways localNetworkGateways() {
         if (this.localNetworkGateways == null) {
             this.localNetworkGateways = new LocalNetworkGatewaysImpl(this);
@@ -258,7 +257,7 @@ public final class NetworkManager extends Manager<NetworkManager, NetworkManagem
     /**
      * @return entry point to express route circuit management
      */
-    @Beta(SinceVersion.V1_4_0)
+    @Beta(since = "V1_4_0")
     public ExpressRouteCircuits expressRouteCircuits() {
         if (this.expressRouteCircuits == null) {
             this.expressRouteCircuits = new ExpressRouteCircuitsImpl(this);
@@ -269,7 +268,7 @@ public final class NetworkManager extends Manager<NetworkManager, NetworkManagem
     /**
      * @return entry point to application security groups management
      */
-    @Beta(SinceVersion.V1_10_0)
+    @Beta(since = "V1_10_0")
     public ApplicationSecurityGroups applicationSecurityGroups() {
         if (this.applicationSecurityGroups == null) {
             this.applicationSecurityGroups = new ApplicationSecurityGroupsImpl(this);
@@ -280,7 +279,7 @@ public final class NetworkManager extends Manager<NetworkManager, NetworkManagem
     /**
      * @return entry point to application security groups management
      */
-    @Beta(SinceVersion.V1_10_0)
+    @Beta(since = "V1_10_0")
     public RouteFilters routeFilters() {
         if (this.routeFilters == null) {
             this.routeFilters = new RouteFiltersImpl(this);
@@ -291,7 +290,7 @@ public final class NetworkManager extends Manager<NetworkManager, NetworkManagem
     /**
      * @return entry point to DDoS protection plans management
      */
-    @Beta(SinceVersion.V1_10_0)
+    @Beta(since = "V1_10_0")
     public DdosProtectionPlans ddosProtectionPlans() {
         if (this.ddosProtectionPlans == null) {
             this.ddosProtectionPlans = new DdosProtectionPlansImpl(this);
@@ -302,7 +301,7 @@ public final class NetworkManager extends Manager<NetworkManager, NetworkManagem
     /**
      * @return entry point to express route cross connections management
      */
-    @Beta(SinceVersion.V1_11_0)
+    @Beta(since = "V1_11_0")
     public ExpressRouteCrossConnections expressRouteCrossConnections() {
         if (this.expressRouteCrossConnections == null) {
             this.expressRouteCrossConnections = new ExpressRouteCrossConnectionsImpl(this);

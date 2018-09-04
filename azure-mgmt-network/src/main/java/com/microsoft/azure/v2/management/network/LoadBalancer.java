@@ -8,9 +8,7 @@ package com.microsoft.azure.v2.management.network;
 import java.util.List;
 import java.util.Map;
 
-import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
 import com.microsoft.azure.v2.management.network.implementation.LoadBalancerInner;
 import com.microsoft.azure.v2.management.network.implementation.NetworkManager;
 import com.microsoft.azure.v2.management.network.model.HasLoadBalancingRules;
@@ -21,6 +19,7 @@ import com.microsoft.azure.v2.management.resources.fluentcore.model.Appliable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Refreshable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Updatable;
+import com.microsoft.rest.v2.annotations.Beta;
 
 /**
  * Entry point for load balancer management API in Azure.
@@ -96,7 +95,7 @@ public interface LoadBalancer extends
     /**
      * @return load balancer sku.
      */
-    @Beta(SinceVersion.V1_3_0)
+    @Beta(since = "V1_3_0")
     LoadBalancerSkuType sku();
 
     /**
@@ -229,7 +228,7 @@ public interface LoadBalancer extends
         /**
          * The stage of the load balancer definition allowing to specify SKU.
          */
-        @Beta(Beta.SinceVersion.V1_3_0)
+        @Beta(since = "V1_3_0")
         interface WithSku {
             /**
              * Specifies the SKU for the load balancer.

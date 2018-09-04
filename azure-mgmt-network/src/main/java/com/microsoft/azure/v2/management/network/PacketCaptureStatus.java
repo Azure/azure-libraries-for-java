@@ -5,10 +5,10 @@
  */
 package com.microsoft.azure.v2.management.network;
 
-import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.v2.management.network.implementation.PacketCaptureQueryStatusResultInner;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
+import com.microsoft.rest.v2.annotations.Beta;
 import org.joda.time.DateTime;
 
 import java.util.List;
@@ -17,7 +17,7 @@ import java.util.List;
  * Status of packet capture session.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_2_0)
+@Beta(since = "V1_2_0")
 public interface PacketCaptureStatus extends HasInner<PacketCaptureQueryStatusResultInner> {
     /**
      * @return the name of the packet capture resource

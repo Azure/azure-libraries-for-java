@@ -5,7 +5,6 @@
  */
 package com.microsoft.azure.v2.management.network;
 
-import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.v2.management.network.implementation.NetworkManager;
 import com.microsoft.azure.v2.management.network.implementation.PublicIPAddressInner;
@@ -17,6 +16,7 @@ import com.microsoft.azure.v2.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Refreshable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Updatable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Appliable;
+import com.microsoft.rest.v2.annotations.Beta;
 
 import java.util.List;
 import java.util.Set;
@@ -91,19 +91,19 @@ public interface PublicIPAddress extends
     /**
      * @return the availability zones assigned to the public IP address
      */
-    @Beta(Beta.SinceVersion.V1_3_0)
+    @Beta(since = "V1_3_0")
     Set<AvailabilityZoneId> availabilityZones();
 
     /**
      * @return public IP address sku.
      */
-    @Beta(Beta.SinceVersion.V1_3_0)
+    @Beta(since = "V1_3_0")
     PublicIPSkuType sku();
 
     /**
      * @return read-only list of ipTags assosiated with public ip address
      */
-    @Beta(Beta.SinceVersion.V1_10_0)
+    @Beta(since = "V1_10_0")
     List<IpTag> ipTags();
 
     /**
@@ -214,7 +214,7 @@ public interface PublicIPAddress extends
         /**
          * The stage of the IP address definition allowing to specify availability zone.
          */
-        @Beta(Beta.SinceVersion.V1_3_0)
+        @Beta(since = "V1_3_0")
         interface WithAvailabilityZone {
             /**
              * Specifies the availability zone for the IP address.
@@ -222,14 +222,14 @@ public interface PublicIPAddress extends
              * @param zoneId the zone identifier.
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_3_0)
+            @Beta(since = "V1_3_0")
             WithCreate withAvailabilityZone(AvailabilityZoneId zoneId);
         }
 
         /**
          * The stage of the IP address definition allowing to specify SKU.
          */
-        @Beta(Beta.SinceVersion.V1_3_0)
+        @Beta(since = "V1_3_0")
         interface WithSku {
             /**
              * Specifies the SKU for the IP address.
@@ -243,7 +243,7 @@ public interface PublicIPAddress extends
         /**
          * The stage of the definition allowing to specify ipTags associated with the public IP address.
          */
-        @Beta(Beta.SinceVersion.V1_10_0)
+        @Beta(since = "V1_10_0")
         interface WithIpTag {
             /**
              * Sets an ipTag associated with the public IP address.
@@ -379,7 +379,7 @@ public interface PublicIPAddress extends
         /**
          * The stage of the update allowing to specify ipTags associated with the public IP address.
          */
-        @Beta(Beta.SinceVersion.V1_10_0)
+        @Beta(since = "V1_10_0")
         interface WithIpTag {
             /**
              * Sets an ipTag associated with the public IP address.

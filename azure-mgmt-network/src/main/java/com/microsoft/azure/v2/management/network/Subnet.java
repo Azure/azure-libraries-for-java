@@ -10,16 +10,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.Method;
-import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
 import com.microsoft.azure.v2.management.network.implementation.SubnetInner;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.ChildResource;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Attachable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Settable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
+import com.microsoft.rest.v2.annotations.Beta;
 
 /**
  * A client-side representation of a subnet of a virtual network.
@@ -51,7 +50,7 @@ public interface Subnet extends
     /**
      * @return available private IP addresses within this network
      */
-    @Beta(SinceVersion.V1_3_0)
+    @Beta(since = "V1_3_0")
     Set<String> listAvailablePrivateIPAddresses();
 
     /**
@@ -91,7 +90,7 @@ public interface Subnet extends
     /**
      * @return the services that has access to the subnet.
      */
-    @Beta(SinceVersion.V1_6_0)
+    @Beta(since = "V1_6_0")
     Map<ServiceEndpointType, List<Region>> servicesWithAccess();
 
 
@@ -163,14 +162,14 @@ public interface Subnet extends
          * The stage of a subnet definition allowing to enable access from a service endpoint to the subnet.
          * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
-        @Beta(SinceVersion.V1_6_0)
+        @Beta(since = "V1_6_0")
         interface WithServiceEndpoint<ParentT> {
             /**
              * Specifies a service endpoint to enable access from.
              * @param service the service type
              * @return the next stage of the definition
              */
-            @Beta(SinceVersion.V1_6_0)
+            @Beta(since = "V1_6_0")
             WithAttach<ParentT> withAccessFromService(ServiceEndpointType service);
         }
 
@@ -268,14 +267,14 @@ public interface Subnet extends
          * The stage of a subnet definition allowing to enable or disable access from a service endpoint
          * to the subnet.
          */
-        @Beta(SinceVersion.V1_6_0)
+        @Beta(since = "V1_6_0")
         interface WithServiceEndpoint {
             /**
              * Specifies a service endpoint to enable access from.
              * @param service the service type
              * @return the next stage of the definition
              */
-            @Beta(SinceVersion.V1_6_0)
+            @Beta(since = "V1_6_0")
             Update withAccessFromService(ServiceEndpointType service);
 
             /**
@@ -283,7 +282,7 @@ public interface Subnet extends
              * @param service the service type
              * @return the next stage of the definition
              */
-            @Beta(SinceVersion.V1_6_0)
+            @Beta(since = "V1_6_0")
             Update withoutAccessFromService(ServiceEndpointType service);
         }
 
@@ -368,14 +367,14 @@ public interface Subnet extends
          * The stage of a subnet definition allowing to enable access from a service endpoint to the subnet.
          * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
-        @Beta(SinceVersion.V1_6_0)
+        @Beta(since = "V1_6_0")
         interface WithServiceEndpoint<ParentT> {
             /**
              * Specifies a service endpoint to enable access from.
              * @param service the service type
              * @return the next stage of the definition
              */
-            @Beta(SinceVersion.V1_6_0)
+            @Beta(since = "V1_6_0")
             WithAttach<ParentT> withAccessFromService(ServiceEndpointType service);
         }
 

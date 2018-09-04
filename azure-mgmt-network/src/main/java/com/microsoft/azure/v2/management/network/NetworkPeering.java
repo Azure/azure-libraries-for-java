@@ -5,10 +5,8 @@
  */
 package com.microsoft.azure.v2.management.network;
 
-import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.Method;
-import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
 import com.microsoft.azure.v2.management.network.implementation.NetworkManager;
 import com.microsoft.azure.v2.management.network.implementation.VirtualNetworkPeeringInner;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.IndependentChild;
@@ -18,6 +16,7 @@ import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Refreshable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Updatable;
 
+import com.microsoft.rest.v2.annotations.Beta;
 import rx.Observable;
 
 import java.util.List;
@@ -26,7 +25,7 @@ import java.util.List;
  * An client-side representation of a network peering.
  */
 @Fluent()
-@Beta(SinceVersion.V1_3_0)
+@Beta(since = "V1_3_0")
 public interface NetworkPeering extends
     IndependentChild<NetworkManager>,
     HasInner<VirtualNetworkPeeringInner>,
@@ -41,7 +40,7 @@ public interface NetworkPeering extends
     /**
      * @return the reference of the remote virtual network address space
      */
-    @Beta(SinceVersion.V1_10_0)
+    @Beta(since = "V1_10_0")
     List<String> remoteAddressSpaces();
 
     /**

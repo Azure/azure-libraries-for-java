@@ -9,8 +9,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.v2.management.network.model.HasPort;
@@ -19,6 +17,7 @@ import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.ChildRe
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Attachable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Settable;
+import com.microsoft.rest.v2.annotations.Beta;
 
 /**
  * A client-side representation of an application gateway's backend HTTP configuration.
@@ -32,7 +31,7 @@ public interface ApplicationGatewayBackendHttpConfiguration extends
     /**
      * @return authentication certificates associated with this backend HTTPS configuration
      */
-    @Beta(SinceVersion.V1_4_0)
+    @Beta(since = "V1_4_0")
     Map<String, ApplicationGatewayAuthenticationCertificate> authenticationCertificates();
 
     /**
@@ -53,37 +52,37 @@ public interface ApplicationGatewayBackendHttpConfiguration extends
     /**
      * @return host header to be sent to the backend servers
      */
-    @Beta(SinceVersion.V1_4_0)
+    @Beta(since = "V1_4_0")
     String hostHeader();
 
     /**
      * @return whether the host header should come from the host name of the backend server
      */
-    @Beta(SinceVersion.V1_4_0)
+    @Beta(since = "V1_4_0")
     boolean isHostHeaderFromBackend();
 
     /**
      * @return true if the probe is enabled
      */
-    @Beta(SinceVersion.V1_4_0)
+    @Beta(since = "V1_4_0")
     boolean isProbeEnabled();
 
     /**
      * @return if 0 then connection draining is not enabled, otherwise if between 1 and 3600, then the number of seconds when connection draining is active
      */
-    @Beta(SinceVersion.V1_4_0)
+    @Beta(since = "V1_4_0")
     int connectionDrainingTimeoutInSeconds();
 
     /**
      * @return name used for the affinity cookie
      */
-    @Beta(SinceVersion.V1_4_0)
+    @Beta(since = "V1_4_0")
     String affinityCookieName();
 
     /**
      * @return the path, if any, used as a prefix for all HTTP requests
      */
-    @Beta(SinceVersion.V1_4_0)
+    @Beta(since = "V1_4_0")
     String path();
 
     /**
@@ -123,7 +122,7 @@ public interface ApplicationGatewayBackendHttpConfiguration extends
              * @return the next stage of the definition
              */
             @Method
-            @Beta(SinceVersion.V1_4_0)
+            @Beta(since = "V1_4_0")
             WithAttachAndAuthCert<ReturnT> withHttps();
         }
 
@@ -150,7 +149,7 @@ public interface ApplicationGatewayBackendHttpConfiguration extends
              * @param name a name
              * @return the next stage of the definition
              */
-            @Beta(SinceVersion.V1_4_0)
+            @Beta(since = "V1_4_0")
             WithAttach<ReturnT> withAffinityCookieName(String name);
         }
 
@@ -164,7 +163,7 @@ public interface ApplicationGatewayBackendHttpConfiguration extends
              * @param path a path
              * @return the next stage of the definition
              */
-            @Beta(SinceVersion.V1_4_0)
+            @Beta(since = "V1_4_0")
             WithAttach<ReturnT> withPath(String path);
         }
 
@@ -206,7 +205,7 @@ public interface ApplicationGatewayBackendHttpConfiguration extends
              * Specifies that the host header should come from the host name of the backend server.
              * @return the next stage of the definition
              */
-            @Beta(SinceVersion.V1_4_0)
+            @Beta(since = "V1_4_0")
             WithAttach<ReturnT> withHostHeaderFromBackend();
 
             /**
@@ -214,7 +213,7 @@ public interface ApplicationGatewayBackendHttpConfiguration extends
              * @param hostHeader the host header
              * @return the next stage of the definition
              */
-            @Beta(SinceVersion.V1_4_0)
+            @Beta(since = "V1_4_0")
             WithAttach<ReturnT> withHostHeader(String hostHeader);
         }
 
@@ -228,7 +227,7 @@ public interface ApplicationGatewayBackendHttpConfiguration extends
              * @param seconds a number of seconds between 1 and 3600
              * @return the next stage of the definition
              */
-            @Beta(SinceVersion.V1_4_0)
+            @Beta(since = "V1_4_0")
             WithAttach<ReturnT> withConnectionDrainingTimeoutInSeconds(int seconds);
         }
 
@@ -244,7 +243,7 @@ public interface ApplicationGatewayBackendHttpConfiguration extends
              * @param name the name of an existing authentication certificate
              * @return the next stage of the definition
              */
-            @Beta(SinceVersion.V1_4_0)
+            @Beta(since = "V1_4_0")
             WithAttachAndAuthCert<ReturnT> withAuthenticationCertificate(String name);
 
             /**
@@ -254,7 +253,7 @@ public interface ApplicationGatewayBackendHttpConfiguration extends
              * @param derData the DER-encoded data of an X.509 certificate
              * @return the next stage of the definition
              */
-            @Beta(SinceVersion.V1_4_0)
+            @Beta(since = "V1_4_0")
             WithAttachAndAuthCert<ReturnT> withAuthenticationCertificateFromBytes(byte[] derData);
 
             /**
@@ -265,7 +264,7 @@ public interface ApplicationGatewayBackendHttpConfiguration extends
              * @return the next stage of the definition
              * @throws IOException when there are issues reading from the specified file
              */
-            @Beta(SinceVersion.V1_4_0)
+            @Beta(since = "V1_4_0")
             WithAttachAndAuthCert<ReturnT> withAuthenticationCertificateFromFile(File certificateFile) throws IOException;
 
             /**
@@ -275,7 +274,7 @@ public interface ApplicationGatewayBackendHttpConfiguration extends
              * @param base64Data the base-64 encoded data of an X.509 certificate
              * @return the next stage of the definition
              */
-            @Beta(SinceVersion.V1_4_0)
+            @Beta(since = "V1_4_0")
             WithAttachAndAuthCert<ReturnT> withAuthenticationCertificateFromBase64(String base64Data);
         }
 
@@ -363,7 +362,7 @@ public interface ApplicationGatewayBackendHttpConfiguration extends
              * @return the next stage of the update
              */
             @Method
-            @Beta(SinceVersion.V1_4_0)
+            @Beta(since = "V1_4_0")
             Update withHttps();
 
             /**
@@ -371,7 +370,7 @@ public interface ApplicationGatewayBackendHttpConfiguration extends
              * @return the next stage of the update
              */
             @Method
-            @Beta(SinceVersion.V1_4_0)
+            @Beta(since = "V1_4_0")
             Update withHttp();
         }
 
@@ -417,14 +416,14 @@ public interface ApplicationGatewayBackendHttpConfiguration extends
              * Specifies that the host header should come from the host name of the backend server.
              * @return the next stage of the update
              */
-            @Beta(SinceVersion.V1_4_0)
+            @Beta(since = "V1_4_0")
             Update withHostHeaderFromBackend();
 
             /**
              * Specifies that no host header should be used.
              * @return the next stage of the update
              */
-            @Beta(SinceVersion.V1_4_0)
+            @Beta(since = "V1_4_0")
             Update withoutHostHeader();
 
             /**
@@ -432,7 +431,7 @@ public interface ApplicationGatewayBackendHttpConfiguration extends
              * @param hostHeader the host header
              * @return the next stage of the definition
              */
-            @Beta(SinceVersion.V1_4_0)
+            @Beta(since = "V1_4_0")
             Update withHostHeader(String hostHeader);
         }
 
@@ -445,14 +444,14 @@ public interface ApplicationGatewayBackendHttpConfiguration extends
              * @param seconds a number of seconds between 1 and 3600
              * @return the next stage of the update
              */
-            @Beta(SinceVersion.V1_4_0)
+            @Beta(since = "V1_4_0")
             Update withConnectionDrainingTimeoutInSeconds(int seconds);
 
             /**
              * Disables connection draining.
              * @return the next stage of the update
              */
-            @Beta(SinceVersion.V1_4_0)
+            @Beta(since = "V1_4_0")
             Update withoutConnectionDraining();
         }
 
@@ -465,7 +464,7 @@ public interface ApplicationGatewayBackendHttpConfiguration extends
              * @param name a name
              * @return the next stage of the update
              */
-            @Beta(SinceVersion.V1_4_0)
+            @Beta(since = "V1_4_0")
             Update withAffinityCookieName(String name);
         }
 
@@ -478,7 +477,7 @@ public interface ApplicationGatewayBackendHttpConfiguration extends
              * @param path a path
              * @return the next stage of the update
              */
-            @Beta(SinceVersion.V1_4_0)
+            @Beta(since = "V1_4_0")
             Update withPath(String path);
         }
 
@@ -493,7 +492,7 @@ public interface ApplicationGatewayBackendHttpConfiguration extends
              * @param name the name of an existing authentication certificate
              * @return the next stage of the update
              */
-            @Beta(SinceVersion.V1_4_0)
+            @Beta(since = "V1_4_0")
             Update withAuthenticationCertificate(String name);
 
             /**
@@ -503,7 +502,7 @@ public interface ApplicationGatewayBackendHttpConfiguration extends
              * @param derData the DER-encoded data of an X.509 certificate
              * @return the next stage of the update
              */
-            @Beta(SinceVersion.V1_4_0)
+            @Beta(since = "V1_4_0")
             Update withAuthenticationCertificateFromBytes(byte[] derData);
 
             /**
@@ -512,7 +511,7 @@ public interface ApplicationGatewayBackendHttpConfiguration extends
              * @return the next stage of the update
              * @throws IOException when there are issues reading the specified file
              */
-            @Beta(SinceVersion.V1_4_0)
+            @Beta(since = "V1_4_0")
             Update withAuthenticationCertificateFromFile(File certificateFile) throws IOException;
 
             /**
@@ -522,7 +521,7 @@ public interface ApplicationGatewayBackendHttpConfiguration extends
              * @param base64Data the base-64 encoded data of an X.509 certificate
              * @return the next stage of the update
              */
-            @Beta(SinceVersion.V1_4_0)
+            @Beta(since = "V1_4_0")
             Update withAuthenticationCertificateFromBase64(String base64Data);
 
             /**
@@ -532,14 +531,14 @@ public interface ApplicationGatewayBackendHttpConfiguration extends
              * @param name the name of an existing authentication certificate associated with this HTTP backend configuration
              * @return the next stage of the update
              */
-            @Beta(SinceVersion.V1_4_0)
+            @Beta(since = "V1_4_0")
             Update withoutAuthenticationCertificate(String name);
 
             /**
              * Removes all references to any authentication certificates.
              * @return the next stage of the update
              */
-            @Beta(SinceVersion.V1_4_0)
+            @Beta(since = "V1_4_0")
             @Method
             Update withoutAuthenticationCertificates();
         }
@@ -612,7 +611,7 @@ public interface ApplicationGatewayBackendHttpConfiguration extends
              * @param name the name of an existing authentication certificate
              * @return the next stage of the definition
              */
-            @Beta(SinceVersion.V1_4_0)
+            @Beta(since = "V1_4_0")
             WithAttachAndAuthCert<ReturnT> withAuthenticationCertificate(String name);
 
             /**
@@ -622,7 +621,7 @@ public interface ApplicationGatewayBackendHttpConfiguration extends
              * @param derData the DER encoded data of an X.509 certificate
              * @return the next stage of the definition
              */
-            @Beta(SinceVersion.V1_4_0)
+            @Beta(since = "V1_4_0")
             WithAttachAndAuthCert<ReturnT> withAuthenticationCertificateFromBytes(byte[] derData);
 
             /**
@@ -633,7 +632,7 @@ public interface ApplicationGatewayBackendHttpConfiguration extends
              * @return the next stage of the definition
              * @throws IOException when there are issues reading from the specified file
              */
-            @Beta(SinceVersion.V1_4_0)
+            @Beta(since = "V1_4_0")
             WithAttachAndAuthCert<ReturnT> withAuthenticationCertificateFromFile(File certificateFile) throws IOException;
 
             /**
@@ -643,7 +642,7 @@ public interface ApplicationGatewayBackendHttpConfiguration extends
              * @param base64Data the base-64 encoded data of an X.509 certificate
              * @return the next stage of the definition
              */
-            @Beta(SinceVersion.V1_4_0)
+            @Beta(since = "V1_4_0")
             WithAttachAndAuthCert<ReturnT> withAuthenticationCertificateFromBase64(String base64Data);
         }
 
@@ -686,7 +685,7 @@ public interface ApplicationGatewayBackendHttpConfiguration extends
              * @return the next stage of the definition
              */
             @Method
-            @Beta(SinceVersion.V1_4_0)
+            @Beta(since = "V1_4_0")
             WithAttachAndAuthCert<ReturnT> withHttps();
         }
 
@@ -720,7 +719,7 @@ public interface ApplicationGatewayBackendHttpConfiguration extends
              * @param name a name
              * @return the next stage of the definition
              */
-            @Beta(SinceVersion.V1_4_0)
+            @Beta(since = "V1_4_0")
             WithAttach<ReturnT> withAffinityCookieName(String name);
         }
 
@@ -734,7 +733,7 @@ public interface ApplicationGatewayBackendHttpConfiguration extends
              * @param path a path
              * @return the next stage of the definition
              */
-            @Beta(SinceVersion.V1_4_0)
+            @Beta(since = "V1_4_0")
             WithAttach<ReturnT> withPath(String path);
         }
 
@@ -764,14 +763,14 @@ public interface ApplicationGatewayBackendHttpConfiguration extends
              * @param hostHeader the host header
              * @return the next stage of the definition
              */
-            @Beta(SinceVersion.V1_4_0)
+            @Beta(since = "V1_4_0")
             WithAttach<ReturnT> withHostHeader(String hostHeader);
 
             /**
              * Specifies that the host header should come from the host name of the backend server.
              * @return the next stage of the definition
              */
-            @Beta(SinceVersion.V1_4_0)
+            @Beta(since = "V1_4_0")
             WithAttach<ReturnT> withHostHeaderFromBackend();
         }
 
@@ -785,7 +784,7 @@ public interface ApplicationGatewayBackendHttpConfiguration extends
              * @param seconds a number of seconds between 1 and 3600
              * @return the next stage of the definition
              */
-            @Beta(SinceVersion.V1_4_0)
+            @Beta(since = "V1_4_0")
             WithAttach<ReturnT> withConnectionDrainingTimeoutInSeconds(int seconds);
         }
     }

@@ -5,7 +5,6 @@
  */
 package com.microsoft.azure.v2.management.network;
 
-import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.v2.management.network.implementation.ExpressRouteCircuitsInner;
 import com.microsoft.azure.v2.management.network.implementation.NetworkManager;
@@ -19,12 +18,13 @@ import com.microsoft.azure.v2.management.resources.fluentcore.collection.Support
 import com.microsoft.azure.v2.management.resources.fluentcore.collection.SupportsDeletingById;
 import com.microsoft.azure.v2.management.resources.fluentcore.collection.SupportsListing;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
+import com.microsoft.rest.v2.annotations.Beta;
 
 /**
  * Entry point to express route circuits management API in Azure.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_4_0)
+@Beta(since = "V1_4_0")
 public interface ExpressRouteCircuits extends
         SupportsCreating<ExpressRouteCircuit.DefinitionStages.Blank>,
         SupportsListing<ExpressRouteCircuit>,

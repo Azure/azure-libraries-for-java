@@ -5,7 +5,6 @@
  */
 package com.microsoft.azure.v2.management.network;
 
-import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.v2.management.network.implementation.ExpressRouteCrossConnectionPeeringInner;
@@ -16,12 +15,13 @@ import com.microsoft.azure.v2.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Refreshable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Updatable;
+import com.microsoft.rest.v2.annotations.Beta;
 
 /**
  * Client-side representation of express route cross connection peering object, associated with express route cross connection.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_11_0)
+@Beta(since = "V1_11_0")
 public interface ExpressRouteCrossConnectionPeering extends
         IndependentChild<NetworkManager>,
         HasInner<ExpressRouteCrossConnectionPeeringInner>,

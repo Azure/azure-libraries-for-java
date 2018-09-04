@@ -5,7 +5,6 @@
  */
 package com.microsoft.azure.v2.management.network;
 
-import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.v2.management.network.implementation.ExpressRouteCrossConnectionsInner;
 import com.microsoft.azure.v2.management.network.implementation.NetworkManager;
@@ -15,12 +14,13 @@ import com.microsoft.azure.v2.management.resources.fluentcore.arm.collection.Sup
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.HasManager;
 import com.microsoft.azure.v2.management.resources.fluentcore.collection.SupportsListing;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
+import com.microsoft.rest.v2.annotations.Beta;
 
 /**
  * Entry point to express route crosss connections management API in Azure.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_11_0)
+@Beta(since = "V1_11_0")
 public interface ExpressRouteCrossConnections extends
         SupportsListing<ExpressRouteCrossConnection>,
         SupportsListingByResourceGroup<ExpressRouteCrossConnection>,

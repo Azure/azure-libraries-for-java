@@ -5,13 +5,13 @@
  */
 package com.microsoft.azure.v2.management.network;
 
-import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.v2.management.network.model.HasPrivateIPAddress;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.AvailabilityZoneId;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.HasSubnet;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Attachable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Settable;
+import com.microsoft.rest.v2.annotations.Beta;
 
 import java.util.Set;
 
@@ -34,7 +34,7 @@ public interface LoadBalancerPrivateFrontend extends
     /**
      * @return the availability zones assigned to private frontend.
      */
-    @Beta(Beta.SinceVersion.V1_3_0)
+    @Beta(since = "V1_3_0")
     Set<AvailabilityZoneId> availabilityZones();
 
     /**
@@ -66,7 +66,7 @@ public interface LoadBalancerPrivateFrontend extends
          * The stage of a private frontend definition allowing to specify availability zone.
          * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
-        @Beta(Beta.SinceVersion.V1_3_0)
+        @Beta(since = "V1_3_0")
         interface WithAvailabilityZone<ParentT> {
             /**
              * Specifies the availability zone for the private frontend.
@@ -74,7 +74,7 @@ public interface LoadBalancerPrivateFrontend extends
              * @param zoneId the zone identifier.
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_3_0)
+            @Beta(since = "V1_3_0")
             WithAttach<ParentT> withAvailabilityZone(AvailabilityZoneId zoneId);
         }
 
@@ -157,7 +157,7 @@ public interface LoadBalancerPrivateFrontend extends
          * The stage of a private frontend definition allowing to specify availability zone.
          * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
-        @Beta(Beta.SinceVersion.V1_3_0)
+        @Beta(since = "V1_3_0")
         interface WithAvailabilityZone<ParentT> {
             /**
              * Specifies the availability zone for the private frontend.
@@ -165,7 +165,7 @@ public interface LoadBalancerPrivateFrontend extends
              * @param zoneId the zone identifier.
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_3_0)
+            @Beta(since = "V1_3_0")
             WithAttach<ParentT> withAvailabilityZone(AvailabilityZoneId zoneId);
         }
 

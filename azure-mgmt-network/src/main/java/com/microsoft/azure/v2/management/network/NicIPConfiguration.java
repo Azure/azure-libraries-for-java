@@ -6,8 +6,6 @@
 
 package com.microsoft.azure.v2.management.network;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.v2.management.network.implementation.NetworkInterfaceIPConfigurationInner;
 import com.microsoft.azure.v2.management.network.model.HasPrivateIPAddress;
@@ -17,6 +15,7 @@ import com.microsoft.azure.v2.management.resources.fluentcore.model.Attachable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Settable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
+import com.microsoft.rest.v2.annotations.Beta;
 
 /**
  * An IP configuration in a network interface.
@@ -178,7 +177,7 @@ public interface NicIPConfiguration extends
              * @param backendName the name of an existing backend on the application gateway
              * @return the next stage of the definition
              */
-            @Beta(SinceVersion.V1_4_0)
+            @Beta(since = "V1_4_0")
             WithAttach<ParentT> withExistingApplicationGatewayBackend(ApplicationGateway appGateway, String backendName);
         }
 
@@ -348,7 +347,7 @@ public interface NicIPConfiguration extends
              * @param backendName the name of an existing backend on the application gateway
              * @return the next stage of the definition
              */
-            @Beta(SinceVersion.V1_4_0)
+            @Beta(since = "V1_4_0")
             WithAttach<ParentT> withExistingApplicationGatewayBackend(ApplicationGateway appGateway, String backendName);
         }
 
@@ -461,14 +460,14 @@ public interface NicIPConfiguration extends
              * @param backendName the name of an existing backend on the application gateway
              * @return the next stage of the update
              */
-            @Beta(SinceVersion.V1_4_0)
+            @Beta(since = "V1_4_0")
             Update withExistingApplicationGatewayBackend(ApplicationGateway appGateway, String backendName);
 
             /**
              * Removes all existing associations with application gateway backends.
              * @return the next stage of the update
              */
-            @Beta(SinceVersion.V1_4_0)
+            @Beta(since = "V1_4_0")
             Update withoutApplicationGatewayBackends();
         }
     }

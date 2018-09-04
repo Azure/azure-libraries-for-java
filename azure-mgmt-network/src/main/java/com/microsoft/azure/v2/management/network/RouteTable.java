@@ -5,7 +5,6 @@
  */
 package com.microsoft.azure.v2.management.network;
 
-import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.v2.management.network.implementation.NetworkManager;
 import com.microsoft.azure.v2.management.network.implementation.RouteTableInner;
@@ -17,6 +16,7 @@ import com.microsoft.azure.v2.management.resources.fluentcore.model.Appliable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Refreshable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Updatable;
+import com.microsoft.rest.v2.annotations.Beta;
 
 import java.util.Map;
 
@@ -40,7 +40,7 @@ public interface RouteTable extends
      * @return whether to disable the routes learned by BGP on that route
      * table. True means disable.
      */
-    @Beta(Beta.SinceVersion.V1_10_0)
+    @Beta(since = "V1_10_0")
     boolean isBgpRoutePropagationDisabled();
 
     /**
@@ -105,7 +105,7 @@ public interface RouteTable extends
         /**
          * The stage of the route table definition allowing to specify whether to disable the routes learned by BGP on that route table.
          */
-        @Beta(Beta.SinceVersion.V1_10_0)
+        @Beta(since = "V1_10_0")
         interface WithBgpRoutePropagation {
             /**
              * Disable the routes learned by BGP on that route table.
@@ -180,7 +180,7 @@ public interface RouteTable extends
         /**
          * The stage of the route table update allowing to specify whether to disable the routes learned by BGP on that route table.
          */
-        @Beta(Beta.SinceVersion.V1_10_0)
+        @Beta(since = "V1_10_0")
         interface WithBgpRoutePropagation {
             /**
              * Disable the routes learned by BGP on that route table.

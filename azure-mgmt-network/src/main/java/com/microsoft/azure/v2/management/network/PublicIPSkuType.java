@@ -6,8 +6,8 @@
 
 package com.microsoft.azure.v2.management.network;
 
-import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
+import com.microsoft.rest.v2.annotations.Beta;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -17,7 +17,7 @@ import java.util.Map;
  * Defines values for PublicIPSkuType.
  */
 @LangDefinition
-@Beta(Beta.SinceVersion.V1_3_0)
+@Beta(since = "V1_3_0")
 public final class PublicIPSkuType {
     // This needs to be at the beginning for the initialization to happen correctly
     private static final Map<String, PublicIPSkuType> VALUES_BY_NAME = new HashMap<>();

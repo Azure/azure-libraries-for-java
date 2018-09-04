@@ -7,19 +7,18 @@ package com.microsoft.azure.v2.management.network;
 
 import java.util.Map;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.v2.management.network.implementation.ApplicationGatewayBackendHealthPoolInner;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.HasName;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.HasParent;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
+import com.microsoft.rest.v2.annotations.Beta;
 
 /**
  * A client-side representation of the health information of an application gateway backend.
  */
 @Fluent
-@Beta(SinceVersion.V1_4_0)
+@Beta(since = "V1_4_0")
 public interface ApplicationGatewayBackendHealth extends
     HasInner<ApplicationGatewayBackendHealthPoolInner>,
     HasName,

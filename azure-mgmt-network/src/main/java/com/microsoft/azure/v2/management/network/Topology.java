@@ -5,13 +5,12 @@
  */
 package com.microsoft.azure.v2.management.network;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.v2.management.network.implementation.TopologyInner;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.HasParent;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Executable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
+import com.microsoft.rest.v2.annotations.Beta;
 import org.joda.time.DateTime;
 
 import java.util.Map;
@@ -20,7 +19,7 @@ import java.util.Map;
  * An immutable client-side representation of an Azure Topology info object, associated with network watcher.
  */
 @Fluent
-@Beta(SinceVersion.V1_2_0)
+@Beta(since = "V1_2_0")
 public interface Topology extends Executable<Topology>,
         HasInner<TopologyInner>,
         HasParent<NetworkWatcher> {

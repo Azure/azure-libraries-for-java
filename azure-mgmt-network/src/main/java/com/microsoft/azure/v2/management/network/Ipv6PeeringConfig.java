@@ -7,19 +7,19 @@ package com.microsoft.azure.v2.management.network;
 
 import java.util.List;
 
-import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.v2.management.network.implementation.Ipv6ExpressRouteCircuitPeeringConfigInner;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Attachable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Settable;
+import com.microsoft.rest.v2.annotations.Beta;
 
 /**
  * An client-side representation of a load balancer frontend.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_11_0)
+@Beta(since = "V1_11_0")
 public interface Ipv6PeeringConfig extends
         HasInner<Ipv6ExpressRouteCircuitPeeringConfigInner> {
 

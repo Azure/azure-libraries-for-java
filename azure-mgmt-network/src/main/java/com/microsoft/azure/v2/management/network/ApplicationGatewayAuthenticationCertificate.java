@@ -8,20 +8,19 @@ package com.microsoft.azure.v2.management.network;
 import java.io.File;
 import java.io.IOException;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.v2.management.network.implementation.ApplicationGatewayAuthenticationCertificateInner;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.ChildResource;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Attachable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Settable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
+import com.microsoft.rest.v2.annotations.Beta;
 
 /**
  * A client-side representation of an application gateway authentication certificate.
  */
 @Fluent()
-@Beta(SinceVersion.V1_4_0)
+@Beta(since = "V1_4_0")
 public interface ApplicationGatewayAuthenticationCertificate extends
         HasInner<ApplicationGatewayAuthenticationCertificateInner>,
         ChildResource<ApplicationGateway> {

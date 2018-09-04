@@ -6,8 +6,6 @@
 
 package com.microsoft.azure.v2.management.network;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.v2.management.network.implementation.NetworkManager;
 import com.microsoft.azure.v2.management.network.implementation.VirtualNetworkPeeringsInner;
@@ -20,13 +18,14 @@ import com.microsoft.azure.v2.management.resources.fluentcore.collection.Support
 import com.microsoft.azure.v2.management.resources.fluentcore.collection.SupportsListing;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
 
+import com.microsoft.rest.v2.annotations.Beta;
 import rx.Observable;
 
 /**
  *  Entry point to network peering management API.
  */
 @Fluent
-@Beta(SinceVersion.V1_3_0)
+@Beta(since = "V1_3_0")
 public interface NetworkPeerings extends
         SupportsCreating<NetworkPeering.DefinitionStages.Blank>,
         SupportsDeletingById,

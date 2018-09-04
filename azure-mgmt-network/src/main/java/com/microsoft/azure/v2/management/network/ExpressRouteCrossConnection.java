@@ -5,7 +5,6 @@
  */
 package com.microsoft.azure.v2.management.network;
 
-import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.v2.management.network.implementation.ExpressRouteCrossConnectionInner;
 import com.microsoft.azure.v2.management.network.implementation.NetworkManager;
@@ -15,6 +14,7 @@ import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.Resourc
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Appliable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Refreshable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Updatable;
+import com.microsoft.rest.v2.annotations.Beta;
 
 import java.util.Map;
 
@@ -22,7 +22,7 @@ import java.util.Map;
  * Entry point for Express Route Cross Connection management API in Azure.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_11_0)
+@Beta(since = "V1_11_0")
 public interface ExpressRouteCrossConnection extends
         GroupableResource<NetworkManager, ExpressRouteCrossConnectionInner>,
         Refreshable<ExpressRouteCrossConnection>,

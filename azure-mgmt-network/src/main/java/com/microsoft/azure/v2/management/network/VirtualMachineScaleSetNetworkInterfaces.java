@@ -5,7 +5,7 @@
  */
 package com.microsoft.azure.v2.management.network;
 
-import com.microsoft.azure.PagedList;
+import com.microsoft.azure.v2.PagedList;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.v2.management.network.implementation.NetworkInterfacesInner;
 import com.microsoft.azure.v2.management.network.implementation.NetworkManager;

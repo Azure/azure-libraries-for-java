@@ -8,9 +8,7 @@ package com.microsoft.azure.v2.management.network;
 import java.util.List;
 import java.util.Map;
 
-import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
 import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.v2.management.network.implementation.NetworkManager;
 import com.microsoft.azure.v2.management.network.implementation.VirtualNetworkInner;
@@ -21,6 +19,7 @@ import com.microsoft.azure.v2.management.resources.fluentcore.model.Appliable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Refreshable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Updatable;
+import com.microsoft.rest.v2.annotations.Beta;
 
 /**
  * Entry point for Virtual Network management API in Azure.
@@ -37,7 +36,7 @@ public interface Network extends
      * @param ipAddress an IP address from this network's address space
      * @return true if the address is within this network's address space and is available
      */
-    @Beta(SinceVersion.V1_3_0)
+    @Beta(since = "V1_3_0")
     boolean isPrivateIPAddressAvailable(String ipAddress);
 
     /**
@@ -45,7 +44,7 @@ public interface Network extends
      * @param ipAddress an IP address
      * @return true if the specified IP address is within this network's address space, otherwise false
      */
-    @Beta(SinceVersion.V1_3_0)
+    @Beta(since = "V1_3_0")
     boolean isPrivateIPAddressInNetwork(String ipAddress);
 
     /**
@@ -69,7 +68,7 @@ public interface Network extends
     /**
      * @return entry point to managing virtual network peerings for this network
      */
-    @Beta(SinceVersion.V1_3_0)
+    @Beta(since = "V1_3_0")
     NetworkPeerings peerings();
 
     /**
@@ -317,7 +316,7 @@ public interface Network extends
              * @param cidr the address space to remove, in CIDR format, matching exactly one of the CIDRs associated with this network
              * @return the next stage of the update
              */
-            @Beta(SinceVersion.V1_4_0)
+            @Beta(since = "V1_4_0")
             Update withoutAddressSpace(String cidr);
         }
 

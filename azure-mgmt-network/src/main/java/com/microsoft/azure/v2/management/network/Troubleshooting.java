@@ -5,10 +5,10 @@
  */
 package com.microsoft.azure.v2.management.network;
 
-import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.HasParent;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Executable;
+import com.microsoft.rest.v2.annotations.Beta;
 import org.joda.time.DateTime;
 
 import java.util.List;
@@ -17,7 +17,7 @@ import java.util.List;
  * A client-side representation allowing user to get troubleshooting information for virtual network gateway or virtual network gateway connection.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_4_0)
+@Beta(since = "V1_4_0")
 public interface Troubleshooting extends Executable<Troubleshooting>,
         HasParent<NetworkWatcher> {
     /**

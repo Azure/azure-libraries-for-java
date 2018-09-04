@@ -5,7 +5,6 @@
  */
 package com.microsoft.azure.v2.management.network;
 
-import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.v2.management.network.implementation.ConnectionMonitorResultInner;
@@ -15,6 +14,7 @@ import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.HasName
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Indexable;
+import com.microsoft.rest.v2.annotations.Beta;
 import org.joda.time.DateTime;
 import rx.Completable;
 import rx.Observable;
@@ -25,7 +25,7 @@ import java.util.Map;
  * Client-side representation of Connection Monitor object, associated with Network Watcher.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_10_0)
+@Beta(since = "V1_10_0")
 public interface ConnectionMonitor extends
         HasInner<ConnectionMonitorResultInner>,
         HasName,

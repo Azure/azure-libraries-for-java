@@ -7,8 +7,6 @@ package com.microsoft.azure.v2.management.network;
 
 import java.util.Collection;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.v2.management.network.implementation.ApplicationGatewayRequestRoutingRuleInner;
@@ -23,6 +21,7 @@ import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.ChildRe
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Attachable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Settable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
+import com.microsoft.rest.v2.annotations.Beta;
 
 /**
  * A client-side representation of an application gateway request routing rule.
@@ -42,7 +41,7 @@ public interface ApplicationGatewayRequestRoutingRule extends
     /**
      * @return the redirect configuration associated with this request routing rule, if any
      */
-    @Beta(SinceVersion.V1_4_0)
+    @Beta(since = "V1_4_0")
     ApplicationGatewayRedirectConfiguration redirectConfiguration();
 
     /**
@@ -251,7 +250,7 @@ public interface ApplicationGatewayRequestRoutingRule extends
              * @param ipAddresses IP addresses to add
              * @return the next stage of the definition
              */
-            @Beta(SinceVersion.V1_4_0)
+            @Beta(since = "V1_4_0")
             WithBackendAddressOrAttach<ParentT> toBackendIPAddresses(String...ipAddresses);
 
             /**
@@ -353,12 +352,12 @@ public interface ApplicationGatewayRequestRoutingRule extends
              * @param name the name of a redirect configuration on this application gateway
              * @return the next stage of the definition
              */
-            @Beta(SinceVersion.V1_4_0)
+            @Beta(since = "V1_4_0")
             WithAttach<ParentT> withRedirectConfiguration(String name);
         }
 
         interface WithUrlPathMap<ParentT> {
-            @Beta(SinceVersion.V1_11_0)
+            @Beta(since = "V1_11_0")
             WithAttach<ParentT> withUrlPathMap(String urlPathMapName);
         }
     }
@@ -403,14 +402,14 @@ public interface ApplicationGatewayRequestRoutingRule extends
              * @param name the name of a redirect configuration on this application gateway
              * @return the next stage of the update
              */
-            @Beta(SinceVersion.V1_4_0)
+            @Beta(since = "V1_4_0")
             Update withRedirectConfiguration(String name);
 
             /**
              * Removes the association with a redirect configuration, if any.
              * @return the next stage of the update
              */
-            @Beta(SinceVersion.V1_4_0)
+            @Beta(since = "V1_4_0")
             Update withoutRedirectConfiguration();
         }
 
@@ -509,7 +508,7 @@ public interface ApplicationGatewayRequestRoutingRule extends
              * @param name the name of a redirect configuration on this application gateway
              * @return the next stage of the definition
              */
-            @Beta(SinceVersion.V1_4_0)
+            @Beta(since = "V1_4_0")
             WithAttach<ParentT> withRedirectConfiguration(String name);
         }
 
@@ -653,7 +652,7 @@ public interface ApplicationGatewayRequestRoutingRule extends
              * @param ipAddresses IP addresses to add
              * @return the next stage of the definition
              */
-            @Beta(SinceVersion.V1_4_0)
+            @Beta(since = "V1_4_0")
             WithBackendAddressOrAttach<ParentT> toBackendIPAddresses(String...ipAddresses);
 
             /**

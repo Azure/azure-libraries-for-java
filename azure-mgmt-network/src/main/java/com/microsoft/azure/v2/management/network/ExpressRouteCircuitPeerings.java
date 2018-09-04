@@ -5,7 +5,6 @@
  */
 package com.microsoft.azure.v2.management.network;
 
-import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.v2.management.network.implementation.ExpressRouteCircuitPeeringsInner;
@@ -17,12 +16,13 @@ import com.microsoft.azure.v2.management.resources.fluentcore.collection.Support
 import com.microsoft.azure.v2.management.resources.fluentcore.collection.SupportsDeletingByName;
 import com.microsoft.azure.v2.management.resources.fluentcore.collection.SupportsListing;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
+import com.microsoft.rest.v2.annotations.Beta;
 
 /**
  * Entry point for express route circuit peerings management API in Azure.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_4_0)
+@Beta(since = "V1_4_0")
 public interface ExpressRouteCircuitPeerings extends
         SupportsListing<ExpressRouteCircuitPeering>,
         SupportsGettingByName<ExpressRouteCircuitPeering>,

@@ -5,13 +5,13 @@
  */
 package com.microsoft.azure.v2.management.network;
 
-import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.v2.management.network.implementation.RouteFilterRuleInner;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.ChildResource;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Attachable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Settable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
+import com.microsoft.rest.v2.annotations.Beta;
 
 import java.util.List;
 
@@ -19,7 +19,7 @@ import java.util.List;
  * A route filter rule in a route filter group.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_10_0)
+@Beta(since = "V1_10_0")
 public interface RouteFilterRule extends
         HasInner<RouteFilterRuleInner>,
         ChildResource<RouteFilter> {

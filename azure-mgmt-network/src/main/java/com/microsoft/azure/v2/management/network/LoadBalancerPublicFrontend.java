@@ -5,11 +5,11 @@
  */
 package com.microsoft.azure.v2.management.network;
 
-import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.v2.management.network.model.HasPublicIPAddress;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Attachable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Settable;
+import com.microsoft.rest.v2.annotations.Beta;
 
 /**
  * A client-side representation of a public frontend of an Internet-facing load balancer.

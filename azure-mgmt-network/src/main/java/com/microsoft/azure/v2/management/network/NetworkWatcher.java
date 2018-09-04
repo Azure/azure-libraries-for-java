@@ -5,8 +5,6 @@
  */
 package com.microsoft.azure.v2.management.network;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.v2.management.network.implementation.NetworkManager;
@@ -18,13 +16,14 @@ import com.microsoft.azure.v2.management.resources.fluentcore.model.Appliable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Refreshable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Updatable;
+import com.microsoft.rest.v2.annotations.Beta;
 import rx.Observable;
 
 /**
  * Entry point for Network Watcher API in Azure.
  */
 @Fluent
-@Beta(SinceVersion.V1_2_0)
+@Beta(since = "V1_2_0")
 public interface NetworkWatcher extends
         GroupableResource<NetworkManager, NetworkWatcherInner>,
         Refreshable<NetworkWatcher>,
@@ -39,7 +38,7 @@ public interface NetworkWatcher extends
     /**
      * @return entry point to manage connection monitors associated with network watcher
      */
-    @Beta(SinceVersion.V1_10_0)
+    @Beta(since = "V1_10_0")
     @Method
     ConnectionMonitors connectionMonitors();
 
@@ -104,7 +103,7 @@ public interface NetworkWatcher extends
      * Initiate troubleshooting on a specified resource (virtual network gateway or virtual network gateway connection).
      * @return troubleshooting result information
      */
-    @Beta(SinceVersion.V1_4_0)
+    @Beta(since = "V1_4_0")
     @Method
     Troubleshooting.DefinitionStages.WithTargetResource troubleshoot();
 
@@ -112,7 +111,7 @@ public interface NetworkWatcher extends
      * Lists all available internet service providers for a specified Azure region.
      * @return a stage to specify parameters for internet providers list
      */
-    @Beta(SinceVersion.V1_10_0)
+    @Beta(since = "V1_10_0")
     @Method
     AvailableProviders.DefinitionStages.WithExecute availableProviders();
 
@@ -120,7 +119,7 @@ public interface NetworkWatcher extends
      * Gets the relative latency score for internet service providers from a specified location to Azure regions.
      * @return a stage to specify parameters for internet providers list
      */
-    @Beta(SinceVersion.V1_10_0)
+    @Beta(since = "V1_10_0")
     @Method
     AzureReachabilityReport.DefinitionStages.WithProviderLocation azureReachabilityReport();
 

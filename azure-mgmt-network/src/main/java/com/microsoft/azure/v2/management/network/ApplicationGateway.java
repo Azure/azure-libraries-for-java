@@ -9,8 +9,6 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.v2.management.network.implementation.ApplicationGatewayInner;
@@ -27,6 +25,7 @@ import com.microsoft.azure.v2.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Refreshable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Updatable;
 
+import com.microsoft.rest.v2.annotations.Beta;
 import rx.Completable;
 import rx.Observable;
 
@@ -54,7 +53,7 @@ public interface ApplicationGateway extends
      * @return backend healths indexed by backend name
      */
     @Method
-    @Beta(SinceVersion.V1_4_0)
+    @Beta(since = "V1_4_0")
     Map<String, ApplicationGatewayBackendHealth> checkBackendHealth();
 
     /**
@@ -62,7 +61,7 @@ public interface ApplicationGateway extends
      * @return a representation of the future computation of this call
      */
     @Method
-    @Beta(SinceVersion.V1_4_0)
+    @Beta(since = "V1_4_0")
     Observable<Map<String, ApplicationGatewayBackendHealth>> checkBackendHealthAsync();
 
     /**
@@ -90,7 +89,7 @@ public interface ApplicationGateway extends
     /**
      * @return disabled SSL protocols
      */
-    @Beta(SinceVersion.V1_1_0)
+    @Beta(since = "V1_1_0")
     Collection<ApplicationGatewaySslProtocol> disabledSslProtocols();
 
     /**
@@ -196,13 +195,13 @@ public interface ApplicationGateway extends
     /**
      * @return redirect configurations, indexed by name
      */
-    @Beta(SinceVersion.V1_4_0)
+    @Beta(since = "V1_4_0")
     Map<String, ApplicationGatewayRedirectConfiguration> redirectConfigurations();
 
     /**
      * @return URL path maps, indexed by name (case sensitive)
      */
-    @Beta(SinceVersion.V1_11_0)
+    @Beta(since = "V1_11_0")
     Map<String, ApplicationGatewayUrlPathMap> urlPathMaps();
 
     /**
@@ -213,13 +212,13 @@ public interface ApplicationGateway extends
     /**
      * @return authentication certificates
      */
-    @Beta(SinceVersion.V1_4_0)
+    @Beta(since = "V1_4_0")
     Map<String, ApplicationGatewayAuthenticationCertificate> authenticationCertificates();
 
     /**
      * @return whether HTTP2 enabled for the application gateway
      */
-    @Beta(SinceVersion.V1_14_0)
+    @Beta(since = "V1_14_0")
     boolean isHttp2Enabled();
 
     /**
@@ -230,7 +229,7 @@ public interface ApplicationGateway extends
      *
      * @return the availability zones assigned to the application gateway.
      */
-    @Beta(Beta.SinceVersion.V1_4_0)
+    @Beta(since = "V1_4_0")
     Set<AvailabilityZoneId> availabilityZones();
 
     /**
@@ -326,7 +325,7 @@ public interface ApplicationGateway extends
              * @param name a unique name for the redirect configuration
              * @return the first stage of the redirect configuration definition
              */
-            @Beta(SinceVersion.V1_4_0)
+            @Beta(since = "V1_4_0")
             ApplicationGatewayRedirectConfiguration.DefinitionStages.Blank<WithCreate> defineRedirectConfiguration(String name);
         }
 
@@ -383,7 +382,7 @@ public interface ApplicationGateway extends
              * @param name a unique name for the certificate
              * @return the first stage of the certificate definition
              */
-            @Beta(SinceVersion.V1_4_0)
+            @Beta(since = "V1_4_0")
             ApplicationGatewayAuthenticationCertificate.DefinitionStages.Blank<WithCreate> defineAuthenticationCertificate(String name);
         }
 
@@ -428,7 +427,7 @@ public interface ApplicationGateway extends
              * @param name a unique name for the URL path map
              * @return the first stage of the URL path map definition
              */
-            @Beta(SinceVersion.V1_11_0)
+            @Beta(since = "V1_11_0")
             ApplicationGatewayUrlPathMap.DefinitionStages.Blank<WithRequestRoutingRuleOrCreate> definePathBasedRoutingRule(String name);
         }
 
@@ -519,7 +518,7 @@ public interface ApplicationGateway extends
              * @param protocol an SSL protocol
              * @return the next stage of the definition
              */
-            @Beta(SinceVersion.V1_1_0)
+            @Beta(since = "V1_1_0")
             WithCreate withDisabledSslProtocol(ApplicationGatewaySslProtocol protocol);
 
             /**
@@ -527,14 +526,14 @@ public interface ApplicationGateway extends
              * @param protocols SSL protocols
              * @return the next stage of the definition
              */
-            @Beta(SinceVersion.V1_1_0)
+            @Beta(since = "V1_1_0")
             WithCreate withDisabledSslProtocols(ApplicationGatewaySslProtocol...protocols);
         }
 
         /**
          * The stage of the application gateway definition allowing to specify availability zone.
          */
-        @Beta(Beta.SinceVersion.V1_4_0)
+        @Beta(since = "V1_4_0")
         interface WithAvailabilityZone {
             /**
              * Specifies the availability zone for the application gateway.
@@ -545,27 +544,27 @@ public interface ApplicationGateway extends
              * @param zoneId the zone identifier.
              * @return the next stage of the definition
              */
-            @Beta(SinceVersion.V1_4_0)
+            @Beta(since = "V1_4_0")
             WithCreate withAvailabilityZone(AvailabilityZoneId zoneId);
         }
 
         /**
          * The stage of the application gateway definition allowing to specify whether HTTP2 is enabled on the application gateway.
          */
-        @Beta(SinceVersion.V1_14_0)
+        @Beta(since = "V1_14_0")
         interface WithHttp2 {
             /**
              * Enables HTTP2 for the application gateway.
              * @return the next stage of the definition
              */
-            @Beta(SinceVersion.V1_14_0)
+            @Beta(since = "V1_14_0")
             WithCreate withHttp2();
 
             /**
              * Disables HTTP2 for the application gateway.
              * @return the next stage of the definition
              */
-            @Beta(SinceVersion.V1_14_0)
+            @Beta(since = "V1_14_0")
             WithCreate withoutHttp2();
         }
 
@@ -622,7 +621,7 @@ public interface ApplicationGateway extends
              * @param name a unique name for the certificate
              * @return the first stage of the certificate definition
              */
-            @Beta(SinceVersion.V1_4_0)
+            @Beta(since = "V1_4_0")
             ApplicationGatewayAuthenticationCertificate.UpdateDefinitionStages.Blank<Update> defineAuthenticationCertificate(String name);
 
             /**
@@ -630,7 +629,7 @@ public interface ApplicationGateway extends
              * @param name the name of an existing certificate
              * @return the next stage of the update
              */
-            @Beta(SinceVersion.V1_4_0)
+            @Beta(since = "V1_4_0")
             Update withoutAuthenticationCertificate(String name);
         }
 
@@ -1001,7 +1000,7 @@ public interface ApplicationGateway extends
              * @param name a unique name for the redirect configuration
              * @return the first stage of the redirect configuration definition
              */
-            @Beta(SinceVersion.V1_4_0)
+            @Beta(since = "V1_4_0")
             ApplicationGatewayRedirectConfiguration.UpdateDefinitionStages.Blank<Update> defineRedirectConfiguration(String name);
 
             /**
@@ -1011,7 +1010,7 @@ public interface ApplicationGateway extends
              * @param name the name of the redirect configuration to remove
              * @return the next stage of the update
              */
-            @Beta(SinceVersion.V1_4_0)
+            @Beta(since = "V1_4_0")
             Update withoutRedirectConfiguration(String name);
 
             /**
@@ -1019,7 +1018,7 @@ public interface ApplicationGateway extends
              * @param name the name of an existing redirect configuration to update
              * @return the next stage of the definition or null if the requested redirect configuration does not exist
              */
-            @Beta(SinceVersion.V1_4_0)
+            @Beta(since = "V1_4_0")
             ApplicationGatewayRedirectConfiguration.Update updateRedirectConfiguration(String name);
         }
 
@@ -1034,7 +1033,7 @@ public interface ApplicationGateway extends
              * @param name the name of the URL path map to remove (case sensitive)
              * @return the next stage of the update
              */
-            @Beta(SinceVersion.V1_11_0)
+            @Beta(since = "V1_11_0")
             Update withoutUrlPathMap(String name);
 
             /**
@@ -1042,7 +1041,7 @@ public interface ApplicationGateway extends
              * @param name the name of an existing redirect configuration to update (case sensitive)
              * @return the next stage of the definition or null if the requested URL path map does not exist
              */
-            @Beta(SinceVersion.V1_11_0)
+            @Beta(since = "V1_11_0")
             ApplicationGatewayUrlPathMap.Update updateUrlPathMap(String name);
         }
 
@@ -1105,7 +1104,7 @@ public interface ApplicationGateway extends
              * @param name a unique name for the URL path map
              * @return the first stage of the URL path map definition
              */
-            @Beta(SinceVersion.V1_11_0)
+            @Beta(since = "V1_11_0")
             ApplicationGatewayUrlPathMap.UpdateDefinitionStages.Blank<Update> definePathBasedRoutingRule(String name);
         }
 
@@ -1118,7 +1117,7 @@ public interface ApplicationGateway extends
              * @param protocol an SSL protocol
              * @return the next stage of the update
              */
-            @Beta(SinceVersion.V1_1_0)
+            @Beta(since = "V1_1_0")
             Update withDisabledSslProtocol(ApplicationGatewaySslProtocol protocol);
 
             /**
@@ -1126,7 +1125,7 @@ public interface ApplicationGateway extends
              * @param protocols SSL protocols
              * @return the next stage of the update
              */
-            @Beta(SinceVersion.V1_1_0)
+            @Beta(since = "V1_1_0")
             Update withDisabledSslProtocols(ApplicationGatewaySslProtocol...protocols);
 
             /**
@@ -1134,7 +1133,7 @@ public interface ApplicationGateway extends
              * @param protocol an SSL protocol
              * @return the next stage of the update
              */
-            @Beta(SinceVersion.V1_1_0)
+            @Beta(since = "V1_1_0")
             Update withoutDisabledSslProtocol(ApplicationGatewaySslProtocol protocol);
 
             /**
@@ -1142,14 +1141,14 @@ public interface ApplicationGateway extends
              * @param protocols SSL protocols
              * @return the next stage of the update
              */
-            @Beta(SinceVersion.V1_1_0)
+            @Beta(since = "V1_1_0")
             Update withoutDisabledSslProtocols(ApplicationGatewaySslProtocol...protocols);
 
             /**
              * Enables all SSL protocols, if previously disabled.
              * @return the next stage of the update
              */
-            @Beta(SinceVersion.V1_1_0)
+            @Beta(since = "V1_1_0")
             @Method
             Update withoutAnyDisabledSslProtocols();
         }
@@ -1157,20 +1156,21 @@ public interface ApplicationGateway extends
         /**
          * The stage of the application gateway update allowing to specify whether HTTP2 is enabled on the application gateway.
          */
-        @Beta(SinceVersion.V1_14_0)
+
+        @Beta(since = "V1_14_0")
         interface WithHttp2 {
             /**
              * Enables HTTP2 for the application gateway.
              * @return the next stage of the update
              */
-            @Beta(SinceVersion.V1_14_0)
+            @Beta(since = "V1_14_0")
             Update withHttp2();
 
             /**
              * Disables HTTP2 for the application gateway.
              * @return the next stage of the update
              */
-            @Beta(SinceVersion.V1_14_0)
+            @Beta(since = "V1_14_0")
             Update withoutHttp2();
         }
     }

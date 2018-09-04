@@ -5,8 +5,6 @@
  */
 package com.microsoft.azure.v2.management.network;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.v2.management.network.implementation.VirtualNetworkGatewayIPConfigurationInner;
@@ -16,12 +14,13 @@ import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.HasSubn
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Attachable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Settable;
+import com.microsoft.rest.v2.annotations.Beta;
 
 /**
  * A client-side representation of an virtual network gateway IP configuration.
  */
 @Fluent
-@Beta(SinceVersion.V1_3_0)
+@Beta(since = "V1_3_0")
 public interface VirtualNetworkGatewayIPConfiguration extends
         HasInner<VirtualNetworkGatewayIPConfigurationInner>,
         ChildResource<VirtualNetworkGateway> {

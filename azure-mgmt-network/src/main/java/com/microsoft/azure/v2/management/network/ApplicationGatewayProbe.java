@@ -7,8 +7,6 @@ package com.microsoft.azure.v2.management.network;
 
 import java.util.Set;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.v2.management.network.implementation.ApplicationGatewayProbeInner;
@@ -17,6 +15,7 @@ import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.ChildRe
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Attachable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Settable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
+import com.microsoft.rest.v2.annotations.Beta;
 
 /**
  * A client-side representation of an application gateway probe.
@@ -35,13 +34,13 @@ public interface ApplicationGatewayProbe extends
     /**
      * @return HTTP response code ranges in the format ###-### returned by the backend which the probe considers healthy.
      */
-    @Beta(SinceVersion.V1_4_0)
+    @Beta(since = "V1_4_0")
     Set<String> healthyHttpResponseStatusCodeRanges();
 
     /**
      * @return the body contents of an HTTP response to a probe to check for to determine backend health, or null if none specified
      */
-    @Beta(SinceVersion.V1_4_0)
+    @Beta(since = "V1_4_0")
     String healthyHttpResponseBodyContents();
 
     /**
@@ -171,7 +170,7 @@ public interface ApplicationGatewayProbe extends
              * @param ranges number ranges expressed in the format "###-###", for example "200-399", which is the default
              * @return the next stage of the definition
              */
-            @Beta(SinceVersion.V1_4_0)
+            @Beta(since = "V1_4_0")
             WithAttach<ReturnT> withHealthyHttpResponseStatusCodeRanges(Set<String> ranges);
 
             /**
@@ -179,7 +178,7 @@ public interface ApplicationGatewayProbe extends
              * @param range a number range expressed in the format "###-###", for example "200-399", which is the default
              * @return the next stage of the definition
              */
-            @Beta(SinceVersion.V1_4_0)
+            @Beta(since = "V1_4_0")
             WithAttach<ReturnT> withHealthyHttpResponseStatusCodeRange(String range);
 
             /**
@@ -188,7 +187,7 @@ public interface ApplicationGatewayProbe extends
              * @param to the highest number in the range
              * @return the next stage of the definition
              */
-            @Beta(SinceVersion.V1_4_0)
+            @Beta(since = "V1_4_0")
             WithAttach<ReturnT> withHealthyHttpResponseStatusCodeRange(int from, int to);
         }
 
@@ -202,7 +201,7 @@ public interface ApplicationGatewayProbe extends
              * @param text contents to look for
              * @return the next stage of the definition
              */
-            @Beta(SinceVersion.V1_4_0)
+            @Beta(since = "V1_4_0")
             WithAttach<ReturnT> withHealthyHttpResponseBodyContents(String text);
         }
 
@@ -326,7 +325,7 @@ public interface ApplicationGatewayProbe extends
              * @param ranges number ranges expressed in the format "###-###", for example "200-399", which is the default
              * @return the next stage of the update
              */
-            @Beta(SinceVersion.V1_4_0)
+            @Beta(since = "V1_4_0")
             Update withHealthyHttpResponseStatusCodeRanges(Set<String> ranges);
 
             /**
@@ -334,7 +333,7 @@ public interface ApplicationGatewayProbe extends
              * @param range a number range expressed in the format "###-###", for example "200-399", which is the default
              * @return the next stage of the update
              */
-            @Beta(SinceVersion.V1_4_0)
+            @Beta(since = "V1_4_0")
             Update withHealthyHttpResponseStatusCodeRange(String range);
 
             /**
@@ -343,7 +342,7 @@ public interface ApplicationGatewayProbe extends
              * @param to the highest number in the range
              * @return the next stage of the update
              */
-            @Beta(SinceVersion.V1_4_0)
+            @Beta(since = "V1_4_0")
             Update withHealthyHttpResponseStatusCodeRange(int from, int to);
 
             /**
@@ -351,7 +350,7 @@ public interface ApplicationGatewayProbe extends
              * @return the next stage of the update
              */
             @Method
-            @Beta(SinceVersion.V1_4_0)
+            @Beta(since = "V1_4_0")
             Update withoutHealthyHttpResponseStatusCodeRanges();
         }
 
@@ -364,7 +363,7 @@ public interface ApplicationGatewayProbe extends
              * @param text contents to look for
              * @return the next stage of the definition
              */
-            @Beta(SinceVersion.V1_4_0)
+            @Beta(since = "V1_4_0")
             Update withHealthyHttpResponseBodyContents(String text);
         }
     }
@@ -489,7 +488,7 @@ public interface ApplicationGatewayProbe extends
              * @param ranges number ranges expressed in the format "###-###", for example "200-399", which is the default
              * @return the next stage of the definition
              */
-            @Beta(SinceVersion.V1_4_0)
+            @Beta(since = "V1_4_0")
             WithAttach<ReturnT> withHealthyHttpResponseStatusCodeRanges(Set<String> ranges);
 
             /**
@@ -497,7 +496,7 @@ public interface ApplicationGatewayProbe extends
              * @param range a number range expressed in the format "###-###", for example "200-399", which is the default
              * @return the next stage of the definition
              */
-            @Beta(SinceVersion.V1_4_0)
+            @Beta(since = "V1_4_0")
             WithAttach<ReturnT> withHealthyHttpResponseStatusCodeRange(String range);
 
             /**
@@ -506,7 +505,7 @@ public interface ApplicationGatewayProbe extends
              * @param to the highest number in the range
              * @return the next stage of the definition
              */
-            @Beta(SinceVersion.V1_4_0)
+            @Beta(since = "V1_4_0")
             WithAttach<ReturnT> withHealthyHttpResponseStatusCodeRange(int from, int to);
         }
 
@@ -520,7 +519,7 @@ public interface ApplicationGatewayProbe extends
              * @param text contents to look for
              * @return the next stage of the definition
              */
-            @Beta(SinceVersion.V1_4_0)
+            @Beta(since = "V1_4_0")
             WithAttach<ReturnT> withHealthyHttpResponseBodyContents(String text);
         }
 

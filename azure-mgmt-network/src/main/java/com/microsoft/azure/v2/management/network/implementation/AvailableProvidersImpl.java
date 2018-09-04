@@ -11,8 +11,8 @@ import com.microsoft.azure.v2.management.network.AvailableProvidersListCountry;
 import com.microsoft.azure.v2.management.network.AvailableProvidersListParameters;
 import com.microsoft.azure.v2.management.network.NetworkWatcher;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.implementation.ExecutableImpl;
-import rx.Observable;
-import rx.functions.Func1;
+import io.reactivex.Observable;
+import io.reactivex.Single;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -71,14 +71,13 @@ class AvailableProvidersImpl extends ExecutableImpl<AvailableProviders>
     public Observable<AvailableProviders> executeWorkAsync() {
         return this.parent().manager().inner().networkWatchers()
                 .listAvailableProvidersAsync(parent().resourceGroupName(), parent().name(), parameters)
-                .map(new Func1<AvailableProvidersListInner, AvailableProviders>() {
-                    @Override
-                    public AvailableProviders call(AvailableProvidersListInner availableProvidersListInner) {
-                        AvailableProvidersImpl.this.inner = availableProvidersListInner;
-                        AvailableProvidersImpl.this.initializeResourcesFromInner();
-                        return AvailableProvidersImpl.this;
-                    }
-                });
+                .map(availableProvidersListInner -> {
+                    AvailableProvidersImpl.this.inner = availableProvidersListInner;
+                    AvailableProvidersImpl.this.initializeResourcesFromInner();
+                    return (AvailableProviders) AvailableProvidersImpl.this;
+                })
+                .switchIfEmpty(Single.just(((AvailableProviders) AvailableProvidersImpl.this)))
+                .toObservable();
     }
 
     @Override

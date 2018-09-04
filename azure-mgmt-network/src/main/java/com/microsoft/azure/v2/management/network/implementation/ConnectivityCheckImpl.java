@@ -16,8 +16,7 @@ import com.microsoft.azure.v2.management.network.Protocol;
 import com.microsoft.azure.v2.management.network.model.HasNetworkInterfaces;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.implementation.ExecutableImpl;
 import com.microsoft.azure.v2.management.resources.fluentcore.utils.Utils;
-import rx.Observable;
-import rx.functions.Func1;
+import io.reactivex.Observable;
 
 import java.util.List;
 
@@ -136,12 +135,9 @@ public class ConnectivityCheckImpl extends ExecutableImpl<ConnectivityCheck>
     public Observable<ConnectivityCheck> executeWorkAsync() {
         return this.parent().manager().inner().networkWatchers()
                 .checkConnectivityAsync(parent.resourceGroupName(), parent.name(), parameters)
-                .map(new Func1<ConnectivityInformationInner, ConnectivityCheck>() {
-                    @Override
-                    public ConnectivityCheck call(ConnectivityInformationInner connectivityInformation) {
-                        ConnectivityCheckImpl.this.result = connectivityInformation;
-                        return ConnectivityCheckImpl.this;
-                    }
-                });
+                .map(connectivityInformation -> {
+                    ConnectivityCheckImpl.this.result = connectivityInformation;
+                    return (ConnectivityCheck) ConnectivityCheckImpl.this;
+                }).toObservable();
     }
 }

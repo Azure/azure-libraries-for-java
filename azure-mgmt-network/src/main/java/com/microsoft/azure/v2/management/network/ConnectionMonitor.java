@@ -15,10 +15,10 @@ import com.microsoft.azure.v2.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Indexable;
 import com.microsoft.rest.v2.annotations.Beta;
-import org.joda.time.DateTime;
 import rx.Completable;
 import rx.Observable;
 
+import java.time.OffsetDateTime;
 import java.util.Map;
 
 /**
@@ -65,7 +65,7 @@ public interface ConnectionMonitor extends
     /**
      * @return the date and time when the connection monitor was started
      */
-    DateTime startTime();
+    OffsetDateTime startTime();
 
     /**
      * @return the monitoring status of the connection monitor

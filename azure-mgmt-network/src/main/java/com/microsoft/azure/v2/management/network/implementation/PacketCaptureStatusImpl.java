@@ -10,8 +10,8 @@ import com.microsoft.azure.v2.management.network.PacketCaptureStatus;
 import com.microsoft.azure.v2.management.network.PcError;
 import com.microsoft.azure.v2.management.network.PcStatus;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.implementation.WrapperImpl;
-import org.joda.time.DateTime;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 
 /**
@@ -35,7 +35,7 @@ class PacketCaptureStatusImpl extends WrapperImpl<PacketCaptureQueryStatusResult
     }
 
     @Override
-    public DateTime captureStartTime() {
+    public OffsetDateTime captureStartTime() {
         return inner().captureStartTime();
     }
 

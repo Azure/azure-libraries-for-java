@@ -9,8 +9,8 @@ import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.v2.management.network.implementation.PacketCaptureQueryStatusResultInner;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
 import com.microsoft.rest.v2.annotations.Beta;
-import org.joda.time.DateTime;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 
 /**
@@ -32,7 +32,7 @@ public interface PacketCaptureStatus extends HasInner<PacketCaptureQueryStatusRe
     /**
      * @return the start time of the packet capture session
      */
-    DateTime captureStartTime();
+    OffsetDateTime captureStartTime();
 
     /**
      * Get the status of the packet capture session.

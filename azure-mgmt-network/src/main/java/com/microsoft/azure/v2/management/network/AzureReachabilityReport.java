@@ -11,8 +11,8 @@ import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.HasPare
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Executable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
 import com.microsoft.rest.v2.annotations.Beta;
-import org.joda.time.DateTime;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 
 /**
@@ -88,7 +88,7 @@ public interface AzureReachabilityReport extends Executable<AzureReachabilityRep
              * @param startTime the start time for the Azure reachability report
              * @return the next stage of the definition
              */
-            WithEndTime withStartTime(DateTime startTime);
+            WithEndTime withStartTime(OffsetDateTime startTime);
         }
 
         /**
@@ -99,7 +99,7 @@ public interface AzureReachabilityReport extends Executable<AzureReachabilityRep
              * @param endTime the start time for the Azure reachability report
              * @return the next stage of the definition
              */
-            WithExecute withEndTime(DateTime endTime);
+            WithExecute withEndTime(OffsetDateTime endTime);
         }
 
         /**

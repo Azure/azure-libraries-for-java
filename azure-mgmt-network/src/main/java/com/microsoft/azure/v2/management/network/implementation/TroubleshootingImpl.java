@@ -11,10 +11,10 @@ import com.microsoft.azure.v2.management.network.Troubleshooting;
 import com.microsoft.azure.v2.management.network.TroubleshootingDetails;
 import com.microsoft.azure.v2.management.network.TroubleshootingParameters;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.implementation.ExecutableImpl;
-import org.joda.time.DateTime;
 import rx.Observable;
 import rx.functions.Func1;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 
 /**
@@ -86,12 +86,12 @@ class TroubleshootingImpl extends ExecutableImpl<Troubleshooting>
     }
 
     @Override
-    public DateTime startTime() {
+    public OffsetDateTime startTime() {
         return result.startTime();
     }
 
     @Override
-    public DateTime endTime() {
+    public OffsetDateTime endTime() {
         return result.endTime();
     }
 

@@ -15,11 +15,11 @@ import com.microsoft.azure.v2.management.network.ProvisioningState;
 import com.microsoft.azure.v2.management.network.model.HasNetworkInterfaces;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
 import com.microsoft.azure.v2.management.resources.fluentcore.utils.Utils;
-import org.joda.time.DateTime;
 import rx.Completable;
 import rx.Observable;
 import rx.functions.Func1;
 
+import java.time.OffsetDateTime;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -86,7 +86,7 @@ public class ConnectionMonitorImpl extends
     }
 
     @Override
-    public DateTime startTime() {
+    public OffsetDateTime startTime() {
         return inner().startTime();
     }
 

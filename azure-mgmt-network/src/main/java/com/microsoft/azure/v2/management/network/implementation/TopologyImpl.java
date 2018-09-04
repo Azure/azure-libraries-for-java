@@ -5,17 +5,17 @@
  */
 package com.microsoft.azure.v2.management.network.implementation;
 
-import com.microsoft.azure.SubResource;
+import com.microsoft.azure.v2.SubResource;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.v2.management.network.NetworkWatcher;
 import com.microsoft.azure.v2.management.network.Topology;
 import com.microsoft.azure.v2.management.network.TopologyParameters;
 import com.microsoft.azure.v2.management.network.TopologyResource;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.implementation.ExecutableImpl;
-import org.joda.time.DateTime;
 import rx.Observable;
 import rx.functions.Func1;
 
+import java.time.OffsetDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -48,12 +48,12 @@ class TopologyImpl extends ExecutableImpl<Topology>
     }
 
     @Override
-    public DateTime createdTime() {
+    public OffsetDateTime createdTime() {
         return inner().createdDateTime();
     }
 
     @Override
-    public DateTime lastModifiedTime() {
+    public OffsetDateTime lastModifiedTime() {
         return inner().lastModified();
     }
 

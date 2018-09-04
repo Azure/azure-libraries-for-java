@@ -12,10 +12,10 @@ import com.microsoft.azure.v2.management.network.AzureReachabilityReportLocation
 import com.microsoft.azure.v2.management.network.AzureReachabilityReportParameters;
 import com.microsoft.azure.v2.management.network.NetworkWatcher;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.implementation.ExecutableImpl;
-import org.joda.time.DateTime;
 import rx.Observable;
 import rx.functions.Func1;
 
+import java.time.OffsetDateTime;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -97,13 +97,13 @@ class AzureReachabilityReportImpl extends ExecutableImpl<AzureReachabilityReport
     }
 
     @Override
-    public AzureReachabilityReportImpl withStartTime(DateTime startTime) {
+    public AzureReachabilityReportImpl withStartTime(OffsetDateTime startTime) {
         parameters.withStartTime(startTime);
         return this;
     }
 
     @Override
-    public AzureReachabilityReportImpl withEndTime(DateTime endTime) {
+    public AzureReachabilityReportImpl withEndTime(OffsetDateTime endTime) {
         parameters.withEndTime(endTime);
         return this;
     }

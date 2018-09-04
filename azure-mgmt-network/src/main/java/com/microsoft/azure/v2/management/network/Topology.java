@@ -11,8 +11,8 @@ import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.HasPare
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Executable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
 import com.microsoft.rest.v2.annotations.Beta;
-import org.joda.time.DateTime;
 
+import java.time.OffsetDateTime;
 import java.util.Map;
 
 /**
@@ -37,12 +37,12 @@ public interface Topology extends Executable<Topology>,
      * @return the datetime when the topology was initially created for the resource
      * group.
      */
-    DateTime createdTime();
+    OffsetDateTime createdTime();
 
     /**
      * @return the datetime when the topology was last modified
      */
-    DateTime lastModifiedTime();
+    OffsetDateTime lastModifiedTime();
 
     /**
      * @return The resources in this topology

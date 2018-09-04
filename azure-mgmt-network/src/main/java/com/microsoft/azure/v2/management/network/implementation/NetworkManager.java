@@ -5,8 +5,6 @@
  */
 package com.microsoft.azure.v2.management.network.implementation;
 
-import com.microsoft.azure.v2.AzureEnvironment;
-import com.microsoft.azure.v2.AzureResponseBuilder;
 import com.microsoft.azure.v2.SubResource;
 import com.microsoft.azure.v2.credentials.AzureTokenCredentials;
 import com.microsoft.azure.v2.management.network.ApplicationGateway;
@@ -33,11 +31,12 @@ import com.microsoft.azure.v2.management.resources.fluentcore.arm.AzureConfigura
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.ResourceUtils;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.implementation.AzureConfigurableImpl;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.implementation.Manager;
-import com.microsoft.azure.v2.management.resources.fluentcore.utils.ProviderRegistrationInterceptor;
-import com.microsoft.azure.v2.management.resources.fluentcore.utils.ResourceManagerThrottlingInterceptor;
-import com.microsoft.azure.serializer.AzureJacksonAdapter;
-import com.microsoft.rest.RestClient;
+import com.microsoft.azure.v2.management.resources.fluentcore.utils.ProviderRegistrationPolicyFactory;
+import com.microsoft.azure.v2.management.resources.fluentcore.utils.ResourceManagerThrottlingPolicyFactory;
 import com.microsoft.rest.v2.annotations.Beta;
+import com.microsoft.rest.v2.http.HttpPipeline;
+import com.microsoft.rest.v2.http.HttpPipelineBuilder;
+import com.microsoft.rest.v2.policy.CredentialsPolicyFactory;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -80,32 +79,29 @@ public final class NetworkManager extends Manager<NetworkManager, NetworkManagem
     }
 
     /**
-     * Creates an instance of NetworkManager that exposes network resource management API entry points.
+     * Creates an instance of NetworkManager that exposes storage resource management API entry points.
      *
      * @param credentials the credentials to use
      * @param subscriptionId the subscription UUID
-     * @return the NetworkManager
+     * @return the StorageManager
      */
     public static NetworkManager authenticate(AzureTokenCredentials credentials, String subscriptionId) {
-        return new NetworkManager(new RestClient.Builder()
-                .withBaseUrl(credentials.environment(), AzureEnvironment.Endpoint.RESOURCE_MANAGER)
-                .withCredentials(credentials)
-                .withSerializerAdapter(new AzureJacksonAdapter())
-                .withResponseBuilderFactory(new AzureResponseBuilder.Factory())
-                .withInterceptor(new ProviderRegistrationInterceptor(credentials))
-                .withInterceptor(new ResourceManagerThrottlingInterceptor())
+        return new NetworkManager(new HttpPipelineBuilder()
+                .withRequestPolicy(new CredentialsPolicyFactory(credentials))
+                .withRequestPolicy(new ProviderRegistrationPolicyFactory(credentials))
+                .withRequestPolicy(new ResourceManagerThrottlingPolicyFactory())
                 .build(), subscriptionId);
     }
 
     /**
-     * Creates an instance of NetworkManager that exposes network resource management API entry points.
+     * Creates an instance of NetworkManager that exposes storage resource management API entry points.
      *
-     * @param restClient the RestClient to be used for API calls.
+     * @param httpPipeline the HttpPipeline to be used for API calls.
      * @param subscriptionId the subscription UUID
-     * @return the NetworkManager
+     * @return the StorageManager
      */
-    public static NetworkManager authenticate(RestClient restClient, String subscriptionId) {
-        return new NetworkManager(restClient, subscriptionId);
+    public static NetworkManager authenticate(HttpPipeline httpPipeline, String subscriptionId) {
+        return new NetworkManager(httpPipeline, subscriptionId);
     }
 
     /**
@@ -125,20 +121,17 @@ public final class NetworkManager extends Manager<NetworkManager, NetworkManagem
     /**
      * The implementation for Configurable interface.
      */
-    private static class ConfigurableImpl
-        extends AzureConfigurableImpl<Configurable>
-        implements Configurable {
-
+    private static final class ConfigurableImpl extends AzureConfigurableImpl<Configurable> implements Configurable {
         public NetworkManager authenticate(AzureTokenCredentials credentials, String subscriptionId) {
-            return NetworkManager.authenticate(buildRestClient(credentials), subscriptionId);
+            return NetworkManager.authenticate(buildPipeline(credentials), subscriptionId);
         }
     }
 
-    private NetworkManager(RestClient restClient, String subscriptionId) {
+    private NetworkManager(HttpPipeline httpPipeline, String subscriptionId) {
         super(
-                restClient,
+                httpPipeline,
                 subscriptionId,
-                new NetworkManagementClientImpl(restClient).withSubscriptionId(subscriptionId));
+                new NetworkManagementClientImpl(httpPipeline).withSubscriptionId(subscriptionId));
     }
 
     /**

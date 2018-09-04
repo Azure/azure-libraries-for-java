@@ -22,8 +22,8 @@ import com.microsoft.azure.v2.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.v2.management.resources.fluentcore.utils.ResourceNamer;
 import com.microsoft.azure.v2.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.azure.v2.management.resources.fluentcore.utils.Utils;
-import rx.Observable;
-import rx.functions.Func1;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -82,26 +82,25 @@ class NetworkInterfaceImpl
     // Verbs
 
     @Override
-    public Observable<NetworkInterface> refreshAsync() {
-        return super.refreshAsync().map(new Func1<NetworkInterface, NetworkInterface>() {
-            @Override
-            public NetworkInterface call(NetworkInterface networkInterface) {
-                NetworkInterfaceImpl impl = (NetworkInterfaceImpl) networkInterface;
-                impl.clearCachedRelatedResources();
-                impl.initializeChildrenFromInner();
-                return impl;
-            }
-        });
+    public Maybe<NetworkInterface> refreshAsync() {
+        return super.refreshAsync()
+                .map(networkInterface -> {
+                    NetworkInterfaceImpl impl = (NetworkInterfaceImpl) networkInterface;
+                    impl.clearCachedRelatedResources();
+                    impl.initializeChildrenFromInner();
+                    return impl;
+                });
     }
 
     @Override
-    protected Observable<NetworkInterfaceInner> getInnerAsync() {
+    protected Maybe<NetworkInterfaceInner> getInnerAsync() {
         return this.manager().inner().networkInterfaces().getByResourceGroupAsync(this.resourceGroupName(), this.name());
     }
 
     @Override
     protected Observable<NetworkInterfaceInner> applyTagsToInnerAsync() {
-        return this.manager().inner().networkInterfaces().updateTagsAsync(resourceGroupName(), name(), inner().getTags());
+        return this.manager().inner().networkInterfaces().updateTagsAsync(resourceGroupName(), name(), inner().getTags())
+                .toObservable();
     }
 
     // Setters (fluent)
@@ -475,7 +474,8 @@ class NetworkInterfaceImpl
 
     @Override
     protected Observable<NetworkInterfaceInner> createInner() {
-        return this.manager().inner().networkInterfaces().createOrUpdateAsync(this.resourceGroupName(), this.name(), this.inner());
+        return this.manager().inner().networkInterfaces().createOrUpdateAsync(this.resourceGroupName(), this.name(), this.inner())
+                .toObservable();
     }
 
     @Override

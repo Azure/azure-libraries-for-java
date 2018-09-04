@@ -6,7 +6,7 @@
 
 package com.microsoft.azure.v2.management.network.implementation;
 
-import com.microsoft.azure.PagedList;
+import com.microsoft.azure.v2.PagedList;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.v2.management.network.NetworkInterface;
 import com.microsoft.azure.v2.management.network.NetworkInterfaceDnsSettings;

@@ -10,10 +10,10 @@ import com.microsoft.azure.v2.management.network.FlowLogSettings;
 import com.microsoft.azure.v2.management.network.RetentionPolicyParameters;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.implementation.RefreshableWrapperImpl;
 import com.microsoft.azure.v2.management.resources.fluentcore.utils.Utils;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import rx.Observable;
-import rx.functions.Func1;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
 
 /**
  * Implementation for {@link FlowLogSettings} and its create and update interfaces.
@@ -35,24 +35,20 @@ class FlowLogSettingsImpl extends RefreshableWrapperImpl<FlowLogInformationInner
 
     @Override
     public FlowLogSettings apply() {
-        return applyAsync().toBlocking().last();
+        return applyAsync().blockingLast();
     }
 
     @Override
     public Observable<FlowLogSettings> applyAsync() {
         return this.parent().manager().inner().networkWatchers()
                 .setFlowLogConfigurationAsync(parent().resourceGroupName(), parent().name(), this.inner())
-                .map(new Func1<FlowLogInformationInner, FlowLogSettings>() {
-            @Override
-            public FlowLogSettings call(FlowLogInformationInner flowLogInformationInner) {
-                return new FlowLogSettingsImpl(FlowLogSettingsImpl.this.parent, flowLogInformationInner, nsgId);
-            }
-        });
+                .map(flowLogInformationInner -> (FlowLogSettings) new FlowLogSettingsImpl(FlowLogSettingsImpl.this.parent, flowLogInformationInner, nsgId))
+                .toObservable();
     }
 
     @Override
     public ServiceFuture<FlowLogSettings> applyAsync(ServiceCallback<FlowLogSettings> callback) {
-        return ServiceFuture.fromBody(applyAsync(), callback);
+        return ServiceFuture.fromBody(applyAsync().lastElement(), callback);
     }
 
     @Override
@@ -106,7 +102,7 @@ class FlowLogSettingsImpl extends RefreshableWrapperImpl<FlowLogInformationInner
     }
 
     @Override
-    protected Observable<FlowLogInformationInner> getInnerAsync() {
+    protected Maybe<FlowLogInformationInner> getInnerAsync() {
         return this.parent().manager().inner().networkWatchers()
                 .getFlowLogStatusAsync(parent().resourceGroupName(), parent().name(), inner().targetResourceId());
     }

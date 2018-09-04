@@ -134,8 +134,8 @@ class LoadBalancerFrontendImpl
     @Override
     public Map<String, LoadBalancerInboundNatRule> inboundNatRules() {
         final Map<String, LoadBalancerInboundNatRule> rules = new TreeMap<>();
-        if (this.inner().inboundNatRules() != null) {
-            for (SubResource innerRef : this.inner().inboundNatRules()) {
+        if (this.inner().inboundNatRulesProperty() != null) {
+            for (SubResource innerRef : this.inner().inboundNatRulesProperty()) {
                 String name = ResourceUtils.nameFromResourceId(innerRef.id());
                 LoadBalancerInboundNatRule rule = this.parent().inboundNatRules().get(name);
                 if (rule != null) {

@@ -144,7 +144,7 @@ class AutoscaleProfileImpl
             throw new IllegalArgumentException("Start time should have format of 'hh:mm' where hh is in 24-hour clock (AM/PM times are not supported).");
         }
 
-        int hh = Integer.parseInt(startTime.substring(0,2));
+        int hh = Integer.parseInt(startTime.substring(0, 2));
         int mm = Integer.parseInt(startTime.substring(3));
         if (hh > 23
                 || mm > 60) {

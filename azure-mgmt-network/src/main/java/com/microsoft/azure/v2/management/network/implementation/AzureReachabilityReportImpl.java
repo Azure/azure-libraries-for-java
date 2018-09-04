@@ -12,8 +12,8 @@ import com.microsoft.azure.v2.management.network.AzureReachabilityReportLocation
 import com.microsoft.azure.v2.management.network.AzureReachabilityReportParameters;
 import com.microsoft.azure.v2.management.network.NetworkWatcher;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.implementation.ExecutableImpl;
-import rx.Observable;
-import rx.functions.Func1;
+import io.reactivex.Observable;
+import io.reactivex.Single;
 
 import java.time.OffsetDateTime;
 import java.util.Arrays;
@@ -69,13 +69,12 @@ class AzureReachabilityReportImpl extends ExecutableImpl<AzureReachabilityReport
     public Observable<AzureReachabilityReport> executeWorkAsync() {
         return this.parent().manager().inner().networkWatchers()
                 .getAzureReachabilityReportAsync(parent().resourceGroupName(), parent().name(), parameters)
-                .map(new Func1<AzureReachabilityReportInner, AzureReachabilityReport>() {
-                    @Override
-                    public AzureReachabilityReport call(AzureReachabilityReportInner azureReachabilityReportListInner) {
-                        AzureReachabilityReportImpl.this.inner = azureReachabilityReportListInner;
-                        return AzureReachabilityReportImpl.this;
-                    }
-                });
+                .map(azureReachabilityReportListInner -> {
+                    AzureReachabilityReportImpl.this.inner = azureReachabilityReportListInner;
+                    return (AzureReachabilityReport) AzureReachabilityReportImpl.this;
+                })
+                .switchIfEmpty(Single.just(((AzureReachabilityReport) AzureReachabilityReportImpl.this)))
+                .toObservable();
     }
 
     @Override

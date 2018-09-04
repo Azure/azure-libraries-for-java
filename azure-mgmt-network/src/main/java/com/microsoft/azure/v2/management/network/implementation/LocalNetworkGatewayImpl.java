@@ -11,10 +11,10 @@ import com.microsoft.azure.v2.management.network.BgpSettings;
 import com.microsoft.azure.v2.management.network.LocalNetworkGateway;
 import com.microsoft.azure.v2.management.network.model.AppliableWithTags;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import rx.Observable;
-import rx.functions.Func1;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -108,14 +108,15 @@ class LocalNetworkGatewayImpl
     }
 
     @Override
-    protected Observable<LocalNetworkGatewayInner> getInnerAsync() {
+    protected Maybe<LocalNetworkGatewayInner> getInnerAsync() {
         return this.manager().inner().localNetworkGateways().getByResourceGroupAsync(this.resourceGroupName(), this.name());
     }
 
     @Override
     public Observable<LocalNetworkGateway> createResourceAsync() {
         return this.manager().inner().localNetworkGateways().createOrUpdateAsync(resourceGroupName(), name(), inner())
-                .map(innerToFluentMap(this));
+                .map(innerToFluentMap(this))
+                .toObservable();
     }
 
     private BgpSettings ensureBgpSettings() {
@@ -132,22 +133,21 @@ class LocalNetworkGatewayImpl
 
     @Override
     public LocalNetworkGateway applyTags() {
-        return applyTagsAsync().toBlocking().last();
+        return applyTagsAsync().blockingLast();
     }
 
     @Override
     public Observable<LocalNetworkGateway> applyTagsAsync() {
         return this.manager().inner().localNetworkGateways().updateTagsAsync(resourceGroupName(), name(), inner().getTags())
-                .flatMap(new Func1<LocalNetworkGatewayInner, Observable<LocalNetworkGateway>>() {
-                    @Override
-                    public Observable<LocalNetworkGateway> call(LocalNetworkGatewayInner inner) {
-                        setInner(inner);
-                        return Observable.just((LocalNetworkGateway) LocalNetworkGatewayImpl.this);                    }
-                });
+                .map(inner -> {
+                    setInner(inner);
+                    return (LocalNetworkGateway) LocalNetworkGatewayImpl.this;
+                })
+                .toObservable();
     }
 
     @Override
     public ServiceFuture<LocalNetworkGateway> applyTagsAsync(ServiceCallback<LocalNetworkGateway> callback) {
-        return ServiceFuture.fromBody(applyTagsAsync(), callback);
+        return ServiceFuture.fromBody(applyTagsAsync().lastElement(), callback);
     }
 }

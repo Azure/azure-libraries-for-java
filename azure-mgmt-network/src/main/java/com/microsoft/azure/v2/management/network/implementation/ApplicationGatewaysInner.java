@@ -42,7 +42,6 @@ import io.reactivex.Maybe;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.reactivex.annotations.NonNull;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -137,7 +136,7 @@ public final class ApplicationGatewaysInner implements InnerSupportsGet<Applicat
         @GET("subscriptions/{subscriptionId}/providers/Microsoft.Network/applicationGateways")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Single<BodyResponse<PageImpl<ApplicationGatewayInner>>> List(@PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
+        Single<BodyResponse<PageImpl<ApplicationGatewayInner>>> list(@PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/start")
         @ExpectedResponses({200, 202, 204})
@@ -867,8 +866,8 @@ public final class ApplicationGatewaysInner implements InnerSupportsGet<Applicat
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;ApplicationGatewayInner&gt; object if successful.
      */
-    public PagedList<ApplicationGatewayInner> List() {
-        Page<ApplicationGatewayInner> response = ListSinglePageAsync().blockingGet();
+    public PagedList<ApplicationGatewayInner> list() {
+        Page<ApplicationGatewayInner> response = listSinglePageAsync().blockingGet();
         return new PagedList<ApplicationGatewayInner>(response) {
             @Override
             public Page<ApplicationGatewayInner> nextPage(String nextPageLink) {
@@ -882,8 +881,8 @@ public final class ApplicationGatewaysInner implements InnerSupportsGet<Applicat
      *
      * @return the observable to the PagedList&lt;ApplicationGatewayInner&gt; object.
      */
-    public Observable<Page<ApplicationGatewayInner>> ListAsync() {
-        return ListSinglePageAsync()
+    public Observable<Page<ApplicationGatewayInner>> listAsync() {
+        return listSinglePageAsync()
             .toObservable()
             .concatMap((Page<ApplicationGatewayInner> page) -> {
                 String nextPageLink = page.nextPageLink();
@@ -899,12 +898,12 @@ public final class ApplicationGatewaysInner implements InnerSupportsGet<Applicat
      *
      * @return the Single&lt;Page&lt;ApplicationGatewayInner&gt;&gt; object if successful.
      */
-    public Single<Page<ApplicationGatewayInner>> ListSinglePageAsync() {
+    public Single<Page<ApplicationGatewayInner>> listSinglePageAsync() {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        return service.List(this.client.subscriptionId(), apiVersion, this.client.acceptLanguage())
+        return service.list(this.client.subscriptionId(), apiVersion, this.client.acceptLanguage())
             .map((BodyResponse<PageImpl<ApplicationGatewayInner>> res) -> res.body());
     }
 

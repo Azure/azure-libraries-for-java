@@ -13,8 +13,8 @@ import com.microsoft.azure.v2.management.network.ExpressRoutePeeringState;
 import com.microsoft.azure.v2.management.network.ExpressRoutePeeringType;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
 import com.microsoft.azure.v2.management.resources.fluentcore.utils.Utils;
-import rx.Observable;
-import rx.functions.Func1;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
 
 import java.util.Arrays;
 
@@ -108,7 +108,7 @@ class ExpressRouteCrossConnectionPeeringImpl extends
     }
 
     @Override
-    protected Observable<ExpressRouteCrossConnectionPeeringInner> getInnerAsync() {
+    protected Maybe<ExpressRouteCrossConnectionPeeringInner> getInnerAsync() {
         return this.client.getAsync(parent.resourceGroupName(), parent.name(), name());
     }
 
@@ -120,14 +120,11 @@ class ExpressRouteCrossConnectionPeeringImpl extends
     @Override
     public Observable<ExpressRouteCrossConnectionPeering> createResourceAsync() {
         return this.client.createOrUpdateAsync(parent.resourceGroupName(), parent.name(), this.name(), inner())
-                .map(new Func1<ExpressRouteCrossConnectionPeeringInner, ExpressRouteCrossConnectionPeering>() {
-                    @Override
-                    public ExpressRouteCrossConnectionPeering call(ExpressRouteCrossConnectionPeeringInner innerModel) {
-                        ExpressRouteCrossConnectionPeeringImpl.this.setInner(innerModel);
-                        parent.refresh();
-                        return ExpressRouteCrossConnectionPeeringImpl.this;
-                    }
-                });
+                .map(innerModel -> {
+                    ExpressRouteCrossConnectionPeeringImpl.this.setInner(innerModel);
+                    parent.refresh();
+                    return (ExpressRouteCrossConnectionPeering) ExpressRouteCrossConnectionPeeringImpl.this;
+                }).toObservable();
     }
 
     // Getters

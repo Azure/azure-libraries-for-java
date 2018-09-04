@@ -5,7 +5,7 @@
  */
 package com.microsoft.azure.v2.management.network.implementation;
 
-import com.microsoft.azure.PagedList;
+import com.microsoft.azure.v2.PagedList;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.v2.management.network.ExpressRouteCrossConnection;
 import com.microsoft.azure.v2.management.network.ExpressRouteCrossConnectionPeering;
@@ -14,11 +14,11 @@ import com.microsoft.azure.v2.management.network.ExpressRoutePeeringType;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.collection.implementation.IndependentChildrenImpl;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.collection.implementation.ReadableWrappersImpl;
 import com.microsoft.azure.v2.management.resources.fluentcore.utils.PagedListConverter;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
+import io.reactivex.Completable;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
 
 /**
  * Represents Express Route Cross Connection Peerings collection associated with Network Watcher.
@@ -84,22 +84,18 @@ class ExpressRouteCrossConnectionPeeringsImpl extends IndependentChildrenImpl<
     @Override
     public Observable<ExpressRouteCrossConnectionPeering> getByNameAsync(String name) {
         return inner().getAsync(parent.resourceGroupName(), parent.name(), name)
-                .map(new Func1<ExpressRouteCrossConnectionPeeringInner, ExpressRouteCrossConnectionPeering>() {
-                    @Override
-                    public ExpressRouteCrossConnectionPeering call(ExpressRouteCrossConnectionPeeringInner inner) {
-                        return wrapModel(inner);
-                    }
-                });
+                .map(inner -> (ExpressRouteCrossConnectionPeering) wrapModel(inner))
+                .toObservable();
     }
 
     @Override
     public ExpressRouteCrossConnectionPeering getByName(String name) {
-        return getByNameAsync(name).toBlocking().last();
+        return getByNameAsync(name).blockingLast();
     }
 
     @Override
     public void deleteByName(String name) {
-        deleteByNameAsync(name).await();
+        deleteByNameAsync(name).blockingAwait();
     }
 
     @Override
@@ -123,24 +119,16 @@ class ExpressRouteCrossConnectionPeeringsImpl extends IndependentChildrenImpl<
     @Override
     public Completable deleteByParentAsync(String groupName, String parentName, String name) {
         return this.inner().deleteAsync(groupName, parentName, name)
-                .map(new Func1<Void, Void>() {
-                    @Override
-                    public Void call(Void result) {
-                        parent.refresh();
-                        return result;
-                    }
-                }).toCompletable();
+                .andThen(Completable.defer(() -> {
+                    parent.refresh();
+                    return Completable.complete();
+                }));
     }
 
     @Override
-    public Observable<ExpressRouteCrossConnectionPeering> getByParentAsync(String resourceGroup, String parentName, String name) {
+    public Maybe<ExpressRouteCrossConnectionPeering> getByParentAsync(String resourceGroup, String parentName, String name) {
         return inner().getAsync(resourceGroup, parentName, name)
-                .map(new Func1<ExpressRouteCrossConnectionPeeringInner, ExpressRouteCrossConnectionPeering>() {
-                    @Override
-                    public ExpressRouteCrossConnectionPeering call(ExpressRouteCrossConnectionPeeringInner inner) {
-                        return wrapModel(inner);
-                    }
-                });
+                .map(inner -> wrapModel(inner));
     }
 
     @Override

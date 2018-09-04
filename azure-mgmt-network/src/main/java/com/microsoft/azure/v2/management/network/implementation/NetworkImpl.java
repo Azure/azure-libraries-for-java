@@ -5,8 +5,8 @@
  */
 package com.microsoft.azure.v2.management.network.implementation;
 
-import com.microsoft.azure.CloudException;
-import com.microsoft.azure.SubResource;
+import com.microsoft.azure.v2.CloudException;
+import com.microsoft.azure.v2.SubResource;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.v2.management.network.AddressSpace;
 import com.microsoft.azure.v2.management.network.DdosProtectionPlan;

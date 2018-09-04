@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
-import com.microsoft.azure.SubResource;
+import com.microsoft.azure.v2.SubResource;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.v2.management.network.ApplicationGateway;
 import com.microsoft.azure.v2.management.network.ApplicationGatewayBackend;

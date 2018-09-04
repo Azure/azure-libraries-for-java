@@ -15,6 +15,7 @@ import com.microsoft.azure.v2.management.network.IpsecPolicy;
 import com.microsoft.azure.v2.management.network.TunnelConnectionHealth;
 import com.microsoft.azure.v2.management.network.VirtualNetworkGatewayConnectionStatus;
 import com.microsoft.azure.v2.management.network.VirtualNetworkGatewayConnectionType;
+import com.microsoft.rest.v2.annotations.SkipParentValidation;
 import com.microsoft.rest.v2.serializer.JsonFlatten;
 import java.util.List;
 

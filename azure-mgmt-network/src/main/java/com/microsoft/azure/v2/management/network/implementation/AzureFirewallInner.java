@@ -14,6 +14,7 @@ import com.microsoft.azure.v2.management.network.AzureFirewallApplicationRuleCol
 import com.microsoft.azure.v2.management.network.AzureFirewallIPConfiguration;
 import com.microsoft.azure.v2.management.network.AzureFirewallNetworkRuleCollection;
 import com.microsoft.azure.v2.management.network.ProvisioningState;
+import com.microsoft.rest.v2.annotations.SkipParentValidation;
 import com.microsoft.rest.v2.serializer.JsonFlatten;
 import java.util.List;
 

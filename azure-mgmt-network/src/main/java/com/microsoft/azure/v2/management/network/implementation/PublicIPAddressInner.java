@@ -15,6 +15,7 @@ import com.microsoft.azure.v2.management.network.IpTag;
 import com.microsoft.azure.v2.management.network.IPVersion;
 import com.microsoft.azure.v2.management.network.PublicIPAddressDnsSettings;
 import com.microsoft.azure.v2.management.network.PublicIPAddressSku;
+import com.microsoft.rest.v2.annotations.SkipParentValidation;
 import com.microsoft.rest.v2.serializer.JsonFlatten;
 import java.util.List;
 

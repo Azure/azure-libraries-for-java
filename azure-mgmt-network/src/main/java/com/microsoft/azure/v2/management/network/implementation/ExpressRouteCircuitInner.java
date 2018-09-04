@@ -13,6 +13,7 @@ import com.microsoft.azure.v2.Resource;
 import com.microsoft.azure.v2.management.network.ExpressRouteCircuitServiceProviderProperties;
 import com.microsoft.azure.v2.management.network.ExpressRouteCircuitSku;
 import com.microsoft.azure.v2.management.network.ServiceProviderProvisioningState;
+import com.microsoft.rest.v2.annotations.SkipParentValidation;
 import com.microsoft.rest.v2.serializer.JsonFlatten;
 import java.util.List;
 

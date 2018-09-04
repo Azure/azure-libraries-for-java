@@ -12,6 +12,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.azure.v2.Resource;
 import com.microsoft.azure.v2.SubResource;
 import com.microsoft.azure.v2.management.network.ProvisioningState;
+import com.microsoft.rest.v2.annotations.SkipParentValidation;
 import com.microsoft.rest.v2.serializer.JsonFlatten;
 import java.util.List;
 

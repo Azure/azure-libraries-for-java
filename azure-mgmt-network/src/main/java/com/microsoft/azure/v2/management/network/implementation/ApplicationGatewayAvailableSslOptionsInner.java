@@ -14,6 +14,7 @@ import com.microsoft.azure.v2.SubResource;
 import com.microsoft.azure.v2.management.network.ApplicationGatewaySslCipherSuite;
 import com.microsoft.azure.v2.management.network.ApplicationGatewaySslPolicyName;
 import com.microsoft.azure.v2.management.network.ApplicationGatewaySslProtocol;
+import com.microsoft.rest.v2.annotations.SkipParentValidation;
 import com.microsoft.rest.v2.serializer.JsonFlatten;
 import java.util.List;
 

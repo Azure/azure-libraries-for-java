@@ -9,6 +9,8 @@ import com.microsoft.azure.v2.SubResource;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.v2.management.network.DdosProtectionPlan;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
 
 import java.util.Collections;
 import java.util.List;
@@ -36,14 +38,15 @@ class DdosProtectionPlanImpl
     }
 
     @Override
-    protected Observable<DdosProtectionPlanInner> getInnerAsync() {
+    protected Maybe<DdosProtectionPlanInner> getInnerAsync() {
         return this.manager().inner().ddosProtectionPlans().getByResourceGroupAsync(this.resourceGroupName(), this.name());
     }
 
     @Override
     public Observable<DdosProtectionPlan> createResourceAsync() {
         return this.manager().inner().ddosProtectionPlans().createOrUpdateAsync(resourceGroupName(), name(), inner())
-                .map(innerToFluentMap(this));
+                .map(innerToFluentMap(this))
+                .toObservable();
     }
 
     @Override

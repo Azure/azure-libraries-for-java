@@ -5,16 +5,16 @@
  */
 package com.microsoft.azure.v2.management.network.implementation;
 
-import com.microsoft.azure.PagedList;
+import com.microsoft.azure.v2.PagedList;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.v2.management.network.ExpressRouteCrossConnection;
 import com.microsoft.azure.v2.management.network.ExpressRouteCrossConnections;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.ResourceId;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.collection.implementation.ReadableWrappersImpl;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import rx.Observable;
-import rx.functions.Func1;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
 
 @LangDefinition
 class ExpressRouteCrossConnectionsImpl extends
@@ -36,11 +36,11 @@ class ExpressRouteCrossConnectionsImpl extends
 
     @Override
     public ExpressRouteCrossConnection getById(String id) {
-        return getByIdAsync(id).toBlocking().last();
+        return getByIdAsync(id).blockingGet();
     }
 
     @Override
-    public Observable<ExpressRouteCrossConnection> getByIdAsync(String id) {
+    public Maybe<ExpressRouteCrossConnection> getByIdAsync(String id) {
         ResourceId resourceId = ResourceId.fromString(id);
         return getByResourceGroupAsync(resourceId.resourceGroupName(), resourceId.name());
     }
@@ -52,17 +52,13 @@ class ExpressRouteCrossConnectionsImpl extends
 
     @Override
     public ExpressRouteCrossConnection getByResourceGroup(String resourceGroupName, String name) {
-        return getByResourceGroupAsync(resourceGroupName, name).toBlocking().last();
+        return getByResourceGroupAsync(resourceGroupName, name).blockingGet();
     }
 
     @Override
-    public Observable<ExpressRouteCrossConnection> getByResourceGroupAsync(String resourceGroupName, String name) {
-        return this.inner().getByResourceGroupAsync(resourceGroupName, name).map(new Func1<ExpressRouteCrossConnectionInner, ExpressRouteCrossConnection>() {
-            @Override
-            public ExpressRouteCrossConnection call(ExpressRouteCrossConnectionInner inner) {
-                return wrapModel(inner);
-            }
-        });
+    public Maybe<ExpressRouteCrossConnection> getByResourceGroupAsync(String resourceGroupName, String name) {
+        return this.inner().getByResourceGroupAsync(resourceGroupName, name)
+                .map(inner -> wrapModel(inner));
     }
 
     @Override

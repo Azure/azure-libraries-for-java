@@ -12,8 +12,8 @@ import com.microsoft.azure.v2.management.network.ExpressRouteCrossConnectionPeer
 import com.microsoft.azure.v2.management.network.ServiceProviderProvisioningState;
 import com.microsoft.azure.v2.management.network.model.GroupableParentResourceWithTagsImpl;
 import com.microsoft.azure.v2.management.resources.fluentcore.utils.Utils;
-import rx.Observable;
-import rx.functions.Func1;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -48,7 +48,8 @@ public class ExpressRouteCrossConnectionImpl extends GroupableParentResourceWith
     @Override
     protected Observable<ExpressRouteCrossConnectionInner> createInner() {
         return this.manager().inner().expressRouteCrossConnections().createOrUpdateAsync(
-                this.resourceGroupName(), this.name(), this.inner());
+                this.resourceGroupName(), this.name(), this.inner())
+                .toObservable();
     }
 
     @Override
@@ -63,25 +64,24 @@ public class ExpressRouteCrossConnectionImpl extends GroupableParentResourceWith
     }
 
     @Override
-    protected Observable<ExpressRouteCrossConnectionInner> getInnerAsync() {
+    protected Maybe<ExpressRouteCrossConnectionInner> getInnerAsync() {
         return this.manager().inner().expressRouteCrossConnections().getByResourceGroupAsync(this.resourceGroupName(), this.name());
     }
 
     @Override
-    public Observable<ExpressRouteCrossConnection> refreshAsync() {
-        return super.refreshAsync().map(new Func1<ExpressRouteCrossConnection, ExpressRouteCrossConnection>() {
-            @Override
-            public ExpressRouteCrossConnection call(ExpressRouteCrossConnection expressRouteCrossConnection) {
-                ExpressRouteCrossConnectionImpl impl = (ExpressRouteCrossConnectionImpl) expressRouteCrossConnection;
-                impl.initializeChildrenFromInner();
-                return impl;
-            }
-        });
+    public Maybe<ExpressRouteCrossConnection> refreshAsync() {
+        return super.refreshAsync()
+                .map(expressRouteCrossConnection -> {
+                    ExpressRouteCrossConnectionImpl impl = (ExpressRouteCrossConnectionImpl) expressRouteCrossConnection;
+                    impl.initializeChildrenFromInner();
+                    return impl;
+                });
     }
 
     @Override
     protected Observable<ExpressRouteCrossConnectionInner> applyTagsToInnerAsync() {
-        return this.manager().inner().expressRouteCrossConnections().updateTagsAsync(resourceGroupName(), name(), inner().getTags());
+        return this.manager().inner().expressRouteCrossConnections().updateTagsAsync(resourceGroupName(), name(), inner().getTags())
+                .toObservable();
     }
 
     @Override

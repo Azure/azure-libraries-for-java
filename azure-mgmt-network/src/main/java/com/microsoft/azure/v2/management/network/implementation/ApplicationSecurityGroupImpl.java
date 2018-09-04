@@ -8,7 +8,8 @@ package com.microsoft.azure.v2.management.network.implementation;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.v2.management.network.ApplicationSecurityGroup;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
-import rx.Observable;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
 
 /**
  *  Implementation for ApplicationSecurityGroup and its create and update interfaces.
@@ -33,14 +34,15 @@ class ApplicationSecurityGroupImpl
     }
 
     @Override
-    protected Observable<ApplicationSecurityGroupInner> getInnerAsync() {
+    protected Maybe<ApplicationSecurityGroupInner> getInnerAsync() {
         return this.manager().inner().applicationSecurityGroups().getByResourceGroupAsync(this.resourceGroupName(), this.name());
     }
 
     @Override
     public Observable<ApplicationSecurityGroup> createResourceAsync() {
         return this.manager().inner().applicationSecurityGroups().createOrUpdateAsync(resourceGroupName(), name(), inner())
-                .map(innerToFluentMap(this));
+                .map(innerToFluentMap(this))
+                .toObservable();
     }
 
     @Override

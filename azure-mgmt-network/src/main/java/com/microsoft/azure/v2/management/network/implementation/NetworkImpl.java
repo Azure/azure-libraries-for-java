@@ -53,12 +53,12 @@ class NetworkImpl
             final NetworkManager networkManager) {
         super(name, innerModel, networkManager);
     }
-
+    subnetsProperty
     @Override
     protected void initializeChildrenFromInner() {
         // Initialize subnets
         this.subnets = new TreeMap<>();
-        List<SubnetInner> inners = this.inner().subnets();
+        List<SubnetInner> inners = this.inner().subnetsProperty();
         if (inners != null) {
             for (SubnetInner inner : inners) {
                 SubnetImpl subnet = new SubnetImpl(inner, this);
@@ -249,7 +249,7 @@ class NetworkImpl
         }
 
         // Reset and update subnets
-        this.inner().withSubnets(innersFromWrappers(this.subnets.values()));
+        this.inner().withSubnetsProperty(innersFromWrappers(this.subnets.values()));
     }
 
     @Override

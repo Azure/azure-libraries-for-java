@@ -54,8 +54,8 @@ class NetworksImpl
         }
 
         // Initialize subnets
-        if (inner.subnets() == null) {
-            inner.withSubnets(new ArrayList<SubnetInner>());
+        if (inner.subnetsProperty() == null) {
+            inner.withSubnetsProperty(new ArrayList<SubnetInner>());
         }
 
         // Initialize DHCP options (DNS servers)

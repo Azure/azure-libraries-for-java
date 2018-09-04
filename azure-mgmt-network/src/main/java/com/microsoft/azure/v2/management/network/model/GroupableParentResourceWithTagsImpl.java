@@ -11,8 +11,7 @@ import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.Resourc
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.implementation.GroupableParentResourceImpl;
 import com.microsoft.rest.v2.ServiceCallback;
 import com.microsoft.rest.v2.ServiceFuture;
-import rx.Observable;
-import rx.functions.Func1;
+import io.reactivex.Observable;
 
 /**
  * The implementation for {@link GroupableResource} that can update tags as a separate operation.
@@ -44,7 +43,7 @@ public abstract class GroupableParentResourceWithTagsImpl<
 
     @Override
     public FluentModelT applyTags() {
-        return applyTagsAsync().toBlocking().last();
+        return applyTagsAsync().blockingLast();
     }
 
     protected abstract Observable<InnerModelT> applyTagsToInnerAsync();
@@ -54,16 +53,14 @@ public abstract class GroupableParentResourceWithTagsImpl<
         @SuppressWarnings("unchecked")
         final FluentModelT self = (FluentModelT) this;
         return applyTagsToInnerAsync()
-                .flatMap(new Func1<InnerModelT, Observable<FluentModelT>>() {
-                    @Override
-                    public Observable<FluentModelT> call(InnerModelT inner) {
-                        setInner(inner);
-                        return Observable.just(self);                    }
+                .flatMap((InnerModelT inner) -> {
+                    setInner(inner);
+                    return Observable.just(self);
                 });
     }
 
     @Override
     public ServiceFuture<FluentModelT> applyTagsAsync(ServiceCallback<FluentModelT> callback) {
-        return ServiceFuture.fromBody(applyTagsAsync(), callback);
+        return ServiceFuture.fromBody(applyTagsAsync().lastElement(), callback);
     }
 }

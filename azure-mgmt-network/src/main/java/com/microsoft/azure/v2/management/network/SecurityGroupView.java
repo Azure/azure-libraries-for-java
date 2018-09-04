@@ -6,6 +6,7 @@
 package com.microsoft.azure.v2.management.network;
 
 import com.microsoft.azure.management.apigeneration.Fluent;
+import com.microsoft.azure.v2.management.network.implementation.SecurityGroupNetworkInterfaceInner;
 import com.microsoft.azure.v2.management.network.implementation.SecurityGroupViewResultInner;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.HasParent;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
@@ -25,7 +26,7 @@ public interface SecurityGroupView extends HasInner<SecurityGroupViewResultInner
     /**
      * @return network interfaces on the specified VM
      */
-    Map<String, SecurityGroupNetworkInterface> networkInterfaces();
+    Map<String, SecurityGroupNetworkInterfaceInner> networkInterfaces();
 
     /**
      * @return virtual machine id

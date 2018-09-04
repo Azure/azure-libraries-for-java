@@ -8,6 +8,7 @@ package com.microsoft.azure.v2.management.network;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.v2.management.network.implementation.ExpressRouteCrossConnectionPeeringInner;
+import com.microsoft.azure.v2.management.network.implementation.Ipv6ExpressRouteCircuitPeeringConfigInner;
 import com.microsoft.azure.v2.management.network.implementation.NetworkManager;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.IndependentChild;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Appliable;
@@ -100,7 +101,7 @@ public interface ExpressRouteCrossConnectionPeering extends
     /**
      * @return the IPv6 peering configuration.
      */
-    Ipv6ExpressRouteCircuitPeeringConfig ipv6PeeringConfig();
+    Ipv6ExpressRouteCircuitPeeringConfigInner ipv6PeeringConfig();
 
 
     /**

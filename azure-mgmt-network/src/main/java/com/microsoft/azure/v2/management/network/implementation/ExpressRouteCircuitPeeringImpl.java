@@ -11,7 +11,6 @@ import com.microsoft.azure.v2.management.network.ExpressRouteCircuitPeering;
 import com.microsoft.azure.v2.management.network.ExpressRouteCircuitPeeringConfig;
 import com.microsoft.azure.v2.management.network.ExpressRoutePeeringState;
 import com.microsoft.azure.v2.management.network.ExpressRoutePeeringType;
-import com.microsoft.azure.v2.management.network.Ipv6ExpressRouteCircuitPeeringConfig;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
 import com.microsoft.azure.v2.management.resources.fluentcore.utils.Utils;
 import rx.Observable;
@@ -178,7 +177,7 @@ class ExpressRouteCircuitPeeringImpl extends
     }
 
     @Override
-    public Ipv6ExpressRouteCircuitPeeringConfig ipv6PeeringConfig() {
+    public Ipv6ExpressRouteCircuitPeeringConfigInner ipv6PeeringConfig() {
         return inner().ipv6PeeringConfig();
     }
 

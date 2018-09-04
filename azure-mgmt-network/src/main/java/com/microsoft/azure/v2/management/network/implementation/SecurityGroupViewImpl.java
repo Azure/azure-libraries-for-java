@@ -24,7 +24,7 @@ import java.util.TreeMap;
 @LangDefinition
 class SecurityGroupViewImpl extends RefreshableWrapperImpl<SecurityGroupViewResultInner, SecurityGroupView>
         implements SecurityGroupView {
-    private Map<String, SecurityGroupNetworkInterface> networkInterfaces;
+    private Map<String, SecurityGroupNetworkInterfaceInner> networkInterfaces;
     private final NetworkWatcherImpl parent;
     private final String vmId;
 
@@ -37,16 +37,16 @@ class SecurityGroupViewImpl extends RefreshableWrapperImpl<SecurityGroupViewResu
 
     private void initializeFromInner() {
         this.networkInterfaces = new TreeMap<>();
-        List<SecurityGroupNetworkInterface> securityGroupNetworkInterfaces = this.inner().networkInterfaces();
+        List<SecurityGroupNetworkInterfaceInner> securityGroupNetworkInterfaces = this.inner().networkInterfaces();
         if (securityGroupNetworkInterfaces != null) {
-            for (SecurityGroupNetworkInterface networkInterface : securityGroupNetworkInterfaces) {
+            for (SecurityGroupNetworkInterfaceInner networkInterface : securityGroupNetworkInterfaces) {
                 this.networkInterfaces.put(networkInterface.id(), networkInterface);
             }
         }
     }
 
     @Override
-    public Map<String, SecurityGroupNetworkInterface> networkInterfaces() {
+    public Map<String, SecurityGroupNetworkInterfaceInner> networkInterfaces() {
         return Collections.unmodifiableMap(this.networkInterfaces);
     }
 

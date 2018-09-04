@@ -8,8 +8,8 @@ package com.microsoft.azure.v2.management.network.implementation;
 import java.io.File;
 import java.io.IOException;
 
-import com.microsoft.azure.SubResource;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
+import com.microsoft.azure.v2.SubResource;
 import com.microsoft.azure.v2.management.network.ApplicationGateway;
 import com.microsoft.azure.v2.management.network.ApplicationGatewayFrontend;
 import com.microsoft.azure.v2.management.network.ApplicationGatewayHttpListener;

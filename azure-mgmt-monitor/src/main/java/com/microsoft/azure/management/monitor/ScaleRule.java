@@ -59,13 +59,12 @@ public interface ScaleRule extends
             WithScaleAction withCondition(ComparisonOperationType condition, TimeAggregationType timeAggregation, double threshold);
         }
 
-        interface WithScaleAction
-        {
+        interface WithScaleAction {
             WithAttach withScaleAction(ScaleDirection direction, ScaleType type, int instanceCountChange, Period cooldown);
         }
 
         interface WithAttach extends
-                Attachable.InDefinition<AutoscaleProfile.DefinitionStages.WithScaleRuleOptional>{
+                Attachable.InDefinition<AutoscaleProfile.DefinitionStages.WithScaleRuleOptional> {
         }
     }
 
@@ -95,8 +94,7 @@ public interface ScaleRule extends
             WithScaleAction withCondition(ComparisonOperationType condition, TimeAggregationType timeAggregation, double threshold);
         }
 
-        interface WithScaleAction
-        {
+        interface WithScaleAction {
             WithAttach withScaleAction(ScaleDirection direction, ScaleType type, int instanceCountChange, Period cooldown);
         }
 
@@ -142,7 +140,7 @@ public interface ScaleRule extends
     }
 
     interface Update extends
-            Settable<AutoscaleProfile.Update>{
+            Settable<AutoscaleProfile.Update> {
         Update withMetricSource(String metricSourceResourceId);
         Update withMetricName(String metricName);
         Update withStatistic(Period duration, Period frequency, MetricStatisticType statisticType);

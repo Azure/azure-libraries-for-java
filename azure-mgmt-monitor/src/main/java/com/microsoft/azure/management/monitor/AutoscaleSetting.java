@@ -101,7 +101,7 @@ public interface AutoscaleSetting extends
             Creatable<AutoscaleSetting>,
             DefineAutoscaleSettingResourceProfiles,
             DefineAutoscaleSettingResourceNotifications,
-            WithAutoscaleSettingResourceEnabled{
+            WithAutoscaleSettingResourceEnabled {
         }
     }
 

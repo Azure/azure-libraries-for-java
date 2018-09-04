@@ -39,10 +39,10 @@ class AutoscaleProfileImpl
         super(innerObject);
         this.inner().withName(name);
         this.parent = parent;
-        if(this.inner().capacity() == null) {
+        if (this.inner().capacity() == null) {
             this.inner().withCapacity(new ScaleCapacity());
         }
-        if(this.inner().rules() == null) {
+        if (this.inner().rules() == null) {
             this.inner().withRules(new ArrayList<ScaleRuleInner>());
         }
     }
@@ -54,7 +54,7 @@ class AutoscaleProfileImpl
 
     @Override
     public int minInstanceCount() {
-        if(this.inner().capacity() != null) {
+        if (this.inner().capacity() != null) {
             return Integer.parseInt(this.inner().capacity().minimum());
         }
         return 0;
@@ -62,7 +62,7 @@ class AutoscaleProfileImpl
 
     @Override
     public int maxInstanceCount() {
-        if(this.inner().capacity() != null) {
+        if (this.inner().capacity() != null) {
             return Integer.parseInt(this.inner().capacity().maximum());
         }
         return 0;
@@ -70,7 +70,7 @@ class AutoscaleProfileImpl
 
     @Override
     public int defaultInstanceCount() {
-        if(this.inner().capacity() != null) {
+        if (this.inner().capacity() != null) {
             return Integer.parseInt(this.inner().capacity().defaultProperty());
         }
         return 0;
@@ -89,7 +89,7 @@ class AutoscaleProfileImpl
     @Override
     public List<ScaleRule> rules() {
         List<ScaleRule> rules = new ArrayList<>();
-        if(this.inner().rules() != null) {
+        if (this.inner().rules() != null) {
             for (ScaleRuleInner ruleInner : this.inner().rules()) {
                 rules.add(new ScaleRuleImpl(ruleInner, this));
             }
@@ -126,7 +126,7 @@ class AutoscaleProfileImpl
                                         .withTimeZone(timeZone)
                                         .withStart(start)
                                         .withEnd(end));
-        if(this.inner().recurrence() != null) {
+        if (this.inner().recurrence() != null) {
             this.inner().withRecurrence(null);
         }
         return this;
@@ -134,21 +134,24 @@ class AutoscaleProfileImpl
 
     @Override
     public AutoscaleProfileImpl withRecurrentSchedule(String scheduleTimeZone, String startTime, DayOfWeek... weekday) {
-        int hh, mm;
-        if(Strings.isNullOrEmpty(startTime) ||
-                startTime.length() != 5 ||
-                startTime.charAt(2) != ':' ||
-                !Character.isDigit(startTime.charAt(0)) ||
-                !Character.isDigit(startTime.charAt(1)) ||
-                !Character.isDigit(startTime.charAt(3)) ||
-                !Character.isDigit(startTime.charAt(4)) ||
-                (hh = Integer.parseInt(startTime.substring(0,2))) > 23 ||
-                (mm = Integer.parseInt(startTime.substring(3))) > 60) {
+        if (Strings.isNullOrEmpty(startTime)
+                || startTime.length() != 5
+                || startTime.charAt(2) != ':'
+                || !Character.isDigit(startTime.charAt(0))
+                || !Character.isDigit(startTime.charAt(1))
+                || !Character.isDigit(startTime.charAt(3))
+                || !Character.isDigit(startTime.charAt(4))) {
+            throw new IllegalArgumentException("Start time should have format of 'hh:mm' where hh is in 24-hour clock (AM/PM times are not supported).");
+        }
+
+        int hh = Integer.parseInt(startTime.substring(0,2));
+        int mm = Integer.parseInt(startTime.substring(3));
+        if (hh > 23
+                || mm > 60) {
             throw new IllegalArgumentException("Start time should have format of 'hh:mm' where hh is in 24-hour clock (AM/PM times are not supported).");
         }
 
         this.inner().withRecurrence(new Recurrence());
-
         this.inner().recurrence().withFrequency(RecurrenceFrequency.WEEK);
         this.inner().recurrence().withSchedule(new RecurrentSchedule());
         this.inner().recurrence().schedule().withTimeZone(scheduleTimeZone);
@@ -158,7 +161,7 @@ class AutoscaleProfileImpl
         this.inner().recurrence().schedule().minutes().add(mm);
         this.inner().recurrence().schedule().withDays(new ArrayList<String>());
 
-        for(DayOfWeek dof : weekday) {
+        for (DayOfWeek dof : weekday) {
             this.inner().recurrence().schedule().days().add(dof.toString());
         }
 

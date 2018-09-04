@@ -37,15 +37,15 @@ class AutoscaleSettingImpl
 
     AutoscaleSettingImpl(String name, final AutoscaleSettingResourceInner innerModel, final MonitorManager monitorManager) {
         super(name, innerModel, monitorManager);
-        if(isInCreateMode()) {
+        if (isInCreateMode()) {
             this.inner().withEnabled(true);
         }
-        if(this.inner().notifications() == null) {
+        if (this.inner().notifications() == null) {
             this.inner().withNotifications(new ArrayList<AutoscaleNotification>());
             this.inner().notifications().add(new AutoscaleNotification());
         }
-        if(this.inner().profiles() == null) {
-         this.inner().withProfiles(new ArrayList<AutoscaleProfileInner>());
+        if (this.inner().profiles() == null) {
+            this.inner().withProfiles(new ArrayList<AutoscaleProfileInner>());
         }
     }
 
@@ -57,7 +57,7 @@ class AutoscaleSettingImpl
     @Override
     public Map<String, AutoscaleProfile> profiles() {
         Map<String, AutoscaleProfile> result = new HashMap<>();
-        for(AutoscaleProfileInner profileInner : this.inner().profiles()) {
+        for (AutoscaleProfileInner profileInner : this.inner().profiles()) {
             AutoscaleProfile profileImpl = new AutoscaleProfileImpl(profileInner.name(), profileInner, this);
             result.put(profileImpl.name(), profileImpl);
         }
@@ -71,7 +71,7 @@ class AutoscaleSettingImpl
 
     @Override
     public boolean adminEmailNotificationEnabled() {
-        if(this.inner().notifications() != null
+        if (this.inner().notifications() != null
                 && this.inner().notifications().get(0) != null
                 && this.inner().notifications().get(0).email() != null) {
             return this.inner().notifications().get(0).email().sendToSubscriptionAdministrator();
@@ -81,7 +81,7 @@ class AutoscaleSettingImpl
 
     @Override
     public boolean coAdminEmailNotificationEnabled() {
-        if(this.inner().notifications() != null
+        if (this.inner().notifications() != null
                 && this.inner().notifications().get(0) != null
                 && this.inner().notifications().get(0).email() != null) {
             return this.inner().notifications().get(0).email().sendToSubscriptionCoAdministrators();
@@ -91,7 +91,7 @@ class AutoscaleSettingImpl
 
     @Override
     public List<String> customEmailsNotification() {
-        if(this.inner().notifications() != null
+        if (this.inner().notifications() != null
                 && this.inner().notifications().get(0) != null
                 && this.inner().notifications().get(0).email() != null
                 && this.inner().notifications().get(0).email().customEmails() != null) {
@@ -102,7 +102,7 @@ class AutoscaleSettingImpl
 
     @Override
     public String webhookNotification() {
-        if(this.inner().notifications() != null
+        if (this.inner().notifications() != null
                 && this.inner().notifications().get(0) != null
                 && this.inner().notifications().get(0).email() != null
                 && this.inner().notifications().get(0).webhooks() != null
@@ -120,7 +120,7 @@ class AutoscaleSettingImpl
     @Override
     public AutoscaleProfileImpl updateAutoscaleProfile(String name) {
         int idx = getProfileIndexByName(name);
-        if(idx == -1) {
+        if (idx == -1) {
             throw new IllegalArgumentException("Cannot find autoscale profile with the name '" + name + "'");
         }
         AutoscaleProfileInner innerProfile = this.inner().profiles().get(idx);
@@ -131,7 +131,7 @@ class AutoscaleSettingImpl
     @Override
     public AutoscaleSettingImpl withoutAutoscaleProfile(String name) {
         int idx = getProfileIndexByName(name);
-        if(idx != -1) {
+        if (idx != -1) {
             this.inner().profiles().remove(idx);
         }
         return this;
@@ -161,7 +161,7 @@ class AutoscaleSettingImpl
     public AutoscaleSettingImpl withCustomEmailsNotification(String... customEmailAddresses) {
         AutoscaleNotification notificationInner = getNotificationInner();
         notificationInner.email().withCustomEmails(new ArrayList<String>());
-        for(String strEmail : customEmailAddresses) {
+        for (String strEmail : customEmailAddresses) {
             notificationInner.email().customEmails().add(strEmail);
         }
         return this;
@@ -170,10 +170,10 @@ class AutoscaleSettingImpl
     @Override
     public AutoscaleSettingImpl withWebhookNotification(String serviceUri) {
         AutoscaleNotification notificationInner = getNotificationInner();
-        if(notificationInner.webhooks() == null) {
+        if (notificationInner.webhooks() == null) {
             notificationInner.withWebhooks(new ArrayList<WebhookNotification>());
         }
-        if(notificationInner.webhooks().isEmpty()) {
+        if (notificationInner.webhooks().isEmpty()) {
             notificationInner.webhooks().add(new WebhookNotification());
         }
         notificationInner.webhooks().get(0).withServiceUri(serviceUri);
@@ -238,8 +238,8 @@ class AutoscaleSettingImpl
 
     private int getProfileIndexByName(String name) {
         int idxResult = -1;
-        for(int idx=0; idx< this.inner().profiles().size(); idx++) {
-            if(this.inner().profiles().get(idx).name().equalsIgnoreCase(name)) {
+        for (int idx = 0; idx < this.inner().profiles().size(); idx++) {
+            if (this.inner().profiles().get(idx).name().equalsIgnoreCase(name)) {
                 idxResult = idx;
                 break;
             }
@@ -249,7 +249,7 @@ class AutoscaleSettingImpl
 
     private AutoscaleNotification getNotificationInner() {
         AutoscaleNotification notificationInner = this.inner().notifications().get(0);
-        if(notificationInner.email() == null) {
+        if (notificationInner.email() == null) {
             notificationInner.withEmail(new EmailNotification());
         }
         return notificationInner;

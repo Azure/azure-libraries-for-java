@@ -36,9 +36,15 @@ public class AutoscaleTests extends MonitorManagementTest {
     public void canCRUDAutoscale() throws Exception {
 
         try {
+            resourceManager.resourceGroups().define(RG_NAME)
+                    .withRegion(Region.US_EAST2)
+                    .withTag("type", "autoscale")
+                    .withTag("tagname", "tagvalue")
+                    .create();
+
             AppServicePlan servicePlan = appServiceManager.appServicePlans().define("HighlyAvailableWebApps")
                     .withRegion(Region.US_EAST2)
-                    .withNewResourceGroup(RG_NAME)
+                    .withExistingResourceGroup(RG_NAME)
                     .withPricingTier(PricingTier.PREMIUM_P1)
                     .withOperatingSystem(OperatingSystem.WINDOWS)
                     .create();
@@ -110,18 +116,18 @@ public class AutoscaleTests extends MonitorManagementTest {
             Assert.assertEquals(RecurrenceFrequency.WEEK, tempProfile.recurrentSchedule().frequency());
             Assert.assertNotNull(tempProfile.recurrentSchedule().schedule());
 
-            /*
+
             setting.update()
                     .defineAutoscaleProfile("very new profile")
                         .withScheduleBasedScale(10)
-                        .withFixedDateSchedule("pst", DateTime.now().minusDays(2), DateTime.now())
+                        .withFixedDateSchedule("UTC", DateTime.now().minusDays(2), DateTime.now())
                         .attach()
                     .defineAutoscaleProfile("a new profile")
                         .withMetricBasedScale(5, 7, 6)
                         .defineScaleRule()
                             .withMetricSource(servicePlan.id())
                             .withMetricName("CPUPercentage")
-                            .withStatistic(Period.days(10), Period.days(1), MetricStatisticType.AVERAGE)
+                            .withStatistic(Period.hours(10), Period.hours(1), MetricStatisticType.AVERAGE)
                             .withCondition(ComparisonOperationType.LESS_THAN, TimeAggregationType.TOTAL, 6)
                             .withScaleAction(ScaleDirection.DECREASE, ScaleType.PERCENT_CHANGE_COUNT, 10, Period.hours(10))
                             .attach()
@@ -130,11 +136,11 @@ public class AutoscaleTests extends MonitorManagementTest {
                         .updateScaleRule(0)
                             .withStatistic(Period.minutes(15), Period.minutes(1), MetricStatisticType.AVERAGE)
                             .parent()
-                        .withFixedDateSchedule("PST", DateTime.now().minusDays(2), DateTime.now())
+                        .withFixedDateSchedule("UTC", DateTime.now().minusDays(2), DateTime.now())
                         .defineScaleRule()
                             .withMetricSource(servicePlan.id())
                             .withMetricName("CPUPercentage")
-                            .withStatistic(Period.days(5), Period.days(3), MetricStatisticType.AVERAGE)
+                            .withStatistic(Period.hours(5), Period.hours(3), MetricStatisticType.AVERAGE)
                             .withCondition(ComparisonOperationType.LESS_THAN, TimeAggregationType.TOTAL, 50)
                             .withScaleAction(ScaleDirection.DECREASE, ScaleType.PERCENT_CHANGE_COUNT, 25, Period.hours(2))
                         .attach()
@@ -142,7 +148,7 @@ public class AutoscaleTests extends MonitorManagementTest {
                         .parent()
                     .withAutoscaleEnabled()
                     .withoutCoAdminEmailNotification()
-                    .apply();*/
+                    .apply();
         }
         finally {
             resourceManager.resourceGroups().beginDeleteByName(RG_NAME);

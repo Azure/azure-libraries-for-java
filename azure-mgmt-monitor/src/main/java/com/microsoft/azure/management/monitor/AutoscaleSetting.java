@@ -57,6 +57,7 @@ public interface AutoscaleSetting extends
 
     interface Definition extends
         DefinitionStages.Blank,
+        DefinitionStages.WithGroup,
         DefinitionStages.WithCreate,
         DefinitionStages.DefineAutoscaleSettingResourceProfiles,
         DefinitionStages.WithAutoscaleSettingResourceTargetResourceUri,
@@ -65,8 +66,10 @@ public interface AutoscaleSetting extends
 
     interface DefinitionStages {
 
-        interface Blank extends
-                GroupableResource.DefinitionStages.WithGroupAndRegion<WithAutoscaleSettingResourceTargetResourceUri>{
+        interface Blank extends DefinitionWithRegion<WithGroup> {
+        }
+
+        interface WithGroup extends GroupableResource.DefinitionStages.WithGroup<WithAutoscaleSettingResourceTargetResourceUri> {
         }
 
         interface WithAutoscaleSettingResourceTargetResourceUri {

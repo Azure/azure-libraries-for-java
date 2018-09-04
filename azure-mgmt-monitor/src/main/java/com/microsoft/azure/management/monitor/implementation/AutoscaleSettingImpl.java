@@ -44,7 +44,9 @@ class AutoscaleSettingImpl
             this.inner().withNotifications(new ArrayList<AutoscaleNotification>());
             this.inner().notifications().add(new AutoscaleNotification());
         }
-
+        if(this.inner().profiles() == null) {
+         this.inner().withProfiles(new ArrayList<AutoscaleProfileInner>());
+        }
     }
 
     @Override
@@ -168,6 +170,12 @@ class AutoscaleSettingImpl
     @Override
     public AutoscaleSettingImpl withWebhookNotification(String serviceUri) {
         AutoscaleNotification notificationInner = getNotificationInner();
+        if(notificationInner.webhooks() == null) {
+            notificationInner.withWebhooks(new ArrayList<WebhookNotification>());
+        }
+        if(notificationInner.webhooks().isEmpty()) {
+            notificationInner.webhooks().add(new WebhookNotification());
+        }
         notificationInner.webhooks().get(0).withServiceUri(serviceUri);
         return this;
     }
@@ -196,8 +204,7 @@ class AutoscaleSettingImpl
     @Override
     public AutoscaleSettingImpl withoutWebhookNotification() {
         AutoscaleNotification notificationInner = getNotificationInner();
-        notificationInner.webhooks().clear();
-        notificationInner.webhooks().add(new WebhookNotification());
+        notificationInner.withWebhooks(null);
         return this;
     }
 
@@ -215,7 +222,6 @@ class AutoscaleSettingImpl
 
     @Override
     public Observable<AutoscaleSetting> createResourceAsync() {
-        this.inner().withLocation("global");
         return this.manager().inner().autoscaleSettings().createOrUpdateAsync(this.resourceGroupName(), this.name(), this.inner())
                 .map(innerToFluentMap(this));
     }
@@ -245,10 +251,6 @@ class AutoscaleSettingImpl
         AutoscaleNotification notificationInner = this.inner().notifications().get(0);
         if(notificationInner.email() == null) {
             notificationInner.withEmail(new EmailNotification());
-        }
-        if(notificationInner.webhooks() == null) {
-            notificationInner.withWebhooks(new ArrayList<WebhookNotification>());
-            notificationInner.webhooks().add(new WebhookNotification());
         }
         return notificationInner;
     }

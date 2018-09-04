@@ -6,21 +6,15 @@
 
 package com.microsoft.azure.management.monitor;
 
-import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.appservice.AppServicePlan;
 import com.microsoft.azure.management.appservice.OperatingSystem;
 import com.microsoft.azure.management.appservice.PricingTier;
-import com.microsoft.azure.management.compute.VirtualMachine;
-import com.microsoft.azure.management.resources.ResourceGroup;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.storage.StorageAccount;
 import com.microsoft.rest.RestClient;
 import org.joda.time.DateTime;
 import org.joda.time.Period;
 import org.junit.Assert;
 import org.junit.Test;
-
-import java.util.Iterator;
 
 public class AutoscaleTests extends MonitorManagementTest {
     private static String RG_NAME = "";
@@ -51,8 +45,14 @@ public class AutoscaleTests extends MonitorManagementTest {
 
             AutoscaleSetting setting = monitorManager.autoscaleSettings()
                     .define("somesettingZ")
+                    .withRegion(Region.US_EAST2)
                     .withExistingResourceGroup(RG_NAME)
                     .withTargetResource(servicePlan.id())
+
+                    .defineAutoscaleProfile("Default")
+                        .withScheduleBasedScale(3)
+                        .withRecurrentSchedule("UTC", "18:00", DayOfWeek.MONDAY, DayOfWeek.TUESDAY, DayOfWeek.SATURDAY)
+                        .attach()
 
                     .defineAutoscaleProfile("AutoScaleProfile1")
                         .withMetricBasedScale(1, 10, 1)
@@ -65,7 +65,7 @@ public class AutoscaleTests extends MonitorManagementTest {
                             .withCondition(ComparisonOperationType.GREATER_THAN, TimeAggregationType.AVERAGE, 70)
                             .withScaleAction(ScaleDirection.INCREASE, ScaleType.EXACT_COUNT, 10, Period.hours(12))
                             .attach()
-                        .withFixedDateSchedule("EST", DateTime.now().minusDays(2), DateTime.now())
+                        .withFixedDateSchedule("UTC", DateTime.now().minusDays(2), DateTime.now())
                         .attach()
 
                     .defineAutoscaleProfile("AutoScaleProfile2")
@@ -77,23 +77,40 @@ public class AutoscaleTests extends MonitorManagementTest {
                             .withCondition(ComparisonOperationType.LESS_THAN, TimeAggregationType.AVERAGE, 20)
                             .withScaleAction(ScaleDirection.DECREASE, ScaleType.EXACT_COUNT, 1, Period.hours(3))
                             .attach()
-                        .withRecurrentSchedule("EST", "18:00", DayOfWeek.MONDAY, DayOfWeek.TUESDAY, DayOfWeek.SATURDAY)
-                        .attach()
-
-                    .defineAutoscaleProfile("ScheduleBased")
-                        .withScheduleBasedScale(10)
-                        .withRecurrentSchedule("EST", "18:00", DayOfWeek.MONDAY, DayOfWeek.TUESDAY, DayOfWeek.SATURDAY)
+                        .withRecurrentSchedule("UTC", "18:00", DayOfWeek.MONDAY, DayOfWeek.TUESDAY, DayOfWeek.SATURDAY)
                         .attach()
 
                     .withAdminEmailNotification()
                     .withCoAdminEmailNotification()
-                    .withCustomEmailsNotification("me@mycorp.com;you@mycorp.com;him@mycorp.com")
+                    .withCustomEmailsNotification("me@mycorp.com", "you@mycorp.com", "him@mycorp.com")
                     .withAutoscaleDisabled()
                     .create();
 
-            setting.id();
-            setting.name();
+            Assert.assertNotNull(setting);
+            Assert.assertEquals("somesettingZ", setting.name());
+            Assert.assertEquals(servicePlan.id(), setting.targetResourceId());
+            Assert.assertTrue(setting.adminEmailNotificationEnabled());
+            Assert.assertTrue(setting.coAdminEmailNotificationEnabled());
+            Assert.assertFalse(setting.autoscaleEnabled());
+            Assert.assertEquals(3, setting.customEmailsNotification().size());
+            Assert.assertEquals("me@mycorp.com", setting.customEmailsNotification().get(0));
+            Assert.assertEquals("you@mycorp.com", setting.customEmailsNotification().get(1));
+            Assert.assertEquals("him@mycorp.com", setting.customEmailsNotification().get(2));
+            Assert.assertEquals(3, setting.profiles().size());
+            AutoscaleProfile tempProfile = setting.profiles().get("Default");
+            Assert.assertNotNull(tempProfile);
+            Assert.assertEquals("Default", tempProfile.name());
+            Assert.assertEquals(3, tempProfile.defaultInstanceCount());
+            Assert.assertEquals(3, tempProfile.maxInstanceCount());
+            Assert.assertEquals(3, tempProfile.minInstanceCount());
+            Assert.assertNull(tempProfile.fixedDateSchedule());
+            Assert.assertNotNull(tempProfile.rules());
+            Assert.assertEquals(0, tempProfile.rules().size());
+            Assert.assertNotNull(tempProfile.recurrentSchedule());
+            Assert.assertEquals(RecurrenceFrequency.WEEK, tempProfile.recurrentSchedule().frequency());
+            Assert.assertNotNull(tempProfile.recurrentSchedule().schedule());
 
+            /*
             setting.update()
                     .defineAutoscaleProfile("very new profile")
                         .withScheduleBasedScale(10)
@@ -125,7 +142,7 @@ public class AutoscaleTests extends MonitorManagementTest {
                         .parent()
                     .withAutoscaleEnabled()
                     .withoutCoAdminEmailNotification()
-                    .apply();
+                    .apply();*/
         }
         finally {
             resourceManager.resourceGroups().beginDeleteByName(RG_NAME);

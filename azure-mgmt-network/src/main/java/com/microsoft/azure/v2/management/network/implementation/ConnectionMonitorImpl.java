@@ -15,9 +15,9 @@ import com.microsoft.azure.v2.management.network.ProvisioningState;
 import com.microsoft.azure.v2.management.network.model.HasNetworkInterfaces;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
 import com.microsoft.azure.v2.management.resources.fluentcore.utils.Utils;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
+import io.reactivex.Completable;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
 
 import java.time.OffsetDateTime;
 import java.util.Collections;
@@ -47,7 +47,7 @@ public class ConnectionMonitorImpl extends
     }
 
     @Override
-    protected Observable<ConnectionMonitorResultInner> getInnerAsync() {
+    protected Maybe<ConnectionMonitorResultInner> getInnerAsync() {
         return this.client.getAsync(parent.resourceGroupName(), parent.name(), name());
     }
 
@@ -58,7 +58,7 @@ public class ConnectionMonitorImpl extends
 
     @Override
     public Map<String, String> tags() {
-        Map<String, String> tags = this.inner().tags();
+        Map<String, String> tags = this.inner().getTags();
         if (tags == null) {
             tags = new TreeMap<>();
         }
@@ -102,50 +102,37 @@ public class ConnectionMonitorImpl extends
 
     @Override
     public void stop() {
-        stopAsync().await();
+        stopAsync().blockingAwait();
     }
 
     @Override
     public Completable stopAsync() {
         return this.client.stopAsync(parent.resourceGroupName(), parent.name(), name())
-                .flatMap(new Func1<Void, Observable<?>>() {
-                    @Override
-                    public Observable<?> call(Void aVoid) {
-                        return refreshAsync();
-                    }
-                }).toCompletable();
+                .andThen(refreshAsync())
+                .flatMapCompletable(o ->  Completable.complete());
     }
 
     @Override
     public void start() {
-        startAsync().await();
+        startAsync().blockingAwait();
     }
 
     @Override
     public Completable startAsync() {
         return this.client.startAsync(parent.resourceGroupName(), parent.name(), name())
-                .flatMap(new Func1<Void, Observable<?>>() {
-                    @Override
-                    public Observable<?> call(Void aVoid) {
-                        return refreshAsync();
-                    }
-                }).toCompletable();
+                .andThen(refreshAsync())
+                .flatMapCompletable(o ->  Completable.complete());
     }
 
     @Override
     public ConnectionMonitorQueryResult query() {
-        return queryAsync().toBlocking().last();
+        return queryAsync().blockingGet();
     }
 
     @Override
-    public Observable<ConnectionMonitorQueryResult> queryAsync() {
+    public Maybe<ConnectionMonitorQueryResult> queryAsync() {
         return this.client.queryAsync(parent.resourceGroupName(), parent.name(), name())
-                .map(new Func1<ConnectionMonitorQueryResultInner, ConnectionMonitorQueryResult>() {
-                    @Override
-                    public ConnectionMonitorQueryResult call(ConnectionMonitorQueryResultInner inner) {
-                        return new ConnectionMonitorQueryResultImpl(inner);
-                    }
-                });
+                .map(inner -> new ConnectionMonitorQueryResultImpl(inner));
     }
 
     @Override
@@ -156,7 +143,8 @@ public class ConnectionMonitorImpl extends
     @Override
     public Observable<ConnectionMonitor> createResourceAsync() {
         return this.client.createOrUpdateAsync(parent.resourceGroupName(), parent.name(), this.name(), createParameters)
-                .map(innerToFluentMap(this));
+                .map(innerToFluentMap(this))
+                .toObservable();
     }
 
     @Override

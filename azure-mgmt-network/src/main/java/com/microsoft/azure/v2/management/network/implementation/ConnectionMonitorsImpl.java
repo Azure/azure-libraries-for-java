@@ -5,7 +5,7 @@
  */
 package com.microsoft.azure.v2.management.network.implementation;
 
-import com.microsoft.azure.PagedList;
+import com.microsoft.azure.v2.PagedList;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.v2.management.network.ConnectionMonitor;
 import com.microsoft.azure.v2.management.network.ConnectionMonitors;
@@ -13,11 +13,11 @@ import com.microsoft.azure.v2.management.resources.fluentcore.arm.ResourceId;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.collection.implementation.CreatableResourcesImpl;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.collection.implementation.ReadableWrappersImpl;
 import com.microsoft.azure.v2.management.resources.fluentcore.utils.PagedListConverter;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
+import io.reactivex.Completable;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
 
 import java.util.List;
 
@@ -58,13 +58,9 @@ class ConnectionMonitorsImpl extends
      */
     @Override
     public Observable<ConnectionMonitor> listAsync() {
-        Observable<List<ConnectionMonitorResultInner>> list = inner().listAsync(parent.resourceGroupName(), parent.name());
-        return ReadableWrappersImpl.convertListToInnerAsync(list).map(new Func1<ConnectionMonitorResultInner, ConnectionMonitor>() {
-            @Override
-            public ConnectionMonitor call(ConnectionMonitorResultInner inner) {
-                return wrapModel(inner);
-            }
-        });
+        Maybe<List<ConnectionMonitorResultInner>> list = inner().listAsync(parent.resourceGroupName(), parent.name());
+        return ReadableWrappersImpl.convertListToInnerAsync(list.toObservable())
+                .map(inner -> wrapModel(inner));
     }
 
     @Override
@@ -84,22 +80,18 @@ class ConnectionMonitorsImpl extends
     @Override
     public Observable<ConnectionMonitor> getByNameAsync(String name) {
         return inner().getAsync(parent.resourceGroupName(), parent.name(), name)
-                .map(new Func1<ConnectionMonitorResultInner, ConnectionMonitor>() {
-                    @Override
-                    public ConnectionMonitor call(ConnectionMonitorResultInner inner) {
-                        return wrapModel(inner);
-                    }
-                });
+                .map(inner -> (ConnectionMonitor) wrapModel(inner))
+                .toObservable();
     }
 
     @Override
     public ConnectionMonitor getByName(String name) {
-        return getByNameAsync(name).toBlocking().last();
+        return getByNameAsync(name).blockingLast();
     }
 
     @Override
     public void deleteByName(String name) {
-        deleteByNameAsync(name).await();
+        deleteByNameAsync(name).blockingAwait();
     }
 
     @Override
@@ -112,9 +104,7 @@ class ConnectionMonitorsImpl extends
 
     @Override
     public Completable deleteByNameAsync(String name) {
-        return this.inner().deleteAsync(parent.resourceGroupName(),
-                parent.name(),
-                name).toCompletable();
+        return this.inner().deleteAsync(parent.resourceGroupName(), parent.name(), name);
     }
 
     @Override
@@ -125,6 +115,6 @@ class ConnectionMonitorsImpl extends
     @Override
     public Completable deleteByIdAsync(String id) {
         ResourceId resourceId = ResourceId.fromString(id);
-        return this.inner().deleteAsync(resourceId.resourceGroupName(), resourceId.parent().name(), resourceId.name()).toCompletable();
+        return this.inner().deleteAsync(resourceId.resourceGroupName(), resourceId.parent().name(), resourceId.name());
     }
 }

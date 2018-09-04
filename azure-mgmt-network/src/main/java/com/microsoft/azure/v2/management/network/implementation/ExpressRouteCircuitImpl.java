@@ -14,8 +14,8 @@ import com.microsoft.azure.v2.management.network.ExpressRouteCircuitSkuType;
 import com.microsoft.azure.v2.management.network.ServiceProviderProvisioningState;
 import com.microsoft.azure.v2.management.network.model.GroupableParentResourceWithTagsImpl;
 import com.microsoft.azure.v2.management.resources.fluentcore.utils.Utils;
-import rx.Observable;
-import rx.functions.Func1;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -106,8 +106,8 @@ class ExpressRouteCircuitImpl extends GroupableParentResourceWithTagsImpl<
 
     @Override
     protected Observable<ExpressRouteCircuitInner> createInner() {
-        return this.manager().inner().expressRouteCircuits().createOrUpdateAsync(
-                this.resourceGroupName(), this.name(), this.inner());
+        return this.manager().inner().expressRouteCircuits().createOrUpdateAsync(this.resourceGroupName(), this.name(), this.inner())
+                .toObservable();
     }
 
     @Override
@@ -122,25 +122,23 @@ class ExpressRouteCircuitImpl extends GroupableParentResourceWithTagsImpl<
     }
 
     @Override
-    protected Observable<ExpressRouteCircuitInner> getInnerAsync() {
+    protected Maybe<ExpressRouteCircuitInner> getInnerAsync() {
         return this.manager().inner().expressRouteCircuits().getByResourceGroupAsync(this.resourceGroupName(), this.name());
     }
 
     @Override
-    public Observable<ExpressRouteCircuit> refreshAsync() {
-        return super.refreshAsync().map(new Func1<ExpressRouteCircuit, ExpressRouteCircuit>() {
-            @Override
-            public ExpressRouteCircuit call(ExpressRouteCircuit expressRouteCircuit) {
+    public Maybe<ExpressRouteCircuit> refreshAsync() {
+        return super.refreshAsync().map(expressRouteCircuit -> {
                 ExpressRouteCircuitImpl impl = (ExpressRouteCircuitImpl) expressRouteCircuit;
                 impl.initializeChildrenFromInner();
                 return impl;
-            }
-        });
+            });
     }
 
     @Override
     protected Observable<ExpressRouteCircuitInner> applyTagsToInnerAsync() {
-        return this.manager().inner().expressRouteCircuits().updateTagsAsync(resourceGroupName(), name(), inner().getTags());
+        return this.manager().inner().expressRouteCircuits().updateTagsAsync(resourceGroupName(), name(), inner().getTags())
+                .toObservable();
     }
 
     // Getters

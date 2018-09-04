@@ -56,10 +56,9 @@ import com.microsoft.azure.v2.SubResource;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 
 import com.microsoft.azure.v2.management.resources.fluentcore.utils.Utils;
-
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
+import io.reactivex.Completable;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
 
 /**
  * Implementation of the ApplicationGateway interface.
@@ -104,25 +103,22 @@ class ApplicationGatewayImpl
     // Verbs
 
     @Override
-    public Observable<ApplicationGateway> refreshAsync() {
-        return super.refreshAsync().map(new Func1<ApplicationGateway, ApplicationGateway>() {
-            @Override
-            public ApplicationGateway call(ApplicationGateway applicationGateway) {
-                ApplicationGatewayImpl impl = (ApplicationGatewayImpl) applicationGateway;
-                impl.initializeChildrenFromInner();
-                return impl;
-            }
+    public Maybe<ApplicationGateway> refreshAsync() {
+        return super.refreshAsync().map(applicationGateway -> {
+            ApplicationGatewayImpl impl = (ApplicationGatewayImpl) applicationGateway;
+            impl.initializeChildrenFromInner();
+            return impl;
         });
     }
 
     @Override
-    protected Observable<ApplicationGatewayInner> getInnerAsync() {
+    protected Maybe<ApplicationGatewayInner> getInnerAsync() {
         return this.manager().inner().applicationGateways().getByResourceGroupAsync(this.resourceGroupName(), this.name());
     }
 
     @Override
     protected Observable<ApplicationGatewayInner> applyTagsToInnerAsync() {
-        return this.manager().inner().applicationGateways().updateTagsAsync(resourceGroupName(), name(), inner().getTags());
+        return this.manager().inner().applicationGateways().updateTagsAsync(resourceGroupName(), name(), inner().getTags()).toObservable();
     }
 
     // Helpers
@@ -500,14 +496,11 @@ class ApplicationGatewayImpl
         final Observable<Resource> pipObservable;
         if (defaultPublicFrontend != null && defaultPublicFrontend.publicIPAddressId() == null) {
             // If public frontend requested but no PIP specified, then create a default PIP
-            pipObservable = Utils.<PublicIPAddress>rootResource(ensureDefaultPipDefinition()
-                    .createAsync()).map(new Func1<PublicIPAddress, Resource>() {
-                        @Override
-                        public Resource call(PublicIPAddress publicIPAddress) {
-                            defaultPublicFrontend.withExistingPublicIPAddress(publicIPAddress);
-                            return publicIPAddress;
-                        }
-                    });
+            pipObservable = Utils.<PublicIPAddress>rootResource(ensureDefaultPipDefinition().createAsync())
+                    .map(publicIPAddress -> {
+                        defaultPublicFrontend.withExistingPublicIPAddress(publicIPAddress);
+                        return (Resource) publicIPAddress;
+                    }).toObservable();
         } else {
             // If no public frontend requested, skip creating the PIP
             pipObservable = Observable.empty();
@@ -527,10 +520,8 @@ class ApplicationGatewayImpl
             networkObservable = Observable.empty(); // ...and don't create another VNet
         } else {
             // But if default IP config does not have a subnet specified, then create a default VNet
-            networkObservable = Utils.<Network>rootResource(ensureDefaultNetworkDefinition()
-                .createAsync()).map(new Func1<Network, Resource>() {
-                    @Override
-                    public Resource call(Network network) {
+            networkObservable = Utils.<Network>rootResource(ensureDefaultNetworkDefinition().createAsync())
+                    .map(network -> {
                         //... and assign the created VNet to the default IP config
                         defaultIPConfig.withExistingSubnet(network, DEFAULT);
                         if (defaultPrivateFrontend != null) {
@@ -543,20 +534,15 @@ class ApplicationGatewayImpl
                              */
                             useSubnetFromIPConfigForFrontend(defaultIPConfig, defaultPrivateFrontend);
                         }
-                        return network;
-                    }
-                });
+                        return (Resource) network;
+                    }).toObservable();
         }
 
         final ApplicationGatewaysInner innerCollection = this.manager().inner().applicationGateways();
         return Observable.merge(networkObservable, pipObservable)
-                .defaultIfEmpty(null)
-                .last().flatMap(new Func1<Resource, Observable<ApplicationGatewayInner>>() {
-                    @Override
-                    public Observable<ApplicationGatewayInner> call(Resource resource) {
-                        return innerCollection.createOrUpdateAsync(resourceGroupName(), name(), inner());
-                    }
-                });
+                .last(this)
+                .flatMap(t -> innerCollection.createOrUpdateAsync(resourceGroupName(), name(), inner()).toSingle())
+                .toObservable();
     }
 
     /**
@@ -1512,30 +1498,28 @@ class ApplicationGatewayImpl
 
     @Override
     public void start() {
-        this.startAsync().await();
+        this.startAsync().blockingAwait();
     }
 
     @Override
     public void stop() {
-        this.stopAsync().await();
+        this.stopAsync().blockingAwait();
     }
 
     @Override
     public Completable startAsync() {
-        Observable<Void> startObservable = this.manager().inner().applicationGateways().startAsync(this.resourceGroupName(), this.name());
-        Observable<ApplicationGateway> refreshObservable = refreshAsync();
-
-        // Refresh after start to ensure the app gateway operational state is updated
-        return Observable.concat(startObservable, refreshObservable).toCompletable();
+        Completable startCompletable = this.manager().inner().applicationGateways().startAsync(this.resourceGroupName(), this.name());
+        // Refresh after stop to ensure the app gateway operational state is updated
+        Completable refreshObservable = refreshAsync().flatMapCompletable(o -> Completable.complete());
+        return startCompletable.concatWith(refreshObservable);
     }
 
     @Override
     public Completable stopAsync() {
-        Observable<Void> stopObservable = this.manager().inner().applicationGateways().stopAsync(this.resourceGroupName(), this.name());
-        Observable<ApplicationGateway> refreshObservable = refreshAsync();
-
+        Completable stopCompletable = this.manager().inner().applicationGateways().stopAsync(this.resourceGroupName(), this.name());
         // Refresh after stop to ensure the app gateway operational state is updated
-        return Observable.concat(stopObservable, refreshObservable).toCompletable();
+        Completable refreshObservable = refreshAsync().flatMapCompletable(o -> Completable.complete());
+        return stopCompletable.concatWith(refreshObservable);
     }
 
     private ApplicationGatewaySslPolicy ensureSslPolicy() {
@@ -1556,25 +1540,22 @@ class ApplicationGatewayImpl
 
     @Override
     public Map<String, ApplicationGatewayBackendHealth> checkBackendHealth() {
-        return this.checkBackendHealthAsync().toBlocking().last();
+        return this.checkBackendHealthAsync().blockingLast();
     }
 
     @Override
     public Observable<Map<String, ApplicationGatewayBackendHealth>> checkBackendHealthAsync() {
         return this.manager().inner().applicationGateways()
                 .backendHealthAsync(this.resourceGroupName(), this.name())
-                .map(new Func1<ApplicationGatewayBackendHealthInner, Map<String, ApplicationGatewayBackendHealth>>() {
-                    @Override
-                    public Map<String, ApplicationGatewayBackendHealth> call(ApplicationGatewayBackendHealthInner inner) {
-                        Map<String, ApplicationGatewayBackendHealth> backendHealths = new TreeMap<>();
-                        if (inner != null) {
-                            for (ApplicationGatewayBackendHealthPoolInner healthInner : inner.backendAddressPools()) {
-                                ApplicationGatewayBackendHealth backendHealth = new ApplicationGatewayBackendHealthImpl(healthInner, ApplicationGatewayImpl.this);
-                                backendHealths.put(backendHealth.name(), backendHealth);
-                            }
-                        }
-                        return Collections.unmodifiableMap(backendHealths);
+                .map(inner -> {
+                    Map<String, ApplicationGatewayBackendHealth> backendHealths = new TreeMap<>();
+                    for (ApplicationGatewayBackendHealthPoolInner healthInner : inner.backendAddressPools()) {
+                        ApplicationGatewayBackendHealth backendHealth = new ApplicationGatewayBackendHealthImpl(healthInner, ApplicationGatewayImpl.this);
+                        backendHealths.put(backendHealth.name(), backendHealth);
                     }
-                });
+                    return Collections.unmodifiableMap(backendHealths);
+                })
+                .switchIfEmpty(Maybe.just(Collections.unmodifiableMap(new TreeMap<String, ApplicationGatewayBackendHealth>())))
+                .toObservable();
     }
 }

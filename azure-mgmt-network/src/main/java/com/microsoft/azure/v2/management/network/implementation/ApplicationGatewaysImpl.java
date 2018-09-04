@@ -15,9 +15,7 @@ import com.microsoft.azure.v2.management.network.ApplicationGatewaySkuName;
 import com.microsoft.azure.v2.management.network.ApplicationGateways;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.ResourceUtils;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
-import com.microsoft.azure.v2.management.resources.fluentcore.utils.RXMapper;
-
-import rx.Observable;
+import io.reactivex.Observable;
 
 /**
  *  Implementation for ApplicationGateways.
@@ -59,7 +57,7 @@ class ApplicationGatewaysImpl
         if (applicationGatewayResourceId == null) {
             return;
         }
-        this.startAsync(applicationGatewayResourceId).toBlocking().last();
+        this.startAsync(applicationGatewayResourceId).blockingLast();
     }
 
     @Override
@@ -72,17 +70,17 @@ class ApplicationGatewaysImpl
         if (applicationGatewayResourceIds == null) {
             return;
         }
-        this.stopAsync(applicationGatewayResourceIds).toBlocking().last();
+        this.stopAsync(applicationGatewayResourceIds).blockingLast();
     }
 
     @Override
     public void start(Collection<String> applicationGatewayResourceIds) {
-        this.startAsync(applicationGatewayResourceIds).toBlocking().last();
+        this.startAsync(applicationGatewayResourceIds).blockingLast();
     }
 
     @Override
     public void stop(Collection<String> applicationGatewayResourceIds) {
-        this.stopAsync(applicationGatewayResourceIds).toBlocking().last();
+        this.stopAsync(applicationGatewayResourceIds).blockingLast();
     }
 
     @Override
@@ -100,7 +98,7 @@ class ApplicationGatewaysImpl
         for (String id : applicationGatewayResourceIds) {
             final String resourceGroupName = ResourceUtils.groupFromResourceId(id);
             final String name = ResourceUtils.nameFromResourceId(id);
-            Observable<String> o = RXMapper.map(this.inner().startAsync(resourceGroupName, name), id);
+            Observable<String> o = this.inner().startAsync(resourceGroupName, name).andThen(Observable.just(id));
             observables.add(o);
         }
         return Observable.mergeDelayError(observables);
@@ -115,7 +113,7 @@ class ApplicationGatewaysImpl
         for (String id : applicationGatewayResourceIds) {
             final String resourceGroupName = ResourceUtils.groupFromResourceId(id);
             final String name = ResourceUtils.nameFromResourceId(id);
-            Observable<String> o = RXMapper.map(this.inner().stopAsync(resourceGroupName, name), id);
+            Observable<String> o = this.inner().stopAsync(resourceGroupName, name).andThen(Observable.just(id));
             observables.add(o);
         }
         return Observable.mergeDelayError(observables);

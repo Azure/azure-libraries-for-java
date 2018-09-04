@@ -20,9 +20,7 @@ import com.microsoft.azure.v2.management.resources.fluentcore.collection.Support
 import com.microsoft.azure.v2.management.resources.fluentcore.collection.SupportsDeletingById;
 import com.microsoft.azure.v2.management.resources.fluentcore.collection.SupportsListing;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
-
-import rx.Observable;
-
+import io.reactivex.Observable;
 
 /**
  * Entry point to application gateway management API in Azure.

@@ -13,8 +13,8 @@ import com.microsoft.azure.v2.management.network.ExpressRoutePeeringState;
 import com.microsoft.azure.v2.management.network.ExpressRoutePeeringType;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
 import com.microsoft.azure.v2.management.resources.fluentcore.utils.Utils;
-import rx.Observable;
-import rx.functions.Func1;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
 
 import java.util.Arrays;
 
@@ -76,7 +76,7 @@ class ExpressRouteCircuitPeeringImpl extends
     }
 
     @Override
-    protected Observable<ExpressRouteCircuitPeeringInner> getInnerAsync() {
+    protected Maybe<ExpressRouteCircuitPeeringInner> getInnerAsync() {
         return this.client.getAsync(parent.resourceGroupName(), parent.name(), name());
     }
 
@@ -88,15 +88,12 @@ class ExpressRouteCircuitPeeringImpl extends
     @Override
     public Observable<ExpressRouteCircuitPeering> createResourceAsync() {
         return this.client.createOrUpdateAsync(parent.resourceGroupName(), parent.name(), this.name(), inner())
-                .map(new Func1<ExpressRouteCircuitPeeringInner, ExpressRouteCircuitPeering>() {
-                    @Override
-                    public ExpressRouteCircuitPeering call(ExpressRouteCircuitPeeringInner innerModel) {
-                        ExpressRouteCircuitPeeringImpl.this.setInner(innerModel);
-                        stats = new ExpressRouteCircuitStatsImpl(innerModel.stats());
-                        parent.refresh();
-                        return ExpressRouteCircuitPeeringImpl.this;
-                    }
-                });
+                .map(innerModel -> {
+                    ExpressRouteCircuitPeeringImpl.this.setInner(innerModel);
+                    stats = new ExpressRouteCircuitStatsImpl(innerModel.stats());
+                    parent.refresh();
+                    return (ExpressRouteCircuitPeering) ExpressRouteCircuitPeeringImpl.this;
+                }).toObservable();
     }
 
     // Getters

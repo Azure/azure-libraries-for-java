@@ -9,7 +9,6 @@ import com.microsoft.azure.v2.SubResource;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.v2.management.network.DdosProtectionPlan;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
-import rx.Observable;
 
 import java.util.Collections;
 import java.util.List;
@@ -59,6 +58,6 @@ class DdosProtectionPlanImpl
 
     @Override
     public List<SubResource> virtualNetworks() {
-        return Collections.unmodifiableList(inner().virtualNetworks());
+        return Collections.unmodifiableList(inner().virtualNetworksProperty());
     }
 }

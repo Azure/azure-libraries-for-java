@@ -11,10 +11,10 @@ import com.microsoft.azure.v2.management.network.NetworkWatcher;
 import com.microsoft.azure.v2.management.network.SecurityGroupView;
 import com.microsoft.azure.v2.management.network.model.AppliableWithTags;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import rx.Observable;
-import rx.functions.Func1;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
 
 /**
  * Implementation for Network Watcher and its create and update interfaces.
@@ -70,12 +70,8 @@ class NetworkWatcherImpl
     public Observable<SecurityGroupView> getSecurityGroupViewAsync(final String vmId) {
         return this.manager().inner().networkWatchers()
                 .getVMSecurityRulesAsync(this.resourceGroupName(), this.name(), vmId)
-                .map(new Func1<SecurityGroupViewResultInner, SecurityGroupView>() {
-                    @Override
-                    public SecurityGroupView call(SecurityGroupViewResultInner inner) {
-                        return new SecurityGroupViewImpl(NetworkWatcherImpl.this, inner, vmId);
-                    }
-                });
+                .map(inner -> (SecurityGroupView) new SecurityGroupViewImpl(NetworkWatcherImpl.this, inner, vmId))
+                .toObservable();
     }
 
     public FlowLogSettings getFlowLogSettings(String nsgId) {
@@ -88,12 +84,8 @@ class NetworkWatcherImpl
     public Observable<FlowLogSettings> getFlowLogSettingsAsync(final String nsgId) {
         return this.manager().inner().networkWatchers()
                 .getFlowLogStatusAsync(this.resourceGroupName(), this.name(), nsgId)
-                .map(new Func1<FlowLogInformationInner, FlowLogSettings>() {
-                    @Override
-                    public FlowLogSettings call(FlowLogInformationInner inner) {
-                        return new FlowLogSettingsImpl(NetworkWatcherImpl.this, inner, nsgId);
-                    }
-                });
+                .map(inner -> (FlowLogSettings) new FlowLogSettingsImpl(NetworkWatcherImpl.this, inner, nsgId))
+                .toObservable();
     }
 
     public NextHopImpl nextHop() {
@@ -129,11 +121,12 @@ class NetworkWatcherImpl
     public Observable<NetworkWatcher> createResourceAsync() {
         return this.manager().inner().networkWatchers().createOrUpdateAsync(
                 this.resourceGroupName(), this.name(), this.inner())
-                .map(innerToFluentMap(this));
+                .map(innerToFluentMap(this))
+                .toObservable();
     }
 
     @Override
-    protected Observable<NetworkWatcherInner> getInnerAsync() {
+    protected Maybe<NetworkWatcherInner> getInnerAsync() {
         return this.manager().inner().networkWatchers().getByResourceGroupAsync(this.resourceGroupName(), this.name());
     }
 
@@ -144,22 +137,21 @@ class NetworkWatcherImpl
 
     @Override
     public NetworkWatcher applyTags() {
-        return applyTagsAsync().toBlocking().last();
+        return applyTagsAsync().blockingLast();
     }
 
     @Override
     public Observable<NetworkWatcher> applyTagsAsync() {
         return this.manager().inner().networkWatchers().updateTagsAsync(resourceGroupName(), name(), inner().getTags())
-                .flatMap(new Func1<NetworkWatcherInner, Observable<NetworkWatcher>>() {
-                    @Override
-                    public Observable<NetworkWatcher> call(NetworkWatcherInner inner) {
-                        setInner(inner);
-                        return Observable.just((NetworkWatcher) NetworkWatcherImpl.this);                    }
-                });
+                .map(inner -> {
+                    setInner(inner);
+                    return (NetworkWatcher) NetworkWatcherImpl.this;
+                })
+                .toObservable();
     }
 
     @Override
     public ServiceFuture<NetworkWatcher> applyTagsAsync(ServiceCallback<NetworkWatcher> callback) {
-        return ServiceFuture.fromBody(applyTagsAsync(), callback);
+        return ServiceFuture.fromBody(applyTagsAsync().lastElement(), callback);
     }
 }

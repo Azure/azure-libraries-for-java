@@ -17,7 +17,7 @@ import com.microsoft.azure.v2.management.resources.fluentcore.model.Refreshable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Updatable;
 
 import com.microsoft.rest.v2.annotations.Beta;
-import rx.Observable;
+import io.reactivex.Observable;
 
 import java.util.List;
 

@@ -19,7 +19,7 @@ import com.microsoft.azure.v2.management.resources.fluentcore.collection.Support
 import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
 
 import com.microsoft.rest.v2.annotations.Beta;
-import rx.Observable;
+import io.reactivex.Observable;
 
 /**
  *  Entry point to network peering management API.

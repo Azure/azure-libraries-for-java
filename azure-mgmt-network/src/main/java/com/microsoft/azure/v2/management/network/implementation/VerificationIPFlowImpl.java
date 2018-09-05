@@ -12,8 +12,7 @@ import com.microsoft.azure.v2.management.network.IpFlowProtocol;
 import com.microsoft.azure.v2.management.network.VerificationIPFlow;
 import com.microsoft.azure.v2.management.network.VerificationIPFlowParameters;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.implementation.ExecutableImpl;
-import rx.Observable;
-import rx.functions.Func1;
+import io.reactivex.Observable;
 
 /**
  * Implementation of VerificationIPFlow.
@@ -116,12 +115,10 @@ public class VerificationIPFlowImpl extends ExecutableImpl<VerificationIPFlow>
     public Observable<VerificationIPFlow> executeWorkAsync() {
         return this.parent().manager().inner().networkWatchers()
                 .verifyIPFlowAsync(parent.resourceGroupName(), parent.name(), parameters)
-                .map(new Func1<VerificationIPFlowResultInner, VerificationIPFlow>() {
-                    @Override
-                    public VerificationIPFlow call(VerificationIPFlowResultInner verificationIPFlowResultInner) {
-                        VerificationIPFlowImpl.this.result = verificationIPFlowResultInner;
-                        return VerificationIPFlowImpl.this;
-                    }
-                });
+                .map(verificationIPFlowResultInner -> {
+                    VerificationIPFlowImpl.this.result = verificationIPFlowResultInner;
+                    return (VerificationIPFlow) VerificationIPFlowImpl.this;
+                })
+                .toObservable();
     }
 }

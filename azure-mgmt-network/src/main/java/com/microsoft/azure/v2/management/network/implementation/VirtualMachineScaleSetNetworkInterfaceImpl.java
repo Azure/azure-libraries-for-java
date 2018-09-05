@@ -14,7 +14,8 @@ import com.microsoft.azure.v2.management.network.VirtualMachineScaleSetNicIPConf
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.ResourceUtils;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.implementation.ResourceImpl;
 import com.microsoft.azure.v2.management.resources.fluentcore.utils.Utils;
-import rx.Observable;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -185,7 +186,7 @@ class VirtualMachineScaleSetNetworkInterfaceImpl
     }
 
     @Override
-    protected Observable<NetworkInterfaceInner> getInnerAsync() {
+    protected Maybe<NetworkInterfaceInner> getInnerAsync() {
         return this.manager().inner().networkInterfaces().getVirtualMachineScaleSetNetworkInterfaceAsync(
                 this.resourceGroupName,
                 this.scaleSetName,

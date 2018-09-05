@@ -7,7 +7,7 @@
 package com.microsoft.azure.v2.management.network;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.microsoft.rest.ExpandableStringEnum;
+import com.microsoft.rest.v2.ExpandableStringEnum;
 
 import java.util.Collection;
 

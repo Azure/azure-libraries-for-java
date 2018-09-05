@@ -7,11 +7,9 @@ package com.microsoft.azure.v2.management.network.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.v2.management.network.NetworkWatcher;
-import com.microsoft.azure.v2.management.network.SecurityGroupNetworkInterface;
 import com.microsoft.azure.v2.management.network.SecurityGroupView;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.implementation.RefreshableWrapperImpl;
-import rx.Observable;
-import rx.functions.Func1;
+import io.reactivex.Maybe;
 
 import java.util.Collections;
 import java.util.List;
@@ -61,19 +59,17 @@ class SecurityGroupViewImpl extends RefreshableWrapperImpl<SecurityGroupViewResu
     }
 
     @Override
-    public Observable<SecurityGroupView> refreshAsync() {
-        return super.refreshAsync().map(new Func1<SecurityGroupView, SecurityGroupView>() {
-            @Override
-            public SecurityGroupView call(SecurityGroupView securityGroupView) {
-                SecurityGroupViewImpl impl = (SecurityGroupViewImpl) securityGroupView;
-                impl.initializeFromInner();
-                return impl;
-            }
-        });
+    public Maybe<SecurityGroupView> refreshAsync() {
+        return super.refreshAsync()
+                .map(securityGroupView -> {
+                    SecurityGroupViewImpl impl = (SecurityGroupViewImpl) securityGroupView;
+                    impl.initializeFromInner();
+                    return impl;
+                });
     }
 
     @Override
-    protected Observable<SecurityGroupViewResultInner> getInnerAsync() {
+    protected Maybe<SecurityGroupViewResultInner> getInnerAsync() {
         return this.parent().manager().inner().networkWatchers()
                 .getVMSecurityRulesAsync(parent.resourceGroupName(), parent.name(), vmId);
     }

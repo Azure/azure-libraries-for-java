@@ -12,8 +12,7 @@ import com.microsoft.azure.v2.management.network.Topology;
 import com.microsoft.azure.v2.management.network.TopologyParameters;
 import com.microsoft.azure.v2.management.network.TopologyResource;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.implementation.ExecutableImpl;
-import rx.Observable;
-import rx.functions.Func1;
+import io.reactivex.Observable;
 
 import java.time.OffsetDateTime;
 import java.util.Collections;
@@ -104,13 +103,11 @@ class TopologyImpl extends ExecutableImpl<Topology>
     public Observable<Topology> executeWorkAsync() {
         return this.parent().manager().inner().networkWatchers()
                 .getTopologyAsync(parent().resourceGroupName(), parent().name(), parameters)
-                .map(new Func1<TopologyInner, Topology>() {
-                    @Override
-                    public Topology call(TopologyInner topologyInner) {
-                        TopologyImpl.this.inner = topologyInner;
-                        TopologyImpl.this.initializeResourcesFromInner();
-                        return TopologyImpl.this;
-                    }
-                });
+                .map(topologyInner -> {
+                    TopologyImpl.this.inner = topologyInner;
+                    TopologyImpl.this.initializeResourcesFromInner();
+                    return (Topology) TopologyImpl.this;
+                })
+                .toObservable();
     }
 }

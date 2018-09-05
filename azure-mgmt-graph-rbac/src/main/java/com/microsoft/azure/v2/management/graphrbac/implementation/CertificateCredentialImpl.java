@@ -6,7 +6,6 @@
 
 package com.microsoft.azure.v2.management.graphrbac.implementation;
 
-import com.google.common.io.BaseEncoding;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.v2.AzureEnvironment;
 import com.microsoft.azure.v2.management.graphrbac.CertificateCredential;
@@ -17,6 +16,7 @@ import io.reactivex.Maybe;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.time.OffsetDateTime;
+import java.util.Base64;
 
 /**
  * Implementation for ServicePrincipal and its parent interfaces.
@@ -38,7 +38,7 @@ class CertificateCredentialImpl<T>
     CertificateCredentialImpl(KeyCredentialInner keyCredential) {
         super(keyCredential);
         if (keyCredential.customKeyIdentifier() != null && keyCredential.customKeyIdentifier().length != 0) {
-            this.name = new String(BaseEncoding.base64().decode(keyCredential.customKeyIdentifier().toString()));
+            this.name = new String(Base64.getDecoder().decode(keyCredential.customKeyIdentifier()));
         } else {
             this.name = keyCredential.keyId();
         }
@@ -48,7 +48,7 @@ class CertificateCredentialImpl<T>
         super(new KeyCredentialInner()
                 .withUsage("Verify")
                 // TODO: service no longer takes string but byte[], check encoding is necessary
-                .withCustomKeyIdentifier(BaseEncoding.base64().encode(name.getBytes()).getBytes())
+                .withCustomKeyIdentifier(Base64.getEncoder().encode(name.getBytes()))
                 .withStartDate(OffsetDateTime.now())
                 .withEndDate(OffsetDateTime.now().plusYears(1)));
         this.name = name;
@@ -127,13 +127,13 @@ class CertificateCredentialImpl<T>
 
     @Override
     public CertificateCredentialImpl<T> withPublicKey(byte[] certificate) {
-        inner().withValue(BaseEncoding.base64().encode(certificate));
+        inner().withValue(Base64.getEncoder().encodeToString(certificate));
         return this;
     }
 
     @Override
     public CertificateCredentialImpl<T> withSecretKey(byte[] secret) {
-        inner().withValue(BaseEncoding.base64().encode(secret));
+        inner().withValue(Base64.getEncoder().encodeToString(secret));
         return this;
     }
 

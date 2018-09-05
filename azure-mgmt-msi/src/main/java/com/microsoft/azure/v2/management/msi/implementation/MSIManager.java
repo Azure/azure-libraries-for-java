@@ -6,18 +6,18 @@
 
 package com.microsoft.azure.v2.management.msi.implementation;
 
-import com.microsoft.azure.v2.AzureEnvironment;
-import com.microsoft.azure.AzureResponseBuilder;
 import com.microsoft.azure.v2.credentials.AzureTokenCredentials;
 import com.microsoft.azure.v2.management.graphrbac.implementation.GraphRbacManager;
 import com.microsoft.azure.v2.management.msi.Identities;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.AzureConfigurable;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.implementation.AzureConfigurableImpl;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.implementation.Manager;
-import com.microsoft.azure.v2.management.resources.fluentcore.utils.ProviderRegistrationInterceptor;
-import com.microsoft.azure.v2.management.resources.fluentcore.utils.ResourceManagerThrottlingInterceptor;
-import com.microsoft.azure.v2.serializer.AzureJacksonAdapter;
+import com.microsoft.azure.v2.management.resources.fluentcore.utils.ProviderRegistrationPolicyFactory;
+import com.microsoft.azure.v2.management.resources.fluentcore.utils.ResourceManagerThrottlingPolicyFactory;
 import com.microsoft.rest.v2.annotations.Beta;
+import com.microsoft.rest.v2.http.HttpPipeline;
+import com.microsoft.rest.v2.http.HttpPipelineBuilder;
+import com.microsoft.rest.v2.policy.CredentialsPolicyFactory;
 
 /**
  * Entry point to Azure Managed Service Identity (MSI) resource management.
@@ -45,27 +45,26 @@ public final class MSIManager extends Manager<MSIManager, ManagedServiceIdentity
      * @return the MSIManager
      */
     public static MSIManager authenticate(AzureTokenCredentials credentials, String subscriptionId) {
-        return new MSIManager(new RestClient.Builder()
-                .withBaseUrl(credentials.environment(), AzureEnvironment.Endpoint.RESOURCE_MANAGER)
-                .withCredentials(credentials)
-                .withSerializerAdapter(new AzureJacksonAdapter())
-                .withResponseBuilderFactory(new AzureResponseBuilder.Factory())
-                .withInterceptor(new ProviderRegistrationInterceptor(credentials))
-                .withInterceptor(new ResourceManagerThrottlingInterceptor())
-                .build(), subscriptionId);
+        return new MSIManager(new HttpPipelineBuilder()
+                .withRequestPolicy(new CredentialsPolicyFactory(credentials))
+                .withRequestPolicy(new ProviderRegistrationPolicyFactory(credentials))
+                .withRequestPolicy(new ResourceManagerThrottlingPolicyFactory())
+                .build(),
+                subscriptionId,
+                credentials.domain());
     }
 
     /**
      * Creates an instance of MSIManager that exposes Managed Service Identity (MSI) resource management API entry points.
      *
-     * @param restClient the RestClient to be used for API calls.
+     * @param httpPipeline the httpPipeline to be used for API calls.
      * @param subscriptionId the subscription UUID
+     * @param domain the domain
      * @return the MSIManager
      */
-    public static MSIManager authenticate(RestClient restClient, String subscriptionId) {
-        return new MSIManager(restClient, subscriptionId);
+    public static MSIManager authenticate(HttpPipeline httpPipeline, String subscriptionId, String domain) {
+        return new MSIManager(httpPipeline, subscriptionId, domain);
     }
-
     /**
      * The interface allowing configurations to be set.
      */
@@ -85,13 +84,15 @@ public final class MSIManager extends Manager<MSIManager, ManagedServiceIdentity
      */
     private static final class ConfigurableImpl extends AzureConfigurableImpl<Configurable> implements Configurable {
         public MSIManager authenticate(AzureTokenCredentials credentials, String subscriptionId) {
-            return MSIManager.authenticate(buildRestClient(credentials), subscriptionId);
+            return MSIManager.authenticate(buildPipeline(credentials), subscriptionId, credentials.domain());
         }
     }
 
-    private MSIManager(RestClient restClient, String subscriptionId) {
-        super(restClient, subscriptionId, new ManagedServiceIdentityClientImpl(restClient).withSubscriptionId(subscriptionId));
-        rbacManager = GraphRbacManager.authenticate(restClient, ((AzureTokenCredentials) (restClient.credentials())).domain());
+    private MSIManager(HttpPipeline httpPipeline, String subscriptionId, String domain) {
+        super(httpPipeline,
+              subscriptionId,
+              new ManagedServiceIdentityClientImpl(httpPipeline).withSubscriptionId(subscriptionId));
+        rbacManager = GraphRbacManager.authenticate(httpPipeline, domain);
     }
 
     /**

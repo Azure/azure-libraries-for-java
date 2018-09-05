@@ -11,8 +11,8 @@ import com.microsoft.azure.v2.management.network.ExpressRouteCircuitPeering;
 import com.microsoft.azure.v2.management.network.RouteFilter;
 import com.microsoft.azure.v2.management.network.RouteFilterRule;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.implementation.GroupableParentResourceImpl;
-import rx.Observable;
-import rx.functions.Func1;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
 
 import java.util.Collections;
 import java.util.List;
@@ -47,7 +47,8 @@ class RouteFilterImpl
 
     @Override
     protected Observable<RouteFilterInner> createInner() {
-        return this.manager().inner().routeFilters().createOrUpdateAsync(resourceGroupName(), name(), inner());
+        return this.manager().inner().routeFilters().createOrUpdateAsync(resourceGroupName(), name(), inner())
+                .toObservable();
     }
 
     @Override
@@ -71,20 +72,18 @@ class RouteFilterImpl
     }
 
     @Override
-    protected Observable<RouteFilterInner> getInnerAsync() {
+    protected Maybe<RouteFilterInner> getInnerAsync() {
         return this.manager().inner().routeFilters().getByResourceGroupAsync(this.resourceGroupName(), this.name());
     }
 
     @Override
-    public Observable<RouteFilter> refreshAsync() {
-        return super.refreshAsync().map(new Func1<RouteFilter, RouteFilter>() {
-            @Override
-            public RouteFilter call(RouteFilter routeFilter) {
-                RouteFilterImpl impl = (RouteFilterImpl) routeFilter;
-                impl.initializeChildrenFromInner();
-                return impl;
-            }
-        });
+    public Maybe<RouteFilter> refreshAsync() {
+        return super.refreshAsync()
+                .map(routeFilter -> {
+                    RouteFilterImpl impl = (RouteFilterImpl) routeFilter;
+                    impl.initializeChildrenFromInner();
+                    return (RouteFilter) impl;
+                });
     }
 
     @Override

@@ -4,13 +4,13 @@
  * license information.
  */
 
-package com.microsoft.azure.management.msi.implementation;
+package com.microsoft.azure.v2.management.msi.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.graphrbac.BuiltInRole;
 import com.microsoft.azure.management.graphrbac.RoleAssignment;
 import com.microsoft.azure.management.graphrbac.implementation.RoleAssignmentHelper;
-import com.microsoft.azure.management.msi.Identity;
+import com.microsoft.azure.v2.management.msi.Identity;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;

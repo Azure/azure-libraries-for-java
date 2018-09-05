@@ -6,19 +6,18 @@
 
 package com.microsoft.azure.v2.management.network.implementation;
 
-import com.microsoft.azure.PagedList;
+import com.microsoft.azure.v2.PagedList;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.v2.management.network.VirtualNetworkGateway;
 import com.microsoft.azure.v2.management.network.VirtualNetworkGatewayConnection;
 import com.microsoft.azure.v2.management.network.VirtualNetworkGatewayConnections;
-import com.microsoft.azure.v2.management.resources.ResourceGroup;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.collection.implementation.GroupableResourcesImpl;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.implementation.GroupPagedList;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
+import io.reactivex.Completable;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
 
 import java.util.List;
 
@@ -65,7 +64,7 @@ class VirtualNetworkGatewayConnectionsImpl
 
     @Override
     public void deleteByName(String name) {
-        deleteByNameAsync(name).await();
+        deleteByNameAsync(name).blockingAwait();
     }
 
     @Override
@@ -75,7 +74,8 @@ class VirtualNetworkGatewayConnectionsImpl
 
     @Override
     public Completable deleteByNameAsync(String name) {
-        return this.inner().deleteAsync(parent.resourceGroupName(), name).toCompletable();
+        return this.inner().deleteAsync(parent.resourceGroupName(), name)
+                .flatMapCompletable(v -> Completable.complete());
     }
 
     @Override
@@ -103,32 +103,24 @@ class VirtualNetworkGatewayConnectionsImpl
     @Override
     public Observable<VirtualNetworkGatewayConnection> listAsync() {
         return this.manager().resourceManager().resourceGroups().listAsync()
-                .flatMap(new Func1<ResourceGroup, Observable<VirtualNetworkGatewayConnection>>() {
-                    @Override
-                    public Observable<VirtualNetworkGatewayConnection> call(ResourceGroup resourceGroup) {
-                        return wrapPageAsync(inner().listByResourceGroupAsync(resourceGroup.name()));
-                    }
-                });
+                .flatMap(resourceGroup -> wrapPageAsync(inner().listByResourceGroupAsync(resourceGroup.name())));
     }
 
     @Override
-    protected Observable<VirtualNetworkGatewayConnectionInner> getInnerAsync(String resourceGroupName, String name) {
+    protected Maybe<VirtualNetworkGatewayConnectionInner> getInnerAsync(String resourceGroupName, String name) {
         return inner().getByResourceGroupAsync(resourceGroupName, name);
     }
 
     @Override
     protected Completable deleteInnerAsync(String resourceGroupName, String name) {
-        return inner().deleteAsync(resourceGroupName, name).toCompletable();
+        return inner().deleteAsync(resourceGroupName, name)
+                .flatMapCompletable(v -> Completable.complete());
     }
 
     @Override
     public Observable<VirtualNetworkGatewayConnection> getByNameAsync(String name) {
         return inner().getByResourceGroupAsync(parent.resourceGroupName(), name)
-                .map(new Func1<VirtualNetworkGatewayConnectionInner, VirtualNetworkGatewayConnection>() {
-                    @Override
-                    public VirtualNetworkGatewayConnection call(VirtualNetworkGatewayConnectionInner inner) {
-                        return wrapModel(inner);
-                    }
-                });
+                .map(inner -> (VirtualNetworkGatewayConnection) wrapModel(inner))
+                .toObservable();
     }
 }

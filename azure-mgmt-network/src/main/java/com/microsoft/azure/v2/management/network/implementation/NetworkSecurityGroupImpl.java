@@ -48,7 +48,7 @@ class NetworkSecurityGroupImpl
     @Override
     protected void initializeChildrenFromInner() {
         this.rules = new TreeMap<>();
-        List<SecurityRuleInner> inners = this.inner().securityRules();
+        List<SecurityRuleInner> inners = this.inner().securityRulesProperty();
         if (inners != null) {
             for (SecurityRuleInner inner : inners) {
                 this.rules.put(inner.name(), new NetworkSecurityRuleImpl(inner, this));
@@ -56,7 +56,7 @@ class NetworkSecurityGroupImpl
         }
 
         this.defaultRules = new TreeMap<>();
-        inners = this.inner().defaultSecurityRules();
+        inners = this.inner().defaultSecurityRulesProperty();
         if (inners != null) {
             for (SecurityRuleInner inner : inners) {
                 this.defaultRules.put(inner.name(), new NetworkSecurityRuleImpl(inner, this));
@@ -104,7 +104,7 @@ class NetworkSecurityGroupImpl
 
     @Override
     public List<Subnet> listAssociatedSubnets() {
-        return this.myManager.listAssociatedSubnets(this.inner().subnets());
+        return this.myManager.listAssociatedSubnets(this.inner().subnetsProperty());
     }
 
     // Setters (fluent)
@@ -135,8 +135,8 @@ class NetworkSecurityGroupImpl
     @Override
     public Set<String> networkInterfaceIds() {
         Set<String> ids = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
-        if (this.inner().networkInterfaces() != null) {
-            for (NetworkInterfaceInner inner : this.inner().networkInterfaces()) {
+        if (this.inner().networkInterfacesProperty() != null) {
+            for (NetworkInterfaceInner inner : this.inner().networkInterfacesProperty()) {
                 ids.add(inner.id());
             }
         }
@@ -146,7 +146,7 @@ class NetworkSecurityGroupImpl
     @Override
     protected void beforeCreating() {
         // Reset and update subnets
-        this.inner().withSecurityRules(innersFromWrappers(this.rules.values()));
+        this.inner().withSecurityRulesProperty(innersFromWrappers(this.rules.values()));
     }
 
     @Override

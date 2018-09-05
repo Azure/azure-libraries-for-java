@@ -8,27 +8,20 @@
 
 package com.microsoft.azure.v2.management.msi.implementation;
 
-import com.microsoft.azure.AzureClient;
-import com.microsoft.azure.AzureServiceClient;
-import com.microsoft.rest.credentials.ServiceClientCredentials;
-import com.microsoft.rest.RestClient;
+import com.microsoft.azure.v2.AzureEnvironment;
+import com.microsoft.azure.v2.AzureProxy;
+import com.microsoft.azure.v2.AzureServiceClient;
+import com.microsoft.rest.v2.credentials.ServiceClientCredentials;
+import com.microsoft.rest.v2.http.HttpPipeline;
+import io.reactivex.annotations.NonNull;
 
 /**
- * Initializes a new instance of the ManagedServiceIdentityClientImpl class.
+ * Initializes a new instance of the ManagedServiceIdentityClientImpl type.
  */
-public class ManagedServiceIdentityClientImpl extends AzureServiceClient {
-    /** the {@link AzureClient} used for long running operations. */
-    private AzureClient azureClient;
-
+public final class ManagedServiceIdentityClientImpl extends AzureServiceClient {
     /**
-     * Gets the {@link AzureClient} used for long running operations.
-     * @return the azure client;
+     * The Id of the Subscription to which the identity belongs.
      */
-    public AzureClient getAzureClient() {
-        return this.azureClient;
-    }
-
-    /** The Id of the Subscription to which the identity belongs. */
     private String subscriptionId;
 
     /**
@@ -44,14 +37,16 @@ public class ManagedServiceIdentityClientImpl extends AzureServiceClient {
      * Sets The Id of the Subscription to which the identity belongs.
      *
      * @param subscriptionId the subscriptionId value.
-     * @return the service client itself
+     * @return the service client itself.
      */
     public ManagedServiceIdentityClientImpl withSubscriptionId(String subscriptionId) {
         this.subscriptionId = subscriptionId;
         return this;
     }
 
-    /** Version of API to invoke. */
+    /**
+     * Version of API to invoke.
+     */
     private String apiVersion;
 
     /**
@@ -63,11 +58,13 @@ public class ManagedServiceIdentityClientImpl extends AzureServiceClient {
         return this.apiVersion;
     }
 
-    /** Gets or sets the preferred language for the response. */
+    /**
+     * The preferred language for the response.
+     */
     private String acceptLanguage;
 
     /**
-     * Gets Gets or sets the preferred language for the response.
+     * Gets The preferred language for the response.
      *
      * @return the acceptLanguage value.
      */
@@ -76,21 +73,23 @@ public class ManagedServiceIdentityClientImpl extends AzureServiceClient {
     }
 
     /**
-     * Sets Gets or sets the preferred language for the response.
+     * Sets The preferred language for the response.
      *
      * @param acceptLanguage the acceptLanguage value.
-     * @return the service client itself
+     * @return the service client itself.
      */
     public ManagedServiceIdentityClientImpl withAcceptLanguage(String acceptLanguage) {
         this.acceptLanguage = acceptLanguage;
         return this;
     }
 
-    /** Gets or sets the retry timeout in seconds for Long Running Operations. Default value is 30. */
+    /**
+     * The retry timeout in seconds for Long Running Operations. Default value is 30.
+     */
     private int longRunningOperationRetryTimeout;
 
     /**
-     * Gets Gets or sets the retry timeout in seconds for Long Running Operations. Default value is 30.
+     * Gets The retry timeout in seconds for Long Running Operations. Default value is 30.
      *
      * @return the longRunningOperationRetryTimeout value.
      */
@@ -99,21 +98,23 @@ public class ManagedServiceIdentityClientImpl extends AzureServiceClient {
     }
 
     /**
-     * Sets Gets or sets the retry timeout in seconds for Long Running Operations. Default value is 30.
+     * Sets The retry timeout in seconds for Long Running Operations. Default value is 30.
      *
      * @param longRunningOperationRetryTimeout the longRunningOperationRetryTimeout value.
-     * @return the service client itself
+     * @return the service client itself.
      */
     public ManagedServiceIdentityClientImpl withLongRunningOperationRetryTimeout(int longRunningOperationRetryTimeout) {
         this.longRunningOperationRetryTimeout = longRunningOperationRetryTimeout;
         return this;
     }
 
-    /** When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true. */
+    /**
+     * Whether a unique x-ms-client-request-id should be generated. When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true.
+     */
     private boolean generateClientRequestId;
 
     /**
-     * Gets When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true.
+     * Gets Whether a unique x-ms-client-request-id should be generated. When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true.
      *
      * @return the generateClientRequestId value.
      */
@@ -122,10 +123,10 @@ public class ManagedServiceIdentityClientImpl extends AzureServiceClient {
     }
 
     /**
-     * Sets When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true.
+     * Sets Whether a unique x-ms-client-request-id should be generated. When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true.
      *
      * @param generateClientRequestId the generateClientRequestId value.
-     * @return the service client itself
+     * @return the service client itself.
      */
     public ManagedServiceIdentityClientImpl withGenerateClientRequestId(boolean generateClientRequestId) {
         this.generateClientRequestId = generateClientRequestId;
@@ -139,6 +140,7 @@ public class ManagedServiceIdentityClientImpl extends AzureServiceClient {
 
     /**
      * Gets the OperationsInner object to access its operations.
+     *
      * @return the OperationsInner object.
      */
     public OperationsInner operations() {
@@ -152,6 +154,7 @@ public class ManagedServiceIdentityClientImpl extends AzureServiceClient {
 
     /**
      * Gets the UserAssignedIdentitiesInner object to access its operations.
+     *
      * @return the UserAssignedIdentitiesInner object.
      */
     public UserAssignedIdentitiesInner userAssignedIdentities() {
@@ -161,50 +164,44 @@ public class ManagedServiceIdentityClientImpl extends AzureServiceClient {
     /**
      * Initializes an instance of ManagedServiceIdentityClient client.
      *
-     * @param credentials the management credentials for Azure
+     * @param credentials the management credentials for Azure.
      */
-    public ManagedServiceIdentityClientImpl(ServiceClientCredentials credentials) {
-        this("https://management.azure.com", credentials);
+    public ManagedServiceIdentityClientImpl(@NonNull ServiceClientCredentials credentials) {
+        this(AzureProxy.createDefaultPipeline(ManagedServiceIdentityClientImpl.class, credentials));
     }
 
     /**
      * Initializes an instance of ManagedServiceIdentityClient client.
      *
-     * @param baseUrl the base URL of the host
-     * @param credentials the management credentials for Azure
+     * @param credentials the management credentials for Azure.
+     * @param azureEnvironment The environment that requests will target.
      */
-    public ManagedServiceIdentityClientImpl(String baseUrl, ServiceClientCredentials credentials) {
-        super(baseUrl, credentials);
-        initialize();
+    public ManagedServiceIdentityClientImpl(@NonNull ServiceClientCredentials credentials, @NonNull AzureEnvironment azureEnvironment) {
+        this(AzureProxy.createDefaultPipeline(ManagedServiceIdentityClientImpl.class, credentials), azureEnvironment);
     }
 
     /**
      * Initializes an instance of ManagedServiceIdentityClient client.
      *
-     * @param restClient the REST client to connect to Azure.
+     * @param httpPipeline The HTTP pipeline to send requests through.
      */
-    public ManagedServiceIdentityClientImpl(RestClient restClient) {
-        super(restClient);
-        initialize();
+    public ManagedServiceIdentityClientImpl(@NonNull HttpPipeline httpPipeline) {
+        this(httpPipeline, null);
     }
 
-    protected void initialize() {
+    /**
+     * Initializes an instance of ManagedServiceIdentityClient client.
+     *
+     * @param httpPipeline The HTTP pipeline to send requests through.
+     * @param azureEnvironment The environment that requests will target.
+     */
+    public ManagedServiceIdentityClientImpl(@NonNull HttpPipeline httpPipeline, @NonNull AzureEnvironment azureEnvironment) {
+        super(httpPipeline, azureEnvironment);
         this.apiVersion = "2015-08-31-preview";
         this.acceptLanguage = "en-US";
         this.longRunningOperationRetryTimeout = 30;
         this.generateClientRequestId = true;
-        this.operations = new OperationsInner(restClient().retrofit(), this);
-        this.userAssignedIdentities = new UserAssignedIdentitiesInner(restClient().retrofit(), this);
-        this.azureClient = new AzureClient(this);
-    }
-
-    /**
-     * Gets the User-Agent header for the client.
-     *
-     * @return the user agent string.
-     */
-    @Override
-    public String userAgent() {
-        return String.format("%s (%s, %s)", super.userAgent(), "ManagedServiceIdentityClient", "2015-08-31-preview");
+        this.operations = new OperationsInner(this);
+        this.userAssignedIdentities = new UserAssignedIdentitiesInner(this);
     }
 }

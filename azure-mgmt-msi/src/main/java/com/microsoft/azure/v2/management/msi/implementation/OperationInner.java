@@ -8,14 +8,14 @@
 
 package com.microsoft.azure.v2.management.msi.implementation;
 
-import com.microsoft.azure.v2.management.msi.OperationDisplay;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.v2.management.msi.OperationDisplay;
 
 /**
- * Microsoft.ManagedIdentity Operation.
- * Operation supported by the Microsoft.ManagedIdentity REST API.
+ * Microsoft.ManagedIdentity Operation.Operation supported by the
+ * Microsoft.ManagedIdentity REST API.
  */
-public class OperationInner {
+public final class OperationInner {
     /**
      * Operation Name.
      * The name of the REST Operation. This is of the format
@@ -34,7 +34,7 @@ public class OperationInner {
     /**
      * Get the name value.
      *
-     * @return the name value
+     * @return the name value.
      */
     public String name() {
         return this.name;
@@ -43,7 +43,7 @@ public class OperationInner {
     /**
      * Set the name value.
      *
-     * @param name the name value to set
+     * @param name the name value to set.
      * @return the OperationInner object itself.
      */
     public OperationInner withName(String name) {
@@ -54,7 +54,7 @@ public class OperationInner {
     /**
      * Get the display value.
      *
-     * @return the display value
+     * @return the display value.
      */
     public OperationDisplay display() {
         return this.display;
@@ -63,12 +63,11 @@ public class OperationInner {
     /**
      * Set the display value.
      *
-     * @param display the display value to set
+     * @param display the display value to set.
      * @return the OperationInner object itself.
      */
     public OperationInner withDisplay(OperationDisplay display) {
         this.display = display;
         return this;
     }
-
 }

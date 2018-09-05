@@ -8,11 +8,10 @@
 
 package com.microsoft.azure.v2.management.msi.implementation;
 
-import java.util.UUID;
-
-import com.microsoft.azure.Resource;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.v2.Resource;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
+import java.util.UUID;
 
 /**
  * Describes an identity resource.
@@ -49,7 +48,7 @@ public class IdentityInner extends Resource {
     /**
      * Get the tenantId value.
      *
-     * @return the tenantId value
+     * @return the tenantId value.
      */
     public UUID tenantId() {
         return this.tenantId;
@@ -58,7 +57,7 @@ public class IdentityInner extends Resource {
     /**
      * Get the principalId value.
      *
-     * @return the principalId value
+     * @return the principalId value.
      */
     public UUID principalId() {
         return this.principalId;
@@ -67,7 +66,7 @@ public class IdentityInner extends Resource {
     /**
      * Get the clientId value.
      *
-     * @return the clientId value
+     * @return the clientId value.
      */
     public UUID clientId() {
         return this.clientId;
@@ -76,7 +75,7 @@ public class IdentityInner extends Resource {
     /**
      * Get the clientSecretUrl value.
      *
-     * @return the clientSecretUrl value
+     * @return the clientSecretUrl value.
      */
     public String clientSecretUrl() {
         return this.clientSecretUrl;

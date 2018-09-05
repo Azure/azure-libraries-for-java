@@ -8,21 +8,24 @@
 
 package com.microsoft.azure.v2.management.msi;
 
-import java.util.Collection;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.microsoft.rest.ExpandableStringEnum;
+import com.microsoft.rest.v2.ExpandableStringEnum;
+import java.util.Collection;
 
 /**
  * Defines values for UserAssignedIdentities.
  */
 public final class UserAssignedIdentities extends ExpandableStringEnum<UserAssignedIdentities> {
-    /** Static value Microsoft.ManagedIdentity/userAssignedIdentities for UserAssignedIdentities. */
-    public static final UserAssignedIdentities MICROSOFT_MANAGED_IDENTITYUSER_ASSIGNED_IDENTITIES = fromString("Microsoft.ManagedIdentity/userAssignedIdentities");
+    /**
+     * Static value Microsoft.ManagedIdentity/userAssignedIdentities for UserAssignedIdentities.
+     */
+    public static final UserAssignedIdentities MICROSOFT_MANAGED_IDENTITY_USER_ASSIGNED_IDENTITIES = fromString("Microsoft.ManagedIdentity/userAssignedIdentities");
 
     /**
      * Creates or finds a UserAssignedIdentities from its string representation.
-     * @param name a name to look for
-     * @return the corresponding UserAssignedIdentities
+     *
+     * @param name a name to look for.
+     * @return the corresponding UserAssignedIdentities.
      */
     @JsonCreator
     public static UserAssignedIdentities fromString(String name) {
@@ -30,7 +33,7 @@ public final class UserAssignedIdentities extends ExpandableStringEnum<UserAssig
     }
 
     /**
-     * @return known UserAssignedIdentities values
+     * @return known UserAssignedIdentities values.
      */
     public static Collection<UserAssignedIdentities> values() {
         return values(UserAssignedIdentities.class);

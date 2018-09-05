@@ -15,9 +15,9 @@ import com.microsoft.azure.v2.management.network.PacketCaptureStorageLocation;
 import com.microsoft.azure.v2.management.network.ProvisioningState;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
 import com.microsoft.azure.v2.management.resources.fluentcore.utils.Utils;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
+import io.reactivex.Completable;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,34 +44,30 @@ public class PacketCaptureImpl extends
     }
 
     @Override
-    protected Observable<PacketCaptureResultInner> getInnerAsync() {
+    protected Maybe<PacketCaptureResultInner> getInnerAsync() {
         return this.client.getAsync(parent.resourceGroupName(), parent.name(), name());
     }
 
     @Override
     public void stop() {
-        stopAsync().await();
+        stopAsync().blockingAwait();
     }
 
     @Override
     public Completable stopAsync() {
-        return this.client.stopAsync(parent.resourceGroupName(), parent.name(), name()).toCompletable();
+        return this.client.stopAsync(parent.resourceGroupName(), parent.name(), name());
     }
 
     @Override
     public PacketCaptureStatus getStatus() {
-        return getStatusAsync().toBlocking().last();
+        return getStatusAsync().blockingLast();
     }
 
     @Override
     public Observable<PacketCaptureStatus> getStatusAsync() {
         return this.client.getStatusAsync(parent.resourceGroupName(), parent.name(), name())
-                .map(new Func1<PacketCaptureQueryStatusResultInner, PacketCaptureStatus>() {
-                    @Override
-                    public PacketCaptureStatus call(PacketCaptureQueryStatusResultInner inner) {
-                        return new PacketCaptureStatusImpl(inner);
-                    }
-                });
+                .map(inner -> (PacketCaptureStatus) new PacketCaptureStatusImpl(inner))
+                .toObservable();
     }
 
     @Override
@@ -144,7 +140,8 @@ public class PacketCaptureImpl extends
     @Override
     public Observable<PacketCapture> createResourceAsync() {
         return this.client.createAsync(parent.resourceGroupName(), parent.name(), this.name(), createParameters)
-                .map(innerToFluentMap(this));
+                .map(innerToFluentMap(this))
+                .toObservable();
     }
 
     @Override

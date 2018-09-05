@@ -5,7 +5,7 @@
  */
 package com.microsoft.azure.v2.management.network.implementation;
 
-import com.microsoft.azure.PagedList;
+import com.microsoft.azure.v2.PagedList;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.v2.management.network.BgpSettings;
 import com.microsoft.azure.v2.management.network.Network;
@@ -24,14 +24,13 @@ import com.microsoft.azure.v2.management.network.VpnType;
 import com.microsoft.azure.v2.management.network.model.GroupableParentResourceWithTagsImpl;
 import com.microsoft.azure.v2.management.resources.ResourceGroup;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.collection.implementation.ReadableWrappersImpl;
-import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.Resource;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.v2.management.resources.fluentcore.utils.PagedListConverter;
 import com.microsoft.azure.v2.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.azure.v2.management.resources.fluentcore.utils.Utils;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
+import io.reactivex.Completable;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -186,18 +185,16 @@ class VirtualNetworkGatewayImpl
 
     @Override
     public void reset() {
-        resetAsync().await();
+        resetAsync().blockingAwait();
     }
 
     @Override
     public Completable resetAsync() {
-        return this.manager().inner().virtualNetworkGateways().resetAsync(resourceGroupName(), name()).map(new Func1<VirtualNetworkGatewayInner, Void>() {
-            @Override
-            public Void call(VirtualNetworkGatewayInner inner) {
+        return this.manager().inner().virtualNetworkGateways().resetAsync(resourceGroupName(), name())
+            .map(inner -> {
                 VirtualNetworkGatewayImpl.this.setInner(inner);
-                return null;
-            }
-        }).toCompletable();
+                return this;
+            }).flatMapCompletable(t -> Completable.complete());
     }
 
     @Override
@@ -212,12 +209,9 @@ class VirtualNetworkGatewayImpl
     @Override
     public Observable<VirtualNetworkGatewayConnection> listConnectionsAsync() {
         return ReadableWrappersImpl.convertPageToInnerAsync(this.manager().inner().virtualNetworkGateways().listConnectionsAsync(this.resourceGroupName(), this.name()))
-                .map(new Func1<VirtualNetworkGatewayConnectionListEntityInner, VirtualNetworkGatewayConnection>() {
-                    @Override
-                    public VirtualNetworkGatewayConnection call(VirtualNetworkGatewayConnectionListEntityInner connectionInner) {
-                        // will re-query to get full information for the connection
-                        return connections().getById(connectionInner.id());
-                    }
+                .map(connectionInner -> {
+                    // will re-query to get full information for the connection
+                    return connections().getById(connectionInner.id());
                 });
     }
 
@@ -228,12 +222,15 @@ class VirtualNetworkGatewayImpl
 
     @Override
     public Observable<String> generateVpnProfileAsync() {
-        return this.manager().inner().virtualNetworkGateways().generateVpnProfileAsync(resourceGroupName(), name(), new VpnClientParameters());
+        return this.manager().inner().virtualNetworkGateways()
+                .generateVpnProfileAsync(resourceGroupName(), name(), new VpnClientParameters())
+                .toObservable();
     }
 
     @Override
     protected Observable<VirtualNetworkGatewayInner> applyTagsToInnerAsync() {
-        return this.manager().inner().virtualNetworkGateways().updateTagsAsync(resourceGroupName(), name(), inner().getTags());
+        return this.manager().inner().virtualNetworkGateways().updateTagsAsync(resourceGroupName(), name(), inner().getTags())
+                .toObservable();
     }
 
     @Override
@@ -299,19 +296,17 @@ class VirtualNetworkGatewayImpl
     }
 
     @Override
-    public Observable<VirtualNetworkGateway> refreshAsync() {
-        return super.refreshAsync().map(new Func1<VirtualNetworkGateway, VirtualNetworkGateway>() {
-            @Override
-            public VirtualNetworkGateway call(VirtualNetworkGateway virtualNetworkGateway) {
+    public Maybe<VirtualNetworkGateway> refreshAsync() {
+        return super.refreshAsync()
+            .map(virtualNetworkGateway -> {
                 VirtualNetworkGatewayImpl impl = (VirtualNetworkGatewayImpl) virtualNetworkGateway;
                 impl.initializeChildrenFromInner();
                 return impl;
-            }
-        });
+            });
     }
 
     @Override
-    protected Observable<VirtualNetworkGatewayInner> getInnerAsync() {
+    protected Maybe<VirtualNetworkGatewayInner> getInnerAsync() {
         return this.manager().inner().virtualNetworkGateways().getByResourceGroupAsync(this.resourceGroupName(), this.name());
     }
 
@@ -397,48 +392,38 @@ class VirtualNetworkGatewayImpl
     protected Observable<VirtualNetworkGatewayInner> createInner() {
         // Determine if a default public frontend PIP should be created
         final VirtualNetworkGatewayIPConfigurationImpl defaultIPConfig = ensureDefaultIPConfig();
-        final Observable<Resource> pipObservable;
+        final Completable pipCompletable;
         if (defaultIPConfig != null && defaultIPConfig.publicIPAddressId() == null) {
             // If public ip not specified, then create a default PIP
-            pipObservable = Utils.<PublicIPAddress>rootResource(ensureDefaultPipDefinition()
-                    .createAsync()).map(new Func1<PublicIPAddress, Resource>() {
-                @Override
-                public Resource call(PublicIPAddress publicIPAddress) {
-                    defaultIPConfig.withExistingPublicIPAddress(publicIPAddress);
-                    return publicIPAddress;
-                }
-            });
+            pipCompletable = Utils.<PublicIPAddress>rootResource(ensureDefaultPipDefinition()
+                    .createAsync())
+                    .map(publicIPAddress -> {
+                        defaultIPConfig.withExistingPublicIPAddress(publicIPAddress);
+                        return publicIPAddress;
+                    }).flatMapCompletable(p -> Completable.complete());
         } else {
             // If existing public ip address specified, skip creating the PIP
-            pipObservable = Observable.empty();
+            pipCompletable = Completable.complete();
         }
 
-        final Observable<Resource> networkObservable;
+        final Completable networkCompletable;
         // Determine if default VNet should be created
          if (defaultIPConfig.subnetName() != null) {
             // ...and no need to create VNet
-            networkObservable = Observable.empty(); // ...and don't create another VNet
+             networkCompletable = Completable.complete(); // ...and don't create another VNet
         } else {
             // But if default IP config does not have a subnet specified, then create a VNet
-            networkObservable = Utils.<Network>rootResource(creatableNetwork
-                    .createAsync()).map(new Func1<Network, Resource>() {
-                @Override
-                public Resource call(Network network) {
-                    //... and assign the created VNet to the default IP config
-                    defaultIPConfig.withExistingSubnet(network, GATEWAY_SUBNET);
-                    return network;
-                }
-            });
+             networkCompletable = Utils.<Network>rootResource(creatableNetwork
+                    .createAsync())
+                    .map(network -> {
+                        defaultIPConfig.withExistingSubnet(network, GATEWAY_SUBNET);
+                        return network;
+                    }).flatMapCompletable(p -> Completable.complete());
         }
-
-        return Observable.merge(networkObservable, pipObservable)
-                .defaultIfEmpty(null)
-                .last().flatMap(new Func1<Resource, Observable<VirtualNetworkGatewayInner>>() {
-                    @Override
-                    public Observable<VirtualNetworkGatewayInner> call(Resource resource) {
-                        return VirtualNetworkGatewayImpl.this.manager().inner().virtualNetworkGateways().createOrUpdateAsync(resourceGroupName(), name(), inner());
-                    }
-                });
+        //
+        return pipCompletable.mergeWith(networkCompletable)
+                .andThen(VirtualNetworkGatewayImpl.this.manager().inner().virtualNetworkGateways().createOrUpdateAsync(resourceGroupName(), name(), inner()))
+                .toObservable();
     }
 
     @Override

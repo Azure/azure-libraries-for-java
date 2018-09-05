@@ -5,16 +5,15 @@
  */
 package com.microsoft.azure.v2.management.network.implementation;
 
-import com.microsoft.azure.PagedList;
+import com.microsoft.azure.v2.PagedList;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.v2.management.network.VirtualNetworkGateway;
 import com.microsoft.azure.v2.management.network.VirtualNetworkGateways;
-import com.microsoft.azure.v2.management.resources.ResourceGroup;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.collection.implementation.GroupableResourcesImpl;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.implementation.GroupPagedList;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
+import io.reactivex.Completable;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
 
 import java.util.List;
 
@@ -54,12 +53,7 @@ class VirtualNetworkGatewaysImpl
     @Override
     public Observable<VirtualNetworkGateway> listAsync() {
         return this.manager().resourceManager().resourceGroups().listAsync()
-                .flatMap(new Func1<ResourceGroup, Observable<VirtualNetworkGateway>>() {
-                    @Override
-                    public Observable<VirtualNetworkGateway> call(ResourceGroup resourceGroup) {
-                        return wrapPageAsync(inner().listByResourceGroupAsync(resourceGroup.name()));
-                    }
-                });
+                .flatMap(resourceGroup -> wrapPageAsync(inner().listByResourceGroupAsync(resourceGroup.name())));
     }
 
     @Override
@@ -73,13 +67,13 @@ class VirtualNetworkGatewaysImpl
     }
 
     @Override
-    protected Observable<VirtualNetworkGatewayInner> getInnerAsync(String groupName, String name) {
+    protected Maybe<VirtualNetworkGatewayInner> getInnerAsync(String groupName, String name) {
         return this.inner().getByResourceGroupAsync(groupName, name);
     }
 
     @Override
     protected Completable deleteInnerAsync(String groupName, String name) {
-        return this.inner().deleteAsync(groupName, name).toCompletable();
+        return this.inner().deleteAsync(groupName, name).flatMapCompletable(d -> Completable.complete());
     }
 
     // Fluent model create helpers

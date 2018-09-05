@@ -31,7 +31,7 @@ public class VirtualNetworkGatewayInner extends Resource {
      * IP configurations for virtual network gateway.
      */
     @JsonProperty(value = "properties.ipConfigurations")
-    private List<VirtualNetworkGatewayIPConfiguration> ipConfigurations;
+    private List<VirtualNetworkGatewayIPConfigurationInner> ipConfigurations;
 
     /**
      * The type of this virtual network gateway. Possible values are: 'Vpn' and
@@ -119,7 +119,7 @@ public class VirtualNetworkGatewayInner extends Resource {
      *
      * @return the ipConfigurations value.
      */
-    public List<VirtualNetworkGatewayIPConfiguration> ipConfigurations() {
+    public List<VirtualNetworkGatewayIPConfigurationInner> ipConfigurations() {
         return this.ipConfigurations;
     }
 
@@ -129,7 +129,7 @@ public class VirtualNetworkGatewayInner extends Resource {
      * @param ipConfigurations the ipConfigurations value to set.
      * @return the VirtualNetworkGatewayInner object itself.
      */
-    public VirtualNetworkGatewayInner withIpConfigurations(List<VirtualNetworkGatewayIPConfiguration> ipConfigurations) {
+    public VirtualNetworkGatewayInner withIpConfigurations(List<VirtualNetworkGatewayIPConfigurationInner> ipConfigurations) {
         this.ipConfigurations = ipConfigurations;
         return this;
     }

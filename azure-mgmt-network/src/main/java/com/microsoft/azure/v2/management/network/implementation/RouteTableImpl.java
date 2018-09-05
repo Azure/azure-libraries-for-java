@@ -51,7 +51,7 @@ class RouteTableImpl
     @Override
     protected void initializeChildrenFromInner() {
         this.routes = new TreeMap<>();
-        List<RouteInner> inners = this.inner().routes();
+        List<RouteInner> inners = this.inner().routesProperty();
         if (inners != null) {
             for (RouteInner inner : inners) {
                 RouteImpl route = new RouteImpl(inner, this);
@@ -83,7 +83,7 @@ class RouteTableImpl
 
     @Override
     public List<Subnet> listAssociatedSubnets() {
-        return this.myManager.listAssociatedSubnets(this.inner().subnets());
+        return this.myManager.listAssociatedSubnets(this.inner().subnetsProperty());
     }
 
     // Setters (fluent)
@@ -132,7 +132,7 @@ class RouteTableImpl
     @Override
     protected void beforeCreating() {
         // Reset and update routes
-        this.inner().withRoutes(innersFromWrappers(this.routes.values()));
+        this.inner().withRoutesProperty(innersFromWrappers(this.routes.values()));
     }
 
     @Override

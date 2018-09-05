@@ -5,12 +5,12 @@
  */
 package com.microsoft.azure.v2.management.network.implementation;
 
-import com.microsoft.azure.PagedList;
+import com.microsoft.azure.v2.PagedList;
 import com.microsoft.azure.v2.management.network.NetworkUsage;
 import com.microsoft.azure.v2.management.network.NetworkUsages;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.collection.implementation.ReadableWrappersImpl;
-import rx.Observable;
+import io.reactivex.Observable;
 
 /**
  * The implementation of NetworkUsages.

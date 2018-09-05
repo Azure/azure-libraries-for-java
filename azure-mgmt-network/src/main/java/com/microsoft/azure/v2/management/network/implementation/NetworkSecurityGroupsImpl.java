@@ -10,7 +10,7 @@ import com.microsoft.azure.v2.management.network.NetworkInterface;
 import com.microsoft.azure.v2.management.network.NetworkSecurityGroup;
 import com.microsoft.azure.v2.management.network.NetworkSecurityGroups;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
-import rx.Completable;
+import io.reactivex.Completable;
 
 import java.util.Set;
 

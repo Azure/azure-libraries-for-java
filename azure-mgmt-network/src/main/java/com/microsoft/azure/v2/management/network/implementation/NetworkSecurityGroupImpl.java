@@ -10,8 +10,8 @@ import com.microsoft.azure.v2.management.network.NetworkSecurityGroup;
 import com.microsoft.azure.v2.management.network.NetworkSecurityRule;
 import com.microsoft.azure.v2.management.network.Subnet;
 import com.microsoft.azure.v2.management.network.model.GroupableParentResourceWithTagsImpl;
-import rx.Observable;
-import rx.functions.Func1;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
 
 import java.util.Collections;
 import java.util.List;
@@ -80,26 +80,24 @@ class NetworkSecurityGroupImpl
     }
 
     @Override
-    public Observable<NetworkSecurityGroup> refreshAsync() {
-        return super.refreshAsync().map(new Func1<NetworkSecurityGroup, NetworkSecurityGroup>() {
-            @Override
-            public NetworkSecurityGroup call(NetworkSecurityGroup networkSecurityGroup) {
-                NetworkSecurityGroupImpl impl = (NetworkSecurityGroupImpl) networkSecurityGroup;
-
-                impl.initializeChildrenFromInner();
-                return impl;
-            }
-        });
+    public Maybe<NetworkSecurityGroup> refreshAsync() {
+        return super.refreshAsync()
+                .map(networkSecurityGroup -> {
+                    NetworkSecurityGroupImpl impl = (NetworkSecurityGroupImpl) networkSecurityGroup;
+                    impl.initializeChildrenFromInner();
+                    return impl;
+                });
     }
 
     @Override
-    protected Observable<NetworkSecurityGroupInner> getInnerAsync() {
+    protected Maybe<NetworkSecurityGroupInner> getInnerAsync() {
         return this.manager().inner().networkSecurityGroups().getByResourceGroupAsync(this.resourceGroupName(), this.name());
     }
 
     @Override
     protected Observable<NetworkSecurityGroupInner> applyTagsToInnerAsync() {
-        return this.manager().inner().networkSecurityGroups().updateTagsAsync(resourceGroupName(), name(), inner().getTags());
+        return this.manager().inner().networkSecurityGroups().updateTagsAsync(resourceGroupName(), name(), inner().getTags())
+                .toObservable();
     }
 
     @Override
@@ -155,6 +153,7 @@ class NetworkSecurityGroupImpl
 
     @Override
     protected Observable<NetworkSecurityGroupInner> createInner() {
-        return this.manager().inner().networkSecurityGroups().createOrUpdateAsync(this.resourceGroupName(), this.name(), this.inner());
+        return this.manager().inner().networkSecurityGroups().createOrUpdateAsync(this.resourceGroupName(), this.name(), this.inner())
+                .toObservable();
     }
 }

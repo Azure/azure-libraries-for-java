@@ -365,7 +365,7 @@ public interface AutoscaleProfile extends
         /**
          * Starts the update of the scale rule for the current autoscale profile.
          *
-         * @param ruleIndex the index of the scale rule in the current autoscale profile.
+         * @param ruleIndex the index of the scale rule in the current autoscale profile. The index represents the order at which rules were added to the current profile.
          * @return the next stage of the autoscale profile update.
          */
         ScaleRule.Update updateScaleRule(int ruleIndex);

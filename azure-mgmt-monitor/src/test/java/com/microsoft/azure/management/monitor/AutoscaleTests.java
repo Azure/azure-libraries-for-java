@@ -18,12 +18,10 @@ import org.junit.Test;
 
 public class AutoscaleTests extends MonitorManagementTest {
     private static String RG_NAME = "";
-    private static String SA_NAME = "";
 
     @Override
     protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {
         RG_NAME = generateRandomResourceName("jMonitor_", 18);
-        SA_NAME = generateRandomResourceName("jMonitorSA", 18);
 
         super.initializeClients(restClient, defaultSubscription, domain);
     }
@@ -71,7 +69,7 @@ public class AutoscaleTests extends MonitorManagementTest {
                             .withCondition(ComparisonOperationType.GREATER_THAN, TimeAggregationType.AVERAGE, 70)
                             .withScaleAction(ScaleDirection.INCREASE, ScaleType.EXACT_COUNT, 10, Period.hours(12))
                             .attach()
-                        .withFixedDateSchedule("UTC", DateTime.now().minusDays(2), DateTime.now())
+                        .withFixedDateSchedule("UTC", DateTime.parse("2050-10-12T20:15:10Z"), DateTime.parse("2051-09-11T16:08:04Z"))
                         .attach()
 
                     .defineAutoscaleProfile("AutoScaleProfile2")
@@ -83,7 +81,7 @@ public class AutoscaleTests extends MonitorManagementTest {
                             .withCondition(ComparisonOperationType.LESS_THAN, TimeAggregationType.AVERAGE, 20)
                             .withScaleAction(ScaleDirection.DECREASE, ScaleType.EXACT_COUNT, 1, Period.hours(3))
                             .attach()
-                        .withRecurrentSchedule("UTC", "18:00", DayOfWeek.MONDAY, DayOfWeek.TUESDAY, DayOfWeek.SATURDAY)
+                        .withRecurrentSchedule("UTC", "12:13", DayOfWeek.FRIDAY)
                         .attach()
 
                     .withAdminEmailNotification()
@@ -102,7 +100,9 @@ public class AutoscaleTests extends MonitorManagementTest {
             Assert.assertEquals("me@mycorp.com", setting.customEmailsNotification().get(0));
             Assert.assertEquals("you@mycorp.com", setting.customEmailsNotification().get(1));
             Assert.assertEquals("him@mycorp.com", setting.customEmailsNotification().get(2));
+
             Assert.assertEquals(3, setting.profiles().size());
+
             AutoscaleProfile tempProfile = setting.profiles().get("Default");
             Assert.assertNotNull(tempProfile);
             Assert.assertEquals("Default", tempProfile.name());
@@ -115,7 +115,76 @@ public class AutoscaleTests extends MonitorManagementTest {
             Assert.assertNotNull(tempProfile.recurrentSchedule());
             Assert.assertEquals(RecurrenceFrequency.WEEK, tempProfile.recurrentSchedule().frequency());
             Assert.assertNotNull(tempProfile.recurrentSchedule().schedule());
+            Assert.assertEquals(3, tempProfile.recurrentSchedule().schedule().days().size());
+            Assert.assertTrue(tempProfile.recurrentSchedule().schedule().days().contains(DayOfWeek.MONDAY.toString()));
+            Assert.assertTrue(tempProfile.recurrentSchedule().schedule().days().contains(DayOfWeek.TUESDAY.toString()));
+            Assert.assertTrue(tempProfile.recurrentSchedule().schedule().days().contains(DayOfWeek.SATURDAY.toString()));
+            Assert.assertEquals(1, tempProfile.recurrentSchedule().schedule().hours().size());
+            Assert.assertEquals(1, tempProfile.recurrentSchedule().schedule().minutes().size());
+            Assert.assertTrue(tempProfile.recurrentSchedule().schedule().hours().contains(18));
+            Assert.assertTrue(tempProfile.recurrentSchedule().schedule().minutes().contains(0));
+            Assert.assertTrue(tempProfile.recurrentSchedule().schedule().timeZone().equalsIgnoreCase("UTC"));
 
+            tempProfile = setting.profiles().get("AutoScaleProfile1");
+            Assert.assertNotNull(tempProfile);
+            Assert.assertEquals("AutoScaleProfile1", tempProfile.name());
+            Assert.assertEquals(1, tempProfile.defaultInstanceCount());
+            Assert.assertEquals(10, tempProfile.maxInstanceCount());
+            Assert.assertEquals(1, tempProfile.minInstanceCount());
+            Assert.assertNotNull(tempProfile.fixedDateSchedule());
+            Assert.assertTrue(tempProfile.fixedDateSchedule().timeZone().equalsIgnoreCase("UTC"));
+            Assert.assertEquals(DateTime.parse("2050-10-12T20:15:10Z"), tempProfile.fixedDateSchedule().start());
+            Assert.assertEquals(DateTime.parse("2051-09-11T16:08:04Z"), tempProfile.fixedDateSchedule().end());
+            Assert.assertNull(tempProfile.recurrentSchedule());
+            Assert.assertNotNull(tempProfile.rules());
+            Assert.assertEquals(1, tempProfile.rules().size());
+            ScaleRule rule = tempProfile.rules().get(0);
+            Assert.assertEquals(servicePlan.id(), rule.metricSource());
+            Assert.assertEquals("CPUPercentage", rule.metricName());
+            Assert.assertEquals(Period.minutes(10), rule.duration());
+            Assert.assertEquals(Period.minutes(1), rule.frequency());
+            Assert.assertEquals(MetricStatisticType.AVERAGE, rule.frequencyStatistic());
+            Assert.assertEquals(ComparisonOperationType.GREATER_THAN, rule.condition());
+            Assert.assertEquals(TimeAggregationType.AVERAGE, rule.timeAggregation());
+            Assert.assertEquals(70, rule.threshold(), 0.001);
+            Assert.assertEquals(ScaleDirection.INCREASE, rule.scaleDirection());
+            Assert.assertEquals(ScaleType.EXACT_COUNT, rule.scaleType());
+            Assert.assertEquals(10, rule.scaleInstanceCount());
+            Assert.assertEquals(Period.hours(12), rule.coolDown());
+
+            tempProfile = setting.profiles().get("AutoScaleProfile2");
+            Assert.assertNotNull(tempProfile);
+            Assert.assertEquals("AutoScaleProfile2", tempProfile.name());
+            Assert.assertEquals(3, tempProfile.defaultInstanceCount());
+            Assert.assertEquals(5, tempProfile.maxInstanceCount());
+            Assert.assertEquals(1, tempProfile.minInstanceCount());
+            Assert.assertNull(tempProfile.fixedDateSchedule());
+            Assert.assertNotNull(tempProfile.recurrentSchedule().schedule());
+            Assert.assertEquals(1, tempProfile.recurrentSchedule().schedule().days().size());
+            Assert.assertTrue(tempProfile.recurrentSchedule().schedule().days().contains(DayOfWeek.FRIDAY.toString()));
+            Assert.assertEquals(1, tempProfile.recurrentSchedule().schedule().hours().size());
+            Assert.assertEquals(1, tempProfile.recurrentSchedule().schedule().minutes().size());
+            Assert.assertTrue(tempProfile.recurrentSchedule().schedule().hours().contains(12));
+            Assert.assertTrue(tempProfile.recurrentSchedule().schedule().minutes().contains(13));
+            Assert.assertTrue(tempProfile.recurrentSchedule().schedule().timeZone().equalsIgnoreCase("UTC"));
+
+            Assert.assertNotNull(tempProfile.rules());
+            Assert.assertEquals(1, tempProfile.rules().size());
+            rule = tempProfile.rules().get(0);
+            Assert.assertEquals(servicePlan.id(), rule.metricSource());
+            Assert.assertEquals("CPUPercentage", rule.metricName());
+            Assert.assertEquals(Period.minutes(10), rule.duration());
+            Assert.assertEquals(Period.minutes(1), rule.frequency());
+            Assert.assertEquals(MetricStatisticType.AVERAGE, rule.frequencyStatistic());
+            Assert.assertEquals(ComparisonOperationType.LESS_THAN, rule.condition());
+            Assert.assertEquals(TimeAggregationType.AVERAGE, rule.timeAggregation());
+            Assert.assertEquals(20, rule.threshold(), 0.001);
+            Assert.assertEquals(ScaleDirection.DECREASE, rule.scaleDirection());
+            Assert.assertEquals(ScaleType.EXACT_COUNT, rule.scaleType());
+            Assert.assertEquals(1, rule.scaleInstanceCount());
+            Assert.assertEquals(Period.hours(3), rule.coolDown());
+
+            AutoscaleSetting settingFromGet = monitorManager.autoscaleSettings().getById(setting.id());
 
             setting.update()
                     .defineAutoscaleProfile("very new profile")
@@ -149,6 +218,11 @@ public class AutoscaleTests extends MonitorManagementTest {
                     .withAutoscaleEnabled()
                     .withoutCoAdminEmailNotification()
                     .apply();
+
+
+            settingFromGet = monitorManager.autoscaleSettings().listByResourceGroup(RG_NAME).get(0);
+
+            monitorManager.autoscaleSettings().deleteById(settingFromGet.id());
         }
         finally {
             resourceManager.resourceGroups().beginDeleteByName(RG_NAME);

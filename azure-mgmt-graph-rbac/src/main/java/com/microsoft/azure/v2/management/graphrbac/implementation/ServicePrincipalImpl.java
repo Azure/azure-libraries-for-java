@@ -6,7 +6,6 @@
 
 package com.microsoft.azure.v2.management.graphrbac.implementation;
 
-import com.google.common.collect.Lists;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.v2.CloudException;
 import com.microsoft.azure.v2.management.graphrbac.ActiveDirectoryApplication;
@@ -150,8 +149,14 @@ class ServicePrincipalImpl
             for (CertificateCredential create : certificateCredentialsToCreate) {
                 newCerts.put(create.name(), create);
             }
+            //
+            List<KeyCredentialInner> innerCerts = new ArrayList<>();
+            for (CertificateCredential cert : newCerts.values()) {
+                innerCerts.add(cert.inner());
+            }
+            //
             Completable updateKeyCredentialsCompletable = manager().inner().servicePrincipals().updateKeyCredentialsAsync(sp.id(),
-                    Lists.transform(new ArrayList<>(newCerts.values()), input -> input.inner()));
+                    innerCerts);
             completable = completable.mergeWith(updateKeyCredentialsCompletable);
         }
         //
@@ -163,8 +168,12 @@ class ServicePrincipalImpl
             for (PasswordCredential create : passwordCredentialsToCreate) {
                 newPasses.put(create.name(), create);
             }
+            List<PasswordCredentialInner> innerPasswords = new ArrayList<>();
+            for (PasswordCredential pwd : newPasses.values()) {
+                innerPasswords.add(pwd.inner());
+            }
             Completable updatePasswordCredentialsCompletable = manager().inner().servicePrincipals().updatePasswordCredentialsAsync(sp.id(),
-                    Lists.transform(new ArrayList<>(newPasses.values()), input -> input.inner()));
+                    innerPasswords);
             completable = completable.mergeWith(updatePasswordCredentialsCompletable);
         }
         //

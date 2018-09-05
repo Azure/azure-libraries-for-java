@@ -6,9 +6,6 @@
 
 package com.microsoft.azure.v2.management.graphrbac.implementation;
 
-import com.google.common.base.Function;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.v2.management.graphrbac.ActiveDirectoryApplication;
 import com.microsoft.azure.v2.management.graphrbac.ApplicationCreateParameters;
@@ -24,6 +21,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -132,7 +130,8 @@ class ActiveDirectoryApplicationImpl
         if (inner().identifierUris() == null) {
             return null;
         }
-        return Collections.unmodifiableSet(Sets.newHashSet(inner().identifierUris()));
+        HashSet<String> identifierUrisSet = new HashSet<>(inner().identifierUris());
+        return Collections.unmodifiableSet(identifierUrisSet);
     }
 
     @Override
@@ -140,7 +139,8 @@ class ActiveDirectoryApplicationImpl
         if (inner().replyUrls() == null) {
             return null;
         }
-        return Collections.unmodifiableSet(Sets.newHashSet(inner().replyUrls()));
+        HashSet<String> replyUrlsSet = new HashSet<>(inner().replyUrls());
+        return Collections.unmodifiableSet(replyUrlsSet);
     }
 
     @Override
@@ -247,24 +247,24 @@ class ActiveDirectoryApplicationImpl
     public ActiveDirectoryApplicationImpl withoutCredential(final String name) {
         if (cachedPasswordCredentials.containsKey(name)) {
             cachedPasswordCredentials.remove(name);
-            updateParameters.withPasswordCredentials(Lists.transform(
-                    new ArrayList<>(cachedPasswordCredentials.values()),
-                    new Function<PasswordCredential, PasswordCredentialInner>() {
-                        @Override
-                        public PasswordCredentialInner apply(PasswordCredential input) {
-                            return input.inner();
-                        }
-                    }));
+            //
+            List<PasswordCredentialInner> innerPasswords = new ArrayList<>();
+            for (PasswordCredential pwd : cachedPasswordCredentials.values()) {
+                innerPasswords.add(pwd.inner());
+            }
+            //
+            updateParameters.withPasswordCredentials(innerPasswords);
         } else if (cachedCertificateCredentials.containsKey(name)) {
             cachedCertificateCredentials.remove(name);
-            updateParameters.withKeyCredentials(Lists.transform(
-                    new ArrayList<>(cachedCertificateCredentials.values()),
-                    new Function<CertificateCredential, KeyCredentialInner>() {
-                        @Override
-                        public KeyCredentialInner apply(CertificateCredential input) {
-                            return input.inner();
-                        }
-                    }));
+            //
+            //
+            List<KeyCredentialInner> innerCerts = new ArrayList<>();
+            for (CertificateCredential cert : cachedCertificateCredentials.values()) {
+                innerCerts.add(cert.inner());
+            }
+            //
+            //
+            updateParameters.withKeyCredentials(innerCerts);
         }
         return this;
     }

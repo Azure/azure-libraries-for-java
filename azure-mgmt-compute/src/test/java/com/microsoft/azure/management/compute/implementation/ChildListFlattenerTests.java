@@ -8,6 +8,7 @@ package com.microsoft.azure.management.compute.implementation;
 
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
+import com.microsoft.azure.v2.management.compute.implementation.ChildListFlattener;
 import com.microsoft.rest.RestException;
 import org.junit.Assert;
 import org.junit.Test;

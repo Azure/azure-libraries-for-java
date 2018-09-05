@@ -5,9 +5,10 @@
  */
 package com.microsoft.azure.management.compute.implementation;
 
-import com.microsoft.azure.management.compute.VirtualMachineIdentity;
-import com.microsoft.azure.management.compute.VirtualMachineIdentityUserAssignedIdentitiesValue;
+import com.microsoft.azure.v2.management.compute.VirtualMachineIdentity;
+import com.microsoft.azure.v2.management.compute.VirtualMachineIdentityUserAssignedIdentitiesValue;
 import com.microsoft.azure.serializer.AzureJacksonAdapter;
+import com.microsoft.azure.v2.management.compute.implementation.VirtualMachineInner;
 import org.junit.Test;
 
 import java.io.IOException;

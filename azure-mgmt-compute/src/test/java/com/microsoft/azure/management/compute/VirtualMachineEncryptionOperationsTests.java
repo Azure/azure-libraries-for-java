@@ -7,6 +7,11 @@
 package com.microsoft.azure.management.compute;
 
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.v2.management.compute.CachingTypes;
+import com.microsoft.azure.v2.management.compute.DiskVolumeEncryptionMonitor;
+import com.microsoft.azure.v2.management.compute.EncryptionStatus;
+import com.microsoft.azure.v2.management.compute.VirtualMachine;
+import com.microsoft.azure.v2.management.compute.VirtualMachineSizeTypes;
 import com.microsoft.rest.RestClient;
 import org.junit.Assert;
 import org.junit.Ignore;

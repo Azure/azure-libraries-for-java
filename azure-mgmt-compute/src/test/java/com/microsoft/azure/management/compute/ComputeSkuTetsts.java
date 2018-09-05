@@ -9,6 +9,8 @@ package com.microsoft.azure.management.compute;
 import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.resources.fluentcore.arm.AvailabilityZoneId;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.v2.management.compute.ComputeResourceType;
+import com.microsoft.azure.v2.management.compute.ComputeSku;
 import com.microsoft.rest.RestClient;
 import org.junit.Assert;
 import org.junit.Test;

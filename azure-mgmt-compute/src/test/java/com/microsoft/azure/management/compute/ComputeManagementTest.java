@@ -8,7 +8,7 @@ package com.microsoft.azure.management.compute;
 
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
-import com.microsoft.azure.management.compute.implementation.ComputeManager;
+import com.microsoft.azure.v2.management.compute.implementation.ComputeManager;
 import com.microsoft.azure.management.graphrbac.implementation.GraphRbacManager;
 import com.microsoft.azure.management.network.LoadBalancer;
 import com.microsoft.azure.management.network.LoadBalancerSkuType;

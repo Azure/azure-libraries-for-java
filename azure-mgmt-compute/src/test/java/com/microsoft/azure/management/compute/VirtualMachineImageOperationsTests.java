@@ -8,6 +8,11 @@ package com.microsoft.azure.management.compute;
 
 import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.v2.management.compute.DataDiskImage;
+import com.microsoft.azure.v2.management.compute.VirtualMachineImage;
+import com.microsoft.azure.v2.management.compute.VirtualMachineOffer;
+import com.microsoft.azure.v2.management.compute.VirtualMachinePublisher;
+import com.microsoft.azure.v2.management.compute.VirtualMachineSku;
 import org.junit.Assert;
 import org.junit.Test;
 

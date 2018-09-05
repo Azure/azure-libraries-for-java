@@ -6,11 +6,14 @@
 
 package com.microsoft.azure.management.graphrbac;
 
-import com.google.common.io.ByteStreams;
 import com.microsoft.azure.v2.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.azure.v2.management.graphrbac.ActiveDirectoryApplication;
 import org.junit.Assert;
 import org.junit.Test;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 public class ApplicationsTests extends GraphRbacManagementTest {
     @Test
@@ -27,7 +30,7 @@ public class ApplicationsTests extends GraphRbacManagementTest {
                         .attach()
                     .defineCertificateCredential("cert")
                         .withAsymmetricX509Certificate()
-                        .withPublicKey(ByteStreams.toByteArray(this.getClass().getResourceAsStream("/myTest.cer")))
+                        .withPublicKey(streamToByteArray(this.getClass().getResourceAsStream("/myTest.cer")))
                         .withDuration(java.time.Duration.ofDays(100))
                         .attach()
                     .create();
@@ -53,4 +56,18 @@ public class ApplicationsTests extends GraphRbacManagementTest {
         }
     }
 
+    private byte[] streamToByteArray(InputStream inputStream) {
+        ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
+        byte[] buffer = new byte[1024];
+        int read;
+        try {
+            while ((read = inputStream.read(buffer, 0, buffer.length)) != -1) {
+                byteStream.write(buffer, 0, read);
+            }
+            byteStream.flush();
+        } catch (IOException ioException) {
+            throw new RuntimeException(ioException);
+        }
+        return byteStream.toByteArray();
+    }
 }

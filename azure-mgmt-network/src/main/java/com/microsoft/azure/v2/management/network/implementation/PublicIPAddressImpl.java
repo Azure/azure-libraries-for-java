@@ -21,10 +21,10 @@ import com.microsoft.azure.v2.management.resources.fluentcore.arm.AvailabilityZo
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.ResourceUtils;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
 import com.microsoft.azure.v2.management.resources.fluentcore.utils.Utils;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import rx.Observable;
-import rx.functions.Func1;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -57,7 +57,7 @@ class PublicIPAddressImpl
     // Verbs
 
     @Override
-    protected Observable<PublicIPAddressInner> getInnerAsync() {
+    protected Maybe<PublicIPAddressInner> getInnerAsync() {
         return this.manager().inner().publicIPAddresses().getByResourceGroupAsync(this.resourceGroupName(), this.name());
     }
 
@@ -191,7 +191,8 @@ class PublicIPAddressImpl
 
         return this.manager().inner().publicIPAddresses().createOrUpdateAsync(
                 this.resourceGroupName(), this.name(), this.inner())
-                .map(innerToFluentMap(this));
+                .map(innerToFluentMap(this))
+                .toObservable();
     }
 
     private boolean equalsResourceType(String resourceType) {
@@ -269,23 +270,21 @@ class PublicIPAddressImpl
 
     @Override
     public PublicIPAddress applyTags() {
-        return applyTagsAsync().toBlocking().last();
+        return applyTagsAsync().blockingLast();
     }
 
     @Override
     public Observable<PublicIPAddress> applyTagsAsync() {
         return this.manager().inner().publicIPAddresses().updateTagsAsync(resourceGroupName(), name(), inner().getTags())
-                .flatMap(new Func1<PublicIPAddressInner, Observable<PublicIPAddress>>() {
-                    @Override
-                    public Observable<PublicIPAddress> call(PublicIPAddressInner inner) {
-                        setInner(inner);
-                        return Observable.just((PublicIPAddress) PublicIPAddressImpl.this);                    }
-                });
+                .map(inner -> {
+                    setInner(inner);
+                    return (PublicIPAddress) PublicIPAddressImpl.this;
+                }).toObservable();
     }
 
     @Override
     public ServiceFuture<PublicIPAddress> applyTagsAsync(ServiceCallback<PublicIPAddress> callback) {
-        return ServiceFuture.fromBody(applyTagsAsync(), callback);
+        return ServiceFuture.fromBody(applyTagsAsync().lastElement(), callback);
     }
 
     @Override

@@ -6,24 +6,23 @@
 
 package com.microsoft.azure.v2.management.msi.implementation;
 
-import com.microsoft.azure.AzureEnvironment;
+import com.microsoft.azure.v2.AzureEnvironment;
 import com.microsoft.azure.AzureResponseBuilder;
-import com.microsoft.azure.credentials.AzureTokenCredentials;
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.graphrbac.implementation.GraphRbacManager;
+import com.microsoft.azure.v2.credentials.AzureTokenCredentials;
+import com.microsoft.azure.v2.management.graphrbac.implementation.GraphRbacManager;
 import com.microsoft.azure.v2.management.msi.Identities;
-import com.microsoft.azure.management.resources.fluentcore.arm.AzureConfigurable;
-import com.microsoft.azure.management.resources.fluentcore.arm.implementation.AzureConfigurableImpl;
-import com.microsoft.azure.management.resources.fluentcore.arm.implementation.Manager;
-import com.microsoft.azure.management.resources.fluentcore.utils.ProviderRegistrationInterceptor;
-import com.microsoft.azure.management.resources.fluentcore.utils.ResourceManagerThrottlingInterceptor;
-import com.microsoft.azure.serializer.AzureJacksonAdapter;
-import com.microsoft.rest.RestClient;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.AzureConfigurable;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.implementation.AzureConfigurableImpl;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.implementation.Manager;
+import com.microsoft.azure.v2.management.resources.fluentcore.utils.ProviderRegistrationInterceptor;
+import com.microsoft.azure.v2.management.resources.fluentcore.utils.ResourceManagerThrottlingInterceptor;
+import com.microsoft.azure.v2.serializer.AzureJacksonAdapter;
+import com.microsoft.rest.v2.annotations.Beta;
 
 /**
  * Entry point to Azure Managed Service Identity (MSI) resource management.
  */
-@Beta // TODO Add since v1.5 param
+@Beta(since = "V1_5_1")
 public final class MSIManager extends Manager<MSIManager, ManagedServiceIdentityClientImpl> {
     private final GraphRbacManager rbacManager;
 
@@ -98,7 +97,7 @@ public final class MSIManager extends Manager<MSIManager, ManagedServiceIdentity
     /**
      * @return entry point to Azure MSI Identity resource management API
      */
-    @Beta(Beta.SinceVersion.V1_5_1)
+    @Beta(since = "V1_5_1")
     public Identities identities() {
         if (identities == null) {
             this.identities = new IdentitesImpl(this.inner().userAssignedIdentities(), this);
@@ -109,7 +108,7 @@ public final class MSIManager extends Manager<MSIManager, ManagedServiceIdentity
     /**
      * @return the Graph RBAC manager.
      */
-    @Beta(Beta.SinceVersion.V1_5_1)
+    @Beta(since = "V1_5_1")
     public GraphRbacManager graphRbacManager() {
         return this.rbacManager;
     }

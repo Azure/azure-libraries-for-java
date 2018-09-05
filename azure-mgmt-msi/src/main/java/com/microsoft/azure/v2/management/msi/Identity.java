@@ -6,25 +6,25 @@
 
 package com.microsoft.azure.v2.management.msi;
 
-import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.graphrbac.BuiltInRole;
-import com.microsoft.azure.management.graphrbac.RoleAssignment;
+import com.microsoft.azure.v2.management.graphrbac.BuiltInRole;
+import com.microsoft.azure.v2.management.graphrbac.RoleAssignment;
 import com.microsoft.azure.v2.management.msi.implementation.IdentityInner;
 import com.microsoft.azure.v2.management.msi.implementation.MSIManager;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
-import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
-import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.GroupableResource;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.Resource;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Appliable;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Creatable;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Refreshable;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Updatable;
+import com.microsoft.rest.v2.annotations.Beta;
 
 
 /**
  * An immutable client-side representation of an Azure Managed Service Identity (MSI) Identity resource.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_5_1)
+@Beta(since = "V1_5_1")
 public interface Identity
         extends GroupableResource<MSIManager, IdentityInner>,
         Refreshable<Identity>,
@@ -78,7 +78,7 @@ public interface Identity
          * The stage of the identity definition allowing to set access role (permission) for it
          * to access a resource.
          */
-        @Beta(Beta.SinceVersion.V1_5_1)
+        @Beta(since = "V1_5_1")
         interface WithAccess {
             /**
              * Specifies that the identity should have the given access (described by the role)
@@ -89,7 +89,7 @@ public interface Identity
              * @param role access role to assigned to the identity
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_5_1)
+            @Beta(since = "V1_5_1")
             WithCreate withAccessTo(Resource resource, BuiltInRole role);
 
             /**
@@ -101,7 +101,7 @@ public interface Identity
              * @param role access role to assigned to the identity
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_5_1)
+            @Beta(since = "V1_5_1")
             WithCreate withAccessTo(String resourceId, BuiltInRole role);
 
             /**
@@ -112,7 +112,7 @@ public interface Identity
              * @param role access role to assigned to the identity
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_5_1)
+            @Beta(since = "V1_5_1")
             WithCreate withAccessToCurrentResourceGroup(BuiltInRole role);
 
             /**
@@ -124,7 +124,7 @@ public interface Identity
              * @param roleDefinitionId access role definition to assigned to the identity
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_5_1)
+            @Beta(since = "V1_5_1")
             WithCreate withAccessTo(Resource resource, String roleDefinitionId);
 
             /**
@@ -137,7 +137,7 @@ public interface Identity
              * @param roleDefinitionId access role definition to assigned to the identity
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_5_1)
+            @Beta(since = "V1_5_1")
             WithCreate withAccessTo(String resourceId, String roleDefinitionId);
 
             /**
@@ -149,7 +149,7 @@ public interface Identity
              * @param roleDefinitionId access role definition to assigned to the identity
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_5_1)
+            @Beta(since = "V1_5_1")
             WithCreate withAccessToCurrentResourceGroup(String roleDefinitionId);
         }
 
@@ -172,7 +172,7 @@ public interface Identity
          * The stage of the identity update allowing to set access role (permission) for it
          * to access a resource or remove an assigned role.
          */
-        @Beta(Beta.SinceVersion.V1_5_1)
+        @Beta(since = "V1_5_1")
         interface WithAccess {
             /**
              * Specifies that the identity should have the given access (described by the role)
@@ -183,7 +183,7 @@ public interface Identity
              * @param role access role to assigned to the identity
              * @return the next stage of the update
              */
-            @Beta(Beta.SinceVersion.V1_5_1)
+            @Beta(since = "V1_5_1")
             Update withAccessTo(Resource resource, BuiltInRole role);
 
             /**
@@ -195,7 +195,7 @@ public interface Identity
              * @param role access role to assigned to the identity
              * @return the next stage of the update
              */
-            @Beta(Beta.SinceVersion.V1_5_1)
+            @Beta(since = "V1_5_1")
             Update withAccessTo(String resourceId, BuiltInRole role);
 
             /**
@@ -206,7 +206,7 @@ public interface Identity
              * @param role access role to assigned to the identity
              * @return the next stage of the update
              */
-            @Beta(Beta.SinceVersion.V1_5_1)
+            @Beta(since = "V1_5_1")
             Update withAccessToCurrentResourceGroup(BuiltInRole role);
 
             /**
@@ -218,7 +218,7 @@ public interface Identity
              * @param roleDefinitionId access role definition to assigned to the identity
              * @return the next stage of the update
              */
-            @Beta(Beta.SinceVersion.V1_5_1)
+            @Beta(since = "V1_5_1")
             Update withAccessTo(Resource resource, String roleDefinitionId);
 
             /**
@@ -231,7 +231,7 @@ public interface Identity
              * @param roleDefinitionId access role definition to assigned to the identity
              * @return the next stage of the update
              */
-            @Beta(Beta.SinceVersion.V1_5_1)
+            @Beta(since = "V1_5_1")
             Update withAccessTo(String resourceId, String roleDefinitionId);
 
             /**
@@ -243,7 +243,7 @@ public interface Identity
              * @param roleDefinitionId access role definition to assigned to the identity
              * @return the next stage of the update
              */
-            @Beta(Beta.SinceVersion.V1_5_1)
+            @Beta(since = "V1_5_1")
             Update withAccessToCurrentResourceGroup(String roleDefinitionId);
 
             /**
@@ -252,7 +252,7 @@ public interface Identity
              * @param roleAssignment describes an existing role assigned to the identity
              * @return the next stage of the update
              */
-            @Beta(Beta.SinceVersion.V1_5_1)
+            @Beta(since = "V1_5_1")
             Update withoutAccess(RoleAssignment roleAssignment);
 
             /**
@@ -262,7 +262,7 @@ public interface Identity
              * @param role the access role assigned to the identity
              * @return the next stage of the update
              */
-            @Beta(Beta.SinceVersion.V1_5_1)
+            @Beta(since = "V1_5_1")
             Update withoutAccessTo(String resourceId, BuiltInRole role);
         }
     }

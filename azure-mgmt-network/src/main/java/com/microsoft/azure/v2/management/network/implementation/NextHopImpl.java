@@ -10,8 +10,7 @@ import com.microsoft.azure.v2.management.network.NextHop;
 import com.microsoft.azure.v2.management.network.NextHopParameters;
 import com.microsoft.azure.v2.management.network.NextHopType;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.implementation.ExecutableImpl;
-import rx.Observable;
-import rx.functions.Func1;
+import io.reactivex.Observable;
 
 /**
  * Implementation of NextHop.
@@ -95,12 +94,10 @@ public class NextHopImpl extends ExecutableImpl<NextHop>
     public Observable<NextHop> executeWorkAsync() {
         return this.parent().manager().inner().networkWatchers()
                 .getNextHopAsync(parent.resourceGroupName(), parent.name(), parameters)
-                .map(new Func1<NextHopResultInner, NextHop>() {
-                    @Override
-                    public NextHop call(NextHopResultInner nextHopResultInner) {
-                        NextHopImpl.this.result = nextHopResultInner;
-                        return NextHopImpl.this;
-                    }
-                });
+                .map(nextHopResultInner -> {
+                    NextHopImpl.this.result = nextHopResultInner;
+                    return (NextHop) NextHopImpl.this;
+                })
+                .toObservable();
     }
 }

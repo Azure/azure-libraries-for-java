@@ -11,6 +11,7 @@ package com.microsoft.azure.management.compute.implementation;
 import retrofit2.Retrofit;
 import com.google.common.reflect.TypeToken;
 import com.microsoft.azure.CloudException;
+import com.microsoft.azure.management.compute.VirtualMachineExtensionUpdate;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
 import com.microsoft.rest.ServiceResponse;
@@ -22,6 +23,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.HTTP;
+import retrofit2.http.PATCH;
 import retrofit2.http.Path;
 import retrofit2.http.PUT;
 import retrofit2.http.Query;
@@ -63,6 +65,14 @@ public class VirtualMachineExtensionsInner {
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/extensions/{vmExtensionName}")
         Observable<Response<ResponseBody>> beginCreateOrUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("vmName") String vmName, @Path("vmExtensionName") String vmExtensionName, @Path("subscriptionId") String subscriptionId, @Body VirtualMachineExtensionInner extensionParameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.VirtualMachineExtensions update" })
+        @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/extensions/{vmExtensionName}")
+        Observable<Response<ResponseBody>> update(@Path("resourceGroupName") String resourceGroupName, @Path("vmName") String vmName, @Path("vmExtensionName") String vmExtensionName, @Path("subscriptionId") String subscriptionId, @Body VirtualMachineExtensionUpdate extensionParameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.VirtualMachineExtensions beginUpdate" })
+        @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/extensions/{vmExtensionName}")
+        Observable<Response<ResponseBody>> beginUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("vmName") String vmName, @Path("vmExtensionName") String vmExtensionName, @Path("subscriptionId") String subscriptionId, @Body VirtualMachineExtensionUpdate extensionParameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.VirtualMachineExtensions delete" })
         @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/extensions/{vmExtensionName}", method = "DELETE", hasBody = true)
         Observable<Response<ResponseBody>> delete(@Path("resourceGroupName") String resourceGroupName, @Path("vmName") String vmName, @Path("vmExtensionName") String vmExtensionName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
@@ -75,13 +85,17 @@ public class VirtualMachineExtensionsInner {
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/extensions/{vmExtensionName}")
         Observable<Response<ResponseBody>> get(@Path("resourceGroupName") String resourceGroupName, @Path("vmName") String vmName, @Path("vmExtensionName") String vmExtensionName, @Path("subscriptionId") String subscriptionId, @Query("$expand") String expand, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.VirtualMachineExtensions list" })
+        @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/extensions")
+        Observable<Response<ResponseBody>> list(@Path("resourceGroupName") String resourceGroupName, @Path("vmName") String vmName, @Path("subscriptionId") String subscriptionId, @Query("$expand") String expand, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
     }
 
     /**
      * The operation to create or update the extension.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param vmName The name of the virtual machine where the extension should be create or updated.
+     * @param vmName The name of the virtual machine where the extension should be created or updated.
      * @param vmExtensionName The name of the virtual machine extension.
      * @param extensionParameters Parameters supplied to the Create Virtual Machine Extension operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -97,7 +111,7 @@ public class VirtualMachineExtensionsInner {
      * The operation to create or update the extension.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param vmName The name of the virtual machine where the extension should be create or updated.
+     * @param vmName The name of the virtual machine where the extension should be created or updated.
      * @param vmExtensionName The name of the virtual machine extension.
      * @param extensionParameters Parameters supplied to the Create Virtual Machine Extension operation.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
@@ -112,7 +126,7 @@ public class VirtualMachineExtensionsInner {
      * The operation to create or update the extension.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param vmName The name of the virtual machine where the extension should be create or updated.
+     * @param vmName The name of the virtual machine where the extension should be created or updated.
      * @param vmExtensionName The name of the virtual machine extension.
      * @param extensionParameters Parameters supplied to the Create Virtual Machine Extension operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -131,7 +145,7 @@ public class VirtualMachineExtensionsInner {
      * The operation to create or update the extension.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param vmName The name of the virtual machine where the extension should be create or updated.
+     * @param vmName The name of the virtual machine where the extension should be created or updated.
      * @param vmExtensionName The name of the virtual machine extension.
      * @param extensionParameters Parameters supplied to the Create Virtual Machine Extension operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -154,7 +168,7 @@ public class VirtualMachineExtensionsInner {
             throw new IllegalArgumentException("Parameter extensionParameters is required and cannot be null.");
         }
         Validator.validate(extensionParameters);
-        final String apiVersion = "2017-12-01";
+        final String apiVersion = "2018-06-01";
         Observable<Response<ResponseBody>> observable = service.createOrUpdate(resourceGroupName, vmName, vmExtensionName, this.client.subscriptionId(), extensionParameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<VirtualMachineExtensionInner>() { }.getType());
     }
@@ -163,7 +177,7 @@ public class VirtualMachineExtensionsInner {
      * The operation to create or update the extension.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param vmName The name of the virtual machine where the extension should be create or updated.
+     * @param vmName The name of the virtual machine where the extension should be created or updated.
      * @param vmExtensionName The name of the virtual machine extension.
      * @param extensionParameters Parameters supplied to the Create Virtual Machine Extension operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -179,7 +193,7 @@ public class VirtualMachineExtensionsInner {
      * The operation to create or update the extension.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param vmName The name of the virtual machine where the extension should be create or updated.
+     * @param vmName The name of the virtual machine where the extension should be created or updated.
      * @param vmExtensionName The name of the virtual machine extension.
      * @param extensionParameters Parameters supplied to the Create Virtual Machine Extension operation.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
@@ -194,7 +208,7 @@ public class VirtualMachineExtensionsInner {
      * The operation to create or update the extension.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param vmName The name of the virtual machine where the extension should be create or updated.
+     * @param vmName The name of the virtual machine where the extension should be created or updated.
      * @param vmExtensionName The name of the virtual machine extension.
      * @param extensionParameters Parameters supplied to the Create Virtual Machine Extension operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -213,7 +227,7 @@ public class VirtualMachineExtensionsInner {
      * The operation to create or update the extension.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param vmName The name of the virtual machine where the extension should be create or updated.
+     * @param vmName The name of the virtual machine where the extension should be created or updated.
      * @param vmExtensionName The name of the virtual machine extension.
      * @param extensionParameters Parameters supplied to the Create Virtual Machine Extension operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -236,7 +250,7 @@ public class VirtualMachineExtensionsInner {
             throw new IllegalArgumentException("Parameter extensionParameters is required and cannot be null.");
         }
         Validator.validate(extensionParameters);
-        final String apiVersion = "2017-12-01";
+        final String apiVersion = "2018-06-01";
         return service.beginCreateOrUpdate(resourceGroupName, vmName, vmExtensionName, this.client.subscriptionId(), extensionParameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<VirtualMachineExtensionInner>>>() {
                 @Override
@@ -260,6 +274,187 @@ public class VirtualMachineExtensionsInner {
     }
 
     /**
+     * The operation to update the extension.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmName The name of the virtual machine where the extension should be updated.
+     * @param vmExtensionName The name of the virtual machine extension.
+     * @param extensionParameters Parameters supplied to the Update Virtual Machine Extension operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the VirtualMachineExtensionInner object if successful.
+     */
+    public VirtualMachineExtensionInner update(String resourceGroupName, String vmName, String vmExtensionName, VirtualMachineExtensionUpdate extensionParameters) {
+        return updateWithServiceResponseAsync(resourceGroupName, vmName, vmExtensionName, extensionParameters).toBlocking().last().body();
+    }
+
+    /**
+     * The operation to update the extension.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmName The name of the virtual machine where the extension should be updated.
+     * @param vmExtensionName The name of the virtual machine extension.
+     * @param extensionParameters Parameters supplied to the Update Virtual Machine Extension operation.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<VirtualMachineExtensionInner> updateAsync(String resourceGroupName, String vmName, String vmExtensionName, VirtualMachineExtensionUpdate extensionParameters, final ServiceCallback<VirtualMachineExtensionInner> serviceCallback) {
+        return ServiceFuture.fromResponse(updateWithServiceResponseAsync(resourceGroupName, vmName, vmExtensionName, extensionParameters), serviceCallback);
+    }
+
+    /**
+     * The operation to update the extension.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmName The name of the virtual machine where the extension should be updated.
+     * @param vmExtensionName The name of the virtual machine extension.
+     * @param extensionParameters Parameters supplied to the Update Virtual Machine Extension operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable for the request
+     */
+    public Observable<VirtualMachineExtensionInner> updateAsync(String resourceGroupName, String vmName, String vmExtensionName, VirtualMachineExtensionUpdate extensionParameters) {
+        return updateWithServiceResponseAsync(resourceGroupName, vmName, vmExtensionName, extensionParameters).map(new Func1<ServiceResponse<VirtualMachineExtensionInner>, VirtualMachineExtensionInner>() {
+            @Override
+            public VirtualMachineExtensionInner call(ServiceResponse<VirtualMachineExtensionInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * The operation to update the extension.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmName The name of the virtual machine where the extension should be updated.
+     * @param vmExtensionName The name of the virtual machine extension.
+     * @param extensionParameters Parameters supplied to the Update Virtual Machine Extension operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable for the request
+     */
+    public Observable<ServiceResponse<VirtualMachineExtensionInner>> updateWithServiceResponseAsync(String resourceGroupName, String vmName, String vmExtensionName, VirtualMachineExtensionUpdate extensionParameters) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (vmName == null) {
+            throw new IllegalArgumentException("Parameter vmName is required and cannot be null.");
+        }
+        if (vmExtensionName == null) {
+            throw new IllegalArgumentException("Parameter vmExtensionName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (extensionParameters == null) {
+            throw new IllegalArgumentException("Parameter extensionParameters is required and cannot be null.");
+        }
+        Validator.validate(extensionParameters);
+        final String apiVersion = "2018-06-01";
+        Observable<Response<ResponseBody>> observable = service.update(resourceGroupName, vmName, vmExtensionName, this.client.subscriptionId(), extensionParameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
+        return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<VirtualMachineExtensionInner>() { }.getType());
+    }
+
+    /**
+     * The operation to update the extension.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmName The name of the virtual machine where the extension should be updated.
+     * @param vmExtensionName The name of the virtual machine extension.
+     * @param extensionParameters Parameters supplied to the Update Virtual Machine Extension operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the VirtualMachineExtensionInner object if successful.
+     */
+    public VirtualMachineExtensionInner beginUpdate(String resourceGroupName, String vmName, String vmExtensionName, VirtualMachineExtensionUpdate extensionParameters) {
+        return beginUpdateWithServiceResponseAsync(resourceGroupName, vmName, vmExtensionName, extensionParameters).toBlocking().single().body();
+    }
+
+    /**
+     * The operation to update the extension.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmName The name of the virtual machine where the extension should be updated.
+     * @param vmExtensionName The name of the virtual machine extension.
+     * @param extensionParameters Parameters supplied to the Update Virtual Machine Extension operation.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<VirtualMachineExtensionInner> beginUpdateAsync(String resourceGroupName, String vmName, String vmExtensionName, VirtualMachineExtensionUpdate extensionParameters, final ServiceCallback<VirtualMachineExtensionInner> serviceCallback) {
+        return ServiceFuture.fromResponse(beginUpdateWithServiceResponseAsync(resourceGroupName, vmName, vmExtensionName, extensionParameters), serviceCallback);
+    }
+
+    /**
+     * The operation to update the extension.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmName The name of the virtual machine where the extension should be updated.
+     * @param vmExtensionName The name of the virtual machine extension.
+     * @param extensionParameters Parameters supplied to the Update Virtual Machine Extension operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the VirtualMachineExtensionInner object
+     */
+    public Observable<VirtualMachineExtensionInner> beginUpdateAsync(String resourceGroupName, String vmName, String vmExtensionName, VirtualMachineExtensionUpdate extensionParameters) {
+        return beginUpdateWithServiceResponseAsync(resourceGroupName, vmName, vmExtensionName, extensionParameters).map(new Func1<ServiceResponse<VirtualMachineExtensionInner>, VirtualMachineExtensionInner>() {
+            @Override
+            public VirtualMachineExtensionInner call(ServiceResponse<VirtualMachineExtensionInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * The operation to update the extension.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmName The name of the virtual machine where the extension should be updated.
+     * @param vmExtensionName The name of the virtual machine extension.
+     * @param extensionParameters Parameters supplied to the Update Virtual Machine Extension operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the VirtualMachineExtensionInner object
+     */
+    public Observable<ServiceResponse<VirtualMachineExtensionInner>> beginUpdateWithServiceResponseAsync(String resourceGroupName, String vmName, String vmExtensionName, VirtualMachineExtensionUpdate extensionParameters) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (vmName == null) {
+            throw new IllegalArgumentException("Parameter vmName is required and cannot be null.");
+        }
+        if (vmExtensionName == null) {
+            throw new IllegalArgumentException("Parameter vmExtensionName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (extensionParameters == null) {
+            throw new IllegalArgumentException("Parameter extensionParameters is required and cannot be null.");
+        }
+        Validator.validate(extensionParameters);
+        final String apiVersion = "2018-06-01";
+        return service.beginUpdate(resourceGroupName, vmName, vmExtensionName, this.client.subscriptionId(), extensionParameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<VirtualMachineExtensionInner>>>() {
+                @Override
+                public Observable<ServiceResponse<VirtualMachineExtensionInner>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<VirtualMachineExtensionInner> clientResponse = beginUpdateDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<VirtualMachineExtensionInner> beginUpdateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<VirtualMachineExtensionInner, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<VirtualMachineExtensionInner>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
+    }
+
+    /**
      * The operation to delete the extension.
      *
      * @param resourceGroupName The name of the resource group.
@@ -268,10 +463,9 @@ public class VirtualMachineExtensionsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the OperationStatusResponseInner object if successful.
      */
-    public OperationStatusResponseInner delete(String resourceGroupName, String vmName, String vmExtensionName) {
-        return deleteWithServiceResponseAsync(resourceGroupName, vmName, vmExtensionName).toBlocking().last().body();
+    public void delete(String resourceGroupName, String vmName, String vmExtensionName) {
+        deleteWithServiceResponseAsync(resourceGroupName, vmName, vmExtensionName).toBlocking().last().body();
     }
 
     /**
@@ -284,7 +478,7 @@ public class VirtualMachineExtensionsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<OperationStatusResponseInner> deleteAsync(String resourceGroupName, String vmName, String vmExtensionName, final ServiceCallback<OperationStatusResponseInner> serviceCallback) {
+    public ServiceFuture<Void> deleteAsync(String resourceGroupName, String vmName, String vmExtensionName, final ServiceCallback<Void> serviceCallback) {
         return ServiceFuture.fromResponse(deleteWithServiceResponseAsync(resourceGroupName, vmName, vmExtensionName), serviceCallback);
     }
 
@@ -297,10 +491,10 @@ public class VirtualMachineExtensionsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<OperationStatusResponseInner> deleteAsync(String resourceGroupName, String vmName, String vmExtensionName) {
-        return deleteWithServiceResponseAsync(resourceGroupName, vmName, vmExtensionName).map(new Func1<ServiceResponse<OperationStatusResponseInner>, OperationStatusResponseInner>() {
+    public Observable<Void> deleteAsync(String resourceGroupName, String vmName, String vmExtensionName) {
+        return deleteWithServiceResponseAsync(resourceGroupName, vmName, vmExtensionName).map(new Func1<ServiceResponse<Void>, Void>() {
             @Override
-            public OperationStatusResponseInner call(ServiceResponse<OperationStatusResponseInner> response) {
+            public Void call(ServiceResponse<Void> response) {
                 return response.body();
             }
         });
@@ -315,7 +509,7 @@ public class VirtualMachineExtensionsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<ServiceResponse<OperationStatusResponseInner>> deleteWithServiceResponseAsync(String resourceGroupName, String vmName, String vmExtensionName) {
+    public Observable<ServiceResponse<Void>> deleteWithServiceResponseAsync(String resourceGroupName, String vmName, String vmExtensionName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -328,9 +522,9 @@ public class VirtualMachineExtensionsInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2017-12-01";
+        final String apiVersion = "2018-06-01";
         Observable<Response<ResponseBody>> observable = service.delete(resourceGroupName, vmName, vmExtensionName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<OperationStatusResponseInner>() { }.getType());
+        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
     }
 
     /**
@@ -342,10 +536,9 @@ public class VirtualMachineExtensionsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the OperationStatusResponseInner object if successful.
      */
-    public OperationStatusResponseInner beginDelete(String resourceGroupName, String vmName, String vmExtensionName) {
-        return beginDeleteWithServiceResponseAsync(resourceGroupName, vmName, vmExtensionName).toBlocking().single().body();
+    public void beginDelete(String resourceGroupName, String vmName, String vmExtensionName) {
+        beginDeleteWithServiceResponseAsync(resourceGroupName, vmName, vmExtensionName).toBlocking().single().body();
     }
 
     /**
@@ -358,7 +551,7 @@ public class VirtualMachineExtensionsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<OperationStatusResponseInner> beginDeleteAsync(String resourceGroupName, String vmName, String vmExtensionName, final ServiceCallback<OperationStatusResponseInner> serviceCallback) {
+    public ServiceFuture<Void> beginDeleteAsync(String resourceGroupName, String vmName, String vmExtensionName, final ServiceCallback<Void> serviceCallback) {
         return ServiceFuture.fromResponse(beginDeleteWithServiceResponseAsync(resourceGroupName, vmName, vmExtensionName), serviceCallback);
     }
 
@@ -369,12 +562,12 @@ public class VirtualMachineExtensionsInner {
      * @param vmName The name of the virtual machine where the extension should be deleted.
      * @param vmExtensionName The name of the virtual machine extension.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the OperationStatusResponseInner object
+     * @return the {@link ServiceResponse} object if successful.
      */
-    public Observable<OperationStatusResponseInner> beginDeleteAsync(String resourceGroupName, String vmName, String vmExtensionName) {
-        return beginDeleteWithServiceResponseAsync(resourceGroupName, vmName, vmExtensionName).map(new Func1<ServiceResponse<OperationStatusResponseInner>, OperationStatusResponseInner>() {
+    public Observable<Void> beginDeleteAsync(String resourceGroupName, String vmName, String vmExtensionName) {
+        return beginDeleteWithServiceResponseAsync(resourceGroupName, vmName, vmExtensionName).map(new Func1<ServiceResponse<Void>, Void>() {
             @Override
-            public OperationStatusResponseInner call(ServiceResponse<OperationStatusResponseInner> response) {
+            public Void call(ServiceResponse<Void> response) {
                 return response.body();
             }
         });
@@ -387,9 +580,9 @@ public class VirtualMachineExtensionsInner {
      * @param vmName The name of the virtual machine where the extension should be deleted.
      * @param vmExtensionName The name of the virtual machine extension.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the OperationStatusResponseInner object
+     * @return the {@link ServiceResponse} object if successful.
      */
-    public Observable<ServiceResponse<OperationStatusResponseInner>> beginDeleteWithServiceResponseAsync(String resourceGroupName, String vmName, String vmExtensionName) {
+    public Observable<ServiceResponse<Void>> beginDeleteWithServiceResponseAsync(String resourceGroupName, String vmName, String vmExtensionName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -402,13 +595,13 @@ public class VirtualMachineExtensionsInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2017-12-01";
+        final String apiVersion = "2018-06-01";
         return service.beginDelete(resourceGroupName, vmName, vmExtensionName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<OperationStatusResponseInner>>>() {
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
-                public Observable<ServiceResponse<OperationStatusResponseInner>> call(Response<ResponseBody> response) {
+                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<OperationStatusResponseInner> clientResponse = beginDeleteDelegate(response);
+                        ServiceResponse<Void> clientResponse = beginDeleteDelegate(response);
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -417,9 +610,9 @@ public class VirtualMachineExtensionsInner {
             });
     }
 
-    private ServiceResponse<OperationStatusResponseInner> beginDeleteDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<OperationStatusResponseInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<OperationStatusResponseInner>() { }.getType())
+    private ServiceResponse<Void> beginDeleteDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<Void>() { }.getType())
                 .register(202, new TypeToken<Void>() { }.getType())
                 .register(204, new TypeToken<Void>() { }.getType())
                 .registerError(CloudException.class)
@@ -495,7 +688,7 @@ public class VirtualMachineExtensionsInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2017-12-01";
+        final String apiVersion = "2018-06-01";
         final String expand = null;
         return service.get(resourceGroupName, vmName, vmExtensionName, this.client.subscriptionId(), expand, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<VirtualMachineExtensionInner>>>() {
@@ -584,7 +777,7 @@ public class VirtualMachineExtensionsInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2017-12-01";
+        final String apiVersion = "2018-06-01";
         return service.get(resourceGroupName, vmName, vmExtensionName, this.client.subscriptionId(), expand, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<VirtualMachineExtensionInner>>>() {
                 @Override
@@ -602,6 +795,172 @@ public class VirtualMachineExtensionsInner {
     private ServiceResponse<VirtualMachineExtensionInner> getDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<VirtualMachineExtensionInner, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<VirtualMachineExtensionInner>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
+    }
+
+    /**
+     * The operation to get all extensions of a Virtual Machine.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmName The name of the virtual machine containing the extension.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the VirtualMachineExtensionsListResultInner object if successful.
+     */
+    public VirtualMachineExtensionsListResultInner list(String resourceGroupName, String vmName) {
+        return listWithServiceResponseAsync(resourceGroupName, vmName).toBlocking().single().body();
+    }
+
+    /**
+     * The operation to get all extensions of a Virtual Machine.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmName The name of the virtual machine containing the extension.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<VirtualMachineExtensionsListResultInner> listAsync(String resourceGroupName, String vmName, final ServiceCallback<VirtualMachineExtensionsListResultInner> serviceCallback) {
+        return ServiceFuture.fromResponse(listWithServiceResponseAsync(resourceGroupName, vmName), serviceCallback);
+    }
+
+    /**
+     * The operation to get all extensions of a Virtual Machine.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmName The name of the virtual machine containing the extension.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the VirtualMachineExtensionsListResultInner object
+     */
+    public Observable<VirtualMachineExtensionsListResultInner> listAsync(String resourceGroupName, String vmName) {
+        return listWithServiceResponseAsync(resourceGroupName, vmName).map(new Func1<ServiceResponse<VirtualMachineExtensionsListResultInner>, VirtualMachineExtensionsListResultInner>() {
+            @Override
+            public VirtualMachineExtensionsListResultInner call(ServiceResponse<VirtualMachineExtensionsListResultInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * The operation to get all extensions of a Virtual Machine.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmName The name of the virtual machine containing the extension.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the VirtualMachineExtensionsListResultInner object
+     */
+    public Observable<ServiceResponse<VirtualMachineExtensionsListResultInner>> listWithServiceResponseAsync(String resourceGroupName, String vmName) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (vmName == null) {
+            throw new IllegalArgumentException("Parameter vmName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        final String apiVersion = "2018-06-01";
+        final String expand = null;
+        return service.list(resourceGroupName, vmName, this.client.subscriptionId(), expand, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<VirtualMachineExtensionsListResultInner>>>() {
+                @Override
+                public Observable<ServiceResponse<VirtualMachineExtensionsListResultInner>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<VirtualMachineExtensionsListResultInner> clientResponse = listDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    /**
+     * The operation to get all extensions of a Virtual Machine.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmName The name of the virtual machine containing the extension.
+     * @param expand The expand expression to apply on the operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the VirtualMachineExtensionsListResultInner object if successful.
+     */
+    public VirtualMachineExtensionsListResultInner list(String resourceGroupName, String vmName, String expand) {
+        return listWithServiceResponseAsync(resourceGroupName, vmName, expand).toBlocking().single().body();
+    }
+
+    /**
+     * The operation to get all extensions of a Virtual Machine.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmName The name of the virtual machine containing the extension.
+     * @param expand The expand expression to apply on the operation.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<VirtualMachineExtensionsListResultInner> listAsync(String resourceGroupName, String vmName, String expand, final ServiceCallback<VirtualMachineExtensionsListResultInner> serviceCallback) {
+        return ServiceFuture.fromResponse(listWithServiceResponseAsync(resourceGroupName, vmName, expand), serviceCallback);
+    }
+
+    /**
+     * The operation to get all extensions of a Virtual Machine.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmName The name of the virtual machine containing the extension.
+     * @param expand The expand expression to apply on the operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the VirtualMachineExtensionsListResultInner object
+     */
+    public Observable<VirtualMachineExtensionsListResultInner> listAsync(String resourceGroupName, String vmName, String expand) {
+        return listWithServiceResponseAsync(resourceGroupName, vmName, expand).map(new Func1<ServiceResponse<VirtualMachineExtensionsListResultInner>, VirtualMachineExtensionsListResultInner>() {
+            @Override
+            public VirtualMachineExtensionsListResultInner call(ServiceResponse<VirtualMachineExtensionsListResultInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * The operation to get all extensions of a Virtual Machine.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmName The name of the virtual machine containing the extension.
+     * @param expand The expand expression to apply on the operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the VirtualMachineExtensionsListResultInner object
+     */
+    public Observable<ServiceResponse<VirtualMachineExtensionsListResultInner>> listWithServiceResponseAsync(String resourceGroupName, String vmName, String expand) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (vmName == null) {
+            throw new IllegalArgumentException("Parameter vmName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        final String apiVersion = "2018-06-01";
+        return service.list(resourceGroupName, vmName, this.client.subscriptionId(), expand, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<VirtualMachineExtensionsListResultInner>>>() {
+                @Override
+                public Observable<ServiceResponse<VirtualMachineExtensionsListResultInner>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<VirtualMachineExtensionsListResultInner> clientResponse = listDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<VirtualMachineExtensionsListResultInner> listDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<VirtualMachineExtensionsListResultInner, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<VirtualMachineExtensionsListResultInner>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }

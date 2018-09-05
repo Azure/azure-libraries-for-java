@@ -29,9 +29,17 @@ public interface Snapshot extends
         Refreshable<Snapshot>,
         Updatable<Snapshot.Update> {
     /**
-     * @return the snapshot SKU type
+     * @return the snapshot SKU type.
+     * @deprecated use {@link Snapshot#skuType()} instead.
+     *
      */
+    @Deprecated
     DiskSkuTypes sku();
+
+    /**
+     * @return the snapshot SKU type.
+     */
+    SnapshotSkuType skuType();
 
     /**
      * @return the snapshot creation method
@@ -369,16 +377,26 @@ public interface Snapshot extends
         }
 
         /**
-         * The stage of the managed disk definition allowing to choose account type.
+         * The stage of the snapshot definition allowing to choose account type.
          */
         interface WithSku {
+            /**
+             * Specifies the SKU type.
+             * @deprecated use {@link WithSku#withSku(SnapshotSkuType)} instead.
+             *
+             * @param sku SKU type
+             * @return the next stage of the definition
+             */
+            @Deprecated
+            WithCreate withSku(DiskSkuTypes sku);
+
             /**
              * Specifies the SKU type.
              *
              * @param sku SKU type
              * @return the next stage of the definition
              */
-            WithCreate withSku(DiskSkuTypes sku);
+            WithCreate withSku(SnapshotSkuType sku);
         }
 
         /**
@@ -403,12 +421,22 @@ public interface Snapshot extends
          */
         interface WithSku {
             /**
-             * Specifies the account type.
+             * Specifies the SKU type.
+             * @deprecated use {@link WithSku#withSku(SnapshotSkuType)} instead.
              *
              * @param sku SKU type
              * @return the next stage of the update
              */
+            @Deprecated
             Update withSku(DiskSkuTypes sku);
+
+            /**
+             * Specifies the SKU type.
+             *
+             * @param sku SKU type
+             * @return the next stage of the update
+             */
+            Update withSku(SnapshotSkuType sku);
         }
 
         /**

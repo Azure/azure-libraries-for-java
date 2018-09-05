@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class ResourceSkuRestrictions {
     /**
-     * The type of restrictions. Possible values include: 'Location'.
+     * The type of restrictions. Possible values include: 'Location', 'Zone'.
      */
     @JsonProperty(value = "type", access = JsonProperty.Access.WRITE_ONLY)
     private ResourceSkuRestrictionsType type;
@@ -29,6 +29,12 @@ public class ResourceSkuRestrictions {
     private List<String> values;
 
     /**
+     * The information about the restriction where the SKU cannot be used.
+     */
+    @JsonProperty(value = "restrictionInfo", access = JsonProperty.Access.WRITE_ONLY)
+    private ResourceSkuRestrictionInfo restrictionInfo;
+
+    /**
      * The reason for restriction. Possible values include: 'QuotaId',
      * 'NotAvailableForSubscription'.
      */
@@ -36,7 +42,7 @@ public class ResourceSkuRestrictions {
     private ResourceSkuRestrictionsReasonCode reasonCode;
 
     /**
-     * Get the type value.
+     * Get the type of restrictions. Possible values include: 'Location', 'Zone'.
      *
      * @return the type value
      */
@@ -45,7 +51,7 @@ public class ResourceSkuRestrictions {
     }
 
     /**
-     * Get the values value.
+     * Get the value of restrictions. If the restriction type is set to location. This would be different locations where the SKU is restricted.
      *
      * @return the values value
      */
@@ -54,7 +60,16 @@ public class ResourceSkuRestrictions {
     }
 
     /**
-     * Get the reasonCode value.
+     * Get the information about the restriction where the SKU cannot be used.
+     *
+     * @return the restrictionInfo value
+     */
+    public ResourceSkuRestrictionInfo restrictionInfo() {
+        return this.restrictionInfo;
+    }
+
+    /**
+     * Get the reason for restriction. Possible values include: 'QuotaId', 'NotAvailableForSubscription'.
      *
      * @return the reasonCode value
      */

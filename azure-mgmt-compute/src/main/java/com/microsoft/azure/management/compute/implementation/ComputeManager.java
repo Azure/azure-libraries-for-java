@@ -9,10 +9,14 @@ package com.microsoft.azure.management.compute.implementation;
 import com.microsoft.azure.AzureEnvironment;
 import com.microsoft.azure.AzureResponseBuilder;
 import com.microsoft.azure.credentials.AzureTokenCredentials;
+import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.compute.AvailabilitySets;
 import com.microsoft.azure.management.compute.ComputeSkus;
 import com.microsoft.azure.management.compute.ComputeUsages;
 import com.microsoft.azure.management.compute.Disks;
+import com.microsoft.azure.management.compute.Galleries;
+import com.microsoft.azure.management.compute.GalleryImageVersions;
+import com.microsoft.azure.management.compute.GalleryImages;
 import com.microsoft.azure.management.compute.Snapshots;
 import com.microsoft.azure.management.compute.VirtualMachineCustomImages;
 import com.microsoft.azure.management.compute.VirtualMachineExtensionImages;
@@ -26,7 +30,7 @@ import com.microsoft.azure.management.resources.fluentcore.arm.implementation.Az
 import com.microsoft.azure.management.resources.fluentcore.arm.implementation.Manager;
 import com.microsoft.azure.management.resources.fluentcore.utils.ProviderRegistrationInterceptor;
 import com.microsoft.azure.management.resources.fluentcore.utils.ResourceManagerThrottlingInterceptor;
-import com.microsoft.azure.v2.management.storage.implementation.StorageManager;
+import com.microsoft.azure.management.storage.implementation.StorageManager;
 import com.microsoft.azure.serializer.AzureJacksonAdapter;
 import com.microsoft.rest.RestClient;
 
@@ -50,6 +54,9 @@ public final class ComputeManager extends Manager<ComputeManager, ComputeManagem
     private Disks disks;
     private Snapshots snapshots;
     private ComputeSkus computeSkus;
+    private Galleries galleries;
+    private GalleryImages galleryImages;
+    private GalleryImageVersions galleryImageVersions;
 
     /**
      * Get a Configurable instance that can be used to create ComputeManager with optional configuration.
@@ -232,5 +239,38 @@ public final class ComputeManager extends Manager<ComputeManager, ComputeManagem
             computeSkus = new ComputeSkusImpl(this);
         }
         return computeSkus;
+    }
+
+    /**
+     * @return the compute service gallery management entry point
+     */
+    @Beta(Beta.SinceVersion.V1_15_0)
+    public Galleries galleries() {
+        if (galleries == null) {
+            galleries = new GalleriesImpl(this);
+        }
+        return galleries;
+    }
+
+    /**
+     * @return the compute service gallery image management entry point
+     */
+    @Beta(Beta.SinceVersion.V1_15_0)
+    public GalleryImages galleryImages() {
+        if (galleryImages == null) {
+            galleryImages = new GalleryImagesImpl(this);
+        }
+        return galleryImages;
+    }
+
+    /**
+     * @return the compute service gallery image version management entry point
+     */
+    @Beta(Beta.SinceVersion.V1_15_0)
+    public GalleryImageVersions galleryImageVersions() {
+        if (galleryImageVersions == null) {
+            galleryImageVersions = new GalleryImageVersionsImpl(this);
+        }
+        return galleryImageVersions;
     }
 }

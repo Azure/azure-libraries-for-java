@@ -33,7 +33,17 @@ public class LinuxConfiguration {
     private SshConfiguration ssh;
 
     /**
-     * Get the disablePasswordAuthentication value.
+     * Indicates whether virtual machine agent should be provisioned on the
+     * virtual machine. &lt;br&gt;&lt;br&gt; When this property is not
+     * specified in the request body, default behavior is to set it to true.
+     * This will ensure that VM Agent is installed on the VM so that extensions
+     * can be added to the VM later.
+     */
+    @JsonProperty(value = "provisionVMAgent")
+    private Boolean provisionVMAgent;
+
+    /**
+     * Get specifies whether password authentication should be disabled.
      *
      * @return the disablePasswordAuthentication value
      */
@@ -42,7 +52,7 @@ public class LinuxConfiguration {
     }
 
     /**
-     * Set the disablePasswordAuthentication value.
+     * Set specifies whether password authentication should be disabled.
      *
      * @param disablePasswordAuthentication the disablePasswordAuthentication value to set
      * @return the LinuxConfiguration object itself.
@@ -53,7 +63,7 @@ public class LinuxConfiguration {
     }
 
     /**
-     * Get the ssh value.
+     * Get specifies the ssh key configuration for a Linux OS.
      *
      * @return the ssh value
      */
@@ -62,13 +72,33 @@ public class LinuxConfiguration {
     }
 
     /**
-     * Set the ssh value.
+     * Set specifies the ssh key configuration for a Linux OS.
      *
      * @param ssh the ssh value to set
      * @return the LinuxConfiguration object itself.
      */
     public LinuxConfiguration withSsh(SshConfiguration ssh) {
         this.ssh = ssh;
+        return this;
+    }
+
+    /**
+     * Get indicates whether virtual machine agent should be provisioned on the virtual machine. &lt;br&gt;&lt;br&gt; When this property is not specified in the request body, default behavior is to set it to true.  This will ensure that VM Agent is installed on the VM so that extensions can be added to the VM later.
+     *
+     * @return the provisionVMAgent value
+     */
+    public Boolean provisionVMAgent() {
+        return this.provisionVMAgent;
+    }
+
+    /**
+     * Set indicates whether virtual machine agent should be provisioned on the virtual machine. &lt;br&gt;&lt;br&gt; When this property is not specified in the request body, default behavior is to set it to true.  This will ensure that VM Agent is installed on the VM so that extensions can be added to the VM later.
+     *
+     * @param provisionVMAgent the provisionVMAgent value to set
+     * @return the LinuxConfiguration object itself.
+     */
+    public LinuxConfiguration withProvisionVMAgent(Boolean provisionVMAgent) {
+        this.provisionVMAgent = provisionVMAgent;
         return this;
     }
 

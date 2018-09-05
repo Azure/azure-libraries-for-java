@@ -10,17 +10,22 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.compute.DataDisk;
 import com.microsoft.azure.management.compute.HardwareProfile;
+import com.microsoft.azure.management.compute.NetworkInterfaceReference;
 import com.microsoft.azure.management.compute.NetworkProfile;
 import com.microsoft.azure.management.compute.OSDisk;
 import com.microsoft.azure.management.compute.OSProfile;
+import com.microsoft.azure.management.compute.RunCommandInput;
+import com.microsoft.azure.management.compute.RunCommandInputParameter;
+import com.microsoft.azure.management.compute.RunCommandResult;
 import com.microsoft.azure.management.compute.StorageProfile;
 import com.microsoft.azure.management.compute.VirtualMachine;
+import com.microsoft.azure.management.compute.VirtualMachineCaptureParameters;
 import com.microsoft.azure.management.compute.VirtualMachineSizes;
 import com.microsoft.azure.management.compute.VirtualMachines;
 import com.microsoft.azure.management.graphrbac.implementation.GraphRbacManager;
 import com.microsoft.azure.management.network.implementation.NetworkManager;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
-import com.microsoft.azure.v2.management.storage.implementation.StorageManager;
+import com.microsoft.azure.management.storage.implementation.StorageManager;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
 import rx.Completable;
@@ -29,6 +34,7 @@ import rx.exceptions.Exceptions;
 import rx.functions.Func1;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The implementation for VirtualMachines.
@@ -165,7 +171,7 @@ class VirtualMachinesImpl
 
     @Override
     public Observable<String> captureAsync(String groupName, String name, String containerName, String vhdPrefix, boolean overwriteVhd) {
-        VirtualMachineCaptureParametersInner parameters = new VirtualMachineCaptureParametersInner();
+        VirtualMachineCaptureParameters parameters = new VirtualMachineCaptureParameters();
         parameters.withDestinationContainerName(containerName);
         parameters.withOverwriteVhds(overwriteVhd);
         parameters.withVhdPrefix(vhdPrefix);
@@ -179,7 +185,7 @@ class VirtualMachinesImpl
                         ObjectMapper mapper = new ObjectMapper();
                         //Object to JSON string
                         try {
-                            return mapper.writeValueAsString(innerResult.output());
+                            return mapper.writeValueAsString(innerResult);
                         } catch (JsonProcessingException e) {
                             throw Exceptions.propagate(e);
                         }
@@ -207,6 +213,44 @@ class VirtualMachinesImpl
         return ServiceFuture.fromBody(migrateToManagedAsync(groupName, name), callback);
     }
 
+    @Override
+    public RunCommandResult runPowerShellScript(String groupName, String name, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters) {
+        return this.runPowerShellScriptAsync(groupName, name, scriptLines, scriptParameters).toBlocking().last();
+    }
+
+    @Override
+    public Observable<RunCommandResult> runPowerShellScriptAsync(String groupName, String name, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters) {
+        RunCommandInput inputCommand = new RunCommandInput();
+        inputCommand.withCommandId("RunPowerShellScript");
+        inputCommand.withScript(scriptLines);
+        inputCommand.withParameters(scriptParameters);
+        return this.runCommandAsync(groupName, name, inputCommand);
+    }
+
+    @Override
+    public RunCommandResult runShellScript(String groupName, String name, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters) {
+        return this.runShellScriptAsync(groupName, name, scriptLines, scriptParameters).toBlocking().last();
+    }
+
+    @Override
+    public Observable<RunCommandResult> runShellScriptAsync(String groupName, String name, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters) {
+        RunCommandInput inputCommand = new RunCommandInput();
+        inputCommand.withCommandId("RunShellScript");
+        inputCommand.withScript(scriptLines);
+        inputCommand.withParameters(scriptParameters);
+        return this.runCommandAsync(groupName, name, inputCommand);
+    }
+
+    @Override
+    public RunCommandResult runCommand(String groupName, String name, RunCommandInput inputCommand) {
+        return this.runCommandAsync(groupName, name, inputCommand).toBlocking().last();
+    }
+
+    @Override
+    public Observable<RunCommandResult> runCommandAsync(String groupName, String name, RunCommandInput inputCommand) {
+        return this.inner().runCommandAsync(groupName, name, inputCommand);
+    }
+
     // Getters
     @Override
     public VirtualMachineSizes sizes() {
@@ -225,7 +269,7 @@ class VirtualMachinesImpl
         inner.withOsProfile(new OSProfile());
         inner.withHardwareProfile(new HardwareProfile());
         inner.withNetworkProfile(new NetworkProfile()
-                .withNetworkInterfaces(new ArrayList<NetworkInterfaceReferenceInner>()));
+                .withNetworkInterfaces(new ArrayList<NetworkInterfaceReference>()));
         return new VirtualMachineImpl(name,
                 inner,
                 this.manager(),

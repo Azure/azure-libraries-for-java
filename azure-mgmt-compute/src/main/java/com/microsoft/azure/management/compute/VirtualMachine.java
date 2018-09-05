@@ -31,6 +31,7 @@ import com.microsoft.rest.ServiceFuture;
 import rx.Completable;
 import rx.Observable;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -245,6 +246,67 @@ public interface VirtualMachine extends
      */
     @Method
     Observable<VirtualMachineInstanceView> refreshInstanceViewAsync();
+
+    /**
+     * Run shell script in a virtual machine.
+     *
+     * @param groupName the resource group name
+     * @param name the virtual machine name
+     * @param scriptLines PowerShell script lines
+     * @param scriptParameters script parameters
+     * @return result of PowerShell script execution
+     */
+    @Beta(Beta.SinceVersion.V1_14_0)
+    RunCommandResult runPowerShellScript(String groupName, String name, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters);
+
+    /**
+     * Run shell script in the virtual machine asynchronously.
+     *
+     * @param scriptLines PowerShell script lines
+     * @param scriptParameters script parameters
+     * @return handle to the asynchronous execution
+     */
+    @Beta(Beta.SinceVersion.V1_14_0)
+    Observable<RunCommandResult> runPowerShellScriptAsync(List<String> scriptLines, List<RunCommandInputParameter> scriptParameters);
+
+    /**
+     * Run shell script in the virtual machine.
+     *
+     * @param scriptLines shell script lines
+     * @param scriptParameters script parameters
+     * @return result of shell script execution
+     */
+    @Beta(Beta.SinceVersion.V1_14_0)
+    RunCommandResult runShellScript(List<String> scriptLines, List<RunCommandInputParameter> scriptParameters);
+
+
+    /**
+     * Run shell script in the virtual machine asynchronously.
+     *
+     * @param scriptLines shell script lines
+     * @param scriptParameters script parameters
+     * @return handle to the asynchronous execution
+     */
+    @Beta(Beta.SinceVersion.V1_14_0)
+    Observable<RunCommandResult> runShellScriptAsync(List<String> scriptLines, List<RunCommandInputParameter> scriptParameters);
+
+    /**
+     * Run commands in the virtual machine.
+     *
+     * @param inputCommand command input
+     * @return result of execution
+     */
+    @Beta(Beta.SinceVersion.V1_14_0)
+    RunCommandResult runCommand(RunCommandInput inputCommand);
+
+    /**
+     * Run commands in the virtual machine asynchronously.
+     *
+     * @param inputCommand command input
+     * @return handle to the asynchronous execution
+     */
+    @Beta(Beta.SinceVersion.V1_14_0)
+    Observable<RunCommandResult> runCommandAsync(RunCommandInput inputCommand);
 
     // Getters
     //
@@ -689,6 +751,15 @@ public interface VirtualMachine extends
             WithWindowsAdminUsernameManaged withWindowsCustomImage(String customImageId);
 
             /**
+             * Specifies the resource ID of a Windows gallery image version to be used as the virtual machine's OS.
+             *
+             * @param galleryImageVersionId the resource ID of the gallery image version
+             * @return the next stage of the definition
+             */
+            @Beta(Beta.SinceVersion.V1_15_0)
+            WithWindowsAdminUsernameManaged withWindowsGalleryImageVersion(String galleryImageVersionId);
+
+            /**
              * Specifies the user (generalized) Windows image to be used for the virtual machine's OS.
              *
              * @param imageUrl the URL of a VHD
@@ -729,6 +800,15 @@ public interface VirtualMachine extends
              * @return the next stage of the definition
              */
             WithLinuxRootUsernameManaged withLinuxCustomImage(String customImageId);
+
+            /**
+             * Specifies the resource ID of a Linux gallery image version to be used as the virtual machines' OS.
+             *
+             * @param galleryImageVersionId the resource ID of a gallery image version
+             * @return the next stage of the definition
+             */
+            @Beta(Beta.SinceVersion.V1_15_0)
+            WithLinuxRootUsernameManaged withLinuxGalleryImageVersion(String galleryImageVersionId);
 
             /**
              * Specifies a user (generalized) Linux image to be used for the virtual machine's OS.
@@ -1526,15 +1606,6 @@ public interface VirtualMachine extends
              */
             @Beta(Beta.SinceVersion.V1_5_0)
             WithSystemAssignedIdentityBasedAccessOrCreate withSystemAssignedManagedServiceIdentity();
-
-            /**
-             * Specifies that System Assigned (Local) Managed Service Identity needs to be enabled in the virtual machine.
-             *
-             * @param tokenPort the port on the virtual machine where access token is available
-             * @return the next stage of the definition
-             */
-            @Beta(Beta.SinceVersion.V1_5_0)
-            WithSystemAssignedIdentityBasedAccessOrCreate withSystemAssignedManagedServiceIdentity(int tokenPort);
         }
 
         /**
@@ -1613,6 +1684,22 @@ public interface VirtualMachine extends
              */
             @Beta(Beta.SinceVersion.V1_5_1)
             WithCreate withExistingUserAssignedManagedServiceIdentity(Identity identity);
+        }
+
+        /**
+         * The stage of the virtual machine definition allowing to specify that the image or disk that is being used was licensed
+         * on-premises. This element is only used for images that contain the Windows Server operating system.
+         */
+        @Beta(Beta.SinceVersion.V1_14_0)
+        interface WithLicenseType {
+            /**
+             * Specifies that the image or disk that is being used was licensed on-premises.
+             *
+             * @param licenseType license type
+             * @return the next stage of the virtual machine definition
+             */
+            @Beta(Beta.SinceVersion.V1_14_0)
+            WithCreate withLicenseType(String licenseType);
         }
 
         /**
@@ -1698,7 +1785,8 @@ public interface VirtualMachine extends
                 DefinitionStages.WithPlan,
                 DefinitionStages.WithBootDiagnostics,
                 DefinitionStages.WithSystemAssignedManagedServiceIdentity,
-                DefinitionStages.WithUserAssignedManagedServiceIdentity {
+                DefinitionStages.WithUserAssignedManagedServiceIdentity,
+                DefinitionStages.WithLicenseType {
         }
     }
 
@@ -2019,14 +2107,12 @@ public interface VirtualMachine extends
             WithSystemAssignedIdentityBasedAccessOrUpdate withSystemAssignedManagedServiceIdentity();
 
             /**
-             * Specifies that System Assigned (Local) Managed Service Identity needs to be enabled in
-             * the virtual machine.
+             * Specifies that System Assigned (Local) Managed Service Identity needs to be disabled.
              *
-             * @param tokenPort the port on the virtual machine where access token is available
              * @return the next stage of the update
              */
-            @Beta(Beta.SinceVersion.V1_5_0)
-            WithSystemAssignedIdentityBasedAccessOrUpdate withSystemAssignedManagedServiceIdentity(int tokenPort);
+            @Beta(Beta.SinceVersion.V1_14_0)
+            Update withoutSystemAssignedManagedServiceIdentity();
         }
 
         /**
@@ -2115,6 +2201,22 @@ public interface VirtualMachine extends
             @Beta(Beta.SinceVersion.V1_5_1)
             Update withoutUserAssignedManagedServiceIdentity(String identityId);
         }
+
+        /**
+         * The stage of the virtual machine update allowing to specify that the image or disk that is being used was licensed
+         * on-premises. This element is only used for images that contain the Windows Server operating system.
+         */
+        @Beta(Beta.SinceVersion.V1_14_0)
+        interface WithLicenseType {
+            /**
+             * Specifies that the image or disk that is being used was licensed on-premises.
+             *
+             * @param licenseType license type
+             * @return the next stage of the virtual machine update
+             */
+            @Beta(Beta.SinceVersion.V1_14_0)
+            Update withLicenseType(String licenseType);
+        }
     }
 
     /**
@@ -2129,7 +2231,8 @@ public interface VirtualMachine extends
             UpdateStages.WithExtension,
             UpdateStages.WithBootDiagnostics,
             UpdateStages.WithSystemAssignedManagedServiceIdentity,
-            UpdateStages.WithUserAssignedManagedServiceIdentity {
+            UpdateStages.WithUserAssignedManagedServiceIdentity,
+            UpdateStages.WithLicenseType {
         /**
          * Specifies the encryption settings for the OS Disk.
          *

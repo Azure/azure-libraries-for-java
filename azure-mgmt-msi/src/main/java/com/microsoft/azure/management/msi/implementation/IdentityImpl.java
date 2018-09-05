@@ -18,7 +18,6 @@ import rx.Observable;
 import rx.functions.Func1;
 
 import java.util.Objects;
-import java.util.concurrent.TimeUnit;
 
 /**
  * The implementation for Identity and its create and update interfaces.
@@ -128,7 +127,7 @@ final class IdentityImpl
                         // after identity creation, so delaying here for some time before
                         // proceeding with next operation.
                         //
-                        return Observable.just(identity).delay(30, TimeUnit.SECONDS, SdkContext.getRxScheduler());
+                        return SdkContext.delayedEmitAsync(identity, 30 * 1000);
                     }
                 });
     }

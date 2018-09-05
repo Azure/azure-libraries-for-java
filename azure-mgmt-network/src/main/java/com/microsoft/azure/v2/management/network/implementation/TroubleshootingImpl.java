@@ -11,8 +11,7 @@ import com.microsoft.azure.v2.management.network.Troubleshooting;
 import com.microsoft.azure.v2.management.network.TroubleshootingDetails;
 import com.microsoft.azure.v2.management.network.TroubleshootingParameters;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.implementation.ExecutableImpl;
-import rx.Observable;
-import rx.functions.Func1;
+import io.reactivex.Observable;
 
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -59,13 +58,11 @@ class TroubleshootingImpl extends ExecutableImpl<Troubleshooting>
     public Observable<Troubleshooting> executeWorkAsync() {
         return this.parent().manager().inner().networkWatchers()
                 .getTroubleshootingAsync(parent.resourceGroupName(), parent.name(), parameters)
-                .map(new Func1<TroubleshootingResultInner, Troubleshooting>() {
-                    @Override
-                    public Troubleshooting call(TroubleshootingResultInner troubleshootingResultInner) {
-                        TroubleshootingImpl.this.result = troubleshootingResultInner;
-                        return TroubleshootingImpl.this;
-                    }
-                });
+                .map(troubleshootingResultInner -> {
+                    TroubleshootingImpl.this.result = troubleshootingResultInner;
+                    return (Troubleshooting) TroubleshootingImpl.this;
+                })
+                .toObservable();
     }
 
     // Getters

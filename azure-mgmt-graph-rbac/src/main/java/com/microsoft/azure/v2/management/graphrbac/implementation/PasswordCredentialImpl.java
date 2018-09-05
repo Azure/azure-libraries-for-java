@@ -6,7 +6,6 @@
 
 package com.microsoft.azure.v2.management.graphrbac.implementation;
 
-import com.google.common.io.BaseEncoding;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.v2.AzureEnvironment;
 import com.microsoft.azure.v2.management.graphrbac.PasswordCredential;
@@ -17,6 +16,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.time.Duration;
 import java.time.OffsetDateTime;
+import java.util.Base64;
 
 /**
  * Implementation for ServicePrincipal and its parent interfaces.
@@ -37,7 +37,7 @@ class PasswordCredentialImpl<T>
     PasswordCredentialImpl(PasswordCredentialInner passwordCredential) {
         super(passwordCredential);
         if (passwordCredential.customKeyIdentifier() != null && !passwordCredential.customKeyIdentifier().isEmpty()) {
-            this.name = new String(BaseEncoding.base64().decode(passwordCredential.customKeyIdentifier()));
+            this.name = new String(Base64.getDecoder().decode(passwordCredential.customKeyIdentifier()));
         } else {
             this.name = passwordCredential.keyId();
         }
@@ -45,7 +45,7 @@ class PasswordCredentialImpl<T>
 
     PasswordCredentialImpl(String name, HasCredential<?> parent) {
         super(new PasswordCredentialInner()
-                .withCustomKeyIdentifier(BaseEncoding.base64().encode(name.getBytes()))
+                .withCustomKeyIdentifier(Base64.getEncoder().encodeToString(name.getBytes()))
                 .withStartDate(OffsetDateTime.now())
                 .withEndDate(OffsetDateTime.now().plusYears(1)));
         this.name = name;

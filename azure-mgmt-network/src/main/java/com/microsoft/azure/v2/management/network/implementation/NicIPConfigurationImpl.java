@@ -230,7 +230,7 @@ class NicIPConfigurationImpl
     @Override
     public NicIPConfigurationImpl withExistingLoadBalancerInboundNatRule(LoadBalancer loadBalancer, String inboundNatRuleName) {
         if (loadBalancer != null) {
-            for (InboundNatRuleInner rule : loadBalancer.inner().inboundNatRules()) {
+            for (InboundNatRuleInner rule : loadBalancer.inner().inboundNatRulesProperty()) {
                 if (rule.name().equalsIgnoreCase(inboundNatRuleName)) {
                     ensureInboundNatRules().add(rule);
                     return this;
@@ -251,10 +251,10 @@ class NicIPConfigurationImpl
     }
 
     private List<BackendAddressPoolInner> ensureLoadBalancerBackendAddressPools() {
-        List<BackendAddressPoolInner> poolRefs = this.inner().loadBalancerBackendAddressPools();
+        List<BackendAddressPoolInner> poolRefs = this.inner().loadBalancerBackendAddressPoolsProperty();
         if (poolRefs == null) {
             poolRefs = new ArrayList<>();
-            this.inner().withLoadBalancerBackendAddressPools(poolRefs);
+            this.inner().withLoadBalancerBackendAddressPoolsProperty(poolRefs);
         }
         return poolRefs;
     }
@@ -306,11 +306,11 @@ class NicIPConfigurationImpl
         if (this.isInCreateMode) {
             if (this.creatableVirtualNetworkKey != null) {
                 Network network = (Network) parent().createdDependencyResource(this.creatableVirtualNetworkKey);
-                subnetInner.withId(network.inner().subnets().get(0).id());
+                subnetInner.withId(network.inner().subnetsProperty().get(0).id());
                 return subnetInner;
             }
 
-            for (SubnetInner subnet : this.existingVirtualNetworkToAssociate.inner().subnets()) {
+            for (SubnetInner subnet : this.existingVirtualNetworkToAssociate.inner().subnetsProperty()) {
                 if (subnet.name().equalsIgnoreCase(this.subnetToAssociate)) {
                     subnetInner.withId(subnet.id());
                     return subnetInner;
@@ -373,7 +373,7 @@ class NicIPConfigurationImpl
 
     @Override
     public NicIPConfigurationImpl withoutLoadBalancerBackends() {
-        this.inner().withLoadBalancerBackendAddressPools(null);
+        this.inner().withLoadBalancerBackendAddressPoolsProperty(null);
         return this;
     }
 

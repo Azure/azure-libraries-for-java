@@ -129,7 +129,7 @@ abstract class NicIPConfigurationBaseImpl<ParentImplT extends ParentT, ParentT e
 
     @Override
     public List<LoadBalancerBackend> listAssociatedLoadBalancerBackends() {
-        final List<BackendAddressPoolInner> backendRefs = this.inner().loadBalancerBackendAddressPools();
+        final List<BackendAddressPoolInner> backendRefs = this.inner().loadBalancerBackendAddressPoolsProperty();
         if (backendRefs == null) {
             return Collections.unmodifiableList(new ArrayList<LoadBalancerBackend>());
         }

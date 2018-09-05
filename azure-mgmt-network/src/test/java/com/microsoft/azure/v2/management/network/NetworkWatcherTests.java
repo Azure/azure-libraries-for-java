@@ -3,17 +3,14 @@
  * Licensed under the MIT License. See License.txt in the project root for
  * license information.
  */
-package com.microsoft.azure.management.network;
+package com.microsoft.azure.v2.management.network;
 
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
-import com.microsoft.azure.v2.management.network.AvailableProviders;
-import com.microsoft.azure.v2.management.network.AzureReachabilityReport;
-import com.microsoft.azure.v2.management.network.NetworkWatcher;
-import org.joda.time.DateTime;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.v2.management.resources.fluentcore.utils.SdkContext;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 
 public class NetworkWatcherTests extends NetworkManagementTest {
@@ -51,8 +48,8 @@ public class NetworkWatcherTests extends NetworkManagementTest {
         String localProvider = providers.providersByCountry().get("United States").states().get(0).providers().get(0);
         AzureReachabilityReport report = nw.azureReachabilityReport()
                 .withProviderLocation("United States", "washington")
-                .withStartTime(DateTime.parse("2018-04-10"))
-                .withEndTime(DateTime.parse("2018-04-12"))
+                .withStartTime(OffsetDateTime.parse("2018-04-10"))
+                .withEndTime(OffsetDateTime.parse("2018-04-12"))
                 .withProviders(localProvider)
                 .withAzureLocations("West US")
                 .execute();

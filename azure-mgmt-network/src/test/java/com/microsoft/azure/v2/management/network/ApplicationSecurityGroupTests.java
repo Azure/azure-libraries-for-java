@@ -4,11 +4,10 @@
  * license information.
  */
 
-package com.microsoft.azure.management.network;
+package com.microsoft.azure.v2.management.network;
 
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
-import com.microsoft.azure.v2.management.network.ApplicationSecurityGroup;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.v2.management.resources.fluentcore.utils.SdkContext;
 import org.junit.Assert;
 import org.junit.Test;
 import java.util.List;

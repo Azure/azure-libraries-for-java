@@ -4,28 +4,31 @@
  * license information.
  */
 
-package com.microsoft.azure.management.network;
+package com.microsoft.azure.v2.management.network;
 
 import com.microsoft.azure.v2.management.network.implementation.NetworkManager;
-import com.microsoft.azure.management.resources.core.TestBase;
-import com.microsoft.azure.management.resources.implementation.ResourceManager;
-import com.microsoft.rest.RestClient;
+import com.microsoft.azure.v2.management.resources.core.TestBase;
+import com.microsoft.azure.v2.management.resources.implementation.ResourceManager;
+import com.microsoft.rest.v2.http.HttpPipeline;
+
+import java.io.IOException;
 
 public class NetworkManagementTest extends TestBase {
     protected static ResourceManager resourceManager;
     protected static NetworkManager networkManager;
     protected static String RG_NAME = "";
 
+
     @Override
-    protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {
+    protected void initializeClients(HttpPipeline pipeline, String defaultSubscription, String domain) throws IOException {
         RG_NAME = generateRandomResourceName("javanwmrg", 15);
 
         resourceManager = ResourceManager
-                .authenticate(restClient)
+                .authenticate(pipeline)
                 .withSubscription(defaultSubscription);
 
         networkManager = NetworkManager
-                .authenticate(restClient, defaultSubscription);
+                .authenticate(pipeline, defaultSubscription);
     }
 
     @Override

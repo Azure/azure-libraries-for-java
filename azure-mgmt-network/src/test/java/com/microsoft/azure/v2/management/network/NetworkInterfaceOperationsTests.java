@@ -4,23 +4,17 @@
  * license information.
  */
 
-package com.microsoft.azure.management.network;
+package com.microsoft.azure.v2.management.network;
 
-import com.microsoft.azure.management.resources.ResourceGroup;
-import com.microsoft.azure.management.resources.ResourceGroups;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.model.CreatedResources;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
-import com.microsoft.azure.v2.management.network.Network;
-import com.microsoft.azure.v2.management.network.NetworkInterface;
-import com.microsoft.azure.v2.management.network.NetworkInterfaces;
-import com.microsoft.azure.v2.management.network.Networks;
-import com.microsoft.azure.v2.management.network.NicIPConfiguration;
-import com.microsoft.rest.ServiceCallback;
+import com.microsoft.azure.v2.management.resources.ResourceGroup;
+import com.microsoft.azure.v2.management.resources.ResourceGroups;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Creatable;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.CreatedResources;
+import com.microsoft.azure.v2.management.resources.fluentcore.utils.SdkContext;
+import com.microsoft.rest.v2.ServiceCallback;
 
-import rx.Observable;
-
+import io.reactivex.Observable;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -168,8 +162,7 @@ public class NetworkInterfaceOperationsTests extends NetworkManagementTest {
 
         List<NetworkInterface> updatedNics = Observable.mergeDelayError(nicUpdates)
                 .toList()
-                .toBlocking()
-                .single();
+                .blockingGet();
 
         // Verify updated NICs
         for (NetworkInterface n : updatedNics) {

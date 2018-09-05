@@ -6,8 +6,6 @@
 
 package com.microsoft.azure.management.graphrbac;
 
-import com.google.common.base.Joiner;
-import com.google.common.io.ByteStreams;
 import com.microsoft.azure.v2.credentials.ApplicationTokenCredentials;
 import com.microsoft.azure.v2.management.resources.ResourceGroup;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
@@ -16,15 +14,19 @@ import com.microsoft.azure.v2.management.resources.implementation.ResourceManage
 import com.microsoft.azure.v2.management.graphrbac.BuiltInRole;
 import com.microsoft.azure.v2.management.graphrbac.RoleAssignment;
 import com.microsoft.azure.v2.management.graphrbac.ServicePrincipal;
-import org.joda.time.Duration;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.fail;
 
@@ -42,7 +44,10 @@ public class ServicePrincipalsTests extends GraphRbacManagementTest {
                         .withPasswordValue("StrongPass!12")
                         .attach()
                     .create();
-            System.out.println(servicePrincipal.id() + " - " + Joiner.on(", ").join(servicePrincipal.servicePrincipalNames()));
+
+
+
+            System.out.println(servicePrincipal.id() + " - " + servicePrincipal.servicePrincipalNames().stream().reduce((a, b) -> a + ", " + b).orElse(""));
             Assert.assertNotNull(servicePrincipal.id());
             Assert.assertNotNull(servicePrincipal.applicationId());
             Assert.assertEquals(2, servicePrincipal.servicePrincipalNames().size());
@@ -57,12 +62,15 @@ public class ServicePrincipalsTests extends GraphRbacManagementTest {
             Assert.assertEquals(1, servicePrincipal.passwordCredentials().size());
             Assert.assertEquals(0, servicePrincipal.certificateCredentials().size());
 
+
+            InputStream stream = ServicePrincipalsTests.class.getResourceAsStream("/myTest.cer");
+
             // Update
             servicePrincipal.update()
                     .withoutCredential("sppass")
                     .defineCertificateCredential("spcert")
                         .withAsymmetricX509Certificate()
-                        .withPublicKey(ByteStreams.toByteArray(ServicePrincipalsTests.class.getResourceAsStream("/myTest.cer")))
+                        .withPublicKey(streamToByteArray(ServicePrincipalsTests.class.getResourceAsStream("/myTest.cer")))
                         .withDuration(java.time.Duration.ofDays(1))
                         .attach()
                     .apply();
@@ -104,7 +112,7 @@ public class ServicePrincipalsTests extends GraphRbacManagementTest {
                         .attach()
                     .withNewRoleInSubscription(BuiltInRole.CONTRIBUTOR, subscription)
                     .create();
-            System.out.println(servicePrincipal.id() + " - " + Joiner.on(", ").join(servicePrincipal.servicePrincipalNames()));
+            System.out.println(servicePrincipal.id() + " - " + servicePrincipal.servicePrincipalNames().stream().reduce((a, b) -> a + ", " + b).orElse(""));
             Assert.assertNotNull(servicePrincipal.id());
             Assert.assertNotNull(servicePrincipal.applicationId());
             Assert.assertEquals(2, servicePrincipal.servicePrincipalNames().size());
@@ -141,4 +149,18 @@ public class ServicePrincipalsTests extends GraphRbacManagementTest {
         }
     }
 
+    private byte[] streamToByteArray(InputStream inputStream) {
+        ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
+        byte[] buffer = new byte[1024];
+        int read;
+        try {
+            while ((read = inputStream.read(buffer, 0, buffer.length)) != -1) {
+                byteStream.write(buffer, 0, read);
+            }
+            byteStream.flush();
+        } catch (IOException ioException) {
+            throw new RuntimeException(ioException);
+        }
+        return byteStream.toByteArray();
+    }
 }

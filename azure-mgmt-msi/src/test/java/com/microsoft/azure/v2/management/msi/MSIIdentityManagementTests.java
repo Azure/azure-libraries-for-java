@@ -4,23 +4,22 @@
  * license information.
  */
 
-package com.microsoft.azure.management.msi;
+package com.microsoft.azure.v2.management.msi;
 
-import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.graphrbac.BuiltInRole;
-import com.microsoft.azure.management.graphrbac.RoleAssignment;
-import com.microsoft.azure.management.msi.implementation.MSIManager;
-import com.microsoft.azure.management.resources.ResourceGroup;
-import com.microsoft.azure.management.resources.core.TestBase;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
-import com.microsoft.azure.management.resources.implementation.ResourceManager;
-import com.microsoft.rest.RestClient;
+import com.microsoft.azure.v2.PagedList;
+import com.microsoft.azure.v2.management.graphrbac.BuiltInRole;
+import com.microsoft.azure.v2.management.graphrbac.RoleAssignment;
+import com.microsoft.azure.v2.management.msi.implementation.MSIManager;
+import com.microsoft.azure.v2.management.resources.ResourceGroup;
+import com.microsoft.azure.v2.management.resources.core.TestBase;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Creatable;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Indexable;
+import com.microsoft.azure.v2.management.resources.fluentcore.utils.SdkContext;
+import com.microsoft.azure.v2.management.resources.implementation.ResourceManager;
+import com.microsoft.rest.v2.http.HttpPipeline;
 import org.junit.Assert;
 import org.junit.Test;
-import rx.functions.Action1;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -34,8 +33,8 @@ public class MSIIdentityManagementTests extends TestBase {
     private ResourceManager resourceManager;
 
     @Override
-    protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) throws IOException {
-        this.msiManager = MSIManager.authenticate(restClient, defaultSubscription);
+    protected void initializeClients(HttpPipeline httpPipeline, String defaultSubscription, String domain) throws IOException {
+        this.msiManager = MSIManager.authenticate(httpPipeline, defaultSubscription, domain);
         this.resourceManager = msiManager.resourceManager();
     }
 
@@ -175,12 +174,7 @@ public class MSIIdentityManagementTests extends TestBase {
                 .withAccessToCurrentResourceGroup(BuiltInRole.READER)
                 .withAccessTo(anotherResourceGroup, BuiltInRole.CONTRIBUTOR)
                 .createAsync()
-                .doOnNext(new Action1<Indexable>() {
-                    @Override
-                    public void call(Indexable indexable) {
-                        createdResosurces.add(indexable);
-                    }
-                }).toBlocking().last();
+                .doOnNext(indexable -> createdResosurces.add(indexable)).blockingLast();
 
         int roleAssignmentResourcesCount = 0;
         int identityResourcesCount = 0;

@@ -8,4 +8,4 @@
  * This package contains the classes for ManagedServiceIdentityClient.
  * The Managed Service Identity Client.
  */
-package com.microsoft.azure.management.msi;
+package com.microsoft.azure.v2.management.msi;

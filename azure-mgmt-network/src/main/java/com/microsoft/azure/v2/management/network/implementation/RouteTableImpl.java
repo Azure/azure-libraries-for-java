@@ -17,8 +17,8 @@ import com.microsoft.azure.v2.management.network.RouteTable;
 import com.microsoft.azure.v2.management.network.Subnet;
 import com.microsoft.azure.v2.management.network.model.GroupableParentResourceWithTagsImpl;
 import com.microsoft.azure.v2.management.resources.fluentcore.utils.Utils;
-import rx.Observable;
-import rx.functions.Func1;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
 
 /**
  * Implementation for RouteTable.
@@ -45,7 +45,8 @@ class RouteTableImpl
 
     @Override
     protected Observable<RouteTableInner> applyTagsToInnerAsync() {
-        return this.manager().inner().routeTables().updateTagsAsync(resourceGroupName(), name(), inner().getTags());
+        return this.manager().inner().routeTables().updateTagsAsync(resourceGroupName(), name(), inner().getTags())
+                .toObservable();
     }
 
     @Override
@@ -65,19 +66,17 @@ class RouteTableImpl
     // Verbs
 
     @Override
-    public Observable<RouteTable> refreshAsync() {
-        return super.refreshAsync().map(new Func1<RouteTable, RouteTable>() {
-            @Override
-            public RouteTable call(RouteTable routeTable) {
-                RouteTableImpl impl = (RouteTableImpl) routeTable;
-                impl.initializeChildrenFromInner();
-                return impl;
-            }
-        });
+    public Maybe<RouteTable> refreshAsync() {
+        return super.refreshAsync()
+                .map(routeTable -> {
+                    RouteTableImpl impl = (RouteTableImpl) routeTable;
+                    impl.initializeChildrenFromInner();
+                    return impl;
+                });
     }
 
     @Override
-    protected Observable<RouteTableInner> getInnerAsync() {
+    protected Maybe<RouteTableInner> getInnerAsync() {
         return this.manager().inner().routeTables().getByResourceGroupAsync(this.resourceGroupName(), this.name());
     }
 
@@ -142,7 +141,8 @@ class RouteTableImpl
 
     @Override
     protected Observable<RouteTableInner> createInner() {
-        return this.manager().inner().routeTables().createOrUpdateAsync(this.resourceGroupName(), this.name(), this.inner());
+        return this.manager().inner().routeTables().createOrUpdateAsync(this.resourceGroupName(), this.name(), this.inner())
+                .toObservable();
     }
 
     @Override

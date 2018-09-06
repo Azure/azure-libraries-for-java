@@ -11,7 +11,8 @@ import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.v2.management.compute.Gallery;
 import com.microsoft.azure.v2.management.compute.GalleryImage;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
-import rx.Observable;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
 
 /**
  * The implementation for Gallery and its create and update interfaces.
@@ -28,18 +29,20 @@ class GalleryImpl
     public Observable<Gallery> createResourceAsync() {
         GalleriesInner client = this.manager().inner().galleries();
         return client.createOrUpdateAsync(this.resourceGroupName(), this.name(), this.inner())
-            .map(innerToFluentMap(this));
+            .map(innerToFluentMap(this))
+            .toObservable();
     }
 
     @Override
     public Observable<Gallery> updateResourceAsync() {
         GalleriesInner client = this.manager().inner().galleries();
         return client.createOrUpdateAsync(this.resourceGroupName(), this.name(), this.inner())
-            .map(innerToFluentMap(this));
+            .map(innerToFluentMap(this))
+            .toObservable();
     }
 
     @Override
-    protected Observable<GalleryInner> getInnerAsync() {
+    protected Maybe<GalleryInner> getInnerAsync() {
         GalleriesInner client = this.manager().inner().galleries();
         return client.getByResourceGroupAsync(this.resourceGroupName(), this.name());
     }

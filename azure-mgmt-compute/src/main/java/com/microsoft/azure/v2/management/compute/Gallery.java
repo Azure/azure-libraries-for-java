@@ -20,7 +20,7 @@ import com.microsoft.azure.v2.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Refreshable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Updatable;
-import rx.Observable;
+import io.reactivex.Observable;
 
 /**
  * An immutable client-side representation of an Azure gallery.

@@ -12,14 +12,13 @@ import com.microsoft.azure.v2.management.compute.Galleries;
 import com.microsoft.azure.v2.management.compute.Gallery;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.ResourceUtils;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.collection.implementation.GroupableResourcesImpl;
-import com.microsoft.azure.v2.management.resources.fluentcore.utils.RXMapper;
-import rx.Observable;
-import rx.Completable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import rx.functions.Func1;
-import com.microsoft.azure.v2.Page;
+
+import io.reactivex.Completable;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
 
 /**
  * The implementation for Galleries.
@@ -31,7 +30,7 @@ class GalleriesImpl extends GroupableResourcesImpl<Gallery, GalleryImpl, Gallery
     }
 
     @Override
-    protected Observable<GalleryInner> getInnerAsync(String resourceGroupName, String name) {
+    protected Maybe<GalleryInner> getInnerAsync(String resourceGroupName, String name) {
         GalleriesInner client = this.inner();
         return client.getByResourceGroupAsync(resourceGroupName, name);
     }
@@ -39,7 +38,7 @@ class GalleriesImpl extends GroupableResourcesImpl<Gallery, GalleryImpl, Gallery
     @Override
     protected Completable deleteInnerAsync(String resourceGroupName, String name) {
         GalleriesInner client = this.inner();
-        return client.deleteAsync(resourceGroupName, name).toCompletable();
+        return client.deleteAsync(resourceGroupName, name).flatMapCompletable(o -> Completable.complete());
     }
 
     @Override
@@ -51,7 +50,14 @@ class GalleriesImpl extends GroupableResourcesImpl<Gallery, GalleryImpl, Gallery
         for (String id : ids) {
             final String resourceGroupName = ResourceUtils.groupFromResourceId(id);
             final String name = ResourceUtils.nameFromResourceId(id);
-            Observable<String> o = RXMapper.map(this.inner().deleteAsync(resourceGroupName, name), id);
+
+            Observable<String> o = this.inner().deleteAsync(resourceGroupName, name)
+                    .flatMapCompletable(d -> Completable.complete())
+                    // on success deleteAsync returns Maybe.empty() hence control will never be in the
+                    // // lambda parameter of flatMapCompletable. It is necessary to do flatMapCompletable
+                    // so that flow can continue with below stream emitting string type (different from
+                    // Void).
+                    .andThen(Observable.just(id));
             observables.add(o);
         }
         return Observable.mergeDelayError(observables);
@@ -65,7 +71,7 @@ class GalleriesImpl extends GroupableResourcesImpl<Gallery, GalleryImpl, Gallery
     @Override
     public void deleteByIds(Collection<String> ids) {
         if (ids != null && !ids.isEmpty()) {
-            this.deleteByIdsAsync(ids).toBlocking().last();
+            this.deleteByIdsAsync(ids).blockingLast();
         }
     }
 
@@ -84,18 +90,8 @@ class GalleriesImpl extends GroupableResourcesImpl<Gallery, GalleryImpl, Gallery
     public Observable<Gallery> listByResourceGroupAsync(String resourceGroupName) {
         GalleriesInner client = this.inner();
         return client.listByResourceGroupAsync(resourceGroupName)
-        .flatMapIterable(new Func1<Page<GalleryInner>, Iterable<GalleryInner>>() {
-            @Override
-            public Iterable<GalleryInner> call(Page<GalleryInner> page) {
-                return page.items();
-            }
-        })
-        .map(new Func1<GalleryInner, Gallery>() {
-            @Override
-            public Gallery call(GalleryInner inner) {
-                return wrapModel(inner);
-            }
-        });
+                .flatMapIterable(page -> page.items())
+                .map(this::wrapModel);
     }
 
     @Override
@@ -108,18 +104,8 @@ class GalleriesImpl extends GroupableResourcesImpl<Gallery, GalleryImpl, Gallery
     public Observable<Gallery> listAsync() {
         GalleriesInner client = this.inner();
         return client.listAsync()
-        .flatMapIterable(new Func1<Page<GalleryInner>, Iterable<GalleryInner>>() {
-            @Override
-            public Iterable<GalleryInner> call(Page<GalleryInner> page) {
-                return page.items();
-            }
-        })
-        .map(new Func1<GalleryInner, Gallery>() {
-            @Override
-            public Gallery call(GalleryInner inner) {
-                return wrapModel(inner);
-            }
-        });
+                .flatMapIterable(page -> page.items())
+                .map(this::wrapModel);
     }
 
     @Override

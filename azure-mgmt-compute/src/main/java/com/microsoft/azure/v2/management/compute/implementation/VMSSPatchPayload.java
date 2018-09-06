@@ -10,7 +10,6 @@ import com.microsoft.azure.v2.SubResource;
 import com.microsoft.azure.v2.management.compute.VirtualMachineScaleSet;
 import com.microsoft.azure.v2.management.compute.VirtualMachineScaleSetIPConfiguration;
 import com.microsoft.azure.v2.management.compute.VirtualMachineScaleSetNetworkConfiguration;
-import com.microsoft.azure.v2.management.compute.VirtualMachineScaleSetUpdate;
 import com.microsoft.azure.v2.management.compute.VirtualMachineScaleSetUpdateIPConfiguration;
 import com.microsoft.azure.v2.management.compute.VirtualMachineScaleSetUpdateNetworkConfiguration;
 import com.microsoft.azure.v2.management.compute.VirtualMachineScaleSetUpdateNetworkProfile;
@@ -18,13 +17,12 @@ import com.microsoft.azure.v2.management.compute.VirtualMachineScaleSetUpdateOSD
 import com.microsoft.azure.v2.management.compute.VirtualMachineScaleSetUpdateOSProfile;
 import com.microsoft.azure.v2.management.compute.VirtualMachineScaleSetUpdatePublicIPAddressConfiguration;
 import com.microsoft.azure.v2.management.compute.VirtualMachineScaleSetUpdateStorageProfile;
-import com.microsoft.azure.v2.management.compute.VirtualMachineScaleSetUpdateVMProfile;
 
 import java.util.ArrayList;
 
 class VMSSPatchPayload {
-    static VirtualMachineScaleSetUpdate preparePatchPayload(VirtualMachineScaleSet scaleSet) {
-        VirtualMachineScaleSetUpdate updateParameter = new VirtualMachineScaleSetUpdate();
+    static VirtualMachineScaleSetUpdateInner preparePatchPayload(VirtualMachineScaleSet scaleSet) {
+        VirtualMachineScaleSetUpdateInner updateParameter = new VirtualMachineScaleSetUpdateInner();
         //
         updateParameter.withIdentity(scaleSet.inner().identity());
         updateParameter.withOverprovision(scaleSet.inner().overprovision());
@@ -36,7 +34,7 @@ class VMSSPatchPayload {
         //
         if (scaleSet.inner().virtualMachineProfile() != null) {
             // --
-            VirtualMachineScaleSetUpdateVMProfile updateVMProfile = new VirtualMachineScaleSetUpdateVMProfile();
+            VirtualMachineScaleSetUpdateVMProfileInner updateVMProfile = new VirtualMachineScaleSetUpdateVMProfileInner();
             updateVMProfile.withDiagnosticsProfile(scaleSet.inner().virtualMachineProfile().diagnosticsProfile());
             updateVMProfile.withExtensionProfile(scaleSet.inner().virtualMachineProfile().extensionProfile());
             updateVMProfile.withLicenseType(scaleSet.inner().virtualMachineProfile().licenseType());

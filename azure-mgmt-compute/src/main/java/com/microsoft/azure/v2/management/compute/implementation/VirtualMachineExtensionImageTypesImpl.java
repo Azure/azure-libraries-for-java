@@ -11,7 +11,7 @@ import com.microsoft.azure.v2.management.compute.VirtualMachineExtensionImageTyp
 import com.microsoft.azure.v2.management.compute.VirtualMachineExtensionImageTypes;
 import com.microsoft.azure.v2.management.compute.VirtualMachinePublisher;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.collection.implementation.ReadableWrappersImpl;
-import rx.Observable;
+import io.reactivex.Observable;
 
 /**
  * The implementation for VirtualMachineExtensionImageTypes.
@@ -43,6 +43,6 @@ class VirtualMachineExtensionImageTypesImpl
 
     @Override
     public Observable<VirtualMachineExtensionImageType> listAsync() {
-        return wrapListAsync(client.listTypesAsync(this.publisher.region().toString(), this.publisher.name()));
+        return wrapListAsync(client.listTypesAsync(this.publisher.region().toString(), this.publisher.name()).toObservable());
     }
 }

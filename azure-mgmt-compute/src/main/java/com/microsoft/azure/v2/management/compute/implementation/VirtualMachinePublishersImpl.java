@@ -11,7 +11,7 @@ import com.microsoft.azure.v2.management.compute.VirtualMachinePublisher;
 import com.microsoft.azure.v2.management.compute.VirtualMachinePublishers;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.collection.implementation.ReadableWrappersImpl;
-import rx.Observable;
+import io.reactivex.Observable;
 
 /**
  * The implementation for {@link VirtualMachinePublishers}.
@@ -57,6 +57,6 @@ class VirtualMachinePublishersImpl
 
     @Override
     public Observable<VirtualMachinePublisher> listByRegionAsync(String regionName) {
-        return wrapListAsync(imagesInnerCollection.listPublishersAsync(regionName));
+        return wrapListAsync(imagesInnerCollection.listPublishersAsync(regionName).toObservable());
     }
 }

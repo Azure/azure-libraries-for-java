@@ -11,7 +11,7 @@ import com.microsoft.azure.v2.management.compute.VirtualMachineOffer;
 import com.microsoft.azure.v2.management.compute.VirtualMachineOffers;
 import com.microsoft.azure.v2.management.compute.VirtualMachinePublisher;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.collection.implementation.ReadableWrappersImpl;
-import rx.Observable;
+import io.reactivex.Observable;
 
 /**
  * The implementation for {@link VirtualMachineOffers}.
@@ -44,6 +44,6 @@ class VirtualMachineOffersImpl
 
     @Override
     public Observable<VirtualMachineOffer> listAsync() {
-        return wrapListAsync(innerCollection.listOffersAsync(publisher.region().toString(), publisher.name()));
+        return wrapListAsync(innerCollection.listOffersAsync(publisher.region().toString(), publisher.name()).toObservable());
     }
 }

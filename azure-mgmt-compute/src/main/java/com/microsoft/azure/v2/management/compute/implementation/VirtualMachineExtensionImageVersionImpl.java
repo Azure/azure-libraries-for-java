@@ -10,8 +10,7 @@ import com.microsoft.azure.v2.management.compute.VirtualMachineExtensionImage;
 import com.microsoft.azure.v2.management.compute.VirtualMachineExtensionImageType;
 import com.microsoft.azure.v2.management.compute.VirtualMachineExtensionImageVersion;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.implementation.WrapperImpl;
-import rx.functions.Func1;
-import rx.Observable;
+import io.reactivex.Observable;
 
 /**
  * The implementation for VirtualMachineExtensionImageVersion.
@@ -65,18 +64,8 @@ class VirtualMachineExtensionImageVersionImpl
 
     @Override
     public Observable<VirtualMachineExtensionImage> getImageAsync() {
-        final VirtualMachineExtensionImageVersionImpl self = this;
-        return this.client.getAsync(this.regionName(),
-                this.type().publisher().name(),
-                this.type().name(),
-                this.name()).map(new Func1<VirtualMachineExtensionImageInner, VirtualMachineExtensionImage>() {
-                    @Override
-                    public VirtualMachineExtensionImage call(VirtualMachineExtensionImageInner inner) {
-                        if (inner == null) {
-                            return null;
-                        }
-                        return new VirtualMachineExtensionImageImpl(self, inner);
-                    }
-                });
+        return this.client.getAsync(this.regionName(), this.type().publisher().name(), this.type().name(), this.name())
+                .map(inner -> (VirtualMachineExtensionImage) new VirtualMachineExtensionImageImpl(this, inner))
+                .toObservable();
     }
 }

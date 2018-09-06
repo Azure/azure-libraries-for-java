@@ -15,8 +15,7 @@ import com.microsoft.azure.v2.management.compute.VirtualMachinePublisher;
 import com.microsoft.azure.v2.management.compute.VirtualMachinePublishers;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.v2.management.resources.fluentcore.utils.PagedListConverter;
-import rx.Observable;
-import rx.functions.Func1;
+import io.reactivex.Observable;
 
 /**
  * The implementation for {@link VirtualMachineExtensionImages}.
@@ -74,22 +73,9 @@ class VirtualMachineExtensionImagesImpl
     @Override
     public Observable<VirtualMachineExtensionImage> listByRegionAsync(String regionName) {
         return this.publishers().listByRegionAsync(regionName)
-                .flatMap(new Func1<VirtualMachinePublisher, Observable<VirtualMachineExtensionImageType>>() {
-                    @Override
-                    public Observable<VirtualMachineExtensionImageType> call(VirtualMachinePublisher virtualMachinePublisher) {
-                        return virtualMachinePublisher.extensionTypes().listAsync();
-                    }
-                }).flatMap(new Func1<VirtualMachineExtensionImageType, Observable<VirtualMachineExtensionImageVersion>>() {
-                    @Override
-                    public Observable<VirtualMachineExtensionImageVersion> call(VirtualMachineExtensionImageType virtualMachineExtensionImageType) {
-                        return virtualMachineExtensionImageType.versions().listAsync();
-                    }
-                }).flatMap(new Func1<VirtualMachineExtensionImageVersion, Observable<VirtualMachineExtensionImage>>() {
-                    @Override
-                    public Observable<VirtualMachineExtensionImage> call(VirtualMachineExtensionImageVersion virtualMachineExtensionImageVersion) {
-                        return virtualMachineExtensionImageVersion.getImageAsync();
-                    }
-                });
+                .flatMap(virtualMachinePublisher -> virtualMachinePublisher.extensionTypes().listAsync())
+                .flatMap(virtualMachineExtensionImageType -> virtualMachineExtensionImageType.versions().listAsync())
+                .flatMap(virtualMachineExtensionImageVersion -> virtualMachineExtensionImageVersion.getImageAsync());
     }
 
     @Override

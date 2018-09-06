@@ -11,10 +11,7 @@ import com.microsoft.azure.v2.management.compute.VirtualMachineOffer;
 import com.microsoft.azure.v2.management.compute.VirtualMachineSkus;
 import com.microsoft.azure.v2.management.compute.VirtualMachineSku;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.collection.implementation.ReadableWrappersImpl;
-import rx.Observable;
-import rx.functions.Func1;
-
-import java.util.List;
+import io.reactivex.Observable;
 
 /**
  * The implementation for {@link VirtualMachineSkus}.
@@ -50,19 +47,8 @@ class VirtualMachineSkusImpl
 
     @Override
     public Observable<VirtualMachineSku> listAsync() {
-        return innerCollection.listSkusAsync(
-                offer.region().toString(),
-                offer.publisher().name(),
-                offer.name()).flatMap(new Func1<List<VirtualMachineImageResourceInner>, Observable<VirtualMachineImageResourceInner>>() {
-            @Override
-            public Observable<VirtualMachineImageResourceInner> call(List<VirtualMachineImageResourceInner> virtualMachineImageResourceInners) {
-                return Observable.from(virtualMachineImageResourceInners);
-            }
-        }).map(new Func1<VirtualMachineImageResourceInner, VirtualMachineSku>() {
-            @Override
-            public VirtualMachineSku call(VirtualMachineImageResourceInner virtualMachineImageResourceInner) {
-                return wrapModel(virtualMachineImageResourceInner);
-            }
-        });
+        return innerCollection.listSkusAsync(offer.region().toString(), offer.publisher().name(), offer.name())
+                .flatMapObservable(list -> Observable.fromIterable(list))
+                .map(this::wrapModel);
     }
 }

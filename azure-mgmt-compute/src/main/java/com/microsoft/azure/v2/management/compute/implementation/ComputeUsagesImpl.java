@@ -11,7 +11,7 @@ import com.microsoft.azure.v2.management.compute.ComputeUsage;
 import com.microsoft.azure.v2.management.compute.ComputeUsages;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.collection.implementation.ReadableWrappersImpl;
-import rx.Observable;
+import io.reactivex.Observable;
 
 /**
  * The implementation of {@link ComputeUsages}.

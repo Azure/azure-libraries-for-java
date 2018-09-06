@@ -11,7 +11,7 @@ import com.microsoft.azure.v2.management.compute.VirtualMachineSize;
 import com.microsoft.azure.v2.management.compute.VirtualMachineSizes;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.collection.implementation.ReadableWrappersImpl;
-import rx.Observable;
+import io.reactivex.Observable;
 
 /**
  * The implementation for {@link VirtualMachineSizes}.
@@ -51,6 +51,6 @@ class VirtualMachineSizesImpl
 
     @Override
     public Observable<VirtualMachineSize> listByRegionAsync(String regionName) {
-        return wrapListAsync(innerCollection.listAsync(regionName));
+        return wrapListAsync(innerCollection.listAsync(regionName).toObservable());
     }
 }

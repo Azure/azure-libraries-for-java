@@ -14,8 +14,7 @@ import com.microsoft.azure.v2.management.compute.VirtualMachinePublisher;
 import com.microsoft.azure.v2.management.compute.VirtualMachinePublishers;
 import com.microsoft.azure.v2.management.compute.VirtualMachineSku;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
-import rx.Observable;
-import rx.functions.Func1;
+import io.reactivex.Observable;
 
 import java.util.List;
 
@@ -111,22 +110,9 @@ class VirtualMachineImagesImpl
     @Override
     public Observable<VirtualMachineImage> listByRegionAsync(String regionName) {
         return this.publishers().listByRegionAsync(regionName)
-                .flatMap(new Func1<VirtualMachinePublisher, Observable<VirtualMachineOffer>>() {
-                    @Override
-                    public Observable<VirtualMachineOffer> call(VirtualMachinePublisher virtualMachinePublisher) {
-                        return virtualMachinePublisher.offers().listAsync();
-                    }
-                }).flatMap(new Func1<VirtualMachineOffer, Observable<VirtualMachineSku>>() {
-                    @Override
-                    public Observable<VirtualMachineSku> call(VirtualMachineOffer virtualMachineExtensionImageType) {
-                        return virtualMachineExtensionImageType.skus().listAsync();
-                    }
-                }).flatMap(new Func1<VirtualMachineSku, Observable<VirtualMachineImage>>() {
-                    @Override
-                    public Observable<VirtualMachineImage> call(VirtualMachineSku virtualMachineSku) {
-                        return virtualMachineSku.images().listAsync();
-                    }
-                });
+                .flatMap(virtualMachinePublisher -> virtualMachinePublisher.offers().listAsync())
+                .flatMap(virtualMachineOffer -> virtualMachineOffer.skus().listAsync())
+                .flatMap(virtualMachineSku -> virtualMachineSku.images().listAsync());
     }
 
     @Override

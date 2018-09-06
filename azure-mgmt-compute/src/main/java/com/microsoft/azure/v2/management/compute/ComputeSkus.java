@@ -16,8 +16,7 @@ import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.HasMana
 import com.microsoft.azure.v2.management.resources.fluentcore.collection.SupportsListing;
 import com.microsoft.azure.v2.management.resources.fluentcore.collection.SupportsListingByRegion;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
-import rx.Observable;
-
+import io.reactivex.Observable;
 
 /**
  * Entry point to compute service SKUs.

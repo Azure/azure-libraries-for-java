@@ -6,7 +6,6 @@
 
 package com.microsoft.azure.v2.management.compute.implementation;
 
-import com.google.common.collect.Lists;
 import com.microsoft.azure.v2.Page;
 import com.microsoft.azure.v2.PagedList;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
@@ -16,10 +15,10 @@ import com.microsoft.azure.v2.management.compute.ComputeSkus;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.collection.implementation.ReadableWrappersImpl;
 import com.microsoft.rest.v2.RestException;
-import rx.Observable;
-import rx.functions.Func1;
+import io.reactivex.Observable;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -70,12 +69,7 @@ final class ComputeSkusImpl
     @Override
     public Observable<ComputeSku> listByRegionAsync(final Region region) {
         return this.listAsync()
-                .filter(new Func1<ComputeSku, Boolean>() {
-                    @Override
-                    public Boolean call(ComputeSku computeSku) {
-                        return computeSku.regions() != null && computeSku.regions().contains(region);
-                    }
-                });
+                .filter(computeSku -> computeSku.regions() != null && computeSku.regions().contains(region));
     }
 
     @Override
@@ -96,12 +90,7 @@ final class ComputeSkusImpl
     @Override
     public Observable<ComputeSku> listByResourceTypeAsync(final ComputeResourceType resourceType) {
         return this.listAsync()
-                .filter(new Func1<ComputeSku, Boolean>() {
-                    @Override
-                    public Boolean call(ComputeSku computeSku) {
-                        return computeSku.resourceType() != null && computeSku.resourceType().equals(resourceType);
-                    }
-                });
+                .filter(computeSku -> computeSku.resourceType() != null && computeSku.resourceType().equals(resourceType));
     }
 
     @Override
@@ -112,15 +101,10 @@ final class ComputeSkusImpl
     @Override
     public Observable<ComputeSku> listbyRegionAndResourceTypeAsync(final Region region, final ComputeResourceType resourceType) {
         return this.listAsync()
-                .filter(new Func1<ComputeSku, Boolean>() {
-                    @Override
-                    public Boolean call(ComputeSku computeSku) {
-                        return computeSku.resourceType() != null
-                                && computeSku.resourceType().equals(resourceType)
-                                && computeSku.regions() != null
-                                && computeSku.regions().contains(region);
-                    }
-                });
+                .filter(computeSku -> computeSku.resourceType() != null
+                        && computeSku.resourceType().equals(resourceType)
+                        && computeSku.regions() != null
+                        && computeSku.regions().contains(region));
     }
 
     /**
@@ -134,7 +118,8 @@ final class ComputeSkusImpl
         Page<T> singlePage = new Page<T>() {
             @Override
             public List<T> items() {
-                return Lists.newArrayList(skuObservable.toBlocking().toIterable());
+                return skuObservable.collect(ArrayList<T>::new, ArrayList::add)
+                        .blockingGet();
             }
 
             @Override

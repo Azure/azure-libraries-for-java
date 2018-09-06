@@ -106,7 +106,7 @@ public final class AutoscaleSettingsBasedOnPerformanceOrSchedule {
             String deployedWebAppUrl = "https://" + webapp.hostNames().iterator().next() + "/";
 
             // Trigger scale-out action
-            for(int i = 0; i < 11; i++) {
+            for (int i = 0; i < 11; i++) {
                 SdkContext.sleep(5000);
                 curl(deployedWebAppUrl);
             }
@@ -169,7 +169,7 @@ public final class AutoscaleSettingsBasedOnPerformanceOrSchedule {
         try {
             System.out.println("Browse URL >> '" + url + "'");
             System.out.println("Server Response << '" + httpClient.newCall(request).execute().body().string() + "'");
-        } catch (IOException e) {;
+        } catch (IOException e) {
         }
     }
 }

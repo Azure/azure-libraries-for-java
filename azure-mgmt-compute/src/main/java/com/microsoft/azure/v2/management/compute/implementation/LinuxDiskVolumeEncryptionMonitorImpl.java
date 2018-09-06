@@ -15,7 +15,7 @@ import com.microsoft.azure.v2.management.compute.EncryptionStatus;
 import com.microsoft.azure.v2.management.compute.InstanceViewStatus;
 import com.microsoft.azure.v2.management.compute.OperatingSystemTypes;
 import com.microsoft.azure.v2.management.compute.VirtualMachineExtensionInstanceView;
-import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.ResourceUtils;
 import rx.Observable;
 import rx.functions.Func1;
 

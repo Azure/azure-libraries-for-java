@@ -6,18 +6,18 @@
 
 package com.microsoft.azure.v2.management.compute;
 
-import com.microsoft.azure.management.apigeneration.Beta;
+import com.microsoft.rest.v2.annotations.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.v2.management.compute.implementation.ComputeManager;
 import com.microsoft.azure.v2.management.compute.implementation.ImageInner;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.ChildResource;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
-import com.microsoft.azure.management.resources.fluentcore.model.Attachable;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.ChildResource;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.GroupableResource;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.Resource;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Attachable;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Creatable;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Refreshable;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
 
 import java.util.Map;
 
@@ -273,14 +273,14 @@ public interface VirtualMachineCustomImage extends
         /**
          * The stage of an image definition allowing to enable zone resiliency.
          */
-        @Beta(Beta.SinceVersion.V1_8_0)
+        @Beta(since="V1_8_0")
         interface WithZoneResilient {
             /**
              * Specifies that zone resiliency should be enabled for the image.
              *
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_8_0)
+            @Beta(since="V1_8_0")
             WithCreate withZoneResilient();
         }
 

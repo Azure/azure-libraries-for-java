@@ -6,12 +6,12 @@
 
 package com.microsoft.azure.v2.management.compute;
 
-import com.microsoft.azure.management.apigeneration.Beta;
+import com.microsoft.rest.v2.annotations.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.v2.management.compute.implementation.ResourceSkuInner;
-import com.microsoft.azure.management.resources.fluentcore.arm.AvailabilityZoneId;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.AvailabilityZoneId;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
 
 import java.util.List;
 import java.util.Map;
@@ -21,7 +21,7 @@ import java.util.Set;
  * Type representing sku for an Azure compute resource.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_5_0)
+@Beta(since="V1_5_0")
 public interface ComputeSku extends HasInner<ResourceSkuInner> {
     /**
      * @return the sku name

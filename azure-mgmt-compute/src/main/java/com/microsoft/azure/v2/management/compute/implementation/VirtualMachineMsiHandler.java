@@ -11,11 +11,11 @@ import com.microsoft.azure.v2.management.compute.ResourceIdentityType;
 import com.microsoft.azure.v2.management.compute.VirtualMachineIdentity;
 import com.microsoft.azure.v2.management.compute.VirtualMachineIdentityUserAssignedIdentitiesValue;
 import com.microsoft.azure.v2.management.compute.VirtualMachineUpdate;
-import com.microsoft.azure.management.graphrbac.implementation.GraphRbacManager;
-import com.microsoft.azure.management.graphrbac.implementation.RoleAssignmentHelper;
-import com.microsoft.azure.management.msi.Identity;
-import com.microsoft.azure.management.resources.fluentcore.dag.TaskGroup;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
+import com.microsoft.azure.v2.management.graphrbac.implementation.GraphRbacManager;
+import com.microsoft.azure.v2.management.graphrbac.implementation.RoleAssignmentHelper;
+import com.microsoft.azure.v2.management.msi.Identity;
+import com.microsoft.azure.v2.management.resources.fluentcore.dag.TaskGroup;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Creatable;
 
 import java.util.ArrayList;
 import java.util.HashMap;

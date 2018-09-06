@@ -6,7 +6,7 @@
 
 package com.microsoft.azure.v2.management.compute.implementation;
 
-import com.microsoft.azure.SubResource;
+import com.microsoft.azure.v2.SubResource;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.v2.management.compute.CachingTypes;
 import com.microsoft.azure.v2.management.compute.Disk;
@@ -18,7 +18,7 @@ import com.microsoft.azure.v2.management.compute.OperatingSystemTypes;
 import com.microsoft.azure.v2.management.compute.Snapshot;
 import com.microsoft.azure.v2.management.compute.VirtualMachine;
 import com.microsoft.azure.v2.management.compute.VirtualMachineCustomImage;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
 import rx.Observable;
 
 import java.util.ArrayList;

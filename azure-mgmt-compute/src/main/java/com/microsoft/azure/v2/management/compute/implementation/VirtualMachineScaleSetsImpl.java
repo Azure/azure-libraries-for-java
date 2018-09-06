@@ -18,12 +18,12 @@ import com.microsoft.azure.v2.management.compute.VirtualMachineScaleSetOSProfile
 import com.microsoft.azure.v2.management.compute.VirtualMachineScaleSetStorageProfile;
 import com.microsoft.azure.v2.management.compute.VirtualMachineScaleSetVMProfile;
 import com.microsoft.azure.v2.management.compute.VirtualMachineScaleSets;
-import com.microsoft.azure.management.graphrbac.implementation.GraphRbacManager;
-import com.microsoft.azure.management.network.implementation.NetworkManager;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
-import com.microsoft.azure.management.storage.implementation.StorageManager;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
+import com.microsoft.azure.v2.management.graphrbac.implementation.GraphRbacManager;
+import com.microsoft.azure.v2.management.network.implementation.NetworkManager;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
+import com.microsoft.azure.v2.management.storage.implementation.StorageManager;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
 import rx.Completable;
 import rx.Observable;
 

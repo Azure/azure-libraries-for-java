@@ -9,7 +9,7 @@ import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.v2.management.compute.VirtualMachineScaleSetSku;
 import com.microsoft.azure.v2.management.compute.VirtualMachineScaleSetSkuCapacity;
 import com.microsoft.azure.v2.management.compute.VirtualMachineScaleSetSkuTypes;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.implementation.WrapperImpl;
 
 /**
  * Implementation of VirtualMachineScaleSetSku.

@@ -6,7 +6,7 @@
 package com.microsoft.azure.v2.management.compute;
 
 import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasName;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.HasName;
 
 /**
  * A type representing virtual machine size available for a subscription in a region.

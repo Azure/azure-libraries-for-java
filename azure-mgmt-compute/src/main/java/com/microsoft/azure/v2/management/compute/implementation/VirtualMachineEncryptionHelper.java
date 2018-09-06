@@ -6,7 +6,7 @@
 
 package com.microsoft.azure.v2.management.compute.implementation;
 
-import com.microsoft.azure.SubResource;
+import com.microsoft.azure.v2.SubResource;
 import com.microsoft.azure.v2.management.compute.DiskEncryptionSettings;
 import com.microsoft.azure.v2.management.compute.DiskVolumeEncryptionMonitor;
 import com.microsoft.azure.v2.management.compute.DiskVolumeType;

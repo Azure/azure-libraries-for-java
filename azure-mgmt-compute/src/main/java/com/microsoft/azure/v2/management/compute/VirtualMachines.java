@@ -6,23 +6,23 @@
 
 package com.microsoft.azure.v2.management.compute;
 
-import com.microsoft.azure.management.apigeneration.Beta;
+import com.microsoft.rest.v2.annotations.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.v2.management.compute.implementation.ComputeManager;
 import com.microsoft.azure.v2.management.compute.implementation.VirtualMachinesInner;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsBatchDeletion;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsDeletingByResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsGettingByResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsGettingById;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsListingByResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasManager;
-import com.microsoft.azure.management.resources.fluentcore.collection.SupportsBatchCreation;
-import com.microsoft.azure.management.resources.fluentcore.collection.SupportsCreating;
-import com.microsoft.azure.management.resources.fluentcore.collection.SupportsDeletingById;
-import com.microsoft.azure.management.resources.fluentcore.collection.SupportsListing;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.collection.SupportsBatchDeletion;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.collection.SupportsDeletingByResourceGroup;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.collection.SupportsGettingByResourceGroup;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.collection.SupportsGettingById;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.collection.SupportsListingByResourceGroup;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.HasManager;
+import com.microsoft.azure.v2.management.resources.fluentcore.collection.SupportsBatchCreation;
+import com.microsoft.azure.v2.management.resources.fluentcore.collection.SupportsCreating;
+import com.microsoft.azure.v2.management.resources.fluentcore.collection.SupportsDeletingById;
+import com.microsoft.azure.v2.management.resources.fluentcore.collection.SupportsListing;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
 import rx.Completable;
 import rx.Observable;
 
@@ -287,7 +287,7 @@ public interface VirtualMachines extends
      * @param scriptParameters script parameters
      * @return result of PowerShell script execution
      */
-    @Beta(Beta.SinceVersion.V1_14_0)
+    @Beta(since="V1_14_0")
     RunCommandResult runPowerShellScript(String groupName, String name, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters);
 
     /**
@@ -299,7 +299,7 @@ public interface VirtualMachines extends
      * @param scriptParameters script parameters
      * @return handle to the asynchronous execution
      */
-    @Beta(Beta.SinceVersion.V1_14_0)
+    @Beta(since="V1_14_0")
     Observable<RunCommandResult> runPowerShellScriptAsync(String groupName, String name, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters);
 
     /**
@@ -311,7 +311,7 @@ public interface VirtualMachines extends
      * @param scriptParameters script parameters
      * @return result of shell script execution
      */
-    @Beta(Beta.SinceVersion.V1_14_0)
+    @Beta(since="V1_14_0")
     RunCommandResult runShellScript(String groupName, String name, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters);
 
 
@@ -324,7 +324,7 @@ public interface VirtualMachines extends
      * @param scriptParameters script parameters
      * @return handle to the asynchronous execution
      */
-    @Beta(Beta.SinceVersion.V1_14_0)
+    @Beta(since="V1_14_0")
     Observable<RunCommandResult> runShellScriptAsync(String groupName, String name, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters);
 
     /**
@@ -335,7 +335,7 @@ public interface VirtualMachines extends
      * @param inputCommand command input
      * @return result of execution
      */
-    @Beta(Beta.SinceVersion.V1_14_0)
+    @Beta(since="V1_14_0")
     RunCommandResult runCommand(String groupName, String name, RunCommandInput inputCommand);
 
     /**
@@ -346,6 +346,6 @@ public interface VirtualMachines extends
      * @param inputCommand command input
      * @return handle to the asynchronous execution
      */
-    @Beta(Beta.SinceVersion.V1_14_0)
+    @Beta(since="V1_14_0")
     Observable<RunCommandResult> runCommandAsync(String groupName, String name, RunCommandInput inputCommand);
 }

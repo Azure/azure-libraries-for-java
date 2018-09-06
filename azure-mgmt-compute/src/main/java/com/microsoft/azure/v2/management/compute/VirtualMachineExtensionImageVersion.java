@@ -8,8 +8,8 @@ package com.microsoft.azure.v2.management.compute;
 
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.v2.management.compute.implementation.VirtualMachineExtensionImageInner;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasName;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.HasName;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
 import rx.Observable;
 
 /**

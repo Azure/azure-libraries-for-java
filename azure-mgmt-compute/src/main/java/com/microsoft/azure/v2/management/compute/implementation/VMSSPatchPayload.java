@@ -6,7 +6,7 @@
 
 package com.microsoft.azure.v2.management.compute.implementation;
 
-import com.microsoft.azure.SubResource;
+import com.microsoft.azure.v2.SubResource;
 import com.microsoft.azure.v2.management.compute.VirtualMachineScaleSet;
 import com.microsoft.azure.v2.management.compute.VirtualMachineScaleSetIPConfiguration;
 import com.microsoft.azure.v2.management.compute.VirtualMachineScaleSetNetworkConfiguration;

@@ -7,15 +7,15 @@
 package com.microsoft.azure.v2.management.compute.implementation;
 
 import com.google.common.collect.Lists;
-import com.microsoft.azure.Page;
-import com.microsoft.azure.PagedList;
+import com.microsoft.azure.v2.Page;
+import com.microsoft.azure.v2.PagedList;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.v2.management.compute.ComputeResourceType;
 import com.microsoft.azure.v2.management.compute.ComputeSku;
 import com.microsoft.azure.v2.management.compute.ComputeSkus;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.ReadableWrappersImpl;
-import com.microsoft.rest.RestException;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.collection.implementation.ReadableWrappersImpl;
+import com.microsoft.rest.v2.RestException;
 import rx.Observable;
 import rx.functions.Func1;
 

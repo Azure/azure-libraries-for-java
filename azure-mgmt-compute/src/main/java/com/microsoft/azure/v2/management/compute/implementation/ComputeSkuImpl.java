@@ -20,8 +20,8 @@ import com.microsoft.azure.v2.management.compute.ResourceSkuLocationInfo;
 import com.microsoft.azure.v2.management.compute.ResourceSkuRestrictions;
 import com.microsoft.azure.v2.management.compute.StorageAccountTypes;
 import com.microsoft.azure.v2.management.compute.VirtualMachineSizeTypes;
-import com.microsoft.azure.management.resources.fluentcore.arm.AvailabilityZoneId;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.AvailabilityZoneId;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
 
 import java.util.ArrayList;
 import java.util.Collections;

@@ -6,30 +6,30 @@
 
 package com.microsoft.azure.v2.management.compute;
 
-import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.apigeneration.Beta;
+import com.microsoft.azure.v2.PagedList;
+import com.microsoft.rest.v2.annotations.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.v2.management.compute.implementation.ComputeManager;
 import com.microsoft.azure.v2.management.compute.implementation.VirtualMachineScaleSetInner;
-import com.microsoft.azure.management.graphrbac.BuiltInRole;
-import com.microsoft.azure.management.msi.Identity;
-import com.microsoft.azure.management.network.ApplicationSecurityGroup;
-import com.microsoft.azure.management.network.LoadBalancerBackend;
-import com.microsoft.azure.management.network.LoadBalancerInboundNatPool;
-import com.microsoft.azure.management.network.LoadBalancer;
-import com.microsoft.azure.management.network.Network;
-import com.microsoft.azure.management.network.NetworkSecurityGroup;
-import com.microsoft.azure.management.network.VirtualMachineScaleSetNetworkInterface;
-import com.microsoft.azure.management.resources.fluentcore.arm.AvailabilityZoneId;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
-import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
-import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
-import com.microsoft.azure.management.storage.StorageAccount;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
+import com.microsoft.azure.v2.management.graphrbac.BuiltInRole;
+import com.microsoft.azure.v2.management.msi.Identity;
+import com.microsoft.azure.v2.management.network.ApplicationSecurityGroup;
+import com.microsoft.azure.v2.management.network.LoadBalancerBackend;
+import com.microsoft.azure.v2.management.network.LoadBalancerInboundNatPool;
+import com.microsoft.azure.v2.management.network.LoadBalancer;
+import com.microsoft.azure.v2.management.network.Network;
+import com.microsoft.azure.v2.management.network.NetworkSecurityGroup;
+import com.microsoft.azure.v2.management.network.VirtualMachineScaleSetNetworkInterface;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.AvailabilityZoneId;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.GroupableResource;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.Resource;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Appliable;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Creatable;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Refreshable;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Updatable;
+import com.microsoft.azure.v2.management.storage.StorageAccount;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
 import rx.Completable;
 import rx.Observable;
 
@@ -167,7 +167,7 @@ public interface VirtualMachineScaleSet extends
      * @param scriptParameters script parameters
      * @return result of PowerShell script execution
      */
-    @Beta(Beta.SinceVersion.V1_14_0)
+    @Beta(since="V1_14_0")
     RunCommandResult runPowerShellScriptInVMInstance(String vmId, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters);
 
     /**
@@ -178,7 +178,7 @@ public interface VirtualMachineScaleSet extends
      * @param scriptParameters script parameters
      * @return handle to the asynchronous execution
      */
-    @Beta(Beta.SinceVersion.V1_14_0)
+    @Beta(since="V1_14_0")
     Observable<RunCommandResult> runPowerShellScriptInVMInstanceAsync(String vmId, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters);
 
     /**
@@ -189,7 +189,7 @@ public interface VirtualMachineScaleSet extends
      * @param scriptParameters script parameters
      * @return result of shell script execution
      */
-    @Beta(Beta.SinceVersion.V1_14_0)
+    @Beta(since="V1_14_0")
     RunCommandResult runShellScriptInVMInstance(String vmId, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters);
 
 
@@ -201,7 +201,7 @@ public interface VirtualMachineScaleSet extends
      * @param scriptParameters script parameters
      * @return handle to the asynchronous execution
      */
-    @Beta(Beta.SinceVersion.V1_14_0)
+    @Beta(since="V1_14_0")
     Observable<RunCommandResult> runShellScriptInVMInstanceAsync(String vmId, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters);
 
     /**
@@ -211,7 +211,7 @@ public interface VirtualMachineScaleSet extends
      * @param inputCommand command input
      * @return result of execution
      */
-    @Beta(Beta.SinceVersion.V1_14_0)
+    @Beta(since="V1_14_0")
     RunCommandResult runCommandInVMInstance(String vmId, RunCommandInput inputCommand);
 
     /**
@@ -221,7 +221,7 @@ public interface VirtualMachineScaleSet extends
      * @param inputCommand command input
      * @return handle to the asynchronous execution
      */
-    @Beta(Beta.SinceVersion.V1_14_0)
+    @Beta(since="V1_14_0")
     Observable<RunCommandResult> runCommandVMInstanceAsync(String vmId, RunCommandInput inputCommand);
 
     // Getters
@@ -356,13 +356,13 @@ public interface VirtualMachineScaleSet extends
     /**
      * @return the priority of virtual machines in the scale set.
      */
-    @Beta(Beta.SinceVersion.V1_8_0)
+    @Beta(since="V1_8_0")
     VirtualMachinePriorityTypes virtualMachinePriority();
 
     /**
      * @return the eviction policy of the virtual machines in the scale set.
      */
-    @Beta(Beta.SinceVersion.V1_11_0)
+    @Beta(since="V1_11_0")
     VirtualMachineEvictionPolicyTypes virtualMachineEvictionPolicy();
 
     /**
@@ -395,89 +395,89 @@ public interface VirtualMachineScaleSet extends
     /**
      * @return true if Managed Service Identity is enabled for the virtual machine scale set
      */
-    @Beta(Beta.SinceVersion.V1_2_0)
+    @Beta(since="V1_2_0")
     boolean isManagedServiceIdentityEnabled();
 
     /**
      * @return the System Assigned (Local) Managed Service Identity specific Active Directory tenant ID
      * assigned to the virtual machine scale set.
      */
-    @Beta(Beta.SinceVersion.V1_5_0)
+    @Beta(since="V1_5_0")
     String systemAssignedManagedServiceIdentityTenantId();
 
     /**
      * @return the System Assigned (Local) Managed Service Identity specific Active Directory service principal ID
      * assigned to the virtual machine scale set.
      */
-    @Beta(Beta.SinceVersion.V1_5_0)
+    @Beta(since="V1_5_0")
     String systemAssignedManagedServiceIdentityPrincipalId();
 
     /**
      * @return the type of Managed Service Identity used for the virtual machine scale set.
      */
-    @Beta(Beta.SinceVersion.V1_4_0)
+    @Beta(since="V1_4_0")
     ResourceIdentityType managedServiceIdentityType();
 
     /**
      * @return the resource ids of User Assigned Managed Service Identities associated with the virtual machine scale set.
      */
-    @Beta(Beta.SinceVersion.V1_5_1)
+    @Beta(since="V1_5_1)
     Set<String> userAssignedManagedServiceIdentityIds();
 
     /**
      * @return the availability zones assigned to virtual machine scale set.
      */
-    @Beta(Beta.SinceVersion.V1_3_0)
+    @Beta(since="V1_3_0")
     Set<AvailabilityZoneId> availabilityZones();
 
     /**
      * @return true if boot diagnostics is enabled for the virtual machine scale set.
      */
-    @Beta(Beta.SinceVersion.V1_4_0)
+    @Beta(since="V1_4_0")
     boolean isBootDiagnosticsEnabled();
 
     /**
      * @return the storage blob endpoint uri if boot diagnostics is enabled for the virtual machine scale set.
      */
-    @Beta(Beta.SinceVersion.V1_4_0)
+    @Beta(since="V1_4_0")
     String bootDiagnosticsStorageUri();
 
     /**
      * @return the storage account type of the OS managed disk. A null value will be returned if the
      * virtual machine scale set is based on un-managed disk.
      */
-    @Beta(Beta.SinceVersion.V1_4_0)
+    @Beta(since="V1_4_0")
     StorageAccountTypes managedOSDiskStorageAccountType();
 
 
     /**
      * @return the public ip configuration of virtual machines in the scale set.
      */
-    @Beta(Beta.SinceVersion.V1_14_0)
+    @Beta(since="V1_14_0")
     VirtualMachineScaleSetPublicIPAddressConfiguration virtualMachinePublicIpConfig();
 
     /**
      * @return true if ip forwarding is enabled for the virtual machine scale set.
      */
-    @Beta(Beta.SinceVersion.V1_14_0)
+    @Beta(since="V1_14_0")
     boolean isIpForwardingEnabled();
 
     /**
      * @return true if accelerated networking is enabled for the virtual machine scale set.
      */
-    @Beta(Beta.SinceVersion.V1_14_0)
+    @Beta(since="V1_14_0")
     boolean isAcceleratedNetworkingEnabled();
 
     /**
      * @return the network security group ARM id.
      */
-    @Beta(Beta.SinceVersion.V1_14_0)
+    @Beta(since="V1_14_0")
     String networkSecurityGroupId();
 
     /**
      * @return true if single placement group is enabled for the virtual machine scale set.
      */
-    @Beta(Beta.SinceVersion.V1_14_0)
+    @Beta(since="V1_14_0")
     boolean isSinglePlacementGroupEnabled();
 
     /**
@@ -1278,7 +1278,7 @@ public interface VirtualMachineScaleSet extends
         /**
          * The stage of the virtual machine scale set definition allowing to specify availability zone.
          */
-        @Beta(Beta.SinceVersion.V1_3_0)
+        @Beta(since="V1_3_0")
         interface WithAvailabilityZone {
             /**
              * Specifies the availability zone for the virtual machine scale set.
@@ -1286,7 +1286,7 @@ public interface VirtualMachineScaleSet extends
              * @param zoneId the zone identifier.
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_3_0)
+            @Beta(since="V1_3_0")
             WithManagedCreate withAvailabilityZone(AvailabilityZoneId zoneId);
         }
 
@@ -1468,7 +1468,7 @@ public interface VirtualMachineScaleSet extends
          * The stage of the virtual machine scale set definition allowing to enable System Assigned (Local) Managed
          * Service Identity.
          */
-        @Beta(Beta.SinceVersion.V1_5_0)
+        @Beta(since="V1_5_0")
         interface WithSystemAssignedManagedServiceIdentity {
             /**
              * Specifies that System Assigned (Local) Managed Service Identity needs to be enabled in the virtual
@@ -1476,7 +1476,7 @@ public interface VirtualMachineScaleSet extends
              *
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_5_0)
+            @Beta(since="V1_5_0")
             WithSystemAssignedIdentityBasedAccessOrCreate withSystemAssignedManagedServiceIdentity();
         }
 
@@ -1484,7 +1484,7 @@ public interface VirtualMachineScaleSet extends
          * The stage of the System Assigned (Local) Managed Service Identity enabled virtual machine scale set
          * allowing to set access for the identity.
          */
-        @Beta(Beta.SinceVersion.V1_5_0)
+        @Beta(since="V1_5_0")
         interface WithSystemAssignedIdentityBasedAccessOrCreate extends WithCreate {
             /**
              * Specifies that virtual machine scale set's system assigned (local) identity should have the given
@@ -1495,7 +1495,7 @@ public interface VirtualMachineScaleSet extends
              * @param role access role to assigned to the scale set local identity
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_5_0)
+            @Beta(since="V1_5_0")
             WithSystemAssignedIdentityBasedAccessOrCreate withSystemAssignedIdentityBasedAccessTo(String resourceId, BuiltInRole role);
 
             /**
@@ -1506,7 +1506,7 @@ public interface VirtualMachineScaleSet extends
              * @param role access role to assigned to the scale set local identity
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_5_0)
+            @Beta(since="V1_5_0")
             WithSystemAssignedIdentityBasedAccessOrCreate withSystemAssignedIdentityBasedAccessToCurrentResourceGroup(BuiltInRole role);
 
             /**
@@ -1518,7 +1518,7 @@ public interface VirtualMachineScaleSet extends
              * @param roleDefinitionId access role definition to assigned to the scale set local identity
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_5_0)
+            @Beta(since="V1_5_0")
             WithSystemAssignedIdentityBasedAccessOrCreate withSystemAssignedIdentityBasedAccessTo(String resourceId, String roleDefinitionId);
 
             /**
@@ -1529,7 +1529,7 @@ public interface VirtualMachineScaleSet extends
              * @param roleDefinitionId access role definition to assigned to the scale set local identity
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_5_0)
+            @Beta(since="V1_5_0")
             WithSystemAssignedIdentityBasedAccessOrCreate withSystemAssignedIdentityBasedAccessToCurrentResourceGroup(String roleDefinitionId);
         }
 
@@ -1537,7 +1537,7 @@ public interface VirtualMachineScaleSet extends
          * The stage of the virtual machine scale set definition allowing to specify User Assigned (External)
          * Managed Service Identities.
          */
-        @Beta(Beta.SinceVersion.V1_5_1)
+        @Beta(since="V1_5_1)
         interface WithUserAssignedManagedServiceIdentity {
             /**
              * Specifies the definition of a not-yet-created user assigned identity to be associated with the
@@ -1546,7 +1546,7 @@ public interface VirtualMachineScaleSet extends
              * @param creatableIdentity a creatable identity definition
              * @return the next stage of the virtual machine scale set definition
              */
-            @Beta(Beta.SinceVersion.V1_5_1)
+            @Beta(since="V1_5_1)
             WithCreate withNewUserAssignedManagedServiceIdentity(Creatable<Identity> creatableIdentity);
 
             /**
@@ -1555,21 +1555,21 @@ public interface VirtualMachineScaleSet extends
              * @param identity the identity
              * @return the next stage of the virtual machine scale set definition
              */
-            @Beta(Beta.SinceVersion.V1_5_1)
+            @Beta(since="V1_5_1)
             WithCreate withExistingUserAssignedManagedServiceIdentity(Identity identity);
         }
 
         /**
          * The stage of the virtual machine scale set definition allowing to enable boot diagnostics.
          */
-        @Beta(Beta.SinceVersion.V1_4_0)
+        @Beta(since="V1_4_0")
         interface WithBootDiagnostics {
             /**
              * Specifies that boot diagnostics needs to be enabled in the virtual machine scale set.
              *
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_4_0)
+            @Beta(since="V1_4_0")
             WithCreate withBootDiagnostics();
 
             /**
@@ -1578,7 +1578,7 @@ public interface VirtualMachineScaleSet extends
              * @param creatable the storage account to be created and used for store the boot diagnostics
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_4_0)
+            @Beta(since="V1_4_0")
             WithCreate withBootDiagnostics(Creatable<StorageAccount> creatable);
 
             /**
@@ -1587,7 +1587,7 @@ public interface VirtualMachineScaleSet extends
              * @param storageAccount an existing storage account to be uses to store the boot diagnostics
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_4_0)
+            @Beta(since="V1_4_0")
             WithCreate withBootDiagnostics(StorageAccount storageAccount);
 
             /**
@@ -1596,14 +1596,14 @@ public interface VirtualMachineScaleSet extends
              * @param storageAccountBlobEndpointUri a storage account blob endpoint to store the boot diagnostics
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_4_0)
+            @Beta(since="V1_4_0")
             WithCreate withBootDiagnostics(String storageAccountBlobEndpointUri);
         }
 
         /**
          * The stage of the virtual machine scale set definition allowing to specify priority for vms in the scale-set.
          */
-        @Beta(Beta.SinceVersion.V1_8_0)
+        @Beta(since="V1_8_0")
         interface WithVMPriority {
             /**
              * Specifies the priority of the virtual machines in the scale set.
@@ -1611,7 +1611,7 @@ public interface VirtualMachineScaleSet extends
              * @param priority the priority
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_8_0)
+            @Beta(since="V1_8_0")
             WithCreate withVirtualMachinePriority(VirtualMachinePriorityTypes priority);
 
             /**
@@ -1619,7 +1619,7 @@ public interface VirtualMachineScaleSet extends
              *
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_11_0)
+            @Beta(since="V1_11_0")
             WithCreate withLowPriorityVirtualMachine();
 
             /**
@@ -1630,7 +1630,7 @@ public interface VirtualMachineScaleSet extends
              *
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_11_0)
+            @Beta(since="V1_11_0")
             WithCreate withLowPriorityVirtualMachine(VirtualMachineEvictionPolicyTypes policy);
         }
 
@@ -1638,14 +1638,14 @@ public interface VirtualMachineScaleSet extends
          * The stage of the virtual machine scale set definition allowing to enable public ip
          * for vm instances.
          */
-        @Beta(Beta.SinceVersion.V1_14_0)
+        @Beta(since="V1_14_0")
         interface WithVirtualMachinePublicIp {
             /**
              * Specify that virtual machines in the scale set should have public ip address.
              *
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_14_0)
+            @Beta(since="V1_14_0")
             WithCreate withVirtualMachinePublicIp();
 
             /**
@@ -1655,7 +1655,7 @@ public interface VirtualMachineScaleSet extends
              *
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_14_0)
+            @Beta(since="V1_14_0")
             WithCreate withVirtualMachinePublicIp(String leafDomainLabel);
 
             /**
@@ -1665,21 +1665,21 @@ public interface VirtualMachineScaleSet extends
              *
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_14_0)
+            @Beta(since="V1_14_0")
             WithCreate withVirtualMachinePublicIp(VirtualMachineScaleSetPublicIPAddressConfiguration ipConfig);
         }
 
         /**
          * The stage of the virtual machine scale set definition allowing to configure accelerated networking.
          */
-        @Beta(Beta.SinceVersion.V1_14_0)
+        @Beta(since="V1_14_0")
         interface WithAcceleratedNetworking {
             /**
              * Specify that accelerated networking should be enabled for the virtual machine scale set.
              *
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_14_0)
+            @Beta(since="V1_14_0")
             WithCreate withAcceleratedNetworking();
 
             /**
@@ -1687,21 +1687,21 @@ public interface VirtualMachineScaleSet extends
              *
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_14_0)
+            @Beta(since="V1_14_0")
             WithCreate withoutAcceleratedNetworking();
         }
 
         /**
          * The stage of the virtual machine scale set definition allowing to configure ip forwarding.
          */
-        @Beta(Beta.SinceVersion.V1_14_0)
+        @Beta(since="V1_14_0")
         interface WithIpForwarding {
             /**
              * Specify that ip forwarding should be enabled for the virtual machine scale set.
              *
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_14_0)
+            @Beta(since="V1_14_0")
             WithCreate withIpForwarding();
 
             /**
@@ -1709,14 +1709,14 @@ public interface VirtualMachineScaleSet extends
              *
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_14_0)
+            @Beta(since="V1_14_0")
             WithCreate withoutIpForwarding();
         }
 
         /**
          * The stage of the virtual machine scale set definition allowing to configure network security group.
          */
-        @Beta(Beta.SinceVersion.V1_14_0)
+        @Beta(since="V1_14_0")
         interface WithNetworkSecurityGroup {
             /**
              * Specifies the network security group for the virtual machine scale set.
@@ -1725,7 +1725,7 @@ public interface VirtualMachineScaleSet extends
              *
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_14_0)
+            @Beta(since="V1_14_0")
             WithCreate withExistingNetworkSecurityGroup(NetworkSecurityGroup networkSecurityGroup);
 
             /**
@@ -1735,21 +1735,21 @@ public interface VirtualMachineScaleSet extends
              *
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_14_0)
+            @Beta(since="V1_14_0")
             WithCreate withExistingNetworkSecurityGroupId(String networkSecurityGroupId);
         }
 
         /**
          * The stage of the virtual machine scale set definition allowing to configure single placement group.
          */
-        @Beta(Beta.SinceVersion.V1_14_0)
+        @Beta(since="V1_14_0")
         interface WithSinglePlacementGroup {
             /**
              * Specify that single placement group should be enabled for the virtual machine scale set.
              *
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_14_0)
+            @Beta(since="V1_14_0")
             WithCreate withSinglePlacementGroup();
 
             /**
@@ -1757,14 +1757,14 @@ public interface VirtualMachineScaleSet extends
              *
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_14_0)
+            @Beta(since="V1_14_0")
             WithCreate withoutSinglePlacementGroup();
         }
 
         /**
          * The stage of the virtual machine scale set definition allowing to configure application gateway.
          */
-        @Beta(Beta.SinceVersion.V1_14_0)
+        @Beta(since="V1_14_0")
         interface WithApplicationGateway {
             /**
              * Specify that an application gateway backend pool should be associated with virtual machine scale set.
@@ -1773,14 +1773,14 @@ public interface VirtualMachineScaleSet extends
              *
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_14_0)
+            @Beta(since="V1_14_0")
             WithCreate withExistingApplicationGatewayBackendPool(String backendPoolId);
         }
 
         /**
          * The stage of the virtual machine scale set definition allowing to configure application security group.
          */
-        @Beta(Beta.SinceVersion.V1_14_0)
+        @Beta(since="V1_14_0")
         interface WithApplicationSecurityGroup {
             /**
              * Specifies that provided application security group should be associated with the virtual machine scale set.
@@ -1789,7 +1789,7 @@ public interface VirtualMachineScaleSet extends
              *
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_14_0)
+            @Beta(since="V1_14_0")
             WithCreate withExistingApplicationSecurityGroup(ApplicationSecurityGroup applicationSecurityGroup);
 
             /**
@@ -1799,7 +1799,7 @@ public interface VirtualMachineScaleSet extends
              *
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_14_0)
+            @Beta(since="V1_14_0")
             WithCreate withExistingApplicationSecurityGroupId(String applicationSecurityGroupId);
         }
 
@@ -2081,7 +2081,7 @@ public interface VirtualMachineScaleSet extends
         /**
          * The stage of the virtual machine scale set update allowing to enable System Assigned (Local) Managed Service Identity.
          */
-        @Beta(Beta.SinceVersion.V1_5_0)
+        @Beta(since="V1_5_0")
         interface WithSystemAssignedManagedServiceIdentity {
             /**
              * Specifies that System assigned (Local) Managed Service Identity needs to be enabled in the
@@ -2089,7 +2089,7 @@ public interface VirtualMachineScaleSet extends
              *
              * @return the next stage of the update
              */
-            @Beta(Beta.SinceVersion.V1_5_0)
+            @Beta(since="V1_5_0")
             WithSystemAssignedIdentityBasedAccessOrApply withSystemAssignedManagedServiceIdentity();
 
             /**
@@ -2098,7 +2098,7 @@ public interface VirtualMachineScaleSet extends
              *
              * @return the next stage of the update
              */
-            @Beta(Beta.SinceVersion.V1_14_0)
+            @Beta(since="V1_14_0")
             WithSystemAssignedIdentityBasedAccessOrApply withoutSystemAssignedManagedServiceIdentity();
         }
 
@@ -2106,7 +2106,7 @@ public interface VirtualMachineScaleSet extends
          * The stage of the System Assigned (Local) Managed Service Identity enabled virtual machine scale set
          * allowing to set access for the identity.
          */
-        @Beta(Beta.SinceVersion.V1_5_0)
+        @Beta(since="V1_5_0")
         interface WithSystemAssignedIdentityBasedAccessOrApply extends WithApply {
             /**
              * Specifies that virtual machine's system assigned (local) identity should have the given
@@ -2118,7 +2118,7 @@ public interface VirtualMachineScaleSet extends
              * @param role access role to assigned to the scale set local identity
              * @return the next stage of the update
              */
-            @Beta(Beta.SinceVersion.V1_5_0)
+            @Beta(since="V1_5_0")
             WithSystemAssignedIdentityBasedAccessOrApply withSystemAssignedIdentityBasedAccessTo(String resourceId, BuiltInRole role);
 
             /**
@@ -2129,7 +2129,7 @@ public interface VirtualMachineScaleSet extends
              * @param role access role to assigned to the scale set local identity
              * @return the next stage of the update
              */
-            @Beta(Beta.SinceVersion.V1_5_0)
+            @Beta(since="V1_5_0")
             WithSystemAssignedIdentityBasedAccessOrApply withSystemAssignedIdentityBasedAccessToCurrentResourceGroup(BuiltInRole role);
 
             /**
@@ -2141,7 +2141,7 @@ public interface VirtualMachineScaleSet extends
              * @param roleDefinitionId access role definition to assigned to the scale set local identity
              * @return the next stage of the update
              */
-            @Beta(Beta.SinceVersion.V1_5_0)
+            @Beta(since="V1_5_0")
             WithSystemAssignedIdentityBasedAccessOrApply withSystemAssignedIdentityBasedAccessTo(String resourceId, String roleDefinitionId);
 
             /**
@@ -2152,7 +2152,7 @@ public interface VirtualMachineScaleSet extends
              * @param roleDefinitionId access role definition to assigned to the scale set local identity
              * @return the next stage of the update
              */
-            @Beta(Beta.SinceVersion.V1_5_0)
+            @Beta(since="V1_5_0")
             WithSystemAssignedIdentityBasedAccessOrApply withSystemAssignedIdentityBasedAccessToCurrentResourceGroup(String roleDefinitionId);
         }
 
@@ -2160,7 +2160,7 @@ public interface VirtualMachineScaleSet extends
          * The stage of the virtual machine update allowing to add or remove User Assigned (External)
          * Managed Service Identities.
          */
-        @Beta(Beta.SinceVersion.V1_5_1)
+        @Beta(since="V1_5_1)
         interface WithUserAssignedManagedServiceIdentity {
             /**
              * Specifies the definition of a not-yet-created user assigned identity to be associated
@@ -2169,7 +2169,7 @@ public interface VirtualMachineScaleSet extends
              * @param creatableIdentity a creatable identity definition
              * @return the next stage of the virtual machine scale set update
              */
-            @Beta(Beta.SinceVersion.V1_5_1)
+            @Beta(since="V1_5_1)
             WithApply withNewUserAssignedManagedServiceIdentity(Creatable<Identity> creatableIdentity);
 
             /**
@@ -2178,7 +2178,7 @@ public interface VirtualMachineScaleSet extends
              * @param identity the identity
              * @return the next stage of the virtual machine scale set update
              */
-            @Beta(Beta.SinceVersion.V1_5_1)
+            @Beta(since="V1_5_1)
             WithApply withExistingUserAssignedManagedServiceIdentity(Identity identity);
 
             /**
@@ -2187,21 +2187,21 @@ public interface VirtualMachineScaleSet extends
              * @param identityId ARM resource id of the identity
              * @return the next stage of the virtual machine scale set update
              */
-            @Beta(Beta.SinceVersion.V1_5_1)
+            @Beta(since="V1_5_1)
             WithApply withoutUserAssignedManagedServiceIdentity(String identityId);
         }
 
         /**
          * The stage of the virtual machine scale set definition allowing to enable boot diagnostics.
          */
-        @Beta(Beta.SinceVersion.V1_4_0)
+        @Beta(since="V1_4_0")
         interface WithBootDiagnostics {
             /**
              * Specifies that boot diagnostics needs to be enabled in the virtual machine scale set.
              *
              * @return the next stage of the update
              */
-            @Beta(Beta.SinceVersion.V1_4_0)
+            @Beta(since="V1_4_0")
             Update withBootDiagnostics();
 
             /**
@@ -2210,7 +2210,7 @@ public interface VirtualMachineScaleSet extends
              * @param creatable the storage account to be created and used for store the boot diagnostics
              * @return the next stage of the update
              */
-            @Beta(Beta.SinceVersion.V1_4_0)
+            @Beta(since="V1_4_0")
             Update withBootDiagnostics(Creatable<StorageAccount> creatable);
 
             /**
@@ -2219,7 +2219,7 @@ public interface VirtualMachineScaleSet extends
              * @param storageAccount an existing storage account to be uses to store the boot diagnostics
              * @return the next stage of the update
              */
-            @Beta(Beta.SinceVersion.V1_4_0)
+            @Beta(since="V1_4_0")
             Update withBootDiagnostics(StorageAccount storageAccount);
 
             /**
@@ -2228,7 +2228,7 @@ public interface VirtualMachineScaleSet extends
              * @param storageAccountBlobEndpointUri a storage account blob endpoint to store the boot diagnostics
              * @return the next stage of the update
              */
-            @Beta(Beta.SinceVersion.V1_4_0)
+            @Beta(since="V1_4_0")
             Update withBootDiagnostics(String storageAccountBlobEndpointUri);
 
             /**
@@ -2236,7 +2236,7 @@ public interface VirtualMachineScaleSet extends
              *
              * @return the next stage of the update
              */
-            @Beta(Beta.SinceVersion.V1_4_0)
+            @Beta(since="V1_4_0")
             Update withoutBootDiagnostics();
         }
 
@@ -2330,7 +2330,7 @@ public interface VirtualMachineScaleSet extends
         /**
          * The stage of the virtual machine scale set update allowing to specify availability zone.
          */
-        @Beta(Beta.SinceVersion.V1_3_0)
+        @Beta(since="V1_3_0")
         interface WithAvailabilityZone {
             /**
              * Specifies the availability zone for the virtual machine scale set.
@@ -2338,7 +2338,7 @@ public interface VirtualMachineScaleSet extends
              * @param zoneId the zone identifier.
              * @return the next stage of the update
              */
-            @Beta(Beta.SinceVersion.V1_3_0)
+            @Beta(since="V1_3_0")
             WithApply withAvailabilityZone(AvailabilityZoneId zoneId);
         }
 
@@ -2346,14 +2346,14 @@ public interface VirtualMachineScaleSet extends
          * The stage of the virtual machine scale set update allowing to enable public ip
          * for vm instances.
          */
-        @Beta(Beta.SinceVersion.V1_14_0)
+        @Beta(since="V1_14_0")
         interface WithVirtualMachinePublicIp {
             /**
              * Specify that virtual machines in the scale set should have public ip address.
              *
              * @return the next stage of the update
              */
-            @Beta(Beta.SinceVersion.V1_14_0)
+            @Beta(since="V1_14_0")
             WithApply withVirtualMachinePublicIp();
 
                         /**
@@ -2363,7 +2363,7 @@ public interface VirtualMachineScaleSet extends
              *
              * @return the next stage of the update
              */
-            @Beta(Beta.SinceVersion.V1_14_0)
+            @Beta(since="V1_14_0")
             WithApply withVirtualMachinePublicIp(String leafDomainLabel);
 
             /**
@@ -2373,21 +2373,21 @@ public interface VirtualMachineScaleSet extends
              *
              * @return the next stage of the update
              */
-            @Beta(Beta.SinceVersion.V1_14_0)
+            @Beta(since="V1_14_0")
             WithApply withVirtualMachinePublicIp(VirtualMachineScaleSetPublicIPAddressConfiguration ipConfig);
         }
 
         /**
          * The stage of the virtual machine scale set update allowing to configure accelerated networking.
          */
-        @Beta(Beta.SinceVersion.V1_14_0)
+        @Beta(since="V1_14_0")
         interface WithAcceleratedNetworking {
             /**
              * Specify that accelerated networking should be enabled for the virtual machine scale set.
              *
              * @return the next stage of the update
              */
-            @Beta(Beta.SinceVersion.V1_14_0)
+            @Beta(since="V1_14_0")
             WithApply withAcceleratedNetworking();
 
             /**
@@ -2395,21 +2395,21 @@ public interface VirtualMachineScaleSet extends
              *
              * @return the next stage of the update
              */
-            @Beta(Beta.SinceVersion.V1_14_0)
+            @Beta(since="V1_14_0")
             WithApply withoutAcceleratedNetworking();
         }
 
         /**
          * The stage of the virtual machine scale set update allowing to configure ip forwarding.
          */
-        @Beta(Beta.SinceVersion.V1_14_0)
+        @Beta(since="V1_14_0")
         interface WithIpForwarding {
             /**
              * Specify that ip forwarding should be enabled for the virtual machine scale set.
              *
              * @return the next stage of the update
              */
-            @Beta(Beta.SinceVersion.V1_14_0)
+            @Beta(since="V1_14_0")
             WithApply withIpForwarding();
 
             /**
@@ -2417,14 +2417,14 @@ public interface VirtualMachineScaleSet extends
              *
              * @return the next stage of the update
              */
-            @Beta(Beta.SinceVersion.V1_14_0)
+            @Beta(since="V1_14_0")
             WithApply withoutIpForwarding();
         }
 
         /**
          * The stage of the virtual machine scale set update allowing to configure network security group.
          */
-        @Beta(Beta.SinceVersion.V1_14_0)
+        @Beta(since="V1_14_0")
         interface WithNetworkSecurityGroup {
             /**
              * Specifies the network security group for the virtual machine scale set.
@@ -2433,7 +2433,7 @@ public interface VirtualMachineScaleSet extends
              *
              * @return the next stage of the update
              */
-            @Beta(Beta.SinceVersion.V1_14_0)
+            @Beta(since="V1_14_0")
             WithApply withExistingNetworkSecurityGroup(NetworkSecurityGroup networkSecurityGroup);
 
             /**
@@ -2443,7 +2443,7 @@ public interface VirtualMachineScaleSet extends
              *
              * @return the next stage of the update
              */
-            @Beta(Beta.SinceVersion.V1_14_0)
+            @Beta(since="V1_14_0")
             WithApply withExistingNetworkSecurityGroupId(String networkSecurityGroupId);
 
             /**
@@ -2451,21 +2451,21 @@ public interface VirtualMachineScaleSet extends
              *
              * @return the next stage of the update
              */
-            @Beta(Beta.SinceVersion.V1_14_0)
+            @Beta(since="V1_14_0")
             WithApply withoutNetworkSecurityGroup();
         }
 
         /**
          * The stage of the virtual machine scale set update allowing to configure single placement group.
          */
-        @Beta(Beta.SinceVersion.V1_14_0)
+        @Beta(since="V1_14_0")
         interface WithSinglePlacementGroup {
             /**
              * Specify that single placement group should be enabled for the virtual machine scale set.
              *
              * @return the next stage of the update
              */
-            @Beta(Beta.SinceVersion.V1_14_0)
+            @Beta(since="V1_14_0")
             WithApply withSinglePlacementGroup();
 
             /**
@@ -2473,14 +2473,14 @@ public interface VirtualMachineScaleSet extends
              *
              * @return the next stage of the update
              */
-            @Beta(Beta.SinceVersion.V1_14_0)
+            @Beta(since="V1_14_0")
             WithApply withoutSinglePlacementGroup();
         }
 
         /**
          * The stage of the virtual machine scale set update allowing to configure application gateway.
          */
-        @Beta(Beta.SinceVersion.V1_14_0)
+        @Beta(since="V1_14_0")
         interface WithApplicationGateway {
             /**
              * Specify that an application gateway backend pool should be associated with virtual machine scale set.
@@ -2489,7 +2489,7 @@ public interface VirtualMachineScaleSet extends
              *
              * @return the next stage of the update
              */
-            @Beta(Beta.SinceVersion.V1_14_0)
+            @Beta(since="V1_14_0")
             WithApply withExistingApplicationGatewayBackendPool(String backendPoolId);
 
             /**
@@ -2499,14 +2499,14 @@ public interface VirtualMachineScaleSet extends
              *
              * @return the next stage of the update
              */
-            @Beta(Beta.SinceVersion.V1_14_0)
+            @Beta(since="V1_14_0")
             WithApply withoutApplicationGatewayBackendPool(String backendPoolId);
         }
 
         /**
          * The stage of the virtual machine scale set update allowing to configure application security group.
          */
-        @Beta(Beta.SinceVersion.V1_14_0)
+        @Beta(since="V1_14_0")
         interface WithApplicationSecurityGroup {
             /**
              * Specifies that provided application security group should be associated with the virtual machine scale set.
@@ -2515,7 +2515,7 @@ public interface VirtualMachineScaleSet extends
              *
              * @return the next stage of the update
              */
-            @Beta(Beta.SinceVersion.V1_14_0)
+            @Beta(since="V1_14_0")
             WithApply withExistingApplicationSecurityGroup(ApplicationSecurityGroup applicationSecurityGroup);
 
             /**
@@ -2525,7 +2525,7 @@ public interface VirtualMachineScaleSet extends
              *
              * @return the next stage of the update
              */
-            @Beta(Beta.SinceVersion.V1_14_0)
+            @Beta(since="V1_14_0")
             WithApply withExistingApplicationSecurityGroupId(String applicationSecurityGroupId);
 
             /**
@@ -2535,7 +2535,7 @@ public interface VirtualMachineScaleSet extends
              *
              * @return the next stage of the update
              */
-            @Beta(Beta.SinceVersion.V1_14_0)
+            @Beta(since="V1_14_0")
             WithApply withoutApplicationSecurityGroup(String applicationSecurityGroupId);
 
         }

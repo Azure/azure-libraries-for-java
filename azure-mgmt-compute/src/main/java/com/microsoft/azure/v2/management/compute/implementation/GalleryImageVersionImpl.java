@@ -15,8 +15,8 @@ import com.microsoft.azure.v2.management.compute.ManagedArtifact;
 import com.microsoft.azure.v2.management.compute.ReplicationStatus;
 import com.microsoft.azure.v2.management.compute.ScaleTier;
 import com.microsoft.azure.v2.management.compute.VirtualMachineCustomImage;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
 import org.joda.time.DateTime;
 import rx.Observable;
 

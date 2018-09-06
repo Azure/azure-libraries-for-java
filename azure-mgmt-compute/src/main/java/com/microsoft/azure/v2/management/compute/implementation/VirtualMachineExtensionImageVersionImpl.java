@@ -9,7 +9,7 @@ import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.v2.management.compute.VirtualMachineExtensionImage;
 import com.microsoft.azure.v2.management.compute.VirtualMachineExtensionImageType;
 import com.microsoft.azure.v2.management.compute.VirtualMachineExtensionImageVersion;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.implementation.WrapperImpl;
 import rx.functions.Func1;
 import rx.Observable;
 

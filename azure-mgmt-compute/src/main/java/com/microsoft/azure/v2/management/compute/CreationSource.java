@@ -7,7 +7,7 @@
 package com.microsoft.azure.v2.management.compute;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.ResourceUtils;
 
 /**
  * The source from which managed disk or snapshot is created.

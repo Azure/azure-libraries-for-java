@@ -6,7 +6,7 @@
 
 package com.microsoft.azure.v2.management.compute.implementation;
 
-import com.microsoft.azure.AzureEnvironment;
+import com.microsoft.azure.v2.AzureEnvironment;
 import com.microsoft.azure.v2.management.compute.DataDisk;
 import com.microsoft.azure.v2.management.compute.VirtualMachine;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
@@ -14,9 +14,9 @@ import com.microsoft.azure.v2.management.compute.CachingTypes;
 import com.microsoft.azure.v2.management.compute.DiskCreateOptionTypes;
 import com.microsoft.azure.v2.management.compute.VirtualHardDisk;
 import com.microsoft.azure.v2.management.compute.VirtualMachineUnmanagedDataDisk;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
-import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
-import com.microsoft.azure.management.storage.StorageAccount;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
+import com.microsoft.azure.v2.management.resources.fluentcore.utils.Utils;
+import com.microsoft.azure.v2.management.storage.StorageAccount;
 
 import java.util.ArrayList;
 import java.util.List;

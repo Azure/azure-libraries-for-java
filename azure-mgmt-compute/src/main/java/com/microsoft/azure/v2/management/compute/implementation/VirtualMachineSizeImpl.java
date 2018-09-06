@@ -7,7 +7,7 @@ package com.microsoft.azure.v2.management.compute.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.v2.management.compute.VirtualMachineSize;
-import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
+import com.microsoft.azure.v2.management.resources.fluentcore.utils.Utils;
 
 /**
  * The implementation for {@link VirtualMachineSize}.

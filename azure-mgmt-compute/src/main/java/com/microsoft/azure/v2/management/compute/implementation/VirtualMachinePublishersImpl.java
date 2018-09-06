@@ -5,12 +5,12 @@
  */
 package com.microsoft.azure.v2.management.compute.implementation;
 
-import com.microsoft.azure.PagedList;
+import com.microsoft.azure.v2.PagedList;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.v2.management.compute.VirtualMachinePublisher;
 import com.microsoft.azure.v2.management.compute.VirtualMachinePublishers;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.ReadableWrappersImpl;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.collection.implementation.ReadableWrappersImpl;
 import rx.Observable;
 
 /**

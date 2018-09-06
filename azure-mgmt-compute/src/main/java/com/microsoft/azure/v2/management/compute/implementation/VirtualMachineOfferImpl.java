@@ -9,7 +9,7 @@ import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.v2.management.compute.VirtualMachineOffer;
 import com.microsoft.azure.v2.management.compute.VirtualMachinePublisher;
 import com.microsoft.azure.v2.management.compute.VirtualMachineSkus;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
 
 /**
  * The implementation for {@link VirtualMachineOffer}.

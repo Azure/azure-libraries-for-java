@@ -11,7 +11,7 @@ import com.microsoft.azure.v2.management.compute.VirtualMachinePublisher;
 import com.microsoft.azure.v2.management.compute.Sku;
 import com.microsoft.azure.v2.management.compute.VirtualMachineImagesInSku;
 import com.microsoft.azure.v2.management.compute.VirtualMachineSku;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
 
 /**
  * The implementation for {@link Sku}.

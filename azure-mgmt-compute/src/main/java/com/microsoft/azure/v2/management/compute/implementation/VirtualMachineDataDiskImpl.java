@@ -12,8 +12,8 @@ import com.microsoft.azure.v2.management.compute.DataDisk;
 import com.microsoft.azure.v2.management.compute.DiskCreateOptionTypes;
 import com.microsoft.azure.v2.management.compute.StorageAccountTypes;
 import com.microsoft.azure.v2.management.compute.VirtualMachineDataDisk;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
-import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.implementation.WrapperImpl;
+import com.microsoft.azure.v2.management.resources.fluentcore.utils.Utils;
 
 /**
  * The implementation for {@link VirtualMachineDataDisk} interface.

@@ -6,8 +6,8 @@
 package com.microsoft.azure.v2.management.compute;
 
 import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.collection.SupportsListingByRegion;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.v2.management.resources.fluentcore.collection.SupportsListingByRegion;
 
 /**
  *  Entry point to virtual machine image management API.

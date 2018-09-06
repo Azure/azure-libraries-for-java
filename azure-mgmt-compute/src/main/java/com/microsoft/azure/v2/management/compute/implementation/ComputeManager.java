@@ -6,10 +6,10 @@
 
 package com.microsoft.azure.v2.management.compute.implementation;
 
-import com.microsoft.azure.AzureEnvironment;
+import com.microsoft.azure.v2.AzureEnvironment;
 import com.microsoft.azure.AzureResponseBuilder;
-import com.microsoft.azure.credentials.AzureTokenCredentials;
-import com.microsoft.azure.management.apigeneration.Beta;
+import com.microsoft.azure.v2.credentials.AzureTokenCredentials;
+import com.microsoft.rest.v2.annotations.Beta;
 import com.microsoft.azure.v2.management.compute.AvailabilitySets;
 import com.microsoft.azure.v2.management.compute.ComputeSkus;
 import com.microsoft.azure.v2.management.compute.ComputeUsages;
@@ -23,14 +23,14 @@ import com.microsoft.azure.v2.management.compute.VirtualMachineExtensionImages;
 import com.microsoft.azure.v2.management.compute.VirtualMachineImages;
 import com.microsoft.azure.v2.management.compute.VirtualMachineScaleSets;
 import com.microsoft.azure.v2.management.compute.VirtualMachines;
-import com.microsoft.azure.management.graphrbac.implementation.GraphRbacManager;
-import com.microsoft.azure.management.network.implementation.NetworkManager;
-import com.microsoft.azure.management.resources.fluentcore.arm.AzureConfigurable;
-import com.microsoft.azure.management.resources.fluentcore.arm.implementation.AzureConfigurableImpl;
-import com.microsoft.azure.management.resources.fluentcore.arm.implementation.Manager;
-import com.microsoft.azure.management.resources.fluentcore.utils.ProviderRegistrationInterceptor;
-import com.microsoft.azure.management.resources.fluentcore.utils.ResourceManagerThrottlingInterceptor;
-import com.microsoft.azure.management.storage.implementation.StorageManager;
+import com.microsoft.azure.v2.management.graphrbac.implementation.GraphRbacManager;
+import com.microsoft.azure.v2.management.network.implementation.NetworkManager;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.AzureConfigurable;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.implementation.AzureConfigurableImpl;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.implementation.Manager;
+import com.microsoft.azure.v2.management.resources.fluentcore.utils.ProviderRegistrationInterceptor;
+import com.microsoft.azure.v2.management.resources.fluentcore.utils.ResourceManagerThrottlingInterceptor;
+import com.microsoft.azure.v2.management.storage.implementation.StorageManager;
 import com.microsoft.azure.serializer.AzureJacksonAdapter;
 import com.microsoft.rest.RestClient;
 
@@ -244,7 +244,7 @@ public final class ComputeManager extends Manager<ComputeManager, ComputeManagem
     /**
      * @return the compute service gallery management entry point
      */
-    @Beta(Beta.SinceVersion.V1_15_0)
+    @Beta(since="V1_15_0")
     public Galleries galleries() {
         if (galleries == null) {
             galleries = new GalleriesImpl(this);
@@ -255,7 +255,7 @@ public final class ComputeManager extends Manager<ComputeManager, ComputeManagem
     /**
      * @return the compute service gallery image management entry point
      */
-    @Beta(Beta.SinceVersion.V1_15_0)
+    @Beta(since="V1_15_0")
     public GalleryImages galleryImages() {
         if (galleryImages == null) {
             galleryImages = new GalleryImagesImpl(this);
@@ -266,7 +266,7 @@ public final class ComputeManager extends Manager<ComputeManager, ComputeManagem
     /**
      * @return the compute service gallery image version management entry point
      */
-    @Beta(Beta.SinceVersion.V1_15_0)
+    @Beta(since="V1_15_0")
     public GalleryImageVersions galleryImageVersions() {
         if (galleryImageVersions == null) {
             galleryImageVersions = new GalleryImageVersionsImpl(this);

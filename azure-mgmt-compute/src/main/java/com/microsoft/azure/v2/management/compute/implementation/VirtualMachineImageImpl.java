@@ -11,8 +11,8 @@ import com.microsoft.azure.v2.management.compute.DataDiskImage;
 import com.microsoft.azure.v2.management.compute.ImageReference;
 import com.microsoft.azure.v2.management.compute.OSDiskImage;
 import com.microsoft.azure.v2.management.compute.PurchasePlan;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.IndexableWrapperImpl;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.implementation.IndexableWrapperImpl;
 
 import java.util.Collections;
 import java.util.HashMap;

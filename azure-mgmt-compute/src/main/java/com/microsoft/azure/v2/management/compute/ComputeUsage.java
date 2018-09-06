@@ -7,7 +7,7 @@ package com.microsoft.azure.v2.management.compute;
 
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.v2.management.compute.implementation.UsageInner;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
 
 /**
  * An immutable client-side representation of an Azure compute resource usage info object.

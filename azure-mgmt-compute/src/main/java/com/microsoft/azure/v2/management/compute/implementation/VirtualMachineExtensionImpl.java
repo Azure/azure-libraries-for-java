@@ -10,9 +10,9 @@ import com.microsoft.azure.v2.management.compute.VirtualMachine;
 import com.microsoft.azure.v2.management.compute.VirtualMachineExtension;
 import com.microsoft.azure.v2.management.compute.VirtualMachineExtensionImage;
 import com.microsoft.azure.v2.management.compute.VirtualMachineExtensionInstanceView;
-import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
-import com.microsoft.azure.management.resources.fluentcore.utils.RXMapper;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.ResourceUtils;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
+import com.microsoft.azure.v2.management.resources.fluentcore.utils.RXMapper;
 
 import rx.Observable;
 import rx.functions.Func1;

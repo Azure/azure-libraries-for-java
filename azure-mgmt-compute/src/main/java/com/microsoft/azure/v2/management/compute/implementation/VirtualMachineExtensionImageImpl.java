@@ -10,7 +10,7 @@ import com.microsoft.azure.v2.management.compute.ComputeRoles;
 import com.microsoft.azure.v2.management.compute.OperatingSystemTypes;
 import com.microsoft.azure.v2.management.compute.VirtualMachineExtensionImage;
 import com.microsoft.azure.v2.management.compute.VirtualMachineExtensionImageVersion;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.implementation.WrapperImpl;
 
 /**
  * The implementation for {@link VirtualMachineExtensionImage}.

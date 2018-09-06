@@ -9,7 +9,7 @@ import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.v2.management.compute.VirtualMachineExtensionImageType;
 import com.microsoft.azure.v2.management.compute.VirtualMachineExtensionImageVersions;
 import com.microsoft.azure.v2.management.compute.VirtualMachinePublisher;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.implementation.WrapperImpl;
 
 /**
  * The implementation for VirtualMachineExtensionImageType.

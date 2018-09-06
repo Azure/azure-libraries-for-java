@@ -5,10 +5,10 @@
  */
 package com.microsoft.azure.v2.management.compute.implementation;
 
-import com.microsoft.azure.CloudException;
-import com.microsoft.azure.Page;
-import com.microsoft.azure.PagedList;
-import com.microsoft.rest.RestException;
+import com.microsoft.azure.v2.CloudException;
+import com.microsoft.azure.v2.Page;
+import com.microsoft.azure.v2.PagedList;
+import com.microsoft.rest.v2.RestException;
 
 import java.io.IOException;
 import java.util.ArrayList;

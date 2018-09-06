@@ -6,19 +6,19 @@
 
 package com.microsoft.azure.v2.management.compute;
 
-import com.microsoft.azure.management.apigeneration.Beta;
+import com.microsoft.rest.v2.annotations.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.v2.management.compute.implementation.ComputeManager;
 import com.microsoft.azure.v2.management.compute.implementation.DiskInner;
-import com.microsoft.azure.management.resources.fluentcore.arm.AvailabilityZoneId;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
-import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
-import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.AvailabilityZoneId;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.GroupableResource;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.Resource;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Appliable;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Creatable;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Refreshable;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Updatable;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
 import rx.Completable;
 import rx.Observable;
 
@@ -71,7 +71,7 @@ public interface Disk extends
     /**
      * @return the availability zones assigned to the disk
      */
-    @Beta(Beta.SinceVersion.V1_3_0)
+    @Beta(since="V1_3_0")
     Set<AvailabilityZoneId> availabilityZones();
 
     /**
@@ -402,7 +402,7 @@ public interface Disk extends
         /**
          * The stage of the managed disk definition allowing to specify availability zone.
          */
-        @Beta(Beta.SinceVersion.V1_3_0)
+        @Beta(since="V1_3_0")
         interface WithAvailabilityZone {
             /**
              * Specifies the availability zone for the managed disk.
@@ -410,7 +410,7 @@ public interface Disk extends
              * @param zoneId the zone identifier.
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_3_0)
+            @Beta(since="V1_3_0")
             WithCreate withAvailabilityZone(AvailabilityZoneId zoneId);
         }
 

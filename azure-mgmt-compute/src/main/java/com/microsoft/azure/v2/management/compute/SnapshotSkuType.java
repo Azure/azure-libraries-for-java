@@ -6,7 +6,7 @@
 
 package com.microsoft.azure.v2.management.compute;
 
-import com.microsoft.azure.management.apigeneration.Beta;
+import com.microsoft.rest.v2.annotations.Beta;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 
 import java.util.Collection;
@@ -16,7 +16,7 @@ import java.util.Map;
 /**
  * Defines values for SnapshotSkuType.
  */
-@Beta(Beta.SinceVersion.V1_8_0)
+@Beta(since="V1_8_0")
 @LangDefinition
 public final class SnapshotSkuType {
 

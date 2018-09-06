@@ -11,7 +11,7 @@ import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.v2.management.compute.VirtualMachineExtensionImage;
 import com.microsoft.azure.v2.management.compute.VirtualMachineScaleSet;
 import com.microsoft.azure.v2.management.compute.VirtualMachineScaleSetExtension;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
 
 import java.util.Collections;
 import java.util.HashMap;

@@ -6,15 +6,15 @@
 
 package com.microsoft.azure.v2.management.compute;
 
-import com.microsoft.azure.PagedList;
+import com.microsoft.azure.v2.PagedList;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.v2.management.compute.implementation.VirtualMachineScaleSetVMInner;
-import com.microsoft.azure.management.network.VirtualMachineScaleSetNetworkInterface;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.ChildResource;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
-import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
+import com.microsoft.azure.v2.management.network.VirtualMachineScaleSetNetworkInterface;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.ChildResource;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.Resource;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Refreshable;
 import rx.Completable;
 import rx.Observable;
 

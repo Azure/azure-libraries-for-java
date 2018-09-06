@@ -19,9 +19,9 @@ import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Indexable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Refreshable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Updatable;
-import org.joda.time.DateTime;
-import rx.Observable;
+import io.reactivex.Observable;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -58,7 +58,7 @@ public interface GalleryImage extends HasInner<GalleryImageInner>,
      * @return the date indicating image's end of life.
      */
     @Beta(since="V1_15_0")
-    DateTime endOfLifeDate();
+    OffsetDateTime endOfLifeDate();
 
     /**
      * @return the image eula.
@@ -379,7 +379,7 @@ public interface GalleryImage extends HasInner<GalleryImageInner>,
              * @return the next definition stage
              */
             @Beta(since="V1_15_0")
-            WithCreate withEndOfLifeDate(DateTime endOfLifeDate);
+            WithCreate withEndOfLifeDate(OffsetDateTime endOfLifeDate);
         }
 
         /**
@@ -649,7 +649,7 @@ public interface GalleryImage extends HasInner<GalleryImageInner>,
              * @return the next update stage
              */
             @Beta(since="V1_15_0")
-            Update withEndOfLifeDate(DateTime endOfLifeDate);
+            Update withEndOfLifeDate(OffsetDateTime endOfLifeDate);
         }
 
         /**

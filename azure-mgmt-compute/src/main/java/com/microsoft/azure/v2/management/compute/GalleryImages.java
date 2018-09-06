@@ -12,8 +12,8 @@ import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.v2.management.compute.implementation.GalleryImagesInner;
 import com.microsoft.azure.v2.management.resources.fluentcore.collection.SupportsCreating;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
-import rx.Completable;
-import rx.Observable;
+import io.reactivex.Completable;
+import io.reactivex.Observable;
 
 /**
  * Entry point to gallery images management API in Azure.

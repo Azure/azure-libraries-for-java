@@ -22,15 +22,16 @@ import com.microsoft.azure.v2.management.compute.ResourceRange;
 import com.microsoft.azure.v2.management.compute.StorageAccountTypes;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
-import rx.Observable;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
 
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import org.joda.time.DateTime;
 
 /**
  * The implementation for GalleryImage and its create and update interfaces.
@@ -93,18 +94,20 @@ class GalleryImageImpl
     public Observable<GalleryImage> createResourceAsync() {
         GalleryImagesInner client = this.manager().inner().galleryImages();
         return client.createOrUpdateAsync(this.resourceGroupName, this.galleryName, this.galleryImageName, this.inner())
-            .map(innerToFluentMap(this));
+            .map(innerToFluentMap(this))
+            .toObservable();
     }
 
     @Override
     public Observable<GalleryImage> updateResourceAsync() {
         GalleryImagesInner client = this.manager().inner().galleryImages();
         return client.createOrUpdateAsync(this.resourceGroupName, this.galleryName, this.galleryImageName, this.inner())
-            .map(innerToFluentMap(this));
+            .map(innerToFluentMap(this))
+            .toObservable();
     }
 
     @Override
-    protected Observable<GalleryImageInner> getInnerAsync() {
+    protected Maybe<GalleryImageInner> getInnerAsync() {
         GalleryImagesInner client = this.manager().inner().galleryImages();
         return client.getAsync(this.resourceGroupName, this.galleryName, this.galleryImageName);
     }
@@ -139,7 +142,7 @@ class GalleryImageImpl
     }
 
     @Override
-    public DateTime endOfLifeDate() {
+    public OffsetDateTime endOfLifeDate() {
         return this.inner().endOfLifeDate();
     }
 
@@ -347,7 +350,7 @@ class GalleryImageImpl
     }
 
     @Override
-    public GalleryImageImpl withEndOfLifeDate(DateTime endOfLifeDate) {
+    public GalleryImageImpl withEndOfLifeDate(OffsetDateTime endOfLifeDate) {
         this.inner().withEndOfLifeDate(endOfLifeDate);
         return this;
     }

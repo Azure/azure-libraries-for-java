@@ -6,16 +6,14 @@
 
 package com.microsoft.azure.v2.management.compute.implementation;
 
-import com.microsoft.azure.v2.Page;
 import com.microsoft.azure.v2.PagedList;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.v2.management.compute.GalleryImageVersion;
 import com.microsoft.azure.v2.management.compute.GalleryImageVersions;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.implementation.WrapperImpl;
 import com.microsoft.azure.v2.management.resources.fluentcore.utils.PagedListConverter;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
+import io.reactivex.Completable;
+import io.reactivex.Observable;
 
 /**
  * The implementation for GalleryImageVersions.
@@ -50,18 +48,8 @@ class GalleryImageVersionsImpl extends WrapperImpl<GalleryImageVersionsInner> im
     public Observable<GalleryImageVersion> listByGalleryImageAsync(final String resourceGroupName, final String galleryName, final String galleryImageName) {
         GalleryImageVersionsInner client = this.inner();
         return client.listByGalleryImageAsync(resourceGroupName, galleryName, galleryImageName)
-        .flatMapIterable(new Func1<Page<GalleryImageVersionInner>, Iterable<GalleryImageVersionInner>>() {
-            @Override
-            public Iterable<GalleryImageVersionInner> call(Page<GalleryImageVersionInner> page) {
-                return page.items();
-            }
-        })
-        .map(new Func1<GalleryImageVersionInner, GalleryImageVersion>() {
-            @Override
-            public GalleryImageVersion call(GalleryImageVersionInner inner) {
-                return wrapModel(inner);
-            }
-        });
+                .flatMapIterable(page -> page.items())
+                .map(this::wrapModel);
     }
 
     @Override
@@ -78,27 +66,24 @@ class GalleryImageVersionsImpl extends WrapperImpl<GalleryImageVersionsInner> im
     public Observable<GalleryImageVersion> getByGalleryImageAsync(String resourceGroupName, String galleryName, String galleryImageName, String galleryImageVersionName) {
         GalleryImageVersionsInner client = this.inner();
         return client.getAsync(resourceGroupName, galleryName, galleryImageName, galleryImageVersionName)
-        .map(new Func1<GalleryImageVersionInner, GalleryImageVersion>() {
-            @Override
-            public GalleryImageVersion call(GalleryImageVersionInner inner) {
-                return wrapModel(inner);
-            }
-       });
+            .map(this::wrapModel)
+            .map(t -> (GalleryImageVersion) t)
+            .toObservable();
     }
 
     @Override
     public GalleryImageVersion getByGalleryImage(String resourceGroupName, String galleryName, String galleryImageName, String galleryImageVersionName) {
-        return this.getByGalleryImageAsync(resourceGroupName, galleryName, galleryImageName, galleryImageVersionName).toBlocking().last();
+        return this.getByGalleryImageAsync(resourceGroupName, galleryName, galleryImageName, galleryImageVersionName).blockingLast();
     }
 
     @Override
     public Completable deleteByGalleryImageAsync(String resourceGroupName, String galleryName, String galleryImageName, String galleryImageVersionName) {
         GalleryImageVersionsInner client = this.inner();
-        return client.deleteAsync(resourceGroupName, galleryName, galleryImageName, galleryImageVersionName).toCompletable();
+        return client.deleteAsync(resourceGroupName, galleryName, galleryImageName, galleryImageVersionName);
     }
 
     @Override
     public void deleteByGalleryImage(String resourceGroupName, String galleryName, String galleryImageName, String galleryImageVersionName) {
-        this.deleteByGalleryImageAsync(resourceGroupName, galleryName, galleryImageName, galleryImageVersionName).await();
+        this.deleteByGalleryImageAsync(resourceGroupName, galleryName, galleryImageName, galleryImageVersionName).blockingAwait();
     }
 }

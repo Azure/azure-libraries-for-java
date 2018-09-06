@@ -13,13 +13,13 @@ import com.microsoft.azure.v2.management.compute.GalleryImageVersionPublishingPr
 import com.microsoft.azure.v2.management.compute.GalleryImageVersionStorageProfile;
 import com.microsoft.azure.v2.management.compute.ManagedArtifact;
 import com.microsoft.azure.v2.management.compute.ReplicationStatus;
-import com.microsoft.azure.v2.management.compute.ScaleTier;
 import com.microsoft.azure.v2.management.compute.VirtualMachineCustomImage;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
-import org.joda.time.DateTime;
-import rx.Observable;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
 
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -69,18 +69,20 @@ class GalleryImageVersionImpl extends CreatableUpdatableImpl<GalleryImageVersion
     public Observable<GalleryImageVersion> createResourceAsync() {
         GalleryImageVersionsInner client = this.manager().inner().galleryImageVersions();
         return client.createOrUpdateAsync(this.resourceGroupName, this.galleryName, this.galleryImageName, this.galleryImageVersionName, this.inner())
-            .map(innerToFluentMap(this));
+                .map(innerToFluentMap(this))
+                .toObservable();
     }
 
     @Override
     public Observable<GalleryImageVersion> updateResourceAsync() {
         GalleryImageVersionsInner client = this.manager().inner().galleryImageVersions();
         return client.createOrUpdateAsync(this.resourceGroupName, this.galleryName, this.galleryImageName, this.galleryImageVersionName, this.inner())
-            .map(innerToFluentMap(this));
+                .map(innerToFluentMap(this))
+                .toObservable();
     }
 
     @Override
-    protected Observable<GalleryImageVersionInner> getInnerAsync() {
+    protected Maybe<GalleryImageVersionInner> getInnerAsync() {
         GalleryImageVersionsInner client = this.manager().inner().galleryImageVersions();
         return client.getAsync(this.resourceGroupName, this.galleryName, this.galleryImageName, this.galleryImageVersionName);
     }
@@ -127,7 +129,7 @@ class GalleryImageVersionImpl extends CreatableUpdatableImpl<GalleryImageVersion
     }
 
     @Override
-    public DateTime endOfLifeDate() {
+    public OffsetDateTime endOfLifeDate() {
         if (this.inner().publishingProfile() != null) {
             return this.inner().publishingProfile().endOfLifeDate();
         } else {
@@ -312,7 +314,7 @@ class GalleryImageVersionImpl extends CreatableUpdatableImpl<GalleryImageVersion
 
 
     @Override
-    public GalleryImageVersionImpl withEndOfLifeDate(DateTime endOfLifeDate) {
+    public GalleryImageVersionImpl withEndOfLifeDate(OffsetDateTime endOfLifeDate) {
         if (this.inner().publishingProfile() == null) {
             this.inner().withPublishingProfile(new GalleryImageVersionPublishingProfile());
         }

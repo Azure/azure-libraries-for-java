@@ -11,7 +11,7 @@ import com.microsoft.azure.v2.management.compute.implementation.VirtualMachineSc
 import com.microsoft.azure.v2.management.resources.fluentcore.collection.SupportsListing;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
 import com.microsoft.rest.v2.annotations.Beta;
-import rx.Completable;
+import io.reactivex.Completable;
 
 import java.util.Collection;
 

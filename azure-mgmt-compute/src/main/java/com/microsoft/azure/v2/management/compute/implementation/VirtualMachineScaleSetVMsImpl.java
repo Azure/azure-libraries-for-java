@@ -10,8 +10,8 @@ import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.v2.management.compute.VirtualMachineScaleSetVM;
 import com.microsoft.azure.v2.management.compute.VirtualMachineScaleSetVMs;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.collection.implementation.ReadableWrappersImpl;
-import rx.Completable;
-import rx.Observable;
+import io.reactivex.Completable;
+import io.reactivex.Observable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -73,8 +73,7 @@ class VirtualMachineScaleSetVMsImpl
             instanceIdList.add(instanceId);
         }
         VirtualMachineScaleSetsInner scaleSetInnerManager = this.scaleSet.manager().virtualMachineScaleSets().inner();
-        return scaleSetInnerManager.deleteInstancesAsync(this.scaleSet.resourceGroupName(),
-                this.scaleSet.name(), instanceIdList).toCompletable();
+        return scaleSetInnerManager.deleteInstancesAsync(this.scaleSet.resourceGroupName(), this.scaleSet.name(), instanceIdList);
     }
 
     @Override
@@ -84,7 +83,7 @@ class VirtualMachineScaleSetVMsImpl
 
     @Override
     public void deleteInstances(String... instanceIds) {
-        this.deleteInstancesAsync(instanceIds).await();
+        this.deleteInstancesAsync(instanceIds).blockingAwait();
     }
 
     @Override
@@ -98,7 +97,7 @@ class VirtualMachineScaleSetVMsImpl
         }
         VirtualMachineScaleSetsInner scaleSetInnerManager = this.scaleSet.manager().virtualMachineScaleSets().inner();
         return scaleSetInnerManager.updateInstancesAsync(this.scaleSet.resourceGroupName(),
-                this.scaleSet.name(), instanceIdList).toCompletable();
+                this.scaleSet.name(), instanceIdList);
     }
 
     @Override
@@ -108,6 +107,6 @@ class VirtualMachineScaleSetVMsImpl
 
     @Override
     public void updateInstances(String... instanceIds) {
-        this.updateInstancesAsync(instanceIds).await();
+        this.updateInstancesAsync(instanceIds).blockingAwait();
     }
 }

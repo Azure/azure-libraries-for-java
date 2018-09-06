@@ -10,13 +10,14 @@ import com.microsoft.azure.v2.PagedList;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.v2.management.compute.implementation.VirtualMachineScaleSetVMInner;
+import com.microsoft.azure.v2.management.compute.implementation.VirtualMachineScaleSetVMInstanceViewInner;
 import com.microsoft.azure.v2.management.network.VirtualMachineScaleSetNetworkInterface;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.ChildResource;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.Resource;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Refreshable;
-import rx.Completable;
-import rx.Observable;
+import io.reactivex.Completable;
+import io.reactivex.Observable;
 
 import java.util.List;
 import java.util.Map;
@@ -295,7 +296,7 @@ public interface VirtualMachineScaleSetVM extends
      *
      * @return the instance view
      */
-    VirtualMachineInstanceView instanceView();
+    VirtualMachineScaleSetVMInstanceViewInner instanceView();
 
     /**
      * Refreshes the instance view.
@@ -303,7 +304,7 @@ public interface VirtualMachineScaleSetVM extends
      * @return the instance view
      */
     @Method
-    VirtualMachineInstanceView refreshInstanceView();
+    VirtualMachineScaleSetVMInstanceViewInner refreshInstanceView();
 
     /**
      * Refreshes the instance view.
@@ -311,7 +312,7 @@ public interface VirtualMachineScaleSetVM extends
      * @return an observable that emits the instance view of the virtual machine instance.
      */
     @Method
-    Observable<VirtualMachineInstanceView> refreshInstanceViewAsync();
+    Observable<VirtualMachineScaleSetVMInstanceViewInner> refreshInstanceViewAsync();
 
     /**
      * @return the power state of the virtual machine instance

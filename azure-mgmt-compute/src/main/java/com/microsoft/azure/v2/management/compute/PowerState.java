@@ -7,6 +7,8 @@ package com.microsoft.azure.v2.management.compute;
 
 import java.util.Collection;
 
+import com.microsoft.azure.v2.management.compute.implementation.VirtualMachineInstanceViewInner;
+import com.microsoft.azure.v2.management.compute.implementation.VirtualMachineScaleSetVMInstanceViewInner;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.ExpandableStringEnum;
 
 /**
@@ -55,9 +57,27 @@ public final class PowerState extends ExpandableStringEnum<PowerState> {
      * @param virtualMachineInstanceView the virtual machine instance view
      * @return the PowerState
      */
-    public static PowerState fromInstanceView(VirtualMachineInstanceView virtualMachineInstanceView) {
+    public static PowerState fromInstanceView(VirtualMachineInstanceViewInner virtualMachineInstanceView) {
         if (virtualMachineInstanceView != null && virtualMachineInstanceView.statuses() != null) {
             for (InstanceViewStatus status : virtualMachineInstanceView.statuses()) {
+                if (status.code() != null && status.code().toLowerCase().startsWith("powerstate")) {
+                    return fromString(status.code());
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Creates an instance of PowerState from the virtual machine instance view status entry corresponding
+     * to the power state.
+     *
+     * @param vmssVMInstanceView the virtual machine scale set vm instance view
+     * @return the PowerState
+     */
+    public static PowerState fromInstanceView(VirtualMachineScaleSetVMInstanceViewInner vmssVMInstanceView) {
+        if (vmssVMInstanceView != null && vmssVMInstanceView.statuses() != null) {
+            for (InstanceViewStatus status : vmssVMInstanceView.statuses()) {
                 if (status.code() != null && status.code().toLowerCase().startsWith("powerstate")) {
                     return fromString(status.code());
                 }

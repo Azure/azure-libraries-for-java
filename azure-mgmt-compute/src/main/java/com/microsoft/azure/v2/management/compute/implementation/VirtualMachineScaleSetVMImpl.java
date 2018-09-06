@@ -20,7 +20,6 @@ import com.microsoft.azure.v2.management.compute.StorageProfile;
 import com.microsoft.azure.v2.management.compute.VirtualMachineCustomImage;
 import com.microsoft.azure.v2.management.compute.VirtualMachineDataDisk;
 import com.microsoft.azure.v2.management.compute.VirtualMachineImage;
-import com.microsoft.azure.v2.management.compute.VirtualMachineInstanceView;
 import com.microsoft.azure.v2.management.compute.VirtualMachineScaleSet;
 import com.microsoft.azure.v2.management.compute.VirtualMachineScaleSetVM;
 import com.microsoft.azure.v2.management.compute.VirtualMachineScaleSetVMInstanceExtension;
@@ -30,9 +29,9 @@ import com.microsoft.azure.v2.management.network.VirtualMachineScaleSetNetworkIn
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
 import com.microsoft.azure.v2.management.resources.fluentcore.utils.Utils;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
+import io.reactivex.Completable;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -51,7 +50,7 @@ class VirtualMachineScaleSetVMImpl
             VirtualMachineScaleSet>
         implements VirtualMachineScaleSetVM {
 
-    private VirtualMachineInstanceView virtualMachineInstanceView;
+    private VirtualMachineScaleSetVMInstanceViewInner virtualMachineInstanceView;
     private final VirtualMachineScaleSetVMsInner client;
     private final ComputeManager computeManager;
 
@@ -372,7 +371,7 @@ class VirtualMachineScaleSetVMImpl
     }
 
     @Override
-    public VirtualMachineInstanceView instanceView() {
+    public VirtualMachineScaleSetVMInstanceViewInner instanceView() {
         if (this.virtualMachineInstanceView == null) {
             refreshInstanceView();
         }
@@ -380,31 +379,13 @@ class VirtualMachineScaleSetVMImpl
     }
 
     @Override
-    public VirtualMachineInstanceView refreshInstanceView() {
-        return refreshInstanceViewAsync().toBlocking().last();
+    public VirtualMachineScaleSetVMInstanceViewInner refreshInstanceView() {
+        return refreshInstanceViewAsync().blockingLast();
     }
 
-    public Observable<VirtualMachineInstanceView> refreshInstanceViewAsync() {
-        return this.client.getInstanceViewAsync(this.parent().resourceGroupName(),
-            this.parent().name(),
-            this.instanceId())
-            .map(new Func1<VirtualMachineScaleSetVMInstanceViewInner, VirtualMachineInstanceView>() {
-                @Override
-                public VirtualMachineInstanceView call(VirtualMachineScaleSetVMInstanceViewInner instanceViewInner) {
-                    if (instanceViewInner != null) {
-                        virtualMachineInstanceView = new VirtualMachineInstanceView()
-                            .withBootDiagnostics(instanceViewInner.bootDiagnostics())
-                            .withDisks(instanceViewInner.disks())
-                            .withExtensions(instanceViewInner.extensions())
-                            .withPlatformFaultDomain(instanceViewInner.platformFaultDomain())
-                            .withPlatformUpdateDomain(instanceViewInner.platformUpdateDomain())
-                            .withRdpThumbPrint(instanceViewInner.rdpThumbPrint())
-                            .withStatuses(instanceViewInner.statuses())
-                            .withVmAgent(instanceViewInner.vmAgent());
-                    }
-                    return virtualMachineInstanceView;
-                }
-            });
+    public Observable<VirtualMachineScaleSetVMInstanceViewInner> refreshInstanceViewAsync() {
+        return this.client.getInstanceViewAsync(this.parent().resourceGroupName(), this.parent().name(), this.instanceId())
+                .toObservable();
     }
 
     @Override
@@ -414,95 +395,77 @@ class VirtualMachineScaleSetVMImpl
 
     @Override
     public void reimage() {
-        this.reimageAsync().await();
+        this.reimageAsync().blockingAwait();
     }
 
     @Override
     public Completable reimageAsync() {
-        return this.client.reimageAsync(this.parent().resourceGroupName(),
-                this.parent().name(),
-                this.instanceId()).toCompletable();
+        return this.client.reimageAsync(this.parent().resourceGroupName(), this.parent().name(), this.instanceId());
     }
 
     @Override
     public void deallocate() {
-        this.deallocateAsync().await();
+        this.deallocateAsync().blockingAwait();
     }
 
     @Override
     public Completable deallocateAsync() {
-        return this.client.deallocateAsync(this.parent().resourceGroupName(),
-                this.parent().name(),
-                this.instanceId()).toCompletable();
+        return this.client.deallocateAsync(this.parent().resourceGroupName(), this.parent().name(), this.instanceId());
     }
 
     @Override
     public void powerOff() {
-        this.powerOffAsync().await();
+        this.powerOffAsync().blockingAwait();
     }
 
     @Override
     public Completable powerOffAsync() {
-        return this.client.powerOffAsync(this.parent().resourceGroupName(),
-                this.parent().name(),
-                this.instanceId()).toCompletable();
+        return this.client.powerOffAsync(this.parent().resourceGroupName(), this.parent().name(), this.instanceId());
     }
 
     @Override
     public void start() {
-        this.startAsync().await();
+        this.startAsync().blockingAwait();
     }
 
     @Override
     public Completable startAsync() {
-        return this.client.startAsync(this.parent().resourceGroupName(),
-                this.parent().name(),
-                this.instanceId()).toCompletable();
+        return this.client.startAsync(this.parent().resourceGroupName(), this.parent().name(), this.instanceId());
     }
 
     @Override
     public void restart() {
-        this.restartAsync().await();
+        this.restartAsync().blockingAwait();
     }
 
     @Override
     public Completable restartAsync() {
-        return this.client.restartAsync(this.parent().resourceGroupName(),
-                this.parent().name(),
-                this.instanceId())
-                .toCompletable();
+        return this.client.restartAsync(this.parent().resourceGroupName(), this.parent().name(), this.instanceId());
     }
 
     @Override
     public void delete() {
-        deleteAsync().await();
+        deleteAsync().blockingAwait();
     }
 
     @Override
     public Completable deleteAsync() {
-        return this.client.deleteAsync(this.parent().resourceGroupName(),
-                this.parent().name(),
-                this.instanceId()).toCompletable();
+        return this.client.deleteAsync(this.parent().resourceGroupName(), this.parent().name(), this.instanceId());
     }
 
     @Override
     public VirtualMachineScaleSetVM refresh() {
-        return this.refreshAsync().toBlocking().last();
+        return this.refreshAsync().blockingGet();
     }
 
     @Override
-    public Observable<VirtualMachineScaleSetVM> refreshAsync() {
-        final VirtualMachineScaleSetVMImpl self = this;
-        return this.client.getAsync(this.parent().resourceGroupName(),
-                this.parent().name(),
-                this.instanceId()).map(new Func1<VirtualMachineScaleSetVMInner, VirtualMachineScaleSetVM>() {
-            @Override
-            public VirtualMachineScaleSetVM call(VirtualMachineScaleSetVMInner virtualMachineScaleSetVMInner) {
-                self.setInner(virtualMachineScaleSetVMInner);
-                self.clearCachedRelatedResources();
-                return self;
-            }
-        });
+    public Maybe<VirtualMachineScaleSetVM> refreshAsync() {
+        return this.client.getAsync(this.parent().resourceGroupName(), this.parent().name(), this.instanceId())
+                .map(virtualMachineScaleSetVMInner -> {
+                    this.setInner(virtualMachineScaleSetVMInner);
+                    this.clearCachedRelatedResources();
+                    return this;
+                });
     }
 
     @Override

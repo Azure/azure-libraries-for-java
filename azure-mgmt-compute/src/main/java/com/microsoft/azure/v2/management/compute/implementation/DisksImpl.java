@@ -14,9 +14,8 @@ import com.microsoft.azure.v2.management.compute.GrantAccessData;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
 import com.microsoft.rest.v2.ServiceCallback;
 import com.microsoft.rest.v2.ServiceFuture;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
+import io.reactivex.Completable;
+import io.reactivex.Observable;
 
 /**
  * The implementation for Disks.
@@ -41,8 +40,8 @@ class DisksImpl
                               AccessLevel accessLevel,
                               int accessDuration) {
         return this.grantAccessAsync(resourceGroupName, diskName, accessLevel, accessDuration)
-                .toBlocking()
-                .last();
+                .lastElement()
+                .blockingGet(null);
     }
 
     @Override
@@ -51,17 +50,13 @@ class DisksImpl
         grantAccessDataInner.withAccess(accessLevel)
                 .withDurationInSeconds(accessDuration);
         return this.inner().grantAccessAsync(resourceGroupName, diskName, grantAccessDataInner)
-                .map(new Func1<AccessUriInner, String>() {
-                    @Override
-                    public String call(AccessUriInner accessUriInner) {
-                        return accessUriInner.accessSAS();
-                    }
-                });
+                .map(accessUriInner -> accessUriInner.accessSAS())
+                .toObservable();
     }
 
     @Override
     public ServiceFuture<String> grantAccessAsync(String resourceGroupName, String diskName, AccessLevel accessLevel, int accessDuration, ServiceCallback<String> callback) {
-        return ServiceFuture.fromBody(this.grantAccessAsync(resourceGroupName, diskName, accessLevel, accessDuration), callback);
+        return ServiceFuture.fromBody(this.grantAccessAsync(resourceGroupName, diskName, accessLevel, accessDuration).lastElement(), callback);
     }
 
     @Override
@@ -71,7 +66,7 @@ class DisksImpl
 
     @Override
     public Completable revokeAccessAsync(String resourceGroupName, String diskName) {
-        return this.inner().revokeAccessAsync(resourceGroupName, diskName).toCompletable();
+        return this.inner().revokeAccessAsync(resourceGroupName, diskName);
     }
 
     @Override

@@ -22,9 +22,9 @@ import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.impleme
 import com.microsoft.azure.v2.management.resources.fluentcore.utils.Utils;
 import com.microsoft.rest.v2.ServiceCallback;
 import com.microsoft.rest.v2.ServiceFuture;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
+import io.reactivex.Completable;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -98,7 +98,7 @@ class DiskImpl
 
     @Override
     public String grantAccess(int accessDurationInSeconds) {
-        return this.grantAccessAsync(accessDurationInSeconds).toBlocking().last();
+        return this.grantAccessAsync(accessDurationInSeconds).blockingLast();
     }
 
     @Override
@@ -107,31 +107,24 @@ class DiskImpl
         grantAccessDataInner.withAccess(AccessLevel.READ)
                 .withDurationInSeconds(accessDurationInSeconds);
 
-        return this.manager().inner().disks().grantAccessAsync(this.resourceGroupName(),
-                this.name(), grantAccessDataInner).map(new Func1<AccessUriInner, String>() {
-            @Override
-            public String call(AccessUriInner accessUriInner) {
-                if (accessUriInner == null) {
-                    return null;
-                }
-                return accessUriInner.accessSAS();
-            }
-        });
+        return this.manager().inner().disks().grantAccessAsync(this.resourceGroupName(), this.name(), grantAccessDataInner)
+                .map(accessUriInner -> accessUriInner.accessSAS())
+                .toObservable();
     }
 
     @Override
     public ServiceFuture<String> grantAccessAsync(int accessDurationInSeconds, ServiceCallback<String> callback) {
-        return ServiceFuture.fromBody(this.grantAccessAsync(accessDurationInSeconds), callback);
+        return ServiceFuture.fromBody(this.grantAccessAsync(accessDurationInSeconds).lastElement(), callback);
     }
 
     @Override
     public void revokeAccess() {
-        this.revokeAccessAsync().await();
+        this.revokeAccessAsync().blockingAwait();
     }
 
     @Override
     public Completable revokeAccessAsync() {
-        return this.manager().inner().disks().revokeAccessAsync(this.resourceGroupName(), this.name()).toCompletable();
+        return this.manager().inner().disks().revokeAccessAsync(this.resourceGroupName(), this.name());
     }
 
     @Override
@@ -330,11 +323,12 @@ class DiskImpl
     @Override
     public Observable<Disk> createResourceAsync() {
         return manager().inner().disks().createOrUpdateAsync(resourceGroupName(), name(), this.inner())
-                .map(innerToFluentMap(this));
+                .map(innerToFluentMap(this))
+                .toObservable();
     }
 
     @Override
-    protected Observable<DiskInner> getInnerAsync() {
+    protected Maybe<DiskInner> getInnerAsync() {
         return this.manager().inner().disks().getByResourceGroupAsync(this.resourceGroupName(), this.name());
     }
 }

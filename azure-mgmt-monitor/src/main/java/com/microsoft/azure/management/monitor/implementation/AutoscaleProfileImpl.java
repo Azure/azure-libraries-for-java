@@ -121,6 +121,15 @@ class AutoscaleProfileImpl
     }
 
     @Override
+    public AutoscaleProfileImpl withFixedInstanceCount(int instanceCount) {
+        this.withMetricBasedScale(instanceCount, instanceCount, instanceCount);
+        this.inner().withFixedDate(null);
+        this.inner().withRecurrence(null);
+        this.inner().withRules(new ArrayList<ScaleRuleInner>());
+        return this;
+    }
+
+    @Override
     public AutoscaleProfileImpl withFixedDateSchedule(String timeZone, DateTime start, DateTime end) {
         this.inner().withFixedDate(new TimeWindow()
                                         .withTimeZone(timeZone)

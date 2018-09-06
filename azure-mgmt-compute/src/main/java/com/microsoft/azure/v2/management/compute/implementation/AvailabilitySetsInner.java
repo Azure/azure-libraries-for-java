@@ -8,84 +8,112 @@
 
 package com.microsoft.azure.v2.management.compute.implementation;
 
-import com.microsoft.azure.management.resources.fluentcore.collection.InnerSupportsGet;
-import com.microsoft.azure.management.resources.fluentcore.collection.InnerSupportsDelete;
-import retrofit2.Retrofit;
-import com.google.common.reflect.TypeToken;
-import com.microsoft.azure.CloudException;
+import com.microsoft.azure.v2.AzureProxy;
+import com.microsoft.azure.v2.CloudException;
+import com.microsoft.azure.v2.Page;
+import com.microsoft.azure.v2.PagedList;
 import com.microsoft.azure.v2.management.compute.AvailabilitySetUpdate;
-import com.microsoft.azure.Page;
-import com.microsoft.azure.PagedList;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import com.microsoft.rest.ServiceResponse;
-import com.microsoft.rest.Validator;
-import java.io.IOException;
+import com.microsoft.azure.v2.management.resources.fluentcore.collection.InnerSupportsDelete;
+import com.microsoft.azure.v2.management.resources.fluentcore.collection.InnerSupportsGet;
+import com.microsoft.azure.v2.management.resources.fluentcore.collection.InnerSupportsListing;
+import com.microsoft.rest.v2.BodyResponse;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
+import com.microsoft.rest.v2.Validator;
+import com.microsoft.rest.v2.VoidResponse;
+import com.microsoft.rest.v2.annotations.BodyParam;
+import com.microsoft.rest.v2.annotations.DELETE;
+import com.microsoft.rest.v2.annotations.ExpectedResponses;
+import com.microsoft.rest.v2.annotations.GET;
+import com.microsoft.rest.v2.annotations.HeaderParam;
+import com.microsoft.rest.v2.annotations.Host;
+import com.microsoft.rest.v2.annotations.PATCH;
+import com.microsoft.rest.v2.annotations.PathParam;
+import com.microsoft.rest.v2.annotations.PUT;
+import com.microsoft.rest.v2.annotations.QueryParam;
+import com.microsoft.rest.v2.annotations.UnexpectedResponseExceptionType;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
+import io.reactivex.Single;
+import io.reactivex.annotations.NonNull;
+import java.util.ArrayList;
 import java.util.List;
-import okhttp3.ResponseBody;
-import retrofit2.http.Body;
-import retrofit2.http.GET;
-import retrofit2.http.Header;
-import retrofit2.http.Headers;
-import retrofit2.http.HTTP;
-import retrofit2.http.PATCH;
-import retrofit2.http.Path;
-import retrofit2.http.PUT;
-import retrofit2.http.Query;
-import retrofit2.Response;
-import rx.functions.Func1;
-import rx.Observable;
 
 /**
- * An instance of this class provides access to all the operations defined
- * in AvailabilitySets.
+ * An instance of this class provides access to all the operations defined in
+ * AvailabilitySets.
  */
-public class AvailabilitySetsInner implements InnerSupportsGet<AvailabilitySetInner>, InnerSupportsDelete<Void> {
-    /** The Retrofit service to perform REST calls. */
+public final class AvailabilitySetsInner implements InnerSupportsGet<AvailabilitySetInner>, InnerSupportsDelete<Void>, InnerSupportsListing<AvailabilitySetInner> {
+    /**
+     * The proxy service used to perform REST calls.
+     */
     private AvailabilitySetsService service;
-    /** The service client containing this operation class. */
+
+    /**
+     * The service client containing this operation class.
+     */
     private ComputeManagementClientImpl client;
 
     /**
      * Initializes an instance of AvailabilitySetsInner.
      *
-     * @param retrofit the Retrofit instance built from a Retrofit Builder.
      * @param client the instance of the service client containing this operation class.
      */
-    public AvailabilitySetsInner(Retrofit retrofit, ComputeManagementClientImpl client) {
-        this.service = retrofit.create(AvailabilitySetsService.class);
+    public AvailabilitySetsInner(ComputeManagementClientImpl client) {
+        this.service = AzureProxy.create(AvailabilitySetsService.class, client);
         this.client = client;
     }
 
     /**
-     * The interface defining all the services for AvailabilitySets to be
-     * used by Retrofit to perform actually REST calls.
+     * The interface defining all the services for AvailabilitySets to be used
+     * by the proxy service to perform REST calls.
      */
-    interface AvailabilitySetsService {
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.AvailabilitySets createOrUpdate" })
+    @Host("https://management.azure.com")
+    private interface AvailabilitySetsService {
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}")
-        Observable<Response<ResponseBody>> createOrUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("availabilitySetName") String availabilitySetName, @Path("subscriptionId") String subscriptionId, @Body AvailabilitySetInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<AvailabilitySetInner>> createOrUpdate(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("availabilitySetName") String availabilitySetName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json; charset=utf-8") AvailabilitySetInner parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.AvailabilitySets update" })
         @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}")
-        Observable<Response<ResponseBody>> update(@Path("resourceGroupName") String resourceGroupName, @Path("availabilitySetName") String availabilitySetName, @Path("subscriptionId") String subscriptionId, @Body AvailabilitySetUpdate parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<AvailabilitySetInner>> update(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("availabilitySetName") String availabilitySetName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json; charset=utf-8") AvailabilitySetUpdate parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.AvailabilitySets delete" })
-        @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}", method = "DELETE", hasBody = true)
-        Observable<Response<ResponseBody>> delete(@Path("resourceGroupName") String resourceGroupName, @Path("availabilitySetName") String availabilitySetName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @DELETE("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}")
+        @ExpectedResponses({200, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<VoidResponse> delete(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("availabilitySetName") String availabilitySetName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.AvailabilitySets getByResourceGroup" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}")
-        Observable<Response<ResponseBody>> getByResourceGroup(@Path("resourceGroupName") String resourceGroupName, @Path("availabilitySetName") String availabilitySetName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<AvailabilitySetInner>> getByResourceGroup(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("availabilitySetName") String availabilitySetName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.AvailabilitySets listByResourceGroup" })
+        @GET("subscriptions/{subscriptionId}/providers/Microsoft.Compute/availabilitySets")
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl1<AvailabilitySetInner>>> list(@PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
+
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets")
-        Observable<Response<ResponseBody>> listByResourceGroup(@Path("resourceGroupName") String resourceGroupName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl1<AvailabilitySetInner>>> listByResourceGroup(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.AvailabilitySets listAvailableSizes" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}/vmSizes")
-        Observable<Response<ResponseBody>> listAvailableSizes(@Path("resourceGroupName") String resourceGroupName, @Path("availabilitySetName") String availabilitySetName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<List<VirtualMachineSizeInner>>> listAvailableSizes(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("availabilitySetName") String availabilitySetName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
+        @GET("{nextUrl}")
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl1<AvailabilitySetInner>>> listBySubscriptionNext(@PathParam(value = "nextUrl", encoded = true) String nextUrl, @HeaderParam("accept-language") String acceptLanguage);
+
+        @GET("{nextUrl}")
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl1<AvailabilitySetInner>>> listNext(@PathParam(value = "nextUrl", encoded = true) String nextUrl, @HeaderParam("accept-language") String acceptLanguage);
     }
 
     /**
@@ -94,13 +122,13 @@ public class AvailabilitySetsInner implements InnerSupportsGet<AvailabilitySetIn
      * @param resourceGroupName The name of the resource group.
      * @param availabilitySetName The name of the availability set.
      * @param parameters Parameters supplied to the Create Availability Set operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the AvailabilitySetInner object if successful.
      */
-    public AvailabilitySetInner createOrUpdate(String resourceGroupName, String availabilitySetName, AvailabilitySetInner parameters) {
-        return createOrUpdateWithServiceResponseAsync(resourceGroupName, availabilitySetName, parameters).toBlocking().single().body();
+    public AvailabilitySetInner createOrUpdate(@NonNull String resourceGroupName, @NonNull String availabilitySetName, @NonNull AvailabilitySetInner parameters) {
+        return createOrUpdateAsync(resourceGroupName, availabilitySetName, parameters).blockingGet();
     }
 
     /**
@@ -110,11 +138,11 @@ public class AvailabilitySetsInner implements InnerSupportsGet<AvailabilitySetIn
      * @param availabilitySetName The name of the availability set.
      * @param parameters Parameters supplied to the Create Availability Set operation.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<AvailabilitySetInner> createOrUpdateAsync(String resourceGroupName, String availabilitySetName, AvailabilitySetInner parameters, final ServiceCallback<AvailabilitySetInner> serviceCallback) {
-        return ServiceFuture.fromResponse(createOrUpdateWithServiceResponseAsync(resourceGroupName, availabilitySetName, parameters), serviceCallback);
+    public ServiceFuture<AvailabilitySetInner> createOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String availabilitySetName, @NonNull AvailabilitySetInner parameters, ServiceCallback<AvailabilitySetInner> serviceCallback) {
+        return ServiceFuture.fromBody(createOrUpdateAsync(resourceGroupName, availabilitySetName, parameters), serviceCallback);
     }
 
     /**
@@ -123,28 +151,10 @@ public class AvailabilitySetsInner implements InnerSupportsGet<AvailabilitySetIn
      * @param resourceGroupName The name of the resource group.
      * @param availabilitySetName The name of the availability set.
      * @param parameters Parameters supplied to the Create Availability Set operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the AvailabilitySetInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<AvailabilitySetInner> createOrUpdateAsync(String resourceGroupName, String availabilitySetName, AvailabilitySetInner parameters) {
-        return createOrUpdateWithServiceResponseAsync(resourceGroupName, availabilitySetName, parameters).map(new Func1<ServiceResponse<AvailabilitySetInner>, AvailabilitySetInner>() {
-            @Override
-            public AvailabilitySetInner call(ServiceResponse<AvailabilitySetInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Create or update an availability set.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param availabilitySetName The name of the availability set.
-     * @param parameters Parameters supplied to the Create Availability Set operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the AvailabilitySetInner object
-     */
-    public Observable<ServiceResponse<AvailabilitySetInner>> createOrUpdateWithServiceResponseAsync(String resourceGroupName, String availabilitySetName, AvailabilitySetInner parameters) {
+    public Single<BodyResponse<AvailabilitySetInner>> createOrUpdateWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String availabilitySetName, @NonNull AvailabilitySetInner parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -159,25 +169,21 @@ public class AvailabilitySetsInner implements InnerSupportsGet<AvailabilitySetIn
         }
         Validator.validate(parameters);
         final String apiVersion = "2018-06-01";
-        return service.createOrUpdate(resourceGroupName, availabilitySetName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<AvailabilitySetInner>>>() {
-                @Override
-                public Observable<ServiceResponse<AvailabilitySetInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<AvailabilitySetInner> clientResponse = createOrUpdateDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.createOrUpdate(resourceGroupName, availabilitySetName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<AvailabilitySetInner> createOrUpdateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<AvailabilitySetInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<AvailabilitySetInner>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Create or update an availability set.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param availabilitySetName The name of the availability set.
+     * @param parameters Parameters supplied to the Create Availability Set operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<AvailabilitySetInner> createOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String availabilitySetName, @NonNull AvailabilitySetInner parameters) {
+        return createOrUpdateWithRestResponseAsync(resourceGroupName, availabilitySetName, parameters)
+            .flatMapMaybe((BodyResponse<AvailabilitySetInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
@@ -186,13 +192,13 @@ public class AvailabilitySetsInner implements InnerSupportsGet<AvailabilitySetIn
      * @param resourceGroupName The name of the resource group.
      * @param availabilitySetName The name of the availability set.
      * @param parameters Parameters supplied to the Update Availability Set operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the AvailabilitySetInner object if successful.
      */
-    public AvailabilitySetInner update(String resourceGroupName, String availabilitySetName, AvailabilitySetUpdate parameters) {
-        return updateWithServiceResponseAsync(resourceGroupName, availabilitySetName, parameters).toBlocking().single().body();
+    public AvailabilitySetInner update(@NonNull String resourceGroupName, @NonNull String availabilitySetName, @NonNull AvailabilitySetUpdate parameters) {
+        return updateAsync(resourceGroupName, availabilitySetName, parameters).blockingGet();
     }
 
     /**
@@ -202,11 +208,11 @@ public class AvailabilitySetsInner implements InnerSupportsGet<AvailabilitySetIn
      * @param availabilitySetName The name of the availability set.
      * @param parameters Parameters supplied to the Update Availability Set operation.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<AvailabilitySetInner> updateAsync(String resourceGroupName, String availabilitySetName, AvailabilitySetUpdate parameters, final ServiceCallback<AvailabilitySetInner> serviceCallback) {
-        return ServiceFuture.fromResponse(updateWithServiceResponseAsync(resourceGroupName, availabilitySetName, parameters), serviceCallback);
+    public ServiceFuture<AvailabilitySetInner> updateAsync(@NonNull String resourceGroupName, @NonNull String availabilitySetName, @NonNull AvailabilitySetUpdate parameters, ServiceCallback<AvailabilitySetInner> serviceCallback) {
+        return ServiceFuture.fromBody(updateAsync(resourceGroupName, availabilitySetName, parameters), serviceCallback);
     }
 
     /**
@@ -215,28 +221,10 @@ public class AvailabilitySetsInner implements InnerSupportsGet<AvailabilitySetIn
      * @param resourceGroupName The name of the resource group.
      * @param availabilitySetName The name of the availability set.
      * @param parameters Parameters supplied to the Update Availability Set operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the AvailabilitySetInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<AvailabilitySetInner> updateAsync(String resourceGroupName, String availabilitySetName, AvailabilitySetUpdate parameters) {
-        return updateWithServiceResponseAsync(resourceGroupName, availabilitySetName, parameters).map(new Func1<ServiceResponse<AvailabilitySetInner>, AvailabilitySetInner>() {
-            @Override
-            public AvailabilitySetInner call(ServiceResponse<AvailabilitySetInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Update an availability set.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param availabilitySetName The name of the availability set.
-     * @param parameters Parameters supplied to the Update Availability Set operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the AvailabilitySetInner object
-     */
-    public Observable<ServiceResponse<AvailabilitySetInner>> updateWithServiceResponseAsync(String resourceGroupName, String availabilitySetName, AvailabilitySetUpdate parameters) {
+    public Single<BodyResponse<AvailabilitySetInner>> updateWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String availabilitySetName, @NonNull AvailabilitySetUpdate parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -251,25 +239,21 @@ public class AvailabilitySetsInner implements InnerSupportsGet<AvailabilitySetIn
         }
         Validator.validate(parameters);
         final String apiVersion = "2018-06-01";
-        return service.update(resourceGroupName, availabilitySetName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<AvailabilitySetInner>>>() {
-                @Override
-                public Observable<ServiceResponse<AvailabilitySetInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<AvailabilitySetInner> clientResponse = updateDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.update(resourceGroupName, availabilitySetName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<AvailabilitySetInner> updateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<AvailabilitySetInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<AvailabilitySetInner>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Update an availability set.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param availabilitySetName The name of the availability set.
+     * @param parameters Parameters supplied to the Update Availability Set operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<AvailabilitySetInner> updateAsync(@NonNull String resourceGroupName, @NonNull String availabilitySetName, @NonNull AvailabilitySetUpdate parameters) {
+        return updateWithRestResponseAsync(resourceGroupName, availabilitySetName, parameters)
+            .flatMapMaybe((BodyResponse<AvailabilitySetInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
@@ -277,12 +261,12 @@ public class AvailabilitySetsInner implements InnerSupportsGet<AvailabilitySetIn
      *
      * @param resourceGroupName The name of the resource group.
      * @param availabilitySetName The name of the availability set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void delete(String resourceGroupName, String availabilitySetName) {
-        deleteWithServiceResponseAsync(resourceGroupName, availabilitySetName).toBlocking().single().body();
+    public void delete(@NonNull String resourceGroupName, @NonNull String availabilitySetName) {
+        deleteAsync(resourceGroupName, availabilitySetName).blockingGet();
     }
 
     /**
@@ -291,11 +275,11 @@ public class AvailabilitySetsInner implements InnerSupportsGet<AvailabilitySetIn
      * @param resourceGroupName The name of the resource group.
      * @param availabilitySetName The name of the availability set.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<Void> deleteAsync(String resourceGroupName, String availabilitySetName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(deleteWithServiceResponseAsync(resourceGroupName, availabilitySetName), serviceCallback);
+    public ServiceFuture<Void> deleteAsync(@NonNull String resourceGroupName, @NonNull String availabilitySetName, ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromBody(deleteAsync(resourceGroupName, availabilitySetName), serviceCallback);
     }
 
     /**
@@ -303,27 +287,10 @@ public class AvailabilitySetsInner implements InnerSupportsGet<AvailabilitySetIn
      *
      * @param resourceGroupName The name of the resource group.
      * @param availabilitySetName The name of the availability set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<Void> deleteAsync(String resourceGroupName, String availabilitySetName) {
-        return deleteWithServiceResponseAsync(resourceGroupName, availabilitySetName).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Delete an availability set.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param availabilitySetName The name of the availability set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
-     */
-    public Observable<ServiceResponse<Void>> deleteWithServiceResponseAsync(String resourceGroupName, String availabilitySetName) {
+    public Single<VoidResponse> deleteWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String availabilitySetName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -334,26 +301,20 @@ public class AvailabilitySetsInner implements InnerSupportsGet<AvailabilitySetIn
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        return service.delete(resourceGroupName, availabilitySetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
-                @Override
-                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<Void> clientResponse = deleteDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.delete(resourceGroupName, availabilitySetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<Void> deleteDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<Void>() { }.getType())
-                .register(204, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Delete an availability set.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param availabilitySetName The name of the availability set.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<Void> deleteAsync(@NonNull String resourceGroupName, @NonNull String availabilitySetName) {
+        return deleteWithRestResponseAsync(resourceGroupName, availabilitySetName)
+            .flatMapMaybe((VoidResponse res) -> Maybe.empty());
     }
 
     /**
@@ -361,13 +322,13 @@ public class AvailabilitySetsInner implements InnerSupportsGet<AvailabilitySetIn
      *
      * @param resourceGroupName The name of the resource group.
      * @param availabilitySetName The name of the availability set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the AvailabilitySetInner object if successful.
      */
-    public AvailabilitySetInner getByResourceGroup(String resourceGroupName, String availabilitySetName) {
-        return getByResourceGroupWithServiceResponseAsync(resourceGroupName, availabilitySetName).toBlocking().single().body();
+    public AvailabilitySetInner getByResourceGroup(@NonNull String resourceGroupName, @NonNull String availabilitySetName) {
+        return getByResourceGroupAsync(resourceGroupName, availabilitySetName).blockingGet();
     }
 
     /**
@@ -376,11 +337,11 @@ public class AvailabilitySetsInner implements InnerSupportsGet<AvailabilitySetIn
      * @param resourceGroupName The name of the resource group.
      * @param availabilitySetName The name of the availability set.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<AvailabilitySetInner> getByResourceGroupAsync(String resourceGroupName, String availabilitySetName, final ServiceCallback<AvailabilitySetInner> serviceCallback) {
-        return ServiceFuture.fromResponse(getByResourceGroupWithServiceResponseAsync(resourceGroupName, availabilitySetName), serviceCallback);
+    public ServiceFuture<AvailabilitySetInner> getByResourceGroupAsync(@NonNull String resourceGroupName, @NonNull String availabilitySetName, ServiceCallback<AvailabilitySetInner> serviceCallback) {
+        return ServiceFuture.fromBody(getByResourceGroupAsync(resourceGroupName, availabilitySetName), serviceCallback);
     }
 
     /**
@@ -388,27 +349,10 @@ public class AvailabilitySetsInner implements InnerSupportsGet<AvailabilitySetIn
      *
      * @param resourceGroupName The name of the resource group.
      * @param availabilitySetName The name of the availability set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the AvailabilitySetInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<AvailabilitySetInner> getByResourceGroupAsync(String resourceGroupName, String availabilitySetName) {
-        return getByResourceGroupWithServiceResponseAsync(resourceGroupName, availabilitySetName).map(new Func1<ServiceResponse<AvailabilitySetInner>, AvailabilitySetInner>() {
-            @Override
-            public AvailabilitySetInner call(ServiceResponse<AvailabilitySetInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Retrieves information about an availability set.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param availabilitySetName The name of the availability set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the AvailabilitySetInner object
-     */
-    public Observable<ServiceResponse<AvailabilitySetInner>> getByResourceGroupWithServiceResponseAsync(String resourceGroupName, String availabilitySetName) {
+    public Single<BodyResponse<AvailabilitySetInner>> getByResourceGroupWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String availabilitySetName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -419,41 +363,85 @@ public class AvailabilitySetsInner implements InnerSupportsGet<AvailabilitySetIn
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        return service.getByResourceGroup(resourceGroupName, availabilitySetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<AvailabilitySetInner>>>() {
-                @Override
-                public Observable<ServiceResponse<AvailabilitySetInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<AvailabilitySetInner> clientResponse = getByResourceGroupDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
+        return service.getByResourceGroup(resourceGroupName, availabilitySetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
+    }
+
+    /**
+     * Retrieves information about an availability set.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param availabilitySetName The name of the availability set.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<AvailabilitySetInner> getByResourceGroupAsync(@NonNull String resourceGroupName, @NonNull String availabilitySetName) {
+        return getByResourceGroupWithRestResponseAsync(resourceGroupName, availabilitySetName)
+            .flatMapMaybe((BodyResponse<AvailabilitySetInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
+    }
+
+    /**
+     * Lists all availability sets in a subscription.
+     *
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the PagedList&lt;AvailabilitySetInner&gt; object if successful.
+     */
+    public PagedList<AvailabilitySetInner> list() {
+        Page<AvailabilitySetInner> response = listSinglePageAsync().blockingGet();
+        return new PagedList<AvailabilitySetInner>(response) {
+            @Override
+            public Page<AvailabilitySetInner> nextPage(String nextPageLink) {
+                return listBySubscriptionNextSinglePageAsync(nextPageLink).blockingGet();
+            }
+        };
+    }
+
+    /**
+     * Lists all availability sets in a subscription.
+     *
+     * @return the observable to the PagedList&lt;AvailabilitySetInner&gt; object.
+     */
+    public Observable<Page<AvailabilitySetInner>> listAsync() {
+        return listSinglePageAsync()
+            .toObservable()
+            .concatMap((Page<AvailabilitySetInner> page) -> {
+                String nextPageLink = page.nextPageLink();
+                if (nextPageLink == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listBySubscriptionNextAsync(nextPageLink));
             });
     }
 
-    private ServiceResponse<AvailabilitySetInner> getByResourceGroupDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<AvailabilitySetInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<AvailabilitySetInner>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Lists all availability sets in a subscription.
+     *
+     * @return the Single&lt;Page&lt;AvailabilitySetInner&gt;&gt; object if successful.
+     */
+    public Single<Page<AvailabilitySetInner>> listSinglePageAsync() {
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        final String apiVersion = "2018-06-01";
+        return service.list(this.client.subscriptionId(), apiVersion, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl1<AvailabilitySetInner>> res) -> res.body());
     }
 
     /**
      * Lists all availability sets in a resource group.
      *
      * @param resourceGroupName The name of the resource group.
-     * @return the PagedList<AvailabilitySetInner> object if successful.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the PagedList&lt;AvailabilitySetInner&gt; object if successful.
      */
-    public PagedList<AvailabilitySetInner> listByResourceGroup(String resourceGroupName) {
-        PageImpl<AvailabilitySetInner> page = new PageImpl<>();
-        page.setItems(listByResourceGroupWithServiceResponseAsync(resourceGroupName).toBlocking().single().body());
-        page.setNextPageLink(null);
-        return new PagedList<AvailabilitySetInner>(page) {
+    public PagedList<AvailabilitySetInner> listByResourceGroup(@NonNull String resourceGroupName) {
+        Page<AvailabilitySetInner> response = listByResourceGroupSinglePageAsync(resourceGroupName).blockingGet();
+        return new PagedList<AvailabilitySetInner>(response) {
             @Override
             public Page<AvailabilitySetInner> nextPage(String nextPageLink) {
-                return null;
+                return listNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -462,37 +450,29 @@ public class AvailabilitySetsInner implements InnerSupportsGet<AvailabilitySetIn
      * Lists all availability sets in a resource group.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;AvailabilitySetInner&gt; object.
      */
-    public ServiceFuture<List<AvailabilitySetInner>> listByResourceGroupAsync(String resourceGroupName, final ServiceCallback<List<AvailabilitySetInner>> serviceCallback) {
-        return ServiceFuture.fromResponse(listByResourceGroupWithServiceResponseAsync(resourceGroupName), serviceCallback);
+    public Observable<Page<AvailabilitySetInner>> listByResourceGroupAsync(@NonNull String resourceGroupName) {
+        return listByResourceGroupSinglePageAsync(resourceGroupName)
+            .toObservable()
+            .concatMap((Page<AvailabilitySetInner> page) -> {
+                String nextPageLink = page.nextPageLink();
+                if (nextPageLink == null) {
+                    return Observable.just(page);
+                }
+                return Observable.just(page).concatWith(listNextAsync(nextPageLink));
+            });
     }
 
     /**
      * Lists all availability sets in a resource group.
      *
      * @param resourceGroupName The name of the resource group.
-     * @return the observable to the List&lt;AvailabilitySetInner&gt; object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;AvailabilitySetInner&gt;&gt; object if successful.
      */
-    public Observable<Page<AvailabilitySetInner>> listByResourceGroupAsync(String resourceGroupName) {
-        return listByResourceGroupWithServiceResponseAsync(resourceGroupName).map(new Func1<ServiceResponse<List<AvailabilitySetInner>>, Page<AvailabilitySetInner>>() {
-            @Override
-            public Page<AvailabilitySetInner> call(ServiceResponse<List<AvailabilitySetInner>> response) {
-                PageImpl<AvailabilitySetInner> page = new PageImpl<>();
-                page.setItems(response.body());
-                return page;
-            }
-        });
-    }
-
-    /**
-     * Lists all availability sets in a resource group.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @return the observable to the List&lt;AvailabilitySetInner&gt; object
-     */
-    public Observable<ServiceResponse<List<AvailabilitySetInner>>> listByResourceGroupWithServiceResponseAsync(String resourceGroupName) {
+    public Single<Page<AvailabilitySetInner>> listByResourceGroupSinglePageAsync(@NonNull String resourceGroupName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -500,30 +480,8 @@ public class AvailabilitySetsInner implements InnerSupportsGet<AvailabilitySetIn
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        return service.listByResourceGroup(resourceGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<List<AvailabilitySetInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<List<AvailabilitySetInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<AvailabilitySetInner>> result = listByResourceGroupDelegate(response);
-                        List<AvailabilitySetInner> items = null;
-                        if (result.body() != null) {
-                            items = result.body().items();
-                        }
-                        ServiceResponse<List<AvailabilitySetInner>> clientResponse = new ServiceResponse<List<AvailabilitySetInner>>(items, result.response());
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl<AvailabilitySetInner>> listByResourceGroupDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<AvailabilitySetInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<AvailabilitySetInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+        return service.listByResourceGroup(resourceGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl1<AvailabilitySetInner>> res) -> res.body());
     }
 
     /**
@@ -531,13 +489,13 @@ public class AvailabilitySetsInner implements InnerSupportsGet<AvailabilitySetIn
      *
      * @param resourceGroupName The name of the resource group.
      * @param availabilitySetName The name of the availability set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the List&lt;VirtualMachineSizeInner&gt; object if successful.
      */
-    public List<VirtualMachineSizeInner> listAvailableSizes(String resourceGroupName, String availabilitySetName) {
-        return listAvailableSizesWithServiceResponseAsync(resourceGroupName, availabilitySetName).toBlocking().single().body();
+    public List<VirtualMachineSizeInner> listAvailableSizes(@NonNull String resourceGroupName, @NonNull String availabilitySetName) {
+        return listAvailableSizesAsync(resourceGroupName, availabilitySetName).blockingGet();
     }
 
     /**
@@ -546,11 +504,11 @@ public class AvailabilitySetsInner implements InnerSupportsGet<AvailabilitySetIn
      * @param resourceGroupName The name of the resource group.
      * @param availabilitySetName The name of the availability set.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<List<VirtualMachineSizeInner>> listAvailableSizesAsync(String resourceGroupName, String availabilitySetName, final ServiceCallback<List<VirtualMachineSizeInner>> serviceCallback) {
-        return ServiceFuture.fromResponse(listAvailableSizesWithServiceResponseAsync(resourceGroupName, availabilitySetName), serviceCallback);
+    public ServiceFuture<List<VirtualMachineSizeInner>> listAvailableSizesAsync(@NonNull String resourceGroupName, @NonNull String availabilitySetName, ServiceCallback<List<VirtualMachineSizeInner>> serviceCallback) {
+        return ServiceFuture.fromBody(listAvailableSizesAsync(resourceGroupName, availabilitySetName), serviceCallback);
     }
 
     /**
@@ -558,27 +516,10 @@ public class AvailabilitySetsInner implements InnerSupportsGet<AvailabilitySetIn
      *
      * @param resourceGroupName The name of the resource group.
      * @param availabilitySetName The name of the availability set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the List&lt;VirtualMachineSizeInner&gt; object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<List<VirtualMachineSizeInner>> listAvailableSizesAsync(String resourceGroupName, String availabilitySetName) {
-        return listAvailableSizesWithServiceResponseAsync(resourceGroupName, availabilitySetName).map(new Func1<ServiceResponse<List<VirtualMachineSizeInner>>, List<VirtualMachineSizeInner>>() {
-            @Override
-            public List<VirtualMachineSizeInner> call(ServiceResponse<List<VirtualMachineSizeInner>> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Lists all available virtual machine sizes that can be used to create a new virtual machine in an existing availability set.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param availabilitySetName The name of the availability set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the List&lt;VirtualMachineSizeInner&gt; object
-     */
-    public Observable<ServiceResponse<List<VirtualMachineSizeInner>>> listAvailableSizesWithServiceResponseAsync(String resourceGroupName, String availabilitySetName) {
+    public Single<BodyResponse<List<VirtualMachineSizeInner>>> listAvailableSizesWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String availabilitySetName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -589,30 +530,127 @@ public class AvailabilitySetsInner implements InnerSupportsGet<AvailabilitySetIn
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        return service.listAvailableSizes(resourceGroupName, availabilitySetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<List<VirtualMachineSizeInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<List<VirtualMachineSizeInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<VirtualMachineSizeInner>> result = listAvailableSizesDelegate(response);
-                        List<VirtualMachineSizeInner> items = null;
-                        if (result.body() != null) {
-                            items = result.body().items();
-                        }
-                        ServiceResponse<List<VirtualMachineSizeInner>> clientResponse = new ServiceResponse<List<VirtualMachineSizeInner>>(items, result.response());
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
+        return service.listAvailableSizes(resourceGroupName, availabilitySetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
+    }
+
+    /**
+     * Lists all available virtual machine sizes that can be used to create a new virtual machine in an existing availability set.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param availabilitySetName The name of the availability set.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<List<VirtualMachineSizeInner>> listAvailableSizesAsync(@NonNull String resourceGroupName, @NonNull String availabilitySetName) {
+        return listAvailableSizesWithRestResponseAsync(resourceGroupName, availabilitySetName)
+            .flatMapMaybe((BodyResponse<List<VirtualMachineSizeInner>> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
+    }
+
+    /**
+     * Lists all availability sets in a subscription.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the PagedList&lt;AvailabilitySetInner&gt; object if successful.
+     */
+    public PagedList<AvailabilitySetInner> listBySubscriptionNext(@NonNull String nextPageLink) {
+        Page<AvailabilitySetInner> response = listBySubscriptionNextSinglePageAsync(nextPageLink).blockingGet();
+        return new PagedList<AvailabilitySetInner>(response) {
+            @Override
+            public Page<AvailabilitySetInner> nextPage(String nextPageLink) {
+                return listBySubscriptionNextSinglePageAsync(nextPageLink).blockingGet();
+            }
+        };
+    }
+
+    /**
+     * Lists all availability sets in a subscription.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;AvailabilitySetInner&gt; object.
+     */
+    public Observable<Page<AvailabilitySetInner>> listBySubscriptionNextAsync(@NonNull String nextPageLink) {
+        return listBySubscriptionNextSinglePageAsync(nextPageLink)
+            .toObservable()
+            .concatMap((Page<AvailabilitySetInner> page) -> {
+                String nextPageLink1 = page.nextPageLink();
+                if (nextPageLink1 == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listBySubscriptionNextAsync(nextPageLink1));
             });
     }
 
-    private ServiceResponse<PageImpl<VirtualMachineSizeInner>> listAvailableSizesDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<VirtualMachineSizeInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<VirtualMachineSizeInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Lists all availability sets in a subscription.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;AvailabilitySetInner&gt;&gt; object if successful.
+     */
+    public Single<Page<AvailabilitySetInner>> listBySubscriptionNextSinglePageAsync(@NonNull String nextPageLink) {
+        if (nextPageLink == null) {
+            throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
+        }
+        String nextUrl = String.format("%s", nextPageLink);
+        return service.listBySubscriptionNext(nextUrl, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl1<AvailabilitySetInner>> res) -> res.body());
     }
 
+    /**
+     * Lists all availability sets in a resource group.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the PagedList&lt;AvailabilitySetInner&gt; object if successful.
+     */
+    public PagedList<AvailabilitySetInner> listNext(@NonNull String nextPageLink) {
+        Page<AvailabilitySetInner> response = listNextSinglePageAsync(nextPageLink).blockingGet();
+        return new PagedList<AvailabilitySetInner>(response) {
+            @Override
+            public Page<AvailabilitySetInner> nextPage(String nextPageLink) {
+                return listNextSinglePageAsync(nextPageLink).blockingGet();
+            }
+        };
+    }
+
+    /**
+     * Lists all availability sets in a resource group.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;AvailabilitySetInner&gt; object.
+     */
+    public Observable<Page<AvailabilitySetInner>> listNextAsync(@NonNull String nextPageLink) {
+        return listNextSinglePageAsync(nextPageLink)
+            .toObservable()
+            .concatMap((Page<AvailabilitySetInner> page) -> {
+                String nextPageLink1 = page.nextPageLink();
+                if (nextPageLink1 == null) {
+                    return Observable.just(page);
+                }
+                return Observable.just(page).concatWith(listNextAsync(nextPageLink1));
+            });
+    }
+
+    /**
+     * Lists all availability sets in a resource group.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;AvailabilitySetInner&gt;&gt; object if successful.
+     */
+    public Single<Page<AvailabilitySetInner>> listNextSinglePageAsync(@NonNull String nextPageLink) {
+        if (nextPageLink == null) {
+            throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
+        }
+        String nextUrl = String.format("%s", nextPageLink);
+        return service.listNext(nextUrl, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl1<AvailabilitySetInner>> res) -> res.body());
+    }
 }

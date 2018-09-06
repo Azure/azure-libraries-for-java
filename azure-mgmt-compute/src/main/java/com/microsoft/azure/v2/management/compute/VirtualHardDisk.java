@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Describes the uri of a disk.
  */
-public class VirtualHardDisk {
+public final class VirtualHardDisk {
     /**
      * Specifies the virtual hard disk's uri.
      */
@@ -21,23 +21,22 @@ public class VirtualHardDisk {
     private String uri;
 
     /**
-     * Get specifies the virtual hard disk's uri.
+     * Get the uri value.
      *
-     * @return the uri value
+     * @return the uri value.
      */
     public String uri() {
         return this.uri;
     }
 
     /**
-     * Set specifies the virtual hard disk's uri.
+     * Set the uri value.
      *
-     * @param uri the uri value to set
+     * @param uri the uri value to set.
      * @return the VirtualHardDisk object itself.
      */
     public VirtualHardDisk withUri(String uri) {
         this.uri = uri;
         return this;
     }
-
 }

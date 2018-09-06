@@ -8,13 +8,13 @@
 
 package com.microsoft.azure.v2.management.compute;
 
-import org.joda.time.DateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.time.OffsetDateTime;
 
 /**
  * Information about the current running state of the overall upgrade.
  */
-public class RollingUpgradeRunningStatus {
+public final class RollingUpgradeRunningStatus {
     /**
      * Code indicating the current status of the upgrade. Possible values
      * include: 'RollingForward', 'Cancelled', 'Completed', 'Faulted'.
@@ -26,7 +26,7 @@ public class RollingUpgradeRunningStatus {
      * Start time of the upgrade.
      */
     @JsonProperty(value = "startTime", access = JsonProperty.Access.WRITE_ONLY)
-    private DateTime startTime;
+    private OffsetDateTime startTime;
 
     /**
      * The last action performed on the rolling upgrade. Possible values
@@ -39,42 +39,41 @@ public class RollingUpgradeRunningStatus {
      * Last action time of the upgrade.
      */
     @JsonProperty(value = "lastActionTime", access = JsonProperty.Access.WRITE_ONLY)
-    private DateTime lastActionTime;
+    private OffsetDateTime lastActionTime;
 
     /**
-     * Get code indicating the current status of the upgrade. Possible values include: 'RollingForward', 'Cancelled', 'Completed', 'Faulted'.
+     * Get the code value.
      *
-     * @return the code value
+     * @return the code value.
      */
     public RollingUpgradeStatusCode code() {
         return this.code;
     }
 
     /**
-     * Get start time of the upgrade.
+     * Get the startTime value.
      *
-     * @return the startTime value
+     * @return the startTime value.
      */
-    public DateTime startTime() {
+    public OffsetDateTime startTime() {
         return this.startTime;
     }
 
     /**
-     * Get the last action performed on the rolling upgrade. Possible values include: 'Start', 'Cancel'.
+     * Get the lastAction value.
      *
-     * @return the lastAction value
+     * @return the lastAction value.
      */
     public RollingUpgradeActionType lastAction() {
         return this.lastAction;
     }
 
     /**
-     * Get last action time of the upgrade.
+     * Get the lastActionTime value.
      *
-     * @return the lastActionTime value
+     * @return the lastActionTime value.
      */
-    public DateTime lastActionTime() {
+    public OffsetDateTime lastActionTime() {
         return this.lastActionTime;
     }
-
 }

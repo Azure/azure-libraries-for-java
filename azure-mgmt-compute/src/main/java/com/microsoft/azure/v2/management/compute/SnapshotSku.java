@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * The snapshots sku name. Can be Standard_LRS, Premium_LRS, or Standard_ZRS.
  */
-public class SnapshotSku {
+public final class SnapshotSku {
     /**
      * The sku name. Possible values include: 'Standard_LRS', 'Premium_LRS',
      * 'Standard_ZRS'.
@@ -28,18 +28,18 @@ public class SnapshotSku {
     private String tier;
 
     /**
-     * Get the sku name. Possible values include: 'Standard_LRS', 'Premium_LRS', 'Standard_ZRS'.
+     * Get the name value.
      *
-     * @return the name value
+     * @return the name value.
      */
     public SnapshotStorageAccountTypes name() {
         return this.name;
     }
 
     /**
-     * Set the sku name. Possible values include: 'Standard_LRS', 'Premium_LRS', 'Standard_ZRS'.
+     * Set the name value.
      *
-     * @param name the name value to set
+     * @param name the name value to set.
      * @return the SnapshotSku object itself.
      */
     public SnapshotSku withName(SnapshotStorageAccountTypes name) {
@@ -48,12 +48,11 @@ public class SnapshotSku {
     }
 
     /**
-     * Get the sku tier.
+     * Get the tier value.
      *
-     * @return the tier value
+     * @return the tier value.
      */
     public String tier() {
         return this.tier;
     }
-
 }

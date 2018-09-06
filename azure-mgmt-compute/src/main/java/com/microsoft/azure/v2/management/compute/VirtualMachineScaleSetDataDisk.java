@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Describes a virtual machine scale set data disk.
  */
-public class VirtualMachineScaleSetDataDisk {
+public final class VirtualMachineScaleSetDataDisk {
     /**
      * The disk name.
      */
@@ -54,7 +54,7 @@ public class VirtualMachineScaleSetDataDisk {
 
     /**
      * Specifies the size of an empty data disk in gigabytes. This element can
-     * be used to overwrite the name of the disk in a virtual machine image.
+     * be used to overwrite the size of the disk in a virtual machine image.
      * &lt;br&gt;&lt;br&gt; This value cannot be larger than 1023 GB.
      */
     @JsonProperty(value = "diskSizeGB")
@@ -67,18 +67,18 @@ public class VirtualMachineScaleSetDataDisk {
     private VirtualMachineScaleSetManagedDiskParameters managedDisk;
 
     /**
-     * Get the disk name.
+     * Get the name value.
      *
-     * @return the name value
+     * @return the name value.
      */
     public String name() {
         return this.name;
     }
 
     /**
-     * Set the disk name.
+     * Set the name value.
      *
-     * @param name the name value to set
+     * @param name the name value to set.
      * @return the VirtualMachineScaleSetDataDisk object itself.
      */
     public VirtualMachineScaleSetDataDisk withName(String name) {
@@ -87,18 +87,18 @@ public class VirtualMachineScaleSetDataDisk {
     }
 
     /**
-     * Get specifies the logical unit number of the data disk. This value is used to identify data disks within the VM and therefore must be unique for each data disk attached to a VM.
+     * Get the lun value.
      *
-     * @return the lun value
+     * @return the lun value.
      */
     public int lun() {
         return this.lun;
     }
 
     /**
-     * Set specifies the logical unit number of the data disk. This value is used to identify data disks within the VM and therefore must be unique for each data disk attached to a VM.
+     * Set the lun value.
      *
-     * @param lun the lun value to set
+     * @param lun the lun value to set.
      * @return the VirtualMachineScaleSetDataDisk object itself.
      */
     public VirtualMachineScaleSetDataDisk withLun(int lun) {
@@ -107,18 +107,18 @@ public class VirtualMachineScaleSetDataDisk {
     }
 
     /**
-     * Get specifies the caching requirements. &lt;br&gt;&lt;br&gt; Possible values are: &lt;br&gt;&lt;br&gt; **None** &lt;br&gt;&lt;br&gt; **ReadOnly** &lt;br&gt;&lt;br&gt; **ReadWrite** &lt;br&gt;&lt;br&gt; Default: **None for Standard storage. ReadOnly for Premium storage**. Possible values include: 'None', 'ReadOnly', 'ReadWrite'.
+     * Get the caching value.
      *
-     * @return the caching value
+     * @return the caching value.
      */
     public CachingTypes caching() {
         return this.caching;
     }
 
     /**
-     * Set specifies the caching requirements. &lt;br&gt;&lt;br&gt; Possible values are: &lt;br&gt;&lt;br&gt; **None** &lt;br&gt;&lt;br&gt; **ReadOnly** &lt;br&gt;&lt;br&gt; **ReadWrite** &lt;br&gt;&lt;br&gt; Default: **None for Standard storage. ReadOnly for Premium storage**. Possible values include: 'None', 'ReadOnly', 'ReadWrite'.
+     * Set the caching value.
      *
-     * @param caching the caching value to set
+     * @param caching the caching value to set.
      * @return the VirtualMachineScaleSetDataDisk object itself.
      */
     public VirtualMachineScaleSetDataDisk withCaching(CachingTypes caching) {
@@ -127,18 +127,18 @@ public class VirtualMachineScaleSetDataDisk {
     }
 
     /**
-     * Get specifies whether writeAccelerator should be enabled or disabled on the disk.
+     * Get the writeAcceleratorEnabled value.
      *
-     * @return the writeAcceleratorEnabled value
+     * @return the writeAcceleratorEnabled value.
      */
     public Boolean writeAcceleratorEnabled() {
         return this.writeAcceleratorEnabled;
     }
 
     /**
-     * Set specifies whether writeAccelerator should be enabled or disabled on the disk.
+     * Set the writeAcceleratorEnabled value.
      *
-     * @param writeAcceleratorEnabled the writeAcceleratorEnabled value to set
+     * @param writeAcceleratorEnabled the writeAcceleratorEnabled value to set.
      * @return the VirtualMachineScaleSetDataDisk object itself.
      */
     public VirtualMachineScaleSetDataDisk withWriteAcceleratorEnabled(Boolean writeAcceleratorEnabled) {
@@ -147,18 +147,18 @@ public class VirtualMachineScaleSetDataDisk {
     }
 
     /**
-     * Get the create option. Possible values include: 'FromImage', 'Empty', 'Attach'.
+     * Get the createOption value.
      *
-     * @return the createOption value
+     * @return the createOption value.
      */
     public DiskCreateOptionTypes createOption() {
         return this.createOption;
     }
 
     /**
-     * Set the create option. Possible values include: 'FromImage', 'Empty', 'Attach'.
+     * Set the createOption value.
      *
-     * @param createOption the createOption value to set
+     * @param createOption the createOption value to set.
      * @return the VirtualMachineScaleSetDataDisk object itself.
      */
     public VirtualMachineScaleSetDataDisk withCreateOption(DiskCreateOptionTypes createOption) {
@@ -167,18 +167,18 @@ public class VirtualMachineScaleSetDataDisk {
     }
 
     /**
-     * Get specifies the size of an empty data disk in gigabytes. This element can be used to overwrite the name of the disk in a virtual machine image. &lt;br&gt;&lt;br&gt; This value cannot be larger than 1023 GB.
+     * Get the diskSizeGB value.
      *
-     * @return the diskSizeGB value
+     * @return the diskSizeGB value.
      */
     public Integer diskSizeGB() {
         return this.diskSizeGB;
     }
 
     /**
-     * Set specifies the size of an empty data disk in gigabytes. This element can be used to overwrite the name of the disk in a virtual machine image. &lt;br&gt;&lt;br&gt; This value cannot be larger than 1023 GB.
+     * Set the diskSizeGB value.
      *
-     * @param diskSizeGB the diskSizeGB value to set
+     * @param diskSizeGB the diskSizeGB value to set.
      * @return the VirtualMachineScaleSetDataDisk object itself.
      */
     public VirtualMachineScaleSetDataDisk withDiskSizeGB(Integer diskSizeGB) {
@@ -187,23 +187,22 @@ public class VirtualMachineScaleSetDataDisk {
     }
 
     /**
-     * Get the managed disk parameters.
+     * Get the managedDisk value.
      *
-     * @return the managedDisk value
+     * @return the managedDisk value.
      */
     public VirtualMachineScaleSetManagedDiskParameters managedDisk() {
         return this.managedDisk;
     }
 
     /**
-     * Set the managed disk parameters.
+     * Set the managedDisk value.
      *
-     * @param managedDisk the managedDisk value to set
+     * @param managedDisk the managedDisk value to set.
      * @return the VirtualMachineScaleSetDataDisk object itself.
      */
     public VirtualMachineScaleSetDataDisk withManagedDisk(VirtualMachineScaleSetManagedDiskParameters managedDisk) {
         this.managedDisk = managedDisk;
         return this;
     }
-
 }

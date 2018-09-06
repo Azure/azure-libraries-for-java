@@ -15,16 +15,22 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Defines values for OperatingSystemTypes.
  */
 public enum OperatingSystemTypes {
-    /** Enum value Windows. */
+    /**
+     * Enum value Windows.
+     */
     WINDOWS("Windows"),
 
-    /** Enum value Linux. */
+    /**
+     * Enum value Linux.
+     */
     LINUX("Linux");
 
-    /** The actual serialized value for a OperatingSystemTypes instance. */
-    private String value;
+    /**
+     * The actual serialized value for a OperatingSystemTypes instance.
+     */
+    private final String value;
 
-    OperatingSystemTypes(String value) {
+    private OperatingSystemTypes(String value) {
         this.value = value;
     }
 

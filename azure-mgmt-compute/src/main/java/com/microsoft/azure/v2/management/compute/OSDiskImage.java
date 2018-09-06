@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Contains the os disk image information.
  */
-public class OSDiskImage {
+public final class OSDiskImage {
     /**
      * The operating system of the osDiskImage. Possible values include:
      * 'Windows', 'Linux'.
@@ -22,23 +22,22 @@ public class OSDiskImage {
     private OperatingSystemTypes operatingSystem;
 
     /**
-     * Get the operating system of the osDiskImage. Possible values include: 'Windows', 'Linux'.
+     * Get the operatingSystem value.
      *
-     * @return the operatingSystem value
+     * @return the operatingSystem value.
      */
     public OperatingSystemTypes operatingSystem() {
         return this.operatingSystem;
     }
 
     /**
-     * Set the operating system of the osDiskImage. Possible values include: 'Windows', 'Linux'.
+     * Set the operatingSystem value.
      *
-     * @param operatingSystem the operatingSystem value to set
+     * @param operatingSystem the operatingSystem value to set.
      * @return the OSDiskImage object itself.
      */
     public OSDiskImage withOperatingSystem(OperatingSystemTypes operatingSystem) {
         this.operatingSystem = operatingSystem;
         return this;
     }
-
 }

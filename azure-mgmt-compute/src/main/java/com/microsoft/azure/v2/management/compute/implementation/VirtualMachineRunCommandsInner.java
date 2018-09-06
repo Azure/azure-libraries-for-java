@@ -8,84 +8,87 @@
 
 package com.microsoft.azure.v2.management.compute.implementation;
 
-import retrofit2.Retrofit;
-import com.google.common.reflect.TypeToken;
-import com.microsoft.azure.AzureServiceFuture;
-import com.microsoft.azure.CloudException;
-import com.microsoft.azure.ListOperationCallback;
-import com.microsoft.azure.Page;
-import com.microsoft.azure.PagedList;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import com.microsoft.rest.ServiceResponse;
-import java.io.IOException;
-import java.util.List;
-import okhttp3.ResponseBody;
-import retrofit2.http.GET;
-import retrofit2.http.Header;
-import retrofit2.http.Headers;
-import retrofit2.http.Path;
-import retrofit2.http.Query;
-import retrofit2.http.Url;
-import retrofit2.Response;
-import rx.functions.Func1;
-import rx.Observable;
+import com.microsoft.azure.v2.AzureProxy;
+import com.microsoft.azure.v2.CloudException;
+import com.microsoft.azure.v2.Page;
+import com.microsoft.azure.v2.PagedList;
+import com.microsoft.rest.v2.BodyResponse;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
+import com.microsoft.rest.v2.annotations.ExpectedResponses;
+import com.microsoft.rest.v2.annotations.GET;
+import com.microsoft.rest.v2.annotations.HeaderParam;
+import com.microsoft.rest.v2.annotations.Host;
+import com.microsoft.rest.v2.annotations.PathParam;
+import com.microsoft.rest.v2.annotations.QueryParam;
+import com.microsoft.rest.v2.annotations.UnexpectedResponseExceptionType;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
+import io.reactivex.Single;
+import io.reactivex.annotations.NonNull;
 
 /**
- * An instance of this class provides access to all the operations defined
- * in VirtualMachineRunCommands.
+ * An instance of this class provides access to all the operations defined in
+ * VirtualMachineRunCommands.
  */
-public class VirtualMachineRunCommandsInner {
-    /** The Retrofit service to perform REST calls. */
+public final class VirtualMachineRunCommandsInner {
+    /**
+     * The proxy service used to perform REST calls.
+     */
     private VirtualMachineRunCommandsService service;
-    /** The service client containing this operation class. */
+
+    /**
+     * The service client containing this operation class.
+     */
     private ComputeManagementClientImpl client;
 
     /**
      * Initializes an instance of VirtualMachineRunCommandsInner.
      *
-     * @param retrofit the Retrofit instance built from a Retrofit Builder.
      * @param client the instance of the service client containing this operation class.
      */
-    public VirtualMachineRunCommandsInner(Retrofit retrofit, ComputeManagementClientImpl client) {
-        this.service = retrofit.create(VirtualMachineRunCommandsService.class);
+    public VirtualMachineRunCommandsInner(ComputeManagementClientImpl client) {
+        this.service = AzureProxy.create(VirtualMachineRunCommandsService.class, client);
         this.client = client;
     }
 
     /**
-     * The interface defining all the services for VirtualMachineRunCommands to be
-     * used by Retrofit to perform actually REST calls.
+     * The interface defining all the services for VirtualMachineRunCommands to
+     * be used by the proxy service to perform REST calls.
      */
-    interface VirtualMachineRunCommandsService {
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.VirtualMachineRunCommands list" })
+    @Host("https://management.azure.com")
+    private interface VirtualMachineRunCommandsService {
         @GET("subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/runCommands")
-        Observable<Response<ResponseBody>> list(@Path("location") String location, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl1<RunCommandDocumentBaseInner>>> list(@PathParam("location") String location, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.VirtualMachineRunCommands get" })
         @GET("subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/runCommands/{commandId}")
-        Observable<Response<ResponseBody>> get(@Path("location") String location, @Path("commandId") String commandId, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<RunCommandDocumentInner>> get(@PathParam("location") String location, @PathParam("commandId") String commandId, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.VirtualMachineRunCommands listNext" })
-        @GET
-        Observable<Response<ResponseBody>> listNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
-
+        @GET("{nextUrl}")
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl1<RunCommandDocumentBaseInner>>> listNext(@PathParam(value = "nextUrl", encoded = true) String nextUrl, @HeaderParam("accept-language") String acceptLanguage);
     }
 
     /**
      * Lists all available run commands for a subscription in a location.
      *
      * @param location The location upon which run commands is queried.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;RunCommandDocumentBaseInner&gt; object if successful.
      */
-    public PagedList<RunCommandDocumentBaseInner> list(final String location) {
-        ServiceResponse<Page<RunCommandDocumentBaseInner>> response = listSinglePageAsync(location).toBlocking().single();
-        return new PagedList<RunCommandDocumentBaseInner>(response.body()) {
+    public PagedList<RunCommandDocumentBaseInner> list(@NonNull String location) {
+        Page<RunCommandDocumentBaseInner> response = listSinglePageAsync(location).blockingGet();
+        return new PagedList<RunCommandDocumentBaseInner>(response) {
             @Override
             public Page<RunCommandDocumentBaseInner> nextPage(String nextPageLink) {
-                return listNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -94,94 +97,38 @@ public class VirtualMachineRunCommandsInner {
      * Lists all available run commands for a subscription in a location.
      *
      * @param location The location upon which run commands is queried.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;RunCommandDocumentBaseInner&gt; object.
      */
-    public ServiceFuture<List<RunCommandDocumentBaseInner>> listAsync(final String location, final ListOperationCallback<RunCommandDocumentBaseInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listSinglePageAsync(location),
-            new Func1<String, Observable<ServiceResponse<Page<RunCommandDocumentBaseInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<RunCommandDocumentBaseInner>>> call(String nextPageLink) {
-                    return listNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Lists all available run commands for a subscription in a location.
-     *
-     * @param location The location upon which run commands is queried.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;RunCommandDocumentBaseInner&gt; object
-     */
-    public Observable<Page<RunCommandDocumentBaseInner>> listAsync(final String location) {
-        return listWithServiceResponseAsync(location)
-            .map(new Func1<ServiceResponse<Page<RunCommandDocumentBaseInner>>, Page<RunCommandDocumentBaseInner>>() {
-                @Override
-                public Page<RunCommandDocumentBaseInner> call(ServiceResponse<Page<RunCommandDocumentBaseInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Lists all available run commands for a subscription in a location.
-     *
-     * @param location The location upon which run commands is queried.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;RunCommandDocumentBaseInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<RunCommandDocumentBaseInner>>> listWithServiceResponseAsync(final String location) {
+    public Observable<Page<RunCommandDocumentBaseInner>> listAsync(@NonNull String location) {
         return listSinglePageAsync(location)
-            .concatMap(new Func1<ServiceResponse<Page<RunCommandDocumentBaseInner>>, Observable<ServiceResponse<Page<RunCommandDocumentBaseInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<RunCommandDocumentBaseInner>>> call(ServiceResponse<Page<RunCommandDocumentBaseInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<RunCommandDocumentBaseInner> page) -> {
+                String nextPageLink = page.nextPageLink();
+                if (nextPageLink == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listNextAsync(nextPageLink));
             });
     }
 
     /**
      * Lists all available run commands for a subscription in a location.
      *
-    ServiceResponse<PageImpl1<RunCommandDocumentBaseInner>> * @param location The location upon which run commands is queried.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;RunCommandDocumentBaseInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param location The location upon which run commands is queried.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;RunCommandDocumentBaseInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<RunCommandDocumentBaseInner>>> listSinglePageAsync(final String location) {
+    public Single<Page<RunCommandDocumentBaseInner>> listSinglePageAsync(@NonNull String location) {
         if (location == null) {
             throw new IllegalArgumentException("Parameter location is required and cannot be null.");
         }
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-04-01";
-        return service.list(location, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<RunCommandDocumentBaseInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<RunCommandDocumentBaseInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl1<RunCommandDocumentBaseInner>> result = listDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<RunCommandDocumentBaseInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl1<RunCommandDocumentBaseInner>> listDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl1<RunCommandDocumentBaseInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl1<RunCommandDocumentBaseInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+        final String apiVersion = "2018-06-01";
+        return service.list(location, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl1<RunCommandDocumentBaseInner>> res) -> res.body());
     }
 
     /**
@@ -189,13 +136,13 @@ public class VirtualMachineRunCommandsInner {
      *
      * @param location The location upon which run commands is queried.
      * @param commandId The command id.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the RunCommandDocumentInner object if successful.
      */
-    public RunCommandDocumentInner get(String location, String commandId) {
-        return getWithServiceResponseAsync(location, commandId).toBlocking().single().body();
+    public RunCommandDocumentInner get(@NonNull String location, @NonNull String commandId) {
+        return getAsync(location, commandId).blockingGet();
     }
 
     /**
@@ -204,11 +151,11 @@ public class VirtualMachineRunCommandsInner {
      * @param location The location upon which run commands is queried.
      * @param commandId The command id.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<RunCommandDocumentInner> getAsync(String location, String commandId, final ServiceCallback<RunCommandDocumentInner> serviceCallback) {
-        return ServiceFuture.fromResponse(getWithServiceResponseAsync(location, commandId), serviceCallback);
+    public ServiceFuture<RunCommandDocumentInner> getAsync(@NonNull String location, @NonNull String commandId, ServiceCallback<RunCommandDocumentInner> serviceCallback) {
+        return ServiceFuture.fromBody(getAsync(location, commandId), serviceCallback);
     }
 
     /**
@@ -216,27 +163,10 @@ public class VirtualMachineRunCommandsInner {
      *
      * @param location The location upon which run commands is queried.
      * @param commandId The command id.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the RunCommandDocumentInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<RunCommandDocumentInner> getAsync(String location, String commandId) {
-        return getWithServiceResponseAsync(location, commandId).map(new Func1<ServiceResponse<RunCommandDocumentInner>, RunCommandDocumentInner>() {
-            @Override
-            public RunCommandDocumentInner call(ServiceResponse<RunCommandDocumentInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Gets specific run command for a subscription in a location.
-     *
-     * @param location The location upon which run commands is queried.
-     * @param commandId The command id.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the RunCommandDocumentInner object
-     */
-    public Observable<ServiceResponse<RunCommandDocumentInner>> getWithServiceResponseAsync(String location, String commandId) {
+    public Single<BodyResponse<RunCommandDocumentInner>> getWithRestResponseAsync(@NonNull String location, @NonNull String commandId) {
         if (location == null) {
             throw new IllegalArgumentException("Parameter location is required and cannot be null.");
         }
@@ -246,43 +176,38 @@ public class VirtualMachineRunCommandsInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-04-01";
-        return service.get(location, commandId, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<RunCommandDocumentInner>>>() {
-                @Override
-                public Observable<ServiceResponse<RunCommandDocumentInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<RunCommandDocumentInner> clientResponse = getDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        final String apiVersion = "2018-06-01";
+        return service.get(location, commandId, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<RunCommandDocumentInner> getDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<RunCommandDocumentInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<RunCommandDocumentInner>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Gets specific run command for a subscription in a location.
+     *
+     * @param location The location upon which run commands is queried.
+     * @param commandId The command id.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<RunCommandDocumentInner> getAsync(@NonNull String location, @NonNull String commandId) {
+        return getWithRestResponseAsync(location, commandId)
+            .flatMapMaybe((BodyResponse<RunCommandDocumentInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
      * Lists all available run commands for a subscription in a location.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;RunCommandDocumentBaseInner&gt; object if successful.
      */
-    public PagedList<RunCommandDocumentBaseInner> listNext(final String nextPageLink) {
-        ServiceResponse<Page<RunCommandDocumentBaseInner>> response = listNextSinglePageAsync(nextPageLink).toBlocking().single();
-        return new PagedList<RunCommandDocumentBaseInner>(response.body()) {
+    public PagedList<RunCommandDocumentBaseInner> listNext(@NonNull String nextPageLink) {
+        Page<RunCommandDocumentBaseInner> response = listNextSinglePageAsync(nextPageLink).blockingGet();
+        return new PagedList<RunCommandDocumentBaseInner>(response) {
             @Override
             public Page<RunCommandDocumentBaseInner> nextPage(String nextPageLink) {
-                return listNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -291,92 +216,34 @@ public class VirtualMachineRunCommandsInner {
      * Lists all available run commands for a subscription in a location.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;RunCommandDocumentBaseInner&gt; object.
      */
-    public ServiceFuture<List<RunCommandDocumentBaseInner>> listNextAsync(final String nextPageLink, final ServiceFuture<List<RunCommandDocumentBaseInner>> serviceFuture, final ListOperationCallback<RunCommandDocumentBaseInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listNextSinglePageAsync(nextPageLink),
-            new Func1<String, Observable<ServiceResponse<Page<RunCommandDocumentBaseInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<RunCommandDocumentBaseInner>>> call(String nextPageLink) {
-                    return listNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Lists all available run commands for a subscription in a location.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;RunCommandDocumentBaseInner&gt; object
-     */
-    public Observable<Page<RunCommandDocumentBaseInner>> listNextAsync(final String nextPageLink) {
-        return listNextWithServiceResponseAsync(nextPageLink)
-            .map(new Func1<ServiceResponse<Page<RunCommandDocumentBaseInner>>, Page<RunCommandDocumentBaseInner>>() {
-                @Override
-                public Page<RunCommandDocumentBaseInner> call(ServiceResponse<Page<RunCommandDocumentBaseInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Lists all available run commands for a subscription in a location.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;RunCommandDocumentBaseInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<RunCommandDocumentBaseInner>>> listNextWithServiceResponseAsync(final String nextPageLink) {
+    public Observable<Page<RunCommandDocumentBaseInner>> listNextAsync(@NonNull String nextPageLink) {
         return listNextSinglePageAsync(nextPageLink)
-            .concatMap(new Func1<ServiceResponse<Page<RunCommandDocumentBaseInner>>, Observable<ServiceResponse<Page<RunCommandDocumentBaseInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<RunCommandDocumentBaseInner>>> call(ServiceResponse<Page<RunCommandDocumentBaseInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<RunCommandDocumentBaseInner> page) -> {
+                String nextPageLink1 = page.nextPageLink();
+                if (nextPageLink1 == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listNextAsync(nextPageLink1));
             });
     }
 
     /**
      * Lists all available run commands for a subscription in a location.
      *
-    ServiceResponse<PageImpl1<RunCommandDocumentBaseInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;RunCommandDocumentBaseInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;RunCommandDocumentBaseInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<RunCommandDocumentBaseInner>>> listNextSinglePageAsync(final String nextPageLink) {
+    public Single<Page<RunCommandDocumentBaseInner>> listNextSinglePageAsync(@NonNull String nextPageLink) {
         if (nextPageLink == null) {
             throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
         }
         String nextUrl = String.format("%s", nextPageLink);
-        return service.listNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<RunCommandDocumentBaseInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<RunCommandDocumentBaseInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl1<RunCommandDocumentBaseInner>> result = listNextDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<RunCommandDocumentBaseInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.listNext(nextUrl, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl1<RunCommandDocumentBaseInner>> res) -> res.body());
     }
-
-    private ServiceResponse<PageImpl1<RunCommandDocumentBaseInner>> listNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl1<RunCommandDocumentBaseInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl1<RunCommandDocumentBaseInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
-    }
-
 }

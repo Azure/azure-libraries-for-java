@@ -8,14 +8,14 @@
 
 package com.microsoft.azure.v2.management.compute.implementation;
 
-import java.util.List;
-import com.microsoft.azure.v2.management.compute.RunCommandParameterDefinition;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.v2.management.compute.RunCommandParameterDefinition;
+import java.util.List;
 
 /**
  * Describes the properties of a Run Command.
  */
-public class RunCommandDocumentInner extends RunCommandDocumentBaseInner {
+public final class RunCommandDocumentInner extends RunCommandDocumentBaseInner {
     /**
      * The script to be executed.
      */
@@ -29,18 +29,18 @@ public class RunCommandDocumentInner extends RunCommandDocumentBaseInner {
     private List<RunCommandParameterDefinition> parameters;
 
     /**
-     * Get the script to be executed.
+     * Get the script value.
      *
-     * @return the script value
+     * @return the script value.
      */
     public List<String> script() {
         return this.script;
     }
 
     /**
-     * Set the script to be executed.
+     * Set the script value.
      *
-     * @param script the script value to set
+     * @param script the script value to set.
      * @return the RunCommandDocumentInner object itself.
      */
     public RunCommandDocumentInner withScript(List<String> script) {
@@ -49,23 +49,22 @@ public class RunCommandDocumentInner extends RunCommandDocumentBaseInner {
     }
 
     /**
-     * Get the parameters used by the script.
+     * Get the parameters value.
      *
-     * @return the parameters value
+     * @return the parameters value.
      */
     public List<RunCommandParameterDefinition> parameters() {
         return this.parameters;
     }
 
     /**
-     * Set the parameters used by the script.
+     * Set the parameters value.
      *
-     * @param parameters the parameters value to set
+     * @param parameters the parameters value to set.
      * @return the RunCommandDocumentInner object itself.
      */
     public RunCommandDocumentInner withParameters(List<RunCommandParameterDefinition> parameters) {
         this.parameters = parameters;
         return this;
     }
-
 }

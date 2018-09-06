@@ -18,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * want to use and then click **Want to deploy programmatically, Get Started
  * -&gt;**. Enter any required information and then click **Save**.
  */
-public class Plan {
+public final class Plan {
     /**
      * The plan ID.
      */
@@ -45,18 +45,18 @@ public class Plan {
     private String promotionCode;
 
     /**
-     * Get the plan ID.
+     * Get the name value.
      *
-     * @return the name value
+     * @return the name value.
      */
     public String name() {
         return this.name;
     }
 
     /**
-     * Set the plan ID.
+     * Set the name value.
      *
-     * @param name the name value to set
+     * @param name the name value to set.
      * @return the Plan object itself.
      */
     public Plan withName(String name) {
@@ -65,18 +65,18 @@ public class Plan {
     }
 
     /**
-     * Get the publisher ID.
+     * Get the publisher value.
      *
-     * @return the publisher value
+     * @return the publisher value.
      */
     public String publisher() {
         return this.publisher;
     }
 
     /**
-     * Set the publisher ID.
+     * Set the publisher value.
      *
-     * @param publisher the publisher value to set
+     * @param publisher the publisher value to set.
      * @return the Plan object itself.
      */
     public Plan withPublisher(String publisher) {
@@ -85,18 +85,18 @@ public class Plan {
     }
 
     /**
-     * Get specifies the product of the image from the marketplace. This is the same value as Offer under the imageReference element.
+     * Get the product value.
      *
-     * @return the product value
+     * @return the product value.
      */
     public String product() {
         return this.product;
     }
 
     /**
-     * Set specifies the product of the image from the marketplace. This is the same value as Offer under the imageReference element.
+     * Set the product value.
      *
-     * @param product the product value to set
+     * @param product the product value to set.
      * @return the Plan object itself.
      */
     public Plan withProduct(String product) {
@@ -105,23 +105,22 @@ public class Plan {
     }
 
     /**
-     * Get the promotion code.
+     * Get the promotionCode value.
      *
-     * @return the promotionCode value
+     * @return the promotionCode value.
      */
     public String promotionCode() {
         return this.promotionCode;
     }
 
     /**
-     * Set the promotion code.
+     * Set the promotionCode value.
      *
-     * @param promotionCode the promotionCode value to set
+     * @param promotionCode the promotionCode value to set.
      * @return the Plan object itself.
      */
     public Plan withPromotionCode(String promotionCode) {
         this.promotionCode = promotionCode;
         return this;
     }
-
 }

@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Describes scaling information of a SKU.
  */
-public class ResourceSkuCapacity {
+public final class ResourceSkuCapacity {
     /**
      * The minimum capacity.
      */
@@ -40,39 +40,38 @@ public class ResourceSkuCapacity {
     private ResourceSkuCapacityScaleType scaleType;
 
     /**
-     * Get the minimum capacity.
+     * Get the minimum value.
      *
-     * @return the minimum value
+     * @return the minimum value.
      */
     public Long minimum() {
         return this.minimum;
     }
 
     /**
-     * Get the maximum capacity that can be set.
+     * Get the maximum value.
      *
-     * @return the maximum value
+     * @return the maximum value.
      */
     public Long maximum() {
         return this.maximum;
     }
 
     /**
-     * Get the default capacity.
+     * Get the defaultProperty value.
      *
-     * @return the defaultProperty value
+     * @return the defaultProperty value.
      */
     public Long defaultProperty() {
         return this.defaultProperty;
     }
 
     /**
-     * Get the scale type applicable to the sku. Possible values include: 'Automatic', 'Manual', 'None'.
+     * Get the scaleType value.
      *
-     * @return the scaleType value
+     * @return the scaleType value.
      */
     public ResourceSkuCapacityScaleType scaleType() {
         return this.scaleType;
     }
-
 }

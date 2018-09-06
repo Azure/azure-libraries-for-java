@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Contains the IP tag associated with the public IP address.
  */
-public class VirtualMachineScaleSetIpTag {
+public final class VirtualMachineScaleSetIpTag {
     /**
      * IP tag type. Example: FirstPartyUsage.
      */
@@ -27,18 +27,18 @@ public class VirtualMachineScaleSetIpTag {
     private String tag;
 
     /**
-     * Get iP tag type. Example: FirstPartyUsage.
+     * Get the ipTagType value.
      *
-     * @return the ipTagType value
+     * @return the ipTagType value.
      */
     public String ipTagType() {
         return this.ipTagType;
     }
 
     /**
-     * Set iP tag type. Example: FirstPartyUsage.
+     * Set the ipTagType value.
      *
-     * @param ipTagType the ipTagType value to set
+     * @param ipTagType the ipTagType value to set.
      * @return the VirtualMachineScaleSetIpTag object itself.
      */
     public VirtualMachineScaleSetIpTag withIpTagType(String ipTagType) {
@@ -47,23 +47,22 @@ public class VirtualMachineScaleSetIpTag {
     }
 
     /**
-     * Get iP tag associated with the public IP. Example: SQL, Storage etc.
+     * Get the tag value.
      *
-     * @return the tag value
+     * @return the tag value.
      */
     public String tag() {
         return this.tag;
     }
 
     /**
-     * Set iP tag associated with the public IP. Example: SQL, Storage etc.
+     * Set the tag value.
      *
-     * @param tag the tag value to set
+     * @param tag the tag value to set.
      * @return the VirtualMachineScaleSetIpTag object itself.
      */
     public VirtualMachineScaleSetIpTag withTag(String tag) {
         this.tag = tag;
         return this;
     }
-
 }

@@ -8,9 +8,9 @@
 
 package com.microsoft.azure.v2.management.compute;
 
-import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
+import java.util.Map;
 
 /**
  * Disk update resource.
@@ -52,18 +52,18 @@ public class DiskUpdate {
     private DiskSku sku;
 
     /**
-     * Get the Operating System type. Possible values include: 'Windows', 'Linux'.
+     * Get the osType value.
      *
-     * @return the osType value
+     * @return the osType value.
      */
     public OperatingSystemTypes osType() {
         return this.osType;
     }
 
     /**
-     * Set the Operating System type. Possible values include: 'Windows', 'Linux'.
+     * Set the osType value.
      *
-     * @param osType the osType value to set
+     * @param osType the osType value to set.
      * @return the DiskUpdate object itself.
      */
     public DiskUpdate withOsType(OperatingSystemTypes osType) {
@@ -72,18 +72,18 @@ public class DiskUpdate {
     }
 
     /**
-     * Get if creationData.createOption is Empty, this field is mandatory and it indicates the size of the VHD to create. If this field is present for updates or creation with other options, it indicates a resize. Resizes are only allowed if the disk is not attached to a running VM, and can only increase the disk's size.
+     * Get the diskSizeGB value.
      *
-     * @return the diskSizeGB value
+     * @return the diskSizeGB value.
      */
     public Integer diskSizeGB() {
         return this.diskSizeGB;
     }
 
     /**
-     * Set if creationData.createOption is Empty, this field is mandatory and it indicates the size of the VHD to create. If this field is present for updates or creation with other options, it indicates a resize. Resizes are only allowed if the disk is not attached to a running VM, and can only increase the disk's size.
+     * Set the diskSizeGB value.
      *
-     * @param diskSizeGB the diskSizeGB value to set
+     * @param diskSizeGB the diskSizeGB value to set.
      * @return the DiskUpdate object itself.
      */
     public DiskUpdate withDiskSizeGB(Integer diskSizeGB) {
@@ -92,18 +92,18 @@ public class DiskUpdate {
     }
 
     /**
-     * Get encryption settings for disk or snapshot.
+     * Get the encryptionSettings value.
      *
-     * @return the encryptionSettings value
+     * @return the encryptionSettings value.
      */
     public EncryptionSettings encryptionSettings() {
         return this.encryptionSettings;
     }
 
     /**
-     * Set encryption settings for disk or snapshot.
+     * Set the encryptionSettings value.
      *
-     * @param encryptionSettings the encryptionSettings value to set
+     * @param encryptionSettings the encryptionSettings value to set.
      * @return the DiskUpdate object itself.
      */
     public DiskUpdate withEncryptionSettings(EncryptionSettings encryptionSettings) {
@@ -112,18 +112,18 @@ public class DiskUpdate {
     }
 
     /**
-     * Get resource tags.
+     * Get the tags value.
      *
-     * @return the tags value
+     * @return the tags value.
      */
     public Map<String, String> tags() {
         return this.tags;
     }
 
     /**
-     * Set resource tags.
+     * Set the tags value.
      *
-     * @param tags the tags value to set
+     * @param tags the tags value to set.
      * @return the DiskUpdate object itself.
      */
     public DiskUpdate withTags(Map<String, String> tags) {
@@ -134,7 +134,7 @@ public class DiskUpdate {
     /**
      * Get the sku value.
      *
-     * @return the sku value
+     * @return the sku value.
      */
     public DiskSku sku() {
         return this.sku;
@@ -143,12 +143,11 @@ public class DiskUpdate {
     /**
      * Set the sku value.
      *
-     * @param sku the sku value to set
+     * @param sku the sku value to set.
      * @return the DiskUpdate object itself.
      */
     public DiskUpdate withSku(DiskSku sku) {
         this.sku = sku;
         return this;
     }
-
 }

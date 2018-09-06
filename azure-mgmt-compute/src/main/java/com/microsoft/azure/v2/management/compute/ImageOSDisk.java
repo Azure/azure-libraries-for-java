@@ -8,13 +8,13 @@
 
 package com.microsoft.azure.v2.management.compute;
 
-import com.microsoft.azure.SubResource;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.v2.SubResource;
 
 /**
  * Describes an Operating System disk.
  */
-public class ImageOSDisk {
+public final class ImageOSDisk {
     /**
      * This property allows you to specify the type of the OS that is included
      * in the disk if creating a VM from a custom image. &lt;br&gt;&lt;br&gt;
@@ -69,25 +69,25 @@ public class ImageOSDisk {
 
     /**
      * Specifies the storage account type for the managed disk. Possible values
-     * are: Standard_LRS or Premium_LRS. Possible values include:
-     * 'Standard_LRS', 'Premium_LRS'.
+     * are: Standard_LRS, Premium_LRS, and StandardSSD_LRS. Possible values
+     * include: 'Standard_LRS', 'Premium_LRS', 'StandardSSD_LRS'.
      */
     @JsonProperty(value = "storageAccountType")
     private StorageAccountTypes storageAccountType;
 
     /**
-     * Get this property allows you to specify the type of the OS that is included in the disk if creating a VM from a custom image. &lt;br&gt;&lt;br&gt; Possible values are: &lt;br&gt;&lt;br&gt; **Windows** &lt;br&gt;&lt;br&gt; **Linux**. Possible values include: 'Windows', 'Linux'.
+     * Get the osType value.
      *
-     * @return the osType value
+     * @return the osType value.
      */
     public OperatingSystemTypes osType() {
         return this.osType;
     }
 
     /**
-     * Set this property allows you to specify the type of the OS that is included in the disk if creating a VM from a custom image. &lt;br&gt;&lt;br&gt; Possible values are: &lt;br&gt;&lt;br&gt; **Windows** &lt;br&gt;&lt;br&gt; **Linux**. Possible values include: 'Windows', 'Linux'.
+     * Set the osType value.
      *
-     * @param osType the osType value to set
+     * @param osType the osType value to set.
      * @return the ImageOSDisk object itself.
      */
     public ImageOSDisk withOsType(OperatingSystemTypes osType) {
@@ -96,18 +96,18 @@ public class ImageOSDisk {
     }
 
     /**
-     * Get the OS State. Possible values include: 'Generalized', 'Specialized'.
+     * Get the osState value.
      *
-     * @return the osState value
+     * @return the osState value.
      */
     public OperatingSystemStateTypes osState() {
         return this.osState;
     }
 
     /**
-     * Set the OS State. Possible values include: 'Generalized', 'Specialized'.
+     * Set the osState value.
      *
-     * @param osState the osState value to set
+     * @param osState the osState value to set.
      * @return the ImageOSDisk object itself.
      */
     public ImageOSDisk withOsState(OperatingSystemStateTypes osState) {
@@ -116,18 +116,18 @@ public class ImageOSDisk {
     }
 
     /**
-     * Get the snapshot.
+     * Get the snapshot value.
      *
-     * @return the snapshot value
+     * @return the snapshot value.
      */
     public SubResource snapshot() {
         return this.snapshot;
     }
 
     /**
-     * Set the snapshot.
+     * Set the snapshot value.
      *
-     * @param snapshot the snapshot value to set
+     * @param snapshot the snapshot value to set.
      * @return the ImageOSDisk object itself.
      */
     public ImageOSDisk withSnapshot(SubResource snapshot) {
@@ -136,18 +136,18 @@ public class ImageOSDisk {
     }
 
     /**
-     * Get the managedDisk.
+     * Get the managedDisk value.
      *
-     * @return the managedDisk value
+     * @return the managedDisk value.
      */
     public SubResource managedDisk() {
         return this.managedDisk;
     }
 
     /**
-     * Set the managedDisk.
+     * Set the managedDisk value.
      *
-     * @param managedDisk the managedDisk value to set
+     * @param managedDisk the managedDisk value to set.
      * @return the ImageOSDisk object itself.
      */
     public ImageOSDisk withManagedDisk(SubResource managedDisk) {
@@ -156,18 +156,18 @@ public class ImageOSDisk {
     }
 
     /**
-     * Get the Virtual Hard Disk.
+     * Get the blobUri value.
      *
-     * @return the blobUri value
+     * @return the blobUri value.
      */
     public String blobUri() {
         return this.blobUri;
     }
 
     /**
-     * Set the Virtual Hard Disk.
+     * Set the blobUri value.
      *
-     * @param blobUri the blobUri value to set
+     * @param blobUri the blobUri value to set.
      * @return the ImageOSDisk object itself.
      */
     public ImageOSDisk withBlobUri(String blobUri) {
@@ -176,18 +176,18 @@ public class ImageOSDisk {
     }
 
     /**
-     * Get specifies the caching requirements. &lt;br&gt;&lt;br&gt; Possible values are: &lt;br&gt;&lt;br&gt; **None** &lt;br&gt;&lt;br&gt; **ReadOnly** &lt;br&gt;&lt;br&gt; **ReadWrite** &lt;br&gt;&lt;br&gt; Default: **None for Standard storage. ReadOnly for Premium storage**. Possible values include: 'None', 'ReadOnly', 'ReadWrite'.
+     * Get the caching value.
      *
-     * @return the caching value
+     * @return the caching value.
      */
     public CachingTypes caching() {
         return this.caching;
     }
 
     /**
-     * Set specifies the caching requirements. &lt;br&gt;&lt;br&gt; Possible values are: &lt;br&gt;&lt;br&gt; **None** &lt;br&gt;&lt;br&gt; **ReadOnly** &lt;br&gt;&lt;br&gt; **ReadWrite** &lt;br&gt;&lt;br&gt; Default: **None for Standard storage. ReadOnly for Premium storage**. Possible values include: 'None', 'ReadOnly', 'ReadWrite'.
+     * Set the caching value.
      *
-     * @param caching the caching value to set
+     * @param caching the caching value to set.
      * @return the ImageOSDisk object itself.
      */
     public ImageOSDisk withCaching(CachingTypes caching) {
@@ -196,18 +196,18 @@ public class ImageOSDisk {
     }
 
     /**
-     * Get specifies the size of empty data disks in gigabytes. This element can be used to overwrite the name of the disk in a virtual machine image. &lt;br&gt;&lt;br&gt; This value cannot be larger than 1023 GB.
+     * Get the diskSizeGB value.
      *
-     * @return the diskSizeGB value
+     * @return the diskSizeGB value.
      */
     public Integer diskSizeGB() {
         return this.diskSizeGB;
     }
 
     /**
-     * Set specifies the size of empty data disks in gigabytes. This element can be used to overwrite the name of the disk in a virtual machine image. &lt;br&gt;&lt;br&gt; This value cannot be larger than 1023 GB.
+     * Set the diskSizeGB value.
      *
-     * @param diskSizeGB the diskSizeGB value to set
+     * @param diskSizeGB the diskSizeGB value to set.
      * @return the ImageOSDisk object itself.
      */
     public ImageOSDisk withDiskSizeGB(Integer diskSizeGB) {
@@ -216,23 +216,22 @@ public class ImageOSDisk {
     }
 
     /**
-     * Get specifies the storage account type for the managed disk. Possible values are: Standard_LRS or Premium_LRS. Possible values include: 'Standard_LRS', 'Premium_LRS'.
+     * Get the storageAccountType value.
      *
-     * @return the storageAccountType value
+     * @return the storageAccountType value.
      */
     public StorageAccountTypes storageAccountType() {
         return this.storageAccountType;
     }
 
     /**
-     * Set specifies the storage account type for the managed disk. Possible values are: Standard_LRS or Premium_LRS. Possible values include: 'Standard_LRS', 'Premium_LRS'.
+     * Set the storageAccountType value.
      *
-     * @param storageAccountType the storageAccountType value to set
+     * @param storageAccountType the storageAccountType value to set.
      * @return the ImageOSDisk object itself.
      */
     public ImageOSDisk withStorageAccountType(StorageAccountTypes storageAccountType) {
         this.storageAccountType = storageAccountType;
         return this;
     }
-
 }

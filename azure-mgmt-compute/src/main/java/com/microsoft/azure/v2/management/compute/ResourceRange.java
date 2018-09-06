@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Describes the resource range.
  */
-public class ResourceRange {
+public final class ResourceRange {
     /**
      * The minimum number of the resource.
      */
@@ -27,18 +27,18 @@ public class ResourceRange {
     private Integer max;
 
     /**
-     * Get the minimum number of the resource.
+     * Get the min value.
      *
-     * @return the min value
+     * @return the min value.
      */
     public Integer min() {
         return this.min;
     }
 
     /**
-     * Set the minimum number of the resource.
+     * Set the min value.
      *
-     * @param min the min value to set
+     * @param min the min value to set.
      * @return the ResourceRange object itself.
      */
     public ResourceRange withMin(Integer min) {
@@ -47,23 +47,22 @@ public class ResourceRange {
     }
 
     /**
-     * Get the maximum number of the resource.
+     * Get the max value.
      *
-     * @return the max value
+     * @return the max value.
      */
     public Integer max() {
         return this.max;
     }
 
     /**
-     * Set the maximum number of the resource.
+     * Set the max value.
      *
-     * @param max the max value to set
+     * @param max the max value to set.
      * @return the ResourceRange object itself.
      */
     public ResourceRange withMax(Integer max) {
         this.max = max;
         return this;
     }
-
 }

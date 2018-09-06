@@ -8,13 +8,13 @@
 
 package com.microsoft.azure.v2.management.compute;
 
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 
 /**
  * This is the replication status of the gallery image version.
  */
-public class ReplicationStatus {
+public final class ReplicationStatus {
     /**
      * This is the aggregated replication status based on the regional
      * replication status. Possible values include: 'Unknown', 'InProgress',
@@ -30,21 +30,20 @@ public class ReplicationStatus {
     private List<RegionalReplicationStatus> summary;
 
     /**
-     * Get this is the aggregated replication status based on the regional replication status. Possible values include: 'Unknown', 'InProgress', 'Completed', 'Failed'.
+     * Get the aggregatedState value.
      *
-     * @return the aggregatedState value
+     * @return the aggregatedState value.
      */
     public AggregatedReplicationState aggregatedState() {
         return this.aggregatedState;
     }
 
     /**
-     * Get this is a summary of replication status for each region.
+     * Get the summary value.
      *
-     * @return the summary value
+     * @return the summary value.
      */
     public List<RegionalReplicationStatus> summary() {
         return this.summary;
     }
-
 }

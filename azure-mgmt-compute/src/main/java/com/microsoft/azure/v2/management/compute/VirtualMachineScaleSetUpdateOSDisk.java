@@ -8,14 +8,14 @@
 
 package com.microsoft.azure.v2.management.compute;
 
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 
 /**
  * Describes virtual machine scale set operating system disk Update Object.
  * This should be used for Updating VMSS OS Disk.
  */
-public class VirtualMachineScaleSetUpdateOSDisk {
+public final class VirtualMachineScaleSetUpdateOSDisk {
     /**
      * The caching type. Possible values include: 'None', 'ReadOnly',
      * 'ReadWrite'.
@@ -29,6 +29,15 @@ public class VirtualMachineScaleSetUpdateOSDisk {
      */
     @JsonProperty(value = "writeAcceleratorEnabled")
     private Boolean writeAcceleratorEnabled;
+
+    /**
+     * Specifies the size of the operating system disk in gigabytes. This
+     * element can be used to overwrite the size of the disk in a virtual
+     * machine image. &lt;br&gt;&lt;br&gt; This value cannot be larger than
+     * 1023 GB.
+     */
+    @JsonProperty(value = "diskSizeGB")
+    private Integer diskSizeGB;
 
     /**
      * The Source User Image VirtualHardDisk. This VirtualHardDisk will be
@@ -51,18 +60,18 @@ public class VirtualMachineScaleSetUpdateOSDisk {
     private VirtualMachineScaleSetManagedDiskParameters managedDisk;
 
     /**
-     * Get the caching type. Possible values include: 'None', 'ReadOnly', 'ReadWrite'.
+     * Get the caching value.
      *
-     * @return the caching value
+     * @return the caching value.
      */
     public CachingTypes caching() {
         return this.caching;
     }
 
     /**
-     * Set the caching type. Possible values include: 'None', 'ReadOnly', 'ReadWrite'.
+     * Set the caching value.
      *
-     * @param caching the caching value to set
+     * @param caching the caching value to set.
      * @return the VirtualMachineScaleSetUpdateOSDisk object itself.
      */
     public VirtualMachineScaleSetUpdateOSDisk withCaching(CachingTypes caching) {
@@ -71,18 +80,18 @@ public class VirtualMachineScaleSetUpdateOSDisk {
     }
 
     /**
-     * Get specifies whether writeAccelerator should be enabled or disabled on the disk.
+     * Get the writeAcceleratorEnabled value.
      *
-     * @return the writeAcceleratorEnabled value
+     * @return the writeAcceleratorEnabled value.
      */
     public Boolean writeAcceleratorEnabled() {
         return this.writeAcceleratorEnabled;
     }
 
     /**
-     * Set specifies whether writeAccelerator should be enabled or disabled on the disk.
+     * Set the writeAcceleratorEnabled value.
      *
-     * @param writeAcceleratorEnabled the writeAcceleratorEnabled value to set
+     * @param writeAcceleratorEnabled the writeAcceleratorEnabled value to set.
      * @return the VirtualMachineScaleSetUpdateOSDisk object itself.
      */
     public VirtualMachineScaleSetUpdateOSDisk withWriteAcceleratorEnabled(Boolean writeAcceleratorEnabled) {
@@ -91,18 +100,38 @@ public class VirtualMachineScaleSetUpdateOSDisk {
     }
 
     /**
-     * Get the Source User Image VirtualHardDisk. This VirtualHardDisk will be copied before using it to attach to the Virtual Machine. If SourceImage is provided, the destination VirtualHardDisk should not exist.
+     * Get the diskSizeGB value.
      *
-     * @return the image value
+     * @return the diskSizeGB value.
+     */
+    public Integer diskSizeGB() {
+        return this.diskSizeGB;
+    }
+
+    /**
+     * Set the diskSizeGB value.
+     *
+     * @param diskSizeGB the diskSizeGB value to set.
+     * @return the VirtualMachineScaleSetUpdateOSDisk object itself.
+     */
+    public VirtualMachineScaleSetUpdateOSDisk withDiskSizeGB(Integer diskSizeGB) {
+        this.diskSizeGB = diskSizeGB;
+        return this;
+    }
+
+    /**
+     * Get the image value.
+     *
+     * @return the image value.
      */
     public VirtualHardDisk image() {
         return this.image;
     }
 
     /**
-     * Set the Source User Image VirtualHardDisk. This VirtualHardDisk will be copied before using it to attach to the Virtual Machine. If SourceImage is provided, the destination VirtualHardDisk should not exist.
+     * Set the image value.
      *
-     * @param image the image value to set
+     * @param image the image value to set.
      * @return the VirtualMachineScaleSetUpdateOSDisk object itself.
      */
     public VirtualMachineScaleSetUpdateOSDisk withImage(VirtualHardDisk image) {
@@ -111,18 +140,18 @@ public class VirtualMachineScaleSetUpdateOSDisk {
     }
 
     /**
-     * Get the list of virtual hard disk container uris.
+     * Get the vhdContainers value.
      *
-     * @return the vhdContainers value
+     * @return the vhdContainers value.
      */
     public List<String> vhdContainers() {
         return this.vhdContainers;
     }
 
     /**
-     * Set the list of virtual hard disk container uris.
+     * Set the vhdContainers value.
      *
-     * @param vhdContainers the vhdContainers value to set
+     * @param vhdContainers the vhdContainers value to set.
      * @return the VirtualMachineScaleSetUpdateOSDisk object itself.
      */
     public VirtualMachineScaleSetUpdateOSDisk withVhdContainers(List<String> vhdContainers) {
@@ -131,23 +160,22 @@ public class VirtualMachineScaleSetUpdateOSDisk {
     }
 
     /**
-     * Get the managed disk parameters.
+     * Get the managedDisk value.
      *
-     * @return the managedDisk value
+     * @return the managedDisk value.
      */
     public VirtualMachineScaleSetManagedDiskParameters managedDisk() {
         return this.managedDisk;
     }
 
     /**
-     * Set the managed disk parameters.
+     * Set the managedDisk value.
      *
-     * @param managedDisk the managedDisk value to set
+     * @param managedDisk the managedDisk value to set.
      * @return the VirtualMachineScaleSetUpdateOSDisk object itself.
      */
     public VirtualMachineScaleSetUpdateOSDisk withManagedDisk(VirtualMachineScaleSetManagedDiskParameters managedDisk) {
         this.managedDisk = managedDisk;
         return this;
     }
-
 }

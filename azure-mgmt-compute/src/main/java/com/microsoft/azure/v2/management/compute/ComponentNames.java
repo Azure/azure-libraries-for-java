@@ -15,13 +15,17 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Defines values for ComponentNames.
  */
 public enum ComponentNames {
-    /** Enum value Microsoft-Windows-Shell-Setup. */
+    /**
+     * Enum value Microsoft-Windows-Shell-Setup.
+     */
     MICROSOFT_WINDOWS_SHELL_SETUP("Microsoft-Windows-Shell-Setup");
 
-    /** The actual serialized value for a ComponentNames instance. */
-    private String value;
+    /**
+     * The actual serialized value for a ComponentNames instance.
+     */
+    private final String value;
 
-    ComponentNames(String value) {
+    private ComponentNames(String value) {
         this.value = value;
     }
 

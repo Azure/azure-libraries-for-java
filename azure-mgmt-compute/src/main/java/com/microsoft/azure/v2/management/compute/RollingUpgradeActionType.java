@@ -15,16 +15,22 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Defines values for RollingUpgradeActionType.
  */
 public enum RollingUpgradeActionType {
-    /** Enum value Start. */
+    /**
+     * Enum value Start.
+     */
     START("Start"),
 
-    /** Enum value Cancel. */
+    /**
+     * Enum value Cancel.
+     */
     CANCEL("Cancel");
 
-    /** The actual serialized value for a RollingUpgradeActionType instance. */
-    private String value;
+    /**
+     * The actual serialized value for a RollingUpgradeActionType instance.
+     */
+    private final String value;
 
-    RollingUpgradeActionType(String value) {
+    private RollingUpgradeActionType(String value) {
         this.value = value;
     }
 

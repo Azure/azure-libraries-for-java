@@ -8,87 +8,113 @@
 
 package com.microsoft.azure.v2.management.compute.implementation;
 
-import retrofit2.Retrofit;
-import com.google.common.reflect.TypeToken;
-import com.microsoft.azure.AzureServiceFuture;
-import com.microsoft.azure.CloudException;
-import com.microsoft.azure.ListOperationCallback;
-import com.microsoft.azure.Page;
-import com.microsoft.azure.PagedList;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import com.microsoft.rest.ServiceResponse;
-import com.microsoft.rest.Validator;
-import java.io.IOException;
-import java.util.List;
-import okhttp3.ResponseBody;
-import retrofit2.http.Body;
-import retrofit2.http.GET;
-import retrofit2.http.Header;
-import retrofit2.http.Headers;
-import retrofit2.http.HTTP;
-import retrofit2.http.Path;
-import retrofit2.http.PUT;
-import retrofit2.http.Query;
-import retrofit2.http.Url;
-import retrofit2.Response;
-import rx.functions.Func1;
-import rx.Observable;
+import com.microsoft.azure.v2.AzureProxy;
+import com.microsoft.azure.v2.CloudException;
+import com.microsoft.azure.v2.OperationStatus;
+import com.microsoft.azure.v2.Page;
+import com.microsoft.azure.v2.PagedList;
+import com.microsoft.azure.v2.util.ServiceFutureUtil;
+import com.microsoft.rest.v2.BodyResponse;
+import com.microsoft.rest.v2.OperationDescription;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
+import com.microsoft.rest.v2.Validator;
+import com.microsoft.rest.v2.VoidResponse;
+import com.microsoft.rest.v2.annotations.BodyParam;
+import com.microsoft.rest.v2.annotations.DELETE;
+import com.microsoft.rest.v2.annotations.ExpectedResponses;
+import com.microsoft.rest.v2.annotations.GET;
+import com.microsoft.rest.v2.annotations.HeaderParam;
+import com.microsoft.rest.v2.annotations.Host;
+import com.microsoft.rest.v2.annotations.PathParam;
+import com.microsoft.rest.v2.annotations.PUT;
+import com.microsoft.rest.v2.annotations.QueryParam;
+import com.microsoft.rest.v2.annotations.ResumeOperation;
+import com.microsoft.rest.v2.annotations.UnexpectedResponseExceptionType;
+import io.reactivex.Completable;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
+import io.reactivex.Single;
+import io.reactivex.annotations.NonNull;
 
 /**
- * An instance of this class provides access to all the operations defined
- * in VirtualMachineScaleSetExtensions.
+ * An instance of this class provides access to all the operations defined in
+ * VirtualMachineScaleSetExtensions.
  */
-public class VirtualMachineScaleSetExtensionsInner {
-    /** The Retrofit service to perform REST calls. */
+public final class VirtualMachineScaleSetExtensionsInner {
+    /**
+     * The proxy service used to perform REST calls.
+     */
     private VirtualMachineScaleSetExtensionsService service;
-    /** The service client containing this operation class. */
+
+    /**
+     * The service client containing this operation class.
+     */
     private ComputeManagementClientImpl client;
 
     /**
      * Initializes an instance of VirtualMachineScaleSetExtensionsInner.
      *
-     * @param retrofit the Retrofit instance built from a Retrofit Builder.
      * @param client the instance of the service client containing this operation class.
      */
-    public VirtualMachineScaleSetExtensionsInner(Retrofit retrofit, ComputeManagementClientImpl client) {
-        this.service = retrofit.create(VirtualMachineScaleSetExtensionsService.class);
+    public VirtualMachineScaleSetExtensionsInner(ComputeManagementClientImpl client) {
+        this.service = AzureProxy.create(VirtualMachineScaleSetExtensionsService.class, client);
         this.client = client;
     }
 
     /**
-     * The interface defining all the services for VirtualMachineScaleSetExtensions to be
-     * used by Retrofit to perform actually REST calls.
+     * The interface defining all the services for
+     * VirtualMachineScaleSetExtensions to be used by the proxy service to
+     * perform REST calls.
      */
-    interface VirtualMachineScaleSetExtensionsService {
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.VirtualMachineScaleSetExtensions createOrUpdate" })
+    @Host("https://management.azure.com")
+    private interface VirtualMachineScaleSetExtensionsService {
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/extensions/{vmssExtensionName}")
-        Observable<Response<ResponseBody>> createOrUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("vmScaleSetName") String vmScaleSetName, @Path("vmssExtensionName") String vmssExtensionName, @Path("subscriptionId") String subscriptionId, @Body VirtualMachineScaleSetExtensionInner extensionParameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 201, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Observable<OperationStatus<VirtualMachineScaleSetExtensionInner>> beginCreateOrUpdate(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("vmScaleSetName") String vmScaleSetName, @PathParam("vmssExtensionName") String vmssExtensionName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json; charset=utf-8") VirtualMachineScaleSetExtensionInner extensionParameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.VirtualMachineScaleSetExtensions beginCreateOrUpdate" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/extensions/{vmssExtensionName}")
-        Observable<Response<ResponseBody>> beginCreateOrUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("vmScaleSetName") String vmScaleSetName, @Path("vmssExtensionName") String vmssExtensionName, @Path("subscriptionId") String subscriptionId, @Body VirtualMachineScaleSetExtensionInner extensionParameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 201, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<VirtualMachineScaleSetExtensionInner>> createOrUpdate(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("vmScaleSetName") String vmScaleSetName, @PathParam("vmssExtensionName") String vmssExtensionName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json; charset=utf-8") VirtualMachineScaleSetExtensionInner extensionParameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.VirtualMachineScaleSetExtensions delete" })
-        @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/extensions/{vmssExtensionName}", method = "DELETE", hasBody = true)
-        Observable<Response<ResponseBody>> delete(@Path("resourceGroupName") String resourceGroupName, @Path("vmScaleSetName") String vmScaleSetName, @Path("vmssExtensionName") String vmssExtensionName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/extensions/{vmssExtensionName}")
+        @ExpectedResponses({200, 201, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<VirtualMachineScaleSetExtensionInner>> resumeCreateOrUpdate(OperationDescription operationDescription);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.VirtualMachineScaleSetExtensions beginDelete" })
-        @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/extensions/{vmssExtensionName}", method = "DELETE", hasBody = true)
-        Observable<Response<ResponseBody>> beginDelete(@Path("resourceGroupName") String resourceGroupName, @Path("vmScaleSetName") String vmScaleSetName, @Path("vmssExtensionName") String vmssExtensionName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @DELETE("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/extensions/{vmssExtensionName}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Observable<OperationStatus<Void>> beginDelete(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("vmScaleSetName") String vmScaleSetName, @PathParam("vmssExtensionName") String vmssExtensionName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.VirtualMachineScaleSetExtensions get" })
+        @DELETE("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/extensions/{vmssExtensionName}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<VoidResponse> delete(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("vmScaleSetName") String vmScaleSetName, @PathParam("vmssExtensionName") String vmssExtensionName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
+
+        @DELETE("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/extensions/{vmssExtensionName}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<Void>> resumeDelete(OperationDescription operationDescription);
+
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/extensions/{vmssExtensionName}")
-        Observable<Response<ResponseBody>> get(@Path("resourceGroupName") String resourceGroupName, @Path("vmScaleSetName") String vmScaleSetName, @Path("vmssExtensionName") String vmssExtensionName, @Path("subscriptionId") String subscriptionId, @Query("$expand") String expand, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<VirtualMachineScaleSetExtensionInner>> get(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("vmScaleSetName") String vmScaleSetName, @PathParam("vmssExtensionName") String vmssExtensionName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("$expand") String expand, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.VirtualMachineScaleSetExtensions list" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/extensions")
-        Observable<Response<ResponseBody>> list(@Path("resourceGroupName") String resourceGroupName, @Path("vmScaleSetName") String vmScaleSetName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl1<VirtualMachineScaleSetExtensionInner>>> list(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("vmScaleSetName") String vmScaleSetName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.VirtualMachineScaleSetExtensions listNext" })
-        @GET
-        Observable<Response<ResponseBody>> listNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
-
+        @GET("{nextUrl}")
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl1<VirtualMachineScaleSetExtensionInner>>> listNext(@PathParam(value = "nextUrl", encoded = true) String nextUrl, @HeaderParam("accept-language") String acceptLanguage);
     }
 
     /**
@@ -98,13 +124,13 @@ public class VirtualMachineScaleSetExtensionsInner {
      * @param vmScaleSetName The name of the VM scale set where the extension should be create or updated.
      * @param vmssExtensionName The name of the VM scale set extension.
      * @param extensionParameters Parameters supplied to the Create VM scale set Extension operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the VirtualMachineScaleSetExtensionInner object if successful.
      */
-    public VirtualMachineScaleSetExtensionInner createOrUpdate(String resourceGroupName, String vmScaleSetName, String vmssExtensionName, VirtualMachineScaleSetExtensionInner extensionParameters) {
-        return createOrUpdateWithServiceResponseAsync(resourceGroupName, vmScaleSetName, vmssExtensionName, extensionParameters).toBlocking().last().body();
+    public VirtualMachineScaleSetExtensionInner beginCreateOrUpdate(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, @NonNull String vmssExtensionName, @NonNull VirtualMachineScaleSetExtensionInner extensionParameters) {
+        return beginCreateOrUpdateAsync(resourceGroupName, vmScaleSetName, vmssExtensionName, extensionParameters).blockingLast().result();
     }
 
     /**
@@ -115,11 +141,11 @@ public class VirtualMachineScaleSetExtensionsInner {
      * @param vmssExtensionName The name of the VM scale set extension.
      * @param extensionParameters Parameters supplied to the Create VM scale set Extension operation.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;VirtualMachineScaleSetExtensionInner&gt; object.
      */
-    public ServiceFuture<VirtualMachineScaleSetExtensionInner> createOrUpdateAsync(String resourceGroupName, String vmScaleSetName, String vmssExtensionName, VirtualMachineScaleSetExtensionInner extensionParameters, final ServiceCallback<VirtualMachineScaleSetExtensionInner> serviceCallback) {
-        return ServiceFuture.fromResponse(createOrUpdateWithServiceResponseAsync(resourceGroupName, vmScaleSetName, vmssExtensionName, extensionParameters), serviceCallback);
+    public ServiceFuture<VirtualMachineScaleSetExtensionInner> beginCreateOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, @NonNull String vmssExtensionName, @NonNull VirtualMachineScaleSetExtensionInner extensionParameters, ServiceCallback<VirtualMachineScaleSetExtensionInner> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginCreateOrUpdateAsync(resourceGroupName, vmScaleSetName, vmssExtensionName, extensionParameters), serviceCallback);
     }
 
     /**
@@ -129,29 +155,10 @@ public class VirtualMachineScaleSetExtensionsInner {
      * @param vmScaleSetName The name of the VM scale set where the extension should be create or updated.
      * @param vmssExtensionName The name of the VM scale set extension.
      * @param extensionParameters Parameters supplied to the Create VM scale set Extension operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<VirtualMachineScaleSetExtensionInner> createOrUpdateAsync(String resourceGroupName, String vmScaleSetName, String vmssExtensionName, VirtualMachineScaleSetExtensionInner extensionParameters) {
-        return createOrUpdateWithServiceResponseAsync(resourceGroupName, vmScaleSetName, vmssExtensionName, extensionParameters).map(new Func1<ServiceResponse<VirtualMachineScaleSetExtensionInner>, VirtualMachineScaleSetExtensionInner>() {
-            @Override
-            public VirtualMachineScaleSetExtensionInner call(ServiceResponse<VirtualMachineScaleSetExtensionInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * The operation to create or update an extension.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set where the extension should be create or updated.
-     * @param vmssExtensionName The name of the VM scale set extension.
-     * @param extensionParameters Parameters supplied to the Create VM scale set Extension operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<VirtualMachineScaleSetExtensionInner>> createOrUpdateWithServiceResponseAsync(String resourceGroupName, String vmScaleSetName, String vmssExtensionName, VirtualMachineScaleSetExtensionInner extensionParameters) {
+    public Observable<OperationStatus<VirtualMachineScaleSetExtensionInner>> beginCreateOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, @NonNull String vmssExtensionName, @NonNull VirtualMachineScaleSetExtensionInner extensionParameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -169,8 +176,7 @@ public class VirtualMachineScaleSetExtensionsInner {
         }
         Validator.validate(extensionParameters);
         final String apiVersion = "2018-06-01";
-        Observable<Response<ResponseBody>> observable = service.createOrUpdate(resourceGroupName, vmScaleSetName, vmssExtensionName, this.client.subscriptionId(), extensionParameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<VirtualMachineScaleSetExtensionInner>() { }.getType());
+        return service.beginCreateOrUpdate(resourceGroupName, vmScaleSetName, vmssExtensionName, this.client.subscriptionId(), extensionParameters, apiVersion, this.client.acceptLanguage());
     }
 
     /**
@@ -180,13 +186,13 @@ public class VirtualMachineScaleSetExtensionsInner {
      * @param vmScaleSetName The name of the VM scale set where the extension should be create or updated.
      * @param vmssExtensionName The name of the VM scale set extension.
      * @param extensionParameters Parameters supplied to the Create VM scale set Extension operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the VirtualMachineScaleSetExtensionInner object if successful.
      */
-    public VirtualMachineScaleSetExtensionInner beginCreateOrUpdate(String resourceGroupName, String vmScaleSetName, String vmssExtensionName, VirtualMachineScaleSetExtensionInner extensionParameters) {
-        return beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, vmScaleSetName, vmssExtensionName, extensionParameters).toBlocking().single().body();
+    public VirtualMachineScaleSetExtensionInner createOrUpdate(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, @NonNull String vmssExtensionName, @NonNull VirtualMachineScaleSetExtensionInner extensionParameters) {
+        return createOrUpdateAsync(resourceGroupName, vmScaleSetName, vmssExtensionName, extensionParameters).blockingGet();
     }
 
     /**
@@ -197,11 +203,11 @@ public class VirtualMachineScaleSetExtensionsInner {
      * @param vmssExtensionName The name of the VM scale set extension.
      * @param extensionParameters Parameters supplied to the Create VM scale set Extension operation.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<VirtualMachineScaleSetExtensionInner> beginCreateOrUpdateAsync(String resourceGroupName, String vmScaleSetName, String vmssExtensionName, VirtualMachineScaleSetExtensionInner extensionParameters, final ServiceCallback<VirtualMachineScaleSetExtensionInner> serviceCallback) {
-        return ServiceFuture.fromResponse(beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, vmScaleSetName, vmssExtensionName, extensionParameters), serviceCallback);
+    public ServiceFuture<VirtualMachineScaleSetExtensionInner> createOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, @NonNull String vmssExtensionName, @NonNull VirtualMachineScaleSetExtensionInner extensionParameters, ServiceCallback<VirtualMachineScaleSetExtensionInner> serviceCallback) {
+        return ServiceFuture.fromBody(createOrUpdateAsync(resourceGroupName, vmScaleSetName, vmssExtensionName, extensionParameters), serviceCallback);
     }
 
     /**
@@ -211,29 +217,10 @@ public class VirtualMachineScaleSetExtensionsInner {
      * @param vmScaleSetName The name of the VM scale set where the extension should be create or updated.
      * @param vmssExtensionName The name of the VM scale set extension.
      * @param extensionParameters Parameters supplied to the Create VM scale set Extension operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the VirtualMachineScaleSetExtensionInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<VirtualMachineScaleSetExtensionInner> beginCreateOrUpdateAsync(String resourceGroupName, String vmScaleSetName, String vmssExtensionName, VirtualMachineScaleSetExtensionInner extensionParameters) {
-        return beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, vmScaleSetName, vmssExtensionName, extensionParameters).map(new Func1<ServiceResponse<VirtualMachineScaleSetExtensionInner>, VirtualMachineScaleSetExtensionInner>() {
-            @Override
-            public VirtualMachineScaleSetExtensionInner call(ServiceResponse<VirtualMachineScaleSetExtensionInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * The operation to create or update an extension.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set where the extension should be create or updated.
-     * @param vmssExtensionName The name of the VM scale set extension.
-     * @param extensionParameters Parameters supplied to the Create VM scale set Extension operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the VirtualMachineScaleSetExtensionInner object
-     */
-    public Observable<ServiceResponse<VirtualMachineScaleSetExtensionInner>> beginCreateOrUpdateWithServiceResponseAsync(String resourceGroupName, String vmScaleSetName, String vmssExtensionName, VirtualMachineScaleSetExtensionInner extensionParameters) {
+    public Single<BodyResponse<VirtualMachineScaleSetExtensionInner>> createOrUpdateWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, @NonNull String vmssExtensionName, @NonNull VirtualMachineScaleSetExtensionInner extensionParameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -251,26 +238,36 @@ public class VirtualMachineScaleSetExtensionsInner {
         }
         Validator.validate(extensionParameters);
         final String apiVersion = "2018-06-01";
-        return service.beginCreateOrUpdate(resourceGroupName, vmScaleSetName, vmssExtensionName, this.client.subscriptionId(), extensionParameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<VirtualMachineScaleSetExtensionInner>>>() {
-                @Override
-                public Observable<ServiceResponse<VirtualMachineScaleSetExtensionInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<VirtualMachineScaleSetExtensionInner> clientResponse = beginCreateOrUpdateDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.createOrUpdate(resourceGroupName, vmScaleSetName, vmssExtensionName, this.client.subscriptionId(), extensionParameters, apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<VirtualMachineScaleSetExtensionInner> beginCreateOrUpdateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<VirtualMachineScaleSetExtensionInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<VirtualMachineScaleSetExtensionInner>() { }.getType())
-                .register(201, new TypeToken<VirtualMachineScaleSetExtensionInner>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * The operation to create or update an extension.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set where the extension should be create or updated.
+     * @param vmssExtensionName The name of the VM scale set extension.
+     * @param extensionParameters Parameters supplied to the Create VM scale set Extension operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<VirtualMachineScaleSetExtensionInner> createOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, @NonNull String vmssExtensionName, @NonNull VirtualMachineScaleSetExtensionInner extensionParameters) {
+        return createOrUpdateWithRestResponseAsync(resourceGroupName, vmScaleSetName, vmssExtensionName, extensionParameters)
+            .flatMapMaybe((BodyResponse<VirtualMachineScaleSetExtensionInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
+    }
+
+    /**
+     * The operation to create or update an extension. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<VirtualMachineScaleSetExtensionInner>> resumeCreateOrUpdate(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeCreateOrUpdate(operationDescription);
     }
 
     /**
@@ -279,12 +276,12 @@ public class VirtualMachineScaleSetExtensionsInner {
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set where the extension should be deleted.
      * @param vmssExtensionName The name of the VM scale set extension.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void delete(String resourceGroupName, String vmScaleSetName, String vmssExtensionName) {
-        deleteWithServiceResponseAsync(resourceGroupName, vmScaleSetName, vmssExtensionName).toBlocking().last().body();
+    public void beginDelete(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, @NonNull String vmssExtensionName) {
+        beginDeleteAsync(resourceGroupName, vmScaleSetName, vmssExtensionName).blockingLast();
     }
 
     /**
@@ -294,11 +291,11 @@ public class VirtualMachineScaleSetExtensionsInner {
      * @param vmScaleSetName The name of the VM scale set where the extension should be deleted.
      * @param vmssExtensionName The name of the VM scale set extension.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;Void&gt; object.
      */
-    public ServiceFuture<Void> deleteAsync(String resourceGroupName, String vmScaleSetName, String vmssExtensionName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(deleteWithServiceResponseAsync(resourceGroupName, vmScaleSetName, vmssExtensionName), serviceCallback);
+    public ServiceFuture<Void> beginDeleteAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, @NonNull String vmssExtensionName, ServiceCallback<Void> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginDeleteAsync(resourceGroupName, vmScaleSetName, vmssExtensionName), serviceCallback);
     }
 
     /**
@@ -307,28 +304,10 @@ public class VirtualMachineScaleSetExtensionsInner {
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set where the extension should be deleted.
      * @param vmssExtensionName The name of the VM scale set extension.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<Void> deleteAsync(String resourceGroupName, String vmScaleSetName, String vmssExtensionName) {
-        return deleteWithServiceResponseAsync(resourceGroupName, vmScaleSetName, vmssExtensionName).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * The operation to delete the extension.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set where the extension should be deleted.
-     * @param vmssExtensionName The name of the VM scale set extension.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<Void>> deleteWithServiceResponseAsync(String resourceGroupName, String vmScaleSetName, String vmssExtensionName) {
+    public Observable<OperationStatus<Void>> beginDeleteAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, @NonNull String vmssExtensionName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -342,8 +321,7 @@ public class VirtualMachineScaleSetExtensionsInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        Observable<Response<ResponseBody>> observable = service.delete(resourceGroupName, vmScaleSetName, vmssExtensionName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
+        return service.beginDelete(resourceGroupName, vmScaleSetName, vmssExtensionName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
     /**
@@ -352,12 +330,12 @@ public class VirtualMachineScaleSetExtensionsInner {
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set where the extension should be deleted.
      * @param vmssExtensionName The name of the VM scale set extension.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void beginDelete(String resourceGroupName, String vmScaleSetName, String vmssExtensionName) {
-        beginDeleteWithServiceResponseAsync(resourceGroupName, vmScaleSetName, vmssExtensionName).toBlocking().single().body();
+    public void delete(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, @NonNull String vmssExtensionName) {
+        deleteAsync(resourceGroupName, vmScaleSetName, vmssExtensionName).blockingAwait();
     }
 
     /**
@@ -367,11 +345,11 @@ public class VirtualMachineScaleSetExtensionsInner {
      * @param vmScaleSetName The name of the VM scale set where the extension should be deleted.
      * @param vmssExtensionName The name of the VM scale set extension.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<Void> beginDeleteAsync(String resourceGroupName, String vmScaleSetName, String vmssExtensionName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(beginDeleteWithServiceResponseAsync(resourceGroupName, vmScaleSetName, vmssExtensionName), serviceCallback);
+    public ServiceFuture<Void> deleteAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, @NonNull String vmssExtensionName, ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromBody(deleteAsync(resourceGroupName, vmScaleSetName, vmssExtensionName), serviceCallback);
     }
 
     /**
@@ -380,28 +358,10 @@ public class VirtualMachineScaleSetExtensionsInner {
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set where the extension should be deleted.
      * @param vmssExtensionName The name of the VM scale set extension.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<Void> beginDeleteAsync(String resourceGroupName, String vmScaleSetName, String vmssExtensionName) {
-        return beginDeleteWithServiceResponseAsync(resourceGroupName, vmScaleSetName, vmssExtensionName).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * The operation to delete the extension.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set where the extension should be deleted.
-     * @param vmssExtensionName The name of the VM scale set extension.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
-     */
-    public Observable<ServiceResponse<Void>> beginDeleteWithServiceResponseAsync(String resourceGroupName, String vmScaleSetName, String vmssExtensionName) {
+    public Single<VoidResponse> deleteWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, @NonNull String vmssExtensionName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -415,27 +375,35 @@ public class VirtualMachineScaleSetExtensionsInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        return service.beginDelete(resourceGroupName, vmScaleSetName, vmssExtensionName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
-                @Override
-                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<Void> clientResponse = beginDeleteDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.delete(resourceGroupName, vmScaleSetName, vmssExtensionName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<Void> beginDeleteDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<Void>() { }.getType())
-                .register(202, new TypeToken<Void>() { }.getType())
-                .register(204, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * The operation to delete the extension.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set where the extension should be deleted.
+     * @param vmssExtensionName The name of the VM scale set extension.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Completable deleteAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, @NonNull String vmssExtensionName) {
+        return deleteWithRestResponseAsync(resourceGroupName, vmScaleSetName, vmssExtensionName)
+            .toCompletable();
+    }
+
+    /**
+     * The operation to delete the extension. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<Void>> resumeDelete(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeDelete(operationDescription);
     }
 
     /**
@@ -444,13 +412,13 @@ public class VirtualMachineScaleSetExtensionsInner {
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set containing the extension.
      * @param vmssExtensionName The name of the VM scale set extension.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the VirtualMachineScaleSetExtensionInner object if successful.
      */
-    public VirtualMachineScaleSetExtensionInner get(String resourceGroupName, String vmScaleSetName, String vmssExtensionName) {
-        return getWithServiceResponseAsync(resourceGroupName, vmScaleSetName, vmssExtensionName).toBlocking().single().body();
+    public VirtualMachineScaleSetExtensionInner get(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, @NonNull String vmssExtensionName) {
+        return getAsync(resourceGroupName, vmScaleSetName, vmssExtensionName).blockingGet();
     }
 
     /**
@@ -460,11 +428,11 @@ public class VirtualMachineScaleSetExtensionsInner {
      * @param vmScaleSetName The name of the VM scale set containing the extension.
      * @param vmssExtensionName The name of the VM scale set extension.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<VirtualMachineScaleSetExtensionInner> getAsync(String resourceGroupName, String vmScaleSetName, String vmssExtensionName, final ServiceCallback<VirtualMachineScaleSetExtensionInner> serviceCallback) {
-        return ServiceFuture.fromResponse(getWithServiceResponseAsync(resourceGroupName, vmScaleSetName, vmssExtensionName), serviceCallback);
+    public ServiceFuture<VirtualMachineScaleSetExtensionInner> getAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, @NonNull String vmssExtensionName, ServiceCallback<VirtualMachineScaleSetExtensionInner> serviceCallback) {
+        return ServiceFuture.fromBody(getAsync(resourceGroupName, vmScaleSetName, vmssExtensionName), serviceCallback);
     }
 
     /**
@@ -473,28 +441,10 @@ public class VirtualMachineScaleSetExtensionsInner {
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set containing the extension.
      * @param vmssExtensionName The name of the VM scale set extension.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the VirtualMachineScaleSetExtensionInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<VirtualMachineScaleSetExtensionInner> getAsync(String resourceGroupName, String vmScaleSetName, String vmssExtensionName) {
-        return getWithServiceResponseAsync(resourceGroupName, vmScaleSetName, vmssExtensionName).map(new Func1<ServiceResponse<VirtualMachineScaleSetExtensionInner>, VirtualMachineScaleSetExtensionInner>() {
-            @Override
-            public VirtualMachineScaleSetExtensionInner call(ServiceResponse<VirtualMachineScaleSetExtensionInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * The operation to get the extension.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set containing the extension.
-     * @param vmssExtensionName The name of the VM scale set extension.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the VirtualMachineScaleSetExtensionInner object
-     */
-    public Observable<ServiceResponse<VirtualMachineScaleSetExtensionInner>> getWithServiceResponseAsync(String resourceGroupName, String vmScaleSetName, String vmssExtensionName) {
+    public Single<BodyResponse<VirtualMachineScaleSetExtensionInner>> getWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, @NonNull String vmssExtensionName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -509,18 +459,21 @@ public class VirtualMachineScaleSetExtensionsInner {
         }
         final String apiVersion = "2018-06-01";
         final String expand = null;
-        return service.get(resourceGroupName, vmScaleSetName, vmssExtensionName, this.client.subscriptionId(), expand, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<VirtualMachineScaleSetExtensionInner>>>() {
-                @Override
-                public Observable<ServiceResponse<VirtualMachineScaleSetExtensionInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<VirtualMachineScaleSetExtensionInner> clientResponse = getDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.get(resourceGroupName, vmScaleSetName, vmssExtensionName, this.client.subscriptionId(), expand, apiVersion, this.client.acceptLanguage());
+    }
+
+    /**
+     * The operation to get the extension.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set containing the extension.
+     * @param vmssExtensionName The name of the VM scale set extension.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<VirtualMachineScaleSetExtensionInner> getAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, @NonNull String vmssExtensionName) {
+        return getWithRestResponseAsync(resourceGroupName, vmScaleSetName, vmssExtensionName)
+            .flatMapMaybe((BodyResponse<VirtualMachineScaleSetExtensionInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
@@ -530,13 +483,13 @@ public class VirtualMachineScaleSetExtensionsInner {
      * @param vmScaleSetName The name of the VM scale set containing the extension.
      * @param vmssExtensionName The name of the VM scale set extension.
      * @param expand The expand expression to apply on the operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the VirtualMachineScaleSetExtensionInner object if successful.
      */
-    public VirtualMachineScaleSetExtensionInner get(String resourceGroupName, String vmScaleSetName, String vmssExtensionName, String expand) {
-        return getWithServiceResponseAsync(resourceGroupName, vmScaleSetName, vmssExtensionName, expand).toBlocking().single().body();
+    public VirtualMachineScaleSetExtensionInner get(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, @NonNull String vmssExtensionName, String expand) {
+        return getAsync(resourceGroupName, vmScaleSetName, vmssExtensionName, expand).blockingGet();
     }
 
     /**
@@ -547,11 +500,11 @@ public class VirtualMachineScaleSetExtensionsInner {
      * @param vmssExtensionName The name of the VM scale set extension.
      * @param expand The expand expression to apply on the operation.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<VirtualMachineScaleSetExtensionInner> getAsync(String resourceGroupName, String vmScaleSetName, String vmssExtensionName, String expand, final ServiceCallback<VirtualMachineScaleSetExtensionInner> serviceCallback) {
-        return ServiceFuture.fromResponse(getWithServiceResponseAsync(resourceGroupName, vmScaleSetName, vmssExtensionName, expand), serviceCallback);
+    public ServiceFuture<VirtualMachineScaleSetExtensionInner> getAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, @NonNull String vmssExtensionName, String expand, ServiceCallback<VirtualMachineScaleSetExtensionInner> serviceCallback) {
+        return ServiceFuture.fromBody(getAsync(resourceGroupName, vmScaleSetName, vmssExtensionName, expand), serviceCallback);
     }
 
     /**
@@ -561,29 +514,10 @@ public class VirtualMachineScaleSetExtensionsInner {
      * @param vmScaleSetName The name of the VM scale set containing the extension.
      * @param vmssExtensionName The name of the VM scale set extension.
      * @param expand The expand expression to apply on the operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the VirtualMachineScaleSetExtensionInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<VirtualMachineScaleSetExtensionInner> getAsync(String resourceGroupName, String vmScaleSetName, String vmssExtensionName, String expand) {
-        return getWithServiceResponseAsync(resourceGroupName, vmScaleSetName, vmssExtensionName, expand).map(new Func1<ServiceResponse<VirtualMachineScaleSetExtensionInner>, VirtualMachineScaleSetExtensionInner>() {
-            @Override
-            public VirtualMachineScaleSetExtensionInner call(ServiceResponse<VirtualMachineScaleSetExtensionInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * The operation to get the extension.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set containing the extension.
-     * @param vmssExtensionName The name of the VM scale set extension.
-     * @param expand The expand expression to apply on the operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the VirtualMachineScaleSetExtensionInner object
-     */
-    public Observable<ServiceResponse<VirtualMachineScaleSetExtensionInner>> getWithServiceResponseAsync(String resourceGroupName, String vmScaleSetName, String vmssExtensionName, String expand) {
+    public Single<BodyResponse<VirtualMachineScaleSetExtensionInner>> getWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, @NonNull String vmssExtensionName, String expand) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -597,25 +531,22 @@ public class VirtualMachineScaleSetExtensionsInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        return service.get(resourceGroupName, vmScaleSetName, vmssExtensionName, this.client.subscriptionId(), expand, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<VirtualMachineScaleSetExtensionInner>>>() {
-                @Override
-                public Observable<ServiceResponse<VirtualMachineScaleSetExtensionInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<VirtualMachineScaleSetExtensionInner> clientResponse = getDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.get(resourceGroupName, vmScaleSetName, vmssExtensionName, this.client.subscriptionId(), expand, apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<VirtualMachineScaleSetExtensionInner> getDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<VirtualMachineScaleSetExtensionInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<VirtualMachineScaleSetExtensionInner>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * The operation to get the extension.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set containing the extension.
+     * @param vmssExtensionName The name of the VM scale set extension.
+     * @param expand The expand expression to apply on the operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<VirtualMachineScaleSetExtensionInner> getAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, @NonNull String vmssExtensionName, String expand) {
+        return getWithRestResponseAsync(resourceGroupName, vmScaleSetName, vmssExtensionName, expand)
+            .flatMapMaybe((BodyResponse<VirtualMachineScaleSetExtensionInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
@@ -623,17 +554,17 @@ public class VirtualMachineScaleSetExtensionsInner {
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set containing the extension.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;VirtualMachineScaleSetExtensionInner&gt; object if successful.
      */
-    public PagedList<VirtualMachineScaleSetExtensionInner> list(final String resourceGroupName, final String vmScaleSetName) {
-        ServiceResponse<Page<VirtualMachineScaleSetExtensionInner>> response = listSinglePageAsync(resourceGroupName, vmScaleSetName).toBlocking().single();
-        return new PagedList<VirtualMachineScaleSetExtensionInner>(response.body()) {
+    public PagedList<VirtualMachineScaleSetExtensionInner> list(@NonNull String resourceGroupName, @NonNull String vmScaleSetName) {
+        Page<VirtualMachineScaleSetExtensionInner> response = listSinglePageAsync(resourceGroupName, vmScaleSetName).blockingGet();
+        return new PagedList<VirtualMachineScaleSetExtensionInner>(response) {
             @Override
             public Page<VirtualMachineScaleSetExtensionInner> nextPage(String nextPageLink) {
-                return listNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -643,71 +574,30 @@ public class VirtualMachineScaleSetExtensionsInner {
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set containing the extension.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;VirtualMachineScaleSetExtensionInner&gt; object.
      */
-    public ServiceFuture<List<VirtualMachineScaleSetExtensionInner>> listAsync(final String resourceGroupName, final String vmScaleSetName, final ListOperationCallback<VirtualMachineScaleSetExtensionInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listSinglePageAsync(resourceGroupName, vmScaleSetName),
-            new Func1<String, Observable<ServiceResponse<Page<VirtualMachineScaleSetExtensionInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<VirtualMachineScaleSetExtensionInner>>> call(String nextPageLink) {
-                    return listNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets a list of all extensions in a VM scale set.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set containing the extension.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;VirtualMachineScaleSetExtensionInner&gt; object
-     */
-    public Observable<Page<VirtualMachineScaleSetExtensionInner>> listAsync(final String resourceGroupName, final String vmScaleSetName) {
-        return listWithServiceResponseAsync(resourceGroupName, vmScaleSetName)
-            .map(new Func1<ServiceResponse<Page<VirtualMachineScaleSetExtensionInner>>, Page<VirtualMachineScaleSetExtensionInner>>() {
-                @Override
-                public Page<VirtualMachineScaleSetExtensionInner> call(ServiceResponse<Page<VirtualMachineScaleSetExtensionInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets a list of all extensions in a VM scale set.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set containing the extension.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;VirtualMachineScaleSetExtensionInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<VirtualMachineScaleSetExtensionInner>>> listWithServiceResponseAsync(final String resourceGroupName, final String vmScaleSetName) {
+    public Observable<Page<VirtualMachineScaleSetExtensionInner>> listAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName) {
         return listSinglePageAsync(resourceGroupName, vmScaleSetName)
-            .concatMap(new Func1<ServiceResponse<Page<VirtualMachineScaleSetExtensionInner>>, Observable<ServiceResponse<Page<VirtualMachineScaleSetExtensionInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<VirtualMachineScaleSetExtensionInner>>> call(ServiceResponse<Page<VirtualMachineScaleSetExtensionInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<VirtualMachineScaleSetExtensionInner> page) -> {
+                String nextPageLink = page.nextPageLink();
+                if (nextPageLink == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listNextAsync(nextPageLink));
             });
     }
 
     /**
      * Gets a list of all extensions in a VM scale set.
      *
-    ServiceResponse<PageImpl1<VirtualMachineScaleSetExtensionInner>> * @param resourceGroupName The name of the resource group.
-    ServiceResponse<PageImpl1<VirtualMachineScaleSetExtensionInner>> * @param vmScaleSetName The name of the VM scale set containing the extension.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;VirtualMachineScaleSetExtensionInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set containing the extension.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;VirtualMachineScaleSetExtensionInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<VirtualMachineScaleSetExtensionInner>>> listSinglePageAsync(final String resourceGroupName, final String vmScaleSetName) {
+    public Single<Page<VirtualMachineScaleSetExtensionInner>> listSinglePageAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -718,42 +608,25 @@ public class VirtualMachineScaleSetExtensionsInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        return service.list(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<VirtualMachineScaleSetExtensionInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<VirtualMachineScaleSetExtensionInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl1<VirtualMachineScaleSetExtensionInner>> result = listDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<VirtualMachineScaleSetExtensionInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl1<VirtualMachineScaleSetExtensionInner>> listDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl1<VirtualMachineScaleSetExtensionInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl1<VirtualMachineScaleSetExtensionInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+        return service.list(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl1<VirtualMachineScaleSetExtensionInner>> res) -> res.body());
     }
 
     /**
      * Gets a list of all extensions in a VM scale set.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;VirtualMachineScaleSetExtensionInner&gt; object if successful.
      */
-    public PagedList<VirtualMachineScaleSetExtensionInner> listNext(final String nextPageLink) {
-        ServiceResponse<Page<VirtualMachineScaleSetExtensionInner>> response = listNextSinglePageAsync(nextPageLink).toBlocking().single();
-        return new PagedList<VirtualMachineScaleSetExtensionInner>(response.body()) {
+    public PagedList<VirtualMachineScaleSetExtensionInner> listNext(@NonNull String nextPageLink) {
+        Page<VirtualMachineScaleSetExtensionInner> response = listNextSinglePageAsync(nextPageLink).blockingGet();
+        return new PagedList<VirtualMachineScaleSetExtensionInner>(response) {
             @Override
             public Page<VirtualMachineScaleSetExtensionInner> nextPage(String nextPageLink) {
-                return listNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -762,92 +635,34 @@ public class VirtualMachineScaleSetExtensionsInner {
      * Gets a list of all extensions in a VM scale set.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;VirtualMachineScaleSetExtensionInner&gt; object.
      */
-    public ServiceFuture<List<VirtualMachineScaleSetExtensionInner>> listNextAsync(final String nextPageLink, final ServiceFuture<List<VirtualMachineScaleSetExtensionInner>> serviceFuture, final ListOperationCallback<VirtualMachineScaleSetExtensionInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listNextSinglePageAsync(nextPageLink),
-            new Func1<String, Observable<ServiceResponse<Page<VirtualMachineScaleSetExtensionInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<VirtualMachineScaleSetExtensionInner>>> call(String nextPageLink) {
-                    return listNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets a list of all extensions in a VM scale set.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;VirtualMachineScaleSetExtensionInner&gt; object
-     */
-    public Observable<Page<VirtualMachineScaleSetExtensionInner>> listNextAsync(final String nextPageLink) {
-        return listNextWithServiceResponseAsync(nextPageLink)
-            .map(new Func1<ServiceResponse<Page<VirtualMachineScaleSetExtensionInner>>, Page<VirtualMachineScaleSetExtensionInner>>() {
-                @Override
-                public Page<VirtualMachineScaleSetExtensionInner> call(ServiceResponse<Page<VirtualMachineScaleSetExtensionInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets a list of all extensions in a VM scale set.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;VirtualMachineScaleSetExtensionInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<VirtualMachineScaleSetExtensionInner>>> listNextWithServiceResponseAsync(final String nextPageLink) {
+    public Observable<Page<VirtualMachineScaleSetExtensionInner>> listNextAsync(@NonNull String nextPageLink) {
         return listNextSinglePageAsync(nextPageLink)
-            .concatMap(new Func1<ServiceResponse<Page<VirtualMachineScaleSetExtensionInner>>, Observable<ServiceResponse<Page<VirtualMachineScaleSetExtensionInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<VirtualMachineScaleSetExtensionInner>>> call(ServiceResponse<Page<VirtualMachineScaleSetExtensionInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<VirtualMachineScaleSetExtensionInner> page) -> {
+                String nextPageLink1 = page.nextPageLink();
+                if (nextPageLink1 == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listNextAsync(nextPageLink1));
             });
     }
 
     /**
      * Gets a list of all extensions in a VM scale set.
      *
-    ServiceResponse<PageImpl1<VirtualMachineScaleSetExtensionInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;VirtualMachineScaleSetExtensionInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;VirtualMachineScaleSetExtensionInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<VirtualMachineScaleSetExtensionInner>>> listNextSinglePageAsync(final String nextPageLink) {
+    public Single<Page<VirtualMachineScaleSetExtensionInner>> listNextSinglePageAsync(@NonNull String nextPageLink) {
         if (nextPageLink == null) {
             throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
         }
         String nextUrl = String.format("%s", nextPageLink);
-        return service.listNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<VirtualMachineScaleSetExtensionInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<VirtualMachineScaleSetExtensionInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl1<VirtualMachineScaleSetExtensionInner>> result = listNextDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<VirtualMachineScaleSetExtensionInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.listNext(nextUrl, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl1<VirtualMachineScaleSetExtensionInner>> res) -> res.body());
     }
-
-    private ServiceResponse<PageImpl1<VirtualMachineScaleSetExtensionInner>> listNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl1<VirtualMachineScaleSetExtensionInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl1<VirtualMachineScaleSetExtensionInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
-    }
-
 }

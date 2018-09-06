@@ -14,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * Key Vault Key Url and vault id of KeK, KeK is optional and when provided is
  * used to unwrap the encryptionKey.
  */
-public class KeyVaultAndKeyReference {
+public final class KeyVaultAndKeyReference {
     /**
      * Resource id of the KeyVault containing the key or secret.
      */
@@ -28,18 +28,18 @@ public class KeyVaultAndKeyReference {
     private String keyUrl;
 
     /**
-     * Get resource id of the KeyVault containing the key or secret.
+     * Get the sourceVault value.
      *
-     * @return the sourceVault value
+     * @return the sourceVault value.
      */
     public SourceVault sourceVault() {
         return this.sourceVault;
     }
 
     /**
-     * Set resource id of the KeyVault containing the key or secret.
+     * Set the sourceVault value.
      *
-     * @param sourceVault the sourceVault value to set
+     * @param sourceVault the sourceVault value to set.
      * @return the KeyVaultAndKeyReference object itself.
      */
     public KeyVaultAndKeyReference withSourceVault(SourceVault sourceVault) {
@@ -48,23 +48,22 @@ public class KeyVaultAndKeyReference {
     }
 
     /**
-     * Get url pointing to a key or secret in KeyVault.
+     * Get the keyUrl value.
      *
-     * @return the keyUrl value
+     * @return the keyUrl value.
      */
     public String keyUrl() {
         return this.keyUrl;
     }
 
     /**
-     * Set url pointing to a key or secret in KeyVault.
+     * Set the keyUrl value.
      *
-     * @param keyUrl the keyUrl value to set
+     * @param keyUrl the keyUrl value to set.
      * @return the KeyVaultAndKeyReference object itself.
      */
     public KeyVaultAndKeyReference withKeyUrl(String keyUrl) {
         this.keyUrl = keyUrl;
         return this;
     }
-
 }

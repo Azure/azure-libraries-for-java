@@ -15,22 +15,32 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Defines values for IntervalInMins.
  */
 public enum IntervalInMins {
-    /** Enum value ThreeMins. */
+    /**
+     * Enum value ThreeMins.
+     */
     THREE_MINS("ThreeMins"),
 
-    /** Enum value FiveMins. */
+    /**
+     * Enum value FiveMins.
+     */
     FIVE_MINS("FiveMins"),
 
-    /** Enum value ThirtyMins. */
+    /**
+     * Enum value ThirtyMins.
+     */
     THIRTY_MINS("ThirtyMins"),
 
-    /** Enum value SixtyMins. */
+    /**
+     * Enum value SixtyMins.
+     */
     SIXTY_MINS("SixtyMins");
 
-    /** The actual serialized value for a IntervalInMins instance. */
-    private String value;
+    /**
+     * The actual serialized value for a IntervalInMins instance.
+     */
+    private final String value;
 
-    IntervalInMins(String value) {
+    private IntervalInMins(String value) {
         this.value = value;
     }
 

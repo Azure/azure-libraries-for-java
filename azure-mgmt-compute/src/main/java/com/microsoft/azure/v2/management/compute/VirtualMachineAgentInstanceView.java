@@ -8,14 +8,13 @@
 
 package com.microsoft.azure.v2.management.compute;
 
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 
 /**
  * The instance view of the VM Agent running on the virtual machine.
  */
-public class VirtualMachineAgentInstanceView {
+public final class VirtualMachineAgentInstanceView {
     /**
      * The VM Agent full version.
      */
@@ -35,18 +34,18 @@ public class VirtualMachineAgentInstanceView {
     private List<InstanceViewStatus> statuses;
 
     /**
-     * Get the VM Agent full version.
+     * Get the vmAgentVersion value.
      *
-     * @return the vmAgentVersion value
+     * @return the vmAgentVersion value.
      */
     public String vmAgentVersion() {
         return this.vmAgentVersion;
     }
 
     /**
-     * Set the VM Agent full version.
+     * Set the vmAgentVersion value.
      *
-     * @param vmAgentVersion the vmAgentVersion value to set
+     * @param vmAgentVersion the vmAgentVersion value to set.
      * @return the VirtualMachineAgentInstanceView object itself.
      */
     public VirtualMachineAgentInstanceView withVmAgentVersion(String vmAgentVersion) {
@@ -55,18 +54,18 @@ public class VirtualMachineAgentInstanceView {
     }
 
     /**
-     * Get the virtual machine extension handler instance view.
+     * Get the extensionHandlers value.
      *
-     * @return the extensionHandlers value
+     * @return the extensionHandlers value.
      */
     public List<VirtualMachineExtensionHandlerInstanceView> extensionHandlers() {
         return this.extensionHandlers;
     }
 
     /**
-     * Set the virtual machine extension handler instance view.
+     * Set the extensionHandlers value.
      *
-     * @param extensionHandlers the extensionHandlers value to set
+     * @param extensionHandlers the extensionHandlers value to set.
      * @return the VirtualMachineAgentInstanceView object itself.
      */
     public VirtualMachineAgentInstanceView withExtensionHandlers(List<VirtualMachineExtensionHandlerInstanceView> extensionHandlers) {
@@ -75,23 +74,22 @@ public class VirtualMachineAgentInstanceView {
     }
 
     /**
-     * Get the resource status information.
+     * Get the statuses value.
      *
-     * @return the statuses value
+     * @return the statuses value.
      */
     public List<InstanceViewStatus> statuses() {
         return this.statuses;
     }
 
     /**
-     * Set the resource status information.
+     * Set the statuses value.
      *
-     * @param statuses the statuses value to set
+     * @param statuses the statuses value to set.
      * @return the VirtualMachineAgentInstanceView object itself.
      */
     public VirtualMachineAgentInstanceView withStatuses(List<InstanceViewStatus> statuses) {
         this.statuses = statuses;
         return this;
     }
-
 }

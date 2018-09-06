@@ -8,16 +8,16 @@
 
 package com.microsoft.azure.v2.management.compute.implementation;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.azure.v2.management.compute.InstanceViewStatus;
 import com.microsoft.azure.v2.management.compute.VirtualMachineScaleSetInstanceViewStatusesSummary;
-import java.util.List;
 import com.microsoft.azure.v2.management.compute.VirtualMachineScaleSetVMExtensionsSummary;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 
 /**
  * The instance view of a virtual machine scale set.
  */
-public class VirtualMachineScaleSetInstanceViewInner {
+public final class VirtualMachineScaleSetInstanceViewInner {
     /**
      * The instance view status summary for the virtual machine scale set.
      */
@@ -37,41 +37,40 @@ public class VirtualMachineScaleSetInstanceViewInner {
     private List<InstanceViewStatus> statuses;
 
     /**
-     * Get the instance view status summary for the virtual machine scale set.
+     * Get the virtualMachine value.
      *
-     * @return the virtualMachine value
+     * @return the virtualMachine value.
      */
     public VirtualMachineScaleSetInstanceViewStatusesSummary virtualMachine() {
         return this.virtualMachine;
     }
 
     /**
-     * Get the extensions information.
+     * Get the extensions value.
      *
-     * @return the extensions value
+     * @return the extensions value.
      */
     public List<VirtualMachineScaleSetVMExtensionsSummary> extensions() {
         return this.extensions;
     }
 
     /**
-     * Get the resource status information.
+     * Get the statuses value.
      *
-     * @return the statuses value
+     * @return the statuses value.
      */
     public List<InstanceViewStatus> statuses() {
         return this.statuses;
     }
 
     /**
-     * Set the resource status information.
+     * Set the statuses value.
      *
-     * @param statuses the statuses value to set
+     * @param statuses the statuses value to set.
      * @return the VirtualMachineScaleSetInstanceViewInner object itself.
      */
     public VirtualMachineScaleSetInstanceViewInner withStatuses(List<InstanceViewStatus> statuses) {
         this.statuses = statuses;
         return this;
     }
-
 }

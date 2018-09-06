@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Describes metadata for retrieving price info.
  */
-public class ResourceSkuCosts {
+public final class ResourceSkuCosts {
     /**
      * Used for querying price from commerce.
      */
@@ -33,30 +33,29 @@ public class ResourceSkuCosts {
     private String extendedUnit;
 
     /**
-     * Get used for querying price from commerce.
+     * Get the meterID value.
      *
-     * @return the meterID value
+     * @return the meterID value.
      */
     public String meterID() {
         return this.meterID;
     }
 
     /**
-     * Get the multiplier is needed to extend the base metered cost.
+     * Get the quantity value.
      *
-     * @return the quantity value
+     * @return the quantity value.
      */
     public Long quantity() {
         return this.quantity;
     }
 
     /**
-     * Get an invariant to show the extended unit.
+     * Get the extendedUnit value.
      *
-     * @return the extendedUnit value
+     * @return the extendedUnit value.
      */
     public String extendedUnit() {
         return this.extendedUnit;
     }
-
 }

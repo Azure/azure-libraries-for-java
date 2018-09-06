@@ -14,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * Information about rollback on failed VM instances after a OS Upgrade
  * operation.
  */
-public class RollbackStatusInfo {
+public final class RollbackStatusInfo {
     /**
      * The number of instances which have been successfully rolled back.
      */
@@ -34,30 +34,29 @@ public class RollbackStatusInfo {
     private ApiError rollbackError;
 
     /**
-     * Get the number of instances which have been successfully rolled back.
+     * Get the successfullyRolledbackInstanceCount value.
      *
-     * @return the successfullyRolledbackInstanceCount value
+     * @return the successfullyRolledbackInstanceCount value.
      */
     public Integer successfullyRolledbackInstanceCount() {
         return this.successfullyRolledbackInstanceCount;
     }
 
     /**
-     * Get the number of instances which failed to rollback.
+     * Get the failedRolledbackInstanceCount value.
      *
-     * @return the failedRolledbackInstanceCount value
+     * @return the failedRolledbackInstanceCount value.
      */
     public Integer failedRolledbackInstanceCount() {
         return this.failedRolledbackInstanceCount;
     }
 
     /**
-     * Get error details if OS rollback failed.
+     * Get the rollbackError value.
      *
-     * @return the rollbackError value
+     * @return the rollbackError value.
      */
     public ApiError rollbackError() {
         return this.rollbackError;
     }
-
 }

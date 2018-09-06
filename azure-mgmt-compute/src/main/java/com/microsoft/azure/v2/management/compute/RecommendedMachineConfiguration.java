@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Describes the recommended machine configuration.
  */
-public class RecommendedMachineConfiguration {
+public final class RecommendedMachineConfiguration {
     /**
      * The vCPUs property.
      */
@@ -29,7 +29,7 @@ public class RecommendedMachineConfiguration {
     /**
      * Get the vCPUs value.
      *
-     * @return the vCPUs value
+     * @return the vCPUs value.
      */
     public ResourceRange vCPUs() {
         return this.vCPUs;
@@ -38,7 +38,7 @@ public class RecommendedMachineConfiguration {
     /**
      * Set the vCPUs value.
      *
-     * @param vCPUs the vCPUs value to set
+     * @param vCPUs the vCPUs value to set.
      * @return the RecommendedMachineConfiguration object itself.
      */
     public RecommendedMachineConfiguration withVCPUs(ResourceRange vCPUs) {
@@ -49,7 +49,7 @@ public class RecommendedMachineConfiguration {
     /**
      * Get the memory value.
      *
-     * @return the memory value
+     * @return the memory value.
      */
     public ResourceRange memory() {
         return this.memory;
@@ -58,12 +58,11 @@ public class RecommendedMachineConfiguration {
     /**
      * Set the memory value.
      *
-     * @param memory the memory value to set
+     * @param memory the memory value to set.
      * @return the RecommendedMachineConfiguration object itself.
      */
     public RecommendedMachineConfiguration withMemory(ResourceRange memory) {
         this.memory = memory;
         return this;
     }
-
 }

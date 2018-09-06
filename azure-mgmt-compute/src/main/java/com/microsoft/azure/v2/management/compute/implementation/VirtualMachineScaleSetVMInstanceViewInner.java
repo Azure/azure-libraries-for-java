@@ -8,20 +8,20 @@
 
 package com.microsoft.azure.v2.management.compute.implementation;
 
-import com.microsoft.azure.v2.management.compute.InstanceViewStatus;
-import com.microsoft.azure.v2.management.compute.VirtualMachineAgentInstanceView;
-import com.microsoft.azure.v2.management.compute.MaintenanceRedeployStatus;
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.v2.management.compute.BootDiagnosticsInstanceView;
 import com.microsoft.azure.v2.management.compute.DiskInstanceView;
+import com.microsoft.azure.v2.management.compute.InstanceViewStatus;
+import com.microsoft.azure.v2.management.compute.MaintenanceRedeployStatus;
+import com.microsoft.azure.v2.management.compute.VirtualMachineAgentInstanceView;
 import com.microsoft.azure.v2.management.compute.VirtualMachineExtensionInstanceView;
 import com.microsoft.azure.v2.management.compute.VirtualMachineHealthStatus;
-import com.microsoft.azure.v2.management.compute.BootDiagnosticsInstanceView;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 
 /**
  * The instance view of a virtual machine scale set VM.
  */
-public class VirtualMachineScaleSetVMInstanceViewInner {
+public final class VirtualMachineScaleSetVMInstanceViewInner {
     /**
      * The Update Domain count.
      */
@@ -95,18 +95,18 @@ public class VirtualMachineScaleSetVMInstanceViewInner {
     private String placementGroupId;
 
     /**
-     * Get the Update Domain count.
+     * Get the platformUpdateDomain value.
      *
-     * @return the platformUpdateDomain value
+     * @return the platformUpdateDomain value.
      */
     public Integer platformUpdateDomain() {
         return this.platformUpdateDomain;
     }
 
     /**
-     * Set the Update Domain count.
+     * Set the platformUpdateDomain value.
      *
-     * @param platformUpdateDomain the platformUpdateDomain value to set
+     * @param platformUpdateDomain the platformUpdateDomain value to set.
      * @return the VirtualMachineScaleSetVMInstanceViewInner object itself.
      */
     public VirtualMachineScaleSetVMInstanceViewInner withPlatformUpdateDomain(Integer platformUpdateDomain) {
@@ -115,18 +115,18 @@ public class VirtualMachineScaleSetVMInstanceViewInner {
     }
 
     /**
-     * Get the Fault Domain count.
+     * Get the platformFaultDomain value.
      *
-     * @return the platformFaultDomain value
+     * @return the platformFaultDomain value.
      */
     public Integer platformFaultDomain() {
         return this.platformFaultDomain;
     }
 
     /**
-     * Set the Fault Domain count.
+     * Set the platformFaultDomain value.
      *
-     * @param platformFaultDomain the platformFaultDomain value to set
+     * @param platformFaultDomain the platformFaultDomain value to set.
      * @return the VirtualMachineScaleSetVMInstanceViewInner object itself.
      */
     public VirtualMachineScaleSetVMInstanceViewInner withPlatformFaultDomain(Integer platformFaultDomain) {
@@ -135,18 +135,18 @@ public class VirtualMachineScaleSetVMInstanceViewInner {
     }
 
     /**
-     * Get the Remote desktop certificate thumbprint.
+     * Get the rdpThumbPrint value.
      *
-     * @return the rdpThumbPrint value
+     * @return the rdpThumbPrint value.
      */
     public String rdpThumbPrint() {
         return this.rdpThumbPrint;
     }
 
     /**
-     * Set the Remote desktop certificate thumbprint.
+     * Set the rdpThumbPrint value.
      *
-     * @param rdpThumbPrint the rdpThumbPrint value to set
+     * @param rdpThumbPrint the rdpThumbPrint value to set.
      * @return the VirtualMachineScaleSetVMInstanceViewInner object itself.
      */
     public VirtualMachineScaleSetVMInstanceViewInner withRdpThumbPrint(String rdpThumbPrint) {
@@ -155,18 +155,18 @@ public class VirtualMachineScaleSetVMInstanceViewInner {
     }
 
     /**
-     * Get the VM Agent running on the virtual machine.
+     * Get the vmAgent value.
      *
-     * @return the vmAgent value
+     * @return the vmAgent value.
      */
     public VirtualMachineAgentInstanceView vmAgent() {
         return this.vmAgent;
     }
 
     /**
-     * Set the VM Agent running on the virtual machine.
+     * Set the vmAgent value.
      *
-     * @param vmAgent the vmAgent value to set
+     * @param vmAgent the vmAgent value to set.
      * @return the VirtualMachineScaleSetVMInstanceViewInner object itself.
      */
     public VirtualMachineScaleSetVMInstanceViewInner withVmAgent(VirtualMachineAgentInstanceView vmAgent) {
@@ -175,18 +175,19 @@ public class VirtualMachineScaleSetVMInstanceViewInner {
     }
 
     /**
-     * Get the Maintenance Operation status on the virtual machine.
+     * Get the maintenanceRedeployStatus value.
      *
-     * @return the maintenanceRedeployStatus value
+     * @return the maintenanceRedeployStatus value.
      */
     public MaintenanceRedeployStatus maintenanceRedeployStatus() {
         return this.maintenanceRedeployStatus;
     }
 
     /**
-     * Set the Maintenance Operation status on the virtual machine.
+     * Set the maintenanceRedeployStatus value.
      *
-     * @param maintenanceRedeployStatus the maintenanceRedeployStatus value to set
+     * @param maintenanceRedeployStatus the maintenanceRedeployStatus value to
+     * set.
      * @return the VirtualMachineScaleSetVMInstanceViewInner object itself.
      */
     public VirtualMachineScaleSetVMInstanceViewInner withMaintenanceRedeployStatus(MaintenanceRedeployStatus maintenanceRedeployStatus) {
@@ -195,18 +196,18 @@ public class VirtualMachineScaleSetVMInstanceViewInner {
     }
 
     /**
-     * Get the disks information.
+     * Get the disks value.
      *
-     * @return the disks value
+     * @return the disks value.
      */
     public List<DiskInstanceView> disks() {
         return this.disks;
     }
 
     /**
-     * Set the disks information.
+     * Set the disks value.
      *
-     * @param disks the disks value to set
+     * @param disks the disks value to set.
      * @return the VirtualMachineScaleSetVMInstanceViewInner object itself.
      */
     public VirtualMachineScaleSetVMInstanceViewInner withDisks(List<DiskInstanceView> disks) {
@@ -215,18 +216,18 @@ public class VirtualMachineScaleSetVMInstanceViewInner {
     }
 
     /**
-     * Get the extensions information.
+     * Get the extensions value.
      *
-     * @return the extensions value
+     * @return the extensions value.
      */
     public List<VirtualMachineExtensionInstanceView> extensions() {
         return this.extensions;
     }
 
     /**
-     * Set the extensions information.
+     * Set the extensions value.
      *
-     * @param extensions the extensions value to set
+     * @param extensions the extensions value to set.
      * @return the VirtualMachineScaleSetVMInstanceViewInner object itself.
      */
     public VirtualMachineScaleSetVMInstanceViewInner withExtensions(List<VirtualMachineExtensionInstanceView> extensions) {
@@ -235,27 +236,27 @@ public class VirtualMachineScaleSetVMInstanceViewInner {
     }
 
     /**
-     * Get the health status for the VM.
+     * Get the vmHealth value.
      *
-     * @return the vmHealth value
+     * @return the vmHealth value.
      */
     public VirtualMachineHealthStatus vmHealth() {
         return this.vmHealth;
     }
 
     /**
-     * Get boot Diagnostics is a debugging feature which allows you to view Console Output and Screenshot to diagnose VM status. &lt;br&gt;&lt;br&gt; For Linux Virtual Machines, you can easily view the output of your console log. &lt;br&gt;&lt;br&gt; For both Windows and Linux virtual machines, Azure also enables you to see a screenshot of the VM from the hypervisor.
+     * Get the bootDiagnostics value.
      *
-     * @return the bootDiagnostics value
+     * @return the bootDiagnostics value.
      */
     public BootDiagnosticsInstanceView bootDiagnostics() {
         return this.bootDiagnostics;
     }
 
     /**
-     * Set boot Diagnostics is a debugging feature which allows you to view Console Output and Screenshot to diagnose VM status. &lt;br&gt;&lt;br&gt; For Linux Virtual Machines, you can easily view the output of your console log. &lt;br&gt;&lt;br&gt; For both Windows and Linux virtual machines, Azure also enables you to see a screenshot of the VM from the hypervisor.
+     * Set the bootDiagnostics value.
      *
-     * @param bootDiagnostics the bootDiagnostics value to set
+     * @param bootDiagnostics the bootDiagnostics value to set.
      * @return the VirtualMachineScaleSetVMInstanceViewInner object itself.
      */
     public VirtualMachineScaleSetVMInstanceViewInner withBootDiagnostics(BootDiagnosticsInstanceView bootDiagnostics) {
@@ -264,18 +265,18 @@ public class VirtualMachineScaleSetVMInstanceViewInner {
     }
 
     /**
-     * Get the resource status information.
+     * Get the statuses value.
      *
-     * @return the statuses value
+     * @return the statuses value.
      */
     public List<InstanceViewStatus> statuses() {
         return this.statuses;
     }
 
     /**
-     * Set the resource status information.
+     * Set the statuses value.
      *
-     * @param statuses the statuses value to set
+     * @param statuses the statuses value to set.
      * @return the VirtualMachineScaleSetVMInstanceViewInner object itself.
      */
     public VirtualMachineScaleSetVMInstanceViewInner withStatuses(List<InstanceViewStatus> statuses) {
@@ -284,23 +285,22 @@ public class VirtualMachineScaleSetVMInstanceViewInner {
     }
 
     /**
-     * Get the placement group in which the VM is running. If the VM is deallocated it will not have a placementGroupId.
+     * Get the placementGroupId value.
      *
-     * @return the placementGroupId value
+     * @return the placementGroupId value.
      */
     public String placementGroupId() {
         return this.placementGroupId;
     }
 
     /**
-     * Set the placement group in which the VM is running. If the VM is deallocated it will not have a placementGroupId.
+     * Set the placementGroupId value.
      *
-     * @param placementGroupId the placementGroupId value to set
+     * @param placementGroupId the placementGroupId value to set.
      * @return the VirtualMachineScaleSetVMInstanceViewInner object itself.
      */
     public VirtualMachineScaleSetVMInstanceViewInner withPlacementGroupId(String placementGroupId) {
         this.placementGroupId = placementGroupId;
         return this;
     }
-
 }

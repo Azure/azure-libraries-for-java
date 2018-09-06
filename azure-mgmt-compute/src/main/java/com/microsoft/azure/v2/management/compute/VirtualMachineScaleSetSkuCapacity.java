@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Describes scaling information of a sku.
  */
-public class VirtualMachineScaleSetSkuCapacity {
+public final class VirtualMachineScaleSetSkuCapacity {
     /**
      * The minimum capacity.
      */
@@ -40,39 +40,38 @@ public class VirtualMachineScaleSetSkuCapacity {
     private VirtualMachineScaleSetSkuScaleType scaleType;
 
     /**
-     * Get the minimum capacity.
+     * Get the minimum value.
      *
-     * @return the minimum value
+     * @return the minimum value.
      */
     public Long minimum() {
         return this.minimum;
     }
 
     /**
-     * Get the maximum capacity that can be set.
+     * Get the maximum value.
      *
-     * @return the maximum value
+     * @return the maximum value.
      */
     public Long maximum() {
         return this.maximum;
     }
 
     /**
-     * Get the default capacity.
+     * Get the defaultCapacity value.
      *
-     * @return the defaultCapacity value
+     * @return the defaultCapacity value.
      */
     public Long defaultCapacity() {
         return this.defaultCapacity;
     }
 
     /**
-     * Get the scale type applicable to the sku. Possible values include: 'Automatic', 'None'.
+     * Get the scaleType value.
      *
-     * @return the scaleType value
+     * @return the scaleType value.
      */
     public VirtualMachineScaleSetSkuScaleType scaleType() {
         return this.scaleType;
     }
-
 }

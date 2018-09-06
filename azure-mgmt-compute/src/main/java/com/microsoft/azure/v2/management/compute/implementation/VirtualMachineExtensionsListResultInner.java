@@ -8,13 +8,13 @@
 
 package com.microsoft.azure.v2.management.compute.implementation;
 
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 
 /**
  * The List Extension operation response.
  */
-public class VirtualMachineExtensionsListResultInner {
+public final class VirtualMachineExtensionsListResultInner {
     /**
      * The list of extensions.
      */
@@ -22,23 +22,22 @@ public class VirtualMachineExtensionsListResultInner {
     private List<VirtualMachineExtensionInner> value;
 
     /**
-     * Get the list of extensions.
+     * Get the value value.
      *
-     * @return the value value
+     * @return the value value.
      */
     public List<VirtualMachineExtensionInner> value() {
         return this.value;
     }
 
     /**
-     * Set the list of extensions.
+     * Set the value value.
      *
-     * @param value the value value to set
+     * @param value the value value to set.
      * @return the VirtualMachineExtensionsListResultInner object itself.
      */
     public VirtualMachineExtensionsListResultInner withValue(List<VirtualMachineExtensionInner> value) {
         this.value = value;
         return this;
     }
-
 }

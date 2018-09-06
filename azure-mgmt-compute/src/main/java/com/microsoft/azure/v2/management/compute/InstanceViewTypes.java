@@ -15,13 +15,17 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Defines values for InstanceViewTypes.
  */
 public enum InstanceViewTypes {
-    /** Enum value instanceView. */
+    /**
+     * Enum value instanceView.
+     */
     INSTANCE_VIEW("instanceView");
 
-    /** The actual serialized value for a InstanceViewTypes instance. */
-    private String value;
+    /**
+     * The actual serialized value for a InstanceViewTypes instance.
+     */
+    private final String value;
 
-    InstanceViewTypes(String value) {
+    private InstanceViewTypes(String value) {
         this.value = value;
     }
 

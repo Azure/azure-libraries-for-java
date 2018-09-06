@@ -8,13 +8,13 @@
 
 package com.microsoft.azure.v2.management.compute;
 
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 
 /**
  * Describes scaling information of a SKU.
  */
-public class ResourceSkuRestrictions {
+public final class ResourceSkuRestrictions {
     /**
      * The type of restrictions. Possible values include: 'Location', 'Zone'.
      */
@@ -42,39 +42,38 @@ public class ResourceSkuRestrictions {
     private ResourceSkuRestrictionsReasonCode reasonCode;
 
     /**
-     * Get the type of restrictions. Possible values include: 'Location', 'Zone'.
+     * Get the type value.
      *
-     * @return the type value
+     * @return the type value.
      */
     public ResourceSkuRestrictionsType type() {
         return this.type;
     }
 
     /**
-     * Get the value of restrictions. If the restriction type is set to location. This would be different locations where the SKU is restricted.
+     * Get the values value.
      *
-     * @return the values value
+     * @return the values value.
      */
     public List<String> values() {
         return this.values;
     }
 
     /**
-     * Get the information about the restriction where the SKU cannot be used.
+     * Get the restrictionInfo value.
      *
-     * @return the restrictionInfo value
+     * @return the restrictionInfo value.
      */
     public ResourceSkuRestrictionInfo restrictionInfo() {
         return this.restrictionInfo;
     }
 
     /**
-     * Get the reason for restriction. Possible values include: 'QuotaId', 'NotAvailableForSubscription'.
+     * Get the reasonCode value.
      *
-     * @return the reasonCode value
+     * @return the reasonCode value.
      */
     public ResourceSkuRestrictionsReasonCode reasonCode() {
         return this.reasonCode;
     }
-
 }

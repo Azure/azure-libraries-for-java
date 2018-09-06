@@ -13,33 +13,32 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Describes the parameters of a ScaleSet managed disk.
  */
-public class VirtualMachineScaleSetManagedDiskParameters {
+public final class VirtualMachineScaleSetManagedDiskParameters {
     /**
      * Specifies the storage account type for the managed disk. Possible values
-     * are: Standard_LRS or Premium_LRS. Possible values include:
-     * 'Standard_LRS', 'Premium_LRS'.
+     * are: Standard_LRS, Premium_LRS, and StandardSSD_LRS. Possible values
+     * include: 'Standard_LRS', 'Premium_LRS', 'StandardSSD_LRS'.
      */
     @JsonProperty(value = "storageAccountType")
     private StorageAccountTypes storageAccountType;
 
     /**
-     * Get specifies the storage account type for the managed disk. Possible values are: Standard_LRS or Premium_LRS. Possible values include: 'Standard_LRS', 'Premium_LRS'.
+     * Get the storageAccountType value.
      *
-     * @return the storageAccountType value
+     * @return the storageAccountType value.
      */
     public StorageAccountTypes storageAccountType() {
         return this.storageAccountType;
     }
 
     /**
-     * Set specifies the storage account type for the managed disk. Possible values are: Standard_LRS or Premium_LRS. Possible values include: 'Standard_LRS', 'Premium_LRS'.
+     * Set the storageAccountType value.
      *
-     * @param storageAccountType the storageAccountType value to set
+     * @param storageAccountType the storageAccountType value to set.
      * @return the VirtualMachineScaleSetManagedDiskParameters object itself.
      */
     public VirtualMachineScaleSetManagedDiskParameters withStorageAccountType(StorageAccountTypes storageAccountType) {
         this.storageAccountType = storageAccountType;
         return this;
     }
-
 }

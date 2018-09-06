@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * &lt;br&gt;&lt;br&gt; For both Windows and Linux virtual machines, Azure also
  * enables you to see a screenshot of the VM from the hypervisor.
  */
-public class BootDiagnostics {
+public final class BootDiagnostics {
     /**
      * Whether boot diagnostics should be enabled on the Virtual Machine.
      */
@@ -32,18 +32,18 @@ public class BootDiagnostics {
     private String storageUri;
 
     /**
-     * Get whether boot diagnostics should be enabled on the Virtual Machine.
+     * Get the enabled value.
      *
-     * @return the enabled value
+     * @return the enabled value.
      */
     public Boolean enabled() {
         return this.enabled;
     }
 
     /**
-     * Set whether boot diagnostics should be enabled on the Virtual Machine.
+     * Set the enabled value.
      *
-     * @param enabled the enabled value to set
+     * @param enabled the enabled value to set.
      * @return the BootDiagnostics object itself.
      */
     public BootDiagnostics withEnabled(Boolean enabled) {
@@ -52,23 +52,22 @@ public class BootDiagnostics {
     }
 
     /**
-     * Get uri of the storage account to use for placing the console output and screenshot.
+     * Get the storageUri value.
      *
-     * @return the storageUri value
+     * @return the storageUri value.
      */
     public String storageUri() {
         return this.storageUri;
     }
 
     /**
-     * Set uri of the storage account to use for placing the console output and screenshot.
+     * Set the storageUri value.
      *
-     * @param storageUri the storageUri value to set
+     * @param storageUri the storageUri value to set.
      * @return the BootDiagnostics object itself.
      */
     public BootDiagnostics withStorageUri(String storageUri) {
         this.storageUri = storageUri;
         return this;
     }
-
 }

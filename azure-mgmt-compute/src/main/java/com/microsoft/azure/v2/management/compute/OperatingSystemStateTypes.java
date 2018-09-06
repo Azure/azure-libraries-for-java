@@ -15,16 +15,22 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Defines values for OperatingSystemStateTypes.
  */
 public enum OperatingSystemStateTypes {
-    /** Enum value Generalized. */
+    /**
+     * Enum value Generalized.
+     */
     GENERALIZED("Generalized"),
 
-    /** Enum value Specialized. */
+    /**
+     * Enum value Specialized.
+     */
     SPECIALIZED("Specialized");
 
-    /** The actual serialized value for a OperatingSystemStateTypes instance. */
-    private String value;
+    /**
+     * The actual serialized value for a OperatingSystemStateTypes instance.
+     */
+    private final String value;
 
-    OperatingSystemStateTypes(String value) {
+    private OperatingSystemStateTypes(String value) {
         this.value = value;
     }
 

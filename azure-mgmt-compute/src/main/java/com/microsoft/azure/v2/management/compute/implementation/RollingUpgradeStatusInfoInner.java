@@ -8,13 +8,13 @@
 
 package com.microsoft.azure.v2.management.compute.implementation;
 
-import com.microsoft.azure.v2.management.compute.RollingUpgradePolicy;
-import com.microsoft.azure.v2.management.compute.RollingUpgradeRunningStatus;
-import com.microsoft.azure.v2.management.compute.RollingUpgradeProgressInfo;
-import com.microsoft.azure.v2.management.compute.ApiError;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.Resource;
+import com.microsoft.azure.v2.Resource;
+import com.microsoft.azure.v2.management.compute.ApiError;
+import com.microsoft.azure.v2.management.compute.RollingUpgradePolicy;
+import com.microsoft.azure.v2.management.compute.RollingUpgradeProgressInfo;
+import com.microsoft.azure.v2.management.compute.RollingUpgradeRunningStatus;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
 
 /**
  * The status of the latest virtual machine scale set rolling upgrade.
@@ -47,39 +47,38 @@ public class RollingUpgradeStatusInfoInner extends Resource {
     private ApiError error;
 
     /**
-     * Get the rolling upgrade policies applied for this upgrade.
+     * Get the policy value.
      *
-     * @return the policy value
+     * @return the policy value.
      */
     public RollingUpgradePolicy policy() {
         return this.policy;
     }
 
     /**
-     * Get information about the current running state of the overall upgrade.
+     * Get the runningStatus value.
      *
-     * @return the runningStatus value
+     * @return the runningStatus value.
      */
     public RollingUpgradeRunningStatus runningStatus() {
         return this.runningStatus;
     }
 
     /**
-     * Get information about the number of virtual machine instances in each upgrade state.
+     * Get the progress value.
      *
-     * @return the progress value
+     * @return the progress value.
      */
     public RollingUpgradeProgressInfo progress() {
         return this.progress;
     }
 
     /**
-     * Get error details for this upgrade, if there are any.
+     * Get the error value.
      *
-     * @return the error value
+     * @return the error value.
      */
     public ApiError error() {
         return this.error;
     }
-
 }

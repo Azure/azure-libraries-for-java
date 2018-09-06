@@ -8,10 +8,10 @@
 
 package com.microsoft.azure.v2.management.compute;
 
-import com.microsoft.azure.SubResource;
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.v2.SubResource;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
+import java.util.List;
 
 /**
  * Describes a virtual machine scale set network profile's network
@@ -64,18 +64,18 @@ public class VirtualMachineScaleSetNetworkConfiguration extends SubResource {
     private Boolean enableIPForwarding;
 
     /**
-     * Get the network configuration name.
+     * Get the name value.
      *
-     * @return the name value
+     * @return the name value.
      */
     public String name() {
         return this.name;
     }
 
     /**
-     * Set the network configuration name.
+     * Set the name value.
      *
-     * @param name the name value to set
+     * @param name the name value to set.
      * @return the VirtualMachineScaleSetNetworkConfiguration object itself.
      */
     public VirtualMachineScaleSetNetworkConfiguration withName(String name) {
@@ -84,18 +84,18 @@ public class VirtualMachineScaleSetNetworkConfiguration extends SubResource {
     }
 
     /**
-     * Get specifies the primary network interface in case the virtual machine has more than 1 network interface.
+     * Get the primary value.
      *
-     * @return the primary value
+     * @return the primary value.
      */
     public Boolean primary() {
         return this.primary;
     }
 
     /**
-     * Set specifies the primary network interface in case the virtual machine has more than 1 network interface.
+     * Set the primary value.
      *
-     * @param primary the primary value to set
+     * @param primary the primary value to set.
      * @return the VirtualMachineScaleSetNetworkConfiguration object itself.
      */
     public VirtualMachineScaleSetNetworkConfiguration withPrimary(Boolean primary) {
@@ -104,18 +104,19 @@ public class VirtualMachineScaleSetNetworkConfiguration extends SubResource {
     }
 
     /**
-     * Get specifies whether the network interface is accelerated networking-enabled.
+     * Get the enableAcceleratedNetworking value.
      *
-     * @return the enableAcceleratedNetworking value
+     * @return the enableAcceleratedNetworking value.
      */
     public Boolean enableAcceleratedNetworking() {
         return this.enableAcceleratedNetworking;
     }
 
     /**
-     * Set specifies whether the network interface is accelerated networking-enabled.
+     * Set the enableAcceleratedNetworking value.
      *
-     * @param enableAcceleratedNetworking the enableAcceleratedNetworking value to set
+     * @param enableAcceleratedNetworking the enableAcceleratedNetworking value
+     * to set.
      * @return the VirtualMachineScaleSetNetworkConfiguration object itself.
      */
     public VirtualMachineScaleSetNetworkConfiguration withEnableAcceleratedNetworking(Boolean enableAcceleratedNetworking) {
@@ -124,18 +125,18 @@ public class VirtualMachineScaleSetNetworkConfiguration extends SubResource {
     }
 
     /**
-     * Get the network security group.
+     * Get the networkSecurityGroup value.
      *
-     * @return the networkSecurityGroup value
+     * @return the networkSecurityGroup value.
      */
     public SubResource networkSecurityGroup() {
         return this.networkSecurityGroup;
     }
 
     /**
-     * Set the network security group.
+     * Set the networkSecurityGroup value.
      *
-     * @param networkSecurityGroup the networkSecurityGroup value to set
+     * @param networkSecurityGroup the networkSecurityGroup value to set.
      * @return the VirtualMachineScaleSetNetworkConfiguration object itself.
      */
     public VirtualMachineScaleSetNetworkConfiguration withNetworkSecurityGroup(SubResource networkSecurityGroup) {
@@ -144,18 +145,18 @@ public class VirtualMachineScaleSetNetworkConfiguration extends SubResource {
     }
 
     /**
-     * Get the dns settings to be applied on the network interfaces.
+     * Get the dnsSettings value.
      *
-     * @return the dnsSettings value
+     * @return the dnsSettings value.
      */
     public VirtualMachineScaleSetNetworkConfigurationDnsSettings dnsSettings() {
         return this.dnsSettings;
     }
 
     /**
-     * Set the dns settings to be applied on the network interfaces.
+     * Set the dnsSettings value.
      *
-     * @param dnsSettings the dnsSettings value to set
+     * @param dnsSettings the dnsSettings value to set.
      * @return the VirtualMachineScaleSetNetworkConfiguration object itself.
      */
     public VirtualMachineScaleSetNetworkConfiguration withDnsSettings(VirtualMachineScaleSetNetworkConfigurationDnsSettings dnsSettings) {
@@ -164,18 +165,18 @@ public class VirtualMachineScaleSetNetworkConfiguration extends SubResource {
     }
 
     /**
-     * Get specifies the IP configurations of the network interface.
+     * Get the ipConfigurations value.
      *
-     * @return the ipConfigurations value
+     * @return the ipConfigurations value.
      */
     public List<VirtualMachineScaleSetIPConfiguration> ipConfigurations() {
         return this.ipConfigurations;
     }
 
     /**
-     * Set specifies the IP configurations of the network interface.
+     * Set the ipConfigurations value.
      *
-     * @param ipConfigurations the ipConfigurations value to set
+     * @param ipConfigurations the ipConfigurations value to set.
      * @return the VirtualMachineScaleSetNetworkConfiguration object itself.
      */
     public VirtualMachineScaleSetNetworkConfiguration withIpConfigurations(List<VirtualMachineScaleSetIPConfiguration> ipConfigurations) {
@@ -184,23 +185,22 @@ public class VirtualMachineScaleSetNetworkConfiguration extends SubResource {
     }
 
     /**
-     * Get whether IP forwarding enabled on this NIC.
+     * Get the enableIPForwarding value.
      *
-     * @return the enableIPForwarding value
+     * @return the enableIPForwarding value.
      */
     public Boolean enableIPForwarding() {
         return this.enableIPForwarding;
     }
 
     /**
-     * Set whether IP forwarding enabled on this NIC.
+     * Set the enableIPForwarding value.
      *
-     * @param enableIPForwarding the enableIPForwarding value to set
+     * @param enableIPForwarding the enableIPForwarding value to set.
      * @return the VirtualMachineScaleSetNetworkConfiguration object itself.
      */
     public VirtualMachineScaleSetNetworkConfiguration withEnableIPForwarding(Boolean enableIPForwarding) {
         this.enableIPForwarding = enableIPForwarding;
         return this;
     }
-
 }

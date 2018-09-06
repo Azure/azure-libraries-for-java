@@ -8,12 +8,12 @@
 
 package com.microsoft.azure.v2.management.compute.implementation;
 
-import com.microsoft.azure.v2.management.compute.PurchasePlan;
-import com.microsoft.azure.v2.management.compute.OSDiskImage;
-import java.util.List;
-import com.microsoft.azure.v2.management.compute.DataDiskImage;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.v2.management.compute.DataDiskImage;
+import com.microsoft.azure.v2.management.compute.OSDiskImage;
+import com.microsoft.azure.v2.management.compute.PurchasePlan;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
+import java.util.List;
 
 /**
  * Describes a Virtual Machine Image.
@@ -41,7 +41,7 @@ public class VirtualMachineImageInner extends VirtualMachineImageResourceInner {
     /**
      * Get the plan value.
      *
-     * @return the plan value
+     * @return the plan value.
      */
     public PurchasePlan plan() {
         return this.plan;
@@ -50,7 +50,7 @@ public class VirtualMachineImageInner extends VirtualMachineImageResourceInner {
     /**
      * Set the plan value.
      *
-     * @param plan the plan value to set
+     * @param plan the plan value to set.
      * @return the VirtualMachineImageInner object itself.
      */
     public VirtualMachineImageInner withPlan(PurchasePlan plan) {
@@ -61,7 +61,7 @@ public class VirtualMachineImageInner extends VirtualMachineImageResourceInner {
     /**
      * Get the osDiskImage value.
      *
-     * @return the osDiskImage value
+     * @return the osDiskImage value.
      */
     public OSDiskImage osDiskImage() {
         return this.osDiskImage;
@@ -70,7 +70,7 @@ public class VirtualMachineImageInner extends VirtualMachineImageResourceInner {
     /**
      * Set the osDiskImage value.
      *
-     * @param osDiskImage the osDiskImage value to set
+     * @param osDiskImage the osDiskImage value to set.
      * @return the VirtualMachineImageInner object itself.
      */
     public VirtualMachineImageInner withOsDiskImage(OSDiskImage osDiskImage) {
@@ -81,7 +81,7 @@ public class VirtualMachineImageInner extends VirtualMachineImageResourceInner {
     /**
      * Get the dataDiskImages value.
      *
-     * @return the dataDiskImages value
+     * @return the dataDiskImages value.
      */
     public List<DataDiskImage> dataDiskImages() {
         return this.dataDiskImages;
@@ -90,12 +90,11 @@ public class VirtualMachineImageInner extends VirtualMachineImageResourceInner {
     /**
      * Set the dataDiskImages value.
      *
-     * @param dataDiskImages the dataDiskImages value to set
+     * @param dataDiskImages the dataDiskImages value to set.
      * @return the VirtualMachineImageInner object itself.
      */
     public VirtualMachineImageInner withDataDiskImages(List<DataDiskImage> dataDiskImages) {
         this.dataDiskImages = dataDiskImages;
         return this;
     }
-
 }

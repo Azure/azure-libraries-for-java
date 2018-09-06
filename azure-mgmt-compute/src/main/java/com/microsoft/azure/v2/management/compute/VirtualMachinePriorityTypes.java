@@ -8,24 +8,29 @@
 
 package com.microsoft.azure.v2.management.compute;
 
-import java.util.Collection;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.microsoft.rest.ExpandableStringEnum;
+import com.microsoft.rest.v2.ExpandableStringEnum;
+import java.util.Collection;
 
 /**
  * Defines values for VirtualMachinePriorityTypes.
  */
 public final class VirtualMachinePriorityTypes extends ExpandableStringEnum<VirtualMachinePriorityTypes> {
-    /** Static value Regular for VirtualMachinePriorityTypes. */
+    /**
+     * Static value Regular for VirtualMachinePriorityTypes.
+     */
     public static final VirtualMachinePriorityTypes REGULAR = fromString("Regular");
 
-    /** Static value Low for VirtualMachinePriorityTypes. */
+    /**
+     * Static value Low for VirtualMachinePriorityTypes.
+     */
     public static final VirtualMachinePriorityTypes LOW = fromString("Low");
 
     /**
      * Creates or finds a VirtualMachinePriorityTypes from its string representation.
-     * @param name a name to look for
-     * @return the corresponding VirtualMachinePriorityTypes
+     *
+     * @param name a name to look for.
+     * @return the corresponding VirtualMachinePriorityTypes.
      */
     @JsonCreator
     public static VirtualMachinePriorityTypes fromString(String name) {
@@ -33,7 +38,7 @@ public final class VirtualMachinePriorityTypes extends ExpandableStringEnum<Virt
     }
 
     /**
-     * @return known VirtualMachinePriorityTypes values
+     * @return known VirtualMachinePriorityTypes values.
      */
     public static Collection<VirtualMachinePriorityTypes> values() {
         return values(VirtualMachinePriorityTypes.class);

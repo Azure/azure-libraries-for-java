@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Capture Virtual Machine parameters.
  */
-public class VirtualMachineCaptureParameters {
+public final class VirtualMachineCaptureParameters {
     /**
      * The captured virtual hard disk's name prefix.
      */
@@ -34,18 +34,18 @@ public class VirtualMachineCaptureParameters {
     private boolean overwriteVhds;
 
     /**
-     * Get the captured virtual hard disk's name prefix.
+     * Get the vhdPrefix value.
      *
-     * @return the vhdPrefix value
+     * @return the vhdPrefix value.
      */
     public String vhdPrefix() {
         return this.vhdPrefix;
     }
 
     /**
-     * Set the captured virtual hard disk's name prefix.
+     * Set the vhdPrefix value.
      *
-     * @param vhdPrefix the vhdPrefix value to set
+     * @param vhdPrefix the vhdPrefix value to set.
      * @return the VirtualMachineCaptureParameters object itself.
      */
     public VirtualMachineCaptureParameters withVhdPrefix(String vhdPrefix) {
@@ -54,18 +54,19 @@ public class VirtualMachineCaptureParameters {
     }
 
     /**
-     * Get the destination container name.
+     * Get the destinationContainerName value.
      *
-     * @return the destinationContainerName value
+     * @return the destinationContainerName value.
      */
     public String destinationContainerName() {
         return this.destinationContainerName;
     }
 
     /**
-     * Set the destination container name.
+     * Set the destinationContainerName value.
      *
-     * @param destinationContainerName the destinationContainerName value to set
+     * @param destinationContainerName the destinationContainerName value to
+     * set.
      * @return the VirtualMachineCaptureParameters object itself.
      */
     public VirtualMachineCaptureParameters withDestinationContainerName(String destinationContainerName) {
@@ -74,23 +75,22 @@ public class VirtualMachineCaptureParameters {
     }
 
     /**
-     * Get specifies whether to overwrite the destination virtual hard disk, in case of conflict.
+     * Get the overwriteVhds value.
      *
-     * @return the overwriteVhds value
+     * @return the overwriteVhds value.
      */
     public boolean overwriteVhds() {
         return this.overwriteVhds;
     }
 
     /**
-     * Set specifies whether to overwrite the destination virtual hard disk, in case of conflict.
+     * Set the overwriteVhds value.
      *
-     * @param overwriteVhds the overwriteVhds value to set
+     * @param overwriteVhds the overwriteVhds value to set.
      * @return the VirtualMachineCaptureParameters object itself.
      */
     public VirtualMachineCaptureParameters withOverwriteVhds(boolean overwriteVhds) {
         this.overwriteVhds = overwriteVhds;
         return this;
     }
-
 }

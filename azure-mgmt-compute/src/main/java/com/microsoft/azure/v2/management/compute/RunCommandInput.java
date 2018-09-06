@@ -8,13 +8,13 @@
 
 package com.microsoft.azure.v2.management.compute;
 
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 
 /**
  * Capture Virtual Machine parameters.
  */
-public class RunCommandInput {
+public final class RunCommandInput {
     /**
      * The run command id.
      */
@@ -35,18 +35,18 @@ public class RunCommandInput {
     private List<RunCommandInputParameter> parameters;
 
     /**
-     * Get the run command id.
+     * Get the commandId value.
      *
-     * @return the commandId value
+     * @return the commandId value.
      */
     public String commandId() {
         return this.commandId;
     }
 
     /**
-     * Set the run command id.
+     * Set the commandId value.
      *
-     * @param commandId the commandId value to set
+     * @param commandId the commandId value to set.
      * @return the RunCommandInput object itself.
      */
     public RunCommandInput withCommandId(String commandId) {
@@ -55,18 +55,18 @@ public class RunCommandInput {
     }
 
     /**
-     * Get optional. The script to be executed.  When this value is given, the given script will override the default script of the command.
+     * Get the script value.
      *
-     * @return the script value
+     * @return the script value.
      */
     public List<String> script() {
         return this.script;
     }
 
     /**
-     * Set optional. The script to be executed.  When this value is given, the given script will override the default script of the command.
+     * Set the script value.
      *
-     * @param script the script value to set
+     * @param script the script value to set.
      * @return the RunCommandInput object itself.
      */
     public RunCommandInput withScript(List<String> script) {
@@ -75,23 +75,22 @@ public class RunCommandInput {
     }
 
     /**
-     * Get the run command parameters.
+     * Get the parameters value.
      *
-     * @return the parameters value
+     * @return the parameters value.
      */
     public List<RunCommandInputParameter> parameters() {
         return this.parameters;
     }
 
     /**
-     * Set the run command parameters.
+     * Set the parameters value.
      *
-     * @param parameters the parameters value to set
+     * @param parameters the parameters value to set.
      * @return the RunCommandInput object itself.
      */
     public RunCommandInput withParameters(List<RunCommandInputParameter> parameters) {
         this.parameters = parameters;
         return this;
     }
-
 }

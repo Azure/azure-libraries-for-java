@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Describes the properties of a run command parameter.
  */
-public class RunCommandInputParameter {
+public final class RunCommandInputParameter {
     /**
      * The run command parameter name.
      */
@@ -27,18 +27,18 @@ public class RunCommandInputParameter {
     private String value;
 
     /**
-     * Get the run command parameter name.
+     * Get the name value.
      *
-     * @return the name value
+     * @return the name value.
      */
     public String name() {
         return this.name;
     }
 
     /**
-     * Set the run command parameter name.
+     * Set the name value.
      *
-     * @param name the name value to set
+     * @param name the name value to set.
      * @return the RunCommandInputParameter object itself.
      */
     public RunCommandInputParameter withName(String name) {
@@ -47,23 +47,22 @@ public class RunCommandInputParameter {
     }
 
     /**
-     * Get the run command parameter value.
+     * Get the value value.
      *
-     * @return the value value
+     * @return the value value.
      */
     public String value() {
         return this.value;
     }
 
     /**
-     * Set the run command parameter value.
+     * Set the value value.
      *
-     * @param value the value value to set
+     * @param value the value value to set.
      * @return the RunCommandInputParameter object itself.
      */
     public RunCommandInputParameter withValue(String value) {
         this.value = value;
         return this;
     }
-
 }

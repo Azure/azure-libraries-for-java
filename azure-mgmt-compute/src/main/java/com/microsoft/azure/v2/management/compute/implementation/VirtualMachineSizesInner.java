@@ -8,105 +8,94 @@
 
 package com.microsoft.azure.v2.management.compute.implementation;
 
-import retrofit2.Retrofit;
-import com.google.common.reflect.TypeToken;
-import com.microsoft.azure.CloudException;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import com.microsoft.rest.ServiceResponse;
-import java.io.IOException;
+import com.microsoft.azure.v2.AzureProxy;
+import com.microsoft.azure.v2.CloudException;
+import com.microsoft.rest.v2.BodyResponse;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
+import com.microsoft.rest.v2.annotations.ExpectedResponses;
+import com.microsoft.rest.v2.annotations.GET;
+import com.microsoft.rest.v2.annotations.HeaderParam;
+import com.microsoft.rest.v2.annotations.Host;
+import com.microsoft.rest.v2.annotations.PathParam;
+import com.microsoft.rest.v2.annotations.QueryParam;
+import com.microsoft.rest.v2.annotations.UnexpectedResponseExceptionType;
+import io.reactivex.Maybe;
+import io.reactivex.Single;
+import io.reactivex.annotations.NonNull;
+import java.util.ArrayList;
 import java.util.List;
-import okhttp3.ResponseBody;
-import retrofit2.http.GET;
-import retrofit2.http.Header;
-import retrofit2.http.Headers;
-import retrofit2.http.Path;
-import retrofit2.http.Query;
-import retrofit2.Response;
-import rx.functions.Func1;
-import rx.Observable;
 
 /**
- * An instance of this class provides access to all the operations defined
- * in VirtualMachineSizes.
+ * An instance of this class provides access to all the operations defined in
+ * VirtualMachineSizes.
  */
-public class VirtualMachineSizesInner {
-    /** The Retrofit service to perform REST calls. */
+public final class VirtualMachineSizesInner {
+    /**
+     * The proxy service used to perform REST calls.
+     */
     private VirtualMachineSizesService service;
-    /** The service client containing this operation class. */
+
+    /**
+     * The service client containing this operation class.
+     */
     private ComputeManagementClientImpl client;
 
     /**
      * Initializes an instance of VirtualMachineSizesInner.
      *
-     * @param retrofit the Retrofit instance built from a Retrofit Builder.
      * @param client the instance of the service client containing this operation class.
      */
-    public VirtualMachineSizesInner(Retrofit retrofit, ComputeManagementClientImpl client) {
-        this.service = retrofit.create(VirtualMachineSizesService.class);
+    public VirtualMachineSizesInner(ComputeManagementClientImpl client) {
+        this.service = AzureProxy.create(VirtualMachineSizesService.class, client);
         this.client = client;
     }
 
     /**
      * The interface defining all the services for VirtualMachineSizes to be
-     * used by Retrofit to perform actually REST calls.
+     * used by the proxy service to perform REST calls.
      */
-    interface VirtualMachineSizesService {
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.VirtualMachineSizes list" })
+    @Host("https://management.azure.com")
+    private interface VirtualMachineSizesService {
         @GET("subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/vmSizes")
-        Observable<Response<ResponseBody>> list(@Path("location") String location, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
-
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<List<VirtualMachineSizeInner>>> list(@PathParam("location") String location, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
     }
 
     /**
-     * Lists all available virtual machine sizes for a subscription in a location.
+     * This API is deprecated. Use [Resources Skus](https://docs.microsoft.com/en-us/rest/api/compute/resourceskus/list).
      *
      * @param location The location upon which virtual-machine-sizes is queried.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the List&lt;VirtualMachineSizeInner&gt; object if successful.
      */
-    public List<VirtualMachineSizeInner> list(String location) {
-        return listWithServiceResponseAsync(location).toBlocking().single().body();
+    public List<VirtualMachineSizeInner> list(@NonNull String location) {
+        return listAsync(location).blockingGet();
     }
 
     /**
-     * Lists all available virtual machine sizes for a subscription in a location.
+     * This API is deprecated. Use [Resources Skus](https://docs.microsoft.com/en-us/rest/api/compute/resourceskus/list).
      *
      * @param location The location upon which virtual-machine-sizes is queried.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<List<VirtualMachineSizeInner>> listAsync(String location, final ServiceCallback<List<VirtualMachineSizeInner>> serviceCallback) {
-        return ServiceFuture.fromResponse(listWithServiceResponseAsync(location), serviceCallback);
+    public ServiceFuture<List<VirtualMachineSizeInner>> listAsync(@NonNull String location, ServiceCallback<List<VirtualMachineSizeInner>> serviceCallback) {
+        return ServiceFuture.fromBody(listAsync(location), serviceCallback);
     }
 
     /**
-     * Lists all available virtual machine sizes for a subscription in a location.
+     * This API is deprecated. Use [Resources Skus](https://docs.microsoft.com/en-us/rest/api/compute/resourceskus/list).
      *
      * @param location The location upon which virtual-machine-sizes is queried.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the List&lt;VirtualMachineSizeInner&gt; object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<List<VirtualMachineSizeInner>> listAsync(String location) {
-        return listWithServiceResponseAsync(location).map(new Func1<ServiceResponse<List<VirtualMachineSizeInner>>, List<VirtualMachineSizeInner>>() {
-            @Override
-            public List<VirtualMachineSizeInner> call(ServiceResponse<List<VirtualMachineSizeInner>> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Lists all available virtual machine sizes for a subscription in a location.
-     *
-     * @param location The location upon which virtual-machine-sizes is queried.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the List&lt;VirtualMachineSizeInner&gt; object
-     */
-    public Observable<ServiceResponse<List<VirtualMachineSizeInner>>> listWithServiceResponseAsync(String location) {
+    public Single<BodyResponse<List<VirtualMachineSizeInner>>> listWithRestResponseAsync(@NonNull String location) {
         if (location == null) {
             throw new IllegalArgumentException("Parameter location is required and cannot be null.");
         }
@@ -114,30 +103,18 @@ public class VirtualMachineSizesInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        return service.list(location, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<List<VirtualMachineSizeInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<List<VirtualMachineSizeInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<VirtualMachineSizeInner>> result = listDelegate(response);
-                        List<VirtualMachineSizeInner> items = null;
-                        if (result.body() != null) {
-                            items = result.body().items();
-                        }
-                        ServiceResponse<List<VirtualMachineSizeInner>> clientResponse = new ServiceResponse<List<VirtualMachineSizeInner>>(items, result.response());
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.list(location, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<PageImpl<VirtualMachineSizeInner>> listDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<VirtualMachineSizeInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<VirtualMachineSizeInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * This API is deprecated. Use [Resources Skus](https://docs.microsoft.com/en-us/rest/api/compute/resourceskus/list).
+     *
+     * @param location The location upon which virtual-machine-sizes is queried.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<List<VirtualMachineSizeInner>> listAsync(@NonNull String location) {
+        return listWithRestResponseAsync(location)
+            .flatMapMaybe((BodyResponse<List<VirtualMachineSizeInner>> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
-
 }

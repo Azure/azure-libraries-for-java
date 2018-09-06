@@ -15,16 +15,22 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Defines values for SettingNames.
  */
 public enum SettingNames {
-    /** Enum value AutoLogon. */
+    /**
+     * Enum value AutoLogon.
+     */
     AUTO_LOGON("AutoLogon"),
 
-    /** Enum value FirstLogonCommands. */
+    /**
+     * Enum value FirstLogonCommands.
+     */
     FIRST_LOGON_COMMANDS("FirstLogonCommands");
 
-    /** The actual serialized value for a SettingNames instance. */
-    private String value;
+    /**
+     * The actual serialized value for a SettingNames instance.
+     */
+    private final String value;
 
-    SettingNames(String value) {
+    private SettingNames(String value) {
         this.value = value;
     }
 

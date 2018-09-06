@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Describes the properties of a VM size.
  */
-public class VirtualMachineSizeInner {
+public final class VirtualMachineSizeInner {
     /**
      * The name of the virtual machine size.
      */
@@ -52,18 +52,18 @@ public class VirtualMachineSizeInner {
     private Integer maxDataDiskCount;
 
     /**
-     * Get the name of the virtual machine size.
+     * Get the name value.
      *
-     * @return the name value
+     * @return the name value.
      */
     public String name() {
         return this.name;
     }
 
     /**
-     * Set the name of the virtual machine size.
+     * Set the name value.
      *
-     * @param name the name value to set
+     * @param name the name value to set.
      * @return the VirtualMachineSizeInner object itself.
      */
     public VirtualMachineSizeInner withName(String name) {
@@ -72,18 +72,18 @@ public class VirtualMachineSizeInner {
     }
 
     /**
-     * Get the number of cores supported by the virtual machine size.
+     * Get the numberOfCores value.
      *
-     * @return the numberOfCores value
+     * @return the numberOfCores value.
      */
     public Integer numberOfCores() {
         return this.numberOfCores;
     }
 
     /**
-     * Set the number of cores supported by the virtual machine size.
+     * Set the numberOfCores value.
      *
-     * @param numberOfCores the numberOfCores value to set
+     * @param numberOfCores the numberOfCores value to set.
      * @return the VirtualMachineSizeInner object itself.
      */
     public VirtualMachineSizeInner withNumberOfCores(Integer numberOfCores) {
@@ -92,18 +92,18 @@ public class VirtualMachineSizeInner {
     }
 
     /**
-     * Get the OS disk size, in MB, allowed by the virtual machine size.
+     * Get the osDiskSizeInMB value.
      *
-     * @return the osDiskSizeInMB value
+     * @return the osDiskSizeInMB value.
      */
     public Integer osDiskSizeInMB() {
         return this.osDiskSizeInMB;
     }
 
     /**
-     * Set the OS disk size, in MB, allowed by the virtual machine size.
+     * Set the osDiskSizeInMB value.
      *
-     * @param osDiskSizeInMB the osDiskSizeInMB value to set
+     * @param osDiskSizeInMB the osDiskSizeInMB value to set.
      * @return the VirtualMachineSizeInner object itself.
      */
     public VirtualMachineSizeInner withOsDiskSizeInMB(Integer osDiskSizeInMB) {
@@ -112,18 +112,18 @@ public class VirtualMachineSizeInner {
     }
 
     /**
-     * Get the resource disk size, in MB, allowed by the virtual machine size.
+     * Get the resourceDiskSizeInMB value.
      *
-     * @return the resourceDiskSizeInMB value
+     * @return the resourceDiskSizeInMB value.
      */
     public Integer resourceDiskSizeInMB() {
         return this.resourceDiskSizeInMB;
     }
 
     /**
-     * Set the resource disk size, in MB, allowed by the virtual machine size.
+     * Set the resourceDiskSizeInMB value.
      *
-     * @param resourceDiskSizeInMB the resourceDiskSizeInMB value to set
+     * @param resourceDiskSizeInMB the resourceDiskSizeInMB value to set.
      * @return the VirtualMachineSizeInner object itself.
      */
     public VirtualMachineSizeInner withResourceDiskSizeInMB(Integer resourceDiskSizeInMB) {
@@ -132,18 +132,18 @@ public class VirtualMachineSizeInner {
     }
 
     /**
-     * Get the amount of memory, in MB, supported by the virtual machine size.
+     * Get the memoryInMB value.
      *
-     * @return the memoryInMB value
+     * @return the memoryInMB value.
      */
     public Integer memoryInMB() {
         return this.memoryInMB;
     }
 
     /**
-     * Set the amount of memory, in MB, supported by the virtual machine size.
+     * Set the memoryInMB value.
      *
-     * @param memoryInMB the memoryInMB value to set
+     * @param memoryInMB the memoryInMB value to set.
      * @return the VirtualMachineSizeInner object itself.
      */
     public VirtualMachineSizeInner withMemoryInMB(Integer memoryInMB) {
@@ -152,23 +152,22 @@ public class VirtualMachineSizeInner {
     }
 
     /**
-     * Get the maximum number of data disks that can be attached to the virtual machine size.
+     * Get the maxDataDiskCount value.
      *
-     * @return the maxDataDiskCount value
+     * @return the maxDataDiskCount value.
      */
     public Integer maxDataDiskCount() {
         return this.maxDataDiskCount;
     }
 
     /**
-     * Set the maximum number of data disks that can be attached to the virtual machine size.
+     * Set the maxDataDiskCount value.
      *
-     * @param maxDataDiskCount the maxDataDiskCount value to set
+     * @param maxDataDiskCount the maxDataDiskCount value to set.
      * @return the VirtualMachineSizeInner object itself.
      */
     public VirtualMachineSizeInner withMaxDataDiskCount(Integer maxDataDiskCount) {
         this.maxDataDiskCount = maxDataDiskCount;
         return this;
     }
-
 }

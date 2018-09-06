@@ -8,13 +8,13 @@
 
 package com.microsoft.azure.v2.management.compute;
 
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 
 /**
  * Describes a storage profile.
  */
-public class ImageStorageProfile {
+public final class ImageStorageProfile {
     /**
      * Specifies information about the operating system disk used by the
      * virtual machine. &lt;br&gt;&lt;br&gt; For more information about disks,
@@ -42,18 +42,18 @@ public class ImageStorageProfile {
     private Boolean zoneResilient;
 
     /**
-     * Get specifies information about the operating system disk used by the virtual machine. &lt;br&gt;&lt;br&gt; For more information about disks, see [About disks and VHDs for Azure virtual machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-about-disks-vhds?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json).
+     * Get the osDisk value.
      *
-     * @return the osDisk value
+     * @return the osDisk value.
      */
     public ImageOSDisk osDisk() {
         return this.osDisk;
     }
 
     /**
-     * Set specifies information about the operating system disk used by the virtual machine. &lt;br&gt;&lt;br&gt; For more information about disks, see [About disks and VHDs for Azure virtual machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-about-disks-vhds?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json).
+     * Set the osDisk value.
      *
-     * @param osDisk the osDisk value to set
+     * @param osDisk the osDisk value to set.
      * @return the ImageStorageProfile object itself.
      */
     public ImageStorageProfile withOsDisk(ImageOSDisk osDisk) {
@@ -62,18 +62,18 @@ public class ImageStorageProfile {
     }
 
     /**
-     * Get specifies the parameters that are used to add a data disk to a virtual machine. &lt;br&gt;&lt;br&gt; For more information about disks, see [About disks and VHDs for Azure virtual machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-about-disks-vhds?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json).
+     * Get the dataDisks value.
      *
-     * @return the dataDisks value
+     * @return the dataDisks value.
      */
     public List<ImageDataDisk> dataDisks() {
         return this.dataDisks;
     }
 
     /**
-     * Set specifies the parameters that are used to add a data disk to a virtual machine. &lt;br&gt;&lt;br&gt; For more information about disks, see [About disks and VHDs for Azure virtual machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-about-disks-vhds?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json).
+     * Set the dataDisks value.
      *
-     * @param dataDisks the dataDisks value to set
+     * @param dataDisks the dataDisks value to set.
      * @return the ImageStorageProfile object itself.
      */
     public ImageStorageProfile withDataDisks(List<ImageDataDisk> dataDisks) {
@@ -82,23 +82,22 @@ public class ImageStorageProfile {
     }
 
     /**
-     * Get specifies whether an image is zone resilient or not. Default is false. Zone resilient images can be created only in regions that provide Zone Redundant Storage (ZRS).
+     * Get the zoneResilient value.
      *
-     * @return the zoneResilient value
+     * @return the zoneResilient value.
      */
     public Boolean zoneResilient() {
         return this.zoneResilient;
     }
 
     /**
-     * Set specifies whether an image is zone resilient or not. Default is false. Zone resilient images can be created only in regions that provide Zone Redundant Storage (ZRS).
+     * Set the zoneResilient value.
      *
-     * @param zoneResilient the zoneResilient value to set
+     * @param zoneResilient the zoneResilient value to set.
      * @return the ImageStorageProfile object itself.
      */
     public ImageStorageProfile withZoneResilient(Boolean zoneResilient) {
         this.zoneResilient = zoneResilient;
         return this;
     }
-
 }

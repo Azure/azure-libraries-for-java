@@ -8,13 +8,13 @@
 
 package com.microsoft.azure.v2.management.compute;
 
-import org.joda.time.DateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.time.OffsetDateTime;
 
 /**
  * Instance view status.
  */
-public class InstanceViewStatus {
+public final class InstanceViewStatus {
     /**
      * The status code.
      */
@@ -43,21 +43,21 @@ public class InstanceViewStatus {
      * The time of the status.
      */
     @JsonProperty(value = "time")
-    private DateTime time;
+    private OffsetDateTime time;
 
     /**
-     * Get the status code.
+     * Get the code value.
      *
-     * @return the code value
+     * @return the code value.
      */
     public String code() {
         return this.code;
     }
 
     /**
-     * Set the status code.
+     * Set the code value.
      *
-     * @param code the code value to set
+     * @param code the code value to set.
      * @return the InstanceViewStatus object itself.
      */
     public InstanceViewStatus withCode(String code) {
@@ -66,18 +66,18 @@ public class InstanceViewStatus {
     }
 
     /**
-     * Get the level code. Possible values include: 'Info', 'Warning', 'Error'.
+     * Get the level value.
      *
-     * @return the level value
+     * @return the level value.
      */
     public StatusLevelTypes level() {
         return this.level;
     }
 
     /**
-     * Set the level code. Possible values include: 'Info', 'Warning', 'Error'.
+     * Set the level value.
      *
-     * @param level the level value to set
+     * @param level the level value to set.
      * @return the InstanceViewStatus object itself.
      */
     public InstanceViewStatus withLevel(StatusLevelTypes level) {
@@ -86,18 +86,18 @@ public class InstanceViewStatus {
     }
 
     /**
-     * Get the short localizable label for the status.
+     * Get the displayStatus value.
      *
-     * @return the displayStatus value
+     * @return the displayStatus value.
      */
     public String displayStatus() {
         return this.displayStatus;
     }
 
     /**
-     * Set the short localizable label for the status.
+     * Set the displayStatus value.
      *
-     * @param displayStatus the displayStatus value to set
+     * @param displayStatus the displayStatus value to set.
      * @return the InstanceViewStatus object itself.
      */
     public InstanceViewStatus withDisplayStatus(String displayStatus) {
@@ -106,18 +106,18 @@ public class InstanceViewStatus {
     }
 
     /**
-     * Get the detailed status message, including for alerts and error messages.
+     * Get the message value.
      *
-     * @return the message value
+     * @return the message value.
      */
     public String message() {
         return this.message;
     }
 
     /**
-     * Set the detailed status message, including for alerts and error messages.
+     * Set the message value.
      *
-     * @param message the message value to set
+     * @param message the message value to set.
      * @return the InstanceViewStatus object itself.
      */
     public InstanceViewStatus withMessage(String message) {
@@ -126,23 +126,22 @@ public class InstanceViewStatus {
     }
 
     /**
-     * Get the time of the status.
+     * Get the time value.
      *
-     * @return the time value
+     * @return the time value.
      */
-    public DateTime time() {
+    public OffsetDateTime time() {
         return this.time;
     }
 
     /**
-     * Set the time of the status.
+     * Set the time value.
      *
-     * @param time the time value to set
+     * @param time the time value to set.
      * @return the InstanceViewStatus object itself.
      */
-    public InstanceViewStatus withTime(DateTime time) {
+    public InstanceViewStatus withTime(OffsetDateTime time) {
         this.time = time;
         return this;
     }
-
 }

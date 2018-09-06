@@ -9,8 +9,8 @@
 package com.microsoft.azure.v2.management.compute.implementation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.Resource;
+import com.microsoft.azure.v2.Resource;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
 
 /**
  * Describes a Virtual Machine Extension Image.
@@ -52,18 +52,18 @@ public class VirtualMachineExtensionImageInner extends Resource {
     private Boolean supportsMultipleExtensions;
 
     /**
-     * Get the operating system this extension supports.
+     * Get the operatingSystem value.
      *
-     * @return the operatingSystem value
+     * @return the operatingSystem value.
      */
     public String operatingSystem() {
         return this.operatingSystem;
     }
 
     /**
-     * Set the operating system this extension supports.
+     * Set the operatingSystem value.
      *
-     * @param operatingSystem the operatingSystem value to set
+     * @param operatingSystem the operatingSystem value to set.
      * @return the VirtualMachineExtensionImageInner object itself.
      */
     public VirtualMachineExtensionImageInner withOperatingSystem(String operatingSystem) {
@@ -72,18 +72,18 @@ public class VirtualMachineExtensionImageInner extends Resource {
     }
 
     /**
-     * Get the type of role (IaaS or PaaS) this extension supports.
+     * Get the computeRole value.
      *
-     * @return the computeRole value
+     * @return the computeRole value.
      */
     public String computeRole() {
         return this.computeRole;
     }
 
     /**
-     * Set the type of role (IaaS or PaaS) this extension supports.
+     * Set the computeRole value.
      *
-     * @param computeRole the computeRole value to set
+     * @param computeRole the computeRole value to set.
      * @return the VirtualMachineExtensionImageInner object itself.
      */
     public VirtualMachineExtensionImageInner withComputeRole(String computeRole) {
@@ -92,18 +92,18 @@ public class VirtualMachineExtensionImageInner extends Resource {
     }
 
     /**
-     * Get the schema defined by publisher, where extension consumers should provide settings in a matching schema.
+     * Get the handlerSchema value.
      *
-     * @return the handlerSchema value
+     * @return the handlerSchema value.
      */
     public String handlerSchema() {
         return this.handlerSchema;
     }
 
     /**
-     * Set the schema defined by publisher, where extension consumers should provide settings in a matching schema.
+     * Set the handlerSchema value.
      *
-     * @param handlerSchema the handlerSchema value to set
+     * @param handlerSchema the handlerSchema value to set.
      * @return the VirtualMachineExtensionImageInner object itself.
      */
     public VirtualMachineExtensionImageInner withHandlerSchema(String handlerSchema) {
@@ -112,18 +112,18 @@ public class VirtualMachineExtensionImageInner extends Resource {
     }
 
     /**
-     * Get whether the extension can be used on xRP VMScaleSets. By default existing extensions are usable on scalesets, but there might be cases where a publisher wants to explicitly indicate the extension is only enabled for CRP VMs but not VMSS.
+     * Get the vmScaleSetEnabled value.
      *
-     * @return the vmScaleSetEnabled value
+     * @return the vmScaleSetEnabled value.
      */
     public Boolean vmScaleSetEnabled() {
         return this.vmScaleSetEnabled;
     }
 
     /**
-     * Set whether the extension can be used on xRP VMScaleSets. By default existing extensions are usable on scalesets, but there might be cases where a publisher wants to explicitly indicate the extension is only enabled for CRP VMs but not VMSS.
+     * Set the vmScaleSetEnabled value.
      *
-     * @param vmScaleSetEnabled the vmScaleSetEnabled value to set
+     * @param vmScaleSetEnabled the vmScaleSetEnabled value to set.
      * @return the VirtualMachineExtensionImageInner object itself.
      */
     public VirtualMachineExtensionImageInner withVmScaleSetEnabled(Boolean vmScaleSetEnabled) {
@@ -132,23 +132,23 @@ public class VirtualMachineExtensionImageInner extends Resource {
     }
 
     /**
-     * Get whether the handler can support multiple extensions.
+     * Get the supportsMultipleExtensions value.
      *
-     * @return the supportsMultipleExtensions value
+     * @return the supportsMultipleExtensions value.
      */
     public Boolean supportsMultipleExtensions() {
         return this.supportsMultipleExtensions;
     }
 
     /**
-     * Set whether the handler can support multiple extensions.
+     * Set the supportsMultipleExtensions value.
      *
-     * @param supportsMultipleExtensions the supportsMultipleExtensions value to set
+     * @param supportsMultipleExtensions the supportsMultipleExtensions value
+     * to set.
      * @return the VirtualMachineExtensionImageInner object itself.
      */
     public VirtualMachineExtensionImageInner withSupportsMultipleExtensions(Boolean supportsMultipleExtensions) {
         this.supportsMultipleExtensions = supportsMultipleExtensions;
         return this;
     }
-
 }

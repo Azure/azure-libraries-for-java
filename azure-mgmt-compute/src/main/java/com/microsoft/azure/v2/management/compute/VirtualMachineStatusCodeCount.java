@@ -14,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * The status code and count of the virtual machine scale set instance view
  * status summary.
  */
-public class VirtualMachineStatusCodeCount {
+public final class VirtualMachineStatusCodeCount {
     /**
      * The instance view status code.
      */
@@ -28,21 +28,20 @@ public class VirtualMachineStatusCodeCount {
     private Integer count;
 
     /**
-     * Get the instance view status code.
+     * Get the code value.
      *
-     * @return the code value
+     * @return the code value.
      */
     public String code() {
         return this.code;
     }
 
     /**
-     * Get the number of instances having a particular status code.
+     * Get the count value.
      *
-     * @return the count value
+     * @return the count value.
      */
     public Integer count() {
         return this.count;
     }
-
 }

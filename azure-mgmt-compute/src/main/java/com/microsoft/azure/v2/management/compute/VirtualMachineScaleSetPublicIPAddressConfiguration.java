@@ -8,9 +8,10 @@
 
 package com.microsoft.azure.v2.management.compute;
 
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.v2.SubResource;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
+import java.util.List;
 
 /**
  * Describes a virtual machines scale set IP Configuration's PublicIPAddress
@@ -43,19 +44,26 @@ public class VirtualMachineScaleSetPublicIPAddressConfiguration {
     private List<VirtualMachineScaleSetIpTag> ipTags;
 
     /**
-     * Get the publicIP address configuration name.
+     * The PublicIPPrefix from which to allocate publicIP addresses.
+     */
+    @JsonProperty(value = "properties.publicIPPrefix")
+    private SubResource publicIPPrefix;
+
+    /**
+     * Get the name value.
      *
-     * @return the name value
+     * @return the name value.
      */
     public String name() {
         return this.name;
     }
 
     /**
-     * Set the publicIP address configuration name.
+     * Set the name value.
      *
-     * @param name the name value to set
-     * @return the VirtualMachineScaleSetPublicIPAddressConfiguration object itself.
+     * @param name the name value to set.
+     * @return the VirtualMachineScaleSetPublicIPAddressConfiguration object
+     * itself.
      */
     public VirtualMachineScaleSetPublicIPAddressConfiguration withName(String name) {
         this.name = name;
@@ -63,19 +71,20 @@ public class VirtualMachineScaleSetPublicIPAddressConfiguration {
     }
 
     /**
-     * Get the idle timeout of the public IP address.
+     * Get the idleTimeoutInMinutes value.
      *
-     * @return the idleTimeoutInMinutes value
+     * @return the idleTimeoutInMinutes value.
      */
     public Integer idleTimeoutInMinutes() {
         return this.idleTimeoutInMinutes;
     }
 
     /**
-     * Set the idle timeout of the public IP address.
+     * Set the idleTimeoutInMinutes value.
      *
-     * @param idleTimeoutInMinutes the idleTimeoutInMinutes value to set
-     * @return the VirtualMachineScaleSetPublicIPAddressConfiguration object itself.
+     * @param idleTimeoutInMinutes the idleTimeoutInMinutes value to set.
+     * @return the VirtualMachineScaleSetPublicIPAddressConfiguration object
+     * itself.
      */
     public VirtualMachineScaleSetPublicIPAddressConfiguration withIdleTimeoutInMinutes(Integer idleTimeoutInMinutes) {
         this.idleTimeoutInMinutes = idleTimeoutInMinutes;
@@ -83,19 +92,20 @@ public class VirtualMachineScaleSetPublicIPAddressConfiguration {
     }
 
     /**
-     * Get the dns settings to be applied on the publicIP addresses .
+     * Get the dnsSettings value.
      *
-     * @return the dnsSettings value
+     * @return the dnsSettings value.
      */
     public VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings dnsSettings() {
         return this.dnsSettings;
     }
 
     /**
-     * Set the dns settings to be applied on the publicIP addresses .
+     * Set the dnsSettings value.
      *
-     * @param dnsSettings the dnsSettings value to set
-     * @return the VirtualMachineScaleSetPublicIPAddressConfiguration object itself.
+     * @param dnsSettings the dnsSettings value to set.
+     * @return the VirtualMachineScaleSetPublicIPAddressConfiguration object
+     * itself.
      */
     public VirtualMachineScaleSetPublicIPAddressConfiguration withDnsSettings(VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings dnsSettings) {
         this.dnsSettings = dnsSettings;
@@ -103,23 +113,44 @@ public class VirtualMachineScaleSetPublicIPAddressConfiguration {
     }
 
     /**
-     * Get the list of IP tags associated with the public IP address.
+     * Get the ipTags value.
      *
-     * @return the ipTags value
+     * @return the ipTags value.
      */
     public List<VirtualMachineScaleSetIpTag> ipTags() {
         return this.ipTags;
     }
 
     /**
-     * Set the list of IP tags associated with the public IP address.
+     * Set the ipTags value.
      *
-     * @param ipTags the ipTags value to set
-     * @return the VirtualMachineScaleSetPublicIPAddressConfiguration object itself.
+     * @param ipTags the ipTags value to set.
+     * @return the VirtualMachineScaleSetPublicIPAddressConfiguration object
+     * itself.
      */
     public VirtualMachineScaleSetPublicIPAddressConfiguration withIpTags(List<VirtualMachineScaleSetIpTag> ipTags) {
         this.ipTags = ipTags;
         return this;
     }
 
+    /**
+     * Get the publicIPPrefix value.
+     *
+     * @return the publicIPPrefix value.
+     */
+    public SubResource publicIPPrefix() {
+        return this.publicIPPrefix;
+    }
+
+    /**
+     * Set the publicIPPrefix value.
+     *
+     * @param publicIPPrefix the publicIPPrefix value to set.
+     * @return the VirtualMachineScaleSetPublicIPAddressConfiguration object
+     * itself.
+     */
+    public VirtualMachineScaleSetPublicIPAddressConfiguration withPublicIPPrefix(SubResource publicIPPrefix) {
+        this.publicIPPrefix = publicIPPrefix;
+        return this;
+    }
 }

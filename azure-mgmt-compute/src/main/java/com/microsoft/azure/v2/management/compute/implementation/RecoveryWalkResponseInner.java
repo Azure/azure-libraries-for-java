@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Response after calling a manual recovery walk.
  */
-public class RecoveryWalkResponseInner {
+public final class RecoveryWalkResponseInner {
     /**
      * Whether the recovery walk was performed.
      */
@@ -28,21 +28,20 @@ public class RecoveryWalkResponseInner {
     private Integer nextPlatformUpdateDomain;
 
     /**
-     * Get whether the recovery walk was performed.
+     * Get the walkPerformed value.
      *
-     * @return the walkPerformed value
+     * @return the walkPerformed value.
      */
     public Boolean walkPerformed() {
         return this.walkPerformed;
     }
 
     /**
-     * Get the next update domain that needs to be walked. Null means walk spanning all update domains has been completed.
+     * Get the nextPlatformUpdateDomain value.
      *
-     * @return the nextPlatformUpdateDomain value
+     * @return the nextPlatformUpdateDomain value.
      */
     public Integer nextPlatformUpdateDomain() {
         return this.nextPlatformUpdateDomain;
     }
-
 }

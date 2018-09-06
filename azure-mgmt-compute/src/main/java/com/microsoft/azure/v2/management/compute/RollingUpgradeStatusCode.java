@@ -15,22 +15,32 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Defines values for RollingUpgradeStatusCode.
  */
 public enum RollingUpgradeStatusCode {
-    /** Enum value RollingForward. */
+    /**
+     * Enum value RollingForward.
+     */
     ROLLING_FORWARD("RollingForward"),
 
-    /** Enum value Cancelled. */
+    /**
+     * Enum value Cancelled.
+     */
     CANCELLED("Cancelled"),
 
-    /** Enum value Completed. */
+    /**
+     * Enum value Completed.
+     */
     COMPLETED("Completed"),
 
-    /** Enum value Faulted. */
+    /**
+     * Enum value Faulted.
+     */
     FAULTED("Faulted");
 
-    /** The actual serialized value for a RollingUpgradeStatusCode instance. */
-    private String value;
+    /**
+     * The actual serialized value for a RollingUpgradeStatusCode instance.
+     */
+    private final String value;
 
-    RollingUpgradeStatusCode(String value) {
+    private RollingUpgradeStatusCode(String value) {
         this.value = value;
     }
 

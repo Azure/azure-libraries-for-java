@@ -8,19 +8,18 @@
 
 package com.microsoft.azure.v2.management.compute;
 
-import org.joda.time.DateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.time.OffsetDateTime;
 
 /**
  * The publishing profile of a gallery image version.
  */
-public class GalleryImageVersionPublishingProfile extends GalleryArtifactPublishingProfileBase {
+public final class GalleryImageVersionPublishingProfile extends GalleryArtifactPublishingProfileBase {
     /**
-     * The scale tier of the gallery image version. Valid values are 'S30' and
-     * 'S100'. Possible values include: 'S30', 'S100'.
+     * This is the number of source blob copies in a region.
      */
-    @JsonProperty(value = "scaleTier")
-    private ScaleTier scaleTier;
+    @JsonProperty(value = "replicaCount")
+    private Integer replicaCount;
 
     /**
      * The flag means that if it is set to true, people deploying VMs with
@@ -33,47 +32,47 @@ public class GalleryImageVersionPublishingProfile extends GalleryArtifactPublish
      * The time when the gallery image version is published.
      */
     @JsonProperty(value = "publishedDate", access = JsonProperty.Access.WRITE_ONLY)
-    private DateTime publishedDate;
+    private OffsetDateTime publishedDate;
 
     /**
      * The end of life date of the gallery image version.
      */
     @JsonProperty(value = "endOfLifeDate")
-    private DateTime endOfLifeDate;
+    private OffsetDateTime endOfLifeDate;
 
     /**
-     * Get the scale tier of the gallery image version. Valid values are 'S30' and 'S100'. Possible values include: 'S30', 'S100'.
+     * Get the replicaCount value.
      *
-     * @return the scaleTier value
+     * @return the replicaCount value.
      */
-    public ScaleTier scaleTier() {
-        return this.scaleTier;
+    public Integer replicaCount() {
+        return this.replicaCount;
     }
 
     /**
-     * Set the scale tier of the gallery image version. Valid values are 'S30' and 'S100'. Possible values include: 'S30', 'S100'.
+     * Set the replicaCount value.
      *
-     * @param scaleTier the scaleTier value to set
+     * @param replicaCount the replicaCount value to set.
      * @return the GalleryImageVersionPublishingProfile object itself.
      */
-    public GalleryImageVersionPublishingProfile withScaleTier(ScaleTier scaleTier) {
-        this.scaleTier = scaleTier;
+    public GalleryImageVersionPublishingProfile withReplicaCount(Integer replicaCount) {
+        this.replicaCount = replicaCount;
         return this;
     }
 
     /**
-     * Get the flag means that if it is set to true, people deploying VMs with 'latest' as version will not use this version.
+     * Get the excludeFromLatest value.
      *
-     * @return the excludeFromLatest value
+     * @return the excludeFromLatest value.
      */
     public Boolean excludeFromLatest() {
         return this.excludeFromLatest;
     }
 
     /**
-     * Set the flag means that if it is set to true, people deploying VMs with 'latest' as version will not use this version.
+     * Set the excludeFromLatest value.
      *
-     * @param excludeFromLatest the excludeFromLatest value to set
+     * @param excludeFromLatest the excludeFromLatest value to set.
      * @return the GalleryImageVersionPublishingProfile object itself.
      */
     public GalleryImageVersionPublishingProfile withExcludeFromLatest(Boolean excludeFromLatest) {
@@ -82,32 +81,31 @@ public class GalleryImageVersionPublishingProfile extends GalleryArtifactPublish
     }
 
     /**
-     * Get the time when the gallery image version is published.
+     * Get the publishedDate value.
      *
-     * @return the publishedDate value
+     * @return the publishedDate value.
      */
-    public DateTime publishedDate() {
+    public OffsetDateTime publishedDate() {
         return this.publishedDate;
     }
 
     /**
-     * Get the end of life date of the gallery image version.
+     * Get the endOfLifeDate value.
      *
-     * @return the endOfLifeDate value
+     * @return the endOfLifeDate value.
      */
-    public DateTime endOfLifeDate() {
+    public OffsetDateTime endOfLifeDate() {
         return this.endOfLifeDate;
     }
 
     /**
-     * Set the end of life date of the gallery image version.
+     * Set the endOfLifeDate value.
      *
-     * @param endOfLifeDate the endOfLifeDate value to set
+     * @param endOfLifeDate the endOfLifeDate value to set.
      * @return the GalleryImageVersionPublishingProfile object itself.
      */
-    public GalleryImageVersionPublishingProfile withEndOfLifeDate(DateTime endOfLifeDate) {
+    public GalleryImageVersionPublishingProfile withEndOfLifeDate(OffsetDateTime endOfLifeDate) {
         this.endOfLifeDate = endOfLifeDate;
         return this;
     }
-
 }

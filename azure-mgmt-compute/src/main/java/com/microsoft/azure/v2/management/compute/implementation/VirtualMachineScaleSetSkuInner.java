@@ -8,14 +8,14 @@
 
 package com.microsoft.azure.v2.management.compute.implementation;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.azure.v2.management.compute.Sku;
 import com.microsoft.azure.v2.management.compute.VirtualMachineScaleSetSkuCapacity;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Describes an available virtual machine scale set sku.
  */
-public class VirtualMachineScaleSetSkuInner {
+public final class VirtualMachineScaleSetSkuInner {
     /**
      * The type of resource the sku applies to.
      */
@@ -35,30 +35,29 @@ public class VirtualMachineScaleSetSkuInner {
     private VirtualMachineScaleSetSkuCapacity capacity;
 
     /**
-     * Get the type of resource the sku applies to.
+     * Get the resourceType value.
      *
-     * @return the resourceType value
+     * @return the resourceType value.
      */
     public String resourceType() {
         return this.resourceType;
     }
 
     /**
-     * Get the Sku.
+     * Get the sku value.
      *
-     * @return the sku value
+     * @return the sku value.
      */
     public Sku sku() {
         return this.sku;
     }
 
     /**
-     * Get specifies the number of virtual machines in the scale set.
+     * Get the capacity value.
      *
-     * @return the capacity value
+     * @return the capacity value.
      */
     public VirtualMachineScaleSetSkuCapacity capacity() {
         return this.capacity;
     }
-
 }

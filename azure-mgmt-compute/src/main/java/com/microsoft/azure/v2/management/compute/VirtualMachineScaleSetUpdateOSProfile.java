@@ -8,13 +8,13 @@
 
 package com.microsoft.azure.v2.management.compute;
 
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 
 /**
  * Describes a virtual machine scale set OS profile.
  */
-public class VirtualMachineScaleSetUpdateOSProfile {
+public final class VirtualMachineScaleSetUpdateOSProfile {
     /**
      * A base-64 encoded string of custom data.
      */
@@ -40,18 +40,18 @@ public class VirtualMachineScaleSetUpdateOSProfile {
     private List<VaultSecretGroup> secrets;
 
     /**
-     * Get a base-64 encoded string of custom data.
+     * Get the customData value.
      *
-     * @return the customData value
+     * @return the customData value.
      */
     public String customData() {
         return this.customData;
     }
 
     /**
-     * Set a base-64 encoded string of custom data.
+     * Set the customData value.
      *
-     * @param customData the customData value to set
+     * @param customData the customData value to set.
      * @return the VirtualMachineScaleSetUpdateOSProfile object itself.
      */
     public VirtualMachineScaleSetUpdateOSProfile withCustomData(String customData) {
@@ -60,18 +60,18 @@ public class VirtualMachineScaleSetUpdateOSProfile {
     }
 
     /**
-     * Get the Windows Configuration of the OS profile.
+     * Get the windowsConfiguration value.
      *
-     * @return the windowsConfiguration value
+     * @return the windowsConfiguration value.
      */
     public WindowsConfiguration windowsConfiguration() {
         return this.windowsConfiguration;
     }
 
     /**
-     * Set the Windows Configuration of the OS profile.
+     * Set the windowsConfiguration value.
      *
-     * @param windowsConfiguration the windowsConfiguration value to set
+     * @param windowsConfiguration the windowsConfiguration value to set.
      * @return the VirtualMachineScaleSetUpdateOSProfile object itself.
      */
     public VirtualMachineScaleSetUpdateOSProfile withWindowsConfiguration(WindowsConfiguration windowsConfiguration) {
@@ -80,18 +80,18 @@ public class VirtualMachineScaleSetUpdateOSProfile {
     }
 
     /**
-     * Get the Linux Configuration of the OS profile.
+     * Get the linuxConfiguration value.
      *
-     * @return the linuxConfiguration value
+     * @return the linuxConfiguration value.
      */
     public LinuxConfiguration linuxConfiguration() {
         return this.linuxConfiguration;
     }
 
     /**
-     * Set the Linux Configuration of the OS profile.
+     * Set the linuxConfiguration value.
      *
-     * @param linuxConfiguration the linuxConfiguration value to set
+     * @param linuxConfiguration the linuxConfiguration value to set.
      * @return the VirtualMachineScaleSetUpdateOSProfile object itself.
      */
     public VirtualMachineScaleSetUpdateOSProfile withLinuxConfiguration(LinuxConfiguration linuxConfiguration) {
@@ -100,23 +100,22 @@ public class VirtualMachineScaleSetUpdateOSProfile {
     }
 
     /**
-     * Get the List of certificates for addition to the VM.
+     * Get the secrets value.
      *
-     * @return the secrets value
+     * @return the secrets value.
      */
     public List<VaultSecretGroup> secrets() {
         return this.secrets;
     }
 
     /**
-     * Set the List of certificates for addition to the VM.
+     * Set the secrets value.
      *
-     * @param secrets the secrets value to set
+     * @param secrets the secrets value to set.
      * @return the VirtualMachineScaleSetUpdateOSProfile object itself.
      */
     public VirtualMachineScaleSetUpdateOSProfile withSecrets(List<VaultSecretGroup> secrets) {
         this.secrets = secrets;
         return this;
     }
-
 }

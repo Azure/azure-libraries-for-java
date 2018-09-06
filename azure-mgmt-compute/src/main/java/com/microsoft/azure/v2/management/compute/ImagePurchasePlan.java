@@ -14,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * Describes the gallery image purchase plan. This is used by marketplace
  * images.
  */
-public class ImagePurchasePlan {
+public final class ImagePurchasePlan {
     /**
      * The plan ID.
      */
@@ -34,18 +34,18 @@ public class ImagePurchasePlan {
     private String product;
 
     /**
-     * Get the plan ID.
+     * Get the name value.
      *
-     * @return the name value
+     * @return the name value.
      */
     public String name() {
         return this.name;
     }
 
     /**
-     * Set the plan ID.
+     * Set the name value.
      *
-     * @param name the name value to set
+     * @param name the name value to set.
      * @return the ImagePurchasePlan object itself.
      */
     public ImagePurchasePlan withName(String name) {
@@ -54,18 +54,18 @@ public class ImagePurchasePlan {
     }
 
     /**
-     * Get the publisher ID.
+     * Get the publisher value.
      *
-     * @return the publisher value
+     * @return the publisher value.
      */
     public String publisher() {
         return this.publisher;
     }
 
     /**
-     * Set the publisher ID.
+     * Set the publisher value.
      *
-     * @param publisher the publisher value to set
+     * @param publisher the publisher value to set.
      * @return the ImagePurchasePlan object itself.
      */
     public ImagePurchasePlan withPublisher(String publisher) {
@@ -74,23 +74,22 @@ public class ImagePurchasePlan {
     }
 
     /**
-     * Get the product ID.
+     * Get the product value.
      *
-     * @return the product value
+     * @return the product value.
      */
     public String product() {
         return this.product;
     }
 
     /**
-     * Set the product ID.
+     * Set the product value.
      *
-     * @param product the product value to set
+     * @param product the product value to set.
      * @return the ImagePurchasePlan object itself.
      */
     public ImagePurchasePlan withProduct(String product) {
         this.product = product;
         return this;
     }
-
 }

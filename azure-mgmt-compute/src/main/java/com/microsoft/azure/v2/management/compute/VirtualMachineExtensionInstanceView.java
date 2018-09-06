@@ -8,14 +8,13 @@
 
 package com.microsoft.azure.v2.management.compute;
 
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 
 /**
  * The instance view of a virtual machine extension.
  */
-public class VirtualMachineExtensionInstanceView {
+public final class VirtualMachineExtensionInstanceView {
     /**
      * The virtual machine extension name.
      */
@@ -48,18 +47,18 @@ public class VirtualMachineExtensionInstanceView {
     private List<InstanceViewStatus> statuses;
 
     /**
-     * Get the virtual machine extension name.
+     * Get the name value.
      *
-     * @return the name value
+     * @return the name value.
      */
     public String name() {
         return this.name;
     }
 
     /**
-     * Set the virtual machine extension name.
+     * Set the name value.
      *
-     * @param name the name value to set
+     * @param name the name value to set.
      * @return the VirtualMachineExtensionInstanceView object itself.
      */
     public VirtualMachineExtensionInstanceView withName(String name) {
@@ -68,18 +67,18 @@ public class VirtualMachineExtensionInstanceView {
     }
 
     /**
-     * Get specifies the type of the extension; an example is "CustomScriptExtension".
+     * Get the type value.
      *
-     * @return the type value
+     * @return the type value.
      */
     public String type() {
         return this.type;
     }
 
     /**
-     * Set specifies the type of the extension; an example is "CustomScriptExtension".
+     * Set the type value.
      *
-     * @param type the type value to set
+     * @param type the type value to set.
      * @return the VirtualMachineExtensionInstanceView object itself.
      */
     public VirtualMachineExtensionInstanceView withType(String type) {
@@ -88,18 +87,18 @@ public class VirtualMachineExtensionInstanceView {
     }
 
     /**
-     * Get specifies the version of the script handler.
+     * Get the typeHandlerVersion value.
      *
-     * @return the typeHandlerVersion value
+     * @return the typeHandlerVersion value.
      */
     public String typeHandlerVersion() {
         return this.typeHandlerVersion;
     }
 
     /**
-     * Set specifies the version of the script handler.
+     * Set the typeHandlerVersion value.
      *
-     * @param typeHandlerVersion the typeHandlerVersion value to set
+     * @param typeHandlerVersion the typeHandlerVersion value to set.
      * @return the VirtualMachineExtensionInstanceView object itself.
      */
     public VirtualMachineExtensionInstanceView withTypeHandlerVersion(String typeHandlerVersion) {
@@ -108,18 +107,18 @@ public class VirtualMachineExtensionInstanceView {
     }
 
     /**
-     * Get the resource status information.
+     * Get the substatuses value.
      *
-     * @return the substatuses value
+     * @return the substatuses value.
      */
     public List<InstanceViewStatus> substatuses() {
         return this.substatuses;
     }
 
     /**
-     * Set the resource status information.
+     * Set the substatuses value.
      *
-     * @param substatuses the substatuses value to set
+     * @param substatuses the substatuses value to set.
      * @return the VirtualMachineExtensionInstanceView object itself.
      */
     public VirtualMachineExtensionInstanceView withSubstatuses(List<InstanceViewStatus> substatuses) {
@@ -128,23 +127,22 @@ public class VirtualMachineExtensionInstanceView {
     }
 
     /**
-     * Get the resource status information.
+     * Get the statuses value.
      *
-     * @return the statuses value
+     * @return the statuses value.
      */
     public List<InstanceViewStatus> statuses() {
         return this.statuses;
     }
 
     /**
-     * Set the resource status information.
+     * Set the statuses value.
      *
-     * @param statuses the statuses value to set
+     * @param statuses the statuses value to set.
      * @return the VirtualMachineExtensionInstanceView object itself.
      */
     public VirtualMachineExtensionInstanceView withStatuses(List<InstanceViewStatus> statuses) {
         this.statuses = statuses;
         return this;
     }
-
 }

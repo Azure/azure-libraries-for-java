@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Describes a virtual machine scale set sku.
  */
-public class Sku {
+public final class Sku {
     /**
      * The sku name.
      */
@@ -35,18 +35,18 @@ public class Sku {
     private Long capacity;
 
     /**
-     * Get the sku name.
+     * Get the name value.
      *
-     * @return the name value
+     * @return the name value.
      */
     public String name() {
         return this.name;
     }
 
     /**
-     * Set the sku name.
+     * Set the name value.
      *
-     * @param name the name value to set
+     * @param name the name value to set.
      * @return the Sku object itself.
      */
     public Sku withName(String name) {
@@ -55,18 +55,18 @@ public class Sku {
     }
 
     /**
-     * Get specifies the tier of virtual machines in a scale set.&lt;br /&gt;&lt;br /&gt; Possible Values:&lt;br /&gt;&lt;br /&gt; **Standard**&lt;br /&gt;&lt;br /&gt; **Basic**.
+     * Get the tier value.
      *
-     * @return the tier value
+     * @return the tier value.
      */
     public String tier() {
         return this.tier;
     }
 
     /**
-     * Set specifies the tier of virtual machines in a scale set.&lt;br /&gt;&lt;br /&gt; Possible Values:&lt;br /&gt;&lt;br /&gt; **Standard**&lt;br /&gt;&lt;br /&gt; **Basic**.
+     * Set the tier value.
      *
-     * @param tier the tier value to set
+     * @param tier the tier value to set.
      * @return the Sku object itself.
      */
     public Sku withTier(String tier) {
@@ -75,23 +75,22 @@ public class Sku {
     }
 
     /**
-     * Get specifies the number of virtual machines in the scale set.
+     * Get the capacity value.
      *
-     * @return the capacity value
+     * @return the capacity value.
      */
     public Long capacity() {
         return this.capacity;
     }
 
     /**
-     * Set specifies the number of virtual machines in the scale set.
+     * Set the capacity value.
      *
-     * @param capacity the capacity value to set
+     * @param capacity the capacity value to set.
      * @return the Sku object itself.
      */
     public Sku withCapacity(Long capacity) {
         this.capacity = capacity;
         return this;
     }
-
 }

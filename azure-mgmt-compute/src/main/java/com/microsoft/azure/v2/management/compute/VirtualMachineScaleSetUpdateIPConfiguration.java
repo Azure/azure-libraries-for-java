@@ -8,10 +8,10 @@
 
 package com.microsoft.azure.v2.management.compute;
 
-import java.util.List;
-import com.microsoft.azure.SubResource;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.v2.SubResource;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
+import java.util.List;
 
 /**
  * Describes a virtual machine scale set network profile's IP configuration.
@@ -55,8 +55,14 @@ public class VirtualMachineScaleSetUpdateIPConfiguration extends SubResource {
     /**
      * The application gateway backend address pools.
      */
-    @JsonProperty(value = "properties.applicationGatewayBackendAddressPoolsIds")
+    @JsonProperty(value = "properties.applicationGatewayBackendAddressPools")
     private List<SubResource> applicationGatewayBackendAddressPools;
+
+    /**
+     * Specifies an array of references to application security group.
+     */
+    @JsonProperty(value = "properties.applicationSecurityGroups")
+    private List<SubResource> applicationSecurityGroups;
 
     /**
      * The load balancer backend address pools.
@@ -71,24 +77,18 @@ public class VirtualMachineScaleSetUpdateIPConfiguration extends SubResource {
     private List<SubResource> loadBalancerInboundNatPools;
 
     /**
-     * Gets the applicationSecurityGroups.
-     */
-    @JsonProperty(value = "properties.applicationSecurityGroups")
-    private List<SubResource> applicationSecurityGroups;
-
-    /**
-     * Get the IP configuration name.
+     * Get the name value.
      *
-     * @return the name value
+     * @return the name value.
      */
     public String name() {
         return this.name;
     }
 
     /**
-     * Set the IP configuration name.
+     * Set the name value.
      *
-     * @param name the name value to set
+     * @param name the name value to set.
      * @return the VirtualMachineScaleSetUpdateIPConfiguration object itself.
      */
     public VirtualMachineScaleSetUpdateIPConfiguration withName(String name) {
@@ -97,18 +97,18 @@ public class VirtualMachineScaleSetUpdateIPConfiguration extends SubResource {
     }
 
     /**
-     * Get the subnet.
+     * Get the subnet value.
      *
-     * @return the subnet value
+     * @return the subnet value.
      */
     public ApiEntityReference subnet() {
         return this.subnet;
     }
 
     /**
-     * Set the subnet.
+     * Set the subnet value.
      *
-     * @param subnet the subnet value to set
+     * @param subnet the subnet value to set.
      * @return the VirtualMachineScaleSetUpdateIPConfiguration object itself.
      */
     public VirtualMachineScaleSetUpdateIPConfiguration withSubnet(ApiEntityReference subnet) {
@@ -117,18 +117,18 @@ public class VirtualMachineScaleSetUpdateIPConfiguration extends SubResource {
     }
 
     /**
-     * Get specifies the primary IP Configuration in case the network interface has more than one IP Configuration.
+     * Get the primary value.
      *
-     * @return the primary value
+     * @return the primary value.
      */
     public Boolean primary() {
         return this.primary;
     }
 
     /**
-     * Set specifies the primary IP Configuration in case the network interface has more than one IP Configuration.
+     * Set the primary value.
      *
-     * @param primary the primary value to set
+     * @param primary the primary value to set.
      * @return the VirtualMachineScaleSetUpdateIPConfiguration object itself.
      */
     public VirtualMachineScaleSetUpdateIPConfiguration withPrimary(Boolean primary) {
@@ -137,18 +137,19 @@ public class VirtualMachineScaleSetUpdateIPConfiguration extends SubResource {
     }
 
     /**
-     * Get the publicIPAddressConfiguration.
+     * Get the publicIPAddressConfiguration value.
      *
-     * @return the publicIPAddressConfiguration value
+     * @return the publicIPAddressConfiguration value.
      */
     public VirtualMachineScaleSetUpdatePublicIPAddressConfiguration publicIPAddressConfiguration() {
         return this.publicIPAddressConfiguration;
     }
 
     /**
-     * Set the publicIPAddressConfiguration.
+     * Set the publicIPAddressConfiguration value.
      *
-     * @param publicIPAddressConfiguration the publicIPAddressConfiguration value to set
+     * @param publicIPAddressConfiguration the publicIPAddressConfiguration
+     * value to set.
      * @return the VirtualMachineScaleSetUpdateIPConfiguration object itself.
      */
     public VirtualMachineScaleSetUpdateIPConfiguration withPublicIPAddressConfiguration(VirtualMachineScaleSetUpdatePublicIPAddressConfiguration publicIPAddressConfiguration) {
@@ -157,18 +158,18 @@ public class VirtualMachineScaleSetUpdateIPConfiguration extends SubResource {
     }
 
     /**
-     * Get available from Api-Version 2017-03-30 onwards, it represents whether the specific ipconfiguration is IPv4 or IPv6. Default is taken as IPv4.  Possible values are: 'IPv4' and 'IPv6'. Possible values include: 'IPv4', 'IPv6'.
+     * Get the privateIPAddressVersion value.
      *
-     * @return the privateIPAddressVersion value
+     * @return the privateIPAddressVersion value.
      */
     public IPVersion privateIPAddressVersion() {
         return this.privateIPAddressVersion;
     }
 
     /**
-     * Set available from Api-Version 2017-03-30 onwards, it represents whether the specific ipconfiguration is IPv4 or IPv6. Default is taken as IPv4.  Possible values are: 'IPv4' and 'IPv6'. Possible values include: 'IPv4', 'IPv6'.
+     * Set the privateIPAddressVersion value.
      *
-     * @param privateIPAddressVersion the privateIPAddressVersion value to set
+     * @param privateIPAddressVersion the privateIPAddressVersion value to set.
      * @return the VirtualMachineScaleSetUpdateIPConfiguration object itself.
      */
     public VirtualMachineScaleSetUpdateIPConfiguration withPrivateIPAddressVersion(IPVersion privateIPAddressVersion) {
@@ -177,18 +178,19 @@ public class VirtualMachineScaleSetUpdateIPConfiguration extends SubResource {
     }
 
     /**
-     * Get the application gateway backend address pools.
+     * Get the applicationGatewayBackendAddressPools value.
      *
-     * @return the applicationGatewayBackendAddressPoolsIds value
+     * @return the applicationGatewayBackendAddressPools value.
      */
     public List<SubResource> applicationGatewayBackendAddressPools() {
         return this.applicationGatewayBackendAddressPools;
     }
 
     /**
-     * Set the application gateway backend address pools.
+     * Set the applicationGatewayBackendAddressPools value.
      *
-     * @param applicationGatewayBackendAddressPools the applicationGatewayBackendAddressPoolsIds value to set
+     * @param applicationGatewayBackendAddressPools the
+     * applicationGatewayBackendAddressPools value to set.
      * @return the VirtualMachineScaleSetUpdateIPConfiguration object itself.
      */
     public VirtualMachineScaleSetUpdateIPConfiguration withApplicationGatewayBackendAddressPools(List<SubResource> applicationGatewayBackendAddressPools) {
@@ -197,18 +199,40 @@ public class VirtualMachineScaleSetUpdateIPConfiguration extends SubResource {
     }
 
     /**
-     * Get the load balancer backend address pools.
+     * Get the applicationSecurityGroups value.
      *
-     * @return the loadBalancerBackendAddressPools value
+     * @return the applicationSecurityGroups value.
+     */
+    public List<SubResource> applicationSecurityGroups() {
+        return this.applicationSecurityGroups;
+    }
+
+    /**
+     * Set the applicationSecurityGroups value.
+     *
+     * @param applicationSecurityGroups the applicationSecurityGroups value to
+     * set.
+     * @return the VirtualMachineScaleSetUpdateIPConfiguration object itself.
+     */
+    public VirtualMachineScaleSetUpdateIPConfiguration withApplicationSecurityGroups(List<SubResource> applicationSecurityGroups) {
+        this.applicationSecurityGroups = applicationSecurityGroups;
+        return this;
+    }
+
+    /**
+     * Get the loadBalancerBackendAddressPools value.
+     *
+     * @return the loadBalancerBackendAddressPools value.
      */
     public List<SubResource> loadBalancerBackendAddressPools() {
         return this.loadBalancerBackendAddressPools;
     }
 
     /**
-     * Set the load balancer backend address pools.
+     * Set the loadBalancerBackendAddressPools value.
      *
-     * @param loadBalancerBackendAddressPools the loadBalancerBackendAddressPools value to set
+     * @param loadBalancerBackendAddressPools the
+     * loadBalancerBackendAddressPools value to set.
      * @return the VirtualMachineScaleSetUpdateIPConfiguration object itself.
      */
     public VirtualMachineScaleSetUpdateIPConfiguration withLoadBalancerBackendAddressPools(List<SubResource> loadBalancerBackendAddressPools) {
@@ -217,42 +241,23 @@ public class VirtualMachineScaleSetUpdateIPConfiguration extends SubResource {
     }
 
     /**
-     * Get the load balancer inbound nat pools.
+     * Get the loadBalancerInboundNatPools value.
      *
-     * @return the loadBalancerInboundNatPools value
+     * @return the loadBalancerInboundNatPools value.
      */
     public List<SubResource> loadBalancerInboundNatPools() {
         return this.loadBalancerInboundNatPools;
     }
 
     /**
-     * Set the load balancer inbound nat pools.
+     * Set the loadBalancerInboundNatPools value.
      *
-     * @param loadBalancerInboundNatPools the loadBalancerInboundNatPools value to set
+     * @param loadBalancerInboundNatPools the loadBalancerInboundNatPools value
+     * to set.
      * @return the VirtualMachineScaleSetUpdateIPConfiguration object itself.
      */
     public VirtualMachineScaleSetUpdateIPConfiguration withLoadBalancerInboundNatPools(List<SubResource> loadBalancerInboundNatPools) {
         this.loadBalancerInboundNatPools = loadBalancerInboundNatPools;
-        return this;
-    }
-
-    /**
-     * Get application security groups.
-     *
-     * @return the applicationSecurityGroups value
-     */
-    public List<SubResource> applicationSecurityGroups() {
-        return this.applicationSecurityGroups;
-    }
-
-    /**
-     * Set application security groups.
-     *
-     * @param applicationSecurityGroups application security groups
-     * @return the VirtualMachineScaleSetUpdateIPConfiguration object itself.
-     */
-    public VirtualMachineScaleSetUpdateIPConfiguration withApplicationSecurityGroups(List<SubResource> applicationSecurityGroups) {
-        this.applicationSecurityGroups = applicationSecurityGroups;
         return this;
     }
 }

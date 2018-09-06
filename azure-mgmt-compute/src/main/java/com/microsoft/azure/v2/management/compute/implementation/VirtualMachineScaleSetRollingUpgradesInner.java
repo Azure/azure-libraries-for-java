@@ -8,70 +8,114 @@
 
 package com.microsoft.azure.v2.management.compute.implementation;
 
-import retrofit2.Retrofit;
-import com.google.common.reflect.TypeToken;
-import com.microsoft.azure.CloudException;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import com.microsoft.rest.ServiceResponse;
-import java.io.IOException;
-import okhttp3.ResponseBody;
-import retrofit2.http.GET;
-import retrofit2.http.Header;
-import retrofit2.http.Headers;
-import retrofit2.http.Path;
-import retrofit2.http.POST;
-import retrofit2.http.Query;
-import retrofit2.Response;
-import rx.functions.Func1;
-import rx.Observable;
+import com.microsoft.azure.v2.AzureProxy;
+import com.microsoft.azure.v2.CloudException;
+import com.microsoft.azure.v2.OperationStatus;
+import com.microsoft.azure.v2.util.ServiceFutureUtil;
+import com.microsoft.rest.v2.BodyResponse;
+import com.microsoft.rest.v2.OperationDescription;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
+import com.microsoft.rest.v2.VoidResponse;
+import com.microsoft.rest.v2.annotations.ExpectedResponses;
+import com.microsoft.rest.v2.annotations.GET;
+import com.microsoft.rest.v2.annotations.HeaderParam;
+import com.microsoft.rest.v2.annotations.Host;
+import com.microsoft.rest.v2.annotations.PathParam;
+import com.microsoft.rest.v2.annotations.POST;
+import com.microsoft.rest.v2.annotations.QueryParam;
+import com.microsoft.rest.v2.annotations.ResumeOperation;
+import com.microsoft.rest.v2.annotations.UnexpectedResponseExceptionType;
+import io.reactivex.Completable;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
+import io.reactivex.Single;
+import io.reactivex.annotations.NonNull;
 
 /**
- * An instance of this class provides access to all the operations defined
- * in VirtualMachineScaleSetRollingUpgrades.
+ * An instance of this class provides access to all the operations defined in
+ * VirtualMachineScaleSetRollingUpgrades.
  */
-public class VirtualMachineScaleSetRollingUpgradesInner {
-    /** The Retrofit service to perform REST calls. */
+public final class VirtualMachineScaleSetRollingUpgradesInner {
+    /**
+     * The proxy service used to perform REST calls.
+     */
     private VirtualMachineScaleSetRollingUpgradesService service;
-    /** The service client containing this operation class. */
+
+    /**
+     * The service client containing this operation class.
+     */
     private ComputeManagementClientImpl client;
 
     /**
      * Initializes an instance of VirtualMachineScaleSetRollingUpgradesInner.
      *
-     * @param retrofit the Retrofit instance built from a Retrofit Builder.
      * @param client the instance of the service client containing this operation class.
      */
-    public VirtualMachineScaleSetRollingUpgradesInner(Retrofit retrofit, ComputeManagementClientImpl client) {
-        this.service = retrofit.create(VirtualMachineScaleSetRollingUpgradesService.class);
+    public VirtualMachineScaleSetRollingUpgradesInner(ComputeManagementClientImpl client) {
+        this.service = AzureProxy.create(VirtualMachineScaleSetRollingUpgradesService.class, client);
         this.client = client;
     }
 
     /**
-     * The interface defining all the services for VirtualMachineScaleSetRollingUpgrades to be
-     * used by Retrofit to perform actually REST calls.
+     * The interface defining all the services for
+     * VirtualMachineScaleSetRollingUpgrades to be used by the proxy service to
+     * perform REST calls.
      */
-    interface VirtualMachineScaleSetRollingUpgradesService {
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.VirtualMachineScaleSetRollingUpgrades cancel" })
+    @Host("https://management.azure.com")
+    private interface VirtualMachineScaleSetRollingUpgradesService {
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/rollingUpgrades/cancel")
-        Observable<Response<ResponseBody>> cancel(@Path("resourceGroupName") String resourceGroupName, @Path("vmScaleSetName") String vmScaleSetName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Observable<OperationStatus<Void>> beginCancel(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("vmScaleSetName") String vmScaleSetName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.VirtualMachineScaleSetRollingUpgrades beginCancel" })
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/rollingUpgrades/cancel")
-        Observable<Response<ResponseBody>> beginCancel(@Path("resourceGroupName") String resourceGroupName, @Path("vmScaleSetName") String vmScaleSetName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<VoidResponse> cancel(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("vmScaleSetName") String vmScaleSetName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.VirtualMachineScaleSetRollingUpgrades startOSUpgrade" })
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/rollingUpgrades/cancel")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<Void>> resumeCancel(OperationDescription operationDescription);
+
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/osRollingUpgrade")
-        Observable<Response<ResponseBody>> startOSUpgrade(@Path("resourceGroupName") String resourceGroupName, @Path("vmScaleSetName") String vmScaleSetName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Observable<OperationStatus<Void>> beginStartOSUpgrade(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("vmScaleSetName") String vmScaleSetName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.VirtualMachineScaleSetRollingUpgrades beginStartOSUpgrade" })
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/osRollingUpgrade")
-        Observable<Response<ResponseBody>> beginStartOSUpgrade(@Path("resourceGroupName") String resourceGroupName, @Path("vmScaleSetName") String vmScaleSetName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<VoidResponse> startOSUpgrade(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("vmScaleSetName") String vmScaleSetName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.VirtualMachineScaleSetRollingUpgrades getLatest" })
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/osRollingUpgrade")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<Void>> resumeStartOSUpgrade(OperationDescription operationDescription);
+
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/extensionRollingUpgrade")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Observable<OperationStatus<Void>> beginStartExtensionUpgrade(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("vmScaleSetName") String vmScaleSetName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
+
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/extensionRollingUpgrade")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<VoidResponse> startExtensionUpgrade(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("vmScaleSetName") String vmScaleSetName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
+
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/extensionRollingUpgrade")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<Void>> resumeStartExtensionUpgrade(OperationDescription operationDescription);
+
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/rollingUpgrades/latest")
-        Observable<Response<ResponseBody>> getLatest(@Path("resourceGroupName") String resourceGroupName, @Path("vmScaleSetName") String vmScaleSetName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
-
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<RollingUpgradeStatusInfoInner>> getLatest(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("vmScaleSetName") String vmScaleSetName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
     }
 
     /**
@@ -79,12 +123,12 @@ public class VirtualMachineScaleSetRollingUpgradesInner {
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void cancel(String resourceGroupName, String vmScaleSetName) {
-        cancelWithServiceResponseAsync(resourceGroupName, vmScaleSetName).toBlocking().last().body();
+    public void beginCancel(@NonNull String resourceGroupName, @NonNull String vmScaleSetName) {
+        beginCancelAsync(resourceGroupName, vmScaleSetName).blockingLast();
     }
 
     /**
@@ -93,11 +137,11 @@ public class VirtualMachineScaleSetRollingUpgradesInner {
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;Void&gt; object.
      */
-    public ServiceFuture<Void> cancelAsync(String resourceGroupName, String vmScaleSetName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(cancelWithServiceResponseAsync(resourceGroupName, vmScaleSetName), serviceCallback);
+    public ServiceFuture<Void> beginCancelAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, ServiceCallback<Void> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginCancelAsync(resourceGroupName, vmScaleSetName), serviceCallback);
     }
 
     /**
@@ -105,27 +149,10 @@ public class VirtualMachineScaleSetRollingUpgradesInner {
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<Void> cancelAsync(String resourceGroupName, String vmScaleSetName) {
-        return cancelWithServiceResponseAsync(resourceGroupName, vmScaleSetName).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Cancels the current virtual machine scale set rolling upgrade.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<Void>> cancelWithServiceResponseAsync(String resourceGroupName, String vmScaleSetName) {
+    public Observable<OperationStatus<Void>> beginCancelAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -136,8 +163,7 @@ public class VirtualMachineScaleSetRollingUpgradesInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        Observable<Response<ResponseBody>> observable = service.cancel(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
+        return service.beginCancel(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
     /**
@@ -145,12 +171,12 @@ public class VirtualMachineScaleSetRollingUpgradesInner {
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void beginCancel(String resourceGroupName, String vmScaleSetName) {
-        beginCancelWithServiceResponseAsync(resourceGroupName, vmScaleSetName).toBlocking().single().body();
+    public void cancel(@NonNull String resourceGroupName, @NonNull String vmScaleSetName) {
+        cancelAsync(resourceGroupName, vmScaleSetName).blockingAwait();
     }
 
     /**
@@ -159,11 +185,11 @@ public class VirtualMachineScaleSetRollingUpgradesInner {
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<Void> beginCancelAsync(String resourceGroupName, String vmScaleSetName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(beginCancelWithServiceResponseAsync(resourceGroupName, vmScaleSetName), serviceCallback);
+    public ServiceFuture<Void> cancelAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromBody(cancelAsync(resourceGroupName, vmScaleSetName), serviceCallback);
     }
 
     /**
@@ -171,27 +197,10 @@ public class VirtualMachineScaleSetRollingUpgradesInner {
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<Void> beginCancelAsync(String resourceGroupName, String vmScaleSetName) {
-        return beginCancelWithServiceResponseAsync(resourceGroupName, vmScaleSetName).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Cancels the current virtual machine scale set rolling upgrade.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
-     */
-    public Observable<ServiceResponse<Void>> beginCancelWithServiceResponseAsync(String resourceGroupName, String vmScaleSetName) {
+    public Single<VoidResponse> cancelWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -202,26 +211,34 @@ public class VirtualMachineScaleSetRollingUpgradesInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        return service.beginCancel(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
-                @Override
-                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<Void> clientResponse = beginCancelDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.cancel(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<Void> beginCancelDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<Void>() { }.getType())
-                .register(202, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Cancels the current virtual machine scale set rolling upgrade.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Completable cancelAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName) {
+        return cancelWithRestResponseAsync(resourceGroupName, vmScaleSetName)
+            .toCompletable();
+    }
+
+    /**
+     * Cancels the current virtual machine scale set rolling upgrade. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<Void>> resumeCancel(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeCancel(operationDescription);
     }
 
     /**
@@ -229,12 +246,12 @@ public class VirtualMachineScaleSetRollingUpgradesInner {
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void startOSUpgrade(String resourceGroupName, String vmScaleSetName) {
-        startOSUpgradeWithServiceResponseAsync(resourceGroupName, vmScaleSetName).toBlocking().last().body();
+    public void beginStartOSUpgrade(@NonNull String resourceGroupName, @NonNull String vmScaleSetName) {
+        beginStartOSUpgradeAsync(resourceGroupName, vmScaleSetName).blockingLast();
     }
 
     /**
@@ -243,11 +260,11 @@ public class VirtualMachineScaleSetRollingUpgradesInner {
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;Void&gt; object.
      */
-    public ServiceFuture<Void> startOSUpgradeAsync(String resourceGroupName, String vmScaleSetName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(startOSUpgradeWithServiceResponseAsync(resourceGroupName, vmScaleSetName), serviceCallback);
+    public ServiceFuture<Void> beginStartOSUpgradeAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, ServiceCallback<Void> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginStartOSUpgradeAsync(resourceGroupName, vmScaleSetName), serviceCallback);
     }
 
     /**
@@ -255,27 +272,10 @@ public class VirtualMachineScaleSetRollingUpgradesInner {
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<Void> startOSUpgradeAsync(String resourceGroupName, String vmScaleSetName) {
-        return startOSUpgradeWithServiceResponseAsync(resourceGroupName, vmScaleSetName).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Starts a rolling upgrade to move all virtual machine scale set instances to the latest available Platform Image OS version. Instances which are already running the latest available OS version are not affected.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<Void>> startOSUpgradeWithServiceResponseAsync(String resourceGroupName, String vmScaleSetName) {
+    public Observable<OperationStatus<Void>> beginStartOSUpgradeAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -286,8 +286,7 @@ public class VirtualMachineScaleSetRollingUpgradesInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        Observable<Response<ResponseBody>> observable = service.startOSUpgrade(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
+        return service.beginStartOSUpgrade(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
     /**
@@ -295,12 +294,12 @@ public class VirtualMachineScaleSetRollingUpgradesInner {
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void beginStartOSUpgrade(String resourceGroupName, String vmScaleSetName) {
-        beginStartOSUpgradeWithServiceResponseAsync(resourceGroupName, vmScaleSetName).toBlocking().single().body();
+    public void startOSUpgrade(@NonNull String resourceGroupName, @NonNull String vmScaleSetName) {
+        startOSUpgradeAsync(resourceGroupName, vmScaleSetName).blockingAwait();
     }
 
     /**
@@ -309,11 +308,11 @@ public class VirtualMachineScaleSetRollingUpgradesInner {
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<Void> beginStartOSUpgradeAsync(String resourceGroupName, String vmScaleSetName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(beginStartOSUpgradeWithServiceResponseAsync(resourceGroupName, vmScaleSetName), serviceCallback);
+    public ServiceFuture<Void> startOSUpgradeAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromBody(startOSUpgradeAsync(resourceGroupName, vmScaleSetName), serviceCallback);
     }
 
     /**
@@ -321,27 +320,10 @@ public class VirtualMachineScaleSetRollingUpgradesInner {
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<Void> beginStartOSUpgradeAsync(String resourceGroupName, String vmScaleSetName) {
-        return beginStartOSUpgradeWithServiceResponseAsync(resourceGroupName, vmScaleSetName).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Starts a rolling upgrade to move all virtual machine scale set instances to the latest available Platform Image OS version. Instances which are already running the latest available OS version are not affected.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
-     */
-    public Observable<ServiceResponse<Void>> beginStartOSUpgradeWithServiceResponseAsync(String resourceGroupName, String vmScaleSetName) {
+    public Single<VoidResponse> startOSUpgradeWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -352,26 +334,157 @@ public class VirtualMachineScaleSetRollingUpgradesInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        return service.beginStartOSUpgrade(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
-                @Override
-                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<Void> clientResponse = beginStartOSUpgradeDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.startOSUpgrade(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<Void> beginStartOSUpgradeDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<Void>() { }.getType())
-                .register(202, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Starts a rolling upgrade to move all virtual machine scale set instances to the latest available Platform Image OS version. Instances which are already running the latest available OS version are not affected.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Completable startOSUpgradeAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName) {
+        return startOSUpgradeWithRestResponseAsync(resourceGroupName, vmScaleSetName)
+            .toCompletable();
+    }
+
+    /**
+     * Starts a rolling upgrade to move all virtual machine scale set instances to the latest available Platform Image OS version. Instances which are already running the latest available OS version are not affected. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<Void>> resumeStartOSUpgrade(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeStartOSUpgrade(operationDescription);
+    }
+
+    /**
+     * Starts a rolling upgrade to move all extensions for all virtual machine scale set instances to the latest available extension version. Instances which are already running the latest extension versions are not affected.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    public void beginStartExtensionUpgrade(@NonNull String resourceGroupName, @NonNull String vmScaleSetName) {
+        beginStartExtensionUpgradeAsync(resourceGroupName, vmScaleSetName).blockingLast();
+    }
+
+    /**
+     * Starts a rolling upgrade to move all extensions for all virtual machine scale set instances to the latest available extension version. Instances which are already running the latest extension versions are not affected.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;Void&gt; object.
+     */
+    public ServiceFuture<Void> beginStartExtensionUpgradeAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, ServiceCallback<Void> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginStartExtensionUpgradeAsync(resourceGroupName, vmScaleSetName), serviceCallback);
+    }
+
+    /**
+     * Starts a rolling upgrade to move all extensions for all virtual machine scale set instances to the latest available extension version. Instances which are already running the latest extension versions are not affected.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<Void>> beginStartExtensionUpgradeAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (vmScaleSetName == null) {
+            throw new IllegalArgumentException("Parameter vmScaleSetName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        final String apiVersion = "2018-06-01";
+        return service.beginStartExtensionUpgrade(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
+    }
+
+    /**
+     * Starts a rolling upgrade to move all extensions for all virtual machine scale set instances to the latest available extension version. Instances which are already running the latest extension versions are not affected.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    public void startExtensionUpgrade(@NonNull String resourceGroupName, @NonNull String vmScaleSetName) {
+        startExtensionUpgradeAsync(resourceGroupName, vmScaleSetName).blockingAwait();
+    }
+
+    /**
+     * Starts a rolling upgrade to move all extensions for all virtual machine scale set instances to the latest available extension version. Instances which are already running the latest extension versions are not affected.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
+     */
+    public ServiceFuture<Void> startExtensionUpgradeAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromBody(startExtensionUpgradeAsync(resourceGroupName, vmScaleSetName), serviceCallback);
+    }
+
+    /**
+     * Starts a rolling upgrade to move all extensions for all virtual machine scale set instances to the latest available extension version. Instances which are already running the latest extension versions are not affected.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Single<VoidResponse> startExtensionUpgradeWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (vmScaleSetName == null) {
+            throw new IllegalArgumentException("Parameter vmScaleSetName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        final String apiVersion = "2018-06-01";
+        return service.startExtensionUpgrade(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
+    }
+
+    /**
+     * Starts a rolling upgrade to move all extensions for all virtual machine scale set instances to the latest available extension version. Instances which are already running the latest extension versions are not affected.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Completable startExtensionUpgradeAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName) {
+        return startExtensionUpgradeWithRestResponseAsync(resourceGroupName, vmScaleSetName)
+            .toCompletable();
+    }
+
+    /**
+     * Starts a rolling upgrade to move all extensions for all virtual machine scale set instances to the latest available extension version. Instances which are already running the latest extension versions are not affected. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<Void>> resumeStartExtensionUpgrade(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeStartExtensionUpgrade(operationDescription);
     }
 
     /**
@@ -379,13 +492,13 @@ public class VirtualMachineScaleSetRollingUpgradesInner {
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the RollingUpgradeStatusInfoInner object if successful.
      */
-    public RollingUpgradeStatusInfoInner getLatest(String resourceGroupName, String vmScaleSetName) {
-        return getLatestWithServiceResponseAsync(resourceGroupName, vmScaleSetName).toBlocking().single().body();
+    public RollingUpgradeStatusInfoInner getLatest(@NonNull String resourceGroupName, @NonNull String vmScaleSetName) {
+        return getLatestAsync(resourceGroupName, vmScaleSetName).blockingGet();
     }
 
     /**
@@ -394,11 +507,11 @@ public class VirtualMachineScaleSetRollingUpgradesInner {
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<RollingUpgradeStatusInfoInner> getLatestAsync(String resourceGroupName, String vmScaleSetName, final ServiceCallback<RollingUpgradeStatusInfoInner> serviceCallback) {
-        return ServiceFuture.fromResponse(getLatestWithServiceResponseAsync(resourceGroupName, vmScaleSetName), serviceCallback);
+    public ServiceFuture<RollingUpgradeStatusInfoInner> getLatestAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, ServiceCallback<RollingUpgradeStatusInfoInner> serviceCallback) {
+        return ServiceFuture.fromBody(getLatestAsync(resourceGroupName, vmScaleSetName), serviceCallback);
     }
 
     /**
@@ -406,27 +519,10 @@ public class VirtualMachineScaleSetRollingUpgradesInner {
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the RollingUpgradeStatusInfoInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<RollingUpgradeStatusInfoInner> getLatestAsync(String resourceGroupName, String vmScaleSetName) {
-        return getLatestWithServiceResponseAsync(resourceGroupName, vmScaleSetName).map(new Func1<ServiceResponse<RollingUpgradeStatusInfoInner>, RollingUpgradeStatusInfoInner>() {
-            @Override
-            public RollingUpgradeStatusInfoInner call(ServiceResponse<RollingUpgradeStatusInfoInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Gets the status of the latest virtual machine scale set rolling upgrade.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the RollingUpgradeStatusInfoInner object
-     */
-    public Observable<ServiceResponse<RollingUpgradeStatusInfoInner>> getLatestWithServiceResponseAsync(String resourceGroupName, String vmScaleSetName) {
+    public Single<BodyResponse<RollingUpgradeStatusInfoInner>> getLatestWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -437,25 +533,19 @@ public class VirtualMachineScaleSetRollingUpgradesInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        return service.getLatest(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<RollingUpgradeStatusInfoInner>>>() {
-                @Override
-                public Observable<ServiceResponse<RollingUpgradeStatusInfoInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<RollingUpgradeStatusInfoInner> clientResponse = getLatestDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.getLatest(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<RollingUpgradeStatusInfoInner> getLatestDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<RollingUpgradeStatusInfoInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<RollingUpgradeStatusInfoInner>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Gets the status of the latest virtual machine scale set rolling upgrade.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<RollingUpgradeStatusInfoInner> getLatestAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName) {
+        return getLatestWithRestResponseAsync(resourceGroupName, vmScaleSetName)
+            .flatMapMaybe((BodyResponse<RollingUpgradeStatusInfoInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
-
 }

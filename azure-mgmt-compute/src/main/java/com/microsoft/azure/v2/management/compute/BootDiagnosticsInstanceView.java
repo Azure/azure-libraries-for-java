@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * The instance view of a virtual machine boot diagnostics.
  */
-public class BootDiagnosticsInstanceView {
+public final class BootDiagnosticsInstanceView {
     /**
      * The console screenshot blob URI.
      */
@@ -27,18 +27,19 @@ public class BootDiagnosticsInstanceView {
     private String serialConsoleLogBlobUri;
 
     /**
-     * Get the console screenshot blob URI.
+     * Get the consoleScreenshotBlobUri value.
      *
-     * @return the consoleScreenshotBlobUri value
+     * @return the consoleScreenshotBlobUri value.
      */
     public String consoleScreenshotBlobUri() {
         return this.consoleScreenshotBlobUri;
     }
 
     /**
-     * Set the console screenshot blob URI.
+     * Set the consoleScreenshotBlobUri value.
      *
-     * @param consoleScreenshotBlobUri the consoleScreenshotBlobUri value to set
+     * @param consoleScreenshotBlobUri the consoleScreenshotBlobUri value to
+     * set.
      * @return the BootDiagnosticsInstanceView object itself.
      */
     public BootDiagnosticsInstanceView withConsoleScreenshotBlobUri(String consoleScreenshotBlobUri) {
@@ -47,23 +48,22 @@ public class BootDiagnosticsInstanceView {
     }
 
     /**
-     * Get the Linux serial console log blob Uri.
+     * Get the serialConsoleLogBlobUri value.
      *
-     * @return the serialConsoleLogBlobUri value
+     * @return the serialConsoleLogBlobUri value.
      */
     public String serialConsoleLogBlobUri() {
         return this.serialConsoleLogBlobUri;
     }
 
     /**
-     * Set the Linux serial console log blob Uri.
+     * Set the serialConsoleLogBlobUri value.
      *
-     * @param serialConsoleLogBlobUri the serialConsoleLogBlobUri value to set
+     * @param serialConsoleLogBlobUri the serialConsoleLogBlobUri value to set.
      * @return the BootDiagnosticsInstanceView object itself.
      */
     public BootDiagnosticsInstanceView withSerialConsoleLogBlobUri(String serialConsoleLogBlobUri) {
         this.serialConsoleLogBlobUri = serialConsoleLogBlobUri;
         return this;
     }
-
 }

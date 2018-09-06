@@ -11,11 +11,12 @@ package com.microsoft.azure.v2.management.compute;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * The disks sku name. Can be Standard_LRS or Premium_LRS.
+ * The disks sku name. Can be Standard_LRS, Premium_LRS, or StandardSSD_LRS.
  */
-public class DiskSku {
+public final class DiskSku {
     /**
-     * The sku name. Possible values include: 'Standard_LRS', 'Premium_LRS'.
+     * The sku name. Possible values include: 'Standard_LRS', 'Premium_LRS',
+     * 'StandardSSD_LRS'.
      */
     @JsonProperty(value = "name")
     private StorageAccountTypes name;
@@ -27,18 +28,18 @@ public class DiskSku {
     private String tier;
 
     /**
-     * Get the sku name. Possible values include: 'Standard_LRS', 'Premium_LRS'.
+     * Get the name value.
      *
-     * @return the name value
+     * @return the name value.
      */
     public StorageAccountTypes name() {
         return this.name;
     }
 
     /**
-     * Set the sku name. Possible values include: 'Standard_LRS', 'Premium_LRS'.
+     * Set the name value.
      *
-     * @param name the name value to set
+     * @param name the name value to set.
      * @return the DiskSku object itself.
      */
     public DiskSku withName(StorageAccountTypes name) {
@@ -47,12 +48,11 @@ public class DiskSku {
     }
 
     /**
-     * Get the sku tier.
+     * Get the tier value.
      *
-     * @return the tier value
+     * @return the tier value.
      */
     public String tier() {
         return this.tier;
     }
-
 }

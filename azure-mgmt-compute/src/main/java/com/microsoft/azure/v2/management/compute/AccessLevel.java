@@ -8,24 +8,29 @@
 
 package com.microsoft.azure.v2.management.compute;
 
-import java.util.Collection;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.microsoft.rest.ExpandableStringEnum;
+import com.microsoft.rest.v2.ExpandableStringEnum;
+import java.util.Collection;
 
 /**
  * Defines values for AccessLevel.
  */
 public final class AccessLevel extends ExpandableStringEnum<AccessLevel> {
-    /** Static value None for AccessLevel. */
+    /**
+     * Static value None for AccessLevel.
+     */
     public static final AccessLevel NONE = fromString("None");
 
-    /** Static value Read for AccessLevel. */
+    /**
+     * Static value Read for AccessLevel.
+     */
     public static final AccessLevel READ = fromString("Read");
 
     /**
      * Creates or finds a AccessLevel from its string representation.
-     * @param name a name to look for
-     * @return the corresponding AccessLevel
+     *
+     * @param name a name to look for.
+     * @return the corresponding AccessLevel.
      */
     @JsonCreator
     public static AccessLevel fromString(String name) {
@@ -33,7 +38,7 @@ public final class AccessLevel extends ExpandableStringEnum<AccessLevel> {
     }
 
     /**
-     * @return known AccessLevel values
+     * @return known AccessLevel values.
      */
     public static Collection<AccessLevel> values() {
         return values(AccessLevel.class);

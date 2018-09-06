@@ -8,13 +8,13 @@
 
 package com.microsoft.azure.v2.management.compute;
 
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 
 /**
  * Specifies the storage settings for the virtual machine disks.
  */
-public class StorageProfile {
+public final class StorageProfile {
     /**
      * Specifies information about the image to use. You can specify
      * information about platform images, marketplace images, or virtual
@@ -44,18 +44,18 @@ public class StorageProfile {
     private List<DataDisk> dataDisks;
 
     /**
-     * Get specifies information about the image to use. You can specify information about platform images, marketplace images, or virtual machine images. This element is required when you want to use a platform image, marketplace image, or virtual machine image, but is not used in other creation operations.
+     * Get the imageReference value.
      *
-     * @return the imageReference value
+     * @return the imageReference value.
      */
     public ImageReference imageReference() {
         return this.imageReference;
     }
 
     /**
-     * Set specifies information about the image to use. You can specify information about platform images, marketplace images, or virtual machine images. This element is required when you want to use a platform image, marketplace image, or virtual machine image, but is not used in other creation operations.
+     * Set the imageReference value.
      *
-     * @param imageReference the imageReference value to set
+     * @param imageReference the imageReference value to set.
      * @return the StorageProfile object itself.
      */
     public StorageProfile withImageReference(ImageReference imageReference) {
@@ -64,18 +64,18 @@ public class StorageProfile {
     }
 
     /**
-     * Get specifies information about the operating system disk used by the virtual machine. &lt;br&gt;&lt;br&gt; For more information about disks, see [About disks and VHDs for Azure virtual machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-about-disks-vhds?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json).
+     * Get the osDisk value.
      *
-     * @return the osDisk value
+     * @return the osDisk value.
      */
     public OSDisk osDisk() {
         return this.osDisk;
     }
 
     /**
-     * Set specifies information about the operating system disk used by the virtual machine. &lt;br&gt;&lt;br&gt; For more information about disks, see [About disks and VHDs for Azure virtual machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-about-disks-vhds?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json).
+     * Set the osDisk value.
      *
-     * @param osDisk the osDisk value to set
+     * @param osDisk the osDisk value to set.
      * @return the StorageProfile object itself.
      */
     public StorageProfile withOsDisk(OSDisk osDisk) {
@@ -84,23 +84,22 @@ public class StorageProfile {
     }
 
     /**
-     * Get specifies the parameters that are used to add a data disk to a virtual machine. &lt;br&gt;&lt;br&gt; For more information about disks, see [About disks and VHDs for Azure virtual machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-about-disks-vhds?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json).
+     * Get the dataDisks value.
      *
-     * @return the dataDisks value
+     * @return the dataDisks value.
      */
     public List<DataDisk> dataDisks() {
         return this.dataDisks;
     }
 
     /**
-     * Set specifies the parameters that are used to add a data disk to a virtual machine. &lt;br&gt;&lt;br&gt; For more information about disks, see [About disks and VHDs for Azure virtual machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-about-disks-vhds?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json).
+     * Set the dataDisks value.
      *
-     * @param dataDisks the dataDisks value to set
+     * @param dataDisks the dataDisks value to set.
      * @return the StorageProfile object itself.
      */
     public StorageProfile withDataDisks(List<DataDisk> dataDisks) {
         this.dataDisks = dataDisks;
         return this;
     }
-
 }

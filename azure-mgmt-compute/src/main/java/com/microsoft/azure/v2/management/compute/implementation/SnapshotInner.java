@@ -8,14 +8,14 @@
 
 package com.microsoft.azure.v2.management.compute.implementation;
 
-import com.microsoft.azure.v2.management.compute.SnapshotSku;
-import org.joda.time.DateTime;
-import com.microsoft.azure.v2.management.compute.OperatingSystemTypes;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.v2.Resource;
 import com.microsoft.azure.v2.management.compute.CreationData;
 import com.microsoft.azure.v2.management.compute.EncryptionSettings;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.Resource;
+import com.microsoft.azure.v2.management.compute.OperatingSystemTypes;
+import com.microsoft.azure.v2.management.compute.SnapshotSku;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
+import java.time.OffsetDateTime;
 
 /**
  * Snapshot resource.
@@ -38,7 +38,7 @@ public class SnapshotInner extends Resource {
      * The time when the disk was created.
      */
     @JsonProperty(value = "properties.timeCreated", access = JsonProperty.Access.WRITE_ONLY)
-    private DateTime timeCreated;
+    private OffsetDateTime timeCreated;
 
     /**
      * The Operating System type. Possible values include: 'Windows', 'Linux'.
@@ -76,9 +76,9 @@ public class SnapshotInner extends Resource {
     private String provisioningState;
 
     /**
-     * Get unused. Always Null.
+     * Get the managedBy value.
      *
-     * @return the managedBy value
+     * @return the managedBy value.
      */
     public String managedBy() {
         return this.managedBy;
@@ -87,7 +87,7 @@ public class SnapshotInner extends Resource {
     /**
      * Get the sku value.
      *
-     * @return the sku value
+     * @return the sku value.
      */
     public SnapshotSku sku() {
         return this.sku;
@@ -96,7 +96,7 @@ public class SnapshotInner extends Resource {
     /**
      * Set the sku value.
      *
-     * @param sku the sku value to set
+     * @param sku the sku value to set.
      * @return the SnapshotInner object itself.
      */
     public SnapshotInner withSku(SnapshotSku sku) {
@@ -105,27 +105,27 @@ public class SnapshotInner extends Resource {
     }
 
     /**
-     * Get the time when the disk was created.
+     * Get the timeCreated value.
      *
-     * @return the timeCreated value
+     * @return the timeCreated value.
      */
-    public DateTime timeCreated() {
+    public OffsetDateTime timeCreated() {
         return this.timeCreated;
     }
 
     /**
-     * Get the Operating System type. Possible values include: 'Windows', 'Linux'.
+     * Get the osType value.
      *
-     * @return the osType value
+     * @return the osType value.
      */
     public OperatingSystemTypes osType() {
         return this.osType;
     }
 
     /**
-     * Set the Operating System type. Possible values include: 'Windows', 'Linux'.
+     * Set the osType value.
      *
-     * @param osType the osType value to set
+     * @param osType the osType value to set.
      * @return the SnapshotInner object itself.
      */
     public SnapshotInner withOsType(OperatingSystemTypes osType) {
@@ -134,18 +134,18 @@ public class SnapshotInner extends Resource {
     }
 
     /**
-     * Get disk source information. CreationData information cannot be changed after the disk has been created.
+     * Get the creationData value.
      *
-     * @return the creationData value
+     * @return the creationData value.
      */
     public CreationData creationData() {
         return this.creationData;
     }
 
     /**
-     * Set disk source information. CreationData information cannot be changed after the disk has been created.
+     * Set the creationData value.
      *
-     * @param creationData the creationData value to set
+     * @param creationData the creationData value to set.
      * @return the SnapshotInner object itself.
      */
     public SnapshotInner withCreationData(CreationData creationData) {
@@ -154,18 +154,18 @@ public class SnapshotInner extends Resource {
     }
 
     /**
-     * Get if creationData.createOption is Empty, this field is mandatory and it indicates the size of the VHD to create. If this field is present for updates or creation with other options, it indicates a resize. Resizes are only allowed if the disk is not attached to a running VM, and can only increase the disk's size.
+     * Get the diskSizeGB value.
      *
-     * @return the diskSizeGB value
+     * @return the diskSizeGB value.
      */
     public Integer diskSizeGB() {
         return this.diskSizeGB;
     }
 
     /**
-     * Set if creationData.createOption is Empty, this field is mandatory and it indicates the size of the VHD to create. If this field is present for updates or creation with other options, it indicates a resize. Resizes are only allowed if the disk is not attached to a running VM, and can only increase the disk's size.
+     * Set the diskSizeGB value.
      *
-     * @param diskSizeGB the diskSizeGB value to set
+     * @param diskSizeGB the diskSizeGB value to set.
      * @return the SnapshotInner object itself.
      */
     public SnapshotInner withDiskSizeGB(Integer diskSizeGB) {
@@ -174,18 +174,18 @@ public class SnapshotInner extends Resource {
     }
 
     /**
-     * Get encryption settings for disk or snapshot.
+     * Get the encryptionSettings value.
      *
-     * @return the encryptionSettings value
+     * @return the encryptionSettings value.
      */
     public EncryptionSettings encryptionSettings() {
         return this.encryptionSettings;
     }
 
     /**
-     * Set encryption settings for disk or snapshot.
+     * Set the encryptionSettings value.
      *
-     * @param encryptionSettings the encryptionSettings value to set
+     * @param encryptionSettings the encryptionSettings value to set.
      * @return the SnapshotInner object itself.
      */
     public SnapshotInner withEncryptionSettings(EncryptionSettings encryptionSettings) {
@@ -194,12 +194,11 @@ public class SnapshotInner extends Resource {
     }
 
     /**
-     * Get the disk provisioning state.
+     * Get the provisioningState value.
      *
-     * @return the provisioningState value
+     * @return the provisioningState value.
      */
     public String provisioningState() {
         return this.provisioningState;
     }
-
 }

@@ -8,13 +8,13 @@
 
 package com.microsoft.azure.v2.management.compute.implementation;
 
-import com.microsoft.azure.v2.management.compute.UsageName;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.v2.management.compute.UsageName;
 
 /**
  * Describes Compute Resource Usage.
  */
-public class UsageInner {
+public final class UsageInner {
     /**
      * An enum describing the unit of usage measurement.
      */
@@ -47,18 +47,18 @@ public class UsageInner {
     }
 
     /**
-     * Get an enum describing the unit of usage measurement.
+     * Get the unit value.
      *
-     * @return the unit value
+     * @return the unit value.
      */
     public String unit() {
         return this.unit;
     }
 
     /**
-     * Set an enum describing the unit of usage measurement.
+     * Set the unit value.
      *
-     * @param unit the unit value to set
+     * @param unit the unit value to set.
      * @return the UsageInner object itself.
      */
     public UsageInner withUnit(String unit) {
@@ -67,18 +67,18 @@ public class UsageInner {
     }
 
     /**
-     * Get the current usage of the resource.
+     * Get the currentValue value.
      *
-     * @return the currentValue value
+     * @return the currentValue value.
      */
     public int currentValue() {
         return this.currentValue;
     }
 
     /**
-     * Set the current usage of the resource.
+     * Set the currentValue value.
      *
-     * @param currentValue the currentValue value to set
+     * @param currentValue the currentValue value to set.
      * @return the UsageInner object itself.
      */
     public UsageInner withCurrentValue(int currentValue) {
@@ -87,18 +87,18 @@ public class UsageInner {
     }
 
     /**
-     * Get the maximum permitted usage of the resource.
+     * Get the limit value.
      *
-     * @return the limit value
+     * @return the limit value.
      */
     public long limit() {
         return this.limit;
     }
 
     /**
-     * Set the maximum permitted usage of the resource.
+     * Set the limit value.
      *
-     * @param limit the limit value to set
+     * @param limit the limit value to set.
      * @return the UsageInner object itself.
      */
     public UsageInner withLimit(long limit) {
@@ -107,23 +107,22 @@ public class UsageInner {
     }
 
     /**
-     * Get the name of the type of usage.
+     * Get the name value.
      *
-     * @return the name value
+     * @return the name value.
      */
     public UsageName name() {
         return this.name;
     }
 
     /**
-     * Set the name of the type of usage.
+     * Set the name value.
      *
-     * @param name the name value to set
+     * @param name the name value to set.
      * @return the UsageInner object itself.
      */
     public UsageInner withName(UsageName name) {
         this.name = name;
         return this;
     }
-
 }

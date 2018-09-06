@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * disks and VHDs for Azure virtual
  * machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-about-disks-vhds?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json).
  */
-public class OSDisk {
+public final class OSDisk {
     /**
      * This property allows you to specify the type of the OS that is included
      * in the disk if creating a VM from user-image or a specialized VHD.
@@ -100,18 +100,18 @@ public class OSDisk {
     private ManagedDiskParameters managedDisk;
 
     /**
-     * Get this property allows you to specify the type of the OS that is included in the disk if creating a VM from user-image or a specialized VHD. &lt;br&gt;&lt;br&gt; Possible values are: &lt;br&gt;&lt;br&gt; **Windows** &lt;br&gt;&lt;br&gt; **Linux**. Possible values include: 'Windows', 'Linux'.
+     * Get the osType value.
      *
-     * @return the osType value
+     * @return the osType value.
      */
     public OperatingSystemTypes osType() {
         return this.osType;
     }
 
     /**
-     * Set this property allows you to specify the type of the OS that is included in the disk if creating a VM from user-image or a specialized VHD. &lt;br&gt;&lt;br&gt; Possible values are: &lt;br&gt;&lt;br&gt; **Windows** &lt;br&gt;&lt;br&gt; **Linux**. Possible values include: 'Windows', 'Linux'.
+     * Set the osType value.
      *
-     * @param osType the osType value to set
+     * @param osType the osType value to set.
      * @return the OSDisk object itself.
      */
     public OSDisk withOsType(OperatingSystemTypes osType) {
@@ -120,18 +120,18 @@ public class OSDisk {
     }
 
     /**
-     * Get specifies the encryption settings for the OS Disk. &lt;br&gt;&lt;br&gt; Minimum api-version: 2015-06-15.
+     * Get the encryptionSettings value.
      *
-     * @return the encryptionSettings value
+     * @return the encryptionSettings value.
      */
     public DiskEncryptionSettings encryptionSettings() {
         return this.encryptionSettings;
     }
 
     /**
-     * Set specifies the encryption settings for the OS Disk. &lt;br&gt;&lt;br&gt; Minimum api-version: 2015-06-15.
+     * Set the encryptionSettings value.
      *
-     * @param encryptionSettings the encryptionSettings value to set
+     * @param encryptionSettings the encryptionSettings value to set.
      * @return the OSDisk object itself.
      */
     public OSDisk withEncryptionSettings(DiskEncryptionSettings encryptionSettings) {
@@ -140,18 +140,18 @@ public class OSDisk {
     }
 
     /**
-     * Get the disk name.
+     * Get the name value.
      *
-     * @return the name value
+     * @return the name value.
      */
     public String name() {
         return this.name;
     }
 
     /**
-     * Set the disk name.
+     * Set the name value.
      *
-     * @param name the name value to set
+     * @param name the name value to set.
      * @return the OSDisk object itself.
      */
     public OSDisk withName(String name) {
@@ -160,18 +160,18 @@ public class OSDisk {
     }
 
     /**
-     * Get the virtual hard disk.
+     * Get the vhd value.
      *
-     * @return the vhd value
+     * @return the vhd value.
      */
     public VirtualHardDisk vhd() {
         return this.vhd;
     }
 
     /**
-     * Set the virtual hard disk.
+     * Set the vhd value.
      *
-     * @param vhd the vhd value to set
+     * @param vhd the vhd value to set.
      * @return the OSDisk object itself.
      */
     public OSDisk withVhd(VirtualHardDisk vhd) {
@@ -180,18 +180,18 @@ public class OSDisk {
     }
 
     /**
-     * Get the source user image virtual hard disk. The virtual hard disk will be copied before being attached to the virtual machine. If SourceImage is provided, the destination virtual hard drive must not exist.
+     * Get the image value.
      *
-     * @return the image value
+     * @return the image value.
      */
     public VirtualHardDisk image() {
         return this.image;
     }
 
     /**
-     * Set the source user image virtual hard disk. The virtual hard disk will be copied before being attached to the virtual machine. If SourceImage is provided, the destination virtual hard drive must not exist.
+     * Set the image value.
      *
-     * @param image the image value to set
+     * @param image the image value to set.
      * @return the OSDisk object itself.
      */
     public OSDisk withImage(VirtualHardDisk image) {
@@ -200,18 +200,18 @@ public class OSDisk {
     }
 
     /**
-     * Get specifies the caching requirements. &lt;br&gt;&lt;br&gt; Possible values are: &lt;br&gt;&lt;br&gt; **None** &lt;br&gt;&lt;br&gt; **ReadOnly** &lt;br&gt;&lt;br&gt; **ReadWrite** &lt;br&gt;&lt;br&gt; Default: **None for Standard storage. ReadOnly for Premium storage**. Possible values include: 'None', 'ReadOnly', 'ReadWrite'.
+     * Get the caching value.
      *
-     * @return the caching value
+     * @return the caching value.
      */
     public CachingTypes caching() {
         return this.caching;
     }
 
     /**
-     * Set specifies the caching requirements. &lt;br&gt;&lt;br&gt; Possible values are: &lt;br&gt;&lt;br&gt; **None** &lt;br&gt;&lt;br&gt; **ReadOnly** &lt;br&gt;&lt;br&gt; **ReadWrite** &lt;br&gt;&lt;br&gt; Default: **None for Standard storage. ReadOnly for Premium storage**. Possible values include: 'None', 'ReadOnly', 'ReadWrite'.
+     * Set the caching value.
      *
-     * @param caching the caching value to set
+     * @param caching the caching value to set.
      * @return the OSDisk object itself.
      */
     public OSDisk withCaching(CachingTypes caching) {
@@ -220,18 +220,18 @@ public class OSDisk {
     }
 
     /**
-     * Get specifies whether writeAccelerator should be enabled or disabled on the disk.
+     * Get the writeAcceleratorEnabled value.
      *
-     * @return the writeAcceleratorEnabled value
+     * @return the writeAcceleratorEnabled value.
      */
     public Boolean writeAcceleratorEnabled() {
         return this.writeAcceleratorEnabled;
     }
 
     /**
-     * Set specifies whether writeAccelerator should be enabled or disabled on the disk.
+     * Set the writeAcceleratorEnabled value.
      *
-     * @param writeAcceleratorEnabled the writeAcceleratorEnabled value to set
+     * @param writeAcceleratorEnabled the writeAcceleratorEnabled value to set.
      * @return the OSDisk object itself.
      */
     public OSDisk withWriteAcceleratorEnabled(Boolean writeAcceleratorEnabled) {
@@ -240,18 +240,18 @@ public class OSDisk {
     }
 
     /**
-     * Get specifies how the virtual machine should be created.&lt;br&gt;&lt;br&gt; Possible values are:&lt;br&gt;&lt;br&gt; **Attach** \u2013 This value is used when you are using a specialized disk to create the virtual machine.&lt;br&gt;&lt;br&gt; **FromImage** \u2013 This value is used when you are using an image to create the virtual machine. If you are using a platform image, you also use the imageReference element described above. If you are using a marketplace image, you  also use the plan element previously described. Possible values include: 'FromImage', 'Empty', 'Attach'.
+     * Get the createOption value.
      *
-     * @return the createOption value
+     * @return the createOption value.
      */
     public DiskCreateOptionTypes createOption() {
         return this.createOption;
     }
 
     /**
-     * Set specifies how the virtual machine should be created.&lt;br&gt;&lt;br&gt; Possible values are:&lt;br&gt;&lt;br&gt; **Attach** \u2013 This value is used when you are using a specialized disk to create the virtual machine.&lt;br&gt;&lt;br&gt; **FromImage** \u2013 This value is used when you are using an image to create the virtual machine. If you are using a platform image, you also use the imageReference element described above. If you are using a marketplace image, you  also use the plan element previously described. Possible values include: 'FromImage', 'Empty', 'Attach'.
+     * Set the createOption value.
      *
-     * @param createOption the createOption value to set
+     * @param createOption the createOption value to set.
      * @return the OSDisk object itself.
      */
     public OSDisk withCreateOption(DiskCreateOptionTypes createOption) {
@@ -260,18 +260,18 @@ public class OSDisk {
     }
 
     /**
-     * Get specifies the size of an empty data disk in gigabytes. This element can be used to overwrite the name of the disk in a virtual machine image. &lt;br&gt;&lt;br&gt; This value cannot be larger than 1023 GB.
+     * Get the diskSizeGB value.
      *
-     * @return the diskSizeGB value
+     * @return the diskSizeGB value.
      */
     public Integer diskSizeGB() {
         return this.diskSizeGB;
     }
 
     /**
-     * Set specifies the size of an empty data disk in gigabytes. This element can be used to overwrite the name of the disk in a virtual machine image. &lt;br&gt;&lt;br&gt; This value cannot be larger than 1023 GB.
+     * Set the diskSizeGB value.
      *
-     * @param diskSizeGB the diskSizeGB value to set
+     * @param diskSizeGB the diskSizeGB value to set.
      * @return the OSDisk object itself.
      */
     public OSDisk withDiskSizeGB(Integer diskSizeGB) {
@@ -280,23 +280,22 @@ public class OSDisk {
     }
 
     /**
-     * Get the managed disk parameters.
+     * Get the managedDisk value.
      *
-     * @return the managedDisk value
+     * @return the managedDisk value.
      */
     public ManagedDiskParameters managedDisk() {
         return this.managedDisk;
     }
 
     /**
-     * Set the managed disk parameters.
+     * Set the managedDisk value.
      *
-     * @param managedDisk the managedDisk value to set
+     * @param managedDisk the managedDisk value to set.
      * @return the OSDisk object itself.
      */
     public OSDisk withManagedDisk(ManagedDiskParameters managedDisk) {
         this.managedDisk = managedDisk;
         return this;
     }
-
 }

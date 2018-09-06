@@ -8,13 +8,13 @@
 
 package com.microsoft.azure.v2.management.compute;
 
-import org.joda.time.DateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.time.OffsetDateTime;
 
 /**
  * Information about the current running state of the overall upgrade.
  */
-public class UpgradeOperationHistoryStatus {
+public final class UpgradeOperationHistoryStatus {
     /**
      * Code indicating the current status of the upgrade. Possible values
      * include: 'RollingForward', 'Cancelled', 'Completed', 'Faulted'.
@@ -26,39 +26,38 @@ public class UpgradeOperationHistoryStatus {
      * Start time of the upgrade.
      */
     @JsonProperty(value = "startTime", access = JsonProperty.Access.WRITE_ONLY)
-    private DateTime startTime;
+    private OffsetDateTime startTime;
 
     /**
      * End time of the upgrade.
      */
     @JsonProperty(value = "endTime", access = JsonProperty.Access.WRITE_ONLY)
-    private DateTime endTime;
+    private OffsetDateTime endTime;
 
     /**
-     * Get code indicating the current status of the upgrade. Possible values include: 'RollingForward', 'Cancelled', 'Completed', 'Faulted'.
+     * Get the code value.
      *
-     * @return the code value
+     * @return the code value.
      */
     public UpgradeState code() {
         return this.code;
     }
 
     /**
-     * Get start time of the upgrade.
+     * Get the startTime value.
      *
-     * @return the startTime value
+     * @return the startTime value.
      */
-    public DateTime startTime() {
+    public OffsetDateTime startTime() {
         return this.startTime;
     }
 
     /**
-     * Get end time of the upgrade.
+     * Get the endTime value.
      *
-     * @return the endTime value
+     * @return the endTime value.
      */
-    public DateTime endTime() {
+    public OffsetDateTime endTime() {
         return this.endTime;
     }
-
 }

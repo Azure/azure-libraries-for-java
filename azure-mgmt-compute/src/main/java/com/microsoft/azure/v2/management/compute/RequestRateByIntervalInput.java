@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Api request input for LogAnalytics getRequestRateByInterval Api.
  */
-public class RequestRateByIntervalInput extends LogAnalyticsInputBase {
+public final class RequestRateByIntervalInput extends LogAnalyticsInputBase {
     /**
      * Interval value in minutes used to create LogAnalytics call rate logs.
      * Possible values include: 'ThreeMins', 'FiveMins', 'ThirtyMins',
@@ -23,23 +23,22 @@ public class RequestRateByIntervalInput extends LogAnalyticsInputBase {
     private IntervalInMins intervalLength;
 
     /**
-     * Get interval value in minutes used to create LogAnalytics call rate logs. Possible values include: 'ThreeMins', 'FiveMins', 'ThirtyMins', 'SixtyMins'.
+     * Get the intervalLength value.
      *
-     * @return the intervalLength value
+     * @return the intervalLength value.
      */
     public IntervalInMins intervalLength() {
         return this.intervalLength;
     }
 
     /**
-     * Set interval value in minutes used to create LogAnalytics call rate logs. Possible values include: 'ThreeMins', 'FiveMins', 'ThirtyMins', 'SixtyMins'.
+     * Set the intervalLength value.
      *
-     * @param intervalLength the intervalLength value to set
+     * @param intervalLength the intervalLength value to set.
      * @return the RequestRateByIntervalInput object itself.
      */
     public RequestRateByIntervalInput withIntervalLength(IntervalInMins intervalLength) {
         this.intervalLength = intervalLength;
         return this;
     }
-
 }

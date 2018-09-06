@@ -15,19 +15,27 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Defines values for CachingTypes.
  */
 public enum CachingTypes {
-    /** Enum value None. */
+    /**
+     * Enum value None.
+     */
     NONE("None"),
 
-    /** Enum value ReadOnly. */
+    /**
+     * Enum value ReadOnly.
+     */
     READ_ONLY("ReadOnly"),
 
-    /** Enum value ReadWrite. */
+    /**
+     * Enum value ReadWrite.
+     */
     READ_WRITE("ReadWrite");
 
-    /** The actual serialized value for a CachingTypes instance. */
-    private String value;
+    /**
+     * The actual serialized value for a CachingTypes instance.
+     */
+    private final String value;
 
-    CachingTypes(String value) {
+    private CachingTypes(String value) {
         this.value = value;
     }
 

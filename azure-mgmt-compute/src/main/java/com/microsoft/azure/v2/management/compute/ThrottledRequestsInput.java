@@ -8,9 +8,8 @@
 
 package com.microsoft.azure.v2.management.compute;
 
-
 /**
  * Api request input for LogAnalytics getThrottledRequests Api.
  */
-public class ThrottledRequestsInput extends LogAnalyticsInputBase {
+public final class ThrottledRequestsInput extends LogAnalyticsInputBase {
 }

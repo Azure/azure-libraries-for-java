@@ -8,13 +8,13 @@
 
 package com.microsoft.azure.v2.management.compute.implementation;
 
-import com.microsoft.azure.v2.management.compute.LogAnalyticsOutput;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.v2.management.compute.LogAnalyticsOutput;
 
 /**
  * LogAnalytics operation status response.
  */
-public class LogAnalyticsOperationResultInner {
+public final class LogAnalyticsOperationResultInner {
     /**
      * LogAnalyticsOutput.
      */
@@ -22,12 +22,11 @@ public class LogAnalyticsOperationResultInner {
     private LogAnalyticsOutput properties;
 
     /**
-     * Get logAnalyticsOutput.
+     * Get the properties value.
      *
-     * @return the properties value
+     * @return the properties value.
      */
     public LogAnalyticsOutput properties() {
         return this.properties;
     }
-
 }

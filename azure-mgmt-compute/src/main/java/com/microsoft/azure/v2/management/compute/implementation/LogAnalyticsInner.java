@@ -8,71 +8,93 @@
 
 package com.microsoft.azure.v2.management.compute.implementation;
 
-import retrofit2.Retrofit;
-import com.google.common.reflect.TypeToken;
-import com.microsoft.azure.CloudException;
+import com.microsoft.azure.v2.AzureProxy;
+import com.microsoft.azure.v2.CloudException;
+import com.microsoft.azure.v2.OperationStatus;
 import com.microsoft.azure.v2.management.compute.RequestRateByIntervalInput;
 import com.microsoft.azure.v2.management.compute.ThrottledRequestsInput;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import com.microsoft.rest.ServiceResponse;
-import com.microsoft.rest.Validator;
-import java.io.IOException;
-import okhttp3.ResponseBody;
-import retrofit2.http.Body;
-import retrofit2.http.Header;
-import retrofit2.http.Headers;
-import retrofit2.http.Path;
-import retrofit2.http.POST;
-import retrofit2.http.Query;
-import retrofit2.Response;
-import rx.functions.Func1;
-import rx.Observable;
-import com.microsoft.azure.LongRunningFinalState;
-import com.microsoft.azure.LongRunningOperationOptions;
+import com.microsoft.azure.v2.util.ServiceFutureUtil;
+import com.microsoft.rest.v2.BodyResponse;
+import com.microsoft.rest.v2.OperationDescription;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
+import com.microsoft.rest.v2.Validator;
+import com.microsoft.rest.v2.annotations.BodyParam;
+import com.microsoft.rest.v2.annotations.ExpectedResponses;
+import com.microsoft.rest.v2.annotations.HeaderParam;
+import com.microsoft.rest.v2.annotations.Host;
+import com.microsoft.rest.v2.annotations.PathParam;
+import com.microsoft.rest.v2.annotations.POST;
+import com.microsoft.rest.v2.annotations.QueryParam;
+import com.microsoft.rest.v2.annotations.ResumeOperation;
+import com.microsoft.rest.v2.annotations.UnexpectedResponseExceptionType;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
+import io.reactivex.Single;
+import io.reactivex.annotations.NonNull;
 
 /**
- * An instance of this class provides access to all the operations defined
- * in LogAnalytics.
+ * An instance of this class provides access to all the operations defined in
+ * LogAnalytics.
  */
-public class LogAnalyticsInner {
-    /** The Retrofit service to perform REST calls. */
+public final class LogAnalyticsInner {
+    /**
+     * The proxy service used to perform REST calls.
+     */
     private LogAnalyticsService service;
-    /** The service client containing this operation class. */
+
+    /**
+     * The service client containing this operation class.
+     */
     private ComputeManagementClientImpl client;
 
     /**
      * Initializes an instance of LogAnalyticsInner.
      *
-     * @param retrofit the Retrofit instance built from a Retrofit Builder.
      * @param client the instance of the service client containing this operation class.
      */
-    public LogAnalyticsInner(Retrofit retrofit, ComputeManagementClientImpl client) {
-        this.service = retrofit.create(LogAnalyticsService.class);
+    public LogAnalyticsInner(ComputeManagementClientImpl client) {
+        this.service = AzureProxy.create(LogAnalyticsService.class, client);
         this.client = client;
     }
 
     /**
-     * The interface defining all the services for LogAnalytics to be
-     * used by Retrofit to perform actually REST calls.
+     * The interface defining all the services for LogAnalytics to be used by
+     * the proxy service to perform REST calls.
      */
-    interface LogAnalyticsService {
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.LogAnalytics exportRequestRateByInterval" })
+    @Host("https://management.azure.com")
+    private interface LogAnalyticsService {
         @POST("subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/logAnalytics/apiAccess/getRequestRateByInterval")
-        Observable<Response<ResponseBody>> exportRequestRateByInterval(@Path("location") String location, @Path("subscriptionId") String subscriptionId, @Body RequestRateByIntervalInput parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Observable<OperationStatus<LogAnalyticsOperationResultInner>> beginExportRequestRateByInterval(@PathParam("location") String location, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json; charset=utf-8") RequestRateByIntervalInput parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.LogAnalytics beginExportRequestRateByInterval" })
         @POST("subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/logAnalytics/apiAccess/getRequestRateByInterval")
-        Observable<Response<ResponseBody>> beginExportRequestRateByInterval(@Path("location") String location, @Path("subscriptionId") String subscriptionId, @Body RequestRateByIntervalInput parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<LogAnalyticsOperationResultInner>> exportRequestRateByInterval(@PathParam("location") String location, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json; charset=utf-8") RequestRateByIntervalInput parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.LogAnalytics exportThrottledRequests" })
+        @POST("subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/logAnalytics/apiAccess/getRequestRateByInterval")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<LogAnalyticsOperationResultInner>> resumeExportRequestRateByInterval(OperationDescription operationDescription);
+
         @POST("subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/logAnalytics/apiAccess/getThrottledRequests")
-        Observable<Response<ResponseBody>> exportThrottledRequests(@Path("location") String location, @Path("subscriptionId") String subscriptionId, @Body ThrottledRequestsInput parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Observable<OperationStatus<LogAnalyticsOperationResultInner>> beginExportThrottledRequests(@PathParam("location") String location, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json; charset=utf-8") ThrottledRequestsInput parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.LogAnalytics beginExportThrottledRequests" })
         @POST("subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/logAnalytics/apiAccess/getThrottledRequests")
-        Observable<Response<ResponseBody>> beginExportThrottledRequests(@Path("location") String location, @Path("subscriptionId") String subscriptionId, @Body ThrottledRequestsInput parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<LogAnalyticsOperationResultInner>> exportThrottledRequests(@PathParam("location") String location, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json; charset=utf-8") ThrottledRequestsInput parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
+        @POST("subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/logAnalytics/apiAccess/getThrottledRequests")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<LogAnalyticsOperationResultInner>> resumeExportThrottledRequests(OperationDescription operationDescription);
     }
 
     /**
@@ -80,13 +102,13 @@ public class LogAnalyticsInner {
      *
      * @param location The location upon which virtual-machine-sizes is queried.
      * @param parameters Parameters supplied to the LogAnalytics getRequestRateByInterval Api.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the LogAnalyticsOperationResultInner object if successful.
      */
-    public LogAnalyticsOperationResultInner exportRequestRateByInterval(String location, RequestRateByIntervalInput parameters) {
-        return exportRequestRateByIntervalWithServiceResponseAsync(location, parameters).toBlocking().last().body();
+    public LogAnalyticsOperationResultInner beginExportRequestRateByInterval(@NonNull String location, @NonNull RequestRateByIntervalInput parameters) {
+        return beginExportRequestRateByIntervalAsync(location, parameters).blockingLast().result();
     }
 
     /**
@@ -95,11 +117,11 @@ public class LogAnalyticsInner {
      * @param location The location upon which virtual-machine-sizes is queried.
      * @param parameters Parameters supplied to the LogAnalytics getRequestRateByInterval Api.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;LogAnalyticsOperationResultInner&gt; object.
      */
-    public ServiceFuture<LogAnalyticsOperationResultInner> exportRequestRateByIntervalAsync(String location, RequestRateByIntervalInput parameters, final ServiceCallback<LogAnalyticsOperationResultInner> serviceCallback) {
-        return ServiceFuture.fromResponse(exportRequestRateByIntervalWithServiceResponseAsync(location, parameters), serviceCallback);
+    public ServiceFuture<LogAnalyticsOperationResultInner> beginExportRequestRateByIntervalAsync(@NonNull String location, @NonNull RequestRateByIntervalInput parameters, ServiceCallback<LogAnalyticsOperationResultInner> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginExportRequestRateByIntervalAsync(location, parameters), serviceCallback);
     }
 
     /**
@@ -107,27 +129,10 @@ public class LogAnalyticsInner {
      *
      * @param location The location upon which virtual-machine-sizes is queried.
      * @param parameters Parameters supplied to the LogAnalytics getRequestRateByInterval Api.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<LogAnalyticsOperationResultInner> exportRequestRateByIntervalAsync(String location, RequestRateByIntervalInput parameters) {
-        return exportRequestRateByIntervalWithServiceResponseAsync(location, parameters).map(new Func1<ServiceResponse<LogAnalyticsOperationResultInner>, LogAnalyticsOperationResultInner>() {
-            @Override
-            public LogAnalyticsOperationResultInner call(ServiceResponse<LogAnalyticsOperationResultInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Export logs that show Api requests made by this subscription in the given time window to show throttling activities.
-     *
-     * @param location The location upon which virtual-machine-sizes is queried.
-     * @param parameters Parameters supplied to the LogAnalytics getRequestRateByInterval Api.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<LogAnalyticsOperationResultInner>> exportRequestRateByIntervalWithServiceResponseAsync(String location, RequestRateByIntervalInput parameters) {
+    public Observable<OperationStatus<LogAnalyticsOperationResultInner>> beginExportRequestRateByIntervalAsync(@NonNull String location, @NonNull RequestRateByIntervalInput parameters) {
         if (location == null) {
             throw new IllegalArgumentException("Parameter location is required and cannot be null.");
         }
@@ -139,8 +144,7 @@ public class LogAnalyticsInner {
         }
         Validator.validate(parameters);
         final String apiVersion = "2018-06-01";
-        Observable<Response<ResponseBody>> observable = service.exportRequestRateByInterval(location, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.AZURE_ASYNC_OPERATION), new TypeToken<LogAnalyticsOperationResultInner>() { }.getType());
+        return service.beginExportRequestRateByInterval(location, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage());
     }
 
     /**
@@ -148,13 +152,13 @@ public class LogAnalyticsInner {
      *
      * @param location The location upon which virtual-machine-sizes is queried.
      * @param parameters Parameters supplied to the LogAnalytics getRequestRateByInterval Api.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the LogAnalyticsOperationResultInner object if successful.
      */
-    public LogAnalyticsOperationResultInner beginExportRequestRateByInterval(String location, RequestRateByIntervalInput parameters) {
-        return beginExportRequestRateByIntervalWithServiceResponseAsync(location, parameters).toBlocking().single().body();
+    public LogAnalyticsOperationResultInner exportRequestRateByInterval(@NonNull String location, @NonNull RequestRateByIntervalInput parameters) {
+        return exportRequestRateByIntervalAsync(location, parameters).blockingGet();
     }
 
     /**
@@ -163,11 +167,11 @@ public class LogAnalyticsInner {
      * @param location The location upon which virtual-machine-sizes is queried.
      * @param parameters Parameters supplied to the LogAnalytics getRequestRateByInterval Api.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<LogAnalyticsOperationResultInner> beginExportRequestRateByIntervalAsync(String location, RequestRateByIntervalInput parameters, final ServiceCallback<LogAnalyticsOperationResultInner> serviceCallback) {
-        return ServiceFuture.fromResponse(beginExportRequestRateByIntervalWithServiceResponseAsync(location, parameters), serviceCallback);
+    public ServiceFuture<LogAnalyticsOperationResultInner> exportRequestRateByIntervalAsync(@NonNull String location, @NonNull RequestRateByIntervalInput parameters, ServiceCallback<LogAnalyticsOperationResultInner> serviceCallback) {
+        return ServiceFuture.fromBody(exportRequestRateByIntervalAsync(location, parameters), serviceCallback);
     }
 
     /**
@@ -175,27 +179,10 @@ public class LogAnalyticsInner {
      *
      * @param location The location upon which virtual-machine-sizes is queried.
      * @param parameters Parameters supplied to the LogAnalytics getRequestRateByInterval Api.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the LogAnalyticsOperationResultInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<LogAnalyticsOperationResultInner> beginExportRequestRateByIntervalAsync(String location, RequestRateByIntervalInput parameters) {
-        return beginExportRequestRateByIntervalWithServiceResponseAsync(location, parameters).map(new Func1<ServiceResponse<LogAnalyticsOperationResultInner>, LogAnalyticsOperationResultInner>() {
-            @Override
-            public LogAnalyticsOperationResultInner call(ServiceResponse<LogAnalyticsOperationResultInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Export logs that show Api requests made by this subscription in the given time window to show throttling activities.
-     *
-     * @param location The location upon which virtual-machine-sizes is queried.
-     * @param parameters Parameters supplied to the LogAnalytics getRequestRateByInterval Api.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the LogAnalyticsOperationResultInner object
-     */
-    public Observable<ServiceResponse<LogAnalyticsOperationResultInner>> beginExportRequestRateByIntervalWithServiceResponseAsync(String location, RequestRateByIntervalInput parameters) {
+    public Single<BodyResponse<LogAnalyticsOperationResultInner>> exportRequestRateByIntervalWithRestResponseAsync(@NonNull String location, @NonNull RequestRateByIntervalInput parameters) {
         if (location == null) {
             throw new IllegalArgumentException("Parameter location is required and cannot be null.");
         }
@@ -207,26 +194,34 @@ public class LogAnalyticsInner {
         }
         Validator.validate(parameters);
         final String apiVersion = "2018-06-01";
-        return service.beginExportRequestRateByInterval(location, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<LogAnalyticsOperationResultInner>>>() {
-                @Override
-                public Observable<ServiceResponse<LogAnalyticsOperationResultInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<LogAnalyticsOperationResultInner> clientResponse = beginExportRequestRateByIntervalDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.exportRequestRateByInterval(location, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<LogAnalyticsOperationResultInner> beginExportRequestRateByIntervalDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<LogAnalyticsOperationResultInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<LogAnalyticsOperationResultInner>() { }.getType())
-                .register(202, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Export logs that show Api requests made by this subscription in the given time window to show throttling activities.
+     *
+     * @param location The location upon which virtual-machine-sizes is queried.
+     * @param parameters Parameters supplied to the LogAnalytics getRequestRateByInterval Api.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<LogAnalyticsOperationResultInner> exportRequestRateByIntervalAsync(@NonNull String location, @NonNull RequestRateByIntervalInput parameters) {
+        return exportRequestRateByIntervalWithRestResponseAsync(location, parameters)
+            .flatMapMaybe((BodyResponse<LogAnalyticsOperationResultInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
+    }
+
+    /**
+     * Export logs that show Api requests made by this subscription in the given time window to show throttling activities. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<LogAnalyticsOperationResultInner>> resumeExportRequestRateByInterval(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeExportRequestRateByInterval(operationDescription);
     }
 
     /**
@@ -234,13 +229,13 @@ public class LogAnalyticsInner {
      *
      * @param location The location upon which virtual-machine-sizes is queried.
      * @param parameters Parameters supplied to the LogAnalytics getThrottledRequests Api.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the LogAnalyticsOperationResultInner object if successful.
      */
-    public LogAnalyticsOperationResultInner exportThrottledRequests(String location, ThrottledRequestsInput parameters) {
-        return exportThrottledRequestsWithServiceResponseAsync(location, parameters).toBlocking().last().body();
+    public LogAnalyticsOperationResultInner beginExportThrottledRequests(@NonNull String location, @NonNull ThrottledRequestsInput parameters) {
+        return beginExportThrottledRequestsAsync(location, parameters).blockingLast().result();
     }
 
     /**
@@ -249,11 +244,11 @@ public class LogAnalyticsInner {
      * @param location The location upon which virtual-machine-sizes is queried.
      * @param parameters Parameters supplied to the LogAnalytics getThrottledRequests Api.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;LogAnalyticsOperationResultInner&gt; object.
      */
-    public ServiceFuture<LogAnalyticsOperationResultInner> exportThrottledRequestsAsync(String location, ThrottledRequestsInput parameters, final ServiceCallback<LogAnalyticsOperationResultInner> serviceCallback) {
-        return ServiceFuture.fromResponse(exportThrottledRequestsWithServiceResponseAsync(location, parameters), serviceCallback);
+    public ServiceFuture<LogAnalyticsOperationResultInner> beginExportThrottledRequestsAsync(@NonNull String location, @NonNull ThrottledRequestsInput parameters, ServiceCallback<LogAnalyticsOperationResultInner> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginExportThrottledRequestsAsync(location, parameters), serviceCallback);
     }
 
     /**
@@ -261,27 +256,10 @@ public class LogAnalyticsInner {
      *
      * @param location The location upon which virtual-machine-sizes is queried.
      * @param parameters Parameters supplied to the LogAnalytics getThrottledRequests Api.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<LogAnalyticsOperationResultInner> exportThrottledRequestsAsync(String location, ThrottledRequestsInput parameters) {
-        return exportThrottledRequestsWithServiceResponseAsync(location, parameters).map(new Func1<ServiceResponse<LogAnalyticsOperationResultInner>, LogAnalyticsOperationResultInner>() {
-            @Override
-            public LogAnalyticsOperationResultInner call(ServiceResponse<LogAnalyticsOperationResultInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Export logs that show total throttled Api requests for this subscription in the given time window.
-     *
-     * @param location The location upon which virtual-machine-sizes is queried.
-     * @param parameters Parameters supplied to the LogAnalytics getThrottledRequests Api.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<LogAnalyticsOperationResultInner>> exportThrottledRequestsWithServiceResponseAsync(String location, ThrottledRequestsInput parameters) {
+    public Observable<OperationStatus<LogAnalyticsOperationResultInner>> beginExportThrottledRequestsAsync(@NonNull String location, @NonNull ThrottledRequestsInput parameters) {
         if (location == null) {
             throw new IllegalArgumentException("Parameter location is required and cannot be null.");
         }
@@ -293,8 +271,7 @@ public class LogAnalyticsInner {
         }
         Validator.validate(parameters);
         final String apiVersion = "2018-06-01";
-        Observable<Response<ResponseBody>> observable = service.exportThrottledRequests(location, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.AZURE_ASYNC_OPERATION), new TypeToken<LogAnalyticsOperationResultInner>() { }.getType());
+        return service.beginExportThrottledRequests(location, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage());
     }
 
     /**
@@ -302,13 +279,13 @@ public class LogAnalyticsInner {
      *
      * @param location The location upon which virtual-machine-sizes is queried.
      * @param parameters Parameters supplied to the LogAnalytics getThrottledRequests Api.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the LogAnalyticsOperationResultInner object if successful.
      */
-    public LogAnalyticsOperationResultInner beginExportThrottledRequests(String location, ThrottledRequestsInput parameters) {
-        return beginExportThrottledRequestsWithServiceResponseAsync(location, parameters).toBlocking().single().body();
+    public LogAnalyticsOperationResultInner exportThrottledRequests(@NonNull String location, @NonNull ThrottledRequestsInput parameters) {
+        return exportThrottledRequestsAsync(location, parameters).blockingGet();
     }
 
     /**
@@ -317,11 +294,11 @@ public class LogAnalyticsInner {
      * @param location The location upon which virtual-machine-sizes is queried.
      * @param parameters Parameters supplied to the LogAnalytics getThrottledRequests Api.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<LogAnalyticsOperationResultInner> beginExportThrottledRequestsAsync(String location, ThrottledRequestsInput parameters, final ServiceCallback<LogAnalyticsOperationResultInner> serviceCallback) {
-        return ServiceFuture.fromResponse(beginExportThrottledRequestsWithServiceResponseAsync(location, parameters), serviceCallback);
+    public ServiceFuture<LogAnalyticsOperationResultInner> exportThrottledRequestsAsync(@NonNull String location, @NonNull ThrottledRequestsInput parameters, ServiceCallback<LogAnalyticsOperationResultInner> serviceCallback) {
+        return ServiceFuture.fromBody(exportThrottledRequestsAsync(location, parameters), serviceCallback);
     }
 
     /**
@@ -329,27 +306,10 @@ public class LogAnalyticsInner {
      *
      * @param location The location upon which virtual-machine-sizes is queried.
      * @param parameters Parameters supplied to the LogAnalytics getThrottledRequests Api.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the LogAnalyticsOperationResultInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<LogAnalyticsOperationResultInner> beginExportThrottledRequestsAsync(String location, ThrottledRequestsInput parameters) {
-        return beginExportThrottledRequestsWithServiceResponseAsync(location, parameters).map(new Func1<ServiceResponse<LogAnalyticsOperationResultInner>, LogAnalyticsOperationResultInner>() {
-            @Override
-            public LogAnalyticsOperationResultInner call(ServiceResponse<LogAnalyticsOperationResultInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Export logs that show total throttled Api requests for this subscription in the given time window.
-     *
-     * @param location The location upon which virtual-machine-sizes is queried.
-     * @param parameters Parameters supplied to the LogAnalytics getThrottledRequests Api.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the LogAnalyticsOperationResultInner object
-     */
-    public Observable<ServiceResponse<LogAnalyticsOperationResultInner>> beginExportThrottledRequestsWithServiceResponseAsync(String location, ThrottledRequestsInput parameters) {
+    public Single<BodyResponse<LogAnalyticsOperationResultInner>> exportThrottledRequestsWithRestResponseAsync(@NonNull String location, @NonNull ThrottledRequestsInput parameters) {
         if (location == null) {
             throw new IllegalArgumentException("Parameter location is required and cannot be null.");
         }
@@ -361,26 +321,33 @@ public class LogAnalyticsInner {
         }
         Validator.validate(parameters);
         final String apiVersion = "2018-06-01";
-        return service.beginExportThrottledRequests(location, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<LogAnalyticsOperationResultInner>>>() {
-                @Override
-                public Observable<ServiceResponse<LogAnalyticsOperationResultInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<LogAnalyticsOperationResultInner> clientResponse = beginExportThrottledRequestsDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.exportThrottledRequests(location, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<LogAnalyticsOperationResultInner> beginExportThrottledRequestsDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<LogAnalyticsOperationResultInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<LogAnalyticsOperationResultInner>() { }.getType())
-                .register(202, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Export logs that show total throttled Api requests for this subscription in the given time window.
+     *
+     * @param location The location upon which virtual-machine-sizes is queried.
+     * @param parameters Parameters supplied to the LogAnalytics getThrottledRequests Api.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<LogAnalyticsOperationResultInner> exportThrottledRequestsAsync(@NonNull String location, @NonNull ThrottledRequestsInput parameters) {
+        return exportThrottledRequestsWithRestResponseAsync(location, parameters)
+            .flatMapMaybe((BodyResponse<LogAnalyticsOperationResultInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
+    /**
+     * Export logs that show total throttled Api requests for this subscription in the given time window. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<LogAnalyticsOperationResultInner>> resumeExportThrottledRequests(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeExportThrottledRequests(operationDescription);
+    }
 }

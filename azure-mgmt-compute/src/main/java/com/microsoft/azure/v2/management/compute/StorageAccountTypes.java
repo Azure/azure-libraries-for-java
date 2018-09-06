@@ -8,27 +8,34 @@
 
 package com.microsoft.azure.v2.management.compute;
 
-import java.util.Collection;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.microsoft.rest.ExpandableStringEnum;
+import com.microsoft.rest.v2.ExpandableStringEnum;
+import java.util.Collection;
 
 /**
  * Defines values for StorageAccountTypes.
  */
 public final class StorageAccountTypes extends ExpandableStringEnum<StorageAccountTypes> {
-    /** Static value Standard_LRS for StorageAccountTypes. */
+    /**
+     * Static value Standard_LRS for StorageAccountTypes.
+     */
     public static final StorageAccountTypes STANDARD_LRS = fromString("Standard_LRS");
 
-    /** Static value Premium_LRS for StorageAccountTypes. */
+    /**
+     * Static value Premium_LRS for StorageAccountTypes.
+     */
     public static final StorageAccountTypes PREMIUM_LRS = fromString("Premium_LRS");
 
-    /** Static value StandardSSD_LRS for StorageAccountTypes. */
+    /**
+     * Static value StandardSSD_LRS for StorageAccountTypes.
+     */
     public static final StorageAccountTypes STANDARD_SSD_LRS = fromString("StandardSSD_LRS");
 
     /**
      * Creates or finds a StorageAccountTypes from its string representation.
-     * @param name a name to look for
-     * @return the corresponding StorageAccountTypes
+     *
+     * @param name a name to look for.
+     * @return the corresponding StorageAccountTypes.
      */
     @JsonCreator
     public static StorageAccountTypes fromString(String name) {
@@ -36,7 +43,7 @@ public final class StorageAccountTypes extends ExpandableStringEnum<StorageAccou
     }
 
     /**
-     * @return known StorageAccountTypes values
+     * @return known StorageAccountTypes values.
      */
     public static Collection<StorageAccountTypes> values() {
         return values(StorageAccountTypes.class);

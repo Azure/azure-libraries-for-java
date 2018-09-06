@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * Unattend.xml file, which is used by Windows Setup. Contents are defined by
  * setting name, component name, and the pass in which the content is applied.
  */
-public class AdditionalUnattendContent {
+public final class AdditionalUnattendContent {
     /**
      * The pass name. Currently, the only allowable value is OobeSystem.
      * Possible values include: 'OobeSystem'.
@@ -49,18 +49,18 @@ public class AdditionalUnattendContent {
     private String content;
 
     /**
-     * Get the pass name. Currently, the only allowable value is OobeSystem. Possible values include: 'OobeSystem'.
+     * Get the passName value.
      *
-     * @return the passName value
+     * @return the passName value.
      */
     public PassNames passName() {
         return this.passName;
     }
 
     /**
-     * Set the pass name. Currently, the only allowable value is OobeSystem. Possible values include: 'OobeSystem'.
+     * Set the passName value.
      *
-     * @param passName the passName value to set
+     * @param passName the passName value to set.
      * @return the AdditionalUnattendContent object itself.
      */
     public AdditionalUnattendContent withPassName(PassNames passName) {
@@ -69,18 +69,18 @@ public class AdditionalUnattendContent {
     }
 
     /**
-     * Get the component name. Currently, the only allowable value is Microsoft-Windows-Shell-Setup. Possible values include: 'Microsoft-Windows-Shell-Setup'.
+     * Get the componentName value.
      *
-     * @return the componentName value
+     * @return the componentName value.
      */
     public ComponentNames componentName() {
         return this.componentName;
     }
 
     /**
-     * Set the component name. Currently, the only allowable value is Microsoft-Windows-Shell-Setup. Possible values include: 'Microsoft-Windows-Shell-Setup'.
+     * Set the componentName value.
      *
-     * @param componentName the componentName value to set
+     * @param componentName the componentName value to set.
      * @return the AdditionalUnattendContent object itself.
      */
     public AdditionalUnattendContent withComponentName(ComponentNames componentName) {
@@ -89,18 +89,18 @@ public class AdditionalUnattendContent {
     }
 
     /**
-     * Get specifies the name of the setting to which the content applies. Possible values are: FirstLogonCommands and AutoLogon. Possible values include: 'AutoLogon', 'FirstLogonCommands'.
+     * Get the settingName value.
      *
-     * @return the settingName value
+     * @return the settingName value.
      */
     public SettingNames settingName() {
         return this.settingName;
     }
 
     /**
-     * Set specifies the name of the setting to which the content applies. Possible values are: FirstLogonCommands and AutoLogon. Possible values include: 'AutoLogon', 'FirstLogonCommands'.
+     * Set the settingName value.
      *
-     * @param settingName the settingName value to set
+     * @param settingName the settingName value to set.
      * @return the AdditionalUnattendContent object itself.
      */
     public AdditionalUnattendContent withSettingName(SettingNames settingName) {
@@ -109,23 +109,22 @@ public class AdditionalUnattendContent {
     }
 
     /**
-     * Get specifies the XML formatted content that is added to the unattend.xml file for the specified path and component. The XML must be less than 4KB and must include the root element for the setting or feature that is being inserted.
+     * Get the content value.
      *
-     * @return the content value
+     * @return the content value.
      */
     public String content() {
         return this.content;
     }
 
     /**
-     * Set specifies the XML formatted content that is added to the unattend.xml file for the specified path and component. The XML must be less than 4KB and must include the root element for the setting or feature that is being inserted.
+     * Set the content value.
      *
-     * @param content the content value to set
+     * @param content the content value to set.
      * @return the AdditionalUnattendContent object itself.
      */
     public AdditionalUnattendContent withContent(String content) {
         this.content = content;
         return this;
     }
-
 }

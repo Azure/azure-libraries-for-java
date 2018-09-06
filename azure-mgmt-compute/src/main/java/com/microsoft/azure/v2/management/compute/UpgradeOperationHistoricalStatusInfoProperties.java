@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Describes each OS upgrade on the Virtual Machine Scale Set.
  */
-public class UpgradeOperationHistoricalStatusInfoProperties {
+public final class UpgradeOperationHistoricalStatusInfoProperties {
     /**
      * Information about the overall status of the upgrade operation.
      */
@@ -52,57 +52,56 @@ public class UpgradeOperationHistoricalStatusInfoProperties {
     private RollbackStatusInfo rollbackInfo;
 
     /**
-     * Get information about the overall status of the upgrade operation.
+     * Get the runningStatus value.
      *
-     * @return the runningStatus value
+     * @return the runningStatus value.
      */
     public UpgradeOperationHistoryStatus runningStatus() {
         return this.runningStatus;
     }
 
     /**
-     * Get counts of the VM's in each state.
+     * Get the progress value.
      *
-     * @return the progress value
+     * @return the progress value.
      */
     public RollingUpgradeProgressInfo progress() {
         return this.progress;
     }
 
     /**
-     * Get error Details for this upgrade if there are any.
+     * Get the error value.
      *
-     * @return the error value
+     * @return the error value.
      */
     public ApiError error() {
         return this.error;
     }
 
     /**
-     * Get invoker of the Upgrade Operation. Possible values include: 'Unknown', 'User', 'Platform'.
+     * Get the startedBy value.
      *
-     * @return the startedBy value
+     * @return the startedBy value.
      */
     public UpgradeOperationInvoker startedBy() {
         return this.startedBy;
     }
 
     /**
-     * Get image Reference details.
+     * Get the targetImageReference value.
      *
-     * @return the targetImageReference value
+     * @return the targetImageReference value.
      */
     public ImageReference targetImageReference() {
         return this.targetImageReference;
     }
 
     /**
-     * Get information about OS rollback if performed.
+     * Get the rollbackInfo value.
      *
-     * @return the rollbackInfo value
+     * @return the rollbackInfo value.
      */
     public RollbackStatusInfo rollbackInfo() {
         return this.rollbackInfo;
     }
-
 }

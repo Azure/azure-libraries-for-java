@@ -8,13 +8,13 @@
 
 package com.microsoft.azure.v2.management.compute;
 
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 
 /**
  * This is the storage profile of a gallery image version.
  */
-public class GalleryImageVersionStorageProfile {
+public final class GalleryImageVersionStorageProfile {
     /**
      * The osDiskImage property.
      */
@@ -30,19 +30,18 @@ public class GalleryImageVersionStorageProfile {
     /**
      * Get the osDiskImage value.
      *
-     * @return the osDiskImage value
+     * @return the osDiskImage value.
      */
     public GalleryOSDiskImage osDiskImage() {
         return this.osDiskImage;
     }
 
     /**
-     * Get a list of data disk images.
+     * Get the dataDiskImages value.
      *
-     * @return the dataDiskImages value
+     * @return the dataDiskImages value.
      */
     public List<GalleryDataDiskImage> dataDiskImages() {
         return this.dataDiskImages;
     }
-
 }

@@ -15,22 +15,32 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Defines values for MaintenanceOperationResultCodeTypes.
  */
 public enum MaintenanceOperationResultCodeTypes {
-    /** Enum value None. */
+    /**
+     * Enum value None.
+     */
     NONE("None"),
 
-    /** Enum value RetryLater. */
+    /**
+     * Enum value RetryLater.
+     */
     RETRY_LATER("RetryLater"),
 
-    /** Enum value MaintenanceAborted. */
+    /**
+     * Enum value MaintenanceAborted.
+     */
     MAINTENANCE_ABORTED("MaintenanceAborted"),
 
-    /** Enum value MaintenanceCompleted. */
+    /**
+     * Enum value MaintenanceCompleted.
+     */
     MAINTENANCE_COMPLETED("MaintenanceCompleted");
 
-    /** The actual serialized value for a MaintenanceOperationResultCodeTypes instance. */
-    private String value;
+    /**
+     * The actual serialized value for a MaintenanceOperationResultCodeTypes instance.
+     */
+    private final String value;
 
-    MaintenanceOperationResultCodeTypes(String value) {
+    private MaintenanceOperationResultCodeTypes(String value) {
         this.value = value;
     }
 

@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Encryption settings for disk or snapshot.
  */
-public class EncryptionSettings {
+public final class EncryptionSettings {
     /**
      * Set this flag to true and provide DiskEncryptionKey and optional
      * KeyEncryptionKey to enable encryption. Set this flag to false and remove
@@ -37,18 +37,18 @@ public class EncryptionSettings {
     private KeyVaultAndKeyReference keyEncryptionKey;
 
     /**
-     * Get set this flag to true and provide DiskEncryptionKey and optional KeyEncryptionKey to enable encryption. Set this flag to false and remove DiskEncryptionKey and KeyEncryptionKey to disable encryption. If EncryptionSettings is null in the request object, the existing settings remain unchanged.
+     * Get the enabled value.
      *
-     * @return the enabled value
+     * @return the enabled value.
      */
     public Boolean enabled() {
         return this.enabled;
     }
 
     /**
-     * Set set this flag to true and provide DiskEncryptionKey and optional KeyEncryptionKey to enable encryption. Set this flag to false and remove DiskEncryptionKey and KeyEncryptionKey to disable encryption. If EncryptionSettings is null in the request object, the existing settings remain unchanged.
+     * Set the enabled value.
      *
-     * @param enabled the enabled value to set
+     * @param enabled the enabled value to set.
      * @return the EncryptionSettings object itself.
      */
     public EncryptionSettings withEnabled(Boolean enabled) {
@@ -57,18 +57,18 @@ public class EncryptionSettings {
     }
 
     /**
-     * Get key Vault Secret Url and vault id of the disk encryption key.
+     * Get the diskEncryptionKey value.
      *
-     * @return the diskEncryptionKey value
+     * @return the diskEncryptionKey value.
      */
     public KeyVaultAndSecretReference diskEncryptionKey() {
         return this.diskEncryptionKey;
     }
 
     /**
-     * Set key Vault Secret Url and vault id of the disk encryption key.
+     * Set the diskEncryptionKey value.
      *
-     * @param diskEncryptionKey the diskEncryptionKey value to set
+     * @param diskEncryptionKey the diskEncryptionKey value to set.
      * @return the EncryptionSettings object itself.
      */
     public EncryptionSettings withDiskEncryptionKey(KeyVaultAndSecretReference diskEncryptionKey) {
@@ -77,23 +77,22 @@ public class EncryptionSettings {
     }
 
     /**
-     * Get key Vault Key Url and vault id of the key encryption key.
+     * Get the keyEncryptionKey value.
      *
-     * @return the keyEncryptionKey value
+     * @return the keyEncryptionKey value.
      */
     public KeyVaultAndKeyReference keyEncryptionKey() {
         return this.keyEncryptionKey;
     }
 
     /**
-     * Set key Vault Key Url and vault id of the key encryption key.
+     * Set the keyEncryptionKey value.
      *
-     * @param keyEncryptionKey the keyEncryptionKey value to set
+     * @param keyEncryptionKey the keyEncryptionKey value to set.
      * @return the EncryptionSettings object itself.
      */
     public EncryptionSettings withKeyEncryptionKey(KeyVaultAndKeyReference keyEncryptionKey) {
         this.keyEncryptionKey = keyEncryptionKey;
         return this;
     }
-
 }

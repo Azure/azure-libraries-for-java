@@ -8,16 +8,13 @@
 
 package com.microsoft.azure.v2.management.compute;
 
-import java.util.Map;
-
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.Map;
 
 /**
  * Identity for the virtual machine scale set.
  */
-public class VirtualMachineScaleSetIdentity {
+public final class VirtualMachineScaleSetIdentity {
     /**
      * The principal id of virtual machine scale set identity. This property
      * will only be provided for a system assigned identity.
@@ -50,40 +47,39 @@ public class VirtualMachineScaleSetIdentity {
      * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
      */
     @JsonProperty(value = "userAssignedIdentities")
-    @JsonInclude(content = Include.ALWAYS)
     private Map<String, VirtualMachineScaleSetIdentityUserAssignedIdentitiesValue> userAssignedIdentities;
 
     /**
-     * Get the principal id of virtual machine scale set identity. This property will only be provided for a system assigned identity.
+     * Get the principalId value.
      *
-     * @return the principalId value
+     * @return the principalId value.
      */
     public String principalId() {
         return this.principalId;
     }
 
     /**
-     * Get the tenant id associated with the virtual machine scale set. This property will only be provided for a system assigned identity.
+     * Get the tenantId value.
      *
-     * @return the tenantId value
+     * @return the tenantId value.
      */
     public String tenantId() {
         return this.tenantId;
     }
 
     /**
-     * Get the type of identity used for the virtual machine scale set. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual machine scale set. Possible values include: 'SystemAssigned', 'UserAssigned', 'SystemAssigned, UserAssigned', 'None'.
+     * Get the type value.
      *
-     * @return the type value
+     * @return the type value.
      */
     public ResourceIdentityType type() {
         return this.type;
     }
 
     /**
-     * Set the type of identity used for the virtual machine scale set. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual machine scale set. Possible values include: 'SystemAssigned', 'UserAssigned', 'SystemAssigned, UserAssigned', 'None'.
+     * Set the type value.
      *
-     * @param type the type value to set
+     * @param type the type value to set.
      * @return the VirtualMachineScaleSetIdentity object itself.
      */
     public VirtualMachineScaleSetIdentity withType(ResourceIdentityType type) {
@@ -92,23 +88,22 @@ public class VirtualMachineScaleSetIdentity {
     }
 
     /**
-     * Get the list of user identities associated with the virtual machine scale set. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
+     * Get the userAssignedIdentities value.
      *
-     * @return the userAssignedIdentities value
+     * @return the userAssignedIdentities value.
      */
     public Map<String, VirtualMachineScaleSetIdentityUserAssignedIdentitiesValue> userAssignedIdentities() {
         return this.userAssignedIdentities;
     }
 
     /**
-     * Set the list of user identities associated with the virtual machine scale set. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
+     * Set the userAssignedIdentities value.
      *
-     * @param userAssignedIdentities the userAssignedIdentities value to set
+     * @param userAssignedIdentities the userAssignedIdentities value to set.
      * @return the VirtualMachineScaleSetIdentity object itself.
      */
     public VirtualMachineScaleSetIdentity withUserAssignedIdentities(Map<String, VirtualMachineScaleSetIdentityUserAssignedIdentitiesValue> userAssignedIdentities) {
         this.userAssignedIdentities = userAssignedIdentities;
         return this;
     }
-
 }

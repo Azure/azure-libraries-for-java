@@ -14,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * Information about the number of virtual machine instances in each upgrade
  * state.
  */
-public class RollingUpgradeProgressInfo {
+public final class RollingUpgradeProgressInfo {
     /**
      * The number of instances that have been successfully upgraded.
      */
@@ -40,39 +40,38 @@ public class RollingUpgradeProgressInfo {
     private Integer pendingInstanceCount;
 
     /**
-     * Get the number of instances that have been successfully upgraded.
+     * Get the successfulInstanceCount value.
      *
-     * @return the successfulInstanceCount value
+     * @return the successfulInstanceCount value.
      */
     public Integer successfulInstanceCount() {
         return this.successfulInstanceCount;
     }
 
     /**
-     * Get the number of instances that have failed to be upgraded successfully.
+     * Get the failedInstanceCount value.
      *
-     * @return the failedInstanceCount value
+     * @return the failedInstanceCount value.
      */
     public Integer failedInstanceCount() {
         return this.failedInstanceCount;
     }
 
     /**
-     * Get the number of instances that are currently being upgraded.
+     * Get the inProgressInstanceCount value.
      *
-     * @return the inProgressInstanceCount value
+     * @return the inProgressInstanceCount value.
      */
     public Integer inProgressInstanceCount() {
         return this.inProgressInstanceCount;
     }
 
     /**
-     * Get the number of instances that have not yet begun to be upgraded.
+     * Get the pendingInstanceCount value.
      *
-     * @return the pendingInstanceCount value
+     * @return the pendingInstanceCount value.
      */
     public Integer pendingInstanceCount() {
         return this.pendingInstanceCount;
     }
-
 }

@@ -15,19 +15,27 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Defines values for HostCaching.
  */
 public enum HostCaching {
-    /** Enum value None. */
+    /**
+     * Enum value None.
+     */
     NONE("None"),
 
-    /** Enum value ReadOnly. */
+    /**
+     * Enum value ReadOnly.
+     */
     READ_ONLY("ReadOnly"),
 
-    /** Enum value ReadWrite. */
+    /**
+     * Enum value ReadWrite.
+     */
     READ_WRITE("ReadWrite");
 
-    /** The actual serialized value for a HostCaching instance. */
-    private String value;
+    /**
+     * The actual serialized value for a HostCaching instance.
+     */
+    private final String value;
 
-    HostCaching(String value) {
+    private HostCaching(String value) {
         this.value = value;
     }
 

@@ -8,8 +8,8 @@
 
 package com.microsoft.azure.v2.management.compute;
 
-import org.joda.time.DateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.time.OffsetDateTime;
 
 /**
  * Api input base class for LogAnalytics Api.
@@ -26,13 +26,13 @@ public class LogAnalyticsInputBase {
      * From time of the query.
      */
     @JsonProperty(value = "fromTime", required = true)
-    private DateTime fromTime;
+    private OffsetDateTime fromTime;
 
     /**
      * To time of the query.
      */
     @JsonProperty(value = "toTime", required = true)
-    private DateTime toTime;
+    private OffsetDateTime toTime;
 
     /**
      * Group query result by Throttle Policy applied.
@@ -53,18 +53,18 @@ public class LogAnalyticsInputBase {
     private Boolean groupByResourceName;
 
     /**
-     * Get sAS Uri of the logging blob container to which LogAnalytics Api writes output logs to.
+     * Get the blobContainerSasUri value.
      *
-     * @return the blobContainerSasUri value
+     * @return the blobContainerSasUri value.
      */
     public String blobContainerSasUri() {
         return this.blobContainerSasUri;
     }
 
     /**
-     * Set sAS Uri of the logging blob container to which LogAnalytics Api writes output logs to.
+     * Set the blobContainerSasUri value.
      *
-     * @param blobContainerSasUri the blobContainerSasUri value to set
+     * @param blobContainerSasUri the blobContainerSasUri value to set.
      * @return the LogAnalyticsInputBase object itself.
      */
     public LogAnalyticsInputBase withBlobContainerSasUri(String blobContainerSasUri) {
@@ -73,58 +73,58 @@ public class LogAnalyticsInputBase {
     }
 
     /**
-     * Get from time of the query.
+     * Get the fromTime value.
      *
-     * @return the fromTime value
+     * @return the fromTime value.
      */
-    public DateTime fromTime() {
+    public OffsetDateTime fromTime() {
         return this.fromTime;
     }
 
     /**
-     * Set from time of the query.
+     * Set the fromTime value.
      *
-     * @param fromTime the fromTime value to set
+     * @param fromTime the fromTime value to set.
      * @return the LogAnalyticsInputBase object itself.
      */
-    public LogAnalyticsInputBase withFromTime(DateTime fromTime) {
+    public LogAnalyticsInputBase withFromTime(OffsetDateTime fromTime) {
         this.fromTime = fromTime;
         return this;
     }
 
     /**
-     * Get to time of the query.
+     * Get the toTime value.
      *
-     * @return the toTime value
+     * @return the toTime value.
      */
-    public DateTime toTime() {
+    public OffsetDateTime toTime() {
         return this.toTime;
     }
 
     /**
-     * Set to time of the query.
+     * Set the toTime value.
      *
-     * @param toTime the toTime value to set
+     * @param toTime the toTime value to set.
      * @return the LogAnalyticsInputBase object itself.
      */
-    public LogAnalyticsInputBase withToTime(DateTime toTime) {
+    public LogAnalyticsInputBase withToTime(OffsetDateTime toTime) {
         this.toTime = toTime;
         return this;
     }
 
     /**
-     * Get group query result by Throttle Policy applied.
+     * Get the groupByThrottlePolicy value.
      *
-     * @return the groupByThrottlePolicy value
+     * @return the groupByThrottlePolicy value.
      */
     public Boolean groupByThrottlePolicy() {
         return this.groupByThrottlePolicy;
     }
 
     /**
-     * Set group query result by Throttle Policy applied.
+     * Set the groupByThrottlePolicy value.
      *
-     * @param groupByThrottlePolicy the groupByThrottlePolicy value to set
+     * @param groupByThrottlePolicy the groupByThrottlePolicy value to set.
      * @return the LogAnalyticsInputBase object itself.
      */
     public LogAnalyticsInputBase withGroupByThrottlePolicy(Boolean groupByThrottlePolicy) {
@@ -133,18 +133,18 @@ public class LogAnalyticsInputBase {
     }
 
     /**
-     * Get group query result by  by Operation Name.
+     * Get the groupByOperationName value.
      *
-     * @return the groupByOperationName value
+     * @return the groupByOperationName value.
      */
     public Boolean groupByOperationName() {
         return this.groupByOperationName;
     }
 
     /**
-     * Set group query result by  by Operation Name.
+     * Set the groupByOperationName value.
      *
-     * @param groupByOperationName the groupByOperationName value to set
+     * @param groupByOperationName the groupByOperationName value to set.
      * @return the LogAnalyticsInputBase object itself.
      */
     public LogAnalyticsInputBase withGroupByOperationName(Boolean groupByOperationName) {
@@ -153,23 +153,22 @@ public class LogAnalyticsInputBase {
     }
 
     /**
-     * Get group query result by Resource Name.
+     * Get the groupByResourceName value.
      *
-     * @return the groupByResourceName value
+     * @return the groupByResourceName value.
      */
     public Boolean groupByResourceName() {
         return this.groupByResourceName;
     }
 
     /**
-     * Set group query result by Resource Name.
+     * Set the groupByResourceName value.
      *
-     * @param groupByResourceName the groupByResourceName value to set
+     * @param groupByResourceName the groupByResourceName value to set.
      * @return the LogAnalyticsInputBase object itself.
      */
     public LogAnalyticsInputBase withGroupByResourceName(Boolean groupByResourceName) {
         this.groupByResourceName = groupByResourceName;
         return this;
     }
-
 }

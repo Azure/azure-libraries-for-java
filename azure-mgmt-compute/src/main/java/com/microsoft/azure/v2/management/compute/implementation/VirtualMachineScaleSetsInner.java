@@ -8,215 +8,337 @@
 
 package com.microsoft.azure.v2.management.compute.implementation;
 
-import com.microsoft.azure.management.resources.fluentcore.collection.InnerSupportsGet;
-import com.microsoft.azure.management.resources.fluentcore.collection.InnerSupportsDelete;
-import com.microsoft.azure.management.resources.fluentcore.collection.InnerSupportsListing;
-import retrofit2.Retrofit;
-import com.google.common.reflect.TypeToken;
-import com.microsoft.azure.AzureServiceFuture;
-import com.microsoft.azure.CloudException;
-import com.microsoft.azure.ListOperationCallback;
-import com.microsoft.azure.v2.management.compute.VirtualMachineScaleSetUpdate;
+import com.microsoft.azure.v2.AzureProxy;
+import com.microsoft.azure.v2.CloudException;
+import com.microsoft.azure.v2.OperationStatus;
+import com.microsoft.azure.v2.Page;
+import com.microsoft.azure.v2.PagedList;
 import com.microsoft.azure.v2.management.compute.VirtualMachineScaleSetVMInstanceIDs;
 import com.microsoft.azure.v2.management.compute.VirtualMachineScaleSetVMInstanceRequiredIDs;
-import com.microsoft.azure.Page;
-import com.microsoft.azure.PagedList;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import com.microsoft.rest.ServiceResponse;
-import com.microsoft.rest.Validator;
-import java.io.IOException;
+import com.microsoft.azure.v2.management.resources.fluentcore.collection.InnerSupportsDelete;
+import com.microsoft.azure.v2.management.resources.fluentcore.collection.InnerSupportsGet;
+import com.microsoft.azure.v2.management.resources.fluentcore.collection.InnerSupportsListing;
+import com.microsoft.azure.v2.util.ServiceFutureUtil;
+import com.microsoft.rest.v2.BodyResponse;
+import com.microsoft.rest.v2.OperationDescription;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
+import com.microsoft.rest.v2.Validator;
+import com.microsoft.rest.v2.VoidResponse;
+import com.microsoft.rest.v2.annotations.BodyParam;
+import com.microsoft.rest.v2.annotations.DELETE;
+import com.microsoft.rest.v2.annotations.ExpectedResponses;
+import com.microsoft.rest.v2.annotations.GET;
+import com.microsoft.rest.v2.annotations.HeaderParam;
+import com.microsoft.rest.v2.annotations.Host;
+import com.microsoft.rest.v2.annotations.PATCH;
+import com.microsoft.rest.v2.annotations.PathParam;
+import com.microsoft.rest.v2.annotations.POST;
+import com.microsoft.rest.v2.annotations.PUT;
+import com.microsoft.rest.v2.annotations.QueryParam;
+import com.microsoft.rest.v2.annotations.ResumeOperation;
+import com.microsoft.rest.v2.annotations.UnexpectedResponseExceptionType;
+import io.reactivex.Completable;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
+import io.reactivex.Single;
+import io.reactivex.annotations.NonNull;
+import java.util.ArrayList;
 import java.util.List;
-import okhttp3.ResponseBody;
-import retrofit2.http.Body;
-import retrofit2.http.GET;
-import retrofit2.http.Header;
-import retrofit2.http.Headers;
-import retrofit2.http.HTTP;
-import retrofit2.http.PATCH;
-import retrofit2.http.Path;
-import retrofit2.http.POST;
-import retrofit2.http.PUT;
-import retrofit2.http.Query;
-import retrofit2.http.Url;
-import retrofit2.Response;
-import rx.functions.Func1;
-import rx.Observable;
 
 /**
- * An instance of this class provides access to all the operations defined
- * in VirtualMachineScaleSets.
+ * An instance of this class provides access to all the operations defined in
+ * VirtualMachineScaleSets.
  */
-public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMachineScaleSetInner>, InnerSupportsDelete<Void>, InnerSupportsListing<VirtualMachineScaleSetInner> {
-    /** The Retrofit service to perform REST calls. */
+public final class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMachineScaleSetInner>, InnerSupportsDelete<Void>, InnerSupportsListing<VirtualMachineScaleSetInner> {
+    /**
+     * The proxy service used to perform REST calls.
+     */
     private VirtualMachineScaleSetsService service;
-    /** The service client containing this operation class. */
+
+    /**
+     * The service client containing this operation class.
+     */
     private ComputeManagementClientImpl client;
 
     /**
      * Initializes an instance of VirtualMachineScaleSetsInner.
      *
-     * @param retrofit the Retrofit instance built from a Retrofit Builder.
      * @param client the instance of the service client containing this operation class.
      */
-    public VirtualMachineScaleSetsInner(Retrofit retrofit, ComputeManagementClientImpl client) {
-        this.service = retrofit.create(VirtualMachineScaleSetsService.class);
+    public VirtualMachineScaleSetsInner(ComputeManagementClientImpl client) {
+        this.service = AzureProxy.create(VirtualMachineScaleSetsService.class, client);
         this.client = client;
     }
 
     /**
-     * The interface defining all the services for VirtualMachineScaleSets to be
-     * used by Retrofit to perform actually REST calls.
+     * The interface defining all the services for VirtualMachineScaleSets to
+     * be used by the proxy service to perform REST calls.
      */
-    interface VirtualMachineScaleSetsService {
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.VirtualMachineScaleSets createOrUpdate" })
+    @Host("https://management.azure.com")
+    private interface VirtualMachineScaleSetsService {
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}")
-        Observable<Response<ResponseBody>> createOrUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("vmScaleSetName") String vmScaleSetName, @Path("subscriptionId") String subscriptionId, @Body VirtualMachineScaleSetInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 201, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Observable<OperationStatus<VirtualMachineScaleSetInner>> beginCreateOrUpdate(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("vmScaleSetName") String vmScaleSetName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json; charset=utf-8") VirtualMachineScaleSetInner parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.VirtualMachineScaleSets beginCreateOrUpdate" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}")
-        Observable<Response<ResponseBody>> beginCreateOrUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("vmScaleSetName") String vmScaleSetName, @Path("subscriptionId") String subscriptionId, @Body VirtualMachineScaleSetInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 201, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<VirtualMachineScaleSetInner>> createOrUpdate(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("vmScaleSetName") String vmScaleSetName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json; charset=utf-8") VirtualMachineScaleSetInner parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.VirtualMachineScaleSets update" })
+        @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}")
+        @ExpectedResponses({200, 201, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<VirtualMachineScaleSetInner>> resumeCreateOrUpdate(OperationDescription operationDescription);
+
         @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}")
-        Observable<Response<ResponseBody>> update(@Path("resourceGroupName") String resourceGroupName, @Path("vmScaleSetName") String vmScaleSetName, @Path("subscriptionId") String subscriptionId, @Body VirtualMachineScaleSetUpdate parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Observable<OperationStatus<VirtualMachineScaleSetInner>> beginUpdate(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("vmScaleSetName") String vmScaleSetName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json; charset=utf-8") VirtualMachineScaleSetUpdateInner parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.VirtualMachineScaleSets beginUpdate" })
         @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}")
-        Observable<Response<ResponseBody>> beginUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("vmScaleSetName") String vmScaleSetName, @Path("subscriptionId") String subscriptionId, @Body VirtualMachineScaleSetUpdate parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<VirtualMachineScaleSetInner>> update(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("vmScaleSetName") String vmScaleSetName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json; charset=utf-8") VirtualMachineScaleSetUpdateInner parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.VirtualMachineScaleSets delete" })
-        @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}", method = "DELETE", hasBody = true)
-        Observable<Response<ResponseBody>> delete(@Path("resourceGroupName") String resourceGroupName, @Path("vmScaleSetName") String vmScaleSetName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<VirtualMachineScaleSetInner>> resumeUpdate(OperationDescription operationDescription);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.VirtualMachineScaleSets beginDelete" })
-        @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}", method = "DELETE", hasBody = true)
-        Observable<Response<ResponseBody>> beginDelete(@Path("resourceGroupName") String resourceGroupName, @Path("vmScaleSetName") String vmScaleSetName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @DELETE("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Observable<OperationStatus<Void>> beginDelete(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("vmScaleSetName") String vmScaleSetName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.VirtualMachineScaleSets getByResourceGroup" })
+        @DELETE("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<VoidResponse> delete(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("vmScaleSetName") String vmScaleSetName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
+
+        @DELETE("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<Void>> resumeDelete(OperationDescription operationDescription);
+
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}")
-        Observable<Response<ResponseBody>> getByResourceGroup(@Path("resourceGroupName") String resourceGroupName, @Path("vmScaleSetName") String vmScaleSetName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<VirtualMachineScaleSetInner>> getByResourceGroup(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("vmScaleSetName") String vmScaleSetName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.VirtualMachineScaleSets deallocate" })
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/deallocate")
-        Observable<Response<ResponseBody>> deallocate(@Path("resourceGroupName") String resourceGroupName, @Path("vmScaleSetName") String vmScaleSetName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Observable<OperationStatus<Void>> beginDeallocate(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("vmScaleSetName") String vmScaleSetName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @BodyParam("application/json; charset=utf-8") VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.VirtualMachineScaleSets beginDeallocate" })
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/deallocate")
-        Observable<Response<ResponseBody>> beginDeallocate(@Path("resourceGroupName") String resourceGroupName, @Path("vmScaleSetName") String vmScaleSetName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<VoidResponse> deallocate(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("vmScaleSetName") String vmScaleSetName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @BodyParam("application/json; charset=utf-8") VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.VirtualMachineScaleSets deleteInstances" })
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/deallocate")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<Void>> resumeDeallocate(OperationDescription operationDescription);
+
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/delete")
-        Observable<Response<ResponseBody>> deleteInstances(@Path("resourceGroupName") String resourceGroupName, @Path("vmScaleSetName") String vmScaleSetName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body VirtualMachineScaleSetVMInstanceRequiredIDs vmInstanceIDs, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Observable<OperationStatus<Void>> beginDeleteInstances(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("vmScaleSetName") String vmScaleSetName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @BodyParam("application/json; charset=utf-8") VirtualMachineScaleSetVMInstanceRequiredIDs vmInstanceIDs);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.VirtualMachineScaleSets beginDeleteInstances" })
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/delete")
-        Observable<Response<ResponseBody>> beginDeleteInstances(@Path("resourceGroupName") String resourceGroupName, @Path("vmScaleSetName") String vmScaleSetName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body VirtualMachineScaleSetVMInstanceRequiredIDs vmInstanceIDs, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<VoidResponse> deleteInstances(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("vmScaleSetName") String vmScaleSetName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @BodyParam("application/json; charset=utf-8") VirtualMachineScaleSetVMInstanceRequiredIDs vmInstanceIDs);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.VirtualMachineScaleSets getInstanceView" })
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/delete")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<Void>> resumeDeleteInstances(OperationDescription operationDescription);
+
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/instanceView")
-        Observable<Response<ResponseBody>> getInstanceView(@Path("resourceGroupName") String resourceGroupName, @Path("vmScaleSetName") String vmScaleSetName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<VirtualMachineScaleSetInstanceViewInner>> getInstanceView(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("vmScaleSetName") String vmScaleSetName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.VirtualMachineScaleSets listByResourceGroup" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets")
-        Observable<Response<ResponseBody>> listByResourceGroup(@Path("resourceGroupName") String resourceGroupName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl1<VirtualMachineScaleSetInner>>> listByResourceGroup(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.VirtualMachineScaleSets list" })
         @GET("subscriptions/{subscriptionId}/providers/Microsoft.Compute/virtualMachineScaleSets")
-        Observable<Response<ResponseBody>> list(@Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl1<VirtualMachineScaleSetInner>>> list(@PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.VirtualMachineScaleSets listSkus" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/skus")
-        Observable<Response<ResponseBody>> listSkus(@Path("resourceGroupName") String resourceGroupName, @Path("vmScaleSetName") String vmScaleSetName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl1<VirtualMachineScaleSetSkuInner>>> listSkus(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("vmScaleSetName") String vmScaleSetName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.VirtualMachineScaleSets getOSUpgradeHistory" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/osUpgradeHistory")
-        Observable<Response<ResponseBody>> getOSUpgradeHistory(@Path("resourceGroupName") String resourceGroupName, @Path("vmScaleSetName") String vmScaleSetName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl1<UpgradeOperationHistoricalStatusInfoInner>>> getOSUpgradeHistory(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("vmScaleSetName") String vmScaleSetName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.VirtualMachineScaleSets powerOff" })
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/poweroff")
-        Observable<Response<ResponseBody>> powerOff(@Path("resourceGroupName") String resourceGroupName, @Path("vmScaleSetName") String vmScaleSetName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Observable<OperationStatus<Void>> beginPowerOff(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("vmScaleSetName") String vmScaleSetName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @BodyParam("application/json; charset=utf-8") VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.VirtualMachineScaleSets beginPowerOff" })
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/poweroff")
-        Observable<Response<ResponseBody>> beginPowerOff(@Path("resourceGroupName") String resourceGroupName, @Path("vmScaleSetName") String vmScaleSetName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<VoidResponse> powerOff(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("vmScaleSetName") String vmScaleSetName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @BodyParam("application/json; charset=utf-8") VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.VirtualMachineScaleSets restart" })
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/poweroff")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<Void>> resumePowerOff(OperationDescription operationDescription);
+
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/restart")
-        Observable<Response<ResponseBody>> restart(@Path("resourceGroupName") String resourceGroupName, @Path("vmScaleSetName") String vmScaleSetName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Observable<OperationStatus<Void>> beginRestart(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("vmScaleSetName") String vmScaleSetName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @BodyParam("application/json; charset=utf-8") VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.VirtualMachineScaleSets beginRestart" })
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/restart")
-        Observable<Response<ResponseBody>> beginRestart(@Path("resourceGroupName") String resourceGroupName, @Path("vmScaleSetName") String vmScaleSetName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<VoidResponse> restart(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("vmScaleSetName") String vmScaleSetName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @BodyParam("application/json; charset=utf-8") VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.VirtualMachineScaleSets start" })
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/restart")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<Void>> resumeRestart(OperationDescription operationDescription);
+
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/start")
-        Observable<Response<ResponseBody>> start(@Path("resourceGroupName") String resourceGroupName, @Path("vmScaleSetName") String vmScaleSetName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Observable<OperationStatus<Void>> beginStart(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("vmScaleSetName") String vmScaleSetName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @BodyParam("application/json; charset=utf-8") VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.VirtualMachineScaleSets beginStart" })
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/start")
-        Observable<Response<ResponseBody>> beginStart(@Path("resourceGroupName") String resourceGroupName, @Path("vmScaleSetName") String vmScaleSetName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<VoidResponse> start(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("vmScaleSetName") String vmScaleSetName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @BodyParam("application/json; charset=utf-8") VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.VirtualMachineScaleSets redeploy" })
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/start")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<Void>> resumeStart(OperationDescription operationDescription);
+
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/redeploy")
-        Observable<Response<ResponseBody>> redeploy(@Path("resourceGroupName") String resourceGroupName, @Path("vmScaleSetName") String vmScaleSetName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Observable<OperationStatus<Void>> beginRedeploy(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("vmScaleSetName") String vmScaleSetName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @BodyParam("application/json; charset=utf-8") VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.VirtualMachineScaleSets beginRedeploy" })
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/redeploy")
-        Observable<Response<ResponseBody>> beginRedeploy(@Path("resourceGroupName") String resourceGroupName, @Path("vmScaleSetName") String vmScaleSetName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<VoidResponse> redeploy(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("vmScaleSetName") String vmScaleSetName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @BodyParam("application/json; charset=utf-8") VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.VirtualMachineScaleSets performMaintenance" })
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/redeploy")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<Void>> resumeRedeploy(OperationDescription operationDescription);
+
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/performMaintenance")
-        Observable<Response<ResponseBody>> performMaintenance(@Path("resourceGroupName") String resourceGroupName, @Path("vmScaleSetName") String vmScaleSetName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Observable<OperationStatus<Void>> beginPerformMaintenance(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("vmScaleSetName") String vmScaleSetName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @BodyParam("application/json; charset=utf-8") VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.VirtualMachineScaleSets beginPerformMaintenance" })
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/performMaintenance")
-        Observable<Response<ResponseBody>> beginPerformMaintenance(@Path("resourceGroupName") String resourceGroupName, @Path("vmScaleSetName") String vmScaleSetName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<VoidResponse> performMaintenance(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("vmScaleSetName") String vmScaleSetName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @BodyParam("application/json; charset=utf-8") VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.VirtualMachineScaleSets updateInstances" })
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/performMaintenance")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<Void>> resumePerformMaintenance(OperationDescription operationDescription);
+
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/manualupgrade")
-        Observable<Response<ResponseBody>> updateInstances(@Path("resourceGroupName") String resourceGroupName, @Path("vmScaleSetName") String vmScaleSetName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body VirtualMachineScaleSetVMInstanceRequiredIDs vmInstanceIDs, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Observable<OperationStatus<Void>> beginUpdateInstances(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("vmScaleSetName") String vmScaleSetName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @BodyParam("application/json; charset=utf-8") VirtualMachineScaleSetVMInstanceRequiredIDs vmInstanceIDs);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.VirtualMachineScaleSets beginUpdateInstances" })
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/manualupgrade")
-        Observable<Response<ResponseBody>> beginUpdateInstances(@Path("resourceGroupName") String resourceGroupName, @Path("vmScaleSetName") String vmScaleSetName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body VirtualMachineScaleSetVMInstanceRequiredIDs vmInstanceIDs, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<VoidResponse> updateInstances(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("vmScaleSetName") String vmScaleSetName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @BodyParam("application/json; charset=utf-8") VirtualMachineScaleSetVMInstanceRequiredIDs vmInstanceIDs);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.VirtualMachineScaleSets reimage" })
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/manualupgrade")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<Void>> resumeUpdateInstances(OperationDescription operationDescription);
+
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/reimage")
-        Observable<Response<ResponseBody>> reimage(@Path("resourceGroupName") String resourceGroupName, @Path("vmScaleSetName") String vmScaleSetName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Observable<OperationStatus<Void>> beginReimage(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("vmScaleSetName") String vmScaleSetName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @BodyParam("application/json; charset=utf-8") VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.VirtualMachineScaleSets beginReimage" })
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/reimage")
-        Observable<Response<ResponseBody>> beginReimage(@Path("resourceGroupName") String resourceGroupName, @Path("vmScaleSetName") String vmScaleSetName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<VoidResponse> reimage(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("vmScaleSetName") String vmScaleSetName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @BodyParam("application/json; charset=utf-8") VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.VirtualMachineScaleSets reimageAll" })
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/reimage")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<Void>> resumeReimage(OperationDescription operationDescription);
+
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/reimageall")
-        Observable<Response<ResponseBody>> reimageAll(@Path("resourceGroupName") String resourceGroupName, @Path("vmScaleSetName") String vmScaleSetName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Observable<OperationStatus<Void>> beginReimageAll(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("vmScaleSetName") String vmScaleSetName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @BodyParam("application/json; charset=utf-8") VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.VirtualMachineScaleSets beginReimageAll" })
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/reimageall")
-        Observable<Response<ResponseBody>> beginReimageAll(@Path("resourceGroupName") String resourceGroupName, @Path("vmScaleSetName") String vmScaleSetName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<VoidResponse> reimageAll(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("vmScaleSetName") String vmScaleSetName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @BodyParam("application/json; charset=utf-8") VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.VirtualMachineScaleSets forceRecoveryServiceFabricPlatformUpdateDomainWalk" })
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/reimageall")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<Void>> resumeReimageAll(OperationDescription operationDescription);
+
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/forceRecoveryServiceFabricPlatformUpdateDomainWalk")
-        Observable<Response<ResponseBody>> forceRecoveryServiceFabricPlatformUpdateDomainWalk(@Path("resourceGroupName") String resourceGroupName, @Path("vmScaleSetName") String vmScaleSetName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Query("platformUpdateDomain") int platformUpdateDomain, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<RecoveryWalkResponseInner>> forceRecoveryServiceFabricPlatformUpdateDomainWalk(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("vmScaleSetName") String vmScaleSetName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @QueryParam("platformUpdateDomain") int platformUpdateDomain, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.VirtualMachineScaleSets listByResourceGroupNext" })
-        @GET
-        Observable<Response<ResponseBody>> listByResourceGroupNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @GET("{nextUrl}")
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl1<VirtualMachineScaleSetInner>>> listNext(@PathParam(value = "nextUrl", encoded = true) String nextUrl, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.VirtualMachineScaleSets listNext" })
-        @GET
-        Observable<Response<ResponseBody>> listNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @GET("{nextUrl}")
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl1<VirtualMachineScaleSetInner>>> listAllNext(@PathParam(value = "nextUrl", encoded = true) String nextUrl, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.VirtualMachineScaleSets listSkusNext" })
-        @GET
-        Observable<Response<ResponseBody>> listSkusNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @GET("{nextUrl}")
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl1<VirtualMachineScaleSetSkuInner>>> listSkusNext(@PathParam(value = "nextUrl", encoded = true) String nextUrl, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.VirtualMachineScaleSets getOSUpgradeHistoryNext" })
-        @GET
-        Observable<Response<ResponseBody>> getOSUpgradeHistoryNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
-
+        @GET("{nextUrl}")
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl1<UpgradeOperationHistoricalStatusInfoInner>>> getOSUpgradeHistoryNext(@PathParam(value = "nextUrl", encoded = true) String nextUrl, @HeaderParam("accept-language") String acceptLanguage);
     }
 
     /**
@@ -225,13 +347,13 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set to create or update.
      * @param parameters The scale set object.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the VirtualMachineScaleSetInner object if successful.
      */
-    public VirtualMachineScaleSetInner createOrUpdate(String resourceGroupName, String vmScaleSetName, VirtualMachineScaleSetInner parameters) {
-        return createOrUpdateWithServiceResponseAsync(resourceGroupName, vmScaleSetName, parameters).toBlocking().last().body();
+    public VirtualMachineScaleSetInner beginCreateOrUpdate(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, @NonNull VirtualMachineScaleSetInner parameters) {
+        return beginCreateOrUpdateAsync(resourceGroupName, vmScaleSetName, parameters).blockingLast().result();
     }
 
     /**
@@ -241,11 +363,11 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
      * @param vmScaleSetName The name of the VM scale set to create or update.
      * @param parameters The scale set object.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;VirtualMachineScaleSetInner&gt; object.
      */
-    public ServiceFuture<VirtualMachineScaleSetInner> createOrUpdateAsync(String resourceGroupName, String vmScaleSetName, VirtualMachineScaleSetInner parameters, final ServiceCallback<VirtualMachineScaleSetInner> serviceCallback) {
-        return ServiceFuture.fromResponse(createOrUpdateWithServiceResponseAsync(resourceGroupName, vmScaleSetName, parameters), serviceCallback);
+    public ServiceFuture<VirtualMachineScaleSetInner> beginCreateOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, @NonNull VirtualMachineScaleSetInner parameters, ServiceCallback<VirtualMachineScaleSetInner> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginCreateOrUpdateAsync(resourceGroupName, vmScaleSetName, parameters), serviceCallback);
     }
 
     /**
@@ -254,28 +376,10 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set to create or update.
      * @param parameters The scale set object.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<VirtualMachineScaleSetInner> createOrUpdateAsync(String resourceGroupName, String vmScaleSetName, VirtualMachineScaleSetInner parameters) {
-        return createOrUpdateWithServiceResponseAsync(resourceGroupName, vmScaleSetName, parameters).map(new Func1<ServiceResponse<VirtualMachineScaleSetInner>, VirtualMachineScaleSetInner>() {
-            @Override
-            public VirtualMachineScaleSetInner call(ServiceResponse<VirtualMachineScaleSetInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Create or update a VM scale set.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set to create or update.
-     * @param parameters The scale set object.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<VirtualMachineScaleSetInner>> createOrUpdateWithServiceResponseAsync(String resourceGroupName, String vmScaleSetName, VirtualMachineScaleSetInner parameters) {
+    public Observable<OperationStatus<VirtualMachineScaleSetInner>> beginCreateOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, @NonNull VirtualMachineScaleSetInner parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -290,8 +394,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
         }
         Validator.validate(parameters);
         final String apiVersion = "2018-06-01";
-        Observable<Response<ResponseBody>> observable = service.createOrUpdate(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<VirtualMachineScaleSetInner>() { }.getType());
+        return service.beginCreateOrUpdate(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage());
     }
 
     /**
@@ -300,13 +403,13 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set to create or update.
      * @param parameters The scale set object.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the VirtualMachineScaleSetInner object if successful.
      */
-    public VirtualMachineScaleSetInner beginCreateOrUpdate(String resourceGroupName, String vmScaleSetName, VirtualMachineScaleSetInner parameters) {
-        return beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, vmScaleSetName, parameters).toBlocking().single().body();
+    public VirtualMachineScaleSetInner createOrUpdate(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, @NonNull VirtualMachineScaleSetInner parameters) {
+        return createOrUpdateAsync(resourceGroupName, vmScaleSetName, parameters).blockingGet();
     }
 
     /**
@@ -316,11 +419,11 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
      * @param vmScaleSetName The name of the VM scale set to create or update.
      * @param parameters The scale set object.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<VirtualMachineScaleSetInner> beginCreateOrUpdateAsync(String resourceGroupName, String vmScaleSetName, VirtualMachineScaleSetInner parameters, final ServiceCallback<VirtualMachineScaleSetInner> serviceCallback) {
-        return ServiceFuture.fromResponse(beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, vmScaleSetName, parameters), serviceCallback);
+    public ServiceFuture<VirtualMachineScaleSetInner> createOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, @NonNull VirtualMachineScaleSetInner parameters, ServiceCallback<VirtualMachineScaleSetInner> serviceCallback) {
+        return ServiceFuture.fromBody(createOrUpdateAsync(resourceGroupName, vmScaleSetName, parameters), serviceCallback);
     }
 
     /**
@@ -329,28 +432,10 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set to create or update.
      * @param parameters The scale set object.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the VirtualMachineScaleSetInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<VirtualMachineScaleSetInner> beginCreateOrUpdateAsync(String resourceGroupName, String vmScaleSetName, VirtualMachineScaleSetInner parameters) {
-        return beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, vmScaleSetName, parameters).map(new Func1<ServiceResponse<VirtualMachineScaleSetInner>, VirtualMachineScaleSetInner>() {
-            @Override
-            public VirtualMachineScaleSetInner call(ServiceResponse<VirtualMachineScaleSetInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Create or update a VM scale set.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set to create or update.
-     * @param parameters The scale set object.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the VirtualMachineScaleSetInner object
-     */
-    public Observable<ServiceResponse<VirtualMachineScaleSetInner>> beginCreateOrUpdateWithServiceResponseAsync(String resourceGroupName, String vmScaleSetName, VirtualMachineScaleSetInner parameters) {
+    public Single<BodyResponse<VirtualMachineScaleSetInner>> createOrUpdateWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, @NonNull VirtualMachineScaleSetInner parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -365,26 +450,35 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
         }
         Validator.validate(parameters);
         final String apiVersion = "2018-06-01";
-        return service.beginCreateOrUpdate(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<VirtualMachineScaleSetInner>>>() {
-                @Override
-                public Observable<ServiceResponse<VirtualMachineScaleSetInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<VirtualMachineScaleSetInner> clientResponse = beginCreateOrUpdateDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.createOrUpdate(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<VirtualMachineScaleSetInner> beginCreateOrUpdateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<VirtualMachineScaleSetInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<VirtualMachineScaleSetInner>() { }.getType())
-                .register(201, new TypeToken<VirtualMachineScaleSetInner>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Create or update a VM scale set.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set to create or update.
+     * @param parameters The scale set object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<VirtualMachineScaleSetInner> createOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, @NonNull VirtualMachineScaleSetInner parameters) {
+        return createOrUpdateWithRestResponseAsync(resourceGroupName, vmScaleSetName, parameters)
+            .flatMapMaybe((BodyResponse<VirtualMachineScaleSetInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
+    }
+
+    /**
+     * Create or update a VM scale set. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<VirtualMachineScaleSetInner>> resumeCreateOrUpdate(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeCreateOrUpdate(operationDescription);
     }
 
     /**
@@ -393,13 +487,13 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set to create or update.
      * @param parameters The scale set object.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the VirtualMachineScaleSetInner object if successful.
      */
-    public VirtualMachineScaleSetInner update(String resourceGroupName, String vmScaleSetName, VirtualMachineScaleSetUpdate parameters) {
-        return updateWithServiceResponseAsync(resourceGroupName, vmScaleSetName, parameters).toBlocking().last().body();
+    public VirtualMachineScaleSetInner beginUpdate(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, @NonNull VirtualMachineScaleSetUpdateInner parameters) {
+        return beginUpdateAsync(resourceGroupName, vmScaleSetName, parameters).blockingLast().result();
     }
 
     /**
@@ -409,11 +503,11 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
      * @param vmScaleSetName The name of the VM scale set to create or update.
      * @param parameters The scale set object.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;VirtualMachineScaleSetInner&gt; object.
      */
-    public ServiceFuture<VirtualMachineScaleSetInner> updateAsync(String resourceGroupName, String vmScaleSetName, VirtualMachineScaleSetUpdate parameters, final ServiceCallback<VirtualMachineScaleSetInner> serviceCallback) {
-        return ServiceFuture.fromResponse(updateWithServiceResponseAsync(resourceGroupName, vmScaleSetName, parameters), serviceCallback);
+    public ServiceFuture<VirtualMachineScaleSetInner> beginUpdateAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, @NonNull VirtualMachineScaleSetUpdateInner parameters, ServiceCallback<VirtualMachineScaleSetInner> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginUpdateAsync(resourceGroupName, vmScaleSetName, parameters), serviceCallback);
     }
 
     /**
@@ -422,28 +516,10 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set to create or update.
      * @param parameters The scale set object.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<VirtualMachineScaleSetInner> updateAsync(String resourceGroupName, String vmScaleSetName, VirtualMachineScaleSetUpdate parameters) {
-        return updateWithServiceResponseAsync(resourceGroupName, vmScaleSetName, parameters).map(new Func1<ServiceResponse<VirtualMachineScaleSetInner>, VirtualMachineScaleSetInner>() {
-            @Override
-            public VirtualMachineScaleSetInner call(ServiceResponse<VirtualMachineScaleSetInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Update a VM scale set.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set to create or update.
-     * @param parameters The scale set object.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<VirtualMachineScaleSetInner>> updateWithServiceResponseAsync(String resourceGroupName, String vmScaleSetName, VirtualMachineScaleSetUpdate parameters) {
+    public Observable<OperationStatus<VirtualMachineScaleSetInner>> beginUpdateAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, @NonNull VirtualMachineScaleSetUpdateInner parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -458,8 +534,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
         }
         Validator.validate(parameters);
         final String apiVersion = "2018-06-01";
-        Observable<Response<ResponseBody>> observable = service.update(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<VirtualMachineScaleSetInner>() { }.getType());
+        return service.beginUpdate(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage());
     }
 
     /**
@@ -468,13 +543,13 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set to create or update.
      * @param parameters The scale set object.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the VirtualMachineScaleSetInner object if successful.
      */
-    public VirtualMachineScaleSetInner beginUpdate(String resourceGroupName, String vmScaleSetName, VirtualMachineScaleSetUpdate parameters) {
-        return beginUpdateWithServiceResponseAsync(resourceGroupName, vmScaleSetName, parameters).toBlocking().single().body();
+    public VirtualMachineScaleSetInner update(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, @NonNull VirtualMachineScaleSetUpdateInner parameters) {
+        return updateAsync(resourceGroupName, vmScaleSetName, parameters).blockingGet();
     }
 
     /**
@@ -484,11 +559,11 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
      * @param vmScaleSetName The name of the VM scale set to create or update.
      * @param parameters The scale set object.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<VirtualMachineScaleSetInner> beginUpdateAsync(String resourceGroupName, String vmScaleSetName, VirtualMachineScaleSetUpdate parameters, final ServiceCallback<VirtualMachineScaleSetInner> serviceCallback) {
-        return ServiceFuture.fromResponse(beginUpdateWithServiceResponseAsync(resourceGroupName, vmScaleSetName, parameters), serviceCallback);
+    public ServiceFuture<VirtualMachineScaleSetInner> updateAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, @NonNull VirtualMachineScaleSetUpdateInner parameters, ServiceCallback<VirtualMachineScaleSetInner> serviceCallback) {
+        return ServiceFuture.fromBody(updateAsync(resourceGroupName, vmScaleSetName, parameters), serviceCallback);
     }
 
     /**
@@ -497,28 +572,10 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set to create or update.
      * @param parameters The scale set object.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the VirtualMachineScaleSetInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<VirtualMachineScaleSetInner> beginUpdateAsync(String resourceGroupName, String vmScaleSetName, VirtualMachineScaleSetUpdate parameters) {
-        return beginUpdateWithServiceResponseAsync(resourceGroupName, vmScaleSetName, parameters).map(new Func1<ServiceResponse<VirtualMachineScaleSetInner>, VirtualMachineScaleSetInner>() {
-            @Override
-            public VirtualMachineScaleSetInner call(ServiceResponse<VirtualMachineScaleSetInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Update a VM scale set.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set to create or update.
-     * @param parameters The scale set object.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the VirtualMachineScaleSetInner object
-     */
-    public Observable<ServiceResponse<VirtualMachineScaleSetInner>> beginUpdateWithServiceResponseAsync(String resourceGroupName, String vmScaleSetName, VirtualMachineScaleSetUpdate parameters) {
+    public Single<BodyResponse<VirtualMachineScaleSetInner>> updateWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, @NonNull VirtualMachineScaleSetUpdateInner parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -533,25 +590,35 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
         }
         Validator.validate(parameters);
         final String apiVersion = "2018-06-01";
-        return service.beginUpdate(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<VirtualMachineScaleSetInner>>>() {
-                @Override
-                public Observable<ServiceResponse<VirtualMachineScaleSetInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<VirtualMachineScaleSetInner> clientResponse = beginUpdateDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.update(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<VirtualMachineScaleSetInner> beginUpdateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<VirtualMachineScaleSetInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<VirtualMachineScaleSetInner>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Update a VM scale set.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set to create or update.
+     * @param parameters The scale set object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<VirtualMachineScaleSetInner> updateAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, @NonNull VirtualMachineScaleSetUpdateInner parameters) {
+        return updateWithRestResponseAsync(resourceGroupName, vmScaleSetName, parameters)
+            .flatMapMaybe((BodyResponse<VirtualMachineScaleSetInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
+    }
+
+    /**
+     * Update a VM scale set. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<VirtualMachineScaleSetInner>> resumeUpdate(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeUpdate(operationDescription);
     }
 
     /**
@@ -559,12 +626,12 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void delete(String resourceGroupName, String vmScaleSetName) {
-        deleteWithServiceResponseAsync(resourceGroupName, vmScaleSetName).toBlocking().last().body();
+    public void beginDelete(@NonNull String resourceGroupName, @NonNull String vmScaleSetName) {
+        beginDeleteAsync(resourceGroupName, vmScaleSetName).blockingLast();
     }
 
     /**
@@ -573,11 +640,11 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;Void&gt; object.
      */
-    public ServiceFuture<Void> deleteAsync(String resourceGroupName, String vmScaleSetName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(deleteWithServiceResponseAsync(resourceGroupName, vmScaleSetName), serviceCallback);
+    public ServiceFuture<Void> beginDeleteAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, ServiceCallback<Void> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginDeleteAsync(resourceGroupName, vmScaleSetName), serviceCallback);
     }
 
     /**
@@ -585,27 +652,10 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<Void> deleteAsync(String resourceGroupName, String vmScaleSetName) {
-        return deleteWithServiceResponseAsync(resourceGroupName, vmScaleSetName).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Deletes a VM scale set.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<Void>> deleteWithServiceResponseAsync(String resourceGroupName, String vmScaleSetName) {
+    public Observable<OperationStatus<Void>> beginDeleteAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -616,8 +666,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        Observable<Response<ResponseBody>> observable = service.delete(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
+        return service.beginDelete(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
     /**
@@ -625,12 +674,12 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void beginDelete(String resourceGroupName, String vmScaleSetName) {
-        beginDeleteWithServiceResponseAsync(resourceGroupName, vmScaleSetName).toBlocking().single().body();
+    public void delete(@NonNull String resourceGroupName, @NonNull String vmScaleSetName) {
+        deleteAsync(resourceGroupName, vmScaleSetName).blockingGet();
     }
 
     /**
@@ -639,11 +688,11 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<Void> beginDeleteAsync(String resourceGroupName, String vmScaleSetName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(beginDeleteWithServiceResponseAsync(resourceGroupName, vmScaleSetName), serviceCallback);
+    public ServiceFuture<Void> deleteAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromBody(deleteAsync(resourceGroupName, vmScaleSetName), serviceCallback);
     }
 
     /**
@@ -651,27 +700,10 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<Void> beginDeleteAsync(String resourceGroupName, String vmScaleSetName) {
-        return beginDeleteWithServiceResponseAsync(resourceGroupName, vmScaleSetName).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Deletes a VM scale set.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
-     */
-    public Observable<ServiceResponse<Void>> beginDeleteWithServiceResponseAsync(String resourceGroupName, String vmScaleSetName) {
+    public Single<VoidResponse> deleteWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -682,27 +714,34 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        return service.beginDelete(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
-                @Override
-                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<Void> clientResponse = beginDeleteDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.delete(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<Void> beginDeleteDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<Void>() { }.getType())
-                .register(202, new TypeToken<Void>() { }.getType())
-                .register(204, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Deletes a VM scale set.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<Void> deleteAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName) {
+        return deleteWithRestResponseAsync(resourceGroupName, vmScaleSetName)
+            .flatMapMaybe((VoidResponse res) -> Maybe.empty());
+    }
+
+    /**
+     * Deletes a VM scale set. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<Void>> resumeDelete(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeDelete(operationDescription);
     }
 
     /**
@@ -710,13 +749,13 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the VirtualMachineScaleSetInner object if successful.
      */
-    public VirtualMachineScaleSetInner getByResourceGroup(String resourceGroupName, String vmScaleSetName) {
-        return getByResourceGroupWithServiceResponseAsync(resourceGroupName, vmScaleSetName).toBlocking().single().body();
+    public VirtualMachineScaleSetInner getByResourceGroup(@NonNull String resourceGroupName, @NonNull String vmScaleSetName) {
+        return getByResourceGroupAsync(resourceGroupName, vmScaleSetName).blockingGet();
     }
 
     /**
@@ -725,11 +764,11 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<VirtualMachineScaleSetInner> getByResourceGroupAsync(String resourceGroupName, String vmScaleSetName, final ServiceCallback<VirtualMachineScaleSetInner> serviceCallback) {
-        return ServiceFuture.fromResponse(getByResourceGroupWithServiceResponseAsync(resourceGroupName, vmScaleSetName), serviceCallback);
+    public ServiceFuture<VirtualMachineScaleSetInner> getByResourceGroupAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, ServiceCallback<VirtualMachineScaleSetInner> serviceCallback) {
+        return ServiceFuture.fromBody(getByResourceGroupAsync(resourceGroupName, vmScaleSetName), serviceCallback);
     }
 
     /**
@@ -737,27 +776,10 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the VirtualMachineScaleSetInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<VirtualMachineScaleSetInner> getByResourceGroupAsync(String resourceGroupName, String vmScaleSetName) {
-        return getByResourceGroupWithServiceResponseAsync(resourceGroupName, vmScaleSetName).map(new Func1<ServiceResponse<VirtualMachineScaleSetInner>, VirtualMachineScaleSetInner>() {
-            @Override
-            public VirtualMachineScaleSetInner call(ServiceResponse<VirtualMachineScaleSetInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Display information about a virtual machine scale set.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the VirtualMachineScaleSetInner object
-     */
-    public Observable<ServiceResponse<VirtualMachineScaleSetInner>> getByResourceGroupWithServiceResponseAsync(String resourceGroupName, String vmScaleSetName) {
+    public Single<BodyResponse<VirtualMachineScaleSetInner>> getByResourceGroupWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -768,25 +790,20 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        return service.getByResourceGroup(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<VirtualMachineScaleSetInner>>>() {
-                @Override
-                public Observable<ServiceResponse<VirtualMachineScaleSetInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<VirtualMachineScaleSetInner> clientResponse = getByResourceGroupDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.getByResourceGroup(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<VirtualMachineScaleSetInner> getByResourceGroupDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<VirtualMachineScaleSetInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<VirtualMachineScaleSetInner>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Display information about a virtual machine scale set.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<VirtualMachineScaleSetInner> getByResourceGroupAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName) {
+        return getByResourceGroupWithRestResponseAsync(resourceGroupName, vmScaleSetName)
+            .flatMapMaybe((BodyResponse<VirtualMachineScaleSetInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
@@ -794,12 +811,12 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void deallocate(String resourceGroupName, String vmScaleSetName) {
-        deallocateWithServiceResponseAsync(resourceGroupName, vmScaleSetName).toBlocking().last().body();
+    public void beginDeallocate(@NonNull String resourceGroupName, @NonNull String vmScaleSetName) {
+        beginDeallocateAsync(resourceGroupName, vmScaleSetName).blockingLast();
     }
 
     /**
@@ -808,11 +825,11 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;Void&gt; object.
      */
-    public ServiceFuture<Void> deallocateAsync(String resourceGroupName, String vmScaleSetName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(deallocateWithServiceResponseAsync(resourceGroupName, vmScaleSetName), serviceCallback);
+    public ServiceFuture<Void> beginDeallocateAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, ServiceCallback<Void> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginDeallocateAsync(resourceGroupName, vmScaleSetName), serviceCallback);
     }
 
     /**
@@ -820,171 +837,10 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<Void> deallocateAsync(String resourceGroupName, String vmScaleSetName) {
-        return deallocateWithServiceResponseAsync(resourceGroupName, vmScaleSetName).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Deallocates specific virtual machines in a VM scale set. Shuts down the virtual machines and releases the compute resources. You are not billed for the compute resources that this virtual machine scale set deallocates.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<Void>> deallocateWithServiceResponseAsync(String resourceGroupName, String vmScaleSetName) {
-        if (resourceGroupName == null) {
-            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
-        }
-        if (vmScaleSetName == null) {
-            throw new IllegalArgumentException("Parameter vmScaleSetName is required and cannot be null.");
-        }
-        if (this.client.subscriptionId() == null) {
-            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
-        }
-        final String apiVersion = "2018-06-01";
-        final String instanceIdsConverted = null;
-        VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
-        vmInstanceIDs.withInstanceIds(null);
-        Observable<Response<ResponseBody>> observable = service.deallocate(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs, this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
-    }
-    /**
-     * Deallocates specific virtual machines in a VM scale set. Shuts down the virtual machines and releases the compute resources. You are not billed for the compute resources that this virtual machine scale set deallocates.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     */
-    public void deallocate(String resourceGroupName, String vmScaleSetName, List<String> instanceIds) {
-        deallocateWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceIds).toBlocking().last().body();
-    }
-
-    /**
-     * Deallocates specific virtual machines in a VM scale set. Shuts down the virtual machines and releases the compute resources. You are not billed for the compute resources that this virtual machine scale set deallocates.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<Void> deallocateAsync(String resourceGroupName, String vmScaleSetName, List<String> instanceIds, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(deallocateWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceIds), serviceCallback);
-    }
-
-    /**
-     * Deallocates specific virtual machines in a VM scale set. Shuts down the virtual machines and releases the compute resources. You are not billed for the compute resources that this virtual machine scale set deallocates.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<Void> deallocateAsync(String resourceGroupName, String vmScaleSetName, List<String> instanceIds) {
-        return deallocateWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceIds).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Deallocates specific virtual machines in a VM scale set. Shuts down the virtual machines and releases the compute resources. You are not billed for the compute resources that this virtual machine scale set deallocates.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<Void>> deallocateWithServiceResponseAsync(String resourceGroupName, String vmScaleSetName, List<String> instanceIds) {
-        if (resourceGroupName == null) {
-            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
-        }
-        if (vmScaleSetName == null) {
-            throw new IllegalArgumentException("Parameter vmScaleSetName is required and cannot be null.");
-        }
-        if (this.client.subscriptionId() == null) {
-            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
-        }
-        Validator.validate(instanceIds);
-        final String apiVersion = "2018-06-01";
-        VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = null;
-        if (instanceIds != null) {
-            vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
-            vmInstanceIDs.withInstanceIds(instanceIds);
-        }
-        Observable<Response<ResponseBody>> observable = service.deallocate(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs, this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
-    }
-
-    /**
-     * Deallocates specific virtual machines in a VM scale set. Shuts down the virtual machines and releases the compute resources. You are not billed for the compute resources that this virtual machine scale set deallocates.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     */
-    public void beginDeallocate(String resourceGroupName, String vmScaleSetName) {
-        beginDeallocateWithServiceResponseAsync(resourceGroupName, vmScaleSetName).toBlocking().single().body();
-    }
-
-    /**
-     * Deallocates specific virtual machines in a VM scale set. Shuts down the virtual machines and releases the compute resources. You are not billed for the compute resources that this virtual machine scale set deallocates.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<Void> beginDeallocateAsync(String resourceGroupName, String vmScaleSetName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(beginDeallocateWithServiceResponseAsync(resourceGroupName, vmScaleSetName), serviceCallback);
-    }
-
-    /**
-     * Deallocates specific virtual machines in a VM scale set. Shuts down the virtual machines and releases the compute resources. You are not billed for the compute resources that this virtual machine scale set deallocates.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
-     */
-    public Observable<Void> beginDeallocateAsync(String resourceGroupName, String vmScaleSetName) {
-        return beginDeallocateWithServiceResponseAsync(resourceGroupName, vmScaleSetName).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Deallocates specific virtual machines in a VM scale set. Shuts down the virtual machines and releases the compute resources. You are not billed for the compute resources that this virtual machine scale set deallocates.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
-     */
-    public Observable<ServiceResponse<Void>> beginDeallocateWithServiceResponseAsync(String resourceGroupName, String vmScaleSetName) {
+    public Observable<OperationStatus<Void>> beginDeallocateAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -998,18 +854,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
         final List<String> instanceIds = null;
         VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
         vmInstanceIDs.withInstanceIds(null);
-        return service.beginDeallocate(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs, this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
-                @Override
-                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<Void> clientResponse = beginDeallocateDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.beginDeallocate(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs);
     }
 
     /**
@@ -1018,12 +863,12 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void beginDeallocate(String resourceGroupName, String vmScaleSetName, List<String> instanceIds) {
-        beginDeallocateWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceIds).toBlocking().single().body();
+    public void beginDeallocate(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, List<String> instanceIds) {
+        beginDeallocateAsync(resourceGroupName, vmScaleSetName, instanceIds).blockingLast();
     }
 
     /**
@@ -1033,11 +878,11 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;Void&gt; object.
      */
-    public ServiceFuture<Void> beginDeallocateAsync(String resourceGroupName, String vmScaleSetName, List<String> instanceIds, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(beginDeallocateWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceIds), serviceCallback);
+    public ServiceFuture<Void> beginDeallocateAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, List<String> instanceIds, ServiceCallback<Void> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginDeallocateAsync(resourceGroupName, vmScaleSetName, instanceIds), serviceCallback);
     }
 
     /**
@@ -1046,28 +891,10 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<Void> beginDeallocateAsync(String resourceGroupName, String vmScaleSetName, List<String> instanceIds) {
-        return beginDeallocateWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceIds).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Deallocates specific virtual machines in a VM scale set. Shuts down the virtual machines and releases the compute resources. You are not billed for the compute resources that this virtual machine scale set deallocates.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
-     */
-    public Observable<ServiceResponse<Void>> beginDeallocateWithServiceResponseAsync(String resourceGroupName, String vmScaleSetName, List<String> instanceIds) {
+    public Observable<OperationStatus<Void>> beginDeallocateAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, List<String> instanceIds) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -1084,26 +911,156 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
             vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
             vmInstanceIDs.withInstanceIds(instanceIds);
         }
-        return service.beginDeallocate(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs, this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
-                @Override
-                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<Void> clientResponse = beginDeallocateDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.beginDeallocate(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs);
     }
 
-    private ServiceResponse<Void> beginDeallocateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<Void>() { }.getType())
-                .register(202, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Deallocates specific virtual machines in a VM scale set. Shuts down the virtual machines and releases the compute resources. You are not billed for the compute resources that this virtual machine scale set deallocates.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    public void deallocate(@NonNull String resourceGroupName, @NonNull String vmScaleSetName) {
+        deallocateAsync(resourceGroupName, vmScaleSetName).blockingAwait();
+    }
+
+    /**
+     * Deallocates specific virtual machines in a VM scale set. Shuts down the virtual machines and releases the compute resources. You are not billed for the compute resources that this virtual machine scale set deallocates.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
+     */
+    public ServiceFuture<Void> deallocateAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromBody(deallocateAsync(resourceGroupName, vmScaleSetName), serviceCallback);
+    }
+
+    /**
+     * Deallocates specific virtual machines in a VM scale set. Shuts down the virtual machines and releases the compute resources. You are not billed for the compute resources that this virtual machine scale set deallocates.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Single<VoidResponse> deallocateWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (vmScaleSetName == null) {
+            throw new IllegalArgumentException("Parameter vmScaleSetName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        final String apiVersion = "2018-06-01";
+        final List<String> instanceIds = null;
+        VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
+        vmInstanceIDs.withInstanceIds(null);
+        return service.deallocate(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs);
+    }
+
+    /**
+     * Deallocates specific virtual machines in a VM scale set. Shuts down the virtual machines and releases the compute resources. You are not billed for the compute resources that this virtual machine scale set deallocates.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Completable deallocateAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName) {
+        return deallocateWithRestResponseAsync(resourceGroupName, vmScaleSetName)
+            .toCompletable();
+    }
+
+    /**
+     * Deallocates specific virtual machines in a VM scale set. Shuts down the virtual machines and releases the compute resources. You are not billed for the compute resources that this virtual machine scale set deallocates.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    public void deallocate(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, List<String> instanceIds) {
+        deallocateAsync(resourceGroupName, vmScaleSetName, instanceIds).blockingAwait();
+    }
+
+    /**
+     * Deallocates specific virtual machines in a VM scale set. Shuts down the virtual machines and releases the compute resources. You are not billed for the compute resources that this virtual machine scale set deallocates.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
+     */
+    public ServiceFuture<Void> deallocateAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, List<String> instanceIds, ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromBody(deallocateAsync(resourceGroupName, vmScaleSetName, instanceIds), serviceCallback);
+    }
+
+    /**
+     * Deallocates specific virtual machines in a VM scale set. Shuts down the virtual machines and releases the compute resources. You are not billed for the compute resources that this virtual machine scale set deallocates.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Single<VoidResponse> deallocateWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, List<String> instanceIds) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (vmScaleSetName == null) {
+            throw new IllegalArgumentException("Parameter vmScaleSetName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        Validator.validate(instanceIds);
+        final String apiVersion = "2018-06-01";
+        VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = null;
+        if (instanceIds != null) {
+            vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
+            vmInstanceIDs.withInstanceIds(instanceIds);
+        }
+        return service.deallocate(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs);
+    }
+
+    /**
+     * Deallocates specific virtual machines in a VM scale set. Shuts down the virtual machines and releases the compute resources. You are not billed for the compute resources that this virtual machine scale set deallocates.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Completable deallocateAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, List<String> instanceIds) {
+        return deallocateWithRestResponseAsync(resourceGroupName, vmScaleSetName, instanceIds)
+            .toCompletable();
+    }
+
+    /**
+     * Deallocates specific virtual machines in a VM scale set. Shuts down the virtual machines and releases the compute resources. You are not billed for the compute resources that this virtual machine scale set deallocates. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<Void>> resumeDeallocate(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeDeallocate(operationDescription);
     }
 
     /**
@@ -1112,12 +1069,12 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceIds The virtual machine scale set instance ids.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void deleteInstances(String resourceGroupName, String vmScaleSetName, List<String> instanceIds) {
-        deleteInstancesWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceIds).toBlocking().last().body();
+    public void beginDeleteInstances(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, @NonNull List<String> instanceIds) {
+        beginDeleteInstancesAsync(resourceGroupName, vmScaleSetName, instanceIds).blockingLast();
     }
 
     /**
@@ -1127,11 +1084,11 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceIds The virtual machine scale set instance ids.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;Void&gt; object.
      */
-    public ServiceFuture<Void> deleteInstancesAsync(String resourceGroupName, String vmScaleSetName, List<String> instanceIds, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(deleteInstancesWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceIds), serviceCallback);
+    public ServiceFuture<Void> beginDeleteInstancesAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, @NonNull List<String> instanceIds, ServiceCallback<Void> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginDeleteInstancesAsync(resourceGroupName, vmScaleSetName, instanceIds), serviceCallback);
     }
 
     /**
@@ -1140,28 +1097,10 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceIds The virtual machine scale set instance ids.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<Void> deleteInstancesAsync(String resourceGroupName, String vmScaleSetName, List<String> instanceIds) {
-        return deleteInstancesWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceIds).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Deletes virtual machines in a VM scale set.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @param instanceIds The virtual machine scale set instance ids.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<Void>> deleteInstancesWithServiceResponseAsync(String resourceGroupName, String vmScaleSetName, List<String> instanceIds) {
+    public Observable<OperationStatus<Void>> beginDeleteInstancesAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, @NonNull List<String> instanceIds) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -1178,8 +1117,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
         final String apiVersion = "2018-06-01";
         VirtualMachineScaleSetVMInstanceRequiredIDs vmInstanceIDs = new VirtualMachineScaleSetVMInstanceRequiredIDs();
         vmInstanceIDs.withInstanceIds(instanceIds);
-        Observable<Response<ResponseBody>> observable = service.deleteInstances(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs, this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
+        return service.beginDeleteInstances(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs);
     }
 
     /**
@@ -1188,12 +1126,12 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceIds The virtual machine scale set instance ids.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void beginDeleteInstances(String resourceGroupName, String vmScaleSetName, List<String> instanceIds) {
-        beginDeleteInstancesWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceIds).toBlocking().single().body();
+    public void deleteInstances(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, @NonNull List<String> instanceIds) {
+        deleteInstancesAsync(resourceGroupName, vmScaleSetName, instanceIds).blockingAwait();
     }
 
     /**
@@ -1203,11 +1141,11 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceIds The virtual machine scale set instance ids.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<Void> beginDeleteInstancesAsync(String resourceGroupName, String vmScaleSetName, List<String> instanceIds, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(beginDeleteInstancesWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceIds), serviceCallback);
+    public ServiceFuture<Void> deleteInstancesAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, @NonNull List<String> instanceIds, ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromBody(deleteInstancesAsync(resourceGroupName, vmScaleSetName, instanceIds), serviceCallback);
     }
 
     /**
@@ -1216,28 +1154,10 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceIds The virtual machine scale set instance ids.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<Void> beginDeleteInstancesAsync(String resourceGroupName, String vmScaleSetName, List<String> instanceIds) {
-        return beginDeleteInstancesWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceIds).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Deletes virtual machines in a VM scale set.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @param instanceIds The virtual machine scale set instance ids.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
-     */
-    public Observable<ServiceResponse<Void>> beginDeleteInstancesWithServiceResponseAsync(String resourceGroupName, String vmScaleSetName, List<String> instanceIds) {
+    public Single<VoidResponse> deleteInstancesWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, @NonNull List<String> instanceIds) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -1254,26 +1174,35 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
         final String apiVersion = "2018-06-01";
         VirtualMachineScaleSetVMInstanceRequiredIDs vmInstanceIDs = new VirtualMachineScaleSetVMInstanceRequiredIDs();
         vmInstanceIDs.withInstanceIds(instanceIds);
-        return service.beginDeleteInstances(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs, this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
-                @Override
-                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<Void> clientResponse = beginDeleteInstancesDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.deleteInstances(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs);
     }
 
-    private ServiceResponse<Void> beginDeleteInstancesDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<Void>() { }.getType())
-                .register(202, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Deletes virtual machines in a VM scale set.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @param instanceIds The virtual machine scale set instance ids.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Completable deleteInstancesAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, @NonNull List<String> instanceIds) {
+        return deleteInstancesWithRestResponseAsync(resourceGroupName, vmScaleSetName, instanceIds)
+            .toCompletable();
+    }
+
+    /**
+     * Deletes virtual machines in a VM scale set. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<Void>> resumeDeleteInstances(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeDeleteInstances(operationDescription);
     }
 
     /**
@@ -1281,13 +1210,13 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the VirtualMachineScaleSetInstanceViewInner object if successful.
      */
-    public VirtualMachineScaleSetInstanceViewInner getInstanceView(String resourceGroupName, String vmScaleSetName) {
-        return getInstanceViewWithServiceResponseAsync(resourceGroupName, vmScaleSetName).toBlocking().single().body();
+    public VirtualMachineScaleSetInstanceViewInner getInstanceView(@NonNull String resourceGroupName, @NonNull String vmScaleSetName) {
+        return getInstanceViewAsync(resourceGroupName, vmScaleSetName).blockingGet();
     }
 
     /**
@@ -1296,11 +1225,11 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<VirtualMachineScaleSetInstanceViewInner> getInstanceViewAsync(String resourceGroupName, String vmScaleSetName, final ServiceCallback<VirtualMachineScaleSetInstanceViewInner> serviceCallback) {
-        return ServiceFuture.fromResponse(getInstanceViewWithServiceResponseAsync(resourceGroupName, vmScaleSetName), serviceCallback);
+    public ServiceFuture<VirtualMachineScaleSetInstanceViewInner> getInstanceViewAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, ServiceCallback<VirtualMachineScaleSetInstanceViewInner> serviceCallback) {
+        return ServiceFuture.fromBody(getInstanceViewAsync(resourceGroupName, vmScaleSetName), serviceCallback);
     }
 
     /**
@@ -1308,27 +1237,10 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the VirtualMachineScaleSetInstanceViewInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<VirtualMachineScaleSetInstanceViewInner> getInstanceViewAsync(String resourceGroupName, String vmScaleSetName) {
-        return getInstanceViewWithServiceResponseAsync(resourceGroupName, vmScaleSetName).map(new Func1<ServiceResponse<VirtualMachineScaleSetInstanceViewInner>, VirtualMachineScaleSetInstanceViewInner>() {
-            @Override
-            public VirtualMachineScaleSetInstanceViewInner call(ServiceResponse<VirtualMachineScaleSetInstanceViewInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Gets the status of a VM scale set instance.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the VirtualMachineScaleSetInstanceViewInner object
-     */
-    public Observable<ServiceResponse<VirtualMachineScaleSetInstanceViewInner>> getInstanceViewWithServiceResponseAsync(String resourceGroupName, String vmScaleSetName) {
+    public Single<BodyResponse<VirtualMachineScaleSetInstanceViewInner>> getInstanceViewWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -1339,42 +1251,37 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        return service.getInstanceView(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<VirtualMachineScaleSetInstanceViewInner>>>() {
-                @Override
-                public Observable<ServiceResponse<VirtualMachineScaleSetInstanceViewInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<VirtualMachineScaleSetInstanceViewInner> clientResponse = getInstanceViewDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.getInstanceView(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<VirtualMachineScaleSetInstanceViewInner> getInstanceViewDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<VirtualMachineScaleSetInstanceViewInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<VirtualMachineScaleSetInstanceViewInner>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Gets the status of a VM scale set instance.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<VirtualMachineScaleSetInstanceViewInner> getInstanceViewAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName) {
+        return getInstanceViewWithRestResponseAsync(resourceGroupName, vmScaleSetName)
+            .flatMapMaybe((BodyResponse<VirtualMachineScaleSetInstanceViewInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
      * Gets a list of all VM scale sets under a resource group.
      *
      * @param resourceGroupName The name of the resource group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;VirtualMachineScaleSetInner&gt; object if successful.
      */
-    public PagedList<VirtualMachineScaleSetInner> listByResourceGroup(final String resourceGroupName) {
-        ServiceResponse<Page<VirtualMachineScaleSetInner>> response = listByResourceGroupSinglePageAsync(resourceGroupName).toBlocking().single();
-        return new PagedList<VirtualMachineScaleSetInner>(response.body()) {
+    public PagedList<VirtualMachineScaleSetInner> listByResourceGroup(@NonNull String resourceGroupName) {
+        Page<VirtualMachineScaleSetInner> response = listByResourceGroupSinglePageAsync(resourceGroupName).blockingGet();
+        return new PagedList<VirtualMachineScaleSetInner>(response) {
             @Override
             public Page<VirtualMachineScaleSetInner> nextPage(String nextPageLink) {
-                return listByResourceGroupNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -1383,68 +1290,29 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
      * Gets a list of all VM scale sets under a resource group.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;VirtualMachineScaleSetInner&gt; object.
      */
-    public ServiceFuture<List<VirtualMachineScaleSetInner>> listByResourceGroupAsync(final String resourceGroupName, final ListOperationCallback<VirtualMachineScaleSetInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listByResourceGroupSinglePageAsync(resourceGroupName),
-            new Func1<String, Observable<ServiceResponse<Page<VirtualMachineScaleSetInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<VirtualMachineScaleSetInner>>> call(String nextPageLink) {
-                    return listByResourceGroupNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets a list of all VM scale sets under a resource group.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;VirtualMachineScaleSetInner&gt; object
-     */
-    public Observable<Page<VirtualMachineScaleSetInner>> listByResourceGroupAsync(final String resourceGroupName) {
-        return listByResourceGroupWithServiceResponseAsync(resourceGroupName)
-            .map(new Func1<ServiceResponse<Page<VirtualMachineScaleSetInner>>, Page<VirtualMachineScaleSetInner>>() {
-                @Override
-                public Page<VirtualMachineScaleSetInner> call(ServiceResponse<Page<VirtualMachineScaleSetInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets a list of all VM scale sets under a resource group.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;VirtualMachineScaleSetInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<VirtualMachineScaleSetInner>>> listByResourceGroupWithServiceResponseAsync(final String resourceGroupName) {
+    public Observable<Page<VirtualMachineScaleSetInner>> listByResourceGroupAsync(@NonNull String resourceGroupName) {
         return listByResourceGroupSinglePageAsync(resourceGroupName)
-            .concatMap(new Func1<ServiceResponse<Page<VirtualMachineScaleSetInner>>, Observable<ServiceResponse<Page<VirtualMachineScaleSetInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<VirtualMachineScaleSetInner>>> call(ServiceResponse<Page<VirtualMachineScaleSetInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listByResourceGroupNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<VirtualMachineScaleSetInner> page) -> {
+                String nextPageLink = page.nextPageLink();
+                if (nextPageLink == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listNextAsync(nextPageLink));
             });
     }
 
     /**
      * Gets a list of all VM scale sets under a resource group.
      *
-    ServiceResponse<PageImpl1<VirtualMachineScaleSetInner>> * @param resourceGroupName The name of the resource group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;VirtualMachineScaleSetInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param resourceGroupName The name of the resource group.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;VirtualMachineScaleSetInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<VirtualMachineScaleSetInner>>> listByResourceGroupSinglePageAsync(final String resourceGroupName) {
+    public Single<Page<VirtualMachineScaleSetInner>> listByResourceGroupSinglePageAsync(@NonNull String resourceGroupName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -1452,41 +1320,23 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        return service.listByResourceGroup(resourceGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<VirtualMachineScaleSetInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<VirtualMachineScaleSetInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl1<VirtualMachineScaleSetInner>> result = listByResourceGroupDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<VirtualMachineScaleSetInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl1<VirtualMachineScaleSetInner>> listByResourceGroupDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl1<VirtualMachineScaleSetInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl1<VirtualMachineScaleSetInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+        return service.listByResourceGroup(resourceGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl1<VirtualMachineScaleSetInner>> res) -> res.body());
     }
 
     /**
      * Gets a list of all VM Scale Sets in the subscription, regardless of the associated resource group. Use nextLink property in the response to get the next page of VM Scale Sets. Do this till nextLink is null to fetch all the VM Scale Sets.
      *
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;VirtualMachineScaleSetInner&gt; object if successful.
      */
     public PagedList<VirtualMachineScaleSetInner> list() {
-        ServiceResponse<Page<VirtualMachineScaleSetInner>> response = listSinglePageAsync().toBlocking().single();
-        return new PagedList<VirtualMachineScaleSetInner>(response.body()) {
+        Page<VirtualMachineScaleSetInner> response = listSinglePageAsync().blockingGet();
+        return new PagedList<VirtualMachineScaleSetInner>(response) {
             @Override
             public Page<VirtualMachineScaleSetInner> nextPage(String nextPageLink) {
-                return listNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listAllNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -1494,88 +1344,32 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
     /**
      * Gets a list of all VM Scale Sets in the subscription, regardless of the associated resource group. Use nextLink property in the response to get the next page of VM Scale Sets. Do this till nextLink is null to fetch all the VM Scale Sets.
      *
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<List<VirtualMachineScaleSetInner>> listAsync(final ListOperationCallback<VirtualMachineScaleSetInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listSinglePageAsync(),
-            new Func1<String, Observable<ServiceResponse<Page<VirtualMachineScaleSetInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<VirtualMachineScaleSetInner>>> call(String nextPageLink) {
-                    return listNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets a list of all VM Scale Sets in the subscription, regardless of the associated resource group. Use nextLink property in the response to get the next page of VM Scale Sets. Do this till nextLink is null to fetch all the VM Scale Sets.
-     *
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;VirtualMachineScaleSetInner&gt; object
+     * @return the observable to the PagedList&lt;VirtualMachineScaleSetInner&gt; object.
      */
     public Observable<Page<VirtualMachineScaleSetInner>> listAsync() {
-        return listWithServiceResponseAsync()
-            .map(new Func1<ServiceResponse<Page<VirtualMachineScaleSetInner>>, Page<VirtualMachineScaleSetInner>>() {
-                @Override
-                public Page<VirtualMachineScaleSetInner> call(ServiceResponse<Page<VirtualMachineScaleSetInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets a list of all VM Scale Sets in the subscription, regardless of the associated resource group. Use nextLink property in the response to get the next page of VM Scale Sets. Do this till nextLink is null to fetch all the VM Scale Sets.
-     *
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;VirtualMachineScaleSetInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<VirtualMachineScaleSetInner>>> listWithServiceResponseAsync() {
         return listSinglePageAsync()
-            .concatMap(new Func1<ServiceResponse<Page<VirtualMachineScaleSetInner>>, Observable<ServiceResponse<Page<VirtualMachineScaleSetInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<VirtualMachineScaleSetInner>>> call(ServiceResponse<Page<VirtualMachineScaleSetInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<VirtualMachineScaleSetInner> page) -> {
+                String nextPageLink = page.nextPageLink();
+                if (nextPageLink == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listAllNextAsync(nextPageLink));
             });
     }
 
     /**
      * Gets a list of all VM Scale Sets in the subscription, regardless of the associated resource group. Use nextLink property in the response to get the next page of VM Scale Sets. Do this till nextLink is null to fetch all the VM Scale Sets.
      *
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;VirtualMachineScaleSetInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @return the Single&lt;Page&lt;VirtualMachineScaleSetInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<VirtualMachineScaleSetInner>>> listSinglePageAsync() {
+    public Single<Page<VirtualMachineScaleSetInner>> listSinglePageAsync() {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        return service.list(this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<VirtualMachineScaleSetInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<VirtualMachineScaleSetInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl1<VirtualMachineScaleSetInner>> result = listDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<VirtualMachineScaleSetInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl1<VirtualMachineScaleSetInner>> listDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl1<VirtualMachineScaleSetInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl1<VirtualMachineScaleSetInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+        return service.list(this.client.subscriptionId(), apiVersion, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl1<VirtualMachineScaleSetInner>> res) -> res.body());
     }
 
     /**
@@ -1583,17 +1377,17 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;VirtualMachineScaleSetSkuInner&gt; object if successful.
      */
-    public PagedList<VirtualMachineScaleSetSkuInner> listSkus(final String resourceGroupName, final String vmScaleSetName) {
-        ServiceResponse<Page<VirtualMachineScaleSetSkuInner>> response = listSkusSinglePageAsync(resourceGroupName, vmScaleSetName).toBlocking().single();
-        return new PagedList<VirtualMachineScaleSetSkuInner>(response.body()) {
+    public PagedList<VirtualMachineScaleSetSkuInner> listSkus(@NonNull String resourceGroupName, @NonNull String vmScaleSetName) {
+        Page<VirtualMachineScaleSetSkuInner> response = listSkusSinglePageAsync(resourceGroupName, vmScaleSetName).blockingGet();
+        return new PagedList<VirtualMachineScaleSetSkuInner>(response) {
             @Override
             public Page<VirtualMachineScaleSetSkuInner> nextPage(String nextPageLink) {
-                return listSkusNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listSkusNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -1603,71 +1397,30 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;VirtualMachineScaleSetSkuInner&gt; object.
      */
-    public ServiceFuture<List<VirtualMachineScaleSetSkuInner>> listSkusAsync(final String resourceGroupName, final String vmScaleSetName, final ListOperationCallback<VirtualMachineScaleSetSkuInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listSkusSinglePageAsync(resourceGroupName, vmScaleSetName),
-            new Func1<String, Observable<ServiceResponse<Page<VirtualMachineScaleSetSkuInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<VirtualMachineScaleSetSkuInner>>> call(String nextPageLink) {
-                    return listSkusNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets a list of SKUs available for your VM scale set, including the minimum and maximum VM instances allowed for each SKU.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;VirtualMachineScaleSetSkuInner&gt; object
-     */
-    public Observable<Page<VirtualMachineScaleSetSkuInner>> listSkusAsync(final String resourceGroupName, final String vmScaleSetName) {
-        return listSkusWithServiceResponseAsync(resourceGroupName, vmScaleSetName)
-            .map(new Func1<ServiceResponse<Page<VirtualMachineScaleSetSkuInner>>, Page<VirtualMachineScaleSetSkuInner>>() {
-                @Override
-                public Page<VirtualMachineScaleSetSkuInner> call(ServiceResponse<Page<VirtualMachineScaleSetSkuInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets a list of SKUs available for your VM scale set, including the minimum and maximum VM instances allowed for each SKU.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;VirtualMachineScaleSetSkuInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<VirtualMachineScaleSetSkuInner>>> listSkusWithServiceResponseAsync(final String resourceGroupName, final String vmScaleSetName) {
+    public Observable<Page<VirtualMachineScaleSetSkuInner>> listSkusAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName) {
         return listSkusSinglePageAsync(resourceGroupName, vmScaleSetName)
-            .concatMap(new Func1<ServiceResponse<Page<VirtualMachineScaleSetSkuInner>>, Observable<ServiceResponse<Page<VirtualMachineScaleSetSkuInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<VirtualMachineScaleSetSkuInner>>> call(ServiceResponse<Page<VirtualMachineScaleSetSkuInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listSkusNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<VirtualMachineScaleSetSkuInner> page) -> {
+                String nextPageLink = page.nextPageLink();
+                if (nextPageLink == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listSkusNextAsync(nextPageLink));
             });
     }
 
     /**
      * Gets a list of SKUs available for your VM scale set, including the minimum and maximum VM instances allowed for each SKU.
      *
-    ServiceResponse<PageImpl1<VirtualMachineScaleSetSkuInner>> * @param resourceGroupName The name of the resource group.
-    ServiceResponse<PageImpl1<VirtualMachineScaleSetSkuInner>> * @param vmScaleSetName The name of the VM scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;VirtualMachineScaleSetSkuInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;VirtualMachineScaleSetSkuInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<VirtualMachineScaleSetSkuInner>>> listSkusSinglePageAsync(final String resourceGroupName, final String vmScaleSetName) {
+    public Single<Page<VirtualMachineScaleSetSkuInner>> listSkusSinglePageAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -1678,25 +1431,8 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        return service.listSkus(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<VirtualMachineScaleSetSkuInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<VirtualMachineScaleSetSkuInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl1<VirtualMachineScaleSetSkuInner>> result = listSkusDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<VirtualMachineScaleSetSkuInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl1<VirtualMachineScaleSetSkuInner>> listSkusDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl1<VirtualMachineScaleSetSkuInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl1<VirtualMachineScaleSetSkuInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+        return service.listSkus(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl1<VirtualMachineScaleSetSkuInner>> res) -> res.body());
     }
 
     /**
@@ -1704,17 +1440,17 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;UpgradeOperationHistoricalStatusInfoInner&gt; object if successful.
      */
-    public PagedList<UpgradeOperationHistoricalStatusInfoInner> getOSUpgradeHistory(final String resourceGroupName, final String vmScaleSetName) {
-        ServiceResponse<Page<UpgradeOperationHistoricalStatusInfoInner>> response = getOSUpgradeHistorySinglePageAsync(resourceGroupName, vmScaleSetName).toBlocking().single();
-        return new PagedList<UpgradeOperationHistoricalStatusInfoInner>(response.body()) {
+    public PagedList<UpgradeOperationHistoricalStatusInfoInner> getOSUpgradeHistory(@NonNull String resourceGroupName, @NonNull String vmScaleSetName) {
+        Page<UpgradeOperationHistoricalStatusInfoInner> response = getOSUpgradeHistorySinglePageAsync(resourceGroupName, vmScaleSetName).blockingGet();
+        return new PagedList<UpgradeOperationHistoricalStatusInfoInner>(response) {
             @Override
             public Page<UpgradeOperationHistoricalStatusInfoInner> nextPage(String nextPageLink) {
-                return getOSUpgradeHistoryNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return getOSUpgradeHistoryNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -1724,71 +1460,30 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;UpgradeOperationHistoricalStatusInfoInner&gt; object.
      */
-    public ServiceFuture<List<UpgradeOperationHistoricalStatusInfoInner>> getOSUpgradeHistoryAsync(final String resourceGroupName, final String vmScaleSetName, final ListOperationCallback<UpgradeOperationHistoricalStatusInfoInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            getOSUpgradeHistorySinglePageAsync(resourceGroupName, vmScaleSetName),
-            new Func1<String, Observable<ServiceResponse<Page<UpgradeOperationHistoricalStatusInfoInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<UpgradeOperationHistoricalStatusInfoInner>>> call(String nextPageLink) {
-                    return getOSUpgradeHistoryNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets list of OS upgrades on a VM scale set instance.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;UpgradeOperationHistoricalStatusInfoInner&gt; object
-     */
-    public Observable<Page<UpgradeOperationHistoricalStatusInfoInner>> getOSUpgradeHistoryAsync(final String resourceGroupName, final String vmScaleSetName) {
-        return getOSUpgradeHistoryWithServiceResponseAsync(resourceGroupName, vmScaleSetName)
-            .map(new Func1<ServiceResponse<Page<UpgradeOperationHistoricalStatusInfoInner>>, Page<UpgradeOperationHistoricalStatusInfoInner>>() {
-                @Override
-                public Page<UpgradeOperationHistoricalStatusInfoInner> call(ServiceResponse<Page<UpgradeOperationHistoricalStatusInfoInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets list of OS upgrades on a VM scale set instance.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;UpgradeOperationHistoricalStatusInfoInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<UpgradeOperationHistoricalStatusInfoInner>>> getOSUpgradeHistoryWithServiceResponseAsync(final String resourceGroupName, final String vmScaleSetName) {
+    public Observable<Page<UpgradeOperationHistoricalStatusInfoInner>> getOSUpgradeHistoryAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName) {
         return getOSUpgradeHistorySinglePageAsync(resourceGroupName, vmScaleSetName)
-            .concatMap(new Func1<ServiceResponse<Page<UpgradeOperationHistoricalStatusInfoInner>>, Observable<ServiceResponse<Page<UpgradeOperationHistoricalStatusInfoInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<UpgradeOperationHistoricalStatusInfoInner>>> call(ServiceResponse<Page<UpgradeOperationHistoricalStatusInfoInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(getOSUpgradeHistoryNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<UpgradeOperationHistoricalStatusInfoInner> page) -> {
+                String nextPageLink = page.nextPageLink();
+                if (nextPageLink == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(getOSUpgradeHistoryNextAsync(nextPageLink));
             });
     }
 
     /**
      * Gets list of OS upgrades on a VM scale set instance.
      *
-    ServiceResponse<PageImpl1<UpgradeOperationHistoricalStatusInfoInner>> * @param resourceGroupName The name of the resource group.
-    ServiceResponse<PageImpl1<UpgradeOperationHistoricalStatusInfoInner>> * @param vmScaleSetName The name of the VM scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;UpgradeOperationHistoricalStatusInfoInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;UpgradeOperationHistoricalStatusInfoInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<UpgradeOperationHistoricalStatusInfoInner>>> getOSUpgradeHistorySinglePageAsync(final String resourceGroupName, final String vmScaleSetName) {
+    public Single<Page<UpgradeOperationHistoricalStatusInfoInner>> getOSUpgradeHistorySinglePageAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -1799,25 +1494,8 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        return service.getOSUpgradeHistory(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<UpgradeOperationHistoricalStatusInfoInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<UpgradeOperationHistoricalStatusInfoInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl1<UpgradeOperationHistoricalStatusInfoInner>> result = getOSUpgradeHistoryDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<UpgradeOperationHistoricalStatusInfoInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl1<UpgradeOperationHistoricalStatusInfoInner>> getOSUpgradeHistoryDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl1<UpgradeOperationHistoricalStatusInfoInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl1<UpgradeOperationHistoricalStatusInfoInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+        return service.getOSUpgradeHistory(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl1<UpgradeOperationHistoricalStatusInfoInner>> res) -> res.body());
     }
 
     /**
@@ -1825,12 +1503,12 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void powerOff(String resourceGroupName, String vmScaleSetName) {
-        powerOffWithServiceResponseAsync(resourceGroupName, vmScaleSetName).toBlocking().last().body();
+    public void beginPowerOff(@NonNull String resourceGroupName, @NonNull String vmScaleSetName) {
+        beginPowerOffAsync(resourceGroupName, vmScaleSetName).blockingLast();
     }
 
     /**
@@ -1839,11 +1517,11 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;Void&gt; object.
      */
-    public ServiceFuture<Void> powerOffAsync(String resourceGroupName, String vmScaleSetName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(powerOffWithServiceResponseAsync(resourceGroupName, vmScaleSetName), serviceCallback);
+    public ServiceFuture<Void> beginPowerOffAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, ServiceCallback<Void> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginPowerOffAsync(resourceGroupName, vmScaleSetName), serviceCallback);
     }
 
     /**
@@ -1851,171 +1529,10 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<Void> powerOffAsync(String resourceGroupName, String vmScaleSetName) {
-        return powerOffWithServiceResponseAsync(resourceGroupName, vmScaleSetName).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Power off (stop) one or more virtual machines in a VM scale set. Note that resources are still attached and you are getting charged for the resources. Instead, use deallocate to release resources and avoid charges.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<Void>> powerOffWithServiceResponseAsync(String resourceGroupName, String vmScaleSetName) {
-        if (resourceGroupName == null) {
-            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
-        }
-        if (vmScaleSetName == null) {
-            throw new IllegalArgumentException("Parameter vmScaleSetName is required and cannot be null.");
-        }
-        if (this.client.subscriptionId() == null) {
-            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
-        }
-        final String apiVersion = "2018-06-01";
-        final String instanceIdsConverted = null;
-        VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
-        vmInstanceIDs.withInstanceIds(null);
-        Observable<Response<ResponseBody>> observable = service.powerOff(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs, this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
-    }
-    /**
-     * Power off (stop) one or more virtual machines in a VM scale set. Note that resources are still attached and you are getting charged for the resources. Instead, use deallocate to release resources and avoid charges.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     */
-    public void powerOff(String resourceGroupName, String vmScaleSetName, List<String> instanceIds) {
-        powerOffWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceIds).toBlocking().last().body();
-    }
-
-    /**
-     * Power off (stop) one or more virtual machines in a VM scale set. Note that resources are still attached and you are getting charged for the resources. Instead, use deallocate to release resources and avoid charges.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<Void> powerOffAsync(String resourceGroupName, String vmScaleSetName, List<String> instanceIds, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(powerOffWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceIds), serviceCallback);
-    }
-
-    /**
-     * Power off (stop) one or more virtual machines in a VM scale set. Note that resources are still attached and you are getting charged for the resources. Instead, use deallocate to release resources and avoid charges.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<Void> powerOffAsync(String resourceGroupName, String vmScaleSetName, List<String> instanceIds) {
-        return powerOffWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceIds).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Power off (stop) one or more virtual machines in a VM scale set. Note that resources are still attached and you are getting charged for the resources. Instead, use deallocate to release resources and avoid charges.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<Void>> powerOffWithServiceResponseAsync(String resourceGroupName, String vmScaleSetName, List<String> instanceIds) {
-        if (resourceGroupName == null) {
-            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
-        }
-        if (vmScaleSetName == null) {
-            throw new IllegalArgumentException("Parameter vmScaleSetName is required and cannot be null.");
-        }
-        if (this.client.subscriptionId() == null) {
-            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
-        }
-        Validator.validate(instanceIds);
-        final String apiVersion = "2018-06-01";
-        VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = null;
-        if (instanceIds != null) {
-            vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
-            vmInstanceIDs.withInstanceIds(instanceIds);
-        }
-        Observable<Response<ResponseBody>> observable = service.powerOff(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs, this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
-    }
-
-    /**
-     * Power off (stop) one or more virtual machines in a VM scale set. Note that resources are still attached and you are getting charged for the resources. Instead, use deallocate to release resources and avoid charges.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     */
-    public void beginPowerOff(String resourceGroupName, String vmScaleSetName) {
-        beginPowerOffWithServiceResponseAsync(resourceGroupName, vmScaleSetName).toBlocking().single().body();
-    }
-
-    /**
-     * Power off (stop) one or more virtual machines in a VM scale set. Note that resources are still attached and you are getting charged for the resources. Instead, use deallocate to release resources and avoid charges.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<Void> beginPowerOffAsync(String resourceGroupName, String vmScaleSetName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(beginPowerOffWithServiceResponseAsync(resourceGroupName, vmScaleSetName), serviceCallback);
-    }
-
-    /**
-     * Power off (stop) one or more virtual machines in a VM scale set. Note that resources are still attached and you are getting charged for the resources. Instead, use deallocate to release resources and avoid charges.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
-     */
-    public Observable<Void> beginPowerOffAsync(String resourceGroupName, String vmScaleSetName) {
-        return beginPowerOffWithServiceResponseAsync(resourceGroupName, vmScaleSetName).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Power off (stop) one or more virtual machines in a VM scale set. Note that resources are still attached and you are getting charged for the resources. Instead, use deallocate to release resources and avoid charges.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
-     */
-    public Observable<ServiceResponse<Void>> beginPowerOffWithServiceResponseAsync(String resourceGroupName, String vmScaleSetName) {
+    public Observable<OperationStatus<Void>> beginPowerOffAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -2029,18 +1546,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
         final List<String> instanceIds = null;
         VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
         vmInstanceIDs.withInstanceIds(null);
-        return service.beginPowerOff(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs, this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
-                @Override
-                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<Void> clientResponse = beginPowerOffDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.beginPowerOff(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs);
     }
 
     /**
@@ -2049,12 +1555,12 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void beginPowerOff(String resourceGroupName, String vmScaleSetName, List<String> instanceIds) {
-        beginPowerOffWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceIds).toBlocking().single().body();
+    public void beginPowerOff(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, List<String> instanceIds) {
+        beginPowerOffAsync(resourceGroupName, vmScaleSetName, instanceIds).blockingLast();
     }
 
     /**
@@ -2064,11 +1570,11 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;Void&gt; object.
      */
-    public ServiceFuture<Void> beginPowerOffAsync(String resourceGroupName, String vmScaleSetName, List<String> instanceIds, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(beginPowerOffWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceIds), serviceCallback);
+    public ServiceFuture<Void> beginPowerOffAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, List<String> instanceIds, ServiceCallback<Void> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginPowerOffAsync(resourceGroupName, vmScaleSetName, instanceIds), serviceCallback);
     }
 
     /**
@@ -2077,28 +1583,10 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<Void> beginPowerOffAsync(String resourceGroupName, String vmScaleSetName, List<String> instanceIds) {
-        return beginPowerOffWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceIds).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Power off (stop) one or more virtual machines in a VM scale set. Note that resources are still attached and you are getting charged for the resources. Instead, use deallocate to release resources and avoid charges.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
-     */
-    public Observable<ServiceResponse<Void>> beginPowerOffWithServiceResponseAsync(String resourceGroupName, String vmScaleSetName, List<String> instanceIds) {
+    public Observable<OperationStatus<Void>> beginPowerOffAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, List<String> instanceIds) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -2115,224 +1603,44 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
             vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
             vmInstanceIDs.withInstanceIds(instanceIds);
         }
-        return service.beginPowerOff(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs, this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
-                @Override
-                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<Void> clientResponse = beginPowerOffDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<Void> beginPowerOffDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<Void>() { }.getType())
-                .register(202, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+        return service.beginPowerOff(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs);
     }
 
     /**
-     * Restarts one or more virtual machines in a VM scale set.
+     * Power off (stop) one or more virtual machines in a VM scale set. Note that resources are still attached and you are getting charged for the resources. Instead, use deallocate to release resources and avoid charges.
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void restart(String resourceGroupName, String vmScaleSetName) {
-        restartWithServiceResponseAsync(resourceGroupName, vmScaleSetName).toBlocking().last().body();
+    public void powerOff(@NonNull String resourceGroupName, @NonNull String vmScaleSetName) {
+        powerOffAsync(resourceGroupName, vmScaleSetName).blockingAwait();
     }
 
     /**
-     * Restarts one or more virtual machines in a VM scale set.
+     * Power off (stop) one or more virtual machines in a VM scale set. Note that resources are still attached and you are getting charged for the resources. Instead, use deallocate to release resources and avoid charges.
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<Void> restartAsync(String resourceGroupName, String vmScaleSetName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(restartWithServiceResponseAsync(resourceGroupName, vmScaleSetName), serviceCallback);
+    public ServiceFuture<Void> powerOffAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromBody(powerOffAsync(resourceGroupName, vmScaleSetName), serviceCallback);
     }
 
     /**
-     * Restarts one or more virtual machines in a VM scale set.
+     * Power off (stop) one or more virtual machines in a VM scale set. Note that resources are still attached and you are getting charged for the resources. Instead, use deallocate to release resources and avoid charges.
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<Void> restartAsync(String resourceGroupName, String vmScaleSetName) {
-        return restartWithServiceResponseAsync(resourceGroupName, vmScaleSetName).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Restarts one or more virtual machines in a VM scale set.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<Void>> restartWithServiceResponseAsync(String resourceGroupName, String vmScaleSetName) {
-        if (resourceGroupName == null) {
-            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
-        }
-        if (vmScaleSetName == null) {
-            throw new IllegalArgumentException("Parameter vmScaleSetName is required and cannot be null.");
-        }
-        if (this.client.subscriptionId() == null) {
-            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
-        }
-        final String apiVersion = "2018-06-01";
-        final String instanceIdsConverted = null;
-        VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
-        vmInstanceIDs.withInstanceIds(null);
-        Observable<Response<ResponseBody>> observable = service.restart(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs, this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
-    }
-    /**
-     * Restarts one or more virtual machines in a VM scale set.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     */
-    public void restart(String resourceGroupName, String vmScaleSetName, List<String> instanceIds) {
-        restartWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceIds).toBlocking().last().body();
-    }
-
-    /**
-     * Restarts one or more virtual machines in a VM scale set.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<Void> restartAsync(String resourceGroupName, String vmScaleSetName, List<String> instanceIds, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(restartWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceIds), serviceCallback);
-    }
-
-    /**
-     * Restarts one or more virtual machines in a VM scale set.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<Void> restartAsync(String resourceGroupName, String vmScaleSetName, List<String> instanceIds) {
-        return restartWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceIds).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Restarts one or more virtual machines in a VM scale set.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<Void>> restartWithServiceResponseAsync(String resourceGroupName, String vmScaleSetName, List<String> instanceIds) {
-        if (resourceGroupName == null) {
-            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
-        }
-        if (vmScaleSetName == null) {
-            throw new IllegalArgumentException("Parameter vmScaleSetName is required and cannot be null.");
-        }
-        if (this.client.subscriptionId() == null) {
-            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
-        }
-        Validator.validate(instanceIds);
-        final String apiVersion = "2018-06-01";
-        VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = null;
-        if (instanceIds != null) {
-            vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
-            vmInstanceIDs.withInstanceIds(instanceIds);
-        }
-        Observable<Response<ResponseBody>> observable = service.restart(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs, this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
-    }
-
-    /**
-     * Restarts one or more virtual machines in a VM scale set.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     */
-    public void beginRestart(String resourceGroupName, String vmScaleSetName) {
-        beginRestartWithServiceResponseAsync(resourceGroupName, vmScaleSetName).toBlocking().single().body();
-    }
-
-    /**
-     * Restarts one or more virtual machines in a VM scale set.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<Void> beginRestartAsync(String resourceGroupName, String vmScaleSetName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(beginRestartWithServiceResponseAsync(resourceGroupName, vmScaleSetName), serviceCallback);
-    }
-
-    /**
-     * Restarts one or more virtual machines in a VM scale set.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
-     */
-    public Observable<Void> beginRestartAsync(String resourceGroupName, String vmScaleSetName) {
-        return beginRestartWithServiceResponseAsync(resourceGroupName, vmScaleSetName).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Restarts one or more virtual machines in a VM scale set.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
-     */
-    public Observable<ServiceResponse<Void>> beginRestartWithServiceResponseAsync(String resourceGroupName, String vmScaleSetName) {
+    public Single<VoidResponse> powerOffWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -2346,76 +1654,60 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
         final List<String> instanceIds = null;
         VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
         vmInstanceIDs.withInstanceIds(null);
-        return service.beginRestart(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs, this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
-                @Override
-                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<Void> clientResponse = beginRestartDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.powerOff(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs);
     }
 
     /**
-     * Restarts one or more virtual machines in a VM scale set.
+     * Power off (stop) one or more virtual machines in a VM scale set. Note that resources are still attached and you are getting charged for the resources. Instead, use deallocate to release resources and avoid charges.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Completable powerOffAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName) {
+        return powerOffWithRestResponseAsync(resourceGroupName, vmScaleSetName)
+            .toCompletable();
+    }
+
+    /**
+     * Power off (stop) one or more virtual machines in a VM scale set. Note that resources are still attached and you are getting charged for the resources. Instead, use deallocate to release resources and avoid charges.
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void beginRestart(String resourceGroupName, String vmScaleSetName, List<String> instanceIds) {
-        beginRestartWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceIds).toBlocking().single().body();
+    public void powerOff(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, List<String> instanceIds) {
+        powerOffAsync(resourceGroupName, vmScaleSetName, instanceIds).blockingAwait();
     }
 
     /**
-     * Restarts one or more virtual machines in a VM scale set.
+     * Power off (stop) one or more virtual machines in a VM scale set. Note that resources are still attached and you are getting charged for the resources. Instead, use deallocate to release resources and avoid charges.
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<Void> beginRestartAsync(String resourceGroupName, String vmScaleSetName, List<String> instanceIds, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(beginRestartWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceIds), serviceCallback);
+    public ServiceFuture<Void> powerOffAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, List<String> instanceIds, ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromBody(powerOffAsync(resourceGroupName, vmScaleSetName, instanceIds), serviceCallback);
     }
 
     /**
-     * Restarts one or more virtual machines in a VM scale set.
+     * Power off (stop) one or more virtual machines in a VM scale set. Note that resources are still attached and you are getting charged for the resources. Instead, use deallocate to release resources and avoid charges.
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<Void> beginRestartAsync(String resourceGroupName, String vmScaleSetName, List<String> instanceIds) {
-        return beginRestartWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceIds).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Restarts one or more virtual machines in a VM scale set.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
-     */
-    public Observable<ServiceResponse<Void>> beginRestartWithServiceResponseAsync(String resourceGroupName, String vmScaleSetName, List<String> instanceIds) {
+    public Single<VoidResponse> powerOffWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, List<String> instanceIds) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -2432,224 +1724,72 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
             vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
             vmInstanceIDs.withInstanceIds(instanceIds);
         }
-        return service.beginRestart(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs, this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
-                @Override
-                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<Void> clientResponse = beginRestartDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<Void> beginRestartDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<Void>() { }.getType())
-                .register(202, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+        return service.powerOff(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs);
     }
 
     /**
-     * Starts one or more virtual machines in a VM scale set.
+     * Power off (stop) one or more virtual machines in a VM scale set. Note that resources are still attached and you are getting charged for the resources. Instead, use deallocate to release resources and avoid charges.
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public void start(String resourceGroupName, String vmScaleSetName) {
-        startWithServiceResponseAsync(resourceGroupName, vmScaleSetName).toBlocking().last().body();
+    public Completable powerOffAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, List<String> instanceIds) {
+        return powerOffWithRestResponseAsync(resourceGroupName, vmScaleSetName, instanceIds)
+            .toCompletable();
     }
 
     /**
-     * Starts one or more virtual machines in a VM scale set.
+     * Power off (stop) one or more virtual machines in a VM scale set. Note that resources are still attached and you are getting charged for the resources. Instead, use deallocate to release resources and avoid charges. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<Void>> resumePowerOff(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumePowerOff(operationDescription);
+    }
+
+    /**
+     * Restarts one or more virtual machines in a VM scale set.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    public void beginRestart(@NonNull String resourceGroupName, @NonNull String vmScaleSetName) {
+        beginRestartAsync(resourceGroupName, vmScaleSetName).blockingLast();
+    }
+
+    /**
+     * Restarts one or more virtual machines in a VM scale set.
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;Void&gt; object.
      */
-    public ServiceFuture<Void> startAsync(String resourceGroupName, String vmScaleSetName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(startWithServiceResponseAsync(resourceGroupName, vmScaleSetName), serviceCallback);
+    public ServiceFuture<Void> beginRestartAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, ServiceCallback<Void> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginRestartAsync(resourceGroupName, vmScaleSetName), serviceCallback);
     }
 
     /**
-     * Starts one or more virtual machines in a VM scale set.
+     * Restarts one or more virtual machines in a VM scale set.
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<Void> startAsync(String resourceGroupName, String vmScaleSetName) {
-        return startWithServiceResponseAsync(resourceGroupName, vmScaleSetName).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Starts one or more virtual machines in a VM scale set.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<Void>> startWithServiceResponseAsync(String resourceGroupName, String vmScaleSetName) {
-        if (resourceGroupName == null) {
-            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
-        }
-        if (vmScaleSetName == null) {
-            throw new IllegalArgumentException("Parameter vmScaleSetName is required and cannot be null.");
-        }
-        if (this.client.subscriptionId() == null) {
-            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
-        }
-        final String apiVersion = "2018-06-01";
-        final String instanceIdsConverted = null;
-        VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
-        vmInstanceIDs.withInstanceIds(null);
-        Observable<Response<ResponseBody>> observable = service.start(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs, this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
-    }
-    /**
-     * Starts one or more virtual machines in a VM scale set.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     */
-    public void start(String resourceGroupName, String vmScaleSetName, List<String> instanceIds) {
-        startWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceIds).toBlocking().last().body();
-    }
-
-    /**
-     * Starts one or more virtual machines in a VM scale set.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<Void> startAsync(String resourceGroupName, String vmScaleSetName, List<String> instanceIds, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(startWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceIds), serviceCallback);
-    }
-
-    /**
-     * Starts one or more virtual machines in a VM scale set.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<Void> startAsync(String resourceGroupName, String vmScaleSetName, List<String> instanceIds) {
-        return startWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceIds).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Starts one or more virtual machines in a VM scale set.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<Void>> startWithServiceResponseAsync(String resourceGroupName, String vmScaleSetName, List<String> instanceIds) {
-        if (resourceGroupName == null) {
-            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
-        }
-        if (vmScaleSetName == null) {
-            throw new IllegalArgumentException("Parameter vmScaleSetName is required and cannot be null.");
-        }
-        if (this.client.subscriptionId() == null) {
-            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
-        }
-        Validator.validate(instanceIds);
-        final String apiVersion = "2018-06-01";
-        VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = null;
-        if (instanceIds != null) {
-            vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
-            vmInstanceIDs.withInstanceIds(instanceIds);
-        }
-        Observable<Response<ResponseBody>> observable = service.start(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs, this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
-    }
-
-    /**
-     * Starts one or more virtual machines in a VM scale set.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     */
-    public void beginStart(String resourceGroupName, String vmScaleSetName) {
-        beginStartWithServiceResponseAsync(resourceGroupName, vmScaleSetName).toBlocking().single().body();
-    }
-
-    /**
-     * Starts one or more virtual machines in a VM scale set.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<Void> beginStartAsync(String resourceGroupName, String vmScaleSetName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(beginStartWithServiceResponseAsync(resourceGroupName, vmScaleSetName), serviceCallback);
-    }
-
-    /**
-     * Starts one or more virtual machines in a VM scale set.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
-     */
-    public Observable<Void> beginStartAsync(String resourceGroupName, String vmScaleSetName) {
-        return beginStartWithServiceResponseAsync(resourceGroupName, vmScaleSetName).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Starts one or more virtual machines in a VM scale set.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
-     */
-    public Observable<ServiceResponse<Void>> beginStartWithServiceResponseAsync(String resourceGroupName, String vmScaleSetName) {
+    public Observable<OperationStatus<Void>> beginRestartAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -2663,76 +1803,47 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
         final List<String> instanceIds = null;
         VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
         vmInstanceIDs.withInstanceIds(null);
-        return service.beginStart(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs, this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
-                @Override
-                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<Void> clientResponse = beginStartDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.beginRestart(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs);
     }
 
     /**
-     * Starts one or more virtual machines in a VM scale set.
+     * Restarts one or more virtual machines in a VM scale set.
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void beginStart(String resourceGroupName, String vmScaleSetName, List<String> instanceIds) {
-        beginStartWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceIds).toBlocking().single().body();
+    public void beginRestart(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, List<String> instanceIds) {
+        beginRestartAsync(resourceGroupName, vmScaleSetName, instanceIds).blockingLast();
     }
 
     /**
-     * Starts one or more virtual machines in a VM scale set.
+     * Restarts one or more virtual machines in a VM scale set.
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;Void&gt; object.
      */
-    public ServiceFuture<Void> beginStartAsync(String resourceGroupName, String vmScaleSetName, List<String> instanceIds, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(beginStartWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceIds), serviceCallback);
+    public ServiceFuture<Void> beginRestartAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, List<String> instanceIds, ServiceCallback<Void> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginRestartAsync(resourceGroupName, vmScaleSetName, instanceIds), serviceCallback);
     }
 
     /**
-     * Starts one or more virtual machines in a VM scale set.
+     * Restarts one or more virtual machines in a VM scale set.
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<Void> beginStartAsync(String resourceGroupName, String vmScaleSetName, List<String> instanceIds) {
-        return beginStartWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceIds).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Starts one or more virtual machines in a VM scale set.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
-     */
-    public Observable<ServiceResponse<Void>> beginStartWithServiceResponseAsync(String resourceGroupName, String vmScaleSetName, List<String> instanceIds) {
+    public Observable<OperationStatus<Void>> beginRestartAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, List<String> instanceIds) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -2749,224 +1860,44 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
             vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
             vmInstanceIDs.withInstanceIds(instanceIds);
         }
-        return service.beginStart(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs, this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
-                @Override
-                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<Void> clientResponse = beginStartDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<Void> beginStartDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<Void>() { }.getType())
-                .register(202, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+        return service.beginRestart(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs);
     }
 
     /**
-     * Redeploy one or more virtual machines in a VM scale set.
+     * Restarts one or more virtual machines in a VM scale set.
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void redeploy(String resourceGroupName, String vmScaleSetName) {
-        redeployWithServiceResponseAsync(resourceGroupName, vmScaleSetName).toBlocking().last().body();
+    public void restart(@NonNull String resourceGroupName, @NonNull String vmScaleSetName) {
+        restartAsync(resourceGroupName, vmScaleSetName).blockingAwait();
     }
 
     /**
-     * Redeploy one or more virtual machines in a VM scale set.
+     * Restarts one or more virtual machines in a VM scale set.
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<Void> redeployAsync(String resourceGroupName, String vmScaleSetName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(redeployWithServiceResponseAsync(resourceGroupName, vmScaleSetName), serviceCallback);
+    public ServiceFuture<Void> restartAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromBody(restartAsync(resourceGroupName, vmScaleSetName), serviceCallback);
     }
 
     /**
-     * Redeploy one or more virtual machines in a VM scale set.
+     * Restarts one or more virtual machines in a VM scale set.
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<Void> redeployAsync(String resourceGroupName, String vmScaleSetName) {
-        return redeployWithServiceResponseAsync(resourceGroupName, vmScaleSetName).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Redeploy one or more virtual machines in a VM scale set.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<Void>> redeployWithServiceResponseAsync(String resourceGroupName, String vmScaleSetName) {
-        if (resourceGroupName == null) {
-            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
-        }
-        if (vmScaleSetName == null) {
-            throw new IllegalArgumentException("Parameter vmScaleSetName is required and cannot be null.");
-        }
-        if (this.client.subscriptionId() == null) {
-            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
-        }
-        final String apiVersion = "2018-06-01";
-        final String instanceIdsConverted = null;
-        VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
-        vmInstanceIDs.withInstanceIds(null);
-        Observable<Response<ResponseBody>> observable = service.redeploy(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs, this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
-    }
-    /**
-     * Redeploy one or more virtual machines in a VM scale set.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     */
-    public void redeploy(String resourceGroupName, String vmScaleSetName, List<String> instanceIds) {
-        redeployWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceIds).toBlocking().last().body();
-    }
-
-    /**
-     * Redeploy one or more virtual machines in a VM scale set.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<Void> redeployAsync(String resourceGroupName, String vmScaleSetName, List<String> instanceIds, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(redeployWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceIds), serviceCallback);
-    }
-
-    /**
-     * Redeploy one or more virtual machines in a VM scale set.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<Void> redeployAsync(String resourceGroupName, String vmScaleSetName, List<String> instanceIds) {
-        return redeployWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceIds).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Redeploy one or more virtual machines in a VM scale set.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<Void>> redeployWithServiceResponseAsync(String resourceGroupName, String vmScaleSetName, List<String> instanceIds) {
-        if (resourceGroupName == null) {
-            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
-        }
-        if (vmScaleSetName == null) {
-            throw new IllegalArgumentException("Parameter vmScaleSetName is required and cannot be null.");
-        }
-        if (this.client.subscriptionId() == null) {
-            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
-        }
-        Validator.validate(instanceIds);
-        final String apiVersion = "2018-06-01";
-        VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = null;
-        if (instanceIds != null) {
-            vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
-            vmInstanceIDs.withInstanceIds(instanceIds);
-        }
-        Observable<Response<ResponseBody>> observable = service.redeploy(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs, this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
-    }
-
-    /**
-     * Redeploy one or more virtual machines in a VM scale set.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     */
-    public void beginRedeploy(String resourceGroupName, String vmScaleSetName) {
-        beginRedeployWithServiceResponseAsync(resourceGroupName, vmScaleSetName).toBlocking().single().body();
-    }
-
-    /**
-     * Redeploy one or more virtual machines in a VM scale set.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<Void> beginRedeployAsync(String resourceGroupName, String vmScaleSetName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(beginRedeployWithServiceResponseAsync(resourceGroupName, vmScaleSetName), serviceCallback);
-    }
-
-    /**
-     * Redeploy one or more virtual machines in a VM scale set.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
-     */
-    public Observable<Void> beginRedeployAsync(String resourceGroupName, String vmScaleSetName) {
-        return beginRedeployWithServiceResponseAsync(resourceGroupName, vmScaleSetName).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Redeploy one or more virtual machines in a VM scale set.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
-     */
-    public Observable<ServiceResponse<Void>> beginRedeployWithServiceResponseAsync(String resourceGroupName, String vmScaleSetName) {
+    public Single<VoidResponse> restartWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -2980,76 +1911,60 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
         final List<String> instanceIds = null;
         VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
         vmInstanceIDs.withInstanceIds(null);
-        return service.beginRedeploy(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs, this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
-                @Override
-                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<Void> clientResponse = beginRedeployDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.restart(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs);
     }
 
     /**
-     * Redeploy one or more virtual machines in a VM scale set.
+     * Restarts one or more virtual machines in a VM scale set.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Completable restartAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName) {
+        return restartWithRestResponseAsync(resourceGroupName, vmScaleSetName)
+            .toCompletable();
+    }
+
+    /**
+     * Restarts one or more virtual machines in a VM scale set.
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void beginRedeploy(String resourceGroupName, String vmScaleSetName, List<String> instanceIds) {
-        beginRedeployWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceIds).toBlocking().single().body();
+    public void restart(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, List<String> instanceIds) {
+        restartAsync(resourceGroupName, vmScaleSetName, instanceIds).blockingAwait();
     }
 
     /**
-     * Redeploy one or more virtual machines in a VM scale set.
+     * Restarts one or more virtual machines in a VM scale set.
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<Void> beginRedeployAsync(String resourceGroupName, String vmScaleSetName, List<String> instanceIds, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(beginRedeployWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceIds), serviceCallback);
+    public ServiceFuture<Void> restartAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, List<String> instanceIds, ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromBody(restartAsync(resourceGroupName, vmScaleSetName, instanceIds), serviceCallback);
     }
 
     /**
-     * Redeploy one or more virtual machines in a VM scale set.
+     * Restarts one or more virtual machines in a VM scale set.
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<Void> beginRedeployAsync(String resourceGroupName, String vmScaleSetName, List<String> instanceIds) {
-        return beginRedeployWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceIds).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Redeploy one or more virtual machines in a VM scale set.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
-     */
-    public Observable<ServiceResponse<Void>> beginRedeployWithServiceResponseAsync(String resourceGroupName, String vmScaleSetName, List<String> instanceIds) {
+    public Single<VoidResponse> restartWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, List<String> instanceIds) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -3066,224 +1981,72 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
             vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
             vmInstanceIDs.withInstanceIds(instanceIds);
         }
-        return service.beginRedeploy(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs, this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
-                @Override
-                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<Void> clientResponse = beginRedeployDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<Void> beginRedeployDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<Void>() { }.getType())
-                .register(202, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+        return service.restart(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs);
     }
 
     /**
-     * Perform maintenance on one or more virtual machines in a VM scale set.
+     * Restarts one or more virtual machines in a VM scale set.
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public void performMaintenance(String resourceGroupName, String vmScaleSetName) {
-        performMaintenanceWithServiceResponseAsync(resourceGroupName, vmScaleSetName).toBlocking().last().body();
+    public Completable restartAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, List<String> instanceIds) {
+        return restartWithRestResponseAsync(resourceGroupName, vmScaleSetName, instanceIds)
+            .toCompletable();
     }
 
     /**
-     * Perform maintenance on one or more virtual machines in a VM scale set.
+     * Restarts one or more virtual machines in a VM scale set. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<Void>> resumeRestart(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeRestart(operationDescription);
+    }
+
+    /**
+     * Starts one or more virtual machines in a VM scale set.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    public void beginStart(@NonNull String resourceGroupName, @NonNull String vmScaleSetName) {
+        beginStartAsync(resourceGroupName, vmScaleSetName).blockingLast();
+    }
+
+    /**
+     * Starts one or more virtual machines in a VM scale set.
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;Void&gt; object.
      */
-    public ServiceFuture<Void> performMaintenanceAsync(String resourceGroupName, String vmScaleSetName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(performMaintenanceWithServiceResponseAsync(resourceGroupName, vmScaleSetName), serviceCallback);
+    public ServiceFuture<Void> beginStartAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, ServiceCallback<Void> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginStartAsync(resourceGroupName, vmScaleSetName), serviceCallback);
     }
 
     /**
-     * Perform maintenance on one or more virtual machines in a VM scale set.
+     * Starts one or more virtual machines in a VM scale set.
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<Void> performMaintenanceAsync(String resourceGroupName, String vmScaleSetName) {
-        return performMaintenanceWithServiceResponseAsync(resourceGroupName, vmScaleSetName).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Perform maintenance on one or more virtual machines in a VM scale set.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<Void>> performMaintenanceWithServiceResponseAsync(String resourceGroupName, String vmScaleSetName) {
-        if (resourceGroupName == null) {
-            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
-        }
-        if (vmScaleSetName == null) {
-            throw new IllegalArgumentException("Parameter vmScaleSetName is required and cannot be null.");
-        }
-        if (this.client.subscriptionId() == null) {
-            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
-        }
-        final String apiVersion = "2018-06-01";
-        final String instanceIdsConverted = null;
-        VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
-        vmInstanceIDs.withInstanceIds(null);
-        Observable<Response<ResponseBody>> observable = service.performMaintenance(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs, this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
-    }
-    /**
-     * Perform maintenance on one or more virtual machines in a VM scale set.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     */
-    public void performMaintenance(String resourceGroupName, String vmScaleSetName, List<String> instanceIds) {
-        performMaintenanceWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceIds).toBlocking().last().body();
-    }
-
-    /**
-     * Perform maintenance on one or more virtual machines in a VM scale set.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<Void> performMaintenanceAsync(String resourceGroupName, String vmScaleSetName, List<String> instanceIds, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(performMaintenanceWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceIds), serviceCallback);
-    }
-
-    /**
-     * Perform maintenance on one or more virtual machines in a VM scale set.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<Void> performMaintenanceAsync(String resourceGroupName, String vmScaleSetName, List<String> instanceIds) {
-        return performMaintenanceWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceIds).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Perform maintenance on one or more virtual machines in a VM scale set.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<Void>> performMaintenanceWithServiceResponseAsync(String resourceGroupName, String vmScaleSetName, List<String> instanceIds) {
-        if (resourceGroupName == null) {
-            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
-        }
-        if (vmScaleSetName == null) {
-            throw new IllegalArgumentException("Parameter vmScaleSetName is required and cannot be null.");
-        }
-        if (this.client.subscriptionId() == null) {
-            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
-        }
-        Validator.validate(instanceIds);
-        final String apiVersion = "2018-06-01";
-        VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = null;
-        if (instanceIds != null) {
-            vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
-            vmInstanceIDs.withInstanceIds(instanceIds);
-        }
-        Observable<Response<ResponseBody>> observable = service.performMaintenance(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs, this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
-    }
-
-    /**
-     * Perform maintenance on one or more virtual machines in a VM scale set.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     */
-    public void beginPerformMaintenance(String resourceGroupName, String vmScaleSetName) {
-        beginPerformMaintenanceWithServiceResponseAsync(resourceGroupName, vmScaleSetName).toBlocking().single().body();
-    }
-
-    /**
-     * Perform maintenance on one or more virtual machines in a VM scale set.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<Void> beginPerformMaintenanceAsync(String resourceGroupName, String vmScaleSetName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(beginPerformMaintenanceWithServiceResponseAsync(resourceGroupName, vmScaleSetName), serviceCallback);
-    }
-
-    /**
-     * Perform maintenance on one or more virtual machines in a VM scale set.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
-     */
-    public Observable<Void> beginPerformMaintenanceAsync(String resourceGroupName, String vmScaleSetName) {
-        return beginPerformMaintenanceWithServiceResponseAsync(resourceGroupName, vmScaleSetName).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Perform maintenance on one or more virtual machines in a VM scale set.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
-     */
-    public Observable<ServiceResponse<Void>> beginPerformMaintenanceWithServiceResponseAsync(String resourceGroupName, String vmScaleSetName) {
+    public Observable<OperationStatus<Void>> beginStartAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -3297,76 +2060,47 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
         final List<String> instanceIds = null;
         VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
         vmInstanceIDs.withInstanceIds(null);
-        return service.beginPerformMaintenance(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs, this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
-                @Override
-                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<Void> clientResponse = beginPerformMaintenanceDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.beginStart(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs);
     }
 
     /**
-     * Perform maintenance on one or more virtual machines in a VM scale set.
+     * Starts one or more virtual machines in a VM scale set.
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void beginPerformMaintenance(String resourceGroupName, String vmScaleSetName, List<String> instanceIds) {
-        beginPerformMaintenanceWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceIds).toBlocking().single().body();
+    public void beginStart(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, List<String> instanceIds) {
+        beginStartAsync(resourceGroupName, vmScaleSetName, instanceIds).blockingLast();
     }
 
     /**
-     * Perform maintenance on one or more virtual machines in a VM scale set.
+     * Starts one or more virtual machines in a VM scale set.
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;Void&gt; object.
      */
-    public ServiceFuture<Void> beginPerformMaintenanceAsync(String resourceGroupName, String vmScaleSetName, List<String> instanceIds, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(beginPerformMaintenanceWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceIds), serviceCallback);
+    public ServiceFuture<Void> beginStartAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, List<String> instanceIds, ServiceCallback<Void> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginStartAsync(resourceGroupName, vmScaleSetName, instanceIds), serviceCallback);
     }
 
     /**
-     * Perform maintenance on one or more virtual machines in a VM scale set.
+     * Starts one or more virtual machines in a VM scale set.
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<Void> beginPerformMaintenanceAsync(String resourceGroupName, String vmScaleSetName, List<String> instanceIds) {
-        return beginPerformMaintenanceWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceIds).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Perform maintenance on one or more virtual machines in a VM scale set.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
-     */
-    public Observable<ServiceResponse<Void>> beginPerformMaintenanceWithServiceResponseAsync(String resourceGroupName, String vmScaleSetName, List<String> instanceIds) {
+    public Observable<OperationStatus<Void>> beginStartAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, List<String> instanceIds) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -3383,26 +2117,670 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
             vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
             vmInstanceIDs.withInstanceIds(instanceIds);
         }
-        return service.beginPerformMaintenance(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs, this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
-                @Override
-                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<Void> clientResponse = beginPerformMaintenanceDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.beginStart(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs);
     }
 
-    private ServiceResponse<Void> beginPerformMaintenanceDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<Void>() { }.getType())
-                .register(202, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Starts one or more virtual machines in a VM scale set.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    public void start(@NonNull String resourceGroupName, @NonNull String vmScaleSetName) {
+        startAsync(resourceGroupName, vmScaleSetName).blockingAwait();
+    }
+
+    /**
+     * Starts one or more virtual machines in a VM scale set.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
+     */
+    public ServiceFuture<Void> startAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromBody(startAsync(resourceGroupName, vmScaleSetName), serviceCallback);
+    }
+
+    /**
+     * Starts one or more virtual machines in a VM scale set.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Single<VoidResponse> startWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (vmScaleSetName == null) {
+            throw new IllegalArgumentException("Parameter vmScaleSetName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        final String apiVersion = "2018-06-01";
+        final List<String> instanceIds = null;
+        VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
+        vmInstanceIDs.withInstanceIds(null);
+        return service.start(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs);
+    }
+
+    /**
+     * Starts one or more virtual machines in a VM scale set.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Completable startAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName) {
+        return startWithRestResponseAsync(resourceGroupName, vmScaleSetName)
+            .toCompletable();
+    }
+
+    /**
+     * Starts one or more virtual machines in a VM scale set.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    public void start(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, List<String> instanceIds) {
+        startAsync(resourceGroupName, vmScaleSetName, instanceIds).blockingAwait();
+    }
+
+    /**
+     * Starts one or more virtual machines in a VM scale set.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
+     */
+    public ServiceFuture<Void> startAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, List<String> instanceIds, ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromBody(startAsync(resourceGroupName, vmScaleSetName, instanceIds), serviceCallback);
+    }
+
+    /**
+     * Starts one or more virtual machines in a VM scale set.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Single<VoidResponse> startWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, List<String> instanceIds) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (vmScaleSetName == null) {
+            throw new IllegalArgumentException("Parameter vmScaleSetName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        Validator.validate(instanceIds);
+        final String apiVersion = "2018-06-01";
+        VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = null;
+        if (instanceIds != null) {
+            vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
+            vmInstanceIDs.withInstanceIds(instanceIds);
+        }
+        return service.start(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs);
+    }
+
+    /**
+     * Starts one or more virtual machines in a VM scale set.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Completable startAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, List<String> instanceIds) {
+        return startWithRestResponseAsync(resourceGroupName, vmScaleSetName, instanceIds)
+            .toCompletable();
+    }
+
+    /**
+     * Starts one or more virtual machines in a VM scale set. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<Void>> resumeStart(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeStart(operationDescription);
+    }
+
+    /**
+     * Redeploy one or more virtual machines in a VM scale set.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    public void beginRedeploy(@NonNull String resourceGroupName, @NonNull String vmScaleSetName) {
+        beginRedeployAsync(resourceGroupName, vmScaleSetName).blockingLast();
+    }
+
+    /**
+     * Redeploy one or more virtual machines in a VM scale set.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;Void&gt; object.
+     */
+    public ServiceFuture<Void> beginRedeployAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, ServiceCallback<Void> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginRedeployAsync(resourceGroupName, vmScaleSetName), serviceCallback);
+    }
+
+    /**
+     * Redeploy one or more virtual machines in a VM scale set.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<Void>> beginRedeployAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (vmScaleSetName == null) {
+            throw new IllegalArgumentException("Parameter vmScaleSetName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        final String apiVersion = "2018-06-01";
+        final List<String> instanceIds = null;
+        VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
+        vmInstanceIDs.withInstanceIds(null);
+        return service.beginRedeploy(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs);
+    }
+
+    /**
+     * Redeploy one or more virtual machines in a VM scale set.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    public void beginRedeploy(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, List<String> instanceIds) {
+        beginRedeployAsync(resourceGroupName, vmScaleSetName, instanceIds).blockingLast();
+    }
+
+    /**
+     * Redeploy one or more virtual machines in a VM scale set.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;Void&gt; object.
+     */
+    public ServiceFuture<Void> beginRedeployAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, List<String> instanceIds, ServiceCallback<Void> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginRedeployAsync(resourceGroupName, vmScaleSetName, instanceIds), serviceCallback);
+    }
+
+    /**
+     * Redeploy one or more virtual machines in a VM scale set.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<Void>> beginRedeployAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, List<String> instanceIds) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (vmScaleSetName == null) {
+            throw new IllegalArgumentException("Parameter vmScaleSetName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        Validator.validate(instanceIds);
+        final String apiVersion = "2018-06-01";
+        VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = null;
+        if (instanceIds != null) {
+            vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
+            vmInstanceIDs.withInstanceIds(instanceIds);
+        }
+        return service.beginRedeploy(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs);
+    }
+
+    /**
+     * Redeploy one or more virtual machines in a VM scale set.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    public void redeploy(@NonNull String resourceGroupName, @NonNull String vmScaleSetName) {
+        redeployAsync(resourceGroupName, vmScaleSetName).blockingAwait();
+    }
+
+    /**
+     * Redeploy one or more virtual machines in a VM scale set.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
+     */
+    public ServiceFuture<Void> redeployAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromBody(redeployAsync(resourceGroupName, vmScaleSetName), serviceCallback);
+    }
+
+    /**
+     * Redeploy one or more virtual machines in a VM scale set.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Single<VoidResponse> redeployWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (vmScaleSetName == null) {
+            throw new IllegalArgumentException("Parameter vmScaleSetName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        final String apiVersion = "2018-06-01";
+        final List<String> instanceIds = null;
+        VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
+        vmInstanceIDs.withInstanceIds(null);
+        return service.redeploy(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs);
+    }
+
+    /**
+     * Redeploy one or more virtual machines in a VM scale set.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Completable redeployAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName) {
+        return redeployWithRestResponseAsync(resourceGroupName, vmScaleSetName)
+            .toCompletable();
+    }
+
+    /**
+     * Redeploy one or more virtual machines in a VM scale set.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    public void redeploy(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, List<String> instanceIds) {
+        redeployAsync(resourceGroupName, vmScaleSetName, instanceIds).blockingAwait();
+    }
+
+    /**
+     * Redeploy one or more virtual machines in a VM scale set.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
+     */
+    public ServiceFuture<Void> redeployAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, List<String> instanceIds, ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromBody(redeployAsync(resourceGroupName, vmScaleSetName, instanceIds), serviceCallback);
+    }
+
+    /**
+     * Redeploy one or more virtual machines in a VM scale set.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Single<VoidResponse> redeployWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, List<String> instanceIds) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (vmScaleSetName == null) {
+            throw new IllegalArgumentException("Parameter vmScaleSetName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        Validator.validate(instanceIds);
+        final String apiVersion = "2018-06-01";
+        VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = null;
+        if (instanceIds != null) {
+            vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
+            vmInstanceIDs.withInstanceIds(instanceIds);
+        }
+        return service.redeploy(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs);
+    }
+
+    /**
+     * Redeploy one or more virtual machines in a VM scale set.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Completable redeployAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, List<String> instanceIds) {
+        return redeployWithRestResponseAsync(resourceGroupName, vmScaleSetName, instanceIds)
+            .toCompletable();
+    }
+
+    /**
+     * Redeploy one or more virtual machines in a VM scale set. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<Void>> resumeRedeploy(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeRedeploy(operationDescription);
+    }
+
+    /**
+     * Perform maintenance on one or more virtual machines in a VM scale set. Operation on instances which are not eligible for perform maintenance will be failed. Please refer to best practices for more details: https://docs.microsoft.com/en-us/azure/virtual-machine-scale-sets/virtual-machine-scale-sets-maintenance-notifications.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    public void beginPerformMaintenance(@NonNull String resourceGroupName, @NonNull String vmScaleSetName) {
+        beginPerformMaintenanceAsync(resourceGroupName, vmScaleSetName).blockingLast();
+    }
+
+    /**
+     * Perform maintenance on one or more virtual machines in a VM scale set. Operation on instances which are not eligible for perform maintenance will be failed. Please refer to best practices for more details: https://docs.microsoft.com/en-us/azure/virtual-machine-scale-sets/virtual-machine-scale-sets-maintenance-notifications.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;Void&gt; object.
+     */
+    public ServiceFuture<Void> beginPerformMaintenanceAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, ServiceCallback<Void> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginPerformMaintenanceAsync(resourceGroupName, vmScaleSetName), serviceCallback);
+    }
+
+    /**
+     * Perform maintenance on one or more virtual machines in a VM scale set. Operation on instances which are not eligible for perform maintenance will be failed. Please refer to best practices for more details: https://docs.microsoft.com/en-us/azure/virtual-machine-scale-sets/virtual-machine-scale-sets-maintenance-notifications.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<Void>> beginPerformMaintenanceAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (vmScaleSetName == null) {
+            throw new IllegalArgumentException("Parameter vmScaleSetName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        final String apiVersion = "2018-06-01";
+        final List<String> instanceIds = null;
+        VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
+        vmInstanceIDs.withInstanceIds(null);
+        return service.beginPerformMaintenance(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs);
+    }
+
+    /**
+     * Perform maintenance on one or more virtual machines in a VM scale set. Operation on instances which are not eligible for perform maintenance will be failed. Please refer to best practices for more details: https://docs.microsoft.com/en-us/azure/virtual-machine-scale-sets/virtual-machine-scale-sets-maintenance-notifications.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    public void beginPerformMaintenance(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, List<String> instanceIds) {
+        beginPerformMaintenanceAsync(resourceGroupName, vmScaleSetName, instanceIds).blockingLast();
+    }
+
+    /**
+     * Perform maintenance on one or more virtual machines in a VM scale set. Operation on instances which are not eligible for perform maintenance will be failed. Please refer to best practices for more details: https://docs.microsoft.com/en-us/azure/virtual-machine-scale-sets/virtual-machine-scale-sets-maintenance-notifications.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;Void&gt; object.
+     */
+    public ServiceFuture<Void> beginPerformMaintenanceAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, List<String> instanceIds, ServiceCallback<Void> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginPerformMaintenanceAsync(resourceGroupName, vmScaleSetName, instanceIds), serviceCallback);
+    }
+
+    /**
+     * Perform maintenance on one or more virtual machines in a VM scale set. Operation on instances which are not eligible for perform maintenance will be failed. Please refer to best practices for more details: https://docs.microsoft.com/en-us/azure/virtual-machine-scale-sets/virtual-machine-scale-sets-maintenance-notifications.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<Void>> beginPerformMaintenanceAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, List<String> instanceIds) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (vmScaleSetName == null) {
+            throw new IllegalArgumentException("Parameter vmScaleSetName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        Validator.validate(instanceIds);
+        final String apiVersion = "2018-06-01";
+        VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = null;
+        if (instanceIds != null) {
+            vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
+            vmInstanceIDs.withInstanceIds(instanceIds);
+        }
+        return service.beginPerformMaintenance(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs);
+    }
+
+    /**
+     * Perform maintenance on one or more virtual machines in a VM scale set. Operation on instances which are not eligible for perform maintenance will be failed. Please refer to best practices for more details: https://docs.microsoft.com/en-us/azure/virtual-machine-scale-sets/virtual-machine-scale-sets-maintenance-notifications.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    public void performMaintenance(@NonNull String resourceGroupName, @NonNull String vmScaleSetName) {
+        performMaintenanceAsync(resourceGroupName, vmScaleSetName).blockingAwait();
+    }
+
+    /**
+     * Perform maintenance on one or more virtual machines in a VM scale set. Operation on instances which are not eligible for perform maintenance will be failed. Please refer to best practices for more details: https://docs.microsoft.com/en-us/azure/virtual-machine-scale-sets/virtual-machine-scale-sets-maintenance-notifications.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
+     */
+    public ServiceFuture<Void> performMaintenanceAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromBody(performMaintenanceAsync(resourceGroupName, vmScaleSetName), serviceCallback);
+    }
+
+    /**
+     * Perform maintenance on one or more virtual machines in a VM scale set. Operation on instances which are not eligible for perform maintenance will be failed. Please refer to best practices for more details: https://docs.microsoft.com/en-us/azure/virtual-machine-scale-sets/virtual-machine-scale-sets-maintenance-notifications.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Single<VoidResponse> performMaintenanceWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (vmScaleSetName == null) {
+            throw new IllegalArgumentException("Parameter vmScaleSetName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        final String apiVersion = "2018-06-01";
+        final List<String> instanceIds = null;
+        VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
+        vmInstanceIDs.withInstanceIds(null);
+        return service.performMaintenance(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs);
+    }
+
+    /**
+     * Perform maintenance on one or more virtual machines in a VM scale set. Operation on instances which are not eligible for perform maintenance will be failed. Please refer to best practices for more details: https://docs.microsoft.com/en-us/azure/virtual-machine-scale-sets/virtual-machine-scale-sets-maintenance-notifications.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Completable performMaintenanceAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName) {
+        return performMaintenanceWithRestResponseAsync(resourceGroupName, vmScaleSetName)
+            .toCompletable();
+    }
+
+    /**
+     * Perform maintenance on one or more virtual machines in a VM scale set. Operation on instances which are not eligible for perform maintenance will be failed. Please refer to best practices for more details: https://docs.microsoft.com/en-us/azure/virtual-machine-scale-sets/virtual-machine-scale-sets-maintenance-notifications.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    public void performMaintenance(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, List<String> instanceIds) {
+        performMaintenanceAsync(resourceGroupName, vmScaleSetName, instanceIds).blockingAwait();
+    }
+
+    /**
+     * Perform maintenance on one or more virtual machines in a VM scale set. Operation on instances which are not eligible for perform maintenance will be failed. Please refer to best practices for more details: https://docs.microsoft.com/en-us/azure/virtual-machine-scale-sets/virtual-machine-scale-sets-maintenance-notifications.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
+     */
+    public ServiceFuture<Void> performMaintenanceAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, List<String> instanceIds, ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromBody(performMaintenanceAsync(resourceGroupName, vmScaleSetName, instanceIds), serviceCallback);
+    }
+
+    /**
+     * Perform maintenance on one or more virtual machines in a VM scale set. Operation on instances which are not eligible for perform maintenance will be failed. Please refer to best practices for more details: https://docs.microsoft.com/en-us/azure/virtual-machine-scale-sets/virtual-machine-scale-sets-maintenance-notifications.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Single<VoidResponse> performMaintenanceWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, List<String> instanceIds) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (vmScaleSetName == null) {
+            throw new IllegalArgumentException("Parameter vmScaleSetName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        Validator.validate(instanceIds);
+        final String apiVersion = "2018-06-01";
+        VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = null;
+        if (instanceIds != null) {
+            vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
+            vmInstanceIDs.withInstanceIds(instanceIds);
+        }
+        return service.performMaintenance(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs);
+    }
+
+    /**
+     * Perform maintenance on one or more virtual machines in a VM scale set. Operation on instances which are not eligible for perform maintenance will be failed. Please refer to best practices for more details: https://docs.microsoft.com/en-us/azure/virtual-machine-scale-sets/virtual-machine-scale-sets-maintenance-notifications.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Completable performMaintenanceAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, List<String> instanceIds) {
+        return performMaintenanceWithRestResponseAsync(resourceGroupName, vmScaleSetName, instanceIds)
+            .toCompletable();
+    }
+
+    /**
+     * Perform maintenance on one or more virtual machines in a VM scale set. Operation on instances which are not eligible for perform maintenance will be failed. Please refer to best practices for more details: https://docs.microsoft.com/en-us/azure/virtual-machine-scale-sets/virtual-machine-scale-sets-maintenance-notifications (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<Void>> resumePerformMaintenance(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumePerformMaintenance(operationDescription);
     }
 
     /**
@@ -3411,12 +2789,12 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceIds The virtual machine scale set instance ids.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void updateInstances(String resourceGroupName, String vmScaleSetName, List<String> instanceIds) {
-        updateInstancesWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceIds).toBlocking().last().body();
+    public void beginUpdateInstances(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, @NonNull List<String> instanceIds) {
+        beginUpdateInstancesAsync(resourceGroupName, vmScaleSetName, instanceIds).blockingLast();
     }
 
     /**
@@ -3426,11 +2804,11 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceIds The virtual machine scale set instance ids.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;Void&gt; object.
      */
-    public ServiceFuture<Void> updateInstancesAsync(String resourceGroupName, String vmScaleSetName, List<String> instanceIds, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(updateInstancesWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceIds), serviceCallback);
+    public ServiceFuture<Void> beginUpdateInstancesAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, @NonNull List<String> instanceIds, ServiceCallback<Void> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginUpdateInstancesAsync(resourceGroupName, vmScaleSetName, instanceIds), serviceCallback);
     }
 
     /**
@@ -3439,28 +2817,10 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceIds The virtual machine scale set instance ids.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<Void> updateInstancesAsync(String resourceGroupName, String vmScaleSetName, List<String> instanceIds) {
-        return updateInstancesWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceIds).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Upgrades one or more virtual machines to the latest SKU set in the VM scale set model.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @param instanceIds The virtual machine scale set instance ids.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<Void>> updateInstancesWithServiceResponseAsync(String resourceGroupName, String vmScaleSetName, List<String> instanceIds) {
+    public Observable<OperationStatus<Void>> beginUpdateInstancesAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, @NonNull List<String> instanceIds) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -3477,8 +2837,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
         final String apiVersion = "2018-06-01";
         VirtualMachineScaleSetVMInstanceRequiredIDs vmInstanceIDs = new VirtualMachineScaleSetVMInstanceRequiredIDs();
         vmInstanceIDs.withInstanceIds(instanceIds);
-        Observable<Response<ResponseBody>> observable = service.updateInstances(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs, this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
+        return service.beginUpdateInstances(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs);
     }
 
     /**
@@ -3487,12 +2846,12 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceIds The virtual machine scale set instance ids.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void beginUpdateInstances(String resourceGroupName, String vmScaleSetName, List<String> instanceIds) {
-        beginUpdateInstancesWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceIds).toBlocking().single().body();
+    public void updateInstances(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, @NonNull List<String> instanceIds) {
+        updateInstancesAsync(resourceGroupName, vmScaleSetName, instanceIds).blockingAwait();
     }
 
     /**
@@ -3502,11 +2861,11 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceIds The virtual machine scale set instance ids.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<Void> beginUpdateInstancesAsync(String resourceGroupName, String vmScaleSetName, List<String> instanceIds, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(beginUpdateInstancesWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceIds), serviceCallback);
+    public ServiceFuture<Void> updateInstancesAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, @NonNull List<String> instanceIds, ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromBody(updateInstancesAsync(resourceGroupName, vmScaleSetName, instanceIds), serviceCallback);
     }
 
     /**
@@ -3515,28 +2874,10 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceIds The virtual machine scale set instance ids.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<Void> beginUpdateInstancesAsync(String resourceGroupName, String vmScaleSetName, List<String> instanceIds) {
-        return beginUpdateInstancesWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceIds).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Upgrades one or more virtual machines to the latest SKU set in the VM scale set model.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @param instanceIds The virtual machine scale set instance ids.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
-     */
-    public Observable<ServiceResponse<Void>> beginUpdateInstancesWithServiceResponseAsync(String resourceGroupName, String vmScaleSetName, List<String> instanceIds) {
+    public Single<VoidResponse> updateInstancesWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, @NonNull List<String> instanceIds) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -3553,26 +2894,35 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
         final String apiVersion = "2018-06-01";
         VirtualMachineScaleSetVMInstanceRequiredIDs vmInstanceIDs = new VirtualMachineScaleSetVMInstanceRequiredIDs();
         vmInstanceIDs.withInstanceIds(instanceIds);
-        return service.beginUpdateInstances(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs, this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
-                @Override
-                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<Void> clientResponse = beginUpdateInstancesDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.updateInstances(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs);
     }
 
-    private ServiceResponse<Void> beginUpdateInstancesDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<Void>() { }.getType())
-                .register(202, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Upgrades one or more virtual machines to the latest SKU set in the VM scale set model.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @param instanceIds The virtual machine scale set instance ids.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Completable updateInstancesAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, @NonNull List<String> instanceIds) {
+        return updateInstancesWithRestResponseAsync(resourceGroupName, vmScaleSetName, instanceIds)
+            .toCompletable();
+    }
+
+    /**
+     * Upgrades one or more virtual machines to the latest SKU set in the VM scale set model. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<Void>> resumeUpdateInstances(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeUpdateInstances(operationDescription);
     }
 
     /**
@@ -3580,12 +2930,12 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void reimage(String resourceGroupName, String vmScaleSetName) {
-        reimageWithServiceResponseAsync(resourceGroupName, vmScaleSetName).toBlocking().last().body();
+    public void beginReimage(@NonNull String resourceGroupName, @NonNull String vmScaleSetName) {
+        beginReimageAsync(resourceGroupName, vmScaleSetName).blockingLast();
     }
 
     /**
@@ -3594,11 +2944,11 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;Void&gt; object.
      */
-    public ServiceFuture<Void> reimageAsync(String resourceGroupName, String vmScaleSetName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(reimageWithServiceResponseAsync(resourceGroupName, vmScaleSetName), serviceCallback);
+    public ServiceFuture<Void> beginReimageAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, ServiceCallback<Void> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginReimageAsync(resourceGroupName, vmScaleSetName), serviceCallback);
     }
 
     /**
@@ -3606,171 +2956,10 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<Void> reimageAsync(String resourceGroupName, String vmScaleSetName) {
-        return reimageWithServiceResponseAsync(resourceGroupName, vmScaleSetName).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Reimages (upgrade the operating system) one or more virtual machines in a VM scale set.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<Void>> reimageWithServiceResponseAsync(String resourceGroupName, String vmScaleSetName) {
-        if (resourceGroupName == null) {
-            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
-        }
-        if (vmScaleSetName == null) {
-            throw new IllegalArgumentException("Parameter vmScaleSetName is required and cannot be null.");
-        }
-        if (this.client.subscriptionId() == null) {
-            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
-        }
-        final String apiVersion = "2018-06-01";
-        final String instanceIdsConverted = null;
-        VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
-        vmInstanceIDs.withInstanceIds(null);
-        Observable<Response<ResponseBody>> observable = service.reimage(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs, this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
-    }
-    /**
-     * Reimages (upgrade the operating system) one or more virtual machines in a VM scale set.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     */
-    public void reimage(String resourceGroupName, String vmScaleSetName, List<String> instanceIds) {
-        reimageWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceIds).toBlocking().last().body();
-    }
-
-    /**
-     * Reimages (upgrade the operating system) one or more virtual machines in a VM scale set.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<Void> reimageAsync(String resourceGroupName, String vmScaleSetName, List<String> instanceIds, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(reimageWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceIds), serviceCallback);
-    }
-
-    /**
-     * Reimages (upgrade the operating system) one or more virtual machines in a VM scale set.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<Void> reimageAsync(String resourceGroupName, String vmScaleSetName, List<String> instanceIds) {
-        return reimageWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceIds).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Reimages (upgrade the operating system) one or more virtual machines in a VM scale set.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<Void>> reimageWithServiceResponseAsync(String resourceGroupName, String vmScaleSetName, List<String> instanceIds) {
-        if (resourceGroupName == null) {
-            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
-        }
-        if (vmScaleSetName == null) {
-            throw new IllegalArgumentException("Parameter vmScaleSetName is required and cannot be null.");
-        }
-        if (this.client.subscriptionId() == null) {
-            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
-        }
-        Validator.validate(instanceIds);
-        final String apiVersion = "2018-06-01";
-        VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = null;
-        if (instanceIds != null) {
-            vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
-            vmInstanceIDs.withInstanceIds(instanceIds);
-        }
-        Observable<Response<ResponseBody>> observable = service.reimage(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs, this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
-    }
-
-    /**
-     * Reimages (upgrade the operating system) one or more virtual machines in a VM scale set.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     */
-    public void beginReimage(String resourceGroupName, String vmScaleSetName) {
-        beginReimageWithServiceResponseAsync(resourceGroupName, vmScaleSetName).toBlocking().single().body();
-    }
-
-    /**
-     * Reimages (upgrade the operating system) one or more virtual machines in a VM scale set.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<Void> beginReimageAsync(String resourceGroupName, String vmScaleSetName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(beginReimageWithServiceResponseAsync(resourceGroupName, vmScaleSetName), serviceCallback);
-    }
-
-    /**
-     * Reimages (upgrade the operating system) one or more virtual machines in a VM scale set.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
-     */
-    public Observable<Void> beginReimageAsync(String resourceGroupName, String vmScaleSetName) {
-        return beginReimageWithServiceResponseAsync(resourceGroupName, vmScaleSetName).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Reimages (upgrade the operating system) one or more virtual machines in a VM scale set.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
-     */
-    public Observable<ServiceResponse<Void>> beginReimageWithServiceResponseAsync(String resourceGroupName, String vmScaleSetName) {
+    public Observable<OperationStatus<Void>> beginReimageAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -3784,18 +2973,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
         final List<String> instanceIds = null;
         VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
         vmInstanceIDs.withInstanceIds(null);
-        return service.beginReimage(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs, this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
-                @Override
-                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<Void> clientResponse = beginReimageDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.beginReimage(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs);
     }
 
     /**
@@ -3804,12 +2982,12 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void beginReimage(String resourceGroupName, String vmScaleSetName, List<String> instanceIds) {
-        beginReimageWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceIds).toBlocking().single().body();
+    public void beginReimage(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, List<String> instanceIds) {
+        beginReimageAsync(resourceGroupName, vmScaleSetName, instanceIds).blockingLast();
     }
 
     /**
@@ -3819,11 +2997,11 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;Void&gt; object.
      */
-    public ServiceFuture<Void> beginReimageAsync(String resourceGroupName, String vmScaleSetName, List<String> instanceIds, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(beginReimageWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceIds), serviceCallback);
+    public ServiceFuture<Void> beginReimageAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, List<String> instanceIds, ServiceCallback<Void> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginReimageAsync(resourceGroupName, vmScaleSetName, instanceIds), serviceCallback);
     }
 
     /**
@@ -3832,28 +3010,10 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<Void> beginReimageAsync(String resourceGroupName, String vmScaleSetName, List<String> instanceIds) {
-        return beginReimageWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceIds).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Reimages (upgrade the operating system) one or more virtual machines in a VM scale set.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
-     */
-    public Observable<ServiceResponse<Void>> beginReimageWithServiceResponseAsync(String resourceGroupName, String vmScaleSetName, List<String> instanceIds) {
+    public Observable<OperationStatus<Void>> beginReimageAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, List<String> instanceIds) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -3870,224 +3030,44 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
             vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
             vmInstanceIDs.withInstanceIds(instanceIds);
         }
-        return service.beginReimage(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs, this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
-                @Override
-                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<Void> clientResponse = beginReimageDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<Void> beginReimageDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<Void>() { }.getType())
-                .register(202, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+        return service.beginReimage(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs);
     }
 
     /**
-     * Reimages all the disks ( including data disks ) in the virtual machines in a VM scale set. This operation is only supported for managed disks.
+     * Reimages (upgrade the operating system) one or more virtual machines in a VM scale set.
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void reimageAll(String resourceGroupName, String vmScaleSetName) {
-        reimageAllWithServiceResponseAsync(resourceGroupName, vmScaleSetName).toBlocking().last().body();
+    public void reimage(@NonNull String resourceGroupName, @NonNull String vmScaleSetName) {
+        reimageAsync(resourceGroupName, vmScaleSetName).blockingAwait();
     }
 
     /**
-     * Reimages all the disks ( including data disks ) in the virtual machines in a VM scale set. This operation is only supported for managed disks.
+     * Reimages (upgrade the operating system) one or more virtual machines in a VM scale set.
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<Void> reimageAllAsync(String resourceGroupName, String vmScaleSetName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(reimageAllWithServiceResponseAsync(resourceGroupName, vmScaleSetName), serviceCallback);
+    public ServiceFuture<Void> reimageAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromBody(reimageAsync(resourceGroupName, vmScaleSetName), serviceCallback);
     }
 
     /**
-     * Reimages all the disks ( including data disks ) in the virtual machines in a VM scale set. This operation is only supported for managed disks.
+     * Reimages (upgrade the operating system) one or more virtual machines in a VM scale set.
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<Void> reimageAllAsync(String resourceGroupName, String vmScaleSetName) {
-        return reimageAllWithServiceResponseAsync(resourceGroupName, vmScaleSetName).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Reimages all the disks ( including data disks ) in the virtual machines in a VM scale set. This operation is only supported for managed disks.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<Void>> reimageAllWithServiceResponseAsync(String resourceGroupName, String vmScaleSetName) {
-        if (resourceGroupName == null) {
-            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
-        }
-        if (vmScaleSetName == null) {
-            throw new IllegalArgumentException("Parameter vmScaleSetName is required and cannot be null.");
-        }
-        if (this.client.subscriptionId() == null) {
-            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
-        }
-        final String apiVersion = "2018-06-01";
-        final String instanceIdsConverted = null;
-        VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
-        vmInstanceIDs.withInstanceIds(null);
-        Observable<Response<ResponseBody>> observable = service.reimageAll(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs, this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
-    }
-    /**
-     * Reimages all the disks ( including data disks ) in the virtual machines in a VM scale set. This operation is only supported for managed disks.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     */
-    public void reimageAll(String resourceGroupName, String vmScaleSetName, List<String> instanceIds) {
-        reimageAllWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceIds).toBlocking().last().body();
-    }
-
-    /**
-     * Reimages all the disks ( including data disks ) in the virtual machines in a VM scale set. This operation is only supported for managed disks.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<Void> reimageAllAsync(String resourceGroupName, String vmScaleSetName, List<String> instanceIds, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(reimageAllWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceIds), serviceCallback);
-    }
-
-    /**
-     * Reimages all the disks ( including data disks ) in the virtual machines in a VM scale set. This operation is only supported for managed disks.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<Void> reimageAllAsync(String resourceGroupName, String vmScaleSetName, List<String> instanceIds) {
-        return reimageAllWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceIds).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Reimages all the disks ( including data disks ) in the virtual machines in a VM scale set. This operation is only supported for managed disks.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<Void>> reimageAllWithServiceResponseAsync(String resourceGroupName, String vmScaleSetName, List<String> instanceIds) {
-        if (resourceGroupName == null) {
-            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
-        }
-        if (vmScaleSetName == null) {
-            throw new IllegalArgumentException("Parameter vmScaleSetName is required and cannot be null.");
-        }
-        if (this.client.subscriptionId() == null) {
-            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
-        }
-        Validator.validate(instanceIds);
-        final String apiVersion = "2018-06-01";
-        VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = null;
-        if (instanceIds != null) {
-            vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
-            vmInstanceIDs.withInstanceIds(instanceIds);
-        }
-        Observable<Response<ResponseBody>> observable = service.reimageAll(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs, this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
-    }
-
-    /**
-     * Reimages all the disks ( including data disks ) in the virtual machines in a VM scale set. This operation is only supported for managed disks.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     */
-    public void beginReimageAll(String resourceGroupName, String vmScaleSetName) {
-        beginReimageAllWithServiceResponseAsync(resourceGroupName, vmScaleSetName).toBlocking().single().body();
-    }
-
-    /**
-     * Reimages all the disks ( including data disks ) in the virtual machines in a VM scale set. This operation is only supported for managed disks.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<Void> beginReimageAllAsync(String resourceGroupName, String vmScaleSetName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(beginReimageAllWithServiceResponseAsync(resourceGroupName, vmScaleSetName), serviceCallback);
-    }
-
-    /**
-     * Reimages all the disks ( including data disks ) in the virtual machines in a VM scale set. This operation is only supported for managed disks.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
-     */
-    public Observable<Void> beginReimageAllAsync(String resourceGroupName, String vmScaleSetName) {
-        return beginReimageAllWithServiceResponseAsync(resourceGroupName, vmScaleSetName).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Reimages all the disks ( including data disks ) in the virtual machines in a VM scale set. This operation is only supported for managed disks.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
-     */
-    public Observable<ServiceResponse<Void>> beginReimageAllWithServiceResponseAsync(String resourceGroupName, String vmScaleSetName) {
+    public Single<VoidResponse> reimageWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -4101,76 +3081,60 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
         final List<String> instanceIds = null;
         VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
         vmInstanceIDs.withInstanceIds(null);
-        return service.beginReimageAll(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs, this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
-                @Override
-                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<Void> clientResponse = beginReimageAllDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.reimage(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs);
     }
 
     /**
-     * Reimages all the disks ( including data disks ) in the virtual machines in a VM scale set. This operation is only supported for managed disks.
+     * Reimages (upgrade the operating system) one or more virtual machines in a VM scale set.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Completable reimageAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName) {
+        return reimageWithRestResponseAsync(resourceGroupName, vmScaleSetName)
+            .toCompletable();
+    }
+
+    /**
+     * Reimages (upgrade the operating system) one or more virtual machines in a VM scale set.
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void beginReimageAll(String resourceGroupName, String vmScaleSetName, List<String> instanceIds) {
-        beginReimageAllWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceIds).toBlocking().single().body();
+    public void reimage(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, List<String> instanceIds) {
+        reimageAsync(resourceGroupName, vmScaleSetName, instanceIds).blockingAwait();
     }
 
     /**
-     * Reimages all the disks ( including data disks ) in the virtual machines in a VM scale set. This operation is only supported for managed disks.
+     * Reimages (upgrade the operating system) one or more virtual machines in a VM scale set.
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<Void> beginReimageAllAsync(String resourceGroupName, String vmScaleSetName, List<String> instanceIds, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(beginReimageAllWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceIds), serviceCallback);
+    public ServiceFuture<Void> reimageAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, List<String> instanceIds, ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromBody(reimageAsync(resourceGroupName, vmScaleSetName, instanceIds), serviceCallback);
     }
 
     /**
-     * Reimages all the disks ( including data disks ) in the virtual machines in a VM scale set. This operation is only supported for managed disks.
+     * Reimages (upgrade the operating system) one or more virtual machines in a VM scale set.
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
      * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<Void> beginReimageAllAsync(String resourceGroupName, String vmScaleSetName, List<String> instanceIds) {
-        return beginReimageAllWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceIds).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Reimages all the disks ( including data disks ) in the virtual machines in a VM scale set. This operation is only supported for managed disks.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
-     */
-    public Observable<ServiceResponse<Void>> beginReimageAllWithServiceResponseAsync(String resourceGroupName, String vmScaleSetName, List<String> instanceIds) {
+    public Single<VoidResponse> reimageWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, List<String> instanceIds) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -4187,26 +3151,292 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
             vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
             vmInstanceIDs.withInstanceIds(instanceIds);
         }
-        return service.beginReimageAll(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs, this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
-                @Override
-                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<Void> clientResponse = beginReimageAllDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.reimage(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs);
     }
 
-    private ServiceResponse<Void> beginReimageAllDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<Void>() { }.getType())
-                .register(202, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Reimages (upgrade the operating system) one or more virtual machines in a VM scale set.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Completable reimageAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, List<String> instanceIds) {
+        return reimageWithRestResponseAsync(resourceGroupName, vmScaleSetName, instanceIds)
+            .toCompletable();
+    }
+
+    /**
+     * Reimages (upgrade the operating system) one or more virtual machines in a VM scale set. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<Void>> resumeReimage(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeReimage(operationDescription);
+    }
+
+    /**
+     * Reimages all the disks ( including data disks ) in the virtual machines in a VM scale set. This operation is only supported for managed disks.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    public void beginReimageAll(@NonNull String resourceGroupName, @NonNull String vmScaleSetName) {
+        beginReimageAllAsync(resourceGroupName, vmScaleSetName).blockingLast();
+    }
+
+    /**
+     * Reimages all the disks ( including data disks ) in the virtual machines in a VM scale set. This operation is only supported for managed disks.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;Void&gt; object.
+     */
+    public ServiceFuture<Void> beginReimageAllAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, ServiceCallback<Void> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginReimageAllAsync(resourceGroupName, vmScaleSetName), serviceCallback);
+    }
+
+    /**
+     * Reimages all the disks ( including data disks ) in the virtual machines in a VM scale set. This operation is only supported for managed disks.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<Void>> beginReimageAllAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (vmScaleSetName == null) {
+            throw new IllegalArgumentException("Parameter vmScaleSetName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        final String apiVersion = "2018-06-01";
+        final List<String> instanceIds = null;
+        VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
+        vmInstanceIDs.withInstanceIds(null);
+        return service.beginReimageAll(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs);
+    }
+
+    /**
+     * Reimages all the disks ( including data disks ) in the virtual machines in a VM scale set. This operation is only supported for managed disks.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    public void beginReimageAll(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, List<String> instanceIds) {
+        beginReimageAllAsync(resourceGroupName, vmScaleSetName, instanceIds).blockingLast();
+    }
+
+    /**
+     * Reimages all the disks ( including data disks ) in the virtual machines in a VM scale set. This operation is only supported for managed disks.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;Void&gt; object.
+     */
+    public ServiceFuture<Void> beginReimageAllAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, List<String> instanceIds, ServiceCallback<Void> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginReimageAllAsync(resourceGroupName, vmScaleSetName, instanceIds), serviceCallback);
+    }
+
+    /**
+     * Reimages all the disks ( including data disks ) in the virtual machines in a VM scale set. This operation is only supported for managed disks.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<Void>> beginReimageAllAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, List<String> instanceIds) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (vmScaleSetName == null) {
+            throw new IllegalArgumentException("Parameter vmScaleSetName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        Validator.validate(instanceIds);
+        final String apiVersion = "2018-06-01";
+        VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = null;
+        if (instanceIds != null) {
+            vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
+            vmInstanceIDs.withInstanceIds(instanceIds);
+        }
+        return service.beginReimageAll(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs);
+    }
+
+    /**
+     * Reimages all the disks ( including data disks ) in the virtual machines in a VM scale set. This operation is only supported for managed disks.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    public void reimageAll(@NonNull String resourceGroupName, @NonNull String vmScaleSetName) {
+        reimageAllAsync(resourceGroupName, vmScaleSetName).blockingAwait();
+    }
+
+    /**
+     * Reimages all the disks ( including data disks ) in the virtual machines in a VM scale set. This operation is only supported for managed disks.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
+     */
+    public ServiceFuture<Void> reimageAllAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromBody(reimageAllAsync(resourceGroupName, vmScaleSetName), serviceCallback);
+    }
+
+    /**
+     * Reimages all the disks ( including data disks ) in the virtual machines in a VM scale set. This operation is only supported for managed disks.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Single<VoidResponse> reimageAllWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (vmScaleSetName == null) {
+            throw new IllegalArgumentException("Parameter vmScaleSetName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        final String apiVersion = "2018-06-01";
+        final List<String> instanceIds = null;
+        VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
+        vmInstanceIDs.withInstanceIds(null);
+        return service.reimageAll(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs);
+    }
+
+    /**
+     * Reimages all the disks ( including data disks ) in the virtual machines in a VM scale set. This operation is only supported for managed disks.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Completable reimageAllAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName) {
+        return reimageAllWithRestResponseAsync(resourceGroupName, vmScaleSetName)
+            .toCompletable();
+    }
+
+    /**
+     * Reimages all the disks ( including data disks ) in the virtual machines in a VM scale set. This operation is only supported for managed disks.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    public void reimageAll(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, List<String> instanceIds) {
+        reimageAllAsync(resourceGroupName, vmScaleSetName, instanceIds).blockingAwait();
+    }
+
+    /**
+     * Reimages all the disks ( including data disks ) in the virtual machines in a VM scale set. This operation is only supported for managed disks.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
+     */
+    public ServiceFuture<Void> reimageAllAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, List<String> instanceIds, ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromBody(reimageAllAsync(resourceGroupName, vmScaleSetName, instanceIds), serviceCallback);
+    }
+
+    /**
+     * Reimages all the disks ( including data disks ) in the virtual machines in a VM scale set. This operation is only supported for managed disks.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Single<VoidResponse> reimageAllWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, List<String> instanceIds) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (vmScaleSetName == null) {
+            throw new IllegalArgumentException("Parameter vmScaleSetName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        Validator.validate(instanceIds);
+        final String apiVersion = "2018-06-01";
+        VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = null;
+        if (instanceIds != null) {
+            vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
+            vmInstanceIDs.withInstanceIds(instanceIds);
+        }
+        return service.reimageAll(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs);
+    }
+
+    /**
+     * Reimages all the disks ( including data disks ) in the virtual machines in a VM scale set. This operation is only supported for managed disks.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Completable reimageAllAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, List<String> instanceIds) {
+        return reimageAllWithRestResponseAsync(resourceGroupName, vmScaleSetName, instanceIds)
+            .toCompletable();
+    }
+
+    /**
+     * Reimages all the disks ( including data disks ) in the virtual machines in a VM scale set. This operation is only supported for managed disks. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<Void>> resumeReimageAll(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeReimageAll(operationDescription);
     }
 
     /**
@@ -4214,14 +3444,14 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
-     * @param platformUpdateDomain The platform update domain for which a manual recovery walk is requested
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @param platformUpdateDomain The platform update domain for which a manual recovery walk is requested.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the RecoveryWalkResponseInner object if successful.
      */
-    public RecoveryWalkResponseInner forceRecoveryServiceFabricPlatformUpdateDomainWalk(String resourceGroupName, String vmScaleSetName, int platformUpdateDomain) {
-        return forceRecoveryServiceFabricPlatformUpdateDomainWalkWithServiceResponseAsync(resourceGroupName, vmScaleSetName, platformUpdateDomain).toBlocking().single().body();
+    public RecoveryWalkResponseInner forceRecoveryServiceFabricPlatformUpdateDomainWalk(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, @NonNull int platformUpdateDomain) {
+        return forceRecoveryServiceFabricPlatformUpdateDomainWalkAsync(resourceGroupName, vmScaleSetName, platformUpdateDomain).blockingGet();
     }
 
     /**
@@ -4229,13 +3459,13 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
-     * @param platformUpdateDomain The platform update domain for which a manual recovery walk is requested
+     * @param platformUpdateDomain The platform update domain for which a manual recovery walk is requested.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<RecoveryWalkResponseInner> forceRecoveryServiceFabricPlatformUpdateDomainWalkAsync(String resourceGroupName, String vmScaleSetName, int platformUpdateDomain, final ServiceCallback<RecoveryWalkResponseInner> serviceCallback) {
-        return ServiceFuture.fromResponse(forceRecoveryServiceFabricPlatformUpdateDomainWalkWithServiceResponseAsync(resourceGroupName, vmScaleSetName, platformUpdateDomain), serviceCallback);
+    public ServiceFuture<RecoveryWalkResponseInner> forceRecoveryServiceFabricPlatformUpdateDomainWalkAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, @NonNull int platformUpdateDomain, ServiceCallback<RecoveryWalkResponseInner> serviceCallback) {
+        return ServiceFuture.fromBody(forceRecoveryServiceFabricPlatformUpdateDomainWalkAsync(resourceGroupName, vmScaleSetName, platformUpdateDomain), serviceCallback);
     }
 
     /**
@@ -4243,29 +3473,11 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
-     * @param platformUpdateDomain The platform update domain for which a manual recovery walk is requested
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the RecoveryWalkResponseInner object
+     * @param platformUpdateDomain The platform update domain for which a manual recovery walk is requested.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<RecoveryWalkResponseInner> forceRecoveryServiceFabricPlatformUpdateDomainWalkAsync(String resourceGroupName, String vmScaleSetName, int platformUpdateDomain) {
-        return forceRecoveryServiceFabricPlatformUpdateDomainWalkWithServiceResponseAsync(resourceGroupName, vmScaleSetName, platformUpdateDomain).map(new Func1<ServiceResponse<RecoveryWalkResponseInner>, RecoveryWalkResponseInner>() {
-            @Override
-            public RecoveryWalkResponseInner call(ServiceResponse<RecoveryWalkResponseInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Manual platform update domain walk to update virtual machines in a service fabric virtual machine scale set.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param vmScaleSetName The name of the VM scale set.
-     * @param platformUpdateDomain The platform update domain for which a manual recovery walk is requested
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the RecoveryWalkResponseInner object
-     */
-    public Observable<ServiceResponse<RecoveryWalkResponseInner>> forceRecoveryServiceFabricPlatformUpdateDomainWalkWithServiceResponseAsync(String resourceGroupName, String vmScaleSetName, int platformUpdateDomain) {
+    public Single<BodyResponse<RecoveryWalkResponseInner>> forceRecoveryServiceFabricPlatformUpdateDomainWalkWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, @NonNull int platformUpdateDomain) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -4276,42 +3488,38 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        return service.forceRecoveryServiceFabricPlatformUpdateDomainWalk(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, platformUpdateDomain, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<RecoveryWalkResponseInner>>>() {
-                @Override
-                public Observable<ServiceResponse<RecoveryWalkResponseInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<RecoveryWalkResponseInner> clientResponse = forceRecoveryServiceFabricPlatformUpdateDomainWalkDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.forceRecoveryServiceFabricPlatformUpdateDomainWalk(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, platformUpdateDomain, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<RecoveryWalkResponseInner> forceRecoveryServiceFabricPlatformUpdateDomainWalkDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<RecoveryWalkResponseInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<RecoveryWalkResponseInner>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Manual platform update domain walk to update virtual machines in a service fabric virtual machine scale set.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param vmScaleSetName The name of the VM scale set.
+     * @param platformUpdateDomain The platform update domain for which a manual recovery walk is requested.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<RecoveryWalkResponseInner> forceRecoveryServiceFabricPlatformUpdateDomainWalkAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, @NonNull int platformUpdateDomain) {
+        return forceRecoveryServiceFabricPlatformUpdateDomainWalkWithRestResponseAsync(resourceGroupName, vmScaleSetName, platformUpdateDomain)
+            .flatMapMaybe((BodyResponse<RecoveryWalkResponseInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
      * Gets a list of all VM scale sets under a resource group.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;VirtualMachineScaleSetInner&gt; object if successful.
      */
-    public PagedList<VirtualMachineScaleSetInner> listByResourceGroupNext(final String nextPageLink) {
-        ServiceResponse<Page<VirtualMachineScaleSetInner>> response = listByResourceGroupNextSinglePageAsync(nextPageLink).toBlocking().single();
-        return new PagedList<VirtualMachineScaleSetInner>(response.body()) {
+    public PagedList<VirtualMachineScaleSetInner> listNext(@NonNull String nextPageLink) {
+        Page<VirtualMachineScaleSetInner> response = listNextSinglePageAsync(nextPageLink).blockingGet();
+        return new PagedList<VirtualMachineScaleSetInner>(response) {
             @Override
             public Page<VirtualMachineScaleSetInner> nextPage(String nextPageLink) {
-                return listByResourceGroupNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -4320,220 +3528,106 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
      * Gets a list of all VM scale sets under a resource group.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;VirtualMachineScaleSetInner&gt; object.
      */
-    public ServiceFuture<List<VirtualMachineScaleSetInner>> listByResourceGroupNextAsync(final String nextPageLink, final ServiceFuture<List<VirtualMachineScaleSetInner>> serviceFuture, final ListOperationCallback<VirtualMachineScaleSetInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listByResourceGroupNextSinglePageAsync(nextPageLink),
-            new Func1<String, Observable<ServiceResponse<Page<VirtualMachineScaleSetInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<VirtualMachineScaleSetInner>>> call(String nextPageLink) {
-                    return listByResourceGroupNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets a list of all VM scale sets under a resource group.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;VirtualMachineScaleSetInner&gt; object
-     */
-    public Observable<Page<VirtualMachineScaleSetInner>> listByResourceGroupNextAsync(final String nextPageLink) {
-        return listByResourceGroupNextWithServiceResponseAsync(nextPageLink)
-            .map(new Func1<ServiceResponse<Page<VirtualMachineScaleSetInner>>, Page<VirtualMachineScaleSetInner>>() {
-                @Override
-                public Page<VirtualMachineScaleSetInner> call(ServiceResponse<Page<VirtualMachineScaleSetInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets a list of all VM scale sets under a resource group.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;VirtualMachineScaleSetInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<VirtualMachineScaleSetInner>>> listByResourceGroupNextWithServiceResponseAsync(final String nextPageLink) {
-        return listByResourceGroupNextSinglePageAsync(nextPageLink)
-            .concatMap(new Func1<ServiceResponse<Page<VirtualMachineScaleSetInner>>, Observable<ServiceResponse<Page<VirtualMachineScaleSetInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<VirtualMachineScaleSetInner>>> call(ServiceResponse<Page<VirtualMachineScaleSetInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listByResourceGroupNextWithServiceResponseAsync(nextPageLink));
-                }
-            });
-    }
-
-    /**
-     * Gets a list of all VM scale sets under a resource group.
-     *
-    ServiceResponse<PageImpl1<VirtualMachineScaleSetInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;VirtualMachineScaleSetInner&gt; object wrapped in {@link ServiceResponse} if successful.
-     */
-    public Observable<ServiceResponse<Page<VirtualMachineScaleSetInner>>> listByResourceGroupNextSinglePageAsync(final String nextPageLink) {
-        if (nextPageLink == null) {
-            throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
-        }
-        String nextUrl = String.format("%s", nextPageLink);
-        return service.listByResourceGroupNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<VirtualMachineScaleSetInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<VirtualMachineScaleSetInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl1<VirtualMachineScaleSetInner>> result = listByResourceGroupNextDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<VirtualMachineScaleSetInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl1<VirtualMachineScaleSetInner>> listByResourceGroupNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl1<VirtualMachineScaleSetInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl1<VirtualMachineScaleSetInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
-    }
-
-    /**
-     * Gets a list of all VM Scale Sets in the subscription, regardless of the associated resource group. Use nextLink property in the response to get the next page of VM Scale Sets. Do this till nextLink is null to fetch all the VM Scale Sets.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the PagedList&lt;VirtualMachineScaleSetInner&gt; object if successful.
-     */
-    public PagedList<VirtualMachineScaleSetInner> listNext(final String nextPageLink) {
-        ServiceResponse<Page<VirtualMachineScaleSetInner>> response = listNextSinglePageAsync(nextPageLink).toBlocking().single();
-        return new PagedList<VirtualMachineScaleSetInner>(response.body()) {
-            @Override
-            public Page<VirtualMachineScaleSetInner> nextPage(String nextPageLink) {
-                return listNextSinglePageAsync(nextPageLink).toBlocking().single().body();
-            }
-        };
-    }
-
-    /**
-     * Gets a list of all VM Scale Sets in the subscription, regardless of the associated resource group. Use nextLink property in the response to get the next page of VM Scale Sets. Do this till nextLink is null to fetch all the VM Scale Sets.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<List<VirtualMachineScaleSetInner>> listNextAsync(final String nextPageLink, final ServiceFuture<List<VirtualMachineScaleSetInner>> serviceFuture, final ListOperationCallback<VirtualMachineScaleSetInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listNextSinglePageAsync(nextPageLink),
-            new Func1<String, Observable<ServiceResponse<Page<VirtualMachineScaleSetInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<VirtualMachineScaleSetInner>>> call(String nextPageLink) {
-                    return listNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets a list of all VM Scale Sets in the subscription, regardless of the associated resource group. Use nextLink property in the response to get the next page of VM Scale Sets. Do this till nextLink is null to fetch all the VM Scale Sets.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;VirtualMachineScaleSetInner&gt; object
-     */
-    public Observable<Page<VirtualMachineScaleSetInner>> listNextAsync(final String nextPageLink) {
-        return listNextWithServiceResponseAsync(nextPageLink)
-            .map(new Func1<ServiceResponse<Page<VirtualMachineScaleSetInner>>, Page<VirtualMachineScaleSetInner>>() {
-                @Override
-                public Page<VirtualMachineScaleSetInner> call(ServiceResponse<Page<VirtualMachineScaleSetInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets a list of all VM Scale Sets in the subscription, regardless of the associated resource group. Use nextLink property in the response to get the next page of VM Scale Sets. Do this till nextLink is null to fetch all the VM Scale Sets.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;VirtualMachineScaleSetInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<VirtualMachineScaleSetInner>>> listNextWithServiceResponseAsync(final String nextPageLink) {
+    public Observable<Page<VirtualMachineScaleSetInner>> listNextAsync(@NonNull String nextPageLink) {
         return listNextSinglePageAsync(nextPageLink)
-            .concatMap(new Func1<ServiceResponse<Page<VirtualMachineScaleSetInner>>, Observable<ServiceResponse<Page<VirtualMachineScaleSetInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<VirtualMachineScaleSetInner>>> call(ServiceResponse<Page<VirtualMachineScaleSetInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<VirtualMachineScaleSetInner> page) -> {
+                String nextPageLink1 = page.nextPageLink();
+                if (nextPageLink1 == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listNextAsync(nextPageLink1));
+            });
+    }
+
+    /**
+     * Gets a list of all VM scale sets under a resource group.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;VirtualMachineScaleSetInner&gt;&gt; object if successful.
+     */
+    public Single<Page<VirtualMachineScaleSetInner>> listNextSinglePageAsync(@NonNull String nextPageLink) {
+        if (nextPageLink == null) {
+            throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
+        }
+        String nextUrl = String.format("%s", nextPageLink);
+        return service.listNext(nextUrl, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl1<VirtualMachineScaleSetInner>> res) -> res.body());
+    }
+
+    /**
+     * Gets a list of all VM Scale Sets in the subscription, regardless of the associated resource group. Use nextLink property in the response to get the next page of VM Scale Sets. Do this till nextLink is null to fetch all the VM Scale Sets.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the PagedList&lt;VirtualMachineScaleSetInner&gt; object if successful.
+     */
+    public PagedList<VirtualMachineScaleSetInner> listAllNext(@NonNull String nextPageLink) {
+        Page<VirtualMachineScaleSetInner> response = listAllNextSinglePageAsync(nextPageLink).blockingGet();
+        return new PagedList<VirtualMachineScaleSetInner>(response) {
+            @Override
+            public Page<VirtualMachineScaleSetInner> nextPage(String nextPageLink) {
+                return listAllNextSinglePageAsync(nextPageLink).blockingGet();
+            }
+        };
+    }
+
+    /**
+     * Gets a list of all VM Scale Sets in the subscription, regardless of the associated resource group. Use nextLink property in the response to get the next page of VM Scale Sets. Do this till nextLink is null to fetch all the VM Scale Sets.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;VirtualMachineScaleSetInner&gt; object.
+     */
+    public Observable<Page<VirtualMachineScaleSetInner>> listAllNextAsync(@NonNull String nextPageLink) {
+        return listAllNextSinglePageAsync(nextPageLink)
+            .toObservable()
+            .concatMap((Page<VirtualMachineScaleSetInner> page) -> {
+                String nextPageLink1 = page.nextPageLink();
+                if (nextPageLink1 == null) {
+                    return Observable.just(page);
+                }
+                return Observable.just(page).concatWith(listAllNextAsync(nextPageLink1));
             });
     }
 
     /**
      * Gets a list of all VM Scale Sets in the subscription, regardless of the associated resource group. Use nextLink property in the response to get the next page of VM Scale Sets. Do this till nextLink is null to fetch all the VM Scale Sets.
      *
-    ServiceResponse<PageImpl1<VirtualMachineScaleSetInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;VirtualMachineScaleSetInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;VirtualMachineScaleSetInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<VirtualMachineScaleSetInner>>> listNextSinglePageAsync(final String nextPageLink) {
+    public Single<Page<VirtualMachineScaleSetInner>> listAllNextSinglePageAsync(@NonNull String nextPageLink) {
         if (nextPageLink == null) {
             throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
         }
         String nextUrl = String.format("%s", nextPageLink);
-        return service.listNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<VirtualMachineScaleSetInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<VirtualMachineScaleSetInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl1<VirtualMachineScaleSetInner>> result = listNextDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<VirtualMachineScaleSetInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl1<VirtualMachineScaleSetInner>> listNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl1<VirtualMachineScaleSetInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl1<VirtualMachineScaleSetInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+        return service.listAllNext(nextUrl, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl1<VirtualMachineScaleSetInner>> res) -> res.body());
     }
 
     /**
      * Gets a list of SKUs available for your VM scale set, including the minimum and maximum VM instances allowed for each SKU.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;VirtualMachineScaleSetSkuInner&gt; object if successful.
      */
-    public PagedList<VirtualMachineScaleSetSkuInner> listSkusNext(final String nextPageLink) {
-        ServiceResponse<Page<VirtualMachineScaleSetSkuInner>> response = listSkusNextSinglePageAsync(nextPageLink).toBlocking().single();
-        return new PagedList<VirtualMachineScaleSetSkuInner>(response.body()) {
+    public PagedList<VirtualMachineScaleSetSkuInner> listSkusNext(@NonNull String nextPageLink) {
+        Page<VirtualMachineScaleSetSkuInner> response = listSkusNextSinglePageAsync(nextPageLink).blockingGet();
+        return new PagedList<VirtualMachineScaleSetSkuInner>(response) {
             @Override
             public Page<VirtualMachineScaleSetSkuInner> nextPage(String nextPageLink) {
-                return listSkusNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listSkusNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -4542,109 +3636,52 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
      * Gets a list of SKUs available for your VM scale set, including the minimum and maximum VM instances allowed for each SKU.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;VirtualMachineScaleSetSkuInner&gt; object.
      */
-    public ServiceFuture<List<VirtualMachineScaleSetSkuInner>> listSkusNextAsync(final String nextPageLink, final ServiceFuture<List<VirtualMachineScaleSetSkuInner>> serviceFuture, final ListOperationCallback<VirtualMachineScaleSetSkuInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listSkusNextSinglePageAsync(nextPageLink),
-            new Func1<String, Observable<ServiceResponse<Page<VirtualMachineScaleSetSkuInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<VirtualMachineScaleSetSkuInner>>> call(String nextPageLink) {
-                    return listSkusNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets a list of SKUs available for your VM scale set, including the minimum and maximum VM instances allowed for each SKU.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;VirtualMachineScaleSetSkuInner&gt; object
-     */
-    public Observable<Page<VirtualMachineScaleSetSkuInner>> listSkusNextAsync(final String nextPageLink) {
-        return listSkusNextWithServiceResponseAsync(nextPageLink)
-            .map(new Func1<ServiceResponse<Page<VirtualMachineScaleSetSkuInner>>, Page<VirtualMachineScaleSetSkuInner>>() {
-                @Override
-                public Page<VirtualMachineScaleSetSkuInner> call(ServiceResponse<Page<VirtualMachineScaleSetSkuInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets a list of SKUs available for your VM scale set, including the minimum and maximum VM instances allowed for each SKU.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;VirtualMachineScaleSetSkuInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<VirtualMachineScaleSetSkuInner>>> listSkusNextWithServiceResponseAsync(final String nextPageLink) {
+    public Observable<Page<VirtualMachineScaleSetSkuInner>> listSkusNextAsync(@NonNull String nextPageLink) {
         return listSkusNextSinglePageAsync(nextPageLink)
-            .concatMap(new Func1<ServiceResponse<Page<VirtualMachineScaleSetSkuInner>>, Observable<ServiceResponse<Page<VirtualMachineScaleSetSkuInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<VirtualMachineScaleSetSkuInner>>> call(ServiceResponse<Page<VirtualMachineScaleSetSkuInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listSkusNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<VirtualMachineScaleSetSkuInner> page) -> {
+                String nextPageLink1 = page.nextPageLink();
+                if (nextPageLink1 == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listSkusNextAsync(nextPageLink1));
             });
     }
 
     /**
      * Gets a list of SKUs available for your VM scale set, including the minimum and maximum VM instances allowed for each SKU.
      *
-    ServiceResponse<PageImpl1<VirtualMachineScaleSetSkuInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;VirtualMachineScaleSetSkuInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;VirtualMachineScaleSetSkuInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<VirtualMachineScaleSetSkuInner>>> listSkusNextSinglePageAsync(final String nextPageLink) {
+    public Single<Page<VirtualMachineScaleSetSkuInner>> listSkusNextSinglePageAsync(@NonNull String nextPageLink) {
         if (nextPageLink == null) {
             throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
         }
         String nextUrl = String.format("%s", nextPageLink);
-        return service.listSkusNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<VirtualMachineScaleSetSkuInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<VirtualMachineScaleSetSkuInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl1<VirtualMachineScaleSetSkuInner>> result = listSkusNextDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<VirtualMachineScaleSetSkuInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl1<VirtualMachineScaleSetSkuInner>> listSkusNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl1<VirtualMachineScaleSetSkuInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl1<VirtualMachineScaleSetSkuInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+        return service.listSkusNext(nextUrl, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl1<VirtualMachineScaleSetSkuInner>> res) -> res.body());
     }
 
     /**
      * Gets list of OS upgrades on a VM scale set instance.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;UpgradeOperationHistoricalStatusInfoInner&gt; object if successful.
      */
-    public PagedList<UpgradeOperationHistoricalStatusInfoInner> getOSUpgradeHistoryNext(final String nextPageLink) {
-        ServiceResponse<Page<UpgradeOperationHistoricalStatusInfoInner>> response = getOSUpgradeHistoryNextSinglePageAsync(nextPageLink).toBlocking().single();
-        return new PagedList<UpgradeOperationHistoricalStatusInfoInner>(response.body()) {
+    public PagedList<UpgradeOperationHistoricalStatusInfoInner> getOSUpgradeHistoryNext(@NonNull String nextPageLink) {
+        Page<UpgradeOperationHistoricalStatusInfoInner> response = getOSUpgradeHistoryNextSinglePageAsync(nextPageLink).blockingGet();
+        return new PagedList<UpgradeOperationHistoricalStatusInfoInner>(response) {
             @Override
             public Page<UpgradeOperationHistoricalStatusInfoInner> nextPage(String nextPageLink) {
-                return getOSUpgradeHistoryNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return getOSUpgradeHistoryNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -4653,92 +3690,34 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
      * Gets list of OS upgrades on a VM scale set instance.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;UpgradeOperationHistoricalStatusInfoInner&gt; object.
      */
-    public ServiceFuture<List<UpgradeOperationHistoricalStatusInfoInner>> getOSUpgradeHistoryNextAsync(final String nextPageLink, final ServiceFuture<List<UpgradeOperationHistoricalStatusInfoInner>> serviceFuture, final ListOperationCallback<UpgradeOperationHistoricalStatusInfoInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            getOSUpgradeHistoryNextSinglePageAsync(nextPageLink),
-            new Func1<String, Observable<ServiceResponse<Page<UpgradeOperationHistoricalStatusInfoInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<UpgradeOperationHistoricalStatusInfoInner>>> call(String nextPageLink) {
-                    return getOSUpgradeHistoryNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets list of OS upgrades on a VM scale set instance.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;UpgradeOperationHistoricalStatusInfoInner&gt; object
-     */
-    public Observable<Page<UpgradeOperationHistoricalStatusInfoInner>> getOSUpgradeHistoryNextAsync(final String nextPageLink) {
-        return getOSUpgradeHistoryNextWithServiceResponseAsync(nextPageLink)
-            .map(new Func1<ServiceResponse<Page<UpgradeOperationHistoricalStatusInfoInner>>, Page<UpgradeOperationHistoricalStatusInfoInner>>() {
-                @Override
-                public Page<UpgradeOperationHistoricalStatusInfoInner> call(ServiceResponse<Page<UpgradeOperationHistoricalStatusInfoInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets list of OS upgrades on a VM scale set instance.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;UpgradeOperationHistoricalStatusInfoInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<UpgradeOperationHistoricalStatusInfoInner>>> getOSUpgradeHistoryNextWithServiceResponseAsync(final String nextPageLink) {
+    public Observable<Page<UpgradeOperationHistoricalStatusInfoInner>> getOSUpgradeHistoryNextAsync(@NonNull String nextPageLink) {
         return getOSUpgradeHistoryNextSinglePageAsync(nextPageLink)
-            .concatMap(new Func1<ServiceResponse<Page<UpgradeOperationHistoricalStatusInfoInner>>, Observable<ServiceResponse<Page<UpgradeOperationHistoricalStatusInfoInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<UpgradeOperationHistoricalStatusInfoInner>>> call(ServiceResponse<Page<UpgradeOperationHistoricalStatusInfoInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(getOSUpgradeHistoryNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<UpgradeOperationHistoricalStatusInfoInner> page) -> {
+                String nextPageLink1 = page.nextPageLink();
+                if (nextPageLink1 == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(getOSUpgradeHistoryNextAsync(nextPageLink1));
             });
     }
 
     /**
      * Gets list of OS upgrades on a VM scale set instance.
      *
-    ServiceResponse<PageImpl1<UpgradeOperationHistoricalStatusInfoInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;UpgradeOperationHistoricalStatusInfoInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;UpgradeOperationHistoricalStatusInfoInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<UpgradeOperationHistoricalStatusInfoInner>>> getOSUpgradeHistoryNextSinglePageAsync(final String nextPageLink) {
+    public Single<Page<UpgradeOperationHistoricalStatusInfoInner>> getOSUpgradeHistoryNextSinglePageAsync(@NonNull String nextPageLink) {
         if (nextPageLink == null) {
             throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
         }
         String nextUrl = String.format("%s", nextPageLink);
-        return service.getOSUpgradeHistoryNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<UpgradeOperationHistoricalStatusInfoInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<UpgradeOperationHistoricalStatusInfoInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl1<UpgradeOperationHistoricalStatusInfoInner>> result = getOSUpgradeHistoryNextDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<UpgradeOperationHistoricalStatusInfoInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.getOSUpgradeHistoryNext(nextUrl, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl1<UpgradeOperationHistoricalStatusInfoInner>> res) -> res.body());
     }
-
-    private ServiceResponse<PageImpl1<UpgradeOperationHistoricalStatusInfoInner>> getOSUpgradeHistoryNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl1<UpgradeOperationHistoricalStatusInfoInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl1<UpgradeOperationHistoricalStatusInfoInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
-    }
-
 }

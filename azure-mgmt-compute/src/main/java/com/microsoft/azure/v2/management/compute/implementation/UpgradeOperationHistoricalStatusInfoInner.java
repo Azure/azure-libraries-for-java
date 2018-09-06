@@ -8,13 +8,13 @@
 
 package com.microsoft.azure.v2.management.compute.implementation;
 
-import com.microsoft.azure.v2.management.compute.UpgradeOperationHistoricalStatusInfoProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.v2.management.compute.UpgradeOperationHistoricalStatusInfoProperties;
 
 /**
  * Virtual Machine Scale Set OS Upgrade History operation response.
  */
-public class UpgradeOperationHistoricalStatusInfoInner {
+public final class UpgradeOperationHistoricalStatusInfoInner {
     /**
      * Information about the properties of the upgrade operation.
      */
@@ -34,30 +34,29 @@ public class UpgradeOperationHistoricalStatusInfoInner {
     private String location;
 
     /**
-     * Get information about the properties of the upgrade operation.
+     * Get the properties value.
      *
-     * @return the properties value
+     * @return the properties value.
      */
     public UpgradeOperationHistoricalStatusInfoProperties properties() {
         return this.properties;
     }
 
     /**
-     * Get resource type.
+     * Get the type value.
      *
-     * @return the type value
+     * @return the type value.
      */
     public String type() {
         return this.type;
     }
 
     /**
-     * Get resource location.
+     * Get the location value.
      *
-     * @return the location value
+     * @return the location value.
      */
     public String location() {
         return this.location;
     }
-
 }

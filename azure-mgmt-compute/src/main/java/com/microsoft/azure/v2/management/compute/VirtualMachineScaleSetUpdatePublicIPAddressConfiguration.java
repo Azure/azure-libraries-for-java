@@ -9,7 +9,7 @@
 package com.microsoft.azure.v2.management.compute;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
 
 /**
  * Describes a virtual machines scale set IP Configuration's PublicIPAddress
@@ -36,19 +36,20 @@ public class VirtualMachineScaleSetUpdatePublicIPAddressConfiguration {
     private VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings dnsSettings;
 
     /**
-     * Get the publicIP address configuration name.
+     * Get the name value.
      *
-     * @return the name value
+     * @return the name value.
      */
     public String name() {
         return this.name;
     }
 
     /**
-     * Set the publicIP address configuration name.
+     * Set the name value.
      *
-     * @param name the name value to set
-     * @return the VirtualMachineScaleSetUpdatePublicIPAddressConfiguration object itself.
+     * @param name the name value to set.
+     * @return the VirtualMachineScaleSetUpdatePublicIPAddressConfiguration
+     * object itself.
      */
     public VirtualMachineScaleSetUpdatePublicIPAddressConfiguration withName(String name) {
         this.name = name;
@@ -56,19 +57,20 @@ public class VirtualMachineScaleSetUpdatePublicIPAddressConfiguration {
     }
 
     /**
-     * Get the idle timeout of the public IP address.
+     * Get the idleTimeoutInMinutes value.
      *
-     * @return the idleTimeoutInMinutes value
+     * @return the idleTimeoutInMinutes value.
      */
     public Integer idleTimeoutInMinutes() {
         return this.idleTimeoutInMinutes;
     }
 
     /**
-     * Set the idle timeout of the public IP address.
+     * Set the idleTimeoutInMinutes value.
      *
-     * @param idleTimeoutInMinutes the idleTimeoutInMinutes value to set
-     * @return the VirtualMachineScaleSetUpdatePublicIPAddressConfiguration object itself.
+     * @param idleTimeoutInMinutes the idleTimeoutInMinutes value to set.
+     * @return the VirtualMachineScaleSetUpdatePublicIPAddressConfiguration
+     * object itself.
      */
     public VirtualMachineScaleSetUpdatePublicIPAddressConfiguration withIdleTimeoutInMinutes(Integer idleTimeoutInMinutes) {
         this.idleTimeoutInMinutes = idleTimeoutInMinutes;
@@ -76,23 +78,23 @@ public class VirtualMachineScaleSetUpdatePublicIPAddressConfiguration {
     }
 
     /**
-     * Get the dns settings to be applied on the publicIP addresses .
+     * Get the dnsSettings value.
      *
-     * @return the dnsSettings value
+     * @return the dnsSettings value.
      */
     public VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings dnsSettings() {
         return this.dnsSettings;
     }
 
     /**
-     * Set the dns settings to be applied on the publicIP addresses .
+     * Set the dnsSettings value.
      *
-     * @param dnsSettings the dnsSettings value to set
-     * @return the VirtualMachineScaleSetUpdatePublicIPAddressConfiguration object itself.
+     * @param dnsSettings the dnsSettings value to set.
+     * @return the VirtualMachineScaleSetUpdatePublicIPAddressConfiguration
+     * object itself.
      */
     public VirtualMachineScaleSetUpdatePublicIPAddressConfiguration withDnsSettings(VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings dnsSettings) {
         this.dnsSettings = dnsSettings;
         return this;
     }
-
 }

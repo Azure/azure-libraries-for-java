@@ -8,13 +8,13 @@
 
 package com.microsoft.azure.v2.management.compute;
 
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 
 /**
  * Describes a virtual machine scale set network profile.
  */
-public class VirtualMachineScaleSetNetworkProfile {
+public final class VirtualMachineScaleSetNetworkProfile {
     /**
      * A reference to a load balancer probe used to determine the health of an
      * instance in the virtual machine scale set. The reference will be in the
@@ -31,18 +31,18 @@ public class VirtualMachineScaleSetNetworkProfile {
     private List<VirtualMachineScaleSetNetworkConfiguration> networkInterfaceConfigurations;
 
     /**
-     * Get a reference to a load balancer probe used to determine the health of an instance in the virtual machine scale set. The reference will be in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/probes/{probeName}'.
+     * Get the healthProbe value.
      *
-     * @return the healthProbe value
+     * @return the healthProbe value.
      */
     public ApiEntityReference healthProbe() {
         return this.healthProbe;
     }
 
     /**
-     * Set a reference to a load balancer probe used to determine the health of an instance in the virtual machine scale set. The reference will be in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/probes/{probeName}'.
+     * Set the healthProbe value.
      *
-     * @param healthProbe the healthProbe value to set
+     * @param healthProbe the healthProbe value to set.
      * @return the VirtualMachineScaleSetNetworkProfile object itself.
      */
     public VirtualMachineScaleSetNetworkProfile withHealthProbe(ApiEntityReference healthProbe) {
@@ -51,23 +51,23 @@ public class VirtualMachineScaleSetNetworkProfile {
     }
 
     /**
-     * Get the list of network configurations.
+     * Get the networkInterfaceConfigurations value.
      *
-     * @return the networkInterfaceConfigurations value
+     * @return the networkInterfaceConfigurations value.
      */
     public List<VirtualMachineScaleSetNetworkConfiguration> networkInterfaceConfigurations() {
         return this.networkInterfaceConfigurations;
     }
 
     /**
-     * Set the list of network configurations.
+     * Set the networkInterfaceConfigurations value.
      *
-     * @param networkInterfaceConfigurations the networkInterfaceConfigurations value to set
+     * @param networkInterfaceConfigurations the networkInterfaceConfigurations
+     * value to set.
      * @return the VirtualMachineScaleSetNetworkProfile object itself.
      */
     public VirtualMachineScaleSetNetworkProfile withNetworkInterfaceConfigurations(List<VirtualMachineScaleSetNetworkConfiguration> networkInterfaceConfigurations) {
         this.networkInterfaceConfigurations = networkInterfaceConfigurations;
         return this;
     }
-
 }

@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * LogAnalytics output properties.
  */
-public class LogAnalyticsOutput {
+public final class LogAnalyticsOutput {
     /**
      * Output file Uri path to blob container.
      */
@@ -21,12 +21,11 @@ public class LogAnalyticsOutput {
     private String output;
 
     /**
-     * Get output file Uri path to blob container.
+     * Get the output value.
      *
-     * @return the output value
+     * @return the output value.
      */
     public String output() {
         return this.output;
     }
-
 }

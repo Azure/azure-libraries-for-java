@@ -8,9 +8,9 @@
 
 package com.microsoft.azure.v2.management.compute;
 
-import com.microsoft.azure.SubResource;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.v2.SubResource;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
 
 /**
  * The source user image virtual hard disk. Only tags may be updated.
@@ -36,18 +36,18 @@ public class ImageUpdate extends UpdateResource {
     private String provisioningState;
 
     /**
-     * Get the source virtual machine from which Image is created.
+     * Get the sourceVirtualMachine value.
      *
-     * @return the sourceVirtualMachine value
+     * @return the sourceVirtualMachine value.
      */
     public SubResource sourceVirtualMachine() {
         return this.sourceVirtualMachine;
     }
 
     /**
-     * Set the source virtual machine from which Image is created.
+     * Set the sourceVirtualMachine value.
      *
-     * @param sourceVirtualMachine the sourceVirtualMachine value to set
+     * @param sourceVirtualMachine the sourceVirtualMachine value to set.
      * @return the ImageUpdate object itself.
      */
     public ImageUpdate withSourceVirtualMachine(SubResource sourceVirtualMachine) {
@@ -56,18 +56,18 @@ public class ImageUpdate extends UpdateResource {
     }
 
     /**
-     * Get specifies the storage settings for the virtual machine disks.
+     * Get the storageProfile value.
      *
-     * @return the storageProfile value
+     * @return the storageProfile value.
      */
     public ImageStorageProfile storageProfile() {
         return this.storageProfile;
     }
 
     /**
-     * Set specifies the storage settings for the virtual machine disks.
+     * Set the storageProfile value.
      *
-     * @param storageProfile the storageProfile value to set
+     * @param storageProfile the storageProfile value to set.
      * @return the ImageUpdate object itself.
      */
     public ImageUpdate withStorageProfile(ImageStorageProfile storageProfile) {
@@ -76,12 +76,11 @@ public class ImageUpdate extends UpdateResource {
     }
 
     /**
-     * Get the provisioning state.
+     * Get the provisioningState value.
      *
-     * @return the provisioningState value
+     * @return the provisioningState value.
      */
     public String provisioningState() {
         return this.provisioningState;
     }
-
 }

@@ -8,49 +8,49 @@
 
 package com.microsoft.azure.v2.management.compute;
 
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 
 /**
  * Describes the basic gallery artifact publishing profile.
  */
 public class GalleryArtifactPublishingProfileBase {
     /**
-     * The regions where the artifact is going to be published.
+     * The target regions where the artifact is going to be published.
      */
-    @JsonProperty(value = "regions")
-    private List<String> regions;
+    @JsonProperty(value = "targetRegions")
+    private List<TargetRegion> targetRegions;
 
     /**
      * The source property.
      */
-    @JsonProperty(value = "source")
+    @JsonProperty(value = "source", required = true)
     private GalleryArtifactSource source;
 
     /**
-     * Get the regions where the artifact is going to be published.
+     * Get the targetRegions value.
      *
-     * @return the regions value
+     * @return the targetRegions value.
      */
-    public List<String> regions() {
-        return this.regions;
+    public List<TargetRegion> targetRegions() {
+        return this.targetRegions;
     }
 
     /**
-     * Set the regions where the artifact is going to be published.
+     * Set the targetRegions value.
      *
-     * @param regions the regions value to set
+     * @param targetRegions the targetRegions value to set.
      * @return the GalleryArtifactPublishingProfileBase object itself.
      */
-    public GalleryArtifactPublishingProfileBase withRegions(List<String> regions) {
-        this.regions = regions;
+    public GalleryArtifactPublishingProfileBase withTargetRegions(List<TargetRegion> targetRegions) {
+        this.targetRegions = targetRegions;
         return this;
     }
 
     /**
      * Get the source value.
      *
-     * @return the source value
+     * @return the source value.
      */
     public GalleryArtifactSource source() {
         return this.source;
@@ -59,12 +59,11 @@ public class GalleryArtifactPublishingProfileBase {
     /**
      * Set the source value.
      *
-     * @param source the source value to set
+     * @param source the source value to set.
      * @return the GalleryArtifactPublishingProfileBase object itself.
      */
     public GalleryArtifactPublishingProfileBase withSource(GalleryArtifactSource source) {
         this.source = source;
         return this;
     }
-
 }

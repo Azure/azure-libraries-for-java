@@ -8,10 +8,10 @@
 
 package com.microsoft.azure.v2.management.compute.implementation;
 
-import com.microsoft.azure.v2.management.compute.GalleryIdentifier;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.Resource;
+import com.microsoft.azure.v2.Resource;
+import com.microsoft.azure.v2.management.compute.GalleryIdentifier;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
 
 /**
  * Specifies information about the gallery that you want to create or update.
@@ -40,18 +40,18 @@ public class GalleryInner extends Resource {
     private String provisioningState;
 
     /**
-     * Get the description of this gallery resource.
+     * Get the description value.
      *
-     * @return the description value
+     * @return the description value.
      */
     public String description() {
         return this.description;
     }
 
     /**
-     * Set the description of this gallery resource.
+     * Set the description value.
      *
-     * @param description the description value to set
+     * @param description the description value to set.
      * @return the GalleryInner object itself.
      */
     public GalleryInner withDescription(String description) {
@@ -62,7 +62,7 @@ public class GalleryInner extends Resource {
     /**
      * Get the identifier value.
      *
-     * @return the identifier value
+     * @return the identifier value.
      */
     public GalleryIdentifier identifier() {
         return this.identifier;
@@ -71,7 +71,7 @@ public class GalleryInner extends Resource {
     /**
      * Set the identifier value.
      *
-     * @param identifier the identifier value to set
+     * @param identifier the identifier value to set.
      * @return the GalleryInner object itself.
      */
     public GalleryInner withIdentifier(GalleryIdentifier identifier) {
@@ -80,12 +80,11 @@ public class GalleryInner extends Resource {
     }
 
     /**
-     * Get the provisioning state, which only appears in the response. Possible values include: 'Creating', 'Updating', 'Failed', 'Succeeded', 'Deleting', 'Migrating'.
+     * Get the provisioningState value.
      *
-     * @return the provisioningState value
+     * @return the provisioningState value.
      */
     public String provisioningState() {
         return this.provisioningState;
     }
-
 }

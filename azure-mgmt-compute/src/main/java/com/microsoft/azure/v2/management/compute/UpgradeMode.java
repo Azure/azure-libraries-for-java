@@ -15,19 +15,27 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Defines values for UpgradeMode.
  */
 public enum UpgradeMode {
-    /** Enum value Automatic. */
+    /**
+     * Enum value Automatic.
+     */
     AUTOMATIC("Automatic"),
 
-    /** Enum value Manual. */
+    /**
+     * Enum value Manual.
+     */
     MANUAL("Manual"),
 
-    /** Enum value Rolling. */
+    /**
+     * Enum value Rolling.
+     */
     ROLLING("Rolling");
 
-    /** The actual serialized value for a UpgradeMode instance. */
-    private String value;
+    /**
+     * The actual serialized value for a UpgradeMode instance.
+     */
+    private final String value;
 
-    UpgradeMode(String value) {
+    private UpgradeMode(String value) {
         this.value = value;
     }
 

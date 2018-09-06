@@ -9,8 +9,8 @@
 package com.microsoft.azure.v2.management.compute;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.SubResource;
+import com.microsoft.azure.v2.SubResource;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
 
 /**
  * Describes a network interface reference.
@@ -25,23 +25,22 @@ public class NetworkInterfaceReference extends SubResource {
     private Boolean primary;
 
     /**
-     * Get specifies the primary network interface in case the virtual machine has more than 1 network interface.
+     * Get the primary value.
      *
-     * @return the primary value
+     * @return the primary value.
      */
     public Boolean primary() {
         return this.primary;
     }
 
     /**
-     * Set specifies the primary network interface in case the virtual machine has more than 1 network interface.
+     * Set the primary value.
      *
-     * @param primary the primary value to set
+     * @param primary the primary value to set.
      * @return the NetworkInterfaceReference object itself.
      */
     public NetworkInterfaceReference withPrimary(Boolean primary) {
         this.primary = primary;
         return this;
     }
-
 }

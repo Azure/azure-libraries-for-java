@@ -8,13 +8,13 @@
 
 package com.microsoft.azure.v2.management.compute;
 
-import com.microsoft.azure.SubResource;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.v2.SubResource;
 
 /**
  * Describes a reference to Key Vault Key.
  */
-public class KeyVaultKeyReference {
+public final class KeyVaultKeyReference {
     /**
      * The URL referencing a key encryption key in Key Vault.
      */
@@ -28,18 +28,18 @@ public class KeyVaultKeyReference {
     private SubResource sourceVault;
 
     /**
-     * Get the URL referencing a key encryption key in Key Vault.
+     * Get the keyUrl value.
      *
-     * @return the keyUrl value
+     * @return the keyUrl value.
      */
     public String keyUrl() {
         return this.keyUrl;
     }
 
     /**
-     * Set the URL referencing a key encryption key in Key Vault.
+     * Set the keyUrl value.
      *
-     * @param keyUrl the keyUrl value to set
+     * @param keyUrl the keyUrl value to set.
      * @return the KeyVaultKeyReference object itself.
      */
     public KeyVaultKeyReference withKeyUrl(String keyUrl) {
@@ -48,23 +48,22 @@ public class KeyVaultKeyReference {
     }
 
     /**
-     * Get the relative URL of the Key Vault containing the key.
+     * Get the sourceVault value.
      *
-     * @return the sourceVault value
+     * @return the sourceVault value.
      */
     public SubResource sourceVault() {
         return this.sourceVault;
     }
 
     /**
-     * Set the relative URL of the Key Vault containing the key.
+     * Set the sourceVault value.
      *
-     * @param sourceVault the sourceVault value to set
+     * @param sourceVault the sourceVault value to set.
      * @return the KeyVaultKeyReference object itself.
      */
     public KeyVaultKeyReference withSourceVault(SubResource sourceVault) {
         this.sourceVault = sourceVault;
         return this;
     }
-
 }

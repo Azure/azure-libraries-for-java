@@ -8,79 +8,79 @@
 
 package com.microsoft.azure.v2.management.compute.implementation;
 
-import retrofit2.Retrofit;
-import com.google.common.reflect.TypeToken;
-import com.microsoft.azure.AzureServiceFuture;
-import com.microsoft.azure.CloudException;
-import com.microsoft.azure.ListOperationCallback;
-import com.microsoft.azure.Page;
-import com.microsoft.azure.PagedList;
-import com.microsoft.rest.ServiceFuture;
-import com.microsoft.rest.ServiceResponse;
-import java.io.IOException;
-import java.util.List;
-import okhttp3.ResponseBody;
-import retrofit2.http.GET;
-import retrofit2.http.Header;
-import retrofit2.http.Headers;
-import retrofit2.http.Path;
-import retrofit2.http.Query;
-import retrofit2.http.Url;
-import retrofit2.Response;
-import rx.functions.Func1;
-import rx.Observable;
+import com.microsoft.azure.v2.AzureProxy;
+import com.microsoft.azure.v2.CloudException;
+import com.microsoft.azure.v2.Page;
+import com.microsoft.azure.v2.PagedList;
+import com.microsoft.rest.v2.BodyResponse;
+import com.microsoft.rest.v2.annotations.ExpectedResponses;
+import com.microsoft.rest.v2.annotations.GET;
+import com.microsoft.rest.v2.annotations.HeaderParam;
+import com.microsoft.rest.v2.annotations.Host;
+import com.microsoft.rest.v2.annotations.PathParam;
+import com.microsoft.rest.v2.annotations.QueryParam;
+import com.microsoft.rest.v2.annotations.UnexpectedResponseExceptionType;
+import io.reactivex.Observable;
+import io.reactivex.Single;
+import io.reactivex.annotations.NonNull;
 
 /**
- * An instance of this class provides access to all the operations defined
- * in Usages.
+ * An instance of this class provides access to all the operations defined in
+ * Usages.
  */
-public class UsagesInner {
-    /** The Retrofit service to perform REST calls. */
+public final class UsagesInner {
+    /**
+     * The proxy service used to perform REST calls.
+     */
     private UsagesService service;
-    /** The service client containing this operation class. */
+
+    /**
+     * The service client containing this operation class.
+     */
     private ComputeManagementClientImpl client;
 
     /**
      * Initializes an instance of UsagesInner.
      *
-     * @param retrofit the Retrofit instance built from a Retrofit Builder.
      * @param client the instance of the service client containing this operation class.
      */
-    public UsagesInner(Retrofit retrofit, ComputeManagementClientImpl client) {
-        this.service = retrofit.create(UsagesService.class);
+    public UsagesInner(ComputeManagementClientImpl client) {
+        this.service = AzureProxy.create(UsagesService.class, client);
         this.client = client;
     }
 
     /**
-     * The interface defining all the services for Usages to be
-     * used by Retrofit to perform actually REST calls.
+     * The interface defining all the services for Usages to be used by the
+     * proxy service to perform REST calls.
      */
-    interface UsagesService {
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.Usages list" })
+    @Host("https://management.azure.com")
+    private interface UsagesService {
         @GET("subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/usages")
-        Observable<Response<ResponseBody>> list(@Path("location") String location, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl1<UsageInner>>> list(@PathParam("location") String location, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.Usages listNext" })
-        @GET
-        Observable<Response<ResponseBody>> listNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
-
+        @GET("{nextUrl}")
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl1<UsageInner>>> listNext(@PathParam(value = "nextUrl", encoded = true) String nextUrl, @HeaderParam("accept-language") String acceptLanguage);
     }
 
     /**
      * Gets, for the specified location, the current compute resource usage information as well as the limits for compute resources under the subscription.
      *
      * @param location The location for which resource usage is queried.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;UsageInner&gt; object if successful.
      */
-    public PagedList<UsageInner> list(final String location) {
-        ServiceResponse<Page<UsageInner>> response = listSinglePageAsync(location).toBlocking().single();
-        return new PagedList<UsageInner>(response.body()) {
+    public PagedList<UsageInner> list(@NonNull String location) {
+        Page<UsageInner> response = listSinglePageAsync(location).blockingGet();
+        return new PagedList<UsageInner>(response) {
             @Override
             public Page<UsageInner> nextPage(String nextPageLink) {
-                return listNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -89,68 +89,29 @@ public class UsagesInner {
      * Gets, for the specified location, the current compute resource usage information as well as the limits for compute resources under the subscription.
      *
      * @param location The location for which resource usage is queried.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;UsageInner&gt; object.
      */
-    public ServiceFuture<List<UsageInner>> listAsync(final String location, final ListOperationCallback<UsageInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listSinglePageAsync(location),
-            new Func1<String, Observable<ServiceResponse<Page<UsageInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<UsageInner>>> call(String nextPageLink) {
-                    return listNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets, for the specified location, the current compute resource usage information as well as the limits for compute resources under the subscription.
-     *
-     * @param location The location for which resource usage is queried.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;UsageInner&gt; object
-     */
-    public Observable<Page<UsageInner>> listAsync(final String location) {
-        return listWithServiceResponseAsync(location)
-            .map(new Func1<ServiceResponse<Page<UsageInner>>, Page<UsageInner>>() {
-                @Override
-                public Page<UsageInner> call(ServiceResponse<Page<UsageInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets, for the specified location, the current compute resource usage information as well as the limits for compute resources under the subscription.
-     *
-     * @param location The location for which resource usage is queried.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;UsageInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<UsageInner>>> listWithServiceResponseAsync(final String location) {
+    public Observable<Page<UsageInner>> listAsync(@NonNull String location) {
         return listSinglePageAsync(location)
-            .concatMap(new Func1<ServiceResponse<Page<UsageInner>>, Observable<ServiceResponse<Page<UsageInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<UsageInner>>> call(ServiceResponse<Page<UsageInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<UsageInner> page) -> {
+                String nextPageLink = page.nextPageLink();
+                if (nextPageLink == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listNextAsync(nextPageLink));
             });
     }
 
     /**
      * Gets, for the specified location, the current compute resource usage information as well as the limits for compute resources under the subscription.
      *
-    ServiceResponse<PageImpl1<UsageInner>> * @param location The location for which resource usage is queried.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;UsageInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param location The location for which resource usage is queried.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;UsageInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<UsageInner>>> listSinglePageAsync(final String location) {
+    public Single<Page<UsageInner>> listSinglePageAsync(@NonNull String location) {
         if (location == null) {
             throw new IllegalArgumentException("Parameter location is required and cannot be null.");
         }
@@ -158,42 +119,25 @@ public class UsagesInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        return service.list(location, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<UsageInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<UsageInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl1<UsageInner>> result = listDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<UsageInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl1<UsageInner>> listDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl1<UsageInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl1<UsageInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+        return service.list(location, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl1<UsageInner>> res) -> res.body());
     }
 
     /**
      * Gets, for the specified location, the current compute resource usage information as well as the limits for compute resources under the subscription.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;UsageInner&gt; object if successful.
      */
-    public PagedList<UsageInner> listNext(final String nextPageLink) {
-        ServiceResponse<Page<UsageInner>> response = listNextSinglePageAsync(nextPageLink).toBlocking().single();
-        return new PagedList<UsageInner>(response.body()) {
+    public PagedList<UsageInner> listNext(@NonNull String nextPageLink) {
+        Page<UsageInner> response = listNextSinglePageAsync(nextPageLink).blockingGet();
+        return new PagedList<UsageInner>(response) {
             @Override
             public Page<UsageInner> nextPage(String nextPageLink) {
-                return listNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -202,92 +146,34 @@ public class UsagesInner {
      * Gets, for the specified location, the current compute resource usage information as well as the limits for compute resources under the subscription.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;UsageInner&gt; object.
      */
-    public ServiceFuture<List<UsageInner>> listNextAsync(final String nextPageLink, final ServiceFuture<List<UsageInner>> serviceFuture, final ListOperationCallback<UsageInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listNextSinglePageAsync(nextPageLink),
-            new Func1<String, Observable<ServiceResponse<Page<UsageInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<UsageInner>>> call(String nextPageLink) {
-                    return listNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets, for the specified location, the current compute resource usage information as well as the limits for compute resources under the subscription.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;UsageInner&gt; object
-     */
-    public Observable<Page<UsageInner>> listNextAsync(final String nextPageLink) {
-        return listNextWithServiceResponseAsync(nextPageLink)
-            .map(new Func1<ServiceResponse<Page<UsageInner>>, Page<UsageInner>>() {
-                @Override
-                public Page<UsageInner> call(ServiceResponse<Page<UsageInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets, for the specified location, the current compute resource usage information as well as the limits for compute resources under the subscription.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;UsageInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<UsageInner>>> listNextWithServiceResponseAsync(final String nextPageLink) {
+    public Observable<Page<UsageInner>> listNextAsync(@NonNull String nextPageLink) {
         return listNextSinglePageAsync(nextPageLink)
-            .concatMap(new Func1<ServiceResponse<Page<UsageInner>>, Observable<ServiceResponse<Page<UsageInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<UsageInner>>> call(ServiceResponse<Page<UsageInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<UsageInner> page) -> {
+                String nextPageLink1 = page.nextPageLink();
+                if (nextPageLink1 == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listNextAsync(nextPageLink1));
             });
     }
 
     /**
      * Gets, for the specified location, the current compute resource usage information as well as the limits for compute resources under the subscription.
      *
-    ServiceResponse<PageImpl1<UsageInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;UsageInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;UsageInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<UsageInner>>> listNextSinglePageAsync(final String nextPageLink) {
+    public Single<Page<UsageInner>> listNextSinglePageAsync(@NonNull String nextPageLink) {
         if (nextPageLink == null) {
             throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
         }
         String nextUrl = String.format("%s", nextPageLink);
-        return service.listNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<UsageInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<UsageInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl1<UsageInner>> result = listNextDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<UsageInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.listNext(nextUrl, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl1<UsageInner>> res) -> res.body());
     }
-
-    private ServiceResponse<PageImpl1<UsageInner>> listNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl1<UsageInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl1<UsageInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
-    }
-
 }

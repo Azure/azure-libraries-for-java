@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Describes a Encryption Settings for a Disk.
  */
-public class DiskEncryptionSettings {
+public final class DiskEncryptionSettings {
     /**
      * Specifies the location of the disk encryption key, which is a Key Vault
      * Secret.
@@ -35,18 +35,18 @@ public class DiskEncryptionSettings {
     private Boolean enabled;
 
     /**
-     * Get specifies the location of the disk encryption key, which is a Key Vault Secret.
+     * Get the diskEncryptionKey value.
      *
-     * @return the diskEncryptionKey value
+     * @return the diskEncryptionKey value.
      */
     public KeyVaultSecretReference diskEncryptionKey() {
         return this.diskEncryptionKey;
     }
 
     /**
-     * Set specifies the location of the disk encryption key, which is a Key Vault Secret.
+     * Set the diskEncryptionKey value.
      *
-     * @param diskEncryptionKey the diskEncryptionKey value to set
+     * @param diskEncryptionKey the diskEncryptionKey value to set.
      * @return the DiskEncryptionSettings object itself.
      */
     public DiskEncryptionSettings withDiskEncryptionKey(KeyVaultSecretReference diskEncryptionKey) {
@@ -55,18 +55,18 @@ public class DiskEncryptionSettings {
     }
 
     /**
-     * Get specifies the location of the key encryption key in Key Vault.
+     * Get the keyEncryptionKey value.
      *
-     * @return the keyEncryptionKey value
+     * @return the keyEncryptionKey value.
      */
     public KeyVaultKeyReference keyEncryptionKey() {
         return this.keyEncryptionKey;
     }
 
     /**
-     * Set specifies the location of the key encryption key in Key Vault.
+     * Set the keyEncryptionKey value.
      *
-     * @param keyEncryptionKey the keyEncryptionKey value to set
+     * @param keyEncryptionKey the keyEncryptionKey value to set.
      * @return the DiskEncryptionSettings object itself.
      */
     public DiskEncryptionSettings withKeyEncryptionKey(KeyVaultKeyReference keyEncryptionKey) {
@@ -75,23 +75,22 @@ public class DiskEncryptionSettings {
     }
 
     /**
-     * Get specifies whether disk encryption should be enabled on the virtual machine.
+     * Get the enabled value.
      *
-     * @return the enabled value
+     * @return the enabled value.
      */
     public Boolean enabled() {
         return this.enabled;
     }
 
     /**
-     * Set specifies whether disk encryption should be enabled on the virtual machine.
+     * Set the enabled value.
      *
-     * @param enabled the enabled value to set
+     * @param enabled the enabled value to set.
      * @return the DiskEncryptionSettings object itself.
      */
     public DiskEncryptionSettings withEnabled(Boolean enabled) {
         this.enabled = enabled;
         return this;
     }
-
 }

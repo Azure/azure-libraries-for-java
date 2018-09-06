@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * The API entity reference.
  */
-public class ApiEntityReference {
+public final class ApiEntityReference {
     /**
      * The ARM resource id in the form of
      * /subscriptions/{SubcriptionId}/resourceGroups/{ResourceGroupName}/...
@@ -22,23 +22,22 @@ public class ApiEntityReference {
     private String id;
 
     /**
-     * Get the ARM resource id in the form of /subscriptions/{SubcriptionId}/resourceGroups/{ResourceGroupName}/...
+     * Get the id value.
      *
-     * @return the id value
+     * @return the id value.
      */
     public String id() {
         return this.id;
     }
 
     /**
-     * Set the ARM resource id in the form of /subscriptions/{SubcriptionId}/resourceGroups/{ResourceGroupName}/...
+     * Set the id value.
      *
-     * @param id the id value to set
+     * @param id the id value to set.
      * @return the ApiEntityReference object itself.
      */
     public ApiEntityReference withId(String id) {
         this.id = id;
         return this;
     }
-
 }

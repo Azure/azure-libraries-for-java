@@ -8,13 +8,13 @@
 
 package com.microsoft.azure.v2.management.compute;
 
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 
 /**
  * Extensions summary for virtual machines of a virtual machine scale set.
  */
-public class VirtualMachineScaleSetVMExtensionsSummary {
+public final class VirtualMachineScaleSetVMExtensionsSummary {
     /**
      * The extension name.
      */
@@ -28,21 +28,20 @@ public class VirtualMachineScaleSetVMExtensionsSummary {
     private List<VirtualMachineStatusCodeCount> statusesSummary;
 
     /**
-     * Get the extension name.
+     * Get the name value.
      *
-     * @return the name value
+     * @return the name value.
      */
     public String name() {
         return this.name;
     }
 
     /**
-     * Get the extensions information.
+     * Get the statusesSummary value.
      *
-     * @return the statusesSummary value
+     * @return the statusesSummary value.
      */
     public List<VirtualMachineStatusCodeCount> statusesSummary() {
         return this.statusesSummary;
     }
-
 }

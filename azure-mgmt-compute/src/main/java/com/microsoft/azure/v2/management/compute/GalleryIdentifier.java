@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Describes the gallery unique name.
  */
-public class GalleryIdentifier {
+public final class GalleryIdentifier {
     /**
      * The unique name of the gallery.
      */
@@ -21,12 +21,11 @@ public class GalleryIdentifier {
     private String uniqueName;
 
     /**
-     * Get the unique name of the gallery.
+     * Get the uniqueName value.
      *
-     * @return the uniqueName value
+     * @return the uniqueName value.
      */
     public String uniqueName() {
         return this.uniqueName;
     }
-
 }

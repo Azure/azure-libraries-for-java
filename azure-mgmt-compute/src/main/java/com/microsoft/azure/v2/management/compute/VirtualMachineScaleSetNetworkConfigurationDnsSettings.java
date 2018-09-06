@@ -8,14 +8,14 @@
 
 package com.microsoft.azure.v2.management.compute;
 
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 
 /**
  * Describes a virtual machines scale sets network configuration's DNS
  * settings.
  */
-public class VirtualMachineScaleSetNetworkConfigurationDnsSettings {
+public final class VirtualMachineScaleSetNetworkConfigurationDnsSettings {
     /**
      * List of DNS servers IP addresses.
      */
@@ -23,23 +23,23 @@ public class VirtualMachineScaleSetNetworkConfigurationDnsSettings {
     private List<String> dnsServers;
 
     /**
-     * Get list of DNS servers IP addresses.
+     * Get the dnsServers value.
      *
-     * @return the dnsServers value
+     * @return the dnsServers value.
      */
     public List<String> dnsServers() {
         return this.dnsServers;
     }
 
     /**
-     * Set list of DNS servers IP addresses.
+     * Set the dnsServers value.
      *
-     * @param dnsServers the dnsServers value to set
-     * @return the VirtualMachineScaleSetNetworkConfigurationDnsSettings object itself.
+     * @param dnsServers the dnsServers value to set.
+     * @return the VirtualMachineScaleSetNetworkConfigurationDnsSettings object
+     * itself.
      */
     public VirtualMachineScaleSetNetworkConfigurationDnsSettings withDnsServers(List<String> dnsServers) {
         this.dnsServers = dnsServers;
         return this;
     }
-
 }

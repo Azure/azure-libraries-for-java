@@ -8,13 +8,13 @@
 
 package com.microsoft.azure.v2.management.compute;
 
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 
 /**
  * Specifies the operating system settings for the virtual machine.
  */
-public class OSProfile {
+public final class OSProfile {
     /**
      * Specifies the host OS name of the virtual machine. &lt;br&gt;&lt;br&gt;
      * **Max-length (Windows):** 15 characters &lt;br&gt;&lt;br&gt;
@@ -114,18 +114,18 @@ public class OSProfile {
     private Boolean allowExtensionOperations;
 
     /**
-     * Get specifies the host OS name of the virtual machine. &lt;br&gt;&lt;br&gt; **Max-length (Windows):** 15 characters &lt;br&gt;&lt;br&gt; **Max-length (Linux):** 64 characters. &lt;br&gt;&lt;br&gt; For naming conventions and restrictions see [Azure infrastructure services implementation guidelines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-infrastructure-subscription-accounts-guidelines?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json#1-naming-conventions).
+     * Get the computerName value.
      *
-     * @return the computerName value
+     * @return the computerName value.
      */
     public String computerName() {
         return this.computerName;
     }
 
     /**
-     * Set specifies the host OS name of the virtual machine. &lt;br&gt;&lt;br&gt; **Max-length (Windows):** 15 characters &lt;br&gt;&lt;br&gt; **Max-length (Linux):** 64 characters. &lt;br&gt;&lt;br&gt; For naming conventions and restrictions see [Azure infrastructure services implementation guidelines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-infrastructure-subscription-accounts-guidelines?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json#1-naming-conventions).
+     * Set the computerName value.
      *
-     * @param computerName the computerName value to set
+     * @param computerName the computerName value to set.
      * @return the OSProfile object itself.
      */
     public OSProfile withComputerName(String computerName) {
@@ -134,18 +134,18 @@ public class OSProfile {
     }
 
     /**
-     * Get specifies the name of the administrator account. &lt;br&gt;&lt;br&gt; **Windows-only restriction:** Cannot end in "." &lt;br&gt;&lt;br&gt; **Disallowed values:** "administrator", "admin", "user", "user1", "test", "user2", "test1", "user3", "admin1", "1", "123", "a", "actuser", "adm", "admin2", "aspnet", "backup", "console", "david", "guest", "john", "owner", "root", "server", "sql", "support", "support_388945a0", "sys", "test2", "test3", "user4", "user5". &lt;br&gt;&lt;br&gt; **Minimum-length (Linux):** 1  character &lt;br&gt;&lt;br&gt; **Max-length (Linux):** 64 characters &lt;br&gt;&lt;br&gt; **Max-length (Windows):** 20 characters  &lt;br&gt;&lt;br&gt;&lt;li&gt; For root access to the Linux VM, see [Using root privileges on Linux virtual machines in Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-use-root-privileges?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)&lt;br&gt;&lt;li&gt; For a list of built-in system users on Linux that should not be used in this field, see [Selecting User Names for Linux on Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-usernames?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json).
+     * Get the adminUsername value.
      *
-     * @return the adminUsername value
+     * @return the adminUsername value.
      */
     public String adminUsername() {
         return this.adminUsername;
     }
 
     /**
-     * Set specifies the name of the administrator account. &lt;br&gt;&lt;br&gt; **Windows-only restriction:** Cannot end in "." &lt;br&gt;&lt;br&gt; **Disallowed values:** "administrator", "admin", "user", "user1", "test", "user2", "test1", "user3", "admin1", "1", "123", "a", "actuser", "adm", "admin2", "aspnet", "backup", "console", "david", "guest", "john", "owner", "root", "server", "sql", "support", "support_388945a0", "sys", "test2", "test3", "user4", "user5". &lt;br&gt;&lt;br&gt; **Minimum-length (Linux):** 1  character &lt;br&gt;&lt;br&gt; **Max-length (Linux):** 64 characters &lt;br&gt;&lt;br&gt; **Max-length (Windows):** 20 characters  &lt;br&gt;&lt;br&gt;&lt;li&gt; For root access to the Linux VM, see [Using root privileges on Linux virtual machines in Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-use-root-privileges?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)&lt;br&gt;&lt;li&gt; For a list of built-in system users on Linux that should not be used in this field, see [Selecting User Names for Linux on Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-usernames?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json).
+     * Set the adminUsername value.
      *
-     * @param adminUsername the adminUsername value to set
+     * @param adminUsername the adminUsername value to set.
      * @return the OSProfile object itself.
      */
     public OSProfile withAdminUsername(String adminUsername) {
@@ -154,18 +154,18 @@ public class OSProfile {
     }
 
     /**
-     * Get specifies the password of the administrator account. &lt;br&gt;&lt;br&gt; **Minimum-length (Windows):** 8 characters &lt;br&gt;&lt;br&gt; **Minimum-length (Linux):** 6 characters &lt;br&gt;&lt;br&gt; **Max-length (Windows):** 123 characters &lt;br&gt;&lt;br&gt; **Max-length (Linux):** 72 characters &lt;br&gt;&lt;br&gt; **Complexity requirements:** 3 out of 4 conditions below need to be fulfilled &lt;br&gt; Has lower characters &lt;br&gt;Has upper characters &lt;br&gt; Has a digit &lt;br&gt; Has a special character (Regex match [\W_]) &lt;br&gt;&lt;br&gt; **Disallowed values:** "abc@123", "P@$$w0rd", "P@ssw0rd", "P@ssword123", "Pa$$word", "pass@word1", "Password!", "Password1", "Password22", "iloveyou!" &lt;br&gt;&lt;br&gt; For resetting the password, see [How to reset the Remote Desktop service or its login password in a Windows VM](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-reset-rdp?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json) &lt;br&gt;&lt;br&gt; For resetting root password, see [Manage users, SSH, and check or repair disks on Azure Linux VMs using the VMAccess Extension](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-using-vmaccess-extension?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json#reset-root-password).
+     * Get the adminPassword value.
      *
-     * @return the adminPassword value
+     * @return the adminPassword value.
      */
     public String adminPassword() {
         return this.adminPassword;
     }
 
     /**
-     * Set specifies the password of the administrator account. &lt;br&gt;&lt;br&gt; **Minimum-length (Windows):** 8 characters &lt;br&gt;&lt;br&gt; **Minimum-length (Linux):** 6 characters &lt;br&gt;&lt;br&gt; **Max-length (Windows):** 123 characters &lt;br&gt;&lt;br&gt; **Max-length (Linux):** 72 characters &lt;br&gt;&lt;br&gt; **Complexity requirements:** 3 out of 4 conditions below need to be fulfilled &lt;br&gt; Has lower characters &lt;br&gt;Has upper characters &lt;br&gt; Has a digit &lt;br&gt; Has a special character (Regex match [\W_]) &lt;br&gt;&lt;br&gt; **Disallowed values:** "abc@123", "P@$$w0rd", "P@ssw0rd", "P@ssword123", "Pa$$word", "pass@word1", "Password!", "Password1", "Password22", "iloveyou!" &lt;br&gt;&lt;br&gt; For resetting the password, see [How to reset the Remote Desktop service or its login password in a Windows VM](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-reset-rdp?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json) &lt;br&gt;&lt;br&gt; For resetting root password, see [Manage users, SSH, and check or repair disks on Azure Linux VMs using the VMAccess Extension](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-using-vmaccess-extension?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json#reset-root-password).
+     * Set the adminPassword value.
      *
-     * @param adminPassword the adminPassword value to set
+     * @param adminPassword the adminPassword value to set.
      * @return the OSProfile object itself.
      */
     public OSProfile withAdminPassword(String adminPassword) {
@@ -174,18 +174,18 @@ public class OSProfile {
     }
 
     /**
-     * Get specifies a base-64 encoded string of custom data. The base-64 encoded string is decoded to a binary array that is saved as a file on the Virtual Machine. The maximum length of the binary array is 65535 bytes. &lt;br&gt;&lt;br&gt; For using cloud-init for your VM, see [Using cloud-init to customize a Linux VM during creation](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-using-cloud-init?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json).
+     * Get the customData value.
      *
-     * @return the customData value
+     * @return the customData value.
      */
     public String customData() {
         return this.customData;
     }
 
     /**
-     * Set specifies a base-64 encoded string of custom data. The base-64 encoded string is decoded to a binary array that is saved as a file on the Virtual Machine. The maximum length of the binary array is 65535 bytes. &lt;br&gt;&lt;br&gt; For using cloud-init for your VM, see [Using cloud-init to customize a Linux VM during creation](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-using-cloud-init?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json).
+     * Set the customData value.
      *
-     * @param customData the customData value to set
+     * @param customData the customData value to set.
      * @return the OSProfile object itself.
      */
     public OSProfile withCustomData(String customData) {
@@ -194,18 +194,18 @@ public class OSProfile {
     }
 
     /**
-     * Get specifies Windows operating system settings on the virtual machine.
+     * Get the windowsConfiguration value.
      *
-     * @return the windowsConfiguration value
+     * @return the windowsConfiguration value.
      */
     public WindowsConfiguration windowsConfiguration() {
         return this.windowsConfiguration;
     }
 
     /**
-     * Set specifies Windows operating system settings on the virtual machine.
+     * Set the windowsConfiguration value.
      *
-     * @param windowsConfiguration the windowsConfiguration value to set
+     * @param windowsConfiguration the windowsConfiguration value to set.
      * @return the OSProfile object itself.
      */
     public OSProfile withWindowsConfiguration(WindowsConfiguration windowsConfiguration) {
@@ -214,18 +214,18 @@ public class OSProfile {
     }
 
     /**
-     * Get specifies the Linux operating system settings on the virtual machine. &lt;br&gt;&lt;br&gt;For a list of supported Linux distributions, see [Linux on Azure-Endorsed Distributions](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-endorsed-distros?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json) &lt;br&gt;&lt;br&gt; For running non-endorsed distributions, see [Information for Non-Endorsed Distributions](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-create-upload-generic?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json).
+     * Get the linuxConfiguration value.
      *
-     * @return the linuxConfiguration value
+     * @return the linuxConfiguration value.
      */
     public LinuxConfiguration linuxConfiguration() {
         return this.linuxConfiguration;
     }
 
     /**
-     * Set specifies the Linux operating system settings on the virtual machine. &lt;br&gt;&lt;br&gt;For a list of supported Linux distributions, see [Linux on Azure-Endorsed Distributions](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-endorsed-distros?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json) &lt;br&gt;&lt;br&gt; For running non-endorsed distributions, see [Information for Non-Endorsed Distributions](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-create-upload-generic?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json).
+     * Set the linuxConfiguration value.
      *
-     * @param linuxConfiguration the linuxConfiguration value to set
+     * @param linuxConfiguration the linuxConfiguration value to set.
      * @return the OSProfile object itself.
      */
     public OSProfile withLinuxConfiguration(LinuxConfiguration linuxConfiguration) {
@@ -234,18 +234,18 @@ public class OSProfile {
     }
 
     /**
-     * Get specifies set of certificates that should be installed onto the virtual machine.
+     * Get the secrets value.
      *
-     * @return the secrets value
+     * @return the secrets value.
      */
     public List<VaultSecretGroup> secrets() {
         return this.secrets;
     }
 
     /**
-     * Set specifies set of certificates that should be installed onto the virtual machine.
+     * Set the secrets value.
      *
-     * @param secrets the secrets value to set
+     * @param secrets the secrets value to set.
      * @return the OSProfile object itself.
      */
     public OSProfile withSecrets(List<VaultSecretGroup> secrets) {
@@ -254,23 +254,23 @@ public class OSProfile {
     }
 
     /**
-     * Get specifies whether extension operations should be allowed on the virtual machine. &lt;br&gt;&lt;br&gt;This may only be set to False when no extensions are present on the virtual machine.
+     * Get the allowExtensionOperations value.
      *
-     * @return the allowExtensionOperations value
+     * @return the allowExtensionOperations value.
      */
     public Boolean allowExtensionOperations() {
         return this.allowExtensionOperations;
     }
 
     /**
-     * Set specifies whether extension operations should be allowed on the virtual machine. &lt;br&gt;&lt;br&gt;This may only be set to False when no extensions are present on the virtual machine.
+     * Set the allowExtensionOperations value.
      *
-     * @param allowExtensionOperations the allowExtensionOperations value to set
+     * @param allowExtensionOperations the allowExtensionOperations value to
+     * set.
      * @return the OSProfile object itself.
      */
     public OSProfile withAllowExtensionOperations(Boolean allowExtensionOperations) {
         this.allowExtensionOperations = allowExtensionOperations;
         return this;
     }
-
 }

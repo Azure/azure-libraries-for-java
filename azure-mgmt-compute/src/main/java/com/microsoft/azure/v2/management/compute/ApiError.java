@@ -8,13 +8,13 @@
 
 package com.microsoft.azure.v2.management.compute;
 
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 
 /**
  * Api error.
  */
-public class ApiError {
+public final class ApiError {
     /**
      * The Api error details.
      */
@@ -46,18 +46,18 @@ public class ApiError {
     private String message;
 
     /**
-     * Get the Api error details.
+     * Get the details value.
      *
-     * @return the details value
+     * @return the details value.
      */
     public List<ApiErrorBase> details() {
         return this.details;
     }
 
     /**
-     * Set the Api error details.
+     * Set the details value.
      *
-     * @param details the details value to set
+     * @param details the details value to set.
      * @return the ApiError object itself.
      */
     public ApiError withDetails(List<ApiErrorBase> details) {
@@ -66,18 +66,18 @@ public class ApiError {
     }
 
     /**
-     * Get the Api inner error.
+     * Get the innererror value.
      *
-     * @return the innererror value
+     * @return the innererror value.
      */
     public InnerError innererror() {
         return this.innererror;
     }
 
     /**
-     * Set the Api inner error.
+     * Set the innererror value.
      *
-     * @param innererror the innererror value to set
+     * @param innererror the innererror value to set.
      * @return the ApiError object itself.
      */
     public ApiError withInnererror(InnerError innererror) {
@@ -86,18 +86,18 @@ public class ApiError {
     }
 
     /**
-     * Get the error code.
+     * Get the code value.
      *
-     * @return the code value
+     * @return the code value.
      */
     public String code() {
         return this.code;
     }
 
     /**
-     * Set the error code.
+     * Set the code value.
      *
-     * @param code the code value to set
+     * @param code the code value to set.
      * @return the ApiError object itself.
      */
     public ApiError withCode(String code) {
@@ -106,18 +106,18 @@ public class ApiError {
     }
 
     /**
-     * Get the target of the particular error.
+     * Get the target value.
      *
-     * @return the target value
+     * @return the target value.
      */
     public String target() {
         return this.target;
     }
 
     /**
-     * Set the target of the particular error.
+     * Set the target value.
      *
-     * @param target the target value to set
+     * @param target the target value to set.
      * @return the ApiError object itself.
      */
     public ApiError withTarget(String target) {
@@ -126,23 +126,22 @@ public class ApiError {
     }
 
     /**
-     * Get the error message.
+     * Get the message value.
      *
-     * @return the message value
+     * @return the message value.
      */
     public String message() {
         return this.message;
     }
 
     /**
-     * Set the error message.
+     * Set the message value.
      *
-     * @param message the message value to set
+     * @param message the message value to set.
      * @return the ApiError object itself.
      */
     public ApiError withMessage(String message) {
         this.message = message;
         return this;
     }
-
 }

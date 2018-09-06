@@ -8,13 +8,13 @@
 
 package com.microsoft.azure.v2.management.compute;
 
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 
 /**
  * Describes a virtual machine scale set operating system disk.
  */
-public class VirtualMachineScaleSetOSDisk {
+public final class VirtualMachineScaleSetOSDisk {
     /**
      * The disk name.
      */
@@ -51,6 +51,15 @@ public class VirtualMachineScaleSetOSDisk {
     private DiskCreateOptionTypes createOption;
 
     /**
+     * Specifies the size of the operating system disk in gigabytes. This
+     * element can be used to overwrite the size of the disk in a virtual
+     * machine image. &lt;br&gt;&lt;br&gt; This value cannot be larger than
+     * 1023 GB.
+     */
+    @JsonProperty(value = "diskSizeGB")
+    private Integer diskSizeGB;
+
+    /**
      * This property allows you to specify the type of the OS that is included
      * in the disk if creating a VM from user-image or a specialized VHD.
      * &lt;br&gt;&lt;br&gt; Possible values are: &lt;br&gt;&lt;br&gt;
@@ -81,18 +90,18 @@ public class VirtualMachineScaleSetOSDisk {
     private VirtualMachineScaleSetManagedDiskParameters managedDisk;
 
     /**
-     * Get the disk name.
+     * Get the name value.
      *
-     * @return the name value
+     * @return the name value.
      */
     public String name() {
         return this.name;
     }
 
     /**
-     * Set the disk name.
+     * Set the name value.
      *
-     * @param name the name value to set
+     * @param name the name value to set.
      * @return the VirtualMachineScaleSetOSDisk object itself.
      */
     public VirtualMachineScaleSetOSDisk withName(String name) {
@@ -101,18 +110,18 @@ public class VirtualMachineScaleSetOSDisk {
     }
 
     /**
-     * Get specifies the caching requirements. &lt;br&gt;&lt;br&gt; Possible values are: &lt;br&gt;&lt;br&gt; **None** &lt;br&gt;&lt;br&gt; **ReadOnly** &lt;br&gt;&lt;br&gt; **ReadWrite** &lt;br&gt;&lt;br&gt; Default: **None for Standard storage. ReadOnly for Premium storage**. Possible values include: 'None', 'ReadOnly', 'ReadWrite'.
+     * Get the caching value.
      *
-     * @return the caching value
+     * @return the caching value.
      */
     public CachingTypes caching() {
         return this.caching;
     }
 
     /**
-     * Set specifies the caching requirements. &lt;br&gt;&lt;br&gt; Possible values are: &lt;br&gt;&lt;br&gt; **None** &lt;br&gt;&lt;br&gt; **ReadOnly** &lt;br&gt;&lt;br&gt; **ReadWrite** &lt;br&gt;&lt;br&gt; Default: **None for Standard storage. ReadOnly for Premium storage**. Possible values include: 'None', 'ReadOnly', 'ReadWrite'.
+     * Set the caching value.
      *
-     * @param caching the caching value to set
+     * @param caching the caching value to set.
      * @return the VirtualMachineScaleSetOSDisk object itself.
      */
     public VirtualMachineScaleSetOSDisk withCaching(CachingTypes caching) {
@@ -121,18 +130,18 @@ public class VirtualMachineScaleSetOSDisk {
     }
 
     /**
-     * Get specifies whether writeAccelerator should be enabled or disabled on the disk.
+     * Get the writeAcceleratorEnabled value.
      *
-     * @return the writeAcceleratorEnabled value
+     * @return the writeAcceleratorEnabled value.
      */
     public Boolean writeAcceleratorEnabled() {
         return this.writeAcceleratorEnabled;
     }
 
     /**
-     * Set specifies whether writeAccelerator should be enabled or disabled on the disk.
+     * Set the writeAcceleratorEnabled value.
      *
-     * @param writeAcceleratorEnabled the writeAcceleratorEnabled value to set
+     * @param writeAcceleratorEnabled the writeAcceleratorEnabled value to set.
      * @return the VirtualMachineScaleSetOSDisk object itself.
      */
     public VirtualMachineScaleSetOSDisk withWriteAcceleratorEnabled(Boolean writeAcceleratorEnabled) {
@@ -141,18 +150,18 @@ public class VirtualMachineScaleSetOSDisk {
     }
 
     /**
-     * Get specifies how the virtual machines in the scale set should be created.&lt;br&gt;&lt;br&gt; The only allowed value is: **FromImage** \u2013 This value is used when you are using an image to create the virtual machine. If you are using a platform image, you also use the imageReference element described above. If you are using a marketplace image, you  also use the plan element previously described. Possible values include: 'FromImage', 'Empty', 'Attach'.
+     * Get the createOption value.
      *
-     * @return the createOption value
+     * @return the createOption value.
      */
     public DiskCreateOptionTypes createOption() {
         return this.createOption;
     }
 
     /**
-     * Set specifies how the virtual machines in the scale set should be created.&lt;br&gt;&lt;br&gt; The only allowed value is: **FromImage** \u2013 This value is used when you are using an image to create the virtual machine. If you are using a platform image, you also use the imageReference element described above. If you are using a marketplace image, you  also use the plan element previously described. Possible values include: 'FromImage', 'Empty', 'Attach'.
+     * Set the createOption value.
      *
-     * @param createOption the createOption value to set
+     * @param createOption the createOption value to set.
      * @return the VirtualMachineScaleSetOSDisk object itself.
      */
     public VirtualMachineScaleSetOSDisk withCreateOption(DiskCreateOptionTypes createOption) {
@@ -161,18 +170,38 @@ public class VirtualMachineScaleSetOSDisk {
     }
 
     /**
-     * Get this property allows you to specify the type of the OS that is included in the disk if creating a VM from user-image or a specialized VHD. &lt;br&gt;&lt;br&gt; Possible values are: &lt;br&gt;&lt;br&gt; **Windows** &lt;br&gt;&lt;br&gt; **Linux**. Possible values include: 'Windows', 'Linux'.
+     * Get the diskSizeGB value.
      *
-     * @return the osType value
+     * @return the diskSizeGB value.
+     */
+    public Integer diskSizeGB() {
+        return this.diskSizeGB;
+    }
+
+    /**
+     * Set the diskSizeGB value.
+     *
+     * @param diskSizeGB the diskSizeGB value to set.
+     * @return the VirtualMachineScaleSetOSDisk object itself.
+     */
+    public VirtualMachineScaleSetOSDisk withDiskSizeGB(Integer diskSizeGB) {
+        this.diskSizeGB = diskSizeGB;
+        return this;
+    }
+
+    /**
+     * Get the osType value.
+     *
+     * @return the osType value.
      */
     public OperatingSystemTypes osType() {
         return this.osType;
     }
 
     /**
-     * Set this property allows you to specify the type of the OS that is included in the disk if creating a VM from user-image or a specialized VHD. &lt;br&gt;&lt;br&gt; Possible values are: &lt;br&gt;&lt;br&gt; **Windows** &lt;br&gt;&lt;br&gt; **Linux**. Possible values include: 'Windows', 'Linux'.
+     * Set the osType value.
      *
-     * @param osType the osType value to set
+     * @param osType the osType value to set.
      * @return the VirtualMachineScaleSetOSDisk object itself.
      */
     public VirtualMachineScaleSetOSDisk withOsType(OperatingSystemTypes osType) {
@@ -181,18 +210,18 @@ public class VirtualMachineScaleSetOSDisk {
     }
 
     /**
-     * Get specifies information about the unmanaged user image to base the scale set on.
+     * Get the image value.
      *
-     * @return the image value
+     * @return the image value.
      */
     public VirtualHardDisk image() {
         return this.image;
     }
 
     /**
-     * Set specifies information about the unmanaged user image to base the scale set on.
+     * Set the image value.
      *
-     * @param image the image value to set
+     * @param image the image value to set.
      * @return the VirtualMachineScaleSetOSDisk object itself.
      */
     public VirtualMachineScaleSetOSDisk withImage(VirtualHardDisk image) {
@@ -201,18 +230,18 @@ public class VirtualMachineScaleSetOSDisk {
     }
 
     /**
-     * Get specifies the container urls that are used to store operating system disks for the scale set.
+     * Get the vhdContainers value.
      *
-     * @return the vhdContainers value
+     * @return the vhdContainers value.
      */
     public List<String> vhdContainers() {
         return this.vhdContainers;
     }
 
     /**
-     * Set specifies the container urls that are used to store operating system disks for the scale set.
+     * Set the vhdContainers value.
      *
-     * @param vhdContainers the vhdContainers value to set
+     * @param vhdContainers the vhdContainers value to set.
      * @return the VirtualMachineScaleSetOSDisk object itself.
      */
     public VirtualMachineScaleSetOSDisk withVhdContainers(List<String> vhdContainers) {
@@ -221,23 +250,22 @@ public class VirtualMachineScaleSetOSDisk {
     }
 
     /**
-     * Get the managed disk parameters.
+     * Get the managedDisk value.
      *
-     * @return the managedDisk value
+     * @return the managedDisk value.
      */
     public VirtualMachineScaleSetManagedDiskParameters managedDisk() {
         return this.managedDisk;
     }
 
     /**
-     * Set the managed disk parameters.
+     * Set the managedDisk value.
      *
-     * @param managedDisk the managedDisk value to set
+     * @param managedDisk the managedDisk value to set.
      * @return the VirtualMachineScaleSetOSDisk object itself.
      */
     public VirtualMachineScaleSetOSDisk withManagedDisk(VirtualMachineScaleSetManagedDiskParameters managedDisk) {
         this.managedDisk = managedDisk;
         return this;
     }
-
 }

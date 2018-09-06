@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * The health status of the VM.
  */
-public class VirtualMachineHealthStatus {
+public final class VirtualMachineHealthStatus {
     /**
      * The health status information for the VM.
      */
@@ -21,12 +21,11 @@ public class VirtualMachineHealthStatus {
     private InstanceViewStatus status;
 
     /**
-     * Get the health status information for the VM.
+     * Get the status value.
      *
-     * @return the status value
+     * @return the status value.
      */
     public InstanceViewStatus status() {
         return this.status;
     }
-
 }

@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Describes the properties of a run command parameter.
  */
-public class RunCommandParameterDefinition {
+public final class RunCommandParameterDefinition {
     /**
      * The run command parameter name.
      */
@@ -39,18 +39,18 @@ public class RunCommandParameterDefinition {
     private Boolean required;
 
     /**
-     * Get the run command parameter name.
+     * Get the name value.
      *
-     * @return the name value
+     * @return the name value.
      */
     public String name() {
         return this.name;
     }
 
     /**
-     * Set the run command parameter name.
+     * Set the name value.
      *
-     * @param name the name value to set
+     * @param name the name value to set.
      * @return the RunCommandParameterDefinition object itself.
      */
     public RunCommandParameterDefinition withName(String name) {
@@ -59,18 +59,18 @@ public class RunCommandParameterDefinition {
     }
 
     /**
-     * Get the run command parameter type.
+     * Get the type value.
      *
-     * @return the type value
+     * @return the type value.
      */
     public String type() {
         return this.type;
     }
 
     /**
-     * Set the run command parameter type.
+     * Set the type value.
      *
-     * @param type the type value to set
+     * @param type the type value to set.
      * @return the RunCommandParameterDefinition object itself.
      */
     public RunCommandParameterDefinition withType(String type) {
@@ -79,18 +79,18 @@ public class RunCommandParameterDefinition {
     }
 
     /**
-     * Get the run command parameter default value.
+     * Get the defaultValue value.
      *
-     * @return the defaultValue value
+     * @return the defaultValue value.
      */
     public String defaultValue() {
         return this.defaultValue;
     }
 
     /**
-     * Set the run command parameter default value.
+     * Set the defaultValue value.
      *
-     * @param defaultValue the defaultValue value to set
+     * @param defaultValue the defaultValue value to set.
      * @return the RunCommandParameterDefinition object itself.
      */
     public RunCommandParameterDefinition withDefaultValue(String defaultValue) {
@@ -99,23 +99,22 @@ public class RunCommandParameterDefinition {
     }
 
     /**
-     * Get the run command parameter required.
+     * Get the required value.
      *
-     * @return the required value
+     * @return the required value.
      */
     public Boolean required() {
         return this.required;
     }
 
     /**
-     * Set the run command parameter required.
+     * Set the required value.
      *
-     * @param required the required value to set
+     * @param required the required value to set.
      * @return the RunCommandParameterDefinition object itself.
      */
     public RunCommandParameterDefinition withRequired(Boolean required) {
         this.required = required;
         return this;
     }
-
 }

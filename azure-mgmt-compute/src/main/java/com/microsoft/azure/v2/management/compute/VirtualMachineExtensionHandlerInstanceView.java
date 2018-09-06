@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * The instance view of a virtual machine extension handler.
  */
-public class VirtualMachineExtensionHandlerInstanceView {
+public final class VirtualMachineExtensionHandlerInstanceView {
     /**
      * Specifies the type of the extension; an example is
      * "CustomScriptExtension".
@@ -34,18 +34,18 @@ public class VirtualMachineExtensionHandlerInstanceView {
     private InstanceViewStatus status;
 
     /**
-     * Get specifies the type of the extension; an example is "CustomScriptExtension".
+     * Get the type value.
      *
-     * @return the type value
+     * @return the type value.
      */
     public String type() {
         return this.type;
     }
 
     /**
-     * Set specifies the type of the extension; an example is "CustomScriptExtension".
+     * Set the type value.
      *
-     * @param type the type value to set
+     * @param type the type value to set.
      * @return the VirtualMachineExtensionHandlerInstanceView object itself.
      */
     public VirtualMachineExtensionHandlerInstanceView withType(String type) {
@@ -54,18 +54,18 @@ public class VirtualMachineExtensionHandlerInstanceView {
     }
 
     /**
-     * Get specifies the version of the script handler.
+     * Get the typeHandlerVersion value.
      *
-     * @return the typeHandlerVersion value
+     * @return the typeHandlerVersion value.
      */
     public String typeHandlerVersion() {
         return this.typeHandlerVersion;
     }
 
     /**
-     * Set specifies the version of the script handler.
+     * Set the typeHandlerVersion value.
      *
-     * @param typeHandlerVersion the typeHandlerVersion value to set
+     * @param typeHandlerVersion the typeHandlerVersion value to set.
      * @return the VirtualMachineExtensionHandlerInstanceView object itself.
      */
     public VirtualMachineExtensionHandlerInstanceView withTypeHandlerVersion(String typeHandlerVersion) {
@@ -74,23 +74,22 @@ public class VirtualMachineExtensionHandlerInstanceView {
     }
 
     /**
-     * Get the extension handler status.
+     * Get the status value.
      *
-     * @return the status value
+     * @return the status value.
      */
     public InstanceViewStatus status() {
         return this.status;
     }
 
     /**
-     * Set the extension handler status.
+     * Set the status value.
      *
-     * @param status the status value to set
+     * @param status the status value to set.
      * @return the VirtualMachineExtensionHandlerInstanceView object itself.
      */
     public VirtualMachineExtensionHandlerInstanceView withStatus(InstanceViewStatus status) {
         this.status = status;
         return this;
     }
-
 }

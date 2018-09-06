@@ -8,9 +8,8 @@
 
 package com.microsoft.azure.v2.management.compute;
 
-
 /**
  * This is the OS disk image.
  */
-public class GalleryOSDiskImage extends GalleryDiskImage {
+public final class GalleryOSDiskImage extends GalleryDiskImage {
 }

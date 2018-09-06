@@ -9,26 +9,23 @@
 package com.microsoft.azure.v2.management.compute.implementation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
 
 /**
  * A disk access SAS uri.
  */
-@JsonFlatten
-public class AccessUriInner {
+public final class AccessUriInner {
     /**
      * A SAS uri for accessing a disk.
      */
-    @JsonProperty(value = "properties.output.accessSAS", access = JsonProperty.Access.WRITE_ONLY)
+    @JsonProperty(value = "accessSAS", access = JsonProperty.Access.WRITE_ONLY)
     private String accessSAS;
 
     /**
-     * Get a SAS uri for accessing a disk.
+     * Get the accessSAS value.
      *
-     * @return the accessSAS value
+     * @return the accessSAS value.
      */
     public String accessSAS() {
         return this.accessSAS;
     }
-
 }

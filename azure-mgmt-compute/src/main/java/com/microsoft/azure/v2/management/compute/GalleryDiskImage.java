@@ -28,21 +28,20 @@ public class GalleryDiskImage {
     private HostCaching hostCaching;
 
     /**
-     * Get it indicates the size of the VHD to create.
+     * Get the sizeInGB value.
      *
-     * @return the sizeInGB value
+     * @return the sizeInGB value.
      */
     public Integer sizeInGB() {
         return this.sizeInGB;
     }
 
     /**
-     * Get the host caching of the disk. Valid values are 'None', 'ReadOnly', and 'ReadWrite'. Possible values include: 'None', 'ReadOnly', 'ReadWrite'.
+     * Get the hostCaching value.
      *
-     * @return the hostCaching value
+     * @return the hostCaching value.
      */
     public HostCaching hostCaching() {
         return this.hostCaching;
     }
-
 }

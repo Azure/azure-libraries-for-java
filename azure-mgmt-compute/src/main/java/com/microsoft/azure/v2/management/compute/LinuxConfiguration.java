@@ -19,7 +19,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * [Information for Non-Endorsed
  * Distributions](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-create-upload-generic?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json).
  */
-public class LinuxConfiguration {
+public final class LinuxConfiguration {
     /**
      * Specifies whether password authentication should be disabled.
      */
@@ -43,18 +43,19 @@ public class LinuxConfiguration {
     private Boolean provisionVMAgent;
 
     /**
-     * Get specifies whether password authentication should be disabled.
+     * Get the disablePasswordAuthentication value.
      *
-     * @return the disablePasswordAuthentication value
+     * @return the disablePasswordAuthentication value.
      */
     public Boolean disablePasswordAuthentication() {
         return this.disablePasswordAuthentication;
     }
 
     /**
-     * Set specifies whether password authentication should be disabled.
+     * Set the disablePasswordAuthentication value.
      *
-     * @param disablePasswordAuthentication the disablePasswordAuthentication value to set
+     * @param disablePasswordAuthentication the disablePasswordAuthentication
+     * value to set.
      * @return the LinuxConfiguration object itself.
      */
     public LinuxConfiguration withDisablePasswordAuthentication(Boolean disablePasswordAuthentication) {
@@ -63,18 +64,18 @@ public class LinuxConfiguration {
     }
 
     /**
-     * Get specifies the ssh key configuration for a Linux OS.
+     * Get the ssh value.
      *
-     * @return the ssh value
+     * @return the ssh value.
      */
     public SshConfiguration ssh() {
         return this.ssh;
     }
 
     /**
-     * Set specifies the ssh key configuration for a Linux OS.
+     * Set the ssh value.
      *
-     * @param ssh the ssh value to set
+     * @param ssh the ssh value to set.
      * @return the LinuxConfiguration object itself.
      */
     public LinuxConfiguration withSsh(SshConfiguration ssh) {
@@ -83,23 +84,22 @@ public class LinuxConfiguration {
     }
 
     /**
-     * Get indicates whether virtual machine agent should be provisioned on the virtual machine. &lt;br&gt;&lt;br&gt; When this property is not specified in the request body, default behavior is to set it to true.  This will ensure that VM Agent is installed on the VM so that extensions can be added to the VM later.
+     * Get the provisionVMAgent value.
      *
-     * @return the provisionVMAgent value
+     * @return the provisionVMAgent value.
      */
     public Boolean provisionVMAgent() {
         return this.provisionVMAgent;
     }
 
     /**
-     * Set indicates whether virtual machine agent should be provisioned on the virtual machine. &lt;br&gt;&lt;br&gt; When this property is not specified in the request body, default behavior is to set it to true.  This will ensure that VM Agent is installed on the VM so that extensions can be added to the VM later.
+     * Set the provisionVMAgent value.
      *
-     * @param provisionVMAgent the provisionVMAgent value to set
+     * @param provisionVMAgent the provisionVMAgent value to set.
      * @return the LinuxConfiguration object itself.
      */
     public LinuxConfiguration withProvisionVMAgent(Boolean provisionVMAgent) {
         this.provisionVMAgent = provisionVMAgent;
         return this;
     }
-
 }

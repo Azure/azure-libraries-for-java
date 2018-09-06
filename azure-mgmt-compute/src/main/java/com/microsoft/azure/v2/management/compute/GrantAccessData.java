@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Data used for requesting a SAS.
  */
-public class GrantAccessData {
+public final class GrantAccessData {
     /**
      * Possible values include: 'None', 'Read'.
      */
@@ -27,18 +27,18 @@ public class GrantAccessData {
     private int durationInSeconds;
 
     /**
-     * Get possible values include: 'None', 'Read'.
+     * Get the access value.
      *
-     * @return the access value
+     * @return the access value.
      */
     public AccessLevel access() {
         return this.access;
     }
 
     /**
-     * Set possible values include: 'None', 'Read'.
+     * Set the access value.
      *
-     * @param access the access value to set
+     * @param access the access value to set.
      * @return the GrantAccessData object itself.
      */
     public GrantAccessData withAccess(AccessLevel access) {
@@ -47,23 +47,22 @@ public class GrantAccessData {
     }
 
     /**
-     * Get time duration in seconds until the SAS access expires.
+     * Get the durationInSeconds value.
      *
-     * @return the durationInSeconds value
+     * @return the durationInSeconds value.
      */
     public int durationInSeconds() {
         return this.durationInSeconds;
     }
 
     /**
-     * Set time duration in seconds until the SAS access expires.
+     * Set the durationInSeconds value.
      *
-     * @param durationInSeconds the durationInSeconds value to set
+     * @param durationInSeconds the durationInSeconds value to set.
      * @return the GrantAccessData object itself.
      */
     public GrantAccessData withDurationInSeconds(int durationInSeconds) {
         this.durationInSeconds = durationInSeconds;
         return this;
     }
-
 }

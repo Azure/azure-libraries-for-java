@@ -8,13 +8,13 @@
 
 package com.microsoft.azure.v2.management.compute;
 
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 
 /**
  * The ResourceSkuLocationInfo model.
  */
-public class ResourceSkuLocationInfo {
+public final class ResourceSkuLocationInfo {
     /**
      * Location of the SKU.
      */
@@ -28,21 +28,20 @@ public class ResourceSkuLocationInfo {
     private List<String> zones;
 
     /**
-     * Get location of the SKU.
+     * Get the location value.
      *
-     * @return the location value
+     * @return the location value.
      */
     public String location() {
         return this.location;
     }
 
     /**
-     * Get list of availability zones where the SKU is supported.
+     * Get the zones value.
      *
-     * @return the zones value
+     * @return the zones value.
      */
     public List<String> zones() {
         return this.zones;
     }
-
 }

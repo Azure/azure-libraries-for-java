@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Data used when creating a disk.
  */
-public class CreationData {
+public final class CreationData {
     /**
      * This enumerates the possible sources of a disk's creation. Possible
      * values include: 'Empty', 'Attach', 'FromImage', 'Import', 'Copy',
@@ -51,18 +51,18 @@ public class CreationData {
     private String sourceResourceId;
 
     /**
-     * Get this enumerates the possible sources of a disk's creation. Possible values include: 'Empty', 'Attach', 'FromImage', 'Import', 'Copy', 'Restore'.
+     * Get the createOption value.
      *
-     * @return the createOption value
+     * @return the createOption value.
      */
     public DiskCreateOption createOption() {
         return this.createOption;
     }
 
     /**
-     * Set this enumerates the possible sources of a disk's creation. Possible values include: 'Empty', 'Attach', 'FromImage', 'Import', 'Copy', 'Restore'.
+     * Set the createOption value.
      *
-     * @param createOption the createOption value to set
+     * @param createOption the createOption value to set.
      * @return the CreationData object itself.
      */
     public CreationData withCreateOption(DiskCreateOption createOption) {
@@ -71,18 +71,18 @@ public class CreationData {
     }
 
     /**
-     * Get if createOption is Import, the Azure Resource Manager identifier of the storage account containing the blob to import as a disk. Required only if the blob is in a different subscription.
+     * Get the storageAccountId value.
      *
-     * @return the storageAccountId value
+     * @return the storageAccountId value.
      */
     public String storageAccountId() {
         return this.storageAccountId;
     }
 
     /**
-     * Set if createOption is Import, the Azure Resource Manager identifier of the storage account containing the blob to import as a disk. Required only if the blob is in a different subscription.
+     * Set the storageAccountId value.
      *
-     * @param storageAccountId the storageAccountId value to set
+     * @param storageAccountId the storageAccountId value to set.
      * @return the CreationData object itself.
      */
     public CreationData withStorageAccountId(String storageAccountId) {
@@ -91,18 +91,18 @@ public class CreationData {
     }
 
     /**
-     * Get disk source information.
+     * Get the imageReference value.
      *
-     * @return the imageReference value
+     * @return the imageReference value.
      */
     public ImageDiskReference imageReference() {
         return this.imageReference;
     }
 
     /**
-     * Set disk source information.
+     * Set the imageReference value.
      *
-     * @param imageReference the imageReference value to set
+     * @param imageReference the imageReference value to set.
      * @return the CreationData object itself.
      */
     public CreationData withImageReference(ImageDiskReference imageReference) {
@@ -111,18 +111,18 @@ public class CreationData {
     }
 
     /**
-     * Get if createOption is Import, this is the URI of a blob to be imported into a managed disk.
+     * Get the sourceUri value.
      *
-     * @return the sourceUri value
+     * @return the sourceUri value.
      */
     public String sourceUri() {
         return this.sourceUri;
     }
 
     /**
-     * Set if createOption is Import, this is the URI of a blob to be imported into a managed disk.
+     * Set the sourceUri value.
      *
-     * @param sourceUri the sourceUri value to set
+     * @param sourceUri the sourceUri value to set.
      * @return the CreationData object itself.
      */
     public CreationData withSourceUri(String sourceUri) {
@@ -131,23 +131,22 @@ public class CreationData {
     }
 
     /**
-     * Get if createOption is Copy, this is the ARM id of the source snapshot or disk.
+     * Get the sourceResourceId value.
      *
-     * @return the sourceResourceId value
+     * @return the sourceResourceId value.
      */
     public String sourceResourceId() {
         return this.sourceResourceId;
     }
 
     /**
-     * Set if createOption is Copy, this is the ARM id of the source snapshot or disk.
+     * Set the sourceResourceId value.
      *
-     * @param sourceResourceId the sourceResourceId value to set
+     * @param sourceResourceId the sourceResourceId value to set.
      * @return the CreationData object itself.
      */
     public CreationData withSourceResourceId(String sourceResourceId) {
         this.sourceResourceId = sourceResourceId;
         return this;
     }
-
 }

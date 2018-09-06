@@ -15,19 +15,27 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Defines values for StatusLevelTypes.
  */
 public enum StatusLevelTypes {
-    /** Enum value Info. */
+    /**
+     * Enum value Info.
+     */
     INFO("Info"),
 
-    /** Enum value Warning. */
+    /**
+     * Enum value Warning.
+     */
     WARNING("Warning"),
 
-    /** Enum value Error. */
+    /**
+     * Enum value Error.
+     */
     ERROR("Error");
 
-    /** The actual serialized value for a StatusLevelTypes instance. */
-    private String value;
+    /**
+     * The actual serialized value for a StatusLevelTypes instance.
+     */
+    private final String value;
 
-    StatusLevelTypes(String value) {
+    private StatusLevelTypes(String value) {
         this.value = value;
     }
 

@@ -8,13 +8,13 @@
 
 package com.microsoft.azure.v2.management.compute;
 
-import com.microsoft.azure.SubResource;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.v2.SubResource;
 
 /**
  * Describes a data disk.
  */
-public class ImageDataDisk {
+public final class ImageDataDisk {
     /**
      * Specifies the logical unit number of the data disk. This value is used
      * to identify data disks within the VM and therefore must be unique for
@@ -61,25 +61,25 @@ public class ImageDataDisk {
 
     /**
      * Specifies the storage account type for the managed disk. Possible values
-     * are: Standard_LRS or Premium_LRS. Possible values include:
-     * 'Standard_LRS', 'Premium_LRS'.
+     * are: Standard_LRS, Premium_LRS, and StandardSSD_LRS. Possible values
+     * include: 'Standard_LRS', 'Premium_LRS', 'StandardSSD_LRS'.
      */
     @JsonProperty(value = "storageAccountType")
     private StorageAccountTypes storageAccountType;
 
     /**
-     * Get specifies the logical unit number of the data disk. This value is used to identify data disks within the VM and therefore must be unique for each data disk attached to a VM.
+     * Get the lun value.
      *
-     * @return the lun value
+     * @return the lun value.
      */
     public int lun() {
         return this.lun;
     }
 
     /**
-     * Set specifies the logical unit number of the data disk. This value is used to identify data disks within the VM and therefore must be unique for each data disk attached to a VM.
+     * Set the lun value.
      *
-     * @param lun the lun value to set
+     * @param lun the lun value to set.
      * @return the ImageDataDisk object itself.
      */
     public ImageDataDisk withLun(int lun) {
@@ -88,18 +88,18 @@ public class ImageDataDisk {
     }
 
     /**
-     * Get the snapshot.
+     * Get the snapshot value.
      *
-     * @return the snapshot value
+     * @return the snapshot value.
      */
     public SubResource snapshot() {
         return this.snapshot;
     }
 
     /**
-     * Set the snapshot.
+     * Set the snapshot value.
      *
-     * @param snapshot the snapshot value to set
+     * @param snapshot the snapshot value to set.
      * @return the ImageDataDisk object itself.
      */
     public ImageDataDisk withSnapshot(SubResource snapshot) {
@@ -108,18 +108,18 @@ public class ImageDataDisk {
     }
 
     /**
-     * Get the managedDisk.
+     * Get the managedDisk value.
      *
-     * @return the managedDisk value
+     * @return the managedDisk value.
      */
     public SubResource managedDisk() {
         return this.managedDisk;
     }
 
     /**
-     * Set the managedDisk.
+     * Set the managedDisk value.
      *
-     * @param managedDisk the managedDisk value to set
+     * @param managedDisk the managedDisk value to set.
      * @return the ImageDataDisk object itself.
      */
     public ImageDataDisk withManagedDisk(SubResource managedDisk) {
@@ -128,18 +128,18 @@ public class ImageDataDisk {
     }
 
     /**
-     * Get the Virtual Hard Disk.
+     * Get the blobUri value.
      *
-     * @return the blobUri value
+     * @return the blobUri value.
      */
     public String blobUri() {
         return this.blobUri;
     }
 
     /**
-     * Set the Virtual Hard Disk.
+     * Set the blobUri value.
      *
-     * @param blobUri the blobUri value to set
+     * @param blobUri the blobUri value to set.
      * @return the ImageDataDisk object itself.
      */
     public ImageDataDisk withBlobUri(String blobUri) {
@@ -148,18 +148,18 @@ public class ImageDataDisk {
     }
 
     /**
-     * Get specifies the caching requirements. &lt;br&gt;&lt;br&gt; Possible values are: &lt;br&gt;&lt;br&gt; **None** &lt;br&gt;&lt;br&gt; **ReadOnly** &lt;br&gt;&lt;br&gt; **ReadWrite** &lt;br&gt;&lt;br&gt; Default: **None for Standard storage. ReadOnly for Premium storage**. Possible values include: 'None', 'ReadOnly', 'ReadWrite'.
+     * Get the caching value.
      *
-     * @return the caching value
+     * @return the caching value.
      */
     public CachingTypes caching() {
         return this.caching;
     }
 
     /**
-     * Set specifies the caching requirements. &lt;br&gt;&lt;br&gt; Possible values are: &lt;br&gt;&lt;br&gt; **None** &lt;br&gt;&lt;br&gt; **ReadOnly** &lt;br&gt;&lt;br&gt; **ReadWrite** &lt;br&gt;&lt;br&gt; Default: **None for Standard storage. ReadOnly for Premium storage**. Possible values include: 'None', 'ReadOnly', 'ReadWrite'.
+     * Set the caching value.
      *
-     * @param caching the caching value to set
+     * @param caching the caching value to set.
      * @return the ImageDataDisk object itself.
      */
     public ImageDataDisk withCaching(CachingTypes caching) {
@@ -168,18 +168,18 @@ public class ImageDataDisk {
     }
 
     /**
-     * Get specifies the size of empty data disks in gigabytes. This element can be used to overwrite the name of the disk in a virtual machine image. &lt;br&gt;&lt;br&gt; This value cannot be larger than 1023 GB.
+     * Get the diskSizeGB value.
      *
-     * @return the diskSizeGB value
+     * @return the diskSizeGB value.
      */
     public Integer diskSizeGB() {
         return this.diskSizeGB;
     }
 
     /**
-     * Set specifies the size of empty data disks in gigabytes. This element can be used to overwrite the name of the disk in a virtual machine image. &lt;br&gt;&lt;br&gt; This value cannot be larger than 1023 GB.
+     * Set the diskSizeGB value.
      *
-     * @param diskSizeGB the diskSizeGB value to set
+     * @param diskSizeGB the diskSizeGB value to set.
      * @return the ImageDataDisk object itself.
      */
     public ImageDataDisk withDiskSizeGB(Integer diskSizeGB) {
@@ -188,23 +188,22 @@ public class ImageDataDisk {
     }
 
     /**
-     * Get specifies the storage account type for the managed disk. Possible values are: Standard_LRS or Premium_LRS. Possible values include: 'Standard_LRS', 'Premium_LRS'.
+     * Get the storageAccountType value.
      *
-     * @return the storageAccountType value
+     * @return the storageAccountType value.
      */
     public StorageAccountTypes storageAccountType() {
         return this.storageAccountType;
     }
 
     /**
-     * Set specifies the storage account type for the managed disk. Possible values are: Standard_LRS or Premium_LRS. Possible values include: 'Standard_LRS', 'Premium_LRS'.
+     * Set the storageAccountType value.
      *
-     * @param storageAccountType the storageAccountType value to set
+     * @param storageAccountType the storageAccountType value to set.
      * @return the ImageDataDisk object itself.
      */
     public ImageDataDisk withStorageAccountType(StorageAccountTypes storageAccountType) {
         this.storageAccountType = storageAccountType;
         return this;
     }
-
 }

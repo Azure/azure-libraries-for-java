@@ -8,15 +8,15 @@
 
 package com.microsoft.azure.v2.management.compute.implementation;
 
-import com.microsoft.azure.v2.management.compute.DiskSku;
-import java.util.List;
-import org.joda.time.DateTime;
-import com.microsoft.azure.v2.management.compute.OperatingSystemTypes;
-import com.microsoft.azure.v2.management.compute.CreationData;
-import com.microsoft.azure.v2.management.compute.EncryptionSettings;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.Resource;
+import com.microsoft.azure.v2.Resource;
+import com.microsoft.azure.v2.management.compute.CreationData;
+import com.microsoft.azure.v2.management.compute.DiskSku;
+import com.microsoft.azure.v2.management.compute.EncryptionSettings;
+import com.microsoft.azure.v2.management.compute.OperatingSystemTypes;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
+import java.time.OffsetDateTime;
+import java.util.List;
 
 /**
  * Disk resource.
@@ -45,7 +45,7 @@ public class DiskInner extends Resource {
      * The time when the disk was created.
      */
     @JsonProperty(value = "properties.timeCreated", access = JsonProperty.Access.WRITE_ONLY)
-    private DateTime timeCreated;
+    private OffsetDateTime timeCreated;
 
     /**
      * The Operating System type. Possible values include: 'Windows', 'Linux'.
@@ -83,9 +83,9 @@ public class DiskInner extends Resource {
     private String provisioningState;
 
     /**
-     * Get a relative URI containing the ID of the VM that has the disk attached.
+     * Get the managedBy value.
      *
-     * @return the managedBy value
+     * @return the managedBy value.
      */
     public String managedBy() {
         return this.managedBy;
@@ -94,7 +94,7 @@ public class DiskInner extends Resource {
     /**
      * Get the sku value.
      *
-     * @return the sku value
+     * @return the sku value.
      */
     public DiskSku sku() {
         return this.sku;
@@ -103,7 +103,7 @@ public class DiskInner extends Resource {
     /**
      * Set the sku value.
      *
-     * @param sku the sku value to set
+     * @param sku the sku value to set.
      * @return the DiskInner object itself.
      */
     public DiskInner withSku(DiskSku sku) {
@@ -112,18 +112,18 @@ public class DiskInner extends Resource {
     }
 
     /**
-     * Get the Logical zone list for Disk.
+     * Get the zones value.
      *
-     * @return the zones value
+     * @return the zones value.
      */
     public List<String> zones() {
         return this.zones;
     }
 
     /**
-     * Set the Logical zone list for Disk.
+     * Set the zones value.
      *
-     * @param zones the zones value to set
+     * @param zones the zones value to set.
      * @return the DiskInner object itself.
      */
     public DiskInner withZones(List<String> zones) {
@@ -132,27 +132,27 @@ public class DiskInner extends Resource {
     }
 
     /**
-     * Get the time when the disk was created.
+     * Get the timeCreated value.
      *
-     * @return the timeCreated value
+     * @return the timeCreated value.
      */
-    public DateTime timeCreated() {
+    public OffsetDateTime timeCreated() {
         return this.timeCreated;
     }
 
     /**
-     * Get the Operating System type. Possible values include: 'Windows', 'Linux'.
+     * Get the osType value.
      *
-     * @return the osType value
+     * @return the osType value.
      */
     public OperatingSystemTypes osType() {
         return this.osType;
     }
 
     /**
-     * Set the Operating System type. Possible values include: 'Windows', 'Linux'.
+     * Set the osType value.
      *
-     * @param osType the osType value to set
+     * @param osType the osType value to set.
      * @return the DiskInner object itself.
      */
     public DiskInner withOsType(OperatingSystemTypes osType) {
@@ -161,18 +161,18 @@ public class DiskInner extends Resource {
     }
 
     /**
-     * Get disk source information. CreationData information cannot be changed after the disk has been created.
+     * Get the creationData value.
      *
-     * @return the creationData value
+     * @return the creationData value.
      */
     public CreationData creationData() {
         return this.creationData;
     }
 
     /**
-     * Set disk source information. CreationData information cannot be changed after the disk has been created.
+     * Set the creationData value.
      *
-     * @param creationData the creationData value to set
+     * @param creationData the creationData value to set.
      * @return the DiskInner object itself.
      */
     public DiskInner withCreationData(CreationData creationData) {
@@ -181,18 +181,18 @@ public class DiskInner extends Resource {
     }
 
     /**
-     * Get if creationData.createOption is Empty, this field is mandatory and it indicates the size of the VHD to create. If this field is present for updates or creation with other options, it indicates a resize. Resizes are only allowed if the disk is not attached to a running VM, and can only increase the disk's size.
+     * Get the diskSizeGB value.
      *
-     * @return the diskSizeGB value
+     * @return the diskSizeGB value.
      */
     public Integer diskSizeGB() {
         return this.diskSizeGB;
     }
 
     /**
-     * Set if creationData.createOption is Empty, this field is mandatory and it indicates the size of the VHD to create. If this field is present for updates or creation with other options, it indicates a resize. Resizes are only allowed if the disk is not attached to a running VM, and can only increase the disk's size.
+     * Set the diskSizeGB value.
      *
-     * @param diskSizeGB the diskSizeGB value to set
+     * @param diskSizeGB the diskSizeGB value to set.
      * @return the DiskInner object itself.
      */
     public DiskInner withDiskSizeGB(Integer diskSizeGB) {
@@ -201,18 +201,18 @@ public class DiskInner extends Resource {
     }
 
     /**
-     * Get encryption settings for disk or snapshot.
+     * Get the encryptionSettings value.
      *
-     * @return the encryptionSettings value
+     * @return the encryptionSettings value.
      */
     public EncryptionSettings encryptionSettings() {
         return this.encryptionSettings;
     }
 
     /**
-     * Set encryption settings for disk or snapshot.
+     * Set the encryptionSettings value.
      *
-     * @param encryptionSettings the encryptionSettings value to set
+     * @param encryptionSettings the encryptionSettings value to set.
      * @return the DiskInner object itself.
      */
     public DiskInner withEncryptionSettings(EncryptionSettings encryptionSettings) {
@@ -221,12 +221,11 @@ public class DiskInner extends Resource {
     }
 
     /**
-     * Get the disk provisioning state.
+     * Get the provisioningState value.
      *
-     * @return the provisioningState value
+     * @return the provisioningState value.
      */
     public String provisioningState() {
         return this.provisioningState;
     }
-
 }

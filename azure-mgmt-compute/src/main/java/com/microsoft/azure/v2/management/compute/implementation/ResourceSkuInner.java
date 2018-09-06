@@ -8,18 +8,18 @@
 
 package com.microsoft.azure.v2.management.compute.implementation;
 
-import com.microsoft.azure.v2.management.compute.ResourceSkuCapacity;
-import java.util.List;
-import com.microsoft.azure.v2.management.compute.ResourceSkuLocationInfo;
-import com.microsoft.azure.v2.management.compute.ResourceSkuCosts;
-import com.microsoft.azure.v2.management.compute.ResourceSkuCapabilities;
-import com.microsoft.azure.v2.management.compute.ResourceSkuRestrictions;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.v2.management.compute.ResourceSkuCapabilities;
+import com.microsoft.azure.v2.management.compute.ResourceSkuCapacity;
+import com.microsoft.azure.v2.management.compute.ResourceSkuCosts;
+import com.microsoft.azure.v2.management.compute.ResourceSkuLocationInfo;
+import com.microsoft.azure.v2.management.compute.ResourceSkuRestrictions;
+import java.util.List;
 
 /**
  * Describes an available Compute SKU.
  */
-public class ResourceSkuInner {
+public final class ResourceSkuInner {
     /**
      * The type of resource the SKU applies to.
      */
@@ -103,120 +103,119 @@ public class ResourceSkuInner {
     private List<ResourceSkuRestrictions> restrictions;
 
     /**
-     * Get the type of resource the SKU applies to.
+     * Get the resourceType value.
      *
-     * @return the resourceType value
+     * @return the resourceType value.
      */
     public String resourceType() {
         return this.resourceType;
     }
 
     /**
-     * Get the name of SKU.
+     * Get the name value.
      *
-     * @return the name value
+     * @return the name value.
      */
     public String name() {
         return this.name;
     }
 
     /**
-     * Get specifies the tier of virtual machines in a scale set.&lt;br /&gt;&lt;br /&gt; Possible Values:&lt;br /&gt;&lt;br /&gt; **Standard**&lt;br /&gt;&lt;br /&gt; **Basic**.
+     * Get the tier value.
      *
-     * @return the tier value
+     * @return the tier value.
      */
     public String tier() {
         return this.tier;
     }
 
     /**
-     * Get the Size of the SKU.
+     * Get the size value.
      *
-     * @return the size value
+     * @return the size value.
      */
     public String size() {
         return this.size;
     }
 
     /**
-     * Get the Family of this particular SKU.
+     * Get the family value.
      *
-     * @return the family value
+     * @return the family value.
      */
     public String family() {
         return this.family;
     }
 
     /**
-     * Get the Kind of resources that are supported in this SKU.
+     * Get the kind value.
      *
-     * @return the kind value
+     * @return the kind value.
      */
     public String kind() {
         return this.kind;
     }
 
     /**
-     * Get specifies the number of virtual machines in the scale set.
+     * Get the capacity value.
      *
-     * @return the capacity value
+     * @return the capacity value.
      */
     public ResourceSkuCapacity capacity() {
         return this.capacity;
     }
 
     /**
-     * Get the set of locations that the SKU is available.
+     * Get the locations value.
      *
-     * @return the locations value
+     * @return the locations value.
      */
     public List<String> locations() {
         return this.locations;
     }
 
     /**
-     * Get a list of locations and availability zones in those locations where the SKU is available.
+     * Get the locationInfo value.
      *
-     * @return the locationInfo value
+     * @return the locationInfo value.
      */
     public List<ResourceSkuLocationInfo> locationInfo() {
         return this.locationInfo;
     }
 
     /**
-     * Get the api versions that support this SKU.
+     * Get the apiVersions value.
      *
-     * @return the apiVersions value
+     * @return the apiVersions value.
      */
     public List<String> apiVersions() {
         return this.apiVersions;
     }
 
     /**
-     * Get metadata for retrieving price info.
+     * Get the costs value.
      *
-     * @return the costs value
+     * @return the costs value.
      */
     public List<ResourceSkuCosts> costs() {
         return this.costs;
     }
 
     /**
-     * Get a name value pair to describe the capability.
+     * Get the capabilities value.
      *
-     * @return the capabilities value
+     * @return the capabilities value.
      */
     public List<ResourceSkuCapabilities> capabilities() {
         return this.capabilities;
     }
 
     /**
-     * Get the restrictions because of which SKU cannot be used. This is empty if there are no restrictions.
+     * Get the restrictions value.
      *
-     * @return the restrictions value
+     * @return the restrictions value.
      */
     public List<ResourceSkuRestrictions> restrictions() {
         return this.restrictions;
     }
-
 }

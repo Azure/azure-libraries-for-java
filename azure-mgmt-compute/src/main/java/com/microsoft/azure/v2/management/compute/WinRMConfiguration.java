@@ -8,13 +8,13 @@
 
 package com.microsoft.azure.v2.management.compute;
 
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 
 /**
  * Describes Windows Remote Management configuration of the VM.
  */
-public class WinRMConfiguration {
+public final class WinRMConfiguration {
     /**
      * The list of Windows Remote Management listeners.
      */
@@ -22,23 +22,22 @@ public class WinRMConfiguration {
     private List<WinRMListener> listeners;
 
     /**
-     * Get the list of Windows Remote Management listeners.
+     * Get the listeners value.
      *
-     * @return the listeners value
+     * @return the listeners value.
      */
     public List<WinRMListener> listeners() {
         return this.listeners;
     }
 
     /**
-     * Set the list of Windows Remote Management listeners.
+     * Set the listeners value.
      *
-     * @param listeners the listeners value to set
+     * @param listeners the listeners value to set.
      * @return the WinRMConfiguration object itself.
      */
     public WinRMConfiguration withListeners(List<WinRMListener> listeners) {
         this.listeners = listeners;
         return this;
     }
-
 }

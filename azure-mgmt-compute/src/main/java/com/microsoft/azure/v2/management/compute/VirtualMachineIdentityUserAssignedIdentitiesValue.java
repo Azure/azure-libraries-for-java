@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * The VirtualMachineIdentityUserAssignedIdentitiesValue model.
  */
-public class VirtualMachineIdentityUserAssignedIdentitiesValue {
+public final class VirtualMachineIdentityUserAssignedIdentitiesValue {
     /**
      * The principal id of user assigned identity.
      */
@@ -27,21 +27,20 @@ public class VirtualMachineIdentityUserAssignedIdentitiesValue {
     private String clientId;
 
     /**
-     * Get the principal id of user assigned identity.
+     * Get the principalId value.
      *
-     * @return the principalId value
+     * @return the principalId value.
      */
     public String principalId() {
         return this.principalId;
     }
 
     /**
-     * Get the client id of user assigned identity.
+     * Get the clientId value.
      *
-     * @return the clientId value
+     * @return the clientId value.
      */
     public String clientId() {
         return this.clientId;
     }
-
 }

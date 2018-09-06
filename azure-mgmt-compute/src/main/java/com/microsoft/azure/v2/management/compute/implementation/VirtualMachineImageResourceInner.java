@@ -8,9 +8,9 @@
 
 package com.microsoft.azure.v2.management.compute.implementation;
 
-import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.azure.SubResource;
+import com.microsoft.azure.v2.SubResource;
+import java.util.Map;
 
 /**
  * Virtual machine image resource information.
@@ -37,18 +37,18 @@ public class VirtualMachineImageResourceInner extends SubResource {
     private Map<String, String> tags;
 
     /**
-     * Get the name of the resource.
+     * Get the name value.
      *
-     * @return the name value
+     * @return the name value.
      */
     public String name() {
         return this.name;
     }
 
     /**
-     * Set the name of the resource.
+     * Set the name value.
      *
-     * @param name the name value to set
+     * @param name the name value to set.
      * @return the VirtualMachineImageResourceInner object itself.
      */
     public VirtualMachineImageResourceInner withName(String name) {
@@ -57,18 +57,18 @@ public class VirtualMachineImageResourceInner extends SubResource {
     }
 
     /**
-     * Get the supported Azure location of the resource.
+     * Get the location value.
      *
-     * @return the location value
+     * @return the location value.
      */
     public String location() {
         return this.location;
     }
 
     /**
-     * Set the supported Azure location of the resource.
+     * Set the location value.
      *
-     * @param location the location value to set
+     * @param location the location value to set.
      * @return the VirtualMachineImageResourceInner object itself.
      */
     public VirtualMachineImageResourceInner withLocation(String location) {
@@ -77,23 +77,22 @@ public class VirtualMachineImageResourceInner extends SubResource {
     }
 
     /**
-     * Get specifies the tags that are assigned to the virtual machine. For more information about using tags, see [Using tags to organize your Azure resources](https://docs.microsoft.com/azure/azure-resource-manager/resource-group-using-tags.md).
+     * Get the tags value.
      *
-     * @return the tags value
+     * @return the tags value.
      */
     public Map<String, String> tags() {
         return this.tags;
     }
 
     /**
-     * Set specifies the tags that are assigned to the virtual machine. For more information about using tags, see [Using tags to organize your Azure resources](https://docs.microsoft.com/azure/azure-resource-manager/resource-group-using-tags.md).
+     * Set the tags value.
      *
-     * @param tags the tags value to set
+     * @param tags the tags value to set.
      * @return the VirtualMachineImageResourceInner object itself.
      */
     public VirtualMachineImageResourceInner withTags(Map<String, String> tags) {
         this.tags = tags;
         return this;
     }
-
 }

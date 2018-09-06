@@ -8,27 +8,20 @@
 
 package com.microsoft.azure.v2.management.compute.implementation;
 
-import com.microsoft.azure.AzureClient;
-import com.microsoft.azure.AzureServiceClient;
-import com.microsoft.rest.credentials.ServiceClientCredentials;
-import com.microsoft.rest.RestClient;
+import com.microsoft.azure.v2.AzureEnvironment;
+import com.microsoft.azure.v2.AzureProxy;
+import com.microsoft.azure.v2.AzureServiceClient;
+import com.microsoft.rest.v2.credentials.ServiceClientCredentials;
+import com.microsoft.rest.v2.http.HttpPipeline;
+import io.reactivex.annotations.NonNull;
 
 /**
- * Initializes a new instance of the ComputeManagementClientImpl class.
+ * Initializes a new instance of the ComputeManagementClientImpl type.
  */
-public class ComputeManagementClientImpl extends AzureServiceClient {
-    /** the {@link AzureClient} used for long running operations. */
-    private AzureClient azureClient;
-
+public final class ComputeManagementClientImpl extends AzureServiceClient {
     /**
-     * Gets the {@link AzureClient} used for long running operations.
-     * @return the azure client;
+     * Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
      */
-    public AzureClient getAzureClient() {
-        return this.azureClient;
-    }
-
-    /** Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
     private String subscriptionId;
 
     /**
@@ -44,14 +37,16 @@ public class ComputeManagementClientImpl extends AzureServiceClient {
      * Sets Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
      *
      * @param subscriptionId the subscriptionId value.
-     * @return the service client itself
+     * @return the service client itself.
      */
     public ComputeManagementClientImpl withSubscriptionId(String subscriptionId) {
         this.subscriptionId = subscriptionId;
         return this;
     }
 
-    /** The preferred language for the response. */
+    /**
+     * The preferred language for the response.
+     */
     private String acceptLanguage;
 
     /**
@@ -67,14 +62,16 @@ public class ComputeManagementClientImpl extends AzureServiceClient {
      * Sets The preferred language for the response.
      *
      * @param acceptLanguage the acceptLanguage value.
-     * @return the service client itself
+     * @return the service client itself.
      */
     public ComputeManagementClientImpl withAcceptLanguage(String acceptLanguage) {
         this.acceptLanguage = acceptLanguage;
         return this;
     }
 
-    /** The retry timeout in seconds for Long Running Operations. Default value is 30. */
+    /**
+     * The retry timeout in seconds for Long Running Operations. Default value is 30.
+     */
     private int longRunningOperationRetryTimeout;
 
     /**
@@ -90,14 +87,16 @@ public class ComputeManagementClientImpl extends AzureServiceClient {
      * Sets The retry timeout in seconds for Long Running Operations. Default value is 30.
      *
      * @param longRunningOperationRetryTimeout the longRunningOperationRetryTimeout value.
-     * @return the service client itself
+     * @return the service client itself.
      */
     public ComputeManagementClientImpl withLongRunningOperationRetryTimeout(int longRunningOperationRetryTimeout) {
         this.longRunningOperationRetryTimeout = longRunningOperationRetryTimeout;
         return this;
     }
 
-    /** Whether a unique x-ms-client-request-id should be generated. When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true. */
+    /**
+     * Whether a unique x-ms-client-request-id should be generated. When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true.
+     */
     private boolean generateClientRequestId;
 
     /**
@@ -113,7 +112,7 @@ public class ComputeManagementClientImpl extends AzureServiceClient {
      * Sets Whether a unique x-ms-client-request-id should be generated. When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true.
      *
      * @param generateClientRequestId the generateClientRequestId value.
-     * @return the service client itself
+     * @return the service client itself.
      */
     public ComputeManagementClientImpl withGenerateClientRequestId(boolean generateClientRequestId) {
         this.generateClientRequestId = generateClientRequestId;
@@ -127,6 +126,7 @@ public class ComputeManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets the OperationsInner object to access its operations.
+     *
      * @return the OperationsInner object.
      */
     public OperationsInner operations() {
@@ -140,6 +140,7 @@ public class ComputeManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets the AvailabilitySetsInner object to access its operations.
+     *
      * @return the AvailabilitySetsInner object.
      */
     public AvailabilitySetsInner availabilitySets() {
@@ -153,6 +154,7 @@ public class ComputeManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets the VirtualMachineExtensionImagesInner object to access its operations.
+     *
      * @return the VirtualMachineExtensionImagesInner object.
      */
     public VirtualMachineExtensionImagesInner virtualMachineExtensionImages() {
@@ -166,6 +168,7 @@ public class ComputeManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets the VirtualMachineExtensionsInner object to access its operations.
+     *
      * @return the VirtualMachineExtensionsInner object.
      */
     public VirtualMachineExtensionsInner virtualMachineExtensions() {
@@ -179,6 +182,7 @@ public class ComputeManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets the VirtualMachineImagesInner object to access its operations.
+     *
      * @return the VirtualMachineImagesInner object.
      */
     public VirtualMachineImagesInner virtualMachineImages() {
@@ -192,6 +196,7 @@ public class ComputeManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets the UsagesInner object to access its operations.
+     *
      * @return the UsagesInner object.
      */
     public UsagesInner usages() {
@@ -205,6 +210,7 @@ public class ComputeManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets the VirtualMachineSizesInner object to access its operations.
+     *
      * @return the VirtualMachineSizesInner object.
      */
     public VirtualMachineSizesInner virtualMachineSizes() {
@@ -218,6 +224,7 @@ public class ComputeManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets the ImagesInner object to access its operations.
+     *
      * @return the ImagesInner object.
      */
     public ImagesInner images() {
@@ -231,6 +238,7 @@ public class ComputeManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets the VirtualMachinesInner object to access its operations.
+     *
      * @return the VirtualMachinesInner object.
      */
     public VirtualMachinesInner virtualMachines() {
@@ -244,6 +252,7 @@ public class ComputeManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets the VirtualMachineScaleSetsInner object to access its operations.
+     *
      * @return the VirtualMachineScaleSetsInner object.
      */
     public VirtualMachineScaleSetsInner virtualMachineScaleSets() {
@@ -257,6 +266,7 @@ public class ComputeManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets the VirtualMachineScaleSetExtensionsInner object to access its operations.
+     *
      * @return the VirtualMachineScaleSetExtensionsInner object.
      */
     public VirtualMachineScaleSetExtensionsInner virtualMachineScaleSetExtensions() {
@@ -270,6 +280,7 @@ public class ComputeManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets the VirtualMachineScaleSetRollingUpgradesInner object to access its operations.
+     *
      * @return the VirtualMachineScaleSetRollingUpgradesInner object.
      */
     public VirtualMachineScaleSetRollingUpgradesInner virtualMachineScaleSetRollingUpgrades() {
@@ -283,6 +294,7 @@ public class ComputeManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets the VirtualMachineScaleSetVMsInner object to access its operations.
+     *
      * @return the VirtualMachineScaleSetVMsInner object.
      */
     public VirtualMachineScaleSetVMsInner virtualMachineScaleSetVMs() {
@@ -296,6 +308,7 @@ public class ComputeManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets the LogAnalyticsInner object to access its operations.
+     *
      * @return the LogAnalyticsInner object.
      */
     public LogAnalyticsInner logAnalytics() {
@@ -309,6 +322,7 @@ public class ComputeManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets the VirtualMachineRunCommandsInner object to access its operations.
+     *
      * @return the VirtualMachineRunCommandsInner object.
      */
     public VirtualMachineRunCommandsInner virtualMachineRunCommands() {
@@ -322,6 +336,7 @@ public class ComputeManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets the ResourceSkusInner object to access its operations.
+     *
      * @return the ResourceSkusInner object.
      */
     public ResourceSkusInner resourceSkus() {
@@ -335,6 +350,7 @@ public class ComputeManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets the DisksInner object to access its operations.
+     *
      * @return the DisksInner object.
      */
     public DisksInner disks() {
@@ -348,6 +364,7 @@ public class ComputeManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets the SnapshotsInner object to access its operations.
+     *
      * @return the SnapshotsInner object.
      */
     public SnapshotsInner snapshots() {
@@ -361,6 +378,7 @@ public class ComputeManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets the GalleriesInner object to access its operations.
+     *
      * @return the GalleriesInner object.
      */
     public GalleriesInner galleries() {
@@ -374,6 +392,7 @@ public class ComputeManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets the GalleryImagesInner object to access its operations.
+     *
      * @return the GalleryImagesInner object.
      */
     public GalleryImagesInner galleryImages() {
@@ -387,6 +406,7 @@ public class ComputeManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets the GalleryImageVersionsInner object to access its operations.
+     *
      * @return the GalleryImageVersionsInner object.
      */
     public GalleryImageVersionsInner galleryImageVersions() {
@@ -396,68 +416,62 @@ public class ComputeManagementClientImpl extends AzureServiceClient {
     /**
      * Initializes an instance of ComputeManagementClient client.
      *
-     * @param credentials the management credentials for Azure
+     * @param credentials the management credentials for Azure.
      */
-    public ComputeManagementClientImpl(ServiceClientCredentials credentials) {
-        this("https://management.azure.com", credentials);
+    public ComputeManagementClientImpl(@NonNull ServiceClientCredentials credentials) {
+        this(AzureProxy.createDefaultPipeline(ComputeManagementClientImpl.class, credentials));
     }
 
     /**
      * Initializes an instance of ComputeManagementClient client.
      *
-     * @param baseUrl the base URL of the host
-     * @param credentials the management credentials for Azure
+     * @param credentials the management credentials for Azure.
+     * @param azureEnvironment The environment that requests will target.
      */
-    public ComputeManagementClientImpl(String baseUrl, ServiceClientCredentials credentials) {
-        super(baseUrl, credentials);
-        initialize();
+    public ComputeManagementClientImpl(@NonNull ServiceClientCredentials credentials, @NonNull AzureEnvironment azureEnvironment) {
+        this(AzureProxy.createDefaultPipeline(ComputeManagementClientImpl.class, credentials), azureEnvironment);
     }
 
     /**
      * Initializes an instance of ComputeManagementClient client.
      *
-     * @param restClient the REST client to connect to Azure.
+     * @param httpPipeline The HTTP pipeline to send requests through.
      */
-    public ComputeManagementClientImpl(RestClient restClient) {
-        super(restClient);
-        initialize();
+    public ComputeManagementClientImpl(@NonNull HttpPipeline httpPipeline) {
+        this(httpPipeline, null);
     }
 
-    protected void initialize() {
+    /**
+     * Initializes an instance of ComputeManagementClient client.
+     *
+     * @param httpPipeline The HTTP pipeline to send requests through.
+     * @param azureEnvironment The environment that requests will target.
+     */
+    public ComputeManagementClientImpl(@NonNull HttpPipeline httpPipeline, @NonNull AzureEnvironment azureEnvironment) {
+        super(httpPipeline, azureEnvironment);
         this.acceptLanguage = "en-US";
         this.longRunningOperationRetryTimeout = 30;
         this.generateClientRequestId = true;
-        this.operations = new OperationsInner(restClient().retrofit(), this);
-        this.availabilitySets = new AvailabilitySetsInner(restClient().retrofit(), this);
-        this.virtualMachineExtensionImages = new VirtualMachineExtensionImagesInner(restClient().retrofit(), this);
-        this.virtualMachineExtensions = new VirtualMachineExtensionsInner(restClient().retrofit(), this);
-        this.virtualMachineImages = new VirtualMachineImagesInner(restClient().retrofit(), this);
-        this.usages = new UsagesInner(restClient().retrofit(), this);
-        this.virtualMachineSizes = new VirtualMachineSizesInner(restClient().retrofit(), this);
-        this.images = new ImagesInner(restClient().retrofit(), this);
-        this.virtualMachines = new VirtualMachinesInner(restClient().retrofit(), this);
-        this.virtualMachineScaleSets = new VirtualMachineScaleSetsInner(restClient().retrofit(), this);
-        this.virtualMachineScaleSetExtensions = new VirtualMachineScaleSetExtensionsInner(restClient().retrofit(), this);
-        this.virtualMachineScaleSetRollingUpgrades = new VirtualMachineScaleSetRollingUpgradesInner(restClient().retrofit(), this);
-        this.virtualMachineScaleSetVMs = new VirtualMachineScaleSetVMsInner(restClient().retrofit(), this);
-        this.logAnalytics = new LogAnalyticsInner(restClient().retrofit(), this);
-        this.virtualMachineRunCommands = new VirtualMachineRunCommandsInner(restClient().retrofit(), this);
-        this.resourceSkus = new ResourceSkusInner(restClient().retrofit(), this);
-        this.disks = new DisksInner(restClient().retrofit(), this);
-        this.snapshots = new SnapshotsInner(restClient().retrofit(), this);
-        this.galleries = new GalleriesInner(restClient().retrofit(), this);
-        this.galleryImages = new GalleryImagesInner(restClient().retrofit(), this);
-        this.galleryImageVersions = new GalleryImageVersionsInner(restClient().retrofit(), this);
-        this.azureClient = new AzureClient(this);
-    }
-
-    /**
-     * Gets the User-Agent header for the client.
-     *
-     * @return the user agent string.
-     */
-    @Override
-    public String userAgent() {
-        return String.format("%s (%s)", super.userAgent(), "ComputeManagementClient");
+        this.operations = new OperationsInner(this);
+        this.availabilitySets = new AvailabilitySetsInner(this);
+        this.virtualMachineExtensionImages = new VirtualMachineExtensionImagesInner(this);
+        this.virtualMachineExtensions = new VirtualMachineExtensionsInner(this);
+        this.virtualMachineImages = new VirtualMachineImagesInner(this);
+        this.usages = new UsagesInner(this);
+        this.virtualMachineSizes = new VirtualMachineSizesInner(this);
+        this.images = new ImagesInner(this);
+        this.virtualMachines = new VirtualMachinesInner(this);
+        this.virtualMachineScaleSets = new VirtualMachineScaleSetsInner(this);
+        this.virtualMachineScaleSetExtensions = new VirtualMachineScaleSetExtensionsInner(this);
+        this.virtualMachineScaleSetRollingUpgrades = new VirtualMachineScaleSetRollingUpgradesInner(this);
+        this.virtualMachineScaleSetVMs = new VirtualMachineScaleSetVMsInner(this);
+        this.logAnalytics = new LogAnalyticsInner(this);
+        this.virtualMachineRunCommands = new VirtualMachineRunCommandsInner(this);
+        this.resourceSkus = new ResourceSkusInner(this);
+        this.disks = new DisksInner(this);
+        this.snapshots = new SnapshotsInner(this);
+        this.galleries = new GalleriesInner(this);
+        this.galleryImages = new GalleryImagesInner(this);
+        this.galleryImageVersions = new GalleryImageVersionsInner(this);
     }
 }

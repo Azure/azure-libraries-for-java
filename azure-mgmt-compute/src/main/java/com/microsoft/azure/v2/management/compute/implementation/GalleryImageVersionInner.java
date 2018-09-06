@@ -8,12 +8,12 @@
 
 package com.microsoft.azure.v2.management.compute.implementation;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.v2.Resource;
 import com.microsoft.azure.v2.management.compute.GalleryImageVersionPublishingProfile;
 import com.microsoft.azure.v2.management.compute.GalleryImageVersionStorageProfile;
 import com.microsoft.azure.v2.management.compute.ReplicationStatus;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.Resource;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
 
 /**
  * Specifies information about the gallery image version that you want to
@@ -24,7 +24,7 @@ public class GalleryImageVersionInner extends Resource {
     /**
      * The publishingProfile property.
      */
-    @JsonProperty(value = "properties.publishingProfile")
+    @JsonProperty(value = "properties.publishingProfile", required = true)
     private GalleryImageVersionPublishingProfile publishingProfile;
 
     /**
@@ -51,7 +51,7 @@ public class GalleryImageVersionInner extends Resource {
     /**
      * Get the publishingProfile value.
      *
-     * @return the publishingProfile value
+     * @return the publishingProfile value.
      */
     public GalleryImageVersionPublishingProfile publishingProfile() {
         return this.publishingProfile;
@@ -60,7 +60,7 @@ public class GalleryImageVersionInner extends Resource {
     /**
      * Set the publishingProfile value.
      *
-     * @param publishingProfile the publishingProfile value to set
+     * @param publishingProfile the publishingProfile value to set.
      * @return the GalleryImageVersionInner object itself.
      */
     public GalleryImageVersionInner withPublishingProfile(GalleryImageVersionPublishingProfile publishingProfile) {
@@ -69,9 +69,9 @@ public class GalleryImageVersionInner extends Resource {
     }
 
     /**
-     * Get the provisioning state, which only appears in the response. Possible values include: 'Creating', 'Updating', 'Failed', 'Succeeded', 'Deleting', 'Migrating'.
+     * Get the provisioningState value.
      *
-     * @return the provisioningState value
+     * @return the provisioningState value.
      */
     public String provisioningState() {
         return this.provisioningState;
@@ -80,7 +80,7 @@ public class GalleryImageVersionInner extends Resource {
     /**
      * Get the storageProfile value.
      *
-     * @return the storageProfile value
+     * @return the storageProfile value.
      */
     public GalleryImageVersionStorageProfile storageProfile() {
         return this.storageProfile;
@@ -89,10 +89,9 @@ public class GalleryImageVersionInner extends Resource {
     /**
      * Get the replicationStatus value.
      *
-     * @return the replicationStatus value
+     * @return the replicationStatus value.
      */
     public ReplicationStatus replicationStatus() {
         return this.replicationStatus;
     }
-
 }

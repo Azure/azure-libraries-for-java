@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Describes The SKU capabilites object.
  */
-public class ResourceSkuCapabilities {
+public final class ResourceSkuCapabilities {
     /**
      * An invariant to describe the feature.
      */
@@ -27,21 +27,20 @@ public class ResourceSkuCapabilities {
     private String value;
 
     /**
-     * Get an invariant to describe the feature.
+     * Get the name value.
      *
-     * @return the name value
+     * @return the name value.
      */
     public String name() {
         return this.name;
     }
 
     /**
-     * Get an invariant if the feature is measured by quantity.
+     * Get the value value.
      *
-     * @return the value value
+     * @return the value value.
      */
     public String value() {
         return this.value;
     }
-
 }

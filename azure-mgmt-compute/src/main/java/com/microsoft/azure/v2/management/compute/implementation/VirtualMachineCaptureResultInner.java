@@ -8,14 +8,14 @@
 
 package com.microsoft.azure.v2.management.compute.implementation;
 
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.azure.SubResource;
+import com.microsoft.azure.v2.SubResource;
+import java.util.List;
 
 /**
  * Output of virtual machine capture operation.
  */
-public class VirtualMachineCaptureResultInner extends SubResource {
+public final class VirtualMachineCaptureResultInner extends SubResource {
     /**
      * the schema of the captured virtual machine.
      */
@@ -41,39 +41,38 @@ public class VirtualMachineCaptureResultInner extends SubResource {
     private List<Object> resources;
 
     /**
-     * Get the schema of the captured virtual machine.
+     * Get the schema value.
      *
-     * @return the schema value
+     * @return the schema value.
      */
     public String schema() {
         return this.schema;
     }
 
     /**
-     * Get the version of the content.
+     * Get the contentVersion value.
      *
-     * @return the contentVersion value
+     * @return the contentVersion value.
      */
     public String contentVersion() {
         return this.contentVersion;
     }
 
     /**
-     * Get parameters of the captured virtual machine.
+     * Get the parameters value.
      *
-     * @return the parameters value
+     * @return the parameters value.
      */
     public Object parameters() {
         return this.parameters;
     }
 
     /**
-     * Get a list of resource items of the captured virtual machine.
+     * Get the resources value.
      *
-     * @return the resources value
+     * @return the resources value.
      */
     public List<Object> resources() {
         return this.resources;
     }
-
 }

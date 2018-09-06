@@ -8,13 +8,13 @@
 
 package com.microsoft.azure.v2.management.compute;
 
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 
 /**
  * Describes the disallowed disk types.
  */
-public class Disallowed {
+public final class Disallowed {
     /**
      * A list of disk types.
      */
@@ -22,23 +22,22 @@ public class Disallowed {
     private List<String> diskTypes;
 
     /**
-     * Get a list of disk types.
+     * Get the diskTypes value.
      *
-     * @return the diskTypes value
+     * @return the diskTypes value.
      */
     public List<String> diskTypes() {
         return this.diskTypes;
     }
 
     /**
-     * Set a list of disk types.
+     * Set the diskTypes value.
      *
-     * @param diskTypes the diskTypes value to set
+     * @param diskTypes the diskTypes value to set.
      * @return the Disallowed object itself.
      */
     public Disallowed withDiskTypes(List<String> diskTypes) {
         this.diskTypes = diskTypes;
         return this;
     }
-
 }

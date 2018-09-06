@@ -9,7 +9,7 @@
 package com.microsoft.azure.v2.management.compute;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.azure.SubResource;
+import com.microsoft.azure.v2.SubResource;
 
 /**
  * Specifies information about the image to use. You can specify information
@@ -18,7 +18,7 @@ import com.microsoft.azure.SubResource;
  * image, or virtual machine image, but is not used in other creation
  * operations.
  */
-public class ImageReference extends SubResource {
+public final class ImageReference extends SubResource {
     /**
      * The image publisher.
      */
@@ -50,18 +50,18 @@ public class ImageReference extends SubResource {
     private String version;
 
     /**
-     * Get the image publisher.
+     * Get the publisher value.
      *
-     * @return the publisher value
+     * @return the publisher value.
      */
     public String publisher() {
         return this.publisher;
     }
 
     /**
-     * Set the image publisher.
+     * Set the publisher value.
      *
-     * @param publisher the publisher value to set
+     * @param publisher the publisher value to set.
      * @return the ImageReference object itself.
      */
     public ImageReference withPublisher(String publisher) {
@@ -70,18 +70,18 @@ public class ImageReference extends SubResource {
     }
 
     /**
-     * Get specifies the offer of the platform image or marketplace image used to create the virtual machine.
+     * Get the offer value.
      *
-     * @return the offer value
+     * @return the offer value.
      */
     public String offer() {
         return this.offer;
     }
 
     /**
-     * Set specifies the offer of the platform image or marketplace image used to create the virtual machine.
+     * Set the offer value.
      *
-     * @param offer the offer value to set
+     * @param offer the offer value to set.
      * @return the ImageReference object itself.
      */
     public ImageReference withOffer(String offer) {
@@ -90,18 +90,18 @@ public class ImageReference extends SubResource {
     }
 
     /**
-     * Get the image SKU.
+     * Get the sku value.
      *
-     * @return the sku value
+     * @return the sku value.
      */
     public String sku() {
         return this.sku;
     }
 
     /**
-     * Set the image SKU.
+     * Set the sku value.
      *
-     * @param sku the sku value to set
+     * @param sku the sku value to set.
      * @return the ImageReference object itself.
      */
     public ImageReference withSku(String sku) {
@@ -110,23 +110,22 @@ public class ImageReference extends SubResource {
     }
 
     /**
-     * Get specifies the version of the platform image or marketplace image used to create the virtual machine. The allowed formats are Major.Minor.Build or 'latest'. Major, Minor, and Build are decimal numbers. Specify 'latest' to use the latest version of an image available at deploy time. Even if you use 'latest', the VM image will not automatically update after deploy time even if a new version becomes available.
+     * Get the version value.
      *
-     * @return the version value
+     * @return the version value.
      */
     public String version() {
         return this.version;
     }
 
     /**
-     * Set specifies the version of the platform image or marketplace image used to create the virtual machine. The allowed formats are Major.Minor.Build or 'latest'. Major, Minor, and Build are decimal numbers. Specify 'latest' to use the latest version of an image available at deploy time. Even if you use 'latest', the VM image will not automatically update after deploy time even if a new version becomes available.
+     * Set the version value.
      *
-     * @param version the version value to set
+     * @param version the version value to set.
      * @return the ImageReference object itself.
      */
     public ImageReference withVersion(String version) {
         this.version = version;
         return this;
     }
-
 }

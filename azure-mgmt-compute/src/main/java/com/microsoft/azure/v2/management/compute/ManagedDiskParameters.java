@@ -9,38 +9,37 @@
 package com.microsoft.azure.v2.management.compute;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.azure.SubResource;
+import com.microsoft.azure.v2.SubResource;
 
 /**
  * The parameters of a managed disk.
  */
-public class ManagedDiskParameters extends SubResource {
+public final class ManagedDiskParameters extends SubResource {
     /**
      * Specifies the storage account type for the managed disk. Possible values
-     * are: Standard_LRS or Premium_LRS. Possible values include:
-     * 'Standard_LRS', 'Premium_LRS'.
+     * are: Standard_LRS, Premium_LRS, and StandardSSD_LRS. Possible values
+     * include: 'Standard_LRS', 'Premium_LRS', 'StandardSSD_LRS'.
      */
     @JsonProperty(value = "storageAccountType")
     private StorageAccountTypes storageAccountType;
 
     /**
-     * Get specifies the storage account type for the managed disk. Possible values are: Standard_LRS or Premium_LRS. Possible values include: 'Standard_LRS', 'Premium_LRS'.
+     * Get the storageAccountType value.
      *
-     * @return the storageAccountType value
+     * @return the storageAccountType value.
      */
     public StorageAccountTypes storageAccountType() {
         return this.storageAccountType;
     }
 
     /**
-     * Set specifies the storage account type for the managed disk. Possible values are: Standard_LRS or Premium_LRS. Possible values include: 'Standard_LRS', 'Premium_LRS'.
+     * Set the storageAccountType value.
      *
-     * @param storageAccountType the storageAccountType value to set
+     * @param storageAccountType the storageAccountType value to set.
      * @return the ManagedDiskParameters object itself.
      */
     public ManagedDiskParameters withStorageAccountType(StorageAccountTypes storageAccountType) {
         this.storageAccountType = storageAccountType;
         return this;
     }
-
 }

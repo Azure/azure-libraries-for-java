@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * The configuration parameters used for performing automatic OS upgrade.
  */
-public class AutoOSUpgradePolicy {
+public final class AutoOSUpgradePolicy {
     /**
      * Whether OS image rollback feature should be disabled. Default value is
      * false.
@@ -22,23 +22,22 @@ public class AutoOSUpgradePolicy {
     private Boolean disableAutoRollback;
 
     /**
-     * Get whether OS image rollback feature should be disabled. Default value is false.
+     * Get the disableAutoRollback value.
      *
-     * @return the disableAutoRollback value
+     * @return the disableAutoRollback value.
      */
     public Boolean disableAutoRollback() {
         return this.disableAutoRollback;
     }
 
     /**
-     * Set whether OS image rollback feature should be disabled. Default value is false.
+     * Set the disableAutoRollback value.
      *
-     * @param disableAutoRollback the disableAutoRollback value to set
+     * @param disableAutoRollback the disableAutoRollback value to set.
      * @return the AutoOSUpgradePolicy object itself.
      */
     public AutoOSUpgradePolicy withDisableAutoRollback(Boolean disableAutoRollback) {
         this.disableAutoRollback = disableAutoRollback;
         return this;
     }
-
 }

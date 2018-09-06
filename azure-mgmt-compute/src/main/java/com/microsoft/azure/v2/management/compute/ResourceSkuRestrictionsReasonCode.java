@@ -15,16 +15,22 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Defines values for ResourceSkuRestrictionsReasonCode.
  */
 public enum ResourceSkuRestrictionsReasonCode {
-    /** Enum value QuotaId. */
+    /**
+     * Enum value QuotaId.
+     */
     QUOTA_ID("QuotaId"),
 
-    /** Enum value NotAvailableForSubscription. */
+    /**
+     * Enum value NotAvailableForSubscription.
+     */
     NOT_AVAILABLE_FOR_SUBSCRIPTION("NotAvailableForSubscription");
 
-    /** The actual serialized value for a ResourceSkuRestrictionsReasonCode instance. */
-    private String value;
+    /**
+     * The actual serialized value for a ResourceSkuRestrictionsReasonCode instance.
+     */
+    private final String value;
 
-    ResourceSkuRestrictionsReasonCode(String value) {
+    private ResourceSkuRestrictionsReasonCode(String value) {
         this.value = value;
     }
 

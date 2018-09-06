@@ -9,7 +9,7 @@
 package com.microsoft.azure.v2.management.compute.implementation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
 
 /**
  * Describes the properties of a Compute Operation value.
@@ -53,57 +53,56 @@ public class ComputeOperationValueInner {
     private String provider;
 
     /**
-     * Get the origin of the compute operation.
+     * Get the origin value.
      *
-     * @return the origin value
+     * @return the origin value.
      */
     public String origin() {
         return this.origin;
     }
 
     /**
-     * Get the name of the compute operation.
+     * Get the name value.
      *
-     * @return the name value
+     * @return the name value.
      */
     public String name() {
         return this.name;
     }
 
     /**
-     * Get the display name of the compute operation.
+     * Get the operation value.
      *
-     * @return the operation value
+     * @return the operation value.
      */
     public String operation() {
         return this.operation;
     }
 
     /**
-     * Get the display name of the resource the operation applies to.
+     * Get the resource value.
      *
-     * @return the resource value
+     * @return the resource value.
      */
     public String resource() {
         return this.resource;
     }
 
     /**
-     * Get the description of the operation.
+     * Get the description value.
      *
-     * @return the description value
+     * @return the description value.
      */
     public String description() {
         return this.description;
     }
 
     /**
-     * Get the resource provider for the operation.
+     * Get the provider value.
      *
-     * @return the provider value
+     * @return the provider value.
      */
     public String provider() {
         return this.provider;
     }
-
 }

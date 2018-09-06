@@ -13,31 +13,30 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * The managed artifact.
  */
-public class ManagedArtifact {
+public final class ManagedArtifact {
     /**
      * The managed artifact id.
      */
-    @JsonProperty(value = "id")
+    @JsonProperty(value = "id", required = true)
     private String id;
 
     /**
-     * Get the managed artifact id.
+     * Get the id value.
      *
-     * @return the id value
+     * @return the id value.
      */
     public String id() {
         return this.id;
     }
 
     /**
-     * Set the managed artifact id.
+     * Set the id value.
      *
-     * @param id the id value to set
+     * @param id the id value to set.
      * @return the ManagedArtifact object itself.
      */
     public ManagedArtifact withId(String id) {
         this.id = id;
         return this;
     }
-
 }

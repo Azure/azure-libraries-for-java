@@ -21,12 +21,11 @@ public class SubResourceReadOnly {
     private String id;
 
     /**
-     * Get resource Id.
+     * Get the id value.
      *
-     * @return the id value
+     * @return the id value.
      */
     public String id() {
         return this.id;
     }
-
 }

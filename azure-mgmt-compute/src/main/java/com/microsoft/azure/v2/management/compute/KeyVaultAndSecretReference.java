@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Key Vault Secret Url and vault id of the encryption key.
  */
-public class KeyVaultAndSecretReference {
+public final class KeyVaultAndSecretReference {
     /**
      * Resource id of the KeyVault containing the key or secret.
      */
@@ -27,18 +27,18 @@ public class KeyVaultAndSecretReference {
     private String secretUrl;
 
     /**
-     * Get resource id of the KeyVault containing the key or secret.
+     * Get the sourceVault value.
      *
-     * @return the sourceVault value
+     * @return the sourceVault value.
      */
     public SourceVault sourceVault() {
         return this.sourceVault;
     }
 
     /**
-     * Set resource id of the KeyVault containing the key or secret.
+     * Set the sourceVault value.
      *
-     * @param sourceVault the sourceVault value to set
+     * @param sourceVault the sourceVault value to set.
      * @return the KeyVaultAndSecretReference object itself.
      */
     public KeyVaultAndSecretReference withSourceVault(SourceVault sourceVault) {
@@ -47,23 +47,22 @@ public class KeyVaultAndSecretReference {
     }
 
     /**
-     * Get url pointing to a key or secret in KeyVault.
+     * Get the secretUrl value.
      *
-     * @return the secretUrl value
+     * @return the secretUrl value.
      */
     public String secretUrl() {
         return this.secretUrl;
     }
 
     /**
-     * Set url pointing to a key or secret in KeyVault.
+     * Set the secretUrl value.
      *
-     * @param secretUrl the secretUrl value to set
+     * @param secretUrl the secretUrl value to set.
      * @return the KeyVaultAndSecretReference object itself.
      */
     public KeyVaultAndSecretReference withSecretUrl(String secretUrl) {
         this.secretUrl = secretUrl;
         return this;
     }
-
 }

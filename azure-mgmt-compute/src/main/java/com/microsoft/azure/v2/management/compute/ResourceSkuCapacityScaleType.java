@@ -15,19 +15,27 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Defines values for ResourceSkuCapacityScaleType.
  */
 public enum ResourceSkuCapacityScaleType {
-    /** Enum value Automatic. */
+    /**
+     * Enum value Automatic.
+     */
     AUTOMATIC("Automatic"),
 
-    /** Enum value Manual. */
+    /**
+     * Enum value Manual.
+     */
     MANUAL("Manual"),
 
-    /** Enum value None. */
+    /**
+     * Enum value None.
+     */
     NONE("None");
 
-    /** The actual serialized value for a ResourceSkuCapacityScaleType instance. */
-    private String value;
+    /**
+     * The actual serialized value for a ResourceSkuCapacityScaleType instance.
+     */
+    private final String value;
 
-    ResourceSkuCapacityScaleType(String value) {
+    private ResourceSkuCapacityScaleType(String value) {
         this.value = value;
     }
 

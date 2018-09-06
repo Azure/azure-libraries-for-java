@@ -15,16 +15,22 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Defines values for VirtualMachineScaleSetSkuScaleType.
  */
 public enum VirtualMachineScaleSetSkuScaleType {
-    /** Enum value Automatic. */
+    /**
+     * Enum value Automatic.
+     */
     AUTOMATIC("Automatic"),
 
-    /** Enum value None. */
+    /**
+     * Enum value None.
+     */
     NONE("None");
 
-    /** The actual serialized value for a VirtualMachineScaleSetSkuScaleType instance. */
-    private String value;
+    /**
+     * The actual serialized value for a VirtualMachineScaleSetSkuScaleType instance.
+     */
+    private final String value;
 
-    VirtualMachineScaleSetSkuScaleType(String value) {
+    private VirtualMachineScaleSetSkuScaleType(String value) {
         this.value = value;
     }
 

@@ -8,125 +8,98 @@
 
 package com.microsoft.azure.v2.management.compute.implementation;
 
-import retrofit2.Retrofit;
-import com.google.common.reflect.TypeToken;
-import com.microsoft.azure.CloudException;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import com.microsoft.rest.ServiceResponse;
-import java.io.IOException;
+import com.microsoft.azure.v2.AzureProxy;
+import com.microsoft.azure.v2.CloudException;
+import com.microsoft.rest.v2.BodyResponse;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
+import com.microsoft.rest.v2.annotations.ExpectedResponses;
+import com.microsoft.rest.v2.annotations.GET;
+import com.microsoft.rest.v2.annotations.HeaderParam;
+import com.microsoft.rest.v2.annotations.Host;
+import com.microsoft.rest.v2.annotations.QueryParam;
+import com.microsoft.rest.v2.annotations.UnexpectedResponseExceptionType;
+import io.reactivex.Maybe;
+import io.reactivex.Single;
+import java.util.ArrayList;
 import java.util.List;
-import okhttp3.ResponseBody;
-import retrofit2.http.GET;
-import retrofit2.http.Header;
-import retrofit2.http.Headers;
-import retrofit2.http.Query;
-import retrofit2.Response;
-import rx.functions.Func1;
-import rx.Observable;
 
 /**
- * An instance of this class provides access to all the operations defined
- * in Operations.
+ * An instance of this class provides access to all the operations defined in
+ * Operations.
  */
-public class OperationsInner {
-    /** The Retrofit service to perform REST calls. */
+public final class OperationsInner {
+    /**
+     * The proxy service used to perform REST calls.
+     */
     private OperationsService service;
-    /** The service client containing this operation class. */
+
+    /**
+     * The service client containing this operation class.
+     */
     private ComputeManagementClientImpl client;
 
     /**
      * Initializes an instance of OperationsInner.
      *
-     * @param retrofit the Retrofit instance built from a Retrofit Builder.
      * @param client the instance of the service client containing this operation class.
      */
-    public OperationsInner(Retrofit retrofit, ComputeManagementClientImpl client) {
-        this.service = retrofit.create(OperationsService.class);
+    public OperationsInner(ComputeManagementClientImpl client) {
+        this.service = AzureProxy.create(OperationsService.class, client);
         this.client = client;
     }
 
     /**
-     * The interface defining all the services for Operations to be
-     * used by Retrofit to perform actually REST calls.
+     * The interface defining all the services for Operations to be used by the
+     * proxy service to perform REST calls.
      */
-    interface OperationsService {
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.Operations list" })
+    @Host("https://management.azure.com")
+    private interface OperationsService {
         @GET("providers/Microsoft.Compute/operations")
-        Observable<Response<ResponseBody>> list(@Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
-
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<List<ComputeOperationValueInner>>> list(@QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
     }
 
     /**
      * Gets a list of compute operations.
      *
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the List&lt;ComputeOperationValueInner&gt; object if successful.
      */
     public List<ComputeOperationValueInner> list() {
-        return listWithServiceResponseAsync().toBlocking().single().body();
+        return listAsync().blockingGet();
     }
 
     /**
      * Gets a list of compute operations.
      *
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<List<ComputeOperationValueInner>> listAsync(final ServiceCallback<List<ComputeOperationValueInner>> serviceCallback) {
-        return ServiceFuture.fromResponse(listWithServiceResponseAsync(), serviceCallback);
+    public ServiceFuture<List<ComputeOperationValueInner>> listAsync(ServiceCallback<List<ComputeOperationValueInner>> serviceCallback) {
+        return ServiceFuture.fromBody(listAsync(), serviceCallback);
     }
 
     /**
      * Gets a list of compute operations.
      *
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the List&lt;ComputeOperationValueInner&gt; object
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<List<ComputeOperationValueInner>> listAsync() {
-        return listWithServiceResponseAsync().map(new Func1<ServiceResponse<List<ComputeOperationValueInner>>, List<ComputeOperationValueInner>>() {
-            @Override
-            public List<ComputeOperationValueInner> call(ServiceResponse<List<ComputeOperationValueInner>> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Gets a list of compute operations.
-     *
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the List&lt;ComputeOperationValueInner&gt; object
-     */
-    public Observable<ServiceResponse<List<ComputeOperationValueInner>>> listWithServiceResponseAsync() {
+    public Single<BodyResponse<List<ComputeOperationValueInner>>> listWithRestResponseAsync() {
         final String apiVersion = "2018-06-01";
-        return service.list(apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<List<ComputeOperationValueInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<List<ComputeOperationValueInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<ComputeOperationValueInner>> result = listDelegate(response);
-                        List<ComputeOperationValueInner> items = null;
-                        if (result.body() != null) {
-                            items = result.body().items();
-                        }
-                        ServiceResponse<List<ComputeOperationValueInner>> clientResponse = new ServiceResponse<List<ComputeOperationValueInner>>(items, result.response());
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.list(apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<PageImpl<ComputeOperationValueInner>> listDelegate(Response<ResponseBody> response) throws CloudException, IOException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<ComputeOperationValueInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<ComputeOperationValueInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Gets a list of compute operations.
+     *
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<List<ComputeOperationValueInner>> listAsync() {
+        return listWithRestResponseAsync()
+            .flatMapMaybe((BodyResponse<List<ComputeOperationValueInner>> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
-
 }

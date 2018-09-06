@@ -8,13 +8,13 @@
 
 package com.microsoft.azure.v2.management.compute;
 
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 
 /**
  * The ResourceSkuRestrictionInfo model.
  */
-public class ResourceSkuRestrictionInfo {
+public final class ResourceSkuRestrictionInfo {
     /**
      * Locations where the SKU is restricted.
      */
@@ -28,21 +28,20 @@ public class ResourceSkuRestrictionInfo {
     private List<String> zones;
 
     /**
-     * Get locations where the SKU is restricted.
+     * Get the locations value.
      *
-     * @return the locations value
+     * @return the locations value.
      */
     public List<String> locations() {
         return this.locations;
     }
 
     /**
-     * Get list of availability zones where the SKU is restricted.
+     * Get the zones value.
      *
-     * @return the zones value
+     * @return the zones value.
      */
     public List<String> zones() {
         return this.zones;
     }
-
 }

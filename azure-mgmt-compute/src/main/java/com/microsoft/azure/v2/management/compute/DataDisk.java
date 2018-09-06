@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Describes a data disk.
  */
-public class DataDisk {
+public final class DataDisk {
     /**
      * Specifies the logical unit number of the data disk. This value is used
      * to identify data disks within the VM and therefore must be unique for
@@ -88,18 +88,18 @@ public class DataDisk {
     private ManagedDiskParameters managedDisk;
 
     /**
-     * Get specifies the logical unit number of the data disk. This value is used to identify data disks within the VM and therefore must be unique for each data disk attached to a VM.
+     * Get the lun value.
      *
-     * @return the lun value
+     * @return the lun value.
      */
     public int lun() {
         return this.lun;
     }
 
     /**
-     * Set specifies the logical unit number of the data disk. This value is used to identify data disks within the VM and therefore must be unique for each data disk attached to a VM.
+     * Set the lun value.
      *
-     * @param lun the lun value to set
+     * @param lun the lun value to set.
      * @return the DataDisk object itself.
      */
     public DataDisk withLun(int lun) {
@@ -108,18 +108,18 @@ public class DataDisk {
     }
 
     /**
-     * Get the disk name.
+     * Get the name value.
      *
-     * @return the name value
+     * @return the name value.
      */
     public String name() {
         return this.name;
     }
 
     /**
-     * Set the disk name.
+     * Set the name value.
      *
-     * @param name the name value to set
+     * @param name the name value to set.
      * @return the DataDisk object itself.
      */
     public DataDisk withName(String name) {
@@ -128,18 +128,18 @@ public class DataDisk {
     }
 
     /**
-     * Get the virtual hard disk.
+     * Get the vhd value.
      *
-     * @return the vhd value
+     * @return the vhd value.
      */
     public VirtualHardDisk vhd() {
         return this.vhd;
     }
 
     /**
-     * Set the virtual hard disk.
+     * Set the vhd value.
      *
-     * @param vhd the vhd value to set
+     * @param vhd the vhd value to set.
      * @return the DataDisk object itself.
      */
     public DataDisk withVhd(VirtualHardDisk vhd) {
@@ -148,18 +148,18 @@ public class DataDisk {
     }
 
     /**
-     * Get the source user image virtual hard disk. The virtual hard disk will be copied before being attached to the virtual machine. If SourceImage is provided, the destination virtual hard drive must not exist.
+     * Get the image value.
      *
-     * @return the image value
+     * @return the image value.
      */
     public VirtualHardDisk image() {
         return this.image;
     }
 
     /**
-     * Set the source user image virtual hard disk. The virtual hard disk will be copied before being attached to the virtual machine. If SourceImage is provided, the destination virtual hard drive must not exist.
+     * Set the image value.
      *
-     * @param image the image value to set
+     * @param image the image value to set.
      * @return the DataDisk object itself.
      */
     public DataDisk withImage(VirtualHardDisk image) {
@@ -168,18 +168,18 @@ public class DataDisk {
     }
 
     /**
-     * Get specifies the caching requirements. &lt;br&gt;&lt;br&gt; Possible values are: &lt;br&gt;&lt;br&gt; **None** &lt;br&gt;&lt;br&gt; **ReadOnly** &lt;br&gt;&lt;br&gt; **ReadWrite** &lt;br&gt;&lt;br&gt; Default: **None for Standard storage. ReadOnly for Premium storage**. Possible values include: 'None', 'ReadOnly', 'ReadWrite'.
+     * Get the caching value.
      *
-     * @return the caching value
+     * @return the caching value.
      */
     public CachingTypes caching() {
         return this.caching;
     }
 
     /**
-     * Set specifies the caching requirements. &lt;br&gt;&lt;br&gt; Possible values are: &lt;br&gt;&lt;br&gt; **None** &lt;br&gt;&lt;br&gt; **ReadOnly** &lt;br&gt;&lt;br&gt; **ReadWrite** &lt;br&gt;&lt;br&gt; Default: **None for Standard storage. ReadOnly for Premium storage**. Possible values include: 'None', 'ReadOnly', 'ReadWrite'.
+     * Set the caching value.
      *
-     * @param caching the caching value to set
+     * @param caching the caching value to set.
      * @return the DataDisk object itself.
      */
     public DataDisk withCaching(CachingTypes caching) {
@@ -188,18 +188,18 @@ public class DataDisk {
     }
 
     /**
-     * Get specifies whether writeAccelerator should be enabled or disabled on the disk.
+     * Get the writeAcceleratorEnabled value.
      *
-     * @return the writeAcceleratorEnabled value
+     * @return the writeAcceleratorEnabled value.
      */
     public Boolean writeAcceleratorEnabled() {
         return this.writeAcceleratorEnabled;
     }
 
     /**
-     * Set specifies whether writeAccelerator should be enabled or disabled on the disk.
+     * Set the writeAcceleratorEnabled value.
      *
-     * @param writeAcceleratorEnabled the writeAcceleratorEnabled value to set
+     * @param writeAcceleratorEnabled the writeAcceleratorEnabled value to set.
      * @return the DataDisk object itself.
      */
     public DataDisk withWriteAcceleratorEnabled(Boolean writeAcceleratorEnabled) {
@@ -208,18 +208,18 @@ public class DataDisk {
     }
 
     /**
-     * Get specifies how the virtual machine should be created.&lt;br&gt;&lt;br&gt; Possible values are:&lt;br&gt;&lt;br&gt; **Attach** \u2013 This value is used when you are using a specialized disk to create the virtual machine.&lt;br&gt;&lt;br&gt; **FromImage** \u2013 This value is used when you are using an image to create the virtual machine. If you are using a platform image, you also use the imageReference element described above. If you are using a marketplace image, you  also use the plan element previously described. Possible values include: 'FromImage', 'Empty', 'Attach'.
+     * Get the createOption value.
      *
-     * @return the createOption value
+     * @return the createOption value.
      */
     public DiskCreateOptionTypes createOption() {
         return this.createOption;
     }
 
     /**
-     * Set specifies how the virtual machine should be created.&lt;br&gt;&lt;br&gt; Possible values are:&lt;br&gt;&lt;br&gt; **Attach** \u2013 This value is used when you are using a specialized disk to create the virtual machine.&lt;br&gt;&lt;br&gt; **FromImage** \u2013 This value is used when you are using an image to create the virtual machine. If you are using a platform image, you also use the imageReference element described above. If you are using a marketplace image, you  also use the plan element previously described. Possible values include: 'FromImage', 'Empty', 'Attach'.
+     * Set the createOption value.
      *
-     * @param createOption the createOption value to set
+     * @param createOption the createOption value to set.
      * @return the DataDisk object itself.
      */
     public DataDisk withCreateOption(DiskCreateOptionTypes createOption) {
@@ -228,18 +228,18 @@ public class DataDisk {
     }
 
     /**
-     * Get specifies the size of an empty data disk in gigabytes. This element can be used to overwrite the name of the disk in a virtual machine image. &lt;br&gt;&lt;br&gt; This value cannot be larger than 1023 GB.
+     * Get the diskSizeGB value.
      *
-     * @return the diskSizeGB value
+     * @return the diskSizeGB value.
      */
     public Integer diskSizeGB() {
         return this.diskSizeGB;
     }
 
     /**
-     * Set specifies the size of an empty data disk in gigabytes. This element can be used to overwrite the name of the disk in a virtual machine image. &lt;br&gt;&lt;br&gt; This value cannot be larger than 1023 GB.
+     * Set the diskSizeGB value.
      *
-     * @param diskSizeGB the diskSizeGB value to set
+     * @param diskSizeGB the diskSizeGB value to set.
      * @return the DataDisk object itself.
      */
     public DataDisk withDiskSizeGB(Integer diskSizeGB) {
@@ -248,23 +248,22 @@ public class DataDisk {
     }
 
     /**
-     * Get the managed disk parameters.
+     * Get the managedDisk value.
      *
-     * @return the managedDisk value
+     * @return the managedDisk value.
      */
     public ManagedDiskParameters managedDisk() {
         return this.managedDisk;
     }
 
     /**
-     * Set the managed disk parameters.
+     * Set the managedDisk value.
      *
-     * @param managedDisk the managedDisk value to set
+     * @param managedDisk the managedDisk value to set.
      * @return the DataDisk object itself.
      */
     public DataDisk withManagedDisk(ManagedDiskParameters managedDisk) {
         this.managedDisk = managedDisk;
         return this;
     }
-
 }

@@ -8,27 +8,34 @@
 
 package com.microsoft.azure.v2.management.compute;
 
-import java.util.Collection;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.microsoft.rest.ExpandableStringEnum;
+import com.microsoft.rest.v2.ExpandableStringEnum;
+import java.util.Collection;
 
 /**
  * Defines values for SnapshotStorageAccountTypes.
  */
 public final class SnapshotStorageAccountTypes extends ExpandableStringEnum<SnapshotStorageAccountTypes> {
-    /** Static value Standard_LRS for SnapshotStorageAccountTypes. */
+    /**
+     * Static value Standard_LRS for SnapshotStorageAccountTypes.
+     */
     public static final SnapshotStorageAccountTypes STANDARD_LRS = fromString("Standard_LRS");
 
-    /** Static value Premium_LRS for SnapshotStorageAccountTypes. */
+    /**
+     * Static value Premium_LRS for SnapshotStorageAccountTypes.
+     */
     public static final SnapshotStorageAccountTypes PREMIUM_LRS = fromString("Premium_LRS");
 
-    /** Static value Standard_ZRS for SnapshotStorageAccountTypes. */
+    /**
+     * Static value Standard_ZRS for SnapshotStorageAccountTypes.
+     */
     public static final SnapshotStorageAccountTypes STANDARD_ZRS = fromString("Standard_ZRS");
 
     /**
      * Creates or finds a SnapshotStorageAccountTypes from its string representation.
-     * @param name a name to look for
-     * @return the corresponding SnapshotStorageAccountTypes
+     *
+     * @param name a name to look for.
+     * @return the corresponding SnapshotStorageAccountTypes.
      */
     @JsonCreator
     public static SnapshotStorageAccountTypes fromString(String name) {
@@ -36,7 +43,7 @@ public final class SnapshotStorageAccountTypes extends ExpandableStringEnum<Snap
     }
 
     /**
-     * @return known SnapshotStorageAccountTypes values
+     * @return known SnapshotStorageAccountTypes values.
      */
     public static Collection<SnapshotStorageAccountTypes> values() {
         return values(SnapshotStorageAccountTypes.class);

@@ -8,8 +8,8 @@
 
 package com.microsoft.azure.v2.management.compute.implementation;
 
-import com.microsoft.azure.v2.management.compute.OperatingSystemTypes;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.v2.management.compute.OperatingSystemTypes;
 
 /**
  * Describes the properties of a Run Command metadata.
@@ -46,18 +46,18 @@ public class RunCommandDocumentBaseInner {
     private String description;
 
     /**
-     * Get the VM run command schema.
+     * Get the schema value.
      *
-     * @return the schema value
+     * @return the schema value.
      */
     public String schema() {
         return this.schema;
     }
 
     /**
-     * Set the VM run command schema.
+     * Set the schema value.
      *
-     * @param schema the schema value to set
+     * @param schema the schema value to set.
      * @return the RunCommandDocumentBaseInner object itself.
      */
     public RunCommandDocumentBaseInner withSchema(String schema) {
@@ -66,18 +66,18 @@ public class RunCommandDocumentBaseInner {
     }
 
     /**
-     * Get the VM run command id.
+     * Get the id value.
      *
-     * @return the id value
+     * @return the id value.
      */
     public String id() {
         return this.id;
     }
 
     /**
-     * Set the VM run command id.
+     * Set the id value.
      *
-     * @param id the id value to set
+     * @param id the id value to set.
      * @return the RunCommandDocumentBaseInner object itself.
      */
     public RunCommandDocumentBaseInner withId(String id) {
@@ -86,18 +86,18 @@ public class RunCommandDocumentBaseInner {
     }
 
     /**
-     * Get the Operating System type. Possible values include: 'Windows', 'Linux'.
+     * Get the osType value.
      *
-     * @return the osType value
+     * @return the osType value.
      */
     public OperatingSystemTypes osType() {
         return this.osType;
     }
 
     /**
-     * Set the Operating System type. Possible values include: 'Windows', 'Linux'.
+     * Set the osType value.
      *
-     * @param osType the osType value to set
+     * @param osType the osType value to set.
      * @return the RunCommandDocumentBaseInner object itself.
      */
     public RunCommandDocumentBaseInner withOsType(OperatingSystemTypes osType) {
@@ -106,18 +106,18 @@ public class RunCommandDocumentBaseInner {
     }
 
     /**
-     * Get the VM run command label.
+     * Get the label value.
      *
-     * @return the label value
+     * @return the label value.
      */
     public String label() {
         return this.label;
     }
 
     /**
-     * Set the VM run command label.
+     * Set the label value.
      *
-     * @param label the label value to set
+     * @param label the label value to set.
      * @return the RunCommandDocumentBaseInner object itself.
      */
     public RunCommandDocumentBaseInner withLabel(String label) {
@@ -126,23 +126,22 @@ public class RunCommandDocumentBaseInner {
     }
 
     /**
-     * Get the VM run command description.
+     * Get the description value.
      *
-     * @return the description value
+     * @return the description value.
      */
     public String description() {
         return this.description;
     }
 
     /**
-     * Set the VM run command description.
+     * Set the description value.
      *
-     * @param description the description value to set
+     * @param description the description value to set.
      * @return the RunCommandDocumentBaseInner object itself.
      */
     public RunCommandDocumentBaseInner withDescription(String description) {
         this.description = description;
         return this;
     }
-
 }

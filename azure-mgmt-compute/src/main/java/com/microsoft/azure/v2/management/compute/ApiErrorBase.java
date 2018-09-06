@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Api error base.
  */
-public class ApiErrorBase {
+public final class ApiErrorBase {
     /**
      * The error code.
      */
@@ -33,18 +33,18 @@ public class ApiErrorBase {
     private String message;
 
     /**
-     * Get the error code.
+     * Get the code value.
      *
-     * @return the code value
+     * @return the code value.
      */
     public String code() {
         return this.code;
     }
 
     /**
-     * Set the error code.
+     * Set the code value.
      *
-     * @param code the code value to set
+     * @param code the code value to set.
      * @return the ApiErrorBase object itself.
      */
     public ApiErrorBase withCode(String code) {
@@ -53,18 +53,18 @@ public class ApiErrorBase {
     }
 
     /**
-     * Get the target of the particular error.
+     * Get the target value.
      *
-     * @return the target value
+     * @return the target value.
      */
     public String target() {
         return this.target;
     }
 
     /**
-     * Set the target of the particular error.
+     * Set the target value.
      *
-     * @param target the target value to set
+     * @param target the target value to set.
      * @return the ApiErrorBase object itself.
      */
     public ApiErrorBase withTarget(String target) {
@@ -73,23 +73,22 @@ public class ApiErrorBase {
     }
 
     /**
-     * Get the error message.
+     * Get the message value.
      *
-     * @return the message value
+     * @return the message value.
      */
     public String message() {
         return this.message;
     }
 
     /**
-     * Set the error message.
+     * Set the message value.
      *
-     * @param message the message value to set
+     * @param message the message value to set.
      * @return the ApiErrorBase object itself.
      */
     public ApiErrorBase withMessage(String message) {
         this.message = message;
         return this;
     }
-
 }

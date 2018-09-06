@@ -8,13 +8,13 @@
 
 package com.microsoft.azure.v2.management.compute;
 
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 
 /**
  * Specifies a list of virtual machine instance IDs from the VM scale set.
  */
-public class VirtualMachineScaleSetVMInstanceIDs {
+public final class VirtualMachineScaleSetVMInstanceIDs {
     /**
      * The virtual machine scale set instance ids. Omitting the virtual machine
      * scale set instance ids will result in the operation being performed on
@@ -24,23 +24,22 @@ public class VirtualMachineScaleSetVMInstanceIDs {
     private List<String> instanceIds;
 
     /**
-     * Get the virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
+     * Get the instanceIds value.
      *
-     * @return the instanceIds value
+     * @return the instanceIds value.
      */
     public List<String> instanceIds() {
         return this.instanceIds;
     }
 
     /**
-     * Set the virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
+     * Set the instanceIds value.
      *
-     * @param instanceIds the instanceIds value to set
+     * @param instanceIds the instanceIds value to set.
      * @return the VirtualMachineScaleSetVMInstanceIDs object itself.
      */
     public VirtualMachineScaleSetVMInstanceIDs withInstanceIds(List<String> instanceIds) {
         this.instanceIds = instanceIds;
         return this;
     }
-
 }

@@ -8,78 +8,77 @@
 
 package com.microsoft.azure.v2.management.compute.implementation;
 
-import retrofit2.Retrofit;
-import com.google.common.reflect.TypeToken;
-import com.microsoft.azure.AzureServiceFuture;
-import com.microsoft.azure.CloudException;
-import com.microsoft.azure.ListOperationCallback;
-import com.microsoft.azure.Page;
-import com.microsoft.azure.PagedList;
-import com.microsoft.rest.ServiceFuture;
-import com.microsoft.rest.ServiceResponse;
-import java.io.IOException;
-import java.util.List;
-import okhttp3.ResponseBody;
-import retrofit2.http.GET;
-import retrofit2.http.Header;
-import retrofit2.http.Headers;
-import retrofit2.http.Path;
-import retrofit2.http.Query;
-import retrofit2.http.Url;
-import retrofit2.Response;
-import rx.functions.Func1;
-import rx.Observable;
+import com.microsoft.azure.v2.AzureProxy;
+import com.microsoft.azure.v2.CloudException;
+import com.microsoft.azure.v2.Page;
+import com.microsoft.azure.v2.PagedList;
+import com.microsoft.rest.v2.BodyResponse;
+import com.microsoft.rest.v2.annotations.ExpectedResponses;
+import com.microsoft.rest.v2.annotations.GET;
+import com.microsoft.rest.v2.annotations.HeaderParam;
+import com.microsoft.rest.v2.annotations.Host;
+import com.microsoft.rest.v2.annotations.PathParam;
+import com.microsoft.rest.v2.annotations.QueryParam;
+import com.microsoft.rest.v2.annotations.UnexpectedResponseExceptionType;
+import io.reactivex.Observable;
+import io.reactivex.Single;
+import io.reactivex.annotations.NonNull;
 
 /**
- * An instance of this class provides access to all the operations defined
- * in ResourceSkus.
+ * An instance of this class provides access to all the operations defined in
+ * ResourceSkus.
  */
-public class ResourceSkusInner {
-    /** The Retrofit service to perform REST calls. */
+public final class ResourceSkusInner {
+    /**
+     * The proxy service used to perform REST calls.
+     */
     private ResourceSkusService service;
-    /** The service client containing this operation class. */
+
+    /**
+     * The service client containing this operation class.
+     */
     private ComputeManagementClientImpl client;
 
     /**
      * Initializes an instance of ResourceSkusInner.
      *
-     * @param retrofit the Retrofit instance built from a Retrofit Builder.
      * @param client the instance of the service client containing this operation class.
      */
-    public ResourceSkusInner(Retrofit retrofit, ComputeManagementClientImpl client) {
-        this.service = retrofit.create(ResourceSkusService.class);
+    public ResourceSkusInner(ComputeManagementClientImpl client) {
+        this.service = AzureProxy.create(ResourceSkusService.class, client);
         this.client = client;
     }
 
     /**
-     * The interface defining all the services for ResourceSkus to be
-     * used by Retrofit to perform actually REST calls.
+     * The interface defining all the services for ResourceSkus to be used by
+     * the proxy service to perform REST calls.
      */
-    interface ResourceSkusService {
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.ResourceSkus list" })
+    @Host("https://management.azure.com")
+    private interface ResourceSkusService {
         @GET("subscriptions/{subscriptionId}/providers/Microsoft.Compute/skus")
-        Observable<Response<ResponseBody>> list(@Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl1<ResourceSkuInner>>> list(@PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.ResourceSkus listNext" })
-        @GET
-        Observable<Response<ResponseBody>> listNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
-
+        @GET("{nextUrl}")
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl1<ResourceSkuInner>>> listNext(@PathParam(value = "nextUrl", encoded = true) String nextUrl, @HeaderParam("accept-language") String acceptLanguage);
     }
 
     /**
      * Gets the list of Microsoft.Compute SKUs available for your Subscription.
      *
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;ResourceSkuInner&gt; object if successful.
      */
     public PagedList<ResourceSkuInner> list() {
-        ServiceResponse<Page<ResourceSkuInner>> response = listSinglePageAsync().toBlocking().single();
-        return new PagedList<ResourceSkuInner>(response.body()) {
+        Page<ResourceSkuInner> response = listSinglePageAsync().blockingGet();
+        return new PagedList<ResourceSkuInner>(response) {
             @Override
             public Page<ResourceSkuInner> nextPage(String nextPageLink) {
-                return listNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -87,105 +86,49 @@ public class ResourceSkusInner {
     /**
      * Gets the list of Microsoft.Compute SKUs available for your Subscription.
      *
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<List<ResourceSkuInner>> listAsync(final ListOperationCallback<ResourceSkuInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listSinglePageAsync(),
-            new Func1<String, Observable<ServiceResponse<Page<ResourceSkuInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ResourceSkuInner>>> call(String nextPageLink) {
-                    return listNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets the list of Microsoft.Compute SKUs available for your Subscription.
-     *
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ResourceSkuInner&gt; object
+     * @return the observable to the PagedList&lt;ResourceSkuInner&gt; object.
      */
     public Observable<Page<ResourceSkuInner>> listAsync() {
-        return listWithServiceResponseAsync()
-            .map(new Func1<ServiceResponse<Page<ResourceSkuInner>>, Page<ResourceSkuInner>>() {
-                @Override
-                public Page<ResourceSkuInner> call(ServiceResponse<Page<ResourceSkuInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets the list of Microsoft.Compute SKUs available for your Subscription.
-     *
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ResourceSkuInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<ResourceSkuInner>>> listWithServiceResponseAsync() {
         return listSinglePageAsync()
-            .concatMap(new Func1<ServiceResponse<Page<ResourceSkuInner>>, Observable<ServiceResponse<Page<ResourceSkuInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ResourceSkuInner>>> call(ServiceResponse<Page<ResourceSkuInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<ResourceSkuInner> page) -> {
+                String nextPageLink = page.nextPageLink();
+                if (nextPageLink == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listNextAsync(nextPageLink));
             });
     }
 
     /**
      * Gets the list of Microsoft.Compute SKUs available for your Subscription.
      *
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;ResourceSkuInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @return the Single&lt;Page&lt;ResourceSkuInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<ResourceSkuInner>>> listSinglePageAsync() {
+    public Single<Page<ResourceSkuInner>> listSinglePageAsync() {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2017-09-01";
-        return service.list(this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ResourceSkuInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ResourceSkuInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl1<ResourceSkuInner>> result = listDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<ResourceSkuInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl1<ResourceSkuInner>> listDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl1<ResourceSkuInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl1<ResourceSkuInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+        return service.list(this.client.subscriptionId(), apiVersion, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl1<ResourceSkuInner>> res) -> res.body());
     }
 
     /**
      * Gets the list of Microsoft.Compute SKUs available for your Subscription.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;ResourceSkuInner&gt; object if successful.
      */
-    public PagedList<ResourceSkuInner> listNext(final String nextPageLink) {
-        ServiceResponse<Page<ResourceSkuInner>> response = listNextSinglePageAsync(nextPageLink).toBlocking().single();
-        return new PagedList<ResourceSkuInner>(response.body()) {
+    public PagedList<ResourceSkuInner> listNext(@NonNull String nextPageLink) {
+        Page<ResourceSkuInner> response = listNextSinglePageAsync(nextPageLink).blockingGet();
+        return new PagedList<ResourceSkuInner>(response) {
             @Override
             public Page<ResourceSkuInner> nextPage(String nextPageLink) {
-                return listNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -194,92 +137,34 @@ public class ResourceSkusInner {
      * Gets the list of Microsoft.Compute SKUs available for your Subscription.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;ResourceSkuInner&gt; object.
      */
-    public ServiceFuture<List<ResourceSkuInner>> listNextAsync(final String nextPageLink, final ServiceFuture<List<ResourceSkuInner>> serviceFuture, final ListOperationCallback<ResourceSkuInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listNextSinglePageAsync(nextPageLink),
-            new Func1<String, Observable<ServiceResponse<Page<ResourceSkuInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ResourceSkuInner>>> call(String nextPageLink) {
-                    return listNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets the list of Microsoft.Compute SKUs available for your Subscription.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ResourceSkuInner&gt; object
-     */
-    public Observable<Page<ResourceSkuInner>> listNextAsync(final String nextPageLink) {
-        return listNextWithServiceResponseAsync(nextPageLink)
-            .map(new Func1<ServiceResponse<Page<ResourceSkuInner>>, Page<ResourceSkuInner>>() {
-                @Override
-                public Page<ResourceSkuInner> call(ServiceResponse<Page<ResourceSkuInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets the list of Microsoft.Compute SKUs available for your Subscription.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ResourceSkuInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<ResourceSkuInner>>> listNextWithServiceResponseAsync(final String nextPageLink) {
+    public Observable<Page<ResourceSkuInner>> listNextAsync(@NonNull String nextPageLink) {
         return listNextSinglePageAsync(nextPageLink)
-            .concatMap(new Func1<ServiceResponse<Page<ResourceSkuInner>>, Observable<ServiceResponse<Page<ResourceSkuInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ResourceSkuInner>>> call(ServiceResponse<Page<ResourceSkuInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<ResourceSkuInner> page) -> {
+                String nextPageLink1 = page.nextPageLink();
+                if (nextPageLink1 == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listNextAsync(nextPageLink1));
             });
     }
 
     /**
      * Gets the list of Microsoft.Compute SKUs available for your Subscription.
      *
-    ServiceResponse<PageImpl1<ResourceSkuInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;ResourceSkuInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;ResourceSkuInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<ResourceSkuInner>>> listNextSinglePageAsync(final String nextPageLink) {
+    public Single<Page<ResourceSkuInner>> listNextSinglePageAsync(@NonNull String nextPageLink) {
         if (nextPageLink == null) {
             throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
         }
         String nextUrl = String.format("%s", nextPageLink);
-        return service.listNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ResourceSkuInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ResourceSkuInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl1<ResourceSkuInner>> result = listNextDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<ResourceSkuInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.listNext(nextUrl, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl1<ResourceSkuInner>> res) -> res.body());
     }
-
-    private ServiceResponse<PageImpl1<ResourceSkuInner>> listNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl1<ResourceSkuInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl1<ResourceSkuInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
-    }
-
 }

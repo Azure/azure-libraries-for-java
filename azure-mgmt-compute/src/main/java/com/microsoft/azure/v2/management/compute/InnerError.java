@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Inner error details.
  */
-public class InnerError {
+public final class InnerError {
     /**
      * The exception type.
      */
@@ -27,18 +27,18 @@ public class InnerError {
     private String errordetail;
 
     /**
-     * Get the exception type.
+     * Get the exceptiontype value.
      *
-     * @return the exceptiontype value
+     * @return the exceptiontype value.
      */
     public String exceptiontype() {
         return this.exceptiontype;
     }
 
     /**
-     * Set the exception type.
+     * Set the exceptiontype value.
      *
-     * @param exceptiontype the exceptiontype value to set
+     * @param exceptiontype the exceptiontype value to set.
      * @return the InnerError object itself.
      */
     public InnerError withExceptiontype(String exceptiontype) {
@@ -47,23 +47,22 @@ public class InnerError {
     }
 
     /**
-     * Get the internal error message or exception dump.
+     * Get the errordetail value.
      *
-     * @return the errordetail value
+     * @return the errordetail value.
      */
     public String errordetail() {
         return this.errordetail;
     }
 
     /**
-     * Set the internal error message or exception dump.
+     * Set the errordetail value.
      *
-     * @param errordetail the errordetail value to set
+     * @param errordetail the errordetail value to set.
      * @return the InnerError object itself.
      */
     public InnerError withErrordetail(String errordetail) {
         this.errordetail = errordetail;
         return this;
     }
-
 }

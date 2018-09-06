@@ -9,7 +9,7 @@
 package com.microsoft.azure.v2.management.compute;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
 
 /**
  * Describes a Virtual Machine Extension.
@@ -65,18 +65,18 @@ public class VirtualMachineExtensionUpdate extends UpdateResource {
     private Object protectedSettings;
 
     /**
-     * Get how the extension handler should be forced to update even if the extension configuration has not changed.
+     * Get the forceUpdateTag value.
      *
-     * @return the forceUpdateTag value
+     * @return the forceUpdateTag value.
      */
     public String forceUpdateTag() {
         return this.forceUpdateTag;
     }
 
     /**
-     * Set how the extension handler should be forced to update even if the extension configuration has not changed.
+     * Set the forceUpdateTag value.
      *
-     * @param forceUpdateTag the forceUpdateTag value to set
+     * @param forceUpdateTag the forceUpdateTag value to set.
      * @return the VirtualMachineExtensionUpdate object itself.
      */
     public VirtualMachineExtensionUpdate withForceUpdateTag(String forceUpdateTag) {
@@ -85,18 +85,18 @@ public class VirtualMachineExtensionUpdate extends UpdateResource {
     }
 
     /**
-     * Get the name of the extension handler publisher.
+     * Get the publisher value.
      *
-     * @return the publisher value
+     * @return the publisher value.
      */
     public String publisher() {
         return this.publisher;
     }
 
     /**
-     * Set the name of the extension handler publisher.
+     * Set the publisher value.
      *
-     * @param publisher the publisher value to set
+     * @param publisher the publisher value to set.
      * @return the VirtualMachineExtensionUpdate object itself.
      */
     public VirtualMachineExtensionUpdate withPublisher(String publisher) {
@@ -105,18 +105,18 @@ public class VirtualMachineExtensionUpdate extends UpdateResource {
     }
 
     /**
-     * Get specifies the type of the extension; an example is "CustomScriptExtension".
+     * Get the type value.
      *
-     * @return the type value
+     * @return the type value.
      */
     public String type() {
         return this.type;
     }
 
     /**
-     * Set specifies the type of the extension; an example is "CustomScriptExtension".
+     * Set the type value.
      *
-     * @param type the type value to set
+     * @param type the type value to set.
      * @return the VirtualMachineExtensionUpdate object itself.
      */
     public VirtualMachineExtensionUpdate withType(String type) {
@@ -125,18 +125,18 @@ public class VirtualMachineExtensionUpdate extends UpdateResource {
     }
 
     /**
-     * Get specifies the version of the script handler.
+     * Get the typeHandlerVersion value.
      *
-     * @return the typeHandlerVersion value
+     * @return the typeHandlerVersion value.
      */
     public String typeHandlerVersion() {
         return this.typeHandlerVersion;
     }
 
     /**
-     * Set specifies the version of the script handler.
+     * Set the typeHandlerVersion value.
      *
-     * @param typeHandlerVersion the typeHandlerVersion value to set
+     * @param typeHandlerVersion the typeHandlerVersion value to set.
      * @return the VirtualMachineExtensionUpdate object itself.
      */
     public VirtualMachineExtensionUpdate withTypeHandlerVersion(String typeHandlerVersion) {
@@ -145,18 +145,18 @@ public class VirtualMachineExtensionUpdate extends UpdateResource {
     }
 
     /**
-     * Get indicates whether the extension should use a newer minor version if one is available at deployment time. Once deployed, however, the extension will not upgrade minor versions unless redeployed, even with this property set to true.
+     * Get the autoUpgradeMinorVersion value.
      *
-     * @return the autoUpgradeMinorVersion value
+     * @return the autoUpgradeMinorVersion value.
      */
     public Boolean autoUpgradeMinorVersion() {
         return this.autoUpgradeMinorVersion;
     }
 
     /**
-     * Set indicates whether the extension should use a newer minor version if one is available at deployment time. Once deployed, however, the extension will not upgrade minor versions unless redeployed, even with this property set to true.
+     * Set the autoUpgradeMinorVersion value.
      *
-     * @param autoUpgradeMinorVersion the autoUpgradeMinorVersion value to set
+     * @param autoUpgradeMinorVersion the autoUpgradeMinorVersion value to set.
      * @return the VirtualMachineExtensionUpdate object itself.
      */
     public VirtualMachineExtensionUpdate withAutoUpgradeMinorVersion(Boolean autoUpgradeMinorVersion) {
@@ -165,18 +165,18 @@ public class VirtualMachineExtensionUpdate extends UpdateResource {
     }
 
     /**
-     * Get json formatted public settings for the extension.
+     * Get the settings value.
      *
-     * @return the settings value
+     * @return the settings value.
      */
     public Object settings() {
         return this.settings;
     }
 
     /**
-     * Set json formatted public settings for the extension.
+     * Set the settings value.
      *
-     * @param settings the settings value to set
+     * @param settings the settings value to set.
      * @return the VirtualMachineExtensionUpdate object itself.
      */
     public VirtualMachineExtensionUpdate withSettings(Object settings) {
@@ -185,23 +185,22 @@ public class VirtualMachineExtensionUpdate extends UpdateResource {
     }
 
     /**
-     * Get the extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected settings at all.
+     * Get the protectedSettings value.
      *
-     * @return the protectedSettings value
+     * @return the protectedSettings value.
      */
     public Object protectedSettings() {
         return this.protectedSettings;
     }
 
     /**
-     * Set the extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected settings at all.
+     * Set the protectedSettings value.
      *
-     * @param protectedSettings the protectedSettings value to set
+     * @param protectedSettings the protectedSettings value to set.
      * @return the VirtualMachineExtensionUpdate object itself.
      */
     public VirtualMachineExtensionUpdate withProtectedSettings(Object protectedSettings) {
         this.protectedSettings = protectedSettings;
         return this;
     }
-
 }

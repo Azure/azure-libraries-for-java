@@ -8,16 +8,16 @@
 
 package com.microsoft.azure.v2.management.compute.implementation;
 
-import com.microsoft.azure.v2.management.compute.OperatingSystemTypes;
-import com.microsoft.azure.v2.management.compute.OperatingSystemStateTypes;
-import org.joda.time.DateTime;
-import com.microsoft.azure.v2.management.compute.GalleryImageIdentifier;
-import com.microsoft.azure.v2.management.compute.RecommendedMachineConfiguration;
-import com.microsoft.azure.v2.management.compute.Disallowed;
-import com.microsoft.azure.v2.management.compute.ImagePurchasePlan;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.Resource;
+import com.microsoft.azure.v2.Resource;
+import com.microsoft.azure.v2.management.compute.Disallowed;
+import com.microsoft.azure.v2.management.compute.GalleryImageIdentifier;
+import com.microsoft.azure.v2.management.compute.ImagePurchasePlan;
+import com.microsoft.azure.v2.management.compute.OperatingSystemStateTypes;
+import com.microsoft.azure.v2.management.compute.OperatingSystemTypes;
+import com.microsoft.azure.v2.management.compute.RecommendedMachineConfiguration;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
+import java.time.OffsetDateTime;
 
 /**
  * Specifies information about the gallery image that you want to create or
@@ -56,25 +56,25 @@ public class GalleryImageInner extends Resource {
      * **Windows** &lt;br&gt;&lt;br&gt; **Linux**. Possible values include:
      * 'Windows', 'Linux'.
      */
-    @JsonProperty(value = "properties.osType")
+    @JsonProperty(value = "properties.osType", required = true)
     private OperatingSystemTypes osType;
 
     /**
      * The OS State. Possible values include: 'Generalized', 'Specialized'.
      */
-    @JsonProperty(value = "properties.osState")
+    @JsonProperty(value = "properties.osState", required = true)
     private OperatingSystemStateTypes osState;
 
     /**
      * The end of life of this gallery image.
      */
     @JsonProperty(value = "properties.endOfLifeDate")
-    private DateTime endOfLifeDate;
+    private OffsetDateTime endOfLifeDate;
 
     /**
      * The identifier property.
      */
-    @JsonProperty(value = "properties.identifier")
+    @JsonProperty(value = "properties.identifier", required = true)
     private GalleryImageIdentifier identifier;
 
     /**
@@ -105,18 +105,18 @@ public class GalleryImageInner extends Resource {
     private String provisioningState;
 
     /**
-     * Get the description of this gallery image resource.
+     * Get the description value.
      *
-     * @return the description value
+     * @return the description value.
      */
     public String description() {
         return this.description;
     }
 
     /**
-     * Set the description of this gallery image resource.
+     * Set the description value.
      *
-     * @param description the description value to set
+     * @param description the description value to set.
      * @return the GalleryImageInner object itself.
      */
     public GalleryImageInner withDescription(String description) {
@@ -125,18 +125,18 @@ public class GalleryImageInner extends Resource {
     }
 
     /**
-     * Get the Eula agreement for the gallery image.
+     * Get the eula value.
      *
-     * @return the eula value
+     * @return the eula value.
      */
     public String eula() {
         return this.eula;
     }
 
     /**
-     * Set the Eula agreement for the gallery image.
+     * Set the eula value.
      *
-     * @param eula the eula value to set
+     * @param eula the eula value to set.
      * @return the GalleryImageInner object itself.
      */
     public GalleryImageInner withEula(String eula) {
@@ -145,18 +145,18 @@ public class GalleryImageInner extends Resource {
     }
 
     /**
-     * Get the privacy statement uri.
+     * Get the privacyStatementUri value.
      *
-     * @return the privacyStatementUri value
+     * @return the privacyStatementUri value.
      */
     public String privacyStatementUri() {
         return this.privacyStatementUri;
     }
 
     /**
-     * Set the privacy statement uri.
+     * Set the privacyStatementUri value.
      *
-     * @param privacyStatementUri the privacyStatementUri value to set
+     * @param privacyStatementUri the privacyStatementUri value to set.
      * @return the GalleryImageInner object itself.
      */
     public GalleryImageInner withPrivacyStatementUri(String privacyStatementUri) {
@@ -165,18 +165,18 @@ public class GalleryImageInner extends Resource {
     }
 
     /**
-     * Get the release note uri.
+     * Get the releaseNoteUri value.
      *
-     * @return the releaseNoteUri value
+     * @return the releaseNoteUri value.
      */
     public String releaseNoteUri() {
         return this.releaseNoteUri;
     }
 
     /**
-     * Set the release note uri.
+     * Set the releaseNoteUri value.
      *
-     * @param releaseNoteUri the releaseNoteUri value to set
+     * @param releaseNoteUri the releaseNoteUri value to set.
      * @return the GalleryImageInner object itself.
      */
     public GalleryImageInner withReleaseNoteUri(String releaseNoteUri) {
@@ -185,18 +185,18 @@ public class GalleryImageInner extends Resource {
     }
 
     /**
-     * Get this property allows you to specify the type of the OS that is included in the disk if creating a VM from user-image or a specialized VHD. &lt;br&gt;&lt;br&gt; Possible values are: &lt;br&gt;&lt;br&gt; **Windows** &lt;br&gt;&lt;br&gt; **Linux**. Possible values include: 'Windows', 'Linux'.
+     * Get the osType value.
      *
-     * @return the osType value
+     * @return the osType value.
      */
     public OperatingSystemTypes osType() {
         return this.osType;
     }
 
     /**
-     * Set this property allows you to specify the type of the OS that is included in the disk if creating a VM from user-image or a specialized VHD. &lt;br&gt;&lt;br&gt; Possible values are: &lt;br&gt;&lt;br&gt; **Windows** &lt;br&gt;&lt;br&gt; **Linux**. Possible values include: 'Windows', 'Linux'.
+     * Set the osType value.
      *
-     * @param osType the osType value to set
+     * @param osType the osType value to set.
      * @return the GalleryImageInner object itself.
      */
     public GalleryImageInner withOsType(OperatingSystemTypes osType) {
@@ -205,18 +205,18 @@ public class GalleryImageInner extends Resource {
     }
 
     /**
-     * Get the OS State. Possible values include: 'Generalized', 'Specialized'.
+     * Get the osState value.
      *
-     * @return the osState value
+     * @return the osState value.
      */
     public OperatingSystemStateTypes osState() {
         return this.osState;
     }
 
     /**
-     * Set the OS State. Possible values include: 'Generalized', 'Specialized'.
+     * Set the osState value.
      *
-     * @param osState the osState value to set
+     * @param osState the osState value to set.
      * @return the GalleryImageInner object itself.
      */
     public GalleryImageInner withOsState(OperatingSystemStateTypes osState) {
@@ -225,21 +225,21 @@ public class GalleryImageInner extends Resource {
     }
 
     /**
-     * Get the end of life of this gallery image.
+     * Get the endOfLifeDate value.
      *
-     * @return the endOfLifeDate value
+     * @return the endOfLifeDate value.
      */
-    public DateTime endOfLifeDate() {
+    public OffsetDateTime endOfLifeDate() {
         return this.endOfLifeDate;
     }
 
     /**
-     * Set the end of life of this gallery image.
+     * Set the endOfLifeDate value.
      *
-     * @param endOfLifeDate the endOfLifeDate value to set
+     * @param endOfLifeDate the endOfLifeDate value to set.
      * @return the GalleryImageInner object itself.
      */
-    public GalleryImageInner withEndOfLifeDate(DateTime endOfLifeDate) {
+    public GalleryImageInner withEndOfLifeDate(OffsetDateTime endOfLifeDate) {
         this.endOfLifeDate = endOfLifeDate;
         return this;
     }
@@ -247,7 +247,7 @@ public class GalleryImageInner extends Resource {
     /**
      * Get the identifier value.
      *
-     * @return the identifier value
+     * @return the identifier value.
      */
     public GalleryImageIdentifier identifier() {
         return this.identifier;
@@ -256,7 +256,7 @@ public class GalleryImageInner extends Resource {
     /**
      * Set the identifier value.
      *
-     * @param identifier the identifier value to set
+     * @param identifier the identifier value to set.
      * @return the GalleryImageInner object itself.
      */
     public GalleryImageInner withIdentifier(GalleryImageIdentifier identifier) {
@@ -267,7 +267,7 @@ public class GalleryImageInner extends Resource {
     /**
      * Get the recommended value.
      *
-     * @return the recommended value
+     * @return the recommended value.
      */
     public RecommendedMachineConfiguration recommended() {
         return this.recommended;
@@ -276,7 +276,7 @@ public class GalleryImageInner extends Resource {
     /**
      * Set the recommended value.
      *
-     * @param recommended the recommended value to set
+     * @param recommended the recommended value to set.
      * @return the GalleryImageInner object itself.
      */
     public GalleryImageInner withRecommended(RecommendedMachineConfiguration recommended) {
@@ -287,7 +287,7 @@ public class GalleryImageInner extends Resource {
     /**
      * Get the disallowed value.
      *
-     * @return the disallowed value
+     * @return the disallowed value.
      */
     public Disallowed disallowed() {
         return this.disallowed;
@@ -296,7 +296,7 @@ public class GalleryImageInner extends Resource {
     /**
      * Set the disallowed value.
      *
-     * @param disallowed the disallowed value to set
+     * @param disallowed the disallowed value to set.
      * @return the GalleryImageInner object itself.
      */
     public GalleryImageInner withDisallowed(Disallowed disallowed) {
@@ -307,7 +307,7 @@ public class GalleryImageInner extends Resource {
     /**
      * Get the purchasePlan value.
      *
-     * @return the purchasePlan value
+     * @return the purchasePlan value.
      */
     public ImagePurchasePlan purchasePlan() {
         return this.purchasePlan;
@@ -316,7 +316,7 @@ public class GalleryImageInner extends Resource {
     /**
      * Set the purchasePlan value.
      *
-     * @param purchasePlan the purchasePlan value to set
+     * @param purchasePlan the purchasePlan value to set.
      * @return the GalleryImageInner object itself.
      */
     public GalleryImageInner withPurchasePlan(ImagePurchasePlan purchasePlan) {
@@ -325,12 +325,11 @@ public class GalleryImageInner extends Resource {
     }
 
     /**
-     * Get the provisioning state, which only appears in the response. Possible values include: 'Creating', 'Updating', 'Failed', 'Succeeded', 'Deleting', 'Migrating'.
+     * Get the provisioningState value.
      *
-     * @return the provisioningState value
+     * @return the provisioningState value.
      */
     public String provisioningState() {
         return this.provisioningState;
     }
-
 }

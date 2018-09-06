@@ -8,88 +8,113 @@
 
 package com.microsoft.azure.v2.management.compute.implementation;
 
-import retrofit2.Retrofit;
-import com.google.common.reflect.TypeToken;
-import com.microsoft.azure.AzureServiceFuture;
-import com.microsoft.azure.CloudException;
-import com.microsoft.azure.ListOperationCallback;
+import com.microsoft.azure.v2.AzureProxy;
+import com.microsoft.azure.v2.CloudException;
+import com.microsoft.azure.v2.OperationStatus;
+import com.microsoft.azure.v2.Page;
+import com.microsoft.azure.v2.PagedList;
 import com.microsoft.azure.v2.management.compute.ReplicationStatusTypes;
-import com.microsoft.azure.Page;
-import com.microsoft.azure.PagedList;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import com.microsoft.rest.ServiceResponse;
-import com.microsoft.rest.Validator;
-import java.io.IOException;
-import java.util.List;
-import okhttp3.ResponseBody;
-import retrofit2.http.Body;
-import retrofit2.http.GET;
-import retrofit2.http.Header;
-import retrofit2.http.Headers;
-import retrofit2.http.HTTP;
-import retrofit2.http.Path;
-import retrofit2.http.PUT;
-import retrofit2.http.Query;
-import retrofit2.http.Url;
-import retrofit2.Response;
-import rx.functions.Func1;
-import rx.Observable;
+import com.microsoft.azure.v2.util.ServiceFutureUtil;
+import com.microsoft.rest.v2.BodyResponse;
+import com.microsoft.rest.v2.OperationDescription;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
+import com.microsoft.rest.v2.Validator;
+import com.microsoft.rest.v2.VoidResponse;
+import com.microsoft.rest.v2.annotations.BodyParam;
+import com.microsoft.rest.v2.annotations.DELETE;
+import com.microsoft.rest.v2.annotations.ExpectedResponses;
+import com.microsoft.rest.v2.annotations.GET;
+import com.microsoft.rest.v2.annotations.HeaderParam;
+import com.microsoft.rest.v2.annotations.Host;
+import com.microsoft.rest.v2.annotations.PathParam;
+import com.microsoft.rest.v2.annotations.PUT;
+import com.microsoft.rest.v2.annotations.QueryParam;
+import com.microsoft.rest.v2.annotations.ResumeOperation;
+import com.microsoft.rest.v2.annotations.UnexpectedResponseExceptionType;
+import io.reactivex.Completable;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
+import io.reactivex.Single;
+import io.reactivex.annotations.NonNull;
 
 /**
- * An instance of this class provides access to all the operations defined
- * in GalleryImageVersions.
+ * An instance of this class provides access to all the operations defined in
+ * GalleryImageVersions.
  */
-public class GalleryImageVersionsInner {
-    /** The Retrofit service to perform REST calls. */
+public final class GalleryImageVersionsInner {
+    /**
+     * The proxy service used to perform REST calls.
+     */
     private GalleryImageVersionsService service;
-    /** The service client containing this operation class. */
+
+    /**
+     * The service client containing this operation class.
+     */
     private ComputeManagementClientImpl client;
 
     /**
      * Initializes an instance of GalleryImageVersionsInner.
      *
-     * @param retrofit the Retrofit instance built from a Retrofit Builder.
      * @param client the instance of the service client containing this operation class.
      */
-    public GalleryImageVersionsInner(Retrofit retrofit, ComputeManagementClientImpl client) {
-        this.service = retrofit.create(GalleryImageVersionsService.class);
+    public GalleryImageVersionsInner(ComputeManagementClientImpl client) {
+        this.service = AzureProxy.create(GalleryImageVersionsService.class, client);
         this.client = client;
     }
 
     /**
      * The interface defining all the services for GalleryImageVersions to be
-     * used by Retrofit to perform actually REST calls.
+     * used by the proxy service to perform REST calls.
      */
-    interface GalleryImageVersionsService {
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.GalleryImageVersions createOrUpdate" })
+    @Host("https://management.azure.com")
+    private interface GalleryImageVersionsService {
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}/versions/{galleryImageVersionName}")
-        Observable<Response<ResponseBody>> createOrUpdate(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("galleryName") String galleryName, @Path("galleryImageName") String galleryImageName, @Path("galleryImageVersionName") String galleryImageVersionName, @Query("api-version") String apiVersion, @Body GalleryImageVersionInner galleryImageVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 201, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Observable<OperationStatus<GalleryImageVersionInner>> beginCreateOrUpdate(@PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("galleryName") String galleryName, @PathParam("galleryImageName") String galleryImageName, @PathParam("galleryImageVersionName") String galleryImageVersionName, @QueryParam("api-version") String apiVersion, @BodyParam("application/json; charset=utf-8") GalleryImageVersionInner galleryImageVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.GalleryImageVersions beginCreateOrUpdate" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}/versions/{galleryImageVersionName}")
-        Observable<Response<ResponseBody>> beginCreateOrUpdate(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("galleryName") String galleryName, @Path("galleryImageName") String galleryImageName, @Path("galleryImageVersionName") String galleryImageVersionName, @Query("api-version") String apiVersion, @Body GalleryImageVersionInner galleryImageVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 201, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<GalleryImageVersionInner>> createOrUpdate(@PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("galleryName") String galleryName, @PathParam("galleryImageName") String galleryImageName, @PathParam("galleryImageVersionName") String galleryImageVersionName, @QueryParam("api-version") String apiVersion, @BodyParam("application/json; charset=utf-8") GalleryImageVersionInner galleryImageVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.GalleryImageVersions get" })
+        @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}/versions/{galleryImageVersionName}")
+        @ExpectedResponses({200, 201, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<GalleryImageVersionInner>> resumeCreateOrUpdate(OperationDescription operationDescription);
+
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}/versions/{galleryImageVersionName}")
-        Observable<Response<ResponseBody>> get(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("galleryName") String galleryName, @Path("galleryImageName") String galleryImageName, @Path("galleryImageVersionName") String galleryImageVersionName, @Query("$expand") ReplicationStatusTypes expand, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<GalleryImageVersionInner>> get(@PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("galleryName") String galleryName, @PathParam("galleryImageName") String galleryImageName, @PathParam("galleryImageVersionName") String galleryImageVersionName, @QueryParam("$expand") ReplicationStatusTypes expand, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.GalleryImageVersions delete" })
-        @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}/versions/{galleryImageVersionName}", method = "DELETE", hasBody = true)
-        Observable<Response<ResponseBody>> delete(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("galleryName") String galleryName, @Path("galleryImageName") String galleryImageName, @Path("galleryImageVersionName") String galleryImageVersionName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @DELETE("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}/versions/{galleryImageVersionName}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Observable<OperationStatus<Void>> beginDelete(@PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("galleryName") String galleryName, @PathParam("galleryImageName") String galleryImageName, @PathParam("galleryImageVersionName") String galleryImageVersionName, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.GalleryImageVersions beginDelete" })
-        @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}/versions/{galleryImageVersionName}", method = "DELETE", hasBody = true)
-        Observable<Response<ResponseBody>> beginDelete(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("galleryName") String galleryName, @Path("galleryImageName") String galleryImageName, @Path("galleryImageVersionName") String galleryImageVersionName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @DELETE("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}/versions/{galleryImageVersionName}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<VoidResponse> delete(@PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("galleryName") String galleryName, @PathParam("galleryImageName") String galleryImageName, @PathParam("galleryImageVersionName") String galleryImageVersionName, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.GalleryImageVersions listByGalleryImage" })
+        @DELETE("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}/versions/{galleryImageVersionName}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<Void>> resumeDelete(OperationDescription operationDescription);
+
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}/versions")
-        Observable<Response<ResponseBody>> listByGalleryImage(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("galleryName") String galleryName, @Path("galleryImageName") String galleryImageName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl1<GalleryImageVersionInner>>> listByGalleryImage(@PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("galleryName") String galleryName, @PathParam("galleryImageName") String galleryImageName, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.GalleryImageVersions listByGalleryImageNext" })
-        @GET
-        Observable<Response<ResponseBody>> listByGalleryImageNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
-
+        @GET("{nextUrl}")
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl1<GalleryImageVersionInner>>> listByGalleryImageNext(@PathParam(value = "nextUrl", encoded = true) String nextUrl, @HeaderParam("accept-language") String acceptLanguage);
     }
 
     /**
@@ -98,15 +123,15 @@ public class GalleryImageVersionsInner {
      * @param resourceGroupName The name of the resource group.
      * @param galleryName The name of the gallery.
      * @param galleryImageName The name of the gallery image.
-     * @param galleryImageVersionName The name of the gallery image version. Needs to follow semantic version name pattern: The allowed characters are digit and period. Digits must be within the range of a 32-bit integer. Format: &lt;MajorVersion&gt;.&lt;MinorVersion&gt;.&lt;Patch&gt;
+     * @param galleryImageVersionName The name of the gallery image version. Needs to follow semantic version name pattern: The allowed characters are digit and period. Digits must be within the range of a 32-bit integer. Format: &lt;MajorVersion&gt;.&lt;MinorVersion&gt;.&lt;Patch&gt;.
      * @param galleryImageVersion Parameters supplied to the create or update gallery image version operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the GalleryImageVersionInner object if successful.
      */
-    public GalleryImageVersionInner createOrUpdate(String resourceGroupName, String galleryName, String galleryImageName, String galleryImageVersionName, GalleryImageVersionInner galleryImageVersion) {
-        return createOrUpdateWithServiceResponseAsync(resourceGroupName, galleryName, galleryImageName, galleryImageVersionName, galleryImageVersion).toBlocking().last().body();
+    public GalleryImageVersionInner beginCreateOrUpdate(@NonNull String resourceGroupName, @NonNull String galleryName, @NonNull String galleryImageName, @NonNull String galleryImageVersionName, @NonNull GalleryImageVersionInner galleryImageVersion) {
+        return beginCreateOrUpdateAsync(resourceGroupName, galleryName, galleryImageName, galleryImageVersionName, galleryImageVersion).blockingLast().result();
     }
 
     /**
@@ -115,14 +140,14 @@ public class GalleryImageVersionsInner {
      * @param resourceGroupName The name of the resource group.
      * @param galleryName The name of the gallery.
      * @param galleryImageName The name of the gallery image.
-     * @param galleryImageVersionName The name of the gallery image version. Needs to follow semantic version name pattern: The allowed characters are digit and period. Digits must be within the range of a 32-bit integer. Format: &lt;MajorVersion&gt;.&lt;MinorVersion&gt;.&lt;Patch&gt;
+     * @param galleryImageVersionName The name of the gallery image version. Needs to follow semantic version name pattern: The allowed characters are digit and period. Digits must be within the range of a 32-bit integer. Format: &lt;MajorVersion&gt;.&lt;MinorVersion&gt;.&lt;Patch&gt;.
      * @param galleryImageVersion Parameters supplied to the create or update gallery image version operation.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;GalleryImageVersionInner&gt; object.
      */
-    public ServiceFuture<GalleryImageVersionInner> createOrUpdateAsync(String resourceGroupName, String galleryName, String galleryImageName, String galleryImageVersionName, GalleryImageVersionInner galleryImageVersion, final ServiceCallback<GalleryImageVersionInner> serviceCallback) {
-        return ServiceFuture.fromResponse(createOrUpdateWithServiceResponseAsync(resourceGroupName, galleryName, galleryImageName, galleryImageVersionName, galleryImageVersion), serviceCallback);
+    public ServiceFuture<GalleryImageVersionInner> beginCreateOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String galleryName, @NonNull String galleryImageName, @NonNull String galleryImageVersionName, @NonNull GalleryImageVersionInner galleryImageVersion, ServiceCallback<GalleryImageVersionInner> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginCreateOrUpdateAsync(resourceGroupName, galleryName, galleryImageName, galleryImageVersionName, galleryImageVersion), serviceCallback);
     }
 
     /**
@@ -131,32 +156,12 @@ public class GalleryImageVersionsInner {
      * @param resourceGroupName The name of the resource group.
      * @param galleryName The name of the gallery.
      * @param galleryImageName The name of the gallery image.
-     * @param galleryImageVersionName The name of the gallery image version. Needs to follow semantic version name pattern: The allowed characters are digit and period. Digits must be within the range of a 32-bit integer. Format: &lt;MajorVersion&gt;.&lt;MinorVersion&gt;.&lt;Patch&gt;
+     * @param galleryImageVersionName The name of the gallery image version. Needs to follow semantic version name pattern: The allowed characters are digit and period. Digits must be within the range of a 32-bit integer. Format: &lt;MajorVersion&gt;.&lt;MinorVersion&gt;.&lt;Patch&gt;.
      * @param galleryImageVersion Parameters supplied to the create or update gallery image version operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<GalleryImageVersionInner> createOrUpdateAsync(String resourceGroupName, String galleryName, String galleryImageName, String galleryImageVersionName, GalleryImageVersionInner galleryImageVersion) {
-        return createOrUpdateWithServiceResponseAsync(resourceGroupName, galleryName, galleryImageName, galleryImageVersionName, galleryImageVersion).map(new Func1<ServiceResponse<GalleryImageVersionInner>, GalleryImageVersionInner>() {
-            @Override
-            public GalleryImageVersionInner call(ServiceResponse<GalleryImageVersionInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Create or update a gallery image version.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the gallery.
-     * @param galleryImageName The name of the gallery image.
-     * @param galleryImageVersionName The name of the gallery image version. Needs to follow semantic version name pattern: The allowed characters are digit and period. Digits must be within the range of a 32-bit integer. Format: &lt;MajorVersion&gt;.&lt;MinorVersion&gt;.&lt;Patch&gt;
-     * @param galleryImageVersion Parameters supplied to the create or update gallery image version operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<GalleryImageVersionInner>> createOrUpdateWithServiceResponseAsync(String resourceGroupName, String galleryName, String galleryImageName, String galleryImageVersionName, GalleryImageVersionInner galleryImageVersion) {
+    public Observable<OperationStatus<GalleryImageVersionInner>> beginCreateOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String galleryName, @NonNull String galleryImageName, @NonNull String galleryImageVersionName, @NonNull GalleryImageVersionInner galleryImageVersion) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
@@ -177,8 +182,7 @@ public class GalleryImageVersionsInner {
         }
         Validator.validate(galleryImageVersion);
         final String apiVersion = "2018-06-01";
-        Observable<Response<ResponseBody>> observable = service.createOrUpdate(this.client.subscriptionId(), resourceGroupName, galleryName, galleryImageName, galleryImageVersionName, apiVersion, galleryImageVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<GalleryImageVersionInner>() { }.getType());
+        return service.beginCreateOrUpdate(this.client.subscriptionId(), resourceGroupName, galleryName, galleryImageName, galleryImageVersionName, apiVersion, galleryImageVersion, this.client.acceptLanguage());
     }
 
     /**
@@ -187,15 +191,15 @@ public class GalleryImageVersionsInner {
      * @param resourceGroupName The name of the resource group.
      * @param galleryName The name of the gallery.
      * @param galleryImageName The name of the gallery image.
-     * @param galleryImageVersionName The name of the gallery image version. Needs to follow semantic version name pattern: The allowed characters are digit and period. Digits must be within the range of a 32-bit integer. Format: &lt;MajorVersion&gt;.&lt;MinorVersion&gt;.&lt;Patch&gt;
+     * @param galleryImageVersionName The name of the gallery image version. Needs to follow semantic version name pattern: The allowed characters are digit and period. Digits must be within the range of a 32-bit integer. Format: &lt;MajorVersion&gt;.&lt;MinorVersion&gt;.&lt;Patch&gt;.
      * @param galleryImageVersion Parameters supplied to the create or update gallery image version operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the GalleryImageVersionInner object if successful.
      */
-    public GalleryImageVersionInner beginCreateOrUpdate(String resourceGroupName, String galleryName, String galleryImageName, String galleryImageVersionName, GalleryImageVersionInner galleryImageVersion) {
-        return beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, galleryName, galleryImageName, galleryImageVersionName, galleryImageVersion).toBlocking().single().body();
+    public GalleryImageVersionInner createOrUpdate(@NonNull String resourceGroupName, @NonNull String galleryName, @NonNull String galleryImageName, @NonNull String galleryImageVersionName, @NonNull GalleryImageVersionInner galleryImageVersion) {
+        return createOrUpdateAsync(resourceGroupName, galleryName, galleryImageName, galleryImageVersionName, galleryImageVersion).blockingGet();
     }
 
     /**
@@ -204,14 +208,14 @@ public class GalleryImageVersionsInner {
      * @param resourceGroupName The name of the resource group.
      * @param galleryName The name of the gallery.
      * @param galleryImageName The name of the gallery image.
-     * @param galleryImageVersionName The name of the gallery image version. Needs to follow semantic version name pattern: The allowed characters are digit and period. Digits must be within the range of a 32-bit integer. Format: &lt;MajorVersion&gt;.&lt;MinorVersion&gt;.&lt;Patch&gt;
+     * @param galleryImageVersionName The name of the gallery image version. Needs to follow semantic version name pattern: The allowed characters are digit and period. Digits must be within the range of a 32-bit integer. Format: &lt;MajorVersion&gt;.&lt;MinorVersion&gt;.&lt;Patch&gt;.
      * @param galleryImageVersion Parameters supplied to the create or update gallery image version operation.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<GalleryImageVersionInner> beginCreateOrUpdateAsync(String resourceGroupName, String galleryName, String galleryImageName, String galleryImageVersionName, GalleryImageVersionInner galleryImageVersion, final ServiceCallback<GalleryImageVersionInner> serviceCallback) {
-        return ServiceFuture.fromResponse(beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, galleryName, galleryImageName, galleryImageVersionName, galleryImageVersion), serviceCallback);
+    public ServiceFuture<GalleryImageVersionInner> createOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String galleryName, @NonNull String galleryImageName, @NonNull String galleryImageVersionName, @NonNull GalleryImageVersionInner galleryImageVersion, ServiceCallback<GalleryImageVersionInner> serviceCallback) {
+        return ServiceFuture.fromBody(createOrUpdateAsync(resourceGroupName, galleryName, galleryImageName, galleryImageVersionName, galleryImageVersion), serviceCallback);
     }
 
     /**
@@ -220,32 +224,12 @@ public class GalleryImageVersionsInner {
      * @param resourceGroupName The name of the resource group.
      * @param galleryName The name of the gallery.
      * @param galleryImageName The name of the gallery image.
-     * @param galleryImageVersionName The name of the gallery image version. Needs to follow semantic version name pattern: The allowed characters are digit and period. Digits must be within the range of a 32-bit integer. Format: &lt;MajorVersion&gt;.&lt;MinorVersion&gt;.&lt;Patch&gt;
+     * @param galleryImageVersionName The name of the gallery image version. Needs to follow semantic version name pattern: The allowed characters are digit and period. Digits must be within the range of a 32-bit integer. Format: &lt;MajorVersion&gt;.&lt;MinorVersion&gt;.&lt;Patch&gt;.
      * @param galleryImageVersion Parameters supplied to the create or update gallery image version operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the GalleryImageVersionInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<GalleryImageVersionInner> beginCreateOrUpdateAsync(String resourceGroupName, String galleryName, String galleryImageName, String galleryImageVersionName, GalleryImageVersionInner galleryImageVersion) {
-        return beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, galleryName, galleryImageName, galleryImageVersionName, galleryImageVersion).map(new Func1<ServiceResponse<GalleryImageVersionInner>, GalleryImageVersionInner>() {
-            @Override
-            public GalleryImageVersionInner call(ServiceResponse<GalleryImageVersionInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Create or update a gallery image version.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the gallery.
-     * @param galleryImageName The name of the gallery image.
-     * @param galleryImageVersionName The name of the gallery image version. Needs to follow semantic version name pattern: The allowed characters are digit and period. Digits must be within the range of a 32-bit integer. Format: &lt;MajorVersion&gt;.&lt;MinorVersion&gt;.&lt;Patch&gt;
-     * @param galleryImageVersion Parameters supplied to the create or update gallery image version operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the GalleryImageVersionInner object
-     */
-    public Observable<ServiceResponse<GalleryImageVersionInner>> beginCreateOrUpdateWithServiceResponseAsync(String resourceGroupName, String galleryName, String galleryImageName, String galleryImageVersionName, GalleryImageVersionInner galleryImageVersion) {
+    public Single<BodyResponse<GalleryImageVersionInner>> createOrUpdateWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String galleryName, @NonNull String galleryImageName, @NonNull String galleryImageVersionName, @NonNull GalleryImageVersionInner galleryImageVersion) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
@@ -266,27 +250,37 @@ public class GalleryImageVersionsInner {
         }
         Validator.validate(galleryImageVersion);
         final String apiVersion = "2018-06-01";
-        return service.beginCreateOrUpdate(this.client.subscriptionId(), resourceGroupName, galleryName, galleryImageName, galleryImageVersionName, apiVersion, galleryImageVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<GalleryImageVersionInner>>>() {
-                @Override
-                public Observable<ServiceResponse<GalleryImageVersionInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<GalleryImageVersionInner> clientResponse = beginCreateOrUpdateDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.createOrUpdate(this.client.subscriptionId(), resourceGroupName, galleryName, galleryImageName, galleryImageVersionName, apiVersion, galleryImageVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<GalleryImageVersionInner> beginCreateOrUpdateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<GalleryImageVersionInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<GalleryImageVersionInner>() { }.getType())
-                .register(201, new TypeToken<GalleryImageVersionInner>() { }.getType())
-                .register(202, new TypeToken<GalleryImageVersionInner>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Create or update a gallery image version.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param galleryName The name of the gallery.
+     * @param galleryImageName The name of the gallery image.
+     * @param galleryImageVersionName The name of the gallery image version. Needs to follow semantic version name pattern: The allowed characters are digit and period. Digits must be within the range of a 32-bit integer. Format: &lt;MajorVersion&gt;.&lt;MinorVersion&gt;.&lt;Patch&gt;.
+     * @param galleryImageVersion Parameters supplied to the create or update gallery image version operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<GalleryImageVersionInner> createOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String galleryName, @NonNull String galleryImageName, @NonNull String galleryImageVersionName, @NonNull GalleryImageVersionInner galleryImageVersion) {
+        return createOrUpdateWithRestResponseAsync(resourceGroupName, galleryName, galleryImageName, galleryImageVersionName, galleryImageVersion)
+            .flatMapMaybe((BodyResponse<GalleryImageVersionInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
+    }
+
+    /**
+     * Create or update a gallery image version. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<GalleryImageVersionInner>> resumeCreateOrUpdate(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeCreateOrUpdate(operationDescription);
     }
 
     /**
@@ -296,13 +290,13 @@ public class GalleryImageVersionsInner {
      * @param galleryName The name of the gallery.
      * @param galleryImageName The name of the gallery image.
      * @param galleryImageVersionName The name of the gallery image version.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the GalleryImageVersionInner object if successful.
      */
-    public GalleryImageVersionInner get(String resourceGroupName, String galleryName, String galleryImageName, String galleryImageVersionName) {
-        return getWithServiceResponseAsync(resourceGroupName, galleryName, galleryImageName, galleryImageVersionName).toBlocking().single().body();
+    public GalleryImageVersionInner get(@NonNull String resourceGroupName, @NonNull String galleryName, @NonNull String galleryImageName, @NonNull String galleryImageVersionName) {
+        return getAsync(resourceGroupName, galleryName, galleryImageName, galleryImageVersionName).blockingGet();
     }
 
     /**
@@ -313,11 +307,11 @@ public class GalleryImageVersionsInner {
      * @param galleryImageName The name of the gallery image.
      * @param galleryImageVersionName The name of the gallery image version.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<GalleryImageVersionInner> getAsync(String resourceGroupName, String galleryName, String galleryImageName, String galleryImageVersionName, final ServiceCallback<GalleryImageVersionInner> serviceCallback) {
-        return ServiceFuture.fromResponse(getWithServiceResponseAsync(resourceGroupName, galleryName, galleryImageName, galleryImageVersionName), serviceCallback);
+    public ServiceFuture<GalleryImageVersionInner> getAsync(@NonNull String resourceGroupName, @NonNull String galleryName, @NonNull String galleryImageName, @NonNull String galleryImageVersionName, ServiceCallback<GalleryImageVersionInner> serviceCallback) {
+        return ServiceFuture.fromBody(getAsync(resourceGroupName, galleryName, galleryImageName, galleryImageVersionName), serviceCallback);
     }
 
     /**
@@ -327,29 +321,10 @@ public class GalleryImageVersionsInner {
      * @param galleryName The name of the gallery.
      * @param galleryImageName The name of the gallery image.
      * @param galleryImageVersionName The name of the gallery image version.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the GalleryImageVersionInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<GalleryImageVersionInner> getAsync(String resourceGroupName, String galleryName, String galleryImageName, String galleryImageVersionName) {
-        return getWithServiceResponseAsync(resourceGroupName, galleryName, galleryImageName, galleryImageVersionName).map(new Func1<ServiceResponse<GalleryImageVersionInner>, GalleryImageVersionInner>() {
-            @Override
-            public GalleryImageVersionInner call(ServiceResponse<GalleryImageVersionInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Retrieves information about a gallery image version.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the gallery.
-     * @param galleryImageName The name of the gallery image.
-     * @param galleryImageVersionName The name of the gallery image version.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the GalleryImageVersionInner object
-     */
-    public Observable<ServiceResponse<GalleryImageVersionInner>> getWithServiceResponseAsync(String resourceGroupName, String galleryName, String galleryImageName, String galleryImageVersionName) {
+    public Single<BodyResponse<GalleryImageVersionInner>> getWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String galleryName, @NonNull String galleryImageName, @NonNull String galleryImageVersionName) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
@@ -367,18 +342,7 @@ public class GalleryImageVersionsInner {
         }
         final String apiVersion = "2018-06-01";
         final ReplicationStatusTypes expand = null;
-        return service.get(this.client.subscriptionId(), resourceGroupName, galleryName, galleryImageName, galleryImageVersionName, expand, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<GalleryImageVersionInner>>>() {
-                @Override
-                public Observable<ServiceResponse<GalleryImageVersionInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<GalleryImageVersionInner> clientResponse = getDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.get(this.client.subscriptionId(), resourceGroupName, galleryName, galleryImageName, galleryImageVersionName, expand, apiVersion, this.client.acceptLanguage());
     }
 
     /**
@@ -388,14 +352,29 @@ public class GalleryImageVersionsInner {
      * @param galleryName The name of the gallery.
      * @param galleryImageName The name of the gallery image.
      * @param galleryImageVersionName The name of the gallery image version.
-     * @param expand The expand expression to apply on the operation. Possible values include: 'ReplicationStatus'
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<GalleryImageVersionInner> getAsync(@NonNull String resourceGroupName, @NonNull String galleryName, @NonNull String galleryImageName, @NonNull String galleryImageVersionName) {
+        return getWithRestResponseAsync(resourceGroupName, galleryName, galleryImageName, galleryImageVersionName)
+            .flatMapMaybe((BodyResponse<GalleryImageVersionInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
+    }
+
+    /**
+     * Retrieves information about a gallery image version.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param galleryName The name of the gallery.
+     * @param galleryImageName The name of the gallery image.
+     * @param galleryImageVersionName The name of the gallery image version.
+     * @param expand The expand expression to apply on the operation. Possible values include: 'ReplicationStatus'.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the GalleryImageVersionInner object if successful.
      */
-    public GalleryImageVersionInner get(String resourceGroupName, String galleryName, String galleryImageName, String galleryImageVersionName, ReplicationStatusTypes expand) {
-        return getWithServiceResponseAsync(resourceGroupName, galleryName, galleryImageName, galleryImageVersionName, expand).toBlocking().single().body();
+    public GalleryImageVersionInner get(@NonNull String resourceGroupName, @NonNull String galleryName, @NonNull String galleryImageName, @NonNull String galleryImageVersionName, ReplicationStatusTypes expand) {
+        return getAsync(resourceGroupName, galleryName, galleryImageName, galleryImageVersionName, expand).blockingGet();
     }
 
     /**
@@ -405,13 +384,13 @@ public class GalleryImageVersionsInner {
      * @param galleryName The name of the gallery.
      * @param galleryImageName The name of the gallery image.
      * @param galleryImageVersionName The name of the gallery image version.
-     * @param expand The expand expression to apply on the operation. Possible values include: 'ReplicationStatus'
+     * @param expand The expand expression to apply on the operation. Possible values include: 'ReplicationStatus'.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<GalleryImageVersionInner> getAsync(String resourceGroupName, String galleryName, String galleryImageName, String galleryImageVersionName, ReplicationStatusTypes expand, final ServiceCallback<GalleryImageVersionInner> serviceCallback) {
-        return ServiceFuture.fromResponse(getWithServiceResponseAsync(resourceGroupName, galleryName, galleryImageName, galleryImageVersionName, expand), serviceCallback);
+    public ServiceFuture<GalleryImageVersionInner> getAsync(@NonNull String resourceGroupName, @NonNull String galleryName, @NonNull String galleryImageName, @NonNull String galleryImageVersionName, ReplicationStatusTypes expand, ServiceCallback<GalleryImageVersionInner> serviceCallback) {
+        return ServiceFuture.fromBody(getAsync(resourceGroupName, galleryName, galleryImageName, galleryImageVersionName, expand), serviceCallback);
     }
 
     /**
@@ -421,31 +400,11 @@ public class GalleryImageVersionsInner {
      * @param galleryName The name of the gallery.
      * @param galleryImageName The name of the gallery image.
      * @param galleryImageVersionName The name of the gallery image version.
-     * @param expand The expand expression to apply on the operation. Possible values include: 'ReplicationStatus'
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the GalleryImageVersionInner object
+     * @param expand The expand expression to apply on the operation. Possible values include: 'ReplicationStatus'.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<GalleryImageVersionInner> getAsync(String resourceGroupName, String galleryName, String galleryImageName, String galleryImageVersionName, ReplicationStatusTypes expand) {
-        return getWithServiceResponseAsync(resourceGroupName, galleryName, galleryImageName, galleryImageVersionName, expand).map(new Func1<ServiceResponse<GalleryImageVersionInner>, GalleryImageVersionInner>() {
-            @Override
-            public GalleryImageVersionInner call(ServiceResponse<GalleryImageVersionInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Retrieves information about a gallery image version.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the gallery.
-     * @param galleryImageName The name of the gallery image.
-     * @param galleryImageVersionName The name of the gallery image version.
-     * @param expand The expand expression to apply on the operation. Possible values include: 'ReplicationStatus'
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the GalleryImageVersionInner object
-     */
-    public Observable<ServiceResponse<GalleryImageVersionInner>> getWithServiceResponseAsync(String resourceGroupName, String galleryName, String galleryImageName, String galleryImageVersionName, ReplicationStatusTypes expand) {
+    public Single<BodyResponse<GalleryImageVersionInner>> getWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String galleryName, @NonNull String galleryImageName, @NonNull String galleryImageVersionName, ReplicationStatusTypes expand) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
@@ -462,25 +421,23 @@ public class GalleryImageVersionsInner {
             throw new IllegalArgumentException("Parameter galleryImageVersionName is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        return service.get(this.client.subscriptionId(), resourceGroupName, galleryName, galleryImageName, galleryImageVersionName, expand, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<GalleryImageVersionInner>>>() {
-                @Override
-                public Observable<ServiceResponse<GalleryImageVersionInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<GalleryImageVersionInner> clientResponse = getDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.get(this.client.subscriptionId(), resourceGroupName, galleryName, galleryImageName, galleryImageVersionName, expand, apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<GalleryImageVersionInner> getDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<GalleryImageVersionInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<GalleryImageVersionInner>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Retrieves information about a gallery image version.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param galleryName The name of the gallery.
+     * @param galleryImageName The name of the gallery image.
+     * @param galleryImageVersionName The name of the gallery image version.
+     * @param expand The expand expression to apply on the operation. Possible values include: 'ReplicationStatus'.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<GalleryImageVersionInner> getAsync(@NonNull String resourceGroupName, @NonNull String galleryName, @NonNull String galleryImageName, @NonNull String galleryImageVersionName, ReplicationStatusTypes expand) {
+        return getWithRestResponseAsync(resourceGroupName, galleryName, galleryImageName, galleryImageVersionName, expand)
+            .flatMapMaybe((BodyResponse<GalleryImageVersionInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
@@ -490,12 +447,12 @@ public class GalleryImageVersionsInner {
      * @param galleryName The name of the gallery.
      * @param galleryImageName The name of the gallery image.
      * @param galleryImageVersionName The name of the gallery image version.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void delete(String resourceGroupName, String galleryName, String galleryImageName, String galleryImageVersionName) {
-        deleteWithServiceResponseAsync(resourceGroupName, galleryName, galleryImageName, galleryImageVersionName).toBlocking().last().body();
+    public void beginDelete(@NonNull String resourceGroupName, @NonNull String galleryName, @NonNull String galleryImageName, @NonNull String galleryImageVersionName) {
+        beginDeleteAsync(resourceGroupName, galleryName, galleryImageName, galleryImageVersionName).blockingLast();
     }
 
     /**
@@ -506,11 +463,11 @@ public class GalleryImageVersionsInner {
      * @param galleryImageName The name of the gallery image.
      * @param galleryImageVersionName The name of the gallery image version.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;Void&gt; object.
      */
-    public ServiceFuture<Void> deleteAsync(String resourceGroupName, String galleryName, String galleryImageName, String galleryImageVersionName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(deleteWithServiceResponseAsync(resourceGroupName, galleryName, galleryImageName, galleryImageVersionName), serviceCallback);
+    public ServiceFuture<Void> beginDeleteAsync(@NonNull String resourceGroupName, @NonNull String galleryName, @NonNull String galleryImageName, @NonNull String galleryImageVersionName, ServiceCallback<Void> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginDeleteAsync(resourceGroupName, galleryName, galleryImageName, galleryImageVersionName), serviceCallback);
     }
 
     /**
@@ -520,29 +477,10 @@ public class GalleryImageVersionsInner {
      * @param galleryName The name of the gallery.
      * @param galleryImageName The name of the gallery image.
      * @param galleryImageVersionName The name of the gallery image version.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<Void> deleteAsync(String resourceGroupName, String galleryName, String galleryImageName, String galleryImageVersionName) {
-        return deleteWithServiceResponseAsync(resourceGroupName, galleryName, galleryImageName, galleryImageVersionName).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Delete a gallery image version.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the gallery.
-     * @param galleryImageName The name of the gallery image.
-     * @param galleryImageVersionName The name of the gallery image version.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<Void>> deleteWithServiceResponseAsync(String resourceGroupName, String galleryName, String galleryImageName, String galleryImageVersionName) {
+    public Observable<OperationStatus<Void>> beginDeleteAsync(@NonNull String resourceGroupName, @NonNull String galleryName, @NonNull String galleryImageName, @NonNull String galleryImageVersionName) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
@@ -559,8 +497,7 @@ public class GalleryImageVersionsInner {
             throw new IllegalArgumentException("Parameter galleryImageVersionName is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        Observable<Response<ResponseBody>> observable = service.delete(this.client.subscriptionId(), resourceGroupName, galleryName, galleryImageName, galleryImageVersionName, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
+        return service.beginDelete(this.client.subscriptionId(), resourceGroupName, galleryName, galleryImageName, galleryImageVersionName, apiVersion, this.client.acceptLanguage());
     }
 
     /**
@@ -570,12 +507,12 @@ public class GalleryImageVersionsInner {
      * @param galleryName The name of the gallery.
      * @param galleryImageName The name of the gallery image.
      * @param galleryImageVersionName The name of the gallery image version.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void beginDelete(String resourceGroupName, String galleryName, String galleryImageName, String galleryImageVersionName) {
-        beginDeleteWithServiceResponseAsync(resourceGroupName, galleryName, galleryImageName, galleryImageVersionName).toBlocking().single().body();
+    public void delete(@NonNull String resourceGroupName, @NonNull String galleryName, @NonNull String galleryImageName, @NonNull String galleryImageVersionName) {
+        deleteAsync(resourceGroupName, galleryName, galleryImageName, galleryImageVersionName).blockingAwait();
     }
 
     /**
@@ -586,11 +523,11 @@ public class GalleryImageVersionsInner {
      * @param galleryImageName The name of the gallery image.
      * @param galleryImageVersionName The name of the gallery image version.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<Void> beginDeleteAsync(String resourceGroupName, String galleryName, String galleryImageName, String galleryImageVersionName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(beginDeleteWithServiceResponseAsync(resourceGroupName, galleryName, galleryImageName, galleryImageVersionName), serviceCallback);
+    public ServiceFuture<Void> deleteAsync(@NonNull String resourceGroupName, @NonNull String galleryName, @NonNull String galleryImageName, @NonNull String galleryImageVersionName, ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromBody(deleteAsync(resourceGroupName, galleryName, galleryImageName, galleryImageVersionName), serviceCallback);
     }
 
     /**
@@ -600,29 +537,10 @@ public class GalleryImageVersionsInner {
      * @param galleryName The name of the gallery.
      * @param galleryImageName The name of the gallery image.
      * @param galleryImageVersionName The name of the gallery image version.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<Void> beginDeleteAsync(String resourceGroupName, String galleryName, String galleryImageName, String galleryImageVersionName) {
-        return beginDeleteWithServiceResponseAsync(resourceGroupName, galleryName, galleryImageName, galleryImageVersionName).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Delete a gallery image version.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the gallery.
-     * @param galleryImageName The name of the gallery image.
-     * @param galleryImageVersionName The name of the gallery image version.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
-     */
-    public Observable<ServiceResponse<Void>> beginDeleteWithServiceResponseAsync(String resourceGroupName, String galleryName, String galleryImageName, String galleryImageVersionName) {
+    public Single<VoidResponse> deleteWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String galleryName, @NonNull String galleryImageName, @NonNull String galleryImageVersionName) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
@@ -639,27 +557,36 @@ public class GalleryImageVersionsInner {
             throw new IllegalArgumentException("Parameter galleryImageVersionName is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        return service.beginDelete(this.client.subscriptionId(), resourceGroupName, galleryName, galleryImageName, galleryImageVersionName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
-                @Override
-                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<Void> clientResponse = beginDeleteDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.delete(this.client.subscriptionId(), resourceGroupName, galleryName, galleryImageName, galleryImageVersionName, apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<Void> beginDeleteDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<Void>() { }.getType())
-                .register(202, new TypeToken<Void>() { }.getType())
-                .register(204, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Delete a gallery image version.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param galleryName The name of the gallery.
+     * @param galleryImageName The name of the gallery image.
+     * @param galleryImageVersionName The name of the gallery image version.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Completable deleteAsync(@NonNull String resourceGroupName, @NonNull String galleryName, @NonNull String galleryImageName, @NonNull String galleryImageVersionName) {
+        return deleteWithRestResponseAsync(resourceGroupName, galleryName, galleryImageName, galleryImageVersionName)
+            .toCompletable();
+    }
+
+    /**
+     * Delete a gallery image version. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<Void>> resumeDelete(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeDelete(operationDescription);
     }
 
     /**
@@ -668,17 +595,17 @@ public class GalleryImageVersionsInner {
      * @param resourceGroupName The name of the resource group.
      * @param galleryName The name of the gallery.
      * @param galleryImageName The name of the gallery image.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;GalleryImageVersionInner&gt; object if successful.
      */
-    public PagedList<GalleryImageVersionInner> listByGalleryImage(final String resourceGroupName, final String galleryName, final String galleryImageName) {
-        ServiceResponse<Page<GalleryImageVersionInner>> response = listByGalleryImageSinglePageAsync(resourceGroupName, galleryName, galleryImageName).toBlocking().single();
-        return new PagedList<GalleryImageVersionInner>(response.body()) {
+    public PagedList<GalleryImageVersionInner> listByGalleryImage(@NonNull String resourceGroupName, @NonNull String galleryName, @NonNull String galleryImageName) {
+        Page<GalleryImageVersionInner> response = listByGalleryImageSinglePageAsync(resourceGroupName, galleryName, galleryImageName).blockingGet();
+        return new PagedList<GalleryImageVersionInner>(response) {
             @Override
             public Page<GalleryImageVersionInner> nextPage(String nextPageLink) {
-                return listByGalleryImageNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listByGalleryImageNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -689,74 +616,31 @@ public class GalleryImageVersionsInner {
      * @param resourceGroupName The name of the resource group.
      * @param galleryName The name of the gallery.
      * @param galleryImageName The name of the gallery image.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;GalleryImageVersionInner&gt; object.
      */
-    public ServiceFuture<List<GalleryImageVersionInner>> listByGalleryImageAsync(final String resourceGroupName, final String galleryName, final String galleryImageName, final ListOperationCallback<GalleryImageVersionInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listByGalleryImageSinglePageAsync(resourceGroupName, galleryName, galleryImageName),
-            new Func1<String, Observable<ServiceResponse<Page<GalleryImageVersionInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<GalleryImageVersionInner>>> call(String nextPageLink) {
-                    return listByGalleryImageNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * List gallery image versions under a gallery image.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the gallery.
-     * @param galleryImageName The name of the gallery image.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;GalleryImageVersionInner&gt; object
-     */
-    public Observable<Page<GalleryImageVersionInner>> listByGalleryImageAsync(final String resourceGroupName, final String galleryName, final String galleryImageName) {
-        return listByGalleryImageWithServiceResponseAsync(resourceGroupName, galleryName, galleryImageName)
-            .map(new Func1<ServiceResponse<Page<GalleryImageVersionInner>>, Page<GalleryImageVersionInner>>() {
-                @Override
-                public Page<GalleryImageVersionInner> call(ServiceResponse<Page<GalleryImageVersionInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * List gallery image versions under a gallery image.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the gallery.
-     * @param galleryImageName The name of the gallery image.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;GalleryImageVersionInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<GalleryImageVersionInner>>> listByGalleryImageWithServiceResponseAsync(final String resourceGroupName, final String galleryName, final String galleryImageName) {
+    public Observable<Page<GalleryImageVersionInner>> listByGalleryImageAsync(@NonNull String resourceGroupName, @NonNull String galleryName, @NonNull String galleryImageName) {
         return listByGalleryImageSinglePageAsync(resourceGroupName, galleryName, galleryImageName)
-            .concatMap(new Func1<ServiceResponse<Page<GalleryImageVersionInner>>, Observable<ServiceResponse<Page<GalleryImageVersionInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<GalleryImageVersionInner>>> call(ServiceResponse<Page<GalleryImageVersionInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listByGalleryImageNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<GalleryImageVersionInner> page) -> {
+                String nextPageLink = page.nextPageLink();
+                if (nextPageLink == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listByGalleryImageNextAsync(nextPageLink));
             });
     }
 
     /**
      * List gallery image versions under a gallery image.
      *
-    ServiceResponse<PageImpl1<GalleryImageVersionInner>> * @param resourceGroupName The name of the resource group.
-    ServiceResponse<PageImpl1<GalleryImageVersionInner>> * @param galleryName The name of the gallery.
-    ServiceResponse<PageImpl1<GalleryImageVersionInner>> * @param galleryImageName The name of the gallery image.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;GalleryImageVersionInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param resourceGroupName The name of the resource group.
+     * @param galleryName The name of the gallery.
+     * @param galleryImageName The name of the gallery image.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;GalleryImageVersionInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<GalleryImageVersionInner>>> listByGalleryImageSinglePageAsync(final String resourceGroupName, final String galleryName, final String galleryImageName) {
+    public Single<Page<GalleryImageVersionInner>> listByGalleryImageSinglePageAsync(@NonNull String resourceGroupName, @NonNull String galleryName, @NonNull String galleryImageName) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
@@ -770,42 +654,25 @@ public class GalleryImageVersionsInner {
             throw new IllegalArgumentException("Parameter galleryImageName is required and cannot be null.");
         }
         final String apiVersion = "2018-06-01";
-        return service.listByGalleryImage(this.client.subscriptionId(), resourceGroupName, galleryName, galleryImageName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<GalleryImageVersionInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<GalleryImageVersionInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl1<GalleryImageVersionInner>> result = listByGalleryImageDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<GalleryImageVersionInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl1<GalleryImageVersionInner>> listByGalleryImageDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl1<GalleryImageVersionInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl1<GalleryImageVersionInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+        return service.listByGalleryImage(this.client.subscriptionId(), resourceGroupName, galleryName, galleryImageName, apiVersion, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl1<GalleryImageVersionInner>> res) -> res.body());
     }
 
     /**
      * List gallery image versions under a gallery image.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;GalleryImageVersionInner&gt; object if successful.
      */
-    public PagedList<GalleryImageVersionInner> listByGalleryImageNext(final String nextPageLink) {
-        ServiceResponse<Page<GalleryImageVersionInner>> response = listByGalleryImageNextSinglePageAsync(nextPageLink).toBlocking().single();
-        return new PagedList<GalleryImageVersionInner>(response.body()) {
+    public PagedList<GalleryImageVersionInner> listByGalleryImageNext(@NonNull String nextPageLink) {
+        Page<GalleryImageVersionInner> response = listByGalleryImageNextSinglePageAsync(nextPageLink).blockingGet();
+        return new PagedList<GalleryImageVersionInner>(response) {
             @Override
             public Page<GalleryImageVersionInner> nextPage(String nextPageLink) {
-                return listByGalleryImageNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listByGalleryImageNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -814,92 +681,34 @@ public class GalleryImageVersionsInner {
      * List gallery image versions under a gallery image.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;GalleryImageVersionInner&gt; object.
      */
-    public ServiceFuture<List<GalleryImageVersionInner>> listByGalleryImageNextAsync(final String nextPageLink, final ServiceFuture<List<GalleryImageVersionInner>> serviceFuture, final ListOperationCallback<GalleryImageVersionInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listByGalleryImageNextSinglePageAsync(nextPageLink),
-            new Func1<String, Observable<ServiceResponse<Page<GalleryImageVersionInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<GalleryImageVersionInner>>> call(String nextPageLink) {
-                    return listByGalleryImageNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * List gallery image versions under a gallery image.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;GalleryImageVersionInner&gt; object
-     */
-    public Observable<Page<GalleryImageVersionInner>> listByGalleryImageNextAsync(final String nextPageLink) {
-        return listByGalleryImageNextWithServiceResponseAsync(nextPageLink)
-            .map(new Func1<ServiceResponse<Page<GalleryImageVersionInner>>, Page<GalleryImageVersionInner>>() {
-                @Override
-                public Page<GalleryImageVersionInner> call(ServiceResponse<Page<GalleryImageVersionInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * List gallery image versions under a gallery image.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;GalleryImageVersionInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<GalleryImageVersionInner>>> listByGalleryImageNextWithServiceResponseAsync(final String nextPageLink) {
+    public Observable<Page<GalleryImageVersionInner>> listByGalleryImageNextAsync(@NonNull String nextPageLink) {
         return listByGalleryImageNextSinglePageAsync(nextPageLink)
-            .concatMap(new Func1<ServiceResponse<Page<GalleryImageVersionInner>>, Observable<ServiceResponse<Page<GalleryImageVersionInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<GalleryImageVersionInner>>> call(ServiceResponse<Page<GalleryImageVersionInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listByGalleryImageNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<GalleryImageVersionInner> page) -> {
+                String nextPageLink1 = page.nextPageLink();
+                if (nextPageLink1 == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listByGalleryImageNextAsync(nextPageLink1));
             });
     }
 
     /**
      * List gallery image versions under a gallery image.
      *
-    ServiceResponse<PageImpl1<GalleryImageVersionInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;GalleryImageVersionInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;GalleryImageVersionInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<GalleryImageVersionInner>>> listByGalleryImageNextSinglePageAsync(final String nextPageLink) {
+    public Single<Page<GalleryImageVersionInner>> listByGalleryImageNextSinglePageAsync(@NonNull String nextPageLink) {
         if (nextPageLink == null) {
             throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
         }
         String nextUrl = String.format("%s", nextPageLink);
-        return service.listByGalleryImageNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<GalleryImageVersionInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<GalleryImageVersionInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl1<GalleryImageVersionInner>> result = listByGalleryImageNextDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<GalleryImageVersionInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.listByGalleryImageNext(nextUrl, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl1<GalleryImageVersionInner>> res) -> res.body());
     }
-
-    private ServiceResponse<PageImpl1<GalleryImageVersionInner>> listByGalleryImageNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl1<GalleryImageVersionInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl1<GalleryImageVersionInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
-    }
-
 }

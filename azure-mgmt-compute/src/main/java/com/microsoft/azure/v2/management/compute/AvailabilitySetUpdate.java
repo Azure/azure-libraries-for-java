@@ -8,10 +8,10 @@
 
 package com.microsoft.azure.v2.management.compute;
 
-import java.util.List;
-import com.microsoft.azure.SubResource;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.v2.SubResource;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
+import java.util.List;
 
 /**
  * Specifies information about the availability set that the virtual machine
@@ -35,7 +35,7 @@ public class AvailabilitySetUpdate extends UpdateResource {
      * A list of references to all virtual machines in the availability set.
      */
     @JsonProperty(value = "properties.virtualMachines")
-    private List<SubResource> virtualMachines;
+    private List<SubResource> virtualMachinesProperty;
 
     /**
      * The resource status information.
@@ -50,18 +50,19 @@ public class AvailabilitySetUpdate extends UpdateResource {
     private Sku sku;
 
     /**
-     * Get update Domain count.
+     * Get the platformUpdateDomainCount value.
      *
-     * @return the platformUpdateDomainCount value
+     * @return the platformUpdateDomainCount value.
      */
     public Integer platformUpdateDomainCount() {
         return this.platformUpdateDomainCount;
     }
 
     /**
-     * Set update Domain count.
+     * Set the platformUpdateDomainCount value.
      *
-     * @param platformUpdateDomainCount the platformUpdateDomainCount value to set
+     * @param platformUpdateDomainCount the platformUpdateDomainCount value to
+     * set.
      * @return the AvailabilitySetUpdate object itself.
      */
     public AvailabilitySetUpdate withPlatformUpdateDomainCount(Integer platformUpdateDomainCount) {
@@ -70,18 +71,19 @@ public class AvailabilitySetUpdate extends UpdateResource {
     }
 
     /**
-     * Get fault Domain count.
+     * Get the platformFaultDomainCount value.
      *
-     * @return the platformFaultDomainCount value
+     * @return the platformFaultDomainCount value.
      */
     public Integer platformFaultDomainCount() {
         return this.platformFaultDomainCount;
     }
 
     /**
-     * Set fault Domain count.
+     * Set the platformFaultDomainCount value.
      *
-     * @param platformFaultDomainCount the platformFaultDomainCount value to set
+     * @param platformFaultDomainCount the platformFaultDomainCount value to
+     * set.
      * @return the AvailabilitySetUpdate object itself.
      */
     public AvailabilitySetUpdate withPlatformFaultDomainCount(Integer platformFaultDomainCount) {
@@ -90,52 +92,51 @@ public class AvailabilitySetUpdate extends UpdateResource {
     }
 
     /**
-     * Get a list of references to all virtual machines in the availability set.
+     * Get the virtualMachinesProperty value.
      *
-     * @return the virtualMachines value
+     * @return the virtualMachinesProperty value.
      */
-    public List<SubResource> virtualMachines() {
-        return this.virtualMachines;
+    public List<SubResource> virtualMachinesProperty() {
+        return this.virtualMachinesProperty;
     }
 
     /**
-     * Set a list of references to all virtual machines in the availability set.
+     * Set the virtualMachinesProperty value.
      *
-     * @param virtualMachines the virtualMachines value to set
+     * @param virtualMachinesProperty the virtualMachinesProperty value to set.
      * @return the AvailabilitySetUpdate object itself.
      */
-    public AvailabilitySetUpdate withVirtualMachines(List<SubResource> virtualMachines) {
-        this.virtualMachines = virtualMachines;
+    public AvailabilitySetUpdate withVirtualMachinesProperty(List<SubResource> virtualMachinesProperty) {
+        this.virtualMachinesProperty = virtualMachinesProperty;
         return this;
     }
 
     /**
-     * Get the resource status information.
+     * Get the statuses value.
      *
-     * @return the statuses value
+     * @return the statuses value.
      */
     public List<InstanceViewStatus> statuses() {
         return this.statuses;
     }
 
     /**
-     * Get sku of the availability set.
+     * Get the sku value.
      *
-     * @return the sku value
+     * @return the sku value.
      */
     public Sku sku() {
         return this.sku;
     }
 
     /**
-     * Set sku of the availability set.
+     * Set the sku value.
      *
-     * @param sku the sku value to set
+     * @param sku the sku value to set.
      * @return the AvailabilitySetUpdate object itself.
      */
     public AvailabilitySetUpdate withSku(Sku sku) {
         this.sku = sku;
         return this;
     }
-
 }

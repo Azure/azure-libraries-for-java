@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * This is the regional replication status.
  */
-public class RegionalReplicationStatus {
+public final class RegionalReplicationStatus {
     /**
      * The region where the gallery image version is published to.
      */
@@ -40,39 +40,38 @@ public class RegionalReplicationStatus {
     private Integer progress;
 
     /**
-     * Get the region where the gallery image version is published to.
+     * Get the region value.
      *
-     * @return the region value
+     * @return the region value.
      */
     public String region() {
         return this.region;
     }
 
     /**
-     * Get this is the regional replication state. Possible values include: 'Unknown', 'Replicating', 'Completed', 'Failed'.
+     * Get the state value.
      *
-     * @return the state value
+     * @return the state value.
      */
     public ReplicationState state() {
         return this.state;
     }
 
     /**
-     * Get the details of the replication status.
+     * Get the details value.
      *
-     * @return the details value
+     * @return the details value.
      */
     public String details() {
         return this.details;
     }
 
     /**
-     * Get it indicates progress of the replication job.
+     * Get the progress value.
      *
-     * @return the progress value
+     * @return the progress value.
      */
     public Integer progress() {
         return this.progress;
     }
-
 }

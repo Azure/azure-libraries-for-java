@@ -13,17 +13,17 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * The source of the gallery artifact.
  */
-public class GalleryArtifactSource {
+public final class GalleryArtifactSource {
     /**
      * The managedImage property.
      */
-    @JsonProperty(value = "managedImage")
+    @JsonProperty(value = "managedImage", required = true)
     private ManagedArtifact managedImage;
 
     /**
      * Get the managedImage value.
      *
-     * @return the managedImage value
+     * @return the managedImage value.
      */
     public ManagedArtifact managedImage() {
         return this.managedImage;
@@ -32,12 +32,11 @@ public class GalleryArtifactSource {
     /**
      * Set the managedImage value.
      *
-     * @param managedImage the managedImage value to set
+     * @param managedImage the managedImage value to set.
      * @return the GalleryArtifactSource object itself.
      */
     public GalleryArtifactSource withManagedImage(ManagedArtifact managedImage) {
         this.managedImage = managedImage;
         return this;
     }
-
 }

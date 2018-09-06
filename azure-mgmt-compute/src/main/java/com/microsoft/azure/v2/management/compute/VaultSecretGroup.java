@@ -8,14 +8,14 @@
 
 package com.microsoft.azure.v2.management.compute;
 
-import com.microsoft.azure.SubResource;
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.v2.SubResource;
+import java.util.List;
 
 /**
  * Describes a set of certificates which are all in the same Key Vault.
  */
-public class VaultSecretGroup {
+public final class VaultSecretGroup {
     /**
      * The relative URL of the Key Vault containing all of the certificates in
      * VaultCertificates.
@@ -31,18 +31,18 @@ public class VaultSecretGroup {
     private List<VaultCertificate> vaultCertificates;
 
     /**
-     * Get the relative URL of the Key Vault containing all of the certificates in VaultCertificates.
+     * Get the sourceVault value.
      *
-     * @return the sourceVault value
+     * @return the sourceVault value.
      */
     public SubResource sourceVault() {
         return this.sourceVault;
     }
 
     /**
-     * Set the relative URL of the Key Vault containing all of the certificates in VaultCertificates.
+     * Set the sourceVault value.
      *
-     * @param sourceVault the sourceVault value to set
+     * @param sourceVault the sourceVault value to set.
      * @return the VaultSecretGroup object itself.
      */
     public VaultSecretGroup withSourceVault(SubResource sourceVault) {
@@ -51,23 +51,22 @@ public class VaultSecretGroup {
     }
 
     /**
-     * Get the list of key vault references in SourceVault which contain certificates.
+     * Get the vaultCertificates value.
      *
-     * @return the vaultCertificates value
+     * @return the vaultCertificates value.
      */
     public List<VaultCertificate> vaultCertificates() {
         return this.vaultCertificates;
     }
 
     /**
-     * Set the list of key vault references in SourceVault which contain certificates.
+     * Set the vaultCertificates value.
      *
-     * @param vaultCertificates the vaultCertificates value to set
+     * @param vaultCertificates the vaultCertificates value to set.
      * @return the VaultSecretGroup object itself.
      */
     public VaultSecretGroup withVaultCertificates(List<VaultCertificate> vaultCertificates) {
         this.vaultCertificates = vaultCertificates;
         return this;
     }
-
 }

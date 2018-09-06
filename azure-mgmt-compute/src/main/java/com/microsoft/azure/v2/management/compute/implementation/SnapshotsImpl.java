@@ -14,9 +14,8 @@ import com.microsoft.azure.v2.management.compute.Snapshots;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
 import com.microsoft.rest.v2.ServiceCallback;
 import com.microsoft.rest.v2.ServiceFuture;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
+import io.reactivex.Completable;
+import io.reactivex.Observable;
 
 /**
  * The implementation for Snapshots.
@@ -41,17 +40,13 @@ class SnapshotsImpl
         grantAccessDataInner.withAccess(accessLevel)
                 .withDurationInSeconds(accessDuration);
         return this.inner().grantAccessAsync(resourceGroupName, snapshotName, grantAccessDataInner)
-                .map(new Func1<AccessUriInner, String>() {
-                    @Override
-                    public String call(AccessUriInner accessUriInner) {
-                        return accessUriInner.accessSAS();
-                    }
-                });
+                .map(accessUriInner -> accessUriInner.accessSAS())
+                .toObservable();
     }
 
     @Override
     public ServiceFuture<String> grantAccessAsync(String resourceGroupName, String snapshotName, AccessLevel accessLevel, int accessDuration, ServiceCallback<String> callback) {
-        return ServiceFuture.fromBody(this.grantAccessAsync(resourceGroupName, snapshotName, accessLevel, accessDuration), callback);
+        return ServiceFuture.fromBody(this.grantAccessAsync(resourceGroupName, snapshotName, accessLevel, accessDuration).lastElement(), callback);
     }
 
     @Override
@@ -60,13 +55,12 @@ class SnapshotsImpl
                               AccessLevel accessLevel,
                               int accessDuration) {
         return this.grantAccessAsync(resourceGroupName, snapshotName, accessLevel, accessDuration)
-                .toBlocking()
-                .last();
+                .blockingLast(null);
     }
 
     @Override
     public Completable revokeAccessAsync(String resourceGroupName, String snapName) {
-        return this.inner().revokeAccessAsync(resourceGroupName, snapName).toCompletable();
+        return this.inner().revokeAccessAsync(resourceGroupName, snapName);
     }
 
     @Override
@@ -76,7 +70,7 @@ class SnapshotsImpl
 
     @Override
     public void revokeAccess(String resourceGroupName, String snapName) {
-        this.revokeAccessAsync(resourceGroupName, snapName).await();
+        this.revokeAccessAsync(resourceGroupName, snapName).blockingAwait();
     }
 
     @Override

@@ -10,12 +10,11 @@ import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.v2.management.compute.AvailabilitySet;
 import com.microsoft.azure.v2.management.compute.AvailabilitySetSkuTypes;
 import com.microsoft.azure.v2.management.compute.AvailabilitySets;
-import com.microsoft.azure.v2.management.resources.ResourceGroup;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.collection.implementation.GroupableResourcesImpl;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.implementation.GroupPagedList;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
+import io.reactivex.Completable;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
 
 import java.util.List;
 
@@ -50,12 +49,7 @@ class AvailabilitySetsImpl
     @Override
     public Observable<AvailabilitySet> listAsync() {
         return this.manager().resourceManager().resourceGroups().listAsync()
-                .flatMap(new Func1<ResourceGroup, Observable<AvailabilitySet>>() {
-                    @Override
-                    public Observable<AvailabilitySet> call(ResourceGroup resourceGroup) {
-                        return wrapPageAsync(inner().listByResourceGroupAsync(resourceGroup.name()));
-                    }
-                });
+                .flatMap(resourceGroup -> wrapPageAsync(inner().listByResourceGroupAsync(resourceGroup.name())));
     }
 
     @Override
@@ -69,7 +63,7 @@ class AvailabilitySetsImpl
     }
 
     @Override
-    protected Observable<AvailabilitySetInner> getInnerAsync(String resourceGroupName, String name) {
+    protected Maybe<AvailabilitySetInner> getInnerAsync(String resourceGroupName, String name) {
         return this.inner().getByResourceGroupAsync(resourceGroupName, name);
     }
 
@@ -80,7 +74,7 @@ class AvailabilitySetsImpl
 
     @Override
     protected Completable deleteInnerAsync(String groupName, String name) {
-        return this.inner().deleteAsync(groupName, name).toCompletable();
+        return this.inner().deleteAsync(groupName, name).flatMapCompletable(o -> Completable.complete());
     }
 
     /**************************************************************

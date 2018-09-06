@@ -15,8 +15,8 @@ import com.microsoft.azure.v2.management.compute.Sku;
 import com.microsoft.azure.v2.management.compute.VirtualMachineSize;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
 import com.microsoft.azure.v2.management.resources.fluentcore.utils.Utils;
-import rx.Observable;
-import rx.functions.Func1;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -67,7 +67,7 @@ class AvailabilitySetImpl
     public Set<String> virtualMachineIds() {
         if (idOfVMsInSet == null) {
             idOfVMsInSet = new HashSet<>();
-            for (SubResource resource : this.inner().virtualMachines()) {
+            for (SubResource resource : this.inner().virtualMachinesProperty()) {
                 idOfVMsInSet.add(resource.id());
             }
         }
@@ -81,32 +81,21 @@ class AvailabilitySetImpl
 
     @Override
     public PagedList<VirtualMachineSize> listVirtualMachineSizes() {
-        return Utils.toPagedList(this.manager()
-                        .inner()
-                        .availabilitySets()
-                        .listAvailableSizes(this.resourceGroupName(), this.name()),
-                new Func1<VirtualMachineSizeInner, VirtualMachineSize>() {
-                    @Override
-                    public VirtualMachineSize call(VirtualMachineSizeInner inner) {
-                        return new VirtualMachineSizeImpl(inner);
-                    }
+        return Utils.toPagedList(this.manager().inner().availabilitySets().listAvailableSizes(this.resourceGroupName(), this.name()),
+                inner -> new VirtualMachineSizeImpl(inner));
+    }
+
+    @Override
+    public Maybe<AvailabilitySet> refreshAsync() {
+        return super.refreshAsync()
+                .map(availabilitySet -> {
+                    this.idOfVMsInSet = null;
+                    return this;
                 });
     }
 
     @Override
-    public Observable<AvailabilitySet> refreshAsync() {
-        return super.refreshAsync().map(new Func1<AvailabilitySet, AvailabilitySet>() {
-            @Override
-            public AvailabilitySet call(AvailabilitySet availabilitySet) {
-                AvailabilitySetImpl impl = (AvailabilitySetImpl) availabilitySet;
-                impl.idOfVMsInSet = null;
-                return impl;
-            }
-        });
-    }
-
-    @Override
-    protected Observable<AvailabilitySetInner> getInnerAsync() {
+    protected Maybe<AvailabilitySetInner> getInnerAsync() {
         return this.manager().inner().availabilitySets().getByResourceGroupAsync(this.resourceGroupName(), this.name());
     }
 
@@ -143,13 +132,11 @@ class AvailabilitySetImpl
             this.inner().withPlatformUpdateDomainCount(5);
         }
         return this.manager().inner().availabilitySets().createOrUpdateAsync(resourceGroupName(), name(), inner())
-                .map(new Func1<AvailabilitySetInner, AvailabilitySet>() {
-                    @Override
-                    public AvailabilitySet call(AvailabilitySetInner availabilitySetInner) {
-                        self.setInner(availabilitySetInner);
-                        idOfVMsInSet = null;
-                        return self;
-                    }
-                });
+                .map(availabilitySetInner -> {
+                    this.setInner(availabilitySetInner);
+                    this.idOfVMsInSet = null;
+                    return (AvailabilitySet) this;
+                })
+                .toObservable();
     }
 }

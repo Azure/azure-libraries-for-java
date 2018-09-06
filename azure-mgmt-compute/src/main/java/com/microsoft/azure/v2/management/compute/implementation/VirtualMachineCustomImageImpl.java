@@ -19,7 +19,8 @@ import com.microsoft.azure.v2.management.compute.Snapshot;
 import com.microsoft.azure.v2.management.compute.VirtualMachine;
 import com.microsoft.azure.v2.management.compute.VirtualMachineCustomImage;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
-import rx.Observable;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -221,11 +222,12 @@ class VirtualMachineCustomImageImpl
     public Observable<VirtualMachineCustomImage> createResourceAsync() {
         ensureDefaultLuns();
         return this.manager().inner().images().createOrUpdateAsync(resourceGroupName(), name(), this.inner())
-                .map(innerToFluentMap(this));
+                .map(innerToFluentMap(this))
+                .toObservable();
     }
 
     @Override
-    protected Observable<ImageInner> getInnerAsync() {
+    protected Maybe<ImageInner> getInnerAsync() {
         return this.manager().inner().images().getByResourceGroupAsync(this.resourceGroupName(), this.name());
     }
 

@@ -10,7 +10,6 @@ import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.v2.management.compute.ResourceIdentityType;
 import com.microsoft.azure.v2.management.compute.VirtualMachineIdentity;
 import com.microsoft.azure.v2.management.compute.VirtualMachineIdentityUserAssignedIdentitiesValue;
-import com.microsoft.azure.v2.management.compute.VirtualMachineUpdate;
 import com.microsoft.azure.v2.management.graphrbac.implementation.GraphRbacManager;
 import com.microsoft.azure.v2.management.graphrbac.implementation.RoleAssignmentHelper;
 import com.microsoft.azure.v2.management.msi.Identity;
@@ -77,7 +76,7 @@ class VirtualMachineMsiHandler extends RoleAssignmentHelper {
             return this;
         } else if (this.virtualMachine.inner().identity().type().equals(ResourceIdentityType.SYSTEM_ASSIGNED)) {
             this.virtualMachine.inner().identity().withType(ResourceIdentityType.NONE);
-        } else if (this.virtualMachine.inner().identity().type().equals(ResourceIdentityType.SYSTEM_ASSIGNED_USER_ASSIGNED)) {
+        } else if (this.virtualMachine.inner().identity().type().equals(ResourceIdentityType.SYSTEM_ASSIGNED__USER_ASSIGNED)) {
             this.virtualMachine.inner().identity().withType(ResourceIdentityType.USER_ASSIGNED);
         }
         return this;
@@ -142,7 +141,7 @@ class VirtualMachineMsiHandler extends RoleAssignmentHelper {
         }
     }
 
-    void handleExternalIdentities(VirtualMachineUpdate vmUpdate) {
+    void handleExternalIdentities(VirtualMachineUpdateInner vmUpdate) {
         if (this.handleRemoveAllExternalIdentitiesCase(vmUpdate)) {
             return;
         } else {
@@ -189,7 +188,7 @@ class VirtualMachineMsiHandler extends RoleAssignmentHelper {
      * @param vmUpdate the vm update payload model
      * @return true if user indented to remove all the identities.
      */
-    private boolean handleRemoveAllExternalIdentitiesCase(VirtualMachineUpdate vmUpdate) {
+    private boolean handleRemoveAllExternalIdentitiesCase(VirtualMachineUpdateInner vmUpdate) {
         if (!this.userAssignedIdentities.isEmpty()) {
             int rmCount = 0;
             for (VirtualMachineIdentityUserAssignedIdentitiesValue v : this.userAssignedIdentities.values()) {
@@ -221,7 +220,7 @@ class VirtualMachineMsiHandler extends RoleAssignmentHelper {
                     // If so adjust  the identity type [Setting type to SYSTEM_ASSIGNED orNONE will remove all the identities]
                     if (currentIdentity == null || currentIdentity.type() == null) {
                         vmUpdate.withIdentity(new VirtualMachineIdentity().withType(ResourceIdentityType.NONE));
-                    } else if (currentIdentity.type().equals(ResourceIdentityType.SYSTEM_ASSIGNED_USER_ASSIGNED)) {
+                    } else if (currentIdentity.type().equals(ResourceIdentityType.SYSTEM_ASSIGNED__USER_ASSIGNED)) {
                         vmUpdate.withIdentity(currentIdentity);
                         vmUpdate.identity().withType(ResourceIdentityType.SYSTEM_ASSIGNED);
                     } else if (currentIdentity.type().equals(ResourceIdentityType.USER_ASSIGNED)) {
@@ -268,7 +267,7 @@ class VirtualMachineMsiHandler extends RoleAssignmentHelper {
                 || virtualMachineInner.identity().type().equals(identityType)) {
             virtualMachineInner.identity().withType(identityType);
         } else {
-            virtualMachineInner.identity().withType(ResourceIdentityType.SYSTEM_ASSIGNED_USER_ASSIGNED);
+            virtualMachineInner.identity().withType(ResourceIdentityType.SYSTEM_ASSIGNED__USER_ASSIGNED);
         }
     }
 }

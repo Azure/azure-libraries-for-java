@@ -12,7 +12,7 @@ import com.microsoft.azure.management.apigeneration.Fluent;
  * The maximum limit of the reserved eDTUs value range for a "Standard" edition of an Azure SQL Elastic Pool.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_7_0)
+@Beta(since = "V1_7_0")
 public enum SqlElasticPoolStandardMaxEDTUs {
     /** Maximum 10 eDTUs available per each database. */
     eDTU_10(10),

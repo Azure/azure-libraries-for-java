@@ -9,12 +9,12 @@ package com.microsoft.azure.v2.management.sql;
 import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.Method;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
-import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
-import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.GroupableResource;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.Resource;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Appliable;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Creatable;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Refreshable;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Updatable;
 import com.microsoft.azure.management.sql.implementation.ServerInner;
 import com.microsoft.azure.management.sql.implementation.SqlServerManager;
 import rx.Observable;
@@ -26,7 +26,7 @@ import java.util.Map;
  * An immutable client-side representation of an Azure SQL Server.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_7_0)
+@Beta(since = "V1_7_0")
 public interface SqlServer extends
         GroupableResource<SqlServerManager, ServerInner>,
         Refreshable<SqlServer>,
@@ -50,39 +50,39 @@ public interface SqlServer extends
     /**
      * @return the SQL Server "kind"
      */
-    @Beta(Beta.SinceVersion.V1_7_0)
+    @Beta(since = "V1_7_0")
     String kind();
 
     /**
      * @return the state of the server.
      */
-    @Beta(Beta.SinceVersion.V1_7_0)
+    @Beta(since = "V1_7_0")
     String state();
 
     /**
      * @return true if Managed Service Identity is enabled for the SQL server
      */
-    @Beta(Beta.SinceVersion.V1_8_0)
+    @Beta(since = "V1_8_0")
     boolean isManagedServiceIdentityEnabled();
 
     /**
      * @return the System Assigned (Local) Managed Service Identity specific Active Directory tenant ID assigned
      * to the SQL server.
      */
-    @Beta(Beta.SinceVersion.V1_8_0)
+    @Beta(since = "V1_8_0")
     String systemAssignedManagedServiceIdentityTenantId();
 
     /**
      * @return the System Assigned (Local) Managed Service Identity specific Active Directory service principal ID
      * assigned to the SQL server.
      */
-    @Beta(Beta.SinceVersion.V1_8_0)
+    @Beta(since = "V1_8_0")
     String systemAssignedManagedServiceIdentityPrincipalId();
 
     /**
      * @return the type of Managed Service Identity used for the SQL server.
      */
-    @Beta(Beta.SinceVersion.V1_8_0)
+    @Beta(since = "V1_8_0")
     IdentityType managedServiceIdentityType();
 
 
@@ -99,7 +99,7 @@ public interface SqlServer extends
      * @return returns the list of usage metrics for an Azure SQL Server
      */
     @Method
-    @Beta(Beta.SinceVersion.V1_7_0)
+    @Beta(since = "V1_7_0")
     List<ServerMetric> listUsageMetrics();
 
     /**
@@ -113,7 +113,7 @@ public interface SqlServer extends
      * @param serviceObjectiveName name of the service objective to be fetched
      * @return information of the service objective
      */
-    @Beta(Beta.SinceVersion.V1_7_0)
+    @Beta(since = "V1_7_0")
     ServiceObjective getServiceObjective(String serviceObjectiveName);
 
     /**
@@ -134,7 +134,7 @@ public interface SqlServer extends
      * @return the list of all restorable dropped databases
      */
     @Method
-    @Beta(Beta.SinceVersion.V1_7_0)
+    @Beta(since = "V1_7_0")
     Observable<SqlRestorableDroppedDatabase> listRestorableDroppedDatabasesAsync();
 
     /**
@@ -145,7 +145,7 @@ public interface SqlServer extends
      *
      * @return the SQL Firewall rule
      */
-    @Beta(Beta.SinceVersion.V1_7_0)
+    @Beta(since = "V1_7_0")
     @Method
     SqlFirewallRule enableAccessFromAzureServices();
 
@@ -154,7 +154,7 @@ public interface SqlServer extends
      * <p>
      * The firewall rule named "AllowAllWindowsAzureIps" will be removed from the SQL server.
      */
-    @Beta(Beta.SinceVersion.V1_7_0)
+    @Beta(since = "V1_7_0")
     @Method
     void removeAccessFromAzureServices();
 
@@ -168,7 +168,7 @@ public interface SqlServer extends
      * @param id the user or group unique ID
      * @return a representation of a SQL Server Active Directory administrator object
      */
-    @Beta(Beta.SinceVersion.V1_7_0)
+    @Beta(since = "V1_7_0")
     @Method
     SqlActiveDirectoryAdministrator setActiveDirectoryAdministrator(String userLogin, String id);
 
@@ -177,14 +177,14 @@ public interface SqlServer extends
      *
      * @return a representation of a SQL Server Active Directory administrator object (null if one is not set)
      */
-    @Beta(Beta.SinceVersion.V1_7_0)
+    @Beta(since = "V1_7_0")
     @Method
     SqlActiveDirectoryAdministrator getActiveDirectoryAdministrator();
 
     /**
      * Removes the Active Directory administrator from this server.
      */
-    @Beta(Beta.SinceVersion.V1_7_0)
+    @Beta(since = "V1_7_0")
     @Method
     void removeActiveDirectoryAdministrator();
 
@@ -194,7 +194,7 @@ public interface SqlServer extends
      * @return the SQL server automatic tuning state and options
      */
     @Method
-    @Beta(Beta.SinceVersion.V1_8_0)
+    @Beta(since = "V1_8_0")
     SqlServerAutomaticTuning getServerAutomaticTuning();
 
 
@@ -203,55 +203,55 @@ public interface SqlServer extends
     /**
      * @return the entry point to manage SQL Firewall rules for this server
      */
-    @Beta(Beta.SinceVersion.V1_7_0)
+    @Beta(since = "V1_7_0")
     SqlFirewallRuleOperations.SqlFirewallRuleActionsDefinition firewallRules();
 
     /**
      * @return the entry point to manage SQL Virtual Network Rule for this server
      */
-    @Beta(Beta.SinceVersion.V1_8_0)
+    @Beta(since = "V1_8_0")
     SqlVirtualNetworkRuleOperations.SqlVirtualNetworkRuleActionsDefinition virtualNetworkRules();
 
     /**
      * @return the entry point to manage the SQL Elastic Pools for this server
      */
-    @Beta(Beta.SinceVersion.V1_7_0)
+    @Beta(since = "V1_7_0")
     SqlElasticPoolOperations.SqlElasticPoolActionsDefinition elasticPools();
 
     /**
      * @return entry point to manage Databases for this SQL server
      */
-    @Beta(Beta.SinceVersion.V1_7_0)
+    @Beta(since = "V1_7_0")
     SqlDatabaseOperations.SqlDatabaseActionsDefinition databases();
 
     /**
      * @return the entry point to manage SQL Server DNS aliases for this server
      */
-    @Beta(Beta.SinceVersion.V1_8_0)
+    @Beta(since = "V1_8_0")
     SqlServerDnsAliasOperations.SqlServerDnsAliasActionsDefinition dnsAliases();
 
     /**
      * @return the entry point to manage SQL Failover Group for this server
      */
-    @Beta(Beta.SinceVersion.V1_8_0)
+    @Beta(since = "V1_8_0")
     SqlFailoverGroupOperations.SqlFailoverGroupActionsDefinition failoverGroups();
 
     /**
      * @return the entry point to manage SQL Server Keys for this server
      */
-    @Beta(Beta.SinceVersion.V1_8_0)
+    @Beta(since = "V1_8_0")
     SqlServerKeyOperations.SqlServerKeyActionsDefinition serverKeys();
 
     /**
      * @return the entry point to manage SQL Encryption Protector for this server
      */
-    @Beta(Beta.SinceVersion.V1_9_0)
+    @Beta(since = "V1_9_0")
     SqlEncryptionProtectorOperations.SqlEncryptionProtectorActionsDefinition encryptionProtectors();
 
     /**
      * @return the entry point to manage SQL Server Security Alert Policy for this server
      */
-    @Beta(Beta.SinceVersion.V1_15_0)
+    @Beta(since = "V1_15_0")
     SqlServerSecurityAlertPolicyOperations.SqlServerSecurityAlertPolicyActionsDefinition serverSecurityAlertPolicies();
 
 
@@ -318,7 +318,7 @@ public interface SqlServer extends
         /**
          * A SQL Server definition setting the Active Directory administrator.
          */
-        @Beta(Beta.SinceVersion.V1_7_0)
+        @Beta(since = "V1_7_0")
         interface WithActiveDirectoryAdministrator {
             /**
              * Sets the SQL Active Directory administrator.
@@ -336,14 +336,14 @@ public interface SqlServer extends
         /**
          * A SQL Server definition setting the managed service identity.
          */
-        @Beta(Beta.SinceVersion.V1_8_0)
+        @Beta(since = "V1_8_0")
         interface WithSystemAssignedManagedServiceIdentity {
             /**
              * Sets a system assigned (local) Managed Service Identity (MSI) for the SQL server resource.
              *
              * @return Next stage of the SQL Server definition
              */
-            @Beta(Beta.SinceVersion.V1_8_0)
+            @Beta(since = "V1_8_0")
             @Method
             WithCreate withSystemAssignedManagedServiceIdentity();
         }
@@ -358,7 +358,7 @@ public interface SqlServer extends
              * @param elasticPoolName the name of the new SQL Elastic Pool
              * @return the first stage of the new SQL Elastic Pool definition
              */
-            @Beta(Beta.SinceVersion.V1_7_0)
+            @Beta(since = "V1_7_0")
             SqlElasticPool.DefinitionStages.Blank<WithCreate> defineElasticPool(String elasticPoolName);
 
             /**
@@ -391,7 +391,7 @@ public interface SqlServer extends
              * @param databaseName the name of the new SQL Database
              * @return the first stage of the new SQL Database definition
              */
-            @Beta(Beta.SinceVersion.V1_7_0)
+            @Beta(since = "V1_7_0")
             SqlDatabase.DefinitionStages.Blank<WithCreate> defineDatabase(String databaseName);
 
             /**
@@ -415,7 +415,7 @@ public interface SqlServer extends
              *
              * @return Next stage of the SQL Server definition
              */
-            @Beta(Beta.SinceVersion.V1_7_0)
+            @Beta(since = "V1_7_0")
             WithCreate withoutAccessFromAzureServices();
 
             /**
@@ -424,7 +424,7 @@ public interface SqlServer extends
              * @param firewallRuleName the name of the new SQL Firewall rule
              * @return the first stage of the new SQL Firewall rule definition
              */
-            @Beta(Beta.SinceVersion.V1_7_0)
+            @Beta(since = "V1_7_0")
             SqlFirewallRule.DefinitionStages.Blank<WithCreate> defineFirewallRule(String firewallRuleName);
 
             /**
@@ -461,7 +461,7 @@ public interface SqlServer extends
         /**
          * The stage of the SQL Server definition allowing to specify the SQL Virtual Network Rules.
          */
-        @Beta(Beta.SinceVersion.V1_8_0)
+        @Beta(since = "V1_8_0")
         interface WithVirtualNetworkRule {
             /**
              * Begins the definition of a new SQL Virtual Network Rule to be added to this server.
@@ -469,7 +469,7 @@ public interface SqlServer extends
              * @param virtualNetworkRuleName the name of the new SQL Virtual Network Rule
              * @return the first stage of the new SQL Virtual Network Rule definition
              */
-            @Beta(Beta.SinceVersion.V1_8_0)
+            @Beta(since = "V1_8_0")
             SqlVirtualNetworkRule.DefinitionStages.Blank<WithCreate> defineVirtualNetworkRule(String virtualNetworkRuleName);
         }
 
@@ -478,7 +478,7 @@ public interface SqlServer extends
          * SQL Server in the cloud, but exposing additional optional inputs to
          * specify.
          */
-        @Beta(Beta.SinceVersion.V1_7_0)
+        @Beta(since = "V1_7_0")
         interface WithCreate extends
             Creatable<SqlServer>,
             WithActiveDirectoryAdministrator,
@@ -494,7 +494,7 @@ public interface SqlServer extends
     /**
      * The template for a SQLServer update operation, containing all the settings that can be modified.
      */
-    @Beta(Beta.SinceVersion.V1_7_0)
+    @Beta(since = "V1_7_0")
     interface Update extends
             Appliable<SqlServer>,
             UpdateStages.WithAdministratorPassword,
@@ -525,14 +525,14 @@ public interface SqlServer extends
         /**
          * A SQL Server definition setting the managed service identity.
          */
-        @Beta(Beta.SinceVersion.V1_8_0)
+        @Beta(since = "V1_8_0")
         interface WithSystemAssignedManagedServiceIdentity {
             /**
              * Sets a system assigned (local) Managed Service Identity (MSI) for the SQL server resource.
              *
              * @return Next stage of the SQL Server definition
              */
-            @Beta(Beta.SinceVersion.V1_8_0)
+            @Beta(since = "V1_8_0")
             @Method
             Update withSystemAssignedManagedServiceIdentity();
         }
@@ -549,7 +549,7 @@ public interface SqlServer extends
              * @param databaseNames names of the database to be included in the elastic pool
              * @return Next stage of the SQL Server update
              */
-            @Beta(Beta.SinceVersion.V1_7_0)
+            @Beta(since = "V1_7_0")
             @Deprecated
             Update withNewElasticPool(String elasticPoolName, ElasticPoolEditions elasticPoolEdition, String... databaseNames);
 
@@ -559,7 +559,7 @@ public interface SqlServer extends
              * @param elasticPoolEdition edition of the elastic pool
              * @return Next stage of the SQL Server update
              */
-            @Beta(Beta.SinceVersion.V1_7_0)
+            @Beta(since = "V1_7_0")
             @Deprecated
             Update withNewElasticPool(String elasticPoolName, ElasticPoolEditions elasticPoolEdition);
 

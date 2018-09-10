@@ -6,9 +6,9 @@
 package com.microsoft.azure.v2.management.sql.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.resources.fluentcore.arm.ResourceId;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.RefreshableWrapperImpl;
-import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.ResourceId;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.implementation.RefreshableWrapperImpl;
+import com.microsoft.azure.v2.management.resources.fluentcore.utils.Utils;
 import com.microsoft.azure.v2.management.sql.ReplicationLink;
 import com.microsoft.azure.v2.management.sql.ReplicationRole;
 import com.microsoft.azure.v2.management.sql.ReplicationState;

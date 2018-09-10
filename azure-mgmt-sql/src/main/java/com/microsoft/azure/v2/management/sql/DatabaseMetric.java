@@ -15,7 +15,7 @@ import org.joda.time.DateTime;
  * An immutable client-side representation of an Azure SQL DatabaseMetric.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_7_0)
+@Beta(since = "V1_7_0")
 public interface DatabaseMetric {
 
     /**

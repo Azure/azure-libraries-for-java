@@ -7,7 +7,7 @@ package com.microsoft.azure.v2.management.sql;
 
 import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.management.sql.implementation.SyncFullSchemaPropertiesInner;
 import org.joda.time.DateTime;
 
@@ -17,7 +17,7 @@ import java.util.List;
  * An immutable client-side representation of an Azure SQL Server Sync Group.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_9_0)
+@Beta(since = "V1_9_0")
 public interface SqlSyncFullSchemaProperty
     extends HasInner<SyncFullSchemaPropertiesInner> {
 

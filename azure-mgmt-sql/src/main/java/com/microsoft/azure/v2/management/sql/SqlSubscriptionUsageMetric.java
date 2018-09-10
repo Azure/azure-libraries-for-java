@@ -7,17 +7,17 @@ package com.microsoft.azure.v2.management.sql;
 
 import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasId;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasName;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
-import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.HasId;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.HasName;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Refreshable;
 import com.microsoft.azure.management.sql.implementation.SubscriptionUsageInner;
 
 /**
  * The result of SQL server usages per current subscription.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_8_0)
+@Beta(since = "V1_8_0")
 public interface SqlSubscriptionUsageMetric extends
     Refreshable<SqlSubscriptionUsageMetric>,
     HasId,

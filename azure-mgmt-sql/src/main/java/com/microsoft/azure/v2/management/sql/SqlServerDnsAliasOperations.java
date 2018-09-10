@@ -7,15 +7,15 @@ package com.microsoft.azure.v2.management.sql;
 
 import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.resources.fluentcore.collection.SupportsCreating;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
+import com.microsoft.azure.v2.management.resources.fluentcore.collection.SupportsCreating;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Creatable;
 import rx.Completable;
 
 /**
  * A representation of the Azure SQL Server DNS alias operations.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_8_0)
+@Beta(since = "V1_8_0")
 public interface SqlServerDnsAliasOperations extends
     SupportsCreating<SqlServerDnsAliasOperations.DefinitionStages.WithSqlServer>,
         SqlChildrenOperations<SqlServerDnsAlias> {
@@ -63,7 +63,7 @@ public interface SqlServerDnsAliasOperations extends
     /**
      * Container interface for all the definitions that need to be implemented.
      */
-    @Beta(Beta.SinceVersion.V1_8_0)
+    @Beta(since = "V1_8_0")
     interface SqlServerDnsAliasOperationsDefinition extends
         SqlServerDnsAliasOperations.DefinitionStages.WithSqlServer,
         SqlServerDnsAliasOperations.DefinitionStages.WithCreate {
@@ -72,12 +72,12 @@ public interface SqlServerDnsAliasOperations extends
     /**
      * Grouping of all the SQL Server DNS alias definition stages.
      */
-    @Beta(Beta.SinceVersion.V1_8_0)
+    @Beta(since = "V1_8_0")
     interface DefinitionStages {
         /**
          * The first stage of the SQL Server DNS alias definition.
          */
-        @Beta(Beta.SinceVersion.V1_8_0)
+        @Beta(since = "V1_8_0")
         interface WithSqlServer {
             /**
              * Sets the parent SQL server name and resource group it belongs to.
@@ -115,7 +115,7 @@ public interface SqlServerDnsAliasOperations extends
     /**
      * Grouping of the Azure SQL Server DNS alias common actions.
      */
-    @Beta(Beta.SinceVersion.V1_8_0)
+    @Beta(since = "V1_8_0")
     interface SqlServerDnsAliasActionsDefinition extends SqlChildrenActionsDefinition<SqlServerDnsAlias> {
         /**
          * Begins the definition of a new SQL Server DNS alias to be added to this server.

@@ -7,14 +7,14 @@ package com.microsoft.azure.v2.management.sql;
 
 import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasId;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasName;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
-import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
-import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
-import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.HasId;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.HasName;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.HasResourceGroup;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Appliable;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Indexable;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Refreshable;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Updatable;
 import com.microsoft.azure.management.sql.implementation.ServerSecurityAlertPolicyInner;
 
 import java.util.List;
@@ -23,7 +23,7 @@ import java.util.List;
  * An immutable client-side representation of an Azure SQL Server Security Alert Policy.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_15_0)
+@Beta(since = "V1_15_0")
 public interface SqlServerSecurityAlertPolicy extends
     HasId,
     HasInner<ServerSecurityAlertPolicyInner>,
@@ -99,7 +99,7 @@ public interface SqlServerSecurityAlertPolicy extends
         /**
          * The SQL Server Security Alert Policy update definition to set the state.
          */
-        @Beta(Beta.SinceVersion.V1_15_0)
+        @Beta(since = "V1_15_0")
         interface WithState {
             /**
              * Specifies the state of the policy, whether it is enabled or disabled.
@@ -113,7 +113,7 @@ public interface SqlServerSecurityAlertPolicy extends
         /**
          * The SQL Server Security Alert Policy update definition to set if an alert will be sent to the account administrators.
          */
-        @Beta(Beta.SinceVersion.V1_15_0)
+        @Beta(since = "V1_15_0")
         interface WithEmailAccountAdmins {
             /**
              * Specifies that an alert will be sent to the account administrators.
@@ -133,7 +133,7 @@ public interface SqlServerSecurityAlertPolicy extends
         /**
          * The SQL Server Security Alert Policy update definition to specify the storage account blob endpoint and access key.
          */
-        @Beta(Beta.SinceVersion.V1_15_0)
+        @Beta(since = "V1_15_0")
         interface WithStorageAccount {
             /**
              * Specifies the storage account blob endpoint and access key.
@@ -149,7 +149,7 @@ public interface SqlServerSecurityAlertPolicy extends
         /**
          * The SQL Server Security Alert Policy update definition to set an array of e-mail addresses to which the alert is sent.
          */
-        @Beta(Beta.SinceVersion.V1_15_0)
+        @Beta(since = "V1_15_0")
         interface WithEmailAddresses {
             /**
              * Specifies an array of e-mail addresses to which the alert is sent.
@@ -163,7 +163,7 @@ public interface SqlServerSecurityAlertPolicy extends
         /**
          * The SQL Server Security Alert Policy update definition to set an array of alerts that are disabled.
          */
-        @Beta(Beta.SinceVersion.V1_15_0)
+        @Beta(since = "V1_15_0")
         interface WithDisabledAlerts {
             /**
              * Specifies an array of alerts that are disabled.
@@ -177,7 +177,7 @@ public interface SqlServerSecurityAlertPolicy extends
         /**
          * The SQL Server Security Alert Policy update definition to set the number of days to keep in the Threat Detection audit logs.
          */
-        @Beta(Beta.SinceVersion.V1_15_0)
+        @Beta(since = "V1_15_0")
         interface WithRetentionDays {
             /**
              * Specifies the number of days to keep in the Threat Detection audit logs.

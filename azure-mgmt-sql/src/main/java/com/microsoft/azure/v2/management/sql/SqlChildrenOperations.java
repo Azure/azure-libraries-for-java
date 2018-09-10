@@ -19,7 +19,7 @@ import java.util.List;
  * @param <T> the FluentT interface of the SQL server child resource
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_7_0)
+@Beta(since = "V1_7_0")
 public interface SqlChildrenOperations<T> {
 
     /**
@@ -58,7 +58,7 @@ public interface SqlChildrenOperations<T> {
      * @param name the name of the child resource
      * @return a representation of the deferred computation of this call returning the found resource
      */
-    @Beta(Beta.SinceVersion.V1_8_0)
+    @Beta(since = "V1_8_0")
     Observable<T> getBySqlServerAsync(SqlServer sqlServer, String name);
 
     /**
@@ -143,7 +143,7 @@ public interface SqlChildrenOperations<T> {
      * @param sqlServer the parent Azure SQL server.
      * @return a representation of the deferred computation of this call
      */
-    @Beta(Beta.SinceVersion.V1_8_0)
+    @Beta(since = "V1_8_0")
     Observable<T> listBySqlServerAsync(SqlServer sqlServer);
 
     /**

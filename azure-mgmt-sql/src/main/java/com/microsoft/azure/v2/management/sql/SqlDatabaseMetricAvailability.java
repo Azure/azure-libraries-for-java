@@ -7,13 +7,13 @@ package com.microsoft.azure.v2.management.sql;
 
 import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
 
 /**
  * Response containing the Azure SQL Database metric availability.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_7_0)
+@Beta(since = "V1_7_0")
 public interface SqlDatabaseMetricAvailability extends HasInner<MetricAvailability> {
     /**
      * @return the length of retention for the database metric

@@ -8,12 +8,12 @@ package com.microsoft.azure.v2.management.sql;
 import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.Method;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
-import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
-import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
-import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.HasResourceGroup;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.Resource;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Appliable;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Refreshable;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Updatable;
 import com.microsoft.azure.management.sql.implementation.FailoverGroupInner;
 import rx.Completable;
 
@@ -23,7 +23,7 @@ import java.util.List;
  * An immutable client-side representation of an Azure SQL Failover Group.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_8_0)
+@Beta(since = "V1_8_0")
 public interface SqlFailoverGroup
     extends
         Resource,
@@ -95,7 +95,7 @@ public interface SqlFailoverGroup
     /**
      * The template for a SQL Failover Group update operation, containing all the settings that can be modified.
      */
-    @Beta(Beta.SinceVersion.V1_8_0)
+    @Beta(since = "V1_8_0")
     interface Update extends
         SqlFailoverGroup.UpdateStages.WithReadWriteEndpointPolicy,
         SqlFailoverGroup.UpdateStages.WithReadOnlyEndpointPolicy,
@@ -107,12 +107,12 @@ public interface SqlFailoverGroup
     /**
      * Grouping of all the SQL Virtual Network Rule update stages.
      */
-    @Beta(Beta.SinceVersion.V1_8_0)
+    @Beta(since = "V1_8_0")
     interface UpdateStages {
         /**
          * The SQL Failover Group update definition to set the read-write endpoint failover policy.
          */
-        @Beta(Beta.SinceVersion.V1_8_0)
+        @Beta(since = "V1_8_0")
         interface WithReadWriteEndpointPolicy {
             /**
              * Sets the SQL Failover Group read-write endpoint failover policy as "Automatic".
@@ -134,7 +134,7 @@ public interface SqlFailoverGroup
         /**
          * The SQL Failover Group update definition to set the failover policy of the read-only endpoint.
          */
-        @Beta(Beta.SinceVersion.V1_8_0)
+        @Beta(since = "V1_8_0")
         interface WithReadOnlyEndpointPolicy {
             /**
              * Sets the SQL Failover Group failover policy of the read-only endpoint to "Enabled".
@@ -156,7 +156,7 @@ public interface SqlFailoverGroup
         /**
          * The SQL Failover Group update definition to set the partner servers.
          */
-        @Beta(Beta.SinceVersion.V1_8_0)
+        @Beta(since = "V1_8_0")
         interface WithDatabase {
             /**
              * Sets the SQL Failover Group database.

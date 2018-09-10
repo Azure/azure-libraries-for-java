@@ -16,7 +16,7 @@ import java.util.List;
  * A representation of the Azure SQL Encryption Protector operations.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_9_0)
+@Beta(since = "V1_9_0")
 public interface SqlEncryptionProtectorOperations {
     /**
      * Gets the information about an Encryption Protector resource from Azure SQL server, identifying it by its resource group and parent.
@@ -50,7 +50,7 @@ public interface SqlEncryptionProtectorOperations {
      * @param sqlServer the SQL server parent resource
      * @return a representation of the deferred computation of this call returning the found resource
      */
-    @Beta(Beta.SinceVersion.V1_9_0)
+    @Beta(since = "V1_9_0")
     Observable<SqlEncryptionProtector> getBySqlServerAsync(SqlServer sqlServer);
 
     /**
@@ -101,13 +101,13 @@ public interface SqlEncryptionProtectorOperations {
      * @param sqlServer the parent Azure SQL server.
      * @return a representation of the deferred computation of this call
      */
-    @Beta(Beta.SinceVersion.V1_9_0)
+    @Beta(since = "V1_9_0")
     Observable<SqlEncryptionProtector> listBySqlServerAsync(SqlServer sqlServer);
 
     /**
      * Grouping of the Azure SQL Server Key common actions.
      */
-    @Beta(Beta.SinceVersion.V1_9_0)
+    @Beta(since = "V1_9_0")
     interface SqlEncryptionProtectorActionsDefinition {
         /**
          * Gets the information about an Encryption Protector resource from Azure SQL server.

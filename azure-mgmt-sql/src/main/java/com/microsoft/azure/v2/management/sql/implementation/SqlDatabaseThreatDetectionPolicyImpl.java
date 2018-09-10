@@ -6,8 +6,8 @@
 package com.microsoft.azure.v2.management.sql.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
 import com.microsoft.azure.v2.management.sql.SecurityAlertPolicyEmailAccountAdmins;
 import com.microsoft.azure.v2.management.sql.SecurityAlertPolicyState;
 import com.microsoft.azure.v2.management.sql.SecurityAlertPolicyUseServerDefault;

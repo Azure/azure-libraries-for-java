@@ -12,7 +12,7 @@ import com.microsoft.azure.management.apigeneration.Fluent;
  * The reserved eDTUs value range for a "Basic" edition of an Azure SQL Elastic Pool.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_7_0)
+@Beta(since = "V1_7_0")
 public enum SqlElasticPoolBasicEDTUs {
     /** 50 eDTUs available to the pool. */
     eDTU_50(50),

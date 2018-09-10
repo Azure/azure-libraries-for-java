@@ -8,14 +8,14 @@ package com.microsoft.azure.v2.management.sql;
 import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.Method;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Creatable;
 import org.joda.time.DateTime;
 
 /**
  * A representation of the Azure SQL Server Key operations.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_8_0)
+@Beta(since = "V1_8_0")
 public interface SqlServerKeyOperations extends
         SqlChildrenOperations<SqlServerKey> {
 
@@ -30,7 +30,7 @@ public interface SqlServerKeyOperations extends
     /**
      * Container interface for all the definitions that need to be implemented.
      */
-    @Beta(Beta.SinceVersion.V1_8_0)
+    @Beta(since = "V1_8_0")
     interface SqlServerKeyOperationsDefinition extends
         SqlServerKeyOperations.DefinitionStages.WithSqlServer,
         SqlServerKeyOperations.DefinitionStages.WithServerKeyType,
@@ -42,12 +42,12 @@ public interface SqlServerKeyOperations extends
     /**
      * Grouping of all the SQL Server Key definition stages.
      */
-    @Beta(Beta.SinceVersion.V1_8_0)
+    @Beta(since = "V1_8_0")
     interface DefinitionStages {
         /**
          * The first stage of the SQL Server Key definition.
          */
-        @Beta(Beta.SinceVersion.V1_8_0)
+        @Beta(since = "V1_8_0")
         interface WithSqlServer {
             /**
              * Sets the parent SQL server name and resource group it belongs to.
@@ -78,7 +78,7 @@ public interface SqlServerKeyOperations extends
         /**
          * The SQL Server Key definition to set the server key type.
          */
-        @Beta(Beta.SinceVersion.V1_8_0)
+        @Beta(since = "V1_8_0")
         interface WithServerKeyType {
             /**
              * Sets the server key type as "AzureKeyVault" and the URI to the key.
@@ -92,7 +92,7 @@ public interface SqlServerKeyOperations extends
         /**
          * The SQL Server Key definition to set the thumbprint.
          */
-        @Beta(Beta.SinceVersion.V1_8_0)
+        @Beta(since = "V1_8_0")
         interface WithThumbprint {
             /**
              * Sets the thumbprint of the server key.
@@ -106,7 +106,7 @@ public interface SqlServerKeyOperations extends
         /**
          * The SQL Server Key definition to set the server key creation date.
          */
-        @Beta(Beta.SinceVersion.V1_8_0)
+        @Beta(since = "V1_8_0")
         interface WithCreationDate {
             /**
              * Sets the server key creation date.
@@ -130,7 +130,7 @@ public interface SqlServerKeyOperations extends
     /**
      * Grouping of the Azure SQL Server Key common actions.
      */
-    @Beta(Beta.SinceVersion.V1_8_0)
+    @Beta(since = "V1_8_0")
     interface SqlServerKeyActionsDefinition extends SqlChildrenActionsDefinition<SqlServerKey> {
         /**
          * Begins the definition of a new SQL Server key to be added to this server.

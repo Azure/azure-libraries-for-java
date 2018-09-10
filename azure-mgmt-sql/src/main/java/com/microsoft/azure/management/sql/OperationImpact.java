@@ -11,7 +11,7 @@ package com.microsoft.azure.management.sql;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Represents impact of an operation, both in absolute and relative terms.
+ * The impact of an operation, both in absolute and relative terms.
  */
 public class OperationImpact {
     /**

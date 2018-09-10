@@ -24,11 +24,14 @@ import com.microsoft.rest.RestClient;
 public class SqlServerManager extends Manager<SqlServerManager, SqlManagementClientImpl> {
     private SqlServers sqlServers;
 
-    protected SqlServerManager(RestClient restClient, String subscriptionId) {
+    private final String tenantId;
+
+    protected SqlServerManager(RestClient restClient, String tenantId, String subscriptionId) {
         super(
                 restClient,
                 subscriptionId,
                 new SqlManagementClientImpl(restClient).withSubscriptionId(subscriptionId));
+        this.tenantId = tenantId;
     }
 
     /**
@@ -55,18 +58,19 @@ public class SqlServerManager extends Manager<SqlServerManager, SqlManagementCli
                 .withResponseBuilderFactory(new AzureResponseBuilder.Factory())
                 .withInterceptor(new ProviderRegistrationInterceptor(credentials))
                 .withInterceptor(new ResourceManagerThrottlingInterceptor())
-                .build(), subscriptionId);
+                .build(), credentials.domain(), subscriptionId);
     }
 
     /**
      * Creates an instance of SqlServer that exposes Compute resource management API entry points.
      *
      * @param restClient the RestClient to be used for API calls.
+     * @param tenantId the tenant UUID
      * @param subscriptionId the subscription
      * @return the SqlServer
      */
-    public static SqlServerManager authenticate(RestClient restClient, String subscriptionId) {
-        return new SqlServerManager(restClient, subscriptionId);
+    public static SqlServerManager authenticate(RestClient restClient, String tenantId, String subscriptionId) {
+        return new SqlServerManager(restClient, tenantId, subscriptionId);
     }
 
 
@@ -91,7 +95,7 @@ public class SqlServerManager extends Manager<SqlServerManager, SqlManagementCli
     private static final class ConfigurableImpl extends AzureConfigurableImpl<Configurable> implements Configurable {
         @Override
         public SqlServerManager authenticate(AzureTokenCredentials credentials, String subscriptionId) {
-            return SqlServerManager.authenticate(buildRestClient(credentials), subscriptionId);
+            return SqlServerManager.authenticate(buildRestClient(credentials), credentials.domain(), subscriptionId);
         }
     }
 
@@ -105,4 +109,15 @@ public class SqlServerManager extends Manager<SqlServerManager, SqlManagementCli
 
         return sqlServers;
     }
+
+    /**
+     * Get the tenant ID value.
+     *
+     * @return the tenant ID value
+     */
+    public String tenantId() {
+        return this.tenantId;
+    }
+
+
 }

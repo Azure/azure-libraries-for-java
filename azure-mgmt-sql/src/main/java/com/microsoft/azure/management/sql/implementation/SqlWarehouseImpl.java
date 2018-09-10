@@ -20,19 +20,24 @@ class SqlWarehouseImpl
         extends SqlDatabaseImpl
         implements SqlWarehouse {
 
-    protected SqlWarehouseImpl(String name, DatabaseInner innerObject, SqlServerManager manager) {
-        super(name, innerObject, manager);
+    SqlWarehouseImpl(String name, SqlServerImpl parent, DatabaseInner innerObject, SqlServerManager sqlServerManager) {
+        super(name, parent, innerObject, sqlServerManager);
+    }
+
+    SqlWarehouseImpl(String resourceGroupName, String sqlServerName, String sqlServerLocation, String name, DatabaseInner innerObject, SqlServerManager sqlServerManager) {
+        super(resourceGroupName, sqlServerName, sqlServerLocation, name, innerObject, sqlServerManager);
     }
 
     @Override
     public void pauseDataWarehouse() {
-        this.pauseDataWarehouseAsync().await();
+        this.sqlServerManager.inner().databases()
+            .pause(this.resourceGroupName, this.sqlServerName, this.name());
     }
 
     @Override
     public Completable pauseDataWarehouseAsync() {
-        return this.manager().inner().databases().pauseDataWarehouseAsync(
-                this.resourceGroupName(), this.sqlServerName(), this.name()).toCompletable();
+        return this.sqlServerManager.inner().databases()
+            .pauseAsync(this.resourceGroupName, this.sqlServerName, this.name()).toCompletable();
     }
 
     @Override
@@ -42,13 +47,14 @@ class SqlWarehouseImpl
 
     @Override
     public void resumeDataWarehouse() {
-        this.resumeDataWarehouseAsync().await();
+        this.sqlServerManager.inner().databases()
+            .resume(this.resourceGroupName, this.sqlServerName, this.name());
     }
 
     @Override
     public Completable resumeDataWarehouseAsync() {
-        return this.manager().inner().databases().resumeDataWarehouseAsync(
-                this.resourceGroupName(), this.sqlServerName(), this.name()).toCompletable();
+        return this.sqlServerManager.inner().databases()
+            .resumeAsync(this.resourceGroupName, this.sqlServerName, this.name()).toCompletable();
     }
 
     @Override

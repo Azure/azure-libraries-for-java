@@ -8,31 +8,31 @@
 
 package com.microsoft.azure.management.sql.implementation;
 
-import com.microsoft.azure.management.sql.ServerVersion;
+import com.microsoft.azure.management.sql.ResourceIdentity;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.Resource;
 
 /**
- * Represents an Azure SQL server.
+ * An Azure SQL Database server.
  */
 @JsonFlatten
-public class ServerInner extends Resource {
+public class ServerInner extends TrackedResourceInner {
     /**
-     * The fully qualified domain name of the server.
+     * The Azure Active Directory identity of the server.
      */
-    @JsonProperty(value = "properties.fullyQualifiedDomainName", access = JsonProperty.Access.WRITE_ONLY)
-    private String fullyQualifiedDomainName;
+    @JsonProperty(value = "identity")
+    private ResourceIdentity identity;
 
     /**
-     * The version of the server. Possible values include: '2.0', '12.0'.
+     * Kind of sql server. This is metadata used for the Azure portal
+     * experience.
      */
-    @JsonProperty(value = "properties.version")
-    private ServerVersion version;
+    @JsonProperty(value = "kind", access = JsonProperty.Access.WRITE_ONLY)
+    private String kind;
 
     /**
-     * Administrator username for the server. Can only be specified when the
-     * server is being created (and is required for creation).
+     * Administrator username for the server. Once created it cannot be
+     * changed.
      */
     @JsonProperty(value = "properties.administratorLogin")
     private String administratorLogin;
@@ -44,32 +44,50 @@ public class ServerInner extends Resource {
     private String administratorLoginPassword;
 
     /**
-     * Get the fullyQualifiedDomainName value.
-     *
-     * @return the fullyQualifiedDomainName value
+     * The version of the server.
      */
-    public String fullyQualifiedDomainName() {
-        return this.fullyQualifiedDomainName;
+    @JsonProperty(value = "properties.version")
+    private String version;
+
+    /**
+     * The state of the server.
+     */
+    @JsonProperty(value = "properties.state", access = JsonProperty.Access.WRITE_ONLY)
+    private String state;
+
+    /**
+     * The fully qualified domain name of the server.
+     */
+    @JsonProperty(value = "properties.fullyQualifiedDomainName", access = JsonProperty.Access.WRITE_ONLY)
+    private String fullyQualifiedDomainName;
+
+    /**
+     * Get the identity value.
+     *
+     * @return the identity value
+     */
+    public ResourceIdentity identity() {
+        return this.identity;
     }
 
     /**
-     * Get the version value.
+     * Set the identity value.
      *
-     * @return the version value
-     */
-    public ServerVersion version() {
-        return this.version;
-    }
-
-    /**
-     * Set the version value.
-     *
-     * @param version the version value to set
+     * @param identity the identity value to set
      * @return the ServerInner object itself.
      */
-    public ServerInner withVersion(ServerVersion version) {
-        this.version = version;
+    public ServerInner withIdentity(ResourceIdentity identity) {
+        this.identity = identity;
         return this;
+    }
+
+    /**
+     * Get the kind value.
+     *
+     * @return the kind value
+     */
+    public String kind() {
+        return this.kind;
     }
 
     /**
@@ -110,6 +128,44 @@ public class ServerInner extends Resource {
     public ServerInner withAdministratorLoginPassword(String administratorLoginPassword) {
         this.administratorLoginPassword = administratorLoginPassword;
         return this;
+    }
+
+    /**
+     * Get the version value.
+     *
+     * @return the version value
+     */
+    public String version() {
+        return this.version;
+    }
+
+    /**
+     * Set the version value.
+     *
+     * @param version the version value to set
+     * @return the ServerInner object itself.
+     */
+    public ServerInner withVersion(String version) {
+        this.version = version;
+        return this;
+    }
+
+    /**
+     * Get the state value.
+     *
+     * @return the state value
+     */
+    public String state() {
+        return this.state;
+    }
+
+    /**
+     * Get the fullyQualifiedDomainName value.
+     *
+     * @return the fullyQualifiedDomainName value
+     */
+    public String fullyQualifiedDomainName() {
+        return this.fullyQualifiedDomainName;
     }
 
 }

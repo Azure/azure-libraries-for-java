@@ -8,55 +8,37 @@
 
 package com.microsoft.azure.management.sql;
 
-import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.Collection;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.microsoft.rest.ExpandableStringEnum;
 
 /**
  * Defines values for ElasticPoolState.
  */
-public final class ElasticPoolState {
+public final class ElasticPoolState extends ExpandableStringEnum<ElasticPoolState> {
     /** Static value Creating for ElasticPoolState. */
-    public static final ElasticPoolState CREATING = new ElasticPoolState("Creating");
+    public static final ElasticPoolState CREATING = fromString("Creating");
 
     /** Static value Ready for ElasticPoolState. */
-    public static final ElasticPoolState READY = new ElasticPoolState("Ready");
+    public static final ElasticPoolState READY = fromString("Ready");
 
     /** Static value Disabled for ElasticPoolState. */
-    public static final ElasticPoolState DISABLED = new ElasticPoolState("Disabled");
-
-    private String value;
+    public static final ElasticPoolState DISABLED = fromString("Disabled");
 
     /**
-     * Creates a custom value for ElasticPoolState.
-     * @param value the custom value
+     * Creates or finds a ElasticPoolState from its string representation.
+     * @param name a name to look for
+     * @return the corresponding ElasticPoolState
      */
-    public ElasticPoolState(String value) {
-        this.value = value;
+    @JsonCreator
+    public static ElasticPoolState fromString(String name) {
+        return fromString(name, ElasticPoolState.class);
     }
 
-    @JsonValue
-    @Override
-    public String toString() {
-        return value;
-    }
-
-    @Override
-    public int hashCode() {
-        return value.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof ElasticPoolState)) {
-            return false;
-        }
-        if (obj == this) {
-            return true;
-        }
-        ElasticPoolState rhs = (ElasticPoolState) obj;
-        if (value == null) {
-            return rhs.value == null;
-        } else {
-            return value.equals(rhs.value);
-        }
+    /**
+     * @return known ElasticPoolState values
+     */
+    public static Collection<ElasticPoolState> values() {
+        return values(ElasticPoolState.class);
     }
 }

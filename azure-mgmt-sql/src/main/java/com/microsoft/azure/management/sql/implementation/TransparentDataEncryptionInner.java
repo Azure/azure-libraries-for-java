@@ -11,19 +11,33 @@ package com.microsoft.azure.management.sql.implementation;
 import com.microsoft.azure.management.sql.TransparentDataEncryptionStates;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.management.sql.SqlSubResource;
 
 /**
- * Represents an Azure SQL Database Transparent Data Encryption .
+ * Represents a database transparent data encryption configuration.
  */
 @JsonFlatten
-public class TransparentDataEncryptionInner extends SqlSubResource {
+public class TransparentDataEncryptionInner extends ProxyResourceInner {
     /**
-     * The status of the Azure SQL Database Transparent Data Encryption.
-     * Possible values include: 'Enabled', 'Disabled'.
+     * Resource location.
+     */
+    @JsonProperty(value = "location", access = JsonProperty.Access.WRITE_ONLY)
+    private String location;
+
+    /**
+     * The status of the database transparent data encryption. Possible values
+     * include: 'Enabled', 'Disabled'.
      */
     @JsonProperty(value = "properties.status")
     private TransparentDataEncryptionStates status;
+
+    /**
+     * Get the location value.
+     *
+     * @return the location value
+     */
+    public String location() {
+        return this.location;
+    }
 
     /**
      * Get the status value.

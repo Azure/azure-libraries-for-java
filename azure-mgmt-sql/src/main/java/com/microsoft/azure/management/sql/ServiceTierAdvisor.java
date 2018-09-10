@@ -41,106 +41,104 @@ public interface ServiceTierAdvisor extends
     String databaseName();
 
     /**
-     * @return the observation period start (ISO8601 format).
+     * @return the observation period start (ISO8601 format)
      */
     DateTime observationPeriodStart();
 
     /**
-     * @return the observation period start (ISO8601 format).
+     * @return the observation period start (ISO8601 format)
      */
     DateTime observationPeriodEnd();
 
     /**
-     * @return the activeTimeRatio for service tier advisor.
+     * @return the activeTimeRatio for the service tier advisor
      */
     double activeTimeRatio();
 
     /**
-     * @return or sets minDtu for service tier advisor.
+     * @return or sets minDtu for the service tier advisor
      */
     double minDtu();
 
     /**
-     * @return or sets avgDtu for service tier advisor.
+     * @return the average DTU for the service tier advisor
      */
     double avgDtu();
 
     /**
-     * @return or sets maxDtu for service tier advisor.
+     * @return the maximum DTU for the service tier advisor
      */
     double maxDtu();
 
     /**
-     * @return or sets maxSizeInGB for service tier advisor.
+     * @return the maximum size in GB for the service tier advisor
      */
     double maxSizeInGB();
 
     /**
-     * @return serviceLevelObjectiveUsageMetrics for the service tier
-     * advisor.
+     * @return the service level objective usage metrics for the service tier advisor
      */
+    @Deprecated
     List<SloUsageMetricInterface> serviceLevelObjectiveUsageMetrics();
 
     /**
-     * @return or sets currentServiceLevelObjective for service tier advisor.
+     * @return the service level objective usage metric for the service tier
+     * advisor.
+     */
+    List<ServiceLevelObjectiveUsageMetric> serviceLevelObjectiveUsageMetric();
+
+    /**
+     * @return the current service level Objective for the service tier advisor
      */
     String currentServiceLevelObjective();
 
     /**
-     * @return or sets currentServiceLevelObjectiveId for service tier advisor.
+     * @return the current service level objective ID for the service tier advisor
      */
     UUID currentServiceLevelObjectiveId();
 
     /**
-     * @return or sets usageBasedRecommendationServiceLevelObjective for service
-     * tier advisor.
+     * @return the usage based recommendation service level objective for the service tier advisor
      */
     String usageBasedRecommendationServiceLevelObjective();
 
     /**
-     * @return or sets usageBasedRecommendationServiceLevelObjectiveId for
-     * service tier advisor.
+     * @return the usage based recommendation service level objective ID for the service tier advisor.
      */
     UUID usageBasedRecommendationServiceLevelObjectiveId();
 
     /**
-     * @return or sets databaseSizeBasedRecommendationServiceLevelObjective for
-     * service tier advisor.
+     * @return the database size based recommendation service level objective for the service tier advisor
      */
     String databaseSizeBasedRecommendationServiceLevelObjective();
 
     /**
-     * @return or sets databaseSizeBasedRecommendationServiceLevelObjectiveId for
-     * service tier advisor.
+     * @return the database size based recommendation service level objective ID for the service tier advisor
      */
     UUID databaseSizeBasedRecommendationServiceLevelObjectiveId();
 
     /**
-     * @return or sets disasterPlanBasedRecommendationServiceLevelObjective for
-     * service tier advisor.
+     * @return the disaster plan based recommendation service level objective for the service tier advisor.
      */
     String disasterPlanBasedRecommendationServiceLevelObjective();
 
     /**
-     * @return or sets disasterPlanBasedRecommendationServiceLevelObjectiveId for
-     * service tier advisor.
+     * @return the disaster plan based recommendation service level objective ID for the service tier advisor.
      */
     UUID disasterPlanBasedRecommendationServiceLevelObjectiveId();
 
     /**
-     * @return or sets overallRecommendationServiceLevelObjective for service
-     * tier advisor.
+     * @return the overall recommendation service level objective for the service tier advisor.
      */
     String overallRecommendationServiceLevelObjective();
 
     /**
-     * @return or sets overallRecommendationServiceLevelObjectiveId for service
-     * tier advisor.
+     * @return the overall recommendation service level objective ID for the service tier advisor.
      */
     UUID overallRecommendationServiceLevelObjectiveId();
 
     /**
-     * @return or sets confidence for service tier advisor.
+     * @return the confidence for service tier advisor.
      */
     double confidence();
 }

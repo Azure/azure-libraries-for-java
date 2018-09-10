@@ -3,7 +3,6 @@
  * Licensed under the MIT License. See License.txt in the project root for
  * license information.
  */
-
 package com.microsoft.azure.management.sql.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
@@ -16,11 +15,16 @@ import org.joda.time.DateTime;
  */
 @LangDefinition
 class ServerMetricImpl
-        extends WrapperImpl<ServerMetricInner>
-        implements ServerMetric {
+    extends WrapperImpl<ServerUsageInner>
+    implements ServerMetric {
 
-    protected ServerMetricImpl(ServerMetricInner innerObject) {
+    protected ServerMetricImpl(ServerUsageInner innerObject) {
         super(innerObject);
+    }
+
+    @Override
+    public String name() {
+        return this.inner().name();
     }
 
     @Override

@@ -9,13 +9,12 @@
 package com.microsoft.azure.v2.management.sql;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.List;
 
 /**
  * The max per-database DTU capability.
  */
-public class ElasticPoolPerDatabaseMaxDtuCapability {
+public final class ElasticPoolPerDatabaseMaxDtuCapability {
     /**
      * The maximum DTUs per database.
      */
@@ -38,7 +37,7 @@ public class ElasticPoolPerDatabaseMaxDtuCapability {
     /**
      * Get the limit value.
      *
-     * @return the limit value
+     * @return the limit value.
      */
     public Long limit() {
         return this.limit;
@@ -47,7 +46,7 @@ public class ElasticPoolPerDatabaseMaxDtuCapability {
     /**
      * Get the status value.
      *
-     * @return the status value
+     * @return the status value.
      */
     public CapabilityStatus status() {
         return this.status;
@@ -56,10 +55,9 @@ public class ElasticPoolPerDatabaseMaxDtuCapability {
     /**
      * Get the supportedPerDatabaseMinDtus value.
      *
-     * @return the supportedPerDatabaseMinDtus value
+     * @return the supportedPerDatabaseMinDtus value.
      */
     public List<ElasticPoolPerDatabaseMinDtuCapability> supportedPerDatabaseMinDtus() {
         return this.supportedPerDatabaseMinDtus;
     }
-
 }

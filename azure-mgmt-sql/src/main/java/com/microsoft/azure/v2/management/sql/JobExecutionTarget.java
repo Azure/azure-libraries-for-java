@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * The target that a job execution is executed on.
  */
-public class JobExecutionTarget {
+public final class JobExecutionTarget {
     /**
      * The type of the target. Possible values include: 'TargetGroup',
      * 'SqlDatabase', 'SqlElasticPool', 'SqlShardMap', 'SqlServer'.
@@ -36,7 +36,7 @@ public class JobExecutionTarget {
     /**
      * Get the type value.
      *
-     * @return the type value
+     * @return the type value.
      */
     public JobTargetType type() {
         return this.type;
@@ -45,7 +45,7 @@ public class JobExecutionTarget {
     /**
      * Get the serverName value.
      *
-     * @return the serverName value
+     * @return the serverName value.
      */
     public String serverName() {
         return this.serverName;
@@ -54,10 +54,9 @@ public class JobExecutionTarget {
     /**
      * Get the databaseName value.
      *
-     * @return the databaseName value
+     * @return the databaseName value.
      */
     public String databaseName() {
         return this.databaseName;
     }
-
 }

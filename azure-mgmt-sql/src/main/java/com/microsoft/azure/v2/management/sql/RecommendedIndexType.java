@@ -15,22 +15,32 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Defines values for RecommendedIndexType.
  */
 public enum RecommendedIndexType {
-    /** Enum value CLUSTERED. */
+    /**
+     * Enum value CLUSTERED.
+     */
     CLUSTERED("CLUSTERED"),
 
-    /** Enum value NONCLUSTERED. */
+    /**
+     * Enum value NONCLUSTERED.
+     */
     NONCLUSTERED("NONCLUSTERED"),
 
-    /** Enum value COLUMNSTORE. */
+    /**
+     * Enum value COLUMNSTORE.
+     */
     COLUMNSTORE("COLUMNSTORE"),
 
-    /** Enum value CLUSTERED COLUMNSTORE. */
+    /**
+     * Enum value CLUSTERED COLUMNSTORE.
+     */
     CLUSTERED_COLUMNSTORE("CLUSTERED COLUMNSTORE");
 
-    /** The actual serialized value for a RecommendedIndexType instance. */
-    private String value;
+    /**
+     * The actual serialized value for a RecommendedIndexType instance.
+     */
+    private final String value;
 
-    RecommendedIndexType(String value) {
+    private RecommendedIndexType(String value) {
         this.value = value;
     }
 

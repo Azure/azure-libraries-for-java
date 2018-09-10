@@ -9,17 +9,15 @@
 package com.microsoft.azure.v2.management.sql;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.azure.management.sql.implementation.ProxyResourceInner;
-import com.microsoft.rest.serializer.JsonFlatten;
-import org.joda.time.DateTime;
-
+import com.microsoft.rest.v2.serializer.JsonFlatten;
+import java.time.OffsetDateTime;
 import java.util.List;
 
 /**
  * Represents a database recommended index.
  */
 @JsonFlatten
-public class RecommendedIndex extends ProxyResourceInner {
+public class RecommendedIndex extends ProxyResource {
     /**
      * The proposed index action. You can create a missing index, drop an
      * unused index, or rebuild an existing index to improve its performance.
@@ -41,14 +39,14 @@ public class RecommendedIndex extends ProxyResourceInner {
      * format).
      */
     @JsonProperty(value = "properties.created", access = JsonProperty.Access.WRITE_ONLY)
-    private DateTime created;
+    private OffsetDateTime created;
 
     /**
      * The UTC datetime of when was this resource last changed (ISO8601
      * format).
      */
     @JsonProperty(value = "properties.lastModified", access = JsonProperty.Access.WRITE_ONLY)
-    private DateTime lastModified;
+    private OffsetDateTime lastModified;
 
     /**
      * The type of index (CLUSTERED, NONCLUSTERED, COLUMNSTORE, CLUSTERED
@@ -103,7 +101,7 @@ public class RecommendedIndex extends ProxyResourceInner {
     /**
      * Get the action value.
      *
-     * @return the action value
+     * @return the action value.
      */
     public RecommendedIndexAction action() {
         return this.action;
@@ -112,7 +110,7 @@ public class RecommendedIndex extends ProxyResourceInner {
     /**
      * Get the state value.
      *
-     * @return the state value
+     * @return the state value.
      */
     public RecommendedIndexState state() {
         return this.state;
@@ -121,25 +119,25 @@ public class RecommendedIndex extends ProxyResourceInner {
     /**
      * Get the created value.
      *
-     * @return the created value
+     * @return the created value.
      */
-    public DateTime created() {
+    public OffsetDateTime created() {
         return this.created;
     }
 
     /**
      * Get the lastModified value.
      *
-     * @return the lastModified value
+     * @return the lastModified value.
      */
-    public DateTime lastModified() {
+    public OffsetDateTime lastModified() {
         return this.lastModified;
     }
 
     /**
      * Get the indexType value.
      *
-     * @return the indexType value
+     * @return the indexType value.
      */
     public RecommendedIndexType indexType() {
         return this.indexType;
@@ -148,7 +146,7 @@ public class RecommendedIndex extends ProxyResourceInner {
     /**
      * Get the schema value.
      *
-     * @return the schema value
+     * @return the schema value.
      */
     public String schema() {
         return this.schema;
@@ -157,7 +155,7 @@ public class RecommendedIndex extends ProxyResourceInner {
     /**
      * Get the table value.
      *
-     * @return the table value
+     * @return the table value.
      */
     public String table() {
         return this.table;
@@ -166,7 +164,7 @@ public class RecommendedIndex extends ProxyResourceInner {
     /**
      * Get the columns value.
      *
-     * @return the columns value
+     * @return the columns value.
      */
     public List<String> columns() {
         return this.columns;
@@ -175,7 +173,7 @@ public class RecommendedIndex extends ProxyResourceInner {
     /**
      * Get the includedColumns value.
      *
-     * @return the includedColumns value
+     * @return the includedColumns value.
      */
     public List<String> includedColumns() {
         return this.includedColumns;
@@ -184,7 +182,7 @@ public class RecommendedIndex extends ProxyResourceInner {
     /**
      * Get the indexScript value.
      *
-     * @return the indexScript value
+     * @return the indexScript value.
      */
     public String indexScript() {
         return this.indexScript;
@@ -193,7 +191,7 @@ public class RecommendedIndex extends ProxyResourceInner {
     /**
      * Get the estimatedImpact value.
      *
-     * @return the estimatedImpact value
+     * @return the estimatedImpact value.
      */
     public List<OperationImpact> estimatedImpact() {
         return this.estimatedImpact;
@@ -202,10 +200,9 @@ public class RecommendedIndex extends ProxyResourceInner {
     /**
      * Get the reportedImpact value.
      *
-     * @return the reportedImpact value
+     * @return the reportedImpact value.
      */
     public List<OperationImpact> reportedImpact() {
         return this.reportedImpact;
     }
-
 }

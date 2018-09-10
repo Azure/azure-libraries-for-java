@@ -9,13 +9,12 @@
 package com.microsoft.azure.v2.management.sql;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.List;
 
 /**
  * Properties of table in sync group schema.
  */
-public class SyncGroupSchemaTable {
+public final class SyncGroupSchemaTable {
     /**
      * List of columns in sync group schema.
      */
@@ -31,7 +30,7 @@ public class SyncGroupSchemaTable {
     /**
      * Get the columns value.
      *
-     * @return the columns value
+     * @return the columns value.
      */
     public List<SyncGroupSchemaTableColumn> columns() {
         return this.columns;
@@ -40,7 +39,7 @@ public class SyncGroupSchemaTable {
     /**
      * Set the columns value.
      *
-     * @param columns the columns value to set
+     * @param columns the columns value to set.
      * @return the SyncGroupSchemaTable object itself.
      */
     public SyncGroupSchemaTable withColumns(List<SyncGroupSchemaTableColumn> columns) {
@@ -51,7 +50,7 @@ public class SyncGroupSchemaTable {
     /**
      * Get the quotedName value.
      *
-     * @return the quotedName value
+     * @return the quotedName value.
      */
     public String quotedName() {
         return this.quotedName;
@@ -60,12 +59,11 @@ public class SyncGroupSchemaTable {
     /**
      * Set the quotedName value.
      *
-     * @param quotedName the quotedName value to set
+     * @param quotedName the quotedName value to set.
      * @return the SyncGroupSchemaTable object itself.
      */
     public SyncGroupSchemaTable withQuotedName(String quotedName) {
         this.quotedName = quotedName;
         return this;
     }
-
 }

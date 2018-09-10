@@ -9,36 +9,48 @@
 package com.microsoft.azure.v2.management.sql;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.microsoft.rest.ExpandableStringEnum;
-
+import com.microsoft.rest.v2.ExpandableStringEnum;
 import java.util.Collection;
 
 /**
  * Defines values for ManagementOperationState.
  */
 public final class ManagementOperationState extends ExpandableStringEnum<ManagementOperationState> {
-    /** Static value Pending for ManagementOperationState. */
+    /**
+     * Static value Pending for ManagementOperationState.
+     */
     public static final ManagementOperationState PENDING = fromString("Pending");
 
-    /** Static value InProgress for ManagementOperationState. */
+    /**
+     * Static value InProgress for ManagementOperationState.
+     */
     public static final ManagementOperationState IN_PROGRESS = fromString("InProgress");
 
-    /** Static value Succeeded for ManagementOperationState. */
+    /**
+     * Static value Succeeded for ManagementOperationState.
+     */
     public static final ManagementOperationState SUCCEEDED = fromString("Succeeded");
 
-    /** Static value Failed for ManagementOperationState. */
+    /**
+     * Static value Failed for ManagementOperationState.
+     */
     public static final ManagementOperationState FAILED = fromString("Failed");
 
-    /** Static value CancelInProgress for ManagementOperationState. */
+    /**
+     * Static value CancelInProgress for ManagementOperationState.
+     */
     public static final ManagementOperationState CANCEL_IN_PROGRESS = fromString("CancelInProgress");
 
-    /** Static value Cancelled for ManagementOperationState. */
+    /**
+     * Static value Cancelled for ManagementOperationState.
+     */
     public static final ManagementOperationState CANCELLED = fromString("Cancelled");
 
     /**
      * Creates or finds a ManagementOperationState from its string representation.
-     * @param name a name to look for
-     * @return the corresponding ManagementOperationState
+     *
+     * @param name a name to look for.
+     * @return the corresponding ManagementOperationState.
      */
     @JsonCreator
     public static ManagementOperationState fromString(String name) {
@@ -46,7 +58,7 @@ public final class ManagementOperationState extends ExpandableStringEnum<Managem
     }
 
     /**
-     * @return known ManagementOperationState values
+     * @return known ManagementOperationState values.
      */
     public static Collection<ManagementOperationState> values() {
         return values(ManagementOperationState.class);

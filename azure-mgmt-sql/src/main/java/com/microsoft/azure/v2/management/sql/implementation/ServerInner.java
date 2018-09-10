@@ -8,15 +8,16 @@
 
 package com.microsoft.azure.v2.management.sql.implementation;
 
-import com.microsoft.azure.v2.management.sql.ResourceIdentity;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.v2.management.sql.ResourceIdentity;
+import com.microsoft.azure.v2.management.sql.TrackedResource;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
 
 /**
  * An Azure SQL Database server.
  */
 @JsonFlatten
-public class ServerInner extends TrackedResourceInner {
+public class ServerInner extends TrackedResource {
     /**
      * The Azure Active Directory identity of the server.
      */
@@ -64,7 +65,7 @@ public class ServerInner extends TrackedResourceInner {
     /**
      * Get the identity value.
      *
-     * @return the identity value
+     * @return the identity value.
      */
     public ResourceIdentity identity() {
         return this.identity;
@@ -73,7 +74,7 @@ public class ServerInner extends TrackedResourceInner {
     /**
      * Set the identity value.
      *
-     * @param identity the identity value to set
+     * @param identity the identity value to set.
      * @return the ServerInner object itself.
      */
     public ServerInner withIdentity(ResourceIdentity identity) {
@@ -84,7 +85,7 @@ public class ServerInner extends TrackedResourceInner {
     /**
      * Get the kind value.
      *
-     * @return the kind value
+     * @return the kind value.
      */
     public String kind() {
         return this.kind;
@@ -93,7 +94,7 @@ public class ServerInner extends TrackedResourceInner {
     /**
      * Get the administratorLogin value.
      *
-     * @return the administratorLogin value
+     * @return the administratorLogin value.
      */
     public String administratorLogin() {
         return this.administratorLogin;
@@ -102,7 +103,7 @@ public class ServerInner extends TrackedResourceInner {
     /**
      * Set the administratorLogin value.
      *
-     * @param administratorLogin the administratorLogin value to set
+     * @param administratorLogin the administratorLogin value to set.
      * @return the ServerInner object itself.
      */
     public ServerInner withAdministratorLogin(String administratorLogin) {
@@ -113,7 +114,7 @@ public class ServerInner extends TrackedResourceInner {
     /**
      * Get the administratorLoginPassword value.
      *
-     * @return the administratorLoginPassword value
+     * @return the administratorLoginPassword value.
      */
     public String administratorLoginPassword() {
         return this.administratorLoginPassword;
@@ -122,7 +123,8 @@ public class ServerInner extends TrackedResourceInner {
     /**
      * Set the administratorLoginPassword value.
      *
-     * @param administratorLoginPassword the administratorLoginPassword value to set
+     * @param administratorLoginPassword the administratorLoginPassword value
+     * to set.
      * @return the ServerInner object itself.
      */
     public ServerInner withAdministratorLoginPassword(String administratorLoginPassword) {
@@ -133,7 +135,7 @@ public class ServerInner extends TrackedResourceInner {
     /**
      * Get the version value.
      *
-     * @return the version value
+     * @return the version value.
      */
     public String version() {
         return this.version;
@@ -142,7 +144,7 @@ public class ServerInner extends TrackedResourceInner {
     /**
      * Set the version value.
      *
-     * @param version the version value to set
+     * @param version the version value to set.
      * @return the ServerInner object itself.
      */
     public ServerInner withVersion(String version) {
@@ -153,7 +155,7 @@ public class ServerInner extends TrackedResourceInner {
     /**
      * Get the state value.
      *
-     * @return the state value
+     * @return the state value.
      */
     public String state() {
         return this.state;
@@ -162,10 +164,9 @@ public class ServerInner extends TrackedResourceInner {
     /**
      * Get the fullyQualifiedDomainName value.
      *
-     * @return the fullyQualifiedDomainName value
+     * @return the fullyQualifiedDomainName value.
      */
     public String fullyQualifiedDomainName() {
         return this.fullyQualifiedDomainName;
     }
-
 }

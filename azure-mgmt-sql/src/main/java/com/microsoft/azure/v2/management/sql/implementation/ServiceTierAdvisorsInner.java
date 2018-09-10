@@ -8,58 +8,64 @@
 
 package com.microsoft.azure.v2.management.sql.implementation;
 
-import retrofit2.Retrofit;
-import com.google.common.reflect.TypeToken;
-import com.microsoft.azure.CloudException;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import com.microsoft.rest.ServiceResponse;
-import java.io.IOException;
+import com.microsoft.azure.v2.AzureProxy;
+import com.microsoft.azure.v2.CloudException;
+import com.microsoft.rest.v2.BodyResponse;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
+import com.microsoft.rest.v2.annotations.ExpectedResponses;
+import com.microsoft.rest.v2.annotations.GET;
+import com.microsoft.rest.v2.annotations.HeaderParam;
+import com.microsoft.rest.v2.annotations.Host;
+import com.microsoft.rest.v2.annotations.PathParam;
+import com.microsoft.rest.v2.annotations.QueryParam;
+import com.microsoft.rest.v2.annotations.UnexpectedResponseExceptionType;
+import io.reactivex.Maybe;
+import io.reactivex.Single;
+import io.reactivex.annotations.NonNull;
+import java.util.ArrayList;
 import java.util.List;
-import okhttp3.ResponseBody;
-import retrofit2.http.GET;
-import retrofit2.http.Header;
-import retrofit2.http.Headers;
-import retrofit2.http.Path;
-import retrofit2.http.Query;
-import retrofit2.Response;
-import rx.functions.Func1;
-import rx.Observable;
 
 /**
- * An instance of this class provides access to all the operations defined
- * in ServiceTierAdvisors.
+ * An instance of this class provides access to all the operations defined in
+ * ServiceTierAdvisors.
  */
-public class ServiceTierAdvisorsInner {
-    /** The Retrofit service to perform REST calls. */
+public final class ServiceTierAdvisorsInner {
+    /**
+     * The proxy service used to perform REST calls.
+     */
     private ServiceTierAdvisorsService service;
-    /** The service client containing this operation class. */
+
+    /**
+     * The service client containing this operation class.
+     */
     private SqlManagementClientImpl client;
 
     /**
      * Initializes an instance of ServiceTierAdvisorsInner.
      *
-     * @param retrofit the Retrofit instance built from a Retrofit Builder.
      * @param client the instance of the service client containing this operation class.
      */
-    public ServiceTierAdvisorsInner(Retrofit retrofit, SqlManagementClientImpl client) {
-        this.service = retrofit.create(ServiceTierAdvisorsService.class);
+    public ServiceTierAdvisorsInner(SqlManagementClientImpl client) {
+        this.service = AzureProxy.create(ServiceTierAdvisorsService.class, client);
         this.client = client;
     }
 
     /**
      * The interface defining all the services for ServiceTierAdvisors to be
-     * used by Retrofit to perform actually REST calls.
+     * used by the proxy service to perform REST calls.
      */
-    interface ServiceTierAdvisorsService {
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.ServiceTierAdvisors get" })
+    @Host("https://management.azure.com")
+    private interface ServiceTierAdvisorsService {
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/serviceTierAdvisors/{serviceTierAdvisorName}")
-        Observable<Response<ResponseBody>> get(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("databaseName") String databaseName, @Path("serviceTierAdvisorName") String serviceTierAdvisorName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<ServiceTierAdvisorInner>> get(@PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("databaseName") String databaseName, @PathParam("serviceTierAdvisorName") String serviceTierAdvisorName, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.ServiceTierAdvisors listByDatabase" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/serviceTierAdvisors")
-        Observable<Response<ResponseBody>> listByDatabase(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("databaseName") String databaseName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
-
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<List<ServiceTierAdvisorInner>>> listByDatabase(@PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("databaseName") String databaseName, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
     }
 
     /**
@@ -69,13 +75,13 @@ public class ServiceTierAdvisorsInner {
      * @param serverName The name of the server.
      * @param databaseName The name of database.
      * @param serviceTierAdvisorName The name of service tier advisor.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the ServiceTierAdvisorInner object if successful.
      */
-    public ServiceTierAdvisorInner get(String resourceGroupName, String serverName, String databaseName, String serviceTierAdvisorName) {
-        return getWithServiceResponseAsync(resourceGroupName, serverName, databaseName, serviceTierAdvisorName).toBlocking().single().body();
+    public ServiceTierAdvisorInner get(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, @NonNull String serviceTierAdvisorName) {
+        return getAsync(resourceGroupName, serverName, databaseName, serviceTierAdvisorName).blockingGet();
     }
 
     /**
@@ -86,11 +92,11 @@ public class ServiceTierAdvisorsInner {
      * @param databaseName The name of database.
      * @param serviceTierAdvisorName The name of service tier advisor.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<ServiceTierAdvisorInner> getAsync(String resourceGroupName, String serverName, String databaseName, String serviceTierAdvisorName, final ServiceCallback<ServiceTierAdvisorInner> serviceCallback) {
-        return ServiceFuture.fromResponse(getWithServiceResponseAsync(resourceGroupName, serverName, databaseName, serviceTierAdvisorName), serviceCallback);
+    public ServiceFuture<ServiceTierAdvisorInner> getAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, @NonNull String serviceTierAdvisorName, ServiceCallback<ServiceTierAdvisorInner> serviceCallback) {
+        return ServiceFuture.fromBody(getAsync(resourceGroupName, serverName, databaseName, serviceTierAdvisorName), serviceCallback);
     }
 
     /**
@@ -100,29 +106,10 @@ public class ServiceTierAdvisorsInner {
      * @param serverName The name of the server.
      * @param databaseName The name of database.
      * @param serviceTierAdvisorName The name of service tier advisor.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ServiceTierAdvisorInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<ServiceTierAdvisorInner> getAsync(String resourceGroupName, String serverName, String databaseName, String serviceTierAdvisorName) {
-        return getWithServiceResponseAsync(resourceGroupName, serverName, databaseName, serviceTierAdvisorName).map(new Func1<ServiceResponse<ServiceTierAdvisorInner>, ServiceTierAdvisorInner>() {
-            @Override
-            public ServiceTierAdvisorInner call(ServiceResponse<ServiceTierAdvisorInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Gets a service tier advisor.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of database.
-     * @param serviceTierAdvisorName The name of service tier advisor.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ServiceTierAdvisorInner object
-     */
-    public Observable<ServiceResponse<ServiceTierAdvisorInner>> getWithServiceResponseAsync(String resourceGroupName, String serverName, String databaseName, String serviceTierAdvisorName) {
+    public Single<BodyResponse<ServiceTierAdvisorInner>> getWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, @NonNull String serviceTierAdvisorName) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
@@ -139,25 +126,22 @@ public class ServiceTierAdvisorsInner {
             throw new IllegalArgumentException("Parameter serviceTierAdvisorName is required and cannot be null.");
         }
         final String apiVersion = "2014-04-01";
-        return service.get(this.client.subscriptionId(), resourceGroupName, serverName, databaseName, serviceTierAdvisorName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ServiceTierAdvisorInner>>>() {
-                @Override
-                public Observable<ServiceResponse<ServiceTierAdvisorInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<ServiceTierAdvisorInner> clientResponse = getDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.get(this.client.subscriptionId(), resourceGroupName, serverName, databaseName, serviceTierAdvisorName, apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<ServiceTierAdvisorInner> getDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<ServiceTierAdvisorInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<ServiceTierAdvisorInner>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Gets a service tier advisor.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of database.
+     * @param serviceTierAdvisorName The name of service tier advisor.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<ServiceTierAdvisorInner> getAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, @NonNull String serviceTierAdvisorName) {
+        return getWithRestResponseAsync(resourceGroupName, serverName, databaseName, serviceTierAdvisorName)
+            .flatMapMaybe((BodyResponse<ServiceTierAdvisorInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
@@ -166,13 +150,13 @@ public class ServiceTierAdvisorsInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param databaseName The name of database.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the List&lt;ServiceTierAdvisorInner&gt; object if successful.
      */
-    public List<ServiceTierAdvisorInner> listByDatabase(String resourceGroupName, String serverName, String databaseName) {
-        return listByDatabaseWithServiceResponseAsync(resourceGroupName, serverName, databaseName).toBlocking().single().body();
+    public List<ServiceTierAdvisorInner> listByDatabase(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName) {
+        return listByDatabaseAsync(resourceGroupName, serverName, databaseName).blockingGet();
     }
 
     /**
@@ -182,11 +166,11 @@ public class ServiceTierAdvisorsInner {
      * @param serverName The name of the server.
      * @param databaseName The name of database.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<List<ServiceTierAdvisorInner>> listByDatabaseAsync(String resourceGroupName, String serverName, String databaseName, final ServiceCallback<List<ServiceTierAdvisorInner>> serviceCallback) {
-        return ServiceFuture.fromResponse(listByDatabaseWithServiceResponseAsync(resourceGroupName, serverName, databaseName), serviceCallback);
+    public ServiceFuture<List<ServiceTierAdvisorInner>> listByDatabaseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, ServiceCallback<List<ServiceTierAdvisorInner>> serviceCallback) {
+        return ServiceFuture.fromBody(listByDatabaseAsync(resourceGroupName, serverName, databaseName), serviceCallback);
     }
 
     /**
@@ -195,28 +179,10 @@ public class ServiceTierAdvisorsInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param databaseName The name of database.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the List&lt;ServiceTierAdvisorInner&gt; object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<List<ServiceTierAdvisorInner>> listByDatabaseAsync(String resourceGroupName, String serverName, String databaseName) {
-        return listByDatabaseWithServiceResponseAsync(resourceGroupName, serverName, databaseName).map(new Func1<ServiceResponse<List<ServiceTierAdvisorInner>>, List<ServiceTierAdvisorInner>>() {
-            @Override
-            public List<ServiceTierAdvisorInner> call(ServiceResponse<List<ServiceTierAdvisorInner>> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Returns service tier advisors for specified database.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of database.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the List&lt;ServiceTierAdvisorInner&gt; object
-     */
-    public Observable<ServiceResponse<List<ServiceTierAdvisorInner>>> listByDatabaseWithServiceResponseAsync(String resourceGroupName, String serverName, String databaseName) {
+    public Single<BodyResponse<List<ServiceTierAdvisorInner>>> listByDatabaseWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
@@ -230,26 +196,20 @@ public class ServiceTierAdvisorsInner {
             throw new IllegalArgumentException("Parameter databaseName is required and cannot be null.");
         }
         final String apiVersion = "2014-04-01";
-        return service.listByDatabase(this.client.subscriptionId(), resourceGroupName, serverName, databaseName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<List<ServiceTierAdvisorInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<List<ServiceTierAdvisorInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<ServiceTierAdvisorInner>> result = listByDatabaseDelegate(response);
-                        ServiceResponse<List<ServiceTierAdvisorInner>> clientResponse = new ServiceResponse<List<ServiceTierAdvisorInner>>(result.body().items(), result.response());
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.listByDatabase(this.client.subscriptionId(), resourceGroupName, serverName, databaseName, apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<PageImpl<ServiceTierAdvisorInner>> listByDatabaseDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<ServiceTierAdvisorInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<ServiceTierAdvisorInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Returns service tier advisors for specified database.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of database.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<List<ServiceTierAdvisorInner>> listByDatabaseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName) {
+        return listByDatabaseWithRestResponseAsync(resourceGroupName, serverName, databaseName)
+            .flatMapMaybe((BodyResponse<List<ServiceTierAdvisorInner>> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
-
 }

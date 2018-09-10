@@ -9,13 +9,14 @@
 package com.microsoft.azure.v2.management.sql.implementation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.v2.management.sql.ProxyResource;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
 
 /**
  * Represents a server firewall rule.
  */
 @JsonFlatten
-public class FirewallRuleInner extends ProxyResourceInner {
+public class FirewallRuleInner extends ProxyResource {
     /**
      * Kind of server that contains this firewall rule.
      */
@@ -46,7 +47,7 @@ public class FirewallRuleInner extends ProxyResourceInner {
     /**
      * Get the kind value.
      *
-     * @return the kind value
+     * @return the kind value.
      */
     public String kind() {
         return this.kind;
@@ -55,7 +56,7 @@ public class FirewallRuleInner extends ProxyResourceInner {
     /**
      * Get the location value.
      *
-     * @return the location value
+     * @return the location value.
      */
     public String location() {
         return this.location;
@@ -64,7 +65,7 @@ public class FirewallRuleInner extends ProxyResourceInner {
     /**
      * Get the startIpAddress value.
      *
-     * @return the startIpAddress value
+     * @return the startIpAddress value.
      */
     public String startIpAddress() {
         return this.startIpAddress;
@@ -73,7 +74,7 @@ public class FirewallRuleInner extends ProxyResourceInner {
     /**
      * Set the startIpAddress value.
      *
-     * @param startIpAddress the startIpAddress value to set
+     * @param startIpAddress the startIpAddress value to set.
      * @return the FirewallRuleInner object itself.
      */
     public FirewallRuleInner withStartIpAddress(String startIpAddress) {
@@ -84,7 +85,7 @@ public class FirewallRuleInner extends ProxyResourceInner {
     /**
      * Get the endIpAddress value.
      *
-     * @return the endIpAddress value
+     * @return the endIpAddress value.
      */
     public String endIpAddress() {
         return this.endIpAddress;
@@ -93,12 +94,11 @@ public class FirewallRuleInner extends ProxyResourceInner {
     /**
      * Set the endIpAddress value.
      *
-     * @param endIpAddress the endIpAddress value to set
+     * @param endIpAddress the endIpAddress value to set.
      * @return the FirewallRuleInner object itself.
      */
     public FirewallRuleInner withEndIpAddress(String endIpAddress) {
         this.endIpAddress = endIpAddress;
         return this;
     }
-
 }

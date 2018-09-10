@@ -8,15 +8,16 @@
 
 package com.microsoft.azure.v2.management.sql.implementation;
 
-import org.joda.time.DateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.v2.management.sql.ProxyResource;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
+import java.time.OffsetDateTime;
 
 /**
  * A recoverable database.
  */
 @JsonFlatten
-public class RecoverableDatabaseInner extends ProxyResourceInner {
+public class RecoverableDatabaseInner extends ProxyResource {
     /**
      * The edition of the database.
      */
@@ -39,12 +40,12 @@ public class RecoverableDatabaseInner extends ProxyResourceInner {
      * The last available backup date of the database (ISO8601 format).
      */
     @JsonProperty(value = "properties.lastAvailableBackupDate", access = JsonProperty.Access.WRITE_ONLY)
-    private DateTime lastAvailableBackupDate;
+    private OffsetDateTime lastAvailableBackupDate;
 
     /**
      * Get the edition value.
      *
-     * @return the edition value
+     * @return the edition value.
      */
     public String edition() {
         return this.edition;
@@ -53,7 +54,7 @@ public class RecoverableDatabaseInner extends ProxyResourceInner {
     /**
      * Get the serviceLevelObjective value.
      *
-     * @return the serviceLevelObjective value
+     * @return the serviceLevelObjective value.
      */
     public String serviceLevelObjective() {
         return this.serviceLevelObjective;
@@ -62,7 +63,7 @@ public class RecoverableDatabaseInner extends ProxyResourceInner {
     /**
      * Get the elasticPoolName value.
      *
-     * @return the elasticPoolName value
+     * @return the elasticPoolName value.
      */
     public String elasticPoolName() {
         return this.elasticPoolName;
@@ -71,10 +72,9 @@ public class RecoverableDatabaseInner extends ProxyResourceInner {
     /**
      * Get the lastAvailableBackupDate value.
      *
-     * @return the lastAvailableBackupDate value
+     * @return the lastAvailableBackupDate value.
      */
-    public DateTime lastAvailableBackupDate() {
+    public OffsetDateTime lastAvailableBackupDate() {
         return this.lastAvailableBackupDate;
     }
-
 }

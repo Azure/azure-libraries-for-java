@@ -8,15 +8,16 @@
 
 package com.microsoft.azure.v2.management.sql.implementation;
 
-import com.microsoft.azure.v2.management.sql.TransparentDataEncryptionActivityStates;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.v2.management.sql.ProxyResource;
+import com.microsoft.azure.v2.management.sql.TransparentDataEncryptionActivityStatus;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
 
 /**
  * Represents a database transparent data encryption Scan.
  */
 @JsonFlatten
-public class TransparentDataEncryptionActivityInner extends ProxyResourceInner {
+public class TransparentDataEncryptionActivityInner extends ProxyResource {
     /**
      * Resource location.
      */
@@ -28,7 +29,7 @@ public class TransparentDataEncryptionActivityInner extends ProxyResourceInner {
      * 'Decrypting'.
      */
     @JsonProperty(value = "properties.status", access = JsonProperty.Access.WRITE_ONLY)
-    private TransparentDataEncryptionActivityStates status;
+    private TransparentDataEncryptionActivityStatus status;
 
     /**
      * The percent complete of the transparent data encryption scan for a
@@ -40,7 +41,7 @@ public class TransparentDataEncryptionActivityInner extends ProxyResourceInner {
     /**
      * Get the location value.
      *
-     * @return the location value
+     * @return the location value.
      */
     public String location() {
         return this.location;
@@ -49,19 +50,18 @@ public class TransparentDataEncryptionActivityInner extends ProxyResourceInner {
     /**
      * Get the status value.
      *
-     * @return the status value
+     * @return the status value.
      */
-    public TransparentDataEncryptionActivityStates status() {
+    public TransparentDataEncryptionActivityStatus status() {
         return this.status;
     }
 
     /**
      * Get the percentComplete value.
      *
-     * @return the percentComplete value
+     * @return the percentComplete value.
      */
     public Double percentComplete() {
         return this.percentComplete;
     }
-
 }

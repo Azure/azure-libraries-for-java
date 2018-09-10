@@ -8,60 +8,65 @@
 
 package com.microsoft.azure.v2.management.sql.implementation;
 
-import retrofit2.Retrofit;
-import com.google.common.reflect.TypeToken;
-import com.microsoft.azure.CloudException;
-import com.microsoft.azure.v2.management.sql.TransparentDataEncryptionStates;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import com.microsoft.rest.ServiceResponse;
-import java.io.IOException;
-import okhttp3.ResponseBody;
-import retrofit2.http.Body;
-import retrofit2.http.GET;
-import retrofit2.http.Header;
-import retrofit2.http.Headers;
-import retrofit2.http.Path;
-import retrofit2.http.PUT;
-import retrofit2.http.Query;
-import retrofit2.Response;
-import rx.functions.Func1;
-import rx.Observable;
+import com.microsoft.azure.v2.AzureProxy;
+import com.microsoft.azure.v2.CloudException;
+import com.microsoft.azure.v2.management.sql.TransparentDataEncryptionStatus;
+import com.microsoft.rest.v2.BodyResponse;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
+import com.microsoft.rest.v2.annotations.BodyParam;
+import com.microsoft.rest.v2.annotations.ExpectedResponses;
+import com.microsoft.rest.v2.annotations.GET;
+import com.microsoft.rest.v2.annotations.HeaderParam;
+import com.microsoft.rest.v2.annotations.Host;
+import com.microsoft.rest.v2.annotations.PathParam;
+import com.microsoft.rest.v2.annotations.PUT;
+import com.microsoft.rest.v2.annotations.QueryParam;
+import com.microsoft.rest.v2.annotations.UnexpectedResponseExceptionType;
+import io.reactivex.Maybe;
+import io.reactivex.Single;
+import io.reactivex.annotations.NonNull;
 
 /**
- * An instance of this class provides access to all the operations defined
- * in TransparentDataEncryptions.
+ * An instance of this class provides access to all the operations defined in
+ * TransparentDataEncryptions.
  */
-public class TransparentDataEncryptionsInner {
-    /** The Retrofit service to perform REST calls. */
+public final class TransparentDataEncryptionsInner {
+    /**
+     * The proxy service used to perform REST calls.
+     */
     private TransparentDataEncryptionsService service;
-    /** The service client containing this operation class. */
+
+    /**
+     * The service client containing this operation class.
+     */
     private SqlManagementClientImpl client;
 
     /**
      * Initializes an instance of TransparentDataEncryptionsInner.
      *
-     * @param retrofit the Retrofit instance built from a Retrofit Builder.
      * @param client the instance of the service client containing this operation class.
      */
-    public TransparentDataEncryptionsInner(Retrofit retrofit, SqlManagementClientImpl client) {
-        this.service = retrofit.create(TransparentDataEncryptionsService.class);
+    public TransparentDataEncryptionsInner(SqlManagementClientImpl client) {
+        this.service = AzureProxy.create(TransparentDataEncryptionsService.class, client);
         this.client = client;
     }
 
     /**
-     * The interface defining all the services for TransparentDataEncryptions to be
-     * used by Retrofit to perform actually REST calls.
+     * The interface defining all the services for TransparentDataEncryptions
+     * to be used by the proxy service to perform REST calls.
      */
-    interface TransparentDataEncryptionsService {
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.TransparentDataEncryptions createOrUpdate" })
+    @Host("https://management.azure.com")
+    private interface TransparentDataEncryptionsService {
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/transparentDataEncryption/{transparentDataEncryptionName}")
-        Observable<Response<ResponseBody>> createOrUpdate(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("databaseName") String databaseName, @Path("transparentDataEncryptionName") String transparentDataEncryptionName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body TransparentDataEncryptionInner parameters, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 201})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<TransparentDataEncryptionInner>> createOrUpdate(@PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("databaseName") String databaseName, @PathParam("transparentDataEncryptionName") String transparentDataEncryptionName, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @BodyParam("application/json; charset=utf-8") TransparentDataEncryptionInner parameters);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.TransparentDataEncryptions get" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/transparentDataEncryption/{transparentDataEncryptionName}")
-        Observable<Response<ResponseBody>> get(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("databaseName") String databaseName, @Path("transparentDataEncryptionName") String transparentDataEncryptionName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
-
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<TransparentDataEncryptionInner>> get(@PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("databaseName") String databaseName, @PathParam("transparentDataEncryptionName") String transparentDataEncryptionName, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
     }
 
     /**
@@ -70,13 +75,13 @@ public class TransparentDataEncryptionsInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param databaseName The name of the database for which setting the transparent data encryption applies.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the TransparentDataEncryptionInner object if successful.
      */
-    public TransparentDataEncryptionInner createOrUpdate(String resourceGroupName, String serverName, String databaseName) {
-        return createOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, databaseName).toBlocking().single().body();
+    public TransparentDataEncryptionInner createOrUpdate(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName) {
+        return createOrUpdateAsync(resourceGroupName, serverName, databaseName).blockingGet();
     }
 
     /**
@@ -86,11 +91,11 @@ public class TransparentDataEncryptionsInner {
      * @param serverName The name of the server.
      * @param databaseName The name of the database for which setting the transparent data encryption applies.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<TransparentDataEncryptionInner> createOrUpdateAsync(String resourceGroupName, String serverName, String databaseName, final ServiceCallback<TransparentDataEncryptionInner> serviceCallback) {
-        return ServiceFuture.fromResponse(createOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, databaseName), serviceCallback);
+    public ServiceFuture<TransparentDataEncryptionInner> createOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, ServiceCallback<TransparentDataEncryptionInner> serviceCallback) {
+        return ServiceFuture.fromBody(createOrUpdateAsync(resourceGroupName, serverName, databaseName), serviceCallback);
     }
 
     /**
@@ -99,28 +104,10 @@ public class TransparentDataEncryptionsInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param databaseName The name of the database for which setting the transparent data encryption applies.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the TransparentDataEncryptionInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<TransparentDataEncryptionInner> createOrUpdateAsync(String resourceGroupName, String serverName, String databaseName) {
-        return createOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, databaseName).map(new Func1<ServiceResponse<TransparentDataEncryptionInner>, TransparentDataEncryptionInner>() {
-            @Override
-            public TransparentDataEncryptionInner call(ServiceResponse<TransparentDataEncryptionInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Creates or updates a database's transparent data encryption configuration.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the database for which setting the transparent data encryption applies.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the TransparentDataEncryptionInner object
-     */
-    public Observable<ServiceResponse<TransparentDataEncryptionInner>> createOrUpdateWithServiceResponseAsync(String resourceGroupName, String serverName, String databaseName) {
+    public Single<BodyResponse<TransparentDataEncryptionInner>> createOrUpdateWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
@@ -135,21 +122,10 @@ public class TransparentDataEncryptionsInner {
         }
         final String transparentDataEncryptionName = "current";
         final String apiVersion = "2014-04-01";
-        final TransparentDataEncryptionStates status = null;
+        final TransparentDataEncryptionStatus status = null;
         TransparentDataEncryptionInner parameters = new TransparentDataEncryptionInner();
         parameters.withStatus(null);
-        return service.createOrUpdate(this.client.subscriptionId(), resourceGroupName, serverName, databaseName, transparentDataEncryptionName, apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<TransparentDataEncryptionInner>>>() {
-                @Override
-                public Observable<ServiceResponse<TransparentDataEncryptionInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<TransparentDataEncryptionInner> clientResponse = createOrUpdateDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.createOrUpdate(this.client.subscriptionId(), resourceGroupName, serverName, databaseName, transparentDataEncryptionName, apiVersion, this.client.acceptLanguage(), parameters);
     }
 
     /**
@@ -158,14 +134,28 @@ public class TransparentDataEncryptionsInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param databaseName The name of the database for which setting the transparent data encryption applies.
-     * @param status The status of the database transparent data encryption. Possible values include: 'Enabled', 'Disabled'
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<TransparentDataEncryptionInner> createOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName) {
+        return createOrUpdateWithRestResponseAsync(resourceGroupName, serverName, databaseName)
+            .flatMapMaybe((BodyResponse<TransparentDataEncryptionInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
+    }
+
+    /**
+     * Creates or updates a database's transparent data encryption configuration.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database for which setting the transparent data encryption applies.
+     * @param status The status of the database transparent data encryption. Possible values include: 'Enabled', 'Disabled'.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the TransparentDataEncryptionInner object if successful.
      */
-    public TransparentDataEncryptionInner createOrUpdate(String resourceGroupName, String serverName, String databaseName, TransparentDataEncryptionStates status) {
-        return createOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, databaseName, status).toBlocking().single().body();
+    public TransparentDataEncryptionInner createOrUpdate(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, TransparentDataEncryptionStatus status) {
+        return createOrUpdateAsync(resourceGroupName, serverName, databaseName, status).blockingGet();
     }
 
     /**
@@ -174,13 +164,13 @@ public class TransparentDataEncryptionsInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param databaseName The name of the database for which setting the transparent data encryption applies.
-     * @param status The status of the database transparent data encryption. Possible values include: 'Enabled', 'Disabled'
+     * @param status The status of the database transparent data encryption. Possible values include: 'Enabled', 'Disabled'.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<TransparentDataEncryptionInner> createOrUpdateAsync(String resourceGroupName, String serverName, String databaseName, TransparentDataEncryptionStates status, final ServiceCallback<TransparentDataEncryptionInner> serviceCallback) {
-        return ServiceFuture.fromResponse(createOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, databaseName, status), serviceCallback);
+    public ServiceFuture<TransparentDataEncryptionInner> createOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, TransparentDataEncryptionStatus status, ServiceCallback<TransparentDataEncryptionInner> serviceCallback) {
+        return ServiceFuture.fromBody(createOrUpdateAsync(resourceGroupName, serverName, databaseName, status), serviceCallback);
     }
 
     /**
@@ -189,30 +179,11 @@ public class TransparentDataEncryptionsInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param databaseName The name of the database for which setting the transparent data encryption applies.
-     * @param status The status of the database transparent data encryption. Possible values include: 'Enabled', 'Disabled'
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the TransparentDataEncryptionInner object
+     * @param status The status of the database transparent data encryption. Possible values include: 'Enabled', 'Disabled'.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<TransparentDataEncryptionInner> createOrUpdateAsync(String resourceGroupName, String serverName, String databaseName, TransparentDataEncryptionStates status) {
-        return createOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, databaseName, status).map(new Func1<ServiceResponse<TransparentDataEncryptionInner>, TransparentDataEncryptionInner>() {
-            @Override
-            public TransparentDataEncryptionInner call(ServiceResponse<TransparentDataEncryptionInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Creates or updates a database's transparent data encryption configuration.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the database for which setting the transparent data encryption applies.
-     * @param status The status of the database transparent data encryption. Possible values include: 'Enabled', 'Disabled'
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the TransparentDataEncryptionInner object
-     */
-    public Observable<ServiceResponse<TransparentDataEncryptionInner>> createOrUpdateWithServiceResponseAsync(String resourceGroupName, String serverName, String databaseName, TransparentDataEncryptionStates status) {
+    public Single<BodyResponse<TransparentDataEncryptionInner>> createOrUpdateWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, TransparentDataEncryptionStatus status) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
@@ -229,26 +200,22 @@ public class TransparentDataEncryptionsInner {
         final String apiVersion = "2014-04-01";
         TransparentDataEncryptionInner parameters = new TransparentDataEncryptionInner();
         parameters.withStatus(status);
-        return service.createOrUpdate(this.client.subscriptionId(), resourceGroupName, serverName, databaseName, transparentDataEncryptionName, apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<TransparentDataEncryptionInner>>>() {
-                @Override
-                public Observable<ServiceResponse<TransparentDataEncryptionInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<TransparentDataEncryptionInner> clientResponse = createOrUpdateDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.createOrUpdate(this.client.subscriptionId(), resourceGroupName, serverName, databaseName, transparentDataEncryptionName, apiVersion, this.client.acceptLanguage(), parameters);
     }
 
-    private ServiceResponse<TransparentDataEncryptionInner> createOrUpdateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<TransparentDataEncryptionInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<TransparentDataEncryptionInner>() { }.getType())
-                .register(201, new TypeToken<TransparentDataEncryptionInner>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Creates or updates a database's transparent data encryption configuration.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database for which setting the transparent data encryption applies.
+     * @param status The status of the database transparent data encryption. Possible values include: 'Enabled', 'Disabled'.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<TransparentDataEncryptionInner> createOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, TransparentDataEncryptionStatus status) {
+        return createOrUpdateWithRestResponseAsync(resourceGroupName, serverName, databaseName, status)
+            .flatMapMaybe((BodyResponse<TransparentDataEncryptionInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
@@ -257,13 +224,13 @@ public class TransparentDataEncryptionsInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param databaseName The name of the database for which the transparent data encryption applies.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the TransparentDataEncryptionInner object if successful.
      */
-    public TransparentDataEncryptionInner get(String resourceGroupName, String serverName, String databaseName) {
-        return getWithServiceResponseAsync(resourceGroupName, serverName, databaseName).toBlocking().single().body();
+    public TransparentDataEncryptionInner get(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName) {
+        return getAsync(resourceGroupName, serverName, databaseName).blockingGet();
     }
 
     /**
@@ -273,11 +240,11 @@ public class TransparentDataEncryptionsInner {
      * @param serverName The name of the server.
      * @param databaseName The name of the database for which the transparent data encryption applies.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<TransparentDataEncryptionInner> getAsync(String resourceGroupName, String serverName, String databaseName, final ServiceCallback<TransparentDataEncryptionInner> serviceCallback) {
-        return ServiceFuture.fromResponse(getWithServiceResponseAsync(resourceGroupName, serverName, databaseName), serviceCallback);
+    public ServiceFuture<TransparentDataEncryptionInner> getAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, ServiceCallback<TransparentDataEncryptionInner> serviceCallback) {
+        return ServiceFuture.fromBody(getAsync(resourceGroupName, serverName, databaseName), serviceCallback);
     }
 
     /**
@@ -286,28 +253,10 @@ public class TransparentDataEncryptionsInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param databaseName The name of the database for which the transparent data encryption applies.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the TransparentDataEncryptionInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<TransparentDataEncryptionInner> getAsync(String resourceGroupName, String serverName, String databaseName) {
-        return getWithServiceResponseAsync(resourceGroupName, serverName, databaseName).map(new Func1<ServiceResponse<TransparentDataEncryptionInner>, TransparentDataEncryptionInner>() {
-            @Override
-            public TransparentDataEncryptionInner call(ServiceResponse<TransparentDataEncryptionInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Gets a database's transparent data encryption configuration.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the database for which the transparent data encryption applies.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the TransparentDataEncryptionInner object
-     */
-    public Observable<ServiceResponse<TransparentDataEncryptionInner>> getWithServiceResponseAsync(String resourceGroupName, String serverName, String databaseName) {
+    public Single<BodyResponse<TransparentDataEncryptionInner>> getWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
@@ -322,25 +271,20 @@ public class TransparentDataEncryptionsInner {
         }
         final String transparentDataEncryptionName = "current";
         final String apiVersion = "2014-04-01";
-        return service.get(this.client.subscriptionId(), resourceGroupName, serverName, databaseName, transparentDataEncryptionName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<TransparentDataEncryptionInner>>>() {
-                @Override
-                public Observable<ServiceResponse<TransparentDataEncryptionInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<TransparentDataEncryptionInner> clientResponse = getDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.get(this.client.subscriptionId(), resourceGroupName, serverName, databaseName, transparentDataEncryptionName, apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<TransparentDataEncryptionInner> getDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<TransparentDataEncryptionInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<TransparentDataEncryptionInner>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Gets a database's transparent data encryption configuration.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database for which the transparent data encryption applies.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<TransparentDataEncryptionInner> getAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName) {
+        return getWithRestResponseAsync(resourceGroupName, serverName, databaseName)
+            .flatMapMaybe((BodyResponse<TransparentDataEncryptionInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
-
 }

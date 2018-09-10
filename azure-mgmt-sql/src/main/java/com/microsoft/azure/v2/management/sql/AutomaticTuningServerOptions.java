@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Automatic tuning properties for individual advisors.
  */
-public class AutomaticTuningServerOptions {
+public final class AutomaticTuningServerOptions {
     /**
      * Automatic tuning option desired state. Possible values include: 'Off',
      * 'On', 'Default'.
@@ -44,7 +44,7 @@ public class AutomaticTuningServerOptions {
     /**
      * Get the desiredState value.
      *
-     * @return the desiredState value
+     * @return the desiredState value.
      */
     public AutomaticTuningOptionModeDesired desiredState() {
         return this.desiredState;
@@ -53,7 +53,7 @@ public class AutomaticTuningServerOptions {
     /**
      * Set the desiredState value.
      *
-     * @param desiredState the desiredState value to set
+     * @param desiredState the desiredState value to set.
      * @return the AutomaticTuningServerOptions object itself.
      */
     public AutomaticTuningServerOptions withDesiredState(AutomaticTuningOptionModeDesired desiredState) {
@@ -64,7 +64,7 @@ public class AutomaticTuningServerOptions {
     /**
      * Get the actualState value.
      *
-     * @return the actualState value
+     * @return the actualState value.
      */
     public AutomaticTuningOptionModeActual actualState() {
         return this.actualState;
@@ -73,7 +73,7 @@ public class AutomaticTuningServerOptions {
     /**
      * Get the reasonCode value.
      *
-     * @return the reasonCode value
+     * @return the reasonCode value.
      */
     public Integer reasonCode() {
         return this.reasonCode;
@@ -82,10 +82,9 @@ public class AutomaticTuningServerOptions {
     /**
      * Get the reasonDesc value.
      *
-     * @return the reasonDesc value
+     * @return the reasonDesc value.
      */
     public AutomaticTuningServerReason reasonDesc() {
         return this.reasonDesc;
     }
-
 }

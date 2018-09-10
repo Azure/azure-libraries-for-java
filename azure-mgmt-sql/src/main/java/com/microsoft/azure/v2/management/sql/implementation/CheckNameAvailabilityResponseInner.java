@@ -8,14 +8,14 @@
 
 package com.microsoft.azure.v2.management.sql.implementation;
 
-import com.microsoft.azure.v2.management.sql.CheckNameAvailabilityReason;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.v2.management.sql.CheckNameAvailabilityReason;
 
 /**
  * A response indicating whether the specified name for a resource is
  * available.
  */
-public class CheckNameAvailabilityResponseInner {
+public final class CheckNameAvailabilityResponseInner {
     /**
      * True if the name is available, otherwise false.
      */
@@ -46,7 +46,7 @@ public class CheckNameAvailabilityResponseInner {
     /**
      * Get the available value.
      *
-     * @return the available value
+     * @return the available value.
      */
     public Boolean available() {
         return this.available;
@@ -55,7 +55,7 @@ public class CheckNameAvailabilityResponseInner {
     /**
      * Get the message value.
      *
-     * @return the message value
+     * @return the message value.
      */
     public String message() {
         return this.message;
@@ -64,7 +64,7 @@ public class CheckNameAvailabilityResponseInner {
     /**
      * Get the name value.
      *
-     * @return the name value
+     * @return the name value.
      */
     public String name() {
         return this.name;
@@ -73,10 +73,9 @@ public class CheckNameAvailabilityResponseInner {
     /**
      * Get the reason value.
      *
-     * @return the reason value
+     * @return the reason value.
      */
     public CheckNameAvailabilityReason reason() {
         return this.reason;
     }
-
 }

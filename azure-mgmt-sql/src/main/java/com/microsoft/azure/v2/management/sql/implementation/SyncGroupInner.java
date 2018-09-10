@@ -8,18 +8,19 @@
 
 package com.microsoft.azure.v2.management.sql.implementation;
 
-import org.joda.time.DateTime;
-import com.microsoft.azure.v2.management.sql.SyncConflictResolutionPolicy;
-import com.microsoft.azure.v2.management.sql.SyncGroupState;
-import com.microsoft.azure.v2.management.sql.SyncGroupSchema;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.v2.management.sql.ProxyResource;
+import com.microsoft.azure.v2.management.sql.SyncConflictResolutionPolicy;
+import com.microsoft.azure.v2.management.sql.SyncGroupSchema;
+import com.microsoft.azure.v2.management.sql.SyncGroupState;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
+import java.time.OffsetDateTime;
 
 /**
  * An Azure SQL Database sync group.
  */
 @JsonFlatten
-public class SyncGroupInner extends ProxyResourceInner {
+public class SyncGroupInner extends ProxyResource {
     /**
      * Sync interval of the sync group.
      */
@@ -30,7 +31,7 @@ public class SyncGroupInner extends ProxyResourceInner {
      * Last sync time of the sync group.
      */
     @JsonProperty(value = "properties.lastSyncTime", access = JsonProperty.Access.WRITE_ONLY)
-    private DateTime lastSyncTime;
+    private OffsetDateTime lastSyncTime;
 
     /**
      * Conflict resolution policy of the sync group. Possible values include:
@@ -73,7 +74,7 @@ public class SyncGroupInner extends ProxyResourceInner {
     /**
      * Get the interval value.
      *
-     * @return the interval value
+     * @return the interval value.
      */
     public Integer interval() {
         return this.interval;
@@ -82,7 +83,7 @@ public class SyncGroupInner extends ProxyResourceInner {
     /**
      * Set the interval value.
      *
-     * @param interval the interval value to set
+     * @param interval the interval value to set.
      * @return the SyncGroupInner object itself.
      */
     public SyncGroupInner withInterval(Integer interval) {
@@ -93,16 +94,16 @@ public class SyncGroupInner extends ProxyResourceInner {
     /**
      * Get the lastSyncTime value.
      *
-     * @return the lastSyncTime value
+     * @return the lastSyncTime value.
      */
-    public DateTime lastSyncTime() {
+    public OffsetDateTime lastSyncTime() {
         return this.lastSyncTime;
     }
 
     /**
      * Get the conflictResolutionPolicy value.
      *
-     * @return the conflictResolutionPolicy value
+     * @return the conflictResolutionPolicy value.
      */
     public SyncConflictResolutionPolicy conflictResolutionPolicy() {
         return this.conflictResolutionPolicy;
@@ -111,7 +112,8 @@ public class SyncGroupInner extends ProxyResourceInner {
     /**
      * Set the conflictResolutionPolicy value.
      *
-     * @param conflictResolutionPolicy the conflictResolutionPolicy value to set
+     * @param conflictResolutionPolicy the conflictResolutionPolicy value to
+     * set.
      * @return the SyncGroupInner object itself.
      */
     public SyncGroupInner withConflictResolutionPolicy(SyncConflictResolutionPolicy conflictResolutionPolicy) {
@@ -122,7 +124,7 @@ public class SyncGroupInner extends ProxyResourceInner {
     /**
      * Get the syncDatabaseId value.
      *
-     * @return the syncDatabaseId value
+     * @return the syncDatabaseId value.
      */
     public String syncDatabaseId() {
         return this.syncDatabaseId;
@@ -131,7 +133,7 @@ public class SyncGroupInner extends ProxyResourceInner {
     /**
      * Set the syncDatabaseId value.
      *
-     * @param syncDatabaseId the syncDatabaseId value to set
+     * @param syncDatabaseId the syncDatabaseId value to set.
      * @return the SyncGroupInner object itself.
      */
     public SyncGroupInner withSyncDatabaseId(String syncDatabaseId) {
@@ -142,7 +144,7 @@ public class SyncGroupInner extends ProxyResourceInner {
     /**
      * Get the hubDatabaseUserName value.
      *
-     * @return the hubDatabaseUserName value
+     * @return the hubDatabaseUserName value.
      */
     public String hubDatabaseUserName() {
         return this.hubDatabaseUserName;
@@ -151,7 +153,7 @@ public class SyncGroupInner extends ProxyResourceInner {
     /**
      * Set the hubDatabaseUserName value.
      *
-     * @param hubDatabaseUserName the hubDatabaseUserName value to set
+     * @param hubDatabaseUserName the hubDatabaseUserName value to set.
      * @return the SyncGroupInner object itself.
      */
     public SyncGroupInner withHubDatabaseUserName(String hubDatabaseUserName) {
@@ -162,7 +164,7 @@ public class SyncGroupInner extends ProxyResourceInner {
     /**
      * Get the hubDatabasePassword value.
      *
-     * @return the hubDatabasePassword value
+     * @return the hubDatabasePassword value.
      */
     public String hubDatabasePassword() {
         return this.hubDatabasePassword;
@@ -171,7 +173,7 @@ public class SyncGroupInner extends ProxyResourceInner {
     /**
      * Set the hubDatabasePassword value.
      *
-     * @param hubDatabasePassword the hubDatabasePassword value to set
+     * @param hubDatabasePassword the hubDatabasePassword value to set.
      * @return the SyncGroupInner object itself.
      */
     public SyncGroupInner withHubDatabasePassword(String hubDatabasePassword) {
@@ -182,7 +184,7 @@ public class SyncGroupInner extends ProxyResourceInner {
     /**
      * Get the syncState value.
      *
-     * @return the syncState value
+     * @return the syncState value.
      */
     public SyncGroupState syncState() {
         return this.syncState;
@@ -191,7 +193,7 @@ public class SyncGroupInner extends ProxyResourceInner {
     /**
      * Get the schema value.
      *
-     * @return the schema value
+     * @return the schema value.
      */
     public SyncGroupSchema schema() {
         return this.schema;
@@ -200,12 +202,11 @@ public class SyncGroupInner extends ProxyResourceInner {
     /**
      * Set the schema value.
      *
-     * @param schema the schema value to set
+     * @param schema the schema value to set.
      * @return the SyncGroupInner object itself.
      */
     public SyncGroupInner withSchema(SyncGroupSchema schema) {
         this.schema = schema;
         return this;
     }
-
 }

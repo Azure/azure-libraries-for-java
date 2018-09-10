@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * A metric availability value.
  */
-public class MetricAvailability {
+public final class MetricAvailability {
     /**
      * The length of retention for the database metric.
      */
@@ -29,7 +29,7 @@ public class MetricAvailability {
     /**
      * Get the retention value.
      *
-     * @return the retention value
+     * @return the retention value.
      */
     public String retention() {
         return this.retention;
@@ -38,10 +38,9 @@ public class MetricAvailability {
     /**
      * Get the timeGrain value.
      *
-     * @return the timeGrain value
+     * @return the timeGrain value.
      */
     public String timeGrain() {
         return this.timeGrain;
     }
-
 }

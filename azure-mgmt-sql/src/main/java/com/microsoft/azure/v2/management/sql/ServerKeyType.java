@@ -9,24 +9,28 @@
 package com.microsoft.azure.v2.management.sql;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.microsoft.rest.ExpandableStringEnum;
-
+import com.microsoft.rest.v2.ExpandableStringEnum;
 import java.util.Collection;
 
 /**
  * Defines values for ServerKeyType.
  */
 public final class ServerKeyType extends ExpandableStringEnum<ServerKeyType> {
-    /** Static value ServiceManaged for ServerKeyType. */
+    /**
+     * Static value ServiceManaged for ServerKeyType.
+     */
     public static final ServerKeyType SERVICE_MANAGED = fromString("ServiceManaged");
 
-    /** Static value AzureKeyVault for ServerKeyType. */
+    /**
+     * Static value AzureKeyVault for ServerKeyType.
+     */
     public static final ServerKeyType AZURE_KEY_VAULT = fromString("AzureKeyVault");
 
     /**
      * Creates or finds a ServerKeyType from its string representation.
-     * @param name a name to look for
-     * @return the corresponding ServerKeyType
+     *
+     * @param name a name to look for.
+     * @return the corresponding ServerKeyType.
      */
     @JsonCreator
     public static ServerKeyType fromString(String name) {
@@ -34,7 +38,7 @@ public final class ServerKeyType extends ExpandableStringEnum<ServerKeyType> {
     }
 
     /**
-     * @return known ServerKeyType values
+     * @return known ServerKeyType values.
      */
     public static Collection<ServerKeyType> values() {
         return values(ServerKeyType.class);

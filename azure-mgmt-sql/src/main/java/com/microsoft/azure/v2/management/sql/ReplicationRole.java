@@ -15,25 +15,37 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Defines values for ReplicationRole.
  */
 public enum ReplicationRole {
-    /** Enum value Primary. */
+    /**
+     * Enum value Primary.
+     */
     PRIMARY("Primary"),
 
-    /** Enum value Secondary. */
+    /**
+     * Enum value Secondary.
+     */
     SECONDARY("Secondary"),
 
-    /** Enum value NonReadableSecondary. */
+    /**
+     * Enum value NonReadableSecondary.
+     */
     NON_READABLE_SECONDARY("NonReadableSecondary"),
 
-    /** Enum value Source. */
+    /**
+     * Enum value Source.
+     */
     SOURCE("Source"),
 
-    /** Enum value Copy. */
+    /**
+     * Enum value Copy.
+     */
     COPY("Copy");
 
-    /** The actual serialized value for a ReplicationRole instance. */
-    private String value;
+    /**
+     * The actual serialized value for a ReplicationRole instance.
+     */
+    private final String value;
 
-    ReplicationRole(String value) {
+    private ReplicationRole(String value) {
         this.value = value;
     }
 

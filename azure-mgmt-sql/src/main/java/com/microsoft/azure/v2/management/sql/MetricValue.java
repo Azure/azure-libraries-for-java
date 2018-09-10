@@ -9,12 +9,12 @@
 package com.microsoft.azure.v2.management.sql;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.joda.time.DateTime;
+import java.time.OffsetDateTime;
 
 /**
  * Represents database metrics.
  */
-public class MetricValue {
+public final class MetricValue {
     /**
      * The number of values for the metric.
      */
@@ -43,7 +43,7 @@ public class MetricValue {
      * The metric timestamp (ISO-8601 format).
      */
     @JsonProperty(value = "timestamp", access = JsonProperty.Access.WRITE_ONLY)
-    private DateTime timestamp;
+    private OffsetDateTime timestamp;
 
     /**
      * The total value of the metric.
@@ -54,7 +54,7 @@ public class MetricValue {
     /**
      * Get the count value.
      *
-     * @return the count value
+     * @return the count value.
      */
     public Double count() {
         return this.count;
@@ -63,7 +63,7 @@ public class MetricValue {
     /**
      * Get the average value.
      *
-     * @return the average value
+     * @return the average value.
      */
     public Double average() {
         return this.average;
@@ -72,7 +72,7 @@ public class MetricValue {
     /**
      * Get the maximum value.
      *
-     * @return the maximum value
+     * @return the maximum value.
      */
     public Double maximum() {
         return this.maximum;
@@ -81,7 +81,7 @@ public class MetricValue {
     /**
      * Get the minimum value.
      *
-     * @return the minimum value
+     * @return the minimum value.
      */
     public Double minimum() {
         return this.minimum;
@@ -90,19 +90,18 @@ public class MetricValue {
     /**
      * Get the timestamp value.
      *
-     * @return the timestamp value
+     * @return the timestamp value.
      */
-    public DateTime timestamp() {
+    public OffsetDateTime timestamp() {
         return this.timestamp;
     }
 
     /**
      * Get the total value.
      *
-     * @return the total value
+     * @return the total value.
      */
     public Double total() {
         return this.total;
     }
-
 }

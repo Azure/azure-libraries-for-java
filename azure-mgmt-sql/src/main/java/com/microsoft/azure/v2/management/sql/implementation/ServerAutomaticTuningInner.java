@@ -8,17 +8,18 @@
 
 package com.microsoft.azure.v2.management.sql.implementation;
 
-import com.microsoft.azure.v2.management.sql.AutomaticTuningServerMode;
-import java.util.Map;
-import com.microsoft.azure.v2.management.sql.AutomaticTuningServerOptions;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.v2.management.sql.AutomaticTuningServerMode;
+import com.microsoft.azure.v2.management.sql.AutomaticTuningServerOptions;
+import com.microsoft.azure.v2.management.sql.ProxyResource;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
+import java.util.Map;
 
 /**
  * Server-level Automatic Tuning.
  */
 @JsonFlatten
-public class ServerAutomaticTuningInner extends ProxyResourceInner {
+public class ServerAutomaticTuningInner extends ProxyResource {
     /**
      * Automatic tuning desired state. Possible values include: 'Custom',
      * 'Auto', 'Unspecified'.
@@ -42,7 +43,7 @@ public class ServerAutomaticTuningInner extends ProxyResourceInner {
     /**
      * Get the desiredState value.
      *
-     * @return the desiredState value
+     * @return the desiredState value.
      */
     public AutomaticTuningServerMode desiredState() {
         return this.desiredState;
@@ -51,7 +52,7 @@ public class ServerAutomaticTuningInner extends ProxyResourceInner {
     /**
      * Set the desiredState value.
      *
-     * @param desiredState the desiredState value to set
+     * @param desiredState the desiredState value to set.
      * @return the ServerAutomaticTuningInner object itself.
      */
     public ServerAutomaticTuningInner withDesiredState(AutomaticTuningServerMode desiredState) {
@@ -62,7 +63,7 @@ public class ServerAutomaticTuningInner extends ProxyResourceInner {
     /**
      * Get the actualState value.
      *
-     * @return the actualState value
+     * @return the actualState value.
      */
     public AutomaticTuningServerMode actualState() {
         return this.actualState;
@@ -71,7 +72,7 @@ public class ServerAutomaticTuningInner extends ProxyResourceInner {
     /**
      * Get the options value.
      *
-     * @return the options value
+     * @return the options value.
      */
     public Map<String, AutomaticTuningServerOptions> options() {
         return this.options;
@@ -80,12 +81,11 @@ public class ServerAutomaticTuningInner extends ProxyResourceInner {
     /**
      * Set the options value.
      *
-     * @param options the options value to set
+     * @param options the options value to set.
      * @return the ServerAutomaticTuningInner object itself.
      */
     public ServerAutomaticTuningInner withOptions(Map<String, AutomaticTuningServerOptions> options) {
         this.options = options;
         return this;
     }
-
 }

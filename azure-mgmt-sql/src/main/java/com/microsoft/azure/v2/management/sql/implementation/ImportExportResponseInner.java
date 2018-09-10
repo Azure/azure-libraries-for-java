@@ -8,15 +8,16 @@
 
 package com.microsoft.azure.v2.management.sql.implementation;
 
-import java.util.UUID;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.v2.management.sql.ProxyResource;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
+import java.util.UUID;
 
 /**
  * Response for Import/Export Get operation.
  */
 @JsonFlatten
-public class ImportExportResponseInner extends ProxyResourceInner {
+public class ImportExportResponseInner extends ProxyResource {
     /**
      * The request type of the operation.
      */
@@ -74,7 +75,7 @@ public class ImportExportResponseInner extends ProxyResourceInner {
     /**
      * Get the requestType value.
      *
-     * @return the requestType value
+     * @return the requestType value.
      */
     public String requestType() {
         return this.requestType;
@@ -83,7 +84,7 @@ public class ImportExportResponseInner extends ProxyResourceInner {
     /**
      * Get the requestId value.
      *
-     * @return the requestId value
+     * @return the requestId value.
      */
     public UUID requestId() {
         return this.requestId;
@@ -92,7 +93,7 @@ public class ImportExportResponseInner extends ProxyResourceInner {
     /**
      * Get the serverName value.
      *
-     * @return the serverName value
+     * @return the serverName value.
      */
     public String serverName() {
         return this.serverName;
@@ -101,7 +102,7 @@ public class ImportExportResponseInner extends ProxyResourceInner {
     /**
      * Get the databaseName value.
      *
-     * @return the databaseName value
+     * @return the databaseName value.
      */
     public String databaseName() {
         return this.databaseName;
@@ -110,7 +111,7 @@ public class ImportExportResponseInner extends ProxyResourceInner {
     /**
      * Get the status value.
      *
-     * @return the status value
+     * @return the status value.
      */
     public String status() {
         return this.status;
@@ -119,7 +120,7 @@ public class ImportExportResponseInner extends ProxyResourceInner {
     /**
      * Get the lastModifiedTime value.
      *
-     * @return the lastModifiedTime value
+     * @return the lastModifiedTime value.
      */
     public String lastModifiedTime() {
         return this.lastModifiedTime;
@@ -128,7 +129,7 @@ public class ImportExportResponseInner extends ProxyResourceInner {
     /**
      * Get the queuedTime value.
      *
-     * @return the queuedTime value
+     * @return the queuedTime value.
      */
     public String queuedTime() {
         return this.queuedTime;
@@ -137,7 +138,7 @@ public class ImportExportResponseInner extends ProxyResourceInner {
     /**
      * Get the blobUri value.
      *
-     * @return the blobUri value
+     * @return the blobUri value.
      */
     public String blobUri() {
         return this.blobUri;
@@ -146,10 +147,9 @@ public class ImportExportResponseInner extends ProxyResourceInner {
     /**
      * Get the errorMessage value.
      *
-     * @return the errorMessage value
+     * @return the errorMessage value.
      */
     public String errorMessage() {
         return this.errorMessage;
     }
-
 }

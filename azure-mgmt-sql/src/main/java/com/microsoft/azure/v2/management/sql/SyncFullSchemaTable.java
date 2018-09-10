@@ -9,13 +9,12 @@
 package com.microsoft.azure.v2.management.sql;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.List;
 
 /**
  * Properties of the table in the database full schema.
  */
-public class SyncFullSchemaTable {
+public final class SyncFullSchemaTable {
     /**
      * List of columns in the table of database full schema.
      */
@@ -49,7 +48,7 @@ public class SyncFullSchemaTable {
     /**
      * Get the columns value.
      *
-     * @return the columns value
+     * @return the columns value.
      */
     public List<SyncFullSchemaTableColumn> columns() {
         return this.columns;
@@ -58,7 +57,7 @@ public class SyncFullSchemaTable {
     /**
      * Get the errorId value.
      *
-     * @return the errorId value
+     * @return the errorId value.
      */
     public String errorId() {
         return this.errorId;
@@ -67,7 +66,7 @@ public class SyncFullSchemaTable {
     /**
      * Get the hasError value.
      *
-     * @return the hasError value
+     * @return the hasError value.
      */
     public Boolean hasError() {
         return this.hasError;
@@ -76,7 +75,7 @@ public class SyncFullSchemaTable {
     /**
      * Get the name value.
      *
-     * @return the name value
+     * @return the name value.
      */
     public String name() {
         return this.name;
@@ -85,10 +84,9 @@ public class SyncFullSchemaTable {
     /**
      * Get the quotedName value.
      *
-     * @return the quotedName value
+     * @return the quotedName value.
      */
     public String quotedName() {
         return this.quotedName;
     }
-
 }

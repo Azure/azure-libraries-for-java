@@ -8,59 +8,76 @@
 
 package com.microsoft.azure.v2.management.sql.implementation;
 
-import retrofit2.Retrofit;
-import com.google.common.reflect.TypeToken;
-import com.microsoft.azure.CloudException;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import com.microsoft.rest.ServiceResponse;
-import com.microsoft.rest.Validator;
-import java.io.IOException;
-import okhttp3.ResponseBody;
-import retrofit2.http.Body;
-import retrofit2.http.Header;
-import retrofit2.http.Headers;
-import retrofit2.http.Path;
-import retrofit2.http.POST;
-import retrofit2.http.Query;
-import retrofit2.Response;
-import rx.functions.Func1;
-import rx.Observable;
+import com.microsoft.azure.v2.AzureProxy;
+import com.microsoft.azure.v2.CloudException;
+import com.microsoft.azure.v2.OperationStatus;
+import com.microsoft.azure.v2.util.ServiceFutureUtil;
+import com.microsoft.rest.v2.OperationDescription;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
+import com.microsoft.rest.v2.Validator;
+import com.microsoft.rest.v2.VoidResponse;
+import com.microsoft.rest.v2.annotations.BodyParam;
+import com.microsoft.rest.v2.annotations.ExpectedResponses;
+import com.microsoft.rest.v2.annotations.HeaderParam;
+import com.microsoft.rest.v2.annotations.Host;
+import com.microsoft.rest.v2.annotations.PathParam;
+import com.microsoft.rest.v2.annotations.POST;
+import com.microsoft.rest.v2.annotations.QueryParam;
+import com.microsoft.rest.v2.annotations.ResumeOperation;
+import com.microsoft.rest.v2.annotations.UnexpectedResponseExceptionType;
+import io.reactivex.Completable;
+import io.reactivex.Observable;
+import io.reactivex.Single;
+import io.reactivex.annotations.NonNull;
 
 /**
- * An instance of this class provides access to all the operations defined
- * in ManagedInstanceTdeCertificates.
+ * An instance of this class provides access to all the operations defined in
+ * ManagedInstanceTdeCertificates.
  */
-public class ManagedInstanceTdeCertificatesInner {
-    /** The Retrofit service to perform REST calls. */
+public final class ManagedInstanceTdeCertificatesInner {
+    /**
+     * The proxy service used to perform REST calls.
+     */
     private ManagedInstanceTdeCertificatesService service;
-    /** The service client containing this operation class. */
+
+    /**
+     * The service client containing this operation class.
+     */
     private SqlManagementClientImpl client;
 
     /**
      * Initializes an instance of ManagedInstanceTdeCertificatesInner.
      *
-     * @param retrofit the Retrofit instance built from a Retrofit Builder.
      * @param client the instance of the service client containing this operation class.
      */
-    public ManagedInstanceTdeCertificatesInner(Retrofit retrofit, SqlManagementClientImpl client) {
-        this.service = retrofit.create(ManagedInstanceTdeCertificatesService.class);
+    public ManagedInstanceTdeCertificatesInner(SqlManagementClientImpl client) {
+        this.service = AzureProxy.create(ManagedInstanceTdeCertificatesService.class, client);
         this.client = client;
     }
 
     /**
-     * The interface defining all the services for ManagedInstanceTdeCertificates to be
-     * used by Retrofit to perform actually REST calls.
+     * The interface defining all the services for
+     * ManagedInstanceTdeCertificates to be used by the proxy service to
+     * perform REST calls.
      */
-    interface ManagedInstanceTdeCertificatesService {
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.ManagedInstanceTdeCertificates create" })
+    @Host("https://management.azure.com")
+    private interface ManagedInstanceTdeCertificatesService {
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/tdeCertificates")
-        Observable<Response<ResponseBody>> create(@Path("resourceGroupName") String resourceGroupName, @Path("managedInstanceName") String managedInstanceName, @Path("subscriptionId") String subscriptionId, @Body TdeCertificateInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Observable<OperationStatus<Void>> beginCreate(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("managedInstanceName") String managedInstanceName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json; charset=utf-8") TdeCertificateInner parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.ManagedInstanceTdeCertificates beginCreate" })
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/tdeCertificates")
-        Observable<Response<ResponseBody>> beginCreate(@Path("resourceGroupName") String resourceGroupName, @Path("managedInstanceName") String managedInstanceName, @Path("subscriptionId") String subscriptionId, @Body TdeCertificateInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<VoidResponse> create(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("managedInstanceName") String managedInstanceName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json; charset=utf-8") TdeCertificateInner parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/tdeCertificates")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<Void>> resumeCreate(OperationDescription operationDescription);
     }
 
     /**
@@ -69,12 +86,12 @@ public class ManagedInstanceTdeCertificatesInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param managedInstanceName The name of the managed instance.
      * @param parameters The requested TDE certificate to be created or updated.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void create(String resourceGroupName, String managedInstanceName, TdeCertificateInner parameters) {
-        createWithServiceResponseAsync(resourceGroupName, managedInstanceName, parameters).toBlocking().last().body();
+    public void beginCreate(@NonNull String resourceGroupName, @NonNull String managedInstanceName, @NonNull TdeCertificateInner parameters) {
+        beginCreateAsync(resourceGroupName, managedInstanceName, parameters).blockingLast();
     }
 
     /**
@@ -84,11 +101,11 @@ public class ManagedInstanceTdeCertificatesInner {
      * @param managedInstanceName The name of the managed instance.
      * @param parameters The requested TDE certificate to be created or updated.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;Void&gt; object.
      */
-    public ServiceFuture<Void> createAsync(String resourceGroupName, String managedInstanceName, TdeCertificateInner parameters, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(createWithServiceResponseAsync(resourceGroupName, managedInstanceName, parameters), serviceCallback);
+    public ServiceFuture<Void> beginCreateAsync(@NonNull String resourceGroupName, @NonNull String managedInstanceName, @NonNull TdeCertificateInner parameters, ServiceCallback<Void> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginCreateAsync(resourceGroupName, managedInstanceName, parameters), serviceCallback);
     }
 
     /**
@@ -97,28 +114,10 @@ public class ManagedInstanceTdeCertificatesInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param managedInstanceName The name of the managed instance.
      * @param parameters The requested TDE certificate to be created or updated.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<Void> createAsync(String resourceGroupName, String managedInstanceName, TdeCertificateInner parameters) {
-        return createWithServiceResponseAsync(resourceGroupName, managedInstanceName, parameters).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Creates a TDE certificate for a given server.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param managedInstanceName The name of the managed instance.
-     * @param parameters The requested TDE certificate to be created or updated.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<Void>> createWithServiceResponseAsync(String resourceGroupName, String managedInstanceName, TdeCertificateInner parameters) {
+    public Observable<OperationStatus<Void>> beginCreateAsync(@NonNull String resourceGroupName, @NonNull String managedInstanceName, @NonNull TdeCertificateInner parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -133,8 +132,7 @@ public class ManagedInstanceTdeCertificatesInner {
         }
         Validator.validate(parameters);
         final String apiVersion = "2017-10-01-preview";
-        Observable<Response<ResponseBody>> observable = service.create(resourceGroupName, managedInstanceName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
+        return service.beginCreate(resourceGroupName, managedInstanceName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage());
     }
 
     /**
@@ -143,12 +141,12 @@ public class ManagedInstanceTdeCertificatesInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param managedInstanceName The name of the managed instance.
      * @param parameters The requested TDE certificate to be created or updated.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void beginCreate(String resourceGroupName, String managedInstanceName, TdeCertificateInner parameters) {
-        beginCreateWithServiceResponseAsync(resourceGroupName, managedInstanceName, parameters).toBlocking().single().body();
+    public void create(@NonNull String resourceGroupName, @NonNull String managedInstanceName, @NonNull TdeCertificateInner parameters) {
+        createAsync(resourceGroupName, managedInstanceName, parameters).blockingAwait();
     }
 
     /**
@@ -158,11 +156,11 @@ public class ManagedInstanceTdeCertificatesInner {
      * @param managedInstanceName The name of the managed instance.
      * @param parameters The requested TDE certificate to be created or updated.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<Void> beginCreateAsync(String resourceGroupName, String managedInstanceName, TdeCertificateInner parameters, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(beginCreateWithServiceResponseAsync(resourceGroupName, managedInstanceName, parameters), serviceCallback);
+    public ServiceFuture<Void> createAsync(@NonNull String resourceGroupName, @NonNull String managedInstanceName, @NonNull TdeCertificateInner parameters, ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromBody(createAsync(resourceGroupName, managedInstanceName, parameters), serviceCallback);
     }
 
     /**
@@ -171,28 +169,10 @@ public class ManagedInstanceTdeCertificatesInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param managedInstanceName The name of the managed instance.
      * @param parameters The requested TDE certificate to be created or updated.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<Void> beginCreateAsync(String resourceGroupName, String managedInstanceName, TdeCertificateInner parameters) {
-        return beginCreateWithServiceResponseAsync(resourceGroupName, managedInstanceName, parameters).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Creates a TDE certificate for a given server.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param managedInstanceName The name of the managed instance.
-     * @param parameters The requested TDE certificate to be created or updated.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
-     */
-    public Observable<ServiceResponse<Void>> beginCreateWithServiceResponseAsync(String resourceGroupName, String managedInstanceName, TdeCertificateInner parameters) {
+    public Single<VoidResponse> createWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String managedInstanceName, @NonNull TdeCertificateInner parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -207,26 +187,34 @@ public class ManagedInstanceTdeCertificatesInner {
         }
         Validator.validate(parameters);
         final String apiVersion = "2017-10-01-preview";
-        return service.beginCreate(resourceGroupName, managedInstanceName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
-                @Override
-                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<Void> clientResponse = beginCreateDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.create(resourceGroupName, managedInstanceName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<Void> beginCreateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<Void>() { }.getType())
-                .register(202, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Creates a TDE certificate for a given server.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param managedInstanceName The name of the managed instance.
+     * @param parameters The requested TDE certificate to be created or updated.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Completable createAsync(@NonNull String resourceGroupName, @NonNull String managedInstanceName, @NonNull TdeCertificateInner parameters) {
+        return createWithRestResponseAsync(resourceGroupName, managedInstanceName, parameters)
+            .toCompletable();
     }
 
+    /**
+     * Creates a TDE certificate for a given server. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<Void>> resumeCreate(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeCreate(operationDescription);
+    }
 }

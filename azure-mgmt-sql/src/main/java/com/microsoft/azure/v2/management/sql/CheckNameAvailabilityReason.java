@@ -15,16 +15,22 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Defines values for CheckNameAvailabilityReason.
  */
 public enum CheckNameAvailabilityReason {
-    /** Enum value Invalid. */
+    /**
+     * Enum value Invalid.
+     */
     INVALID("Invalid"),
 
-    /** Enum value AlreadyExists. */
+    /**
+     * Enum value AlreadyExists.
+     */
     ALREADY_EXISTS("AlreadyExists");
 
-    /** The actual serialized value for a CheckNameAvailabilityReason instance. */
-    private String value;
+    /**
+     * The actual serialized value for a CheckNameAvailabilityReason instance.
+     */
+    private final String value;
 
-    CheckNameAvailabilityReason(String value) {
+    private CheckNameAvailabilityReason(String value) {
         this.value = value;
     }
 

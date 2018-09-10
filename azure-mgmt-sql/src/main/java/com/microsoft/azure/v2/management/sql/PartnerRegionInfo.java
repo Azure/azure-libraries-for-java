@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Partner region information for the failover group.
  */
-public class PartnerRegionInfo {
+public final class PartnerRegionInfo {
     /**
      * Geo location of the partner managed instances.
      */
@@ -30,7 +30,7 @@ public class PartnerRegionInfo {
     /**
      * Get the location value.
      *
-     * @return the location value
+     * @return the location value.
      */
     public String location() {
         return this.location;
@@ -39,7 +39,7 @@ public class PartnerRegionInfo {
     /**
      * Set the location value.
      *
-     * @param location the location value to set
+     * @param location the location value to set.
      * @return the PartnerRegionInfo object itself.
      */
     public PartnerRegionInfo withLocation(String location) {
@@ -50,10 +50,9 @@ public class PartnerRegionInfo {
     /**
      * Get the replicationRole value.
      *
-     * @return the replicationRole value
+     * @return the replicationRole value.
      */
     public InstanceFailoverGroupReplicationRole replicationRole() {
         return this.replicationRole;
     }
-
 }

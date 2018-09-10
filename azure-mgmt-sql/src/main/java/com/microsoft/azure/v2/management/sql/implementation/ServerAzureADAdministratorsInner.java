@@ -8,79 +8,106 @@
 
 package com.microsoft.azure.v2.management.sql.implementation;
 
-import com.microsoft.azure.management.resources.fluentcore.collection.InnerSupportsDelete;
-import retrofit2.Retrofit;
-import com.google.common.reflect.TypeToken;
-import com.microsoft.azure.CloudException;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import com.microsoft.rest.ServiceResponse;
-import com.microsoft.rest.Validator;
-import java.io.IOException;
+import com.microsoft.azure.v2.AzureProxy;
+import com.microsoft.azure.v2.CloudException;
+import com.microsoft.azure.v2.OperationStatus;
+import com.microsoft.azure.v2.management.resources.fluentcore.collection.InnerSupportsDelete;
+import com.microsoft.azure.v2.util.ServiceFutureUtil;
+import com.microsoft.rest.v2.BodyResponse;
+import com.microsoft.rest.v2.OperationDescription;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
+import com.microsoft.rest.v2.Validator;
+import com.microsoft.rest.v2.annotations.BodyParam;
+import com.microsoft.rest.v2.annotations.DELETE;
+import com.microsoft.rest.v2.annotations.ExpectedResponses;
+import com.microsoft.rest.v2.annotations.GET;
+import com.microsoft.rest.v2.annotations.HeaderParam;
+import com.microsoft.rest.v2.annotations.Host;
+import com.microsoft.rest.v2.annotations.PathParam;
+import com.microsoft.rest.v2.annotations.PUT;
+import com.microsoft.rest.v2.annotations.QueryParam;
+import com.microsoft.rest.v2.annotations.ResumeOperation;
+import com.microsoft.rest.v2.annotations.UnexpectedResponseExceptionType;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
+import io.reactivex.Single;
+import io.reactivex.annotations.NonNull;
+import java.util.ArrayList;
 import java.util.List;
-import okhttp3.ResponseBody;
-import retrofit2.http.Body;
-import retrofit2.http.GET;
-import retrofit2.http.Header;
-import retrofit2.http.Headers;
-import retrofit2.http.HTTP;
-import retrofit2.http.Path;
-import retrofit2.http.PUT;
-import retrofit2.http.Query;
-import retrofit2.Response;
-import rx.functions.Func1;
-import rx.Observable;
 
 /**
- * An instance of this class provides access to all the operations defined
- * in ServerAzureADAdministrators.
+ * An instance of this class provides access to all the operations defined in
+ * ServerAzureADAdministrators.
  */
-public class ServerAzureADAdministratorsInner implements InnerSupportsDelete<ServerAzureADAdministratorInner> {
-    /** The Retrofit service to perform REST calls. */
+public final class ServerAzureADAdministratorsInner implements InnerSupportsDelete<ServerAzureADAdministratorInner> {
+    /**
+     * The proxy service used to perform REST calls.
+     */
     private ServerAzureADAdministratorsService service;
-    /** The service client containing this operation class. */
+
+    /**
+     * The service client containing this operation class.
+     */
     private SqlManagementClientImpl client;
 
     /**
      * Initializes an instance of ServerAzureADAdministratorsInner.
      *
-     * @param retrofit the Retrofit instance built from a Retrofit Builder.
      * @param client the instance of the service client containing this operation class.
      */
-    public ServerAzureADAdministratorsInner(Retrofit retrofit, SqlManagementClientImpl client) {
-        this.service = retrofit.create(ServerAzureADAdministratorsService.class);
+    public ServerAzureADAdministratorsInner(SqlManagementClientImpl client) {
+        this.service = AzureProxy.create(ServerAzureADAdministratorsService.class, client);
         this.client = client;
     }
 
     /**
-     * The interface defining all the services for ServerAzureADAdministrators to be
-     * used by Retrofit to perform actually REST calls.
+     * The interface defining all the services for ServerAzureADAdministrators
+     * to be used by the proxy service to perform REST calls.
      */
-    interface ServerAzureADAdministratorsService {
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.ServerAzureADAdministrators createOrUpdate" })
+    @Host("https://management.azure.com")
+    private interface ServerAzureADAdministratorsService {
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/administrators/{administratorName}")
-        Observable<Response<ResponseBody>> createOrUpdate(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("administratorName") String administratorName, @Query("api-version") String apiVersion, @Body ServerAzureADAdministratorInner properties, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 201, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Observable<OperationStatus<ServerAzureADAdministratorInner>> beginCreateOrUpdate(@PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("administratorName") String administratorName, @QueryParam("api-version") String apiVersion, @BodyParam("application/json; charset=utf-8") ServerAzureADAdministratorInner properties, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.ServerAzureADAdministrators beginCreateOrUpdate" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/administrators/{administratorName}")
-        Observable<Response<ResponseBody>> beginCreateOrUpdate(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("administratorName") String administratorName, @Query("api-version") String apiVersion, @Body ServerAzureADAdministratorInner properties, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 201, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<ServerAzureADAdministratorInner>> createOrUpdate(@PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("administratorName") String administratorName, @QueryParam("api-version") String apiVersion, @BodyParam("application/json; charset=utf-8") ServerAzureADAdministratorInner properties, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.ServerAzureADAdministrators delete" })
-        @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/administrators/{administratorName}", method = "DELETE", hasBody = true)
-        Observable<Response<ResponseBody>> delete(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("administratorName") String administratorName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/administrators/{administratorName}")
+        @ExpectedResponses({200, 201, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<ServerAzureADAdministratorInner>> resumeCreateOrUpdate(OperationDescription operationDescription);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.ServerAzureADAdministrators beginDelete" })
-        @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/administrators/{administratorName}", method = "DELETE", hasBody = true)
-        Observable<Response<ResponseBody>> beginDelete(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("administratorName") String administratorName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @DELETE("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/administrators/{administratorName}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Observable<OperationStatus<ServerAzureADAdministratorInner>> beginDelete(@PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("administratorName") String administratorName, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.ServerAzureADAdministrators get" })
+        @DELETE("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/administrators/{administratorName}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<ServerAzureADAdministratorInner>> delete(@PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("administratorName") String administratorName, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
+
+        @DELETE("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/administrators/{administratorName}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<ServerAzureADAdministratorInner>> resumeDelete(OperationDescription operationDescription);
+
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/administrators/{administratorName}")
-        Observable<Response<ResponseBody>> get(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("administratorName") String administratorName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<ServerAzureADAdministratorInner>> get(@PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("administratorName") String administratorName, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.ServerAzureADAdministrators listByServer" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/administrators")
-        Observable<Response<ResponseBody>> listByServer(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
-
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<List<ServerAzureADAdministratorInner>>> listByServer(@PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
     }
 
     /**
@@ -89,13 +116,13 @@ public class ServerAzureADAdministratorsInner implements InnerSupportsDelete<Ser
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param properties The required parameters for creating or updating an Active Directory Administrator.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the ServerAzureADAdministratorInner object if successful.
      */
-    public ServerAzureADAdministratorInner createOrUpdate(String resourceGroupName, String serverName, ServerAzureADAdministratorInner properties) {
-        return createOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, properties).toBlocking().last().body();
+    public ServerAzureADAdministratorInner beginCreateOrUpdate(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull ServerAzureADAdministratorInner properties) {
+        return beginCreateOrUpdateAsync(resourceGroupName, serverName, properties).blockingLast().result();
     }
 
     /**
@@ -105,11 +132,11 @@ public class ServerAzureADAdministratorsInner implements InnerSupportsDelete<Ser
      * @param serverName The name of the server.
      * @param properties The required parameters for creating or updating an Active Directory Administrator.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;ServerAzureADAdministratorInner&gt; object.
      */
-    public ServiceFuture<ServerAzureADAdministratorInner> createOrUpdateAsync(String resourceGroupName, String serverName, ServerAzureADAdministratorInner properties, final ServiceCallback<ServerAzureADAdministratorInner> serviceCallback) {
-        return ServiceFuture.fromResponse(createOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, properties), serviceCallback);
+    public ServiceFuture<ServerAzureADAdministratorInner> beginCreateOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull ServerAzureADAdministratorInner properties, ServiceCallback<ServerAzureADAdministratorInner> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginCreateOrUpdateAsync(resourceGroupName, serverName, properties), serviceCallback);
     }
 
     /**
@@ -118,28 +145,10 @@ public class ServerAzureADAdministratorsInner implements InnerSupportsDelete<Ser
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param properties The required parameters for creating or updating an Active Directory Administrator.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<ServerAzureADAdministratorInner> createOrUpdateAsync(String resourceGroupName, String serverName, ServerAzureADAdministratorInner properties) {
-        return createOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, properties).map(new Func1<ServiceResponse<ServerAzureADAdministratorInner>, ServerAzureADAdministratorInner>() {
-            @Override
-            public ServerAzureADAdministratorInner call(ServiceResponse<ServerAzureADAdministratorInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Creates a new Server Active Directory Administrator or updates an existing server Active Directory Administrator.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param properties The required parameters for creating or updating an Active Directory Administrator.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<ServerAzureADAdministratorInner>> createOrUpdateWithServiceResponseAsync(String resourceGroupName, String serverName, ServerAzureADAdministratorInner properties) {
+    public Observable<OperationStatus<ServerAzureADAdministratorInner>> beginCreateOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull ServerAzureADAdministratorInner properties) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
@@ -155,8 +164,7 @@ public class ServerAzureADAdministratorsInner implements InnerSupportsDelete<Ser
         Validator.validate(properties);
         final String administratorName = "activeDirectory";
         final String apiVersion = "2014-04-01";
-        Observable<Response<ResponseBody>> observable = service.createOrUpdate(this.client.subscriptionId(), resourceGroupName, serverName, administratorName, apiVersion, properties, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<ServerAzureADAdministratorInner>() { }.getType());
+        return service.beginCreateOrUpdate(this.client.subscriptionId(), resourceGroupName, serverName, administratorName, apiVersion, properties, this.client.acceptLanguage());
     }
 
     /**
@@ -165,13 +173,13 @@ public class ServerAzureADAdministratorsInner implements InnerSupportsDelete<Ser
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param properties The required parameters for creating or updating an Active Directory Administrator.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the ServerAzureADAdministratorInner object if successful.
      */
-    public ServerAzureADAdministratorInner beginCreateOrUpdate(String resourceGroupName, String serverName, ServerAzureADAdministratorInner properties) {
-        return beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, properties).toBlocking().single().body();
+    public ServerAzureADAdministratorInner createOrUpdate(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull ServerAzureADAdministratorInner properties) {
+        return createOrUpdateAsync(resourceGroupName, serverName, properties).blockingGet();
     }
 
     /**
@@ -181,11 +189,11 @@ public class ServerAzureADAdministratorsInner implements InnerSupportsDelete<Ser
      * @param serverName The name of the server.
      * @param properties The required parameters for creating or updating an Active Directory Administrator.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<ServerAzureADAdministratorInner> beginCreateOrUpdateAsync(String resourceGroupName, String serverName, ServerAzureADAdministratorInner properties, final ServiceCallback<ServerAzureADAdministratorInner> serviceCallback) {
-        return ServiceFuture.fromResponse(beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, properties), serviceCallback);
+    public ServiceFuture<ServerAzureADAdministratorInner> createOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull ServerAzureADAdministratorInner properties, ServiceCallback<ServerAzureADAdministratorInner> serviceCallback) {
+        return ServiceFuture.fromBody(createOrUpdateAsync(resourceGroupName, serverName, properties), serviceCallback);
     }
 
     /**
@@ -194,28 +202,10 @@ public class ServerAzureADAdministratorsInner implements InnerSupportsDelete<Ser
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param properties The required parameters for creating or updating an Active Directory Administrator.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ServerAzureADAdministratorInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<ServerAzureADAdministratorInner> beginCreateOrUpdateAsync(String resourceGroupName, String serverName, ServerAzureADAdministratorInner properties) {
-        return beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, properties).map(new Func1<ServiceResponse<ServerAzureADAdministratorInner>, ServerAzureADAdministratorInner>() {
-            @Override
-            public ServerAzureADAdministratorInner call(ServiceResponse<ServerAzureADAdministratorInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Creates a new Server Active Directory Administrator or updates an existing server Active Directory Administrator.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param properties The required parameters for creating or updating an Active Directory Administrator.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ServerAzureADAdministratorInner object
-     */
-    public Observable<ServiceResponse<ServerAzureADAdministratorInner>> beginCreateOrUpdateWithServiceResponseAsync(String resourceGroupName, String serverName, ServerAzureADAdministratorInner properties) {
+    public Single<BodyResponse<ServerAzureADAdministratorInner>> createOrUpdateWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull ServerAzureADAdministratorInner properties) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
@@ -231,27 +221,35 @@ public class ServerAzureADAdministratorsInner implements InnerSupportsDelete<Ser
         Validator.validate(properties);
         final String administratorName = "activeDirectory";
         final String apiVersion = "2014-04-01";
-        return service.beginCreateOrUpdate(this.client.subscriptionId(), resourceGroupName, serverName, administratorName, apiVersion, properties, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ServerAzureADAdministratorInner>>>() {
-                @Override
-                public Observable<ServiceResponse<ServerAzureADAdministratorInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<ServerAzureADAdministratorInner> clientResponse = beginCreateOrUpdateDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.createOrUpdate(this.client.subscriptionId(), resourceGroupName, serverName, administratorName, apiVersion, properties, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<ServerAzureADAdministratorInner> beginCreateOrUpdateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<ServerAzureADAdministratorInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<ServerAzureADAdministratorInner>() { }.getType())
-                .register(201, new TypeToken<ServerAzureADAdministratorInner>() { }.getType())
-                .register(202, new TypeToken<ServerAzureADAdministratorInner>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Creates a new Server Active Directory Administrator or updates an existing server Active Directory Administrator.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param properties The required parameters for creating or updating an Active Directory Administrator.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<ServerAzureADAdministratorInner> createOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull ServerAzureADAdministratorInner properties) {
+        return createOrUpdateWithRestResponseAsync(resourceGroupName, serverName, properties)
+            .flatMapMaybe((BodyResponse<ServerAzureADAdministratorInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
+    }
+
+    /**
+     * Creates a new Server Active Directory Administrator or updates an existing server Active Directory Administrator. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<ServerAzureADAdministratorInner>> resumeCreateOrUpdate(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeCreateOrUpdate(operationDescription);
     }
 
     /**
@@ -259,13 +257,13 @@ public class ServerAzureADAdministratorsInner implements InnerSupportsDelete<Ser
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the ServerAzureADAdministratorInner object if successful.
      */
-    public ServerAzureADAdministratorInner delete(String resourceGroupName, String serverName) {
-        return deleteWithServiceResponseAsync(resourceGroupName, serverName).toBlocking().last().body();
+    public ServerAzureADAdministratorInner beginDelete(@NonNull String resourceGroupName, @NonNull String serverName) {
+        return beginDeleteAsync(resourceGroupName, serverName).blockingLast().result();
     }
 
     /**
@@ -274,11 +272,11 @@ public class ServerAzureADAdministratorsInner implements InnerSupportsDelete<Ser
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;ServerAzureADAdministratorInner&gt; object.
      */
-    public ServiceFuture<ServerAzureADAdministratorInner> deleteAsync(String resourceGroupName, String serverName, final ServiceCallback<ServerAzureADAdministratorInner> serviceCallback) {
-        return ServiceFuture.fromResponse(deleteWithServiceResponseAsync(resourceGroupName, serverName), serviceCallback);
+    public ServiceFuture<ServerAzureADAdministratorInner> beginDeleteAsync(@NonNull String resourceGroupName, @NonNull String serverName, ServiceCallback<ServerAzureADAdministratorInner> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginDeleteAsync(resourceGroupName, serverName), serviceCallback);
     }
 
     /**
@@ -286,27 +284,10 @@ public class ServerAzureADAdministratorsInner implements InnerSupportsDelete<Ser
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<ServerAzureADAdministratorInner> deleteAsync(String resourceGroupName, String serverName) {
-        return deleteWithServiceResponseAsync(resourceGroupName, serverName).map(new Func1<ServiceResponse<ServerAzureADAdministratorInner>, ServerAzureADAdministratorInner>() {
-            @Override
-            public ServerAzureADAdministratorInner call(ServiceResponse<ServerAzureADAdministratorInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Deletes an existing server Active Directory Administrator.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<ServerAzureADAdministratorInner>> deleteWithServiceResponseAsync(String resourceGroupName, String serverName) {
+    public Observable<OperationStatus<ServerAzureADAdministratorInner>> beginDeleteAsync(@NonNull String resourceGroupName, @NonNull String serverName) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
@@ -318,8 +299,7 @@ public class ServerAzureADAdministratorsInner implements InnerSupportsDelete<Ser
         }
         final String administratorName = "activeDirectory";
         final String apiVersion = "2014-04-01";
-        Observable<Response<ResponseBody>> observable = service.delete(this.client.subscriptionId(), resourceGroupName, serverName, administratorName, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<ServerAzureADAdministratorInner>() { }.getType());
+        return service.beginDelete(this.client.subscriptionId(), resourceGroupName, serverName, administratorName, apiVersion, this.client.acceptLanguage());
     }
 
     /**
@@ -327,13 +307,13 @@ public class ServerAzureADAdministratorsInner implements InnerSupportsDelete<Ser
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the ServerAzureADAdministratorInner object if successful.
      */
-    public ServerAzureADAdministratorInner beginDelete(String resourceGroupName, String serverName) {
-        return beginDeleteWithServiceResponseAsync(resourceGroupName, serverName).toBlocking().single().body();
+    public ServerAzureADAdministratorInner delete(@NonNull String resourceGroupName, @NonNull String serverName) {
+        return deleteAsync(resourceGroupName, serverName).blockingGet();
     }
 
     /**
@@ -342,11 +322,11 @@ public class ServerAzureADAdministratorsInner implements InnerSupportsDelete<Ser
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<ServerAzureADAdministratorInner> beginDeleteAsync(String resourceGroupName, String serverName, final ServiceCallback<ServerAzureADAdministratorInner> serviceCallback) {
-        return ServiceFuture.fromResponse(beginDeleteWithServiceResponseAsync(resourceGroupName, serverName), serviceCallback);
+    public ServiceFuture<ServerAzureADAdministratorInner> deleteAsync(@NonNull String resourceGroupName, @NonNull String serverName, ServiceCallback<ServerAzureADAdministratorInner> serviceCallback) {
+        return ServiceFuture.fromBody(deleteAsync(resourceGroupName, serverName), serviceCallback);
     }
 
     /**
@@ -354,27 +334,10 @@ public class ServerAzureADAdministratorsInner implements InnerSupportsDelete<Ser
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ServerAzureADAdministratorInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<ServerAzureADAdministratorInner> beginDeleteAsync(String resourceGroupName, String serverName) {
-        return beginDeleteWithServiceResponseAsync(resourceGroupName, serverName).map(new Func1<ServiceResponse<ServerAzureADAdministratorInner>, ServerAzureADAdministratorInner>() {
-            @Override
-            public ServerAzureADAdministratorInner call(ServiceResponse<ServerAzureADAdministratorInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Deletes an existing server Active Directory Administrator.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ServerAzureADAdministratorInner object
-     */
-    public Observable<ServiceResponse<ServerAzureADAdministratorInner>> beginDeleteWithServiceResponseAsync(String resourceGroupName, String serverName) {
+    public Single<BodyResponse<ServerAzureADAdministratorInner>> deleteWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
@@ -386,27 +349,34 @@ public class ServerAzureADAdministratorsInner implements InnerSupportsDelete<Ser
         }
         final String administratorName = "activeDirectory";
         final String apiVersion = "2014-04-01";
-        return service.beginDelete(this.client.subscriptionId(), resourceGroupName, serverName, administratorName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ServerAzureADAdministratorInner>>>() {
-                @Override
-                public Observable<ServiceResponse<ServerAzureADAdministratorInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<ServerAzureADAdministratorInner> clientResponse = beginDeleteDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.delete(this.client.subscriptionId(), resourceGroupName, serverName, administratorName, apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<ServerAzureADAdministratorInner> beginDeleteDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<ServerAzureADAdministratorInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<ServerAzureADAdministratorInner>() { }.getType())
-                .register(202, new TypeToken<ServerAzureADAdministratorInner>() { }.getType())
-                .register(204, new TypeToken<ServerAzureADAdministratorInner>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Deletes an existing server Active Directory Administrator.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<ServerAzureADAdministratorInner> deleteAsync(@NonNull String resourceGroupName, @NonNull String serverName) {
+        return deleteWithRestResponseAsync(resourceGroupName, serverName)
+            .flatMapMaybe((BodyResponse<ServerAzureADAdministratorInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
+    }
+
+    /**
+     * Deletes an existing server Active Directory Administrator. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<ServerAzureADAdministratorInner>> resumeDelete(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeDelete(operationDescription);
     }
 
     /**
@@ -414,13 +384,13 @@ public class ServerAzureADAdministratorsInner implements InnerSupportsDelete<Ser
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the ServerAzureADAdministratorInner object if successful.
      */
-    public ServerAzureADAdministratorInner get(String resourceGroupName, String serverName) {
-        return getWithServiceResponseAsync(resourceGroupName, serverName).toBlocking().single().body();
+    public ServerAzureADAdministratorInner get(@NonNull String resourceGroupName, @NonNull String serverName) {
+        return getAsync(resourceGroupName, serverName).blockingGet();
     }
 
     /**
@@ -429,11 +399,11 @@ public class ServerAzureADAdministratorsInner implements InnerSupportsDelete<Ser
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<ServerAzureADAdministratorInner> getAsync(String resourceGroupName, String serverName, final ServiceCallback<ServerAzureADAdministratorInner> serviceCallback) {
-        return ServiceFuture.fromResponse(getWithServiceResponseAsync(resourceGroupName, serverName), serviceCallback);
+    public ServiceFuture<ServerAzureADAdministratorInner> getAsync(@NonNull String resourceGroupName, @NonNull String serverName, ServiceCallback<ServerAzureADAdministratorInner> serviceCallback) {
+        return ServiceFuture.fromBody(getAsync(resourceGroupName, serverName), serviceCallback);
     }
 
     /**
@@ -441,27 +411,10 @@ public class ServerAzureADAdministratorsInner implements InnerSupportsDelete<Ser
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ServerAzureADAdministratorInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<ServerAzureADAdministratorInner> getAsync(String resourceGroupName, String serverName) {
-        return getWithServiceResponseAsync(resourceGroupName, serverName).map(new Func1<ServiceResponse<ServerAzureADAdministratorInner>, ServerAzureADAdministratorInner>() {
-            @Override
-            public ServerAzureADAdministratorInner call(ServiceResponse<ServerAzureADAdministratorInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Returns an server Administrator.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ServerAzureADAdministratorInner object
-     */
-    public Observable<ServiceResponse<ServerAzureADAdministratorInner>> getWithServiceResponseAsync(String resourceGroupName, String serverName) {
+    public Single<BodyResponse<ServerAzureADAdministratorInner>> getWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
@@ -473,25 +426,20 @@ public class ServerAzureADAdministratorsInner implements InnerSupportsDelete<Ser
         }
         final String administratorName = "activeDirectory";
         final String apiVersion = "2014-04-01";
-        return service.get(this.client.subscriptionId(), resourceGroupName, serverName, administratorName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ServerAzureADAdministratorInner>>>() {
-                @Override
-                public Observable<ServiceResponse<ServerAzureADAdministratorInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<ServerAzureADAdministratorInner> clientResponse = getDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.get(this.client.subscriptionId(), resourceGroupName, serverName, administratorName, apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<ServerAzureADAdministratorInner> getDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<ServerAzureADAdministratorInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<ServerAzureADAdministratorInner>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Returns an server Administrator.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<ServerAzureADAdministratorInner> getAsync(@NonNull String resourceGroupName, @NonNull String serverName) {
+        return getWithRestResponseAsync(resourceGroupName, serverName)
+            .flatMapMaybe((BodyResponse<ServerAzureADAdministratorInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
@@ -499,13 +447,13 @@ public class ServerAzureADAdministratorsInner implements InnerSupportsDelete<Ser
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the List&lt;ServerAzureADAdministratorInner&gt; object if successful.
      */
-    public List<ServerAzureADAdministratorInner> listByServer(String resourceGroupName, String serverName) {
-        return listByServerWithServiceResponseAsync(resourceGroupName, serverName).toBlocking().single().body();
+    public List<ServerAzureADAdministratorInner> listByServer(@NonNull String resourceGroupName, @NonNull String serverName) {
+        return listByServerAsync(resourceGroupName, serverName).blockingGet();
     }
 
     /**
@@ -514,11 +462,11 @@ public class ServerAzureADAdministratorsInner implements InnerSupportsDelete<Ser
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<List<ServerAzureADAdministratorInner>> listByServerAsync(String resourceGroupName, String serverName, final ServiceCallback<List<ServerAzureADAdministratorInner>> serviceCallback) {
-        return ServiceFuture.fromResponse(listByServerWithServiceResponseAsync(resourceGroupName, serverName), serviceCallback);
+    public ServiceFuture<List<ServerAzureADAdministratorInner>> listByServerAsync(@NonNull String resourceGroupName, @NonNull String serverName, ServiceCallback<List<ServerAzureADAdministratorInner>> serviceCallback) {
+        return ServiceFuture.fromBody(listByServerAsync(resourceGroupName, serverName), serviceCallback);
     }
 
     /**
@@ -526,27 +474,10 @@ public class ServerAzureADAdministratorsInner implements InnerSupportsDelete<Ser
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the List&lt;ServerAzureADAdministratorInner&gt; object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<List<ServerAzureADAdministratorInner>> listByServerAsync(String resourceGroupName, String serverName) {
-        return listByServerWithServiceResponseAsync(resourceGroupName, serverName).map(new Func1<ServiceResponse<List<ServerAzureADAdministratorInner>>, List<ServerAzureADAdministratorInner>>() {
-            @Override
-            public List<ServerAzureADAdministratorInner> call(ServiceResponse<List<ServerAzureADAdministratorInner>> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Returns a list of server Administrators.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the List&lt;ServerAzureADAdministratorInner&gt; object
-     */
-    public Observable<ServiceResponse<List<ServerAzureADAdministratorInner>>> listByServerWithServiceResponseAsync(String resourceGroupName, String serverName) {
+    public Single<BodyResponse<List<ServerAzureADAdministratorInner>>> listByServerWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
@@ -557,26 +488,19 @@ public class ServerAzureADAdministratorsInner implements InnerSupportsDelete<Ser
             throw new IllegalArgumentException("Parameter serverName is required and cannot be null.");
         }
         final String apiVersion = "2014-04-01";
-        return service.listByServer(this.client.subscriptionId(), resourceGroupName, serverName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<List<ServerAzureADAdministratorInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<List<ServerAzureADAdministratorInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<ServerAzureADAdministratorInner>> result = listByServerDelegate(response);
-                        ServiceResponse<List<ServerAzureADAdministratorInner>> clientResponse = new ServiceResponse<List<ServerAzureADAdministratorInner>>(result.body().items(), result.response());
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.listByServer(this.client.subscriptionId(), resourceGroupName, serverName, apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<PageImpl<ServerAzureADAdministratorInner>> listByServerDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<ServerAzureADAdministratorInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<ServerAzureADAdministratorInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Returns a list of server Administrators.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<List<ServerAzureADAdministratorInner>> listByServerAsync(@NonNull String resourceGroupName, @NonNull String serverName) {
+        return listByServerWithRestResponseAsync(resourceGroupName, serverName)
+            .flatMapMaybe((BodyResponse<List<ServerAzureADAdministratorInner>> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
-
 }

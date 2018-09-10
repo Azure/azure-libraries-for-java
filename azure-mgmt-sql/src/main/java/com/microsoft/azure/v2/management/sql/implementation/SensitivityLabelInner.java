@@ -9,13 +9,14 @@
 package com.microsoft.azure.v2.management.sql.implementation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.v2.management.sql.ProxyResource;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
 
 /**
  * A sensitivity label.
  */
 @JsonFlatten
-public class SensitivityLabelInner extends ProxyResourceInner {
+public class SensitivityLabelInner extends ProxyResource {
     /**
      * The label name.
      */
@@ -31,7 +32,7 @@ public class SensitivityLabelInner extends ProxyResourceInner {
     /**
      * Get the labelName value.
      *
-     * @return the labelName value
+     * @return the labelName value.
      */
     public String labelName() {
         return this.labelName;
@@ -40,7 +41,7 @@ public class SensitivityLabelInner extends ProxyResourceInner {
     /**
      * Set the labelName value.
      *
-     * @param labelName the labelName value to set
+     * @param labelName the labelName value to set.
      * @return the SensitivityLabelInner object itself.
      */
     public SensitivityLabelInner withLabelName(String labelName) {
@@ -51,7 +52,7 @@ public class SensitivityLabelInner extends ProxyResourceInner {
     /**
      * Get the informationType value.
      *
-     * @return the informationType value
+     * @return the informationType value.
      */
     public String informationType() {
         return this.informationType;
@@ -60,12 +61,11 @@ public class SensitivityLabelInner extends ProxyResourceInner {
     /**
      * Set the informationType value.
      *
-     * @param informationType the informationType value to set
+     * @param informationType the informationType value to set.
      * @return the SensitivityLabelInner object itself.
      */
     public SensitivityLabelInner withInformationType(String informationType) {
         this.informationType = informationType;
         return this;
     }
-
 }

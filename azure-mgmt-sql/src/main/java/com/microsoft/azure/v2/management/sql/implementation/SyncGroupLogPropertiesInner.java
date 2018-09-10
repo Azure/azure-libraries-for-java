@@ -8,20 +8,20 @@
 
 package com.microsoft.azure.v2.management.sql.implementation;
 
-import org.joda.time.DateTime;
-import com.microsoft.azure.v2.management.sql.SyncGroupLogType;
-import java.util.UUID;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.v2.management.sql.SyncGroupLogType;
+import java.time.OffsetDateTime;
+import java.util.UUID;
 
 /**
  * Properties of an Azure SQL Database sync group log.
  */
-public class SyncGroupLogPropertiesInner {
+public final class SyncGroupLogPropertiesInner {
     /**
      * Timestamp of the sync group log.
      */
     @JsonProperty(value = "timestamp", access = JsonProperty.Access.WRITE_ONLY)
-    private DateTime timestamp;
+    private OffsetDateTime timestamp;
 
     /**
      * Type of the sync group log. Possible values include: 'All', 'Error',
@@ -57,16 +57,16 @@ public class SyncGroupLogPropertiesInner {
     /**
      * Get the timestamp value.
      *
-     * @return the timestamp value
+     * @return the timestamp value.
      */
-    public DateTime timestamp() {
+    public OffsetDateTime timestamp() {
         return this.timestamp;
     }
 
     /**
      * Get the type value.
      *
-     * @return the type value
+     * @return the type value.
      */
     public SyncGroupLogType type() {
         return this.type;
@@ -75,7 +75,7 @@ public class SyncGroupLogPropertiesInner {
     /**
      * Get the source value.
      *
-     * @return the source value
+     * @return the source value.
      */
     public String source() {
         return this.source;
@@ -84,7 +84,7 @@ public class SyncGroupLogPropertiesInner {
     /**
      * Get the details value.
      *
-     * @return the details value
+     * @return the details value.
      */
     public String details() {
         return this.details;
@@ -93,7 +93,7 @@ public class SyncGroupLogPropertiesInner {
     /**
      * Get the tracingId value.
      *
-     * @return the tracingId value
+     * @return the tracingId value.
      */
     public UUID tracingId() {
         return this.tracingId;
@@ -102,10 +102,9 @@ public class SyncGroupLogPropertiesInner {
     /**
      * Get the operationStatus value.
      *
-     * @return the operationStatus value
+     * @return the operationStatus value.
      */
     public String operationStatus() {
         return this.operationStatus;
     }
-
 }

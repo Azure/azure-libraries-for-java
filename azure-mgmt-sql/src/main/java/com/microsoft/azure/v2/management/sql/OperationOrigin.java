@@ -9,24 +9,28 @@
 package com.microsoft.azure.v2.management.sql;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.microsoft.rest.ExpandableStringEnum;
-
+import com.microsoft.rest.v2.ExpandableStringEnum;
 import java.util.Collection;
 
 /**
  * Defines values for OperationOrigin.
  */
 public final class OperationOrigin extends ExpandableStringEnum<OperationOrigin> {
-    /** Static value user for OperationOrigin. */
+    /**
+     * Static value user for OperationOrigin.
+     */
     public static final OperationOrigin USER = fromString("user");
 
-    /** Static value system for OperationOrigin. */
+    /**
+     * Static value system for OperationOrigin.
+     */
     public static final OperationOrigin SYSTEM = fromString("system");
 
     /**
      * Creates or finds a OperationOrigin from its string representation.
-     * @param name a name to look for
-     * @return the corresponding OperationOrigin
+     *
+     * @param name a name to look for.
+     * @return the corresponding OperationOrigin.
      */
     @JsonCreator
     public static OperationOrigin fromString(String name) {
@@ -34,7 +38,7 @@ public final class OperationOrigin extends ExpandableStringEnum<OperationOrigin>
     }
 
     /**
-     * @return known OperationOrigin values
+     * @return known OperationOrigin values.
      */
     public static Collection<OperationOrigin> values() {
         return values(OperationOrigin.class);

@@ -8,15 +8,16 @@
 
 package com.microsoft.azure.v2.management.sql.implementation;
 
-import com.microsoft.azure.v2.management.sql.SyncMemberDbType;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.v2.management.sql.ProxyResource;
+import com.microsoft.azure.v2.management.sql.SyncMemberDbType;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
 
 /**
  * An Azure SQL Database sync agent linked database.
  */
 @JsonFlatten
-public class SyncAgentLinkedDatabaseInner extends ProxyResourceInner {
+public class SyncAgentLinkedDatabaseInner extends ProxyResource {
     /**
      * Type of the sync agent linked database. Possible values include:
      * 'AzureSqlDatabase', 'SqlServerDatabase'.
@@ -57,7 +58,7 @@ public class SyncAgentLinkedDatabaseInner extends ProxyResourceInner {
     /**
      * Get the databaseType value.
      *
-     * @return the databaseType value
+     * @return the databaseType value.
      */
     public SyncMemberDbType databaseType() {
         return this.databaseType;
@@ -66,7 +67,7 @@ public class SyncAgentLinkedDatabaseInner extends ProxyResourceInner {
     /**
      * Get the databaseId value.
      *
-     * @return the databaseId value
+     * @return the databaseId value.
      */
     public String databaseId() {
         return this.databaseId;
@@ -75,7 +76,7 @@ public class SyncAgentLinkedDatabaseInner extends ProxyResourceInner {
     /**
      * Get the description value.
      *
-     * @return the description value
+     * @return the description value.
      */
     public String description() {
         return this.description;
@@ -84,7 +85,7 @@ public class SyncAgentLinkedDatabaseInner extends ProxyResourceInner {
     /**
      * Get the serverName value.
      *
-     * @return the serverName value
+     * @return the serverName value.
      */
     public String serverName() {
         return this.serverName;
@@ -93,7 +94,7 @@ public class SyncAgentLinkedDatabaseInner extends ProxyResourceInner {
     /**
      * Get the databaseName value.
      *
-     * @return the databaseName value
+     * @return the databaseName value.
      */
     public String databaseName() {
         return this.databaseName;
@@ -102,10 +103,9 @@ public class SyncAgentLinkedDatabaseInner extends ProxyResourceInner {
     /**
      * Get the userName value.
      *
-     * @return the userName value
+     * @return the userName value.
      */
     public String userName() {
         return this.userName;
     }
-
 }

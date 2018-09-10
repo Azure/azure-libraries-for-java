@@ -8,64 +8,81 @@
 
 package com.microsoft.azure.v2.management.sql.implementation;
 
-import retrofit2.Retrofit;
-import com.google.common.reflect.TypeToken;
-import com.microsoft.azure.CloudException;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import com.microsoft.rest.ServiceResponse;
-import com.microsoft.rest.Validator;
-import java.io.IOException;
-import okhttp3.ResponseBody;
-import retrofit2.http.Body;
-import retrofit2.http.GET;
-import retrofit2.http.Header;
-import retrofit2.http.Headers;
-import retrofit2.http.Path;
-import retrofit2.http.PUT;
-import retrofit2.http.Query;
-import retrofit2.Response;
-import rx.functions.Func1;
-import rx.Observable;
+import com.microsoft.azure.v2.AzureProxy;
+import com.microsoft.azure.v2.CloudException;
+import com.microsoft.azure.v2.OperationStatus;
+import com.microsoft.azure.v2.util.ServiceFutureUtil;
+import com.microsoft.rest.v2.BodyResponse;
+import com.microsoft.rest.v2.OperationDescription;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
+import com.microsoft.rest.v2.Validator;
+import com.microsoft.rest.v2.annotations.BodyParam;
+import com.microsoft.rest.v2.annotations.ExpectedResponses;
+import com.microsoft.rest.v2.annotations.GET;
+import com.microsoft.rest.v2.annotations.HeaderParam;
+import com.microsoft.rest.v2.annotations.Host;
+import com.microsoft.rest.v2.annotations.PathParam;
+import com.microsoft.rest.v2.annotations.PUT;
+import com.microsoft.rest.v2.annotations.QueryParam;
+import com.microsoft.rest.v2.annotations.ResumeOperation;
+import com.microsoft.rest.v2.annotations.UnexpectedResponseExceptionType;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
+import io.reactivex.Single;
+import io.reactivex.annotations.NonNull;
 
 /**
- * An instance of this class provides access to all the operations defined
- * in ServerBlobAuditingPolicies.
+ * An instance of this class provides access to all the operations defined in
+ * ServerBlobAuditingPolicies.
  */
-public class ServerBlobAuditingPoliciesInner {
-    /** The Retrofit service to perform REST calls. */
+public final class ServerBlobAuditingPoliciesInner {
+    /**
+     * The proxy service used to perform REST calls.
+     */
     private ServerBlobAuditingPoliciesService service;
-    /** The service client containing this operation class. */
+
+    /**
+     * The service client containing this operation class.
+     */
     private SqlManagementClientImpl client;
 
     /**
      * Initializes an instance of ServerBlobAuditingPoliciesInner.
      *
-     * @param retrofit the Retrofit instance built from a Retrofit Builder.
      * @param client the instance of the service client containing this operation class.
      */
-    public ServerBlobAuditingPoliciesInner(Retrofit retrofit, SqlManagementClientImpl client) {
-        this.service = retrofit.create(ServerBlobAuditingPoliciesService.class);
+    public ServerBlobAuditingPoliciesInner(SqlManagementClientImpl client) {
+        this.service = AzureProxy.create(ServerBlobAuditingPoliciesService.class, client);
         this.client = client;
     }
 
     /**
-     * The interface defining all the services for ServerBlobAuditingPolicies to be
-     * used by Retrofit to perform actually REST calls.
+     * The interface defining all the services for ServerBlobAuditingPolicies
+     * to be used by the proxy service to perform REST calls.
      */
-    interface ServerBlobAuditingPoliciesService {
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.ServerBlobAuditingPolicies get" })
+    @Host("https://management.azure.com")
+    private interface ServerBlobAuditingPoliciesService {
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/auditingSettings/{blobAuditingPolicyName}")
-        Observable<Response<ResponseBody>> get(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("blobAuditingPolicyName") String blobAuditingPolicyName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<ServerBlobAuditingPolicyInner>> get(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("blobAuditingPolicyName") String blobAuditingPolicyName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.ServerBlobAuditingPolicies createOrUpdate" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/auditingSettings/{blobAuditingPolicyName}")
-        Observable<Response<ResponseBody>> createOrUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("blobAuditingPolicyName") String blobAuditingPolicyName, @Path("subscriptionId") String subscriptionId, @Body ServerBlobAuditingPolicyInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Observable<OperationStatus<ServerBlobAuditingPolicyInner>> beginCreateOrUpdate(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("blobAuditingPolicyName") String blobAuditingPolicyName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json; charset=utf-8") ServerBlobAuditingPolicyInner parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.ServerBlobAuditingPolicies beginCreateOrUpdate" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/auditingSettings/{blobAuditingPolicyName}")
-        Observable<Response<ResponseBody>> beginCreateOrUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("blobAuditingPolicyName") String blobAuditingPolicyName, @Path("subscriptionId") String subscriptionId, @Body ServerBlobAuditingPolicyInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<ServerBlobAuditingPolicyInner>> createOrUpdate(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("blobAuditingPolicyName") String blobAuditingPolicyName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json; charset=utf-8") ServerBlobAuditingPolicyInner parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
+        @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/auditingSettings/{blobAuditingPolicyName}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<ServerBlobAuditingPolicyInner>> resumeCreateOrUpdate(OperationDescription operationDescription);
     }
 
     /**
@@ -73,13 +90,13 @@ public class ServerBlobAuditingPoliciesInner {
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the ServerBlobAuditingPolicyInner object if successful.
      */
-    public ServerBlobAuditingPolicyInner get(String resourceGroupName, String serverName) {
-        return getWithServiceResponseAsync(resourceGroupName, serverName).toBlocking().single().body();
+    public ServerBlobAuditingPolicyInner get(@NonNull String resourceGroupName, @NonNull String serverName) {
+        return getAsync(resourceGroupName, serverName).blockingGet();
     }
 
     /**
@@ -88,11 +105,11 @@ public class ServerBlobAuditingPoliciesInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<ServerBlobAuditingPolicyInner> getAsync(String resourceGroupName, String serverName, final ServiceCallback<ServerBlobAuditingPolicyInner> serviceCallback) {
-        return ServiceFuture.fromResponse(getWithServiceResponseAsync(resourceGroupName, serverName), serviceCallback);
+    public ServiceFuture<ServerBlobAuditingPolicyInner> getAsync(@NonNull String resourceGroupName, @NonNull String serverName, ServiceCallback<ServerBlobAuditingPolicyInner> serviceCallback) {
+        return ServiceFuture.fromBody(getAsync(resourceGroupName, serverName), serviceCallback);
     }
 
     /**
@@ -100,27 +117,10 @@ public class ServerBlobAuditingPoliciesInner {
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ServerBlobAuditingPolicyInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<ServerBlobAuditingPolicyInner> getAsync(String resourceGroupName, String serverName) {
-        return getWithServiceResponseAsync(resourceGroupName, serverName).map(new Func1<ServiceResponse<ServerBlobAuditingPolicyInner>, ServerBlobAuditingPolicyInner>() {
-            @Override
-            public ServerBlobAuditingPolicyInner call(ServiceResponse<ServerBlobAuditingPolicyInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Gets a server's blob auditing policy.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ServerBlobAuditingPolicyInner object
-     */
-    public Observable<ServiceResponse<ServerBlobAuditingPolicyInner>> getWithServiceResponseAsync(String resourceGroupName, String serverName) {
+    public Single<BodyResponse<ServerBlobAuditingPolicyInner>> getWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -132,25 +132,20 @@ public class ServerBlobAuditingPoliciesInner {
         }
         final String blobAuditingPolicyName = "default";
         final String apiVersion = "2017-03-01-preview";
-        return service.get(resourceGroupName, serverName, blobAuditingPolicyName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ServerBlobAuditingPolicyInner>>>() {
-                @Override
-                public Observable<ServiceResponse<ServerBlobAuditingPolicyInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<ServerBlobAuditingPolicyInner> clientResponse = getDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.get(resourceGroupName, serverName, blobAuditingPolicyName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<ServerBlobAuditingPolicyInner> getDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<ServerBlobAuditingPolicyInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<ServerBlobAuditingPolicyInner>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Gets a server's blob auditing policy.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<ServerBlobAuditingPolicyInner> getAsync(@NonNull String resourceGroupName, @NonNull String serverName) {
+        return getWithRestResponseAsync(resourceGroupName, serverName)
+            .flatMapMaybe((BodyResponse<ServerBlobAuditingPolicyInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
@@ -158,14 +153,14 @@ public class ServerBlobAuditingPoliciesInner {
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
-     * @param parameters Properties of blob auditing policy
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @param parameters Properties of blob auditing policy.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the ServerBlobAuditingPolicyInner object if successful.
      */
-    public ServerBlobAuditingPolicyInner createOrUpdate(String resourceGroupName, String serverName, ServerBlobAuditingPolicyInner parameters) {
-        return createOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, parameters).toBlocking().last().body();
+    public ServerBlobAuditingPolicyInner beginCreateOrUpdate(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull ServerBlobAuditingPolicyInner parameters) {
+        return beginCreateOrUpdateAsync(resourceGroupName, serverName, parameters).blockingLast().result();
     }
 
     /**
@@ -173,13 +168,13 @@ public class ServerBlobAuditingPoliciesInner {
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
-     * @param parameters Properties of blob auditing policy
+     * @param parameters Properties of blob auditing policy.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;ServerBlobAuditingPolicyInner&gt; object.
      */
-    public ServiceFuture<ServerBlobAuditingPolicyInner> createOrUpdateAsync(String resourceGroupName, String serverName, ServerBlobAuditingPolicyInner parameters, final ServiceCallback<ServerBlobAuditingPolicyInner> serviceCallback) {
-        return ServiceFuture.fromResponse(createOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, parameters), serviceCallback);
+    public ServiceFuture<ServerBlobAuditingPolicyInner> beginCreateOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull ServerBlobAuditingPolicyInner parameters, ServiceCallback<ServerBlobAuditingPolicyInner> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginCreateOrUpdateAsync(resourceGroupName, serverName, parameters), serviceCallback);
     }
 
     /**
@@ -187,29 +182,11 @@ public class ServerBlobAuditingPoliciesInner {
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
-     * @param parameters Properties of blob auditing policy
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @param parameters Properties of blob auditing policy.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<ServerBlobAuditingPolicyInner> createOrUpdateAsync(String resourceGroupName, String serverName, ServerBlobAuditingPolicyInner parameters) {
-        return createOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, parameters).map(new Func1<ServiceResponse<ServerBlobAuditingPolicyInner>, ServerBlobAuditingPolicyInner>() {
-            @Override
-            public ServerBlobAuditingPolicyInner call(ServiceResponse<ServerBlobAuditingPolicyInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Creates or updates a server's blob auditing policy.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param parameters Properties of blob auditing policy
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<ServerBlobAuditingPolicyInner>> createOrUpdateWithServiceResponseAsync(String resourceGroupName, String serverName, ServerBlobAuditingPolicyInner parameters) {
+    public Observable<OperationStatus<ServerBlobAuditingPolicyInner>> beginCreateOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull ServerBlobAuditingPolicyInner parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -225,8 +202,7 @@ public class ServerBlobAuditingPoliciesInner {
         Validator.validate(parameters);
         final String blobAuditingPolicyName = "default";
         final String apiVersion = "2017-03-01-preview";
-        Observable<Response<ResponseBody>> observable = service.createOrUpdate(resourceGroupName, serverName, blobAuditingPolicyName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<ServerBlobAuditingPolicyInner>() { }.getType());
+        return service.beginCreateOrUpdate(resourceGroupName, serverName, blobAuditingPolicyName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage());
     }
 
     /**
@@ -234,14 +210,14 @@ public class ServerBlobAuditingPoliciesInner {
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
-     * @param parameters Properties of blob auditing policy
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @param parameters Properties of blob auditing policy.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the ServerBlobAuditingPolicyInner object if successful.
      */
-    public ServerBlobAuditingPolicyInner beginCreateOrUpdate(String resourceGroupName, String serverName, ServerBlobAuditingPolicyInner parameters) {
-        return beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, parameters).toBlocking().single().body();
+    public ServerBlobAuditingPolicyInner createOrUpdate(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull ServerBlobAuditingPolicyInner parameters) {
+        return createOrUpdateAsync(resourceGroupName, serverName, parameters).blockingGet();
     }
 
     /**
@@ -249,13 +225,13 @@ public class ServerBlobAuditingPoliciesInner {
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
-     * @param parameters Properties of blob auditing policy
+     * @param parameters Properties of blob auditing policy.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<ServerBlobAuditingPolicyInner> beginCreateOrUpdateAsync(String resourceGroupName, String serverName, ServerBlobAuditingPolicyInner parameters, final ServiceCallback<ServerBlobAuditingPolicyInner> serviceCallback) {
-        return ServiceFuture.fromResponse(beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, parameters), serviceCallback);
+    public ServiceFuture<ServerBlobAuditingPolicyInner> createOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull ServerBlobAuditingPolicyInner parameters, ServiceCallback<ServerBlobAuditingPolicyInner> serviceCallback) {
+        return ServiceFuture.fromBody(createOrUpdateAsync(resourceGroupName, serverName, parameters), serviceCallback);
     }
 
     /**
@@ -263,29 +239,11 @@ public class ServerBlobAuditingPoliciesInner {
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
-     * @param parameters Properties of blob auditing policy
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ServerBlobAuditingPolicyInner object
+     * @param parameters Properties of blob auditing policy.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<ServerBlobAuditingPolicyInner> beginCreateOrUpdateAsync(String resourceGroupName, String serverName, ServerBlobAuditingPolicyInner parameters) {
-        return beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, parameters).map(new Func1<ServiceResponse<ServerBlobAuditingPolicyInner>, ServerBlobAuditingPolicyInner>() {
-            @Override
-            public ServerBlobAuditingPolicyInner call(ServiceResponse<ServerBlobAuditingPolicyInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Creates or updates a server's blob auditing policy.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param parameters Properties of blob auditing policy
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ServerBlobAuditingPolicyInner object
-     */
-    public Observable<ServiceResponse<ServerBlobAuditingPolicyInner>> beginCreateOrUpdateWithServiceResponseAsync(String resourceGroupName, String serverName, ServerBlobAuditingPolicyInner parameters) {
+    public Single<BodyResponse<ServerBlobAuditingPolicyInner>> createOrUpdateWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull ServerBlobAuditingPolicyInner parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -301,26 +259,34 @@ public class ServerBlobAuditingPoliciesInner {
         Validator.validate(parameters);
         final String blobAuditingPolicyName = "default";
         final String apiVersion = "2017-03-01-preview";
-        return service.beginCreateOrUpdate(resourceGroupName, serverName, blobAuditingPolicyName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ServerBlobAuditingPolicyInner>>>() {
-                @Override
-                public Observable<ServiceResponse<ServerBlobAuditingPolicyInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<ServerBlobAuditingPolicyInner> clientResponse = beginCreateOrUpdateDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.createOrUpdate(resourceGroupName, serverName, blobAuditingPolicyName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<ServerBlobAuditingPolicyInner> beginCreateOrUpdateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<ServerBlobAuditingPolicyInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<ServerBlobAuditingPolicyInner>() { }.getType())
-                .register(202, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Creates or updates a server's blob auditing policy.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param parameters Properties of blob auditing policy.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<ServerBlobAuditingPolicyInner> createOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull ServerBlobAuditingPolicyInner parameters) {
+        return createOrUpdateWithRestResponseAsync(resourceGroupName, serverName, parameters)
+            .flatMapMaybe((BodyResponse<ServerBlobAuditingPolicyInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
+    /**
+     * Creates or updates a server's blob auditing policy. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<ServerBlobAuditingPolicyInner>> resumeCreateOrUpdate(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeCreateOrUpdate(operationDescription);
+    }
 }

@@ -8,74 +8,96 @@
 
 package com.microsoft.azure.v2.management.sql.implementation;
 
-import retrofit2.Retrofit;
-import com.google.common.reflect.TypeToken;
-import com.microsoft.azure.CloudException;
+import com.microsoft.azure.v2.AzureProxy;
+import com.microsoft.azure.v2.CloudException;
+import com.microsoft.azure.v2.OperationStatus;
 import com.microsoft.azure.v2.management.sql.CreateDatabaseRestorePointDefinition;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import com.microsoft.rest.ServiceResponse;
-import java.io.IOException;
+import com.microsoft.azure.v2.util.ServiceFutureUtil;
+import com.microsoft.rest.v2.BodyResponse;
+import com.microsoft.rest.v2.OperationDescription;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
+import com.microsoft.rest.v2.VoidResponse;
+import com.microsoft.rest.v2.annotations.BodyParam;
+import com.microsoft.rest.v2.annotations.DELETE;
+import com.microsoft.rest.v2.annotations.ExpectedResponses;
+import com.microsoft.rest.v2.annotations.GET;
+import com.microsoft.rest.v2.annotations.HeaderParam;
+import com.microsoft.rest.v2.annotations.Host;
+import com.microsoft.rest.v2.annotations.PathParam;
+import com.microsoft.rest.v2.annotations.POST;
+import com.microsoft.rest.v2.annotations.QueryParam;
+import com.microsoft.rest.v2.annotations.ResumeOperation;
+import com.microsoft.rest.v2.annotations.UnexpectedResponseExceptionType;
+import io.reactivex.Completable;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
+import io.reactivex.Single;
+import io.reactivex.annotations.NonNull;
+import java.util.ArrayList;
 import java.util.List;
-import okhttp3.ResponseBody;
-import retrofit2.http.Body;
-import retrofit2.http.GET;
-import retrofit2.http.Header;
-import retrofit2.http.Headers;
-import retrofit2.http.HTTP;
-import retrofit2.http.Path;
-import retrofit2.http.POST;
-import retrofit2.http.Query;
-import retrofit2.Response;
-import rx.functions.Func1;
-import rx.Observable;
 
 /**
- * An instance of this class provides access to all the operations defined
- * in RestorePoints.
+ * An instance of this class provides access to all the operations defined in
+ * RestorePoints.
  */
-public class RestorePointsInner {
-    /** The Retrofit service to perform REST calls. */
+public final class RestorePointsInner {
+    /**
+     * The proxy service used to perform REST calls.
+     */
     private RestorePointsService service;
-    /** The service client containing this operation class. */
+
+    /**
+     * The service client containing this operation class.
+     */
     private SqlManagementClientImpl client;
 
     /**
      * Initializes an instance of RestorePointsInner.
      *
-     * @param retrofit the Retrofit instance built from a Retrofit Builder.
      * @param client the instance of the service client containing this operation class.
      */
-    public RestorePointsInner(Retrofit retrofit, SqlManagementClientImpl client) {
-        this.service = retrofit.create(RestorePointsService.class);
+    public RestorePointsInner(SqlManagementClientImpl client) {
+        this.service = AzureProxy.create(RestorePointsService.class, client);
         this.client = client;
     }
 
     /**
-     * The interface defining all the services for RestorePoints to be
-     * used by Retrofit to perform actually REST calls.
+     * The interface defining all the services for RestorePoints to be used by
+     * the proxy service to perform REST calls.
      */
-    interface RestorePointsService {
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.RestorePoints listByDatabase" })
+    @Host("https://management.azure.com")
+    private interface RestorePointsService {
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/restorePoints")
-        Observable<Response<ResponseBody>> listByDatabase(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("databaseName") String databaseName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<List<RestorePointInner>>> listByDatabase(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("databaseName") String databaseName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.RestorePoints create" })
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/restorePoints")
-        Observable<Response<ResponseBody>> create(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("databaseName") String databaseName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body CreateDatabaseRestorePointDefinition parameters, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 201, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Observable<OperationStatus<RestorePointInner>> beginCreate(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("databaseName") String databaseName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @BodyParam("application/json; charset=utf-8") CreateDatabaseRestorePointDefinition parameters);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.RestorePoints beginCreate" })
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/restorePoints")
-        Observable<Response<ResponseBody>> beginCreate(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("databaseName") String databaseName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body CreateDatabaseRestorePointDefinition parameters, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 201, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<RestorePointInner>> create(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("databaseName") String databaseName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @BodyParam("application/json; charset=utf-8") CreateDatabaseRestorePointDefinition parameters);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.RestorePoints get" })
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/restorePoints")
+        @ExpectedResponses({200, 201, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<RestorePointInner>> resumeCreate(OperationDescription operationDescription);
+
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/restorePoints/{restorePointName}")
-        Observable<Response<ResponseBody>> get(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("databaseName") String databaseName, @Path("restorePointName") String restorePointName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<RestorePointInner>> get(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("databaseName") String databaseName, @PathParam("restorePointName") String restorePointName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.RestorePoints delete" })
-        @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/restorePoints/{restorePointName}", method = "DELETE", hasBody = true)
-        Observable<Response<ResponseBody>> delete(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("databaseName") String databaseName, @Path("restorePointName") String restorePointName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
-
+        @DELETE("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/restorePoints/{restorePointName}")
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<VoidResponse> delete(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("databaseName") String databaseName, @PathParam("restorePointName") String restorePointName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
     }
 
     /**
@@ -84,13 +106,13 @@ public class RestorePointsInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param databaseName The name of the database.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the List&lt;RestorePointInner&gt; object if successful.
      */
-    public List<RestorePointInner> listByDatabase(String resourceGroupName, String serverName, String databaseName) {
-        return listByDatabaseWithServiceResponseAsync(resourceGroupName, serverName, databaseName).toBlocking().single().body();
+    public List<RestorePointInner> listByDatabase(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName) {
+        return listByDatabaseAsync(resourceGroupName, serverName, databaseName).blockingGet();
     }
 
     /**
@@ -100,11 +122,11 @@ public class RestorePointsInner {
      * @param serverName The name of the server.
      * @param databaseName The name of the database.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<List<RestorePointInner>> listByDatabaseAsync(String resourceGroupName, String serverName, String databaseName, final ServiceCallback<List<RestorePointInner>> serviceCallback) {
-        return ServiceFuture.fromResponse(listByDatabaseWithServiceResponseAsync(resourceGroupName, serverName, databaseName), serviceCallback);
+    public ServiceFuture<List<RestorePointInner>> listByDatabaseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, ServiceCallback<List<RestorePointInner>> serviceCallback) {
+        return ServiceFuture.fromBody(listByDatabaseAsync(resourceGroupName, serverName, databaseName), serviceCallback);
     }
 
     /**
@@ -113,28 +135,10 @@ public class RestorePointsInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param databaseName The name of the database.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the List&lt;RestorePointInner&gt; object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<List<RestorePointInner>> listByDatabaseAsync(String resourceGroupName, String serverName, String databaseName) {
-        return listByDatabaseWithServiceResponseAsync(resourceGroupName, serverName, databaseName).map(new Func1<ServiceResponse<List<RestorePointInner>>, List<RestorePointInner>>() {
-            @Override
-            public List<RestorePointInner> call(ServiceResponse<List<RestorePointInner>> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Gets a list of database restore points.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the database.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the List&lt;RestorePointInner&gt; object
-     */
-    public Observable<ServiceResponse<List<RestorePointInner>>> listByDatabaseWithServiceResponseAsync(String resourceGroupName, String serverName, String databaseName) {
+    public Single<BodyResponse<List<RestorePointInner>>> listByDatabaseWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -148,26 +152,21 @@ public class RestorePointsInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2017-03-01-preview";
-        return service.listByDatabase(resourceGroupName, serverName, databaseName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<List<RestorePointInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<List<RestorePointInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<RestorePointInner>> result = listByDatabaseDelegate(response);
-                        ServiceResponse<List<RestorePointInner>> clientResponse = new ServiceResponse<List<RestorePointInner>>(result.body().items(), result.response());
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.listByDatabase(resourceGroupName, serverName, databaseName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<PageImpl<RestorePointInner>> listByDatabaseDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<RestorePointInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<RestorePointInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Gets a list of database restore points.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<List<RestorePointInner>> listByDatabaseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName) {
+        return listByDatabaseWithRestResponseAsync(resourceGroupName, serverName, databaseName)
+            .flatMapMaybe((BodyResponse<List<RestorePointInner>> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
@@ -176,14 +175,14 @@ public class RestorePointsInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param databaseName The name of the database.
-     * @param restorePointLabel The restore point label to apply
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @param restorePointLabel The restore point label to apply.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the RestorePointInner object if successful.
      */
-    public RestorePointInner create(String resourceGroupName, String serverName, String databaseName, String restorePointLabel) {
-        return createWithServiceResponseAsync(resourceGroupName, serverName, databaseName, restorePointLabel).toBlocking().last().body();
+    public RestorePointInner beginCreate(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, @NonNull String restorePointLabel) {
+        return beginCreateAsync(resourceGroupName, serverName, databaseName, restorePointLabel).blockingLast().result();
     }
 
     /**
@@ -192,13 +191,13 @@ public class RestorePointsInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param databaseName The name of the database.
-     * @param restorePointLabel The restore point label to apply
+     * @param restorePointLabel The restore point label to apply.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;RestorePointInner&gt; object.
      */
-    public ServiceFuture<RestorePointInner> createAsync(String resourceGroupName, String serverName, String databaseName, String restorePointLabel, final ServiceCallback<RestorePointInner> serviceCallback) {
-        return ServiceFuture.fromResponse(createWithServiceResponseAsync(resourceGroupName, serverName, databaseName, restorePointLabel), serviceCallback);
+    public ServiceFuture<RestorePointInner> beginCreateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, @NonNull String restorePointLabel, ServiceCallback<RestorePointInner> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginCreateAsync(resourceGroupName, serverName, databaseName, restorePointLabel), serviceCallback);
     }
 
     /**
@@ -207,30 +206,11 @@ public class RestorePointsInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param databaseName The name of the database.
-     * @param restorePointLabel The restore point label to apply
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @param restorePointLabel The restore point label to apply.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<RestorePointInner> createAsync(String resourceGroupName, String serverName, String databaseName, String restorePointLabel) {
-        return createWithServiceResponseAsync(resourceGroupName, serverName, databaseName, restorePointLabel).map(new Func1<ServiceResponse<RestorePointInner>, RestorePointInner>() {
-            @Override
-            public RestorePointInner call(ServiceResponse<RestorePointInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Creates a restore point for a data warehouse.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the database.
-     * @param restorePointLabel The restore point label to apply
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<RestorePointInner>> createWithServiceResponseAsync(String resourceGroupName, String serverName, String databaseName, String restorePointLabel) {
+    public Observable<OperationStatus<RestorePointInner>> beginCreateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, @NonNull String restorePointLabel) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -249,8 +229,7 @@ public class RestorePointsInner {
         final String apiVersion = "2017-03-01-preview";
         CreateDatabaseRestorePointDefinition parameters = new CreateDatabaseRestorePointDefinition();
         parameters.withRestorePointLabel(restorePointLabel);
-        Observable<Response<ResponseBody>> observable = service.create(resourceGroupName, serverName, databaseName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<RestorePointInner>() { }.getType());
+        return service.beginCreate(resourceGroupName, serverName, databaseName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters);
     }
 
     /**
@@ -259,14 +238,14 @@ public class RestorePointsInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param databaseName The name of the database.
-     * @param restorePointLabel The restore point label to apply
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @param restorePointLabel The restore point label to apply.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the RestorePointInner object if successful.
      */
-    public RestorePointInner beginCreate(String resourceGroupName, String serverName, String databaseName, String restorePointLabel) {
-        return beginCreateWithServiceResponseAsync(resourceGroupName, serverName, databaseName, restorePointLabel).toBlocking().single().body();
+    public RestorePointInner create(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, @NonNull String restorePointLabel) {
+        return createAsync(resourceGroupName, serverName, databaseName, restorePointLabel).blockingGet();
     }
 
     /**
@@ -275,13 +254,13 @@ public class RestorePointsInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param databaseName The name of the database.
-     * @param restorePointLabel The restore point label to apply
+     * @param restorePointLabel The restore point label to apply.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<RestorePointInner> beginCreateAsync(String resourceGroupName, String serverName, String databaseName, String restorePointLabel, final ServiceCallback<RestorePointInner> serviceCallback) {
-        return ServiceFuture.fromResponse(beginCreateWithServiceResponseAsync(resourceGroupName, serverName, databaseName, restorePointLabel), serviceCallback);
+    public ServiceFuture<RestorePointInner> createAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, @NonNull String restorePointLabel, ServiceCallback<RestorePointInner> serviceCallback) {
+        return ServiceFuture.fromBody(createAsync(resourceGroupName, serverName, databaseName, restorePointLabel), serviceCallback);
     }
 
     /**
@@ -290,30 +269,11 @@ public class RestorePointsInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param databaseName The name of the database.
-     * @param restorePointLabel The restore point label to apply
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the RestorePointInner object
+     * @param restorePointLabel The restore point label to apply.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<RestorePointInner> beginCreateAsync(String resourceGroupName, String serverName, String databaseName, String restorePointLabel) {
-        return beginCreateWithServiceResponseAsync(resourceGroupName, serverName, databaseName, restorePointLabel).map(new Func1<ServiceResponse<RestorePointInner>, RestorePointInner>() {
-            @Override
-            public RestorePointInner call(ServiceResponse<RestorePointInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Creates a restore point for a data warehouse.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the database.
-     * @param restorePointLabel The restore point label to apply
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the RestorePointInner object
-     */
-    public Observable<ServiceResponse<RestorePointInner>> beginCreateWithServiceResponseAsync(String resourceGroupName, String serverName, String databaseName, String restorePointLabel) {
+    public Single<BodyResponse<RestorePointInner>> createWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, @NonNull String restorePointLabel) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -332,27 +292,36 @@ public class RestorePointsInner {
         final String apiVersion = "2017-03-01-preview";
         CreateDatabaseRestorePointDefinition parameters = new CreateDatabaseRestorePointDefinition();
         parameters.withRestorePointLabel(restorePointLabel);
-        return service.beginCreate(resourceGroupName, serverName, databaseName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<RestorePointInner>>>() {
-                @Override
-                public Observable<ServiceResponse<RestorePointInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<RestorePointInner> clientResponse = beginCreateDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.create(resourceGroupName, serverName, databaseName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters);
     }
 
-    private ServiceResponse<RestorePointInner> beginCreateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<RestorePointInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<RestorePointInner>() { }.getType())
-                .register(201, new TypeToken<RestorePointInner>() { }.getType())
-                .register(202, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Creates a restore point for a data warehouse.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database.
+     * @param restorePointLabel The restore point label to apply.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<RestorePointInner> createAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, @NonNull String restorePointLabel) {
+        return createWithRestResponseAsync(resourceGroupName, serverName, databaseName, restorePointLabel)
+            .flatMapMaybe((BodyResponse<RestorePointInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
+    }
+
+    /**
+     * Creates a restore point for a data warehouse. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<RestorePointInner>> resumeCreate(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeCreate(operationDescription);
     }
 
     /**
@@ -362,13 +331,13 @@ public class RestorePointsInner {
      * @param serverName The name of the server.
      * @param databaseName The name of the database.
      * @param restorePointName The name of the restore point.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the RestorePointInner object if successful.
      */
-    public RestorePointInner get(String resourceGroupName, String serverName, String databaseName, String restorePointName) {
-        return getWithServiceResponseAsync(resourceGroupName, serverName, databaseName, restorePointName).toBlocking().single().body();
+    public RestorePointInner get(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, @NonNull String restorePointName) {
+        return getAsync(resourceGroupName, serverName, databaseName, restorePointName).blockingGet();
     }
 
     /**
@@ -379,11 +348,11 @@ public class RestorePointsInner {
      * @param databaseName The name of the database.
      * @param restorePointName The name of the restore point.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<RestorePointInner> getAsync(String resourceGroupName, String serverName, String databaseName, String restorePointName, final ServiceCallback<RestorePointInner> serviceCallback) {
-        return ServiceFuture.fromResponse(getWithServiceResponseAsync(resourceGroupName, serverName, databaseName, restorePointName), serviceCallback);
+    public ServiceFuture<RestorePointInner> getAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, @NonNull String restorePointName, ServiceCallback<RestorePointInner> serviceCallback) {
+        return ServiceFuture.fromBody(getAsync(resourceGroupName, serverName, databaseName, restorePointName), serviceCallback);
     }
 
     /**
@@ -393,29 +362,10 @@ public class RestorePointsInner {
      * @param serverName The name of the server.
      * @param databaseName The name of the database.
      * @param restorePointName The name of the restore point.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the RestorePointInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<RestorePointInner> getAsync(String resourceGroupName, String serverName, String databaseName, String restorePointName) {
-        return getWithServiceResponseAsync(resourceGroupName, serverName, databaseName, restorePointName).map(new Func1<ServiceResponse<RestorePointInner>, RestorePointInner>() {
-            @Override
-            public RestorePointInner call(ServiceResponse<RestorePointInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Gets a restore point.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the database.
-     * @param restorePointName The name of the restore point.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the RestorePointInner object
-     */
-    public Observable<ServiceResponse<RestorePointInner>> getWithServiceResponseAsync(String resourceGroupName, String serverName, String databaseName, String restorePointName) {
+    public Single<BodyResponse<RestorePointInner>> getWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, @NonNull String restorePointName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -432,25 +382,22 @@ public class RestorePointsInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2017-03-01-preview";
-        return service.get(resourceGroupName, serverName, databaseName, restorePointName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<RestorePointInner>>>() {
-                @Override
-                public Observable<ServiceResponse<RestorePointInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<RestorePointInner> clientResponse = getDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.get(resourceGroupName, serverName, databaseName, restorePointName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<RestorePointInner> getDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<RestorePointInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<RestorePointInner>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Gets a restore point.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database.
+     * @param restorePointName The name of the restore point.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<RestorePointInner> getAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, @NonNull String restorePointName) {
+        return getWithRestResponseAsync(resourceGroupName, serverName, databaseName, restorePointName)
+            .flatMapMaybe((BodyResponse<RestorePointInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
@@ -460,12 +407,12 @@ public class RestorePointsInner {
      * @param serverName The name of the server.
      * @param databaseName The name of the database.
      * @param restorePointName The name of the restore point.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void delete(String resourceGroupName, String serverName, String databaseName, String restorePointName) {
-        deleteWithServiceResponseAsync(resourceGroupName, serverName, databaseName, restorePointName).toBlocking().single().body();
+    public void delete(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, @NonNull String restorePointName) {
+        deleteAsync(resourceGroupName, serverName, databaseName, restorePointName).blockingAwait();
     }
 
     /**
@@ -476,11 +423,11 @@ public class RestorePointsInner {
      * @param databaseName The name of the database.
      * @param restorePointName The name of the restore point.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<Void> deleteAsync(String resourceGroupName, String serverName, String databaseName, String restorePointName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(deleteWithServiceResponseAsync(resourceGroupName, serverName, databaseName, restorePointName), serviceCallback);
+    public ServiceFuture<Void> deleteAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, @NonNull String restorePointName, ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromBody(deleteAsync(resourceGroupName, serverName, databaseName, restorePointName), serviceCallback);
     }
 
     /**
@@ -490,29 +437,10 @@ public class RestorePointsInner {
      * @param serverName The name of the server.
      * @param databaseName The name of the database.
      * @param restorePointName The name of the restore point.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<Void> deleteAsync(String resourceGroupName, String serverName, String databaseName, String restorePointName) {
-        return deleteWithServiceResponseAsync(resourceGroupName, serverName, databaseName, restorePointName).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Deletes a restore point.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the database.
-     * @param restorePointName The name of the restore point.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
-     */
-    public Observable<ServiceResponse<Void>> deleteWithServiceResponseAsync(String resourceGroupName, String serverName, String databaseName, String restorePointName) {
+    public Single<VoidResponse> deleteWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, @NonNull String restorePointName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -529,25 +457,21 @@ public class RestorePointsInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2017-03-01-preview";
-        return service.delete(resourceGroupName, serverName, databaseName, restorePointName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
-                @Override
-                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<Void> clientResponse = deleteDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.delete(resourceGroupName, serverName, databaseName, restorePointName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<Void> deleteDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Deletes a restore point.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database.
+     * @param restorePointName The name of the restore point.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Completable deleteAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, @NonNull String restorePointName) {
+        return deleteWithRestResponseAsync(resourceGroupName, serverName, databaseName, restorePointName)
+            .toCompletable();
     }
-
 }

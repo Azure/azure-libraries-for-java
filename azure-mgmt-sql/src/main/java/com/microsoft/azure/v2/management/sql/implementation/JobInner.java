@@ -8,15 +8,16 @@
 
 package com.microsoft.azure.v2.management.sql.implementation;
 
-import com.microsoft.azure.v2.management.sql.JobSchedule;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.v2.management.sql.JobSchedule;
+import com.microsoft.azure.v2.management.sql.ProxyResource;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
 
 /**
  * A job.
  */
 @JsonFlatten
-public class JobInner extends ProxyResourceInner {
+public class JobInner extends ProxyResource {
     /**
      * User-defined description of the job.
      */
@@ -38,7 +39,7 @@ public class JobInner extends ProxyResourceInner {
     /**
      * Get the description value.
      *
-     * @return the description value
+     * @return the description value.
      */
     public String description() {
         return this.description;
@@ -47,7 +48,7 @@ public class JobInner extends ProxyResourceInner {
     /**
      * Set the description value.
      *
-     * @param description the description value to set
+     * @param description the description value to set.
      * @return the JobInner object itself.
      */
     public JobInner withDescription(String description) {
@@ -58,7 +59,7 @@ public class JobInner extends ProxyResourceInner {
     /**
      * Get the version value.
      *
-     * @return the version value
+     * @return the version value.
      */
     public Integer version() {
         return this.version;
@@ -67,7 +68,7 @@ public class JobInner extends ProxyResourceInner {
     /**
      * Get the schedule value.
      *
-     * @return the schedule value
+     * @return the schedule value.
      */
     public JobSchedule schedule() {
         return this.schedule;
@@ -76,12 +77,11 @@ public class JobInner extends ProxyResourceInner {
     /**
      * Set the schedule value.
      *
-     * @param schedule the schedule value to set
+     * @param schedule the schedule value to set.
      * @return the JobInner object itself.
      */
     public JobInner withSchedule(JobSchedule schedule) {
         this.schedule = schedule;
         return this;
     }
-
 }

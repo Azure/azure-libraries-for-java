@@ -14,17 +14,23 @@ import com.fasterxml.jackson.annotation.JsonValue;
 /**
  * Defines values for TransparentDataEncryptionStatus.
  */
-public enum TransparentDataEncryptionStates {
-    /** Enum value Enabled. */
+public enum TransparentDataEncryptionStatus {
+    /**
+     * Enum value Enabled.
+     */
     ENABLED("Enabled"),
 
-    /** Enum value Disabled. */
+    /**
+     * Enum value Disabled.
+     */
     DISABLED("Disabled");
 
-    /** The actual serialized value for a TransparentDataEncryptionStatus instance. */
-    private String value;
+    /**
+     * The actual serialized value for a TransparentDataEncryptionStatus instance.
+     */
+    private final String value;
 
-    TransparentDataEncryptionStates(String value) {
+    private TransparentDataEncryptionStatus(String value) {
         this.value = value;
     }
 
@@ -35,9 +41,9 @@ public enum TransparentDataEncryptionStates {
      * @return the parsed TransparentDataEncryptionStatus object, or null if unable to parse.
      */
     @JsonCreator
-    public static TransparentDataEncryptionStates fromString(String value) {
-        TransparentDataEncryptionStates[] items = TransparentDataEncryptionStates.values();
-        for (TransparentDataEncryptionStates item : items) {
+    public static TransparentDataEncryptionStatus fromString(String value) {
+        TransparentDataEncryptionStatus[] items = TransparentDataEncryptionStatus.values();
+        for (TransparentDataEncryptionStatus item : items) {
             if (item.toString().equalsIgnoreCase(value)) {
                 return item;
             }

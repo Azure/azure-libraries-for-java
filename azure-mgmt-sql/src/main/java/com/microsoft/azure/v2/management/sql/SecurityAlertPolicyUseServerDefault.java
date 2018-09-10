@@ -15,16 +15,22 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Defines values for SecurityAlertPolicyUseServerDefault.
  */
 public enum SecurityAlertPolicyUseServerDefault {
-    /** Enum value Enabled. */
+    /**
+     * Enum value Enabled.
+     */
     ENABLED("Enabled"),
 
-    /** Enum value Disabled. */
+    /**
+     * Enum value Disabled.
+     */
     DISABLED("Disabled");
 
-    /** The actual serialized value for a SecurityAlertPolicyUseServerDefault instance. */
-    private String value;
+    /**
+     * The actual serialized value for a SecurityAlertPolicyUseServerDefault instance.
+     */
+    private final String value;
 
-    SecurityAlertPolicyUseServerDefault(String value) {
+    private SecurityAlertPolicyUseServerDefault(String value) {
         this.value = value;
     }
 

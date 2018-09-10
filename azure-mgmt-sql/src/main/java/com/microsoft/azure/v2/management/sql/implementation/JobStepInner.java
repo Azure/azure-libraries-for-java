@@ -8,17 +8,18 @@
 
 package com.microsoft.azure.v2.management.sql.implementation;
 
-import com.microsoft.azure.v2.management.sql.JobStepAction;
-import com.microsoft.azure.v2.management.sql.JobStepOutput;
-import com.microsoft.azure.v2.management.sql.JobStepExecutionOptions;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.v2.management.sql.JobStepAction;
+import com.microsoft.azure.v2.management.sql.JobStepExecutionOptions;
+import com.microsoft.azure.v2.management.sql.JobStepOutput;
+import com.microsoft.azure.v2.management.sql.ProxyResource;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
 
 /**
  * A job step.
  */
 @JsonFlatten
-public class JobStepInner extends ProxyResourceInner {
+public class JobStepInner extends ProxyResource {
     /**
      * The job step's index within the job. If not specified when creating the
      * job step, it will be created as the last step. If not specified when
@@ -62,7 +63,7 @@ public class JobStepInner extends ProxyResourceInner {
     /**
      * Get the stepId value.
      *
-     * @return the stepId value
+     * @return the stepId value.
      */
     public Integer stepId() {
         return this.stepId;
@@ -71,7 +72,7 @@ public class JobStepInner extends ProxyResourceInner {
     /**
      * Set the stepId value.
      *
-     * @param stepId the stepId value to set
+     * @param stepId the stepId value to set.
      * @return the JobStepInner object itself.
      */
     public JobStepInner withStepId(Integer stepId) {
@@ -82,7 +83,7 @@ public class JobStepInner extends ProxyResourceInner {
     /**
      * Get the targetGroup value.
      *
-     * @return the targetGroup value
+     * @return the targetGroup value.
      */
     public String targetGroup() {
         return this.targetGroup;
@@ -91,7 +92,7 @@ public class JobStepInner extends ProxyResourceInner {
     /**
      * Set the targetGroup value.
      *
-     * @param targetGroup the targetGroup value to set
+     * @param targetGroup the targetGroup value to set.
      * @return the JobStepInner object itself.
      */
     public JobStepInner withTargetGroup(String targetGroup) {
@@ -102,7 +103,7 @@ public class JobStepInner extends ProxyResourceInner {
     /**
      * Get the credential value.
      *
-     * @return the credential value
+     * @return the credential value.
      */
     public String credential() {
         return this.credential;
@@ -111,7 +112,7 @@ public class JobStepInner extends ProxyResourceInner {
     /**
      * Set the credential value.
      *
-     * @param credential the credential value to set
+     * @param credential the credential value to set.
      * @return the JobStepInner object itself.
      */
     public JobStepInner withCredential(String credential) {
@@ -122,7 +123,7 @@ public class JobStepInner extends ProxyResourceInner {
     /**
      * Get the action value.
      *
-     * @return the action value
+     * @return the action value.
      */
     public JobStepAction action() {
         return this.action;
@@ -131,7 +132,7 @@ public class JobStepInner extends ProxyResourceInner {
     /**
      * Set the action value.
      *
-     * @param action the action value to set
+     * @param action the action value to set.
      * @return the JobStepInner object itself.
      */
     public JobStepInner withAction(JobStepAction action) {
@@ -142,7 +143,7 @@ public class JobStepInner extends ProxyResourceInner {
     /**
      * Get the output value.
      *
-     * @return the output value
+     * @return the output value.
      */
     public JobStepOutput output() {
         return this.output;
@@ -151,7 +152,7 @@ public class JobStepInner extends ProxyResourceInner {
     /**
      * Set the output value.
      *
-     * @param output the output value to set
+     * @param output the output value to set.
      * @return the JobStepInner object itself.
      */
     public JobStepInner withOutput(JobStepOutput output) {
@@ -162,7 +163,7 @@ public class JobStepInner extends ProxyResourceInner {
     /**
      * Get the executionOptions value.
      *
-     * @return the executionOptions value
+     * @return the executionOptions value.
      */
     public JobStepExecutionOptions executionOptions() {
         return this.executionOptions;
@@ -171,12 +172,11 @@ public class JobStepInner extends ProxyResourceInner {
     /**
      * Set the executionOptions value.
      *
-     * @param executionOptions the executionOptions value to set
+     * @param executionOptions the executionOptions value to set.
      * @return the JobStepInner object itself.
      */
     public JobStepInner withExecutionOptions(JobStepExecutionOptions executionOptions) {
         this.executionOptions = executionOptions;
         return this;
     }
-
 }

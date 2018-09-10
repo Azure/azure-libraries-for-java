@@ -8,28 +8,28 @@
 
 package com.microsoft.azure.v2.management.sql.implementation;
 
-import org.joda.time.DateTime;
-import com.microsoft.azure.v2.management.sql.UnitType;
-import com.microsoft.azure.v2.management.sql.MetricName;
-import java.util.List;
-import com.microsoft.azure.v2.management.sql.MetricValue;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.v2.management.sql.MetricName;
+import com.microsoft.azure.v2.management.sql.MetricValue;
+import com.microsoft.azure.v2.management.sql.UnitType;
+import java.time.OffsetDateTime;
+import java.util.List;
 
 /**
  * Database metrics.
  */
-public class MetricInner {
+public final class MetricInner {
     /**
      * The start time for the metric (ISO-8601 format).
      */
     @JsonProperty(value = "startTime", access = JsonProperty.Access.WRITE_ONLY)
-    private DateTime startTime;
+    private OffsetDateTime startTime;
 
     /**
      * The end time for the metric (ISO-8601 format).
      */
     @JsonProperty(value = "endTime", access = JsonProperty.Access.WRITE_ONLY)
-    private DateTime endTime;
+    private OffsetDateTime endTime;
 
     /**
      * The time step to be used to summarize the metric values.
@@ -59,25 +59,25 @@ public class MetricInner {
     /**
      * Get the startTime value.
      *
-     * @return the startTime value
+     * @return the startTime value.
      */
-    public DateTime startTime() {
+    public OffsetDateTime startTime() {
         return this.startTime;
     }
 
     /**
      * Get the endTime value.
      *
-     * @return the endTime value
+     * @return the endTime value.
      */
-    public DateTime endTime() {
+    public OffsetDateTime endTime() {
         return this.endTime;
     }
 
     /**
      * Get the timeGrain value.
      *
-     * @return the timeGrain value
+     * @return the timeGrain value.
      */
     public String timeGrain() {
         return this.timeGrain;
@@ -86,7 +86,7 @@ public class MetricInner {
     /**
      * Get the unit value.
      *
-     * @return the unit value
+     * @return the unit value.
      */
     public UnitType unit() {
         return this.unit;
@@ -95,7 +95,7 @@ public class MetricInner {
     /**
      * Get the name value.
      *
-     * @return the name value
+     * @return the name value.
      */
     public MetricName name() {
         return this.name;
@@ -104,10 +104,9 @@ public class MetricInner {
     /**
      * Get the metricValues value.
      *
-     * @return the metricValues value
+     * @return the metricValues value.
      */
     public List<MetricValue> metricValues() {
         return this.metricValues;
     }
-
 }

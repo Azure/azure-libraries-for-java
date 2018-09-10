@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Properties of an Azure SQL Database sync agent key.
  */
-public class SyncAgentKeyPropertiesInner {
+public final class SyncAgentKeyPropertiesInner {
     /**
      * Key of sync agent.
      */
@@ -23,10 +23,9 @@ public class SyncAgentKeyPropertiesInner {
     /**
      * Get the syncAgentKey value.
      *
-     * @return the syncAgentKey value
+     * @return the syncAgentKey value.
      */
     public String syncAgentKey() {
         return this.syncAgentKey;
     }
-
 }

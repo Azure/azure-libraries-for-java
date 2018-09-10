@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Properties of the column in the table of database full schema.
  */
-public class SyncFullSchemaTableColumn {
+public final class SyncFullSchemaTableColumn {
     /**
      * Data size of the column.
      */
@@ -59,7 +59,7 @@ public class SyncFullSchemaTableColumn {
     /**
      * Get the dataSize value.
      *
-     * @return the dataSize value
+     * @return the dataSize value.
      */
     public String dataSize() {
         return this.dataSize;
@@ -68,7 +68,7 @@ public class SyncFullSchemaTableColumn {
     /**
      * Get the dataType value.
      *
-     * @return the dataType value
+     * @return the dataType value.
      */
     public String dataType() {
         return this.dataType;
@@ -77,7 +77,7 @@ public class SyncFullSchemaTableColumn {
     /**
      * Get the errorId value.
      *
-     * @return the errorId value
+     * @return the errorId value.
      */
     public String errorId() {
         return this.errorId;
@@ -86,7 +86,7 @@ public class SyncFullSchemaTableColumn {
     /**
      * Get the hasError value.
      *
-     * @return the hasError value
+     * @return the hasError value.
      */
     public Boolean hasError() {
         return this.hasError;
@@ -95,7 +95,7 @@ public class SyncFullSchemaTableColumn {
     /**
      * Get the isPrimaryKey value.
      *
-     * @return the isPrimaryKey value
+     * @return the isPrimaryKey value.
      */
     public Boolean isPrimaryKey() {
         return this.isPrimaryKey;
@@ -104,7 +104,7 @@ public class SyncFullSchemaTableColumn {
     /**
      * Get the name value.
      *
-     * @return the name value
+     * @return the name value.
      */
     public String name() {
         return this.name;
@@ -113,10 +113,9 @@ public class SyncFullSchemaTableColumn {
     /**
      * Get the quotedName value.
      *
-     * @return the quotedName value
+     * @return the quotedName value.
      */
     public String quotedName() {
         return this.quotedName;
     }
-
 }

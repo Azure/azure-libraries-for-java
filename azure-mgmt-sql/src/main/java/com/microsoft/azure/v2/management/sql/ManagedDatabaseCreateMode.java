@@ -9,27 +9,33 @@
 package com.microsoft.azure.v2.management.sql;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.microsoft.rest.ExpandableStringEnum;
-
+import com.microsoft.rest.v2.ExpandableStringEnum;
 import java.util.Collection;
 
 /**
  * Defines values for ManagedDatabaseCreateMode.
  */
 public final class ManagedDatabaseCreateMode extends ExpandableStringEnum<ManagedDatabaseCreateMode> {
-    /** Static value Default for ManagedDatabaseCreateMode. */
+    /**
+     * Static value Default for ManagedDatabaseCreateMode.
+     */
     public static final ManagedDatabaseCreateMode DEFAULT = fromString("Default");
 
-    /** Static value RestoreExternalBackup for ManagedDatabaseCreateMode. */
+    /**
+     * Static value RestoreExternalBackup for ManagedDatabaseCreateMode.
+     */
     public static final ManagedDatabaseCreateMode RESTORE_EXTERNAL_BACKUP = fromString("RestoreExternalBackup");
 
-    /** Static value PointInTimeRestore for ManagedDatabaseCreateMode. */
+    /**
+     * Static value PointInTimeRestore for ManagedDatabaseCreateMode.
+     */
     public static final ManagedDatabaseCreateMode POINT_IN_TIME_RESTORE = fromString("PointInTimeRestore");
 
     /**
      * Creates or finds a ManagedDatabaseCreateMode from its string representation.
-     * @param name a name to look for
-     * @return the corresponding ManagedDatabaseCreateMode
+     *
+     * @param name a name to look for.
+     * @return the corresponding ManagedDatabaseCreateMode.
      */
     @JsonCreator
     public static ManagedDatabaseCreateMode fromString(String name) {
@@ -37,7 +43,7 @@ public final class ManagedDatabaseCreateMode extends ExpandableStringEnum<Manage
     }
 
     /**
-     * @return known ManagedDatabaseCreateMode values
+     * @return known ManagedDatabaseCreateMode values.
      */
     public static Collection<ManagedDatabaseCreateMode> values() {
         return values(ManagedDatabaseCreateMode.class);

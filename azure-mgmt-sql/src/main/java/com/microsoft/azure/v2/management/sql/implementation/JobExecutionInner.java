@@ -8,19 +8,20 @@
 
 package com.microsoft.azure.v2.management.sql.implementation;
 
-import java.util.UUID;
-import com.microsoft.azure.v2.management.sql.JobExecutionLifecycle;
-import com.microsoft.azure.v2.management.sql.ProvisioningState;
-import org.joda.time.DateTime;
-import com.microsoft.azure.v2.management.sql.JobExecutionTarget;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.v2.management.sql.JobExecutionLifecycle;
+import com.microsoft.azure.v2.management.sql.JobExecutionTarget;
+import com.microsoft.azure.v2.management.sql.ProvisioningState;
+import com.microsoft.azure.v2.management.sql.ProxyResource;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
+import java.time.OffsetDateTime;
+import java.util.UUID;
 
 /**
  * An execution of a job.
  */
 @JsonFlatten
-public class JobExecutionInner extends ProxyResourceInner {
+public class JobExecutionInner extends ProxyResource {
     /**
      * The job version number.
      */
@@ -65,19 +66,19 @@ public class JobExecutionInner extends ProxyResourceInner {
      * The time that the job execution was created.
      */
     @JsonProperty(value = "properties.createTime", access = JsonProperty.Access.WRITE_ONLY)
-    private DateTime createTime;
+    private OffsetDateTime createTime;
 
     /**
      * The time that the job execution started.
      */
     @JsonProperty(value = "properties.startTime", access = JsonProperty.Access.WRITE_ONLY)
-    private DateTime startTime;
+    private OffsetDateTime startTime;
 
     /**
      * The time that the job execution completed.
      */
     @JsonProperty(value = "properties.endTime", access = JsonProperty.Access.WRITE_ONLY)
-    private DateTime endTime;
+    private OffsetDateTime endTime;
 
     /**
      * Number of times the job execution has been attempted.
@@ -89,7 +90,7 @@ public class JobExecutionInner extends ProxyResourceInner {
      * Start time of the current attempt.
      */
     @JsonProperty(value = "properties.currentAttemptStartTime", access = JsonProperty.Access.WRITE_ONLY)
-    private DateTime currentAttemptStartTime;
+    private OffsetDateTime currentAttemptStartTime;
 
     /**
      * The last status or error message.
@@ -106,7 +107,7 @@ public class JobExecutionInner extends ProxyResourceInner {
     /**
      * Get the jobVersion value.
      *
-     * @return the jobVersion value
+     * @return the jobVersion value.
      */
     public Integer jobVersion() {
         return this.jobVersion;
@@ -115,7 +116,7 @@ public class JobExecutionInner extends ProxyResourceInner {
     /**
      * Get the stepName value.
      *
-     * @return the stepName value
+     * @return the stepName value.
      */
     public String stepName() {
         return this.stepName;
@@ -124,7 +125,7 @@ public class JobExecutionInner extends ProxyResourceInner {
     /**
      * Get the stepId value.
      *
-     * @return the stepId value
+     * @return the stepId value.
      */
     public Integer stepId() {
         return this.stepId;
@@ -133,7 +134,7 @@ public class JobExecutionInner extends ProxyResourceInner {
     /**
      * Get the jobExecutionId value.
      *
-     * @return the jobExecutionId value
+     * @return the jobExecutionId value.
      */
     public UUID jobExecutionId() {
         return this.jobExecutionId;
@@ -142,7 +143,7 @@ public class JobExecutionInner extends ProxyResourceInner {
     /**
      * Get the lifecycle value.
      *
-     * @return the lifecycle value
+     * @return the lifecycle value.
      */
     public JobExecutionLifecycle lifecycle() {
         return this.lifecycle;
@@ -151,7 +152,7 @@ public class JobExecutionInner extends ProxyResourceInner {
     /**
      * Get the provisioningState value.
      *
-     * @return the provisioningState value
+     * @return the provisioningState value.
      */
     public ProvisioningState provisioningState() {
         return this.provisioningState;
@@ -160,34 +161,34 @@ public class JobExecutionInner extends ProxyResourceInner {
     /**
      * Get the createTime value.
      *
-     * @return the createTime value
+     * @return the createTime value.
      */
-    public DateTime createTime() {
+    public OffsetDateTime createTime() {
         return this.createTime;
     }
 
     /**
      * Get the startTime value.
      *
-     * @return the startTime value
+     * @return the startTime value.
      */
-    public DateTime startTime() {
+    public OffsetDateTime startTime() {
         return this.startTime;
     }
 
     /**
      * Get the endTime value.
      *
-     * @return the endTime value
+     * @return the endTime value.
      */
-    public DateTime endTime() {
+    public OffsetDateTime endTime() {
         return this.endTime;
     }
 
     /**
      * Get the currentAttempts value.
      *
-     * @return the currentAttempts value
+     * @return the currentAttempts value.
      */
     public Integer currentAttempts() {
         return this.currentAttempts;
@@ -196,7 +197,7 @@ public class JobExecutionInner extends ProxyResourceInner {
     /**
      * Set the currentAttempts value.
      *
-     * @param currentAttempts the currentAttempts value to set
+     * @param currentAttempts the currentAttempts value to set.
      * @return the JobExecutionInner object itself.
      */
     public JobExecutionInner withCurrentAttempts(Integer currentAttempts) {
@@ -207,16 +208,16 @@ public class JobExecutionInner extends ProxyResourceInner {
     /**
      * Get the currentAttemptStartTime value.
      *
-     * @return the currentAttemptStartTime value
+     * @return the currentAttemptStartTime value.
      */
-    public DateTime currentAttemptStartTime() {
+    public OffsetDateTime currentAttemptStartTime() {
         return this.currentAttemptStartTime;
     }
 
     /**
      * Get the lastMessage value.
      *
-     * @return the lastMessage value
+     * @return the lastMessage value.
      */
     public String lastMessage() {
         return this.lastMessage;
@@ -225,10 +226,9 @@ public class JobExecutionInner extends ProxyResourceInner {
     /**
      * Get the target value.
      *
-     * @return the target value
+     * @return the target value.
      */
     public JobExecutionTarget target() {
         return this.target;
     }
-
 }

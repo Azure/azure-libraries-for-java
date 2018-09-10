@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * A database metric name.
  */
-public class MetricName {
+public final class MetricName {
     /**
      * The name of the database metric.
      */
@@ -29,7 +29,7 @@ public class MetricName {
     /**
      * Get the value value.
      *
-     * @return the value value
+     * @return the value value.
      */
     public String value() {
         return this.value;
@@ -38,10 +38,9 @@ public class MetricName {
     /**
      * Get the localizedValue value.
      *
-     * @return the localizedValue value
+     * @return the localizedValue value.
      */
     public String localizedValue() {
         return this.localizedValue;
     }
-
 }

@@ -8,24 +8,25 @@
 
 package com.microsoft.azure.v2.management.sql.implementation;
 
-import com.microsoft.azure.v2.management.sql.ElasticPoolEditions;
-import org.joda.time.DateTime;
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.v2.management.sql.ElasticPoolEdition;
+import com.microsoft.azure.v2.management.sql.ProxyResource;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
+import java.time.OffsetDateTime;
+import java.util.List;
 
 /**
  * Represents a recommented elastic pool.
  */
 @JsonFlatten
-public class RecommendedElasticPoolInner extends ProxyResourceInner {
+public class RecommendedElasticPoolInner extends ProxyResource {
     /**
      * The edition of the recommended elastic pool. The ElasticPoolEdition
      * enumeration contains all the valid editions. Possible values include:
      * 'Basic', 'Standard', 'Premium'.
      */
     @JsonProperty(value = "properties.databaseEdition", access = JsonProperty.Access.WRITE_ONLY)
-    private ElasticPoolEditions databaseEdition;
+    private ElasticPoolEdition databaseEdition;
 
     /**
      * The DTU for the recommended elastic pool.
@@ -55,13 +56,13 @@ public class RecommendedElasticPoolInner extends ProxyResourceInner {
      * The observation period start (ISO8601 format).
      */
     @JsonProperty(value = "properties.observationPeriodStart", access = JsonProperty.Access.WRITE_ONLY)
-    private DateTime observationPeriodStart;
+    private OffsetDateTime observationPeriodStart;
 
     /**
      * The observation period start (ISO8601 format).
      */
     @JsonProperty(value = "properties.observationPeriodEnd", access = JsonProperty.Access.WRITE_ONLY)
-    private DateTime observationPeriodEnd;
+    private OffsetDateTime observationPeriodEnd;
 
     /**
      * Gets maximum observed DTU.
@@ -79,7 +80,7 @@ public class RecommendedElasticPoolInner extends ProxyResourceInner {
      * The list of databases in this pool. Expanded property.
      */
     @JsonProperty(value = "properties.databases", access = JsonProperty.Access.WRITE_ONLY)
-    private List<DatabaseInner> databases;
+    private List<DatabaseInner> databasesProperty;
 
     /**
      * The list of databases housed in the server. Expanded property.
@@ -90,16 +91,16 @@ public class RecommendedElasticPoolInner extends ProxyResourceInner {
     /**
      * Get the databaseEdition value.
      *
-     * @return the databaseEdition value
+     * @return the databaseEdition value.
      */
-    public ElasticPoolEditions databaseEdition() {
+    public ElasticPoolEdition databaseEdition() {
         return this.databaseEdition;
     }
 
     /**
      * Get the dtu value.
      *
-     * @return the dtu value
+     * @return the dtu value.
      */
     public Double dtu() {
         return this.dtu;
@@ -108,7 +109,7 @@ public class RecommendedElasticPoolInner extends ProxyResourceInner {
     /**
      * Set the dtu value.
      *
-     * @param dtu the dtu value to set
+     * @param dtu the dtu value to set.
      * @return the RecommendedElasticPoolInner object itself.
      */
     public RecommendedElasticPoolInner withDtu(Double dtu) {
@@ -119,7 +120,7 @@ public class RecommendedElasticPoolInner extends ProxyResourceInner {
     /**
      * Get the databaseDtuMin value.
      *
-     * @return the databaseDtuMin value
+     * @return the databaseDtuMin value.
      */
     public Double databaseDtuMin() {
         return this.databaseDtuMin;
@@ -128,7 +129,7 @@ public class RecommendedElasticPoolInner extends ProxyResourceInner {
     /**
      * Set the databaseDtuMin value.
      *
-     * @param databaseDtuMin the databaseDtuMin value to set
+     * @param databaseDtuMin the databaseDtuMin value to set.
      * @return the RecommendedElasticPoolInner object itself.
      */
     public RecommendedElasticPoolInner withDatabaseDtuMin(Double databaseDtuMin) {
@@ -139,7 +140,7 @@ public class RecommendedElasticPoolInner extends ProxyResourceInner {
     /**
      * Get the databaseDtuMax value.
      *
-     * @return the databaseDtuMax value
+     * @return the databaseDtuMax value.
      */
     public Double databaseDtuMax() {
         return this.databaseDtuMax;
@@ -148,7 +149,7 @@ public class RecommendedElasticPoolInner extends ProxyResourceInner {
     /**
      * Set the databaseDtuMax value.
      *
-     * @param databaseDtuMax the databaseDtuMax value to set
+     * @param databaseDtuMax the databaseDtuMax value to set.
      * @return the RecommendedElasticPoolInner object itself.
      */
     public RecommendedElasticPoolInner withDatabaseDtuMax(Double databaseDtuMax) {
@@ -159,7 +160,7 @@ public class RecommendedElasticPoolInner extends ProxyResourceInner {
     /**
      * Get the storageMB value.
      *
-     * @return the storageMB value
+     * @return the storageMB value.
      */
     public Double storageMB() {
         return this.storageMB;
@@ -168,7 +169,7 @@ public class RecommendedElasticPoolInner extends ProxyResourceInner {
     /**
      * Set the storageMB value.
      *
-     * @param storageMB the storageMB value to set
+     * @param storageMB the storageMB value to set.
      * @return the RecommendedElasticPoolInner object itself.
      */
     public RecommendedElasticPoolInner withStorageMB(Double storageMB) {
@@ -179,25 +180,25 @@ public class RecommendedElasticPoolInner extends ProxyResourceInner {
     /**
      * Get the observationPeriodStart value.
      *
-     * @return the observationPeriodStart value
+     * @return the observationPeriodStart value.
      */
-    public DateTime observationPeriodStart() {
+    public OffsetDateTime observationPeriodStart() {
         return this.observationPeriodStart;
     }
 
     /**
      * Get the observationPeriodEnd value.
      *
-     * @return the observationPeriodEnd value
+     * @return the observationPeriodEnd value.
      */
-    public DateTime observationPeriodEnd() {
+    public OffsetDateTime observationPeriodEnd() {
         return this.observationPeriodEnd;
     }
 
     /**
      * Get the maxObservedDtu value.
      *
-     * @return the maxObservedDtu value
+     * @return the maxObservedDtu value.
      */
     public Double maxObservedDtu() {
         return this.maxObservedDtu;
@@ -206,28 +207,27 @@ public class RecommendedElasticPoolInner extends ProxyResourceInner {
     /**
      * Get the maxObservedStorageMB value.
      *
-     * @return the maxObservedStorageMB value
+     * @return the maxObservedStorageMB value.
      */
     public Double maxObservedStorageMB() {
         return this.maxObservedStorageMB;
     }
 
     /**
-     * Get the databases value.
+     * Get the databasesProperty value.
      *
-     * @return the databases value
+     * @return the databasesProperty value.
      */
-    public List<DatabaseInner> databases() {
-        return this.databases;
+    public List<DatabaseInner> databasesProperty() {
+        return this.databasesProperty;
     }
 
     /**
      * Get the metrics value.
      *
-     * @return the metrics value
+     * @return the metrics value.
      */
     public List<RecommendedElasticPoolMetricInner> metrics() {
         return this.metrics;
     }
-
 }

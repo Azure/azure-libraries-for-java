@@ -8,16 +8,17 @@
 
 package com.microsoft.azure.v2.management.sql.implementation;
 
-import com.microsoft.azure.v2.management.sql.RestorePointTypes;
-import org.joda.time.DateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.v2.management.sql.ProxyResource;
+import com.microsoft.azure.v2.management.sql.RestorePointType;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
+import java.time.OffsetDateTime;
 
 /**
  * Database restore points.
  */
 @JsonFlatten
-public class RestorePointInner extends ProxyResourceInner {
+public class RestorePointInner extends ProxyResource {
     /**
      * Resource location.
      */
@@ -29,19 +30,19 @@ public class RestorePointInner extends ProxyResourceInner {
      * 'DISCRETE'.
      */
     @JsonProperty(value = "properties.restorePointType", access = JsonProperty.Access.WRITE_ONLY)
-    private RestorePointTypes restorePointType;
+    private RestorePointType restorePointType;
 
     /**
      * The earliest time to which this database can be restored.
      */
     @JsonProperty(value = "properties.earliestRestoreDate", access = JsonProperty.Access.WRITE_ONLY)
-    private DateTime earliestRestoreDate;
+    private OffsetDateTime earliestRestoreDate;
 
     /**
      * The time the backup was taken.
      */
     @JsonProperty(value = "properties.restorePointCreationDate", access = JsonProperty.Access.WRITE_ONLY)
-    private DateTime restorePointCreationDate;
+    private OffsetDateTime restorePointCreationDate;
 
     /**
      * The label of restore point for backup request by user.
@@ -52,7 +53,7 @@ public class RestorePointInner extends ProxyResourceInner {
     /**
      * Get the location value.
      *
-     * @return the location value
+     * @return the location value.
      */
     public String location() {
         return this.location;
@@ -61,37 +62,36 @@ public class RestorePointInner extends ProxyResourceInner {
     /**
      * Get the restorePointType value.
      *
-     * @return the restorePointType value
+     * @return the restorePointType value.
      */
-    public RestorePointTypes restorePointType() {
+    public RestorePointType restorePointType() {
         return this.restorePointType;
     }
 
     /**
      * Get the earliestRestoreDate value.
      *
-     * @return the earliestRestoreDate value
+     * @return the earliestRestoreDate value.
      */
-    public DateTime earliestRestoreDate() {
+    public OffsetDateTime earliestRestoreDate() {
         return this.earliestRestoreDate;
     }
 
     /**
      * Get the restorePointCreationDate value.
      *
-     * @return the restorePointCreationDate value
+     * @return the restorePointCreationDate value.
      */
-    public DateTime restorePointCreationDate() {
+    public OffsetDateTime restorePointCreationDate() {
         return this.restorePointCreationDate;
     }
 
     /**
      * Get the restorePointLabel value.
      *
-     * @return the restorePointLabel value
+     * @return the restorePointLabel value.
      */
     public String restorePointLabel() {
         return this.restorePointLabel;
     }
-
 }

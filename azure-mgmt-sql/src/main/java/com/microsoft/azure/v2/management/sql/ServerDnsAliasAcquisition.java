@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * A server DNS alias acquisition request.
  */
-public class ServerDnsAliasAcquisition {
+public final class ServerDnsAliasAcquisition {
     /**
      * The id of the server alias that will be acquired to point to this server
      * instead.
@@ -24,7 +24,7 @@ public class ServerDnsAliasAcquisition {
     /**
      * Get the oldServerDnsAliasId value.
      *
-     * @return the oldServerDnsAliasId value
+     * @return the oldServerDnsAliasId value.
      */
     public String oldServerDnsAliasId() {
         return this.oldServerDnsAliasId;
@@ -33,12 +33,11 @@ public class ServerDnsAliasAcquisition {
     /**
      * Set the oldServerDnsAliasId value.
      *
-     * @param oldServerDnsAliasId the oldServerDnsAliasId value to set
+     * @param oldServerDnsAliasId the oldServerDnsAliasId value to set.
      * @return the ServerDnsAliasAcquisition object itself.
      */
     public ServerDnsAliasAcquisition withOldServerDnsAliasId(String oldServerDnsAliasId) {
         this.oldServerDnsAliasId = oldServerDnsAliasId;
         return this;
     }
-
 }

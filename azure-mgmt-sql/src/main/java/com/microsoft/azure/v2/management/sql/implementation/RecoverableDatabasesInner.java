@@ -8,58 +8,64 @@
 
 package com.microsoft.azure.v2.management.sql.implementation;
 
-import retrofit2.Retrofit;
-import com.google.common.reflect.TypeToken;
-import com.microsoft.azure.CloudException;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import com.microsoft.rest.ServiceResponse;
-import java.io.IOException;
+import com.microsoft.azure.v2.AzureProxy;
+import com.microsoft.azure.v2.CloudException;
+import com.microsoft.rest.v2.BodyResponse;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
+import com.microsoft.rest.v2.annotations.ExpectedResponses;
+import com.microsoft.rest.v2.annotations.GET;
+import com.microsoft.rest.v2.annotations.HeaderParam;
+import com.microsoft.rest.v2.annotations.Host;
+import com.microsoft.rest.v2.annotations.PathParam;
+import com.microsoft.rest.v2.annotations.QueryParam;
+import com.microsoft.rest.v2.annotations.UnexpectedResponseExceptionType;
+import io.reactivex.Maybe;
+import io.reactivex.Single;
+import io.reactivex.annotations.NonNull;
+import java.util.ArrayList;
 import java.util.List;
-import okhttp3.ResponseBody;
-import retrofit2.http.GET;
-import retrofit2.http.Header;
-import retrofit2.http.Headers;
-import retrofit2.http.Path;
-import retrofit2.http.Query;
-import retrofit2.Response;
-import rx.functions.Func1;
-import rx.Observable;
 
 /**
- * An instance of this class provides access to all the operations defined
- * in RecoverableDatabases.
+ * An instance of this class provides access to all the operations defined in
+ * RecoverableDatabases.
  */
-public class RecoverableDatabasesInner {
-    /** The Retrofit service to perform REST calls. */
+public final class RecoverableDatabasesInner {
+    /**
+     * The proxy service used to perform REST calls.
+     */
     private RecoverableDatabasesService service;
-    /** The service client containing this operation class. */
+
+    /**
+     * The service client containing this operation class.
+     */
     private SqlManagementClientImpl client;
 
     /**
      * Initializes an instance of RecoverableDatabasesInner.
      *
-     * @param retrofit the Retrofit instance built from a Retrofit Builder.
      * @param client the instance of the service client containing this operation class.
      */
-    public RecoverableDatabasesInner(Retrofit retrofit, SqlManagementClientImpl client) {
-        this.service = retrofit.create(RecoverableDatabasesService.class);
+    public RecoverableDatabasesInner(SqlManagementClientImpl client) {
+        this.service = AzureProxy.create(RecoverableDatabasesService.class, client);
         this.client = client;
     }
 
     /**
      * The interface defining all the services for RecoverableDatabases to be
-     * used by Retrofit to perform actually REST calls.
+     * used by the proxy service to perform REST calls.
      */
-    interface RecoverableDatabasesService {
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.RecoverableDatabases get" })
+    @Host("https://management.azure.com")
+    private interface RecoverableDatabasesService {
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/recoverableDatabases/{databaseName}")
-        Observable<Response<ResponseBody>> get(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("databaseName") String databaseName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<RecoverableDatabaseInner>> get(@PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("databaseName") String databaseName, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.RecoverableDatabases listByServer" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/recoverableDatabases")
-        Observable<Response<ResponseBody>> listByServer(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
-
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<List<RecoverableDatabaseInner>>> listByServer(@PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
     }
 
     /**
@@ -67,14 +73,14 @@ public class RecoverableDatabasesInner {
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
-     * @param databaseName The name of the database
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @param databaseName The name of the database.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the RecoverableDatabaseInner object if successful.
      */
-    public RecoverableDatabaseInner get(String resourceGroupName, String serverName, String databaseName) {
-        return getWithServiceResponseAsync(resourceGroupName, serverName, databaseName).toBlocking().single().body();
+    public RecoverableDatabaseInner get(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName) {
+        return getAsync(resourceGroupName, serverName, databaseName).blockingGet();
     }
 
     /**
@@ -82,13 +88,13 @@ public class RecoverableDatabasesInner {
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
-     * @param databaseName The name of the database
+     * @param databaseName The name of the database.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<RecoverableDatabaseInner> getAsync(String resourceGroupName, String serverName, String databaseName, final ServiceCallback<RecoverableDatabaseInner> serviceCallback) {
-        return ServiceFuture.fromResponse(getWithServiceResponseAsync(resourceGroupName, serverName, databaseName), serviceCallback);
+    public ServiceFuture<RecoverableDatabaseInner> getAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, ServiceCallback<RecoverableDatabaseInner> serviceCallback) {
+        return ServiceFuture.fromBody(getAsync(resourceGroupName, serverName, databaseName), serviceCallback);
     }
 
     /**
@@ -96,29 +102,11 @@ public class RecoverableDatabasesInner {
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
-     * @param databaseName The name of the database
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the RecoverableDatabaseInner object
+     * @param databaseName The name of the database.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<RecoverableDatabaseInner> getAsync(String resourceGroupName, String serverName, String databaseName) {
-        return getWithServiceResponseAsync(resourceGroupName, serverName, databaseName).map(new Func1<ServiceResponse<RecoverableDatabaseInner>, RecoverableDatabaseInner>() {
-            @Override
-            public RecoverableDatabaseInner call(ServiceResponse<RecoverableDatabaseInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Gets a recoverable database, which is a resource representing a database's geo backup.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the database
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the RecoverableDatabaseInner object
-     */
-    public Observable<ServiceResponse<RecoverableDatabaseInner>> getWithServiceResponseAsync(String resourceGroupName, String serverName, String databaseName) {
+    public Single<BodyResponse<RecoverableDatabaseInner>> getWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
@@ -132,25 +120,21 @@ public class RecoverableDatabasesInner {
             throw new IllegalArgumentException("Parameter databaseName is required and cannot be null.");
         }
         final String apiVersion = "2014-04-01";
-        return service.get(this.client.subscriptionId(), resourceGroupName, serverName, databaseName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<RecoverableDatabaseInner>>>() {
-                @Override
-                public Observable<ServiceResponse<RecoverableDatabaseInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<RecoverableDatabaseInner> clientResponse = getDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.get(this.client.subscriptionId(), resourceGroupName, serverName, databaseName, apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<RecoverableDatabaseInner> getDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<RecoverableDatabaseInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<RecoverableDatabaseInner>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Gets a recoverable database, which is a resource representing a database's geo backup.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<RecoverableDatabaseInner> getAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName) {
+        return getWithRestResponseAsync(resourceGroupName, serverName, databaseName)
+            .flatMapMaybe((BodyResponse<RecoverableDatabaseInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
@@ -158,13 +142,13 @@ public class RecoverableDatabasesInner {
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the List&lt;RecoverableDatabaseInner&gt; object if successful.
      */
-    public List<RecoverableDatabaseInner> listByServer(String resourceGroupName, String serverName) {
-        return listByServerWithServiceResponseAsync(resourceGroupName, serverName).toBlocking().single().body();
+    public List<RecoverableDatabaseInner> listByServer(@NonNull String resourceGroupName, @NonNull String serverName) {
+        return listByServerAsync(resourceGroupName, serverName).blockingGet();
     }
 
     /**
@@ -173,11 +157,11 @@ public class RecoverableDatabasesInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<List<RecoverableDatabaseInner>> listByServerAsync(String resourceGroupName, String serverName, final ServiceCallback<List<RecoverableDatabaseInner>> serviceCallback) {
-        return ServiceFuture.fromResponse(listByServerWithServiceResponseAsync(resourceGroupName, serverName), serviceCallback);
+    public ServiceFuture<List<RecoverableDatabaseInner>> listByServerAsync(@NonNull String resourceGroupName, @NonNull String serverName, ServiceCallback<List<RecoverableDatabaseInner>> serviceCallback) {
+        return ServiceFuture.fromBody(listByServerAsync(resourceGroupName, serverName), serviceCallback);
     }
 
     /**
@@ -185,27 +169,10 @@ public class RecoverableDatabasesInner {
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the List&lt;RecoverableDatabaseInner&gt; object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<List<RecoverableDatabaseInner>> listByServerAsync(String resourceGroupName, String serverName) {
-        return listByServerWithServiceResponseAsync(resourceGroupName, serverName).map(new Func1<ServiceResponse<List<RecoverableDatabaseInner>>, List<RecoverableDatabaseInner>>() {
-            @Override
-            public List<RecoverableDatabaseInner> call(ServiceResponse<List<RecoverableDatabaseInner>> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Gets a list of recoverable databases.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the List&lt;RecoverableDatabaseInner&gt; object
-     */
-    public Observable<ServiceResponse<List<RecoverableDatabaseInner>>> listByServerWithServiceResponseAsync(String resourceGroupName, String serverName) {
+    public Single<BodyResponse<List<RecoverableDatabaseInner>>> listByServerWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
@@ -216,26 +183,19 @@ public class RecoverableDatabasesInner {
             throw new IllegalArgumentException("Parameter serverName is required and cannot be null.");
         }
         final String apiVersion = "2014-04-01";
-        return service.listByServer(this.client.subscriptionId(), resourceGroupName, serverName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<List<RecoverableDatabaseInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<List<RecoverableDatabaseInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<RecoverableDatabaseInner>> result = listByServerDelegate(response);
-                        ServiceResponse<List<RecoverableDatabaseInner>> clientResponse = new ServiceResponse<List<RecoverableDatabaseInner>>(result.body().items(), result.response());
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.listByServer(this.client.subscriptionId(), resourceGroupName, serverName, apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<PageImpl<RecoverableDatabaseInner>> listByServerDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<RecoverableDatabaseInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<RecoverableDatabaseInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Gets a list of recoverable databases.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<List<RecoverableDatabaseInner>> listByServerAsync(@NonNull String resourceGroupName, @NonNull String serverName) {
+        return listByServerWithRestResponseAsync(resourceGroupName, serverName)
+            .flatMapMaybe((BodyResponse<List<RecoverableDatabaseInner>> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
-
 }

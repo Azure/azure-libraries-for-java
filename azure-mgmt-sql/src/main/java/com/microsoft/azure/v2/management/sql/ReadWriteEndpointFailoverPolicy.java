@@ -9,24 +9,28 @@
 package com.microsoft.azure.v2.management.sql;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.microsoft.rest.ExpandableStringEnum;
-
+import com.microsoft.rest.v2.ExpandableStringEnum;
 import java.util.Collection;
 
 /**
  * Defines values for ReadWriteEndpointFailoverPolicy.
  */
 public final class ReadWriteEndpointFailoverPolicy extends ExpandableStringEnum<ReadWriteEndpointFailoverPolicy> {
-    /** Static value Manual for ReadWriteEndpointFailoverPolicy. */
+    /**
+     * Static value Manual for ReadWriteEndpointFailoverPolicy.
+     */
     public static final ReadWriteEndpointFailoverPolicy MANUAL = fromString("Manual");
 
-    /** Static value Automatic for ReadWriteEndpointFailoverPolicy. */
+    /**
+     * Static value Automatic for ReadWriteEndpointFailoverPolicy.
+     */
     public static final ReadWriteEndpointFailoverPolicy AUTOMATIC = fromString("Automatic");
 
     /**
      * Creates or finds a ReadWriteEndpointFailoverPolicy from its string representation.
-     * @param name a name to look for
-     * @return the corresponding ReadWriteEndpointFailoverPolicy
+     *
+     * @param name a name to look for.
+     * @return the corresponding ReadWriteEndpointFailoverPolicy.
      */
     @JsonCreator
     public static ReadWriteEndpointFailoverPolicy fromString(String name) {
@@ -34,7 +38,7 @@ public final class ReadWriteEndpointFailoverPolicy extends ExpandableStringEnum<
     }
 
     /**
-     * @return known ReadWriteEndpointFailoverPolicy values
+     * @return known ReadWriteEndpointFailoverPolicy values.
      */
     public static Collection<ReadWriteEndpointFailoverPolicy> values() {
         return values(ReadWriteEndpointFailoverPolicy.class);

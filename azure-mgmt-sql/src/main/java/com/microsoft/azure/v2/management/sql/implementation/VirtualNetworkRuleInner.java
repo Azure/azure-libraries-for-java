@@ -8,15 +8,16 @@
 
 package com.microsoft.azure.v2.management.sql.implementation;
 
-import com.microsoft.azure.v2.management.sql.VirtualNetworkRuleState;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.v2.management.sql.ProxyResource;
+import com.microsoft.azure.v2.management.sql.VirtualNetworkRuleState;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
 
 /**
  * A virtual network rule.
  */
 @JsonFlatten
-public class VirtualNetworkRuleInner extends ProxyResourceInner {
+public class VirtualNetworkRuleInner extends ProxyResource {
     /**
      * The ARM resource id of the virtual network subnet.
      */
@@ -40,7 +41,7 @@ public class VirtualNetworkRuleInner extends ProxyResourceInner {
     /**
      * Get the virtualNetworkSubnetId value.
      *
-     * @return the virtualNetworkSubnetId value
+     * @return the virtualNetworkSubnetId value.
      */
     public String virtualNetworkSubnetId() {
         return this.virtualNetworkSubnetId;
@@ -49,7 +50,7 @@ public class VirtualNetworkRuleInner extends ProxyResourceInner {
     /**
      * Set the virtualNetworkSubnetId value.
      *
-     * @param virtualNetworkSubnetId the virtualNetworkSubnetId value to set
+     * @param virtualNetworkSubnetId the virtualNetworkSubnetId value to set.
      * @return the VirtualNetworkRuleInner object itself.
      */
     public VirtualNetworkRuleInner withVirtualNetworkSubnetId(String virtualNetworkSubnetId) {
@@ -60,7 +61,7 @@ public class VirtualNetworkRuleInner extends ProxyResourceInner {
     /**
      * Get the ignoreMissingVnetServiceEndpoint value.
      *
-     * @return the ignoreMissingVnetServiceEndpoint value
+     * @return the ignoreMissingVnetServiceEndpoint value.
      */
     public Boolean ignoreMissingVnetServiceEndpoint() {
         return this.ignoreMissingVnetServiceEndpoint;
@@ -69,7 +70,8 @@ public class VirtualNetworkRuleInner extends ProxyResourceInner {
     /**
      * Set the ignoreMissingVnetServiceEndpoint value.
      *
-     * @param ignoreMissingVnetServiceEndpoint the ignoreMissingVnetServiceEndpoint value to set
+     * @param ignoreMissingVnetServiceEndpoint the
+     * ignoreMissingVnetServiceEndpoint value to set.
      * @return the VirtualNetworkRuleInner object itself.
      */
     public VirtualNetworkRuleInner withIgnoreMissingVnetServiceEndpoint(Boolean ignoreMissingVnetServiceEndpoint) {
@@ -80,10 +82,9 @@ public class VirtualNetworkRuleInner extends ProxyResourceInner {
     /**
      * Get the state value.
      *
-     * @return the state value
+     * @return the state value.
      */
     public VirtualNetworkRuleState state() {
         return this.state;
     }
-
 }

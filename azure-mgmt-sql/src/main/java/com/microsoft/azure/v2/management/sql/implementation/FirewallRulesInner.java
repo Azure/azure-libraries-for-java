@@ -8,70 +8,80 @@
 
 package com.microsoft.azure.v2.management.sql.implementation;
 
-import retrofit2.Retrofit;
-import com.google.common.reflect.TypeToken;
-import com.microsoft.azure.CloudException;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import com.microsoft.rest.ServiceResponse;
-import com.microsoft.rest.Validator;
-import java.io.IOException;
+import com.microsoft.azure.v2.AzureProxy;
+import com.microsoft.azure.v2.CloudException;
+import com.microsoft.rest.v2.BodyResponse;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
+import com.microsoft.rest.v2.Validator;
+import com.microsoft.rest.v2.VoidResponse;
+import com.microsoft.rest.v2.annotations.BodyParam;
+import com.microsoft.rest.v2.annotations.DELETE;
+import com.microsoft.rest.v2.annotations.ExpectedResponses;
+import com.microsoft.rest.v2.annotations.GET;
+import com.microsoft.rest.v2.annotations.HeaderParam;
+import com.microsoft.rest.v2.annotations.Host;
+import com.microsoft.rest.v2.annotations.PathParam;
+import com.microsoft.rest.v2.annotations.PUT;
+import com.microsoft.rest.v2.annotations.QueryParam;
+import com.microsoft.rest.v2.annotations.UnexpectedResponseExceptionType;
+import io.reactivex.Completable;
+import io.reactivex.Maybe;
+import io.reactivex.Single;
+import io.reactivex.annotations.NonNull;
+import java.util.ArrayList;
 import java.util.List;
-import okhttp3.ResponseBody;
-import retrofit2.http.Body;
-import retrofit2.http.GET;
-import retrofit2.http.Header;
-import retrofit2.http.Headers;
-import retrofit2.http.HTTP;
-import retrofit2.http.Path;
-import retrofit2.http.PUT;
-import retrofit2.http.Query;
-import retrofit2.Response;
-import rx.functions.Func1;
-import rx.Observable;
 
 /**
- * An instance of this class provides access to all the operations defined
- * in FirewallRules.
+ * An instance of this class provides access to all the operations defined in
+ * FirewallRules.
  */
-public class FirewallRulesInner {
-    /** The Retrofit service to perform REST calls. */
+public final class FirewallRulesInner {
+    /**
+     * The proxy service used to perform REST calls.
+     */
     private FirewallRulesService service;
-    /** The service client containing this operation class. */
+
+    /**
+     * The service client containing this operation class.
+     */
     private SqlManagementClientImpl client;
 
     /**
      * Initializes an instance of FirewallRulesInner.
      *
-     * @param retrofit the Retrofit instance built from a Retrofit Builder.
      * @param client the instance of the service client containing this operation class.
      */
-    public FirewallRulesInner(Retrofit retrofit, SqlManagementClientImpl client) {
-        this.service = retrofit.create(FirewallRulesService.class);
+    public FirewallRulesInner(SqlManagementClientImpl client) {
+        this.service = AzureProxy.create(FirewallRulesService.class, client);
         this.client = client;
     }
 
     /**
-     * The interface defining all the services for FirewallRules to be
-     * used by Retrofit to perform actually REST calls.
+     * The interface defining all the services for FirewallRules to be used by
+     * the proxy service to perform REST calls.
      */
-    interface FirewallRulesService {
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.FirewallRules createOrUpdate" })
+    @Host("https://management.azure.com")
+    private interface FirewallRulesService {
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/firewallRules/{firewallRuleName}")
-        Observable<Response<ResponseBody>> createOrUpdate(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("firewallRuleName") String firewallRuleName, @Query("api-version") String apiVersion, @Body FirewallRuleInner parameters, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 201})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<FirewallRuleInner>> createOrUpdate(@PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("firewallRuleName") String firewallRuleName, @QueryParam("api-version") String apiVersion, @BodyParam("application/json; charset=utf-8") FirewallRuleInner parameters, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.FirewallRules delete" })
-        @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/firewallRules/{firewallRuleName}", method = "DELETE", hasBody = true)
-        Observable<Response<ResponseBody>> delete(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("firewallRuleName") String firewallRuleName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @DELETE("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/firewallRules/{firewallRuleName}")
+        @ExpectedResponses({200, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<VoidResponse> delete(@PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("firewallRuleName") String firewallRuleName, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.FirewallRules get" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/firewallRules/{firewallRuleName}")
-        Observable<Response<ResponseBody>> get(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("firewallRuleName") String firewallRuleName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<FirewallRuleInner>> get(@PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("firewallRuleName") String firewallRuleName, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.FirewallRules listByServer" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/firewallRules")
-        Observable<Response<ResponseBody>> listByServer(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
-
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<List<FirewallRuleInner>>> listByServer(@PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
     }
 
     /**
@@ -81,13 +91,13 @@ public class FirewallRulesInner {
      * @param serverName The name of the server.
      * @param firewallRuleName The name of the firewall rule.
      * @param parameters The required parameters for creating or updating a firewall rule.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the FirewallRuleInner object if successful.
      */
-    public FirewallRuleInner createOrUpdate(String resourceGroupName, String serverName, String firewallRuleName, FirewallRuleInner parameters) {
-        return createOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, firewallRuleName, parameters).toBlocking().single().body();
+    public FirewallRuleInner createOrUpdate(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String firewallRuleName, @NonNull FirewallRuleInner parameters) {
+        return createOrUpdateAsync(resourceGroupName, serverName, firewallRuleName, parameters).blockingGet();
     }
 
     /**
@@ -98,11 +108,11 @@ public class FirewallRulesInner {
      * @param firewallRuleName The name of the firewall rule.
      * @param parameters The required parameters for creating or updating a firewall rule.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<FirewallRuleInner> createOrUpdateAsync(String resourceGroupName, String serverName, String firewallRuleName, FirewallRuleInner parameters, final ServiceCallback<FirewallRuleInner> serviceCallback) {
-        return ServiceFuture.fromResponse(createOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, firewallRuleName, parameters), serviceCallback);
+    public ServiceFuture<FirewallRuleInner> createOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String firewallRuleName, @NonNull FirewallRuleInner parameters, ServiceCallback<FirewallRuleInner> serviceCallback) {
+        return ServiceFuture.fromBody(createOrUpdateAsync(resourceGroupName, serverName, firewallRuleName, parameters), serviceCallback);
     }
 
     /**
@@ -112,29 +122,10 @@ public class FirewallRulesInner {
      * @param serverName The name of the server.
      * @param firewallRuleName The name of the firewall rule.
      * @param parameters The required parameters for creating or updating a firewall rule.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the FirewallRuleInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<FirewallRuleInner> createOrUpdateAsync(String resourceGroupName, String serverName, String firewallRuleName, FirewallRuleInner parameters) {
-        return createOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, firewallRuleName, parameters).map(new Func1<ServiceResponse<FirewallRuleInner>, FirewallRuleInner>() {
-            @Override
-            public FirewallRuleInner call(ServiceResponse<FirewallRuleInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Creates or updates a firewall rule.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param firewallRuleName The name of the firewall rule.
-     * @param parameters The required parameters for creating or updating a firewall rule.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the FirewallRuleInner object
-     */
-    public Observable<ServiceResponse<FirewallRuleInner>> createOrUpdateWithServiceResponseAsync(String resourceGroupName, String serverName, String firewallRuleName, FirewallRuleInner parameters) {
+    public Single<BodyResponse<FirewallRuleInner>> createOrUpdateWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String firewallRuleName, @NonNull FirewallRuleInner parameters) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
@@ -152,26 +143,22 @@ public class FirewallRulesInner {
         }
         Validator.validate(parameters);
         final String apiVersion = "2014-04-01";
-        return service.createOrUpdate(this.client.subscriptionId(), resourceGroupName, serverName, firewallRuleName, apiVersion, parameters, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<FirewallRuleInner>>>() {
-                @Override
-                public Observable<ServiceResponse<FirewallRuleInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<FirewallRuleInner> clientResponse = createOrUpdateDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.createOrUpdate(this.client.subscriptionId(), resourceGroupName, serverName, firewallRuleName, apiVersion, parameters, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<FirewallRuleInner> createOrUpdateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<FirewallRuleInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<FirewallRuleInner>() { }.getType())
-                .register(201, new TypeToken<FirewallRuleInner>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Creates or updates a firewall rule.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param firewallRuleName The name of the firewall rule.
+     * @param parameters The required parameters for creating or updating a firewall rule.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<FirewallRuleInner> createOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String firewallRuleName, @NonNull FirewallRuleInner parameters) {
+        return createOrUpdateWithRestResponseAsync(resourceGroupName, serverName, firewallRuleName, parameters)
+            .flatMapMaybe((BodyResponse<FirewallRuleInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
@@ -180,12 +167,12 @@ public class FirewallRulesInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param firewallRuleName The name of the firewall rule.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void delete(String resourceGroupName, String serverName, String firewallRuleName) {
-        deleteWithServiceResponseAsync(resourceGroupName, serverName, firewallRuleName).toBlocking().single().body();
+    public void delete(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String firewallRuleName) {
+        deleteAsync(resourceGroupName, serverName, firewallRuleName).blockingAwait();
     }
 
     /**
@@ -195,11 +182,11 @@ public class FirewallRulesInner {
      * @param serverName The name of the server.
      * @param firewallRuleName The name of the firewall rule.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<Void> deleteAsync(String resourceGroupName, String serverName, String firewallRuleName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(deleteWithServiceResponseAsync(resourceGroupName, serverName, firewallRuleName), serviceCallback);
+    public ServiceFuture<Void> deleteAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String firewallRuleName, ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromBody(deleteAsync(resourceGroupName, serverName, firewallRuleName), serviceCallback);
     }
 
     /**
@@ -208,28 +195,10 @@ public class FirewallRulesInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param firewallRuleName The name of the firewall rule.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<Void> deleteAsync(String resourceGroupName, String serverName, String firewallRuleName) {
-        return deleteWithServiceResponseAsync(resourceGroupName, serverName, firewallRuleName).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Deletes a firewall rule.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param firewallRuleName The name of the firewall rule.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
-     */
-    public Observable<ServiceResponse<Void>> deleteWithServiceResponseAsync(String resourceGroupName, String serverName, String firewallRuleName) {
+    public Single<VoidResponse> deleteWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String firewallRuleName) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
@@ -243,26 +212,21 @@ public class FirewallRulesInner {
             throw new IllegalArgumentException("Parameter firewallRuleName is required and cannot be null.");
         }
         final String apiVersion = "2014-04-01";
-        return service.delete(this.client.subscriptionId(), resourceGroupName, serverName, firewallRuleName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
-                @Override
-                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<Void> clientResponse = deleteDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.delete(this.client.subscriptionId(), resourceGroupName, serverName, firewallRuleName, apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<Void> deleteDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<Void>() { }.getType())
-                .register(204, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Deletes a firewall rule.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param firewallRuleName The name of the firewall rule.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Completable deleteAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String firewallRuleName) {
+        return deleteWithRestResponseAsync(resourceGroupName, serverName, firewallRuleName)
+            .toCompletable();
     }
 
     /**
@@ -271,13 +235,13 @@ public class FirewallRulesInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param firewallRuleName The name of the firewall rule.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the FirewallRuleInner object if successful.
      */
-    public FirewallRuleInner get(String resourceGroupName, String serverName, String firewallRuleName) {
-        return getWithServiceResponseAsync(resourceGroupName, serverName, firewallRuleName).toBlocking().single().body();
+    public FirewallRuleInner get(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String firewallRuleName) {
+        return getAsync(resourceGroupName, serverName, firewallRuleName).blockingGet();
     }
 
     /**
@@ -287,11 +251,11 @@ public class FirewallRulesInner {
      * @param serverName The name of the server.
      * @param firewallRuleName The name of the firewall rule.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<FirewallRuleInner> getAsync(String resourceGroupName, String serverName, String firewallRuleName, final ServiceCallback<FirewallRuleInner> serviceCallback) {
-        return ServiceFuture.fromResponse(getWithServiceResponseAsync(resourceGroupName, serverName, firewallRuleName), serviceCallback);
+    public ServiceFuture<FirewallRuleInner> getAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String firewallRuleName, ServiceCallback<FirewallRuleInner> serviceCallback) {
+        return ServiceFuture.fromBody(getAsync(resourceGroupName, serverName, firewallRuleName), serviceCallback);
     }
 
     /**
@@ -300,28 +264,10 @@ public class FirewallRulesInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param firewallRuleName The name of the firewall rule.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the FirewallRuleInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<FirewallRuleInner> getAsync(String resourceGroupName, String serverName, String firewallRuleName) {
-        return getWithServiceResponseAsync(resourceGroupName, serverName, firewallRuleName).map(new Func1<ServiceResponse<FirewallRuleInner>, FirewallRuleInner>() {
-            @Override
-            public FirewallRuleInner call(ServiceResponse<FirewallRuleInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Gets a firewall rule.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param firewallRuleName The name of the firewall rule.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the FirewallRuleInner object
-     */
-    public Observable<ServiceResponse<FirewallRuleInner>> getWithServiceResponseAsync(String resourceGroupName, String serverName, String firewallRuleName) {
+    public Single<BodyResponse<FirewallRuleInner>> getWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String firewallRuleName) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
@@ -335,25 +281,21 @@ public class FirewallRulesInner {
             throw new IllegalArgumentException("Parameter firewallRuleName is required and cannot be null.");
         }
         final String apiVersion = "2014-04-01";
-        return service.get(this.client.subscriptionId(), resourceGroupName, serverName, firewallRuleName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<FirewallRuleInner>>>() {
-                @Override
-                public Observable<ServiceResponse<FirewallRuleInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<FirewallRuleInner> clientResponse = getDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.get(this.client.subscriptionId(), resourceGroupName, serverName, firewallRuleName, apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<FirewallRuleInner> getDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<FirewallRuleInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<FirewallRuleInner>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Gets a firewall rule.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param firewallRuleName The name of the firewall rule.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<FirewallRuleInner> getAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String firewallRuleName) {
+        return getWithRestResponseAsync(resourceGroupName, serverName, firewallRuleName)
+            .flatMapMaybe((BodyResponse<FirewallRuleInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
@@ -361,13 +303,13 @@ public class FirewallRulesInner {
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the List&lt;FirewallRuleInner&gt; object if successful.
      */
-    public List<FirewallRuleInner> listByServer(String resourceGroupName, String serverName) {
-        return listByServerWithServiceResponseAsync(resourceGroupName, serverName).toBlocking().single().body();
+    public List<FirewallRuleInner> listByServer(@NonNull String resourceGroupName, @NonNull String serverName) {
+        return listByServerAsync(resourceGroupName, serverName).blockingGet();
     }
 
     /**
@@ -376,11 +318,11 @@ public class FirewallRulesInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<List<FirewallRuleInner>> listByServerAsync(String resourceGroupName, String serverName, final ServiceCallback<List<FirewallRuleInner>> serviceCallback) {
-        return ServiceFuture.fromResponse(listByServerWithServiceResponseAsync(resourceGroupName, serverName), serviceCallback);
+    public ServiceFuture<List<FirewallRuleInner>> listByServerAsync(@NonNull String resourceGroupName, @NonNull String serverName, ServiceCallback<List<FirewallRuleInner>> serviceCallback) {
+        return ServiceFuture.fromBody(listByServerAsync(resourceGroupName, serverName), serviceCallback);
     }
 
     /**
@@ -388,27 +330,10 @@ public class FirewallRulesInner {
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the List&lt;FirewallRuleInner&gt; object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<List<FirewallRuleInner>> listByServerAsync(String resourceGroupName, String serverName) {
-        return listByServerWithServiceResponseAsync(resourceGroupName, serverName).map(new Func1<ServiceResponse<List<FirewallRuleInner>>, List<FirewallRuleInner>>() {
-            @Override
-            public List<FirewallRuleInner> call(ServiceResponse<List<FirewallRuleInner>> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Returns a list of firewall rules.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the List&lt;FirewallRuleInner&gt; object
-     */
-    public Observable<ServiceResponse<List<FirewallRuleInner>>> listByServerWithServiceResponseAsync(String resourceGroupName, String serverName) {
+    public Single<BodyResponse<List<FirewallRuleInner>>> listByServerWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
@@ -419,26 +344,19 @@ public class FirewallRulesInner {
             throw new IllegalArgumentException("Parameter serverName is required and cannot be null.");
         }
         final String apiVersion = "2014-04-01";
-        return service.listByServer(this.client.subscriptionId(), resourceGroupName, serverName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<List<FirewallRuleInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<List<FirewallRuleInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<FirewallRuleInner>> result = listByServerDelegate(response);
-                        ServiceResponse<List<FirewallRuleInner>> clientResponse = new ServiceResponse<List<FirewallRuleInner>>(result.body().items(), result.response());
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.listByServer(this.client.subscriptionId(), resourceGroupName, serverName, apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<PageImpl<FirewallRuleInner>> listByServerDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<FirewallRuleInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<FirewallRuleInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Returns a list of firewall rules.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<List<FirewallRuleInner>> listByServerAsync(@NonNull String resourceGroupName, @NonNull String serverName) {
+        return listByServerWithRestResponseAsync(resourceGroupName, serverName)
+            .flatMapMaybe((BodyResponse<List<FirewallRuleInner>> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
-
 }

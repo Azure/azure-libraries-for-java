@@ -8,39 +8,40 @@
 
 package com.microsoft.azure.v2.management.sql.implementation;
 
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.v2.management.sql.JobTarget;
+import com.microsoft.azure.v2.management.sql.ProxyResource;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
+import java.util.List;
 
 /**
  * A group of job targets.
  */
 @JsonFlatten
-public class JobTargetGroupInner extends ProxyResourceInner {
+public class JobTargetGroupInner extends ProxyResource {
     /**
      * Members of the target group.
      */
     @JsonProperty(value = "properties.members", required = true)
-    private List<JobTargetInner> members;
+    private List<JobTarget> members;
 
     /**
      * Get the members value.
      *
-     * @return the members value
+     * @return the members value.
      */
-    public List<JobTargetInner> members() {
+    public List<JobTarget> members() {
         return this.members;
     }
 
     /**
      * Set the members value.
      *
-     * @param members the members value to set
+     * @param members the members value to set.
      * @return the JobTargetGroupInner object itself.
      */
-    public JobTargetGroupInner withMembers(List<JobTargetInner> members) {
+    public JobTargetGroupInner withMembers(List<JobTarget> members) {
         this.members = members;
         return this;
     }
-
 }

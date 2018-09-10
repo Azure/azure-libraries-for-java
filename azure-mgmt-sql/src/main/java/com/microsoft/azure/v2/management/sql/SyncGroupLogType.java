@@ -9,30 +9,38 @@
 package com.microsoft.azure.v2.management.sql;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.microsoft.rest.ExpandableStringEnum;
-
+import com.microsoft.rest.v2.ExpandableStringEnum;
 import java.util.Collection;
 
 /**
  * Defines values for SyncGroupLogType.
  */
 public final class SyncGroupLogType extends ExpandableStringEnum<SyncGroupLogType> {
-    /** Static value All for SyncGroupLogType. */
+    /**
+     * Static value All for SyncGroupLogType.
+     */
     public static final SyncGroupLogType ALL = fromString("All");
 
-    /** Static value Error for SyncGroupLogType. */
+    /**
+     * Static value Error for SyncGroupLogType.
+     */
     public static final SyncGroupLogType ERROR = fromString("Error");
 
-    /** Static value Warning for SyncGroupLogType. */
+    /**
+     * Static value Warning for SyncGroupLogType.
+     */
     public static final SyncGroupLogType WARNING = fromString("Warning");
 
-    /** Static value Success for SyncGroupLogType. */
+    /**
+     * Static value Success for SyncGroupLogType.
+     */
     public static final SyncGroupLogType SUCCESS = fromString("Success");
 
     /**
      * Creates or finds a SyncGroupLogType from its string representation.
-     * @param name a name to look for
-     * @return the corresponding SyncGroupLogType
+     *
+     * @param name a name to look for.
+     * @return the corresponding SyncGroupLogType.
      */
     @JsonCreator
     public static SyncGroupLogType fromString(String name) {
@@ -40,7 +48,7 @@ public final class SyncGroupLogType extends ExpandableStringEnum<SyncGroupLogTyp
     }
 
     /**
-     * @return known SyncGroupLogType values
+     * @return known SyncGroupLogType values.
      */
     public static Collection<SyncGroupLogType> values() {
         return values(SyncGroupLogType.class);

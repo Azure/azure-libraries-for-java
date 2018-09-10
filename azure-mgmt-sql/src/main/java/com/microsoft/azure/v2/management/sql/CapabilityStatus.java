@@ -15,22 +15,32 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Defines values for CapabilityStatus.
  */
 public enum CapabilityStatus {
-    /** Enum value Visible. */
+    /**
+     * Enum value Visible.
+     */
     VISIBLE("Visible"),
 
-    /** Enum value Available. */
+    /**
+     * Enum value Available.
+     */
     AVAILABLE("Available"),
 
-    /** Enum value Default. */
+    /**
+     * Enum value Default.
+     */
     DEFAULT("Default"),
 
-    /** Enum value Disabled. */
+    /**
+     * Enum value Disabled.
+     */
     DISABLED("Disabled");
 
-    /** The actual serialized value for a CapabilityStatus instance. */
-    private String value;
+    /**
+     * The actual serialized value for a CapabilityStatus instance.
+     */
+    private final String value;
 
-    CapabilityStatus(String value) {
+    private CapabilityStatus(String value) {
         this.value = value;
     }
 

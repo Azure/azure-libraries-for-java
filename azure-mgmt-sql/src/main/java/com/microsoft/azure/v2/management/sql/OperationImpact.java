@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * The impact of an operation, both in absolute and relative terms.
  */
-public class OperationImpact {
+public final class OperationImpact {
     /**
      * The name of the impact dimension.
      */
@@ -41,7 +41,7 @@ public class OperationImpact {
     /**
      * Get the name value.
      *
-     * @return the name value
+     * @return the name value.
      */
     public String name() {
         return this.name;
@@ -50,7 +50,7 @@ public class OperationImpact {
     /**
      * Get the unit value.
      *
-     * @return the unit value
+     * @return the unit value.
      */
     public String unit() {
         return this.unit;
@@ -59,7 +59,7 @@ public class OperationImpact {
     /**
      * Get the changeValueAbsolute value.
      *
-     * @return the changeValueAbsolute value
+     * @return the changeValueAbsolute value.
      */
     public Double changeValueAbsolute() {
         return this.changeValueAbsolute;
@@ -68,10 +68,9 @@ public class OperationImpact {
     /**
      * Get the changeValueRelative value.
      *
-     * @return the changeValueRelative value
+     * @return the changeValueRelative value.
      */
     public Double changeValueRelative() {
         return this.changeValueRelative;
     }
-
 }

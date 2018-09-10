@@ -8,16 +8,17 @@
 
 package com.microsoft.azure.v2.management.sql.implementation;
 
-import com.microsoft.azure.v2.management.sql.ServerKeyType;
-import org.joda.time.DateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.v2.management.sql.ProxyResource;
+import com.microsoft.azure.v2.management.sql.ServerKeyType;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
+import java.time.OffsetDateTime;
 
 /**
  * A server key.
  */
 @JsonFlatten
-public class ServerKeyInner extends ProxyResourceInner {
+public class ServerKeyInner extends ProxyResource {
     /**
      * Kind of encryption protector. This is metadata used for the Azure portal
      * experience.
@@ -60,12 +61,12 @@ public class ServerKeyInner extends ProxyResourceInner {
      * The server key creation date.
      */
     @JsonProperty(value = "properties.creationDate")
-    private DateTime creationDate;
+    private OffsetDateTime creationDate;
 
     /**
      * Get the kind value.
      *
-     * @return the kind value
+     * @return the kind value.
      */
     public String kind() {
         return this.kind;
@@ -74,7 +75,7 @@ public class ServerKeyInner extends ProxyResourceInner {
     /**
      * Set the kind value.
      *
-     * @param kind the kind value to set
+     * @param kind the kind value to set.
      * @return the ServerKeyInner object itself.
      */
     public ServerKeyInner withKind(String kind) {
@@ -85,7 +86,7 @@ public class ServerKeyInner extends ProxyResourceInner {
     /**
      * Get the location value.
      *
-     * @return the location value
+     * @return the location value.
      */
     public String location() {
         return this.location;
@@ -94,7 +95,7 @@ public class ServerKeyInner extends ProxyResourceInner {
     /**
      * Get the subregion value.
      *
-     * @return the subregion value
+     * @return the subregion value.
      */
     public String subregion() {
         return this.subregion;
@@ -103,7 +104,7 @@ public class ServerKeyInner extends ProxyResourceInner {
     /**
      * Get the serverKeyType value.
      *
-     * @return the serverKeyType value
+     * @return the serverKeyType value.
      */
     public ServerKeyType serverKeyType() {
         return this.serverKeyType;
@@ -112,7 +113,7 @@ public class ServerKeyInner extends ProxyResourceInner {
     /**
      * Set the serverKeyType value.
      *
-     * @param serverKeyType the serverKeyType value to set
+     * @param serverKeyType the serverKeyType value to set.
      * @return the ServerKeyInner object itself.
      */
     public ServerKeyInner withServerKeyType(ServerKeyType serverKeyType) {
@@ -123,7 +124,7 @@ public class ServerKeyInner extends ProxyResourceInner {
     /**
      * Get the uri value.
      *
-     * @return the uri value
+     * @return the uri value.
      */
     public String uri() {
         return this.uri;
@@ -132,7 +133,7 @@ public class ServerKeyInner extends ProxyResourceInner {
     /**
      * Set the uri value.
      *
-     * @param uri the uri value to set
+     * @param uri the uri value to set.
      * @return the ServerKeyInner object itself.
      */
     public ServerKeyInner withUri(String uri) {
@@ -143,7 +144,7 @@ public class ServerKeyInner extends ProxyResourceInner {
     /**
      * Get the thumbprint value.
      *
-     * @return the thumbprint value
+     * @return the thumbprint value.
      */
     public String thumbprint() {
         return this.thumbprint;
@@ -152,7 +153,7 @@ public class ServerKeyInner extends ProxyResourceInner {
     /**
      * Set the thumbprint value.
      *
-     * @param thumbprint the thumbprint value to set
+     * @param thumbprint the thumbprint value to set.
      * @return the ServerKeyInner object itself.
      */
     public ServerKeyInner withThumbprint(String thumbprint) {
@@ -163,21 +164,20 @@ public class ServerKeyInner extends ProxyResourceInner {
     /**
      * Get the creationDate value.
      *
-     * @return the creationDate value
+     * @return the creationDate value.
      */
-    public DateTime creationDate() {
+    public OffsetDateTime creationDate() {
         return this.creationDate;
     }
 
     /**
      * Set the creationDate value.
      *
-     * @param creationDate the creationDate value to set
+     * @param creationDate the creationDate value to set.
      * @return the ServerKeyInner object itself.
      */
-    public ServerKeyInner withCreationDate(DateTime creationDate) {
+    public ServerKeyInner withCreationDate(OffsetDateTime creationDate) {
         this.creationDate = creationDate;
         return this;
     }
-
 }

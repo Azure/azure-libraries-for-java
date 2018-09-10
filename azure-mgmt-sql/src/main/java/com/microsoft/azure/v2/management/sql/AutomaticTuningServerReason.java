@@ -15,19 +15,27 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Defines values for AutomaticTuningServerReason.
  */
 public enum AutomaticTuningServerReason {
-    /** Enum value Default. */
+    /**
+     * Enum value Default.
+     */
     DEFAULT("Default"),
 
-    /** Enum value Disabled. */
+    /**
+     * Enum value Disabled.
+     */
     DISABLED("Disabled"),
 
-    /** Enum value AutoConfigured. */
+    /**
+     * Enum value AutoConfigured.
+     */
     AUTO_CONFIGURED("AutoConfigured");
 
-    /** The actual serialized value for a AutomaticTuningServerReason instance. */
-    private String value;
+    /**
+     * The actual serialized value for a AutomaticTuningServerReason instance.
+     */
+    private final String value;
 
-    AutomaticTuningServerReason(String value) {
+    private AutomaticTuningServerReason(String value) {
         this.value = value;
     }
 

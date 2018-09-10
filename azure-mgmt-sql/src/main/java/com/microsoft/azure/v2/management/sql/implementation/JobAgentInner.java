@@ -8,16 +8,17 @@
 
 package com.microsoft.azure.v2.management.sql.implementation;
 
-import com.microsoft.azure.v2.management.sql.Sku;
-import com.microsoft.azure.v2.management.sql.JobAgentState;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.v2.management.sql.JobAgentState;
+import com.microsoft.azure.v2.management.sql.Sku;
+import com.microsoft.azure.v2.management.sql.TrackedResource;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
 
 /**
  * An Azure SQL job agent.
  */
 @JsonFlatten
-public class JobAgentInner extends TrackedResourceInner {
+public class JobAgentInner extends TrackedResource {
     /**
      * The name and tier of the SKU.
      */
@@ -40,7 +41,7 @@ public class JobAgentInner extends TrackedResourceInner {
     /**
      * Get the sku value.
      *
-     * @return the sku value
+     * @return the sku value.
      */
     public Sku sku() {
         return this.sku;
@@ -49,7 +50,7 @@ public class JobAgentInner extends TrackedResourceInner {
     /**
      * Set the sku value.
      *
-     * @param sku the sku value to set
+     * @param sku the sku value to set.
      * @return the JobAgentInner object itself.
      */
     public JobAgentInner withSku(Sku sku) {
@@ -60,7 +61,7 @@ public class JobAgentInner extends TrackedResourceInner {
     /**
      * Get the databaseId value.
      *
-     * @return the databaseId value
+     * @return the databaseId value.
      */
     public String databaseId() {
         return this.databaseId;
@@ -69,7 +70,7 @@ public class JobAgentInner extends TrackedResourceInner {
     /**
      * Set the databaseId value.
      *
-     * @param databaseId the databaseId value to set
+     * @param databaseId the databaseId value to set.
      * @return the JobAgentInner object itself.
      */
     public JobAgentInner withDatabaseId(String databaseId) {
@@ -80,10 +81,9 @@ public class JobAgentInner extends TrackedResourceInner {
     /**
      * Get the state value.
      *
-     * @return the state value
+     * @return the state value.
      */
     public JobAgentState state() {
         return this.state;
     }
-
 }

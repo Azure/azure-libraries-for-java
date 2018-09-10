@@ -15,16 +15,22 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Defines values for AutomaticTuningOptionModeActual.
  */
 public enum AutomaticTuningOptionModeActual {
-    /** Enum value Off. */
+    /**
+     * Enum value Off.
+     */
     OFF("Off"),
 
-    /** Enum value On. */
+    /**
+     * Enum value On.
+     */
     ON("On");
 
-    /** The actual serialized value for a AutomaticTuningOptionModeActual instance. */
-    private String value;
+    /**
+     * The actual serialized value for a AutomaticTuningOptionModeActual instance.
+     */
+    private final String value;
 
-    AutomaticTuningOptionModeActual(String value) {
+    private AutomaticTuningOptionModeActual(String value) {
         this.value = value;
     }
 

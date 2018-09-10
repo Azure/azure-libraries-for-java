@@ -9,14 +9,15 @@
 package com.microsoft.azure.v2.management.sql.implementation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.v2.management.sql.ProxyResource;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
 
 /**
  * A stored credential that can be used by a job to connect to target
  * databases.
  */
 @JsonFlatten
-public class JobCredentialInner extends ProxyResourceInner {
+public class JobCredentialInner extends ProxyResource {
     /**
      * The credential user name.
      */
@@ -32,7 +33,7 @@ public class JobCredentialInner extends ProxyResourceInner {
     /**
      * Get the username value.
      *
-     * @return the username value
+     * @return the username value.
      */
     public String username() {
         return this.username;
@@ -41,7 +42,7 @@ public class JobCredentialInner extends ProxyResourceInner {
     /**
      * Set the username value.
      *
-     * @param username the username value to set
+     * @param username the username value to set.
      * @return the JobCredentialInner object itself.
      */
     public JobCredentialInner withUsername(String username) {
@@ -52,7 +53,7 @@ public class JobCredentialInner extends ProxyResourceInner {
     /**
      * Get the password value.
      *
-     * @return the password value
+     * @return the password value.
      */
     public String password() {
         return this.password;
@@ -61,12 +62,11 @@ public class JobCredentialInner extends ProxyResourceInner {
     /**
      * Set the password value.
      *
-     * @param password the password value to set
+     * @param password the password value to set.
      * @return the JobCredentialInner object itself.
      */
     public JobCredentialInner withPassword(String password) {
         this.password = password;
         return this;
     }
-
 }

@@ -8,69 +8,73 @@
 
 package com.microsoft.azure.v2.management.sql.implementation;
 
-import retrofit2.Retrofit;
-import com.google.common.reflect.TypeToken;
-import com.microsoft.azure.AzureServiceFuture;
-import com.microsoft.azure.CloudException;
-import com.microsoft.azure.ListOperationCallback;
-import com.microsoft.azure.Page;
-import com.microsoft.azure.PagedList;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import com.microsoft.rest.ServiceResponse;
-import java.io.IOException;
-import java.util.List;
+import com.microsoft.azure.v2.AzureProxy;
+import com.microsoft.azure.v2.CloudException;
+import com.microsoft.azure.v2.Page;
+import com.microsoft.azure.v2.PagedList;
+import com.microsoft.rest.v2.BodyResponse;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
+import com.microsoft.rest.v2.VoidResponse;
+import com.microsoft.rest.v2.annotations.ExpectedResponses;
+import com.microsoft.rest.v2.annotations.GET;
+import com.microsoft.rest.v2.annotations.HeaderParam;
+import com.microsoft.rest.v2.annotations.Host;
+import com.microsoft.rest.v2.annotations.PathParam;
+import com.microsoft.rest.v2.annotations.POST;
+import com.microsoft.rest.v2.annotations.QueryParam;
+import com.microsoft.rest.v2.annotations.UnexpectedResponseExceptionType;
+import io.reactivex.Completable;
+import io.reactivex.Observable;
+import io.reactivex.Single;
+import io.reactivex.annotations.NonNull;
 import java.util.UUID;
-import okhttp3.ResponseBody;
-import retrofit2.http.GET;
-import retrofit2.http.Header;
-import retrofit2.http.Headers;
-import retrofit2.http.Path;
-import retrofit2.http.POST;
-import retrofit2.http.Query;
-import retrofit2.http.Url;
-import retrofit2.Response;
-import rx.functions.Func1;
-import rx.Observable;
 
 /**
- * An instance of this class provides access to all the operations defined
- * in ElasticPoolOperations.
+ * An instance of this class provides access to all the operations defined in
+ * ElasticPoolOperations.
  */
-public class ElasticPoolOperationsInner {
-    /** The Retrofit service to perform REST calls. */
+public final class ElasticPoolOperationsInner {
+    /**
+     * The proxy service used to perform REST calls.
+     */
     private ElasticPoolOperationsService service;
-    /** The service client containing this operation class. */
+
+    /**
+     * The service client containing this operation class.
+     */
     private SqlManagementClientImpl client;
 
     /**
      * Initializes an instance of ElasticPoolOperationsInner.
      *
-     * @param retrofit the Retrofit instance built from a Retrofit Builder.
      * @param client the instance of the service client containing this operation class.
      */
-    public ElasticPoolOperationsInner(Retrofit retrofit, SqlManagementClientImpl client) {
-        this.service = retrofit.create(ElasticPoolOperationsService.class);
+    public ElasticPoolOperationsInner(SqlManagementClientImpl client) {
+        this.service = AzureProxy.create(ElasticPoolOperationsService.class, client);
         this.client = client;
     }
 
     /**
      * The interface defining all the services for ElasticPoolOperations to be
-     * used by Retrofit to perform actually REST calls.
+     * used by the proxy service to perform REST calls.
      */
-    interface ElasticPoolOperationsService {
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.ElasticPoolOperations cancel" })
+    @Host("https://management.azure.com")
+    private interface ElasticPoolOperationsService {
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/elasticPools/{elasticPoolName}/operations/{operationId}/cancel")
-        Observable<Response<ResponseBody>> cancel(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("elasticPoolName") String elasticPoolName, @Path("operationId") UUID operationId, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<VoidResponse> cancel(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("elasticPoolName") String elasticPoolName, @PathParam("operationId") UUID operationId, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.ElasticPoolOperations listByElasticPool" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/elasticPools/{elasticPoolName}/operations")
-        Observable<Response<ResponseBody>> listByElasticPool(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("elasticPoolName") String elasticPoolName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl1<ElasticPoolOperationInner>>> listByElasticPool(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("elasticPoolName") String elasticPoolName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.ElasticPoolOperations listByElasticPoolNext" })
-        @GET
-        Observable<Response<ResponseBody>> listByElasticPoolNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
-
+        @GET("{nextUrl}")
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl1<ElasticPoolOperationInner>>> listByElasticPoolNext(@PathParam(value = "nextUrl", encoded = true) String nextUrl, @HeaderParam("accept-language") String acceptLanguage);
     }
 
     /**
@@ -78,14 +82,14 @@ public class ElasticPoolOperationsInner {
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
-     * @param elasticPoolName the String value
+     * @param elasticPoolName the String value.
      * @param operationId The operation identifier.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void cancel(String resourceGroupName, String serverName, String elasticPoolName, UUID operationId) {
-        cancelWithServiceResponseAsync(resourceGroupName, serverName, elasticPoolName, operationId).toBlocking().single().body();
+    public void cancel(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String elasticPoolName, @NonNull UUID operationId) {
+        cancelAsync(resourceGroupName, serverName, elasticPoolName, operationId).blockingAwait();
     }
 
     /**
@@ -93,14 +97,14 @@ public class ElasticPoolOperationsInner {
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
-     * @param elasticPoolName the String value
+     * @param elasticPoolName the String value.
      * @param operationId The operation identifier.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<Void> cancelAsync(String resourceGroupName, String serverName, String elasticPoolName, UUID operationId, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(cancelWithServiceResponseAsync(resourceGroupName, serverName, elasticPoolName, operationId), serviceCallback);
+    public ServiceFuture<Void> cancelAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String elasticPoolName, @NonNull UUID operationId, ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromBody(cancelAsync(resourceGroupName, serverName, elasticPoolName, operationId), serviceCallback);
     }
 
     /**
@@ -108,31 +112,12 @@ public class ElasticPoolOperationsInner {
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
-     * @param elasticPoolName the String value
+     * @param elasticPoolName the String value.
      * @param operationId The operation identifier.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<Void> cancelAsync(String resourceGroupName, String serverName, String elasticPoolName, UUID operationId) {
-        return cancelWithServiceResponseAsync(resourceGroupName, serverName, elasticPoolName, operationId).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Cancels the asynchronous operation on the elastic pool.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param elasticPoolName the String value
-     * @param operationId The operation identifier.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
-     */
-    public Observable<ServiceResponse<Void>> cancelWithServiceResponseAsync(String resourceGroupName, String serverName, String elasticPoolName, UUID operationId) {
+    public Single<VoidResponse> cancelWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String elasticPoolName, @NonNull UUID operationId) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -149,25 +134,22 @@ public class ElasticPoolOperationsInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2017-10-01-preview";
-        return service.cancel(resourceGroupName, serverName, elasticPoolName, operationId, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
-                @Override
-                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<Void> clientResponse = cancelDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.cancel(resourceGroupName, serverName, elasticPoolName, operationId, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<Void> cancelDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Cancels the asynchronous operation on the elastic pool.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param elasticPoolName the String value.
+     * @param operationId The operation identifier.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Completable cancelAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String elasticPoolName, @NonNull UUID operationId) {
+        return cancelWithRestResponseAsync(resourceGroupName, serverName, elasticPoolName, operationId)
+            .toCompletable();
     }
 
     /**
@@ -175,18 +157,18 @@ public class ElasticPoolOperationsInner {
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
-     * @param elasticPoolName the String value
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @param elasticPoolName the String value.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;ElasticPoolOperationInner&gt; object if successful.
      */
-    public PagedList<ElasticPoolOperationInner> listByElasticPool(final String resourceGroupName, final String serverName, final String elasticPoolName) {
-        ServiceResponse<Page<ElasticPoolOperationInner>> response = listByElasticPoolSinglePageAsync(resourceGroupName, serverName, elasticPoolName).toBlocking().single();
-        return new PagedList<ElasticPoolOperationInner>(response.body()) {
+    public PagedList<ElasticPoolOperationInner> listByElasticPool(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String elasticPoolName) {
+        Page<ElasticPoolOperationInner> response = listByElasticPoolSinglePageAsync(resourceGroupName, serverName, elasticPoolName).blockingGet();
+        return new PagedList<ElasticPoolOperationInner>(response) {
             @Override
             public Page<ElasticPoolOperationInner> nextPage(String nextPageLink) {
-                return listByElasticPoolNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listByElasticPoolNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -196,75 +178,32 @@ public class ElasticPoolOperationsInner {
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
-     * @param elasticPoolName the String value
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @param elasticPoolName the String value.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;ElasticPoolOperationInner&gt; object.
      */
-    public ServiceFuture<List<ElasticPoolOperationInner>> listByElasticPoolAsync(final String resourceGroupName, final String serverName, final String elasticPoolName, final ListOperationCallback<ElasticPoolOperationInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listByElasticPoolSinglePageAsync(resourceGroupName, serverName, elasticPoolName),
-            new Func1<String, Observable<ServiceResponse<Page<ElasticPoolOperationInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ElasticPoolOperationInner>>> call(String nextPageLink) {
-                    return listByElasticPoolNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets a list of operations performed on the elastic pool.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param elasticPoolName the String value
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ElasticPoolOperationInner&gt; object
-     */
-    public Observable<Page<ElasticPoolOperationInner>> listByElasticPoolAsync(final String resourceGroupName, final String serverName, final String elasticPoolName) {
-        return listByElasticPoolWithServiceResponseAsync(resourceGroupName, serverName, elasticPoolName)
-            .map(new Func1<ServiceResponse<Page<ElasticPoolOperationInner>>, Page<ElasticPoolOperationInner>>() {
-                @Override
-                public Page<ElasticPoolOperationInner> call(ServiceResponse<Page<ElasticPoolOperationInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets a list of operations performed on the elastic pool.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param elasticPoolName the String value
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ElasticPoolOperationInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<ElasticPoolOperationInner>>> listByElasticPoolWithServiceResponseAsync(final String resourceGroupName, final String serverName, final String elasticPoolName) {
+    public Observable<Page<ElasticPoolOperationInner>> listByElasticPoolAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String elasticPoolName) {
         return listByElasticPoolSinglePageAsync(resourceGroupName, serverName, elasticPoolName)
-            .concatMap(new Func1<ServiceResponse<Page<ElasticPoolOperationInner>>, Observable<ServiceResponse<Page<ElasticPoolOperationInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ElasticPoolOperationInner>>> call(ServiceResponse<Page<ElasticPoolOperationInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listByElasticPoolNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<ElasticPoolOperationInner> page) -> {
+                String nextPageLink = page.nextPageLink();
+                if (nextPageLink == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listByElasticPoolNextAsync(nextPageLink));
             });
     }
 
     /**
      * Gets a list of operations performed on the elastic pool.
      *
-    ServiceResponse<PageImpl1<ElasticPoolOperationInner>> * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-    ServiceResponse<PageImpl1<ElasticPoolOperationInner>> * @param serverName The name of the server.
-    ServiceResponse<PageImpl1<ElasticPoolOperationInner>> * @param elasticPoolName the String value
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;ElasticPoolOperationInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param elasticPoolName the String value.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;ElasticPoolOperationInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<ElasticPoolOperationInner>>> listByElasticPoolSinglePageAsync(final String resourceGroupName, final String serverName, final String elasticPoolName) {
+    public Single<Page<ElasticPoolOperationInner>> listByElasticPoolSinglePageAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String elasticPoolName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -278,42 +217,25 @@ public class ElasticPoolOperationsInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2017-10-01-preview";
-        return service.listByElasticPool(resourceGroupName, serverName, elasticPoolName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ElasticPoolOperationInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ElasticPoolOperationInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl1<ElasticPoolOperationInner>> result = listByElasticPoolDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<ElasticPoolOperationInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl1<ElasticPoolOperationInner>> listByElasticPoolDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl1<ElasticPoolOperationInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl1<ElasticPoolOperationInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+        return service.listByElasticPool(resourceGroupName, serverName, elasticPoolName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl1<ElasticPoolOperationInner>> res) -> res.body());
     }
 
     /**
      * Gets a list of operations performed on the elastic pool.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;ElasticPoolOperationInner&gt; object if successful.
      */
-    public PagedList<ElasticPoolOperationInner> listByElasticPoolNext(final String nextPageLink) {
-        ServiceResponse<Page<ElasticPoolOperationInner>> response = listByElasticPoolNextSinglePageAsync(nextPageLink).toBlocking().single();
-        return new PagedList<ElasticPoolOperationInner>(response.body()) {
+    public PagedList<ElasticPoolOperationInner> listByElasticPoolNext(@NonNull String nextPageLink) {
+        Page<ElasticPoolOperationInner> response = listByElasticPoolNextSinglePageAsync(nextPageLink).blockingGet();
+        return new PagedList<ElasticPoolOperationInner>(response) {
             @Override
             public Page<ElasticPoolOperationInner> nextPage(String nextPageLink) {
-                return listByElasticPoolNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listByElasticPoolNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -322,92 +244,34 @@ public class ElasticPoolOperationsInner {
      * Gets a list of operations performed on the elastic pool.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;ElasticPoolOperationInner&gt; object.
      */
-    public ServiceFuture<List<ElasticPoolOperationInner>> listByElasticPoolNextAsync(final String nextPageLink, final ServiceFuture<List<ElasticPoolOperationInner>> serviceFuture, final ListOperationCallback<ElasticPoolOperationInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listByElasticPoolNextSinglePageAsync(nextPageLink),
-            new Func1<String, Observable<ServiceResponse<Page<ElasticPoolOperationInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ElasticPoolOperationInner>>> call(String nextPageLink) {
-                    return listByElasticPoolNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets a list of operations performed on the elastic pool.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ElasticPoolOperationInner&gt; object
-     */
-    public Observable<Page<ElasticPoolOperationInner>> listByElasticPoolNextAsync(final String nextPageLink) {
-        return listByElasticPoolNextWithServiceResponseAsync(nextPageLink)
-            .map(new Func1<ServiceResponse<Page<ElasticPoolOperationInner>>, Page<ElasticPoolOperationInner>>() {
-                @Override
-                public Page<ElasticPoolOperationInner> call(ServiceResponse<Page<ElasticPoolOperationInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets a list of operations performed on the elastic pool.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ElasticPoolOperationInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<ElasticPoolOperationInner>>> listByElasticPoolNextWithServiceResponseAsync(final String nextPageLink) {
+    public Observable<Page<ElasticPoolOperationInner>> listByElasticPoolNextAsync(@NonNull String nextPageLink) {
         return listByElasticPoolNextSinglePageAsync(nextPageLink)
-            .concatMap(new Func1<ServiceResponse<Page<ElasticPoolOperationInner>>, Observable<ServiceResponse<Page<ElasticPoolOperationInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ElasticPoolOperationInner>>> call(ServiceResponse<Page<ElasticPoolOperationInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listByElasticPoolNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<ElasticPoolOperationInner> page) -> {
+                String nextPageLink1 = page.nextPageLink();
+                if (nextPageLink1 == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listByElasticPoolNextAsync(nextPageLink1));
             });
     }
 
     /**
      * Gets a list of operations performed on the elastic pool.
      *
-    ServiceResponse<PageImpl1<ElasticPoolOperationInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;ElasticPoolOperationInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;ElasticPoolOperationInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<ElasticPoolOperationInner>>> listByElasticPoolNextSinglePageAsync(final String nextPageLink) {
+    public Single<Page<ElasticPoolOperationInner>> listByElasticPoolNextSinglePageAsync(@NonNull String nextPageLink) {
         if (nextPageLink == null) {
             throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
         }
         String nextUrl = String.format("%s", nextPageLink);
-        return service.listByElasticPoolNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ElasticPoolOperationInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ElasticPoolOperationInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl1<ElasticPoolOperationInner>> result = listByElasticPoolNextDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<ElasticPoolOperationInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.listByElasticPoolNext(nextUrl, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl1<ElasticPoolOperationInner>> res) -> res.body());
     }
-
-    private ServiceResponse<PageImpl1<ElasticPoolOperationInner>> listByElasticPoolNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl1<ElasticPoolOperationInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl1<ElasticPoolOperationInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
-    }
-
 }

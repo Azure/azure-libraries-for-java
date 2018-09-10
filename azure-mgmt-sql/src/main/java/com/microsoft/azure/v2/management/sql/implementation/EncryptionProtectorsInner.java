@@ -8,78 +8,93 @@
 
 package com.microsoft.azure.v2.management.sql.implementation;
 
-import retrofit2.Retrofit;
-import com.google.common.reflect.TypeToken;
-import com.microsoft.azure.AzureServiceFuture;
-import com.microsoft.azure.CloudException;
-import com.microsoft.azure.ListOperationCallback;
-import com.microsoft.azure.Page;
-import com.microsoft.azure.PagedList;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import com.microsoft.rest.ServiceResponse;
-import com.microsoft.rest.Validator;
-import java.io.IOException;
-import java.util.List;
-import okhttp3.ResponseBody;
-import retrofit2.http.Body;
-import retrofit2.http.GET;
-import retrofit2.http.Header;
-import retrofit2.http.Headers;
-import retrofit2.http.Path;
-import retrofit2.http.PUT;
-import retrofit2.http.Query;
-import retrofit2.http.Url;
-import retrofit2.Response;
-import rx.functions.Func1;
-import rx.Observable;
+import com.microsoft.azure.v2.AzureProxy;
+import com.microsoft.azure.v2.CloudException;
+import com.microsoft.azure.v2.OperationStatus;
+import com.microsoft.azure.v2.Page;
+import com.microsoft.azure.v2.PagedList;
+import com.microsoft.azure.v2.util.ServiceFutureUtil;
+import com.microsoft.rest.v2.BodyResponse;
+import com.microsoft.rest.v2.OperationDescription;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
+import com.microsoft.rest.v2.Validator;
+import com.microsoft.rest.v2.annotations.BodyParam;
+import com.microsoft.rest.v2.annotations.ExpectedResponses;
+import com.microsoft.rest.v2.annotations.GET;
+import com.microsoft.rest.v2.annotations.HeaderParam;
+import com.microsoft.rest.v2.annotations.Host;
+import com.microsoft.rest.v2.annotations.PathParam;
+import com.microsoft.rest.v2.annotations.PUT;
+import com.microsoft.rest.v2.annotations.QueryParam;
+import com.microsoft.rest.v2.annotations.ResumeOperation;
+import com.microsoft.rest.v2.annotations.UnexpectedResponseExceptionType;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
+import io.reactivex.Single;
+import io.reactivex.annotations.NonNull;
 
 /**
- * An instance of this class provides access to all the operations defined
- * in EncryptionProtectors.
+ * An instance of this class provides access to all the operations defined in
+ * EncryptionProtectors.
  */
-public class EncryptionProtectorsInner {
-    /** The Retrofit service to perform REST calls. */
+public final class EncryptionProtectorsInner {
+    /**
+     * The proxy service used to perform REST calls.
+     */
     private EncryptionProtectorsService service;
-    /** The service client containing this operation class. */
+
+    /**
+     * The service client containing this operation class.
+     */
     private SqlManagementClientImpl client;
 
     /**
      * Initializes an instance of EncryptionProtectorsInner.
      *
-     * @param retrofit the Retrofit instance built from a Retrofit Builder.
      * @param client the instance of the service client containing this operation class.
      */
-    public EncryptionProtectorsInner(Retrofit retrofit, SqlManagementClientImpl client) {
-        this.service = retrofit.create(EncryptionProtectorsService.class);
+    public EncryptionProtectorsInner(SqlManagementClientImpl client) {
+        this.service = AzureProxy.create(EncryptionProtectorsService.class, client);
         this.client = client;
     }
 
     /**
      * The interface defining all the services for EncryptionProtectors to be
-     * used by Retrofit to perform actually REST calls.
+     * used by the proxy service to perform REST calls.
      */
-    interface EncryptionProtectorsService {
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.EncryptionProtectors listByServer" })
+    @Host("https://management.azure.com")
+    private interface EncryptionProtectorsService {
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/encryptionProtector")
-        Observable<Response<ResponseBody>> listByServer(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl1<EncryptionProtectorInner>>> listByServer(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.EncryptionProtectors get" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/encryptionProtector/{encryptionProtectorName}")
-        Observable<Response<ResponseBody>> get(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("encryptionProtectorName") String encryptionProtectorName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<EncryptionProtectorInner>> get(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("encryptionProtectorName") String encryptionProtectorName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.EncryptionProtectors createOrUpdate" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/encryptionProtector/{encryptionProtectorName}")
-        Observable<Response<ResponseBody>> createOrUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("encryptionProtectorName") String encryptionProtectorName, @Path("subscriptionId") String subscriptionId, @Body EncryptionProtectorInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Observable<OperationStatus<EncryptionProtectorInner>> beginCreateOrUpdate(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("encryptionProtectorName") String encryptionProtectorName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json; charset=utf-8") EncryptionProtectorInner parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.EncryptionProtectors beginCreateOrUpdate" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/encryptionProtector/{encryptionProtectorName}")
-        Observable<Response<ResponseBody>> beginCreateOrUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("encryptionProtectorName") String encryptionProtectorName, @Path("subscriptionId") String subscriptionId, @Body EncryptionProtectorInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<EncryptionProtectorInner>> createOrUpdate(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("encryptionProtectorName") String encryptionProtectorName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json; charset=utf-8") EncryptionProtectorInner parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.EncryptionProtectors listByServerNext" })
-        @GET
-        Observable<Response<ResponseBody>> listByServerNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/encryptionProtector/{encryptionProtectorName}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<EncryptionProtectorInner>> resumeCreateOrUpdate(OperationDescription operationDescription);
 
+        @GET("{nextUrl}")
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl1<EncryptionProtectorInner>>> listByServerNext(@PathParam(value = "nextUrl", encoded = true) String nextUrl, @HeaderParam("accept-language") String acceptLanguage);
     }
 
     /**
@@ -87,17 +102,17 @@ public class EncryptionProtectorsInner {
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;EncryptionProtectorInner&gt; object if successful.
      */
-    public PagedList<EncryptionProtectorInner> listByServer(final String resourceGroupName, final String serverName) {
-        ServiceResponse<Page<EncryptionProtectorInner>> response = listByServerSinglePageAsync(resourceGroupName, serverName).toBlocking().single();
-        return new PagedList<EncryptionProtectorInner>(response.body()) {
+    public PagedList<EncryptionProtectorInner> listByServer(@NonNull String resourceGroupName, @NonNull String serverName) {
+        Page<EncryptionProtectorInner> response = listByServerSinglePageAsync(resourceGroupName, serverName).blockingGet();
+        return new PagedList<EncryptionProtectorInner>(response) {
             @Override
             public Page<EncryptionProtectorInner> nextPage(String nextPageLink) {
-                return listByServerNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listByServerNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -107,71 +122,30 @@ public class EncryptionProtectorsInner {
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;EncryptionProtectorInner&gt; object.
      */
-    public ServiceFuture<List<EncryptionProtectorInner>> listByServerAsync(final String resourceGroupName, final String serverName, final ListOperationCallback<EncryptionProtectorInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listByServerSinglePageAsync(resourceGroupName, serverName),
-            new Func1<String, Observable<ServiceResponse<Page<EncryptionProtectorInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<EncryptionProtectorInner>>> call(String nextPageLink) {
-                    return listByServerNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets a list of server encryption protectors.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;EncryptionProtectorInner&gt; object
-     */
-    public Observable<Page<EncryptionProtectorInner>> listByServerAsync(final String resourceGroupName, final String serverName) {
-        return listByServerWithServiceResponseAsync(resourceGroupName, serverName)
-            .map(new Func1<ServiceResponse<Page<EncryptionProtectorInner>>, Page<EncryptionProtectorInner>>() {
-                @Override
-                public Page<EncryptionProtectorInner> call(ServiceResponse<Page<EncryptionProtectorInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets a list of server encryption protectors.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;EncryptionProtectorInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<EncryptionProtectorInner>>> listByServerWithServiceResponseAsync(final String resourceGroupName, final String serverName) {
+    public Observable<Page<EncryptionProtectorInner>> listByServerAsync(@NonNull String resourceGroupName, @NonNull String serverName) {
         return listByServerSinglePageAsync(resourceGroupName, serverName)
-            .concatMap(new Func1<ServiceResponse<Page<EncryptionProtectorInner>>, Observable<ServiceResponse<Page<EncryptionProtectorInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<EncryptionProtectorInner>>> call(ServiceResponse<Page<EncryptionProtectorInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listByServerNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<EncryptionProtectorInner> page) -> {
+                String nextPageLink = page.nextPageLink();
+                if (nextPageLink == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listByServerNextAsync(nextPageLink));
             });
     }
 
     /**
      * Gets a list of server encryption protectors.
      *
-    ServiceResponse<PageImpl1<EncryptionProtectorInner>> * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-    ServiceResponse<PageImpl1<EncryptionProtectorInner>> * @param serverName The name of the server.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;EncryptionProtectorInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;EncryptionProtectorInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<EncryptionProtectorInner>>> listByServerSinglePageAsync(final String resourceGroupName, final String serverName) {
+    public Single<Page<EncryptionProtectorInner>> listByServerSinglePageAsync(@NonNull String resourceGroupName, @NonNull String serverName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -182,25 +156,8 @@ public class EncryptionProtectorsInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2015-05-01-preview";
-        return service.listByServer(resourceGroupName, serverName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<EncryptionProtectorInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<EncryptionProtectorInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl1<EncryptionProtectorInner>> result = listByServerDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<EncryptionProtectorInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl1<EncryptionProtectorInner>> listByServerDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl1<EncryptionProtectorInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl1<EncryptionProtectorInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+        return service.listByServer(resourceGroupName, serverName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl1<EncryptionProtectorInner>> res) -> res.body());
     }
 
     /**
@@ -208,13 +165,13 @@ public class EncryptionProtectorsInner {
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the EncryptionProtectorInner object if successful.
      */
-    public EncryptionProtectorInner get(String resourceGroupName, String serverName) {
-        return getWithServiceResponseAsync(resourceGroupName, serverName).toBlocking().single().body();
+    public EncryptionProtectorInner get(@NonNull String resourceGroupName, @NonNull String serverName) {
+        return getAsync(resourceGroupName, serverName).blockingGet();
     }
 
     /**
@@ -223,11 +180,11 @@ public class EncryptionProtectorsInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<EncryptionProtectorInner> getAsync(String resourceGroupName, String serverName, final ServiceCallback<EncryptionProtectorInner> serviceCallback) {
-        return ServiceFuture.fromResponse(getWithServiceResponseAsync(resourceGroupName, serverName), serviceCallback);
+    public ServiceFuture<EncryptionProtectorInner> getAsync(@NonNull String resourceGroupName, @NonNull String serverName, ServiceCallback<EncryptionProtectorInner> serviceCallback) {
+        return ServiceFuture.fromBody(getAsync(resourceGroupName, serverName), serviceCallback);
     }
 
     /**
@@ -235,27 +192,10 @@ public class EncryptionProtectorsInner {
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the EncryptionProtectorInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<EncryptionProtectorInner> getAsync(String resourceGroupName, String serverName) {
-        return getWithServiceResponseAsync(resourceGroupName, serverName).map(new Func1<ServiceResponse<EncryptionProtectorInner>, EncryptionProtectorInner>() {
-            @Override
-            public EncryptionProtectorInner call(ServiceResponse<EncryptionProtectorInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Gets a server encryption protector.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the EncryptionProtectorInner object
-     */
-    public Observable<ServiceResponse<EncryptionProtectorInner>> getWithServiceResponseAsync(String resourceGroupName, String serverName) {
+    public Single<BodyResponse<EncryptionProtectorInner>> getWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -267,25 +207,20 @@ public class EncryptionProtectorsInner {
         }
         final String encryptionProtectorName = "current";
         final String apiVersion = "2015-05-01-preview";
-        return service.get(resourceGroupName, serverName, encryptionProtectorName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<EncryptionProtectorInner>>>() {
-                @Override
-                public Observable<ServiceResponse<EncryptionProtectorInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<EncryptionProtectorInner> clientResponse = getDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.get(resourceGroupName, serverName, encryptionProtectorName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<EncryptionProtectorInner> getDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<EncryptionProtectorInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<EncryptionProtectorInner>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Gets a server encryption protector.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<EncryptionProtectorInner> getAsync(@NonNull String resourceGroupName, @NonNull String serverName) {
+        return getWithRestResponseAsync(resourceGroupName, serverName)
+            .flatMapMaybe((BodyResponse<EncryptionProtectorInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
@@ -294,13 +229,13 @@ public class EncryptionProtectorsInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param parameters The requested encryption protector resource state.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the EncryptionProtectorInner object if successful.
      */
-    public EncryptionProtectorInner createOrUpdate(String resourceGroupName, String serverName, EncryptionProtectorInner parameters) {
-        return createOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, parameters).toBlocking().last().body();
+    public EncryptionProtectorInner beginCreateOrUpdate(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull EncryptionProtectorInner parameters) {
+        return beginCreateOrUpdateAsync(resourceGroupName, serverName, parameters).blockingLast().result();
     }
 
     /**
@@ -310,11 +245,11 @@ public class EncryptionProtectorsInner {
      * @param serverName The name of the server.
      * @param parameters The requested encryption protector resource state.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;EncryptionProtectorInner&gt; object.
      */
-    public ServiceFuture<EncryptionProtectorInner> createOrUpdateAsync(String resourceGroupName, String serverName, EncryptionProtectorInner parameters, final ServiceCallback<EncryptionProtectorInner> serviceCallback) {
-        return ServiceFuture.fromResponse(createOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, parameters), serviceCallback);
+    public ServiceFuture<EncryptionProtectorInner> beginCreateOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull EncryptionProtectorInner parameters, ServiceCallback<EncryptionProtectorInner> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginCreateOrUpdateAsync(resourceGroupName, serverName, parameters), serviceCallback);
     }
 
     /**
@@ -323,28 +258,10 @@ public class EncryptionProtectorsInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param parameters The requested encryption protector resource state.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<EncryptionProtectorInner> createOrUpdateAsync(String resourceGroupName, String serverName, EncryptionProtectorInner parameters) {
-        return createOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, parameters).map(new Func1<ServiceResponse<EncryptionProtectorInner>, EncryptionProtectorInner>() {
-            @Override
-            public EncryptionProtectorInner call(ServiceResponse<EncryptionProtectorInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Updates an existing encryption protector.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param parameters The requested encryption protector resource state.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<EncryptionProtectorInner>> createOrUpdateWithServiceResponseAsync(String resourceGroupName, String serverName, EncryptionProtectorInner parameters) {
+    public Observable<OperationStatus<EncryptionProtectorInner>> beginCreateOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull EncryptionProtectorInner parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -360,8 +277,7 @@ public class EncryptionProtectorsInner {
         Validator.validate(parameters);
         final String encryptionProtectorName = "current";
         final String apiVersion = "2015-05-01-preview";
-        Observable<Response<ResponseBody>> observable = service.createOrUpdate(resourceGroupName, serverName, encryptionProtectorName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<EncryptionProtectorInner>() { }.getType());
+        return service.beginCreateOrUpdate(resourceGroupName, serverName, encryptionProtectorName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage());
     }
 
     /**
@@ -370,13 +286,13 @@ public class EncryptionProtectorsInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param parameters The requested encryption protector resource state.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the EncryptionProtectorInner object if successful.
      */
-    public EncryptionProtectorInner beginCreateOrUpdate(String resourceGroupName, String serverName, EncryptionProtectorInner parameters) {
-        return beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, parameters).toBlocking().single().body();
+    public EncryptionProtectorInner createOrUpdate(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull EncryptionProtectorInner parameters) {
+        return createOrUpdateAsync(resourceGroupName, serverName, parameters).blockingGet();
     }
 
     /**
@@ -386,11 +302,11 @@ public class EncryptionProtectorsInner {
      * @param serverName The name of the server.
      * @param parameters The requested encryption protector resource state.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<EncryptionProtectorInner> beginCreateOrUpdateAsync(String resourceGroupName, String serverName, EncryptionProtectorInner parameters, final ServiceCallback<EncryptionProtectorInner> serviceCallback) {
-        return ServiceFuture.fromResponse(beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, parameters), serviceCallback);
+    public ServiceFuture<EncryptionProtectorInner> createOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull EncryptionProtectorInner parameters, ServiceCallback<EncryptionProtectorInner> serviceCallback) {
+        return ServiceFuture.fromBody(createOrUpdateAsync(resourceGroupName, serverName, parameters), serviceCallback);
     }
 
     /**
@@ -399,28 +315,10 @@ public class EncryptionProtectorsInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param parameters The requested encryption protector resource state.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the EncryptionProtectorInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<EncryptionProtectorInner> beginCreateOrUpdateAsync(String resourceGroupName, String serverName, EncryptionProtectorInner parameters) {
-        return beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, parameters).map(new Func1<ServiceResponse<EncryptionProtectorInner>, EncryptionProtectorInner>() {
-            @Override
-            public EncryptionProtectorInner call(ServiceResponse<EncryptionProtectorInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Updates an existing encryption protector.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param parameters The requested encryption protector resource state.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the EncryptionProtectorInner object
-     */
-    public Observable<ServiceResponse<EncryptionProtectorInner>> beginCreateOrUpdateWithServiceResponseAsync(String resourceGroupName, String serverName, EncryptionProtectorInner parameters) {
+    public Single<BodyResponse<EncryptionProtectorInner>> createOrUpdateWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull EncryptionProtectorInner parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -436,43 +334,52 @@ public class EncryptionProtectorsInner {
         Validator.validate(parameters);
         final String encryptionProtectorName = "current";
         final String apiVersion = "2015-05-01-preview";
-        return service.beginCreateOrUpdate(resourceGroupName, serverName, encryptionProtectorName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<EncryptionProtectorInner>>>() {
-                @Override
-                public Observable<ServiceResponse<EncryptionProtectorInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<EncryptionProtectorInner> clientResponse = beginCreateOrUpdateDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.createOrUpdate(resourceGroupName, serverName, encryptionProtectorName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<EncryptionProtectorInner> beginCreateOrUpdateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<EncryptionProtectorInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<EncryptionProtectorInner>() { }.getType())
-                .register(202, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Updates an existing encryption protector.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param parameters The requested encryption protector resource state.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<EncryptionProtectorInner> createOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull EncryptionProtectorInner parameters) {
+        return createOrUpdateWithRestResponseAsync(resourceGroupName, serverName, parameters)
+            .flatMapMaybe((BodyResponse<EncryptionProtectorInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
+    }
+
+    /**
+     * Updates an existing encryption protector. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<EncryptionProtectorInner>> resumeCreateOrUpdate(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeCreateOrUpdate(operationDescription);
     }
 
     /**
      * Gets a list of server encryption protectors.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;EncryptionProtectorInner&gt; object if successful.
      */
-    public PagedList<EncryptionProtectorInner> listByServerNext(final String nextPageLink) {
-        ServiceResponse<Page<EncryptionProtectorInner>> response = listByServerNextSinglePageAsync(nextPageLink).toBlocking().single();
-        return new PagedList<EncryptionProtectorInner>(response.body()) {
+    public PagedList<EncryptionProtectorInner> listByServerNext(@NonNull String nextPageLink) {
+        Page<EncryptionProtectorInner> response = listByServerNextSinglePageAsync(nextPageLink).blockingGet();
+        return new PagedList<EncryptionProtectorInner>(response) {
             @Override
             public Page<EncryptionProtectorInner> nextPage(String nextPageLink) {
-                return listByServerNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listByServerNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -481,92 +388,34 @@ public class EncryptionProtectorsInner {
      * Gets a list of server encryption protectors.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;EncryptionProtectorInner&gt; object.
      */
-    public ServiceFuture<List<EncryptionProtectorInner>> listByServerNextAsync(final String nextPageLink, final ServiceFuture<List<EncryptionProtectorInner>> serviceFuture, final ListOperationCallback<EncryptionProtectorInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listByServerNextSinglePageAsync(nextPageLink),
-            new Func1<String, Observable<ServiceResponse<Page<EncryptionProtectorInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<EncryptionProtectorInner>>> call(String nextPageLink) {
-                    return listByServerNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets a list of server encryption protectors.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;EncryptionProtectorInner&gt; object
-     */
-    public Observable<Page<EncryptionProtectorInner>> listByServerNextAsync(final String nextPageLink) {
-        return listByServerNextWithServiceResponseAsync(nextPageLink)
-            .map(new Func1<ServiceResponse<Page<EncryptionProtectorInner>>, Page<EncryptionProtectorInner>>() {
-                @Override
-                public Page<EncryptionProtectorInner> call(ServiceResponse<Page<EncryptionProtectorInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets a list of server encryption protectors.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;EncryptionProtectorInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<EncryptionProtectorInner>>> listByServerNextWithServiceResponseAsync(final String nextPageLink) {
+    public Observable<Page<EncryptionProtectorInner>> listByServerNextAsync(@NonNull String nextPageLink) {
         return listByServerNextSinglePageAsync(nextPageLink)
-            .concatMap(new Func1<ServiceResponse<Page<EncryptionProtectorInner>>, Observable<ServiceResponse<Page<EncryptionProtectorInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<EncryptionProtectorInner>>> call(ServiceResponse<Page<EncryptionProtectorInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listByServerNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<EncryptionProtectorInner> page) -> {
+                String nextPageLink1 = page.nextPageLink();
+                if (nextPageLink1 == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listByServerNextAsync(nextPageLink1));
             });
     }
 
     /**
      * Gets a list of server encryption protectors.
      *
-    ServiceResponse<PageImpl1<EncryptionProtectorInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;EncryptionProtectorInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;EncryptionProtectorInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<EncryptionProtectorInner>>> listByServerNextSinglePageAsync(final String nextPageLink) {
+    public Single<Page<EncryptionProtectorInner>> listByServerNextSinglePageAsync(@NonNull String nextPageLink) {
         if (nextPageLink == null) {
             throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
         }
         String nextUrl = String.format("%s", nextPageLink);
-        return service.listByServerNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<EncryptionProtectorInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<EncryptionProtectorInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl1<EncryptionProtectorInner>> result = listByServerNextDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<EncryptionProtectorInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.listByServerNext(nextUrl, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl1<EncryptionProtectorInner>> res) -> res.body());
     }
-
-    private ServiceResponse<PageImpl1<EncryptionProtectorInner>> listByServerNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl1<EncryptionProtectorInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl1<EncryptionProtectorInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
-    }
-
 }

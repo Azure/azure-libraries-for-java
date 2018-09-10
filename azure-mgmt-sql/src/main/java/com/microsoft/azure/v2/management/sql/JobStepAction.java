@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * The action to be executed by a job step.
  */
-public class JobStepAction {
+public final class JobStepAction {
     /**
      * Type of action being executed by the job step. Possible values include:
      * 'TSql'.
@@ -36,7 +36,7 @@ public class JobStepAction {
     /**
      * Get the type value.
      *
-     * @return the type value
+     * @return the type value.
      */
     public JobStepActionType type() {
         return this.type;
@@ -45,7 +45,7 @@ public class JobStepAction {
     /**
      * Set the type value.
      *
-     * @param type the type value to set
+     * @param type the type value to set.
      * @return the JobStepAction object itself.
      */
     public JobStepAction withType(JobStepActionType type) {
@@ -56,7 +56,7 @@ public class JobStepAction {
     /**
      * Get the source value.
      *
-     * @return the source value
+     * @return the source value.
      */
     public JobStepActionSource source() {
         return this.source;
@@ -65,7 +65,7 @@ public class JobStepAction {
     /**
      * Set the source value.
      *
-     * @param source the source value to set
+     * @param source the source value to set.
      * @return the JobStepAction object itself.
      */
     public JobStepAction withSource(JobStepActionSource source) {
@@ -76,7 +76,7 @@ public class JobStepAction {
     /**
      * Get the value value.
      *
-     * @return the value value
+     * @return the value value.
      */
     public String value() {
         return this.value;
@@ -85,12 +85,11 @@ public class JobStepAction {
     /**
      * Set the value value.
      *
-     * @param value the value value to set
+     * @param value the value value to set.
      * @return the JobStepAction object itself.
      */
     public JobStepAction withValue(String value) {
         this.value = value;
         return this;
     }
-
 }

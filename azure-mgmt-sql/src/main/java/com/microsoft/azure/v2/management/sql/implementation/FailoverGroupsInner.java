@@ -8,113 +8,163 @@
 
 package com.microsoft.azure.v2.management.sql.implementation;
 
-import retrofit2.Retrofit;
-import com.google.common.reflect.TypeToken;
-import com.microsoft.azure.AzureServiceFuture;
-import com.microsoft.azure.CloudException;
-import com.microsoft.azure.ListOperationCallback;
-import com.microsoft.azure.Page;
-import com.microsoft.azure.PagedList;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import com.microsoft.rest.ServiceResponse;
-import com.microsoft.rest.Validator;
-import java.io.IOException;
-import java.util.List;
-import okhttp3.ResponseBody;
-import retrofit2.http.Body;
-import retrofit2.http.GET;
-import retrofit2.http.Header;
-import retrofit2.http.Headers;
-import retrofit2.http.HTTP;
-import retrofit2.http.PATCH;
-import retrofit2.http.Path;
-import retrofit2.http.POST;
-import retrofit2.http.PUT;
-import retrofit2.http.Query;
-import retrofit2.http.Url;
-import retrofit2.Response;
-import rx.functions.Func1;
-import rx.Observable;
+import com.microsoft.azure.v2.AzureProxy;
+import com.microsoft.azure.v2.CloudException;
+import com.microsoft.azure.v2.OperationStatus;
+import com.microsoft.azure.v2.Page;
+import com.microsoft.azure.v2.PagedList;
+import com.microsoft.azure.v2.management.sql.FailoverGroupUpdate;
+import com.microsoft.azure.v2.util.ServiceFutureUtil;
+import com.microsoft.rest.v2.BodyResponse;
+import com.microsoft.rest.v2.OperationDescription;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
+import com.microsoft.rest.v2.Validator;
+import com.microsoft.rest.v2.VoidResponse;
+import com.microsoft.rest.v2.annotations.BodyParam;
+import com.microsoft.rest.v2.annotations.DELETE;
+import com.microsoft.rest.v2.annotations.ExpectedResponses;
+import com.microsoft.rest.v2.annotations.GET;
+import com.microsoft.rest.v2.annotations.HeaderParam;
+import com.microsoft.rest.v2.annotations.Host;
+import com.microsoft.rest.v2.annotations.PATCH;
+import com.microsoft.rest.v2.annotations.PathParam;
+import com.microsoft.rest.v2.annotations.POST;
+import com.microsoft.rest.v2.annotations.PUT;
+import com.microsoft.rest.v2.annotations.QueryParam;
+import com.microsoft.rest.v2.annotations.ResumeOperation;
+import com.microsoft.rest.v2.annotations.UnexpectedResponseExceptionType;
+import io.reactivex.Completable;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
+import io.reactivex.Single;
+import io.reactivex.annotations.NonNull;
 
 /**
- * An instance of this class provides access to all the operations defined
- * in FailoverGroups.
+ * An instance of this class provides access to all the operations defined in
+ * FailoverGroups.
  */
-public class FailoverGroupsInner {
-    /** The Retrofit service to perform REST calls. */
+public final class FailoverGroupsInner {
+    /**
+     * The proxy service used to perform REST calls.
+     */
     private FailoverGroupsService service;
-    /** The service client containing this operation class. */
+
+    /**
+     * The service client containing this operation class.
+     */
     private SqlManagementClientImpl client;
 
     /**
      * Initializes an instance of FailoverGroupsInner.
      *
-     * @param retrofit the Retrofit instance built from a Retrofit Builder.
      * @param client the instance of the service client containing this operation class.
      */
-    public FailoverGroupsInner(Retrofit retrofit, SqlManagementClientImpl client) {
-        this.service = retrofit.create(FailoverGroupsService.class);
+    public FailoverGroupsInner(SqlManagementClientImpl client) {
+        this.service = AzureProxy.create(FailoverGroupsService.class, client);
         this.client = client;
     }
 
     /**
-     * The interface defining all the services for FailoverGroups to be
-     * used by Retrofit to perform actually REST calls.
+     * The interface defining all the services for FailoverGroups to be used by
+     * the proxy service to perform REST calls.
      */
-    interface FailoverGroupsService {
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.FailoverGroups get" })
+    @Host("https://management.azure.com")
+    private interface FailoverGroupsService {
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/failoverGroups/{failoverGroupName}")
-        Observable<Response<ResponseBody>> get(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("failoverGroupName") String failoverGroupName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<FailoverGroupInner>> get(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("failoverGroupName") String failoverGroupName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.FailoverGroups createOrUpdate" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/failoverGroups/{failoverGroupName}")
-        Observable<Response<ResponseBody>> createOrUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("failoverGroupName") String failoverGroupName, @Path("subscriptionId") String subscriptionId, @Body FailoverGroupInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 201, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Observable<OperationStatus<FailoverGroupInner>> beginCreateOrUpdate(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("failoverGroupName") String failoverGroupName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json; charset=utf-8") FailoverGroupInner parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.FailoverGroups beginCreateOrUpdate" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/failoverGroups/{failoverGroupName}")
-        Observable<Response<ResponseBody>> beginCreateOrUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("failoverGroupName") String failoverGroupName, @Path("subscriptionId") String subscriptionId, @Body FailoverGroupInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 201, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<FailoverGroupInner>> createOrUpdate(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("failoverGroupName") String failoverGroupName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json; charset=utf-8") FailoverGroupInner parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.FailoverGroups delete" })
-        @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/failoverGroups/{failoverGroupName}", method = "DELETE", hasBody = true)
-        Observable<Response<ResponseBody>> delete(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("failoverGroupName") String failoverGroupName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/failoverGroups/{failoverGroupName}")
+        @ExpectedResponses({200, 201, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<FailoverGroupInner>> resumeCreateOrUpdate(OperationDescription operationDescription);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.FailoverGroups beginDelete" })
-        @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/failoverGroups/{failoverGroupName}", method = "DELETE", hasBody = true)
-        Observable<Response<ResponseBody>> beginDelete(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("failoverGroupName") String failoverGroupName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @DELETE("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/failoverGroups/{failoverGroupName}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Observable<OperationStatus<Void>> beginDelete(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("failoverGroupName") String failoverGroupName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.FailoverGroups update" })
+        @DELETE("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/failoverGroups/{failoverGroupName}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<VoidResponse> delete(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("failoverGroupName") String failoverGroupName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
+
+        @DELETE("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/failoverGroups/{failoverGroupName}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<Void>> resumeDelete(OperationDescription operationDescription);
+
         @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/failoverGroups/{failoverGroupName}")
-        Observable<Response<ResponseBody>> update(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("failoverGroupName") String failoverGroupName, @Path("subscriptionId") String subscriptionId, @Body FailoverGroupUpdateInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Observable<OperationStatus<FailoverGroupInner>> beginUpdate(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("failoverGroupName") String failoverGroupName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json; charset=utf-8") FailoverGroupUpdate parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.FailoverGroups beginUpdate" })
         @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/failoverGroups/{failoverGroupName}")
-        Observable<Response<ResponseBody>> beginUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("failoverGroupName") String failoverGroupName, @Path("subscriptionId") String subscriptionId, @Body FailoverGroupUpdateInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<FailoverGroupInner>> update(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("failoverGroupName") String failoverGroupName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json; charset=utf-8") FailoverGroupUpdate parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.FailoverGroups listByServer" })
+        @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/failoverGroups/{failoverGroupName}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<FailoverGroupInner>> resumeUpdate(OperationDescription operationDescription);
+
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/failoverGroups")
-        Observable<Response<ResponseBody>> listByServer(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl1<FailoverGroupInner>>> listByServer(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.FailoverGroups failover" })
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/failoverGroups/{failoverGroupName}/failover")
-        Observable<Response<ResponseBody>> failover(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("failoverGroupName") String failoverGroupName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Observable<OperationStatus<FailoverGroupInner>> beginFailover(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("failoverGroupName") String failoverGroupName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.FailoverGroups beginFailover" })
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/failoverGroups/{failoverGroupName}/failover")
-        Observable<Response<ResponseBody>> beginFailover(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("failoverGroupName") String failoverGroupName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<FailoverGroupInner>> failover(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("failoverGroupName") String failoverGroupName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.FailoverGroups forceFailoverAllowDataLoss" })
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/failoverGroups/{failoverGroupName}/failover")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<FailoverGroupInner>> resumeFailover(OperationDescription operationDescription);
+
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/failoverGroups/{failoverGroupName}/forceFailoverAllowDataLoss")
-        Observable<Response<ResponseBody>> forceFailoverAllowDataLoss(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("failoverGroupName") String failoverGroupName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Observable<OperationStatus<FailoverGroupInner>> beginForceFailoverAllowDataLoss(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("failoverGroupName") String failoverGroupName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.FailoverGroups beginForceFailoverAllowDataLoss" })
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/failoverGroups/{failoverGroupName}/forceFailoverAllowDataLoss")
-        Observable<Response<ResponseBody>> beginForceFailoverAllowDataLoss(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("failoverGroupName") String failoverGroupName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<FailoverGroupInner>> forceFailoverAllowDataLoss(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("failoverGroupName") String failoverGroupName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.FailoverGroups listByServerNext" })
-        @GET
-        Observable<Response<ResponseBody>> listByServerNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/failoverGroups/{failoverGroupName}/forceFailoverAllowDataLoss")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<FailoverGroupInner>> resumeForceFailoverAllowDataLoss(OperationDescription operationDescription);
 
+        @GET("{nextUrl}")
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl1<FailoverGroupInner>>> listByServerNext(@PathParam(value = "nextUrl", encoded = true) String nextUrl, @HeaderParam("accept-language") String acceptLanguage);
     }
 
     /**
@@ -123,13 +173,13 @@ public class FailoverGroupsInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server containing the failover group.
      * @param failoverGroupName The name of the failover group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the FailoverGroupInner object if successful.
      */
-    public FailoverGroupInner get(String resourceGroupName, String serverName, String failoverGroupName) {
-        return getWithServiceResponseAsync(resourceGroupName, serverName, failoverGroupName).toBlocking().single().body();
+    public FailoverGroupInner get(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String failoverGroupName) {
+        return getAsync(resourceGroupName, serverName, failoverGroupName).blockingGet();
     }
 
     /**
@@ -139,11 +189,11 @@ public class FailoverGroupsInner {
      * @param serverName The name of the server containing the failover group.
      * @param failoverGroupName The name of the failover group.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<FailoverGroupInner> getAsync(String resourceGroupName, String serverName, String failoverGroupName, final ServiceCallback<FailoverGroupInner> serviceCallback) {
-        return ServiceFuture.fromResponse(getWithServiceResponseAsync(resourceGroupName, serverName, failoverGroupName), serviceCallback);
+    public ServiceFuture<FailoverGroupInner> getAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String failoverGroupName, ServiceCallback<FailoverGroupInner> serviceCallback) {
+        return ServiceFuture.fromBody(getAsync(resourceGroupName, serverName, failoverGroupName), serviceCallback);
     }
 
     /**
@@ -152,28 +202,10 @@ public class FailoverGroupsInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server containing the failover group.
      * @param failoverGroupName The name of the failover group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the FailoverGroupInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<FailoverGroupInner> getAsync(String resourceGroupName, String serverName, String failoverGroupName) {
-        return getWithServiceResponseAsync(resourceGroupName, serverName, failoverGroupName).map(new Func1<ServiceResponse<FailoverGroupInner>, FailoverGroupInner>() {
-            @Override
-            public FailoverGroupInner call(ServiceResponse<FailoverGroupInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Gets a failover group.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server containing the failover group.
-     * @param failoverGroupName The name of the failover group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the FailoverGroupInner object
-     */
-    public Observable<ServiceResponse<FailoverGroupInner>> getWithServiceResponseAsync(String resourceGroupName, String serverName, String failoverGroupName) {
+    public Single<BodyResponse<FailoverGroupInner>> getWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String failoverGroupName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -187,25 +219,21 @@ public class FailoverGroupsInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2015-05-01-preview";
-        return service.get(resourceGroupName, serverName, failoverGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<FailoverGroupInner>>>() {
-                @Override
-                public Observable<ServiceResponse<FailoverGroupInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<FailoverGroupInner> clientResponse = getDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.get(resourceGroupName, serverName, failoverGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<FailoverGroupInner> getDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<FailoverGroupInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<FailoverGroupInner>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Gets a failover group.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server containing the failover group.
+     * @param failoverGroupName The name of the failover group.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<FailoverGroupInner> getAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String failoverGroupName) {
+        return getWithRestResponseAsync(resourceGroupName, serverName, failoverGroupName)
+            .flatMapMaybe((BodyResponse<FailoverGroupInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
@@ -215,13 +243,13 @@ public class FailoverGroupsInner {
      * @param serverName The name of the server containing the failover group.
      * @param failoverGroupName The name of the failover group.
      * @param parameters The failover group parameters.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the FailoverGroupInner object if successful.
      */
-    public FailoverGroupInner createOrUpdate(String resourceGroupName, String serverName, String failoverGroupName, FailoverGroupInner parameters) {
-        return createOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, failoverGroupName, parameters).toBlocking().last().body();
+    public FailoverGroupInner beginCreateOrUpdate(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String failoverGroupName, @NonNull FailoverGroupInner parameters) {
+        return beginCreateOrUpdateAsync(resourceGroupName, serverName, failoverGroupName, parameters).blockingLast().result();
     }
 
     /**
@@ -232,11 +260,11 @@ public class FailoverGroupsInner {
      * @param failoverGroupName The name of the failover group.
      * @param parameters The failover group parameters.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;FailoverGroupInner&gt; object.
      */
-    public ServiceFuture<FailoverGroupInner> createOrUpdateAsync(String resourceGroupName, String serverName, String failoverGroupName, FailoverGroupInner parameters, final ServiceCallback<FailoverGroupInner> serviceCallback) {
-        return ServiceFuture.fromResponse(createOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, failoverGroupName, parameters), serviceCallback);
+    public ServiceFuture<FailoverGroupInner> beginCreateOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String failoverGroupName, @NonNull FailoverGroupInner parameters, ServiceCallback<FailoverGroupInner> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginCreateOrUpdateAsync(resourceGroupName, serverName, failoverGroupName, parameters), serviceCallback);
     }
 
     /**
@@ -246,29 +274,10 @@ public class FailoverGroupsInner {
      * @param serverName The name of the server containing the failover group.
      * @param failoverGroupName The name of the failover group.
      * @param parameters The failover group parameters.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<FailoverGroupInner> createOrUpdateAsync(String resourceGroupName, String serverName, String failoverGroupName, FailoverGroupInner parameters) {
-        return createOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, failoverGroupName, parameters).map(new Func1<ServiceResponse<FailoverGroupInner>, FailoverGroupInner>() {
-            @Override
-            public FailoverGroupInner call(ServiceResponse<FailoverGroupInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Creates or updates a failover group.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server containing the failover group.
-     * @param failoverGroupName The name of the failover group.
-     * @param parameters The failover group parameters.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<FailoverGroupInner>> createOrUpdateWithServiceResponseAsync(String resourceGroupName, String serverName, String failoverGroupName, FailoverGroupInner parameters) {
+    public Observable<OperationStatus<FailoverGroupInner>> beginCreateOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String failoverGroupName, @NonNull FailoverGroupInner parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -286,8 +295,7 @@ public class FailoverGroupsInner {
         }
         Validator.validate(parameters);
         final String apiVersion = "2015-05-01-preview";
-        Observable<Response<ResponseBody>> observable = service.createOrUpdate(resourceGroupName, serverName, failoverGroupName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<FailoverGroupInner>() { }.getType());
+        return service.beginCreateOrUpdate(resourceGroupName, serverName, failoverGroupName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage());
     }
 
     /**
@@ -297,13 +305,13 @@ public class FailoverGroupsInner {
      * @param serverName The name of the server containing the failover group.
      * @param failoverGroupName The name of the failover group.
      * @param parameters The failover group parameters.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the FailoverGroupInner object if successful.
      */
-    public FailoverGroupInner beginCreateOrUpdate(String resourceGroupName, String serverName, String failoverGroupName, FailoverGroupInner parameters) {
-        return beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, failoverGroupName, parameters).toBlocking().single().body();
+    public FailoverGroupInner createOrUpdate(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String failoverGroupName, @NonNull FailoverGroupInner parameters) {
+        return createOrUpdateAsync(resourceGroupName, serverName, failoverGroupName, parameters).blockingGet();
     }
 
     /**
@@ -314,11 +322,11 @@ public class FailoverGroupsInner {
      * @param failoverGroupName The name of the failover group.
      * @param parameters The failover group parameters.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<FailoverGroupInner> beginCreateOrUpdateAsync(String resourceGroupName, String serverName, String failoverGroupName, FailoverGroupInner parameters, final ServiceCallback<FailoverGroupInner> serviceCallback) {
-        return ServiceFuture.fromResponse(beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, failoverGroupName, parameters), serviceCallback);
+    public ServiceFuture<FailoverGroupInner> createOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String failoverGroupName, @NonNull FailoverGroupInner parameters, ServiceCallback<FailoverGroupInner> serviceCallback) {
+        return ServiceFuture.fromBody(createOrUpdateAsync(resourceGroupName, serverName, failoverGroupName, parameters), serviceCallback);
     }
 
     /**
@@ -328,29 +336,10 @@ public class FailoverGroupsInner {
      * @param serverName The name of the server containing the failover group.
      * @param failoverGroupName The name of the failover group.
      * @param parameters The failover group parameters.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the FailoverGroupInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<FailoverGroupInner> beginCreateOrUpdateAsync(String resourceGroupName, String serverName, String failoverGroupName, FailoverGroupInner parameters) {
-        return beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, failoverGroupName, parameters).map(new Func1<ServiceResponse<FailoverGroupInner>, FailoverGroupInner>() {
-            @Override
-            public FailoverGroupInner call(ServiceResponse<FailoverGroupInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Creates or updates a failover group.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server containing the failover group.
-     * @param failoverGroupName The name of the failover group.
-     * @param parameters The failover group parameters.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the FailoverGroupInner object
-     */
-    public Observable<ServiceResponse<FailoverGroupInner>> beginCreateOrUpdateWithServiceResponseAsync(String resourceGroupName, String serverName, String failoverGroupName, FailoverGroupInner parameters) {
+    public Single<BodyResponse<FailoverGroupInner>> createOrUpdateWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String failoverGroupName, @NonNull FailoverGroupInner parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -368,27 +357,36 @@ public class FailoverGroupsInner {
         }
         Validator.validate(parameters);
         final String apiVersion = "2015-05-01-preview";
-        return service.beginCreateOrUpdate(resourceGroupName, serverName, failoverGroupName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<FailoverGroupInner>>>() {
-                @Override
-                public Observable<ServiceResponse<FailoverGroupInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<FailoverGroupInner> clientResponse = beginCreateOrUpdateDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.createOrUpdate(resourceGroupName, serverName, failoverGroupName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<FailoverGroupInner> beginCreateOrUpdateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<FailoverGroupInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<FailoverGroupInner>() { }.getType())
-                .register(201, new TypeToken<FailoverGroupInner>() { }.getType())
-                .register(202, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Creates or updates a failover group.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server containing the failover group.
+     * @param failoverGroupName The name of the failover group.
+     * @param parameters The failover group parameters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<FailoverGroupInner> createOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String failoverGroupName, @NonNull FailoverGroupInner parameters) {
+        return createOrUpdateWithRestResponseAsync(resourceGroupName, serverName, failoverGroupName, parameters)
+            .flatMapMaybe((BodyResponse<FailoverGroupInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
+    }
+
+    /**
+     * Creates or updates a failover group. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<FailoverGroupInner>> resumeCreateOrUpdate(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeCreateOrUpdate(operationDescription);
     }
 
     /**
@@ -397,12 +395,12 @@ public class FailoverGroupsInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server containing the failover group.
      * @param failoverGroupName The name of the failover group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void delete(String resourceGroupName, String serverName, String failoverGroupName) {
-        deleteWithServiceResponseAsync(resourceGroupName, serverName, failoverGroupName).toBlocking().last().body();
+    public void beginDelete(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String failoverGroupName) {
+        beginDeleteAsync(resourceGroupName, serverName, failoverGroupName).blockingLast();
     }
 
     /**
@@ -412,11 +410,11 @@ public class FailoverGroupsInner {
      * @param serverName The name of the server containing the failover group.
      * @param failoverGroupName The name of the failover group.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;Void&gt; object.
      */
-    public ServiceFuture<Void> deleteAsync(String resourceGroupName, String serverName, String failoverGroupName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(deleteWithServiceResponseAsync(resourceGroupName, serverName, failoverGroupName), serviceCallback);
+    public ServiceFuture<Void> beginDeleteAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String failoverGroupName, ServiceCallback<Void> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginDeleteAsync(resourceGroupName, serverName, failoverGroupName), serviceCallback);
     }
 
     /**
@@ -425,28 +423,10 @@ public class FailoverGroupsInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server containing the failover group.
      * @param failoverGroupName The name of the failover group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<Void> deleteAsync(String resourceGroupName, String serverName, String failoverGroupName) {
-        return deleteWithServiceResponseAsync(resourceGroupName, serverName, failoverGroupName).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Deletes a failover group.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server containing the failover group.
-     * @param failoverGroupName The name of the failover group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<Void>> deleteWithServiceResponseAsync(String resourceGroupName, String serverName, String failoverGroupName) {
+    public Observable<OperationStatus<Void>> beginDeleteAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String failoverGroupName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -460,8 +440,7 @@ public class FailoverGroupsInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2015-05-01-preview";
-        Observable<Response<ResponseBody>> observable = service.delete(resourceGroupName, serverName, failoverGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
+        return service.beginDelete(resourceGroupName, serverName, failoverGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
     /**
@@ -470,12 +449,12 @@ public class FailoverGroupsInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server containing the failover group.
      * @param failoverGroupName The name of the failover group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void beginDelete(String resourceGroupName, String serverName, String failoverGroupName) {
-        beginDeleteWithServiceResponseAsync(resourceGroupName, serverName, failoverGroupName).toBlocking().single().body();
+    public void delete(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String failoverGroupName) {
+        deleteAsync(resourceGroupName, serverName, failoverGroupName).blockingAwait();
     }
 
     /**
@@ -485,11 +464,11 @@ public class FailoverGroupsInner {
      * @param serverName The name of the server containing the failover group.
      * @param failoverGroupName The name of the failover group.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<Void> beginDeleteAsync(String resourceGroupName, String serverName, String failoverGroupName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(beginDeleteWithServiceResponseAsync(resourceGroupName, serverName, failoverGroupName), serviceCallback);
+    public ServiceFuture<Void> deleteAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String failoverGroupName, ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromBody(deleteAsync(resourceGroupName, serverName, failoverGroupName), serviceCallback);
     }
 
     /**
@@ -498,28 +477,10 @@ public class FailoverGroupsInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server containing the failover group.
      * @param failoverGroupName The name of the failover group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<Void> beginDeleteAsync(String resourceGroupName, String serverName, String failoverGroupName) {
-        return beginDeleteWithServiceResponseAsync(resourceGroupName, serverName, failoverGroupName).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Deletes a failover group.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server containing the failover group.
-     * @param failoverGroupName The name of the failover group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
-     */
-    public Observable<ServiceResponse<Void>> beginDeleteWithServiceResponseAsync(String resourceGroupName, String serverName, String failoverGroupName) {
+    public Single<VoidResponse> deleteWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String failoverGroupName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -533,27 +494,35 @@ public class FailoverGroupsInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2015-05-01-preview";
-        return service.beginDelete(resourceGroupName, serverName, failoverGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
-                @Override
-                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<Void> clientResponse = beginDeleteDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.delete(resourceGroupName, serverName, failoverGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<Void> beginDeleteDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<Void>() { }.getType())
-                .register(202, new TypeToken<Void>() { }.getType())
-                .register(204, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Deletes a failover group.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server containing the failover group.
+     * @param failoverGroupName The name of the failover group.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Completable deleteAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String failoverGroupName) {
+        return deleteWithRestResponseAsync(resourceGroupName, serverName, failoverGroupName)
+            .toCompletable();
+    }
+
+    /**
+     * Deletes a failover group. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<Void>> resumeDelete(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeDelete(operationDescription);
     }
 
     /**
@@ -563,13 +532,13 @@ public class FailoverGroupsInner {
      * @param serverName The name of the server containing the failover group.
      * @param failoverGroupName The name of the failover group.
      * @param parameters The failover group parameters.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the FailoverGroupInner object if successful.
      */
-    public FailoverGroupInner update(String resourceGroupName, String serverName, String failoverGroupName, FailoverGroupUpdateInner parameters) {
-        return updateWithServiceResponseAsync(resourceGroupName, serverName, failoverGroupName, parameters).toBlocking().last().body();
+    public FailoverGroupInner beginUpdate(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String failoverGroupName, @NonNull FailoverGroupUpdate parameters) {
+        return beginUpdateAsync(resourceGroupName, serverName, failoverGroupName, parameters).blockingLast().result();
     }
 
     /**
@@ -580,11 +549,11 @@ public class FailoverGroupsInner {
      * @param failoverGroupName The name of the failover group.
      * @param parameters The failover group parameters.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;FailoverGroupInner&gt; object.
      */
-    public ServiceFuture<FailoverGroupInner> updateAsync(String resourceGroupName, String serverName, String failoverGroupName, FailoverGroupUpdateInner parameters, final ServiceCallback<FailoverGroupInner> serviceCallback) {
-        return ServiceFuture.fromResponse(updateWithServiceResponseAsync(resourceGroupName, serverName, failoverGroupName, parameters), serviceCallback);
+    public ServiceFuture<FailoverGroupInner> beginUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String failoverGroupName, @NonNull FailoverGroupUpdate parameters, ServiceCallback<FailoverGroupInner> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginUpdateAsync(resourceGroupName, serverName, failoverGroupName, parameters), serviceCallback);
     }
 
     /**
@@ -594,29 +563,10 @@ public class FailoverGroupsInner {
      * @param serverName The name of the server containing the failover group.
      * @param failoverGroupName The name of the failover group.
      * @param parameters The failover group parameters.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<FailoverGroupInner> updateAsync(String resourceGroupName, String serverName, String failoverGroupName, FailoverGroupUpdateInner parameters) {
-        return updateWithServiceResponseAsync(resourceGroupName, serverName, failoverGroupName, parameters).map(new Func1<ServiceResponse<FailoverGroupInner>, FailoverGroupInner>() {
-            @Override
-            public FailoverGroupInner call(ServiceResponse<FailoverGroupInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Updates a failover group.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server containing the failover group.
-     * @param failoverGroupName The name of the failover group.
-     * @param parameters The failover group parameters.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<FailoverGroupInner>> updateWithServiceResponseAsync(String resourceGroupName, String serverName, String failoverGroupName, FailoverGroupUpdateInner parameters) {
+    public Observable<OperationStatus<FailoverGroupInner>> beginUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String failoverGroupName, @NonNull FailoverGroupUpdate parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -634,8 +584,7 @@ public class FailoverGroupsInner {
         }
         Validator.validate(parameters);
         final String apiVersion = "2015-05-01-preview";
-        Observable<Response<ResponseBody>> observable = service.update(resourceGroupName, serverName, failoverGroupName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<FailoverGroupInner>() { }.getType());
+        return service.beginUpdate(resourceGroupName, serverName, failoverGroupName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage());
     }
 
     /**
@@ -645,13 +594,13 @@ public class FailoverGroupsInner {
      * @param serverName The name of the server containing the failover group.
      * @param failoverGroupName The name of the failover group.
      * @param parameters The failover group parameters.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the FailoverGroupInner object if successful.
      */
-    public FailoverGroupInner beginUpdate(String resourceGroupName, String serverName, String failoverGroupName, FailoverGroupUpdateInner parameters) {
-        return beginUpdateWithServiceResponseAsync(resourceGroupName, serverName, failoverGroupName, parameters).toBlocking().single().body();
+    public FailoverGroupInner update(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String failoverGroupName, @NonNull FailoverGroupUpdate parameters) {
+        return updateAsync(resourceGroupName, serverName, failoverGroupName, parameters).blockingGet();
     }
 
     /**
@@ -662,11 +611,11 @@ public class FailoverGroupsInner {
      * @param failoverGroupName The name of the failover group.
      * @param parameters The failover group parameters.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<FailoverGroupInner> beginUpdateAsync(String resourceGroupName, String serverName, String failoverGroupName, FailoverGroupUpdateInner parameters, final ServiceCallback<FailoverGroupInner> serviceCallback) {
-        return ServiceFuture.fromResponse(beginUpdateWithServiceResponseAsync(resourceGroupName, serverName, failoverGroupName, parameters), serviceCallback);
+    public ServiceFuture<FailoverGroupInner> updateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String failoverGroupName, @NonNull FailoverGroupUpdate parameters, ServiceCallback<FailoverGroupInner> serviceCallback) {
+        return ServiceFuture.fromBody(updateAsync(resourceGroupName, serverName, failoverGroupName, parameters), serviceCallback);
     }
 
     /**
@@ -676,29 +625,10 @@ public class FailoverGroupsInner {
      * @param serverName The name of the server containing the failover group.
      * @param failoverGroupName The name of the failover group.
      * @param parameters The failover group parameters.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the FailoverGroupInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<FailoverGroupInner> beginUpdateAsync(String resourceGroupName, String serverName, String failoverGroupName, FailoverGroupUpdateInner parameters) {
-        return beginUpdateWithServiceResponseAsync(resourceGroupName, serverName, failoverGroupName, parameters).map(new Func1<ServiceResponse<FailoverGroupInner>, FailoverGroupInner>() {
-            @Override
-            public FailoverGroupInner call(ServiceResponse<FailoverGroupInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Updates a failover group.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server containing the failover group.
-     * @param failoverGroupName The name of the failover group.
-     * @param parameters The failover group parameters.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the FailoverGroupInner object
-     */
-    public Observable<ServiceResponse<FailoverGroupInner>> beginUpdateWithServiceResponseAsync(String resourceGroupName, String serverName, String failoverGroupName, FailoverGroupUpdateInner parameters) {
+    public Single<BodyResponse<FailoverGroupInner>> updateWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String failoverGroupName, @NonNull FailoverGroupUpdate parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -716,26 +646,36 @@ public class FailoverGroupsInner {
         }
         Validator.validate(parameters);
         final String apiVersion = "2015-05-01-preview";
-        return service.beginUpdate(resourceGroupName, serverName, failoverGroupName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<FailoverGroupInner>>>() {
-                @Override
-                public Observable<ServiceResponse<FailoverGroupInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<FailoverGroupInner> clientResponse = beginUpdateDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.update(resourceGroupName, serverName, failoverGroupName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<FailoverGroupInner> beginUpdateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<FailoverGroupInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<FailoverGroupInner>() { }.getType())
-                .register(202, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Updates a failover group.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server containing the failover group.
+     * @param failoverGroupName The name of the failover group.
+     * @param parameters The failover group parameters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<FailoverGroupInner> updateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String failoverGroupName, @NonNull FailoverGroupUpdate parameters) {
+        return updateWithRestResponseAsync(resourceGroupName, serverName, failoverGroupName, parameters)
+            .flatMapMaybe((BodyResponse<FailoverGroupInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
+    }
+
+    /**
+     * Updates a failover group. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<FailoverGroupInner>> resumeUpdate(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeUpdate(operationDescription);
     }
 
     /**
@@ -743,17 +683,17 @@ public class FailoverGroupsInner {
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server containing the failover group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;FailoverGroupInner&gt; object if successful.
      */
-    public PagedList<FailoverGroupInner> listByServer(final String resourceGroupName, final String serverName) {
-        ServiceResponse<Page<FailoverGroupInner>> response = listByServerSinglePageAsync(resourceGroupName, serverName).toBlocking().single();
-        return new PagedList<FailoverGroupInner>(response.body()) {
+    public PagedList<FailoverGroupInner> listByServer(@NonNull String resourceGroupName, @NonNull String serverName) {
+        Page<FailoverGroupInner> response = listByServerSinglePageAsync(resourceGroupName, serverName).blockingGet();
+        return new PagedList<FailoverGroupInner>(response) {
             @Override
             public Page<FailoverGroupInner> nextPage(String nextPageLink) {
-                return listByServerNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listByServerNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -763,71 +703,30 @@ public class FailoverGroupsInner {
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server containing the failover group.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;FailoverGroupInner&gt; object.
      */
-    public ServiceFuture<List<FailoverGroupInner>> listByServerAsync(final String resourceGroupName, final String serverName, final ListOperationCallback<FailoverGroupInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listByServerSinglePageAsync(resourceGroupName, serverName),
-            new Func1<String, Observable<ServiceResponse<Page<FailoverGroupInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<FailoverGroupInner>>> call(String nextPageLink) {
-                    return listByServerNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Lists the failover groups in a server.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server containing the failover group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;FailoverGroupInner&gt; object
-     */
-    public Observable<Page<FailoverGroupInner>> listByServerAsync(final String resourceGroupName, final String serverName) {
-        return listByServerWithServiceResponseAsync(resourceGroupName, serverName)
-            .map(new Func1<ServiceResponse<Page<FailoverGroupInner>>, Page<FailoverGroupInner>>() {
-                @Override
-                public Page<FailoverGroupInner> call(ServiceResponse<Page<FailoverGroupInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Lists the failover groups in a server.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server containing the failover group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;FailoverGroupInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<FailoverGroupInner>>> listByServerWithServiceResponseAsync(final String resourceGroupName, final String serverName) {
+    public Observable<Page<FailoverGroupInner>> listByServerAsync(@NonNull String resourceGroupName, @NonNull String serverName) {
         return listByServerSinglePageAsync(resourceGroupName, serverName)
-            .concatMap(new Func1<ServiceResponse<Page<FailoverGroupInner>>, Observable<ServiceResponse<Page<FailoverGroupInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<FailoverGroupInner>>> call(ServiceResponse<Page<FailoverGroupInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listByServerNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<FailoverGroupInner> page) -> {
+                String nextPageLink = page.nextPageLink();
+                if (nextPageLink == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listByServerNextAsync(nextPageLink));
             });
     }
 
     /**
      * Lists the failover groups in a server.
      *
-    ServiceResponse<PageImpl1<FailoverGroupInner>> * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-    ServiceResponse<PageImpl1<FailoverGroupInner>> * @param serverName The name of the server containing the failover group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;FailoverGroupInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server containing the failover group.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;FailoverGroupInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<FailoverGroupInner>>> listByServerSinglePageAsync(final String resourceGroupName, final String serverName) {
+    public Single<Page<FailoverGroupInner>> listByServerSinglePageAsync(@NonNull String resourceGroupName, @NonNull String serverName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -838,25 +737,8 @@ public class FailoverGroupsInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2015-05-01-preview";
-        return service.listByServer(resourceGroupName, serverName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<FailoverGroupInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<FailoverGroupInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl1<FailoverGroupInner>> result = listByServerDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<FailoverGroupInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl1<FailoverGroupInner>> listByServerDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl1<FailoverGroupInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl1<FailoverGroupInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+        return service.listByServer(resourceGroupName, serverName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl1<FailoverGroupInner>> res) -> res.body());
     }
 
     /**
@@ -865,13 +747,13 @@ public class FailoverGroupsInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server containing the failover group.
      * @param failoverGroupName The name of the failover group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the FailoverGroupInner object if successful.
      */
-    public FailoverGroupInner failover(String resourceGroupName, String serverName, String failoverGroupName) {
-        return failoverWithServiceResponseAsync(resourceGroupName, serverName, failoverGroupName).toBlocking().last().body();
+    public FailoverGroupInner beginFailover(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String failoverGroupName) {
+        return beginFailoverAsync(resourceGroupName, serverName, failoverGroupName).blockingLast().result();
     }
 
     /**
@@ -881,11 +763,11 @@ public class FailoverGroupsInner {
      * @param serverName The name of the server containing the failover group.
      * @param failoverGroupName The name of the failover group.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;FailoverGroupInner&gt; object.
      */
-    public ServiceFuture<FailoverGroupInner> failoverAsync(String resourceGroupName, String serverName, String failoverGroupName, final ServiceCallback<FailoverGroupInner> serviceCallback) {
-        return ServiceFuture.fromResponse(failoverWithServiceResponseAsync(resourceGroupName, serverName, failoverGroupName), serviceCallback);
+    public ServiceFuture<FailoverGroupInner> beginFailoverAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String failoverGroupName, ServiceCallback<FailoverGroupInner> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginFailoverAsync(resourceGroupName, serverName, failoverGroupName), serviceCallback);
     }
 
     /**
@@ -894,28 +776,10 @@ public class FailoverGroupsInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server containing the failover group.
      * @param failoverGroupName The name of the failover group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<FailoverGroupInner> failoverAsync(String resourceGroupName, String serverName, String failoverGroupName) {
-        return failoverWithServiceResponseAsync(resourceGroupName, serverName, failoverGroupName).map(new Func1<ServiceResponse<FailoverGroupInner>, FailoverGroupInner>() {
-            @Override
-            public FailoverGroupInner call(ServiceResponse<FailoverGroupInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Fails over from the current primary server to this server.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server containing the failover group.
-     * @param failoverGroupName The name of the failover group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<FailoverGroupInner>> failoverWithServiceResponseAsync(String resourceGroupName, String serverName, String failoverGroupName) {
+    public Observable<OperationStatus<FailoverGroupInner>> beginFailoverAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String failoverGroupName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -929,8 +793,7 @@ public class FailoverGroupsInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2015-05-01-preview";
-        Observable<Response<ResponseBody>> observable = service.failover(resourceGroupName, serverName, failoverGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<FailoverGroupInner>() { }.getType());
+        return service.beginFailover(resourceGroupName, serverName, failoverGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
     /**
@@ -939,13 +802,13 @@ public class FailoverGroupsInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server containing the failover group.
      * @param failoverGroupName The name of the failover group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the FailoverGroupInner object if successful.
      */
-    public FailoverGroupInner beginFailover(String resourceGroupName, String serverName, String failoverGroupName) {
-        return beginFailoverWithServiceResponseAsync(resourceGroupName, serverName, failoverGroupName).toBlocking().single().body();
+    public FailoverGroupInner failover(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String failoverGroupName) {
+        return failoverAsync(resourceGroupName, serverName, failoverGroupName).blockingGet();
     }
 
     /**
@@ -955,11 +818,11 @@ public class FailoverGroupsInner {
      * @param serverName The name of the server containing the failover group.
      * @param failoverGroupName The name of the failover group.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<FailoverGroupInner> beginFailoverAsync(String resourceGroupName, String serverName, String failoverGroupName, final ServiceCallback<FailoverGroupInner> serviceCallback) {
-        return ServiceFuture.fromResponse(beginFailoverWithServiceResponseAsync(resourceGroupName, serverName, failoverGroupName), serviceCallback);
+    public ServiceFuture<FailoverGroupInner> failoverAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String failoverGroupName, ServiceCallback<FailoverGroupInner> serviceCallback) {
+        return ServiceFuture.fromBody(failoverAsync(resourceGroupName, serverName, failoverGroupName), serviceCallback);
     }
 
     /**
@@ -968,28 +831,10 @@ public class FailoverGroupsInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server containing the failover group.
      * @param failoverGroupName The name of the failover group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the FailoverGroupInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<FailoverGroupInner> beginFailoverAsync(String resourceGroupName, String serverName, String failoverGroupName) {
-        return beginFailoverWithServiceResponseAsync(resourceGroupName, serverName, failoverGroupName).map(new Func1<ServiceResponse<FailoverGroupInner>, FailoverGroupInner>() {
-            @Override
-            public FailoverGroupInner call(ServiceResponse<FailoverGroupInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Fails over from the current primary server to this server.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server containing the failover group.
-     * @param failoverGroupName The name of the failover group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the FailoverGroupInner object
-     */
-    public Observable<ServiceResponse<FailoverGroupInner>> beginFailoverWithServiceResponseAsync(String resourceGroupName, String serverName, String failoverGroupName) {
+    public Single<BodyResponse<FailoverGroupInner>> failoverWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String failoverGroupName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -1003,26 +848,35 @@ public class FailoverGroupsInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2015-05-01-preview";
-        return service.beginFailover(resourceGroupName, serverName, failoverGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<FailoverGroupInner>>>() {
-                @Override
-                public Observable<ServiceResponse<FailoverGroupInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<FailoverGroupInner> clientResponse = beginFailoverDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.failover(resourceGroupName, serverName, failoverGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<FailoverGroupInner> beginFailoverDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<FailoverGroupInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<FailoverGroupInner>() { }.getType())
-                .register(202, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Fails over from the current primary server to this server.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server containing the failover group.
+     * @param failoverGroupName The name of the failover group.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<FailoverGroupInner> failoverAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String failoverGroupName) {
+        return failoverWithRestResponseAsync(resourceGroupName, serverName, failoverGroupName)
+            .flatMapMaybe((BodyResponse<FailoverGroupInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
+    }
+
+    /**
+     * Fails over from the current primary server to this server. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<FailoverGroupInner>> resumeFailover(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeFailover(operationDescription);
     }
 
     /**
@@ -1031,13 +885,13 @@ public class FailoverGroupsInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server containing the failover group.
      * @param failoverGroupName The name of the failover group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the FailoverGroupInner object if successful.
      */
-    public FailoverGroupInner forceFailoverAllowDataLoss(String resourceGroupName, String serverName, String failoverGroupName) {
-        return forceFailoverAllowDataLossWithServiceResponseAsync(resourceGroupName, serverName, failoverGroupName).toBlocking().last().body();
+    public FailoverGroupInner beginForceFailoverAllowDataLoss(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String failoverGroupName) {
+        return beginForceFailoverAllowDataLossAsync(resourceGroupName, serverName, failoverGroupName).blockingLast().result();
     }
 
     /**
@@ -1047,11 +901,11 @@ public class FailoverGroupsInner {
      * @param serverName The name of the server containing the failover group.
      * @param failoverGroupName The name of the failover group.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;FailoverGroupInner&gt; object.
      */
-    public ServiceFuture<FailoverGroupInner> forceFailoverAllowDataLossAsync(String resourceGroupName, String serverName, String failoverGroupName, final ServiceCallback<FailoverGroupInner> serviceCallback) {
-        return ServiceFuture.fromResponse(forceFailoverAllowDataLossWithServiceResponseAsync(resourceGroupName, serverName, failoverGroupName), serviceCallback);
+    public ServiceFuture<FailoverGroupInner> beginForceFailoverAllowDataLossAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String failoverGroupName, ServiceCallback<FailoverGroupInner> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginForceFailoverAllowDataLossAsync(resourceGroupName, serverName, failoverGroupName), serviceCallback);
     }
 
     /**
@@ -1060,28 +914,10 @@ public class FailoverGroupsInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server containing the failover group.
      * @param failoverGroupName The name of the failover group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<FailoverGroupInner> forceFailoverAllowDataLossAsync(String resourceGroupName, String serverName, String failoverGroupName) {
-        return forceFailoverAllowDataLossWithServiceResponseAsync(resourceGroupName, serverName, failoverGroupName).map(new Func1<ServiceResponse<FailoverGroupInner>, FailoverGroupInner>() {
-            @Override
-            public FailoverGroupInner call(ServiceResponse<FailoverGroupInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Fails over from the current primary server to this server. This operation might result in data loss.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server containing the failover group.
-     * @param failoverGroupName The name of the failover group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<FailoverGroupInner>> forceFailoverAllowDataLossWithServiceResponseAsync(String resourceGroupName, String serverName, String failoverGroupName) {
+    public Observable<OperationStatus<FailoverGroupInner>> beginForceFailoverAllowDataLossAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String failoverGroupName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -1095,8 +931,7 @@ public class FailoverGroupsInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2015-05-01-preview";
-        Observable<Response<ResponseBody>> observable = service.forceFailoverAllowDataLoss(resourceGroupName, serverName, failoverGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<FailoverGroupInner>() { }.getType());
+        return service.beginForceFailoverAllowDataLoss(resourceGroupName, serverName, failoverGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
     /**
@@ -1105,13 +940,13 @@ public class FailoverGroupsInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server containing the failover group.
      * @param failoverGroupName The name of the failover group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the FailoverGroupInner object if successful.
      */
-    public FailoverGroupInner beginForceFailoverAllowDataLoss(String resourceGroupName, String serverName, String failoverGroupName) {
-        return beginForceFailoverAllowDataLossWithServiceResponseAsync(resourceGroupName, serverName, failoverGroupName).toBlocking().single().body();
+    public FailoverGroupInner forceFailoverAllowDataLoss(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String failoverGroupName) {
+        return forceFailoverAllowDataLossAsync(resourceGroupName, serverName, failoverGroupName).blockingGet();
     }
 
     /**
@@ -1121,11 +956,11 @@ public class FailoverGroupsInner {
      * @param serverName The name of the server containing the failover group.
      * @param failoverGroupName The name of the failover group.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<FailoverGroupInner> beginForceFailoverAllowDataLossAsync(String resourceGroupName, String serverName, String failoverGroupName, final ServiceCallback<FailoverGroupInner> serviceCallback) {
-        return ServiceFuture.fromResponse(beginForceFailoverAllowDataLossWithServiceResponseAsync(resourceGroupName, serverName, failoverGroupName), serviceCallback);
+    public ServiceFuture<FailoverGroupInner> forceFailoverAllowDataLossAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String failoverGroupName, ServiceCallback<FailoverGroupInner> serviceCallback) {
+        return ServiceFuture.fromBody(forceFailoverAllowDataLossAsync(resourceGroupName, serverName, failoverGroupName), serviceCallback);
     }
 
     /**
@@ -1134,28 +969,10 @@ public class FailoverGroupsInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server containing the failover group.
      * @param failoverGroupName The name of the failover group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the FailoverGroupInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<FailoverGroupInner> beginForceFailoverAllowDataLossAsync(String resourceGroupName, String serverName, String failoverGroupName) {
-        return beginForceFailoverAllowDataLossWithServiceResponseAsync(resourceGroupName, serverName, failoverGroupName).map(new Func1<ServiceResponse<FailoverGroupInner>, FailoverGroupInner>() {
-            @Override
-            public FailoverGroupInner call(ServiceResponse<FailoverGroupInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Fails over from the current primary server to this server. This operation might result in data loss.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server containing the failover group.
-     * @param failoverGroupName The name of the failover group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the FailoverGroupInner object
-     */
-    public Observable<ServiceResponse<FailoverGroupInner>> beginForceFailoverAllowDataLossWithServiceResponseAsync(String resourceGroupName, String serverName, String failoverGroupName) {
+    public Single<BodyResponse<FailoverGroupInner>> forceFailoverAllowDataLossWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String failoverGroupName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -1169,43 +986,52 @@ public class FailoverGroupsInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2015-05-01-preview";
-        return service.beginForceFailoverAllowDataLoss(resourceGroupName, serverName, failoverGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<FailoverGroupInner>>>() {
-                @Override
-                public Observable<ServiceResponse<FailoverGroupInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<FailoverGroupInner> clientResponse = beginForceFailoverAllowDataLossDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.forceFailoverAllowDataLoss(resourceGroupName, serverName, failoverGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<FailoverGroupInner> beginForceFailoverAllowDataLossDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<FailoverGroupInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<FailoverGroupInner>() { }.getType())
-                .register(202, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Fails over from the current primary server to this server. This operation might result in data loss.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server containing the failover group.
+     * @param failoverGroupName The name of the failover group.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<FailoverGroupInner> forceFailoverAllowDataLossAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String failoverGroupName) {
+        return forceFailoverAllowDataLossWithRestResponseAsync(resourceGroupName, serverName, failoverGroupName)
+            .flatMapMaybe((BodyResponse<FailoverGroupInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
+    }
+
+    /**
+     * Fails over from the current primary server to this server. This operation might result in data loss. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<FailoverGroupInner>> resumeForceFailoverAllowDataLoss(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeForceFailoverAllowDataLoss(operationDescription);
     }
 
     /**
      * Lists the failover groups in a server.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;FailoverGroupInner&gt; object if successful.
      */
-    public PagedList<FailoverGroupInner> listByServerNext(final String nextPageLink) {
-        ServiceResponse<Page<FailoverGroupInner>> response = listByServerNextSinglePageAsync(nextPageLink).toBlocking().single();
-        return new PagedList<FailoverGroupInner>(response.body()) {
+    public PagedList<FailoverGroupInner> listByServerNext(@NonNull String nextPageLink) {
+        Page<FailoverGroupInner> response = listByServerNextSinglePageAsync(nextPageLink).blockingGet();
+        return new PagedList<FailoverGroupInner>(response) {
             @Override
             public Page<FailoverGroupInner> nextPage(String nextPageLink) {
-                return listByServerNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listByServerNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -1214,92 +1040,34 @@ public class FailoverGroupsInner {
      * Lists the failover groups in a server.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;FailoverGroupInner&gt; object.
      */
-    public ServiceFuture<List<FailoverGroupInner>> listByServerNextAsync(final String nextPageLink, final ServiceFuture<List<FailoverGroupInner>> serviceFuture, final ListOperationCallback<FailoverGroupInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listByServerNextSinglePageAsync(nextPageLink),
-            new Func1<String, Observable<ServiceResponse<Page<FailoverGroupInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<FailoverGroupInner>>> call(String nextPageLink) {
-                    return listByServerNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Lists the failover groups in a server.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;FailoverGroupInner&gt; object
-     */
-    public Observable<Page<FailoverGroupInner>> listByServerNextAsync(final String nextPageLink) {
-        return listByServerNextWithServiceResponseAsync(nextPageLink)
-            .map(new Func1<ServiceResponse<Page<FailoverGroupInner>>, Page<FailoverGroupInner>>() {
-                @Override
-                public Page<FailoverGroupInner> call(ServiceResponse<Page<FailoverGroupInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Lists the failover groups in a server.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;FailoverGroupInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<FailoverGroupInner>>> listByServerNextWithServiceResponseAsync(final String nextPageLink) {
+    public Observable<Page<FailoverGroupInner>> listByServerNextAsync(@NonNull String nextPageLink) {
         return listByServerNextSinglePageAsync(nextPageLink)
-            .concatMap(new Func1<ServiceResponse<Page<FailoverGroupInner>>, Observable<ServiceResponse<Page<FailoverGroupInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<FailoverGroupInner>>> call(ServiceResponse<Page<FailoverGroupInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listByServerNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<FailoverGroupInner> page) -> {
+                String nextPageLink1 = page.nextPageLink();
+                if (nextPageLink1 == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listByServerNextAsync(nextPageLink1));
             });
     }
 
     /**
      * Lists the failover groups in a server.
      *
-    ServiceResponse<PageImpl1<FailoverGroupInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;FailoverGroupInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;FailoverGroupInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<FailoverGroupInner>>> listByServerNextSinglePageAsync(final String nextPageLink) {
+    public Single<Page<FailoverGroupInner>> listByServerNextSinglePageAsync(@NonNull String nextPageLink) {
         if (nextPageLink == null) {
             throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
         }
         String nextUrl = String.format("%s", nextPageLink);
-        return service.listByServerNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<FailoverGroupInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<FailoverGroupInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl1<FailoverGroupInner>> result = listByServerNextDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<FailoverGroupInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.listByServerNext(nextUrl, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl1<FailoverGroupInner>> res) -> res.body());
     }
-
-    private ServiceResponse<PageImpl1<FailoverGroupInner>> listByServerNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl1<FailoverGroupInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl1<FailoverGroupInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
-    }
-
 }

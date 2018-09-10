@@ -15,16 +15,22 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Defines values for ReadScale.
  */
 public enum ReadScale {
-    /** Enum value Enabled. */
+    /**
+     * Enum value Enabled.
+     */
     ENABLED("Enabled"),
 
-    /** Enum value Disabled. */
+    /**
+     * Enum value Disabled.
+     */
     DISABLED("Disabled");
 
-    /** The actual serialized value for a ReadScale instance. */
-    private String value;
+    /**
+     * The actual serialized value for a ReadScale instance.
+     */
+    private final String value;
 
-    ReadScale(String value) {
+    private ReadScale(String value) {
         this.value = value;
     }
 

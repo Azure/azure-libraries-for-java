@@ -9,13 +9,14 @@
 package com.microsoft.azure.v2.management.sql.implementation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.v2.management.sql.ProxyResource;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
 
 /**
  * A backup long term retention vault.
  */
 @JsonFlatten
-public class BackupLongTermRetentionVaultInner extends ProxyResourceInner {
+public class BackupLongTermRetentionVaultInner extends ProxyResource {
     /**
      * The geo-location where the resource lives.
      */
@@ -31,7 +32,7 @@ public class BackupLongTermRetentionVaultInner extends ProxyResourceInner {
     /**
      * Get the location value.
      *
-     * @return the location value
+     * @return the location value.
      */
     public String location() {
         return this.location;
@@ -40,7 +41,7 @@ public class BackupLongTermRetentionVaultInner extends ProxyResourceInner {
     /**
      * Get the recoveryServicesVaultResourceId value.
      *
-     * @return the recoveryServicesVaultResourceId value
+     * @return the recoveryServicesVaultResourceId value.
      */
     public String recoveryServicesVaultResourceId() {
         return this.recoveryServicesVaultResourceId;
@@ -49,12 +50,12 @@ public class BackupLongTermRetentionVaultInner extends ProxyResourceInner {
     /**
      * Set the recoveryServicesVaultResourceId value.
      *
-     * @param recoveryServicesVaultResourceId the recoveryServicesVaultResourceId value to set
+     * @param recoveryServicesVaultResourceId the
+     * recoveryServicesVaultResourceId value to set.
      * @return the BackupLongTermRetentionVaultInner object itself.
      */
     public BackupLongTermRetentionVaultInner withRecoveryServicesVaultResourceId(String recoveryServicesVaultResourceId) {
         this.recoveryServicesVaultResourceId = recoveryServicesVaultResourceId;
         return this;
     }
-
 }

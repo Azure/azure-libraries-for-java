@@ -9,8 +9,7 @@
 package com.microsoft.azure.v2.management.sql;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
-
+import com.microsoft.rest.v2.serializer.JsonFlatten;
 import java.util.List;
 import java.util.UUID;
 
@@ -66,7 +65,7 @@ public class ServiceObjectiveCapability {
     /**
      * Get the name value.
      *
-     * @return the name value
+     * @return the name value.
      */
     public String name() {
         return this.name;
@@ -75,7 +74,7 @@ public class ServiceObjectiveCapability {
     /**
      * Get the status value.
      *
-     * @return the status value
+     * @return the status value.
      */
     public CapabilityStatus status() {
         return this.status;
@@ -84,7 +83,7 @@ public class ServiceObjectiveCapability {
     /**
      * Get the unit value.
      *
-     * @return the unit value
+     * @return the unit value.
      */
     public PerformanceLevelUnit unit() {
         return this.unit;
@@ -93,7 +92,7 @@ public class ServiceObjectiveCapability {
     /**
      * Get the value value.
      *
-     * @return the value value
+     * @return the value value.
      */
     public Integer value() {
         return this.value;
@@ -102,7 +101,7 @@ public class ServiceObjectiveCapability {
     /**
      * Get the id value.
      *
-     * @return the id value
+     * @return the id value.
      */
     public UUID id() {
         return this.id;
@@ -111,7 +110,7 @@ public class ServiceObjectiveCapability {
     /**
      * Get the supportedMaxSizes value.
      *
-     * @return the supportedMaxSizes value
+     * @return the supportedMaxSizes value.
      */
     public List<MaxSizeCapability> supportedMaxSizes() {
         return this.supportedMaxSizes;
@@ -120,10 +119,9 @@ public class ServiceObjectiveCapability {
     /**
      * Get the includedMaxSize value.
      *
-     * @return the includedMaxSize value
+     * @return the includedMaxSize value.
      */
     public MaxSizeCapability includedMaxSize() {
         return this.includedMaxSize;
     }
-
 }

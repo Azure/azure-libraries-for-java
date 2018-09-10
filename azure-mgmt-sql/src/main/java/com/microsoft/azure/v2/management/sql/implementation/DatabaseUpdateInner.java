@@ -8,19 +8,19 @@
 
 package com.microsoft.azure.v2.management.sql.implementation;
 
-import java.util.Map;
-import org.joda.time.DateTime;
-import java.util.UUID;
-import com.microsoft.azure.v2.management.sql.CreateMode;
-import com.microsoft.azure.v2.management.sql.DatabaseEditions;
-import com.microsoft.azure.v2.management.sql.ServiceObjectiveName;
-import java.util.List;
-import com.microsoft.azure.v2.management.sql.RecommendedIndex;
-import com.microsoft.azure.v2.management.sql.ReadScale;
-import com.microsoft.azure.v2.management.sql.SampleName;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.Resource;
+import com.microsoft.azure.v2.Resource;
+import com.microsoft.azure.v2.management.sql.CreateMode;
+import com.microsoft.azure.v2.management.sql.DatabaseEdition;
+import com.microsoft.azure.v2.management.sql.ReadScale;
+import com.microsoft.azure.v2.management.sql.RecommendedIndex;
+import com.microsoft.azure.v2.management.sql.SampleName;
+import com.microsoft.azure.v2.management.sql.ServiceObjectiveName;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
+import java.time.OffsetDateTime;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 /**
  * Represents a database update.
@@ -44,7 +44,7 @@ public class DatabaseUpdateInner extends Resource {
      * The creation date of the database (ISO8601 format).
      */
     @JsonProperty(value = "properties.creationDate", access = JsonProperty.Access.WRITE_ONLY)
-    private DateTime creationDate;
+    private OffsetDateTime creationDate;
 
     /**
      * The containment state of the database.
@@ -70,7 +70,7 @@ public class DatabaseUpdateInner extends Resource {
      * for this database (ISO8601 format).
      */
     @JsonProperty(value = "properties.earliestRestoreDate", access = JsonProperty.Access.WRITE_ONLY)
-    private DateTime earliestRestoreDate;
+    private OffsetDateTime earliestRestoreDate;
 
     /**
      * Specifies the mode of database creation.
@@ -133,7 +133,7 @@ public class DatabaseUpdateInner extends Resource {
      * required. Specifies the time that the database was deleted.
      */
     @JsonProperty(value = "properties.sourceDatabaseDeletionDate")
-    private DateTime sourceDatabaseDeletionDate;
+    private OffsetDateTime sourceDatabaseDeletionDate;
 
     /**
      * Conditional. If createMode is PointInTimeRestore, this value is
@@ -143,7 +143,7 @@ public class DatabaseUpdateInner extends Resource {
      * the source database's earliestRestoreDate value.
      */
     @JsonProperty(value = "properties.restorePointInTime")
-    private DateTime restorePointInTime;
+    private OffsetDateTime restorePointInTime;
 
     /**
      * Conditional. If createMode is RestoreLongTermRetentionBackup, then this
@@ -166,7 +166,7 @@ public class DatabaseUpdateInner extends Resource {
      * 'System2'.
      */
     @JsonProperty(value = "properties.edition")
-    private DatabaseEditions edition;
+    private DatabaseEdition edition;
 
     /**
      * The max size of the database expressed in bytes. If createMode is not
@@ -258,7 +258,7 @@ public class DatabaseUpdateInner extends Resource {
      * The list of service tier advisors for this database. Expanded property.
      */
     @JsonProperty(value = "properties.serviceTierAdvisors", access = JsonProperty.Access.WRITE_ONLY)
-    private List<ServiceTierAdvisorInner> serviceTierAdvisors;
+    private List<ServiceTierAdvisorInner> serviceTierAdvisorsProperty;
 
     /**
      * The transparent data encryption info for this database.
@@ -306,7 +306,7 @@ public class DatabaseUpdateInner extends Resource {
     /**
      * Get the tags value.
      *
-     * @return the tags value
+     * @return the tags value.
      */
     public Map<String, String> tags() {
         return this.tags;
@@ -315,7 +315,7 @@ public class DatabaseUpdateInner extends Resource {
     /**
      * Set the tags value.
      *
-     * @param tags the tags value to set
+     * @param tags the tags value to set.
      * @return the DatabaseUpdateInner object itself.
      */
     public DatabaseUpdateInner withTags(Map<String, String> tags) {
@@ -326,7 +326,7 @@ public class DatabaseUpdateInner extends Resource {
     /**
      * Get the collation value.
      *
-     * @return the collation value
+     * @return the collation value.
      */
     public String collation() {
         return this.collation;
@@ -335,7 +335,7 @@ public class DatabaseUpdateInner extends Resource {
     /**
      * Set the collation value.
      *
-     * @param collation the collation value to set
+     * @param collation the collation value to set.
      * @return the DatabaseUpdateInner object itself.
      */
     public DatabaseUpdateInner withCollation(String collation) {
@@ -346,16 +346,16 @@ public class DatabaseUpdateInner extends Resource {
     /**
      * Get the creationDate value.
      *
-     * @return the creationDate value
+     * @return the creationDate value.
      */
-    public DateTime creationDate() {
+    public OffsetDateTime creationDate() {
         return this.creationDate;
     }
 
     /**
      * Get the containmentState value.
      *
-     * @return the containmentState value
+     * @return the containmentState value.
      */
     public Long containmentState() {
         return this.containmentState;
@@ -364,7 +364,7 @@ public class DatabaseUpdateInner extends Resource {
     /**
      * Get the currentServiceObjectiveId value.
      *
-     * @return the currentServiceObjectiveId value
+     * @return the currentServiceObjectiveId value.
      */
     public UUID currentServiceObjectiveId() {
         return this.currentServiceObjectiveId;
@@ -373,7 +373,7 @@ public class DatabaseUpdateInner extends Resource {
     /**
      * Get the databaseId value.
      *
-     * @return the databaseId value
+     * @return the databaseId value.
      */
     public UUID databaseId() {
         return this.databaseId;
@@ -382,16 +382,16 @@ public class DatabaseUpdateInner extends Resource {
     /**
      * Get the earliestRestoreDate value.
      *
-     * @return the earliestRestoreDate value
+     * @return the earliestRestoreDate value.
      */
-    public DateTime earliestRestoreDate() {
+    public OffsetDateTime earliestRestoreDate() {
         return this.earliestRestoreDate;
     }
 
     /**
      * Get the createMode value.
      *
-     * @return the createMode value
+     * @return the createMode value.
      */
     public CreateMode createMode() {
         return this.createMode;
@@ -400,7 +400,7 @@ public class DatabaseUpdateInner extends Resource {
     /**
      * Set the createMode value.
      *
-     * @param createMode the createMode value to set
+     * @param createMode the createMode value to set.
      * @return the DatabaseUpdateInner object itself.
      */
     public DatabaseUpdateInner withCreateMode(CreateMode createMode) {
@@ -411,7 +411,7 @@ public class DatabaseUpdateInner extends Resource {
     /**
      * Get the sourceDatabaseId value.
      *
-     * @return the sourceDatabaseId value
+     * @return the sourceDatabaseId value.
      */
     public String sourceDatabaseId() {
         return this.sourceDatabaseId;
@@ -420,7 +420,7 @@ public class DatabaseUpdateInner extends Resource {
     /**
      * Set the sourceDatabaseId value.
      *
-     * @param sourceDatabaseId the sourceDatabaseId value to set
+     * @param sourceDatabaseId the sourceDatabaseId value to set.
      * @return the DatabaseUpdateInner object itself.
      */
     public DatabaseUpdateInner withSourceDatabaseId(String sourceDatabaseId) {
@@ -431,19 +431,20 @@ public class DatabaseUpdateInner extends Resource {
     /**
      * Get the sourceDatabaseDeletionDate value.
      *
-     * @return the sourceDatabaseDeletionDate value
+     * @return the sourceDatabaseDeletionDate value.
      */
-    public DateTime sourceDatabaseDeletionDate() {
+    public OffsetDateTime sourceDatabaseDeletionDate() {
         return this.sourceDatabaseDeletionDate;
     }
 
     /**
      * Set the sourceDatabaseDeletionDate value.
      *
-     * @param sourceDatabaseDeletionDate the sourceDatabaseDeletionDate value to set
+     * @param sourceDatabaseDeletionDate the sourceDatabaseDeletionDate value
+     * to set.
      * @return the DatabaseUpdateInner object itself.
      */
-    public DatabaseUpdateInner withSourceDatabaseDeletionDate(DateTime sourceDatabaseDeletionDate) {
+    public DatabaseUpdateInner withSourceDatabaseDeletionDate(OffsetDateTime sourceDatabaseDeletionDate) {
         this.sourceDatabaseDeletionDate = sourceDatabaseDeletionDate;
         return this;
     }
@@ -451,19 +452,19 @@ public class DatabaseUpdateInner extends Resource {
     /**
      * Get the restorePointInTime value.
      *
-     * @return the restorePointInTime value
+     * @return the restorePointInTime value.
      */
-    public DateTime restorePointInTime() {
+    public OffsetDateTime restorePointInTime() {
         return this.restorePointInTime;
     }
 
     /**
      * Set the restorePointInTime value.
      *
-     * @param restorePointInTime the restorePointInTime value to set
+     * @param restorePointInTime the restorePointInTime value to set.
      * @return the DatabaseUpdateInner object itself.
      */
-    public DatabaseUpdateInner withRestorePointInTime(DateTime restorePointInTime) {
+    public DatabaseUpdateInner withRestorePointInTime(OffsetDateTime restorePointInTime) {
         this.restorePointInTime = restorePointInTime;
         return this;
     }
@@ -471,7 +472,7 @@ public class DatabaseUpdateInner extends Resource {
     /**
      * Get the recoveryServicesRecoveryPointResourceId value.
      *
-     * @return the recoveryServicesRecoveryPointResourceId value
+     * @return the recoveryServicesRecoveryPointResourceId value.
      */
     public String recoveryServicesRecoveryPointResourceId() {
         return this.recoveryServicesRecoveryPointResourceId;
@@ -480,7 +481,8 @@ public class DatabaseUpdateInner extends Resource {
     /**
      * Set the recoveryServicesRecoveryPointResourceId value.
      *
-     * @param recoveryServicesRecoveryPointResourceId the recoveryServicesRecoveryPointResourceId value to set
+     * @param recoveryServicesRecoveryPointResourceId the
+     * recoveryServicesRecoveryPointResourceId value to set.
      * @return the DatabaseUpdateInner object itself.
      */
     public DatabaseUpdateInner withRecoveryServicesRecoveryPointResourceId(String recoveryServicesRecoveryPointResourceId) {
@@ -491,19 +493,19 @@ public class DatabaseUpdateInner extends Resource {
     /**
      * Get the edition value.
      *
-     * @return the edition value
+     * @return the edition value.
      */
-    public DatabaseEditions edition() {
+    public DatabaseEdition edition() {
         return this.edition;
     }
 
     /**
      * Set the edition value.
      *
-     * @param edition the edition value to set
+     * @param edition the edition value to set.
      * @return the DatabaseUpdateInner object itself.
      */
-    public DatabaseUpdateInner withEdition(DatabaseEditions edition) {
+    public DatabaseUpdateInner withEdition(DatabaseEdition edition) {
         this.edition = edition;
         return this;
     }
@@ -511,7 +513,7 @@ public class DatabaseUpdateInner extends Resource {
     /**
      * Get the maxSizeBytes value.
      *
-     * @return the maxSizeBytes value
+     * @return the maxSizeBytes value.
      */
     public String maxSizeBytes() {
         return this.maxSizeBytes;
@@ -520,7 +522,7 @@ public class DatabaseUpdateInner extends Resource {
     /**
      * Set the maxSizeBytes value.
      *
-     * @param maxSizeBytes the maxSizeBytes value to set
+     * @param maxSizeBytes the maxSizeBytes value to set.
      * @return the DatabaseUpdateInner object itself.
      */
     public DatabaseUpdateInner withMaxSizeBytes(String maxSizeBytes) {
@@ -531,7 +533,7 @@ public class DatabaseUpdateInner extends Resource {
     /**
      * Get the requestedServiceObjectiveId value.
      *
-     * @return the requestedServiceObjectiveId value
+     * @return the requestedServiceObjectiveId value.
      */
     public UUID requestedServiceObjectiveId() {
         return this.requestedServiceObjectiveId;
@@ -540,7 +542,8 @@ public class DatabaseUpdateInner extends Resource {
     /**
      * Set the requestedServiceObjectiveId value.
      *
-     * @param requestedServiceObjectiveId the requestedServiceObjectiveId value to set
+     * @param requestedServiceObjectiveId the requestedServiceObjectiveId value
+     * to set.
      * @return the DatabaseUpdateInner object itself.
      */
     public DatabaseUpdateInner withRequestedServiceObjectiveId(UUID requestedServiceObjectiveId) {
@@ -551,7 +554,7 @@ public class DatabaseUpdateInner extends Resource {
     /**
      * Get the requestedServiceObjectiveName value.
      *
-     * @return the requestedServiceObjectiveName value
+     * @return the requestedServiceObjectiveName value.
      */
     public ServiceObjectiveName requestedServiceObjectiveName() {
         return this.requestedServiceObjectiveName;
@@ -560,7 +563,8 @@ public class DatabaseUpdateInner extends Resource {
     /**
      * Set the requestedServiceObjectiveName value.
      *
-     * @param requestedServiceObjectiveName the requestedServiceObjectiveName value to set
+     * @param requestedServiceObjectiveName the requestedServiceObjectiveName
+     * value to set.
      * @return the DatabaseUpdateInner object itself.
      */
     public DatabaseUpdateInner withRequestedServiceObjectiveName(ServiceObjectiveName requestedServiceObjectiveName) {
@@ -571,7 +575,7 @@ public class DatabaseUpdateInner extends Resource {
     /**
      * Get the serviceLevelObjective value.
      *
-     * @return the serviceLevelObjective value
+     * @return the serviceLevelObjective value.
      */
     public ServiceObjectiveName serviceLevelObjective() {
         return this.serviceLevelObjective;
@@ -580,7 +584,7 @@ public class DatabaseUpdateInner extends Resource {
     /**
      * Get the status value.
      *
-     * @return the status value
+     * @return the status value.
      */
     public String status() {
         return this.status;
@@ -589,7 +593,7 @@ public class DatabaseUpdateInner extends Resource {
     /**
      * Get the elasticPoolName value.
      *
-     * @return the elasticPoolName value
+     * @return the elasticPoolName value.
      */
     public String elasticPoolName() {
         return this.elasticPoolName;
@@ -598,7 +602,7 @@ public class DatabaseUpdateInner extends Resource {
     /**
      * Set the elasticPoolName value.
      *
-     * @param elasticPoolName the elasticPoolName value to set
+     * @param elasticPoolName the elasticPoolName value to set.
      * @return the DatabaseUpdateInner object itself.
      */
     public DatabaseUpdateInner withElasticPoolName(String elasticPoolName) {
@@ -609,25 +613,25 @@ public class DatabaseUpdateInner extends Resource {
     /**
      * Get the defaultSecondaryLocation value.
      *
-     * @return the defaultSecondaryLocation value
+     * @return the defaultSecondaryLocation value.
      */
     public String defaultSecondaryLocation() {
         return this.defaultSecondaryLocation;
     }
 
     /**
-     * Get the serviceTierAdvisors value.
+     * Get the serviceTierAdvisorsProperty value.
      *
-     * @return the serviceTierAdvisors value
+     * @return the serviceTierAdvisorsProperty value.
      */
-    public List<ServiceTierAdvisorInner> serviceTierAdvisors() {
-        return this.serviceTierAdvisors;
+    public List<ServiceTierAdvisorInner> serviceTierAdvisorsProperty() {
+        return this.serviceTierAdvisorsProperty;
     }
 
     /**
      * Get the transparentDataEncryption value.
      *
-     * @return the transparentDataEncryption value
+     * @return the transparentDataEncryption value.
      */
     public List<TransparentDataEncryptionInner> transparentDataEncryption() {
         return this.transparentDataEncryption;
@@ -636,7 +640,7 @@ public class DatabaseUpdateInner extends Resource {
     /**
      * Get the recommendedIndex value.
      *
-     * @return the recommendedIndex value
+     * @return the recommendedIndex value.
      */
     public List<RecommendedIndex> recommendedIndex() {
         return this.recommendedIndex;
@@ -645,7 +649,7 @@ public class DatabaseUpdateInner extends Resource {
     /**
      * Get the failoverGroupId value.
      *
-     * @return the failoverGroupId value
+     * @return the failoverGroupId value.
      */
     public String failoverGroupId() {
         return this.failoverGroupId;
@@ -654,7 +658,7 @@ public class DatabaseUpdateInner extends Resource {
     /**
      * Get the readScale value.
      *
-     * @return the readScale value
+     * @return the readScale value.
      */
     public ReadScale readScale() {
         return this.readScale;
@@ -663,7 +667,7 @@ public class DatabaseUpdateInner extends Resource {
     /**
      * Set the readScale value.
      *
-     * @param readScale the readScale value to set
+     * @param readScale the readScale value to set.
      * @return the DatabaseUpdateInner object itself.
      */
     public DatabaseUpdateInner withReadScale(ReadScale readScale) {
@@ -674,7 +678,7 @@ public class DatabaseUpdateInner extends Resource {
     /**
      * Get the sampleName value.
      *
-     * @return the sampleName value
+     * @return the sampleName value.
      */
     public SampleName sampleName() {
         return this.sampleName;
@@ -683,7 +687,7 @@ public class DatabaseUpdateInner extends Resource {
     /**
      * Set the sampleName value.
      *
-     * @param sampleName the sampleName value to set
+     * @param sampleName the sampleName value to set.
      * @return the DatabaseUpdateInner object itself.
      */
     public DatabaseUpdateInner withSampleName(SampleName sampleName) {
@@ -694,7 +698,7 @@ public class DatabaseUpdateInner extends Resource {
     /**
      * Get the zoneRedundant value.
      *
-     * @return the zoneRedundant value
+     * @return the zoneRedundant value.
      */
     public Boolean zoneRedundant() {
         return this.zoneRedundant;
@@ -703,12 +707,11 @@ public class DatabaseUpdateInner extends Resource {
     /**
      * Set the zoneRedundant value.
      *
-     * @param zoneRedundant the zoneRedundant value to set
+     * @param zoneRedundant the zoneRedundant value to set.
      * @return the DatabaseUpdateInner object itself.
      */
     public DatabaseUpdateInner withZoneRedundant(Boolean zoneRedundant) {
         this.zoneRedundant = zoneRedundant;
         return this;
     }
-
 }

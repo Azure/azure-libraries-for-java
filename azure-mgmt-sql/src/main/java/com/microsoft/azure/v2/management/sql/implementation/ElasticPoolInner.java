@@ -8,22 +8,23 @@
 
 package com.microsoft.azure.v2.management.sql.implementation;
 
-import org.joda.time.DateTime;
-import com.microsoft.azure.v2.management.sql.ElasticPoolState;
-import com.microsoft.azure.v2.management.sql.ElasticPoolEditions;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.v2.management.sql.ElasticPoolEdition;
+import com.microsoft.azure.v2.management.sql.ElasticPoolState;
+import com.microsoft.azure.v2.management.sql.TrackedResource;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
+import java.time.OffsetDateTime;
 
 /**
  * Represents a database elastic pool.
  */
 @JsonFlatten
-public class ElasticPoolInner extends TrackedResourceInner {
+public class ElasticPoolInner extends TrackedResource {
     /**
      * The creation date of the elastic pool (ISO8601 format).
      */
     @JsonProperty(value = "properties.creationDate", access = JsonProperty.Access.WRITE_ONLY)
-    private DateTime creationDate;
+    private OffsetDateTime creationDate;
 
     /**
      * The state of the elastic pool. Possible values include: 'Creating',
@@ -37,7 +38,7 @@ public class ElasticPoolInner extends TrackedResourceInner {
      * 'Standard', 'Premium'.
      */
     @JsonProperty(value = "properties.edition")
-    private ElasticPoolEditions edition;
+    private ElasticPoolEdition edition;
 
     /**
      * The total shared DTU for the database elastic pool.
@@ -81,16 +82,16 @@ public class ElasticPoolInner extends TrackedResourceInner {
     /**
      * Get the creationDate value.
      *
-     * @return the creationDate value
+     * @return the creationDate value.
      */
-    public DateTime creationDate() {
+    public OffsetDateTime creationDate() {
         return this.creationDate;
     }
 
     /**
      * Get the state value.
      *
-     * @return the state value
+     * @return the state value.
      */
     public ElasticPoolState state() {
         return this.state;
@@ -99,19 +100,19 @@ public class ElasticPoolInner extends TrackedResourceInner {
     /**
      * Get the edition value.
      *
-     * @return the edition value
+     * @return the edition value.
      */
-    public ElasticPoolEditions edition() {
+    public ElasticPoolEdition edition() {
         return this.edition;
     }
 
     /**
      * Set the edition value.
      *
-     * @param edition the edition value to set
+     * @param edition the edition value to set.
      * @return the ElasticPoolInner object itself.
      */
-    public ElasticPoolInner withEdition(ElasticPoolEditions edition) {
+    public ElasticPoolInner withEdition(ElasticPoolEdition edition) {
         this.edition = edition;
         return this;
     }
@@ -119,7 +120,7 @@ public class ElasticPoolInner extends TrackedResourceInner {
     /**
      * Get the dtu value.
      *
-     * @return the dtu value
+     * @return the dtu value.
      */
     public Integer dtu() {
         return this.dtu;
@@ -128,7 +129,7 @@ public class ElasticPoolInner extends TrackedResourceInner {
     /**
      * Set the dtu value.
      *
-     * @param dtu the dtu value to set
+     * @param dtu the dtu value to set.
      * @return the ElasticPoolInner object itself.
      */
     public ElasticPoolInner withDtu(Integer dtu) {
@@ -139,7 +140,7 @@ public class ElasticPoolInner extends TrackedResourceInner {
     /**
      * Get the databaseDtuMax value.
      *
-     * @return the databaseDtuMax value
+     * @return the databaseDtuMax value.
      */
     public Integer databaseDtuMax() {
         return this.databaseDtuMax;
@@ -148,7 +149,7 @@ public class ElasticPoolInner extends TrackedResourceInner {
     /**
      * Set the databaseDtuMax value.
      *
-     * @param databaseDtuMax the databaseDtuMax value to set
+     * @param databaseDtuMax the databaseDtuMax value to set.
      * @return the ElasticPoolInner object itself.
      */
     public ElasticPoolInner withDatabaseDtuMax(Integer databaseDtuMax) {
@@ -159,7 +160,7 @@ public class ElasticPoolInner extends TrackedResourceInner {
     /**
      * Get the databaseDtuMin value.
      *
-     * @return the databaseDtuMin value
+     * @return the databaseDtuMin value.
      */
     public Integer databaseDtuMin() {
         return this.databaseDtuMin;
@@ -168,7 +169,7 @@ public class ElasticPoolInner extends TrackedResourceInner {
     /**
      * Set the databaseDtuMin value.
      *
-     * @param databaseDtuMin the databaseDtuMin value to set
+     * @param databaseDtuMin the databaseDtuMin value to set.
      * @return the ElasticPoolInner object itself.
      */
     public ElasticPoolInner withDatabaseDtuMin(Integer databaseDtuMin) {
@@ -179,7 +180,7 @@ public class ElasticPoolInner extends TrackedResourceInner {
     /**
      * Get the storageMB value.
      *
-     * @return the storageMB value
+     * @return the storageMB value.
      */
     public Integer storageMB() {
         return this.storageMB;
@@ -188,7 +189,7 @@ public class ElasticPoolInner extends TrackedResourceInner {
     /**
      * Set the storageMB value.
      *
-     * @param storageMB the storageMB value to set
+     * @param storageMB the storageMB value to set.
      * @return the ElasticPoolInner object itself.
      */
     public ElasticPoolInner withStorageMB(Integer storageMB) {
@@ -199,7 +200,7 @@ public class ElasticPoolInner extends TrackedResourceInner {
     /**
      * Get the zoneRedundant value.
      *
-     * @return the zoneRedundant value
+     * @return the zoneRedundant value.
      */
     public Boolean zoneRedundant() {
         return this.zoneRedundant;
@@ -208,7 +209,7 @@ public class ElasticPoolInner extends TrackedResourceInner {
     /**
      * Set the zoneRedundant value.
      *
-     * @param zoneRedundant the zoneRedundant value to set
+     * @param zoneRedundant the zoneRedundant value to set.
      * @return the ElasticPoolInner object itself.
      */
     public ElasticPoolInner withZoneRedundant(Boolean zoneRedundant) {
@@ -219,10 +220,9 @@ public class ElasticPoolInner extends TrackedResourceInner {
     /**
      * Get the kind value.
      *
-     * @return the kind value
+     * @return the kind value.
      */
     public String kind() {
         return this.kind;
     }
-
 }

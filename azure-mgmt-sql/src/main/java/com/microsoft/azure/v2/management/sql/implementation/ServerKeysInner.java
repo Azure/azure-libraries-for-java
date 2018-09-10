@@ -8,87 +8,112 @@
 
 package com.microsoft.azure.v2.management.sql.implementation;
 
-import retrofit2.Retrofit;
-import com.google.common.reflect.TypeToken;
-import com.microsoft.azure.AzureServiceFuture;
-import com.microsoft.azure.CloudException;
-import com.microsoft.azure.ListOperationCallback;
-import com.microsoft.azure.Page;
-import com.microsoft.azure.PagedList;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import com.microsoft.rest.ServiceResponse;
-import com.microsoft.rest.Validator;
-import java.io.IOException;
-import java.util.List;
-import okhttp3.ResponseBody;
-import retrofit2.http.Body;
-import retrofit2.http.GET;
-import retrofit2.http.Header;
-import retrofit2.http.Headers;
-import retrofit2.http.HTTP;
-import retrofit2.http.Path;
-import retrofit2.http.PUT;
-import retrofit2.http.Query;
-import retrofit2.http.Url;
-import retrofit2.Response;
-import rx.functions.Func1;
-import rx.Observable;
+import com.microsoft.azure.v2.AzureProxy;
+import com.microsoft.azure.v2.CloudException;
+import com.microsoft.azure.v2.OperationStatus;
+import com.microsoft.azure.v2.Page;
+import com.microsoft.azure.v2.PagedList;
+import com.microsoft.azure.v2.util.ServiceFutureUtil;
+import com.microsoft.rest.v2.BodyResponse;
+import com.microsoft.rest.v2.OperationDescription;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
+import com.microsoft.rest.v2.Validator;
+import com.microsoft.rest.v2.VoidResponse;
+import com.microsoft.rest.v2.annotations.BodyParam;
+import com.microsoft.rest.v2.annotations.DELETE;
+import com.microsoft.rest.v2.annotations.ExpectedResponses;
+import com.microsoft.rest.v2.annotations.GET;
+import com.microsoft.rest.v2.annotations.HeaderParam;
+import com.microsoft.rest.v2.annotations.Host;
+import com.microsoft.rest.v2.annotations.PathParam;
+import com.microsoft.rest.v2.annotations.PUT;
+import com.microsoft.rest.v2.annotations.QueryParam;
+import com.microsoft.rest.v2.annotations.ResumeOperation;
+import com.microsoft.rest.v2.annotations.UnexpectedResponseExceptionType;
+import io.reactivex.Completable;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
+import io.reactivex.Single;
+import io.reactivex.annotations.NonNull;
 
 /**
- * An instance of this class provides access to all the operations defined
- * in ServerKeys.
+ * An instance of this class provides access to all the operations defined in
+ * ServerKeys.
  */
-public class ServerKeysInner {
-    /** The Retrofit service to perform REST calls. */
+public final class ServerKeysInner {
+    /**
+     * The proxy service used to perform REST calls.
+     */
     private ServerKeysService service;
-    /** The service client containing this operation class. */
+
+    /**
+     * The service client containing this operation class.
+     */
     private SqlManagementClientImpl client;
 
     /**
      * Initializes an instance of ServerKeysInner.
      *
-     * @param retrofit the Retrofit instance built from a Retrofit Builder.
      * @param client the instance of the service client containing this operation class.
      */
-    public ServerKeysInner(Retrofit retrofit, SqlManagementClientImpl client) {
-        this.service = retrofit.create(ServerKeysService.class);
+    public ServerKeysInner(SqlManagementClientImpl client) {
+        this.service = AzureProxy.create(ServerKeysService.class, client);
         this.client = client;
     }
 
     /**
-     * The interface defining all the services for ServerKeys to be
-     * used by Retrofit to perform actually REST calls.
+     * The interface defining all the services for ServerKeys to be used by the
+     * proxy service to perform REST calls.
      */
-    interface ServerKeysService {
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.ServerKeys listByServer" })
+    @Host("https://management.azure.com")
+    private interface ServerKeysService {
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/keys")
-        Observable<Response<ResponseBody>> listByServer(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl1<ServerKeyInner>>> listByServer(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.ServerKeys get" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/keys/{keyName}")
-        Observable<Response<ResponseBody>> get(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("keyName") String keyName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<ServerKeyInner>> get(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("keyName") String keyName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.ServerKeys createOrUpdate" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/keys/{keyName}")
-        Observable<Response<ResponseBody>> createOrUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("keyName") String keyName, @Path("subscriptionId") String subscriptionId, @Body ServerKeyInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 201, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Observable<OperationStatus<ServerKeyInner>> beginCreateOrUpdate(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("keyName") String keyName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json; charset=utf-8") ServerKeyInner parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.ServerKeys beginCreateOrUpdate" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/keys/{keyName}")
-        Observable<Response<ResponseBody>> beginCreateOrUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("keyName") String keyName, @Path("subscriptionId") String subscriptionId, @Body ServerKeyInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 201, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<ServerKeyInner>> createOrUpdate(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("keyName") String keyName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json; charset=utf-8") ServerKeyInner parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.ServerKeys delete" })
-        @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/keys/{keyName}", method = "DELETE", hasBody = true)
-        Observable<Response<ResponseBody>> delete(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("keyName") String keyName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/keys/{keyName}")
+        @ExpectedResponses({200, 201, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<ServerKeyInner>> resumeCreateOrUpdate(OperationDescription operationDescription);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.ServerKeys beginDelete" })
-        @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/keys/{keyName}", method = "DELETE", hasBody = true)
-        Observable<Response<ResponseBody>> beginDelete(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("keyName") String keyName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @DELETE("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/keys/{keyName}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Observable<OperationStatus<Void>> beginDelete(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("keyName") String keyName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.ServerKeys listByServerNext" })
-        @GET
-        Observable<Response<ResponseBody>> listByServerNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @DELETE("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/keys/{keyName}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<VoidResponse> delete(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("keyName") String keyName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
+        @DELETE("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/keys/{keyName}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<Void>> resumeDelete(OperationDescription operationDescription);
+
+        @GET("{nextUrl}")
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl1<ServerKeyInner>>> listByServerNext(@PathParam(value = "nextUrl", encoded = true) String nextUrl, @HeaderParam("accept-language") String acceptLanguage);
     }
 
     /**
@@ -96,17 +121,17 @@ public class ServerKeysInner {
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;ServerKeyInner&gt; object if successful.
      */
-    public PagedList<ServerKeyInner> listByServer(final String resourceGroupName, final String serverName) {
-        ServiceResponse<Page<ServerKeyInner>> response = listByServerSinglePageAsync(resourceGroupName, serverName).toBlocking().single();
-        return new PagedList<ServerKeyInner>(response.body()) {
+    public PagedList<ServerKeyInner> listByServer(@NonNull String resourceGroupName, @NonNull String serverName) {
+        Page<ServerKeyInner> response = listByServerSinglePageAsync(resourceGroupName, serverName).blockingGet();
+        return new PagedList<ServerKeyInner>(response) {
             @Override
             public Page<ServerKeyInner> nextPage(String nextPageLink) {
-                return listByServerNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listByServerNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -116,71 +141,30 @@ public class ServerKeysInner {
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;ServerKeyInner&gt; object.
      */
-    public ServiceFuture<List<ServerKeyInner>> listByServerAsync(final String resourceGroupName, final String serverName, final ListOperationCallback<ServerKeyInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listByServerSinglePageAsync(resourceGroupName, serverName),
-            new Func1<String, Observable<ServiceResponse<Page<ServerKeyInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ServerKeyInner>>> call(String nextPageLink) {
-                    return listByServerNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets a list of server keys.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ServerKeyInner&gt; object
-     */
-    public Observable<Page<ServerKeyInner>> listByServerAsync(final String resourceGroupName, final String serverName) {
-        return listByServerWithServiceResponseAsync(resourceGroupName, serverName)
-            .map(new Func1<ServiceResponse<Page<ServerKeyInner>>, Page<ServerKeyInner>>() {
-                @Override
-                public Page<ServerKeyInner> call(ServiceResponse<Page<ServerKeyInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets a list of server keys.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ServerKeyInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<ServerKeyInner>>> listByServerWithServiceResponseAsync(final String resourceGroupName, final String serverName) {
+    public Observable<Page<ServerKeyInner>> listByServerAsync(@NonNull String resourceGroupName, @NonNull String serverName) {
         return listByServerSinglePageAsync(resourceGroupName, serverName)
-            .concatMap(new Func1<ServiceResponse<Page<ServerKeyInner>>, Observable<ServiceResponse<Page<ServerKeyInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ServerKeyInner>>> call(ServiceResponse<Page<ServerKeyInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listByServerNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<ServerKeyInner> page) -> {
+                String nextPageLink = page.nextPageLink();
+                if (nextPageLink == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listByServerNextAsync(nextPageLink));
             });
     }
 
     /**
      * Gets a list of server keys.
      *
-    ServiceResponse<PageImpl1<ServerKeyInner>> * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-    ServiceResponse<PageImpl1<ServerKeyInner>> * @param serverName The name of the server.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;ServerKeyInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;ServerKeyInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<ServerKeyInner>>> listByServerSinglePageAsync(final String resourceGroupName, final String serverName) {
+    public Single<Page<ServerKeyInner>> listByServerSinglePageAsync(@NonNull String resourceGroupName, @NonNull String serverName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -191,25 +175,8 @@ public class ServerKeysInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2015-05-01-preview";
-        return service.listByServer(resourceGroupName, serverName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ServerKeyInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ServerKeyInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl1<ServerKeyInner>> result = listByServerDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<ServerKeyInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl1<ServerKeyInner>> listByServerDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl1<ServerKeyInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl1<ServerKeyInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+        return service.listByServer(resourceGroupName, serverName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl1<ServerKeyInner>> res) -> res.body());
     }
 
     /**
@@ -218,13 +185,13 @@ public class ServerKeysInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param keyName The name of the server key to be retrieved.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the ServerKeyInner object if successful.
      */
-    public ServerKeyInner get(String resourceGroupName, String serverName, String keyName) {
-        return getWithServiceResponseAsync(resourceGroupName, serverName, keyName).toBlocking().single().body();
+    public ServerKeyInner get(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String keyName) {
+        return getAsync(resourceGroupName, serverName, keyName).blockingGet();
     }
 
     /**
@@ -234,11 +201,11 @@ public class ServerKeysInner {
      * @param serverName The name of the server.
      * @param keyName The name of the server key to be retrieved.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<ServerKeyInner> getAsync(String resourceGroupName, String serverName, String keyName, final ServiceCallback<ServerKeyInner> serviceCallback) {
-        return ServiceFuture.fromResponse(getWithServiceResponseAsync(resourceGroupName, serverName, keyName), serviceCallback);
+    public ServiceFuture<ServerKeyInner> getAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String keyName, ServiceCallback<ServerKeyInner> serviceCallback) {
+        return ServiceFuture.fromBody(getAsync(resourceGroupName, serverName, keyName), serviceCallback);
     }
 
     /**
@@ -247,28 +214,10 @@ public class ServerKeysInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param keyName The name of the server key to be retrieved.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ServerKeyInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<ServerKeyInner> getAsync(String resourceGroupName, String serverName, String keyName) {
-        return getWithServiceResponseAsync(resourceGroupName, serverName, keyName).map(new Func1<ServiceResponse<ServerKeyInner>, ServerKeyInner>() {
-            @Override
-            public ServerKeyInner call(ServiceResponse<ServerKeyInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Gets a server key.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param keyName The name of the server key to be retrieved.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ServerKeyInner object
-     */
-    public Observable<ServiceResponse<ServerKeyInner>> getWithServiceResponseAsync(String resourceGroupName, String serverName, String keyName) {
+    public Single<BodyResponse<ServerKeyInner>> getWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String keyName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -282,25 +231,21 @@ public class ServerKeysInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2015-05-01-preview";
-        return service.get(resourceGroupName, serverName, keyName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ServerKeyInner>>>() {
-                @Override
-                public Observable<ServiceResponse<ServerKeyInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<ServerKeyInner> clientResponse = getDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.get(resourceGroupName, serverName, keyName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<ServerKeyInner> getDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<ServerKeyInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<ServerKeyInner>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Gets a server key.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param keyName The name of the server key to be retrieved.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<ServerKeyInner> getAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String keyName) {
+        return getWithRestResponseAsync(resourceGroupName, serverName, keyName)
+            .flatMapMaybe((BodyResponse<ServerKeyInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
@@ -308,15 +253,15 @@ public class ServerKeysInner {
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
-     * @param keyName The name of the server key to be operated on (updated or created). The key name is required to be in the format of 'vault_key_version'. For example, if the keyId is https://YourVaultName.vault.azure.net/keys/YourKeyName/01234567890123456789012345678901, then the server key name should be formatted as: YourVaultName_YourKeyName_01234567890123456789012345678901
+     * @param keyName The name of the server key to be operated on (updated or created). The key name is required to be in the format of 'vault_key_version'. For example, if the keyId is https://YourVaultName.vault.azure.net/keys/YourKeyName/01234567890123456789012345678901, then the server key name should be formatted as: YourVaultName_YourKeyName_01234567890123456789012345678901.
      * @param parameters The requested server key resource state.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the ServerKeyInner object if successful.
      */
-    public ServerKeyInner createOrUpdate(String resourceGroupName, String serverName, String keyName, ServerKeyInner parameters) {
-        return createOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, keyName, parameters).toBlocking().last().body();
+    public ServerKeyInner beginCreateOrUpdate(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String keyName, @NonNull ServerKeyInner parameters) {
+        return beginCreateOrUpdateAsync(resourceGroupName, serverName, keyName, parameters).blockingLast().result();
     }
 
     /**
@@ -324,14 +269,14 @@ public class ServerKeysInner {
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
-     * @param keyName The name of the server key to be operated on (updated or created). The key name is required to be in the format of 'vault_key_version'. For example, if the keyId is https://YourVaultName.vault.azure.net/keys/YourKeyName/01234567890123456789012345678901, then the server key name should be formatted as: YourVaultName_YourKeyName_01234567890123456789012345678901
+     * @param keyName The name of the server key to be operated on (updated or created). The key name is required to be in the format of 'vault_key_version'. For example, if the keyId is https://YourVaultName.vault.azure.net/keys/YourKeyName/01234567890123456789012345678901, then the server key name should be formatted as: YourVaultName_YourKeyName_01234567890123456789012345678901.
      * @param parameters The requested server key resource state.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;ServerKeyInner&gt; object.
      */
-    public ServiceFuture<ServerKeyInner> createOrUpdateAsync(String resourceGroupName, String serverName, String keyName, ServerKeyInner parameters, final ServiceCallback<ServerKeyInner> serviceCallback) {
-        return ServiceFuture.fromResponse(createOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, keyName, parameters), serviceCallback);
+    public ServiceFuture<ServerKeyInner> beginCreateOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String keyName, @NonNull ServerKeyInner parameters, ServiceCallback<ServerKeyInner> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginCreateOrUpdateAsync(resourceGroupName, serverName, keyName, parameters), serviceCallback);
     }
 
     /**
@@ -339,31 +284,12 @@ public class ServerKeysInner {
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
-     * @param keyName The name of the server key to be operated on (updated or created). The key name is required to be in the format of 'vault_key_version'. For example, if the keyId is https://YourVaultName.vault.azure.net/keys/YourKeyName/01234567890123456789012345678901, then the server key name should be formatted as: YourVaultName_YourKeyName_01234567890123456789012345678901
+     * @param keyName The name of the server key to be operated on (updated or created). The key name is required to be in the format of 'vault_key_version'. For example, if the keyId is https://YourVaultName.vault.azure.net/keys/YourKeyName/01234567890123456789012345678901, then the server key name should be formatted as: YourVaultName_YourKeyName_01234567890123456789012345678901.
      * @param parameters The requested server key resource state.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<ServerKeyInner> createOrUpdateAsync(String resourceGroupName, String serverName, String keyName, ServerKeyInner parameters) {
-        return createOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, keyName, parameters).map(new Func1<ServiceResponse<ServerKeyInner>, ServerKeyInner>() {
-            @Override
-            public ServerKeyInner call(ServiceResponse<ServerKeyInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Creates or updates a server key.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param keyName The name of the server key to be operated on (updated or created). The key name is required to be in the format of 'vault_key_version'. For example, if the keyId is https://YourVaultName.vault.azure.net/keys/YourKeyName/01234567890123456789012345678901, then the server key name should be formatted as: YourVaultName_YourKeyName_01234567890123456789012345678901
-     * @param parameters The requested server key resource state.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<ServerKeyInner>> createOrUpdateWithServiceResponseAsync(String resourceGroupName, String serverName, String keyName, ServerKeyInner parameters) {
+    public Observable<OperationStatus<ServerKeyInner>> beginCreateOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String keyName, @NonNull ServerKeyInner parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -381,8 +307,7 @@ public class ServerKeysInner {
         }
         Validator.validate(parameters);
         final String apiVersion = "2015-05-01-preview";
-        Observable<Response<ResponseBody>> observable = service.createOrUpdate(resourceGroupName, serverName, keyName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<ServerKeyInner>() { }.getType());
+        return service.beginCreateOrUpdate(resourceGroupName, serverName, keyName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage());
     }
 
     /**
@@ -390,15 +315,15 @@ public class ServerKeysInner {
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
-     * @param keyName The name of the server key to be operated on (updated or created). The key name is required to be in the format of 'vault_key_version'. For example, if the keyId is https://YourVaultName.vault.azure.net/keys/YourKeyName/01234567890123456789012345678901, then the server key name should be formatted as: YourVaultName_YourKeyName_01234567890123456789012345678901
+     * @param keyName The name of the server key to be operated on (updated or created). The key name is required to be in the format of 'vault_key_version'. For example, if the keyId is https://YourVaultName.vault.azure.net/keys/YourKeyName/01234567890123456789012345678901, then the server key name should be formatted as: YourVaultName_YourKeyName_01234567890123456789012345678901.
      * @param parameters The requested server key resource state.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the ServerKeyInner object if successful.
      */
-    public ServerKeyInner beginCreateOrUpdate(String resourceGroupName, String serverName, String keyName, ServerKeyInner parameters) {
-        return beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, keyName, parameters).toBlocking().single().body();
+    public ServerKeyInner createOrUpdate(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String keyName, @NonNull ServerKeyInner parameters) {
+        return createOrUpdateAsync(resourceGroupName, serverName, keyName, parameters).blockingGet();
     }
 
     /**
@@ -406,14 +331,14 @@ public class ServerKeysInner {
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
-     * @param keyName The name of the server key to be operated on (updated or created). The key name is required to be in the format of 'vault_key_version'. For example, if the keyId is https://YourVaultName.vault.azure.net/keys/YourKeyName/01234567890123456789012345678901, then the server key name should be formatted as: YourVaultName_YourKeyName_01234567890123456789012345678901
+     * @param keyName The name of the server key to be operated on (updated or created). The key name is required to be in the format of 'vault_key_version'. For example, if the keyId is https://YourVaultName.vault.azure.net/keys/YourKeyName/01234567890123456789012345678901, then the server key name should be formatted as: YourVaultName_YourKeyName_01234567890123456789012345678901.
      * @param parameters The requested server key resource state.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<ServerKeyInner> beginCreateOrUpdateAsync(String resourceGroupName, String serverName, String keyName, ServerKeyInner parameters, final ServiceCallback<ServerKeyInner> serviceCallback) {
-        return ServiceFuture.fromResponse(beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, keyName, parameters), serviceCallback);
+    public ServiceFuture<ServerKeyInner> createOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String keyName, @NonNull ServerKeyInner parameters, ServiceCallback<ServerKeyInner> serviceCallback) {
+        return ServiceFuture.fromBody(createOrUpdateAsync(resourceGroupName, serverName, keyName, parameters), serviceCallback);
     }
 
     /**
@@ -421,31 +346,12 @@ public class ServerKeysInner {
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
-     * @param keyName The name of the server key to be operated on (updated or created). The key name is required to be in the format of 'vault_key_version'. For example, if the keyId is https://YourVaultName.vault.azure.net/keys/YourKeyName/01234567890123456789012345678901, then the server key name should be formatted as: YourVaultName_YourKeyName_01234567890123456789012345678901
+     * @param keyName The name of the server key to be operated on (updated or created). The key name is required to be in the format of 'vault_key_version'. For example, if the keyId is https://YourVaultName.vault.azure.net/keys/YourKeyName/01234567890123456789012345678901, then the server key name should be formatted as: YourVaultName_YourKeyName_01234567890123456789012345678901.
      * @param parameters The requested server key resource state.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ServerKeyInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<ServerKeyInner> beginCreateOrUpdateAsync(String resourceGroupName, String serverName, String keyName, ServerKeyInner parameters) {
-        return beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, keyName, parameters).map(new Func1<ServiceResponse<ServerKeyInner>, ServerKeyInner>() {
-            @Override
-            public ServerKeyInner call(ServiceResponse<ServerKeyInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Creates or updates a server key.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param keyName The name of the server key to be operated on (updated or created). The key name is required to be in the format of 'vault_key_version'. For example, if the keyId is https://YourVaultName.vault.azure.net/keys/YourKeyName/01234567890123456789012345678901, then the server key name should be formatted as: YourVaultName_YourKeyName_01234567890123456789012345678901
-     * @param parameters The requested server key resource state.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ServerKeyInner object
-     */
-    public Observable<ServiceResponse<ServerKeyInner>> beginCreateOrUpdateWithServiceResponseAsync(String resourceGroupName, String serverName, String keyName, ServerKeyInner parameters) {
+    public Single<BodyResponse<ServerKeyInner>> createOrUpdateWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String keyName, @NonNull ServerKeyInner parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -463,27 +369,36 @@ public class ServerKeysInner {
         }
         Validator.validate(parameters);
         final String apiVersion = "2015-05-01-preview";
-        return service.beginCreateOrUpdate(resourceGroupName, serverName, keyName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ServerKeyInner>>>() {
-                @Override
-                public Observable<ServiceResponse<ServerKeyInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<ServerKeyInner> clientResponse = beginCreateOrUpdateDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.createOrUpdate(resourceGroupName, serverName, keyName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<ServerKeyInner> beginCreateOrUpdateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<ServerKeyInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<ServerKeyInner>() { }.getType())
-                .register(201, new TypeToken<ServerKeyInner>() { }.getType())
-                .register(202, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Creates or updates a server key.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param keyName The name of the server key to be operated on (updated or created). The key name is required to be in the format of 'vault_key_version'. For example, if the keyId is https://YourVaultName.vault.azure.net/keys/YourKeyName/01234567890123456789012345678901, then the server key name should be formatted as: YourVaultName_YourKeyName_01234567890123456789012345678901.
+     * @param parameters The requested server key resource state.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<ServerKeyInner> createOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String keyName, @NonNull ServerKeyInner parameters) {
+        return createOrUpdateWithRestResponseAsync(resourceGroupName, serverName, keyName, parameters)
+            .flatMapMaybe((BodyResponse<ServerKeyInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
+    }
+
+    /**
+     * Creates or updates a server key. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<ServerKeyInner>> resumeCreateOrUpdate(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeCreateOrUpdate(operationDescription);
     }
 
     /**
@@ -492,12 +407,12 @@ public class ServerKeysInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param keyName The name of the server key to be deleted.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void delete(String resourceGroupName, String serverName, String keyName) {
-        deleteWithServiceResponseAsync(resourceGroupName, serverName, keyName).toBlocking().last().body();
+    public void beginDelete(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String keyName) {
+        beginDeleteAsync(resourceGroupName, serverName, keyName).blockingLast();
     }
 
     /**
@@ -507,11 +422,11 @@ public class ServerKeysInner {
      * @param serverName The name of the server.
      * @param keyName The name of the server key to be deleted.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;Void&gt; object.
      */
-    public ServiceFuture<Void> deleteAsync(String resourceGroupName, String serverName, String keyName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(deleteWithServiceResponseAsync(resourceGroupName, serverName, keyName), serviceCallback);
+    public ServiceFuture<Void> beginDeleteAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String keyName, ServiceCallback<Void> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginDeleteAsync(resourceGroupName, serverName, keyName), serviceCallback);
     }
 
     /**
@@ -520,28 +435,10 @@ public class ServerKeysInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param keyName The name of the server key to be deleted.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<Void> deleteAsync(String resourceGroupName, String serverName, String keyName) {
-        return deleteWithServiceResponseAsync(resourceGroupName, serverName, keyName).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Deletes the server key with the given name.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param keyName The name of the server key to be deleted.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<Void>> deleteWithServiceResponseAsync(String resourceGroupName, String serverName, String keyName) {
+    public Observable<OperationStatus<Void>> beginDeleteAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String keyName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -555,8 +452,7 @@ public class ServerKeysInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2015-05-01-preview";
-        Observable<Response<ResponseBody>> observable = service.delete(resourceGroupName, serverName, keyName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
+        return service.beginDelete(resourceGroupName, serverName, keyName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
     /**
@@ -565,12 +461,12 @@ public class ServerKeysInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param keyName The name of the server key to be deleted.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void beginDelete(String resourceGroupName, String serverName, String keyName) {
-        beginDeleteWithServiceResponseAsync(resourceGroupName, serverName, keyName).toBlocking().single().body();
+    public void delete(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String keyName) {
+        deleteAsync(resourceGroupName, serverName, keyName).blockingAwait();
     }
 
     /**
@@ -580,11 +476,11 @@ public class ServerKeysInner {
      * @param serverName The name of the server.
      * @param keyName The name of the server key to be deleted.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<Void> beginDeleteAsync(String resourceGroupName, String serverName, String keyName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(beginDeleteWithServiceResponseAsync(resourceGroupName, serverName, keyName), serviceCallback);
+    public ServiceFuture<Void> deleteAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String keyName, ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromBody(deleteAsync(resourceGroupName, serverName, keyName), serviceCallback);
     }
 
     /**
@@ -593,28 +489,10 @@ public class ServerKeysInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param keyName The name of the server key to be deleted.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<Void> beginDeleteAsync(String resourceGroupName, String serverName, String keyName) {
-        return beginDeleteWithServiceResponseAsync(resourceGroupName, serverName, keyName).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Deletes the server key with the given name.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param keyName The name of the server key to be deleted.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
-     */
-    public Observable<ServiceResponse<Void>> beginDeleteWithServiceResponseAsync(String resourceGroupName, String serverName, String keyName) {
+    public Single<VoidResponse> deleteWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String keyName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -628,44 +506,52 @@ public class ServerKeysInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2015-05-01-preview";
-        return service.beginDelete(resourceGroupName, serverName, keyName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
-                @Override
-                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<Void> clientResponse = beginDeleteDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.delete(resourceGroupName, serverName, keyName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<Void> beginDeleteDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<Void>() { }.getType())
-                .register(202, new TypeToken<Void>() { }.getType())
-                .register(204, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Deletes the server key with the given name.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param keyName The name of the server key to be deleted.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Completable deleteAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String keyName) {
+        return deleteWithRestResponseAsync(resourceGroupName, serverName, keyName)
+            .toCompletable();
+    }
+
+    /**
+     * Deletes the server key with the given name. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<Void>> resumeDelete(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeDelete(operationDescription);
     }
 
     /**
      * Gets a list of server keys.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;ServerKeyInner&gt; object if successful.
      */
-    public PagedList<ServerKeyInner> listByServerNext(final String nextPageLink) {
-        ServiceResponse<Page<ServerKeyInner>> response = listByServerNextSinglePageAsync(nextPageLink).toBlocking().single();
-        return new PagedList<ServerKeyInner>(response.body()) {
+    public PagedList<ServerKeyInner> listByServerNext(@NonNull String nextPageLink) {
+        Page<ServerKeyInner> response = listByServerNextSinglePageAsync(nextPageLink).blockingGet();
+        return new PagedList<ServerKeyInner>(response) {
             @Override
             public Page<ServerKeyInner> nextPage(String nextPageLink) {
-                return listByServerNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listByServerNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -674,92 +560,34 @@ public class ServerKeysInner {
      * Gets a list of server keys.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;ServerKeyInner&gt; object.
      */
-    public ServiceFuture<List<ServerKeyInner>> listByServerNextAsync(final String nextPageLink, final ServiceFuture<List<ServerKeyInner>> serviceFuture, final ListOperationCallback<ServerKeyInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listByServerNextSinglePageAsync(nextPageLink),
-            new Func1<String, Observable<ServiceResponse<Page<ServerKeyInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ServerKeyInner>>> call(String nextPageLink) {
-                    return listByServerNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets a list of server keys.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ServerKeyInner&gt; object
-     */
-    public Observable<Page<ServerKeyInner>> listByServerNextAsync(final String nextPageLink) {
-        return listByServerNextWithServiceResponseAsync(nextPageLink)
-            .map(new Func1<ServiceResponse<Page<ServerKeyInner>>, Page<ServerKeyInner>>() {
-                @Override
-                public Page<ServerKeyInner> call(ServiceResponse<Page<ServerKeyInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets a list of server keys.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ServerKeyInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<ServerKeyInner>>> listByServerNextWithServiceResponseAsync(final String nextPageLink) {
+    public Observable<Page<ServerKeyInner>> listByServerNextAsync(@NonNull String nextPageLink) {
         return listByServerNextSinglePageAsync(nextPageLink)
-            .concatMap(new Func1<ServiceResponse<Page<ServerKeyInner>>, Observable<ServiceResponse<Page<ServerKeyInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ServerKeyInner>>> call(ServiceResponse<Page<ServerKeyInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listByServerNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<ServerKeyInner> page) -> {
+                String nextPageLink1 = page.nextPageLink();
+                if (nextPageLink1 == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listByServerNextAsync(nextPageLink1));
             });
     }
 
     /**
      * Gets a list of server keys.
      *
-    ServiceResponse<PageImpl1<ServerKeyInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;ServerKeyInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;ServerKeyInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<ServerKeyInner>>> listByServerNextSinglePageAsync(final String nextPageLink) {
+    public Single<Page<ServerKeyInner>> listByServerNextSinglePageAsync(@NonNull String nextPageLink) {
         if (nextPageLink == null) {
             throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
         }
         String nextUrl = String.format("%s", nextPageLink);
-        return service.listByServerNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ServerKeyInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ServerKeyInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl1<ServerKeyInner>> result = listByServerNextDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<ServerKeyInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.listByServerNext(nextUrl, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl1<ServerKeyInner>> res) -> res.body());
     }
-
-    private ServiceResponse<PageImpl1<ServerKeyInner>> listByServerNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl1<ServerKeyInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl1<ServerKeyInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
-    }
-
 }

@@ -8,17 +8,18 @@
 
 package com.microsoft.azure.v2.management.sql.implementation;
 
-import com.microsoft.azure.v2.management.sql.SecurityAlertPolicyState;
-import com.microsoft.azure.v2.management.sql.SecurityAlertPolicyEmailAccountAdmins;
-import com.microsoft.azure.v2.management.sql.SecurityAlertPolicyUseServerDefault;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.v2.management.sql.ProxyResource;
+import com.microsoft.azure.v2.management.sql.SecurityAlertPolicyEmailAccountAdmins;
+import com.microsoft.azure.v2.management.sql.SecurityAlertPolicyState;
+import com.microsoft.azure.v2.management.sql.SecurityAlertPolicyUseServerDefault;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
 
 /**
  * Contains information about a database Threat Detection policy.
  */
 @JsonFlatten
-public class DatabaseSecurityAlertPolicyInner extends ProxyResourceInner {
+public class DatabaseSecurityAlertPolicyInner extends ProxyResource {
     /**
      * The geo-location where the resource lives.
      */
@@ -93,7 +94,7 @@ public class DatabaseSecurityAlertPolicyInner extends ProxyResourceInner {
     /**
      * Get the location value.
      *
-     * @return the location value
+     * @return the location value.
      */
     public String location() {
         return this.location;
@@ -102,7 +103,7 @@ public class DatabaseSecurityAlertPolicyInner extends ProxyResourceInner {
     /**
      * Set the location value.
      *
-     * @param location the location value to set
+     * @param location the location value to set.
      * @return the DatabaseSecurityAlertPolicyInner object itself.
      */
     public DatabaseSecurityAlertPolicyInner withLocation(String location) {
@@ -113,7 +114,7 @@ public class DatabaseSecurityAlertPolicyInner extends ProxyResourceInner {
     /**
      * Get the kind value.
      *
-     * @return the kind value
+     * @return the kind value.
      */
     public String kind() {
         return this.kind;
@@ -122,7 +123,7 @@ public class DatabaseSecurityAlertPolicyInner extends ProxyResourceInner {
     /**
      * Get the state value.
      *
-     * @return the state value
+     * @return the state value.
      */
     public SecurityAlertPolicyState state() {
         return this.state;
@@ -131,7 +132,7 @@ public class DatabaseSecurityAlertPolicyInner extends ProxyResourceInner {
     /**
      * Set the state value.
      *
-     * @param state the state value to set
+     * @param state the state value to set.
      * @return the DatabaseSecurityAlertPolicyInner object itself.
      */
     public DatabaseSecurityAlertPolicyInner withState(SecurityAlertPolicyState state) {
@@ -142,7 +143,7 @@ public class DatabaseSecurityAlertPolicyInner extends ProxyResourceInner {
     /**
      * Get the disabledAlerts value.
      *
-     * @return the disabledAlerts value
+     * @return the disabledAlerts value.
      */
     public String disabledAlerts() {
         return this.disabledAlerts;
@@ -151,7 +152,7 @@ public class DatabaseSecurityAlertPolicyInner extends ProxyResourceInner {
     /**
      * Set the disabledAlerts value.
      *
-     * @param disabledAlerts the disabledAlerts value to set
+     * @param disabledAlerts the disabledAlerts value to set.
      * @return the DatabaseSecurityAlertPolicyInner object itself.
      */
     public DatabaseSecurityAlertPolicyInner withDisabledAlerts(String disabledAlerts) {
@@ -162,7 +163,7 @@ public class DatabaseSecurityAlertPolicyInner extends ProxyResourceInner {
     /**
      * Get the emailAddresses value.
      *
-     * @return the emailAddresses value
+     * @return the emailAddresses value.
      */
     public String emailAddresses() {
         return this.emailAddresses;
@@ -171,7 +172,7 @@ public class DatabaseSecurityAlertPolicyInner extends ProxyResourceInner {
     /**
      * Set the emailAddresses value.
      *
-     * @param emailAddresses the emailAddresses value to set
+     * @param emailAddresses the emailAddresses value to set.
      * @return the DatabaseSecurityAlertPolicyInner object itself.
      */
     public DatabaseSecurityAlertPolicyInner withEmailAddresses(String emailAddresses) {
@@ -182,7 +183,7 @@ public class DatabaseSecurityAlertPolicyInner extends ProxyResourceInner {
     /**
      * Get the emailAccountAdmins value.
      *
-     * @return the emailAccountAdmins value
+     * @return the emailAccountAdmins value.
      */
     public SecurityAlertPolicyEmailAccountAdmins emailAccountAdmins() {
         return this.emailAccountAdmins;
@@ -191,7 +192,7 @@ public class DatabaseSecurityAlertPolicyInner extends ProxyResourceInner {
     /**
      * Set the emailAccountAdmins value.
      *
-     * @param emailAccountAdmins the emailAccountAdmins value to set
+     * @param emailAccountAdmins the emailAccountAdmins value to set.
      * @return the DatabaseSecurityAlertPolicyInner object itself.
      */
     public DatabaseSecurityAlertPolicyInner withEmailAccountAdmins(SecurityAlertPolicyEmailAccountAdmins emailAccountAdmins) {
@@ -202,7 +203,7 @@ public class DatabaseSecurityAlertPolicyInner extends ProxyResourceInner {
     /**
      * Get the storageEndpoint value.
      *
-     * @return the storageEndpoint value
+     * @return the storageEndpoint value.
      */
     public String storageEndpoint() {
         return this.storageEndpoint;
@@ -211,7 +212,7 @@ public class DatabaseSecurityAlertPolicyInner extends ProxyResourceInner {
     /**
      * Set the storageEndpoint value.
      *
-     * @param storageEndpoint the storageEndpoint value to set
+     * @param storageEndpoint the storageEndpoint value to set.
      * @return the DatabaseSecurityAlertPolicyInner object itself.
      */
     public DatabaseSecurityAlertPolicyInner withStorageEndpoint(String storageEndpoint) {
@@ -222,7 +223,7 @@ public class DatabaseSecurityAlertPolicyInner extends ProxyResourceInner {
     /**
      * Get the storageAccountAccessKey value.
      *
-     * @return the storageAccountAccessKey value
+     * @return the storageAccountAccessKey value.
      */
     public String storageAccountAccessKey() {
         return this.storageAccountAccessKey;
@@ -231,7 +232,7 @@ public class DatabaseSecurityAlertPolicyInner extends ProxyResourceInner {
     /**
      * Set the storageAccountAccessKey value.
      *
-     * @param storageAccountAccessKey the storageAccountAccessKey value to set
+     * @param storageAccountAccessKey the storageAccountAccessKey value to set.
      * @return the DatabaseSecurityAlertPolicyInner object itself.
      */
     public DatabaseSecurityAlertPolicyInner withStorageAccountAccessKey(String storageAccountAccessKey) {
@@ -242,7 +243,7 @@ public class DatabaseSecurityAlertPolicyInner extends ProxyResourceInner {
     /**
      * Get the retentionDays value.
      *
-     * @return the retentionDays value
+     * @return the retentionDays value.
      */
     public Integer retentionDays() {
         return this.retentionDays;
@@ -251,7 +252,7 @@ public class DatabaseSecurityAlertPolicyInner extends ProxyResourceInner {
     /**
      * Set the retentionDays value.
      *
-     * @param retentionDays the retentionDays value to set
+     * @param retentionDays the retentionDays value to set.
      * @return the DatabaseSecurityAlertPolicyInner object itself.
      */
     public DatabaseSecurityAlertPolicyInner withRetentionDays(Integer retentionDays) {
@@ -262,7 +263,7 @@ public class DatabaseSecurityAlertPolicyInner extends ProxyResourceInner {
     /**
      * Get the useServerDefault value.
      *
-     * @return the useServerDefault value
+     * @return the useServerDefault value.
      */
     public SecurityAlertPolicyUseServerDefault useServerDefault() {
         return this.useServerDefault;
@@ -271,12 +272,11 @@ public class DatabaseSecurityAlertPolicyInner extends ProxyResourceInner {
     /**
      * Set the useServerDefault value.
      *
-     * @param useServerDefault the useServerDefault value to set
+     * @param useServerDefault the useServerDefault value to set.
      * @return the DatabaseSecurityAlertPolicyInner object itself.
      */
     public DatabaseSecurityAlertPolicyInner withUseServerDefault(SecurityAlertPolicyUseServerDefault useServerDefault) {
         this.useServerDefault = useServerDefault;
         return this;
     }
-
 }

@@ -9,23 +9,23 @@
 package com.microsoft.azure.v2.management.sql;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.joda.time.DateTime;
+import java.time.OffsetDateTime;
 
 /**
  * Scheduling properties of a job.
  */
-public class JobSchedule {
+public final class JobSchedule {
     /**
      * Schedule start time.
      */
     @JsonProperty(value = "startTime")
-    private DateTime startTime;
+    private OffsetDateTime startTime;
 
     /**
      * Schedule end time.
      */
     @JsonProperty(value = "endTime")
-    private DateTime endTime;
+    private OffsetDateTime endTime;
 
     /**
      * Schedule interval type. Possible values include: 'Once', 'Recurring'.
@@ -49,19 +49,19 @@ public class JobSchedule {
     /**
      * Get the startTime value.
      *
-     * @return the startTime value
+     * @return the startTime value.
      */
-    public DateTime startTime() {
+    public OffsetDateTime startTime() {
         return this.startTime;
     }
 
     /**
      * Set the startTime value.
      *
-     * @param startTime the startTime value to set
+     * @param startTime the startTime value to set.
      * @return the JobSchedule object itself.
      */
-    public JobSchedule withStartTime(DateTime startTime) {
+    public JobSchedule withStartTime(OffsetDateTime startTime) {
         this.startTime = startTime;
         return this;
     }
@@ -69,19 +69,19 @@ public class JobSchedule {
     /**
      * Get the endTime value.
      *
-     * @return the endTime value
+     * @return the endTime value.
      */
-    public DateTime endTime() {
+    public OffsetDateTime endTime() {
         return this.endTime;
     }
 
     /**
      * Set the endTime value.
      *
-     * @param endTime the endTime value to set
+     * @param endTime the endTime value to set.
      * @return the JobSchedule object itself.
      */
-    public JobSchedule withEndTime(DateTime endTime) {
+    public JobSchedule withEndTime(OffsetDateTime endTime) {
         this.endTime = endTime;
         return this;
     }
@@ -89,7 +89,7 @@ public class JobSchedule {
     /**
      * Get the type value.
      *
-     * @return the type value
+     * @return the type value.
      */
     public JobScheduleType type() {
         return this.type;
@@ -98,7 +98,7 @@ public class JobSchedule {
     /**
      * Set the type value.
      *
-     * @param type the type value to set
+     * @param type the type value to set.
      * @return the JobSchedule object itself.
      */
     public JobSchedule withType(JobScheduleType type) {
@@ -109,7 +109,7 @@ public class JobSchedule {
     /**
      * Get the enabled value.
      *
-     * @return the enabled value
+     * @return the enabled value.
      */
     public Boolean enabled() {
         return this.enabled;
@@ -118,7 +118,7 @@ public class JobSchedule {
     /**
      * Set the enabled value.
      *
-     * @param enabled the enabled value to set
+     * @param enabled the enabled value to set.
      * @return the JobSchedule object itself.
      */
     public JobSchedule withEnabled(Boolean enabled) {
@@ -129,7 +129,7 @@ public class JobSchedule {
     /**
      * Get the interval value.
      *
-     * @return the interval value
+     * @return the interval value.
      */
     public String interval() {
         return this.interval;
@@ -138,12 +138,11 @@ public class JobSchedule {
     /**
      * Set the interval value.
      *
-     * @param interval the interval value to set
+     * @param interval the interval value to set.
      * @return the JobSchedule object itself.
      */
     public JobSchedule withInterval(String interval) {
         this.interval = interval;
         return this;
     }
-
 }

@@ -15,16 +15,22 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Defines values for JobTargetGroupMembershipType.
  */
 public enum JobTargetGroupMembershipType {
-    /** Enum value Include. */
+    /**
+     * Enum value Include.
+     */
     INCLUDE("Include"),
 
-    /** Enum value Exclude. */
+    /**
+     * Enum value Exclude.
+     */
     EXCLUDE("Exclude");
 
-    /** The actual serialized value for a JobTargetGroupMembershipType instance. */
-    private String value;
+    /**
+     * The actual serialized value for a JobTargetGroupMembershipType instance.
+     */
+    private final String value;
 
-    JobTargetGroupMembershipType(String value) {
+    private JobTargetGroupMembershipType(String value) {
         this.value = value;
     }
 

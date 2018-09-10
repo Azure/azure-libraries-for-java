@@ -9,13 +9,14 @@
 package com.microsoft.azure.v2.management.sql.implementation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.v2.management.sql.ProxyResource;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
 
 /**
  * A TDE certificate that can be uploaded into a server.
  */
 @JsonFlatten
-public class TdeCertificateInner extends ProxyResourceInner {
+public class TdeCertificateInner extends ProxyResource {
     /**
      * The base64 encoded certificate private blob.
      */
@@ -31,7 +32,7 @@ public class TdeCertificateInner extends ProxyResourceInner {
     /**
      * Get the privateBlob value.
      *
-     * @return the privateBlob value
+     * @return the privateBlob value.
      */
     public String privateBlob() {
         return this.privateBlob;
@@ -40,7 +41,7 @@ public class TdeCertificateInner extends ProxyResourceInner {
     /**
      * Set the privateBlob value.
      *
-     * @param privateBlob the privateBlob value to set
+     * @param privateBlob the privateBlob value to set.
      * @return the TdeCertificateInner object itself.
      */
     public TdeCertificateInner withPrivateBlob(String privateBlob) {
@@ -51,7 +52,7 @@ public class TdeCertificateInner extends ProxyResourceInner {
     /**
      * Get the certPassword value.
      *
-     * @return the certPassword value
+     * @return the certPassword value.
      */
     public String certPassword() {
         return this.certPassword;
@@ -60,12 +61,11 @@ public class TdeCertificateInner extends ProxyResourceInner {
     /**
      * Set the certPassword value.
      *
-     * @param certPassword the certPassword value to set
+     * @param certPassword the certPassword value to set.
      * @return the TdeCertificateInner object itself.
      */
     public TdeCertificateInner withCertPassword(String certPassword) {
         this.certPassword = certPassword;
         return this;
     }
-
 }

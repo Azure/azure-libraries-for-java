@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Display metadata associated with the operation.
  */
-public class OperationDisplay {
+public final class OperationDisplay {
     /**
      * The localized friendly form of the resource provider name.
      */
@@ -42,7 +42,7 @@ public class OperationDisplay {
     /**
      * Get the provider value.
      *
-     * @return the provider value
+     * @return the provider value.
      */
     public String provider() {
         return this.provider;
@@ -51,7 +51,7 @@ public class OperationDisplay {
     /**
      * Get the resource value.
      *
-     * @return the resource value
+     * @return the resource value.
      */
     public String resource() {
         return this.resource;
@@ -60,7 +60,7 @@ public class OperationDisplay {
     /**
      * Get the operation value.
      *
-     * @return the operation value
+     * @return the operation value.
      */
     public String operation() {
         return this.operation;
@@ -69,10 +69,9 @@ public class OperationDisplay {
     /**
      * Get the description value.
      *
-     * @return the description value
+     * @return the description value.
      */
     public String description() {
         return this.description;
     }
-
 }

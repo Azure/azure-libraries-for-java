@@ -15,16 +15,22 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Defines values for DataMaskingState.
  */
 public enum DataMaskingState {
-    /** Enum value Disabled. */
+    /**
+     * Enum value Disabled.
+     */
     DISABLED("Disabled"),
 
-    /** Enum value Enabled. */
+    /**
+     * Enum value Enabled.
+     */
     ENABLED("Enabled");
 
-    /** The actual serialized value for a DataMaskingState instance. */
-    private String value;
+    /**
+     * The actual serialized value for a DataMaskingState instance.
+     */
+    private final String value;
 
-    DataMaskingState(String value) {
+    private DataMaskingState(String value) {
         this.value = value;
     }
 

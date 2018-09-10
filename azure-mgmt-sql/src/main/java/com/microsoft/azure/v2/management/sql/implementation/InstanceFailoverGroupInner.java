@@ -8,20 +8,21 @@
 
 package com.microsoft.azure.v2.management.sql.implementation;
 
-import com.microsoft.azure.v2.management.sql.InstanceFailoverGroupReadWriteEndpoint;
-import com.microsoft.azure.v2.management.sql.InstanceFailoverGroupReadOnlyEndpoint;
-import com.microsoft.azure.v2.management.sql.InstanceFailoverGroupReplicationRole;
-import java.util.List;
-import com.microsoft.azure.v2.management.sql.PartnerRegionInfo;
-import com.microsoft.azure.v2.management.sql.ManagedInstancePairInfo;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.v2.management.sql.InstanceFailoverGroupReadOnlyEndpoint;
+import com.microsoft.azure.v2.management.sql.InstanceFailoverGroupReadWriteEndpoint;
+import com.microsoft.azure.v2.management.sql.InstanceFailoverGroupReplicationRole;
+import com.microsoft.azure.v2.management.sql.ManagedInstancePairInfo;
+import com.microsoft.azure.v2.management.sql.PartnerRegionInfo;
+import com.microsoft.azure.v2.management.sql.ProxyResource;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
+import java.util.List;
 
 /**
  * An instance failover group.
  */
 @JsonFlatten
-public class InstanceFailoverGroupInner extends ProxyResourceInner {
+public class InstanceFailoverGroupInner extends ProxyResource {
     /**
      * Read-write endpoint of the failover group instance.
      */
@@ -62,7 +63,7 @@ public class InstanceFailoverGroupInner extends ProxyResourceInner {
     /**
      * Get the readWriteEndpoint value.
      *
-     * @return the readWriteEndpoint value
+     * @return the readWriteEndpoint value.
      */
     public InstanceFailoverGroupReadWriteEndpoint readWriteEndpoint() {
         return this.readWriteEndpoint;
@@ -71,7 +72,7 @@ public class InstanceFailoverGroupInner extends ProxyResourceInner {
     /**
      * Set the readWriteEndpoint value.
      *
-     * @param readWriteEndpoint the readWriteEndpoint value to set
+     * @param readWriteEndpoint the readWriteEndpoint value to set.
      * @return the InstanceFailoverGroupInner object itself.
      */
     public InstanceFailoverGroupInner withReadWriteEndpoint(InstanceFailoverGroupReadWriteEndpoint readWriteEndpoint) {
@@ -82,7 +83,7 @@ public class InstanceFailoverGroupInner extends ProxyResourceInner {
     /**
      * Get the readOnlyEndpoint value.
      *
-     * @return the readOnlyEndpoint value
+     * @return the readOnlyEndpoint value.
      */
     public InstanceFailoverGroupReadOnlyEndpoint readOnlyEndpoint() {
         return this.readOnlyEndpoint;
@@ -91,7 +92,7 @@ public class InstanceFailoverGroupInner extends ProxyResourceInner {
     /**
      * Set the readOnlyEndpoint value.
      *
-     * @param readOnlyEndpoint the readOnlyEndpoint value to set
+     * @param readOnlyEndpoint the readOnlyEndpoint value to set.
      * @return the InstanceFailoverGroupInner object itself.
      */
     public InstanceFailoverGroupInner withReadOnlyEndpoint(InstanceFailoverGroupReadOnlyEndpoint readOnlyEndpoint) {
@@ -102,7 +103,7 @@ public class InstanceFailoverGroupInner extends ProxyResourceInner {
     /**
      * Get the replicationRole value.
      *
-     * @return the replicationRole value
+     * @return the replicationRole value.
      */
     public InstanceFailoverGroupReplicationRole replicationRole() {
         return this.replicationRole;
@@ -111,7 +112,7 @@ public class InstanceFailoverGroupInner extends ProxyResourceInner {
     /**
      * Get the replicationState value.
      *
-     * @return the replicationState value
+     * @return the replicationState value.
      */
     public String replicationState() {
         return this.replicationState;
@@ -120,7 +121,7 @@ public class InstanceFailoverGroupInner extends ProxyResourceInner {
     /**
      * Get the partnerRegions value.
      *
-     * @return the partnerRegions value
+     * @return the partnerRegions value.
      */
     public List<PartnerRegionInfo> partnerRegions() {
         return this.partnerRegions;
@@ -129,7 +130,7 @@ public class InstanceFailoverGroupInner extends ProxyResourceInner {
     /**
      * Set the partnerRegions value.
      *
-     * @param partnerRegions the partnerRegions value to set
+     * @param partnerRegions the partnerRegions value to set.
      * @return the InstanceFailoverGroupInner object itself.
      */
     public InstanceFailoverGroupInner withPartnerRegions(List<PartnerRegionInfo> partnerRegions) {
@@ -140,7 +141,7 @@ public class InstanceFailoverGroupInner extends ProxyResourceInner {
     /**
      * Get the managedInstancePairs value.
      *
-     * @return the managedInstancePairs value
+     * @return the managedInstancePairs value.
      */
     public List<ManagedInstancePairInfo> managedInstancePairs() {
         return this.managedInstancePairs;
@@ -149,12 +150,11 @@ public class InstanceFailoverGroupInner extends ProxyResourceInner {
     /**
      * Set the managedInstancePairs value.
      *
-     * @param managedInstancePairs the managedInstancePairs value to set
+     * @param managedInstancePairs the managedInstancePairs value to set.
      * @return the InstanceFailoverGroupInner object itself.
      */
     public InstanceFailoverGroupInner withManagedInstancePairs(List<ManagedInstancePairInfo> managedInstancePairs) {
         this.managedInstancePairs = managedInstancePairs;
         return this;
     }
-
 }

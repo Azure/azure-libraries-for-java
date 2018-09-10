@@ -9,27 +9,33 @@
 package com.microsoft.azure.v2.management.sql;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.microsoft.rest.ExpandableStringEnum;
-
+import com.microsoft.rest.v2.ExpandableStringEnum;
 import java.util.Collection;
 
 /**
  * Defines values for SyncDirection.
  */
 public final class SyncDirection extends ExpandableStringEnum<SyncDirection> {
-    /** Static value Bidirectional for SyncDirection. */
+    /**
+     * Static value Bidirectional for SyncDirection.
+     */
     public static final SyncDirection BIDIRECTIONAL = fromString("Bidirectional");
 
-    /** Static value OneWayMemberToHub for SyncDirection. */
+    /**
+     * Static value OneWayMemberToHub for SyncDirection.
+     */
     public static final SyncDirection ONE_WAY_MEMBER_TO_HUB = fromString("OneWayMemberToHub");
 
-    /** Static value OneWayHubToMember for SyncDirection. */
+    /**
+     * Static value OneWayHubToMember for SyncDirection.
+     */
     public static final SyncDirection ONE_WAY_HUB_TO_MEMBER = fromString("OneWayHubToMember");
 
     /**
      * Creates or finds a SyncDirection from its string representation.
-     * @param name a name to look for
-     * @return the corresponding SyncDirection
+     *
+     * @param name a name to look for.
+     * @return the corresponding SyncDirection.
      */
     @JsonCreator
     public static SyncDirection fromString(String name) {
@@ -37,7 +43,7 @@ public final class SyncDirection extends ExpandableStringEnum<SyncDirection> {
     }
 
     /**
-     * @return known SyncDirection values
+     * @return known SyncDirection values.
      */
     public static Collection<SyncDirection> values() {
         return values(SyncDirection.class);

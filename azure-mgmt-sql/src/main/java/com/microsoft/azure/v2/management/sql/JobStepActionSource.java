@@ -9,21 +9,23 @@
 package com.microsoft.azure.v2.management.sql;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.microsoft.rest.ExpandableStringEnum;
-
+import com.microsoft.rest.v2.ExpandableStringEnum;
 import java.util.Collection;
 
 /**
  * Defines values for JobStepActionSource.
  */
 public final class JobStepActionSource extends ExpandableStringEnum<JobStepActionSource> {
-    /** Static value Inline for JobStepActionSource. */
+    /**
+     * Static value Inline for JobStepActionSource.
+     */
     public static final JobStepActionSource INLINE = fromString("Inline");
 
     /**
      * Creates or finds a JobStepActionSource from its string representation.
-     * @param name a name to look for
-     * @return the corresponding JobStepActionSource
+     *
+     * @param name a name to look for.
+     * @return the corresponding JobStepActionSource.
      */
     @JsonCreator
     public static JobStepActionSource fromString(String name) {
@@ -31,7 +33,7 @@ public final class JobStepActionSource extends ExpandableStringEnum<JobStepActio
     }
 
     /**
-     * @return known JobStepActionSource values
+     * @return known JobStepActionSource values.
      */
     public static Collection<JobStepActionSource> values() {
         return values(JobStepActionSource.class);

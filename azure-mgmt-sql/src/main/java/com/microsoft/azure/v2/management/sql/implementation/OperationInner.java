@@ -8,15 +8,15 @@
 
 package com.microsoft.azure.v2.management.sql.implementation;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.azure.v2.management.sql.OperationDisplay;
 import com.microsoft.azure.v2.management.sql.OperationOrigin;
 import java.util.Map;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * SQL REST API operation definition.
  */
-public class OperationInner {
+public final class OperationInner {
     /**
      * The name of the operation being performed on this particular object.
      */
@@ -46,7 +46,7 @@ public class OperationInner {
     /**
      * Get the name value.
      *
-     * @return the name value
+     * @return the name value.
      */
     public String name() {
         return this.name;
@@ -55,7 +55,7 @@ public class OperationInner {
     /**
      * Get the display value.
      *
-     * @return the display value
+     * @return the display value.
      */
     public OperationDisplay display() {
         return this.display;
@@ -64,7 +64,7 @@ public class OperationInner {
     /**
      * Get the origin value.
      *
-     * @return the origin value
+     * @return the origin value.
      */
     public OperationOrigin origin() {
         return this.origin;
@@ -73,10 +73,9 @@ public class OperationInner {
     /**
      * Get the properties value.
      *
-     * @return the properties value
+     * @return the properties value.
      */
     public Map<String, Object> properties() {
         return this.properties;
     }
-
 }

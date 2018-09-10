@@ -9,13 +9,12 @@
 package com.microsoft.azure.v2.management.sql;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.UUID;
 
 /**
  * The output configuration of a job step.
  */
-public class JobStepOutput {
+public final class JobStepOutput {
     /**
      * The output destination type. Possible values include: 'SqlDatabase'.
      */
@@ -68,7 +67,7 @@ public class JobStepOutput {
     /**
      * Get the type value.
      *
-     * @return the type value
+     * @return the type value.
      */
     public JobStepOutputType type() {
         return this.type;
@@ -77,7 +76,7 @@ public class JobStepOutput {
     /**
      * Set the type value.
      *
-     * @param type the type value to set
+     * @param type the type value to set.
      * @return the JobStepOutput object itself.
      */
     public JobStepOutput withType(JobStepOutputType type) {
@@ -88,7 +87,7 @@ public class JobStepOutput {
     /**
      * Get the subscriptionId value.
      *
-     * @return the subscriptionId value
+     * @return the subscriptionId value.
      */
     public UUID subscriptionId() {
         return this.subscriptionId;
@@ -97,7 +96,7 @@ public class JobStepOutput {
     /**
      * Set the subscriptionId value.
      *
-     * @param subscriptionId the subscriptionId value to set
+     * @param subscriptionId the subscriptionId value to set.
      * @return the JobStepOutput object itself.
      */
     public JobStepOutput withSubscriptionId(UUID subscriptionId) {
@@ -108,7 +107,7 @@ public class JobStepOutput {
     /**
      * Get the resourceGroupName value.
      *
-     * @return the resourceGroupName value
+     * @return the resourceGroupName value.
      */
     public String resourceGroupName() {
         return this.resourceGroupName;
@@ -117,7 +116,7 @@ public class JobStepOutput {
     /**
      * Set the resourceGroupName value.
      *
-     * @param resourceGroupName the resourceGroupName value to set
+     * @param resourceGroupName the resourceGroupName value to set.
      * @return the JobStepOutput object itself.
      */
     public JobStepOutput withResourceGroupName(String resourceGroupName) {
@@ -128,7 +127,7 @@ public class JobStepOutput {
     /**
      * Get the serverName value.
      *
-     * @return the serverName value
+     * @return the serverName value.
      */
     public String serverName() {
         return this.serverName;
@@ -137,7 +136,7 @@ public class JobStepOutput {
     /**
      * Set the serverName value.
      *
-     * @param serverName the serverName value to set
+     * @param serverName the serverName value to set.
      * @return the JobStepOutput object itself.
      */
     public JobStepOutput withServerName(String serverName) {
@@ -148,7 +147,7 @@ public class JobStepOutput {
     /**
      * Get the databaseName value.
      *
-     * @return the databaseName value
+     * @return the databaseName value.
      */
     public String databaseName() {
         return this.databaseName;
@@ -157,7 +156,7 @@ public class JobStepOutput {
     /**
      * Set the databaseName value.
      *
-     * @param databaseName the databaseName value to set
+     * @param databaseName the databaseName value to set.
      * @return the JobStepOutput object itself.
      */
     public JobStepOutput withDatabaseName(String databaseName) {
@@ -168,7 +167,7 @@ public class JobStepOutput {
     /**
      * Get the schemaName value.
      *
-     * @return the schemaName value
+     * @return the schemaName value.
      */
     public String schemaName() {
         return this.schemaName;
@@ -177,7 +176,7 @@ public class JobStepOutput {
     /**
      * Set the schemaName value.
      *
-     * @param schemaName the schemaName value to set
+     * @param schemaName the schemaName value to set.
      * @return the JobStepOutput object itself.
      */
     public JobStepOutput withSchemaName(String schemaName) {
@@ -188,7 +187,7 @@ public class JobStepOutput {
     /**
      * Get the tableName value.
      *
-     * @return the tableName value
+     * @return the tableName value.
      */
     public String tableName() {
         return this.tableName;
@@ -197,7 +196,7 @@ public class JobStepOutput {
     /**
      * Set the tableName value.
      *
-     * @param tableName the tableName value to set
+     * @param tableName the tableName value to set.
      * @return the JobStepOutput object itself.
      */
     public JobStepOutput withTableName(String tableName) {
@@ -208,7 +207,7 @@ public class JobStepOutput {
     /**
      * Get the credential value.
      *
-     * @return the credential value
+     * @return the credential value.
      */
     public String credential() {
         return this.credential;
@@ -217,12 +216,11 @@ public class JobStepOutput {
     /**
      * Set the credential value.
      *
-     * @param credential the credential value to set
+     * @param credential the credential value to set.
      * @return the JobStepOutput object itself.
      */
     public JobStepOutput withCredential(String credential) {
         this.credential = credential;
         return this;
     }
-
 }

@@ -8,15 +8,16 @@
 
 package com.microsoft.azure.v2.management.sql.implementation;
 
-import com.microsoft.azure.v2.management.sql.BackupLongTermRetentionPolicyState;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.v2.management.sql.BackupLongTermRetentionPolicyState;
+import com.microsoft.azure.v2.management.sql.ProxyResource;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
 
 /**
  * A backup long term retention policy.
  */
 @JsonFlatten
-public class BackupLongTermRetentionPolicyInner extends ProxyResourceInner {
+public class BackupLongTermRetentionPolicyInner extends ProxyResource {
     /**
      * The geo-location where the resource lives.
      */
@@ -39,7 +40,7 @@ public class BackupLongTermRetentionPolicyInner extends ProxyResourceInner {
     /**
      * Get the location value.
      *
-     * @return the location value
+     * @return the location value.
      */
     public String location() {
         return this.location;
@@ -48,7 +49,7 @@ public class BackupLongTermRetentionPolicyInner extends ProxyResourceInner {
     /**
      * Get the state value.
      *
-     * @return the state value
+     * @return the state value.
      */
     public BackupLongTermRetentionPolicyState state() {
         return this.state;
@@ -57,7 +58,7 @@ public class BackupLongTermRetentionPolicyInner extends ProxyResourceInner {
     /**
      * Set the state value.
      *
-     * @param state the state value to set
+     * @param state the state value to set.
      * @return the BackupLongTermRetentionPolicyInner object itself.
      */
     public BackupLongTermRetentionPolicyInner withState(BackupLongTermRetentionPolicyState state) {
@@ -68,7 +69,7 @@ public class BackupLongTermRetentionPolicyInner extends ProxyResourceInner {
     /**
      * Get the recoveryServicesBackupPolicyResourceId value.
      *
-     * @return the recoveryServicesBackupPolicyResourceId value
+     * @return the recoveryServicesBackupPolicyResourceId value.
      */
     public String recoveryServicesBackupPolicyResourceId() {
         return this.recoveryServicesBackupPolicyResourceId;
@@ -77,12 +78,12 @@ public class BackupLongTermRetentionPolicyInner extends ProxyResourceInner {
     /**
      * Set the recoveryServicesBackupPolicyResourceId value.
      *
-     * @param recoveryServicesBackupPolicyResourceId the recoveryServicesBackupPolicyResourceId value to set
+     * @param recoveryServicesBackupPolicyResourceId the
+     * recoveryServicesBackupPolicyResourceId value to set.
      * @return the BackupLongTermRetentionPolicyInner object itself.
      */
     public BackupLongTermRetentionPolicyInner withRecoveryServicesBackupPolicyResourceId(String recoveryServicesBackupPolicyResourceId) {
         this.recoveryServicesBackupPolicyResourceId = recoveryServicesBackupPolicyResourceId;
         return this;
     }
-
 }

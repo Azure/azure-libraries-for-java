@@ -15,16 +15,22 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Defines values for JobScheduleType.
  */
 public enum JobScheduleType {
-    /** Enum value Once. */
+    /**
+     * Enum value Once.
+     */
     ONCE("Once"),
 
-    /** Enum value Recurring. */
+    /**
+     * Enum value Recurring.
+     */
     RECURRING("Recurring");
 
-    /** The actual serialized value for a JobScheduleType instance. */
-    private String value;
+    /**
+     * The actual serialized value for a JobScheduleType instance.
+     */
+    private final String value;
 
-    JobScheduleType(String value) {
+    private JobScheduleType(String value) {
         this.value = value;
     }
 

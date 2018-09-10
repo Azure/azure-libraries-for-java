@@ -8,69 +8,73 @@
 
 package com.microsoft.azure.v2.management.sql.implementation;
 
-import retrofit2.Retrofit;
-import com.google.common.reflect.TypeToken;
-import com.microsoft.azure.AzureServiceFuture;
-import com.microsoft.azure.CloudException;
-import com.microsoft.azure.ListOperationCallback;
-import com.microsoft.azure.Page;
-import com.microsoft.azure.PagedList;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import com.microsoft.rest.ServiceResponse;
-import java.io.IOException;
-import java.util.List;
+import com.microsoft.azure.v2.AzureProxy;
+import com.microsoft.azure.v2.CloudException;
+import com.microsoft.azure.v2.Page;
+import com.microsoft.azure.v2.PagedList;
+import com.microsoft.rest.v2.BodyResponse;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
+import com.microsoft.rest.v2.VoidResponse;
+import com.microsoft.rest.v2.annotations.ExpectedResponses;
+import com.microsoft.rest.v2.annotations.GET;
+import com.microsoft.rest.v2.annotations.HeaderParam;
+import com.microsoft.rest.v2.annotations.Host;
+import com.microsoft.rest.v2.annotations.PathParam;
+import com.microsoft.rest.v2.annotations.POST;
+import com.microsoft.rest.v2.annotations.QueryParam;
+import com.microsoft.rest.v2.annotations.UnexpectedResponseExceptionType;
+import io.reactivex.Completable;
+import io.reactivex.Observable;
+import io.reactivex.Single;
+import io.reactivex.annotations.NonNull;
 import java.util.UUID;
-import okhttp3.ResponseBody;
-import retrofit2.http.GET;
-import retrofit2.http.Header;
-import retrofit2.http.Headers;
-import retrofit2.http.Path;
-import retrofit2.http.POST;
-import retrofit2.http.Query;
-import retrofit2.http.Url;
-import retrofit2.Response;
-import rx.functions.Func1;
-import rx.Observable;
 
 /**
- * An instance of this class provides access to all the operations defined
- * in DatabaseOperations.
+ * An instance of this class provides access to all the operations defined in
+ * DatabaseOperations.
  */
-public class DatabaseOperationsInner {
-    /** The Retrofit service to perform REST calls. */
+public final class DatabaseOperationsInner {
+    /**
+     * The proxy service used to perform REST calls.
+     */
     private DatabaseOperationsService service;
-    /** The service client containing this operation class. */
+
+    /**
+     * The service client containing this operation class.
+     */
     private SqlManagementClientImpl client;
 
     /**
      * Initializes an instance of DatabaseOperationsInner.
      *
-     * @param retrofit the Retrofit instance built from a Retrofit Builder.
      * @param client the instance of the service client containing this operation class.
      */
-    public DatabaseOperationsInner(Retrofit retrofit, SqlManagementClientImpl client) {
-        this.service = retrofit.create(DatabaseOperationsService.class);
+    public DatabaseOperationsInner(SqlManagementClientImpl client) {
+        this.service = AzureProxy.create(DatabaseOperationsService.class, client);
         this.client = client;
     }
 
     /**
      * The interface defining all the services for DatabaseOperations to be
-     * used by Retrofit to perform actually REST calls.
+     * used by the proxy service to perform REST calls.
      */
-    interface DatabaseOperationsService {
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.DatabaseOperations cancel" })
+    @Host("https://management.azure.com")
+    private interface DatabaseOperationsService {
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/operations/{operationId}/cancel")
-        Observable<Response<ResponseBody>> cancel(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("databaseName") String databaseName, @Path("operationId") UUID operationId, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<VoidResponse> cancel(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("databaseName") String databaseName, @PathParam("operationId") UUID operationId, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.DatabaseOperations listByDatabase" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/operations")
-        Observable<Response<ResponseBody>> listByDatabase(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("databaseName") String databaseName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl1<DatabaseOperationInner>>> listByDatabase(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("databaseName") String databaseName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.DatabaseOperations listByDatabaseNext" })
-        @GET
-        Observable<Response<ResponseBody>> listByDatabaseNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
-
+        @GET("{nextUrl}")
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl1<DatabaseOperationInner>>> listByDatabaseNext(@PathParam(value = "nextUrl", encoded = true) String nextUrl, @HeaderParam("accept-language") String acceptLanguage);
     }
 
     /**
@@ -80,12 +84,12 @@ public class DatabaseOperationsInner {
      * @param serverName The name of the server.
      * @param databaseName The name of the database.
      * @param operationId The operation identifier.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void cancel(String resourceGroupName, String serverName, String databaseName, UUID operationId) {
-        cancelWithServiceResponseAsync(resourceGroupName, serverName, databaseName, operationId).toBlocking().single().body();
+    public void cancel(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, @NonNull UUID operationId) {
+        cancelAsync(resourceGroupName, serverName, databaseName, operationId).blockingAwait();
     }
 
     /**
@@ -96,11 +100,11 @@ public class DatabaseOperationsInner {
      * @param databaseName The name of the database.
      * @param operationId The operation identifier.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<Void> cancelAsync(String resourceGroupName, String serverName, String databaseName, UUID operationId, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(cancelWithServiceResponseAsync(resourceGroupName, serverName, databaseName, operationId), serviceCallback);
+    public ServiceFuture<Void> cancelAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, @NonNull UUID operationId, ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromBody(cancelAsync(resourceGroupName, serverName, databaseName, operationId), serviceCallback);
     }
 
     /**
@@ -110,29 +114,10 @@ public class DatabaseOperationsInner {
      * @param serverName The name of the server.
      * @param databaseName The name of the database.
      * @param operationId The operation identifier.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<Void> cancelAsync(String resourceGroupName, String serverName, String databaseName, UUID operationId) {
-        return cancelWithServiceResponseAsync(resourceGroupName, serverName, databaseName, operationId).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Cancels the asynchronous operation on the database.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the database.
-     * @param operationId The operation identifier.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
-     */
-    public Observable<ServiceResponse<Void>> cancelWithServiceResponseAsync(String resourceGroupName, String serverName, String databaseName, UUID operationId) {
+    public Single<VoidResponse> cancelWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, @NonNull UUID operationId) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -149,25 +134,22 @@ public class DatabaseOperationsInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2017-10-01-preview";
-        return service.cancel(resourceGroupName, serverName, databaseName, operationId, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
-                @Override
-                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<Void> clientResponse = cancelDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.cancel(resourceGroupName, serverName, databaseName, operationId, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<Void> cancelDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Cancels the asynchronous operation on the database.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database.
+     * @param operationId The operation identifier.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Completable cancelAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, @NonNull UUID operationId) {
+        return cancelWithRestResponseAsync(resourceGroupName, serverName, databaseName, operationId)
+            .toCompletable();
     }
 
     /**
@@ -176,17 +158,17 @@ public class DatabaseOperationsInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param databaseName The name of the database.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;DatabaseOperationInner&gt; object if successful.
      */
-    public PagedList<DatabaseOperationInner> listByDatabase(final String resourceGroupName, final String serverName, final String databaseName) {
-        ServiceResponse<Page<DatabaseOperationInner>> response = listByDatabaseSinglePageAsync(resourceGroupName, serverName, databaseName).toBlocking().single();
-        return new PagedList<DatabaseOperationInner>(response.body()) {
+    public PagedList<DatabaseOperationInner> listByDatabase(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName) {
+        Page<DatabaseOperationInner> response = listByDatabaseSinglePageAsync(resourceGroupName, serverName, databaseName).blockingGet();
+        return new PagedList<DatabaseOperationInner>(response) {
             @Override
             public Page<DatabaseOperationInner> nextPage(String nextPageLink) {
-                return listByDatabaseNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listByDatabaseNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -197,74 +179,31 @@ public class DatabaseOperationsInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param databaseName The name of the database.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;DatabaseOperationInner&gt; object.
      */
-    public ServiceFuture<List<DatabaseOperationInner>> listByDatabaseAsync(final String resourceGroupName, final String serverName, final String databaseName, final ListOperationCallback<DatabaseOperationInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listByDatabaseSinglePageAsync(resourceGroupName, serverName, databaseName),
-            new Func1<String, Observable<ServiceResponse<Page<DatabaseOperationInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<DatabaseOperationInner>>> call(String nextPageLink) {
-                    return listByDatabaseNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets a list of operations performed on the database.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the database.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;DatabaseOperationInner&gt; object
-     */
-    public Observable<Page<DatabaseOperationInner>> listByDatabaseAsync(final String resourceGroupName, final String serverName, final String databaseName) {
-        return listByDatabaseWithServiceResponseAsync(resourceGroupName, serverName, databaseName)
-            .map(new Func1<ServiceResponse<Page<DatabaseOperationInner>>, Page<DatabaseOperationInner>>() {
-                @Override
-                public Page<DatabaseOperationInner> call(ServiceResponse<Page<DatabaseOperationInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets a list of operations performed on the database.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the database.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;DatabaseOperationInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<DatabaseOperationInner>>> listByDatabaseWithServiceResponseAsync(final String resourceGroupName, final String serverName, final String databaseName) {
+    public Observable<Page<DatabaseOperationInner>> listByDatabaseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName) {
         return listByDatabaseSinglePageAsync(resourceGroupName, serverName, databaseName)
-            .concatMap(new Func1<ServiceResponse<Page<DatabaseOperationInner>>, Observable<ServiceResponse<Page<DatabaseOperationInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<DatabaseOperationInner>>> call(ServiceResponse<Page<DatabaseOperationInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listByDatabaseNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<DatabaseOperationInner> page) -> {
+                String nextPageLink = page.nextPageLink();
+                if (nextPageLink == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listByDatabaseNextAsync(nextPageLink));
             });
     }
 
     /**
      * Gets a list of operations performed on the database.
      *
-    ServiceResponse<PageImpl1<DatabaseOperationInner>> * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-    ServiceResponse<PageImpl1<DatabaseOperationInner>> * @param serverName The name of the server.
-    ServiceResponse<PageImpl1<DatabaseOperationInner>> * @param databaseName The name of the database.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;DatabaseOperationInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;DatabaseOperationInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<DatabaseOperationInner>>> listByDatabaseSinglePageAsync(final String resourceGroupName, final String serverName, final String databaseName) {
+    public Single<Page<DatabaseOperationInner>> listByDatabaseSinglePageAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -278,42 +217,25 @@ public class DatabaseOperationsInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2017-10-01-preview";
-        return service.listByDatabase(resourceGroupName, serverName, databaseName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<DatabaseOperationInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<DatabaseOperationInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl1<DatabaseOperationInner>> result = listByDatabaseDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<DatabaseOperationInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl1<DatabaseOperationInner>> listByDatabaseDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl1<DatabaseOperationInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl1<DatabaseOperationInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+        return service.listByDatabase(resourceGroupName, serverName, databaseName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl1<DatabaseOperationInner>> res) -> res.body());
     }
 
     /**
      * Gets a list of operations performed on the database.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;DatabaseOperationInner&gt; object if successful.
      */
-    public PagedList<DatabaseOperationInner> listByDatabaseNext(final String nextPageLink) {
-        ServiceResponse<Page<DatabaseOperationInner>> response = listByDatabaseNextSinglePageAsync(nextPageLink).toBlocking().single();
-        return new PagedList<DatabaseOperationInner>(response.body()) {
+    public PagedList<DatabaseOperationInner> listByDatabaseNext(@NonNull String nextPageLink) {
+        Page<DatabaseOperationInner> response = listByDatabaseNextSinglePageAsync(nextPageLink).blockingGet();
+        return new PagedList<DatabaseOperationInner>(response) {
             @Override
             public Page<DatabaseOperationInner> nextPage(String nextPageLink) {
-                return listByDatabaseNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listByDatabaseNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -322,92 +244,34 @@ public class DatabaseOperationsInner {
      * Gets a list of operations performed on the database.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;DatabaseOperationInner&gt; object.
      */
-    public ServiceFuture<List<DatabaseOperationInner>> listByDatabaseNextAsync(final String nextPageLink, final ServiceFuture<List<DatabaseOperationInner>> serviceFuture, final ListOperationCallback<DatabaseOperationInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listByDatabaseNextSinglePageAsync(nextPageLink),
-            new Func1<String, Observable<ServiceResponse<Page<DatabaseOperationInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<DatabaseOperationInner>>> call(String nextPageLink) {
-                    return listByDatabaseNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets a list of operations performed on the database.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;DatabaseOperationInner&gt; object
-     */
-    public Observable<Page<DatabaseOperationInner>> listByDatabaseNextAsync(final String nextPageLink) {
-        return listByDatabaseNextWithServiceResponseAsync(nextPageLink)
-            .map(new Func1<ServiceResponse<Page<DatabaseOperationInner>>, Page<DatabaseOperationInner>>() {
-                @Override
-                public Page<DatabaseOperationInner> call(ServiceResponse<Page<DatabaseOperationInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets a list of operations performed on the database.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;DatabaseOperationInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<DatabaseOperationInner>>> listByDatabaseNextWithServiceResponseAsync(final String nextPageLink) {
+    public Observable<Page<DatabaseOperationInner>> listByDatabaseNextAsync(@NonNull String nextPageLink) {
         return listByDatabaseNextSinglePageAsync(nextPageLink)
-            .concatMap(new Func1<ServiceResponse<Page<DatabaseOperationInner>>, Observable<ServiceResponse<Page<DatabaseOperationInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<DatabaseOperationInner>>> call(ServiceResponse<Page<DatabaseOperationInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listByDatabaseNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<DatabaseOperationInner> page) -> {
+                String nextPageLink1 = page.nextPageLink();
+                if (nextPageLink1 == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listByDatabaseNextAsync(nextPageLink1));
             });
     }
 
     /**
      * Gets a list of operations performed on the database.
      *
-    ServiceResponse<PageImpl1<DatabaseOperationInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;DatabaseOperationInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;DatabaseOperationInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<DatabaseOperationInner>>> listByDatabaseNextSinglePageAsync(final String nextPageLink) {
+    public Single<Page<DatabaseOperationInner>> listByDatabaseNextSinglePageAsync(@NonNull String nextPageLink) {
         if (nextPageLink == null) {
             throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
         }
         String nextUrl = String.format("%s", nextPageLink);
-        return service.listByDatabaseNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<DatabaseOperationInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<DatabaseOperationInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl1<DatabaseOperationInner>> result = listByDatabaseNextDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<DatabaseOperationInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.listByDatabaseNext(nextUrl, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl1<DatabaseOperationInner>> res) -> res.body());
     }
-
-    private ServiceResponse<PageImpl1<DatabaseOperationInner>> listByDatabaseNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl1<DatabaseOperationInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl1<DatabaseOperationInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
-    }
-
 }

@@ -9,13 +9,12 @@
 package com.microsoft.azure.v2.management.sql;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.UUID;
 
 /**
  * A Slo Usage Metric.
  */
-public class SloUsageMetric {
+public final class SloUsageMetric {
     /**
      * The serviceLevelObjective for SLO usage metric. Possible values include:
      * 'System', 'System0', 'System1', 'System2', 'System3', 'System4',
@@ -46,7 +45,7 @@ public class SloUsageMetric {
     /**
      * Get the serviceLevelObjective value.
      *
-     * @return the serviceLevelObjective value
+     * @return the serviceLevelObjective value.
      */
     public ServiceObjectiveName serviceLevelObjective() {
         return this.serviceLevelObjective;
@@ -55,7 +54,7 @@ public class SloUsageMetric {
     /**
      * Get the serviceLevelObjectiveId value.
      *
-     * @return the serviceLevelObjectiveId value
+     * @return the serviceLevelObjectiveId value.
      */
     public UUID serviceLevelObjectiveId() {
         return this.serviceLevelObjectiveId;
@@ -64,10 +63,9 @@ public class SloUsageMetric {
     /**
      * Get the inRangeTimeRatio value.
      *
-     * @return the inRangeTimeRatio value
+     * @return the inRangeTimeRatio value.
      */
     public double inRangeTimeRatio() {
         return this.inRangeTimeRatio;
     }
-
 }

@@ -8,79 +8,89 @@
 
 package com.microsoft.azure.v2.management.sql.implementation;
 
-import retrofit2.Retrofit;
-import com.google.common.reflect.TypeToken;
-import com.microsoft.azure.AzureServiceFuture;
-import com.microsoft.azure.CloudException;
-import com.microsoft.azure.ListOperationCallback;
-import com.microsoft.azure.Page;
-import com.microsoft.azure.PagedList;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import com.microsoft.rest.ServiceResponse;
-import com.microsoft.rest.Validator;
-import java.io.IOException;
+import com.microsoft.azure.v2.AzureProxy;
+import com.microsoft.azure.v2.CloudException;
+import com.microsoft.azure.v2.Page;
+import com.microsoft.azure.v2.PagedList;
+import com.microsoft.azure.v2.management.sql.JobTarget;
+import com.microsoft.rest.v2.BodyResponse;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
+import com.microsoft.rest.v2.Validator;
+import com.microsoft.rest.v2.VoidResponse;
+import com.microsoft.rest.v2.annotations.BodyParam;
+import com.microsoft.rest.v2.annotations.DELETE;
+import com.microsoft.rest.v2.annotations.ExpectedResponses;
+import com.microsoft.rest.v2.annotations.GET;
+import com.microsoft.rest.v2.annotations.HeaderParam;
+import com.microsoft.rest.v2.annotations.Host;
+import com.microsoft.rest.v2.annotations.PathParam;
+import com.microsoft.rest.v2.annotations.PUT;
+import com.microsoft.rest.v2.annotations.QueryParam;
+import com.microsoft.rest.v2.annotations.UnexpectedResponseExceptionType;
+import io.reactivex.Completable;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
+import io.reactivex.Single;
+import io.reactivex.annotations.NonNull;
+import java.util.ArrayList;
 import java.util.List;
-import okhttp3.ResponseBody;
-import retrofit2.http.Body;
-import retrofit2.http.GET;
-import retrofit2.http.Header;
-import retrofit2.http.Headers;
-import retrofit2.http.HTTP;
-import retrofit2.http.Path;
-import retrofit2.http.PUT;
-import retrofit2.http.Query;
-import retrofit2.http.Url;
-import retrofit2.Response;
-import rx.functions.Func1;
-import rx.Observable;
 
 /**
- * An instance of this class provides access to all the operations defined
- * in JobTargetGroups.
+ * An instance of this class provides access to all the operations defined in
+ * JobTargetGroups.
  */
-public class JobTargetGroupsInner {
-    /** The Retrofit service to perform REST calls. */
+public final class JobTargetGroupsInner {
+    /**
+     * The proxy service used to perform REST calls.
+     */
     private JobTargetGroupsService service;
-    /** The service client containing this operation class. */
+
+    /**
+     * The service client containing this operation class.
+     */
     private SqlManagementClientImpl client;
 
     /**
      * Initializes an instance of JobTargetGroupsInner.
      *
-     * @param retrofit the Retrofit instance built from a Retrofit Builder.
      * @param client the instance of the service client containing this operation class.
      */
-    public JobTargetGroupsInner(Retrofit retrofit, SqlManagementClientImpl client) {
-        this.service = retrofit.create(JobTargetGroupsService.class);
+    public JobTargetGroupsInner(SqlManagementClientImpl client) {
+        this.service = AzureProxy.create(JobTargetGroupsService.class, client);
         this.client = client;
     }
 
     /**
-     * The interface defining all the services for JobTargetGroups to be
-     * used by Retrofit to perform actually REST calls.
+     * The interface defining all the services for JobTargetGroups to be used
+     * by the proxy service to perform REST calls.
      */
-    interface JobTargetGroupsService {
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.JobTargetGroups listByAgent" })
+    @Host("https://management.azure.com")
+    private interface JobTargetGroupsService {
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/targetGroups")
-        Observable<Response<ResponseBody>> listByAgent(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("jobAgentName") String jobAgentName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl1<JobTargetGroupInner>>> listByAgent(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("jobAgentName") String jobAgentName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.JobTargetGroups get" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/targetGroups/{targetGroupName}")
-        Observable<Response<ResponseBody>> get(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("jobAgentName") String jobAgentName, @Path("targetGroupName") String targetGroupName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<JobTargetGroupInner>> get(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("jobAgentName") String jobAgentName, @PathParam("targetGroupName") String targetGroupName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.JobTargetGroups createOrUpdate" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/targetGroups/{targetGroupName}")
-        Observable<Response<ResponseBody>> createOrUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("jobAgentName") String jobAgentName, @Path("targetGroupName") String targetGroupName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body JobTargetGroupInner parameters, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 201})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<JobTargetGroupInner>> createOrUpdate(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("jobAgentName") String jobAgentName, @PathParam("targetGroupName") String targetGroupName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @BodyParam("application/json; charset=utf-8") JobTargetGroupInner parameters);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.JobTargetGroups delete" })
-        @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/targetGroups/{targetGroupName}", method = "DELETE", hasBody = true)
-        Observable<Response<ResponseBody>> delete(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("jobAgentName") String jobAgentName, @Path("targetGroupName") String targetGroupName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @DELETE("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/targetGroups/{targetGroupName}")
+        @ExpectedResponses({200, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<VoidResponse> delete(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("jobAgentName") String jobAgentName, @PathParam("targetGroupName") String targetGroupName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.JobTargetGroups listByAgentNext" })
-        @GET
-        Observable<Response<ResponseBody>> listByAgentNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
-
+        @GET("{nextUrl}")
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl1<JobTargetGroupInner>>> listByAgentNext(@PathParam(value = "nextUrl", encoded = true) String nextUrl, @HeaderParam("accept-language") String acceptLanguage);
     }
 
     /**
@@ -89,17 +99,17 @@ public class JobTargetGroupsInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param jobAgentName The name of the job agent.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;JobTargetGroupInner&gt; object if successful.
      */
-    public PagedList<JobTargetGroupInner> listByAgent(final String resourceGroupName, final String serverName, final String jobAgentName) {
-        ServiceResponse<Page<JobTargetGroupInner>> response = listByAgentSinglePageAsync(resourceGroupName, serverName, jobAgentName).toBlocking().single();
-        return new PagedList<JobTargetGroupInner>(response.body()) {
+    public PagedList<JobTargetGroupInner> listByAgent(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName) {
+        Page<JobTargetGroupInner> response = listByAgentSinglePageAsync(resourceGroupName, serverName, jobAgentName).blockingGet();
+        return new PagedList<JobTargetGroupInner>(response) {
             @Override
             public Page<JobTargetGroupInner> nextPage(String nextPageLink) {
-                return listByAgentNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listByAgentNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -110,74 +120,31 @@ public class JobTargetGroupsInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param jobAgentName The name of the job agent.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;JobTargetGroupInner&gt; object.
      */
-    public ServiceFuture<List<JobTargetGroupInner>> listByAgentAsync(final String resourceGroupName, final String serverName, final String jobAgentName, final ListOperationCallback<JobTargetGroupInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listByAgentSinglePageAsync(resourceGroupName, serverName, jobAgentName),
-            new Func1<String, Observable<ServiceResponse<Page<JobTargetGroupInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<JobTargetGroupInner>>> call(String nextPageLink) {
-                    return listByAgentNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets all target groups in an agent.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param jobAgentName The name of the job agent.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;JobTargetGroupInner&gt; object
-     */
-    public Observable<Page<JobTargetGroupInner>> listByAgentAsync(final String resourceGroupName, final String serverName, final String jobAgentName) {
-        return listByAgentWithServiceResponseAsync(resourceGroupName, serverName, jobAgentName)
-            .map(new Func1<ServiceResponse<Page<JobTargetGroupInner>>, Page<JobTargetGroupInner>>() {
-                @Override
-                public Page<JobTargetGroupInner> call(ServiceResponse<Page<JobTargetGroupInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets all target groups in an agent.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param jobAgentName The name of the job agent.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;JobTargetGroupInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<JobTargetGroupInner>>> listByAgentWithServiceResponseAsync(final String resourceGroupName, final String serverName, final String jobAgentName) {
+    public Observable<Page<JobTargetGroupInner>> listByAgentAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName) {
         return listByAgentSinglePageAsync(resourceGroupName, serverName, jobAgentName)
-            .concatMap(new Func1<ServiceResponse<Page<JobTargetGroupInner>>, Observable<ServiceResponse<Page<JobTargetGroupInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<JobTargetGroupInner>>> call(ServiceResponse<Page<JobTargetGroupInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listByAgentNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<JobTargetGroupInner> page) -> {
+                String nextPageLink = page.nextPageLink();
+                if (nextPageLink == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listByAgentNextAsync(nextPageLink));
             });
     }
 
     /**
      * Gets all target groups in an agent.
      *
-    ServiceResponse<PageImpl1<JobTargetGroupInner>> * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-    ServiceResponse<PageImpl1<JobTargetGroupInner>> * @param serverName The name of the server.
-    ServiceResponse<PageImpl1<JobTargetGroupInner>> * @param jobAgentName The name of the job agent.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;JobTargetGroupInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param jobAgentName The name of the job agent.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;JobTargetGroupInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<JobTargetGroupInner>>> listByAgentSinglePageAsync(final String resourceGroupName, final String serverName, final String jobAgentName) {
+    public Single<Page<JobTargetGroupInner>> listByAgentSinglePageAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -191,25 +158,8 @@ public class JobTargetGroupsInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2017-03-01-preview";
-        return service.listByAgent(resourceGroupName, serverName, jobAgentName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<JobTargetGroupInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<JobTargetGroupInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl1<JobTargetGroupInner>> result = listByAgentDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<JobTargetGroupInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl1<JobTargetGroupInner>> listByAgentDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl1<JobTargetGroupInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl1<JobTargetGroupInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+        return service.listByAgent(resourceGroupName, serverName, jobAgentName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl1<JobTargetGroupInner>> res) -> res.body());
     }
 
     /**
@@ -219,13 +169,13 @@ public class JobTargetGroupsInner {
      * @param serverName The name of the server.
      * @param jobAgentName The name of the job agent.
      * @param targetGroupName The name of the target group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the JobTargetGroupInner object if successful.
      */
-    public JobTargetGroupInner get(String resourceGroupName, String serverName, String jobAgentName, String targetGroupName) {
-        return getWithServiceResponseAsync(resourceGroupName, serverName, jobAgentName, targetGroupName).toBlocking().single().body();
+    public JobTargetGroupInner get(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName, @NonNull String targetGroupName) {
+        return getAsync(resourceGroupName, serverName, jobAgentName, targetGroupName).blockingGet();
     }
 
     /**
@@ -236,11 +186,11 @@ public class JobTargetGroupsInner {
      * @param jobAgentName The name of the job agent.
      * @param targetGroupName The name of the target group.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<JobTargetGroupInner> getAsync(String resourceGroupName, String serverName, String jobAgentName, String targetGroupName, final ServiceCallback<JobTargetGroupInner> serviceCallback) {
-        return ServiceFuture.fromResponse(getWithServiceResponseAsync(resourceGroupName, serverName, jobAgentName, targetGroupName), serviceCallback);
+    public ServiceFuture<JobTargetGroupInner> getAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName, @NonNull String targetGroupName, ServiceCallback<JobTargetGroupInner> serviceCallback) {
+        return ServiceFuture.fromBody(getAsync(resourceGroupName, serverName, jobAgentName, targetGroupName), serviceCallback);
     }
 
     /**
@@ -250,29 +200,10 @@ public class JobTargetGroupsInner {
      * @param serverName The name of the server.
      * @param jobAgentName The name of the job agent.
      * @param targetGroupName The name of the target group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the JobTargetGroupInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<JobTargetGroupInner> getAsync(String resourceGroupName, String serverName, String jobAgentName, String targetGroupName) {
-        return getWithServiceResponseAsync(resourceGroupName, serverName, jobAgentName, targetGroupName).map(new Func1<ServiceResponse<JobTargetGroupInner>, JobTargetGroupInner>() {
-            @Override
-            public JobTargetGroupInner call(ServiceResponse<JobTargetGroupInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Gets a target group.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param jobAgentName The name of the job agent.
-     * @param targetGroupName The name of the target group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the JobTargetGroupInner object
-     */
-    public Observable<ServiceResponse<JobTargetGroupInner>> getWithServiceResponseAsync(String resourceGroupName, String serverName, String jobAgentName, String targetGroupName) {
+    public Single<BodyResponse<JobTargetGroupInner>> getWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName, @NonNull String targetGroupName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -289,25 +220,22 @@ public class JobTargetGroupsInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2017-03-01-preview";
-        return service.get(resourceGroupName, serverName, jobAgentName, targetGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<JobTargetGroupInner>>>() {
-                @Override
-                public Observable<ServiceResponse<JobTargetGroupInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<JobTargetGroupInner> clientResponse = getDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.get(resourceGroupName, serverName, jobAgentName, targetGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<JobTargetGroupInner> getDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<JobTargetGroupInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<JobTargetGroupInner>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Gets a target group.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param jobAgentName The name of the job agent.
+     * @param targetGroupName The name of the target group.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<JobTargetGroupInner> getAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName, @NonNull String targetGroupName) {
+        return getWithRestResponseAsync(resourceGroupName, serverName, jobAgentName, targetGroupName)
+            .flatMapMaybe((BodyResponse<JobTargetGroupInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
@@ -318,13 +246,13 @@ public class JobTargetGroupsInner {
      * @param jobAgentName The name of the job agent.
      * @param targetGroupName The name of the target group.
      * @param members Members of the target group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the JobTargetGroupInner object if successful.
      */
-    public JobTargetGroupInner createOrUpdate(String resourceGroupName, String serverName, String jobAgentName, String targetGroupName, List<JobTargetInner> members) {
-        return createOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, jobAgentName, targetGroupName, members).toBlocking().single().body();
+    public JobTargetGroupInner createOrUpdate(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName, @NonNull String targetGroupName, @NonNull List<JobTarget> members) {
+        return createOrUpdateAsync(resourceGroupName, serverName, jobAgentName, targetGroupName, members).blockingGet();
     }
 
     /**
@@ -336,11 +264,11 @@ public class JobTargetGroupsInner {
      * @param targetGroupName The name of the target group.
      * @param members Members of the target group.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<JobTargetGroupInner> createOrUpdateAsync(String resourceGroupName, String serverName, String jobAgentName, String targetGroupName, List<JobTargetInner> members, final ServiceCallback<JobTargetGroupInner> serviceCallback) {
-        return ServiceFuture.fromResponse(createOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, jobAgentName, targetGroupName, members), serviceCallback);
+    public ServiceFuture<JobTargetGroupInner> createOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName, @NonNull String targetGroupName, @NonNull List<JobTarget> members, ServiceCallback<JobTargetGroupInner> serviceCallback) {
+        return ServiceFuture.fromBody(createOrUpdateAsync(resourceGroupName, serverName, jobAgentName, targetGroupName, members), serviceCallback);
     }
 
     /**
@@ -351,30 +279,10 @@ public class JobTargetGroupsInner {
      * @param jobAgentName The name of the job agent.
      * @param targetGroupName The name of the target group.
      * @param members Members of the target group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the JobTargetGroupInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<JobTargetGroupInner> createOrUpdateAsync(String resourceGroupName, String serverName, String jobAgentName, String targetGroupName, List<JobTargetInner> members) {
-        return createOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, jobAgentName, targetGroupName, members).map(new Func1<ServiceResponse<JobTargetGroupInner>, JobTargetGroupInner>() {
-            @Override
-            public JobTargetGroupInner call(ServiceResponse<JobTargetGroupInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Creates or updates a target group.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param jobAgentName The name of the job agent.
-     * @param targetGroupName The name of the target group.
-     * @param members Members of the target group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the JobTargetGroupInner object
-     */
-    public Observable<ServiceResponse<JobTargetGroupInner>> createOrUpdateWithServiceResponseAsync(String resourceGroupName, String serverName, String jobAgentName, String targetGroupName, List<JobTargetInner> members) {
+    public Single<BodyResponse<JobTargetGroupInner>> createOrUpdateWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName, @NonNull String targetGroupName, @NonNull List<JobTarget> members) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -397,26 +305,23 @@ public class JobTargetGroupsInner {
         final String apiVersion = "2017-03-01-preview";
         JobTargetGroupInner parameters = new JobTargetGroupInner();
         parameters.withMembers(members);
-        return service.createOrUpdate(resourceGroupName, serverName, jobAgentName, targetGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<JobTargetGroupInner>>>() {
-                @Override
-                public Observable<ServiceResponse<JobTargetGroupInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<JobTargetGroupInner> clientResponse = createOrUpdateDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.createOrUpdate(resourceGroupName, serverName, jobAgentName, targetGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters);
     }
 
-    private ServiceResponse<JobTargetGroupInner> createOrUpdateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<JobTargetGroupInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<JobTargetGroupInner>() { }.getType())
-                .register(201, new TypeToken<JobTargetGroupInner>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Creates or updates a target group.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param jobAgentName The name of the job agent.
+     * @param targetGroupName The name of the target group.
+     * @param members Members of the target group.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<JobTargetGroupInner> createOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName, @NonNull String targetGroupName, @NonNull List<JobTarget> members) {
+        return createOrUpdateWithRestResponseAsync(resourceGroupName, serverName, jobAgentName, targetGroupName, members)
+            .flatMapMaybe((BodyResponse<JobTargetGroupInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
@@ -426,12 +331,12 @@ public class JobTargetGroupsInner {
      * @param serverName The name of the server.
      * @param jobAgentName The name of the job agent.
      * @param targetGroupName The name of the target group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void delete(String resourceGroupName, String serverName, String jobAgentName, String targetGroupName) {
-        deleteWithServiceResponseAsync(resourceGroupName, serverName, jobAgentName, targetGroupName).toBlocking().single().body();
+    public void delete(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName, @NonNull String targetGroupName) {
+        deleteAsync(resourceGroupName, serverName, jobAgentName, targetGroupName).blockingAwait();
     }
 
     /**
@@ -442,11 +347,11 @@ public class JobTargetGroupsInner {
      * @param jobAgentName The name of the job agent.
      * @param targetGroupName The name of the target group.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<Void> deleteAsync(String resourceGroupName, String serverName, String jobAgentName, String targetGroupName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(deleteWithServiceResponseAsync(resourceGroupName, serverName, jobAgentName, targetGroupName), serviceCallback);
+    public ServiceFuture<Void> deleteAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName, @NonNull String targetGroupName, ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromBody(deleteAsync(resourceGroupName, serverName, jobAgentName, targetGroupName), serviceCallback);
     }
 
     /**
@@ -456,29 +361,10 @@ public class JobTargetGroupsInner {
      * @param serverName The name of the server.
      * @param jobAgentName The name of the job agent.
      * @param targetGroupName The name of the target group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<Void> deleteAsync(String resourceGroupName, String serverName, String jobAgentName, String targetGroupName) {
-        return deleteWithServiceResponseAsync(resourceGroupName, serverName, jobAgentName, targetGroupName).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Deletes a target group.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param jobAgentName The name of the job agent.
-     * @param targetGroupName The name of the target group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
-     */
-    public Observable<ServiceResponse<Void>> deleteWithServiceResponseAsync(String resourceGroupName, String serverName, String jobAgentName, String targetGroupName) {
+    public Single<VoidResponse> deleteWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName, @NonNull String targetGroupName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -495,43 +381,39 @@ public class JobTargetGroupsInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2017-03-01-preview";
-        return service.delete(resourceGroupName, serverName, jobAgentName, targetGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
-                @Override
-                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<Void> clientResponse = deleteDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.delete(resourceGroupName, serverName, jobAgentName, targetGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<Void> deleteDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<Void>() { }.getType())
-                .register(204, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Deletes a target group.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param jobAgentName The name of the job agent.
+     * @param targetGroupName The name of the target group.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Completable deleteAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName, @NonNull String targetGroupName) {
+        return deleteWithRestResponseAsync(resourceGroupName, serverName, jobAgentName, targetGroupName)
+            .toCompletable();
     }
 
     /**
      * Gets all target groups in an agent.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;JobTargetGroupInner&gt; object if successful.
      */
-    public PagedList<JobTargetGroupInner> listByAgentNext(final String nextPageLink) {
-        ServiceResponse<Page<JobTargetGroupInner>> response = listByAgentNextSinglePageAsync(nextPageLink).toBlocking().single();
-        return new PagedList<JobTargetGroupInner>(response.body()) {
+    public PagedList<JobTargetGroupInner> listByAgentNext(@NonNull String nextPageLink) {
+        Page<JobTargetGroupInner> response = listByAgentNextSinglePageAsync(nextPageLink).blockingGet();
+        return new PagedList<JobTargetGroupInner>(response) {
             @Override
             public Page<JobTargetGroupInner> nextPage(String nextPageLink) {
-                return listByAgentNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listByAgentNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -540,92 +422,34 @@ public class JobTargetGroupsInner {
      * Gets all target groups in an agent.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;JobTargetGroupInner&gt; object.
      */
-    public ServiceFuture<List<JobTargetGroupInner>> listByAgentNextAsync(final String nextPageLink, final ServiceFuture<List<JobTargetGroupInner>> serviceFuture, final ListOperationCallback<JobTargetGroupInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listByAgentNextSinglePageAsync(nextPageLink),
-            new Func1<String, Observable<ServiceResponse<Page<JobTargetGroupInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<JobTargetGroupInner>>> call(String nextPageLink) {
-                    return listByAgentNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets all target groups in an agent.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;JobTargetGroupInner&gt; object
-     */
-    public Observable<Page<JobTargetGroupInner>> listByAgentNextAsync(final String nextPageLink) {
-        return listByAgentNextWithServiceResponseAsync(nextPageLink)
-            .map(new Func1<ServiceResponse<Page<JobTargetGroupInner>>, Page<JobTargetGroupInner>>() {
-                @Override
-                public Page<JobTargetGroupInner> call(ServiceResponse<Page<JobTargetGroupInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets all target groups in an agent.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;JobTargetGroupInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<JobTargetGroupInner>>> listByAgentNextWithServiceResponseAsync(final String nextPageLink) {
+    public Observable<Page<JobTargetGroupInner>> listByAgentNextAsync(@NonNull String nextPageLink) {
         return listByAgentNextSinglePageAsync(nextPageLink)
-            .concatMap(new Func1<ServiceResponse<Page<JobTargetGroupInner>>, Observable<ServiceResponse<Page<JobTargetGroupInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<JobTargetGroupInner>>> call(ServiceResponse<Page<JobTargetGroupInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listByAgentNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<JobTargetGroupInner> page) -> {
+                String nextPageLink1 = page.nextPageLink();
+                if (nextPageLink1 == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listByAgentNextAsync(nextPageLink1));
             });
     }
 
     /**
      * Gets all target groups in an agent.
      *
-    ServiceResponse<PageImpl1<JobTargetGroupInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;JobTargetGroupInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;JobTargetGroupInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<JobTargetGroupInner>>> listByAgentNextSinglePageAsync(final String nextPageLink) {
+    public Single<Page<JobTargetGroupInner>> listByAgentNextSinglePageAsync(@NonNull String nextPageLink) {
         if (nextPageLink == null) {
             throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
         }
         String nextUrl = String.format("%s", nextPageLink);
-        return service.listByAgentNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<JobTargetGroupInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<JobTargetGroupInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl1<JobTargetGroupInner>> result = listByAgentNextDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<JobTargetGroupInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.listByAgentNext(nextUrl, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl1<JobTargetGroupInner>> res) -> res.body());
     }
-
-    private ServiceResponse<PageImpl1<JobTargetGroupInner>> listByAgentNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl1<JobTargetGroupInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl1<JobTargetGroupInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
-    }
-
 }

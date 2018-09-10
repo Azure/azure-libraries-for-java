@@ -9,27 +9,33 @@
 package com.microsoft.azure.v2.management.sql;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.microsoft.rest.ExpandableStringEnum;
-
+import com.microsoft.rest.v2.ExpandableStringEnum;
 import java.util.Collection;
 
 /**
  * Defines values for ElasticPoolState.
  */
 public final class ElasticPoolState extends ExpandableStringEnum<ElasticPoolState> {
-    /** Static value Creating for ElasticPoolState. */
+    /**
+     * Static value Creating for ElasticPoolState.
+     */
     public static final ElasticPoolState CREATING = fromString("Creating");
 
-    /** Static value Ready for ElasticPoolState. */
+    /**
+     * Static value Ready for ElasticPoolState.
+     */
     public static final ElasticPoolState READY = fromString("Ready");
 
-    /** Static value Disabled for ElasticPoolState. */
+    /**
+     * Static value Disabled for ElasticPoolState.
+     */
     public static final ElasticPoolState DISABLED = fromString("Disabled");
 
     /**
      * Creates or finds a ElasticPoolState from its string representation.
-     * @param name a name to look for
-     * @return the corresponding ElasticPoolState
+     *
+     * @param name a name to look for.
+     * @return the corresponding ElasticPoolState.
      */
     @JsonCreator
     public static ElasticPoolState fromString(String name) {
@@ -37,7 +43,7 @@ public final class ElasticPoolState extends ExpandableStringEnum<ElasticPoolStat
     }
 
     /**
-     * @return known ElasticPoolState values
+     * @return known ElasticPoolState values.
      */
     public static Collection<ElasticPoolState> values() {
         return values(ElasticPoolState.class);

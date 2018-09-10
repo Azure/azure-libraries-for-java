@@ -8,15 +8,15 @@
 
 package com.microsoft.azure.v2.management.sql.implementation;
 
-import java.util.List;
-import com.microsoft.azure.v2.management.sql.SyncFullSchemaTable;
-import org.joda.time.DateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.v2.management.sql.SyncFullSchemaTable;
+import java.time.OffsetDateTime;
+import java.util.List;
 
 /**
  * Properties of the database full schema.
  */
-public class SyncFullSchemaPropertiesInner {
+public final class SyncFullSchemaPropertiesInner {
     /**
      * List of tables in the database full schema.
      */
@@ -27,12 +27,12 @@ public class SyncFullSchemaPropertiesInner {
      * Last update time of the database schema.
      */
     @JsonProperty(value = "lastUpdateTime", access = JsonProperty.Access.WRITE_ONLY)
-    private DateTime lastUpdateTime;
+    private OffsetDateTime lastUpdateTime;
 
     /**
      * Get the tables value.
      *
-     * @return the tables value
+     * @return the tables value.
      */
     public List<SyncFullSchemaTable> tables() {
         return this.tables;
@@ -41,10 +41,9 @@ public class SyncFullSchemaPropertiesInner {
     /**
      * Get the lastUpdateTime value.
      *
-     * @return the lastUpdateTime value
+     * @return the lastUpdateTime value.
      */
-    public DateTime lastUpdateTime() {
+    public OffsetDateTime lastUpdateTime() {
         return this.lastUpdateTime;
     }
-
 }

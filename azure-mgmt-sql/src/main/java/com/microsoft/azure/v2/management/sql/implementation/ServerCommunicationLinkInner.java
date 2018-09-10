@@ -9,13 +9,14 @@
 package com.microsoft.azure.v2.management.sql.implementation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.v2.management.sql.ProxyResource;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
 
 /**
  * Server communication link.
  */
 @JsonFlatten
-public class ServerCommunicationLinkInner extends ProxyResourceInner {
+public class ServerCommunicationLinkInner extends ProxyResource {
     /**
      * The state.
      */
@@ -44,7 +45,7 @@ public class ServerCommunicationLinkInner extends ProxyResourceInner {
     /**
      * Get the state value.
      *
-     * @return the state value
+     * @return the state value.
      */
     public String state() {
         return this.state;
@@ -53,7 +54,7 @@ public class ServerCommunicationLinkInner extends ProxyResourceInner {
     /**
      * Get the partnerServer value.
      *
-     * @return the partnerServer value
+     * @return the partnerServer value.
      */
     public String partnerServer() {
         return this.partnerServer;
@@ -62,7 +63,7 @@ public class ServerCommunicationLinkInner extends ProxyResourceInner {
     /**
      * Set the partnerServer value.
      *
-     * @param partnerServer the partnerServer value to set
+     * @param partnerServer the partnerServer value to set.
      * @return the ServerCommunicationLinkInner object itself.
      */
     public ServerCommunicationLinkInner withPartnerServer(String partnerServer) {
@@ -73,7 +74,7 @@ public class ServerCommunicationLinkInner extends ProxyResourceInner {
     /**
      * Get the location value.
      *
-     * @return the location value
+     * @return the location value.
      */
     public String location() {
         return this.location;
@@ -82,10 +83,9 @@ public class ServerCommunicationLinkInner extends ProxyResourceInner {
     /**
      * Get the kind value.
      *
-     * @return the kind value
+     * @return the kind value.
      */
     public String kind() {
         return this.kind;
     }
-
 }

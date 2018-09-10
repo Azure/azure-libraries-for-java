@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * The execution options of a job step.
  */
-public class JobStepExecutionOptions {
+public final class JobStepExecutionOptions {
     /**
      * Execution timeout for the job step.
      */
@@ -49,7 +49,7 @@ public class JobStepExecutionOptions {
     /**
      * Get the timeoutSeconds value.
      *
-     * @return the timeoutSeconds value
+     * @return the timeoutSeconds value.
      */
     public Integer timeoutSeconds() {
         return this.timeoutSeconds;
@@ -58,7 +58,7 @@ public class JobStepExecutionOptions {
     /**
      * Set the timeoutSeconds value.
      *
-     * @param timeoutSeconds the timeoutSeconds value to set
+     * @param timeoutSeconds the timeoutSeconds value to set.
      * @return the JobStepExecutionOptions object itself.
      */
     public JobStepExecutionOptions withTimeoutSeconds(Integer timeoutSeconds) {
@@ -69,7 +69,7 @@ public class JobStepExecutionOptions {
     /**
      * Get the retryAttempts value.
      *
-     * @return the retryAttempts value
+     * @return the retryAttempts value.
      */
     public Integer retryAttempts() {
         return this.retryAttempts;
@@ -78,7 +78,7 @@ public class JobStepExecutionOptions {
     /**
      * Set the retryAttempts value.
      *
-     * @param retryAttempts the retryAttempts value to set
+     * @param retryAttempts the retryAttempts value to set.
      * @return the JobStepExecutionOptions object itself.
      */
     public JobStepExecutionOptions withRetryAttempts(Integer retryAttempts) {
@@ -89,7 +89,7 @@ public class JobStepExecutionOptions {
     /**
      * Get the initialRetryIntervalSeconds value.
      *
-     * @return the initialRetryIntervalSeconds value
+     * @return the initialRetryIntervalSeconds value.
      */
     public Integer initialRetryIntervalSeconds() {
         return this.initialRetryIntervalSeconds;
@@ -98,7 +98,8 @@ public class JobStepExecutionOptions {
     /**
      * Set the initialRetryIntervalSeconds value.
      *
-     * @param initialRetryIntervalSeconds the initialRetryIntervalSeconds value to set
+     * @param initialRetryIntervalSeconds the initialRetryIntervalSeconds value
+     * to set.
      * @return the JobStepExecutionOptions object itself.
      */
     public JobStepExecutionOptions withInitialRetryIntervalSeconds(Integer initialRetryIntervalSeconds) {
@@ -109,7 +110,7 @@ public class JobStepExecutionOptions {
     /**
      * Get the maximumRetryIntervalSeconds value.
      *
-     * @return the maximumRetryIntervalSeconds value
+     * @return the maximumRetryIntervalSeconds value.
      */
     public Integer maximumRetryIntervalSeconds() {
         return this.maximumRetryIntervalSeconds;
@@ -118,7 +119,8 @@ public class JobStepExecutionOptions {
     /**
      * Set the maximumRetryIntervalSeconds value.
      *
-     * @param maximumRetryIntervalSeconds the maximumRetryIntervalSeconds value to set
+     * @param maximumRetryIntervalSeconds the maximumRetryIntervalSeconds value
+     * to set.
      * @return the JobStepExecutionOptions object itself.
      */
     public JobStepExecutionOptions withMaximumRetryIntervalSeconds(Integer maximumRetryIntervalSeconds) {
@@ -129,7 +131,7 @@ public class JobStepExecutionOptions {
     /**
      * Get the retryIntervalBackoffMultiplier value.
      *
-     * @return the retryIntervalBackoffMultiplier value
+     * @return the retryIntervalBackoffMultiplier value.
      */
     public Double retryIntervalBackoffMultiplier() {
         return this.retryIntervalBackoffMultiplier;
@@ -138,12 +140,12 @@ public class JobStepExecutionOptions {
     /**
      * Set the retryIntervalBackoffMultiplier value.
      *
-     * @param retryIntervalBackoffMultiplier the retryIntervalBackoffMultiplier value to set
+     * @param retryIntervalBackoffMultiplier the retryIntervalBackoffMultiplier
+     * value to set.
      * @return the JobStepExecutionOptions object itself.
      */
     public JobStepExecutionOptions withRetryIntervalBackoffMultiplier(Double retryIntervalBackoffMultiplier) {
         this.retryIntervalBackoffMultiplier = retryIntervalBackoffMultiplier;
         return this;
     }
-
 }

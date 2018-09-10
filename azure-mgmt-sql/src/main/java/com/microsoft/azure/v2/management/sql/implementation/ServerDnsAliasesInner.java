@@ -8,96 +8,129 @@
 
 package com.microsoft.azure.v2.management.sql.implementation;
 
-import retrofit2.Retrofit;
-import com.google.common.reflect.TypeToken;
-import com.microsoft.azure.AzureServiceFuture;
-import com.microsoft.azure.CloudException;
-import com.microsoft.azure.ListOperationCallback;
+import com.microsoft.azure.v2.AzureProxy;
+import com.microsoft.azure.v2.CloudException;
+import com.microsoft.azure.v2.OperationStatus;
+import com.microsoft.azure.v2.Page;
+import com.microsoft.azure.v2.PagedList;
 import com.microsoft.azure.v2.management.sql.ServerDnsAliasAcquisition;
-import com.microsoft.azure.Page;
-import com.microsoft.azure.PagedList;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import com.microsoft.rest.ServiceResponse;
-import java.io.IOException;
-import java.util.List;
-import okhttp3.ResponseBody;
-import retrofit2.http.Body;
-import retrofit2.http.GET;
-import retrofit2.http.Header;
-import retrofit2.http.Headers;
-import retrofit2.http.HTTP;
-import retrofit2.http.Path;
-import retrofit2.http.POST;
-import retrofit2.http.PUT;
-import retrofit2.http.Query;
-import retrofit2.http.Url;
-import retrofit2.Response;
-import rx.functions.Func1;
-import rx.Observable;
+import com.microsoft.azure.v2.util.ServiceFutureUtil;
+import com.microsoft.rest.v2.BodyResponse;
+import com.microsoft.rest.v2.OperationDescription;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
+import com.microsoft.rest.v2.VoidResponse;
+import com.microsoft.rest.v2.annotations.BodyParam;
+import com.microsoft.rest.v2.annotations.DELETE;
+import com.microsoft.rest.v2.annotations.ExpectedResponses;
+import com.microsoft.rest.v2.annotations.GET;
+import com.microsoft.rest.v2.annotations.HeaderParam;
+import com.microsoft.rest.v2.annotations.Host;
+import com.microsoft.rest.v2.annotations.PathParam;
+import com.microsoft.rest.v2.annotations.POST;
+import com.microsoft.rest.v2.annotations.PUT;
+import com.microsoft.rest.v2.annotations.QueryParam;
+import com.microsoft.rest.v2.annotations.ResumeOperation;
+import com.microsoft.rest.v2.annotations.UnexpectedResponseExceptionType;
+import io.reactivex.Completable;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
+import io.reactivex.Single;
+import io.reactivex.annotations.NonNull;
 
 /**
- * An instance of this class provides access to all the operations defined
- * in ServerDnsAliases.
+ * An instance of this class provides access to all the operations defined in
+ * ServerDnsAliases.
  */
-public class ServerDnsAliasesInner {
-    /** The Retrofit service to perform REST calls. */
+public final class ServerDnsAliasesInner {
+    /**
+     * The proxy service used to perform REST calls.
+     */
     private ServerDnsAliasesService service;
-    /** The service client containing this operation class. */
+
+    /**
+     * The service client containing this operation class.
+     */
     private SqlManagementClientImpl client;
 
     /**
      * Initializes an instance of ServerDnsAliasesInner.
      *
-     * @param retrofit the Retrofit instance built from a Retrofit Builder.
      * @param client the instance of the service client containing this operation class.
      */
-    public ServerDnsAliasesInner(Retrofit retrofit, SqlManagementClientImpl client) {
-        this.service = retrofit.create(ServerDnsAliasesService.class);
+    public ServerDnsAliasesInner(SqlManagementClientImpl client) {
+        this.service = AzureProxy.create(ServerDnsAliasesService.class, client);
         this.client = client;
     }
 
     /**
-     * The interface defining all the services for ServerDnsAliases to be
-     * used by Retrofit to perform actually REST calls.
+     * The interface defining all the services for ServerDnsAliases to be used
+     * by the proxy service to perform REST calls.
      */
-    interface ServerDnsAliasesService {
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.ServerDnsAliases get" })
+    @Host("https://management.azure.com")
+    private interface ServerDnsAliasesService {
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/dnsAliases/{dnsAliasName}")
-        Observable<Response<ResponseBody>> get(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("dnsAliasName") String dnsAliasName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<ServerDnsAliasInner>> get(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("dnsAliasName") String dnsAliasName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.ServerDnsAliases createOrUpdate" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/dnsAliases/{dnsAliasName}")
-        Observable<Response<ResponseBody>> createOrUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("dnsAliasName") String dnsAliasName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 201, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Observable<OperationStatus<ServerDnsAliasInner>> beginCreateOrUpdate(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("dnsAliasName") String dnsAliasName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.ServerDnsAliases beginCreateOrUpdate" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/dnsAliases/{dnsAliasName}")
-        Observable<Response<ResponseBody>> beginCreateOrUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("dnsAliasName") String dnsAliasName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 201, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<ServerDnsAliasInner>> createOrUpdate(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("dnsAliasName") String dnsAliasName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.ServerDnsAliases delete" })
-        @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/dnsAliases/{dnsAliasName}", method = "DELETE", hasBody = true)
-        Observable<Response<ResponseBody>> delete(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("dnsAliasName") String dnsAliasName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/dnsAliases/{dnsAliasName}")
+        @ExpectedResponses({200, 201, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<ServerDnsAliasInner>> resumeCreateOrUpdate(OperationDescription operationDescription);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.ServerDnsAliases beginDelete" })
-        @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/dnsAliases/{dnsAliasName}", method = "DELETE", hasBody = true)
-        Observable<Response<ResponseBody>> beginDelete(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("dnsAliasName") String dnsAliasName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @DELETE("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/dnsAliases/{dnsAliasName}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Observable<OperationStatus<Void>> beginDelete(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("dnsAliasName") String dnsAliasName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.ServerDnsAliases listByServer" })
+        @DELETE("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/dnsAliases/{dnsAliasName}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<VoidResponse> delete(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("dnsAliasName") String dnsAliasName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
+
+        @DELETE("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/dnsAliases/{dnsAliasName}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<Void>> resumeDelete(OperationDescription operationDescription);
+
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/dnsAliases")
-        Observable<Response<ResponseBody>> listByServer(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl1<ServerDnsAliasInner>>> listByServer(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.ServerDnsAliases acquire" })
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/dnsAliases/{dnsAliasName}/acquire")
-        Observable<Response<ResponseBody>> acquire(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("dnsAliasName") String dnsAliasName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body ServerDnsAliasAcquisition parameters, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Observable<OperationStatus<Void>> beginAcquire(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("dnsAliasName") String dnsAliasName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @BodyParam("application/json; charset=utf-8") ServerDnsAliasAcquisition parameters);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.ServerDnsAliases beginAcquire" })
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/dnsAliases/{dnsAliasName}/acquire")
-        Observable<Response<ResponseBody>> beginAcquire(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("dnsAliasName") String dnsAliasName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body ServerDnsAliasAcquisition parameters, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<VoidResponse> acquire(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("dnsAliasName") String dnsAliasName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @BodyParam("application/json; charset=utf-8") ServerDnsAliasAcquisition parameters);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.ServerDnsAliases listByServerNext" })
-        @GET
-        Observable<Response<ResponseBody>> listByServerNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/dnsAliases/{dnsAliasName}/acquire")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<Void>> resumeAcquire(OperationDescription operationDescription);
 
+        @GET("{nextUrl}")
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl1<ServerDnsAliasInner>>> listByServerNext(@PathParam(value = "nextUrl", encoded = true) String nextUrl, @HeaderParam("accept-language") String acceptLanguage);
     }
 
     /**
@@ -106,13 +139,13 @@ public class ServerDnsAliasesInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server that the alias is pointing to.
      * @param dnsAliasName The name of the server DNS alias.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the ServerDnsAliasInner object if successful.
      */
-    public ServerDnsAliasInner get(String resourceGroupName, String serverName, String dnsAliasName) {
-        return getWithServiceResponseAsync(resourceGroupName, serverName, dnsAliasName).toBlocking().single().body();
+    public ServerDnsAliasInner get(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String dnsAliasName) {
+        return getAsync(resourceGroupName, serverName, dnsAliasName).blockingGet();
     }
 
     /**
@@ -122,11 +155,11 @@ public class ServerDnsAliasesInner {
      * @param serverName The name of the server that the alias is pointing to.
      * @param dnsAliasName The name of the server DNS alias.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<ServerDnsAliasInner> getAsync(String resourceGroupName, String serverName, String dnsAliasName, final ServiceCallback<ServerDnsAliasInner> serviceCallback) {
-        return ServiceFuture.fromResponse(getWithServiceResponseAsync(resourceGroupName, serverName, dnsAliasName), serviceCallback);
+    public ServiceFuture<ServerDnsAliasInner> getAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String dnsAliasName, ServiceCallback<ServerDnsAliasInner> serviceCallback) {
+        return ServiceFuture.fromBody(getAsync(resourceGroupName, serverName, dnsAliasName), serviceCallback);
     }
 
     /**
@@ -135,28 +168,10 @@ public class ServerDnsAliasesInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server that the alias is pointing to.
      * @param dnsAliasName The name of the server DNS alias.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ServerDnsAliasInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<ServerDnsAliasInner> getAsync(String resourceGroupName, String serverName, String dnsAliasName) {
-        return getWithServiceResponseAsync(resourceGroupName, serverName, dnsAliasName).map(new Func1<ServiceResponse<ServerDnsAliasInner>, ServerDnsAliasInner>() {
-            @Override
-            public ServerDnsAliasInner call(ServiceResponse<ServerDnsAliasInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Gets a server DNS alias.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server that the alias is pointing to.
-     * @param dnsAliasName The name of the server DNS alias.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ServerDnsAliasInner object
-     */
-    public Observable<ServiceResponse<ServerDnsAliasInner>> getWithServiceResponseAsync(String resourceGroupName, String serverName, String dnsAliasName) {
+    public Single<BodyResponse<ServerDnsAliasInner>> getWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String dnsAliasName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -170,25 +185,21 @@ public class ServerDnsAliasesInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2017-03-01-preview";
-        return service.get(resourceGroupName, serverName, dnsAliasName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ServerDnsAliasInner>>>() {
-                @Override
-                public Observable<ServiceResponse<ServerDnsAliasInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<ServerDnsAliasInner> clientResponse = getDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.get(resourceGroupName, serverName, dnsAliasName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<ServerDnsAliasInner> getDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<ServerDnsAliasInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<ServerDnsAliasInner>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Gets a server DNS alias.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server that the alias is pointing to.
+     * @param dnsAliasName The name of the server DNS alias.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<ServerDnsAliasInner> getAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String dnsAliasName) {
+        return getWithRestResponseAsync(resourceGroupName, serverName, dnsAliasName)
+            .flatMapMaybe((BodyResponse<ServerDnsAliasInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
@@ -197,13 +208,13 @@ public class ServerDnsAliasesInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server that the alias is pointing to.
      * @param dnsAliasName The name of the server DNS alias.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the ServerDnsAliasInner object if successful.
      */
-    public ServerDnsAliasInner createOrUpdate(String resourceGroupName, String serverName, String dnsAliasName) {
-        return createOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, dnsAliasName).toBlocking().last().body();
+    public ServerDnsAliasInner beginCreateOrUpdate(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String dnsAliasName) {
+        return beginCreateOrUpdateAsync(resourceGroupName, serverName, dnsAliasName).blockingLast().result();
     }
 
     /**
@@ -213,11 +224,11 @@ public class ServerDnsAliasesInner {
      * @param serverName The name of the server that the alias is pointing to.
      * @param dnsAliasName The name of the server DNS alias.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;ServerDnsAliasInner&gt; object.
      */
-    public ServiceFuture<ServerDnsAliasInner> createOrUpdateAsync(String resourceGroupName, String serverName, String dnsAliasName, final ServiceCallback<ServerDnsAliasInner> serviceCallback) {
-        return ServiceFuture.fromResponse(createOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, dnsAliasName), serviceCallback);
+    public ServiceFuture<ServerDnsAliasInner> beginCreateOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String dnsAliasName, ServiceCallback<ServerDnsAliasInner> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginCreateOrUpdateAsync(resourceGroupName, serverName, dnsAliasName), serviceCallback);
     }
 
     /**
@@ -226,28 +237,10 @@ public class ServerDnsAliasesInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server that the alias is pointing to.
      * @param dnsAliasName The name of the server DNS alias.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<ServerDnsAliasInner> createOrUpdateAsync(String resourceGroupName, String serverName, String dnsAliasName) {
-        return createOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, dnsAliasName).map(new Func1<ServiceResponse<ServerDnsAliasInner>, ServerDnsAliasInner>() {
-            @Override
-            public ServerDnsAliasInner call(ServiceResponse<ServerDnsAliasInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Creates a server dns alias.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server that the alias is pointing to.
-     * @param dnsAliasName The name of the server DNS alias.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<ServerDnsAliasInner>> createOrUpdateWithServiceResponseAsync(String resourceGroupName, String serverName, String dnsAliasName) {
+    public Observable<OperationStatus<ServerDnsAliasInner>> beginCreateOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String dnsAliasName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -261,8 +254,7 @@ public class ServerDnsAliasesInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2017-03-01-preview";
-        Observable<Response<ResponseBody>> observable = service.createOrUpdate(resourceGroupName, serverName, dnsAliasName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<ServerDnsAliasInner>() { }.getType());
+        return service.beginCreateOrUpdate(resourceGroupName, serverName, dnsAliasName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
     /**
@@ -271,13 +263,13 @@ public class ServerDnsAliasesInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server that the alias is pointing to.
      * @param dnsAliasName The name of the server DNS alias.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the ServerDnsAliasInner object if successful.
      */
-    public ServerDnsAliasInner beginCreateOrUpdate(String resourceGroupName, String serverName, String dnsAliasName) {
-        return beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, dnsAliasName).toBlocking().single().body();
+    public ServerDnsAliasInner createOrUpdate(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String dnsAliasName) {
+        return createOrUpdateAsync(resourceGroupName, serverName, dnsAliasName).blockingGet();
     }
 
     /**
@@ -287,11 +279,11 @@ public class ServerDnsAliasesInner {
      * @param serverName The name of the server that the alias is pointing to.
      * @param dnsAliasName The name of the server DNS alias.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<ServerDnsAliasInner> beginCreateOrUpdateAsync(String resourceGroupName, String serverName, String dnsAliasName, final ServiceCallback<ServerDnsAliasInner> serviceCallback) {
-        return ServiceFuture.fromResponse(beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, dnsAliasName), serviceCallback);
+    public ServiceFuture<ServerDnsAliasInner> createOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String dnsAliasName, ServiceCallback<ServerDnsAliasInner> serviceCallback) {
+        return ServiceFuture.fromBody(createOrUpdateAsync(resourceGroupName, serverName, dnsAliasName), serviceCallback);
     }
 
     /**
@@ -300,28 +292,10 @@ public class ServerDnsAliasesInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server that the alias is pointing to.
      * @param dnsAliasName The name of the server DNS alias.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ServerDnsAliasInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<ServerDnsAliasInner> beginCreateOrUpdateAsync(String resourceGroupName, String serverName, String dnsAliasName) {
-        return beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, dnsAliasName).map(new Func1<ServiceResponse<ServerDnsAliasInner>, ServerDnsAliasInner>() {
-            @Override
-            public ServerDnsAliasInner call(ServiceResponse<ServerDnsAliasInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Creates a server dns alias.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server that the alias is pointing to.
-     * @param dnsAliasName The name of the server DNS alias.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ServerDnsAliasInner object
-     */
-    public Observable<ServiceResponse<ServerDnsAliasInner>> beginCreateOrUpdateWithServiceResponseAsync(String resourceGroupName, String serverName, String dnsAliasName) {
+    public Single<BodyResponse<ServerDnsAliasInner>> createOrUpdateWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String dnsAliasName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -335,27 +309,35 @@ public class ServerDnsAliasesInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2017-03-01-preview";
-        return service.beginCreateOrUpdate(resourceGroupName, serverName, dnsAliasName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ServerDnsAliasInner>>>() {
-                @Override
-                public Observable<ServiceResponse<ServerDnsAliasInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<ServerDnsAliasInner> clientResponse = beginCreateOrUpdateDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.createOrUpdate(resourceGroupName, serverName, dnsAliasName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<ServerDnsAliasInner> beginCreateOrUpdateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<ServerDnsAliasInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<ServerDnsAliasInner>() { }.getType())
-                .register(201, new TypeToken<ServerDnsAliasInner>() { }.getType())
-                .register(202, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Creates a server dns alias.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server that the alias is pointing to.
+     * @param dnsAliasName The name of the server DNS alias.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<ServerDnsAliasInner> createOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String dnsAliasName) {
+        return createOrUpdateWithRestResponseAsync(resourceGroupName, serverName, dnsAliasName)
+            .flatMapMaybe((BodyResponse<ServerDnsAliasInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
+    }
+
+    /**
+     * Creates a server dns alias. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<ServerDnsAliasInner>> resumeCreateOrUpdate(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeCreateOrUpdate(operationDescription);
     }
 
     /**
@@ -364,12 +346,12 @@ public class ServerDnsAliasesInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server that the alias is pointing to.
      * @param dnsAliasName The name of the server DNS alias.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void delete(String resourceGroupName, String serverName, String dnsAliasName) {
-        deleteWithServiceResponseAsync(resourceGroupName, serverName, dnsAliasName).toBlocking().last().body();
+    public void beginDelete(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String dnsAliasName) {
+        beginDeleteAsync(resourceGroupName, serverName, dnsAliasName).blockingLast();
     }
 
     /**
@@ -379,11 +361,11 @@ public class ServerDnsAliasesInner {
      * @param serverName The name of the server that the alias is pointing to.
      * @param dnsAliasName The name of the server DNS alias.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;Void&gt; object.
      */
-    public ServiceFuture<Void> deleteAsync(String resourceGroupName, String serverName, String dnsAliasName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(deleteWithServiceResponseAsync(resourceGroupName, serverName, dnsAliasName), serviceCallback);
+    public ServiceFuture<Void> beginDeleteAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String dnsAliasName, ServiceCallback<Void> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginDeleteAsync(resourceGroupName, serverName, dnsAliasName), serviceCallback);
     }
 
     /**
@@ -392,28 +374,10 @@ public class ServerDnsAliasesInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server that the alias is pointing to.
      * @param dnsAliasName The name of the server DNS alias.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<Void> deleteAsync(String resourceGroupName, String serverName, String dnsAliasName) {
-        return deleteWithServiceResponseAsync(resourceGroupName, serverName, dnsAliasName).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Deletes the server DNS alias with the given name.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server that the alias is pointing to.
-     * @param dnsAliasName The name of the server DNS alias.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<Void>> deleteWithServiceResponseAsync(String resourceGroupName, String serverName, String dnsAliasName) {
+    public Observable<OperationStatus<Void>> beginDeleteAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String dnsAliasName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -427,8 +391,7 @@ public class ServerDnsAliasesInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2017-03-01-preview";
-        Observable<Response<ResponseBody>> observable = service.delete(resourceGroupName, serverName, dnsAliasName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
+        return service.beginDelete(resourceGroupName, serverName, dnsAliasName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
     /**
@@ -437,12 +400,12 @@ public class ServerDnsAliasesInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server that the alias is pointing to.
      * @param dnsAliasName The name of the server DNS alias.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void beginDelete(String resourceGroupName, String serverName, String dnsAliasName) {
-        beginDeleteWithServiceResponseAsync(resourceGroupName, serverName, dnsAliasName).toBlocking().single().body();
+    public void delete(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String dnsAliasName) {
+        deleteAsync(resourceGroupName, serverName, dnsAliasName).blockingAwait();
     }
 
     /**
@@ -452,11 +415,11 @@ public class ServerDnsAliasesInner {
      * @param serverName The name of the server that the alias is pointing to.
      * @param dnsAliasName The name of the server DNS alias.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<Void> beginDeleteAsync(String resourceGroupName, String serverName, String dnsAliasName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(beginDeleteWithServiceResponseAsync(resourceGroupName, serverName, dnsAliasName), serviceCallback);
+    public ServiceFuture<Void> deleteAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String dnsAliasName, ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromBody(deleteAsync(resourceGroupName, serverName, dnsAliasName), serviceCallback);
     }
 
     /**
@@ -465,28 +428,10 @@ public class ServerDnsAliasesInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server that the alias is pointing to.
      * @param dnsAliasName The name of the server DNS alias.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<Void> beginDeleteAsync(String resourceGroupName, String serverName, String dnsAliasName) {
-        return beginDeleteWithServiceResponseAsync(resourceGroupName, serverName, dnsAliasName).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Deletes the server DNS alias with the given name.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server that the alias is pointing to.
-     * @param dnsAliasName The name of the server DNS alias.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
-     */
-    public Observable<ServiceResponse<Void>> beginDeleteWithServiceResponseAsync(String resourceGroupName, String serverName, String dnsAliasName) {
+    public Single<VoidResponse> deleteWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String dnsAliasName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -500,27 +445,35 @@ public class ServerDnsAliasesInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2017-03-01-preview";
-        return service.beginDelete(resourceGroupName, serverName, dnsAliasName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
-                @Override
-                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<Void> clientResponse = beginDeleteDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.delete(resourceGroupName, serverName, dnsAliasName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<Void> beginDeleteDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<Void>() { }.getType())
-                .register(202, new TypeToken<Void>() { }.getType())
-                .register(204, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Deletes the server DNS alias with the given name.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server that the alias is pointing to.
+     * @param dnsAliasName The name of the server DNS alias.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Completable deleteAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String dnsAliasName) {
+        return deleteWithRestResponseAsync(resourceGroupName, serverName, dnsAliasName)
+            .toCompletable();
+    }
+
+    /**
+     * Deletes the server DNS alias with the given name. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<Void>> resumeDelete(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeDelete(operationDescription);
     }
 
     /**
@@ -528,17 +481,17 @@ public class ServerDnsAliasesInner {
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server that the alias is pointing to.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;ServerDnsAliasInner&gt; object if successful.
      */
-    public PagedList<ServerDnsAliasInner> listByServer(final String resourceGroupName, final String serverName) {
-        ServiceResponse<Page<ServerDnsAliasInner>> response = listByServerSinglePageAsync(resourceGroupName, serverName).toBlocking().single();
-        return new PagedList<ServerDnsAliasInner>(response.body()) {
+    public PagedList<ServerDnsAliasInner> listByServer(@NonNull String resourceGroupName, @NonNull String serverName) {
+        Page<ServerDnsAliasInner> response = listByServerSinglePageAsync(resourceGroupName, serverName).blockingGet();
+        return new PagedList<ServerDnsAliasInner>(response) {
             @Override
             public Page<ServerDnsAliasInner> nextPage(String nextPageLink) {
-                return listByServerNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listByServerNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -548,71 +501,30 @@ public class ServerDnsAliasesInner {
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server that the alias is pointing to.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;ServerDnsAliasInner&gt; object.
      */
-    public ServiceFuture<List<ServerDnsAliasInner>> listByServerAsync(final String resourceGroupName, final String serverName, final ListOperationCallback<ServerDnsAliasInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listByServerSinglePageAsync(resourceGroupName, serverName),
-            new Func1<String, Observable<ServiceResponse<Page<ServerDnsAliasInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ServerDnsAliasInner>>> call(String nextPageLink) {
-                    return listByServerNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets a list of server DNS aliases for a server.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server that the alias is pointing to.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ServerDnsAliasInner&gt; object
-     */
-    public Observable<Page<ServerDnsAliasInner>> listByServerAsync(final String resourceGroupName, final String serverName) {
-        return listByServerWithServiceResponseAsync(resourceGroupName, serverName)
-            .map(new Func1<ServiceResponse<Page<ServerDnsAliasInner>>, Page<ServerDnsAliasInner>>() {
-                @Override
-                public Page<ServerDnsAliasInner> call(ServiceResponse<Page<ServerDnsAliasInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets a list of server DNS aliases for a server.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server that the alias is pointing to.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ServerDnsAliasInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<ServerDnsAliasInner>>> listByServerWithServiceResponseAsync(final String resourceGroupName, final String serverName) {
+    public Observable<Page<ServerDnsAliasInner>> listByServerAsync(@NonNull String resourceGroupName, @NonNull String serverName) {
         return listByServerSinglePageAsync(resourceGroupName, serverName)
-            .concatMap(new Func1<ServiceResponse<Page<ServerDnsAliasInner>>, Observable<ServiceResponse<Page<ServerDnsAliasInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ServerDnsAliasInner>>> call(ServiceResponse<Page<ServerDnsAliasInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listByServerNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<ServerDnsAliasInner> page) -> {
+                String nextPageLink = page.nextPageLink();
+                if (nextPageLink == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listByServerNextAsync(nextPageLink));
             });
     }
 
     /**
      * Gets a list of server DNS aliases for a server.
      *
-    ServiceResponse<PageImpl1<ServerDnsAliasInner>> * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-    ServiceResponse<PageImpl1<ServerDnsAliasInner>> * @param serverName The name of the server that the alias is pointing to.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;ServerDnsAliasInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server that the alias is pointing to.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;ServerDnsAliasInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<ServerDnsAliasInner>>> listByServerSinglePageAsync(final String resourceGroupName, final String serverName) {
+    public Single<Page<ServerDnsAliasInner>> listByServerSinglePageAsync(@NonNull String resourceGroupName, @NonNull String serverName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -623,25 +535,8 @@ public class ServerDnsAliasesInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2017-03-01-preview";
-        return service.listByServer(resourceGroupName, serverName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ServerDnsAliasInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ServerDnsAliasInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl1<ServerDnsAliasInner>> result = listByServerDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<ServerDnsAliasInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl1<ServerDnsAliasInner>> listByServerDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl1<ServerDnsAliasInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl1<ServerDnsAliasInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+        return service.listByServer(resourceGroupName, serverName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl1<ServerDnsAliasInner>> res) -> res.body());
     }
 
     /**
@@ -650,12 +545,12 @@ public class ServerDnsAliasesInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server that the alias is pointing to.
      * @param dnsAliasName The name of the server dns alias.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void acquire(String resourceGroupName, String serverName, String dnsAliasName) {
-        acquireWithServiceResponseAsync(resourceGroupName, serverName, dnsAliasName).toBlocking().last().body();
+    public void beginAcquire(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String dnsAliasName) {
+        beginAcquireAsync(resourceGroupName, serverName, dnsAliasName).blockingLast();
     }
 
     /**
@@ -665,11 +560,11 @@ public class ServerDnsAliasesInner {
      * @param serverName The name of the server that the alias is pointing to.
      * @param dnsAliasName The name of the server dns alias.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;Void&gt; object.
      */
-    public ServiceFuture<Void> acquireAsync(String resourceGroupName, String serverName, String dnsAliasName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(acquireWithServiceResponseAsync(resourceGroupName, serverName, dnsAliasName), serviceCallback);
+    public ServiceFuture<Void> beginAcquireAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String dnsAliasName, ServiceCallback<Void> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginAcquireAsync(resourceGroupName, serverName, dnsAliasName), serviceCallback);
     }
 
     /**
@@ -678,28 +573,10 @@ public class ServerDnsAliasesInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server that the alias is pointing to.
      * @param dnsAliasName The name of the server dns alias.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<Void> acquireAsync(String resourceGroupName, String serverName, String dnsAliasName) {
-        return acquireWithServiceResponseAsync(resourceGroupName, serverName, dnsAliasName).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Acquires server DNS alias from another server.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server that the alias is pointing to.
-     * @param dnsAliasName The name of the server dns alias.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<Void>> acquireWithServiceResponseAsync(String resourceGroupName, String serverName, String dnsAliasName) {
+    public Observable<OperationStatus<Void>> beginAcquireAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String dnsAliasName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -716,9 +593,9 @@ public class ServerDnsAliasesInner {
         final String oldServerDnsAliasId = null;
         ServerDnsAliasAcquisition parameters = new ServerDnsAliasAcquisition();
         parameters.withOldServerDnsAliasId(null);
-        Observable<Response<ResponseBody>> observable = service.acquire(resourceGroupName, serverName, dnsAliasName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
+        return service.beginAcquire(resourceGroupName, serverName, dnsAliasName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters);
     }
+
     /**
      * Acquires server DNS alias from another server.
      *
@@ -726,12 +603,12 @@ public class ServerDnsAliasesInner {
      * @param serverName The name of the server that the alias is pointing to.
      * @param dnsAliasName The name of the server dns alias.
      * @param oldServerDnsAliasId The id of the server alias that will be acquired to point to this server instead.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void acquire(String resourceGroupName, String serverName, String dnsAliasName, String oldServerDnsAliasId) {
-        acquireWithServiceResponseAsync(resourceGroupName, serverName, dnsAliasName, oldServerDnsAliasId).toBlocking().last().body();
+    public void beginAcquire(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String dnsAliasName, String oldServerDnsAliasId) {
+        beginAcquireAsync(resourceGroupName, serverName, dnsAliasName, oldServerDnsAliasId).blockingLast();
     }
 
     /**
@@ -742,11 +619,11 @@ public class ServerDnsAliasesInner {
      * @param dnsAliasName The name of the server dns alias.
      * @param oldServerDnsAliasId The id of the server alias that will be acquired to point to this server instead.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;Void&gt; object.
      */
-    public ServiceFuture<Void> acquireAsync(String resourceGroupName, String serverName, String dnsAliasName, String oldServerDnsAliasId, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(acquireWithServiceResponseAsync(resourceGroupName, serverName, dnsAliasName, oldServerDnsAliasId), serviceCallback);
+    public ServiceFuture<Void> beginAcquireAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String dnsAliasName, String oldServerDnsAliasId, ServiceCallback<Void> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginAcquireAsync(resourceGroupName, serverName, dnsAliasName, oldServerDnsAliasId), serviceCallback);
     }
 
     /**
@@ -756,29 +633,10 @@ public class ServerDnsAliasesInner {
      * @param serverName The name of the server that the alias is pointing to.
      * @param dnsAliasName The name of the server dns alias.
      * @param oldServerDnsAliasId The id of the server alias that will be acquired to point to this server instead.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<Void> acquireAsync(String resourceGroupName, String serverName, String dnsAliasName, String oldServerDnsAliasId) {
-        return acquireWithServiceResponseAsync(resourceGroupName, serverName, dnsAliasName, oldServerDnsAliasId).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Acquires server DNS alias from another server.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server that the alias is pointing to.
-     * @param dnsAliasName The name of the server dns alias.
-     * @param oldServerDnsAliasId The id of the server alias that will be acquired to point to this server instead.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<Void>> acquireWithServiceResponseAsync(String resourceGroupName, String serverName, String dnsAliasName, String oldServerDnsAliasId) {
+    public Observable<OperationStatus<Void>> beginAcquireAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String dnsAliasName, String oldServerDnsAliasId) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -794,8 +652,7 @@ public class ServerDnsAliasesInner {
         final String apiVersion = "2017-03-01-preview";
         ServerDnsAliasAcquisition parameters = new ServerDnsAliasAcquisition();
         parameters.withOldServerDnsAliasId(oldServerDnsAliasId);
-        Observable<Response<ResponseBody>> observable = service.acquire(resourceGroupName, serverName, dnsAliasName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
+        return service.beginAcquire(resourceGroupName, serverName, dnsAliasName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters);
     }
 
     /**
@@ -804,12 +661,12 @@ public class ServerDnsAliasesInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server that the alias is pointing to.
      * @param dnsAliasName The name of the server dns alias.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void beginAcquire(String resourceGroupName, String serverName, String dnsAliasName) {
-        beginAcquireWithServiceResponseAsync(resourceGroupName, serverName, dnsAliasName).toBlocking().single().body();
+    public void acquire(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String dnsAliasName) {
+        acquireAsync(resourceGroupName, serverName, dnsAliasName).blockingAwait();
     }
 
     /**
@@ -819,11 +676,11 @@ public class ServerDnsAliasesInner {
      * @param serverName The name of the server that the alias is pointing to.
      * @param dnsAliasName The name of the server dns alias.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<Void> beginAcquireAsync(String resourceGroupName, String serverName, String dnsAliasName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(beginAcquireWithServiceResponseAsync(resourceGroupName, serverName, dnsAliasName), serviceCallback);
+    public ServiceFuture<Void> acquireAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String dnsAliasName, ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromBody(acquireAsync(resourceGroupName, serverName, dnsAliasName), serviceCallback);
     }
 
     /**
@@ -832,28 +689,10 @@ public class ServerDnsAliasesInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server that the alias is pointing to.
      * @param dnsAliasName The name of the server dns alias.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<Void> beginAcquireAsync(String resourceGroupName, String serverName, String dnsAliasName) {
-        return beginAcquireWithServiceResponseAsync(resourceGroupName, serverName, dnsAliasName).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Acquires server DNS alias from another server.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server that the alias is pointing to.
-     * @param dnsAliasName The name of the server dns alias.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
-     */
-    public Observable<ServiceResponse<Void>> beginAcquireWithServiceResponseAsync(String resourceGroupName, String serverName, String dnsAliasName) {
+    public Single<VoidResponse> acquireWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String dnsAliasName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -870,18 +709,21 @@ public class ServerDnsAliasesInner {
         final String oldServerDnsAliasId = null;
         ServerDnsAliasAcquisition parameters = new ServerDnsAliasAcquisition();
         parameters.withOldServerDnsAliasId(null);
-        return service.beginAcquire(resourceGroupName, serverName, dnsAliasName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
-                @Override
-                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<Void> clientResponse = beginAcquireDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.acquire(resourceGroupName, serverName, dnsAliasName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters);
+    }
+
+    /**
+     * Acquires server DNS alias from another server.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server that the alias is pointing to.
+     * @param dnsAliasName The name of the server dns alias.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Completable acquireAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String dnsAliasName) {
+        return acquireWithRestResponseAsync(resourceGroupName, serverName, dnsAliasName)
+            .toCompletable();
     }
 
     /**
@@ -891,12 +733,12 @@ public class ServerDnsAliasesInner {
      * @param serverName The name of the server that the alias is pointing to.
      * @param dnsAliasName The name of the server dns alias.
      * @param oldServerDnsAliasId The id of the server alias that will be acquired to point to this server instead.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void beginAcquire(String resourceGroupName, String serverName, String dnsAliasName, String oldServerDnsAliasId) {
-        beginAcquireWithServiceResponseAsync(resourceGroupName, serverName, dnsAliasName, oldServerDnsAliasId).toBlocking().single().body();
+    public void acquire(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String dnsAliasName, String oldServerDnsAliasId) {
+        acquireAsync(resourceGroupName, serverName, dnsAliasName, oldServerDnsAliasId).blockingAwait();
     }
 
     /**
@@ -907,11 +749,11 @@ public class ServerDnsAliasesInner {
      * @param dnsAliasName The name of the server dns alias.
      * @param oldServerDnsAliasId The id of the server alias that will be acquired to point to this server instead.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<Void> beginAcquireAsync(String resourceGroupName, String serverName, String dnsAliasName, String oldServerDnsAliasId, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(beginAcquireWithServiceResponseAsync(resourceGroupName, serverName, dnsAliasName, oldServerDnsAliasId), serviceCallback);
+    public ServiceFuture<Void> acquireAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String dnsAliasName, String oldServerDnsAliasId, ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromBody(acquireAsync(resourceGroupName, serverName, dnsAliasName, oldServerDnsAliasId), serviceCallback);
     }
 
     /**
@@ -921,29 +763,10 @@ public class ServerDnsAliasesInner {
      * @param serverName The name of the server that the alias is pointing to.
      * @param dnsAliasName The name of the server dns alias.
      * @param oldServerDnsAliasId The id of the server alias that will be acquired to point to this server instead.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<Void> beginAcquireAsync(String resourceGroupName, String serverName, String dnsAliasName, String oldServerDnsAliasId) {
-        return beginAcquireWithServiceResponseAsync(resourceGroupName, serverName, dnsAliasName, oldServerDnsAliasId).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Acquires server DNS alias from another server.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server that the alias is pointing to.
-     * @param dnsAliasName The name of the server dns alias.
-     * @param oldServerDnsAliasId The id of the server alias that will be acquired to point to this server instead.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
-     */
-    public Observable<ServiceResponse<Void>> beginAcquireWithServiceResponseAsync(String resourceGroupName, String serverName, String dnsAliasName, String oldServerDnsAliasId) {
+    public Single<VoidResponse> acquireWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String dnsAliasName, String oldServerDnsAliasId) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -959,43 +782,53 @@ public class ServerDnsAliasesInner {
         final String apiVersion = "2017-03-01-preview";
         ServerDnsAliasAcquisition parameters = new ServerDnsAliasAcquisition();
         parameters.withOldServerDnsAliasId(oldServerDnsAliasId);
-        return service.beginAcquire(resourceGroupName, serverName, dnsAliasName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
-                @Override
-                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<Void> clientResponse = beginAcquireDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.acquire(resourceGroupName, serverName, dnsAliasName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters);
     }
 
-    private ServiceResponse<Void> beginAcquireDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<Void>() { }.getType())
-                .register(202, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Acquires server DNS alias from another server.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server that the alias is pointing to.
+     * @param dnsAliasName The name of the server dns alias.
+     * @param oldServerDnsAliasId The id of the server alias that will be acquired to point to this server instead.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Completable acquireAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String dnsAliasName, String oldServerDnsAliasId) {
+        return acquireWithRestResponseAsync(resourceGroupName, serverName, dnsAliasName, oldServerDnsAliasId)
+            .toCompletable();
+    }
+
+    /**
+     * Acquires server DNS alias from another server. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<Void>> resumeAcquire(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeAcquire(operationDescription);
     }
 
     /**
      * Gets a list of server DNS aliases for a server.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;ServerDnsAliasInner&gt; object if successful.
      */
-    public PagedList<ServerDnsAliasInner> listByServerNext(final String nextPageLink) {
-        ServiceResponse<Page<ServerDnsAliasInner>> response = listByServerNextSinglePageAsync(nextPageLink).toBlocking().single();
-        return new PagedList<ServerDnsAliasInner>(response.body()) {
+    public PagedList<ServerDnsAliasInner> listByServerNext(@NonNull String nextPageLink) {
+        Page<ServerDnsAliasInner> response = listByServerNextSinglePageAsync(nextPageLink).blockingGet();
+        return new PagedList<ServerDnsAliasInner>(response) {
             @Override
             public Page<ServerDnsAliasInner> nextPage(String nextPageLink) {
-                return listByServerNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listByServerNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -1004,92 +837,34 @@ public class ServerDnsAliasesInner {
      * Gets a list of server DNS aliases for a server.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;ServerDnsAliasInner&gt; object.
      */
-    public ServiceFuture<List<ServerDnsAliasInner>> listByServerNextAsync(final String nextPageLink, final ServiceFuture<List<ServerDnsAliasInner>> serviceFuture, final ListOperationCallback<ServerDnsAliasInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listByServerNextSinglePageAsync(nextPageLink),
-            new Func1<String, Observable<ServiceResponse<Page<ServerDnsAliasInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ServerDnsAliasInner>>> call(String nextPageLink) {
-                    return listByServerNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets a list of server DNS aliases for a server.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ServerDnsAliasInner&gt; object
-     */
-    public Observable<Page<ServerDnsAliasInner>> listByServerNextAsync(final String nextPageLink) {
-        return listByServerNextWithServiceResponseAsync(nextPageLink)
-            .map(new Func1<ServiceResponse<Page<ServerDnsAliasInner>>, Page<ServerDnsAliasInner>>() {
-                @Override
-                public Page<ServerDnsAliasInner> call(ServiceResponse<Page<ServerDnsAliasInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets a list of server DNS aliases for a server.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ServerDnsAliasInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<ServerDnsAliasInner>>> listByServerNextWithServiceResponseAsync(final String nextPageLink) {
+    public Observable<Page<ServerDnsAliasInner>> listByServerNextAsync(@NonNull String nextPageLink) {
         return listByServerNextSinglePageAsync(nextPageLink)
-            .concatMap(new Func1<ServiceResponse<Page<ServerDnsAliasInner>>, Observable<ServiceResponse<Page<ServerDnsAliasInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ServerDnsAliasInner>>> call(ServiceResponse<Page<ServerDnsAliasInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listByServerNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<ServerDnsAliasInner> page) -> {
+                String nextPageLink1 = page.nextPageLink();
+                if (nextPageLink1 == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listByServerNextAsync(nextPageLink1));
             });
     }
 
     /**
      * Gets a list of server DNS aliases for a server.
      *
-    ServiceResponse<PageImpl1<ServerDnsAliasInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;ServerDnsAliasInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;ServerDnsAliasInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<ServerDnsAliasInner>>> listByServerNextSinglePageAsync(final String nextPageLink) {
+    public Single<Page<ServerDnsAliasInner>> listByServerNextSinglePageAsync(@NonNull String nextPageLink) {
         if (nextPageLink == null) {
             throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
         }
         String nextUrl = String.format("%s", nextPageLink);
-        return service.listByServerNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ServerDnsAliasInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ServerDnsAliasInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl1<ServerDnsAliasInner>> result = listByServerNextDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<ServerDnsAliasInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.listByServerNext(nextUrl, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl1<ServerDnsAliasInner>> res) -> res.body());
     }
-
-    private ServiceResponse<PageImpl1<ServerDnsAliasInner>> listByServerNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl1<ServerDnsAliasInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl1<ServerDnsAliasInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
-    }
-
 }

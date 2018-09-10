@@ -14,17 +14,23 @@ import com.fasterxml.jackson.annotation.JsonValue;
 /**
  * Defines values for RestorePointType.
  */
-public enum RestorePointTypes {
-    /** Enum value CONTINUOUS. */
+public enum RestorePointType {
+    /**
+     * Enum value CONTINUOUS.
+     */
     CONTINUOUS("CONTINUOUS"),
 
-    /** Enum value DISCRETE. */
+    /**
+     * Enum value DISCRETE.
+     */
     DISCRETE("DISCRETE");
 
-    /** The actual serialized value for a RestorePointType instance. */
-    private String value;
+    /**
+     * The actual serialized value for a RestorePointType instance.
+     */
+    private final String value;
 
-    RestorePointTypes(String value) {
+    private RestorePointType(String value) {
         this.value = value;
     }
 
@@ -35,9 +41,9 @@ public enum RestorePointTypes {
      * @return the parsed RestorePointType object, or null if unable to parse.
      */
     @JsonCreator
-    public static RestorePointTypes fromString(String value) {
-        RestorePointTypes[] items = RestorePointTypes.values();
-        for (RestorePointTypes item : items) {
+    public static RestorePointType fromString(String value) {
+        RestorePointType[] items = RestorePointType.values();
+        for (RestorePointType item : items) {
             if (item.toString().equalsIgnoreCase(value)) {
                 return item;
             }

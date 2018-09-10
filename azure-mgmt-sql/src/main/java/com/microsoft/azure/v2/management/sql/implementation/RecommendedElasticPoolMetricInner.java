@@ -8,18 +8,18 @@
 
 package com.microsoft.azure.v2.management.sql.implementation;
 
-import org.joda.time.DateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.time.OffsetDateTime;
 
 /**
  * Represents recommended elastic pool metric.
  */
-public class RecommendedElasticPoolMetricInner {
+public final class RecommendedElasticPoolMetricInner {
     /**
      * The time of metric (ISO8601 format).
      */
     @JsonProperty(value = "dateTime")
-    private DateTime dateTimeProperty;
+    private OffsetDateTime dateTime;
 
     /**
      * Gets or sets the DTUs (Database Transaction Units). See
@@ -35,29 +35,29 @@ public class RecommendedElasticPoolMetricInner {
     private Double sizeGB;
 
     /**
-     * Get the dateTimeProperty value.
+     * Get the dateTime value.
      *
-     * @return the dateTimeProperty value
+     * @return the dateTime value.
      */
-    public DateTime dateTimeProperty() {
-        return this.dateTimeProperty;
+    public OffsetDateTime dateTime() {
+        return this.dateTime;
     }
 
     /**
-     * Set the dateTimeProperty value.
+     * Set the dateTime value.
      *
-     * @param dateTimeProperty the dateTimeProperty value to set
+     * @param dateTime the dateTime value to set.
      * @return the RecommendedElasticPoolMetricInner object itself.
      */
-    public RecommendedElasticPoolMetricInner withDateTimeProperty(DateTime dateTimeProperty) {
-        this.dateTimeProperty = dateTimeProperty;
+    public RecommendedElasticPoolMetricInner withDateTime(OffsetDateTime dateTime) {
+        this.dateTime = dateTime;
         return this;
     }
 
     /**
      * Get the dtu value.
      *
-     * @return the dtu value
+     * @return the dtu value.
      */
     public Double dtu() {
         return this.dtu;
@@ -66,7 +66,7 @@ public class RecommendedElasticPoolMetricInner {
     /**
      * Set the dtu value.
      *
-     * @param dtu the dtu value to set
+     * @param dtu the dtu value to set.
      * @return the RecommendedElasticPoolMetricInner object itself.
      */
     public RecommendedElasticPoolMetricInner withDtu(Double dtu) {
@@ -77,7 +77,7 @@ public class RecommendedElasticPoolMetricInner {
     /**
      * Get the sizeGB value.
      *
-     * @return the sizeGB value
+     * @return the sizeGB value.
      */
     public Double sizeGB() {
         return this.sizeGB;
@@ -86,12 +86,11 @@ public class RecommendedElasticPoolMetricInner {
     /**
      * Set the sizeGB value.
      *
-     * @param sizeGB the sizeGB value to set
+     * @param sizeGB the sizeGB value to set.
      * @return the RecommendedElasticPoolMetricInner object itself.
      */
     public RecommendedElasticPoolMetricInner withSizeGB(Double sizeGB) {
         this.sizeGB = sizeGB;
         return this;
     }
-
 }

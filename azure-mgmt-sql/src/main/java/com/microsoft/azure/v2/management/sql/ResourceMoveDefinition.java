@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Contains the information necessary to perform a resource move (rename).
  */
-public class ResourceMoveDefinition {
+public final class ResourceMoveDefinition {
     /**
      * The target ID for the resource.
      */
@@ -23,7 +23,7 @@ public class ResourceMoveDefinition {
     /**
      * Get the id value.
      *
-     * @return the id value
+     * @return the id value.
      */
     public String id() {
         return this.id;
@@ -32,12 +32,11 @@ public class ResourceMoveDefinition {
     /**
      * Set the id value.
      *
-     * @param id the id value to set
+     * @param id the id value to set.
      * @return the ResourceMoveDefinition object itself.
      */
     public ResourceMoveDefinition withId(String id) {
         this.id = id;
         return this;
     }
-
 }

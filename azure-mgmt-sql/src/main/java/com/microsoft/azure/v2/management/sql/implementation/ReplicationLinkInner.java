@@ -8,17 +8,18 @@
 
 package com.microsoft.azure.v2.management.sql.implementation;
 
-import com.microsoft.azure.v2.management.sql.ReplicationRole;
-import org.joda.time.DateTime;
-import com.microsoft.azure.v2.management.sql.ReplicationState;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.v2.management.sql.ProxyResource;
+import com.microsoft.azure.v2.management.sql.ReplicationRole;
+import com.microsoft.azure.v2.management.sql.ReplicationState;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
+import java.time.OffsetDateTime;
 
 /**
  * Represents a database replication link.
  */
 @JsonFlatten
-public class ReplicationLinkInner extends ProxyResourceInner {
+public class ReplicationLinkInner extends ProxyResource {
     /**
      * Location of the server that contains this firewall rule.
      */
@@ -76,7 +77,7 @@ public class ReplicationLinkInner extends ProxyResourceInner {
      * The start time for the replication link.
      */
     @JsonProperty(value = "properties.startTime", access = JsonProperty.Access.WRITE_ONLY)
-    private DateTime startTime;
+    private OffsetDateTime startTime;
 
     /**
      * The percentage of seeding complete for the replication link.
@@ -94,7 +95,7 @@ public class ReplicationLinkInner extends ProxyResourceInner {
     /**
      * Get the location value.
      *
-     * @return the location value
+     * @return the location value.
      */
     public String location() {
         return this.location;
@@ -103,7 +104,7 @@ public class ReplicationLinkInner extends ProxyResourceInner {
     /**
      * Get the isTerminationAllowed value.
      *
-     * @return the isTerminationAllowed value
+     * @return the isTerminationAllowed value.
      */
     public Boolean isTerminationAllowed() {
         return this.isTerminationAllowed;
@@ -112,7 +113,7 @@ public class ReplicationLinkInner extends ProxyResourceInner {
     /**
      * Get the replicationMode value.
      *
-     * @return the replicationMode value
+     * @return the replicationMode value.
      */
     public String replicationMode() {
         return this.replicationMode;
@@ -121,7 +122,7 @@ public class ReplicationLinkInner extends ProxyResourceInner {
     /**
      * Get the partnerServer value.
      *
-     * @return the partnerServer value
+     * @return the partnerServer value.
      */
     public String partnerServer() {
         return this.partnerServer;
@@ -130,7 +131,7 @@ public class ReplicationLinkInner extends ProxyResourceInner {
     /**
      * Get the partnerDatabase value.
      *
-     * @return the partnerDatabase value
+     * @return the partnerDatabase value.
      */
     public String partnerDatabase() {
         return this.partnerDatabase;
@@ -139,7 +140,7 @@ public class ReplicationLinkInner extends ProxyResourceInner {
     /**
      * Get the partnerLocation value.
      *
-     * @return the partnerLocation value
+     * @return the partnerLocation value.
      */
     public String partnerLocation() {
         return this.partnerLocation;
@@ -148,7 +149,7 @@ public class ReplicationLinkInner extends ProxyResourceInner {
     /**
      * Get the role value.
      *
-     * @return the role value
+     * @return the role value.
      */
     public ReplicationRole role() {
         return this.role;
@@ -157,7 +158,7 @@ public class ReplicationLinkInner extends ProxyResourceInner {
     /**
      * Get the partnerRole value.
      *
-     * @return the partnerRole value
+     * @return the partnerRole value.
      */
     public ReplicationRole partnerRole() {
         return this.partnerRole;
@@ -166,16 +167,16 @@ public class ReplicationLinkInner extends ProxyResourceInner {
     /**
      * Get the startTime value.
      *
-     * @return the startTime value
+     * @return the startTime value.
      */
-    public DateTime startTime() {
+    public OffsetDateTime startTime() {
         return this.startTime;
     }
 
     /**
      * Get the percentComplete value.
      *
-     * @return the percentComplete value
+     * @return the percentComplete value.
      */
     public Integer percentComplete() {
         return this.percentComplete;
@@ -184,10 +185,9 @@ public class ReplicationLinkInner extends ProxyResourceInner {
     /**
      * Get the replicationState value.
      *
-     * @return the replicationState value
+     * @return the replicationState value.
      */
     public ReplicationState replicationState() {
         return this.replicationState;
     }
-
 }

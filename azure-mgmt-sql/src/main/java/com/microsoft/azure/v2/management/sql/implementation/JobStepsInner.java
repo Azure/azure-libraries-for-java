@@ -8,91 +8,101 @@
 
 package com.microsoft.azure.v2.management.sql.implementation;
 
-import retrofit2.Retrofit;
-import com.google.common.reflect.TypeToken;
-import com.microsoft.azure.AzureServiceFuture;
-import com.microsoft.azure.CloudException;
-import com.microsoft.azure.ListOperationCallback;
-import com.microsoft.azure.Page;
-import com.microsoft.azure.PagedList;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import com.microsoft.rest.ServiceResponse;
-import com.microsoft.rest.Validator;
-import java.io.IOException;
-import java.util.List;
-import okhttp3.ResponseBody;
-import retrofit2.http.Body;
-import retrofit2.http.GET;
-import retrofit2.http.Header;
-import retrofit2.http.Headers;
-import retrofit2.http.HTTP;
-import retrofit2.http.Path;
-import retrofit2.http.PUT;
-import retrofit2.http.Query;
-import retrofit2.http.Url;
-import retrofit2.Response;
-import rx.functions.Func1;
-import rx.Observable;
+import com.microsoft.azure.v2.AzureProxy;
+import com.microsoft.azure.v2.CloudException;
+import com.microsoft.azure.v2.Page;
+import com.microsoft.azure.v2.PagedList;
+import com.microsoft.rest.v2.BodyResponse;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
+import com.microsoft.rest.v2.Validator;
+import com.microsoft.rest.v2.VoidResponse;
+import com.microsoft.rest.v2.annotations.BodyParam;
+import com.microsoft.rest.v2.annotations.DELETE;
+import com.microsoft.rest.v2.annotations.ExpectedResponses;
+import com.microsoft.rest.v2.annotations.GET;
+import com.microsoft.rest.v2.annotations.HeaderParam;
+import com.microsoft.rest.v2.annotations.Host;
+import com.microsoft.rest.v2.annotations.PathParam;
+import com.microsoft.rest.v2.annotations.PUT;
+import com.microsoft.rest.v2.annotations.QueryParam;
+import com.microsoft.rest.v2.annotations.UnexpectedResponseExceptionType;
+import io.reactivex.Completable;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
+import io.reactivex.Single;
+import io.reactivex.annotations.NonNull;
 
 /**
- * An instance of this class provides access to all the operations defined
- * in JobSteps.
+ * An instance of this class provides access to all the operations defined in
+ * JobSteps.
  */
-public class JobStepsInner {
-    /** The Retrofit service to perform REST calls. */
+public final class JobStepsInner {
+    /**
+     * The proxy service used to perform REST calls.
+     */
     private JobStepsService service;
-    /** The service client containing this operation class. */
+
+    /**
+     * The service client containing this operation class.
+     */
     private SqlManagementClientImpl client;
 
     /**
      * Initializes an instance of JobStepsInner.
      *
-     * @param retrofit the Retrofit instance built from a Retrofit Builder.
      * @param client the instance of the service client containing this operation class.
      */
-    public JobStepsInner(Retrofit retrofit, SqlManagementClientImpl client) {
-        this.service = retrofit.create(JobStepsService.class);
+    public JobStepsInner(SqlManagementClientImpl client) {
+        this.service = AzureProxy.create(JobStepsService.class, client);
         this.client = client;
     }
 
     /**
-     * The interface defining all the services for JobSteps to be
-     * used by Retrofit to perform actually REST calls.
+     * The interface defining all the services for JobSteps to be used by the
+     * proxy service to perform REST calls.
      */
-    interface JobStepsService {
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.JobSteps listByVersion" })
+    @Host("https://management.azure.com")
+    private interface JobStepsService {
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/versions/{jobVersion}/steps")
-        Observable<Response<ResponseBody>> listByVersion(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("jobAgentName") String jobAgentName, @Path("jobName") String jobName, @Path("jobVersion") int jobVersion, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl1<JobStepInner>>> listByVersion(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("jobAgentName") String jobAgentName, @PathParam("jobName") String jobName, @PathParam("jobVersion") int jobVersion, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.JobSteps getByVersion" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/versions/{jobVersion}/steps/{stepName}")
-        Observable<Response<ResponseBody>> getByVersion(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("jobAgentName") String jobAgentName, @Path("jobName") String jobName, @Path("jobVersion") int jobVersion, @Path("stepName") String stepName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<JobStepInner>> getByVersion(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("jobAgentName") String jobAgentName, @PathParam("jobName") String jobName, @PathParam("jobVersion") int jobVersion, @PathParam("stepName") String stepName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.JobSteps listByJob" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/steps")
-        Observable<Response<ResponseBody>> listByJob(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("jobAgentName") String jobAgentName, @Path("jobName") String jobName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl1<JobStepInner>>> listByJob(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("jobAgentName") String jobAgentName, @PathParam("jobName") String jobName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.JobSteps get" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/steps/{stepName}")
-        Observable<Response<ResponseBody>> get(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("jobAgentName") String jobAgentName, @Path("jobName") String jobName, @Path("stepName") String stepName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<JobStepInner>> get(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("jobAgentName") String jobAgentName, @PathParam("jobName") String jobName, @PathParam("stepName") String stepName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.JobSteps createOrUpdate" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/steps/{stepName}")
-        Observable<Response<ResponseBody>> createOrUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("jobAgentName") String jobAgentName, @Path("jobName") String jobName, @Path("stepName") String stepName, @Path("subscriptionId") String subscriptionId, @Body JobStepInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 201})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<JobStepInner>> createOrUpdate(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("jobAgentName") String jobAgentName, @PathParam("jobName") String jobName, @PathParam("stepName") String stepName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json; charset=utf-8") JobStepInner parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.JobSteps delete" })
-        @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/steps/{stepName}", method = "DELETE", hasBody = true)
-        Observable<Response<ResponseBody>> delete(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("jobAgentName") String jobAgentName, @Path("jobName") String jobName, @Path("stepName") String stepName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @DELETE("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/steps/{stepName}")
+        @ExpectedResponses({200, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<VoidResponse> delete(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("jobAgentName") String jobAgentName, @PathParam("jobName") String jobName, @PathParam("stepName") String stepName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.JobSteps listByVersionNext" })
-        @GET
-        Observable<Response<ResponseBody>> listByVersionNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @GET("{nextUrl}")
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl1<JobStepInner>>> listByVersionNext(@PathParam(value = "nextUrl", encoded = true) String nextUrl, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.JobSteps listByJobNext" })
-        @GET
-        Observable<Response<ResponseBody>> listByJobNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
-
+        @GET("{nextUrl}")
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl1<JobStepInner>>> listByJobNext(@PathParam(value = "nextUrl", encoded = true) String nextUrl, @HeaderParam("accept-language") String acceptLanguage);
     }
 
     /**
@@ -103,17 +113,17 @@ public class JobStepsInner {
      * @param jobAgentName The name of the job agent.
      * @param jobName The name of the job to get.
      * @param jobVersion The version of the job to get.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;JobStepInner&gt; object if successful.
      */
-    public PagedList<JobStepInner> listByVersion(final String resourceGroupName, final String serverName, final String jobAgentName, final String jobName, final int jobVersion) {
-        ServiceResponse<Page<JobStepInner>> response = listByVersionSinglePageAsync(resourceGroupName, serverName, jobAgentName, jobName, jobVersion).toBlocking().single();
-        return new PagedList<JobStepInner>(response.body()) {
+    public PagedList<JobStepInner> listByVersion(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName, @NonNull String jobName, @NonNull int jobVersion) {
+        Page<JobStepInner> response = listByVersionSinglePageAsync(resourceGroupName, serverName, jobAgentName, jobName, jobVersion).blockingGet();
+        return new PagedList<JobStepInner>(response) {
             @Override
             public Page<JobStepInner> nextPage(String nextPageLink) {
-                return listByVersionNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listByVersionNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -126,80 +136,33 @@ public class JobStepsInner {
      * @param jobAgentName The name of the job agent.
      * @param jobName The name of the job to get.
      * @param jobVersion The version of the job to get.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;JobStepInner&gt; object.
      */
-    public ServiceFuture<List<JobStepInner>> listByVersionAsync(final String resourceGroupName, final String serverName, final String jobAgentName, final String jobName, final int jobVersion, final ListOperationCallback<JobStepInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listByVersionSinglePageAsync(resourceGroupName, serverName, jobAgentName, jobName, jobVersion),
-            new Func1<String, Observable<ServiceResponse<Page<JobStepInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<JobStepInner>>> call(String nextPageLink) {
-                    return listByVersionNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets all job steps in the specified job version.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param jobAgentName The name of the job agent.
-     * @param jobName The name of the job to get.
-     * @param jobVersion The version of the job to get.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;JobStepInner&gt; object
-     */
-    public Observable<Page<JobStepInner>> listByVersionAsync(final String resourceGroupName, final String serverName, final String jobAgentName, final String jobName, final int jobVersion) {
-        return listByVersionWithServiceResponseAsync(resourceGroupName, serverName, jobAgentName, jobName, jobVersion)
-            .map(new Func1<ServiceResponse<Page<JobStepInner>>, Page<JobStepInner>>() {
-                @Override
-                public Page<JobStepInner> call(ServiceResponse<Page<JobStepInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets all job steps in the specified job version.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param jobAgentName The name of the job agent.
-     * @param jobName The name of the job to get.
-     * @param jobVersion The version of the job to get.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;JobStepInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<JobStepInner>>> listByVersionWithServiceResponseAsync(final String resourceGroupName, final String serverName, final String jobAgentName, final String jobName, final int jobVersion) {
+    public Observable<Page<JobStepInner>> listByVersionAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName, @NonNull String jobName, @NonNull int jobVersion) {
         return listByVersionSinglePageAsync(resourceGroupName, serverName, jobAgentName, jobName, jobVersion)
-            .concatMap(new Func1<ServiceResponse<Page<JobStepInner>>, Observable<ServiceResponse<Page<JobStepInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<JobStepInner>>> call(ServiceResponse<Page<JobStepInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listByVersionNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<JobStepInner> page) -> {
+                String nextPageLink = page.nextPageLink();
+                if (nextPageLink == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listByVersionNextAsync(nextPageLink));
             });
     }
 
     /**
      * Gets all job steps in the specified job version.
      *
-    ServiceResponse<PageImpl1<JobStepInner>> * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-    ServiceResponse<PageImpl1<JobStepInner>> * @param serverName The name of the server.
-    ServiceResponse<PageImpl1<JobStepInner>> * @param jobAgentName The name of the job agent.
-    ServiceResponse<PageImpl1<JobStepInner>> * @param jobName The name of the job to get.
-    ServiceResponse<PageImpl1<JobStepInner>> * @param jobVersion The version of the job to get.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;JobStepInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param jobAgentName The name of the job agent.
+     * @param jobName The name of the job to get.
+     * @param jobVersion The version of the job to get.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;JobStepInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<JobStepInner>>> listByVersionSinglePageAsync(final String resourceGroupName, final String serverName, final String jobAgentName, final String jobName, final int jobVersion) {
+    public Single<Page<JobStepInner>> listByVersionSinglePageAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName, @NonNull String jobName, @NonNull int jobVersion) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -216,25 +179,8 @@ public class JobStepsInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2017-03-01-preview";
-        return service.listByVersion(resourceGroupName, serverName, jobAgentName, jobName, jobVersion, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<JobStepInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<JobStepInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl1<JobStepInner>> result = listByVersionDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<JobStepInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl1<JobStepInner>> listByVersionDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl1<JobStepInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl1<JobStepInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+        return service.listByVersion(resourceGroupName, serverName, jobAgentName, jobName, jobVersion, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl1<JobStepInner>> res) -> res.body());
     }
 
     /**
@@ -246,13 +192,13 @@ public class JobStepsInner {
      * @param jobName The name of the job.
      * @param jobVersion The version of the job to get.
      * @param stepName The name of the job step.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the JobStepInner object if successful.
      */
-    public JobStepInner getByVersion(String resourceGroupName, String serverName, String jobAgentName, String jobName, int jobVersion, String stepName) {
-        return getByVersionWithServiceResponseAsync(resourceGroupName, serverName, jobAgentName, jobName, jobVersion, stepName).toBlocking().single().body();
+    public JobStepInner getByVersion(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName, @NonNull String jobName, @NonNull int jobVersion, @NonNull String stepName) {
+        return getByVersionAsync(resourceGroupName, serverName, jobAgentName, jobName, jobVersion, stepName).blockingGet();
     }
 
     /**
@@ -265,11 +211,11 @@ public class JobStepsInner {
      * @param jobVersion The version of the job to get.
      * @param stepName The name of the job step.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<JobStepInner> getByVersionAsync(String resourceGroupName, String serverName, String jobAgentName, String jobName, int jobVersion, String stepName, final ServiceCallback<JobStepInner> serviceCallback) {
-        return ServiceFuture.fromResponse(getByVersionWithServiceResponseAsync(resourceGroupName, serverName, jobAgentName, jobName, jobVersion, stepName), serviceCallback);
+    public ServiceFuture<JobStepInner> getByVersionAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName, @NonNull String jobName, @NonNull int jobVersion, @NonNull String stepName, ServiceCallback<JobStepInner> serviceCallback) {
+        return ServiceFuture.fromBody(getByVersionAsync(resourceGroupName, serverName, jobAgentName, jobName, jobVersion, stepName), serviceCallback);
     }
 
     /**
@@ -281,31 +227,10 @@ public class JobStepsInner {
      * @param jobName The name of the job.
      * @param jobVersion The version of the job to get.
      * @param stepName The name of the job step.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the JobStepInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<JobStepInner> getByVersionAsync(String resourceGroupName, String serverName, String jobAgentName, String jobName, int jobVersion, String stepName) {
-        return getByVersionWithServiceResponseAsync(resourceGroupName, serverName, jobAgentName, jobName, jobVersion, stepName).map(new Func1<ServiceResponse<JobStepInner>, JobStepInner>() {
-            @Override
-            public JobStepInner call(ServiceResponse<JobStepInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Gets the specified version of a job step.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param jobAgentName The name of the job agent.
-     * @param jobName The name of the job.
-     * @param jobVersion The version of the job to get.
-     * @param stepName The name of the job step.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the JobStepInner object
-     */
-    public Observable<ServiceResponse<JobStepInner>> getByVersionWithServiceResponseAsync(String resourceGroupName, String serverName, String jobAgentName, String jobName, int jobVersion, String stepName) {
+    public Single<BodyResponse<JobStepInner>> getByVersionWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName, @NonNull String jobName, @NonNull int jobVersion, @NonNull String stepName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -325,25 +250,24 @@ public class JobStepsInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2017-03-01-preview";
-        return service.getByVersion(resourceGroupName, serverName, jobAgentName, jobName, jobVersion, stepName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<JobStepInner>>>() {
-                @Override
-                public Observable<ServiceResponse<JobStepInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<JobStepInner> clientResponse = getByVersionDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.getByVersion(resourceGroupName, serverName, jobAgentName, jobName, jobVersion, stepName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<JobStepInner> getByVersionDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<JobStepInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<JobStepInner>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Gets the specified version of a job step.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param jobAgentName The name of the job agent.
+     * @param jobName The name of the job.
+     * @param jobVersion The version of the job to get.
+     * @param stepName The name of the job step.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<JobStepInner> getByVersionAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName, @NonNull String jobName, @NonNull int jobVersion, @NonNull String stepName) {
+        return getByVersionWithRestResponseAsync(resourceGroupName, serverName, jobAgentName, jobName, jobVersion, stepName)
+            .flatMapMaybe((BodyResponse<JobStepInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
@@ -353,17 +277,17 @@ public class JobStepsInner {
      * @param serverName The name of the server.
      * @param jobAgentName The name of the job agent.
      * @param jobName The name of the job to get.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;JobStepInner&gt; object if successful.
      */
-    public PagedList<JobStepInner> listByJob(final String resourceGroupName, final String serverName, final String jobAgentName, final String jobName) {
-        ServiceResponse<Page<JobStepInner>> response = listByJobSinglePageAsync(resourceGroupName, serverName, jobAgentName, jobName).toBlocking().single();
-        return new PagedList<JobStepInner>(response.body()) {
+    public PagedList<JobStepInner> listByJob(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName, @NonNull String jobName) {
+        Page<JobStepInner> response = listByJobSinglePageAsync(resourceGroupName, serverName, jobAgentName, jobName).blockingGet();
+        return new PagedList<JobStepInner>(response) {
             @Override
             public Page<JobStepInner> nextPage(String nextPageLink) {
-                return listByJobNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listByJobNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -375,77 +299,32 @@ public class JobStepsInner {
      * @param serverName The name of the server.
      * @param jobAgentName The name of the job agent.
      * @param jobName The name of the job to get.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;JobStepInner&gt; object.
      */
-    public ServiceFuture<List<JobStepInner>> listByJobAsync(final String resourceGroupName, final String serverName, final String jobAgentName, final String jobName, final ListOperationCallback<JobStepInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listByJobSinglePageAsync(resourceGroupName, serverName, jobAgentName, jobName),
-            new Func1<String, Observable<ServiceResponse<Page<JobStepInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<JobStepInner>>> call(String nextPageLink) {
-                    return listByJobNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets all job steps for a job's current version.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param jobAgentName The name of the job agent.
-     * @param jobName The name of the job to get.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;JobStepInner&gt; object
-     */
-    public Observable<Page<JobStepInner>> listByJobAsync(final String resourceGroupName, final String serverName, final String jobAgentName, final String jobName) {
-        return listByJobWithServiceResponseAsync(resourceGroupName, serverName, jobAgentName, jobName)
-            .map(new Func1<ServiceResponse<Page<JobStepInner>>, Page<JobStepInner>>() {
-                @Override
-                public Page<JobStepInner> call(ServiceResponse<Page<JobStepInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets all job steps for a job's current version.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param jobAgentName The name of the job agent.
-     * @param jobName The name of the job to get.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;JobStepInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<JobStepInner>>> listByJobWithServiceResponseAsync(final String resourceGroupName, final String serverName, final String jobAgentName, final String jobName) {
+    public Observable<Page<JobStepInner>> listByJobAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName, @NonNull String jobName) {
         return listByJobSinglePageAsync(resourceGroupName, serverName, jobAgentName, jobName)
-            .concatMap(new Func1<ServiceResponse<Page<JobStepInner>>, Observable<ServiceResponse<Page<JobStepInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<JobStepInner>>> call(ServiceResponse<Page<JobStepInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listByJobNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<JobStepInner> page) -> {
+                String nextPageLink = page.nextPageLink();
+                if (nextPageLink == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listByJobNextAsync(nextPageLink));
             });
     }
 
     /**
      * Gets all job steps for a job's current version.
      *
-    ServiceResponse<PageImpl1<JobStepInner>> * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-    ServiceResponse<PageImpl1<JobStepInner>> * @param serverName The name of the server.
-    ServiceResponse<PageImpl1<JobStepInner>> * @param jobAgentName The name of the job agent.
-    ServiceResponse<PageImpl1<JobStepInner>> * @param jobName The name of the job to get.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;JobStepInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param jobAgentName The name of the job agent.
+     * @param jobName The name of the job to get.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;JobStepInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<JobStepInner>>> listByJobSinglePageAsync(final String resourceGroupName, final String serverName, final String jobAgentName, final String jobName) {
+    public Single<Page<JobStepInner>> listByJobSinglePageAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName, @NonNull String jobName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -462,25 +341,8 @@ public class JobStepsInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2017-03-01-preview";
-        return service.listByJob(resourceGroupName, serverName, jobAgentName, jobName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<JobStepInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<JobStepInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl1<JobStepInner>> result = listByJobDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<JobStepInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl1<JobStepInner>> listByJobDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl1<JobStepInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl1<JobStepInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+        return service.listByJob(resourceGroupName, serverName, jobAgentName, jobName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl1<JobStepInner>> res) -> res.body());
     }
 
     /**
@@ -491,13 +353,13 @@ public class JobStepsInner {
      * @param jobAgentName The name of the job agent.
      * @param jobName The name of the job.
      * @param stepName The name of the job step.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the JobStepInner object if successful.
      */
-    public JobStepInner get(String resourceGroupName, String serverName, String jobAgentName, String jobName, String stepName) {
-        return getWithServiceResponseAsync(resourceGroupName, serverName, jobAgentName, jobName, stepName).toBlocking().single().body();
+    public JobStepInner get(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName, @NonNull String jobName, @NonNull String stepName) {
+        return getAsync(resourceGroupName, serverName, jobAgentName, jobName, stepName).blockingGet();
     }
 
     /**
@@ -509,11 +371,11 @@ public class JobStepsInner {
      * @param jobName The name of the job.
      * @param stepName The name of the job step.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<JobStepInner> getAsync(String resourceGroupName, String serverName, String jobAgentName, String jobName, String stepName, final ServiceCallback<JobStepInner> serviceCallback) {
-        return ServiceFuture.fromResponse(getWithServiceResponseAsync(resourceGroupName, serverName, jobAgentName, jobName, stepName), serviceCallback);
+    public ServiceFuture<JobStepInner> getAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName, @NonNull String jobName, @NonNull String stepName, ServiceCallback<JobStepInner> serviceCallback) {
+        return ServiceFuture.fromBody(getAsync(resourceGroupName, serverName, jobAgentName, jobName, stepName), serviceCallback);
     }
 
     /**
@@ -524,30 +386,10 @@ public class JobStepsInner {
      * @param jobAgentName The name of the job agent.
      * @param jobName The name of the job.
      * @param stepName The name of the job step.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the JobStepInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<JobStepInner> getAsync(String resourceGroupName, String serverName, String jobAgentName, String jobName, String stepName) {
-        return getWithServiceResponseAsync(resourceGroupName, serverName, jobAgentName, jobName, stepName).map(new Func1<ServiceResponse<JobStepInner>, JobStepInner>() {
-            @Override
-            public JobStepInner call(ServiceResponse<JobStepInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Gets a job step in a job's current version.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param jobAgentName The name of the job agent.
-     * @param jobName The name of the job.
-     * @param stepName The name of the job step.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the JobStepInner object
-     */
-    public Observable<ServiceResponse<JobStepInner>> getWithServiceResponseAsync(String resourceGroupName, String serverName, String jobAgentName, String jobName, String stepName) {
+    public Single<BodyResponse<JobStepInner>> getWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName, @NonNull String jobName, @NonNull String stepName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -567,25 +409,23 @@ public class JobStepsInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2017-03-01-preview";
-        return service.get(resourceGroupName, serverName, jobAgentName, jobName, stepName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<JobStepInner>>>() {
-                @Override
-                public Observable<ServiceResponse<JobStepInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<JobStepInner> clientResponse = getDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.get(resourceGroupName, serverName, jobAgentName, jobName, stepName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<JobStepInner> getDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<JobStepInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<JobStepInner>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Gets a job step in a job's current version.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param jobAgentName The name of the job agent.
+     * @param jobName The name of the job.
+     * @param stepName The name of the job step.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<JobStepInner> getAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName, @NonNull String jobName, @NonNull String stepName) {
+        return getWithRestResponseAsync(resourceGroupName, serverName, jobAgentName, jobName, stepName)
+            .flatMapMaybe((BodyResponse<JobStepInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
@@ -597,13 +437,13 @@ public class JobStepsInner {
      * @param jobName The name of the job.
      * @param stepName The name of the job step.
      * @param parameters The requested state of the job step.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the JobStepInner object if successful.
      */
-    public JobStepInner createOrUpdate(String resourceGroupName, String serverName, String jobAgentName, String jobName, String stepName, JobStepInner parameters) {
-        return createOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, jobAgentName, jobName, stepName, parameters).toBlocking().single().body();
+    public JobStepInner createOrUpdate(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName, @NonNull String jobName, @NonNull String stepName, @NonNull JobStepInner parameters) {
+        return createOrUpdateAsync(resourceGroupName, serverName, jobAgentName, jobName, stepName, parameters).blockingGet();
     }
 
     /**
@@ -616,11 +456,11 @@ public class JobStepsInner {
      * @param stepName The name of the job step.
      * @param parameters The requested state of the job step.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<JobStepInner> createOrUpdateAsync(String resourceGroupName, String serverName, String jobAgentName, String jobName, String stepName, JobStepInner parameters, final ServiceCallback<JobStepInner> serviceCallback) {
-        return ServiceFuture.fromResponse(createOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, jobAgentName, jobName, stepName, parameters), serviceCallback);
+    public ServiceFuture<JobStepInner> createOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName, @NonNull String jobName, @NonNull String stepName, @NonNull JobStepInner parameters, ServiceCallback<JobStepInner> serviceCallback) {
+        return ServiceFuture.fromBody(createOrUpdateAsync(resourceGroupName, serverName, jobAgentName, jobName, stepName, parameters), serviceCallback);
     }
 
     /**
@@ -632,31 +472,10 @@ public class JobStepsInner {
      * @param jobName The name of the job.
      * @param stepName The name of the job step.
      * @param parameters The requested state of the job step.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the JobStepInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<JobStepInner> createOrUpdateAsync(String resourceGroupName, String serverName, String jobAgentName, String jobName, String stepName, JobStepInner parameters) {
-        return createOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, jobAgentName, jobName, stepName, parameters).map(new Func1<ServiceResponse<JobStepInner>, JobStepInner>() {
-            @Override
-            public JobStepInner call(ServiceResponse<JobStepInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Creates or updates a job step. This will implicitly create a new job version.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param jobAgentName The name of the job agent.
-     * @param jobName The name of the job.
-     * @param stepName The name of the job step.
-     * @param parameters The requested state of the job step.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the JobStepInner object
-     */
-    public Observable<ServiceResponse<JobStepInner>> createOrUpdateWithServiceResponseAsync(String resourceGroupName, String serverName, String jobAgentName, String jobName, String stepName, JobStepInner parameters) {
+    public Single<BodyResponse<JobStepInner>> createOrUpdateWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName, @NonNull String jobName, @NonNull String stepName, @NonNull JobStepInner parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -680,26 +499,24 @@ public class JobStepsInner {
         }
         Validator.validate(parameters);
         final String apiVersion = "2017-03-01-preview";
-        return service.createOrUpdate(resourceGroupName, serverName, jobAgentName, jobName, stepName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<JobStepInner>>>() {
-                @Override
-                public Observable<ServiceResponse<JobStepInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<JobStepInner> clientResponse = createOrUpdateDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.createOrUpdate(resourceGroupName, serverName, jobAgentName, jobName, stepName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<JobStepInner> createOrUpdateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<JobStepInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<JobStepInner>() { }.getType())
-                .register(201, new TypeToken<JobStepInner>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Creates or updates a job step. This will implicitly create a new job version.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param jobAgentName The name of the job agent.
+     * @param jobName The name of the job.
+     * @param stepName The name of the job step.
+     * @param parameters The requested state of the job step.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<JobStepInner> createOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName, @NonNull String jobName, @NonNull String stepName, @NonNull JobStepInner parameters) {
+        return createOrUpdateWithRestResponseAsync(resourceGroupName, serverName, jobAgentName, jobName, stepName, parameters)
+            .flatMapMaybe((BodyResponse<JobStepInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
@@ -710,12 +527,12 @@ public class JobStepsInner {
      * @param jobAgentName The name of the job agent.
      * @param jobName The name of the job.
      * @param stepName The name of the job step to delete.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void delete(String resourceGroupName, String serverName, String jobAgentName, String jobName, String stepName) {
-        deleteWithServiceResponseAsync(resourceGroupName, serverName, jobAgentName, jobName, stepName).toBlocking().single().body();
+    public void delete(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName, @NonNull String jobName, @NonNull String stepName) {
+        deleteAsync(resourceGroupName, serverName, jobAgentName, jobName, stepName).blockingAwait();
     }
 
     /**
@@ -727,11 +544,11 @@ public class JobStepsInner {
      * @param jobName The name of the job.
      * @param stepName The name of the job step to delete.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<Void> deleteAsync(String resourceGroupName, String serverName, String jobAgentName, String jobName, String stepName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(deleteWithServiceResponseAsync(resourceGroupName, serverName, jobAgentName, jobName, stepName), serviceCallback);
+    public ServiceFuture<Void> deleteAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName, @NonNull String jobName, @NonNull String stepName, ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromBody(deleteAsync(resourceGroupName, serverName, jobAgentName, jobName, stepName), serviceCallback);
     }
 
     /**
@@ -742,30 +559,10 @@ public class JobStepsInner {
      * @param jobAgentName The name of the job agent.
      * @param jobName The name of the job.
      * @param stepName The name of the job step to delete.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<Void> deleteAsync(String resourceGroupName, String serverName, String jobAgentName, String jobName, String stepName) {
-        return deleteWithServiceResponseAsync(resourceGroupName, serverName, jobAgentName, jobName, stepName).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Deletes a job step. This will implicitly create a new job version.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param jobAgentName The name of the job agent.
-     * @param jobName The name of the job.
-     * @param stepName The name of the job step to delete.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
-     */
-    public Observable<ServiceResponse<Void>> deleteWithServiceResponseAsync(String resourceGroupName, String serverName, String jobAgentName, String jobName, String stepName) {
+    public Single<VoidResponse> deleteWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName, @NonNull String jobName, @NonNull String stepName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -785,43 +582,40 @@ public class JobStepsInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2017-03-01-preview";
-        return service.delete(resourceGroupName, serverName, jobAgentName, jobName, stepName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
-                @Override
-                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<Void> clientResponse = deleteDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.delete(resourceGroupName, serverName, jobAgentName, jobName, stepName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<Void> deleteDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<Void>() { }.getType())
-                .register(204, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Deletes a job step. This will implicitly create a new job version.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param jobAgentName The name of the job agent.
+     * @param jobName The name of the job.
+     * @param stepName The name of the job step to delete.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Completable deleteAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName, @NonNull String jobName, @NonNull String stepName) {
+        return deleteWithRestResponseAsync(resourceGroupName, serverName, jobAgentName, jobName, stepName)
+            .toCompletable();
     }
 
     /**
      * Gets all job steps in the specified job version.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;JobStepInner&gt; object if successful.
      */
-    public PagedList<JobStepInner> listByVersionNext(final String nextPageLink) {
-        ServiceResponse<Page<JobStepInner>> response = listByVersionNextSinglePageAsync(nextPageLink).toBlocking().single();
-        return new PagedList<JobStepInner>(response.body()) {
+    public PagedList<JobStepInner> listByVersionNext(@NonNull String nextPageLink) {
+        Page<JobStepInner> response = listByVersionNextSinglePageAsync(nextPageLink).blockingGet();
+        return new PagedList<JobStepInner>(response) {
             @Override
             public Page<JobStepInner> nextPage(String nextPageLink) {
-                return listByVersionNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listByVersionNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -830,109 +624,52 @@ public class JobStepsInner {
      * Gets all job steps in the specified job version.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;JobStepInner&gt; object.
      */
-    public ServiceFuture<List<JobStepInner>> listByVersionNextAsync(final String nextPageLink, final ServiceFuture<List<JobStepInner>> serviceFuture, final ListOperationCallback<JobStepInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listByVersionNextSinglePageAsync(nextPageLink),
-            new Func1<String, Observable<ServiceResponse<Page<JobStepInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<JobStepInner>>> call(String nextPageLink) {
-                    return listByVersionNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets all job steps in the specified job version.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;JobStepInner&gt; object
-     */
-    public Observable<Page<JobStepInner>> listByVersionNextAsync(final String nextPageLink) {
-        return listByVersionNextWithServiceResponseAsync(nextPageLink)
-            .map(new Func1<ServiceResponse<Page<JobStepInner>>, Page<JobStepInner>>() {
-                @Override
-                public Page<JobStepInner> call(ServiceResponse<Page<JobStepInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets all job steps in the specified job version.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;JobStepInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<JobStepInner>>> listByVersionNextWithServiceResponseAsync(final String nextPageLink) {
+    public Observable<Page<JobStepInner>> listByVersionNextAsync(@NonNull String nextPageLink) {
         return listByVersionNextSinglePageAsync(nextPageLink)
-            .concatMap(new Func1<ServiceResponse<Page<JobStepInner>>, Observable<ServiceResponse<Page<JobStepInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<JobStepInner>>> call(ServiceResponse<Page<JobStepInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listByVersionNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<JobStepInner> page) -> {
+                String nextPageLink1 = page.nextPageLink();
+                if (nextPageLink1 == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listByVersionNextAsync(nextPageLink1));
             });
     }
 
     /**
      * Gets all job steps in the specified job version.
      *
-    ServiceResponse<PageImpl1<JobStepInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;JobStepInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;JobStepInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<JobStepInner>>> listByVersionNextSinglePageAsync(final String nextPageLink) {
+    public Single<Page<JobStepInner>> listByVersionNextSinglePageAsync(@NonNull String nextPageLink) {
         if (nextPageLink == null) {
             throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
         }
         String nextUrl = String.format("%s", nextPageLink);
-        return service.listByVersionNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<JobStepInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<JobStepInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl1<JobStepInner>> result = listByVersionNextDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<JobStepInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl1<JobStepInner>> listByVersionNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl1<JobStepInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl1<JobStepInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+        return service.listByVersionNext(nextUrl, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl1<JobStepInner>> res) -> res.body());
     }
 
     /**
      * Gets all job steps for a job's current version.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;JobStepInner&gt; object if successful.
      */
-    public PagedList<JobStepInner> listByJobNext(final String nextPageLink) {
-        ServiceResponse<Page<JobStepInner>> response = listByJobNextSinglePageAsync(nextPageLink).toBlocking().single();
-        return new PagedList<JobStepInner>(response.body()) {
+    public PagedList<JobStepInner> listByJobNext(@NonNull String nextPageLink) {
+        Page<JobStepInner> response = listByJobNextSinglePageAsync(nextPageLink).blockingGet();
+        return new PagedList<JobStepInner>(response) {
             @Override
             public Page<JobStepInner> nextPage(String nextPageLink) {
-                return listByJobNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listByJobNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -941,92 +678,34 @@ public class JobStepsInner {
      * Gets all job steps for a job's current version.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;JobStepInner&gt; object.
      */
-    public ServiceFuture<List<JobStepInner>> listByJobNextAsync(final String nextPageLink, final ServiceFuture<List<JobStepInner>> serviceFuture, final ListOperationCallback<JobStepInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listByJobNextSinglePageAsync(nextPageLink),
-            new Func1<String, Observable<ServiceResponse<Page<JobStepInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<JobStepInner>>> call(String nextPageLink) {
-                    return listByJobNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets all job steps for a job's current version.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;JobStepInner&gt; object
-     */
-    public Observable<Page<JobStepInner>> listByJobNextAsync(final String nextPageLink) {
-        return listByJobNextWithServiceResponseAsync(nextPageLink)
-            .map(new Func1<ServiceResponse<Page<JobStepInner>>, Page<JobStepInner>>() {
-                @Override
-                public Page<JobStepInner> call(ServiceResponse<Page<JobStepInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets all job steps for a job's current version.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;JobStepInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<JobStepInner>>> listByJobNextWithServiceResponseAsync(final String nextPageLink) {
+    public Observable<Page<JobStepInner>> listByJobNextAsync(@NonNull String nextPageLink) {
         return listByJobNextSinglePageAsync(nextPageLink)
-            .concatMap(new Func1<ServiceResponse<Page<JobStepInner>>, Observable<ServiceResponse<Page<JobStepInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<JobStepInner>>> call(ServiceResponse<Page<JobStepInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listByJobNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<JobStepInner> page) -> {
+                String nextPageLink1 = page.nextPageLink();
+                if (nextPageLink1 == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listByJobNextAsync(nextPageLink1));
             });
     }
 
     /**
      * Gets all job steps for a job's current version.
      *
-    ServiceResponse<PageImpl1<JobStepInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;JobStepInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;JobStepInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<JobStepInner>>> listByJobNextSinglePageAsync(final String nextPageLink) {
+    public Single<Page<JobStepInner>> listByJobNextSinglePageAsync(@NonNull String nextPageLink) {
         if (nextPageLink == null) {
             throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
         }
         String nextUrl = String.format("%s", nextPageLink);
-        return service.listByJobNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<JobStepInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<JobStepInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl1<JobStepInner>> result = listByJobNextDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<JobStepInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.listByJobNext(nextUrl, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl1<JobStepInner>> res) -> res.body());
     }
-
-    private ServiceResponse<PageImpl1<JobStepInner>> listByJobNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl1<JobStepInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl1<JobStepInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
-    }
-
 }

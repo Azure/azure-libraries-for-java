@@ -15,16 +15,22 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Defines values for SecurityAlertPolicyEmailAccountAdmins.
  */
 public enum SecurityAlertPolicyEmailAccountAdmins {
-    /** Enum value Enabled. */
+    /**
+     * Enum value Enabled.
+     */
     ENABLED("Enabled"),
 
-    /** Enum value Disabled. */
+    /**
+     * Enum value Disabled.
+     */
     DISABLED("Disabled");
 
-    /** The actual serialized value for a SecurityAlertPolicyEmailAccountAdmins instance. */
-    private String value;
+    /**
+     * The actual serialized value for a SecurityAlertPolicyEmailAccountAdmins instance.
+     */
+    private final String value;
 
-    SecurityAlertPolicyEmailAccountAdmins(String value) {
+    private SecurityAlertPolicyEmailAccountAdmins(String value) {
         this.value = value;
     }
 

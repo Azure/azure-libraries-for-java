@@ -8,18 +8,19 @@
 
 package com.microsoft.azure.v2.management.sql.implementation;
 
-import com.microsoft.azure.v2.management.sql.SyncMemberDbType;
-import java.util.UUID;
-import com.microsoft.azure.v2.management.sql.SyncDirection;
-import com.microsoft.azure.v2.management.sql.SyncMemberState;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.v2.management.sql.ProxyResource;
+import com.microsoft.azure.v2.management.sql.SyncDirection;
+import com.microsoft.azure.v2.management.sql.SyncMemberDbType;
+import com.microsoft.azure.v2.management.sql.SyncMemberState;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
+import java.util.UUID;
 
 /**
  * An Azure SQL Database sync member.
  */
 @JsonFlatten
-public class SyncMemberInner extends ProxyResourceInner {
+public class SyncMemberInner extends ProxyResource {
     /**
      * Database type of the sync member. Possible values include:
      * 'AzureSqlDatabase', 'SqlServerDatabase'.
@@ -85,7 +86,7 @@ public class SyncMemberInner extends ProxyResourceInner {
     /**
      * Get the databaseType value.
      *
-     * @return the databaseType value
+     * @return the databaseType value.
      */
     public SyncMemberDbType databaseType() {
         return this.databaseType;
@@ -94,7 +95,7 @@ public class SyncMemberInner extends ProxyResourceInner {
     /**
      * Set the databaseType value.
      *
-     * @param databaseType the databaseType value to set
+     * @param databaseType the databaseType value to set.
      * @return the SyncMemberInner object itself.
      */
     public SyncMemberInner withDatabaseType(SyncMemberDbType databaseType) {
@@ -105,7 +106,7 @@ public class SyncMemberInner extends ProxyResourceInner {
     /**
      * Get the syncAgentId value.
      *
-     * @return the syncAgentId value
+     * @return the syncAgentId value.
      */
     public String syncAgentId() {
         return this.syncAgentId;
@@ -114,7 +115,7 @@ public class SyncMemberInner extends ProxyResourceInner {
     /**
      * Set the syncAgentId value.
      *
-     * @param syncAgentId the syncAgentId value to set
+     * @param syncAgentId the syncAgentId value to set.
      * @return the SyncMemberInner object itself.
      */
     public SyncMemberInner withSyncAgentId(String syncAgentId) {
@@ -125,7 +126,7 @@ public class SyncMemberInner extends ProxyResourceInner {
     /**
      * Get the sqlServerDatabaseId value.
      *
-     * @return the sqlServerDatabaseId value
+     * @return the sqlServerDatabaseId value.
      */
     public UUID sqlServerDatabaseId() {
         return this.sqlServerDatabaseId;
@@ -134,7 +135,7 @@ public class SyncMemberInner extends ProxyResourceInner {
     /**
      * Set the sqlServerDatabaseId value.
      *
-     * @param sqlServerDatabaseId the sqlServerDatabaseId value to set
+     * @param sqlServerDatabaseId the sqlServerDatabaseId value to set.
      * @return the SyncMemberInner object itself.
      */
     public SyncMemberInner withSqlServerDatabaseId(UUID sqlServerDatabaseId) {
@@ -145,7 +146,7 @@ public class SyncMemberInner extends ProxyResourceInner {
     /**
      * Get the serverName value.
      *
-     * @return the serverName value
+     * @return the serverName value.
      */
     public String serverName() {
         return this.serverName;
@@ -154,7 +155,7 @@ public class SyncMemberInner extends ProxyResourceInner {
     /**
      * Set the serverName value.
      *
-     * @param serverName the serverName value to set
+     * @param serverName the serverName value to set.
      * @return the SyncMemberInner object itself.
      */
     public SyncMemberInner withServerName(String serverName) {
@@ -165,7 +166,7 @@ public class SyncMemberInner extends ProxyResourceInner {
     /**
      * Get the databaseName value.
      *
-     * @return the databaseName value
+     * @return the databaseName value.
      */
     public String databaseName() {
         return this.databaseName;
@@ -174,7 +175,7 @@ public class SyncMemberInner extends ProxyResourceInner {
     /**
      * Set the databaseName value.
      *
-     * @param databaseName the databaseName value to set
+     * @param databaseName the databaseName value to set.
      * @return the SyncMemberInner object itself.
      */
     public SyncMemberInner withDatabaseName(String databaseName) {
@@ -185,7 +186,7 @@ public class SyncMemberInner extends ProxyResourceInner {
     /**
      * Get the userName value.
      *
-     * @return the userName value
+     * @return the userName value.
      */
     public String userName() {
         return this.userName;
@@ -194,7 +195,7 @@ public class SyncMemberInner extends ProxyResourceInner {
     /**
      * Set the userName value.
      *
-     * @param userName the userName value to set
+     * @param userName the userName value to set.
      * @return the SyncMemberInner object itself.
      */
     public SyncMemberInner withUserName(String userName) {
@@ -205,7 +206,7 @@ public class SyncMemberInner extends ProxyResourceInner {
     /**
      * Get the password value.
      *
-     * @return the password value
+     * @return the password value.
      */
     public String password() {
         return this.password;
@@ -214,7 +215,7 @@ public class SyncMemberInner extends ProxyResourceInner {
     /**
      * Set the password value.
      *
-     * @param password the password value to set
+     * @param password the password value to set.
      * @return the SyncMemberInner object itself.
      */
     public SyncMemberInner withPassword(String password) {
@@ -225,7 +226,7 @@ public class SyncMemberInner extends ProxyResourceInner {
     /**
      * Get the syncDirection value.
      *
-     * @return the syncDirection value
+     * @return the syncDirection value.
      */
     public SyncDirection syncDirection() {
         return this.syncDirection;
@@ -234,7 +235,7 @@ public class SyncMemberInner extends ProxyResourceInner {
     /**
      * Set the syncDirection value.
      *
-     * @param syncDirection the syncDirection value to set
+     * @param syncDirection the syncDirection value to set.
      * @return the SyncMemberInner object itself.
      */
     public SyncMemberInner withSyncDirection(SyncDirection syncDirection) {
@@ -245,10 +246,9 @@ public class SyncMemberInner extends ProxyResourceInner {
     /**
      * Get the syncState value.
      *
-     * @return the syncState value
+     * @return the syncState value.
      */
     public SyncMemberState syncState() {
         return this.syncState;
     }
-
 }

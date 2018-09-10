@@ -9,33 +9,43 @@
 package com.microsoft.azure.v2.management.sql;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.microsoft.rest.ExpandableStringEnum;
-
+import com.microsoft.rest.v2.ExpandableStringEnum;
 import java.util.Collection;
 
 /**
  * Defines values for ProvisioningState.
  */
 public final class ProvisioningState extends ExpandableStringEnum<ProvisioningState> {
-    /** Static value Created for ProvisioningState. */
+    /**
+     * Static value Created for ProvisioningState.
+     */
     public static final ProvisioningState CREATED = fromString("Created");
 
-    /** Static value InProgress for ProvisioningState. */
+    /**
+     * Static value InProgress for ProvisioningState.
+     */
     public static final ProvisioningState IN_PROGRESS = fromString("InProgress");
 
-    /** Static value Succeeded for ProvisioningState. */
+    /**
+     * Static value Succeeded for ProvisioningState.
+     */
     public static final ProvisioningState SUCCEEDED = fromString("Succeeded");
 
-    /** Static value Failed for ProvisioningState. */
+    /**
+     * Static value Failed for ProvisioningState.
+     */
     public static final ProvisioningState FAILED = fromString("Failed");
 
-    /** Static value Canceled for ProvisioningState. */
+    /**
+     * Static value Canceled for ProvisioningState.
+     */
     public static final ProvisioningState CANCELED = fromString("Canceled");
 
     /**
      * Creates or finds a ProvisioningState from its string representation.
-     * @param name a name to look for
-     * @return the corresponding ProvisioningState
+     *
+     * @param name a name to look for.
+     * @return the corresponding ProvisioningState.
      */
     @JsonCreator
     public static ProvisioningState fromString(String name) {
@@ -43,7 +53,7 @@ public final class ProvisioningState extends ExpandableStringEnum<ProvisioningSt
     }
 
     /**
-     * @return known ProvisioningState values
+     * @return known ProvisioningState values.
      */
     public static Collection<ProvisioningState> values() {
         return values(ProvisioningState.class);

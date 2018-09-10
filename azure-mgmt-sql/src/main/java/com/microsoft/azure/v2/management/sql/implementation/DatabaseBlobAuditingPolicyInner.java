@@ -8,17 +8,18 @@
 
 package com.microsoft.azure.v2.management.sql.implementation;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.azure.v2.management.sql.BlobAuditingPolicyState;
+import com.microsoft.azure.v2.management.sql.ProxyResource;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
 import java.util.List;
 import java.util.UUID;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
 
 /**
  * A database blob auditing policy.
  */
 @JsonFlatten
-public class DatabaseBlobAuditingPolicyInner extends ProxyResourceInner {
+public class DatabaseBlobAuditingPolicyInner extends ProxyResource {
     /**
      * Resource kind.
      */
@@ -146,7 +147,7 @@ public class DatabaseBlobAuditingPolicyInner extends ProxyResourceInner {
     /**
      * Get the kind value.
      *
-     * @return the kind value
+     * @return the kind value.
      */
     public String kind() {
         return this.kind;
@@ -155,7 +156,7 @@ public class DatabaseBlobAuditingPolicyInner extends ProxyResourceInner {
     /**
      * Get the state value.
      *
-     * @return the state value
+     * @return the state value.
      */
     public BlobAuditingPolicyState state() {
         return this.state;
@@ -164,7 +165,7 @@ public class DatabaseBlobAuditingPolicyInner extends ProxyResourceInner {
     /**
      * Set the state value.
      *
-     * @param state the state value to set
+     * @param state the state value to set.
      * @return the DatabaseBlobAuditingPolicyInner object itself.
      */
     public DatabaseBlobAuditingPolicyInner withState(BlobAuditingPolicyState state) {
@@ -175,7 +176,7 @@ public class DatabaseBlobAuditingPolicyInner extends ProxyResourceInner {
     /**
      * Get the storageEndpoint value.
      *
-     * @return the storageEndpoint value
+     * @return the storageEndpoint value.
      */
     public String storageEndpoint() {
         return this.storageEndpoint;
@@ -184,7 +185,7 @@ public class DatabaseBlobAuditingPolicyInner extends ProxyResourceInner {
     /**
      * Set the storageEndpoint value.
      *
-     * @param storageEndpoint the storageEndpoint value to set
+     * @param storageEndpoint the storageEndpoint value to set.
      * @return the DatabaseBlobAuditingPolicyInner object itself.
      */
     public DatabaseBlobAuditingPolicyInner withStorageEndpoint(String storageEndpoint) {
@@ -195,7 +196,7 @@ public class DatabaseBlobAuditingPolicyInner extends ProxyResourceInner {
     /**
      * Get the storageAccountAccessKey value.
      *
-     * @return the storageAccountAccessKey value
+     * @return the storageAccountAccessKey value.
      */
     public String storageAccountAccessKey() {
         return this.storageAccountAccessKey;
@@ -204,7 +205,7 @@ public class DatabaseBlobAuditingPolicyInner extends ProxyResourceInner {
     /**
      * Set the storageAccountAccessKey value.
      *
-     * @param storageAccountAccessKey the storageAccountAccessKey value to set
+     * @param storageAccountAccessKey the storageAccountAccessKey value to set.
      * @return the DatabaseBlobAuditingPolicyInner object itself.
      */
     public DatabaseBlobAuditingPolicyInner withStorageAccountAccessKey(String storageAccountAccessKey) {
@@ -215,7 +216,7 @@ public class DatabaseBlobAuditingPolicyInner extends ProxyResourceInner {
     /**
      * Get the retentionDays value.
      *
-     * @return the retentionDays value
+     * @return the retentionDays value.
      */
     public Integer retentionDays() {
         return this.retentionDays;
@@ -224,7 +225,7 @@ public class DatabaseBlobAuditingPolicyInner extends ProxyResourceInner {
     /**
      * Set the retentionDays value.
      *
-     * @param retentionDays the retentionDays value to set
+     * @param retentionDays the retentionDays value to set.
      * @return the DatabaseBlobAuditingPolicyInner object itself.
      */
     public DatabaseBlobAuditingPolicyInner withRetentionDays(Integer retentionDays) {
@@ -235,7 +236,7 @@ public class DatabaseBlobAuditingPolicyInner extends ProxyResourceInner {
     /**
      * Get the auditActionsAndGroups value.
      *
-     * @return the auditActionsAndGroups value
+     * @return the auditActionsAndGroups value.
      */
     public List<String> auditActionsAndGroups() {
         return this.auditActionsAndGroups;
@@ -244,7 +245,7 @@ public class DatabaseBlobAuditingPolicyInner extends ProxyResourceInner {
     /**
      * Set the auditActionsAndGroups value.
      *
-     * @param auditActionsAndGroups the auditActionsAndGroups value to set
+     * @param auditActionsAndGroups the auditActionsAndGroups value to set.
      * @return the DatabaseBlobAuditingPolicyInner object itself.
      */
     public DatabaseBlobAuditingPolicyInner withAuditActionsAndGroups(List<String> auditActionsAndGroups) {
@@ -255,7 +256,7 @@ public class DatabaseBlobAuditingPolicyInner extends ProxyResourceInner {
     /**
      * Get the storageAccountSubscriptionId value.
      *
-     * @return the storageAccountSubscriptionId value
+     * @return the storageAccountSubscriptionId value.
      */
     public UUID storageAccountSubscriptionId() {
         return this.storageAccountSubscriptionId;
@@ -264,7 +265,8 @@ public class DatabaseBlobAuditingPolicyInner extends ProxyResourceInner {
     /**
      * Set the storageAccountSubscriptionId value.
      *
-     * @param storageAccountSubscriptionId the storageAccountSubscriptionId value to set
+     * @param storageAccountSubscriptionId the storageAccountSubscriptionId
+     * value to set.
      * @return the DatabaseBlobAuditingPolicyInner object itself.
      */
     public DatabaseBlobAuditingPolicyInner withStorageAccountSubscriptionId(UUID storageAccountSubscriptionId) {
@@ -275,7 +277,7 @@ public class DatabaseBlobAuditingPolicyInner extends ProxyResourceInner {
     /**
      * Get the isStorageSecondaryKeyInUse value.
      *
-     * @return the isStorageSecondaryKeyInUse value
+     * @return the isStorageSecondaryKeyInUse value.
      */
     public Boolean isStorageSecondaryKeyInUse() {
         return this.isStorageSecondaryKeyInUse;
@@ -284,12 +286,12 @@ public class DatabaseBlobAuditingPolicyInner extends ProxyResourceInner {
     /**
      * Set the isStorageSecondaryKeyInUse value.
      *
-     * @param isStorageSecondaryKeyInUse the isStorageSecondaryKeyInUse value to set
+     * @param isStorageSecondaryKeyInUse the isStorageSecondaryKeyInUse value
+     * to set.
      * @return the DatabaseBlobAuditingPolicyInner object itself.
      */
     public DatabaseBlobAuditingPolicyInner withIsStorageSecondaryKeyInUse(Boolean isStorageSecondaryKeyInUse) {
         this.isStorageSecondaryKeyInUse = isStorageSecondaryKeyInUse;
         return this;
     }
-
 }

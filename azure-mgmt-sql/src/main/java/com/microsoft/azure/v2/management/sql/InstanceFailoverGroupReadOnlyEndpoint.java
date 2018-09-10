@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Read-only endpoint of the failover group instance.
  */
-public class InstanceFailoverGroupReadOnlyEndpoint {
+public final class InstanceFailoverGroupReadOnlyEndpoint {
     /**
      * Failover policy of the read-only endpoint for the failover group.
      * Possible values include: 'Disabled', 'Enabled'.
@@ -24,7 +24,7 @@ public class InstanceFailoverGroupReadOnlyEndpoint {
     /**
      * Get the failoverPolicy value.
      *
-     * @return the failoverPolicy value
+     * @return the failoverPolicy value.
      */
     public ReadOnlyEndpointFailoverPolicy failoverPolicy() {
         return this.failoverPolicy;
@@ -33,12 +33,11 @@ public class InstanceFailoverGroupReadOnlyEndpoint {
     /**
      * Set the failoverPolicy value.
      *
-     * @param failoverPolicy the failoverPolicy value to set
+     * @param failoverPolicy the failoverPolicy value to set.
      * @return the InstanceFailoverGroupReadOnlyEndpoint object itself.
      */
     public InstanceFailoverGroupReadOnlyEndpoint withFailoverPolicy(ReadOnlyEndpointFailoverPolicy failoverPolicy) {
         this.failoverPolicy = failoverPolicy;
         return this;
     }
-
 }

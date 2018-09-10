@@ -8,60 +8,65 @@
 
 package com.microsoft.azure.v2.management.sql.implementation;
 
-import retrofit2.Retrofit;
-import com.google.common.reflect.TypeToken;
-import com.microsoft.azure.CloudException;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import com.microsoft.rest.ServiceResponse;
-import com.microsoft.rest.Validator;
-import java.io.IOException;
-import okhttp3.ResponseBody;
-import retrofit2.http.Body;
-import retrofit2.http.GET;
-import retrofit2.http.Header;
-import retrofit2.http.Headers;
-import retrofit2.http.PATCH;
-import retrofit2.http.Path;
-import retrofit2.http.Query;
-import retrofit2.Response;
-import rx.functions.Func1;
-import rx.Observable;
+import com.microsoft.azure.v2.AzureProxy;
+import com.microsoft.azure.v2.CloudException;
+import com.microsoft.rest.v2.BodyResponse;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
+import com.microsoft.rest.v2.Validator;
+import com.microsoft.rest.v2.annotations.BodyParam;
+import com.microsoft.rest.v2.annotations.ExpectedResponses;
+import com.microsoft.rest.v2.annotations.GET;
+import com.microsoft.rest.v2.annotations.HeaderParam;
+import com.microsoft.rest.v2.annotations.Host;
+import com.microsoft.rest.v2.annotations.PATCH;
+import com.microsoft.rest.v2.annotations.PathParam;
+import com.microsoft.rest.v2.annotations.QueryParam;
+import com.microsoft.rest.v2.annotations.UnexpectedResponseExceptionType;
+import io.reactivex.Maybe;
+import io.reactivex.Single;
+import io.reactivex.annotations.NonNull;
 
 /**
- * An instance of this class provides access to all the operations defined
- * in ServerAutomaticTunings.
+ * An instance of this class provides access to all the operations defined in
+ * ServerAutomaticTunings.
  */
-public class ServerAutomaticTuningsInner {
-    /** The Retrofit service to perform REST calls. */
+public final class ServerAutomaticTuningsInner {
+    /**
+     * The proxy service used to perform REST calls.
+     */
     private ServerAutomaticTuningsService service;
-    /** The service client containing this operation class. */
+
+    /**
+     * The service client containing this operation class.
+     */
     private SqlManagementClientImpl client;
 
     /**
      * Initializes an instance of ServerAutomaticTuningsInner.
      *
-     * @param retrofit the Retrofit instance built from a Retrofit Builder.
      * @param client the instance of the service client containing this operation class.
      */
-    public ServerAutomaticTuningsInner(Retrofit retrofit, SqlManagementClientImpl client) {
-        this.service = retrofit.create(ServerAutomaticTuningsService.class);
+    public ServerAutomaticTuningsInner(SqlManagementClientImpl client) {
+        this.service = AzureProxy.create(ServerAutomaticTuningsService.class, client);
         this.client = client;
     }
 
     /**
      * The interface defining all the services for ServerAutomaticTunings to be
-     * used by Retrofit to perform actually REST calls.
+     * used by the proxy service to perform REST calls.
      */
-    interface ServerAutomaticTuningsService {
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.ServerAutomaticTunings get" })
+    @Host("https://management.azure.com")
+    private interface ServerAutomaticTuningsService {
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/automaticTuning/current")
-        Observable<Response<ResponseBody>> get(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<ServerAutomaticTuningInner>> get(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.ServerAutomaticTunings update" })
         @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/automaticTuning/current")
-        Observable<Response<ResponseBody>> update(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("subscriptionId") String subscriptionId, @Body ServerAutomaticTuningInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
-
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<ServerAutomaticTuningInner>> update(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json; charset=utf-8") ServerAutomaticTuningInner parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
     }
 
     /**
@@ -69,13 +74,13 @@ public class ServerAutomaticTuningsInner {
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the ServerAutomaticTuningInner object if successful.
      */
-    public ServerAutomaticTuningInner get(String resourceGroupName, String serverName) {
-        return getWithServiceResponseAsync(resourceGroupName, serverName).toBlocking().single().body();
+    public ServerAutomaticTuningInner get(@NonNull String resourceGroupName, @NonNull String serverName) {
+        return getAsync(resourceGroupName, serverName).blockingGet();
     }
 
     /**
@@ -84,11 +89,11 @@ public class ServerAutomaticTuningsInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<ServerAutomaticTuningInner> getAsync(String resourceGroupName, String serverName, final ServiceCallback<ServerAutomaticTuningInner> serviceCallback) {
-        return ServiceFuture.fromResponse(getWithServiceResponseAsync(resourceGroupName, serverName), serviceCallback);
+    public ServiceFuture<ServerAutomaticTuningInner> getAsync(@NonNull String resourceGroupName, @NonNull String serverName, ServiceCallback<ServerAutomaticTuningInner> serviceCallback) {
+        return ServiceFuture.fromBody(getAsync(resourceGroupName, serverName), serviceCallback);
     }
 
     /**
@@ -96,27 +101,10 @@ public class ServerAutomaticTuningsInner {
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ServerAutomaticTuningInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<ServerAutomaticTuningInner> getAsync(String resourceGroupName, String serverName) {
-        return getWithServiceResponseAsync(resourceGroupName, serverName).map(new Func1<ServiceResponse<ServerAutomaticTuningInner>, ServerAutomaticTuningInner>() {
-            @Override
-            public ServerAutomaticTuningInner call(ServiceResponse<ServerAutomaticTuningInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Retrieves server automatic tuning options.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ServerAutomaticTuningInner object
-     */
-    public Observable<ServiceResponse<ServerAutomaticTuningInner>> getWithServiceResponseAsync(String resourceGroupName, String serverName) {
+    public Single<BodyResponse<ServerAutomaticTuningInner>> getWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -127,25 +115,20 @@ public class ServerAutomaticTuningsInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2017-03-01-preview";
-        return service.get(resourceGroupName, serverName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ServerAutomaticTuningInner>>>() {
-                @Override
-                public Observable<ServiceResponse<ServerAutomaticTuningInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<ServerAutomaticTuningInner> clientResponse = getDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.get(resourceGroupName, serverName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<ServerAutomaticTuningInner> getDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<ServerAutomaticTuningInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<ServerAutomaticTuningInner>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Retrieves server automatic tuning options.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<ServerAutomaticTuningInner> getAsync(@NonNull String resourceGroupName, @NonNull String serverName) {
+        return getWithRestResponseAsync(resourceGroupName, serverName)
+            .flatMapMaybe((BodyResponse<ServerAutomaticTuningInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
@@ -154,13 +137,13 @@ public class ServerAutomaticTuningsInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param parameters The requested automatic tuning resource state.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the ServerAutomaticTuningInner object if successful.
      */
-    public ServerAutomaticTuningInner update(String resourceGroupName, String serverName, ServerAutomaticTuningInner parameters) {
-        return updateWithServiceResponseAsync(resourceGroupName, serverName, parameters).toBlocking().single().body();
+    public ServerAutomaticTuningInner update(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull ServerAutomaticTuningInner parameters) {
+        return updateAsync(resourceGroupName, serverName, parameters).blockingGet();
     }
 
     /**
@@ -170,11 +153,11 @@ public class ServerAutomaticTuningsInner {
      * @param serverName The name of the server.
      * @param parameters The requested automatic tuning resource state.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<ServerAutomaticTuningInner> updateAsync(String resourceGroupName, String serverName, ServerAutomaticTuningInner parameters, final ServiceCallback<ServerAutomaticTuningInner> serviceCallback) {
-        return ServiceFuture.fromResponse(updateWithServiceResponseAsync(resourceGroupName, serverName, parameters), serviceCallback);
+    public ServiceFuture<ServerAutomaticTuningInner> updateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull ServerAutomaticTuningInner parameters, ServiceCallback<ServerAutomaticTuningInner> serviceCallback) {
+        return ServiceFuture.fromBody(updateAsync(resourceGroupName, serverName, parameters), serviceCallback);
     }
 
     /**
@@ -183,28 +166,10 @@ public class ServerAutomaticTuningsInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param parameters The requested automatic tuning resource state.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ServerAutomaticTuningInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<ServerAutomaticTuningInner> updateAsync(String resourceGroupName, String serverName, ServerAutomaticTuningInner parameters) {
-        return updateWithServiceResponseAsync(resourceGroupName, serverName, parameters).map(new Func1<ServiceResponse<ServerAutomaticTuningInner>, ServerAutomaticTuningInner>() {
-            @Override
-            public ServerAutomaticTuningInner call(ServiceResponse<ServerAutomaticTuningInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Update automatic tuning options on server.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param parameters The requested automatic tuning resource state.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ServerAutomaticTuningInner object
-     */
-    public Observable<ServiceResponse<ServerAutomaticTuningInner>> updateWithServiceResponseAsync(String resourceGroupName, String serverName, ServerAutomaticTuningInner parameters) {
+    public Single<BodyResponse<ServerAutomaticTuningInner>> updateWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull ServerAutomaticTuningInner parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -219,25 +184,20 @@ public class ServerAutomaticTuningsInner {
         }
         Validator.validate(parameters);
         final String apiVersion = "2017-03-01-preview";
-        return service.update(resourceGroupName, serverName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ServerAutomaticTuningInner>>>() {
-                @Override
-                public Observable<ServiceResponse<ServerAutomaticTuningInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<ServerAutomaticTuningInner> clientResponse = updateDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.update(resourceGroupName, serverName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<ServerAutomaticTuningInner> updateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<ServerAutomaticTuningInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<ServerAutomaticTuningInner>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Update automatic tuning options on server.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param parameters The requested automatic tuning resource state.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<ServerAutomaticTuningInner> updateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull ServerAutomaticTuningInner parameters) {
+        return updateWithRestResponseAsync(resourceGroupName, serverName, parameters)
+            .flatMapMaybe((BodyResponse<ServerAutomaticTuningInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
-
 }

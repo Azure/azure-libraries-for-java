@@ -8,64 +8,81 @@
 
 package com.microsoft.azure.v2.management.sql.implementation;
 
-import retrofit2.Retrofit;
-import com.google.common.reflect.TypeToken;
-import com.microsoft.azure.CloudException;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import com.microsoft.rest.ServiceResponse;
-import com.microsoft.rest.Validator;
-import java.io.IOException;
-import okhttp3.ResponseBody;
-import retrofit2.http.Body;
-import retrofit2.http.GET;
-import retrofit2.http.Header;
-import retrofit2.http.Headers;
-import retrofit2.http.Path;
-import retrofit2.http.PUT;
-import retrofit2.http.Query;
-import retrofit2.Response;
-import rx.functions.Func1;
-import rx.Observable;
+import com.microsoft.azure.v2.AzureProxy;
+import com.microsoft.azure.v2.CloudException;
+import com.microsoft.azure.v2.OperationStatus;
+import com.microsoft.azure.v2.util.ServiceFutureUtil;
+import com.microsoft.rest.v2.BodyResponse;
+import com.microsoft.rest.v2.OperationDescription;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
+import com.microsoft.rest.v2.Validator;
+import com.microsoft.rest.v2.annotations.BodyParam;
+import com.microsoft.rest.v2.annotations.ExpectedResponses;
+import com.microsoft.rest.v2.annotations.GET;
+import com.microsoft.rest.v2.annotations.HeaderParam;
+import com.microsoft.rest.v2.annotations.Host;
+import com.microsoft.rest.v2.annotations.PathParam;
+import com.microsoft.rest.v2.annotations.PUT;
+import com.microsoft.rest.v2.annotations.QueryParam;
+import com.microsoft.rest.v2.annotations.ResumeOperation;
+import com.microsoft.rest.v2.annotations.UnexpectedResponseExceptionType;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
+import io.reactivex.Single;
+import io.reactivex.annotations.NonNull;
 
 /**
- * An instance of this class provides access to all the operations defined
- * in ServerSecurityAlertPolicies.
+ * An instance of this class provides access to all the operations defined in
+ * ServerSecurityAlertPolicies.
  */
-public class ServerSecurityAlertPoliciesInner {
-    /** The Retrofit service to perform REST calls. */
+public final class ServerSecurityAlertPoliciesInner {
+    /**
+     * The proxy service used to perform REST calls.
+     */
     private ServerSecurityAlertPoliciesService service;
-    /** The service client containing this operation class. */
+
+    /**
+     * The service client containing this operation class.
+     */
     private SqlManagementClientImpl client;
 
     /**
      * Initializes an instance of ServerSecurityAlertPoliciesInner.
      *
-     * @param retrofit the Retrofit instance built from a Retrofit Builder.
      * @param client the instance of the service client containing this operation class.
      */
-    public ServerSecurityAlertPoliciesInner(Retrofit retrofit, SqlManagementClientImpl client) {
-        this.service = retrofit.create(ServerSecurityAlertPoliciesService.class);
+    public ServerSecurityAlertPoliciesInner(SqlManagementClientImpl client) {
+        this.service = AzureProxy.create(ServerSecurityAlertPoliciesService.class, client);
         this.client = client;
     }
 
     /**
-     * The interface defining all the services for ServerSecurityAlertPolicies to be
-     * used by Retrofit to perform actually REST calls.
+     * The interface defining all the services for ServerSecurityAlertPolicies
+     * to be used by the proxy service to perform REST calls.
      */
-    interface ServerSecurityAlertPoliciesService {
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.ServerSecurityAlertPolicies get" })
+    @Host("https://management.azure.com")
+    private interface ServerSecurityAlertPoliciesService {
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/securityAlertPolicies/{securityAlertPolicyName}")
-        Observable<Response<ResponseBody>> get(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("securityAlertPolicyName") String securityAlertPolicyName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<ServerSecurityAlertPolicyInner>> get(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("securityAlertPolicyName") String securityAlertPolicyName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.ServerSecurityAlertPolicies createOrUpdate" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/securityAlertPolicies/{securityAlertPolicyName}")
-        Observable<Response<ResponseBody>> createOrUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("securityAlertPolicyName") String securityAlertPolicyName, @Path("subscriptionId") String subscriptionId, @Body ServerSecurityAlertPolicyInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Observable<OperationStatus<ServerSecurityAlertPolicyInner>> beginCreateOrUpdate(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("securityAlertPolicyName") String securityAlertPolicyName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json; charset=utf-8") ServerSecurityAlertPolicyInner parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.ServerSecurityAlertPolicies beginCreateOrUpdate" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/securityAlertPolicies/{securityAlertPolicyName}")
-        Observable<Response<ResponseBody>> beginCreateOrUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("securityAlertPolicyName") String securityAlertPolicyName, @Path("subscriptionId") String subscriptionId, @Body ServerSecurityAlertPolicyInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<ServerSecurityAlertPolicyInner>> createOrUpdate(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("securityAlertPolicyName") String securityAlertPolicyName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json; charset=utf-8") ServerSecurityAlertPolicyInner parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
+        @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/securityAlertPolicies/{securityAlertPolicyName}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<ServerSecurityAlertPolicyInner>> resumeCreateOrUpdate(OperationDescription operationDescription);
     }
 
     /**
@@ -73,13 +90,13 @@ public class ServerSecurityAlertPoliciesInner {
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the ServerSecurityAlertPolicyInner object if successful.
      */
-    public ServerSecurityAlertPolicyInner get(String resourceGroupName, String serverName) {
-        return getWithServiceResponseAsync(resourceGroupName, serverName).toBlocking().single().body();
+    public ServerSecurityAlertPolicyInner get(@NonNull String resourceGroupName, @NonNull String serverName) {
+        return getAsync(resourceGroupName, serverName).blockingGet();
     }
 
     /**
@@ -88,11 +105,11 @@ public class ServerSecurityAlertPoliciesInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<ServerSecurityAlertPolicyInner> getAsync(String resourceGroupName, String serverName, final ServiceCallback<ServerSecurityAlertPolicyInner> serviceCallback) {
-        return ServiceFuture.fromResponse(getWithServiceResponseAsync(resourceGroupName, serverName), serviceCallback);
+    public ServiceFuture<ServerSecurityAlertPolicyInner> getAsync(@NonNull String resourceGroupName, @NonNull String serverName, ServiceCallback<ServerSecurityAlertPolicyInner> serviceCallback) {
+        return ServiceFuture.fromBody(getAsync(resourceGroupName, serverName), serviceCallback);
     }
 
     /**
@@ -100,27 +117,10 @@ public class ServerSecurityAlertPoliciesInner {
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ServerSecurityAlertPolicyInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<ServerSecurityAlertPolicyInner> getAsync(String resourceGroupName, String serverName) {
-        return getWithServiceResponseAsync(resourceGroupName, serverName).map(new Func1<ServiceResponse<ServerSecurityAlertPolicyInner>, ServerSecurityAlertPolicyInner>() {
-            @Override
-            public ServerSecurityAlertPolicyInner call(ServiceResponse<ServerSecurityAlertPolicyInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Get a server's security alert policy.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ServerSecurityAlertPolicyInner object
-     */
-    public Observable<ServiceResponse<ServerSecurityAlertPolicyInner>> getWithServiceResponseAsync(String resourceGroupName, String serverName) {
+    public Single<BodyResponse<ServerSecurityAlertPolicyInner>> getWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -132,25 +132,20 @@ public class ServerSecurityAlertPoliciesInner {
         }
         final String securityAlertPolicyName = "Default";
         final String apiVersion = "2017-03-01-preview";
-        return service.get(resourceGroupName, serverName, securityAlertPolicyName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ServerSecurityAlertPolicyInner>>>() {
-                @Override
-                public Observable<ServiceResponse<ServerSecurityAlertPolicyInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<ServerSecurityAlertPolicyInner> clientResponse = getDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.get(resourceGroupName, serverName, securityAlertPolicyName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<ServerSecurityAlertPolicyInner> getDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<ServerSecurityAlertPolicyInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<ServerSecurityAlertPolicyInner>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Get a server's security alert policy.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<ServerSecurityAlertPolicyInner> getAsync(@NonNull String resourceGroupName, @NonNull String serverName) {
+        return getWithRestResponseAsync(resourceGroupName, serverName)
+            .flatMapMaybe((BodyResponse<ServerSecurityAlertPolicyInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
@@ -159,13 +154,13 @@ public class ServerSecurityAlertPoliciesInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param parameters The server security alert policy.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the ServerSecurityAlertPolicyInner object if successful.
      */
-    public ServerSecurityAlertPolicyInner createOrUpdate(String resourceGroupName, String serverName, ServerSecurityAlertPolicyInner parameters) {
-        return createOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, parameters).toBlocking().last().body();
+    public ServerSecurityAlertPolicyInner beginCreateOrUpdate(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull ServerSecurityAlertPolicyInner parameters) {
+        return beginCreateOrUpdateAsync(resourceGroupName, serverName, parameters).blockingLast().result();
     }
 
     /**
@@ -175,11 +170,11 @@ public class ServerSecurityAlertPoliciesInner {
      * @param serverName The name of the server.
      * @param parameters The server security alert policy.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;ServerSecurityAlertPolicyInner&gt; object.
      */
-    public ServiceFuture<ServerSecurityAlertPolicyInner> createOrUpdateAsync(String resourceGroupName, String serverName, ServerSecurityAlertPolicyInner parameters, final ServiceCallback<ServerSecurityAlertPolicyInner> serviceCallback) {
-        return ServiceFuture.fromResponse(createOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, parameters), serviceCallback);
+    public ServiceFuture<ServerSecurityAlertPolicyInner> beginCreateOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull ServerSecurityAlertPolicyInner parameters, ServiceCallback<ServerSecurityAlertPolicyInner> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginCreateOrUpdateAsync(resourceGroupName, serverName, parameters), serviceCallback);
     }
 
     /**
@@ -188,28 +183,10 @@ public class ServerSecurityAlertPoliciesInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param parameters The server security alert policy.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<ServerSecurityAlertPolicyInner> createOrUpdateAsync(String resourceGroupName, String serverName, ServerSecurityAlertPolicyInner parameters) {
-        return createOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, parameters).map(new Func1<ServiceResponse<ServerSecurityAlertPolicyInner>, ServerSecurityAlertPolicyInner>() {
-            @Override
-            public ServerSecurityAlertPolicyInner call(ServiceResponse<ServerSecurityAlertPolicyInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Creates or updates a threat detection policy.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param parameters The server security alert policy.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<ServerSecurityAlertPolicyInner>> createOrUpdateWithServiceResponseAsync(String resourceGroupName, String serverName, ServerSecurityAlertPolicyInner parameters) {
+    public Observable<OperationStatus<ServerSecurityAlertPolicyInner>> beginCreateOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull ServerSecurityAlertPolicyInner parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -225,8 +202,7 @@ public class ServerSecurityAlertPoliciesInner {
         Validator.validate(parameters);
         final String securityAlertPolicyName = "Default";
         final String apiVersion = "2017-03-01-preview";
-        Observable<Response<ResponseBody>> observable = service.createOrUpdate(resourceGroupName, serverName, securityAlertPolicyName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<ServerSecurityAlertPolicyInner>() { }.getType());
+        return service.beginCreateOrUpdate(resourceGroupName, serverName, securityAlertPolicyName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage());
     }
 
     /**
@@ -235,13 +211,13 @@ public class ServerSecurityAlertPoliciesInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param parameters The server security alert policy.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the ServerSecurityAlertPolicyInner object if successful.
      */
-    public ServerSecurityAlertPolicyInner beginCreateOrUpdate(String resourceGroupName, String serverName, ServerSecurityAlertPolicyInner parameters) {
-        return beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, parameters).toBlocking().single().body();
+    public ServerSecurityAlertPolicyInner createOrUpdate(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull ServerSecurityAlertPolicyInner parameters) {
+        return createOrUpdateAsync(resourceGroupName, serverName, parameters).blockingGet();
     }
 
     /**
@@ -251,11 +227,11 @@ public class ServerSecurityAlertPoliciesInner {
      * @param serverName The name of the server.
      * @param parameters The server security alert policy.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<ServerSecurityAlertPolicyInner> beginCreateOrUpdateAsync(String resourceGroupName, String serverName, ServerSecurityAlertPolicyInner parameters, final ServiceCallback<ServerSecurityAlertPolicyInner> serviceCallback) {
-        return ServiceFuture.fromResponse(beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, parameters), serviceCallback);
+    public ServiceFuture<ServerSecurityAlertPolicyInner> createOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull ServerSecurityAlertPolicyInner parameters, ServiceCallback<ServerSecurityAlertPolicyInner> serviceCallback) {
+        return ServiceFuture.fromBody(createOrUpdateAsync(resourceGroupName, serverName, parameters), serviceCallback);
     }
 
     /**
@@ -264,28 +240,10 @@ public class ServerSecurityAlertPoliciesInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param parameters The server security alert policy.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ServerSecurityAlertPolicyInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<ServerSecurityAlertPolicyInner> beginCreateOrUpdateAsync(String resourceGroupName, String serverName, ServerSecurityAlertPolicyInner parameters) {
-        return beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, parameters).map(new Func1<ServiceResponse<ServerSecurityAlertPolicyInner>, ServerSecurityAlertPolicyInner>() {
-            @Override
-            public ServerSecurityAlertPolicyInner call(ServiceResponse<ServerSecurityAlertPolicyInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Creates or updates a threat detection policy.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param parameters The server security alert policy.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ServerSecurityAlertPolicyInner object
-     */
-    public Observable<ServiceResponse<ServerSecurityAlertPolicyInner>> beginCreateOrUpdateWithServiceResponseAsync(String resourceGroupName, String serverName, ServerSecurityAlertPolicyInner parameters) {
+    public Single<BodyResponse<ServerSecurityAlertPolicyInner>> createOrUpdateWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull ServerSecurityAlertPolicyInner parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -301,26 +259,34 @@ public class ServerSecurityAlertPoliciesInner {
         Validator.validate(parameters);
         final String securityAlertPolicyName = "Default";
         final String apiVersion = "2017-03-01-preview";
-        return service.beginCreateOrUpdate(resourceGroupName, serverName, securityAlertPolicyName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ServerSecurityAlertPolicyInner>>>() {
-                @Override
-                public Observable<ServiceResponse<ServerSecurityAlertPolicyInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<ServerSecurityAlertPolicyInner> clientResponse = beginCreateOrUpdateDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.createOrUpdate(resourceGroupName, serverName, securityAlertPolicyName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<ServerSecurityAlertPolicyInner> beginCreateOrUpdateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<ServerSecurityAlertPolicyInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<ServerSecurityAlertPolicyInner>() { }.getType())
-                .register(202, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Creates or updates a threat detection policy.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param parameters The server security alert policy.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<ServerSecurityAlertPolicyInner> createOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull ServerSecurityAlertPolicyInner parameters) {
+        return createOrUpdateWithRestResponseAsync(resourceGroupName, serverName, parameters)
+            .flatMapMaybe((BodyResponse<ServerSecurityAlertPolicyInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
+    /**
+     * Creates or updates a threat detection policy. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<ServerSecurityAlertPolicyInner>> resumeCreateOrUpdate(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeCreateOrUpdate(operationDescription);
+    }
 }

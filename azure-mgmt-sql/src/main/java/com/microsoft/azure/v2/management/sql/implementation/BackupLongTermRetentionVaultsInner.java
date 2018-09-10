@@ -8,68 +8,88 @@
 
 package com.microsoft.azure.v2.management.sql.implementation;
 
-import retrofit2.Retrofit;
-import com.google.common.reflect.TypeToken;
-import com.microsoft.azure.CloudException;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import com.microsoft.rest.ServiceResponse;
-import java.io.IOException;
+import com.microsoft.azure.v2.AzureProxy;
+import com.microsoft.azure.v2.CloudException;
+import com.microsoft.azure.v2.OperationStatus;
+import com.microsoft.azure.v2.util.ServiceFutureUtil;
+import com.microsoft.rest.v2.BodyResponse;
+import com.microsoft.rest.v2.OperationDescription;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
+import com.microsoft.rest.v2.annotations.BodyParam;
+import com.microsoft.rest.v2.annotations.ExpectedResponses;
+import com.microsoft.rest.v2.annotations.GET;
+import com.microsoft.rest.v2.annotations.HeaderParam;
+import com.microsoft.rest.v2.annotations.Host;
+import com.microsoft.rest.v2.annotations.PathParam;
+import com.microsoft.rest.v2.annotations.PUT;
+import com.microsoft.rest.v2.annotations.QueryParam;
+import com.microsoft.rest.v2.annotations.ResumeOperation;
+import com.microsoft.rest.v2.annotations.UnexpectedResponseExceptionType;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
+import io.reactivex.Single;
+import io.reactivex.annotations.NonNull;
+import java.util.ArrayList;
 import java.util.List;
-import okhttp3.ResponseBody;
-import retrofit2.http.Body;
-import retrofit2.http.GET;
-import retrofit2.http.Header;
-import retrofit2.http.Headers;
-import retrofit2.http.Path;
-import retrofit2.http.PUT;
-import retrofit2.http.Query;
-import retrofit2.Response;
-import rx.functions.Func1;
-import rx.Observable;
 
 /**
- * An instance of this class provides access to all the operations defined
- * in BackupLongTermRetentionVaults.
+ * An instance of this class provides access to all the operations defined in
+ * BackupLongTermRetentionVaults.
  */
-public class BackupLongTermRetentionVaultsInner {
-    /** The Retrofit service to perform REST calls. */
+public final class BackupLongTermRetentionVaultsInner {
+    /**
+     * The proxy service used to perform REST calls.
+     */
     private BackupLongTermRetentionVaultsService service;
-    /** The service client containing this operation class. */
+
+    /**
+     * The service client containing this operation class.
+     */
     private SqlManagementClientImpl client;
 
     /**
      * Initializes an instance of BackupLongTermRetentionVaultsInner.
      *
-     * @param retrofit the Retrofit instance built from a Retrofit Builder.
      * @param client the instance of the service client containing this operation class.
      */
-    public BackupLongTermRetentionVaultsInner(Retrofit retrofit, SqlManagementClientImpl client) {
-        this.service = retrofit.create(BackupLongTermRetentionVaultsService.class);
+    public BackupLongTermRetentionVaultsInner(SqlManagementClientImpl client) {
+        this.service = AzureProxy.create(BackupLongTermRetentionVaultsService.class, client);
         this.client = client;
     }
 
     /**
-     * The interface defining all the services for BackupLongTermRetentionVaults to be
-     * used by Retrofit to perform actually REST calls.
+     * The interface defining all the services for
+     * BackupLongTermRetentionVaults to be used by the proxy service to perform
+     * REST calls.
      */
-    interface BackupLongTermRetentionVaultsService {
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.BackupLongTermRetentionVaults get" })
+    @Host("https://management.azure.com")
+    private interface BackupLongTermRetentionVaultsService {
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/backupLongTermRetentionVaults/{backupLongTermRetentionVaultName}")
-        Observable<Response<ResponseBody>> get(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("backupLongTermRetentionVaultName") String backupLongTermRetentionVaultName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<BackupLongTermRetentionVaultInner>> get(@PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("backupLongTermRetentionVaultName") String backupLongTermRetentionVaultName, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.BackupLongTermRetentionVaults createOrUpdate" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/backupLongTermRetentionVaults/{backupLongTermRetentionVaultName}")
-        Observable<Response<ResponseBody>> createOrUpdate(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("backupLongTermRetentionVaultName") String backupLongTermRetentionVaultName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body BackupLongTermRetentionVaultInner parameters, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 201, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Observable<OperationStatus<BackupLongTermRetentionVaultInner>> beginCreateOrUpdate(@PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("backupLongTermRetentionVaultName") String backupLongTermRetentionVaultName, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @BodyParam("application/json; charset=utf-8") BackupLongTermRetentionVaultInner parameters);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.BackupLongTermRetentionVaults beginCreateOrUpdate" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/backupLongTermRetentionVaults/{backupLongTermRetentionVaultName}")
-        Observable<Response<ResponseBody>> beginCreateOrUpdate(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("backupLongTermRetentionVaultName") String backupLongTermRetentionVaultName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body BackupLongTermRetentionVaultInner parameters, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 201, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<BackupLongTermRetentionVaultInner>> createOrUpdate(@PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("backupLongTermRetentionVaultName") String backupLongTermRetentionVaultName, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @BodyParam("application/json; charset=utf-8") BackupLongTermRetentionVaultInner parameters);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.BackupLongTermRetentionVaults listByServer" })
+        @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/backupLongTermRetentionVaults/{backupLongTermRetentionVaultName}")
+        @ExpectedResponses({200, 201, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<BackupLongTermRetentionVaultInner>> resumeCreateOrUpdate(OperationDescription operationDescription);
+
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/backupLongTermRetentionVaults")
-        Observable<Response<ResponseBody>> listByServer(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
-
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<List<BackupLongTermRetentionVaultInner>>> listByServer(@PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
     }
 
     /**
@@ -77,13 +97,13 @@ public class BackupLongTermRetentionVaultsInner {
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the BackupLongTermRetentionVaultInner object if successful.
      */
-    public BackupLongTermRetentionVaultInner get(String resourceGroupName, String serverName) {
-        return getWithServiceResponseAsync(resourceGroupName, serverName).toBlocking().single().body();
+    public BackupLongTermRetentionVaultInner get(@NonNull String resourceGroupName, @NonNull String serverName) {
+        return getAsync(resourceGroupName, serverName).blockingGet();
     }
 
     /**
@@ -92,11 +112,11 @@ public class BackupLongTermRetentionVaultsInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<BackupLongTermRetentionVaultInner> getAsync(String resourceGroupName, String serverName, final ServiceCallback<BackupLongTermRetentionVaultInner> serviceCallback) {
-        return ServiceFuture.fromResponse(getWithServiceResponseAsync(resourceGroupName, serverName), serviceCallback);
+    public ServiceFuture<BackupLongTermRetentionVaultInner> getAsync(@NonNull String resourceGroupName, @NonNull String serverName, ServiceCallback<BackupLongTermRetentionVaultInner> serviceCallback) {
+        return ServiceFuture.fromBody(getAsync(resourceGroupName, serverName), serviceCallback);
     }
 
     /**
@@ -104,27 +124,10 @@ public class BackupLongTermRetentionVaultsInner {
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the BackupLongTermRetentionVaultInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<BackupLongTermRetentionVaultInner> getAsync(String resourceGroupName, String serverName) {
-        return getWithServiceResponseAsync(resourceGroupName, serverName).map(new Func1<ServiceResponse<BackupLongTermRetentionVaultInner>, BackupLongTermRetentionVaultInner>() {
-            @Override
-            public BackupLongTermRetentionVaultInner call(ServiceResponse<BackupLongTermRetentionVaultInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Gets a server backup long term retention vault.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the BackupLongTermRetentionVaultInner object
-     */
-    public Observable<ServiceResponse<BackupLongTermRetentionVaultInner>> getWithServiceResponseAsync(String resourceGroupName, String serverName) {
+    public Single<BodyResponse<BackupLongTermRetentionVaultInner>> getWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
@@ -136,25 +139,20 @@ public class BackupLongTermRetentionVaultsInner {
         }
         final String backupLongTermRetentionVaultName = "RegisteredVault";
         final String apiVersion = "2014-04-01";
-        return service.get(this.client.subscriptionId(), resourceGroupName, serverName, backupLongTermRetentionVaultName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<BackupLongTermRetentionVaultInner>>>() {
-                @Override
-                public Observable<ServiceResponse<BackupLongTermRetentionVaultInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<BackupLongTermRetentionVaultInner> clientResponse = getDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.get(this.client.subscriptionId(), resourceGroupName, serverName, backupLongTermRetentionVaultName, apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<BackupLongTermRetentionVaultInner> getDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<BackupLongTermRetentionVaultInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<BackupLongTermRetentionVaultInner>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Gets a server backup long term retention vault.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<BackupLongTermRetentionVaultInner> getAsync(@NonNull String resourceGroupName, @NonNull String serverName) {
+        return getWithRestResponseAsync(resourceGroupName, serverName)
+            .flatMapMaybe((BodyResponse<BackupLongTermRetentionVaultInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
@@ -162,14 +160,14 @@ public class BackupLongTermRetentionVaultsInner {
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
-     * @param recoveryServicesVaultResourceId The azure recovery services vault resource id
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @param recoveryServicesVaultResourceId The azure recovery services vault resource id.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the BackupLongTermRetentionVaultInner object if successful.
      */
-    public BackupLongTermRetentionVaultInner createOrUpdate(String resourceGroupName, String serverName, String recoveryServicesVaultResourceId) {
-        return createOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, recoveryServicesVaultResourceId).toBlocking().last().body();
+    public BackupLongTermRetentionVaultInner beginCreateOrUpdate(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String recoveryServicesVaultResourceId) {
+        return beginCreateOrUpdateAsync(resourceGroupName, serverName, recoveryServicesVaultResourceId).blockingLast().result();
     }
 
     /**
@@ -177,13 +175,13 @@ public class BackupLongTermRetentionVaultsInner {
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
-     * @param recoveryServicesVaultResourceId The azure recovery services vault resource id
+     * @param recoveryServicesVaultResourceId The azure recovery services vault resource id.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;BackupLongTermRetentionVaultInner&gt; object.
      */
-    public ServiceFuture<BackupLongTermRetentionVaultInner> createOrUpdateAsync(String resourceGroupName, String serverName, String recoveryServicesVaultResourceId, final ServiceCallback<BackupLongTermRetentionVaultInner> serviceCallback) {
-        return ServiceFuture.fromResponse(createOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, recoveryServicesVaultResourceId), serviceCallback);
+    public ServiceFuture<BackupLongTermRetentionVaultInner> beginCreateOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String recoveryServicesVaultResourceId, ServiceCallback<BackupLongTermRetentionVaultInner> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginCreateOrUpdateAsync(resourceGroupName, serverName, recoveryServicesVaultResourceId), serviceCallback);
     }
 
     /**
@@ -191,29 +189,11 @@ public class BackupLongTermRetentionVaultsInner {
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
-     * @param recoveryServicesVaultResourceId The azure recovery services vault resource id
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @param recoveryServicesVaultResourceId The azure recovery services vault resource id.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<BackupLongTermRetentionVaultInner> createOrUpdateAsync(String resourceGroupName, String serverName, String recoveryServicesVaultResourceId) {
-        return createOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, recoveryServicesVaultResourceId).map(new Func1<ServiceResponse<BackupLongTermRetentionVaultInner>, BackupLongTermRetentionVaultInner>() {
-            @Override
-            public BackupLongTermRetentionVaultInner call(ServiceResponse<BackupLongTermRetentionVaultInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Updates a server backup long term retention vault.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param recoveryServicesVaultResourceId The azure recovery services vault resource id
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<BackupLongTermRetentionVaultInner>> createOrUpdateWithServiceResponseAsync(String resourceGroupName, String serverName, String recoveryServicesVaultResourceId) {
+    public Observable<OperationStatus<BackupLongTermRetentionVaultInner>> beginCreateOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String recoveryServicesVaultResourceId) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
@@ -230,8 +210,7 @@ public class BackupLongTermRetentionVaultsInner {
         final String apiVersion = "2014-04-01";
         BackupLongTermRetentionVaultInner parameters = new BackupLongTermRetentionVaultInner();
         parameters.withRecoveryServicesVaultResourceId(recoveryServicesVaultResourceId);
-        Observable<Response<ResponseBody>> observable = service.createOrUpdate(this.client.subscriptionId(), resourceGroupName, serverName, backupLongTermRetentionVaultName, apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent());
-        return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<BackupLongTermRetentionVaultInner>() { }.getType());
+        return service.beginCreateOrUpdate(this.client.subscriptionId(), resourceGroupName, serverName, backupLongTermRetentionVaultName, apiVersion, this.client.acceptLanguage(), parameters);
     }
 
     /**
@@ -239,14 +218,14 @@ public class BackupLongTermRetentionVaultsInner {
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
-     * @param recoveryServicesVaultResourceId The azure recovery services vault resource id
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @param recoveryServicesVaultResourceId The azure recovery services vault resource id.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the BackupLongTermRetentionVaultInner object if successful.
      */
-    public BackupLongTermRetentionVaultInner beginCreateOrUpdate(String resourceGroupName, String serverName, String recoveryServicesVaultResourceId) {
-        return beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, recoveryServicesVaultResourceId).toBlocking().single().body();
+    public BackupLongTermRetentionVaultInner createOrUpdate(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String recoveryServicesVaultResourceId) {
+        return createOrUpdateAsync(resourceGroupName, serverName, recoveryServicesVaultResourceId).blockingGet();
     }
 
     /**
@@ -254,13 +233,13 @@ public class BackupLongTermRetentionVaultsInner {
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
-     * @param recoveryServicesVaultResourceId The azure recovery services vault resource id
+     * @param recoveryServicesVaultResourceId The azure recovery services vault resource id.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<BackupLongTermRetentionVaultInner> beginCreateOrUpdateAsync(String resourceGroupName, String serverName, String recoveryServicesVaultResourceId, final ServiceCallback<BackupLongTermRetentionVaultInner> serviceCallback) {
-        return ServiceFuture.fromResponse(beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, recoveryServicesVaultResourceId), serviceCallback);
+    public ServiceFuture<BackupLongTermRetentionVaultInner> createOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String recoveryServicesVaultResourceId, ServiceCallback<BackupLongTermRetentionVaultInner> serviceCallback) {
+        return ServiceFuture.fromBody(createOrUpdateAsync(resourceGroupName, serverName, recoveryServicesVaultResourceId), serviceCallback);
     }
 
     /**
@@ -268,29 +247,11 @@ public class BackupLongTermRetentionVaultsInner {
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
-     * @param recoveryServicesVaultResourceId The azure recovery services vault resource id
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the BackupLongTermRetentionVaultInner object
+     * @param recoveryServicesVaultResourceId The azure recovery services vault resource id.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<BackupLongTermRetentionVaultInner> beginCreateOrUpdateAsync(String resourceGroupName, String serverName, String recoveryServicesVaultResourceId) {
-        return beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, recoveryServicesVaultResourceId).map(new Func1<ServiceResponse<BackupLongTermRetentionVaultInner>, BackupLongTermRetentionVaultInner>() {
-            @Override
-            public BackupLongTermRetentionVaultInner call(ServiceResponse<BackupLongTermRetentionVaultInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Updates a server backup long term retention vault.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param recoveryServicesVaultResourceId The azure recovery services vault resource id
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the BackupLongTermRetentionVaultInner object
-     */
-    public Observable<ServiceResponse<BackupLongTermRetentionVaultInner>> beginCreateOrUpdateWithServiceResponseAsync(String resourceGroupName, String serverName, String recoveryServicesVaultResourceId) {
+    public Single<BodyResponse<BackupLongTermRetentionVaultInner>> createOrUpdateWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String recoveryServicesVaultResourceId) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
@@ -307,27 +268,35 @@ public class BackupLongTermRetentionVaultsInner {
         final String apiVersion = "2014-04-01";
         BackupLongTermRetentionVaultInner parameters = new BackupLongTermRetentionVaultInner();
         parameters.withRecoveryServicesVaultResourceId(recoveryServicesVaultResourceId);
-        return service.beginCreateOrUpdate(this.client.subscriptionId(), resourceGroupName, serverName, backupLongTermRetentionVaultName, apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<BackupLongTermRetentionVaultInner>>>() {
-                @Override
-                public Observable<ServiceResponse<BackupLongTermRetentionVaultInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<BackupLongTermRetentionVaultInner> clientResponse = beginCreateOrUpdateDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.createOrUpdate(this.client.subscriptionId(), resourceGroupName, serverName, backupLongTermRetentionVaultName, apiVersion, this.client.acceptLanguage(), parameters);
     }
 
-    private ServiceResponse<BackupLongTermRetentionVaultInner> beginCreateOrUpdateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<BackupLongTermRetentionVaultInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<BackupLongTermRetentionVaultInner>() { }.getType())
-                .register(201, new TypeToken<BackupLongTermRetentionVaultInner>() { }.getType())
-                .register(202, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Updates a server backup long term retention vault.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param recoveryServicesVaultResourceId The azure recovery services vault resource id.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<BackupLongTermRetentionVaultInner> createOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String recoveryServicesVaultResourceId) {
+        return createOrUpdateWithRestResponseAsync(resourceGroupName, serverName, recoveryServicesVaultResourceId)
+            .flatMapMaybe((BodyResponse<BackupLongTermRetentionVaultInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
+    }
+
+    /**
+     * Updates a server backup long term retention vault (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<BackupLongTermRetentionVaultInner>> resumeCreateOrUpdate(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeCreateOrUpdate(operationDescription);
     }
 
     /**
@@ -335,13 +304,13 @@ public class BackupLongTermRetentionVaultsInner {
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the List&lt;BackupLongTermRetentionVaultInner&gt; object if successful.
      */
-    public List<BackupLongTermRetentionVaultInner> listByServer(String resourceGroupName, String serverName) {
-        return listByServerWithServiceResponseAsync(resourceGroupName, serverName).toBlocking().single().body();
+    public List<BackupLongTermRetentionVaultInner> listByServer(@NonNull String resourceGroupName, @NonNull String serverName) {
+        return listByServerAsync(resourceGroupName, serverName).blockingGet();
     }
 
     /**
@@ -350,11 +319,11 @@ public class BackupLongTermRetentionVaultsInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<List<BackupLongTermRetentionVaultInner>> listByServerAsync(String resourceGroupName, String serverName, final ServiceCallback<List<BackupLongTermRetentionVaultInner>> serviceCallback) {
-        return ServiceFuture.fromResponse(listByServerWithServiceResponseAsync(resourceGroupName, serverName), serviceCallback);
+    public ServiceFuture<List<BackupLongTermRetentionVaultInner>> listByServerAsync(@NonNull String resourceGroupName, @NonNull String serverName, ServiceCallback<List<BackupLongTermRetentionVaultInner>> serviceCallback) {
+        return ServiceFuture.fromBody(listByServerAsync(resourceGroupName, serverName), serviceCallback);
     }
 
     /**
@@ -362,27 +331,10 @@ public class BackupLongTermRetentionVaultsInner {
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the List&lt;BackupLongTermRetentionVaultInner&gt; object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<List<BackupLongTermRetentionVaultInner>> listByServerAsync(String resourceGroupName, String serverName) {
-        return listByServerWithServiceResponseAsync(resourceGroupName, serverName).map(new Func1<ServiceResponse<List<BackupLongTermRetentionVaultInner>>, List<BackupLongTermRetentionVaultInner>>() {
-            @Override
-            public List<BackupLongTermRetentionVaultInner> call(ServiceResponse<List<BackupLongTermRetentionVaultInner>> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Gets server backup long term retention vaults in a server.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the List&lt;BackupLongTermRetentionVaultInner&gt; object
-     */
-    public Observable<ServiceResponse<List<BackupLongTermRetentionVaultInner>>> listByServerWithServiceResponseAsync(String resourceGroupName, String serverName) {
+    public Single<BodyResponse<List<BackupLongTermRetentionVaultInner>>> listByServerWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
@@ -393,26 +345,19 @@ public class BackupLongTermRetentionVaultsInner {
             throw new IllegalArgumentException("Parameter serverName is required and cannot be null.");
         }
         final String apiVersion = "2014-04-01";
-        return service.listByServer(this.client.subscriptionId(), resourceGroupName, serverName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<List<BackupLongTermRetentionVaultInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<List<BackupLongTermRetentionVaultInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<BackupLongTermRetentionVaultInner>> result = listByServerDelegate(response);
-                        ServiceResponse<List<BackupLongTermRetentionVaultInner>> clientResponse = new ServiceResponse<List<BackupLongTermRetentionVaultInner>>(result.body().items(), result.response());
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.listByServer(this.client.subscriptionId(), resourceGroupName, serverName, apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<PageImpl<BackupLongTermRetentionVaultInner>> listByServerDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<BackupLongTermRetentionVaultInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<BackupLongTermRetentionVaultInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Gets server backup long term retention vaults in a server.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<List<BackupLongTermRetentionVaultInner>> listByServerAsync(@NonNull String resourceGroupName, @NonNull String serverName) {
+        return listByServerWithRestResponseAsync(resourceGroupName, serverName)
+            .flatMapMaybe((BodyResponse<List<BackupLongTermRetentionVaultInner>> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
-
 }

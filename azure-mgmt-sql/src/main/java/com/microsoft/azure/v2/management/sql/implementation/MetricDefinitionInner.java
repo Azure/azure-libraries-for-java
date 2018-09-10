@@ -8,17 +8,17 @@
 
 package com.microsoft.azure.v2.management.sql.implementation;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.v2.management.sql.MetricAvailability;
 import com.microsoft.azure.v2.management.sql.MetricName;
 import com.microsoft.azure.v2.management.sql.PrimaryAggregationType;
 import com.microsoft.azure.v2.management.sql.UnitDefinitionType;
 import java.util.List;
-import com.microsoft.azure.v2.management.sql.MetricAvailability;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * A database metric definition.
  */
-public class MetricDefinitionInner {
+public final class MetricDefinitionInner {
     /**
      * The name information for the metric.
      */
@@ -55,7 +55,7 @@ public class MetricDefinitionInner {
     /**
      * Get the name value.
      *
-     * @return the name value
+     * @return the name value.
      */
     public MetricName name() {
         return this.name;
@@ -64,7 +64,7 @@ public class MetricDefinitionInner {
     /**
      * Get the primaryAggregationType value.
      *
-     * @return the primaryAggregationType value
+     * @return the primaryAggregationType value.
      */
     public PrimaryAggregationType primaryAggregationType() {
         return this.primaryAggregationType;
@@ -73,7 +73,7 @@ public class MetricDefinitionInner {
     /**
      * Get the resourceUri value.
      *
-     * @return the resourceUri value
+     * @return the resourceUri value.
      */
     public String resourceUri() {
         return this.resourceUri;
@@ -82,7 +82,7 @@ public class MetricDefinitionInner {
     /**
      * Get the unit value.
      *
-     * @return the unit value
+     * @return the unit value.
      */
     public UnitDefinitionType unit() {
         return this.unit;
@@ -91,10 +91,9 @@ public class MetricDefinitionInner {
     /**
      * Get the metricAvailabilities value.
      *
-     * @return the metricAvailabilities value
+     * @return the metricAvailabilities value.
      */
     public List<MetricAvailability> metricAvailabilities() {
         return this.metricAvailabilities;
     }
-
 }

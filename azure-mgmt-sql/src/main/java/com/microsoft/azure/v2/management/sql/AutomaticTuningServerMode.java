@@ -15,19 +15,27 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Defines values for AutomaticTuningServerMode.
  */
 public enum AutomaticTuningServerMode {
-    /** Enum value Custom. */
+    /**
+     * Enum value Custom.
+     */
     CUSTOM("Custom"),
 
-    /** Enum value Auto. */
+    /**
+     * Enum value Auto.
+     */
     AUTO("Auto"),
 
-    /** Enum value Unspecified. */
+    /**
+     * Enum value Unspecified.
+     */
     UNSPECIFIED("Unspecified");
 
-    /** The actual serialized value for a AutomaticTuningServerMode instance. */
-    private String value;
+    /**
+     * The actual serialized value for a AutomaticTuningServerMode instance.
+     */
+    private final String value;
 
-    AutomaticTuningServerMode(String value) {
+    private AutomaticTuningServerMode(String value) {
         this.value = value;
     }
 

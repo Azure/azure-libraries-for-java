@@ -9,24 +9,28 @@
 package com.microsoft.azure.v2.management.sql;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.microsoft.rest.ExpandableStringEnum;
-
+import com.microsoft.rest.v2.ExpandableStringEnum;
 import java.util.Collection;
 
 /**
  * Defines values for InstanceFailoverGroupReplicationRole.
  */
 public final class InstanceFailoverGroupReplicationRole extends ExpandableStringEnum<InstanceFailoverGroupReplicationRole> {
-    /** Static value Primary for InstanceFailoverGroupReplicationRole. */
+    /**
+     * Static value Primary for InstanceFailoverGroupReplicationRole.
+     */
     public static final InstanceFailoverGroupReplicationRole PRIMARY = fromString("Primary");
 
-    /** Static value Secondary for InstanceFailoverGroupReplicationRole. */
+    /**
+     * Static value Secondary for InstanceFailoverGroupReplicationRole.
+     */
     public static final InstanceFailoverGroupReplicationRole SECONDARY = fromString("Secondary");
 
     /**
      * Creates or finds a InstanceFailoverGroupReplicationRole from its string representation.
-     * @param name a name to look for
-     * @return the corresponding InstanceFailoverGroupReplicationRole
+     *
+     * @param name a name to look for.
+     * @return the corresponding InstanceFailoverGroupReplicationRole.
      */
     @JsonCreator
     public static InstanceFailoverGroupReplicationRole fromString(String name) {
@@ -34,7 +38,7 @@ public final class InstanceFailoverGroupReplicationRole extends ExpandableString
     }
 
     /**
-     * @return known InstanceFailoverGroupReplicationRole values
+     * @return known InstanceFailoverGroupReplicationRole values.
      */
     public static Collection<InstanceFailoverGroupReplicationRole> values() {
         return values(InstanceFailoverGroupReplicationRole.class);

@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * The resource model definition representing SKU.
  */
-public class Sku {
+public final class Sku {
     /**
      * The name of the SKU. Ex - P3. It is typically a letter+number code.
      */
@@ -52,7 +52,7 @@ public class Sku {
     /**
      * Get the name value.
      *
-     * @return the name value
+     * @return the name value.
      */
     public String name() {
         return this.name;
@@ -61,7 +61,7 @@ public class Sku {
     /**
      * Set the name value.
      *
-     * @param name the name value to set
+     * @param name the name value to set.
      * @return the Sku object itself.
      */
     public Sku withName(String name) {
@@ -72,7 +72,7 @@ public class Sku {
     /**
      * Get the tier value.
      *
-     * @return the tier value
+     * @return the tier value.
      */
     public String tier() {
         return this.tier;
@@ -81,7 +81,7 @@ public class Sku {
     /**
      * Set the tier value.
      *
-     * @param tier the tier value to set
+     * @param tier the tier value to set.
      * @return the Sku object itself.
      */
     public Sku withTier(String tier) {
@@ -92,7 +92,7 @@ public class Sku {
     /**
      * Get the size value.
      *
-     * @return the size value
+     * @return the size value.
      */
     public String size() {
         return this.size;
@@ -101,7 +101,7 @@ public class Sku {
     /**
      * Set the size value.
      *
-     * @param size the size value to set
+     * @param size the size value to set.
      * @return the Sku object itself.
      */
     public Sku withSize(String size) {
@@ -112,7 +112,7 @@ public class Sku {
     /**
      * Get the family value.
      *
-     * @return the family value
+     * @return the family value.
      */
     public String family() {
         return this.family;
@@ -121,7 +121,7 @@ public class Sku {
     /**
      * Set the family value.
      *
-     * @param family the family value to set
+     * @param family the family value to set.
      * @return the Sku object itself.
      */
     public Sku withFamily(String family) {
@@ -132,7 +132,7 @@ public class Sku {
     /**
      * Get the capacity value.
      *
-     * @return the capacity value
+     * @return the capacity value.
      */
     public Integer capacity() {
         return this.capacity;
@@ -141,12 +141,11 @@ public class Sku {
     /**
      * Set the capacity value.
      *
-     * @param capacity the capacity value to set
+     * @param capacity the capacity value to set.
      * @return the Sku object itself.
      */
     public Sku withCapacity(Integer capacity) {
         this.capacity = capacity;
         return this;
     }
-
 }

@@ -9,21 +9,23 @@
 package com.microsoft.azure.v2.management.sql;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.microsoft.rest.ExpandableStringEnum;
-
+import com.microsoft.rest.v2.ExpandableStringEnum;
 import java.util.Collection;
 
 /**
  * Defines values for SampleName.
  */
 public final class SampleName extends ExpandableStringEnum<SampleName> {
-    /** Static value AdventureWorksLT for SampleName. */
+    /**
+     * Static value AdventureWorksLT for SampleName.
+     */
     public static final SampleName ADVENTURE_WORKS_LT = fromString("AdventureWorksLT");
 
     /**
      * Creates or finds a SampleName from its string representation.
-     * @param name a name to look for
-     * @return the corresponding SampleName
+     *
+     * @param name a name to look for.
+     * @return the corresponding SampleName.
      */
     @JsonCreator
     public static SampleName fromString(String name) {
@@ -31,7 +33,7 @@ public final class SampleName extends ExpandableStringEnum<SampleName> {
     }
 
     /**
-     * @return known SampleName values
+     * @return known SampleName values.
      */
     public static Collection<SampleName> values() {
         return values(SampleName.class);

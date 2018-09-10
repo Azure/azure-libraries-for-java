@@ -9,13 +9,12 @@
 package com.microsoft.azure.v2.management.sql;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.List;
 
 /**
  * The database edition capabilities.
  */
-public class EditionCapability {
+public final class EditionCapability {
     /**
      * The edition name.
      */
@@ -44,7 +43,7 @@ public class EditionCapability {
     /**
      * Get the name value.
      *
-     * @return the name value
+     * @return the name value.
      */
     public String name() {
         return this.name;
@@ -53,7 +52,7 @@ public class EditionCapability {
     /**
      * Get the status value.
      *
-     * @return the status value
+     * @return the status value.
      */
     public CapabilityStatus status() {
         return this.status;
@@ -62,7 +61,7 @@ public class EditionCapability {
     /**
      * Get the supportedServiceLevelObjectives value.
      *
-     * @return the supportedServiceLevelObjectives value
+     * @return the supportedServiceLevelObjectives value.
      */
     public List<ServiceObjectiveCapability> supportedServiceLevelObjectives() {
         return this.supportedServiceLevelObjectives;
@@ -71,10 +70,9 @@ public class EditionCapability {
     /**
      * Get the zoneRedundant value.
      *
-     * @return the zoneRedundant value
+     * @return the zoneRedundant value.
      */
     public Boolean zoneRedundant() {
         return this.zoneRedundant;
     }
-
 }

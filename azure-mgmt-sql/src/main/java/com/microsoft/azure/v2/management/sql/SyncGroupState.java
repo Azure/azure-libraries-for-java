@@ -9,33 +9,43 @@
 package com.microsoft.azure.v2.management.sql;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.microsoft.rest.ExpandableStringEnum;
-
+import com.microsoft.rest.v2.ExpandableStringEnum;
 import java.util.Collection;
 
 /**
  * Defines values for SyncGroupState.
  */
 public final class SyncGroupState extends ExpandableStringEnum<SyncGroupState> {
-    /** Static value NotReady for SyncGroupState. */
+    /**
+     * Static value NotReady for SyncGroupState.
+     */
     public static final SyncGroupState NOT_READY = fromString("NotReady");
 
-    /** Static value Error for SyncGroupState. */
+    /**
+     * Static value Error for SyncGroupState.
+     */
     public static final SyncGroupState ERROR = fromString("Error");
 
-    /** Static value Warning for SyncGroupState. */
+    /**
+     * Static value Warning for SyncGroupState.
+     */
     public static final SyncGroupState WARNING = fromString("Warning");
 
-    /** Static value Progressing for SyncGroupState. */
+    /**
+     * Static value Progressing for SyncGroupState.
+     */
     public static final SyncGroupState PROGRESSING = fromString("Progressing");
 
-    /** Static value Good for SyncGroupState. */
+    /**
+     * Static value Good for SyncGroupState.
+     */
     public static final SyncGroupState GOOD = fromString("Good");
 
     /**
      * Creates or finds a SyncGroupState from its string representation.
-     * @param name a name to look for
-     * @return the corresponding SyncGroupState
+     *
+     * @param name a name to look for.
+     * @return the corresponding SyncGroupState.
      */
     @JsonCreator
     public static SyncGroupState fromString(String name) {
@@ -43,7 +53,7 @@ public final class SyncGroupState extends ExpandableStringEnum<SyncGroupState> {
     }
 
     /**
-     * @return known SyncGroupState values
+     * @return known SyncGroupState values.
      */
     public static Collection<SyncGroupState> values() {
         return values(SyncGroupState.class);

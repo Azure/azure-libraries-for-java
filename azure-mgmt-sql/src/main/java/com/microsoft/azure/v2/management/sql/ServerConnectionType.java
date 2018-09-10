@@ -15,19 +15,27 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Defines values for ServerConnectionType.
  */
 public enum ServerConnectionType {
-    /** Enum value Default. */
+    /**
+     * Enum value Default.
+     */
     DEFAULT("Default"),
 
-    /** Enum value Proxy. */
+    /**
+     * Enum value Proxy.
+     */
     PROXY("Proxy"),
 
-    /** Enum value Redirect. */
+    /**
+     * Enum value Redirect.
+     */
     REDIRECT("Redirect");
 
-    /** The actual serialized value for a ServerConnectionType instance. */
-    private String value;
+    /**
+     * The actual serialized value for a ServerConnectionType instance.
+     */
+    private final String value;
 
-    ServerConnectionType(String value) {
+    private ServerConnectionType(String value) {
         this.value = value;
     }
 

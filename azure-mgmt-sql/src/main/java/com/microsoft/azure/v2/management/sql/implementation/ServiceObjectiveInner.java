@@ -9,13 +9,14 @@
 package com.microsoft.azure.v2.management.sql.implementation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.v2.management.sql.ProxyResource;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
 
 /**
  * Represents a database service objective.
  */
 @JsonFlatten
-public class ServiceObjectiveInner extends ProxyResourceInner {
+public class ServiceObjectiveInner extends ProxyResource {
     /**
      * The name for the service objective.
      */
@@ -50,7 +51,7 @@ public class ServiceObjectiveInner extends ProxyResourceInner {
     /**
      * Get the serviceObjectiveName value.
      *
-     * @return the serviceObjectiveName value
+     * @return the serviceObjectiveName value.
      */
     public String serviceObjectiveName() {
         return this.serviceObjectiveName;
@@ -59,7 +60,7 @@ public class ServiceObjectiveInner extends ProxyResourceInner {
     /**
      * Get the isDefault value.
      *
-     * @return the isDefault value
+     * @return the isDefault value.
      */
     public boolean isDefault() {
         return this.isDefault;
@@ -68,7 +69,7 @@ public class ServiceObjectiveInner extends ProxyResourceInner {
     /**
      * Get the isSystem value.
      *
-     * @return the isSystem value
+     * @return the isSystem value.
      */
     public boolean isSystem() {
         return this.isSystem;
@@ -77,7 +78,7 @@ public class ServiceObjectiveInner extends ProxyResourceInner {
     /**
      * Get the description value.
      *
-     * @return the description value
+     * @return the description value.
      */
     public String description() {
         return this.description;
@@ -86,10 +87,9 @@ public class ServiceObjectiveInner extends ProxyResourceInner {
     /**
      * Get the enabled value.
      *
-     * @return the enabled value
+     * @return the enabled value.
      */
     public boolean enabled() {
         return this.enabled;
     }
-
 }

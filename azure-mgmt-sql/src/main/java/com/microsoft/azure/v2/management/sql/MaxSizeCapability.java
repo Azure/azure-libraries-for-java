@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * The maximum size limits for a database.
  */
-public class MaxSizeCapability {
+public final class MaxSizeCapability {
     /**
      * The maximum size of the database (see 'unit' for the units).
      */
@@ -37,7 +37,7 @@ public class MaxSizeCapability {
     /**
      * Get the limit value.
      *
-     * @return the limit value
+     * @return the limit value.
      */
     public long limit() {
         return this.limit;
@@ -46,7 +46,7 @@ public class MaxSizeCapability {
     /**
      * Get the unit value.
      *
-     * @return the unit value
+     * @return the unit value.
      */
     public MaxSizeUnits unit() {
         return this.unit;
@@ -55,10 +55,9 @@ public class MaxSizeCapability {
     /**
      * Get the status value.
      *
-     * @return the status value
+     * @return the status value.
      */
     public CapabilityStatus status() {
         return this.status;
     }
-
 }

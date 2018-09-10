@@ -15,16 +15,22 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Defines values for AuthenticationType.
  */
 public enum AuthenticationType {
-    /** Enum value SQL. */
+    /**
+     * Enum value SQL.
+     */
     SQL("SQL"),
 
-    /** Enum value ADPassword. */
+    /**
+     * Enum value ADPassword.
+     */
     ADPASSWORD("ADPassword");
 
-    /** The actual serialized value for a AuthenticationType instance. */
-    private String value;
+    /**
+     * The actual serialized value for a AuthenticationType instance.
+     */
+    private final String value;
 
-    AuthenticationType(String value) {
+    private AuthenticationType(String value) {
         this.value = value;
     }
 

@@ -8,86 +8,110 @@
 
 package com.microsoft.azure.v2.management.sql.implementation;
 
-import retrofit2.Retrofit;
-import com.google.common.reflect.TypeToken;
-import com.microsoft.azure.AzureServiceFuture;
-import com.microsoft.azure.CloudException;
-import com.microsoft.azure.ListOperationCallback;
-import com.microsoft.azure.Page;
-import com.microsoft.azure.PagedList;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import com.microsoft.rest.ServiceResponse;
-import java.io.IOException;
-import java.util.List;
-import okhttp3.ResponseBody;
-import retrofit2.http.Body;
-import retrofit2.http.GET;
-import retrofit2.http.Header;
-import retrofit2.http.Headers;
-import retrofit2.http.PATCH;
-import retrofit2.http.Path;
-import retrofit2.http.PUT;
-import retrofit2.http.Query;
-import retrofit2.http.Url;
-import retrofit2.Response;
-import rx.functions.Func1;
-import rx.Observable;
+import com.microsoft.azure.v2.AzureProxy;
+import com.microsoft.azure.v2.CloudException;
+import com.microsoft.azure.v2.OperationStatus;
+import com.microsoft.azure.v2.Page;
+import com.microsoft.azure.v2.PagedList;
+import com.microsoft.azure.v2.util.ServiceFutureUtil;
+import com.microsoft.rest.v2.BodyResponse;
+import com.microsoft.rest.v2.OperationDescription;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
+import com.microsoft.rest.v2.annotations.BodyParam;
+import com.microsoft.rest.v2.annotations.ExpectedResponses;
+import com.microsoft.rest.v2.annotations.GET;
+import com.microsoft.rest.v2.annotations.HeaderParam;
+import com.microsoft.rest.v2.annotations.Host;
+import com.microsoft.rest.v2.annotations.PATCH;
+import com.microsoft.rest.v2.annotations.PathParam;
+import com.microsoft.rest.v2.annotations.PUT;
+import com.microsoft.rest.v2.annotations.QueryParam;
+import com.microsoft.rest.v2.annotations.ResumeOperation;
+import com.microsoft.rest.v2.annotations.UnexpectedResponseExceptionType;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
+import io.reactivex.Single;
+import io.reactivex.annotations.NonNull;
 
 /**
- * An instance of this class provides access to all the operations defined
- * in BackupShortTermRetentionPolicies.
+ * An instance of this class provides access to all the operations defined in
+ * BackupShortTermRetentionPolicies.
  */
-public class BackupShortTermRetentionPoliciesInner {
-    /** The Retrofit service to perform REST calls. */
+public final class BackupShortTermRetentionPoliciesInner {
+    /**
+     * The proxy service used to perform REST calls.
+     */
     private BackupShortTermRetentionPoliciesService service;
-    /** The service client containing this operation class. */
+
+    /**
+     * The service client containing this operation class.
+     */
     private SqlManagementClientImpl client;
 
     /**
      * Initializes an instance of BackupShortTermRetentionPoliciesInner.
      *
-     * @param retrofit the Retrofit instance built from a Retrofit Builder.
      * @param client the instance of the service client containing this operation class.
      */
-    public BackupShortTermRetentionPoliciesInner(Retrofit retrofit, SqlManagementClientImpl client) {
-        this.service = retrofit.create(BackupShortTermRetentionPoliciesService.class);
+    public BackupShortTermRetentionPoliciesInner(SqlManagementClientImpl client) {
+        this.service = AzureProxy.create(BackupShortTermRetentionPoliciesService.class, client);
         this.client = client;
     }
 
     /**
-     * The interface defining all the services for BackupShortTermRetentionPolicies to be
-     * used by Retrofit to perform actually REST calls.
+     * The interface defining all the services for
+     * BackupShortTermRetentionPolicies to be used by the proxy service to
+     * perform REST calls.
      */
-    interface BackupShortTermRetentionPoliciesService {
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.BackupShortTermRetentionPolicies get" })
+    @Host("https://management.azure.com")
+    private interface BackupShortTermRetentionPoliciesService {
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/backupShortTermRetentionPolicies/{policyName}")
-        Observable<Response<ResponseBody>> get(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("databaseName") String databaseName, @Path("policyName") String policyName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<BackupShortTermRetentionPolicyInner>> get(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("databaseName") String databaseName, @PathParam("policyName") String policyName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.BackupShortTermRetentionPolicies createOrUpdate" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/backupShortTermRetentionPolicies/{policyName}")
-        Observable<Response<ResponseBody>> createOrUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("databaseName") String databaseName, @Path("policyName") String policyName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body BackupShortTermRetentionPolicyInner parameters, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Observable<OperationStatus<BackupShortTermRetentionPolicyInner>> beginCreateOrUpdate(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("databaseName") String databaseName, @PathParam("policyName") String policyName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @BodyParam("application/json; charset=utf-8") BackupShortTermRetentionPolicyInner parameters);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.BackupShortTermRetentionPolicies beginCreateOrUpdate" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/backupShortTermRetentionPolicies/{policyName}")
-        Observable<Response<ResponseBody>> beginCreateOrUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("databaseName") String databaseName, @Path("policyName") String policyName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body BackupShortTermRetentionPolicyInner parameters, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<BackupShortTermRetentionPolicyInner>> createOrUpdate(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("databaseName") String databaseName, @PathParam("policyName") String policyName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @BodyParam("application/json; charset=utf-8") BackupShortTermRetentionPolicyInner parameters);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.BackupShortTermRetentionPolicies update" })
+        @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/backupShortTermRetentionPolicies/{policyName}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<BackupShortTermRetentionPolicyInner>> resumeCreateOrUpdate(OperationDescription operationDescription);
+
         @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/backupShortTermRetentionPolicies/{policyName}")
-        Observable<Response<ResponseBody>> update(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("databaseName") String databaseName, @Path("policyName") String policyName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body BackupShortTermRetentionPolicyInner parameters, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Observable<OperationStatus<BackupShortTermRetentionPolicyInner>> beginUpdate(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("databaseName") String databaseName, @PathParam("policyName") String policyName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @BodyParam("application/json; charset=utf-8") BackupShortTermRetentionPolicyInner parameters);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.BackupShortTermRetentionPolicies beginUpdate" })
         @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/backupShortTermRetentionPolicies/{policyName}")
-        Observable<Response<ResponseBody>> beginUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("databaseName") String databaseName, @Path("policyName") String policyName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body BackupShortTermRetentionPolicyInner parameters, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<BackupShortTermRetentionPolicyInner>> update(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("databaseName") String databaseName, @PathParam("policyName") String policyName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @BodyParam("application/json; charset=utf-8") BackupShortTermRetentionPolicyInner parameters);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.BackupShortTermRetentionPolicies listByDatabase" })
+        @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/backupShortTermRetentionPolicies/{policyName}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<BackupShortTermRetentionPolicyInner>> resumeUpdate(OperationDescription operationDescription);
+
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/backupShortTermRetentionPolicies")
-        Observable<Response<ResponseBody>> listByDatabase(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("databaseName") String databaseName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl1<BackupShortTermRetentionPolicyInner>>> listByDatabase(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("databaseName") String databaseName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.BackupShortTermRetentionPolicies listByDatabaseNext" })
-        @GET
-        Observable<Response<ResponseBody>> listByDatabaseNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
-
+        @GET("{nextUrl}")
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl1<BackupShortTermRetentionPolicyInner>>> listByDatabaseNext(@PathParam(value = "nextUrl", encoded = true) String nextUrl, @HeaderParam("accept-language") String acceptLanguage);
     }
 
     /**
@@ -96,13 +120,13 @@ public class BackupShortTermRetentionPoliciesInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param databaseName The name of the database.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the BackupShortTermRetentionPolicyInner object if successful.
      */
-    public BackupShortTermRetentionPolicyInner get(String resourceGroupName, String serverName, String databaseName) {
-        return getWithServiceResponseAsync(resourceGroupName, serverName, databaseName).toBlocking().single().body();
+    public BackupShortTermRetentionPolicyInner get(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName) {
+        return getAsync(resourceGroupName, serverName, databaseName).blockingGet();
     }
 
     /**
@@ -112,11 +136,11 @@ public class BackupShortTermRetentionPoliciesInner {
      * @param serverName The name of the server.
      * @param databaseName The name of the database.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<BackupShortTermRetentionPolicyInner> getAsync(String resourceGroupName, String serverName, String databaseName, final ServiceCallback<BackupShortTermRetentionPolicyInner> serviceCallback) {
-        return ServiceFuture.fromResponse(getWithServiceResponseAsync(resourceGroupName, serverName, databaseName), serviceCallback);
+    public ServiceFuture<BackupShortTermRetentionPolicyInner> getAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, ServiceCallback<BackupShortTermRetentionPolicyInner> serviceCallback) {
+        return ServiceFuture.fromBody(getAsync(resourceGroupName, serverName, databaseName), serviceCallback);
     }
 
     /**
@@ -125,28 +149,10 @@ public class BackupShortTermRetentionPoliciesInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param databaseName The name of the database.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the BackupShortTermRetentionPolicyInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<BackupShortTermRetentionPolicyInner> getAsync(String resourceGroupName, String serverName, String databaseName) {
-        return getWithServiceResponseAsync(resourceGroupName, serverName, databaseName).map(new Func1<ServiceResponse<BackupShortTermRetentionPolicyInner>, BackupShortTermRetentionPolicyInner>() {
-            @Override
-            public BackupShortTermRetentionPolicyInner call(ServiceResponse<BackupShortTermRetentionPolicyInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Gets a database's short term retention policy.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the database.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the BackupShortTermRetentionPolicyInner object
-     */
-    public Observable<ServiceResponse<BackupShortTermRetentionPolicyInner>> getWithServiceResponseAsync(String resourceGroupName, String serverName, String databaseName) {
+    public Single<BodyResponse<BackupShortTermRetentionPolicyInner>> getWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -161,25 +167,21 @@ public class BackupShortTermRetentionPoliciesInner {
         }
         final String policyName = "default";
         final String apiVersion = "2017-10-01-preview";
-        return service.get(resourceGroupName, serverName, databaseName, policyName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<BackupShortTermRetentionPolicyInner>>>() {
-                @Override
-                public Observable<ServiceResponse<BackupShortTermRetentionPolicyInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<BackupShortTermRetentionPolicyInner> clientResponse = getDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.get(resourceGroupName, serverName, databaseName, policyName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<BackupShortTermRetentionPolicyInner> getDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<BackupShortTermRetentionPolicyInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<BackupShortTermRetentionPolicyInner>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Gets a database's short term retention policy.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<BackupShortTermRetentionPolicyInner> getAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName) {
+        return getWithRestResponseAsync(resourceGroupName, serverName, databaseName)
+            .flatMapMaybe((BodyResponse<BackupShortTermRetentionPolicyInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
@@ -188,13 +190,13 @@ public class BackupShortTermRetentionPoliciesInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param databaseName The name of the database.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the BackupShortTermRetentionPolicyInner object if successful.
      */
-    public BackupShortTermRetentionPolicyInner createOrUpdate(String resourceGroupName, String serverName, String databaseName) {
-        return createOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, databaseName).toBlocking().last().body();
+    public BackupShortTermRetentionPolicyInner beginCreateOrUpdate(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName) {
+        return beginCreateOrUpdateAsync(resourceGroupName, serverName, databaseName).blockingLast().result();
     }
 
     /**
@@ -204,11 +206,11 @@ public class BackupShortTermRetentionPoliciesInner {
      * @param serverName The name of the server.
      * @param databaseName The name of the database.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;BackupShortTermRetentionPolicyInner&gt; object.
      */
-    public ServiceFuture<BackupShortTermRetentionPolicyInner> createOrUpdateAsync(String resourceGroupName, String serverName, String databaseName, final ServiceCallback<BackupShortTermRetentionPolicyInner> serviceCallback) {
-        return ServiceFuture.fromResponse(createOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, databaseName), serviceCallback);
+    public ServiceFuture<BackupShortTermRetentionPolicyInner> beginCreateOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, ServiceCallback<BackupShortTermRetentionPolicyInner> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginCreateOrUpdateAsync(resourceGroupName, serverName, databaseName), serviceCallback);
     }
 
     /**
@@ -217,28 +219,10 @@ public class BackupShortTermRetentionPoliciesInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param databaseName The name of the database.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<BackupShortTermRetentionPolicyInner> createOrUpdateAsync(String resourceGroupName, String serverName, String databaseName) {
-        return createOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, databaseName).map(new Func1<ServiceResponse<BackupShortTermRetentionPolicyInner>, BackupShortTermRetentionPolicyInner>() {
-            @Override
-            public BackupShortTermRetentionPolicyInner call(ServiceResponse<BackupShortTermRetentionPolicyInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Updates a database's short term retention policy.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the database.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<BackupShortTermRetentionPolicyInner>> createOrUpdateWithServiceResponseAsync(String resourceGroupName, String serverName, String databaseName) {
+    public Observable<OperationStatus<BackupShortTermRetentionPolicyInner>> beginCreateOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -256,9 +240,9 @@ public class BackupShortTermRetentionPoliciesInner {
         final Integer retentionDays = null;
         BackupShortTermRetentionPolicyInner parameters = new BackupShortTermRetentionPolicyInner();
         parameters.withRetentionDays(null);
-        Observable<Response<ResponseBody>> observable = service.createOrUpdate(resourceGroupName, serverName, databaseName, policyName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent());
-        return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<BackupShortTermRetentionPolicyInner>() { }.getType());
+        return service.beginCreateOrUpdate(resourceGroupName, serverName, databaseName, policyName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters);
     }
+
     /**
      * Updates a database's short term retention policy.
      *
@@ -266,13 +250,13 @@ public class BackupShortTermRetentionPoliciesInner {
      * @param serverName The name of the server.
      * @param databaseName The name of the database.
      * @param retentionDays The backup retention period in days. This is how many days Point-in-Time Restore will be supported.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the BackupShortTermRetentionPolicyInner object if successful.
      */
-    public BackupShortTermRetentionPolicyInner createOrUpdate(String resourceGroupName, String serverName, String databaseName, Integer retentionDays) {
-        return createOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, databaseName, retentionDays).toBlocking().last().body();
+    public BackupShortTermRetentionPolicyInner beginCreateOrUpdate(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, Integer retentionDays) {
+        return beginCreateOrUpdateAsync(resourceGroupName, serverName, databaseName, retentionDays).blockingLast().result();
     }
 
     /**
@@ -283,11 +267,11 @@ public class BackupShortTermRetentionPoliciesInner {
      * @param databaseName The name of the database.
      * @param retentionDays The backup retention period in days. This is how many days Point-in-Time Restore will be supported.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;BackupShortTermRetentionPolicyInner&gt; object.
      */
-    public ServiceFuture<BackupShortTermRetentionPolicyInner> createOrUpdateAsync(String resourceGroupName, String serverName, String databaseName, Integer retentionDays, final ServiceCallback<BackupShortTermRetentionPolicyInner> serviceCallback) {
-        return ServiceFuture.fromResponse(createOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, databaseName, retentionDays), serviceCallback);
+    public ServiceFuture<BackupShortTermRetentionPolicyInner> beginCreateOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, Integer retentionDays, ServiceCallback<BackupShortTermRetentionPolicyInner> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginCreateOrUpdateAsync(resourceGroupName, serverName, databaseName, retentionDays), serviceCallback);
     }
 
     /**
@@ -297,29 +281,10 @@ public class BackupShortTermRetentionPoliciesInner {
      * @param serverName The name of the server.
      * @param databaseName The name of the database.
      * @param retentionDays The backup retention period in days. This is how many days Point-in-Time Restore will be supported.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<BackupShortTermRetentionPolicyInner> createOrUpdateAsync(String resourceGroupName, String serverName, String databaseName, Integer retentionDays) {
-        return createOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, databaseName, retentionDays).map(new Func1<ServiceResponse<BackupShortTermRetentionPolicyInner>, BackupShortTermRetentionPolicyInner>() {
-            @Override
-            public BackupShortTermRetentionPolicyInner call(ServiceResponse<BackupShortTermRetentionPolicyInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Updates a database's short term retention policy.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the database.
-     * @param retentionDays The backup retention period in days. This is how many days Point-in-Time Restore will be supported.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<BackupShortTermRetentionPolicyInner>> createOrUpdateWithServiceResponseAsync(String resourceGroupName, String serverName, String databaseName, Integer retentionDays) {
+    public Observable<OperationStatus<BackupShortTermRetentionPolicyInner>> beginCreateOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, Integer retentionDays) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -336,8 +301,7 @@ public class BackupShortTermRetentionPoliciesInner {
         final String apiVersion = "2017-10-01-preview";
         BackupShortTermRetentionPolicyInner parameters = new BackupShortTermRetentionPolicyInner();
         parameters.withRetentionDays(retentionDays);
-        Observable<Response<ResponseBody>> observable = service.createOrUpdate(resourceGroupName, serverName, databaseName, policyName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent());
-        return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<BackupShortTermRetentionPolicyInner>() { }.getType());
+        return service.beginCreateOrUpdate(resourceGroupName, serverName, databaseName, policyName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters);
     }
 
     /**
@@ -346,13 +310,13 @@ public class BackupShortTermRetentionPoliciesInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param databaseName The name of the database.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the BackupShortTermRetentionPolicyInner object if successful.
      */
-    public BackupShortTermRetentionPolicyInner beginCreateOrUpdate(String resourceGroupName, String serverName, String databaseName) {
-        return beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, databaseName).toBlocking().single().body();
+    public BackupShortTermRetentionPolicyInner createOrUpdate(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName) {
+        return createOrUpdateAsync(resourceGroupName, serverName, databaseName).blockingGet();
     }
 
     /**
@@ -362,11 +326,11 @@ public class BackupShortTermRetentionPoliciesInner {
      * @param serverName The name of the server.
      * @param databaseName The name of the database.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<BackupShortTermRetentionPolicyInner> beginCreateOrUpdateAsync(String resourceGroupName, String serverName, String databaseName, final ServiceCallback<BackupShortTermRetentionPolicyInner> serviceCallback) {
-        return ServiceFuture.fromResponse(beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, databaseName), serviceCallback);
+    public ServiceFuture<BackupShortTermRetentionPolicyInner> createOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, ServiceCallback<BackupShortTermRetentionPolicyInner> serviceCallback) {
+        return ServiceFuture.fromBody(createOrUpdateAsync(resourceGroupName, serverName, databaseName), serviceCallback);
     }
 
     /**
@@ -375,28 +339,10 @@ public class BackupShortTermRetentionPoliciesInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param databaseName The name of the database.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the BackupShortTermRetentionPolicyInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<BackupShortTermRetentionPolicyInner> beginCreateOrUpdateAsync(String resourceGroupName, String serverName, String databaseName) {
-        return beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, databaseName).map(new Func1<ServiceResponse<BackupShortTermRetentionPolicyInner>, BackupShortTermRetentionPolicyInner>() {
-            @Override
-            public BackupShortTermRetentionPolicyInner call(ServiceResponse<BackupShortTermRetentionPolicyInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Updates a database's short term retention policy.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the database.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the BackupShortTermRetentionPolicyInner object
-     */
-    public Observable<ServiceResponse<BackupShortTermRetentionPolicyInner>> beginCreateOrUpdateWithServiceResponseAsync(String resourceGroupName, String serverName, String databaseName) {
+    public Single<BodyResponse<BackupShortTermRetentionPolicyInner>> createOrUpdateWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -414,18 +360,21 @@ public class BackupShortTermRetentionPoliciesInner {
         final Integer retentionDays = null;
         BackupShortTermRetentionPolicyInner parameters = new BackupShortTermRetentionPolicyInner();
         parameters.withRetentionDays(null);
-        return service.beginCreateOrUpdate(resourceGroupName, serverName, databaseName, policyName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<BackupShortTermRetentionPolicyInner>>>() {
-                @Override
-                public Observable<ServiceResponse<BackupShortTermRetentionPolicyInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<BackupShortTermRetentionPolicyInner> clientResponse = beginCreateOrUpdateDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.createOrUpdate(resourceGroupName, serverName, databaseName, policyName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters);
+    }
+
+    /**
+     * Updates a database's short term retention policy.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<BackupShortTermRetentionPolicyInner> createOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName) {
+        return createOrUpdateWithRestResponseAsync(resourceGroupName, serverName, databaseName)
+            .flatMapMaybe((BodyResponse<BackupShortTermRetentionPolicyInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
@@ -435,13 +384,13 @@ public class BackupShortTermRetentionPoliciesInner {
      * @param serverName The name of the server.
      * @param databaseName The name of the database.
      * @param retentionDays The backup retention period in days. This is how many days Point-in-Time Restore will be supported.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the BackupShortTermRetentionPolicyInner object if successful.
      */
-    public BackupShortTermRetentionPolicyInner beginCreateOrUpdate(String resourceGroupName, String serverName, String databaseName, Integer retentionDays) {
-        return beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, databaseName, retentionDays).toBlocking().single().body();
+    public BackupShortTermRetentionPolicyInner createOrUpdate(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, Integer retentionDays) {
+        return createOrUpdateAsync(resourceGroupName, serverName, databaseName, retentionDays).blockingGet();
     }
 
     /**
@@ -452,11 +401,11 @@ public class BackupShortTermRetentionPoliciesInner {
      * @param databaseName The name of the database.
      * @param retentionDays The backup retention period in days. This is how many days Point-in-Time Restore will be supported.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<BackupShortTermRetentionPolicyInner> beginCreateOrUpdateAsync(String resourceGroupName, String serverName, String databaseName, Integer retentionDays, final ServiceCallback<BackupShortTermRetentionPolicyInner> serviceCallback) {
-        return ServiceFuture.fromResponse(beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, databaseName, retentionDays), serviceCallback);
+    public ServiceFuture<BackupShortTermRetentionPolicyInner> createOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, Integer retentionDays, ServiceCallback<BackupShortTermRetentionPolicyInner> serviceCallback) {
+        return ServiceFuture.fromBody(createOrUpdateAsync(resourceGroupName, serverName, databaseName, retentionDays), serviceCallback);
     }
 
     /**
@@ -466,29 +415,10 @@ public class BackupShortTermRetentionPoliciesInner {
      * @param serverName The name of the server.
      * @param databaseName The name of the database.
      * @param retentionDays The backup retention period in days. This is how many days Point-in-Time Restore will be supported.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the BackupShortTermRetentionPolicyInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<BackupShortTermRetentionPolicyInner> beginCreateOrUpdateAsync(String resourceGroupName, String serverName, String databaseName, Integer retentionDays) {
-        return beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, databaseName, retentionDays).map(new Func1<ServiceResponse<BackupShortTermRetentionPolicyInner>, BackupShortTermRetentionPolicyInner>() {
-            @Override
-            public BackupShortTermRetentionPolicyInner call(ServiceResponse<BackupShortTermRetentionPolicyInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Updates a database's short term retention policy.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the database.
-     * @param retentionDays The backup retention period in days. This is how many days Point-in-Time Restore will be supported.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the BackupShortTermRetentionPolicyInner object
-     */
-    public Observable<ServiceResponse<BackupShortTermRetentionPolicyInner>> beginCreateOrUpdateWithServiceResponseAsync(String resourceGroupName, String serverName, String databaseName, Integer retentionDays) {
+    public Single<BodyResponse<BackupShortTermRetentionPolicyInner>> createOrUpdateWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, Integer retentionDays) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -505,26 +435,7 @@ public class BackupShortTermRetentionPoliciesInner {
         final String apiVersion = "2017-10-01-preview";
         BackupShortTermRetentionPolicyInner parameters = new BackupShortTermRetentionPolicyInner();
         parameters.withRetentionDays(retentionDays);
-        return service.beginCreateOrUpdate(resourceGroupName, serverName, databaseName, policyName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<BackupShortTermRetentionPolicyInner>>>() {
-                @Override
-                public Observable<ServiceResponse<BackupShortTermRetentionPolicyInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<BackupShortTermRetentionPolicyInner> clientResponse = beginCreateOrUpdateDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<BackupShortTermRetentionPolicyInner> beginCreateOrUpdateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<BackupShortTermRetentionPolicyInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<BackupShortTermRetentionPolicyInner>() { }.getType())
-                .register(202, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+        return service.createOrUpdate(resourceGroupName, serverName, databaseName, policyName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters);
     }
 
     /**
@@ -533,13 +444,42 @@ public class BackupShortTermRetentionPoliciesInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param databaseName The name of the database.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @param retentionDays The backup retention period in days. This is how many days Point-in-Time Restore will be supported.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<BackupShortTermRetentionPolicyInner> createOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, Integer retentionDays) {
+        return createOrUpdateWithRestResponseAsync(resourceGroupName, serverName, databaseName, retentionDays)
+            .flatMapMaybe((BodyResponse<BackupShortTermRetentionPolicyInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
+    }
+
+    /**
+     * Updates a database's short term retention policy. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<BackupShortTermRetentionPolicyInner>> resumeCreateOrUpdate(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeCreateOrUpdate(operationDescription);
+    }
+
+    /**
+     * Updates a database's short term retention policy.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the BackupShortTermRetentionPolicyInner object if successful.
      */
-    public BackupShortTermRetentionPolicyInner update(String resourceGroupName, String serverName, String databaseName) {
-        return updateWithServiceResponseAsync(resourceGroupName, serverName, databaseName).toBlocking().last().body();
+    public BackupShortTermRetentionPolicyInner beginUpdate(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName) {
+        return beginUpdateAsync(resourceGroupName, serverName, databaseName).blockingLast().result();
     }
 
     /**
@@ -549,11 +489,11 @@ public class BackupShortTermRetentionPoliciesInner {
      * @param serverName The name of the server.
      * @param databaseName The name of the database.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;BackupShortTermRetentionPolicyInner&gt; object.
      */
-    public ServiceFuture<BackupShortTermRetentionPolicyInner> updateAsync(String resourceGroupName, String serverName, String databaseName, final ServiceCallback<BackupShortTermRetentionPolicyInner> serviceCallback) {
-        return ServiceFuture.fromResponse(updateWithServiceResponseAsync(resourceGroupName, serverName, databaseName), serviceCallback);
+    public ServiceFuture<BackupShortTermRetentionPolicyInner> beginUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, ServiceCallback<BackupShortTermRetentionPolicyInner> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginUpdateAsync(resourceGroupName, serverName, databaseName), serviceCallback);
     }
 
     /**
@@ -562,28 +502,10 @@ public class BackupShortTermRetentionPoliciesInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param databaseName The name of the database.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<BackupShortTermRetentionPolicyInner> updateAsync(String resourceGroupName, String serverName, String databaseName) {
-        return updateWithServiceResponseAsync(resourceGroupName, serverName, databaseName).map(new Func1<ServiceResponse<BackupShortTermRetentionPolicyInner>, BackupShortTermRetentionPolicyInner>() {
-            @Override
-            public BackupShortTermRetentionPolicyInner call(ServiceResponse<BackupShortTermRetentionPolicyInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Updates a database's short term retention policy.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the database.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<BackupShortTermRetentionPolicyInner>> updateWithServiceResponseAsync(String resourceGroupName, String serverName, String databaseName) {
+    public Observable<OperationStatus<BackupShortTermRetentionPolicyInner>> beginUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -601,9 +523,9 @@ public class BackupShortTermRetentionPoliciesInner {
         final Integer retentionDays = null;
         BackupShortTermRetentionPolicyInner parameters = new BackupShortTermRetentionPolicyInner();
         parameters.withRetentionDays(null);
-        Observable<Response<ResponseBody>> observable = service.update(resourceGroupName, serverName, databaseName, policyName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent());
-        return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<BackupShortTermRetentionPolicyInner>() { }.getType());
+        return service.beginUpdate(resourceGroupName, serverName, databaseName, policyName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters);
     }
+
     /**
      * Updates a database's short term retention policy.
      *
@@ -611,13 +533,13 @@ public class BackupShortTermRetentionPoliciesInner {
      * @param serverName The name of the server.
      * @param databaseName The name of the database.
      * @param retentionDays The backup retention period in days. This is how many days Point-in-Time Restore will be supported.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the BackupShortTermRetentionPolicyInner object if successful.
      */
-    public BackupShortTermRetentionPolicyInner update(String resourceGroupName, String serverName, String databaseName, Integer retentionDays) {
-        return updateWithServiceResponseAsync(resourceGroupName, serverName, databaseName, retentionDays).toBlocking().last().body();
+    public BackupShortTermRetentionPolicyInner beginUpdate(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, Integer retentionDays) {
+        return beginUpdateAsync(resourceGroupName, serverName, databaseName, retentionDays).blockingLast().result();
     }
 
     /**
@@ -628,11 +550,11 @@ public class BackupShortTermRetentionPoliciesInner {
      * @param databaseName The name of the database.
      * @param retentionDays The backup retention period in days. This is how many days Point-in-Time Restore will be supported.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;BackupShortTermRetentionPolicyInner&gt; object.
      */
-    public ServiceFuture<BackupShortTermRetentionPolicyInner> updateAsync(String resourceGroupName, String serverName, String databaseName, Integer retentionDays, final ServiceCallback<BackupShortTermRetentionPolicyInner> serviceCallback) {
-        return ServiceFuture.fromResponse(updateWithServiceResponseAsync(resourceGroupName, serverName, databaseName, retentionDays), serviceCallback);
+    public ServiceFuture<BackupShortTermRetentionPolicyInner> beginUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, Integer retentionDays, ServiceCallback<BackupShortTermRetentionPolicyInner> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginUpdateAsync(resourceGroupName, serverName, databaseName, retentionDays), serviceCallback);
     }
 
     /**
@@ -642,29 +564,10 @@ public class BackupShortTermRetentionPoliciesInner {
      * @param serverName The name of the server.
      * @param databaseName The name of the database.
      * @param retentionDays The backup retention period in days. This is how many days Point-in-Time Restore will be supported.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<BackupShortTermRetentionPolicyInner> updateAsync(String resourceGroupName, String serverName, String databaseName, Integer retentionDays) {
-        return updateWithServiceResponseAsync(resourceGroupName, serverName, databaseName, retentionDays).map(new Func1<ServiceResponse<BackupShortTermRetentionPolicyInner>, BackupShortTermRetentionPolicyInner>() {
-            @Override
-            public BackupShortTermRetentionPolicyInner call(ServiceResponse<BackupShortTermRetentionPolicyInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Updates a database's short term retention policy.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the database.
-     * @param retentionDays The backup retention period in days. This is how many days Point-in-Time Restore will be supported.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<BackupShortTermRetentionPolicyInner>> updateWithServiceResponseAsync(String resourceGroupName, String serverName, String databaseName, Integer retentionDays) {
+    public Observable<OperationStatus<BackupShortTermRetentionPolicyInner>> beginUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, Integer retentionDays) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -681,8 +584,7 @@ public class BackupShortTermRetentionPoliciesInner {
         final String apiVersion = "2017-10-01-preview";
         BackupShortTermRetentionPolicyInner parameters = new BackupShortTermRetentionPolicyInner();
         parameters.withRetentionDays(retentionDays);
-        Observable<Response<ResponseBody>> observable = service.update(resourceGroupName, serverName, databaseName, policyName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent());
-        return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<BackupShortTermRetentionPolicyInner>() { }.getType());
+        return service.beginUpdate(resourceGroupName, serverName, databaseName, policyName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters);
     }
 
     /**
@@ -691,13 +593,13 @@ public class BackupShortTermRetentionPoliciesInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param databaseName The name of the database.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the BackupShortTermRetentionPolicyInner object if successful.
      */
-    public BackupShortTermRetentionPolicyInner beginUpdate(String resourceGroupName, String serverName, String databaseName) {
-        return beginUpdateWithServiceResponseAsync(resourceGroupName, serverName, databaseName).toBlocking().single().body();
+    public BackupShortTermRetentionPolicyInner update(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName) {
+        return updateAsync(resourceGroupName, serverName, databaseName).blockingGet();
     }
 
     /**
@@ -707,11 +609,11 @@ public class BackupShortTermRetentionPoliciesInner {
      * @param serverName The name of the server.
      * @param databaseName The name of the database.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<BackupShortTermRetentionPolicyInner> beginUpdateAsync(String resourceGroupName, String serverName, String databaseName, final ServiceCallback<BackupShortTermRetentionPolicyInner> serviceCallback) {
-        return ServiceFuture.fromResponse(beginUpdateWithServiceResponseAsync(resourceGroupName, serverName, databaseName), serviceCallback);
+    public ServiceFuture<BackupShortTermRetentionPolicyInner> updateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, ServiceCallback<BackupShortTermRetentionPolicyInner> serviceCallback) {
+        return ServiceFuture.fromBody(updateAsync(resourceGroupName, serverName, databaseName), serviceCallback);
     }
 
     /**
@@ -720,28 +622,10 @@ public class BackupShortTermRetentionPoliciesInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param databaseName The name of the database.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the BackupShortTermRetentionPolicyInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<BackupShortTermRetentionPolicyInner> beginUpdateAsync(String resourceGroupName, String serverName, String databaseName) {
-        return beginUpdateWithServiceResponseAsync(resourceGroupName, serverName, databaseName).map(new Func1<ServiceResponse<BackupShortTermRetentionPolicyInner>, BackupShortTermRetentionPolicyInner>() {
-            @Override
-            public BackupShortTermRetentionPolicyInner call(ServiceResponse<BackupShortTermRetentionPolicyInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Updates a database's short term retention policy.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the database.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the BackupShortTermRetentionPolicyInner object
-     */
-    public Observable<ServiceResponse<BackupShortTermRetentionPolicyInner>> beginUpdateWithServiceResponseAsync(String resourceGroupName, String serverName, String databaseName) {
+    public Single<BodyResponse<BackupShortTermRetentionPolicyInner>> updateWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -759,18 +643,21 @@ public class BackupShortTermRetentionPoliciesInner {
         final Integer retentionDays = null;
         BackupShortTermRetentionPolicyInner parameters = new BackupShortTermRetentionPolicyInner();
         parameters.withRetentionDays(null);
-        return service.beginUpdate(resourceGroupName, serverName, databaseName, policyName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<BackupShortTermRetentionPolicyInner>>>() {
-                @Override
-                public Observable<ServiceResponse<BackupShortTermRetentionPolicyInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<BackupShortTermRetentionPolicyInner> clientResponse = beginUpdateDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.update(resourceGroupName, serverName, databaseName, policyName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters);
+    }
+
+    /**
+     * Updates a database's short term retention policy.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<BackupShortTermRetentionPolicyInner> updateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName) {
+        return updateWithRestResponseAsync(resourceGroupName, serverName, databaseName)
+            .flatMapMaybe((BodyResponse<BackupShortTermRetentionPolicyInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
@@ -780,13 +667,13 @@ public class BackupShortTermRetentionPoliciesInner {
      * @param serverName The name of the server.
      * @param databaseName The name of the database.
      * @param retentionDays The backup retention period in days. This is how many days Point-in-Time Restore will be supported.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the BackupShortTermRetentionPolicyInner object if successful.
      */
-    public BackupShortTermRetentionPolicyInner beginUpdate(String resourceGroupName, String serverName, String databaseName, Integer retentionDays) {
-        return beginUpdateWithServiceResponseAsync(resourceGroupName, serverName, databaseName, retentionDays).toBlocking().single().body();
+    public BackupShortTermRetentionPolicyInner update(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, Integer retentionDays) {
+        return updateAsync(resourceGroupName, serverName, databaseName, retentionDays).blockingGet();
     }
 
     /**
@@ -797,11 +684,11 @@ public class BackupShortTermRetentionPoliciesInner {
      * @param databaseName The name of the database.
      * @param retentionDays The backup retention period in days. This is how many days Point-in-Time Restore will be supported.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<BackupShortTermRetentionPolicyInner> beginUpdateAsync(String resourceGroupName, String serverName, String databaseName, Integer retentionDays, final ServiceCallback<BackupShortTermRetentionPolicyInner> serviceCallback) {
-        return ServiceFuture.fromResponse(beginUpdateWithServiceResponseAsync(resourceGroupName, serverName, databaseName, retentionDays), serviceCallback);
+    public ServiceFuture<BackupShortTermRetentionPolicyInner> updateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, Integer retentionDays, ServiceCallback<BackupShortTermRetentionPolicyInner> serviceCallback) {
+        return ServiceFuture.fromBody(updateAsync(resourceGroupName, serverName, databaseName, retentionDays), serviceCallback);
     }
 
     /**
@@ -811,29 +698,10 @@ public class BackupShortTermRetentionPoliciesInner {
      * @param serverName The name of the server.
      * @param databaseName The name of the database.
      * @param retentionDays The backup retention period in days. This is how many days Point-in-Time Restore will be supported.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the BackupShortTermRetentionPolicyInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<BackupShortTermRetentionPolicyInner> beginUpdateAsync(String resourceGroupName, String serverName, String databaseName, Integer retentionDays) {
-        return beginUpdateWithServiceResponseAsync(resourceGroupName, serverName, databaseName, retentionDays).map(new Func1<ServiceResponse<BackupShortTermRetentionPolicyInner>, BackupShortTermRetentionPolicyInner>() {
-            @Override
-            public BackupShortTermRetentionPolicyInner call(ServiceResponse<BackupShortTermRetentionPolicyInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Updates a database's short term retention policy.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the database.
-     * @param retentionDays The backup retention period in days. This is how many days Point-in-Time Restore will be supported.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the BackupShortTermRetentionPolicyInner object
-     */
-    public Observable<ServiceResponse<BackupShortTermRetentionPolicyInner>> beginUpdateWithServiceResponseAsync(String resourceGroupName, String serverName, String databaseName, Integer retentionDays) {
+    public Single<BodyResponse<BackupShortTermRetentionPolicyInner>> updateWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, Integer retentionDays) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -850,26 +718,36 @@ public class BackupShortTermRetentionPoliciesInner {
         final String apiVersion = "2017-10-01-preview";
         BackupShortTermRetentionPolicyInner parameters = new BackupShortTermRetentionPolicyInner();
         parameters.withRetentionDays(retentionDays);
-        return service.beginUpdate(resourceGroupName, serverName, databaseName, policyName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<BackupShortTermRetentionPolicyInner>>>() {
-                @Override
-                public Observable<ServiceResponse<BackupShortTermRetentionPolicyInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<BackupShortTermRetentionPolicyInner> clientResponse = beginUpdateDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.update(resourceGroupName, serverName, databaseName, policyName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters);
     }
 
-    private ServiceResponse<BackupShortTermRetentionPolicyInner> beginUpdateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<BackupShortTermRetentionPolicyInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<BackupShortTermRetentionPolicyInner>() { }.getType())
-                .register(202, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Updates a database's short term retention policy.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database.
+     * @param retentionDays The backup retention period in days. This is how many days Point-in-Time Restore will be supported.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<BackupShortTermRetentionPolicyInner> updateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, Integer retentionDays) {
+        return updateWithRestResponseAsync(resourceGroupName, serverName, databaseName, retentionDays)
+            .flatMapMaybe((BodyResponse<BackupShortTermRetentionPolicyInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
+    }
+
+    /**
+     * Updates a database's short term retention policy. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<BackupShortTermRetentionPolicyInner>> resumeUpdate(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeUpdate(operationDescription);
     }
 
     /**
@@ -878,17 +756,17 @@ public class BackupShortTermRetentionPoliciesInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param databaseName The name of the database.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;BackupShortTermRetentionPolicyInner&gt; object if successful.
      */
-    public PagedList<BackupShortTermRetentionPolicyInner> listByDatabase(final String resourceGroupName, final String serverName, final String databaseName) {
-        ServiceResponse<Page<BackupShortTermRetentionPolicyInner>> response = listByDatabaseSinglePageAsync(resourceGroupName, serverName, databaseName).toBlocking().single();
-        return new PagedList<BackupShortTermRetentionPolicyInner>(response.body()) {
+    public PagedList<BackupShortTermRetentionPolicyInner> listByDatabase(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName) {
+        Page<BackupShortTermRetentionPolicyInner> response = listByDatabaseSinglePageAsync(resourceGroupName, serverName, databaseName).blockingGet();
+        return new PagedList<BackupShortTermRetentionPolicyInner>(response) {
             @Override
             public Page<BackupShortTermRetentionPolicyInner> nextPage(String nextPageLink) {
-                return listByDatabaseNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listByDatabaseNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -899,74 +777,31 @@ public class BackupShortTermRetentionPoliciesInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param databaseName The name of the database.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;BackupShortTermRetentionPolicyInner&gt; object.
      */
-    public ServiceFuture<List<BackupShortTermRetentionPolicyInner>> listByDatabaseAsync(final String resourceGroupName, final String serverName, final String databaseName, final ListOperationCallback<BackupShortTermRetentionPolicyInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listByDatabaseSinglePageAsync(resourceGroupName, serverName, databaseName),
-            new Func1<String, Observable<ServiceResponse<Page<BackupShortTermRetentionPolicyInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<BackupShortTermRetentionPolicyInner>>> call(String nextPageLink) {
-                    return listByDatabaseNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets a database's short term retention policy.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the database.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;BackupShortTermRetentionPolicyInner&gt; object
-     */
-    public Observable<Page<BackupShortTermRetentionPolicyInner>> listByDatabaseAsync(final String resourceGroupName, final String serverName, final String databaseName) {
-        return listByDatabaseWithServiceResponseAsync(resourceGroupName, serverName, databaseName)
-            .map(new Func1<ServiceResponse<Page<BackupShortTermRetentionPolicyInner>>, Page<BackupShortTermRetentionPolicyInner>>() {
-                @Override
-                public Page<BackupShortTermRetentionPolicyInner> call(ServiceResponse<Page<BackupShortTermRetentionPolicyInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets a database's short term retention policy.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the database.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;BackupShortTermRetentionPolicyInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<BackupShortTermRetentionPolicyInner>>> listByDatabaseWithServiceResponseAsync(final String resourceGroupName, final String serverName, final String databaseName) {
+    public Observable<Page<BackupShortTermRetentionPolicyInner>> listByDatabaseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName) {
         return listByDatabaseSinglePageAsync(resourceGroupName, serverName, databaseName)
-            .concatMap(new Func1<ServiceResponse<Page<BackupShortTermRetentionPolicyInner>>, Observable<ServiceResponse<Page<BackupShortTermRetentionPolicyInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<BackupShortTermRetentionPolicyInner>>> call(ServiceResponse<Page<BackupShortTermRetentionPolicyInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listByDatabaseNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<BackupShortTermRetentionPolicyInner> page) -> {
+                String nextPageLink = page.nextPageLink();
+                if (nextPageLink == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listByDatabaseNextAsync(nextPageLink));
             });
     }
 
     /**
      * Gets a database's short term retention policy.
      *
-    ServiceResponse<PageImpl1<BackupShortTermRetentionPolicyInner>> * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-    ServiceResponse<PageImpl1<BackupShortTermRetentionPolicyInner>> * @param serverName The name of the server.
-    ServiceResponse<PageImpl1<BackupShortTermRetentionPolicyInner>> * @param databaseName The name of the database.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;BackupShortTermRetentionPolicyInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;BackupShortTermRetentionPolicyInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<BackupShortTermRetentionPolicyInner>>> listByDatabaseSinglePageAsync(final String resourceGroupName, final String serverName, final String databaseName) {
+    public Single<Page<BackupShortTermRetentionPolicyInner>> listByDatabaseSinglePageAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -980,42 +815,25 @@ public class BackupShortTermRetentionPoliciesInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2017-10-01-preview";
-        return service.listByDatabase(resourceGroupName, serverName, databaseName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<BackupShortTermRetentionPolicyInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<BackupShortTermRetentionPolicyInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl1<BackupShortTermRetentionPolicyInner>> result = listByDatabaseDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<BackupShortTermRetentionPolicyInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl1<BackupShortTermRetentionPolicyInner>> listByDatabaseDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl1<BackupShortTermRetentionPolicyInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl1<BackupShortTermRetentionPolicyInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+        return service.listByDatabase(resourceGroupName, serverName, databaseName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl1<BackupShortTermRetentionPolicyInner>> res) -> res.body());
     }
 
     /**
      * Gets a database's short term retention policy.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;BackupShortTermRetentionPolicyInner&gt; object if successful.
      */
-    public PagedList<BackupShortTermRetentionPolicyInner> listByDatabaseNext(final String nextPageLink) {
-        ServiceResponse<Page<BackupShortTermRetentionPolicyInner>> response = listByDatabaseNextSinglePageAsync(nextPageLink).toBlocking().single();
-        return new PagedList<BackupShortTermRetentionPolicyInner>(response.body()) {
+    public PagedList<BackupShortTermRetentionPolicyInner> listByDatabaseNext(@NonNull String nextPageLink) {
+        Page<BackupShortTermRetentionPolicyInner> response = listByDatabaseNextSinglePageAsync(nextPageLink).blockingGet();
+        return new PagedList<BackupShortTermRetentionPolicyInner>(response) {
             @Override
             public Page<BackupShortTermRetentionPolicyInner> nextPage(String nextPageLink) {
-                return listByDatabaseNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listByDatabaseNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -1024,92 +842,34 @@ public class BackupShortTermRetentionPoliciesInner {
      * Gets a database's short term retention policy.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;BackupShortTermRetentionPolicyInner&gt; object.
      */
-    public ServiceFuture<List<BackupShortTermRetentionPolicyInner>> listByDatabaseNextAsync(final String nextPageLink, final ServiceFuture<List<BackupShortTermRetentionPolicyInner>> serviceFuture, final ListOperationCallback<BackupShortTermRetentionPolicyInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listByDatabaseNextSinglePageAsync(nextPageLink),
-            new Func1<String, Observable<ServiceResponse<Page<BackupShortTermRetentionPolicyInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<BackupShortTermRetentionPolicyInner>>> call(String nextPageLink) {
-                    return listByDatabaseNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets a database's short term retention policy.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;BackupShortTermRetentionPolicyInner&gt; object
-     */
-    public Observable<Page<BackupShortTermRetentionPolicyInner>> listByDatabaseNextAsync(final String nextPageLink) {
-        return listByDatabaseNextWithServiceResponseAsync(nextPageLink)
-            .map(new Func1<ServiceResponse<Page<BackupShortTermRetentionPolicyInner>>, Page<BackupShortTermRetentionPolicyInner>>() {
-                @Override
-                public Page<BackupShortTermRetentionPolicyInner> call(ServiceResponse<Page<BackupShortTermRetentionPolicyInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets a database's short term retention policy.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;BackupShortTermRetentionPolicyInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<BackupShortTermRetentionPolicyInner>>> listByDatabaseNextWithServiceResponseAsync(final String nextPageLink) {
+    public Observable<Page<BackupShortTermRetentionPolicyInner>> listByDatabaseNextAsync(@NonNull String nextPageLink) {
         return listByDatabaseNextSinglePageAsync(nextPageLink)
-            .concatMap(new Func1<ServiceResponse<Page<BackupShortTermRetentionPolicyInner>>, Observable<ServiceResponse<Page<BackupShortTermRetentionPolicyInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<BackupShortTermRetentionPolicyInner>>> call(ServiceResponse<Page<BackupShortTermRetentionPolicyInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listByDatabaseNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<BackupShortTermRetentionPolicyInner> page) -> {
+                String nextPageLink1 = page.nextPageLink();
+                if (nextPageLink1 == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listByDatabaseNextAsync(nextPageLink1));
             });
     }
 
     /**
      * Gets a database's short term retention policy.
      *
-    ServiceResponse<PageImpl1<BackupShortTermRetentionPolicyInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;BackupShortTermRetentionPolicyInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;BackupShortTermRetentionPolicyInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<BackupShortTermRetentionPolicyInner>>> listByDatabaseNextSinglePageAsync(final String nextPageLink) {
+    public Single<Page<BackupShortTermRetentionPolicyInner>> listByDatabaseNextSinglePageAsync(@NonNull String nextPageLink) {
         if (nextPageLink == null) {
             throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
         }
         String nextUrl = String.format("%s", nextPageLink);
-        return service.listByDatabaseNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<BackupShortTermRetentionPolicyInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<BackupShortTermRetentionPolicyInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl1<BackupShortTermRetentionPolicyInner>> result = listByDatabaseNextDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<BackupShortTermRetentionPolicyInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.listByDatabaseNext(nextUrl, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl1<BackupShortTermRetentionPolicyInner>> res) -> res.body());
     }
-
-    private ServiceResponse<PageImpl1<BackupShortTermRetentionPolicyInner>> listByDatabaseNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl1<BackupShortTermRetentionPolicyInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl1<BackupShortTermRetentionPolicyInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
-    }
-
 }

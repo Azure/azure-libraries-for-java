@@ -8,15 +8,16 @@
 
 package com.microsoft.azure.v2.management.sql.implementation;
 
-import com.microsoft.azure.v2.management.sql.DataMaskingState;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.v2.management.sql.DataMaskingState;
+import com.microsoft.azure.v2.management.sql.ProxyResource;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
 
 /**
  * Represents a database data masking policy.
  */
 @JsonFlatten
-public class DataMaskingPolicyInner extends ProxyResourceInner {
+public class DataMaskingPolicyInner extends ProxyResource {
     /**
      * The state of the data masking policy. Possible values include:
      * 'Disabled', 'Enabled'.
@@ -61,7 +62,7 @@ public class DataMaskingPolicyInner extends ProxyResourceInner {
     /**
      * Get the dataMaskingState value.
      *
-     * @return the dataMaskingState value
+     * @return the dataMaskingState value.
      */
     public DataMaskingState dataMaskingState() {
         return this.dataMaskingState;
@@ -70,7 +71,7 @@ public class DataMaskingPolicyInner extends ProxyResourceInner {
     /**
      * Set the dataMaskingState value.
      *
-     * @param dataMaskingState the dataMaskingState value to set
+     * @param dataMaskingState the dataMaskingState value to set.
      * @return the DataMaskingPolicyInner object itself.
      */
     public DataMaskingPolicyInner withDataMaskingState(DataMaskingState dataMaskingState) {
@@ -81,7 +82,7 @@ public class DataMaskingPolicyInner extends ProxyResourceInner {
     /**
      * Get the exemptPrincipals value.
      *
-     * @return the exemptPrincipals value
+     * @return the exemptPrincipals value.
      */
     public String exemptPrincipals() {
         return this.exemptPrincipals;
@@ -90,7 +91,7 @@ public class DataMaskingPolicyInner extends ProxyResourceInner {
     /**
      * Set the exemptPrincipals value.
      *
-     * @param exemptPrincipals the exemptPrincipals value to set
+     * @param exemptPrincipals the exemptPrincipals value to set.
      * @return the DataMaskingPolicyInner object itself.
      */
     public DataMaskingPolicyInner withExemptPrincipals(String exemptPrincipals) {
@@ -101,7 +102,7 @@ public class DataMaskingPolicyInner extends ProxyResourceInner {
     /**
      * Get the applicationPrincipals value.
      *
-     * @return the applicationPrincipals value
+     * @return the applicationPrincipals value.
      */
     public String applicationPrincipals() {
         return this.applicationPrincipals;
@@ -110,7 +111,7 @@ public class DataMaskingPolicyInner extends ProxyResourceInner {
     /**
      * Get the maskingLevel value.
      *
-     * @return the maskingLevel value
+     * @return the maskingLevel value.
      */
     public String maskingLevel() {
         return this.maskingLevel;
@@ -119,7 +120,7 @@ public class DataMaskingPolicyInner extends ProxyResourceInner {
     /**
      * Get the location value.
      *
-     * @return the location value
+     * @return the location value.
      */
     public String location() {
         return this.location;
@@ -128,10 +129,9 @@ public class DataMaskingPolicyInner extends ProxyResourceInner {
     /**
      * Get the kind value.
      *
-     * @return the kind value
+     * @return the kind value.
      */
     public String kind() {
         return this.kind;
     }
-
 }

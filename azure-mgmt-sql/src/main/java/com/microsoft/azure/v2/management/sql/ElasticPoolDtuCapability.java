@@ -9,13 +9,12 @@
 package com.microsoft.azure.v2.management.sql;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.List;
 
 /**
  * The Elastic Pool DTU capability.
  */
-public class ElasticPoolDtuCapability {
+public final class ElasticPoolDtuCapability {
     /**
      * The maximum size of the database (see 'unit' for the units).
      */
@@ -62,7 +61,7 @@ public class ElasticPoolDtuCapability {
     /**
      * Get the limit value.
      *
-     * @return the limit value
+     * @return the limit value.
      */
     public Long limit() {
         return this.limit;
@@ -71,7 +70,7 @@ public class ElasticPoolDtuCapability {
     /**
      * Get the maxDatabaseCount value.
      *
-     * @return the maxDatabaseCount value
+     * @return the maxDatabaseCount value.
      */
     public Long maxDatabaseCount() {
         return this.maxDatabaseCount;
@@ -80,7 +79,7 @@ public class ElasticPoolDtuCapability {
     /**
      * Get the status value.
      *
-     * @return the status value
+     * @return the status value.
      */
     public CapabilityStatus status() {
         return this.status;
@@ -89,7 +88,7 @@ public class ElasticPoolDtuCapability {
     /**
      * Get the supportedMaxSizes value.
      *
-     * @return the supportedMaxSizes value
+     * @return the supportedMaxSizes value.
      */
     public List<MaxSizeCapability> supportedMaxSizes() {
         return this.supportedMaxSizes;
@@ -98,7 +97,7 @@ public class ElasticPoolDtuCapability {
     /**
      * Get the includedMaxSize value.
      *
-     * @return the includedMaxSize value
+     * @return the includedMaxSize value.
      */
     public MaxSizeCapability includedMaxSize() {
         return this.includedMaxSize;
@@ -107,7 +106,7 @@ public class ElasticPoolDtuCapability {
     /**
      * Get the supportedPerDatabaseMaxSizes value.
      *
-     * @return the supportedPerDatabaseMaxSizes value
+     * @return the supportedPerDatabaseMaxSizes value.
      */
     public List<MaxSizeCapability> supportedPerDatabaseMaxSizes() {
         return this.supportedPerDatabaseMaxSizes;
@@ -116,10 +115,9 @@ public class ElasticPoolDtuCapability {
     /**
      * Get the supportedPerDatabaseMaxDtus value.
      *
-     * @return the supportedPerDatabaseMaxDtus value
+     * @return the supportedPerDatabaseMaxDtus value.
      */
     public List<ElasticPoolPerDatabaseMaxDtuCapability> supportedPerDatabaseMaxDtus() {
         return this.supportedPerDatabaseMaxDtus;
     }
-
 }

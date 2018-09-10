@@ -14,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * Contains the information necessary to perform a complete database restore
  * operation.
  */
-public class CompleteDatabaseRestoreDefinition {
+public final class CompleteDatabaseRestoreDefinition {
     /**
      * The last backup name to apply.
      */
@@ -24,7 +24,7 @@ public class CompleteDatabaseRestoreDefinition {
     /**
      * Get the lastBackupName value.
      *
-     * @return the lastBackupName value
+     * @return the lastBackupName value.
      */
     public String lastBackupName() {
         return this.lastBackupName;
@@ -33,12 +33,11 @@ public class CompleteDatabaseRestoreDefinition {
     /**
      * Set the lastBackupName value.
      *
-     * @param lastBackupName the lastBackupName value to set
+     * @param lastBackupName the lastBackupName value to set.
      * @return the CompleteDatabaseRestoreDefinition object itself.
      */
     public CompleteDatabaseRestoreDefinition withLastBackupName(String lastBackupName) {
         this.lastBackupName = lastBackupName;
         return this;
     }
-
 }

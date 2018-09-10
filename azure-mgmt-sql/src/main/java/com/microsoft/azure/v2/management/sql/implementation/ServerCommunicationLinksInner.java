@@ -8,73 +8,95 @@
 
 package com.microsoft.azure.v2.management.sql.implementation;
 
-import retrofit2.Retrofit;
-import com.google.common.reflect.TypeToken;
-import com.microsoft.azure.CloudException;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import com.microsoft.rest.ServiceResponse;
-import java.io.IOException;
+import com.microsoft.azure.v2.AzureProxy;
+import com.microsoft.azure.v2.CloudException;
+import com.microsoft.azure.v2.OperationStatus;
+import com.microsoft.azure.v2.util.ServiceFutureUtil;
+import com.microsoft.rest.v2.BodyResponse;
+import com.microsoft.rest.v2.OperationDescription;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
+import com.microsoft.rest.v2.VoidResponse;
+import com.microsoft.rest.v2.annotations.BodyParam;
+import com.microsoft.rest.v2.annotations.DELETE;
+import com.microsoft.rest.v2.annotations.ExpectedResponses;
+import com.microsoft.rest.v2.annotations.GET;
+import com.microsoft.rest.v2.annotations.HeaderParam;
+import com.microsoft.rest.v2.annotations.Host;
+import com.microsoft.rest.v2.annotations.PathParam;
+import com.microsoft.rest.v2.annotations.PUT;
+import com.microsoft.rest.v2.annotations.QueryParam;
+import com.microsoft.rest.v2.annotations.ResumeOperation;
+import com.microsoft.rest.v2.annotations.UnexpectedResponseExceptionType;
+import io.reactivex.Completable;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
+import io.reactivex.Single;
+import io.reactivex.annotations.NonNull;
+import java.util.ArrayList;
 import java.util.List;
-import okhttp3.ResponseBody;
-import retrofit2.http.Body;
-import retrofit2.http.GET;
-import retrofit2.http.Header;
-import retrofit2.http.Headers;
-import retrofit2.http.HTTP;
-import retrofit2.http.Path;
-import retrofit2.http.PUT;
-import retrofit2.http.Query;
-import retrofit2.Response;
-import rx.functions.Func1;
-import rx.Observable;
 
 /**
- * An instance of this class provides access to all the operations defined
- * in ServerCommunicationLinks.
+ * An instance of this class provides access to all the operations defined in
+ * ServerCommunicationLinks.
  */
-public class ServerCommunicationLinksInner {
-    /** The Retrofit service to perform REST calls. */
+public final class ServerCommunicationLinksInner {
+    /**
+     * The proxy service used to perform REST calls.
+     */
     private ServerCommunicationLinksService service;
-    /** The service client containing this operation class. */
+
+    /**
+     * The service client containing this operation class.
+     */
     private SqlManagementClientImpl client;
 
     /**
      * Initializes an instance of ServerCommunicationLinksInner.
      *
-     * @param retrofit the Retrofit instance built from a Retrofit Builder.
      * @param client the instance of the service client containing this operation class.
      */
-    public ServerCommunicationLinksInner(Retrofit retrofit, SqlManagementClientImpl client) {
-        this.service = retrofit.create(ServerCommunicationLinksService.class);
+    public ServerCommunicationLinksInner(SqlManagementClientImpl client) {
+        this.service = AzureProxy.create(ServerCommunicationLinksService.class, client);
         this.client = client;
     }
 
     /**
-     * The interface defining all the services for ServerCommunicationLinks to be
-     * used by Retrofit to perform actually REST calls.
+     * The interface defining all the services for ServerCommunicationLinks to
+     * be used by the proxy service to perform REST calls.
      */
-    interface ServerCommunicationLinksService {
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.ServerCommunicationLinks delete" })
-        @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/communicationLinks/{communicationLinkName}", method = "DELETE", hasBody = true)
-        Observable<Response<ResponseBody>> delete(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("communicationLinkName") String communicationLinkName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+    @Host("https://management.azure.com")
+    private interface ServerCommunicationLinksService {
+        @DELETE("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/communicationLinks/{communicationLinkName}")
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<VoidResponse> delete(@PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("communicationLinkName") String communicationLinkName, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.ServerCommunicationLinks get" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/communicationLinks/{communicationLinkName}")
-        Observable<Response<ResponseBody>> get(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("communicationLinkName") String communicationLinkName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<ServerCommunicationLinkInner>> get(@PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("communicationLinkName") String communicationLinkName, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.ServerCommunicationLinks createOrUpdate" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/communicationLinks/{communicationLinkName}")
-        Observable<Response<ResponseBody>> createOrUpdate(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("communicationLinkName") String communicationLinkName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body ServerCommunicationLinkInner parameters, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 201, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Observable<OperationStatus<ServerCommunicationLinkInner>> beginCreateOrUpdate(@PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("communicationLinkName") String communicationLinkName, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @BodyParam("application/json; charset=utf-8") ServerCommunicationLinkInner parameters);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.ServerCommunicationLinks beginCreateOrUpdate" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/communicationLinks/{communicationLinkName}")
-        Observable<Response<ResponseBody>> beginCreateOrUpdate(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("communicationLinkName") String communicationLinkName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body ServerCommunicationLinkInner parameters, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 201, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<ServerCommunicationLinkInner>> createOrUpdate(@PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("communicationLinkName") String communicationLinkName, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @BodyParam("application/json; charset=utf-8") ServerCommunicationLinkInner parameters);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.ServerCommunicationLinks listByServer" })
+        @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/communicationLinks/{communicationLinkName}")
+        @ExpectedResponses({200, 201, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<ServerCommunicationLinkInner>> resumeCreateOrUpdate(OperationDescription operationDescription);
+
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/communicationLinks")
-        Observable<Response<ResponseBody>> listByServer(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
-
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<List<ServerCommunicationLinkInner>>> listByServer(@PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
     }
 
     /**
@@ -83,12 +105,12 @@ public class ServerCommunicationLinksInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param communicationLinkName The name of the server communication link.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void delete(String resourceGroupName, String serverName, String communicationLinkName) {
-        deleteWithServiceResponseAsync(resourceGroupName, serverName, communicationLinkName).toBlocking().single().body();
+    public void delete(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String communicationLinkName) {
+        deleteAsync(resourceGroupName, serverName, communicationLinkName).blockingAwait();
     }
 
     /**
@@ -98,11 +120,11 @@ public class ServerCommunicationLinksInner {
      * @param serverName The name of the server.
      * @param communicationLinkName The name of the server communication link.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<Void> deleteAsync(String resourceGroupName, String serverName, String communicationLinkName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(deleteWithServiceResponseAsync(resourceGroupName, serverName, communicationLinkName), serviceCallback);
+    public ServiceFuture<Void> deleteAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String communicationLinkName, ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromBody(deleteAsync(resourceGroupName, serverName, communicationLinkName), serviceCallback);
     }
 
     /**
@@ -111,28 +133,10 @@ public class ServerCommunicationLinksInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param communicationLinkName The name of the server communication link.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<Void> deleteAsync(String resourceGroupName, String serverName, String communicationLinkName) {
-        return deleteWithServiceResponseAsync(resourceGroupName, serverName, communicationLinkName).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Deletes a server communication link.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param communicationLinkName The name of the server communication link.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
-     */
-    public Observable<ServiceResponse<Void>> deleteWithServiceResponseAsync(String resourceGroupName, String serverName, String communicationLinkName) {
+    public Single<VoidResponse> deleteWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String communicationLinkName) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
@@ -146,25 +150,21 @@ public class ServerCommunicationLinksInner {
             throw new IllegalArgumentException("Parameter communicationLinkName is required and cannot be null.");
         }
         final String apiVersion = "2014-04-01";
-        return service.delete(this.client.subscriptionId(), resourceGroupName, serverName, communicationLinkName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
-                @Override
-                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<Void> clientResponse = deleteDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.delete(this.client.subscriptionId(), resourceGroupName, serverName, communicationLinkName, apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<Void> deleteDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Deletes a server communication link.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param communicationLinkName The name of the server communication link.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Completable deleteAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String communicationLinkName) {
+        return deleteWithRestResponseAsync(resourceGroupName, serverName, communicationLinkName)
+            .toCompletable();
     }
 
     /**
@@ -173,13 +173,13 @@ public class ServerCommunicationLinksInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param communicationLinkName The name of the server communication link.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the ServerCommunicationLinkInner object if successful.
      */
-    public ServerCommunicationLinkInner get(String resourceGroupName, String serverName, String communicationLinkName) {
-        return getWithServiceResponseAsync(resourceGroupName, serverName, communicationLinkName).toBlocking().single().body();
+    public ServerCommunicationLinkInner get(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String communicationLinkName) {
+        return getAsync(resourceGroupName, serverName, communicationLinkName).blockingGet();
     }
 
     /**
@@ -189,11 +189,11 @@ public class ServerCommunicationLinksInner {
      * @param serverName The name of the server.
      * @param communicationLinkName The name of the server communication link.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<ServerCommunicationLinkInner> getAsync(String resourceGroupName, String serverName, String communicationLinkName, final ServiceCallback<ServerCommunicationLinkInner> serviceCallback) {
-        return ServiceFuture.fromResponse(getWithServiceResponseAsync(resourceGroupName, serverName, communicationLinkName), serviceCallback);
+    public ServiceFuture<ServerCommunicationLinkInner> getAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String communicationLinkName, ServiceCallback<ServerCommunicationLinkInner> serviceCallback) {
+        return ServiceFuture.fromBody(getAsync(resourceGroupName, serverName, communicationLinkName), serviceCallback);
     }
 
     /**
@@ -202,28 +202,10 @@ public class ServerCommunicationLinksInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param communicationLinkName The name of the server communication link.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ServerCommunicationLinkInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<ServerCommunicationLinkInner> getAsync(String resourceGroupName, String serverName, String communicationLinkName) {
-        return getWithServiceResponseAsync(resourceGroupName, serverName, communicationLinkName).map(new Func1<ServiceResponse<ServerCommunicationLinkInner>, ServerCommunicationLinkInner>() {
-            @Override
-            public ServerCommunicationLinkInner call(ServiceResponse<ServerCommunicationLinkInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Returns a server communication link.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param communicationLinkName The name of the server communication link.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ServerCommunicationLinkInner object
-     */
-    public Observable<ServiceResponse<ServerCommunicationLinkInner>> getWithServiceResponseAsync(String resourceGroupName, String serverName, String communicationLinkName) {
+    public Single<BodyResponse<ServerCommunicationLinkInner>> getWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String communicationLinkName) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
@@ -237,25 +219,21 @@ public class ServerCommunicationLinksInner {
             throw new IllegalArgumentException("Parameter communicationLinkName is required and cannot be null.");
         }
         final String apiVersion = "2014-04-01";
-        return service.get(this.client.subscriptionId(), resourceGroupName, serverName, communicationLinkName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ServerCommunicationLinkInner>>>() {
-                @Override
-                public Observable<ServiceResponse<ServerCommunicationLinkInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<ServerCommunicationLinkInner> clientResponse = getDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.get(this.client.subscriptionId(), resourceGroupName, serverName, communicationLinkName, apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<ServerCommunicationLinkInner> getDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<ServerCommunicationLinkInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<ServerCommunicationLinkInner>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Returns a server communication link.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param communicationLinkName The name of the server communication link.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<ServerCommunicationLinkInner> getAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String communicationLinkName) {
+        return getWithRestResponseAsync(resourceGroupName, serverName, communicationLinkName)
+            .flatMapMaybe((BodyResponse<ServerCommunicationLinkInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
@@ -265,13 +243,13 @@ public class ServerCommunicationLinksInner {
      * @param serverName The name of the server.
      * @param communicationLinkName The name of the server communication link.
      * @param partnerServer The name of the partner server.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the ServerCommunicationLinkInner object if successful.
      */
-    public ServerCommunicationLinkInner createOrUpdate(String resourceGroupName, String serverName, String communicationLinkName, String partnerServer) {
-        return createOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, communicationLinkName, partnerServer).toBlocking().last().body();
+    public ServerCommunicationLinkInner beginCreateOrUpdate(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String communicationLinkName, @NonNull String partnerServer) {
+        return beginCreateOrUpdateAsync(resourceGroupName, serverName, communicationLinkName, partnerServer).blockingLast().result();
     }
 
     /**
@@ -282,11 +260,11 @@ public class ServerCommunicationLinksInner {
      * @param communicationLinkName The name of the server communication link.
      * @param partnerServer The name of the partner server.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;ServerCommunicationLinkInner&gt; object.
      */
-    public ServiceFuture<ServerCommunicationLinkInner> createOrUpdateAsync(String resourceGroupName, String serverName, String communicationLinkName, String partnerServer, final ServiceCallback<ServerCommunicationLinkInner> serviceCallback) {
-        return ServiceFuture.fromResponse(createOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, communicationLinkName, partnerServer), serviceCallback);
+    public ServiceFuture<ServerCommunicationLinkInner> beginCreateOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String communicationLinkName, @NonNull String partnerServer, ServiceCallback<ServerCommunicationLinkInner> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginCreateOrUpdateAsync(resourceGroupName, serverName, communicationLinkName, partnerServer), serviceCallback);
     }
 
     /**
@@ -296,29 +274,10 @@ public class ServerCommunicationLinksInner {
      * @param serverName The name of the server.
      * @param communicationLinkName The name of the server communication link.
      * @param partnerServer The name of the partner server.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<ServerCommunicationLinkInner> createOrUpdateAsync(String resourceGroupName, String serverName, String communicationLinkName, String partnerServer) {
-        return createOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, communicationLinkName, partnerServer).map(new Func1<ServiceResponse<ServerCommunicationLinkInner>, ServerCommunicationLinkInner>() {
-            @Override
-            public ServerCommunicationLinkInner call(ServiceResponse<ServerCommunicationLinkInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Creates a server communication link.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param communicationLinkName The name of the server communication link.
-     * @param partnerServer The name of the partner server.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<ServerCommunicationLinkInner>> createOrUpdateWithServiceResponseAsync(String resourceGroupName, String serverName, String communicationLinkName, String partnerServer) {
+    public Observable<OperationStatus<ServerCommunicationLinkInner>> beginCreateOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String communicationLinkName, @NonNull String partnerServer) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
@@ -337,8 +296,7 @@ public class ServerCommunicationLinksInner {
         final String apiVersion = "2014-04-01";
         ServerCommunicationLinkInner parameters = new ServerCommunicationLinkInner();
         parameters.withPartnerServer(partnerServer);
-        Observable<Response<ResponseBody>> observable = service.createOrUpdate(this.client.subscriptionId(), resourceGroupName, serverName, communicationLinkName, apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent());
-        return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<ServerCommunicationLinkInner>() { }.getType());
+        return service.beginCreateOrUpdate(this.client.subscriptionId(), resourceGroupName, serverName, communicationLinkName, apiVersion, this.client.acceptLanguage(), parameters);
     }
 
     /**
@@ -348,13 +306,13 @@ public class ServerCommunicationLinksInner {
      * @param serverName The name of the server.
      * @param communicationLinkName The name of the server communication link.
      * @param partnerServer The name of the partner server.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the ServerCommunicationLinkInner object if successful.
      */
-    public ServerCommunicationLinkInner beginCreateOrUpdate(String resourceGroupName, String serverName, String communicationLinkName, String partnerServer) {
-        return beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, communicationLinkName, partnerServer).toBlocking().single().body();
+    public ServerCommunicationLinkInner createOrUpdate(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String communicationLinkName, @NonNull String partnerServer) {
+        return createOrUpdateAsync(resourceGroupName, serverName, communicationLinkName, partnerServer).blockingGet();
     }
 
     /**
@@ -365,11 +323,11 @@ public class ServerCommunicationLinksInner {
      * @param communicationLinkName The name of the server communication link.
      * @param partnerServer The name of the partner server.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<ServerCommunicationLinkInner> beginCreateOrUpdateAsync(String resourceGroupName, String serverName, String communicationLinkName, String partnerServer, final ServiceCallback<ServerCommunicationLinkInner> serviceCallback) {
-        return ServiceFuture.fromResponse(beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, communicationLinkName, partnerServer), serviceCallback);
+    public ServiceFuture<ServerCommunicationLinkInner> createOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String communicationLinkName, @NonNull String partnerServer, ServiceCallback<ServerCommunicationLinkInner> serviceCallback) {
+        return ServiceFuture.fromBody(createOrUpdateAsync(resourceGroupName, serverName, communicationLinkName, partnerServer), serviceCallback);
     }
 
     /**
@@ -379,29 +337,10 @@ public class ServerCommunicationLinksInner {
      * @param serverName The name of the server.
      * @param communicationLinkName The name of the server communication link.
      * @param partnerServer The name of the partner server.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ServerCommunicationLinkInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<ServerCommunicationLinkInner> beginCreateOrUpdateAsync(String resourceGroupName, String serverName, String communicationLinkName, String partnerServer) {
-        return beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, communicationLinkName, partnerServer).map(new Func1<ServiceResponse<ServerCommunicationLinkInner>, ServerCommunicationLinkInner>() {
-            @Override
-            public ServerCommunicationLinkInner call(ServiceResponse<ServerCommunicationLinkInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Creates a server communication link.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param communicationLinkName The name of the server communication link.
-     * @param partnerServer The name of the partner server.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ServerCommunicationLinkInner object
-     */
-    public Observable<ServiceResponse<ServerCommunicationLinkInner>> beginCreateOrUpdateWithServiceResponseAsync(String resourceGroupName, String serverName, String communicationLinkName, String partnerServer) {
+    public Single<BodyResponse<ServerCommunicationLinkInner>> createOrUpdateWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String communicationLinkName, @NonNull String partnerServer) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
@@ -420,26 +359,36 @@ public class ServerCommunicationLinksInner {
         final String apiVersion = "2014-04-01";
         ServerCommunicationLinkInner parameters = new ServerCommunicationLinkInner();
         parameters.withPartnerServer(partnerServer);
-        return service.beginCreateOrUpdate(this.client.subscriptionId(), resourceGroupName, serverName, communicationLinkName, apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ServerCommunicationLinkInner>>>() {
-                @Override
-                public Observable<ServiceResponse<ServerCommunicationLinkInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<ServerCommunicationLinkInner> clientResponse = beginCreateOrUpdateDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.createOrUpdate(this.client.subscriptionId(), resourceGroupName, serverName, communicationLinkName, apiVersion, this.client.acceptLanguage(), parameters);
     }
 
-    private ServiceResponse<ServerCommunicationLinkInner> beginCreateOrUpdateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<ServerCommunicationLinkInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(201, new TypeToken<ServerCommunicationLinkInner>() { }.getType())
-                .register(202, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Creates a server communication link.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param communicationLinkName The name of the server communication link.
+     * @param partnerServer The name of the partner server.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<ServerCommunicationLinkInner> createOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String communicationLinkName, @NonNull String partnerServer) {
+        return createOrUpdateWithRestResponseAsync(resourceGroupName, serverName, communicationLinkName, partnerServer)
+            .flatMapMaybe((BodyResponse<ServerCommunicationLinkInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
+    }
+
+    /**
+     * Creates a server communication link. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<ServerCommunicationLinkInner>> resumeCreateOrUpdate(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeCreateOrUpdate(operationDescription);
     }
 
     /**
@@ -447,13 +396,13 @@ public class ServerCommunicationLinksInner {
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the List&lt;ServerCommunicationLinkInner&gt; object if successful.
      */
-    public List<ServerCommunicationLinkInner> listByServer(String resourceGroupName, String serverName) {
-        return listByServerWithServiceResponseAsync(resourceGroupName, serverName).toBlocking().single().body();
+    public List<ServerCommunicationLinkInner> listByServer(@NonNull String resourceGroupName, @NonNull String serverName) {
+        return listByServerAsync(resourceGroupName, serverName).blockingGet();
     }
 
     /**
@@ -462,11 +411,11 @@ public class ServerCommunicationLinksInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<List<ServerCommunicationLinkInner>> listByServerAsync(String resourceGroupName, String serverName, final ServiceCallback<List<ServerCommunicationLinkInner>> serviceCallback) {
-        return ServiceFuture.fromResponse(listByServerWithServiceResponseAsync(resourceGroupName, serverName), serviceCallback);
+    public ServiceFuture<List<ServerCommunicationLinkInner>> listByServerAsync(@NonNull String resourceGroupName, @NonNull String serverName, ServiceCallback<List<ServerCommunicationLinkInner>> serviceCallback) {
+        return ServiceFuture.fromBody(listByServerAsync(resourceGroupName, serverName), serviceCallback);
     }
 
     /**
@@ -474,27 +423,10 @@ public class ServerCommunicationLinksInner {
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the List&lt;ServerCommunicationLinkInner&gt; object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<List<ServerCommunicationLinkInner>> listByServerAsync(String resourceGroupName, String serverName) {
-        return listByServerWithServiceResponseAsync(resourceGroupName, serverName).map(new Func1<ServiceResponse<List<ServerCommunicationLinkInner>>, List<ServerCommunicationLinkInner>>() {
-            @Override
-            public List<ServerCommunicationLinkInner> call(ServiceResponse<List<ServerCommunicationLinkInner>> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Gets a list of server communication links.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the List&lt;ServerCommunicationLinkInner&gt; object
-     */
-    public Observable<ServiceResponse<List<ServerCommunicationLinkInner>>> listByServerWithServiceResponseAsync(String resourceGroupName, String serverName) {
+    public Single<BodyResponse<List<ServerCommunicationLinkInner>>> listByServerWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
@@ -505,26 +437,19 @@ public class ServerCommunicationLinksInner {
             throw new IllegalArgumentException("Parameter serverName is required and cannot be null.");
         }
         final String apiVersion = "2014-04-01";
-        return service.listByServer(this.client.subscriptionId(), resourceGroupName, serverName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<List<ServerCommunicationLinkInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<List<ServerCommunicationLinkInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<ServerCommunicationLinkInner>> result = listByServerDelegate(response);
-                        ServiceResponse<List<ServerCommunicationLinkInner>> clientResponse = new ServiceResponse<List<ServerCommunicationLinkInner>>(result.body().items(), result.response());
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.listByServer(this.client.subscriptionId(), resourceGroupName, serverName, apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<PageImpl<ServerCommunicationLinkInner>> listByServerDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<ServerCommunicationLinkInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<ServerCommunicationLinkInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Gets a list of server communication links.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<List<ServerCommunicationLinkInner>> listByServerAsync(@NonNull String resourceGroupName, @NonNull String serverName) {
+        return listByServerWithRestResponseAsync(resourceGroupName, serverName)
+            .flatMapMaybe((BodyResponse<List<ServerCommunicationLinkInner>> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
-
 }

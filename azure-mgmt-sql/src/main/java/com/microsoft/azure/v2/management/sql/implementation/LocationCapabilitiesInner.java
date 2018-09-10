@@ -8,15 +8,15 @@
 
 package com.microsoft.azure.v2.management.sql.implementation;
 
-import com.microsoft.azure.v2.management.sql.CapabilityStatus;
-import java.util.List;
-import com.microsoft.azure.v2.management.sql.ServerVersionCapability;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.v2.management.sql.CapabilityStatus;
+import com.microsoft.azure.v2.management.sql.ServerVersionCapability;
+import java.util.List;
 
 /**
  * The capabilities for a location.
  */
-public class LocationCapabilitiesInner {
+public final class LocationCapabilitiesInner {
     /**
      * The location name.
      */
@@ -39,7 +39,7 @@ public class LocationCapabilitiesInner {
     /**
      * Get the name value.
      *
-     * @return the name value
+     * @return the name value.
      */
     public String name() {
         return this.name;
@@ -48,7 +48,7 @@ public class LocationCapabilitiesInner {
     /**
      * Get the status value.
      *
-     * @return the status value
+     * @return the status value.
      */
     public CapabilityStatus status() {
         return this.status;
@@ -57,10 +57,9 @@ public class LocationCapabilitiesInner {
     /**
      * Get the supportedServerVersions value.
      *
-     * @return the supportedServerVersions value
+     * @return the supportedServerVersions value.
      */
     public List<ServerVersionCapability> supportedServerVersions() {
         return this.supportedServerVersions;
     }
-
 }

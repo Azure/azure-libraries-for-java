@@ -8,66 +8,70 @@
 
 package com.microsoft.azure.v2.management.sql.implementation;
 
-import retrofit2.Retrofit;
-import com.google.common.reflect.TypeToken;
-import com.microsoft.azure.CloudException;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import com.microsoft.rest.ServiceResponse;
-import java.io.IOException;
-import okhttp3.ResponseBody;
-import retrofit2.http.GET;
-import retrofit2.http.Header;
-import retrofit2.http.Headers;
-import retrofit2.http.Path;
-import retrofit2.http.Query;
-import retrofit2.Response;
-import rx.functions.Func1;
-import rx.Observable;
+import com.microsoft.azure.v2.AzureProxy;
+import com.microsoft.azure.v2.CloudException;
+import com.microsoft.rest.v2.BodyResponse;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
+import com.microsoft.rest.v2.annotations.ExpectedResponses;
+import com.microsoft.rest.v2.annotations.GET;
+import com.microsoft.rest.v2.annotations.HeaderParam;
+import com.microsoft.rest.v2.annotations.Host;
+import com.microsoft.rest.v2.annotations.PathParam;
+import com.microsoft.rest.v2.annotations.QueryParam;
+import com.microsoft.rest.v2.annotations.UnexpectedResponseExceptionType;
+import io.reactivex.Maybe;
+import io.reactivex.Single;
+import io.reactivex.annotations.NonNull;
 
 /**
- * An instance of this class provides access to all the operations defined
- * in Capabilities.
+ * An instance of this class provides access to all the operations defined in
+ * Capabilities.
  */
-public class CapabilitiesInner {
-    /** The Retrofit service to perform REST calls. */
+public final class CapabilitiesInner {
+    /**
+     * The proxy service used to perform REST calls.
+     */
     private CapabilitiesService service;
-    /** The service client containing this operation class. */
+
+    /**
+     * The service client containing this operation class.
+     */
     private SqlManagementClientImpl client;
 
     /**
      * Initializes an instance of CapabilitiesInner.
      *
-     * @param retrofit the Retrofit instance built from a Retrofit Builder.
      * @param client the instance of the service client containing this operation class.
      */
-    public CapabilitiesInner(Retrofit retrofit, SqlManagementClientImpl client) {
-        this.service = retrofit.create(CapabilitiesService.class);
+    public CapabilitiesInner(SqlManagementClientImpl client) {
+        this.service = AzureProxy.create(CapabilitiesService.class, client);
         this.client = client;
     }
 
     /**
-     * The interface defining all the services for Capabilities to be
-     * used by Retrofit to perform actually REST calls.
+     * The interface defining all the services for Capabilities to be used by
+     * the proxy service to perform REST calls.
      */
-    interface CapabilitiesService {
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.Capabilities listByLocation" })
+    @Host("https://management.azure.com")
+    private interface CapabilitiesService {
         @GET("subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationId}/capabilities")
-        Observable<Response<ResponseBody>> listByLocation(@Path("subscriptionId") String subscriptionId, @Path("locationId") String locationId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
-
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<LocationCapabilitiesInner>> listByLocation(@PathParam("subscriptionId") String subscriptionId, @PathParam("locationId") String locationId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
     }
 
     /**
      * Gets the capabilities available for the specified location.
      *
      * @param locationId The location id whose capabilities are retrieved.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the LocationCapabilitiesInner object if successful.
      */
-    public LocationCapabilitiesInner listByLocation(String locationId) {
-        return listByLocationWithServiceResponseAsync(locationId).toBlocking().single().body();
+    public LocationCapabilitiesInner listByLocation(@NonNull String locationId) {
+        return listByLocationAsync(locationId).blockingGet();
     }
 
     /**
@@ -75,37 +79,21 @@ public class CapabilitiesInner {
      *
      * @param locationId The location id whose capabilities are retrieved.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<LocationCapabilitiesInner> listByLocationAsync(String locationId, final ServiceCallback<LocationCapabilitiesInner> serviceCallback) {
-        return ServiceFuture.fromResponse(listByLocationWithServiceResponseAsync(locationId), serviceCallback);
+    public ServiceFuture<LocationCapabilitiesInner> listByLocationAsync(@NonNull String locationId, ServiceCallback<LocationCapabilitiesInner> serviceCallback) {
+        return ServiceFuture.fromBody(listByLocationAsync(locationId), serviceCallback);
     }
 
     /**
      * Gets the capabilities available for the specified location.
      *
      * @param locationId The location id whose capabilities are retrieved.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the LocationCapabilitiesInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<LocationCapabilitiesInner> listByLocationAsync(String locationId) {
-        return listByLocationWithServiceResponseAsync(locationId).map(new Func1<ServiceResponse<LocationCapabilitiesInner>, LocationCapabilitiesInner>() {
-            @Override
-            public LocationCapabilitiesInner call(ServiceResponse<LocationCapabilitiesInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Gets the capabilities available for the specified location.
-     *
-     * @param locationId The location id whose capabilities are retrieved.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the LocationCapabilitiesInner object
-     */
-    public Observable<ServiceResponse<LocationCapabilitiesInner>> listByLocationWithServiceResponseAsync(String locationId) {
+    public Single<BodyResponse<LocationCapabilitiesInner>> listByLocationWithRestResponseAsync(@NonNull String locationId) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
@@ -113,25 +101,18 @@ public class CapabilitiesInner {
             throw new IllegalArgumentException("Parameter locationId is required and cannot be null.");
         }
         final String apiVersion = "2014-04-01";
-        return service.listByLocation(this.client.subscriptionId(), locationId, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<LocationCapabilitiesInner>>>() {
-                @Override
-                public Observable<ServiceResponse<LocationCapabilitiesInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<LocationCapabilitiesInner> clientResponse = listByLocationDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.listByLocation(this.client.subscriptionId(), locationId, apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<LocationCapabilitiesInner> listByLocationDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<LocationCapabilitiesInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<LocationCapabilitiesInner>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Gets the capabilities available for the specified location.
+     *
+     * @param locationId The location id whose capabilities are retrieved.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<LocationCapabilitiesInner> listByLocationAsync(@NonNull String locationId) {
+        return listByLocationWithRestResponseAsync(locationId)
+            .flatMapMaybe((BodyResponse<LocationCapabilitiesInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
-
 }

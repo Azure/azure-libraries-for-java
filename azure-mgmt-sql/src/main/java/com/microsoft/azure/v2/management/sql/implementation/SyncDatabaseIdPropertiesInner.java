@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Properties of the sync database id.
  */
-public class SyncDatabaseIdPropertiesInner {
+public final class SyncDatabaseIdPropertiesInner {
     /**
      * ARM resource id of sync database.
      */
@@ -23,10 +23,9 @@ public class SyncDatabaseIdPropertiesInner {
     /**
      * Get the id value.
      *
-     * @return the id value
+     * @return the id value.
      */
     public String id() {
         return this.id;
     }
-
 }

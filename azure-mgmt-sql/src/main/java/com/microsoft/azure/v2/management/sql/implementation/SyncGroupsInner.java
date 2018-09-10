@@ -8,154 +8,203 @@
 
 package com.microsoft.azure.v2.management.sql.implementation;
 
-import retrofit2.Retrofit;
-import com.google.common.reflect.TypeToken;
-import com.microsoft.azure.AzureServiceFuture;
-import com.microsoft.azure.CloudException;
-import com.microsoft.azure.ListOperationCallback;
-import com.microsoft.azure.Page;
-import com.microsoft.azure.PagedList;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import com.microsoft.rest.ServiceResponse;
-import com.microsoft.rest.Validator;
-import java.io.IOException;
-import java.util.List;
-import okhttp3.ResponseBody;
-import retrofit2.http.Body;
-import retrofit2.http.GET;
-import retrofit2.http.Header;
-import retrofit2.http.Headers;
-import retrofit2.http.HTTP;
-import retrofit2.http.PATCH;
-import retrofit2.http.Path;
-import retrofit2.http.POST;
-import retrofit2.http.PUT;
-import retrofit2.http.Query;
-import retrofit2.http.Url;
-import retrofit2.Response;
-import rx.functions.Func1;
-import rx.Observable;
+import com.microsoft.azure.v2.AzureProxy;
+import com.microsoft.azure.v2.CloudException;
+import com.microsoft.azure.v2.OperationStatus;
+import com.microsoft.azure.v2.Page;
+import com.microsoft.azure.v2.PagedList;
+import com.microsoft.azure.v2.util.ServiceFutureUtil;
+import com.microsoft.rest.v2.BodyResponse;
+import com.microsoft.rest.v2.OperationDescription;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
+import com.microsoft.rest.v2.Validator;
+import com.microsoft.rest.v2.VoidResponse;
+import com.microsoft.rest.v2.annotations.BodyParam;
+import com.microsoft.rest.v2.annotations.DELETE;
+import com.microsoft.rest.v2.annotations.ExpectedResponses;
+import com.microsoft.rest.v2.annotations.GET;
+import com.microsoft.rest.v2.annotations.HeaderParam;
+import com.microsoft.rest.v2.annotations.Host;
+import com.microsoft.rest.v2.annotations.PATCH;
+import com.microsoft.rest.v2.annotations.PathParam;
+import com.microsoft.rest.v2.annotations.POST;
+import com.microsoft.rest.v2.annotations.PUT;
+import com.microsoft.rest.v2.annotations.QueryParam;
+import com.microsoft.rest.v2.annotations.ResumeOperation;
+import com.microsoft.rest.v2.annotations.UnexpectedResponseExceptionType;
+import io.reactivex.Completable;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
+import io.reactivex.Single;
+import io.reactivex.annotations.NonNull;
 
 /**
- * An instance of this class provides access to all the operations defined
- * in SyncGroups.
+ * An instance of this class provides access to all the operations defined in
+ * SyncGroups.
  */
-public class SyncGroupsInner {
-    /** The Retrofit service to perform REST calls. */
+public final class SyncGroupsInner {
+    /**
+     * The proxy service used to perform REST calls.
+     */
     private SyncGroupsService service;
-    /** The service client containing this operation class. */
+
+    /**
+     * The service client containing this operation class.
+     */
     private SqlManagementClientImpl client;
 
     /**
      * Initializes an instance of SyncGroupsInner.
      *
-     * @param retrofit the Retrofit instance built from a Retrofit Builder.
      * @param client the instance of the service client containing this operation class.
      */
-    public SyncGroupsInner(Retrofit retrofit, SqlManagementClientImpl client) {
-        this.service = retrofit.create(SyncGroupsService.class);
+    public SyncGroupsInner(SqlManagementClientImpl client) {
+        this.service = AzureProxy.create(SyncGroupsService.class, client);
         this.client = client;
     }
 
     /**
-     * The interface defining all the services for SyncGroups to be
-     * used by Retrofit to perform actually REST calls.
+     * The interface defining all the services for SyncGroups to be used by the
+     * proxy service to perform REST calls.
      */
-    interface SyncGroupsService {
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.SyncGroups listSyncDatabaseIds" })
+    @Host("https://management.azure.com")
+    private interface SyncGroupsService {
         @GET("subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationName}/syncDatabaseIds")
-        Observable<Response<ResponseBody>> listSyncDatabaseIds(@Path("locationName") String locationName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl1<SyncDatabaseIdPropertiesInner>>> listSyncDatabaseIds(@PathParam("locationName") String locationName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.SyncGroups refreshHubSchema" })
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/syncGroups/{syncGroupName}/refreshHubSchema")
-        Observable<Response<ResponseBody>> refreshHubSchema(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("databaseName") String databaseName, @Path("syncGroupName") String syncGroupName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Observable<OperationStatus<Void>> beginRefreshHubSchema(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("databaseName") String databaseName, @PathParam("syncGroupName") String syncGroupName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.SyncGroups beginRefreshHubSchema" })
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/syncGroups/{syncGroupName}/refreshHubSchema")
-        Observable<Response<ResponseBody>> beginRefreshHubSchema(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("databaseName") String databaseName, @Path("syncGroupName") String syncGroupName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<VoidResponse> refreshHubSchema(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("databaseName") String databaseName, @PathParam("syncGroupName") String syncGroupName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.SyncGroups listHubSchemas" })
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/syncGroups/{syncGroupName}/refreshHubSchema")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<Void>> resumeRefreshHubSchema(OperationDescription operationDescription);
+
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/syncGroups/{syncGroupName}/hubSchemas")
-        Observable<Response<ResponseBody>> listHubSchemas(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("databaseName") String databaseName, @Path("syncGroupName") String syncGroupName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl1<SyncFullSchemaPropertiesInner>>> listHubSchemas(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("databaseName") String databaseName, @PathParam("syncGroupName") String syncGroupName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.SyncGroups listLogs" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/syncGroups/{syncGroupName}/logs")
-        Observable<Response<ResponseBody>> listLogs(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("databaseName") String databaseName, @Path("syncGroupName") String syncGroupName, @Path("subscriptionId") String subscriptionId, @Query("startTime") String startTime, @Query("endTime") String endTime, @Query("type") String type, @Query("continuationToken") String continuationToken, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl1<SyncGroupLogPropertiesInner>>> listLogs(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("databaseName") String databaseName, @PathParam("syncGroupName") String syncGroupName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("startTime") String startTime, @QueryParam("endTime") String endTime, @QueryParam("type") String type, @QueryParam("continuationToken") String continuationToken, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.SyncGroups cancelSync" })
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/syncGroups/{syncGroupName}/cancelSync")
-        Observable<Response<ResponseBody>> cancelSync(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("databaseName") String databaseName, @Path("syncGroupName") String syncGroupName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<VoidResponse> cancelSync(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("databaseName") String databaseName, @PathParam("syncGroupName") String syncGroupName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.SyncGroups triggerSync" })
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/syncGroups/{syncGroupName}/triggerSync")
-        Observable<Response<ResponseBody>> triggerSync(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("databaseName") String databaseName, @Path("syncGroupName") String syncGroupName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<VoidResponse> triggerSync(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("databaseName") String databaseName, @PathParam("syncGroupName") String syncGroupName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.SyncGroups get" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/syncGroups/{syncGroupName}")
-        Observable<Response<ResponseBody>> get(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("databaseName") String databaseName, @Path("syncGroupName") String syncGroupName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<SyncGroupInner>> get(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("databaseName") String databaseName, @PathParam("syncGroupName") String syncGroupName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.SyncGroups createOrUpdate" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/syncGroups/{syncGroupName}")
-        Observable<Response<ResponseBody>> createOrUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("databaseName") String databaseName, @Path("syncGroupName") String syncGroupName, @Path("subscriptionId") String subscriptionId, @Body SyncGroupInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 201, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Observable<OperationStatus<SyncGroupInner>> beginCreateOrUpdate(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("databaseName") String databaseName, @PathParam("syncGroupName") String syncGroupName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json; charset=utf-8") SyncGroupInner parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.SyncGroups beginCreateOrUpdate" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/syncGroups/{syncGroupName}")
-        Observable<Response<ResponseBody>> beginCreateOrUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("databaseName") String databaseName, @Path("syncGroupName") String syncGroupName, @Path("subscriptionId") String subscriptionId, @Body SyncGroupInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 201, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<SyncGroupInner>> createOrUpdate(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("databaseName") String databaseName, @PathParam("syncGroupName") String syncGroupName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json; charset=utf-8") SyncGroupInner parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.SyncGroups delete" })
-        @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/syncGroups/{syncGroupName}", method = "DELETE", hasBody = true)
-        Observable<Response<ResponseBody>> delete(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("databaseName") String databaseName, @Path("syncGroupName") String syncGroupName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/syncGroups/{syncGroupName}")
+        @ExpectedResponses({200, 201, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<SyncGroupInner>> resumeCreateOrUpdate(OperationDescription operationDescription);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.SyncGroups beginDelete" })
-        @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/syncGroups/{syncGroupName}", method = "DELETE", hasBody = true)
-        Observable<Response<ResponseBody>> beginDelete(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("databaseName") String databaseName, @Path("syncGroupName") String syncGroupName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @DELETE("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/syncGroups/{syncGroupName}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Observable<OperationStatus<Void>> beginDelete(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("databaseName") String databaseName, @PathParam("syncGroupName") String syncGroupName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.SyncGroups update" })
+        @DELETE("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/syncGroups/{syncGroupName}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<VoidResponse> delete(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("databaseName") String databaseName, @PathParam("syncGroupName") String syncGroupName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
+
+        @DELETE("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/syncGroups/{syncGroupName}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<Void>> resumeDelete(OperationDescription operationDescription);
+
         @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/syncGroups/{syncGroupName}")
-        Observable<Response<ResponseBody>> update(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("databaseName") String databaseName, @Path("syncGroupName") String syncGroupName, @Path("subscriptionId") String subscriptionId, @Body SyncGroupInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Observable<OperationStatus<SyncGroupInner>> beginUpdate(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("databaseName") String databaseName, @PathParam("syncGroupName") String syncGroupName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json; charset=utf-8") SyncGroupInner parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.SyncGroups beginUpdate" })
         @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/syncGroups/{syncGroupName}")
-        Observable<Response<ResponseBody>> beginUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("databaseName") String databaseName, @Path("syncGroupName") String syncGroupName, @Path("subscriptionId") String subscriptionId, @Body SyncGroupInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<SyncGroupInner>> update(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("databaseName") String databaseName, @PathParam("syncGroupName") String syncGroupName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json; charset=utf-8") SyncGroupInner parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.SyncGroups listByDatabase" })
+        @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/syncGroups/{syncGroupName}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<SyncGroupInner>> resumeUpdate(OperationDescription operationDescription);
+
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/syncGroups")
-        Observable<Response<ResponseBody>> listByDatabase(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("databaseName") String databaseName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl1<SyncGroupInner>>> listByDatabase(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("databaseName") String databaseName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.SyncGroups listSyncDatabaseIdsNext" })
-        @GET
-        Observable<Response<ResponseBody>> listSyncDatabaseIdsNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @GET("{nextUrl}")
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl1<SyncDatabaseIdPropertiesInner>>> listSyncDatabaseIdsNext(@PathParam(value = "nextUrl", encoded = true) String nextUrl, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.SyncGroups listHubSchemasNext" })
-        @GET
-        Observable<Response<ResponseBody>> listHubSchemasNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @GET("{nextUrl}")
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl1<SyncFullSchemaPropertiesInner>>> listHubSchemasNext(@PathParam(value = "nextUrl", encoded = true) String nextUrl, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.SyncGroups listLogsNext" })
-        @GET
-        Observable<Response<ResponseBody>> listLogsNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @GET("{nextUrl}")
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl1<SyncGroupLogPropertiesInner>>> listLogsNext(@PathParam(value = "nextUrl", encoded = true) String nextUrl, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.SyncGroups listByDatabaseNext" })
-        @GET
-        Observable<Response<ResponseBody>> listByDatabaseNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
-
+        @GET("{nextUrl}")
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl1<SyncGroupInner>>> listByDatabaseNext(@PathParam(value = "nextUrl", encoded = true) String nextUrl, @HeaderParam("accept-language") String acceptLanguage);
     }
 
     /**
      * Gets a collection of sync database ids.
      *
      * @param locationName The name of the region where the resource is located.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;SyncDatabaseIdPropertiesInner&gt; object if successful.
      */
-    public PagedList<SyncDatabaseIdPropertiesInner> listSyncDatabaseIds(final String locationName) {
-        ServiceResponse<Page<SyncDatabaseIdPropertiesInner>> response = listSyncDatabaseIdsSinglePageAsync(locationName).toBlocking().single();
-        return new PagedList<SyncDatabaseIdPropertiesInner>(response.body()) {
+    public PagedList<SyncDatabaseIdPropertiesInner> listSyncDatabaseIds(@NonNull String locationName) {
+        Page<SyncDatabaseIdPropertiesInner> response = listSyncDatabaseIdsSinglePageAsync(locationName).blockingGet();
+        return new PagedList<SyncDatabaseIdPropertiesInner>(response) {
             @Override
             public Page<SyncDatabaseIdPropertiesInner> nextPage(String nextPageLink) {
-                return listSyncDatabaseIdsNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listSyncDatabaseIdsNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -164,68 +213,29 @@ public class SyncGroupsInner {
      * Gets a collection of sync database ids.
      *
      * @param locationName The name of the region where the resource is located.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;SyncDatabaseIdPropertiesInner&gt; object.
      */
-    public ServiceFuture<List<SyncDatabaseIdPropertiesInner>> listSyncDatabaseIdsAsync(final String locationName, final ListOperationCallback<SyncDatabaseIdPropertiesInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listSyncDatabaseIdsSinglePageAsync(locationName),
-            new Func1<String, Observable<ServiceResponse<Page<SyncDatabaseIdPropertiesInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<SyncDatabaseIdPropertiesInner>>> call(String nextPageLink) {
-                    return listSyncDatabaseIdsNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets a collection of sync database ids.
-     *
-     * @param locationName The name of the region where the resource is located.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;SyncDatabaseIdPropertiesInner&gt; object
-     */
-    public Observable<Page<SyncDatabaseIdPropertiesInner>> listSyncDatabaseIdsAsync(final String locationName) {
-        return listSyncDatabaseIdsWithServiceResponseAsync(locationName)
-            .map(new Func1<ServiceResponse<Page<SyncDatabaseIdPropertiesInner>>, Page<SyncDatabaseIdPropertiesInner>>() {
-                @Override
-                public Page<SyncDatabaseIdPropertiesInner> call(ServiceResponse<Page<SyncDatabaseIdPropertiesInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets a collection of sync database ids.
-     *
-     * @param locationName The name of the region where the resource is located.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;SyncDatabaseIdPropertiesInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<SyncDatabaseIdPropertiesInner>>> listSyncDatabaseIdsWithServiceResponseAsync(final String locationName) {
+    public Observable<Page<SyncDatabaseIdPropertiesInner>> listSyncDatabaseIdsAsync(@NonNull String locationName) {
         return listSyncDatabaseIdsSinglePageAsync(locationName)
-            .concatMap(new Func1<ServiceResponse<Page<SyncDatabaseIdPropertiesInner>>, Observable<ServiceResponse<Page<SyncDatabaseIdPropertiesInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<SyncDatabaseIdPropertiesInner>>> call(ServiceResponse<Page<SyncDatabaseIdPropertiesInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listSyncDatabaseIdsNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<SyncDatabaseIdPropertiesInner> page) -> {
+                String nextPageLink = page.nextPageLink();
+                if (nextPageLink == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listSyncDatabaseIdsNextAsync(nextPageLink));
             });
     }
 
     /**
      * Gets a collection of sync database ids.
      *
-    ServiceResponse<PageImpl1<SyncDatabaseIdPropertiesInner>> * @param locationName The name of the region where the resource is located.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;SyncDatabaseIdPropertiesInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param locationName The name of the region where the resource is located.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;SyncDatabaseIdPropertiesInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<SyncDatabaseIdPropertiesInner>>> listSyncDatabaseIdsSinglePageAsync(final String locationName) {
+    public Single<Page<SyncDatabaseIdPropertiesInner>> listSyncDatabaseIdsSinglePageAsync(@NonNull String locationName) {
         if (locationName == null) {
             throw new IllegalArgumentException("Parameter locationName is required and cannot be null.");
         }
@@ -233,25 +243,8 @@ public class SyncGroupsInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2015-05-01-preview";
-        return service.listSyncDatabaseIds(locationName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<SyncDatabaseIdPropertiesInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<SyncDatabaseIdPropertiesInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl1<SyncDatabaseIdPropertiesInner>> result = listSyncDatabaseIdsDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<SyncDatabaseIdPropertiesInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl1<SyncDatabaseIdPropertiesInner>> listSyncDatabaseIdsDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl1<SyncDatabaseIdPropertiesInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl1<SyncDatabaseIdPropertiesInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+        return service.listSyncDatabaseIds(locationName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl1<SyncDatabaseIdPropertiesInner>> res) -> res.body());
     }
 
     /**
@@ -261,12 +254,12 @@ public class SyncGroupsInner {
      * @param serverName The name of the server.
      * @param databaseName The name of the database on which the sync group is hosted.
      * @param syncGroupName The name of the sync group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void refreshHubSchema(String resourceGroupName, String serverName, String databaseName, String syncGroupName) {
-        refreshHubSchemaWithServiceResponseAsync(resourceGroupName, serverName, databaseName, syncGroupName).toBlocking().last().body();
+    public void beginRefreshHubSchema(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, @NonNull String syncGroupName) {
+        beginRefreshHubSchemaAsync(resourceGroupName, serverName, databaseName, syncGroupName).blockingLast();
     }
 
     /**
@@ -277,11 +270,11 @@ public class SyncGroupsInner {
      * @param databaseName The name of the database on which the sync group is hosted.
      * @param syncGroupName The name of the sync group.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;Void&gt; object.
      */
-    public ServiceFuture<Void> refreshHubSchemaAsync(String resourceGroupName, String serverName, String databaseName, String syncGroupName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(refreshHubSchemaWithServiceResponseAsync(resourceGroupName, serverName, databaseName, syncGroupName), serviceCallback);
+    public ServiceFuture<Void> beginRefreshHubSchemaAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, @NonNull String syncGroupName, ServiceCallback<Void> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginRefreshHubSchemaAsync(resourceGroupName, serverName, databaseName, syncGroupName), serviceCallback);
     }
 
     /**
@@ -291,29 +284,10 @@ public class SyncGroupsInner {
      * @param serverName The name of the server.
      * @param databaseName The name of the database on which the sync group is hosted.
      * @param syncGroupName The name of the sync group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<Void> refreshHubSchemaAsync(String resourceGroupName, String serverName, String databaseName, String syncGroupName) {
-        return refreshHubSchemaWithServiceResponseAsync(resourceGroupName, serverName, databaseName, syncGroupName).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Refreshes a hub database schema.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the database on which the sync group is hosted.
-     * @param syncGroupName The name of the sync group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<Void>> refreshHubSchemaWithServiceResponseAsync(String resourceGroupName, String serverName, String databaseName, String syncGroupName) {
+    public Observable<OperationStatus<Void>> beginRefreshHubSchemaAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, @NonNull String syncGroupName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -330,8 +304,7 @@ public class SyncGroupsInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2015-05-01-preview";
-        Observable<Response<ResponseBody>> observable = service.refreshHubSchema(resourceGroupName, serverName, databaseName, syncGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
+        return service.beginRefreshHubSchema(resourceGroupName, serverName, databaseName, syncGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
     /**
@@ -341,12 +314,12 @@ public class SyncGroupsInner {
      * @param serverName The name of the server.
      * @param databaseName The name of the database on which the sync group is hosted.
      * @param syncGroupName The name of the sync group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void beginRefreshHubSchema(String resourceGroupName, String serverName, String databaseName, String syncGroupName) {
-        beginRefreshHubSchemaWithServiceResponseAsync(resourceGroupName, serverName, databaseName, syncGroupName).toBlocking().single().body();
+    public void refreshHubSchema(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, @NonNull String syncGroupName) {
+        refreshHubSchemaAsync(resourceGroupName, serverName, databaseName, syncGroupName).blockingAwait();
     }
 
     /**
@@ -357,11 +330,11 @@ public class SyncGroupsInner {
      * @param databaseName The name of the database on which the sync group is hosted.
      * @param syncGroupName The name of the sync group.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<Void> beginRefreshHubSchemaAsync(String resourceGroupName, String serverName, String databaseName, String syncGroupName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(beginRefreshHubSchemaWithServiceResponseAsync(resourceGroupName, serverName, databaseName, syncGroupName), serviceCallback);
+    public ServiceFuture<Void> refreshHubSchemaAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, @NonNull String syncGroupName, ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromBody(refreshHubSchemaAsync(resourceGroupName, serverName, databaseName, syncGroupName), serviceCallback);
     }
 
     /**
@@ -371,29 +344,10 @@ public class SyncGroupsInner {
      * @param serverName The name of the server.
      * @param databaseName The name of the database on which the sync group is hosted.
      * @param syncGroupName The name of the sync group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<Void> beginRefreshHubSchemaAsync(String resourceGroupName, String serverName, String databaseName, String syncGroupName) {
-        return beginRefreshHubSchemaWithServiceResponseAsync(resourceGroupName, serverName, databaseName, syncGroupName).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Refreshes a hub database schema.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the database on which the sync group is hosted.
-     * @param syncGroupName The name of the sync group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
-     */
-    public Observable<ServiceResponse<Void>> beginRefreshHubSchemaWithServiceResponseAsync(String resourceGroupName, String serverName, String databaseName, String syncGroupName) {
+    public Single<VoidResponse> refreshHubSchemaWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, @NonNull String syncGroupName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -410,26 +364,36 @@ public class SyncGroupsInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2015-05-01-preview";
-        return service.beginRefreshHubSchema(resourceGroupName, serverName, databaseName, syncGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
-                @Override
-                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<Void> clientResponse = beginRefreshHubSchemaDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.refreshHubSchema(resourceGroupName, serverName, databaseName, syncGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<Void> beginRefreshHubSchemaDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<Void>() { }.getType())
-                .register(202, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Refreshes a hub database schema.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database on which the sync group is hosted.
+     * @param syncGroupName The name of the sync group.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Completable refreshHubSchemaAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, @NonNull String syncGroupName) {
+        return refreshHubSchemaWithRestResponseAsync(resourceGroupName, serverName, databaseName, syncGroupName)
+            .toCompletable();
+    }
+
+    /**
+     * Refreshes a hub database schema. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<Void>> resumeRefreshHubSchema(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeRefreshHubSchema(operationDescription);
     }
 
     /**
@@ -439,17 +403,17 @@ public class SyncGroupsInner {
      * @param serverName The name of the server.
      * @param databaseName The name of the database on which the sync group is hosted.
      * @param syncGroupName The name of the sync group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;SyncFullSchemaPropertiesInner&gt; object if successful.
      */
-    public PagedList<SyncFullSchemaPropertiesInner> listHubSchemas(final String resourceGroupName, final String serverName, final String databaseName, final String syncGroupName) {
-        ServiceResponse<Page<SyncFullSchemaPropertiesInner>> response = listHubSchemasSinglePageAsync(resourceGroupName, serverName, databaseName, syncGroupName).toBlocking().single();
-        return new PagedList<SyncFullSchemaPropertiesInner>(response.body()) {
+    public PagedList<SyncFullSchemaPropertiesInner> listHubSchemas(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, @NonNull String syncGroupName) {
+        Page<SyncFullSchemaPropertiesInner> response = listHubSchemasSinglePageAsync(resourceGroupName, serverName, databaseName, syncGroupName).blockingGet();
+        return new PagedList<SyncFullSchemaPropertiesInner>(response) {
             @Override
             public Page<SyncFullSchemaPropertiesInner> nextPage(String nextPageLink) {
-                return listHubSchemasNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listHubSchemasNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -461,77 +425,32 @@ public class SyncGroupsInner {
      * @param serverName The name of the server.
      * @param databaseName The name of the database on which the sync group is hosted.
      * @param syncGroupName The name of the sync group.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;SyncFullSchemaPropertiesInner&gt; object.
      */
-    public ServiceFuture<List<SyncFullSchemaPropertiesInner>> listHubSchemasAsync(final String resourceGroupName, final String serverName, final String databaseName, final String syncGroupName, final ListOperationCallback<SyncFullSchemaPropertiesInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listHubSchemasSinglePageAsync(resourceGroupName, serverName, databaseName, syncGroupName),
-            new Func1<String, Observable<ServiceResponse<Page<SyncFullSchemaPropertiesInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<SyncFullSchemaPropertiesInner>>> call(String nextPageLink) {
-                    return listHubSchemasNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets a collection of hub database schemas.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the database on which the sync group is hosted.
-     * @param syncGroupName The name of the sync group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;SyncFullSchemaPropertiesInner&gt; object
-     */
-    public Observable<Page<SyncFullSchemaPropertiesInner>> listHubSchemasAsync(final String resourceGroupName, final String serverName, final String databaseName, final String syncGroupName) {
-        return listHubSchemasWithServiceResponseAsync(resourceGroupName, serverName, databaseName, syncGroupName)
-            .map(new Func1<ServiceResponse<Page<SyncFullSchemaPropertiesInner>>, Page<SyncFullSchemaPropertiesInner>>() {
-                @Override
-                public Page<SyncFullSchemaPropertiesInner> call(ServiceResponse<Page<SyncFullSchemaPropertiesInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets a collection of hub database schemas.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the database on which the sync group is hosted.
-     * @param syncGroupName The name of the sync group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;SyncFullSchemaPropertiesInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<SyncFullSchemaPropertiesInner>>> listHubSchemasWithServiceResponseAsync(final String resourceGroupName, final String serverName, final String databaseName, final String syncGroupName) {
+    public Observable<Page<SyncFullSchemaPropertiesInner>> listHubSchemasAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, @NonNull String syncGroupName) {
         return listHubSchemasSinglePageAsync(resourceGroupName, serverName, databaseName, syncGroupName)
-            .concatMap(new Func1<ServiceResponse<Page<SyncFullSchemaPropertiesInner>>, Observable<ServiceResponse<Page<SyncFullSchemaPropertiesInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<SyncFullSchemaPropertiesInner>>> call(ServiceResponse<Page<SyncFullSchemaPropertiesInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listHubSchemasNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<SyncFullSchemaPropertiesInner> page) -> {
+                String nextPageLink = page.nextPageLink();
+                if (nextPageLink == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listHubSchemasNextAsync(nextPageLink));
             });
     }
 
     /**
      * Gets a collection of hub database schemas.
      *
-    ServiceResponse<PageImpl1<SyncFullSchemaPropertiesInner>> * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-    ServiceResponse<PageImpl1<SyncFullSchemaPropertiesInner>> * @param serverName The name of the server.
-    ServiceResponse<PageImpl1<SyncFullSchemaPropertiesInner>> * @param databaseName The name of the database on which the sync group is hosted.
-    ServiceResponse<PageImpl1<SyncFullSchemaPropertiesInner>> * @param syncGroupName The name of the sync group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;SyncFullSchemaPropertiesInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database on which the sync group is hosted.
+     * @param syncGroupName The name of the sync group.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;SyncFullSchemaPropertiesInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<SyncFullSchemaPropertiesInner>>> listHubSchemasSinglePageAsync(final String resourceGroupName, final String serverName, final String databaseName, final String syncGroupName) {
+    public Single<Page<SyncFullSchemaPropertiesInner>> listHubSchemasSinglePageAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, @NonNull String syncGroupName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -548,25 +467,8 @@ public class SyncGroupsInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2015-05-01-preview";
-        return service.listHubSchemas(resourceGroupName, serverName, databaseName, syncGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<SyncFullSchemaPropertiesInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<SyncFullSchemaPropertiesInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl1<SyncFullSchemaPropertiesInner>> result = listHubSchemasDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<SyncFullSchemaPropertiesInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl1<SyncFullSchemaPropertiesInner>> listHubSchemasDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl1<SyncFullSchemaPropertiesInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl1<SyncFullSchemaPropertiesInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+        return service.listHubSchemas(resourceGroupName, serverName, databaseName, syncGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl1<SyncFullSchemaPropertiesInner>> res) -> res.body());
     }
 
     /**
@@ -578,18 +480,18 @@ public class SyncGroupsInner {
      * @param syncGroupName The name of the sync group.
      * @param startTime Get logs generated after this time.
      * @param endTime Get logs generated before this time.
-     * @param type The types of logs to retrieve. Possible values include: 'All', 'Error', 'Warning', 'Success'
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @param type The types of logs to retrieve. Possible values include: 'All', 'Error', 'Warning', 'Success'.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;SyncGroupLogPropertiesInner&gt; object if successful.
      */
-    public PagedList<SyncGroupLogPropertiesInner> listLogs(final String resourceGroupName, final String serverName, final String databaseName, final String syncGroupName, final String startTime, final String endTime, final String type) {
-        ServiceResponse<Page<SyncGroupLogPropertiesInner>> response = listLogsSinglePageAsync(resourceGroupName, serverName, databaseName, syncGroupName, startTime, endTime, type).toBlocking().single();
-        return new PagedList<SyncGroupLogPropertiesInner>(response.body()) {
+    public PagedList<SyncGroupLogPropertiesInner> listLogs(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, @NonNull String syncGroupName, @NonNull String startTime, @NonNull String endTime, @NonNull String type) {
+        Page<SyncGroupLogPropertiesInner> response = listLogsSinglePageAsync(resourceGroupName, serverName, databaseName, syncGroupName, startTime, endTime, type).blockingGet();
+        return new PagedList<SyncGroupLogPropertiesInner>(response) {
             @Override
             public Page<SyncGroupLogPropertiesInner> nextPage(String nextPageLink) {
-                return listLogsNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listLogsNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -603,70 +505,19 @@ public class SyncGroupsInner {
      * @param syncGroupName The name of the sync group.
      * @param startTime Get logs generated after this time.
      * @param endTime Get logs generated before this time.
-     * @param type The types of logs to retrieve. Possible values include: 'All', 'Error', 'Warning', 'Success'
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @param type The types of logs to retrieve. Possible values include: 'All', 'Error', 'Warning', 'Success'.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;SyncGroupLogPropertiesInner&gt; object.
      */
-    public ServiceFuture<List<SyncGroupLogPropertiesInner>> listLogsAsync(final String resourceGroupName, final String serverName, final String databaseName, final String syncGroupName, final String startTime, final String endTime, final String type, final ListOperationCallback<SyncGroupLogPropertiesInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listLogsSinglePageAsync(resourceGroupName, serverName, databaseName, syncGroupName, startTime, endTime, type),
-            new Func1<String, Observable<ServiceResponse<Page<SyncGroupLogPropertiesInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<SyncGroupLogPropertiesInner>>> call(String nextPageLink) {
-                    return listLogsNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets a collection of sync group logs.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the database on which the sync group is hosted.
-     * @param syncGroupName The name of the sync group.
-     * @param startTime Get logs generated after this time.
-     * @param endTime Get logs generated before this time.
-     * @param type The types of logs to retrieve. Possible values include: 'All', 'Error', 'Warning', 'Success'
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;SyncGroupLogPropertiesInner&gt; object
-     */
-    public Observable<Page<SyncGroupLogPropertiesInner>> listLogsAsync(final String resourceGroupName, final String serverName, final String databaseName, final String syncGroupName, final String startTime, final String endTime, final String type) {
-        return listLogsWithServiceResponseAsync(resourceGroupName, serverName, databaseName, syncGroupName, startTime, endTime, type)
-            .map(new Func1<ServiceResponse<Page<SyncGroupLogPropertiesInner>>, Page<SyncGroupLogPropertiesInner>>() {
-                @Override
-                public Page<SyncGroupLogPropertiesInner> call(ServiceResponse<Page<SyncGroupLogPropertiesInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets a collection of sync group logs.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the database on which the sync group is hosted.
-     * @param syncGroupName The name of the sync group.
-     * @param startTime Get logs generated after this time.
-     * @param endTime Get logs generated before this time.
-     * @param type The types of logs to retrieve. Possible values include: 'All', 'Error', 'Warning', 'Success'
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;SyncGroupLogPropertiesInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<SyncGroupLogPropertiesInner>>> listLogsWithServiceResponseAsync(final String resourceGroupName, final String serverName, final String databaseName, final String syncGroupName, final String startTime, final String endTime, final String type) {
+    public Observable<Page<SyncGroupLogPropertiesInner>> listLogsAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, @NonNull String syncGroupName, @NonNull String startTime, @NonNull String endTime, @NonNull String type) {
         return listLogsSinglePageAsync(resourceGroupName, serverName, databaseName, syncGroupName, startTime, endTime, type)
-            .concatMap(new Func1<ServiceResponse<Page<SyncGroupLogPropertiesInner>>, Observable<ServiceResponse<Page<SyncGroupLogPropertiesInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<SyncGroupLogPropertiesInner>>> call(ServiceResponse<Page<SyncGroupLogPropertiesInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listLogsNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<SyncGroupLogPropertiesInner> page) -> {
+                String nextPageLink = page.nextPageLink();
+                if (nextPageLink == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listLogsNextAsync(nextPageLink));
             });
     }
 
@@ -679,11 +530,11 @@ public class SyncGroupsInner {
      * @param syncGroupName The name of the sync group.
      * @param startTime Get logs generated after this time.
      * @param endTime Get logs generated before this time.
-     * @param type The types of logs to retrieve. Possible values include: 'All', 'Error', 'Warning', 'Success'
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;SyncGroupLogPropertiesInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param type The types of logs to retrieve. Possible values include: 'All', 'Error', 'Warning', 'Success'.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;SyncGroupLogPropertiesInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<SyncGroupLogPropertiesInner>>> listLogsSinglePageAsync(final String resourceGroupName, final String serverName, final String databaseName, final String syncGroupName, final String startTime, final String endTime, final String type) {
+    public Single<Page<SyncGroupLogPropertiesInner>> listLogsSinglePageAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, @NonNull String syncGroupName, @NonNull String startTime, @NonNull String endTime, @NonNull String type) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -710,18 +561,8 @@ public class SyncGroupsInner {
         }
         final String apiVersion = "2015-05-01-preview";
         final String continuationToken = null;
-        return service.listLogs(resourceGroupName, serverName, databaseName, syncGroupName, this.client.subscriptionId(), startTime, endTime, type, continuationToken, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<SyncGroupLogPropertiesInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<SyncGroupLogPropertiesInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl1<SyncGroupLogPropertiesInner>> result = listLogsDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<SyncGroupLogPropertiesInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.listLogs(resourceGroupName, serverName, databaseName, syncGroupName, this.client.subscriptionId(), startTime, endTime, type, continuationToken, apiVersion, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl1<SyncGroupLogPropertiesInner>> res) -> res.body());
     }
 
     /**
@@ -733,19 +574,19 @@ public class SyncGroupsInner {
      * @param syncGroupName The name of the sync group.
      * @param startTime Get logs generated after this time.
      * @param endTime Get logs generated before this time.
-     * @param type The types of logs to retrieve. Possible values include: 'All', 'Error', 'Warning', 'Success'
+     * @param type The types of logs to retrieve. Possible values include: 'All', 'Error', 'Warning', 'Success'.
      * @param continuationToken The continuation token for this operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;SyncGroupLogPropertiesInner&gt; object if successful.
      */
-    public PagedList<SyncGroupLogPropertiesInner> listLogs(final String resourceGroupName, final String serverName, final String databaseName, final String syncGroupName, final String startTime, final String endTime, final String type, final String continuationToken) {
-        ServiceResponse<Page<SyncGroupLogPropertiesInner>> response = listLogsSinglePageAsync(resourceGroupName, serverName, databaseName, syncGroupName, startTime, endTime, type, continuationToken).toBlocking().single();
-        return new PagedList<SyncGroupLogPropertiesInner>(response.body()) {
+    public PagedList<SyncGroupLogPropertiesInner> listLogs(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, @NonNull String syncGroupName, @NonNull String startTime, @NonNull String endTime, @NonNull String type, String continuationToken) {
+        Page<SyncGroupLogPropertiesInner> response = listLogsSinglePageAsync(resourceGroupName, serverName, databaseName, syncGroupName, startTime, endTime, type, continuationToken).blockingGet();
+        return new PagedList<SyncGroupLogPropertiesInner>(response) {
             @Override
             public Page<SyncGroupLogPropertiesInner> nextPage(String nextPageLink) {
-                return listLogsNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listLogsNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -759,91 +600,38 @@ public class SyncGroupsInner {
      * @param syncGroupName The name of the sync group.
      * @param startTime Get logs generated after this time.
      * @param endTime Get logs generated before this time.
-     * @param type The types of logs to retrieve. Possible values include: 'All', 'Error', 'Warning', 'Success'
+     * @param type The types of logs to retrieve. Possible values include: 'All', 'Error', 'Warning', 'Success'.
      * @param continuationToken The continuation token for this operation.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;SyncGroupLogPropertiesInner&gt; object.
      */
-    public ServiceFuture<List<SyncGroupLogPropertiesInner>> listLogsAsync(final String resourceGroupName, final String serverName, final String databaseName, final String syncGroupName, final String startTime, final String endTime, final String type, final String continuationToken, final ListOperationCallback<SyncGroupLogPropertiesInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listLogsSinglePageAsync(resourceGroupName, serverName, databaseName, syncGroupName, startTime, endTime, type, continuationToken),
-            new Func1<String, Observable<ServiceResponse<Page<SyncGroupLogPropertiesInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<SyncGroupLogPropertiesInner>>> call(String nextPageLink) {
-                    return listLogsNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets a collection of sync group logs.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the database on which the sync group is hosted.
-     * @param syncGroupName The name of the sync group.
-     * @param startTime Get logs generated after this time.
-     * @param endTime Get logs generated before this time.
-     * @param type The types of logs to retrieve. Possible values include: 'All', 'Error', 'Warning', 'Success'
-     * @param continuationToken The continuation token for this operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;SyncGroupLogPropertiesInner&gt; object
-     */
-    public Observable<Page<SyncGroupLogPropertiesInner>> listLogsAsync(final String resourceGroupName, final String serverName, final String databaseName, final String syncGroupName, final String startTime, final String endTime, final String type, final String continuationToken) {
-        return listLogsWithServiceResponseAsync(resourceGroupName, serverName, databaseName, syncGroupName, startTime, endTime, type, continuationToken)
-            .map(new Func1<ServiceResponse<Page<SyncGroupLogPropertiesInner>>, Page<SyncGroupLogPropertiesInner>>() {
-                @Override
-                public Page<SyncGroupLogPropertiesInner> call(ServiceResponse<Page<SyncGroupLogPropertiesInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets a collection of sync group logs.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the database on which the sync group is hosted.
-     * @param syncGroupName The name of the sync group.
-     * @param startTime Get logs generated after this time.
-     * @param endTime Get logs generated before this time.
-     * @param type The types of logs to retrieve. Possible values include: 'All', 'Error', 'Warning', 'Success'
-     * @param continuationToken The continuation token for this operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;SyncGroupLogPropertiesInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<SyncGroupLogPropertiesInner>>> listLogsWithServiceResponseAsync(final String resourceGroupName, final String serverName, final String databaseName, final String syncGroupName, final String startTime, final String endTime, final String type, final String continuationToken) {
+    public Observable<Page<SyncGroupLogPropertiesInner>> listLogsAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, @NonNull String syncGroupName, @NonNull String startTime, @NonNull String endTime, @NonNull String type, String continuationToken) {
         return listLogsSinglePageAsync(resourceGroupName, serverName, databaseName, syncGroupName, startTime, endTime, type, continuationToken)
-            .concatMap(new Func1<ServiceResponse<Page<SyncGroupLogPropertiesInner>>, Observable<ServiceResponse<Page<SyncGroupLogPropertiesInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<SyncGroupLogPropertiesInner>>> call(ServiceResponse<Page<SyncGroupLogPropertiesInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listLogsNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<SyncGroupLogPropertiesInner> page) -> {
+                String nextPageLink = page.nextPageLink();
+                if (nextPageLink == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listLogsNextAsync(nextPageLink));
             });
     }
 
     /**
      * Gets a collection of sync group logs.
      *
-    ServiceResponse<PageImpl1<SyncGroupLogPropertiesInner>> * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-    ServiceResponse<PageImpl1<SyncGroupLogPropertiesInner>> * @param serverName The name of the server.
-    ServiceResponse<PageImpl1<SyncGroupLogPropertiesInner>> * @param databaseName The name of the database on which the sync group is hosted.
-    ServiceResponse<PageImpl1<SyncGroupLogPropertiesInner>> * @param syncGroupName The name of the sync group.
-    ServiceResponse<PageImpl1<SyncGroupLogPropertiesInner>> * @param startTime Get logs generated after this time.
-    ServiceResponse<PageImpl1<SyncGroupLogPropertiesInner>> * @param endTime Get logs generated before this time.
-    ServiceResponse<PageImpl1<SyncGroupLogPropertiesInner>> * @param type The types of logs to retrieve. Possible values include: 'All', 'Error', 'Warning', 'Success'
-    ServiceResponse<PageImpl1<SyncGroupLogPropertiesInner>> * @param continuationToken The continuation token for this operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;SyncGroupLogPropertiesInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database on which the sync group is hosted.
+     * @param syncGroupName The name of the sync group.
+     * @param startTime Get logs generated after this time.
+     * @param endTime Get logs generated before this time.
+     * @param type The types of logs to retrieve. Possible values include: 'All', 'Error', 'Warning', 'Success'.
+     * @param continuationToken The continuation token for this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;SyncGroupLogPropertiesInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<SyncGroupLogPropertiesInner>>> listLogsSinglePageAsync(final String resourceGroupName, final String serverName, final String databaseName, final String syncGroupName, final String startTime, final String endTime, final String type, final String continuationToken) {
+    public Single<Page<SyncGroupLogPropertiesInner>> listLogsSinglePageAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, @NonNull String syncGroupName, @NonNull String startTime, @NonNull String endTime, @NonNull String type, String continuationToken) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -869,25 +657,8 @@ public class SyncGroupsInner {
             throw new IllegalArgumentException("Parameter type is required and cannot be null.");
         }
         final String apiVersion = "2015-05-01-preview";
-        return service.listLogs(resourceGroupName, serverName, databaseName, syncGroupName, this.client.subscriptionId(), startTime, endTime, type, continuationToken, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<SyncGroupLogPropertiesInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<SyncGroupLogPropertiesInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl1<SyncGroupLogPropertiesInner>> result = listLogsDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<SyncGroupLogPropertiesInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl1<SyncGroupLogPropertiesInner>> listLogsDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl1<SyncGroupLogPropertiesInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl1<SyncGroupLogPropertiesInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+        return service.listLogs(resourceGroupName, serverName, databaseName, syncGroupName, this.client.subscriptionId(), startTime, endTime, type, continuationToken, apiVersion, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl1<SyncGroupLogPropertiesInner>> res) -> res.body());
     }
 
     /**
@@ -897,12 +668,12 @@ public class SyncGroupsInner {
      * @param serverName The name of the server.
      * @param databaseName The name of the database on which the sync group is hosted.
      * @param syncGroupName The name of the sync group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void cancelSync(String resourceGroupName, String serverName, String databaseName, String syncGroupName) {
-        cancelSyncWithServiceResponseAsync(resourceGroupName, serverName, databaseName, syncGroupName).toBlocking().single().body();
+    public void cancelSync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, @NonNull String syncGroupName) {
+        cancelSyncAsync(resourceGroupName, serverName, databaseName, syncGroupName).blockingAwait();
     }
 
     /**
@@ -913,11 +684,11 @@ public class SyncGroupsInner {
      * @param databaseName The name of the database on which the sync group is hosted.
      * @param syncGroupName The name of the sync group.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<Void> cancelSyncAsync(String resourceGroupName, String serverName, String databaseName, String syncGroupName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(cancelSyncWithServiceResponseAsync(resourceGroupName, serverName, databaseName, syncGroupName), serviceCallback);
+    public ServiceFuture<Void> cancelSyncAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, @NonNull String syncGroupName, ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromBody(cancelSyncAsync(resourceGroupName, serverName, databaseName, syncGroupName), serviceCallback);
     }
 
     /**
@@ -927,29 +698,10 @@ public class SyncGroupsInner {
      * @param serverName The name of the server.
      * @param databaseName The name of the database on which the sync group is hosted.
      * @param syncGroupName The name of the sync group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<Void> cancelSyncAsync(String resourceGroupName, String serverName, String databaseName, String syncGroupName) {
-        return cancelSyncWithServiceResponseAsync(resourceGroupName, serverName, databaseName, syncGroupName).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Cancels a sync group synchronization.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the database on which the sync group is hosted.
-     * @param syncGroupName The name of the sync group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
-     */
-    public Observable<ServiceResponse<Void>> cancelSyncWithServiceResponseAsync(String resourceGroupName, String serverName, String databaseName, String syncGroupName) {
+    public Single<VoidResponse> cancelSyncWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, @NonNull String syncGroupName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -966,25 +718,22 @@ public class SyncGroupsInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2015-05-01-preview";
-        return service.cancelSync(resourceGroupName, serverName, databaseName, syncGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
-                @Override
-                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<Void> clientResponse = cancelSyncDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.cancelSync(resourceGroupName, serverName, databaseName, syncGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<Void> cancelSyncDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Cancels a sync group synchronization.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database on which the sync group is hosted.
+     * @param syncGroupName The name of the sync group.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Completable cancelSyncAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, @NonNull String syncGroupName) {
+        return cancelSyncWithRestResponseAsync(resourceGroupName, serverName, databaseName, syncGroupName)
+            .toCompletable();
     }
 
     /**
@@ -994,12 +743,12 @@ public class SyncGroupsInner {
      * @param serverName The name of the server.
      * @param databaseName The name of the database on which the sync group is hosted.
      * @param syncGroupName The name of the sync group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void triggerSync(String resourceGroupName, String serverName, String databaseName, String syncGroupName) {
-        triggerSyncWithServiceResponseAsync(resourceGroupName, serverName, databaseName, syncGroupName).toBlocking().single().body();
+    public void triggerSync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, @NonNull String syncGroupName) {
+        triggerSyncAsync(resourceGroupName, serverName, databaseName, syncGroupName).blockingAwait();
     }
 
     /**
@@ -1010,11 +759,11 @@ public class SyncGroupsInner {
      * @param databaseName The name of the database on which the sync group is hosted.
      * @param syncGroupName The name of the sync group.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<Void> triggerSyncAsync(String resourceGroupName, String serverName, String databaseName, String syncGroupName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(triggerSyncWithServiceResponseAsync(resourceGroupName, serverName, databaseName, syncGroupName), serviceCallback);
+    public ServiceFuture<Void> triggerSyncAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, @NonNull String syncGroupName, ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromBody(triggerSyncAsync(resourceGroupName, serverName, databaseName, syncGroupName), serviceCallback);
     }
 
     /**
@@ -1024,29 +773,10 @@ public class SyncGroupsInner {
      * @param serverName The name of the server.
      * @param databaseName The name of the database on which the sync group is hosted.
      * @param syncGroupName The name of the sync group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<Void> triggerSyncAsync(String resourceGroupName, String serverName, String databaseName, String syncGroupName) {
-        return triggerSyncWithServiceResponseAsync(resourceGroupName, serverName, databaseName, syncGroupName).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Triggers a sync group synchronization.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the database on which the sync group is hosted.
-     * @param syncGroupName The name of the sync group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
-     */
-    public Observable<ServiceResponse<Void>> triggerSyncWithServiceResponseAsync(String resourceGroupName, String serverName, String databaseName, String syncGroupName) {
+    public Single<VoidResponse> triggerSyncWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, @NonNull String syncGroupName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -1063,25 +793,22 @@ public class SyncGroupsInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2015-05-01-preview";
-        return service.triggerSync(resourceGroupName, serverName, databaseName, syncGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
-                @Override
-                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<Void> clientResponse = triggerSyncDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.triggerSync(resourceGroupName, serverName, databaseName, syncGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<Void> triggerSyncDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Triggers a sync group synchronization.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database on which the sync group is hosted.
+     * @param syncGroupName The name of the sync group.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Completable triggerSyncAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, @NonNull String syncGroupName) {
+        return triggerSyncWithRestResponseAsync(resourceGroupName, serverName, databaseName, syncGroupName)
+            .toCompletable();
     }
 
     /**
@@ -1091,13 +818,13 @@ public class SyncGroupsInner {
      * @param serverName The name of the server.
      * @param databaseName The name of the database on which the sync group is hosted.
      * @param syncGroupName The name of the sync group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the SyncGroupInner object if successful.
      */
-    public SyncGroupInner get(String resourceGroupName, String serverName, String databaseName, String syncGroupName) {
-        return getWithServiceResponseAsync(resourceGroupName, serverName, databaseName, syncGroupName).toBlocking().single().body();
+    public SyncGroupInner get(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, @NonNull String syncGroupName) {
+        return getAsync(resourceGroupName, serverName, databaseName, syncGroupName).blockingGet();
     }
 
     /**
@@ -1108,11 +835,11 @@ public class SyncGroupsInner {
      * @param databaseName The name of the database on which the sync group is hosted.
      * @param syncGroupName The name of the sync group.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<SyncGroupInner> getAsync(String resourceGroupName, String serverName, String databaseName, String syncGroupName, final ServiceCallback<SyncGroupInner> serviceCallback) {
-        return ServiceFuture.fromResponse(getWithServiceResponseAsync(resourceGroupName, serverName, databaseName, syncGroupName), serviceCallback);
+    public ServiceFuture<SyncGroupInner> getAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, @NonNull String syncGroupName, ServiceCallback<SyncGroupInner> serviceCallback) {
+        return ServiceFuture.fromBody(getAsync(resourceGroupName, serverName, databaseName, syncGroupName), serviceCallback);
     }
 
     /**
@@ -1122,29 +849,10 @@ public class SyncGroupsInner {
      * @param serverName The name of the server.
      * @param databaseName The name of the database on which the sync group is hosted.
      * @param syncGroupName The name of the sync group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the SyncGroupInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<SyncGroupInner> getAsync(String resourceGroupName, String serverName, String databaseName, String syncGroupName) {
-        return getWithServiceResponseAsync(resourceGroupName, serverName, databaseName, syncGroupName).map(new Func1<ServiceResponse<SyncGroupInner>, SyncGroupInner>() {
-            @Override
-            public SyncGroupInner call(ServiceResponse<SyncGroupInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Gets a sync group.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the database on which the sync group is hosted.
-     * @param syncGroupName The name of the sync group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the SyncGroupInner object
-     */
-    public Observable<ServiceResponse<SyncGroupInner>> getWithServiceResponseAsync(String resourceGroupName, String serverName, String databaseName, String syncGroupName) {
+    public Single<BodyResponse<SyncGroupInner>> getWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, @NonNull String syncGroupName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -1161,25 +869,22 @@ public class SyncGroupsInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2015-05-01-preview";
-        return service.get(resourceGroupName, serverName, databaseName, syncGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<SyncGroupInner>>>() {
-                @Override
-                public Observable<ServiceResponse<SyncGroupInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<SyncGroupInner> clientResponse = getDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.get(resourceGroupName, serverName, databaseName, syncGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<SyncGroupInner> getDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<SyncGroupInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<SyncGroupInner>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Gets a sync group.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database on which the sync group is hosted.
+     * @param syncGroupName The name of the sync group.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<SyncGroupInner> getAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, @NonNull String syncGroupName) {
+        return getWithRestResponseAsync(resourceGroupName, serverName, databaseName, syncGroupName)
+            .flatMapMaybe((BodyResponse<SyncGroupInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
@@ -1190,13 +895,13 @@ public class SyncGroupsInner {
      * @param databaseName The name of the database on which the sync group is hosted.
      * @param syncGroupName The name of the sync group.
      * @param parameters The requested sync group resource state.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the SyncGroupInner object if successful.
      */
-    public SyncGroupInner createOrUpdate(String resourceGroupName, String serverName, String databaseName, String syncGroupName, SyncGroupInner parameters) {
-        return createOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, databaseName, syncGroupName, parameters).toBlocking().last().body();
+    public SyncGroupInner beginCreateOrUpdate(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, @NonNull String syncGroupName, @NonNull SyncGroupInner parameters) {
+        return beginCreateOrUpdateAsync(resourceGroupName, serverName, databaseName, syncGroupName, parameters).blockingLast().result();
     }
 
     /**
@@ -1208,11 +913,11 @@ public class SyncGroupsInner {
      * @param syncGroupName The name of the sync group.
      * @param parameters The requested sync group resource state.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;SyncGroupInner&gt; object.
      */
-    public ServiceFuture<SyncGroupInner> createOrUpdateAsync(String resourceGroupName, String serverName, String databaseName, String syncGroupName, SyncGroupInner parameters, final ServiceCallback<SyncGroupInner> serviceCallback) {
-        return ServiceFuture.fromResponse(createOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, databaseName, syncGroupName, parameters), serviceCallback);
+    public ServiceFuture<SyncGroupInner> beginCreateOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, @NonNull String syncGroupName, @NonNull SyncGroupInner parameters, ServiceCallback<SyncGroupInner> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginCreateOrUpdateAsync(resourceGroupName, serverName, databaseName, syncGroupName, parameters), serviceCallback);
     }
 
     /**
@@ -1223,30 +928,10 @@ public class SyncGroupsInner {
      * @param databaseName The name of the database on which the sync group is hosted.
      * @param syncGroupName The name of the sync group.
      * @param parameters The requested sync group resource state.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<SyncGroupInner> createOrUpdateAsync(String resourceGroupName, String serverName, String databaseName, String syncGroupName, SyncGroupInner parameters) {
-        return createOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, databaseName, syncGroupName, parameters).map(new Func1<ServiceResponse<SyncGroupInner>, SyncGroupInner>() {
-            @Override
-            public SyncGroupInner call(ServiceResponse<SyncGroupInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Creates or updates a sync group.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the database on which the sync group is hosted.
-     * @param syncGroupName The name of the sync group.
-     * @param parameters The requested sync group resource state.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<SyncGroupInner>> createOrUpdateWithServiceResponseAsync(String resourceGroupName, String serverName, String databaseName, String syncGroupName, SyncGroupInner parameters) {
+    public Observable<OperationStatus<SyncGroupInner>> beginCreateOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, @NonNull String syncGroupName, @NonNull SyncGroupInner parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -1267,8 +952,7 @@ public class SyncGroupsInner {
         }
         Validator.validate(parameters);
         final String apiVersion = "2015-05-01-preview";
-        Observable<Response<ResponseBody>> observable = service.createOrUpdate(resourceGroupName, serverName, databaseName, syncGroupName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<SyncGroupInner>() { }.getType());
+        return service.beginCreateOrUpdate(resourceGroupName, serverName, databaseName, syncGroupName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage());
     }
 
     /**
@@ -1279,13 +963,13 @@ public class SyncGroupsInner {
      * @param databaseName The name of the database on which the sync group is hosted.
      * @param syncGroupName The name of the sync group.
      * @param parameters The requested sync group resource state.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the SyncGroupInner object if successful.
      */
-    public SyncGroupInner beginCreateOrUpdate(String resourceGroupName, String serverName, String databaseName, String syncGroupName, SyncGroupInner parameters) {
-        return beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, databaseName, syncGroupName, parameters).toBlocking().single().body();
+    public SyncGroupInner createOrUpdate(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, @NonNull String syncGroupName, @NonNull SyncGroupInner parameters) {
+        return createOrUpdateAsync(resourceGroupName, serverName, databaseName, syncGroupName, parameters).blockingGet();
     }
 
     /**
@@ -1297,11 +981,11 @@ public class SyncGroupsInner {
      * @param syncGroupName The name of the sync group.
      * @param parameters The requested sync group resource state.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<SyncGroupInner> beginCreateOrUpdateAsync(String resourceGroupName, String serverName, String databaseName, String syncGroupName, SyncGroupInner parameters, final ServiceCallback<SyncGroupInner> serviceCallback) {
-        return ServiceFuture.fromResponse(beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, databaseName, syncGroupName, parameters), serviceCallback);
+    public ServiceFuture<SyncGroupInner> createOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, @NonNull String syncGroupName, @NonNull SyncGroupInner parameters, ServiceCallback<SyncGroupInner> serviceCallback) {
+        return ServiceFuture.fromBody(createOrUpdateAsync(resourceGroupName, serverName, databaseName, syncGroupName, parameters), serviceCallback);
     }
 
     /**
@@ -1312,30 +996,10 @@ public class SyncGroupsInner {
      * @param databaseName The name of the database on which the sync group is hosted.
      * @param syncGroupName The name of the sync group.
      * @param parameters The requested sync group resource state.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the SyncGroupInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<SyncGroupInner> beginCreateOrUpdateAsync(String resourceGroupName, String serverName, String databaseName, String syncGroupName, SyncGroupInner parameters) {
-        return beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, databaseName, syncGroupName, parameters).map(new Func1<ServiceResponse<SyncGroupInner>, SyncGroupInner>() {
-            @Override
-            public SyncGroupInner call(ServiceResponse<SyncGroupInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Creates or updates a sync group.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the database on which the sync group is hosted.
-     * @param syncGroupName The name of the sync group.
-     * @param parameters The requested sync group resource state.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the SyncGroupInner object
-     */
-    public Observable<ServiceResponse<SyncGroupInner>> beginCreateOrUpdateWithServiceResponseAsync(String resourceGroupName, String serverName, String databaseName, String syncGroupName, SyncGroupInner parameters) {
+    public Single<BodyResponse<SyncGroupInner>> createOrUpdateWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, @NonNull String syncGroupName, @NonNull SyncGroupInner parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -1356,27 +1020,37 @@ public class SyncGroupsInner {
         }
         Validator.validate(parameters);
         final String apiVersion = "2015-05-01-preview";
-        return service.beginCreateOrUpdate(resourceGroupName, serverName, databaseName, syncGroupName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<SyncGroupInner>>>() {
-                @Override
-                public Observable<ServiceResponse<SyncGroupInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<SyncGroupInner> clientResponse = beginCreateOrUpdateDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.createOrUpdate(resourceGroupName, serverName, databaseName, syncGroupName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<SyncGroupInner> beginCreateOrUpdateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<SyncGroupInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<SyncGroupInner>() { }.getType())
-                .register(201, new TypeToken<SyncGroupInner>() { }.getType())
-                .register(202, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Creates or updates a sync group.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database on which the sync group is hosted.
+     * @param syncGroupName The name of the sync group.
+     * @param parameters The requested sync group resource state.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<SyncGroupInner> createOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, @NonNull String syncGroupName, @NonNull SyncGroupInner parameters) {
+        return createOrUpdateWithRestResponseAsync(resourceGroupName, serverName, databaseName, syncGroupName, parameters)
+            .flatMapMaybe((BodyResponse<SyncGroupInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
+    }
+
+    /**
+     * Creates or updates a sync group. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<SyncGroupInner>> resumeCreateOrUpdate(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeCreateOrUpdate(operationDescription);
     }
 
     /**
@@ -1386,12 +1060,12 @@ public class SyncGroupsInner {
      * @param serverName The name of the server.
      * @param databaseName The name of the database on which the sync group is hosted.
      * @param syncGroupName The name of the sync group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void delete(String resourceGroupName, String serverName, String databaseName, String syncGroupName) {
-        deleteWithServiceResponseAsync(resourceGroupName, serverName, databaseName, syncGroupName).toBlocking().last().body();
+    public void beginDelete(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, @NonNull String syncGroupName) {
+        beginDeleteAsync(resourceGroupName, serverName, databaseName, syncGroupName).blockingLast();
     }
 
     /**
@@ -1402,11 +1076,11 @@ public class SyncGroupsInner {
      * @param databaseName The name of the database on which the sync group is hosted.
      * @param syncGroupName The name of the sync group.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;Void&gt; object.
      */
-    public ServiceFuture<Void> deleteAsync(String resourceGroupName, String serverName, String databaseName, String syncGroupName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(deleteWithServiceResponseAsync(resourceGroupName, serverName, databaseName, syncGroupName), serviceCallback);
+    public ServiceFuture<Void> beginDeleteAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, @NonNull String syncGroupName, ServiceCallback<Void> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginDeleteAsync(resourceGroupName, serverName, databaseName, syncGroupName), serviceCallback);
     }
 
     /**
@@ -1416,29 +1090,10 @@ public class SyncGroupsInner {
      * @param serverName The name of the server.
      * @param databaseName The name of the database on which the sync group is hosted.
      * @param syncGroupName The name of the sync group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<Void> deleteAsync(String resourceGroupName, String serverName, String databaseName, String syncGroupName) {
-        return deleteWithServiceResponseAsync(resourceGroupName, serverName, databaseName, syncGroupName).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Deletes a sync group.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the database on which the sync group is hosted.
-     * @param syncGroupName The name of the sync group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<Void>> deleteWithServiceResponseAsync(String resourceGroupName, String serverName, String databaseName, String syncGroupName) {
+    public Observable<OperationStatus<Void>> beginDeleteAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, @NonNull String syncGroupName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -1455,8 +1110,7 @@ public class SyncGroupsInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2015-05-01-preview";
-        Observable<Response<ResponseBody>> observable = service.delete(resourceGroupName, serverName, databaseName, syncGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
+        return service.beginDelete(resourceGroupName, serverName, databaseName, syncGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
     /**
@@ -1466,12 +1120,12 @@ public class SyncGroupsInner {
      * @param serverName The name of the server.
      * @param databaseName The name of the database on which the sync group is hosted.
      * @param syncGroupName The name of the sync group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void beginDelete(String resourceGroupName, String serverName, String databaseName, String syncGroupName) {
-        beginDeleteWithServiceResponseAsync(resourceGroupName, serverName, databaseName, syncGroupName).toBlocking().single().body();
+    public void delete(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, @NonNull String syncGroupName) {
+        deleteAsync(resourceGroupName, serverName, databaseName, syncGroupName).blockingAwait();
     }
 
     /**
@@ -1482,11 +1136,11 @@ public class SyncGroupsInner {
      * @param databaseName The name of the database on which the sync group is hosted.
      * @param syncGroupName The name of the sync group.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<Void> beginDeleteAsync(String resourceGroupName, String serverName, String databaseName, String syncGroupName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(beginDeleteWithServiceResponseAsync(resourceGroupName, serverName, databaseName, syncGroupName), serviceCallback);
+    public ServiceFuture<Void> deleteAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, @NonNull String syncGroupName, ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromBody(deleteAsync(resourceGroupName, serverName, databaseName, syncGroupName), serviceCallback);
     }
 
     /**
@@ -1496,29 +1150,10 @@ public class SyncGroupsInner {
      * @param serverName The name of the server.
      * @param databaseName The name of the database on which the sync group is hosted.
      * @param syncGroupName The name of the sync group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<Void> beginDeleteAsync(String resourceGroupName, String serverName, String databaseName, String syncGroupName) {
-        return beginDeleteWithServiceResponseAsync(resourceGroupName, serverName, databaseName, syncGroupName).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Deletes a sync group.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the database on which the sync group is hosted.
-     * @param syncGroupName The name of the sync group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
-     */
-    public Observable<ServiceResponse<Void>> beginDeleteWithServiceResponseAsync(String resourceGroupName, String serverName, String databaseName, String syncGroupName) {
+    public Single<VoidResponse> deleteWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, @NonNull String syncGroupName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -1535,27 +1170,36 @@ public class SyncGroupsInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2015-05-01-preview";
-        return service.beginDelete(resourceGroupName, serverName, databaseName, syncGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
-                @Override
-                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<Void> clientResponse = beginDeleteDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.delete(resourceGroupName, serverName, databaseName, syncGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<Void> beginDeleteDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<Void>() { }.getType())
-                .register(202, new TypeToken<Void>() { }.getType())
-                .register(204, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Deletes a sync group.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database on which the sync group is hosted.
+     * @param syncGroupName The name of the sync group.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Completable deleteAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, @NonNull String syncGroupName) {
+        return deleteWithRestResponseAsync(resourceGroupName, serverName, databaseName, syncGroupName)
+            .toCompletable();
+    }
+
+    /**
+     * Deletes a sync group. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<Void>> resumeDelete(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeDelete(operationDescription);
     }
 
     /**
@@ -1566,13 +1210,13 @@ public class SyncGroupsInner {
      * @param databaseName The name of the database on which the sync group is hosted.
      * @param syncGroupName The name of the sync group.
      * @param parameters The requested sync group resource state.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the SyncGroupInner object if successful.
      */
-    public SyncGroupInner update(String resourceGroupName, String serverName, String databaseName, String syncGroupName, SyncGroupInner parameters) {
-        return updateWithServiceResponseAsync(resourceGroupName, serverName, databaseName, syncGroupName, parameters).toBlocking().last().body();
+    public SyncGroupInner beginUpdate(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, @NonNull String syncGroupName, @NonNull SyncGroupInner parameters) {
+        return beginUpdateAsync(resourceGroupName, serverName, databaseName, syncGroupName, parameters).blockingLast().result();
     }
 
     /**
@@ -1584,11 +1228,11 @@ public class SyncGroupsInner {
      * @param syncGroupName The name of the sync group.
      * @param parameters The requested sync group resource state.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;SyncGroupInner&gt; object.
      */
-    public ServiceFuture<SyncGroupInner> updateAsync(String resourceGroupName, String serverName, String databaseName, String syncGroupName, SyncGroupInner parameters, final ServiceCallback<SyncGroupInner> serviceCallback) {
-        return ServiceFuture.fromResponse(updateWithServiceResponseAsync(resourceGroupName, serverName, databaseName, syncGroupName, parameters), serviceCallback);
+    public ServiceFuture<SyncGroupInner> beginUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, @NonNull String syncGroupName, @NonNull SyncGroupInner parameters, ServiceCallback<SyncGroupInner> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginUpdateAsync(resourceGroupName, serverName, databaseName, syncGroupName, parameters), serviceCallback);
     }
 
     /**
@@ -1599,30 +1243,10 @@ public class SyncGroupsInner {
      * @param databaseName The name of the database on which the sync group is hosted.
      * @param syncGroupName The name of the sync group.
      * @param parameters The requested sync group resource state.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<SyncGroupInner> updateAsync(String resourceGroupName, String serverName, String databaseName, String syncGroupName, SyncGroupInner parameters) {
-        return updateWithServiceResponseAsync(resourceGroupName, serverName, databaseName, syncGroupName, parameters).map(new Func1<ServiceResponse<SyncGroupInner>, SyncGroupInner>() {
-            @Override
-            public SyncGroupInner call(ServiceResponse<SyncGroupInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Updates a sync group.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the database on which the sync group is hosted.
-     * @param syncGroupName The name of the sync group.
-     * @param parameters The requested sync group resource state.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<SyncGroupInner>> updateWithServiceResponseAsync(String resourceGroupName, String serverName, String databaseName, String syncGroupName, SyncGroupInner parameters) {
+    public Observable<OperationStatus<SyncGroupInner>> beginUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, @NonNull String syncGroupName, @NonNull SyncGroupInner parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -1643,8 +1267,7 @@ public class SyncGroupsInner {
         }
         Validator.validate(parameters);
         final String apiVersion = "2015-05-01-preview";
-        Observable<Response<ResponseBody>> observable = service.update(resourceGroupName, serverName, databaseName, syncGroupName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<SyncGroupInner>() { }.getType());
+        return service.beginUpdate(resourceGroupName, serverName, databaseName, syncGroupName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage());
     }
 
     /**
@@ -1655,13 +1278,13 @@ public class SyncGroupsInner {
      * @param databaseName The name of the database on which the sync group is hosted.
      * @param syncGroupName The name of the sync group.
      * @param parameters The requested sync group resource state.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the SyncGroupInner object if successful.
      */
-    public SyncGroupInner beginUpdate(String resourceGroupName, String serverName, String databaseName, String syncGroupName, SyncGroupInner parameters) {
-        return beginUpdateWithServiceResponseAsync(resourceGroupName, serverName, databaseName, syncGroupName, parameters).toBlocking().single().body();
+    public SyncGroupInner update(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, @NonNull String syncGroupName, @NonNull SyncGroupInner parameters) {
+        return updateAsync(resourceGroupName, serverName, databaseName, syncGroupName, parameters).blockingGet();
     }
 
     /**
@@ -1673,11 +1296,11 @@ public class SyncGroupsInner {
      * @param syncGroupName The name of the sync group.
      * @param parameters The requested sync group resource state.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<SyncGroupInner> beginUpdateAsync(String resourceGroupName, String serverName, String databaseName, String syncGroupName, SyncGroupInner parameters, final ServiceCallback<SyncGroupInner> serviceCallback) {
-        return ServiceFuture.fromResponse(beginUpdateWithServiceResponseAsync(resourceGroupName, serverName, databaseName, syncGroupName, parameters), serviceCallback);
+    public ServiceFuture<SyncGroupInner> updateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, @NonNull String syncGroupName, @NonNull SyncGroupInner parameters, ServiceCallback<SyncGroupInner> serviceCallback) {
+        return ServiceFuture.fromBody(updateAsync(resourceGroupName, serverName, databaseName, syncGroupName, parameters), serviceCallback);
     }
 
     /**
@@ -1688,30 +1311,10 @@ public class SyncGroupsInner {
      * @param databaseName The name of the database on which the sync group is hosted.
      * @param syncGroupName The name of the sync group.
      * @param parameters The requested sync group resource state.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the SyncGroupInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<SyncGroupInner> beginUpdateAsync(String resourceGroupName, String serverName, String databaseName, String syncGroupName, SyncGroupInner parameters) {
-        return beginUpdateWithServiceResponseAsync(resourceGroupName, serverName, databaseName, syncGroupName, parameters).map(new Func1<ServiceResponse<SyncGroupInner>, SyncGroupInner>() {
-            @Override
-            public SyncGroupInner call(ServiceResponse<SyncGroupInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Updates a sync group.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the database on which the sync group is hosted.
-     * @param syncGroupName The name of the sync group.
-     * @param parameters The requested sync group resource state.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the SyncGroupInner object
-     */
-    public Observable<ServiceResponse<SyncGroupInner>> beginUpdateWithServiceResponseAsync(String resourceGroupName, String serverName, String databaseName, String syncGroupName, SyncGroupInner parameters) {
+    public Single<BodyResponse<SyncGroupInner>> updateWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, @NonNull String syncGroupName, @NonNull SyncGroupInner parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -1732,26 +1335,37 @@ public class SyncGroupsInner {
         }
         Validator.validate(parameters);
         final String apiVersion = "2015-05-01-preview";
-        return service.beginUpdate(resourceGroupName, serverName, databaseName, syncGroupName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<SyncGroupInner>>>() {
-                @Override
-                public Observable<ServiceResponse<SyncGroupInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<SyncGroupInner> clientResponse = beginUpdateDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.update(resourceGroupName, serverName, databaseName, syncGroupName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<SyncGroupInner> beginUpdateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<SyncGroupInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<SyncGroupInner>() { }.getType())
-                .register(202, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Updates a sync group.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database on which the sync group is hosted.
+     * @param syncGroupName The name of the sync group.
+     * @param parameters The requested sync group resource state.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<SyncGroupInner> updateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, @NonNull String syncGroupName, @NonNull SyncGroupInner parameters) {
+        return updateWithRestResponseAsync(resourceGroupName, serverName, databaseName, syncGroupName, parameters)
+            .flatMapMaybe((BodyResponse<SyncGroupInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
+    }
+
+    /**
+     * Updates a sync group. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<SyncGroupInner>> resumeUpdate(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeUpdate(operationDescription);
     }
 
     /**
@@ -1760,17 +1374,17 @@ public class SyncGroupsInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param databaseName The name of the database on which the sync group is hosted.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;SyncGroupInner&gt; object if successful.
      */
-    public PagedList<SyncGroupInner> listByDatabase(final String resourceGroupName, final String serverName, final String databaseName) {
-        ServiceResponse<Page<SyncGroupInner>> response = listByDatabaseSinglePageAsync(resourceGroupName, serverName, databaseName).toBlocking().single();
-        return new PagedList<SyncGroupInner>(response.body()) {
+    public PagedList<SyncGroupInner> listByDatabase(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName) {
+        Page<SyncGroupInner> response = listByDatabaseSinglePageAsync(resourceGroupName, serverName, databaseName).blockingGet();
+        return new PagedList<SyncGroupInner>(response) {
             @Override
             public Page<SyncGroupInner> nextPage(String nextPageLink) {
-                return listByDatabaseNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listByDatabaseNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -1781,74 +1395,31 @@ public class SyncGroupsInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param databaseName The name of the database on which the sync group is hosted.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;SyncGroupInner&gt; object.
      */
-    public ServiceFuture<List<SyncGroupInner>> listByDatabaseAsync(final String resourceGroupName, final String serverName, final String databaseName, final ListOperationCallback<SyncGroupInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listByDatabaseSinglePageAsync(resourceGroupName, serverName, databaseName),
-            new Func1<String, Observable<ServiceResponse<Page<SyncGroupInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<SyncGroupInner>>> call(String nextPageLink) {
-                    return listByDatabaseNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Lists sync groups under a hub database.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the database on which the sync group is hosted.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;SyncGroupInner&gt; object
-     */
-    public Observable<Page<SyncGroupInner>> listByDatabaseAsync(final String resourceGroupName, final String serverName, final String databaseName) {
-        return listByDatabaseWithServiceResponseAsync(resourceGroupName, serverName, databaseName)
-            .map(new Func1<ServiceResponse<Page<SyncGroupInner>>, Page<SyncGroupInner>>() {
-                @Override
-                public Page<SyncGroupInner> call(ServiceResponse<Page<SyncGroupInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Lists sync groups under a hub database.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the database on which the sync group is hosted.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;SyncGroupInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<SyncGroupInner>>> listByDatabaseWithServiceResponseAsync(final String resourceGroupName, final String serverName, final String databaseName) {
+    public Observable<Page<SyncGroupInner>> listByDatabaseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName) {
         return listByDatabaseSinglePageAsync(resourceGroupName, serverName, databaseName)
-            .concatMap(new Func1<ServiceResponse<Page<SyncGroupInner>>, Observable<ServiceResponse<Page<SyncGroupInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<SyncGroupInner>>> call(ServiceResponse<Page<SyncGroupInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listByDatabaseNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<SyncGroupInner> page) -> {
+                String nextPageLink = page.nextPageLink();
+                if (nextPageLink == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listByDatabaseNextAsync(nextPageLink));
             });
     }
 
     /**
      * Lists sync groups under a hub database.
      *
-    ServiceResponse<PageImpl1<SyncGroupInner>> * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-    ServiceResponse<PageImpl1<SyncGroupInner>> * @param serverName The name of the server.
-    ServiceResponse<PageImpl1<SyncGroupInner>> * @param databaseName The name of the database on which the sync group is hosted.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;SyncGroupInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database on which the sync group is hosted.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;SyncGroupInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<SyncGroupInner>>> listByDatabaseSinglePageAsync(final String resourceGroupName, final String serverName, final String databaseName) {
+    public Single<Page<SyncGroupInner>> listByDatabaseSinglePageAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -1862,42 +1433,25 @@ public class SyncGroupsInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2015-05-01-preview";
-        return service.listByDatabase(resourceGroupName, serverName, databaseName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<SyncGroupInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<SyncGroupInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl1<SyncGroupInner>> result = listByDatabaseDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<SyncGroupInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl1<SyncGroupInner>> listByDatabaseDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl1<SyncGroupInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl1<SyncGroupInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+        return service.listByDatabase(resourceGroupName, serverName, databaseName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl1<SyncGroupInner>> res) -> res.body());
     }
 
     /**
      * Gets a collection of sync database ids.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;SyncDatabaseIdPropertiesInner&gt; object if successful.
      */
-    public PagedList<SyncDatabaseIdPropertiesInner> listSyncDatabaseIdsNext(final String nextPageLink) {
-        ServiceResponse<Page<SyncDatabaseIdPropertiesInner>> response = listSyncDatabaseIdsNextSinglePageAsync(nextPageLink).toBlocking().single();
-        return new PagedList<SyncDatabaseIdPropertiesInner>(response.body()) {
+    public PagedList<SyncDatabaseIdPropertiesInner> listSyncDatabaseIdsNext(@NonNull String nextPageLink) {
+        Page<SyncDatabaseIdPropertiesInner> response = listSyncDatabaseIdsNextSinglePageAsync(nextPageLink).blockingGet();
+        return new PagedList<SyncDatabaseIdPropertiesInner>(response) {
             @Override
             public Page<SyncDatabaseIdPropertiesInner> nextPage(String nextPageLink) {
-                return listSyncDatabaseIdsNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listSyncDatabaseIdsNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -1906,109 +1460,52 @@ public class SyncGroupsInner {
      * Gets a collection of sync database ids.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;SyncDatabaseIdPropertiesInner&gt; object.
      */
-    public ServiceFuture<List<SyncDatabaseIdPropertiesInner>> listSyncDatabaseIdsNextAsync(final String nextPageLink, final ServiceFuture<List<SyncDatabaseIdPropertiesInner>> serviceFuture, final ListOperationCallback<SyncDatabaseIdPropertiesInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listSyncDatabaseIdsNextSinglePageAsync(nextPageLink),
-            new Func1<String, Observable<ServiceResponse<Page<SyncDatabaseIdPropertiesInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<SyncDatabaseIdPropertiesInner>>> call(String nextPageLink) {
-                    return listSyncDatabaseIdsNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets a collection of sync database ids.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;SyncDatabaseIdPropertiesInner&gt; object
-     */
-    public Observable<Page<SyncDatabaseIdPropertiesInner>> listSyncDatabaseIdsNextAsync(final String nextPageLink) {
-        return listSyncDatabaseIdsNextWithServiceResponseAsync(nextPageLink)
-            .map(new Func1<ServiceResponse<Page<SyncDatabaseIdPropertiesInner>>, Page<SyncDatabaseIdPropertiesInner>>() {
-                @Override
-                public Page<SyncDatabaseIdPropertiesInner> call(ServiceResponse<Page<SyncDatabaseIdPropertiesInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets a collection of sync database ids.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;SyncDatabaseIdPropertiesInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<SyncDatabaseIdPropertiesInner>>> listSyncDatabaseIdsNextWithServiceResponseAsync(final String nextPageLink) {
+    public Observable<Page<SyncDatabaseIdPropertiesInner>> listSyncDatabaseIdsNextAsync(@NonNull String nextPageLink) {
         return listSyncDatabaseIdsNextSinglePageAsync(nextPageLink)
-            .concatMap(new Func1<ServiceResponse<Page<SyncDatabaseIdPropertiesInner>>, Observable<ServiceResponse<Page<SyncDatabaseIdPropertiesInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<SyncDatabaseIdPropertiesInner>>> call(ServiceResponse<Page<SyncDatabaseIdPropertiesInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listSyncDatabaseIdsNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<SyncDatabaseIdPropertiesInner> page) -> {
+                String nextPageLink1 = page.nextPageLink();
+                if (nextPageLink1 == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listSyncDatabaseIdsNextAsync(nextPageLink1));
             });
     }
 
     /**
      * Gets a collection of sync database ids.
      *
-    ServiceResponse<PageImpl1<SyncDatabaseIdPropertiesInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;SyncDatabaseIdPropertiesInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;SyncDatabaseIdPropertiesInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<SyncDatabaseIdPropertiesInner>>> listSyncDatabaseIdsNextSinglePageAsync(final String nextPageLink) {
+    public Single<Page<SyncDatabaseIdPropertiesInner>> listSyncDatabaseIdsNextSinglePageAsync(@NonNull String nextPageLink) {
         if (nextPageLink == null) {
             throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
         }
         String nextUrl = String.format("%s", nextPageLink);
-        return service.listSyncDatabaseIdsNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<SyncDatabaseIdPropertiesInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<SyncDatabaseIdPropertiesInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl1<SyncDatabaseIdPropertiesInner>> result = listSyncDatabaseIdsNextDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<SyncDatabaseIdPropertiesInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl1<SyncDatabaseIdPropertiesInner>> listSyncDatabaseIdsNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl1<SyncDatabaseIdPropertiesInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl1<SyncDatabaseIdPropertiesInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+        return service.listSyncDatabaseIdsNext(nextUrl, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl1<SyncDatabaseIdPropertiesInner>> res) -> res.body());
     }
 
     /**
      * Gets a collection of hub database schemas.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;SyncFullSchemaPropertiesInner&gt; object if successful.
      */
-    public PagedList<SyncFullSchemaPropertiesInner> listHubSchemasNext(final String nextPageLink) {
-        ServiceResponse<Page<SyncFullSchemaPropertiesInner>> response = listHubSchemasNextSinglePageAsync(nextPageLink).toBlocking().single();
-        return new PagedList<SyncFullSchemaPropertiesInner>(response.body()) {
+    public PagedList<SyncFullSchemaPropertiesInner> listHubSchemasNext(@NonNull String nextPageLink) {
+        Page<SyncFullSchemaPropertiesInner> response = listHubSchemasNextSinglePageAsync(nextPageLink).blockingGet();
+        return new PagedList<SyncFullSchemaPropertiesInner>(response) {
             @Override
             public Page<SyncFullSchemaPropertiesInner> nextPage(String nextPageLink) {
-                return listHubSchemasNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listHubSchemasNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -2017,109 +1514,52 @@ public class SyncGroupsInner {
      * Gets a collection of hub database schemas.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;SyncFullSchemaPropertiesInner&gt; object.
      */
-    public ServiceFuture<List<SyncFullSchemaPropertiesInner>> listHubSchemasNextAsync(final String nextPageLink, final ServiceFuture<List<SyncFullSchemaPropertiesInner>> serviceFuture, final ListOperationCallback<SyncFullSchemaPropertiesInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listHubSchemasNextSinglePageAsync(nextPageLink),
-            new Func1<String, Observable<ServiceResponse<Page<SyncFullSchemaPropertiesInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<SyncFullSchemaPropertiesInner>>> call(String nextPageLink) {
-                    return listHubSchemasNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets a collection of hub database schemas.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;SyncFullSchemaPropertiesInner&gt; object
-     */
-    public Observable<Page<SyncFullSchemaPropertiesInner>> listHubSchemasNextAsync(final String nextPageLink) {
-        return listHubSchemasNextWithServiceResponseAsync(nextPageLink)
-            .map(new Func1<ServiceResponse<Page<SyncFullSchemaPropertiesInner>>, Page<SyncFullSchemaPropertiesInner>>() {
-                @Override
-                public Page<SyncFullSchemaPropertiesInner> call(ServiceResponse<Page<SyncFullSchemaPropertiesInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets a collection of hub database schemas.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;SyncFullSchemaPropertiesInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<SyncFullSchemaPropertiesInner>>> listHubSchemasNextWithServiceResponseAsync(final String nextPageLink) {
+    public Observable<Page<SyncFullSchemaPropertiesInner>> listHubSchemasNextAsync(@NonNull String nextPageLink) {
         return listHubSchemasNextSinglePageAsync(nextPageLink)
-            .concatMap(new Func1<ServiceResponse<Page<SyncFullSchemaPropertiesInner>>, Observable<ServiceResponse<Page<SyncFullSchemaPropertiesInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<SyncFullSchemaPropertiesInner>>> call(ServiceResponse<Page<SyncFullSchemaPropertiesInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listHubSchemasNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<SyncFullSchemaPropertiesInner> page) -> {
+                String nextPageLink1 = page.nextPageLink();
+                if (nextPageLink1 == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listHubSchemasNextAsync(nextPageLink1));
             });
     }
 
     /**
      * Gets a collection of hub database schemas.
      *
-    ServiceResponse<PageImpl1<SyncFullSchemaPropertiesInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;SyncFullSchemaPropertiesInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;SyncFullSchemaPropertiesInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<SyncFullSchemaPropertiesInner>>> listHubSchemasNextSinglePageAsync(final String nextPageLink) {
+    public Single<Page<SyncFullSchemaPropertiesInner>> listHubSchemasNextSinglePageAsync(@NonNull String nextPageLink) {
         if (nextPageLink == null) {
             throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
         }
         String nextUrl = String.format("%s", nextPageLink);
-        return service.listHubSchemasNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<SyncFullSchemaPropertiesInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<SyncFullSchemaPropertiesInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl1<SyncFullSchemaPropertiesInner>> result = listHubSchemasNextDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<SyncFullSchemaPropertiesInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl1<SyncFullSchemaPropertiesInner>> listHubSchemasNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl1<SyncFullSchemaPropertiesInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl1<SyncFullSchemaPropertiesInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+        return service.listHubSchemasNext(nextUrl, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl1<SyncFullSchemaPropertiesInner>> res) -> res.body());
     }
 
     /**
      * Gets a collection of sync group logs.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;SyncGroupLogPropertiesInner&gt; object if successful.
      */
-    public PagedList<SyncGroupLogPropertiesInner> listLogsNext(final String nextPageLink) {
-        ServiceResponse<Page<SyncGroupLogPropertiesInner>> response = listLogsNextSinglePageAsync(nextPageLink).toBlocking().single();
-        return new PagedList<SyncGroupLogPropertiesInner>(response.body()) {
+    public PagedList<SyncGroupLogPropertiesInner> listLogsNext(@NonNull String nextPageLink) {
+        Page<SyncGroupLogPropertiesInner> response = listLogsNextSinglePageAsync(nextPageLink).blockingGet();
+        return new PagedList<SyncGroupLogPropertiesInner>(response) {
             @Override
             public Page<SyncGroupLogPropertiesInner> nextPage(String nextPageLink) {
-                return listLogsNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listLogsNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -2128,109 +1568,52 @@ public class SyncGroupsInner {
      * Gets a collection of sync group logs.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;SyncGroupLogPropertiesInner&gt; object.
      */
-    public ServiceFuture<List<SyncGroupLogPropertiesInner>> listLogsNextAsync(final String nextPageLink, final ServiceFuture<List<SyncGroupLogPropertiesInner>> serviceFuture, final ListOperationCallback<SyncGroupLogPropertiesInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listLogsNextSinglePageAsync(nextPageLink),
-            new Func1<String, Observable<ServiceResponse<Page<SyncGroupLogPropertiesInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<SyncGroupLogPropertiesInner>>> call(String nextPageLink) {
-                    return listLogsNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets a collection of sync group logs.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;SyncGroupLogPropertiesInner&gt; object
-     */
-    public Observable<Page<SyncGroupLogPropertiesInner>> listLogsNextAsync(final String nextPageLink) {
-        return listLogsNextWithServiceResponseAsync(nextPageLink)
-            .map(new Func1<ServiceResponse<Page<SyncGroupLogPropertiesInner>>, Page<SyncGroupLogPropertiesInner>>() {
-                @Override
-                public Page<SyncGroupLogPropertiesInner> call(ServiceResponse<Page<SyncGroupLogPropertiesInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets a collection of sync group logs.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;SyncGroupLogPropertiesInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<SyncGroupLogPropertiesInner>>> listLogsNextWithServiceResponseAsync(final String nextPageLink) {
+    public Observable<Page<SyncGroupLogPropertiesInner>> listLogsNextAsync(@NonNull String nextPageLink) {
         return listLogsNextSinglePageAsync(nextPageLink)
-            .concatMap(new Func1<ServiceResponse<Page<SyncGroupLogPropertiesInner>>, Observable<ServiceResponse<Page<SyncGroupLogPropertiesInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<SyncGroupLogPropertiesInner>>> call(ServiceResponse<Page<SyncGroupLogPropertiesInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listLogsNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<SyncGroupLogPropertiesInner> page) -> {
+                String nextPageLink1 = page.nextPageLink();
+                if (nextPageLink1 == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listLogsNextAsync(nextPageLink1));
             });
     }
 
     /**
      * Gets a collection of sync group logs.
      *
-    ServiceResponse<PageImpl1<SyncGroupLogPropertiesInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;SyncGroupLogPropertiesInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;SyncGroupLogPropertiesInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<SyncGroupLogPropertiesInner>>> listLogsNextSinglePageAsync(final String nextPageLink) {
+    public Single<Page<SyncGroupLogPropertiesInner>> listLogsNextSinglePageAsync(@NonNull String nextPageLink) {
         if (nextPageLink == null) {
             throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
         }
         String nextUrl = String.format("%s", nextPageLink);
-        return service.listLogsNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<SyncGroupLogPropertiesInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<SyncGroupLogPropertiesInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl1<SyncGroupLogPropertiesInner>> result = listLogsNextDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<SyncGroupLogPropertiesInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl1<SyncGroupLogPropertiesInner>> listLogsNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl1<SyncGroupLogPropertiesInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl1<SyncGroupLogPropertiesInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+        return service.listLogsNext(nextUrl, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl1<SyncGroupLogPropertiesInner>> res) -> res.body());
     }
 
     /**
      * Lists sync groups under a hub database.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;SyncGroupInner&gt; object if successful.
      */
-    public PagedList<SyncGroupInner> listByDatabaseNext(final String nextPageLink) {
-        ServiceResponse<Page<SyncGroupInner>> response = listByDatabaseNextSinglePageAsync(nextPageLink).toBlocking().single();
-        return new PagedList<SyncGroupInner>(response.body()) {
+    public PagedList<SyncGroupInner> listByDatabaseNext(@NonNull String nextPageLink) {
+        Page<SyncGroupInner> response = listByDatabaseNextSinglePageAsync(nextPageLink).blockingGet();
+        return new PagedList<SyncGroupInner>(response) {
             @Override
             public Page<SyncGroupInner> nextPage(String nextPageLink) {
-                return listByDatabaseNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listByDatabaseNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -2239,92 +1622,34 @@ public class SyncGroupsInner {
      * Lists sync groups under a hub database.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;SyncGroupInner&gt; object.
      */
-    public ServiceFuture<List<SyncGroupInner>> listByDatabaseNextAsync(final String nextPageLink, final ServiceFuture<List<SyncGroupInner>> serviceFuture, final ListOperationCallback<SyncGroupInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listByDatabaseNextSinglePageAsync(nextPageLink),
-            new Func1<String, Observable<ServiceResponse<Page<SyncGroupInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<SyncGroupInner>>> call(String nextPageLink) {
-                    return listByDatabaseNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Lists sync groups under a hub database.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;SyncGroupInner&gt; object
-     */
-    public Observable<Page<SyncGroupInner>> listByDatabaseNextAsync(final String nextPageLink) {
-        return listByDatabaseNextWithServiceResponseAsync(nextPageLink)
-            .map(new Func1<ServiceResponse<Page<SyncGroupInner>>, Page<SyncGroupInner>>() {
-                @Override
-                public Page<SyncGroupInner> call(ServiceResponse<Page<SyncGroupInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Lists sync groups under a hub database.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;SyncGroupInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<SyncGroupInner>>> listByDatabaseNextWithServiceResponseAsync(final String nextPageLink) {
+    public Observable<Page<SyncGroupInner>> listByDatabaseNextAsync(@NonNull String nextPageLink) {
         return listByDatabaseNextSinglePageAsync(nextPageLink)
-            .concatMap(new Func1<ServiceResponse<Page<SyncGroupInner>>, Observable<ServiceResponse<Page<SyncGroupInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<SyncGroupInner>>> call(ServiceResponse<Page<SyncGroupInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listByDatabaseNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<SyncGroupInner> page) -> {
+                String nextPageLink1 = page.nextPageLink();
+                if (nextPageLink1 == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listByDatabaseNextAsync(nextPageLink1));
             });
     }
 
     /**
      * Lists sync groups under a hub database.
      *
-    ServiceResponse<PageImpl1<SyncGroupInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;SyncGroupInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;SyncGroupInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<SyncGroupInner>>> listByDatabaseNextSinglePageAsync(final String nextPageLink) {
+    public Single<Page<SyncGroupInner>> listByDatabaseNextSinglePageAsync(@NonNull String nextPageLink) {
         if (nextPageLink == null) {
             throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
         }
         String nextUrl = String.format("%s", nextPageLink);
-        return service.listByDatabaseNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<SyncGroupInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<SyncGroupInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl1<SyncGroupInner>> result = listByDatabaseNextDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<SyncGroupInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.listByDatabaseNext(nextUrl, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl1<SyncGroupInner>> res) -> res.body());
     }
-
-    private ServiceResponse<PageImpl1<SyncGroupInner>> listByDatabaseNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl1<SyncGroupInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl1<SyncGroupInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
-    }
-
 }

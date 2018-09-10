@@ -9,13 +9,12 @@
 package com.microsoft.azure.v2.management.sql;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.UUID;
 
 /**
  * Azure Active Directory identity configuration for a resource.
  */
-public class ResourceIdentity {
+public final class ResourceIdentity {
     /**
      * The Azure Active Directory principal id.
      */
@@ -39,7 +38,7 @@ public class ResourceIdentity {
     /**
      * Get the principalId value.
      *
-     * @return the principalId value
+     * @return the principalId value.
      */
     public UUID principalId() {
         return this.principalId;
@@ -48,7 +47,7 @@ public class ResourceIdentity {
     /**
      * Get the type value.
      *
-     * @return the type value
+     * @return the type value.
      */
     public IdentityType type() {
         return this.type;
@@ -57,7 +56,7 @@ public class ResourceIdentity {
     /**
      * Set the type value.
      *
-     * @param type the type value to set
+     * @param type the type value to set.
      * @return the ResourceIdentity object itself.
      */
     public ResourceIdentity withType(IdentityType type) {
@@ -68,10 +67,9 @@ public class ResourceIdentity {
     /**
      * Get the tenantId value.
      *
-     * @return the tenantId value
+     * @return the tenantId value.
      */
     public UUID tenantId() {
         return this.tenantId;
     }
-
 }

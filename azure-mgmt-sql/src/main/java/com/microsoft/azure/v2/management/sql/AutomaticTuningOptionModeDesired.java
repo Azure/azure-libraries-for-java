@@ -15,19 +15,27 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Defines values for AutomaticTuningOptionModeDesired.
  */
 public enum AutomaticTuningOptionModeDesired {
-    /** Enum value Off. */
+    /**
+     * Enum value Off.
+     */
     OFF("Off"),
 
-    /** Enum value On. */
+    /**
+     * Enum value On.
+     */
     ON("On"),
 
-    /** Enum value Default. */
+    /**
+     * Enum value Default.
+     */
     DEFAULT("Default");
 
-    /** The actual serialized value for a AutomaticTuningOptionModeDesired instance. */
-    private String value;
+    /**
+     * The actual serialized value for a AutomaticTuningOptionModeDesired instance.
+     */
+    private final String value;
 
-    AutomaticTuningOptionModeDesired(String value) {
+    private AutomaticTuningOptionModeDesired(String value) {
         this.value = value;
     }
 

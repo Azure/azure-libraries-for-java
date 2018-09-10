@@ -8,16 +8,17 @@
 
 package com.microsoft.azure.v2.management.sql.implementation;
 
-import org.joda.time.DateTime;
-import com.microsoft.azure.v2.management.sql.ManagementOperationState;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.v2.management.sql.ManagementOperationState;
+import com.microsoft.azure.v2.management.sql.ProxyResource;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
+import java.time.OffsetDateTime;
 
 /**
  * A database operation.
  */
 @JsonFlatten
-public class DatabaseOperationInner extends ProxyResourceInner {
+public class DatabaseOperationInner extends ProxyResource {
     /**
      * The name of the database the operation is being performed on.
      */
@@ -52,7 +53,7 @@ public class DatabaseOperationInner extends ProxyResourceInner {
      * The operation start time.
      */
     @JsonProperty(value = "properties.startTime", access = JsonProperty.Access.WRITE_ONLY)
-    private DateTime startTime;
+    private OffsetDateTime startTime;
 
     /**
      * The operation state. Possible values include: 'Pending', 'InProgress',
@@ -89,7 +90,7 @@ public class DatabaseOperationInner extends ProxyResourceInner {
      * The estimated completion time of the operation.
      */
     @JsonProperty(value = "properties.estimatedCompletionTime", access = JsonProperty.Access.WRITE_ONLY)
-    private DateTime estimatedCompletionTime;
+    private OffsetDateTime estimatedCompletionTime;
 
     /**
      * The operation description.
@@ -106,7 +107,7 @@ public class DatabaseOperationInner extends ProxyResourceInner {
     /**
      * Get the databaseName value.
      *
-     * @return the databaseName value
+     * @return the databaseName value.
      */
     public String databaseName() {
         return this.databaseName;
@@ -115,7 +116,7 @@ public class DatabaseOperationInner extends ProxyResourceInner {
     /**
      * Get the operation value.
      *
-     * @return the operation value
+     * @return the operation value.
      */
     public String operation() {
         return this.operation;
@@ -124,7 +125,7 @@ public class DatabaseOperationInner extends ProxyResourceInner {
     /**
      * Get the operationFriendlyName value.
      *
-     * @return the operationFriendlyName value
+     * @return the operationFriendlyName value.
      */
     public String operationFriendlyName() {
         return this.operationFriendlyName;
@@ -133,7 +134,7 @@ public class DatabaseOperationInner extends ProxyResourceInner {
     /**
      * Get the percentComplete value.
      *
-     * @return the percentComplete value
+     * @return the percentComplete value.
      */
     public Integer percentComplete() {
         return this.percentComplete;
@@ -142,7 +143,7 @@ public class DatabaseOperationInner extends ProxyResourceInner {
     /**
      * Get the serverName value.
      *
-     * @return the serverName value
+     * @return the serverName value.
      */
     public String serverName() {
         return this.serverName;
@@ -151,16 +152,16 @@ public class DatabaseOperationInner extends ProxyResourceInner {
     /**
      * Get the startTime value.
      *
-     * @return the startTime value
+     * @return the startTime value.
      */
-    public DateTime startTime() {
+    public OffsetDateTime startTime() {
         return this.startTime;
     }
 
     /**
      * Get the state value.
      *
-     * @return the state value
+     * @return the state value.
      */
     public ManagementOperationState state() {
         return this.state;
@@ -169,7 +170,7 @@ public class DatabaseOperationInner extends ProxyResourceInner {
     /**
      * Get the errorCode value.
      *
-     * @return the errorCode value
+     * @return the errorCode value.
      */
     public Integer errorCode() {
         return this.errorCode;
@@ -178,7 +179,7 @@ public class DatabaseOperationInner extends ProxyResourceInner {
     /**
      * Get the errorDescription value.
      *
-     * @return the errorDescription value
+     * @return the errorDescription value.
      */
     public String errorDescription() {
         return this.errorDescription;
@@ -187,7 +188,7 @@ public class DatabaseOperationInner extends ProxyResourceInner {
     /**
      * Get the errorSeverity value.
      *
-     * @return the errorSeverity value
+     * @return the errorSeverity value.
      */
     public Integer errorSeverity() {
         return this.errorSeverity;
@@ -196,7 +197,7 @@ public class DatabaseOperationInner extends ProxyResourceInner {
     /**
      * Get the isUserError value.
      *
-     * @return the isUserError value
+     * @return the isUserError value.
      */
     public Boolean isUserError() {
         return this.isUserError;
@@ -205,16 +206,16 @@ public class DatabaseOperationInner extends ProxyResourceInner {
     /**
      * Get the estimatedCompletionTime value.
      *
-     * @return the estimatedCompletionTime value
+     * @return the estimatedCompletionTime value.
      */
-    public DateTime estimatedCompletionTime() {
+    public OffsetDateTime estimatedCompletionTime() {
         return this.estimatedCompletionTime;
     }
 
     /**
      * Get the description value.
      *
-     * @return the description value
+     * @return the description value.
      */
     public String description() {
         return this.description;
@@ -223,10 +224,9 @@ public class DatabaseOperationInner extends ProxyResourceInner {
     /**
      * Get the isCancellable value.
      *
-     * @return the isCancellable value
+     * @return the isCancellable value.
      */
     public Boolean isCancellable() {
         return this.isCancellable;
     }
-
 }

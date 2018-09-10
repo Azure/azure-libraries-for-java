@@ -8,65 +8,72 @@
 
 package com.microsoft.azure.v2.management.sql.implementation;
 
-import retrofit2.Retrofit;
-import com.google.common.reflect.TypeToken;
-import com.microsoft.azure.CloudException;
+import com.microsoft.azure.v2.AzureProxy;
+import com.microsoft.azure.v2.CloudException;
 import com.microsoft.azure.v2.management.sql.GeoBackupPolicyState;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import com.microsoft.rest.ServiceResponse;
-import java.io.IOException;
+import com.microsoft.rest.v2.BodyResponse;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
+import com.microsoft.rest.v2.annotations.BodyParam;
+import com.microsoft.rest.v2.annotations.ExpectedResponses;
+import com.microsoft.rest.v2.annotations.GET;
+import com.microsoft.rest.v2.annotations.HeaderParam;
+import com.microsoft.rest.v2.annotations.Host;
+import com.microsoft.rest.v2.annotations.PathParam;
+import com.microsoft.rest.v2.annotations.PUT;
+import com.microsoft.rest.v2.annotations.QueryParam;
+import com.microsoft.rest.v2.annotations.UnexpectedResponseExceptionType;
+import io.reactivex.Maybe;
+import io.reactivex.Single;
+import io.reactivex.annotations.NonNull;
+import java.util.ArrayList;
 import java.util.List;
-import okhttp3.ResponseBody;
-import retrofit2.http.Body;
-import retrofit2.http.GET;
-import retrofit2.http.Header;
-import retrofit2.http.Headers;
-import retrofit2.http.Path;
-import retrofit2.http.PUT;
-import retrofit2.http.Query;
-import retrofit2.Response;
-import rx.functions.Func1;
-import rx.Observable;
 
 /**
- * An instance of this class provides access to all the operations defined
- * in GeoBackupPolicies.
+ * An instance of this class provides access to all the operations defined in
+ * GeoBackupPolicies.
  */
-public class GeoBackupPoliciesInner {
-    /** The Retrofit service to perform REST calls. */
+public final class GeoBackupPoliciesInner {
+    /**
+     * The proxy service used to perform REST calls.
+     */
     private GeoBackupPoliciesService service;
-    /** The service client containing this operation class. */
+
+    /**
+     * The service client containing this operation class.
+     */
     private SqlManagementClientImpl client;
 
     /**
      * Initializes an instance of GeoBackupPoliciesInner.
      *
-     * @param retrofit the Retrofit instance built from a Retrofit Builder.
      * @param client the instance of the service client containing this operation class.
      */
-    public GeoBackupPoliciesInner(Retrofit retrofit, SqlManagementClientImpl client) {
-        this.service = retrofit.create(GeoBackupPoliciesService.class);
+    public GeoBackupPoliciesInner(SqlManagementClientImpl client) {
+        this.service = AzureProxy.create(GeoBackupPoliciesService.class, client);
         this.client = client;
     }
 
     /**
-     * The interface defining all the services for GeoBackupPolicies to be
-     * used by Retrofit to perform actually REST calls.
+     * The interface defining all the services for GeoBackupPolicies to be used
+     * by the proxy service to perform REST calls.
      */
-    interface GeoBackupPoliciesService {
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.GeoBackupPolicies createOrUpdate" })
+    @Host("https://management.azure.com")
+    private interface GeoBackupPoliciesService {
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/geoBackupPolicies/{geoBackupPolicyName}")
-        Observable<Response<ResponseBody>> createOrUpdate(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("databaseName") String databaseName, @Path("geoBackupPolicyName") String geoBackupPolicyName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body GeoBackupPolicyInner parameters, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 201})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<GeoBackupPolicyInner>> createOrUpdate(@PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("databaseName") String databaseName, @PathParam("geoBackupPolicyName") String geoBackupPolicyName, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @BodyParam("application/json; charset=utf-8") GeoBackupPolicyInner parameters);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.GeoBackupPolicies get" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/geoBackupPolicies/{geoBackupPolicyName}")
-        Observable<Response<ResponseBody>> get(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("databaseName") String databaseName, @Path("geoBackupPolicyName") String geoBackupPolicyName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<GeoBackupPolicyInner>> get(@PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("databaseName") String databaseName, @PathParam("geoBackupPolicyName") String geoBackupPolicyName, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.GeoBackupPolicies listByDatabase" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/geoBackupPolicies")
-        Observable<Response<ResponseBody>> listByDatabase(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("databaseName") String databaseName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
-
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<List<GeoBackupPolicyInner>>> listByDatabase(@PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("databaseName") String databaseName, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
     }
 
     /**
@@ -75,14 +82,14 @@ public class GeoBackupPoliciesInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param databaseName The name of the database.
-     * @param state The state of the geo backup policy. Possible values include: 'Disabled', 'Enabled'
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @param state The state of the geo backup policy. Possible values include: 'Disabled', 'Enabled'.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the GeoBackupPolicyInner object if successful.
      */
-    public GeoBackupPolicyInner createOrUpdate(String resourceGroupName, String serverName, String databaseName, GeoBackupPolicyState state) {
-        return createOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, databaseName, state).toBlocking().single().body();
+    public GeoBackupPolicyInner createOrUpdate(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, @NonNull GeoBackupPolicyState state) {
+        return createOrUpdateAsync(resourceGroupName, serverName, databaseName, state).blockingGet();
     }
 
     /**
@@ -91,13 +98,13 @@ public class GeoBackupPoliciesInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param databaseName The name of the database.
-     * @param state The state of the geo backup policy. Possible values include: 'Disabled', 'Enabled'
+     * @param state The state of the geo backup policy. Possible values include: 'Disabled', 'Enabled'.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<GeoBackupPolicyInner> createOrUpdateAsync(String resourceGroupName, String serverName, String databaseName, GeoBackupPolicyState state, final ServiceCallback<GeoBackupPolicyInner> serviceCallback) {
-        return ServiceFuture.fromResponse(createOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, databaseName, state), serviceCallback);
+    public ServiceFuture<GeoBackupPolicyInner> createOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, @NonNull GeoBackupPolicyState state, ServiceCallback<GeoBackupPolicyInner> serviceCallback) {
+        return ServiceFuture.fromBody(createOrUpdateAsync(resourceGroupName, serverName, databaseName, state), serviceCallback);
     }
 
     /**
@@ -106,30 +113,11 @@ public class GeoBackupPoliciesInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param databaseName The name of the database.
-     * @param state The state of the geo backup policy. Possible values include: 'Disabled', 'Enabled'
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the GeoBackupPolicyInner object
+     * @param state The state of the geo backup policy. Possible values include: 'Disabled', 'Enabled'.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<GeoBackupPolicyInner> createOrUpdateAsync(String resourceGroupName, String serverName, String databaseName, GeoBackupPolicyState state) {
-        return createOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, databaseName, state).map(new Func1<ServiceResponse<GeoBackupPolicyInner>, GeoBackupPolicyInner>() {
-            @Override
-            public GeoBackupPolicyInner call(ServiceResponse<GeoBackupPolicyInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Updates a database geo backup policy.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the database.
-     * @param state The state of the geo backup policy. Possible values include: 'Disabled', 'Enabled'
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the GeoBackupPolicyInner object
-     */
-    public Observable<ServiceResponse<GeoBackupPolicyInner>> createOrUpdateWithServiceResponseAsync(String resourceGroupName, String serverName, String databaseName, GeoBackupPolicyState state) {
+    public Single<BodyResponse<GeoBackupPolicyInner>> createOrUpdateWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, @NonNull GeoBackupPolicyState state) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
@@ -149,26 +137,22 @@ public class GeoBackupPoliciesInner {
         final String apiVersion = "2014-04-01";
         GeoBackupPolicyInner parameters = new GeoBackupPolicyInner();
         parameters.withState(state);
-        return service.createOrUpdate(this.client.subscriptionId(), resourceGroupName, serverName, databaseName, geoBackupPolicyName, apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<GeoBackupPolicyInner>>>() {
-                @Override
-                public Observable<ServiceResponse<GeoBackupPolicyInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<GeoBackupPolicyInner> clientResponse = createOrUpdateDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.createOrUpdate(this.client.subscriptionId(), resourceGroupName, serverName, databaseName, geoBackupPolicyName, apiVersion, this.client.acceptLanguage(), parameters);
     }
 
-    private ServiceResponse<GeoBackupPolicyInner> createOrUpdateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<GeoBackupPolicyInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<GeoBackupPolicyInner>() { }.getType())
-                .register(201, new TypeToken<GeoBackupPolicyInner>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Updates a database geo backup policy.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database.
+     * @param state The state of the geo backup policy. Possible values include: 'Disabled', 'Enabled'.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<GeoBackupPolicyInner> createOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, @NonNull GeoBackupPolicyState state) {
+        return createOrUpdateWithRestResponseAsync(resourceGroupName, serverName, databaseName, state)
+            .flatMapMaybe((BodyResponse<GeoBackupPolicyInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
@@ -177,13 +161,13 @@ public class GeoBackupPoliciesInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param databaseName The name of the database.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the GeoBackupPolicyInner object if successful.
      */
-    public GeoBackupPolicyInner get(String resourceGroupName, String serverName, String databaseName) {
-        return getWithServiceResponseAsync(resourceGroupName, serverName, databaseName).toBlocking().single().body();
+    public GeoBackupPolicyInner get(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName) {
+        return getAsync(resourceGroupName, serverName, databaseName).blockingGet();
     }
 
     /**
@@ -193,11 +177,11 @@ public class GeoBackupPoliciesInner {
      * @param serverName The name of the server.
      * @param databaseName The name of the database.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<GeoBackupPolicyInner> getAsync(String resourceGroupName, String serverName, String databaseName, final ServiceCallback<GeoBackupPolicyInner> serviceCallback) {
-        return ServiceFuture.fromResponse(getWithServiceResponseAsync(resourceGroupName, serverName, databaseName), serviceCallback);
+    public ServiceFuture<GeoBackupPolicyInner> getAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, ServiceCallback<GeoBackupPolicyInner> serviceCallback) {
+        return ServiceFuture.fromBody(getAsync(resourceGroupName, serverName, databaseName), serviceCallback);
     }
 
     /**
@@ -206,28 +190,10 @@ public class GeoBackupPoliciesInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param databaseName The name of the database.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the GeoBackupPolicyInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<GeoBackupPolicyInner> getAsync(String resourceGroupName, String serverName, String databaseName) {
-        return getWithServiceResponseAsync(resourceGroupName, serverName, databaseName).map(new Func1<ServiceResponse<GeoBackupPolicyInner>, GeoBackupPolicyInner>() {
-            @Override
-            public GeoBackupPolicyInner call(ServiceResponse<GeoBackupPolicyInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Gets a geo backup policy.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the database.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the GeoBackupPolicyInner object
-     */
-    public Observable<ServiceResponse<GeoBackupPolicyInner>> getWithServiceResponseAsync(String resourceGroupName, String serverName, String databaseName) {
+    public Single<BodyResponse<GeoBackupPolicyInner>> getWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
@@ -242,25 +208,21 @@ public class GeoBackupPoliciesInner {
         }
         final String geoBackupPolicyName = "Default";
         final String apiVersion = "2014-04-01";
-        return service.get(this.client.subscriptionId(), resourceGroupName, serverName, databaseName, geoBackupPolicyName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<GeoBackupPolicyInner>>>() {
-                @Override
-                public Observable<ServiceResponse<GeoBackupPolicyInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<GeoBackupPolicyInner> clientResponse = getDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.get(this.client.subscriptionId(), resourceGroupName, serverName, databaseName, geoBackupPolicyName, apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<GeoBackupPolicyInner> getDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<GeoBackupPolicyInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<GeoBackupPolicyInner>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Gets a geo backup policy.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<GeoBackupPolicyInner> getAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName) {
+        return getWithRestResponseAsync(resourceGroupName, serverName, databaseName)
+            .flatMapMaybe((BodyResponse<GeoBackupPolicyInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
@@ -269,13 +231,13 @@ public class GeoBackupPoliciesInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param databaseName The name of the database.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the List&lt;GeoBackupPolicyInner&gt; object if successful.
      */
-    public List<GeoBackupPolicyInner> listByDatabase(String resourceGroupName, String serverName, String databaseName) {
-        return listByDatabaseWithServiceResponseAsync(resourceGroupName, serverName, databaseName).toBlocking().single().body();
+    public List<GeoBackupPolicyInner> listByDatabase(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName) {
+        return listByDatabaseAsync(resourceGroupName, serverName, databaseName).blockingGet();
     }
 
     /**
@@ -285,11 +247,11 @@ public class GeoBackupPoliciesInner {
      * @param serverName The name of the server.
      * @param databaseName The name of the database.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<List<GeoBackupPolicyInner>> listByDatabaseAsync(String resourceGroupName, String serverName, String databaseName, final ServiceCallback<List<GeoBackupPolicyInner>> serviceCallback) {
-        return ServiceFuture.fromResponse(listByDatabaseWithServiceResponseAsync(resourceGroupName, serverName, databaseName), serviceCallback);
+    public ServiceFuture<List<GeoBackupPolicyInner>> listByDatabaseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName, ServiceCallback<List<GeoBackupPolicyInner>> serviceCallback) {
+        return ServiceFuture.fromBody(listByDatabaseAsync(resourceGroupName, serverName, databaseName), serviceCallback);
     }
 
     /**
@@ -298,28 +260,10 @@ public class GeoBackupPoliciesInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param databaseName The name of the database.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the List&lt;GeoBackupPolicyInner&gt; object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<List<GeoBackupPolicyInner>> listByDatabaseAsync(String resourceGroupName, String serverName, String databaseName) {
-        return listByDatabaseWithServiceResponseAsync(resourceGroupName, serverName, databaseName).map(new Func1<ServiceResponse<List<GeoBackupPolicyInner>>, List<GeoBackupPolicyInner>>() {
-            @Override
-            public List<GeoBackupPolicyInner> call(ServiceResponse<List<GeoBackupPolicyInner>> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Returns a list of geo backup policies.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the database.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the List&lt;GeoBackupPolicyInner&gt; object
-     */
-    public Observable<ServiceResponse<List<GeoBackupPolicyInner>>> listByDatabaseWithServiceResponseAsync(String resourceGroupName, String serverName, String databaseName) {
+    public Single<BodyResponse<List<GeoBackupPolicyInner>>> listByDatabaseWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
@@ -333,26 +277,20 @@ public class GeoBackupPoliciesInner {
             throw new IllegalArgumentException("Parameter databaseName is required and cannot be null.");
         }
         final String apiVersion = "2014-04-01";
-        return service.listByDatabase(this.client.subscriptionId(), resourceGroupName, serverName, databaseName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<List<GeoBackupPolicyInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<List<GeoBackupPolicyInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<GeoBackupPolicyInner>> result = listByDatabaseDelegate(response);
-                        ServiceResponse<List<GeoBackupPolicyInner>> clientResponse = new ServiceResponse<List<GeoBackupPolicyInner>>(result.body().items(), result.response());
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.listByDatabase(this.client.subscriptionId(), resourceGroupName, serverName, databaseName, apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<PageImpl<GeoBackupPolicyInner>> listByDatabaseDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<GeoBackupPolicyInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<GeoBackupPolicyInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Returns a list of geo backup policies.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<List<GeoBackupPolicyInner>> listByDatabaseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String databaseName) {
+        return listByDatabaseWithRestResponseAsync(resourceGroupName, serverName, databaseName)
+            .flatMapMaybe((BodyResponse<List<GeoBackupPolicyInner>> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
-
 }

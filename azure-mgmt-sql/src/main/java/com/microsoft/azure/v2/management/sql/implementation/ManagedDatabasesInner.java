@@ -8,107 +8,149 @@
 
 package com.microsoft.azure.v2.management.sql.implementation;
 
-import retrofit2.Retrofit;
-import com.google.common.reflect.TypeToken;
-import com.microsoft.azure.AzureServiceFuture;
-import com.microsoft.azure.CloudException;
-import com.microsoft.azure.ListOperationCallback;
+import com.microsoft.azure.v2.AzureProxy;
+import com.microsoft.azure.v2.CloudException;
+import com.microsoft.azure.v2.OperationStatus;
+import com.microsoft.azure.v2.Page;
+import com.microsoft.azure.v2.PagedList;
 import com.microsoft.azure.v2.management.sql.CompleteDatabaseRestoreDefinition;
-import com.microsoft.azure.Page;
-import com.microsoft.azure.PagedList;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import com.microsoft.rest.ServiceResponse;
-import com.microsoft.rest.Validator;
-import java.io.IOException;
-import java.util.List;
+import com.microsoft.azure.v2.management.sql.ManagedDatabaseUpdate;
+import com.microsoft.azure.v2.util.ServiceFutureUtil;
+import com.microsoft.rest.v2.BodyResponse;
+import com.microsoft.rest.v2.OperationDescription;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
+import com.microsoft.rest.v2.Validator;
+import com.microsoft.rest.v2.VoidResponse;
+import com.microsoft.rest.v2.annotations.BodyParam;
+import com.microsoft.rest.v2.annotations.DELETE;
+import com.microsoft.rest.v2.annotations.ExpectedResponses;
+import com.microsoft.rest.v2.annotations.GET;
+import com.microsoft.rest.v2.annotations.HeaderParam;
+import com.microsoft.rest.v2.annotations.Host;
+import com.microsoft.rest.v2.annotations.PATCH;
+import com.microsoft.rest.v2.annotations.PathParam;
+import com.microsoft.rest.v2.annotations.POST;
+import com.microsoft.rest.v2.annotations.PUT;
+import com.microsoft.rest.v2.annotations.QueryParam;
+import com.microsoft.rest.v2.annotations.ResumeOperation;
+import com.microsoft.rest.v2.annotations.UnexpectedResponseExceptionType;
+import io.reactivex.Completable;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
+import io.reactivex.Single;
+import io.reactivex.annotations.NonNull;
 import java.util.UUID;
-import okhttp3.ResponseBody;
-import retrofit2.http.Body;
-import retrofit2.http.GET;
-import retrofit2.http.Header;
-import retrofit2.http.Headers;
-import retrofit2.http.HTTP;
-import retrofit2.http.PATCH;
-import retrofit2.http.Path;
-import retrofit2.http.POST;
-import retrofit2.http.PUT;
-import retrofit2.http.Query;
-import retrofit2.http.Url;
-import retrofit2.Response;
-import rx.functions.Func1;
-import rx.Observable;
 
 /**
- * An instance of this class provides access to all the operations defined
- * in ManagedDatabases.
+ * An instance of this class provides access to all the operations defined in
+ * ManagedDatabases.
  */
-public class ManagedDatabasesInner {
-    /** The Retrofit service to perform REST calls. */
+public final class ManagedDatabasesInner {
+    /**
+     * The proxy service used to perform REST calls.
+     */
     private ManagedDatabasesService service;
-    /** The service client containing this operation class. */
+
+    /**
+     * The service client containing this operation class.
+     */
     private SqlManagementClientImpl client;
 
     /**
      * Initializes an instance of ManagedDatabasesInner.
      *
-     * @param retrofit the Retrofit instance built from a Retrofit Builder.
      * @param client the instance of the service client containing this operation class.
      */
-    public ManagedDatabasesInner(Retrofit retrofit, SqlManagementClientImpl client) {
-        this.service = retrofit.create(ManagedDatabasesService.class);
+    public ManagedDatabasesInner(SqlManagementClientImpl client) {
+        this.service = AzureProxy.create(ManagedDatabasesService.class, client);
         this.client = client;
     }
 
     /**
-     * The interface defining all the services for ManagedDatabases to be
-     * used by Retrofit to perform actually REST calls.
+     * The interface defining all the services for ManagedDatabases to be used
+     * by the proxy service to perform REST calls.
      */
-    interface ManagedDatabasesService {
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.ManagedDatabases completeRestore" })
+    @Host("https://management.azure.com")
+    private interface ManagedDatabasesService {
         @POST("subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationName}/managedDatabaseRestoreAzureAsyncOperation/{operationId}/completeRestore")
-        Observable<Response<ResponseBody>> completeRestore(@Path("locationName") String locationName, @Path("operationId") UUID operationId, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body CompleteDatabaseRestoreDefinition parameters, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Observable<OperationStatus<Void>> beginCompleteRestore(@PathParam("locationName") String locationName, @PathParam("operationId") UUID operationId, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @BodyParam("application/json; charset=utf-8") CompleteDatabaseRestoreDefinition parameters);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.ManagedDatabases beginCompleteRestore" })
         @POST("subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationName}/managedDatabaseRestoreAzureAsyncOperation/{operationId}/completeRestore")
-        Observable<Response<ResponseBody>> beginCompleteRestore(@Path("locationName") String locationName, @Path("operationId") UUID operationId, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body CompleteDatabaseRestoreDefinition parameters, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<VoidResponse> completeRestore(@PathParam("locationName") String locationName, @PathParam("operationId") UUID operationId, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @BodyParam("application/json; charset=utf-8") CompleteDatabaseRestoreDefinition parameters);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.ManagedDatabases listByInstance" })
+        @POST("subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationName}/managedDatabaseRestoreAzureAsyncOperation/{operationId}/completeRestore")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<Void>> resumeCompleteRestore(OperationDescription operationDescription);
+
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases")
-        Observable<Response<ResponseBody>> listByInstance(@Path("resourceGroupName") String resourceGroupName, @Path("managedInstanceName") String managedInstanceName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl1<ManagedDatabaseInner>>> listByInstance(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("managedInstanceName") String managedInstanceName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.ManagedDatabases get" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}")
-        Observable<Response<ResponseBody>> get(@Path("resourceGroupName") String resourceGroupName, @Path("managedInstanceName") String managedInstanceName, @Path("databaseName") String databaseName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<ManagedDatabaseInner>> get(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("managedInstanceName") String managedInstanceName, @PathParam("databaseName") String databaseName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.ManagedDatabases createOrUpdate" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}")
-        Observable<Response<ResponseBody>> createOrUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("managedInstanceName") String managedInstanceName, @Path("databaseName") String databaseName, @Path("subscriptionId") String subscriptionId, @Body ManagedDatabaseInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 201, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Observable<OperationStatus<ManagedDatabaseInner>> beginCreateOrUpdate(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("managedInstanceName") String managedInstanceName, @PathParam("databaseName") String databaseName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json; charset=utf-8") ManagedDatabaseInner parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.ManagedDatabases beginCreateOrUpdate" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}")
-        Observable<Response<ResponseBody>> beginCreateOrUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("managedInstanceName") String managedInstanceName, @Path("databaseName") String databaseName, @Path("subscriptionId") String subscriptionId, @Body ManagedDatabaseInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 201, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<ManagedDatabaseInner>> createOrUpdate(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("managedInstanceName") String managedInstanceName, @PathParam("databaseName") String databaseName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json; charset=utf-8") ManagedDatabaseInner parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.ManagedDatabases delete" })
-        @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}", method = "DELETE", hasBody = true)
-        Observable<Response<ResponseBody>> delete(@Path("resourceGroupName") String resourceGroupName, @Path("managedInstanceName") String managedInstanceName, @Path("databaseName") String databaseName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}")
+        @ExpectedResponses({200, 201, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<ManagedDatabaseInner>> resumeCreateOrUpdate(OperationDescription operationDescription);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.ManagedDatabases beginDelete" })
-        @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}", method = "DELETE", hasBody = true)
-        Observable<Response<ResponseBody>> beginDelete(@Path("resourceGroupName") String resourceGroupName, @Path("managedInstanceName") String managedInstanceName, @Path("databaseName") String databaseName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @DELETE("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Observable<OperationStatus<Void>> beginDelete(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("managedInstanceName") String managedInstanceName, @PathParam("databaseName") String databaseName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.ManagedDatabases update" })
+        @DELETE("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<VoidResponse> delete(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("managedInstanceName") String managedInstanceName, @PathParam("databaseName") String databaseName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
+
+        @DELETE("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<Void>> resumeDelete(OperationDescription operationDescription);
+
         @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}")
-        Observable<Response<ResponseBody>> update(@Path("resourceGroupName") String resourceGroupName, @Path("managedInstanceName") String managedInstanceName, @Path("databaseName") String databaseName, @Path("subscriptionId") String subscriptionId, @Body ManagedDatabaseUpdateInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Observable<OperationStatus<ManagedDatabaseInner>> beginUpdate(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("managedInstanceName") String managedInstanceName, @PathParam("databaseName") String databaseName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json; charset=utf-8") ManagedDatabaseUpdate parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.ManagedDatabases beginUpdate" })
         @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}")
-        Observable<Response<ResponseBody>> beginUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("managedInstanceName") String managedInstanceName, @Path("databaseName") String databaseName, @Path("subscriptionId") String subscriptionId, @Body ManagedDatabaseUpdateInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<ManagedDatabaseInner>> update(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("managedInstanceName") String managedInstanceName, @PathParam("databaseName") String databaseName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json; charset=utf-8") ManagedDatabaseUpdate parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.ManagedDatabases listByInstanceNext" })
-        @GET
-        Observable<Response<ResponseBody>> listByInstanceNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<ManagedDatabaseInner>> resumeUpdate(OperationDescription operationDescription);
 
+        @GET("{nextUrl}")
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl1<ManagedDatabaseInner>>> listByInstanceNext(@PathParam(value = "nextUrl", encoded = true) String nextUrl, @HeaderParam("accept-language") String acceptLanguage);
     }
 
     /**
@@ -116,13 +158,13 @@ public class ManagedDatabasesInner {
      *
      * @param locationName The name of the region where the resource is located.
      * @param operationId Management operation id that this request tries to complete.
-     * @param lastBackupName The last backup name to apply
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @param lastBackupName The last backup name to apply.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void completeRestore(String locationName, UUID operationId, String lastBackupName) {
-        completeRestoreWithServiceResponseAsync(locationName, operationId, lastBackupName).toBlocking().last().body();
+    public void beginCompleteRestore(@NonNull String locationName, @NonNull UUID operationId, @NonNull String lastBackupName) {
+        beginCompleteRestoreAsync(locationName, operationId, lastBackupName).blockingLast();
     }
 
     /**
@@ -130,13 +172,13 @@ public class ManagedDatabasesInner {
      *
      * @param locationName The name of the region where the resource is located.
      * @param operationId Management operation id that this request tries to complete.
-     * @param lastBackupName The last backup name to apply
+     * @param lastBackupName The last backup name to apply.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;Void&gt; object.
      */
-    public ServiceFuture<Void> completeRestoreAsync(String locationName, UUID operationId, String lastBackupName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(completeRestoreWithServiceResponseAsync(locationName, operationId, lastBackupName), serviceCallback);
+    public ServiceFuture<Void> beginCompleteRestoreAsync(@NonNull String locationName, @NonNull UUID operationId, @NonNull String lastBackupName, ServiceCallback<Void> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginCompleteRestoreAsync(locationName, operationId, lastBackupName), serviceCallback);
     }
 
     /**
@@ -144,29 +186,11 @@ public class ManagedDatabasesInner {
      *
      * @param locationName The name of the region where the resource is located.
      * @param operationId Management operation id that this request tries to complete.
-     * @param lastBackupName The last backup name to apply
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @param lastBackupName The last backup name to apply.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<Void> completeRestoreAsync(String locationName, UUID operationId, String lastBackupName) {
-        return completeRestoreWithServiceResponseAsync(locationName, operationId, lastBackupName).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Completes the restore operation on a managed database.
-     *
-     * @param locationName The name of the region where the resource is located.
-     * @param operationId Management operation id that this request tries to complete.
-     * @param lastBackupName The last backup name to apply
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<Void>> completeRestoreWithServiceResponseAsync(String locationName, UUID operationId, String lastBackupName) {
+    public Observable<OperationStatus<Void>> beginCompleteRestoreAsync(@NonNull String locationName, @NonNull UUID operationId, @NonNull String lastBackupName) {
         if (locationName == null) {
             throw new IllegalArgumentException("Parameter locationName is required and cannot be null.");
         }
@@ -182,8 +206,7 @@ public class ManagedDatabasesInner {
         final String apiVersion = "2017-03-01-preview";
         CompleteDatabaseRestoreDefinition parameters = new CompleteDatabaseRestoreDefinition();
         parameters.withLastBackupName(lastBackupName);
-        Observable<Response<ResponseBody>> observable = service.completeRestore(locationName, operationId, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
+        return service.beginCompleteRestore(locationName, operationId, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters);
     }
 
     /**
@@ -191,13 +214,13 @@ public class ManagedDatabasesInner {
      *
      * @param locationName The name of the region where the resource is located.
      * @param operationId Management operation id that this request tries to complete.
-     * @param lastBackupName The last backup name to apply
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @param lastBackupName The last backup name to apply.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void beginCompleteRestore(String locationName, UUID operationId, String lastBackupName) {
-        beginCompleteRestoreWithServiceResponseAsync(locationName, operationId, lastBackupName).toBlocking().single().body();
+    public void completeRestore(@NonNull String locationName, @NonNull UUID operationId, @NonNull String lastBackupName) {
+        completeRestoreAsync(locationName, operationId, lastBackupName).blockingAwait();
     }
 
     /**
@@ -205,13 +228,13 @@ public class ManagedDatabasesInner {
      *
      * @param locationName The name of the region where the resource is located.
      * @param operationId Management operation id that this request tries to complete.
-     * @param lastBackupName The last backup name to apply
+     * @param lastBackupName The last backup name to apply.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<Void> beginCompleteRestoreAsync(String locationName, UUID operationId, String lastBackupName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(beginCompleteRestoreWithServiceResponseAsync(locationName, operationId, lastBackupName), serviceCallback);
+    public ServiceFuture<Void> completeRestoreAsync(@NonNull String locationName, @NonNull UUID operationId, @NonNull String lastBackupName, ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromBody(completeRestoreAsync(locationName, operationId, lastBackupName), serviceCallback);
     }
 
     /**
@@ -219,29 +242,11 @@ public class ManagedDatabasesInner {
      *
      * @param locationName The name of the region where the resource is located.
      * @param operationId Management operation id that this request tries to complete.
-     * @param lastBackupName The last backup name to apply
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
+     * @param lastBackupName The last backup name to apply.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<Void> beginCompleteRestoreAsync(String locationName, UUID operationId, String lastBackupName) {
-        return beginCompleteRestoreWithServiceResponseAsync(locationName, operationId, lastBackupName).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Completes the restore operation on a managed database.
-     *
-     * @param locationName The name of the region where the resource is located.
-     * @param operationId Management operation id that this request tries to complete.
-     * @param lastBackupName The last backup name to apply
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
-     */
-    public Observable<ServiceResponse<Void>> beginCompleteRestoreWithServiceResponseAsync(String locationName, UUID operationId, String lastBackupName) {
+    public Single<VoidResponse> completeRestoreWithRestResponseAsync(@NonNull String locationName, @NonNull UUID operationId, @NonNull String lastBackupName) {
         if (locationName == null) {
             throw new IllegalArgumentException("Parameter locationName is required and cannot be null.");
         }
@@ -257,26 +262,35 @@ public class ManagedDatabasesInner {
         final String apiVersion = "2017-03-01-preview";
         CompleteDatabaseRestoreDefinition parameters = new CompleteDatabaseRestoreDefinition();
         parameters.withLastBackupName(lastBackupName);
-        return service.beginCompleteRestore(locationName, operationId, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
-                @Override
-                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<Void> clientResponse = beginCompleteRestoreDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.completeRestore(locationName, operationId, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters);
     }
 
-    private ServiceResponse<Void> beginCompleteRestoreDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<Void>() { }.getType())
-                .register(202, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Completes the restore operation on a managed database.
+     *
+     * @param locationName The name of the region where the resource is located.
+     * @param operationId Management operation id that this request tries to complete.
+     * @param lastBackupName The last backup name to apply.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Completable completeRestoreAsync(@NonNull String locationName, @NonNull UUID operationId, @NonNull String lastBackupName) {
+        return completeRestoreWithRestResponseAsync(locationName, operationId, lastBackupName)
+            .toCompletable();
+    }
+
+    /**
+     * Completes the restore operation on a managed database. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<Void>> resumeCompleteRestore(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeCompleteRestore(operationDescription);
     }
 
     /**
@@ -284,17 +298,17 @@ public class ManagedDatabasesInner {
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param managedInstanceName The name of the managed instance.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;ManagedDatabaseInner&gt; object if successful.
      */
-    public PagedList<ManagedDatabaseInner> listByInstance(final String resourceGroupName, final String managedInstanceName) {
-        ServiceResponse<Page<ManagedDatabaseInner>> response = listByInstanceSinglePageAsync(resourceGroupName, managedInstanceName).toBlocking().single();
-        return new PagedList<ManagedDatabaseInner>(response.body()) {
+    public PagedList<ManagedDatabaseInner> listByInstance(@NonNull String resourceGroupName, @NonNull String managedInstanceName) {
+        Page<ManagedDatabaseInner> response = listByInstanceSinglePageAsync(resourceGroupName, managedInstanceName).blockingGet();
+        return new PagedList<ManagedDatabaseInner>(response) {
             @Override
             public Page<ManagedDatabaseInner> nextPage(String nextPageLink) {
-                return listByInstanceNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listByInstanceNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -304,71 +318,30 @@ public class ManagedDatabasesInner {
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param managedInstanceName The name of the managed instance.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;ManagedDatabaseInner&gt; object.
      */
-    public ServiceFuture<List<ManagedDatabaseInner>> listByInstanceAsync(final String resourceGroupName, final String managedInstanceName, final ListOperationCallback<ManagedDatabaseInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listByInstanceSinglePageAsync(resourceGroupName, managedInstanceName),
-            new Func1<String, Observable<ServiceResponse<Page<ManagedDatabaseInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ManagedDatabaseInner>>> call(String nextPageLink) {
-                    return listByInstanceNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets a list of managed databases.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param managedInstanceName The name of the managed instance.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ManagedDatabaseInner&gt; object
-     */
-    public Observable<Page<ManagedDatabaseInner>> listByInstanceAsync(final String resourceGroupName, final String managedInstanceName) {
-        return listByInstanceWithServiceResponseAsync(resourceGroupName, managedInstanceName)
-            .map(new Func1<ServiceResponse<Page<ManagedDatabaseInner>>, Page<ManagedDatabaseInner>>() {
-                @Override
-                public Page<ManagedDatabaseInner> call(ServiceResponse<Page<ManagedDatabaseInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets a list of managed databases.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param managedInstanceName The name of the managed instance.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ManagedDatabaseInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<ManagedDatabaseInner>>> listByInstanceWithServiceResponseAsync(final String resourceGroupName, final String managedInstanceName) {
+    public Observable<Page<ManagedDatabaseInner>> listByInstanceAsync(@NonNull String resourceGroupName, @NonNull String managedInstanceName) {
         return listByInstanceSinglePageAsync(resourceGroupName, managedInstanceName)
-            .concatMap(new Func1<ServiceResponse<Page<ManagedDatabaseInner>>, Observable<ServiceResponse<Page<ManagedDatabaseInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ManagedDatabaseInner>>> call(ServiceResponse<Page<ManagedDatabaseInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listByInstanceNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<ManagedDatabaseInner> page) -> {
+                String nextPageLink = page.nextPageLink();
+                if (nextPageLink == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listByInstanceNextAsync(nextPageLink));
             });
     }
 
     /**
      * Gets a list of managed databases.
      *
-    ServiceResponse<PageImpl1<ManagedDatabaseInner>> * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-    ServiceResponse<PageImpl1<ManagedDatabaseInner>> * @param managedInstanceName The name of the managed instance.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;ManagedDatabaseInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param managedInstanceName The name of the managed instance.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;ManagedDatabaseInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<ManagedDatabaseInner>>> listByInstanceSinglePageAsync(final String resourceGroupName, final String managedInstanceName) {
+    public Single<Page<ManagedDatabaseInner>> listByInstanceSinglePageAsync(@NonNull String resourceGroupName, @NonNull String managedInstanceName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -379,25 +352,8 @@ public class ManagedDatabasesInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2017-03-01-preview";
-        return service.listByInstance(resourceGroupName, managedInstanceName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ManagedDatabaseInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ManagedDatabaseInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl1<ManagedDatabaseInner>> result = listByInstanceDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<ManagedDatabaseInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl1<ManagedDatabaseInner>> listByInstanceDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl1<ManagedDatabaseInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl1<ManagedDatabaseInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+        return service.listByInstance(resourceGroupName, managedInstanceName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl1<ManagedDatabaseInner>> res) -> res.body());
     }
 
     /**
@@ -406,13 +362,13 @@ public class ManagedDatabasesInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param managedInstanceName The name of the managed instance.
      * @param databaseName The name of the database.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the ManagedDatabaseInner object if successful.
      */
-    public ManagedDatabaseInner get(String resourceGroupName, String managedInstanceName, String databaseName) {
-        return getWithServiceResponseAsync(resourceGroupName, managedInstanceName, databaseName).toBlocking().single().body();
+    public ManagedDatabaseInner get(@NonNull String resourceGroupName, @NonNull String managedInstanceName, @NonNull String databaseName) {
+        return getAsync(resourceGroupName, managedInstanceName, databaseName).blockingGet();
     }
 
     /**
@@ -422,11 +378,11 @@ public class ManagedDatabasesInner {
      * @param managedInstanceName The name of the managed instance.
      * @param databaseName The name of the database.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<ManagedDatabaseInner> getAsync(String resourceGroupName, String managedInstanceName, String databaseName, final ServiceCallback<ManagedDatabaseInner> serviceCallback) {
-        return ServiceFuture.fromResponse(getWithServiceResponseAsync(resourceGroupName, managedInstanceName, databaseName), serviceCallback);
+    public ServiceFuture<ManagedDatabaseInner> getAsync(@NonNull String resourceGroupName, @NonNull String managedInstanceName, @NonNull String databaseName, ServiceCallback<ManagedDatabaseInner> serviceCallback) {
+        return ServiceFuture.fromBody(getAsync(resourceGroupName, managedInstanceName, databaseName), serviceCallback);
     }
 
     /**
@@ -435,28 +391,10 @@ public class ManagedDatabasesInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param managedInstanceName The name of the managed instance.
      * @param databaseName The name of the database.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ManagedDatabaseInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<ManagedDatabaseInner> getAsync(String resourceGroupName, String managedInstanceName, String databaseName) {
-        return getWithServiceResponseAsync(resourceGroupName, managedInstanceName, databaseName).map(new Func1<ServiceResponse<ManagedDatabaseInner>, ManagedDatabaseInner>() {
-            @Override
-            public ManagedDatabaseInner call(ServiceResponse<ManagedDatabaseInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Gets a managed database.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param managedInstanceName The name of the managed instance.
-     * @param databaseName The name of the database.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ManagedDatabaseInner object
-     */
-    public Observable<ServiceResponse<ManagedDatabaseInner>> getWithServiceResponseAsync(String resourceGroupName, String managedInstanceName, String databaseName) {
+    public Single<BodyResponse<ManagedDatabaseInner>> getWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String managedInstanceName, @NonNull String databaseName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -470,25 +408,21 @@ public class ManagedDatabasesInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2017-03-01-preview";
-        return service.get(resourceGroupName, managedInstanceName, databaseName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ManagedDatabaseInner>>>() {
-                @Override
-                public Observable<ServiceResponse<ManagedDatabaseInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<ManagedDatabaseInner> clientResponse = getDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.get(resourceGroupName, managedInstanceName, databaseName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<ManagedDatabaseInner> getDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<ManagedDatabaseInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<ManagedDatabaseInner>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Gets a managed database.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param managedInstanceName The name of the managed instance.
+     * @param databaseName The name of the database.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<ManagedDatabaseInner> getAsync(@NonNull String resourceGroupName, @NonNull String managedInstanceName, @NonNull String databaseName) {
+        return getWithRestResponseAsync(resourceGroupName, managedInstanceName, databaseName)
+            .flatMapMaybe((BodyResponse<ManagedDatabaseInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
@@ -498,13 +432,13 @@ public class ManagedDatabasesInner {
      * @param managedInstanceName The name of the managed instance.
      * @param databaseName The name of the database.
      * @param parameters The requested database resource state.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the ManagedDatabaseInner object if successful.
      */
-    public ManagedDatabaseInner createOrUpdate(String resourceGroupName, String managedInstanceName, String databaseName, ManagedDatabaseInner parameters) {
-        return createOrUpdateWithServiceResponseAsync(resourceGroupName, managedInstanceName, databaseName, parameters).toBlocking().last().body();
+    public ManagedDatabaseInner beginCreateOrUpdate(@NonNull String resourceGroupName, @NonNull String managedInstanceName, @NonNull String databaseName, @NonNull ManagedDatabaseInner parameters) {
+        return beginCreateOrUpdateAsync(resourceGroupName, managedInstanceName, databaseName, parameters).blockingLast().result();
     }
 
     /**
@@ -515,11 +449,11 @@ public class ManagedDatabasesInner {
      * @param databaseName The name of the database.
      * @param parameters The requested database resource state.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;ManagedDatabaseInner&gt; object.
      */
-    public ServiceFuture<ManagedDatabaseInner> createOrUpdateAsync(String resourceGroupName, String managedInstanceName, String databaseName, ManagedDatabaseInner parameters, final ServiceCallback<ManagedDatabaseInner> serviceCallback) {
-        return ServiceFuture.fromResponse(createOrUpdateWithServiceResponseAsync(resourceGroupName, managedInstanceName, databaseName, parameters), serviceCallback);
+    public ServiceFuture<ManagedDatabaseInner> beginCreateOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String managedInstanceName, @NonNull String databaseName, @NonNull ManagedDatabaseInner parameters, ServiceCallback<ManagedDatabaseInner> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginCreateOrUpdateAsync(resourceGroupName, managedInstanceName, databaseName, parameters), serviceCallback);
     }
 
     /**
@@ -529,29 +463,10 @@ public class ManagedDatabasesInner {
      * @param managedInstanceName The name of the managed instance.
      * @param databaseName The name of the database.
      * @param parameters The requested database resource state.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<ManagedDatabaseInner> createOrUpdateAsync(String resourceGroupName, String managedInstanceName, String databaseName, ManagedDatabaseInner parameters) {
-        return createOrUpdateWithServiceResponseAsync(resourceGroupName, managedInstanceName, databaseName, parameters).map(new Func1<ServiceResponse<ManagedDatabaseInner>, ManagedDatabaseInner>() {
-            @Override
-            public ManagedDatabaseInner call(ServiceResponse<ManagedDatabaseInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Creates a new database or updates an existing database.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param managedInstanceName The name of the managed instance.
-     * @param databaseName The name of the database.
-     * @param parameters The requested database resource state.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<ManagedDatabaseInner>> createOrUpdateWithServiceResponseAsync(String resourceGroupName, String managedInstanceName, String databaseName, ManagedDatabaseInner parameters) {
+    public Observable<OperationStatus<ManagedDatabaseInner>> beginCreateOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String managedInstanceName, @NonNull String databaseName, @NonNull ManagedDatabaseInner parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -569,8 +484,7 @@ public class ManagedDatabasesInner {
         }
         Validator.validate(parameters);
         final String apiVersion = "2017-03-01-preview";
-        Observable<Response<ResponseBody>> observable = service.createOrUpdate(resourceGroupName, managedInstanceName, databaseName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<ManagedDatabaseInner>() { }.getType());
+        return service.beginCreateOrUpdate(resourceGroupName, managedInstanceName, databaseName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage());
     }
 
     /**
@@ -580,13 +494,13 @@ public class ManagedDatabasesInner {
      * @param managedInstanceName The name of the managed instance.
      * @param databaseName The name of the database.
      * @param parameters The requested database resource state.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the ManagedDatabaseInner object if successful.
      */
-    public ManagedDatabaseInner beginCreateOrUpdate(String resourceGroupName, String managedInstanceName, String databaseName, ManagedDatabaseInner parameters) {
-        return beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, managedInstanceName, databaseName, parameters).toBlocking().single().body();
+    public ManagedDatabaseInner createOrUpdate(@NonNull String resourceGroupName, @NonNull String managedInstanceName, @NonNull String databaseName, @NonNull ManagedDatabaseInner parameters) {
+        return createOrUpdateAsync(resourceGroupName, managedInstanceName, databaseName, parameters).blockingGet();
     }
 
     /**
@@ -597,11 +511,11 @@ public class ManagedDatabasesInner {
      * @param databaseName The name of the database.
      * @param parameters The requested database resource state.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<ManagedDatabaseInner> beginCreateOrUpdateAsync(String resourceGroupName, String managedInstanceName, String databaseName, ManagedDatabaseInner parameters, final ServiceCallback<ManagedDatabaseInner> serviceCallback) {
-        return ServiceFuture.fromResponse(beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, managedInstanceName, databaseName, parameters), serviceCallback);
+    public ServiceFuture<ManagedDatabaseInner> createOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String managedInstanceName, @NonNull String databaseName, @NonNull ManagedDatabaseInner parameters, ServiceCallback<ManagedDatabaseInner> serviceCallback) {
+        return ServiceFuture.fromBody(createOrUpdateAsync(resourceGroupName, managedInstanceName, databaseName, parameters), serviceCallback);
     }
 
     /**
@@ -611,29 +525,10 @@ public class ManagedDatabasesInner {
      * @param managedInstanceName The name of the managed instance.
      * @param databaseName The name of the database.
      * @param parameters The requested database resource state.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ManagedDatabaseInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<ManagedDatabaseInner> beginCreateOrUpdateAsync(String resourceGroupName, String managedInstanceName, String databaseName, ManagedDatabaseInner parameters) {
-        return beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, managedInstanceName, databaseName, parameters).map(new Func1<ServiceResponse<ManagedDatabaseInner>, ManagedDatabaseInner>() {
-            @Override
-            public ManagedDatabaseInner call(ServiceResponse<ManagedDatabaseInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Creates a new database or updates an existing database.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param managedInstanceName The name of the managed instance.
-     * @param databaseName The name of the database.
-     * @param parameters The requested database resource state.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ManagedDatabaseInner object
-     */
-    public Observable<ServiceResponse<ManagedDatabaseInner>> beginCreateOrUpdateWithServiceResponseAsync(String resourceGroupName, String managedInstanceName, String databaseName, ManagedDatabaseInner parameters) {
+    public Single<BodyResponse<ManagedDatabaseInner>> createOrUpdateWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String managedInstanceName, @NonNull String databaseName, @NonNull ManagedDatabaseInner parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -651,27 +546,36 @@ public class ManagedDatabasesInner {
         }
         Validator.validate(parameters);
         final String apiVersion = "2017-03-01-preview";
-        return service.beginCreateOrUpdate(resourceGroupName, managedInstanceName, databaseName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ManagedDatabaseInner>>>() {
-                @Override
-                public Observable<ServiceResponse<ManagedDatabaseInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<ManagedDatabaseInner> clientResponse = beginCreateOrUpdateDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.createOrUpdate(resourceGroupName, managedInstanceName, databaseName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<ManagedDatabaseInner> beginCreateOrUpdateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<ManagedDatabaseInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<ManagedDatabaseInner>() { }.getType())
-                .register(201, new TypeToken<ManagedDatabaseInner>() { }.getType())
-                .register(202, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Creates a new database or updates an existing database.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param managedInstanceName The name of the managed instance.
+     * @param databaseName The name of the database.
+     * @param parameters The requested database resource state.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<ManagedDatabaseInner> createOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String managedInstanceName, @NonNull String databaseName, @NonNull ManagedDatabaseInner parameters) {
+        return createOrUpdateWithRestResponseAsync(resourceGroupName, managedInstanceName, databaseName, parameters)
+            .flatMapMaybe((BodyResponse<ManagedDatabaseInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
+    }
+
+    /**
+     * Creates a new database or updates an existing database. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<ManagedDatabaseInner>> resumeCreateOrUpdate(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeCreateOrUpdate(operationDescription);
     }
 
     /**
@@ -680,12 +584,12 @@ public class ManagedDatabasesInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param managedInstanceName The name of the managed instance.
      * @param databaseName The name of the database.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void delete(String resourceGroupName, String managedInstanceName, String databaseName) {
-        deleteWithServiceResponseAsync(resourceGroupName, managedInstanceName, databaseName).toBlocking().last().body();
+    public void beginDelete(@NonNull String resourceGroupName, @NonNull String managedInstanceName, @NonNull String databaseName) {
+        beginDeleteAsync(resourceGroupName, managedInstanceName, databaseName).blockingLast();
     }
 
     /**
@@ -695,11 +599,11 @@ public class ManagedDatabasesInner {
      * @param managedInstanceName The name of the managed instance.
      * @param databaseName The name of the database.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;Void&gt; object.
      */
-    public ServiceFuture<Void> deleteAsync(String resourceGroupName, String managedInstanceName, String databaseName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(deleteWithServiceResponseAsync(resourceGroupName, managedInstanceName, databaseName), serviceCallback);
+    public ServiceFuture<Void> beginDeleteAsync(@NonNull String resourceGroupName, @NonNull String managedInstanceName, @NonNull String databaseName, ServiceCallback<Void> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginDeleteAsync(resourceGroupName, managedInstanceName, databaseName), serviceCallback);
     }
 
     /**
@@ -708,28 +612,10 @@ public class ManagedDatabasesInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param managedInstanceName The name of the managed instance.
      * @param databaseName The name of the database.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<Void> deleteAsync(String resourceGroupName, String managedInstanceName, String databaseName) {
-        return deleteWithServiceResponseAsync(resourceGroupName, managedInstanceName, databaseName).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Deletes the managed database.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param managedInstanceName The name of the managed instance.
-     * @param databaseName The name of the database.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<Void>> deleteWithServiceResponseAsync(String resourceGroupName, String managedInstanceName, String databaseName) {
+    public Observable<OperationStatus<Void>> beginDeleteAsync(@NonNull String resourceGroupName, @NonNull String managedInstanceName, @NonNull String databaseName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -743,8 +629,7 @@ public class ManagedDatabasesInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2017-03-01-preview";
-        Observable<Response<ResponseBody>> observable = service.delete(resourceGroupName, managedInstanceName, databaseName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
+        return service.beginDelete(resourceGroupName, managedInstanceName, databaseName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
     /**
@@ -753,12 +638,12 @@ public class ManagedDatabasesInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param managedInstanceName The name of the managed instance.
      * @param databaseName The name of the database.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void beginDelete(String resourceGroupName, String managedInstanceName, String databaseName) {
-        beginDeleteWithServiceResponseAsync(resourceGroupName, managedInstanceName, databaseName).toBlocking().single().body();
+    public void delete(@NonNull String resourceGroupName, @NonNull String managedInstanceName, @NonNull String databaseName) {
+        deleteAsync(resourceGroupName, managedInstanceName, databaseName).blockingAwait();
     }
 
     /**
@@ -768,11 +653,11 @@ public class ManagedDatabasesInner {
      * @param managedInstanceName The name of the managed instance.
      * @param databaseName The name of the database.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<Void> beginDeleteAsync(String resourceGroupName, String managedInstanceName, String databaseName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(beginDeleteWithServiceResponseAsync(resourceGroupName, managedInstanceName, databaseName), serviceCallback);
+    public ServiceFuture<Void> deleteAsync(@NonNull String resourceGroupName, @NonNull String managedInstanceName, @NonNull String databaseName, ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromBody(deleteAsync(resourceGroupName, managedInstanceName, databaseName), serviceCallback);
     }
 
     /**
@@ -781,28 +666,10 @@ public class ManagedDatabasesInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param managedInstanceName The name of the managed instance.
      * @param databaseName The name of the database.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<Void> beginDeleteAsync(String resourceGroupName, String managedInstanceName, String databaseName) {
-        return beginDeleteWithServiceResponseAsync(resourceGroupName, managedInstanceName, databaseName).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Deletes the managed database.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param managedInstanceName The name of the managed instance.
-     * @param databaseName The name of the database.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
-     */
-    public Observable<ServiceResponse<Void>> beginDeleteWithServiceResponseAsync(String resourceGroupName, String managedInstanceName, String databaseName) {
+    public Single<VoidResponse> deleteWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String managedInstanceName, @NonNull String databaseName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -816,27 +683,35 @@ public class ManagedDatabasesInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2017-03-01-preview";
-        return service.beginDelete(resourceGroupName, managedInstanceName, databaseName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
-                @Override
-                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<Void> clientResponse = beginDeleteDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.delete(resourceGroupName, managedInstanceName, databaseName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<Void> beginDeleteDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<Void>() { }.getType())
-                .register(202, new TypeToken<Void>() { }.getType())
-                .register(204, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Deletes the managed database.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param managedInstanceName The name of the managed instance.
+     * @param databaseName The name of the database.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Completable deleteAsync(@NonNull String resourceGroupName, @NonNull String managedInstanceName, @NonNull String databaseName) {
+        return deleteWithRestResponseAsync(resourceGroupName, managedInstanceName, databaseName)
+            .toCompletable();
+    }
+
+    /**
+     * Deletes the managed database. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<Void>> resumeDelete(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeDelete(operationDescription);
     }
 
     /**
@@ -846,13 +721,13 @@ public class ManagedDatabasesInner {
      * @param managedInstanceName The name of the managed instance.
      * @param databaseName The name of the database.
      * @param parameters The requested database resource state.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the ManagedDatabaseInner object if successful.
      */
-    public ManagedDatabaseInner update(String resourceGroupName, String managedInstanceName, String databaseName, ManagedDatabaseUpdateInner parameters) {
-        return updateWithServiceResponseAsync(resourceGroupName, managedInstanceName, databaseName, parameters).toBlocking().last().body();
+    public ManagedDatabaseInner beginUpdate(@NonNull String resourceGroupName, @NonNull String managedInstanceName, @NonNull String databaseName, @NonNull ManagedDatabaseUpdate parameters) {
+        return beginUpdateAsync(resourceGroupName, managedInstanceName, databaseName, parameters).blockingLast().result();
     }
 
     /**
@@ -863,11 +738,11 @@ public class ManagedDatabasesInner {
      * @param databaseName The name of the database.
      * @param parameters The requested database resource state.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;ManagedDatabaseInner&gt; object.
      */
-    public ServiceFuture<ManagedDatabaseInner> updateAsync(String resourceGroupName, String managedInstanceName, String databaseName, ManagedDatabaseUpdateInner parameters, final ServiceCallback<ManagedDatabaseInner> serviceCallback) {
-        return ServiceFuture.fromResponse(updateWithServiceResponseAsync(resourceGroupName, managedInstanceName, databaseName, parameters), serviceCallback);
+    public ServiceFuture<ManagedDatabaseInner> beginUpdateAsync(@NonNull String resourceGroupName, @NonNull String managedInstanceName, @NonNull String databaseName, @NonNull ManagedDatabaseUpdate parameters, ServiceCallback<ManagedDatabaseInner> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginUpdateAsync(resourceGroupName, managedInstanceName, databaseName, parameters), serviceCallback);
     }
 
     /**
@@ -877,29 +752,10 @@ public class ManagedDatabasesInner {
      * @param managedInstanceName The name of the managed instance.
      * @param databaseName The name of the database.
      * @param parameters The requested database resource state.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<ManagedDatabaseInner> updateAsync(String resourceGroupName, String managedInstanceName, String databaseName, ManagedDatabaseUpdateInner parameters) {
-        return updateWithServiceResponseAsync(resourceGroupName, managedInstanceName, databaseName, parameters).map(new Func1<ServiceResponse<ManagedDatabaseInner>, ManagedDatabaseInner>() {
-            @Override
-            public ManagedDatabaseInner call(ServiceResponse<ManagedDatabaseInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Updates an existing database.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param managedInstanceName The name of the managed instance.
-     * @param databaseName The name of the database.
-     * @param parameters The requested database resource state.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<ManagedDatabaseInner>> updateWithServiceResponseAsync(String resourceGroupName, String managedInstanceName, String databaseName, ManagedDatabaseUpdateInner parameters) {
+    public Observable<OperationStatus<ManagedDatabaseInner>> beginUpdateAsync(@NonNull String resourceGroupName, @NonNull String managedInstanceName, @NonNull String databaseName, @NonNull ManagedDatabaseUpdate parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -917,8 +773,7 @@ public class ManagedDatabasesInner {
         }
         Validator.validate(parameters);
         final String apiVersion = "2017-03-01-preview";
-        Observable<Response<ResponseBody>> observable = service.update(resourceGroupName, managedInstanceName, databaseName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<ManagedDatabaseInner>() { }.getType());
+        return service.beginUpdate(resourceGroupName, managedInstanceName, databaseName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage());
     }
 
     /**
@@ -928,13 +783,13 @@ public class ManagedDatabasesInner {
      * @param managedInstanceName The name of the managed instance.
      * @param databaseName The name of the database.
      * @param parameters The requested database resource state.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the ManagedDatabaseInner object if successful.
      */
-    public ManagedDatabaseInner beginUpdate(String resourceGroupName, String managedInstanceName, String databaseName, ManagedDatabaseUpdateInner parameters) {
-        return beginUpdateWithServiceResponseAsync(resourceGroupName, managedInstanceName, databaseName, parameters).toBlocking().single().body();
+    public ManagedDatabaseInner update(@NonNull String resourceGroupName, @NonNull String managedInstanceName, @NonNull String databaseName, @NonNull ManagedDatabaseUpdate parameters) {
+        return updateAsync(resourceGroupName, managedInstanceName, databaseName, parameters).blockingGet();
     }
 
     /**
@@ -945,11 +800,11 @@ public class ManagedDatabasesInner {
      * @param databaseName The name of the database.
      * @param parameters The requested database resource state.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<ManagedDatabaseInner> beginUpdateAsync(String resourceGroupName, String managedInstanceName, String databaseName, ManagedDatabaseUpdateInner parameters, final ServiceCallback<ManagedDatabaseInner> serviceCallback) {
-        return ServiceFuture.fromResponse(beginUpdateWithServiceResponseAsync(resourceGroupName, managedInstanceName, databaseName, parameters), serviceCallback);
+    public ServiceFuture<ManagedDatabaseInner> updateAsync(@NonNull String resourceGroupName, @NonNull String managedInstanceName, @NonNull String databaseName, @NonNull ManagedDatabaseUpdate parameters, ServiceCallback<ManagedDatabaseInner> serviceCallback) {
+        return ServiceFuture.fromBody(updateAsync(resourceGroupName, managedInstanceName, databaseName, parameters), serviceCallback);
     }
 
     /**
@@ -959,29 +814,10 @@ public class ManagedDatabasesInner {
      * @param managedInstanceName The name of the managed instance.
      * @param databaseName The name of the database.
      * @param parameters The requested database resource state.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ManagedDatabaseInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<ManagedDatabaseInner> beginUpdateAsync(String resourceGroupName, String managedInstanceName, String databaseName, ManagedDatabaseUpdateInner parameters) {
-        return beginUpdateWithServiceResponseAsync(resourceGroupName, managedInstanceName, databaseName, parameters).map(new Func1<ServiceResponse<ManagedDatabaseInner>, ManagedDatabaseInner>() {
-            @Override
-            public ManagedDatabaseInner call(ServiceResponse<ManagedDatabaseInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Updates an existing database.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param managedInstanceName The name of the managed instance.
-     * @param databaseName The name of the database.
-     * @param parameters The requested database resource state.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ManagedDatabaseInner object
-     */
-    public Observable<ServiceResponse<ManagedDatabaseInner>> beginUpdateWithServiceResponseAsync(String resourceGroupName, String managedInstanceName, String databaseName, ManagedDatabaseUpdateInner parameters) {
+    public Single<BodyResponse<ManagedDatabaseInner>> updateWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String managedInstanceName, @NonNull String databaseName, @NonNull ManagedDatabaseUpdate parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -999,43 +835,53 @@ public class ManagedDatabasesInner {
         }
         Validator.validate(parameters);
         final String apiVersion = "2017-03-01-preview";
-        return service.beginUpdate(resourceGroupName, managedInstanceName, databaseName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ManagedDatabaseInner>>>() {
-                @Override
-                public Observable<ServiceResponse<ManagedDatabaseInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<ManagedDatabaseInner> clientResponse = beginUpdateDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.update(resourceGroupName, managedInstanceName, databaseName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<ManagedDatabaseInner> beginUpdateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<ManagedDatabaseInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<ManagedDatabaseInner>() { }.getType())
-                .register(202, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Updates an existing database.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param managedInstanceName The name of the managed instance.
+     * @param databaseName The name of the database.
+     * @param parameters The requested database resource state.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<ManagedDatabaseInner> updateAsync(@NonNull String resourceGroupName, @NonNull String managedInstanceName, @NonNull String databaseName, @NonNull ManagedDatabaseUpdate parameters) {
+        return updateWithRestResponseAsync(resourceGroupName, managedInstanceName, databaseName, parameters)
+            .flatMapMaybe((BodyResponse<ManagedDatabaseInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
+    }
+
+    /**
+     * Updates an existing database. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<ManagedDatabaseInner>> resumeUpdate(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeUpdate(operationDescription);
     }
 
     /**
      * Gets a list of managed databases.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;ManagedDatabaseInner&gt; object if successful.
      */
-    public PagedList<ManagedDatabaseInner> listByInstanceNext(final String nextPageLink) {
-        ServiceResponse<Page<ManagedDatabaseInner>> response = listByInstanceNextSinglePageAsync(nextPageLink).toBlocking().single();
-        return new PagedList<ManagedDatabaseInner>(response.body()) {
+    public PagedList<ManagedDatabaseInner> listByInstanceNext(@NonNull String nextPageLink) {
+        Page<ManagedDatabaseInner> response = listByInstanceNextSinglePageAsync(nextPageLink).blockingGet();
+        return new PagedList<ManagedDatabaseInner>(response) {
             @Override
             public Page<ManagedDatabaseInner> nextPage(String nextPageLink) {
-                return listByInstanceNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listByInstanceNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -1044,92 +890,34 @@ public class ManagedDatabasesInner {
      * Gets a list of managed databases.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;ManagedDatabaseInner&gt; object.
      */
-    public ServiceFuture<List<ManagedDatabaseInner>> listByInstanceNextAsync(final String nextPageLink, final ServiceFuture<List<ManagedDatabaseInner>> serviceFuture, final ListOperationCallback<ManagedDatabaseInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listByInstanceNextSinglePageAsync(nextPageLink),
-            new Func1<String, Observable<ServiceResponse<Page<ManagedDatabaseInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ManagedDatabaseInner>>> call(String nextPageLink) {
-                    return listByInstanceNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets a list of managed databases.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ManagedDatabaseInner&gt; object
-     */
-    public Observable<Page<ManagedDatabaseInner>> listByInstanceNextAsync(final String nextPageLink) {
-        return listByInstanceNextWithServiceResponseAsync(nextPageLink)
-            .map(new Func1<ServiceResponse<Page<ManagedDatabaseInner>>, Page<ManagedDatabaseInner>>() {
-                @Override
-                public Page<ManagedDatabaseInner> call(ServiceResponse<Page<ManagedDatabaseInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets a list of managed databases.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ManagedDatabaseInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<ManagedDatabaseInner>>> listByInstanceNextWithServiceResponseAsync(final String nextPageLink) {
+    public Observable<Page<ManagedDatabaseInner>> listByInstanceNextAsync(@NonNull String nextPageLink) {
         return listByInstanceNextSinglePageAsync(nextPageLink)
-            .concatMap(new Func1<ServiceResponse<Page<ManagedDatabaseInner>>, Observable<ServiceResponse<Page<ManagedDatabaseInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ManagedDatabaseInner>>> call(ServiceResponse<Page<ManagedDatabaseInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listByInstanceNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<ManagedDatabaseInner> page) -> {
+                String nextPageLink1 = page.nextPageLink();
+                if (nextPageLink1 == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listByInstanceNextAsync(nextPageLink1));
             });
     }
 
     /**
      * Gets a list of managed databases.
      *
-    ServiceResponse<PageImpl1<ManagedDatabaseInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;ManagedDatabaseInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;ManagedDatabaseInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<ManagedDatabaseInner>>> listByInstanceNextSinglePageAsync(final String nextPageLink) {
+    public Single<Page<ManagedDatabaseInner>> listByInstanceNextSinglePageAsync(@NonNull String nextPageLink) {
         if (nextPageLink == null) {
             throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
         }
         String nextUrl = String.format("%s", nextPageLink);
-        return service.listByInstanceNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ManagedDatabaseInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ManagedDatabaseInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl1<ManagedDatabaseInner>> result = listByInstanceNextDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<ManagedDatabaseInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.listByInstanceNext(nextUrl, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl1<ManagedDatabaseInner>> res) -> res.body());
     }
-
-    private ServiceResponse<PageImpl1<ManagedDatabaseInner>> listByInstanceNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl1<ManagedDatabaseInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl1<ManagedDatabaseInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
-    }
-
 }

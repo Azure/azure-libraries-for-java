@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * A request to check whether the specified name for a resource is available.
  */
-public class CheckNameAvailabilityRequest {
+public final class CheckNameAvailabilityRequest {
     /**
      * The name whose availability is to be checked.
      */
@@ -37,7 +37,7 @@ public class CheckNameAvailabilityRequest {
     /**
      * Get the name value.
      *
-     * @return the name value
+     * @return the name value.
      */
     public String name() {
         return this.name;
@@ -46,7 +46,7 @@ public class CheckNameAvailabilityRequest {
     /**
      * Set the name value.
      *
-     * @param name the name value to set
+     * @param name the name value to set.
      * @return the CheckNameAvailabilityRequest object itself.
      */
     public CheckNameAvailabilityRequest withName(String name) {
@@ -57,7 +57,7 @@ public class CheckNameAvailabilityRequest {
     /**
      * Get the type value.
      *
-     * @return the type value
+     * @return the type value.
      */
     public String type() {
         return this.type;
@@ -66,12 +66,11 @@ public class CheckNameAvailabilityRequest {
     /**
      * Set the type value.
      *
-     * @param type the type value to set
+     * @param type the type value to set.
      * @return the CheckNameAvailabilityRequest object itself.
      */
     public CheckNameAvailabilityRequest withType(String type) {
         this.type = type;
         return this;
     }
-
 }

@@ -8,13 +8,13 @@
 
 package com.microsoft.azure.v2.management.sql.implementation;
 
-import org.joda.time.DateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.time.OffsetDateTime;
 
 /**
  * The database usages.
  */
-public class DatabaseUsageInner {
+public final class DatabaseUsageInner {
     /**
      * The name of the usage metric.
      */
@@ -55,12 +55,12 @@ public class DatabaseUsageInner {
      * The next reset time for the usage metric (ISO8601 format).
      */
     @JsonProperty(value = "nextResetTime", access = JsonProperty.Access.WRITE_ONLY)
-    private DateTime nextResetTime;
+    private OffsetDateTime nextResetTime;
 
     /**
      * Get the name value.
      *
-     * @return the name value
+     * @return the name value.
      */
     public String name() {
         return this.name;
@@ -69,7 +69,7 @@ public class DatabaseUsageInner {
     /**
      * Get the resourceName value.
      *
-     * @return the resourceName value
+     * @return the resourceName value.
      */
     public String resourceName() {
         return this.resourceName;
@@ -78,7 +78,7 @@ public class DatabaseUsageInner {
     /**
      * Get the displayName value.
      *
-     * @return the displayName value
+     * @return the displayName value.
      */
     public String displayName() {
         return this.displayName;
@@ -87,7 +87,7 @@ public class DatabaseUsageInner {
     /**
      * Get the currentValue value.
      *
-     * @return the currentValue value
+     * @return the currentValue value.
      */
     public Double currentValue() {
         return this.currentValue;
@@ -96,7 +96,7 @@ public class DatabaseUsageInner {
     /**
      * Get the limit value.
      *
-     * @return the limit value
+     * @return the limit value.
      */
     public Double limit() {
         return this.limit;
@@ -105,7 +105,7 @@ public class DatabaseUsageInner {
     /**
      * Get the unit value.
      *
-     * @return the unit value
+     * @return the unit value.
      */
     public String unit() {
         return this.unit;
@@ -114,10 +114,9 @@ public class DatabaseUsageInner {
     /**
      * Get the nextResetTime value.
      *
-     * @return the nextResetTime value
+     * @return the nextResetTime value.
      */
-    public DateTime nextResetTime() {
+    public OffsetDateTime nextResetTime() {
         return this.nextResetTime;
     }
-
 }

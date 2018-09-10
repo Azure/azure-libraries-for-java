@@ -8,15 +8,16 @@
 
 package com.microsoft.azure.v2.management.sql.implementation;
 
-import com.microsoft.azure.v2.management.sql.ServerKeyType;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.v2.management.sql.ProxyResource;
+import com.microsoft.azure.v2.management.sql.ServerKeyType;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
 
 /**
  * The server encryption protector.
  */
 @JsonFlatten
-public class EncryptionProtectorInner extends ProxyResourceInner {
+public class EncryptionProtectorInner extends ProxyResource {
     /**
      * Kind of encryption protector. This is metadata used for the Azure portal
      * experience.
@@ -64,7 +65,7 @@ public class EncryptionProtectorInner extends ProxyResourceInner {
     /**
      * Get the kind value.
      *
-     * @return the kind value
+     * @return the kind value.
      */
     public String kind() {
         return this.kind;
@@ -73,7 +74,7 @@ public class EncryptionProtectorInner extends ProxyResourceInner {
     /**
      * Set the kind value.
      *
-     * @param kind the kind value to set
+     * @param kind the kind value to set.
      * @return the EncryptionProtectorInner object itself.
      */
     public EncryptionProtectorInner withKind(String kind) {
@@ -84,7 +85,7 @@ public class EncryptionProtectorInner extends ProxyResourceInner {
     /**
      * Get the location value.
      *
-     * @return the location value
+     * @return the location value.
      */
     public String location() {
         return this.location;
@@ -93,7 +94,7 @@ public class EncryptionProtectorInner extends ProxyResourceInner {
     /**
      * Get the subregion value.
      *
-     * @return the subregion value
+     * @return the subregion value.
      */
     public String subregion() {
         return this.subregion;
@@ -102,7 +103,7 @@ public class EncryptionProtectorInner extends ProxyResourceInner {
     /**
      * Get the serverKeyName value.
      *
-     * @return the serverKeyName value
+     * @return the serverKeyName value.
      */
     public String serverKeyName() {
         return this.serverKeyName;
@@ -111,7 +112,7 @@ public class EncryptionProtectorInner extends ProxyResourceInner {
     /**
      * Set the serverKeyName value.
      *
-     * @param serverKeyName the serverKeyName value to set
+     * @param serverKeyName the serverKeyName value to set.
      * @return the EncryptionProtectorInner object itself.
      */
     public EncryptionProtectorInner withServerKeyName(String serverKeyName) {
@@ -122,7 +123,7 @@ public class EncryptionProtectorInner extends ProxyResourceInner {
     /**
      * Get the serverKeyType value.
      *
-     * @return the serverKeyType value
+     * @return the serverKeyType value.
      */
     public ServerKeyType serverKeyType() {
         return this.serverKeyType;
@@ -131,7 +132,7 @@ public class EncryptionProtectorInner extends ProxyResourceInner {
     /**
      * Set the serverKeyType value.
      *
-     * @param serverKeyType the serverKeyType value to set
+     * @param serverKeyType the serverKeyType value to set.
      * @return the EncryptionProtectorInner object itself.
      */
     public EncryptionProtectorInner withServerKeyType(ServerKeyType serverKeyType) {
@@ -142,7 +143,7 @@ public class EncryptionProtectorInner extends ProxyResourceInner {
     /**
      * Get the uri value.
      *
-     * @return the uri value
+     * @return the uri value.
      */
     public String uri() {
         return this.uri;
@@ -151,10 +152,9 @@ public class EncryptionProtectorInner extends ProxyResourceInner {
     /**
      * Get the thumbprint value.
      *
-     * @return the thumbprint value
+     * @return the thumbprint value.
      */
     public String thumbprint() {
         return this.thumbprint;
     }
-
 }

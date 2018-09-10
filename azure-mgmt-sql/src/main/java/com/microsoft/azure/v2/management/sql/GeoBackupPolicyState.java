@@ -15,16 +15,22 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Defines values for GeoBackupPolicyState.
  */
 public enum GeoBackupPolicyState {
-    /** Enum value Disabled. */
+    /**
+     * Enum value Disabled.
+     */
     DISABLED("Disabled"),
 
-    /** Enum value Enabled. */
+    /**
+     * Enum value Enabled.
+     */
     ENABLED("Enabled");
 
-    /** The actual serialized value for a GeoBackupPolicyState instance. */
-    private String value;
+    /**
+     * The actual serialized value for a GeoBackupPolicyState instance.
+     */
+    private final String value;
 
-    GeoBackupPolicyState(String value) {
+    private GeoBackupPolicyState(String value) {
         this.value = value;
     }
 

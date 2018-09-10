@@ -15,16 +15,22 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Defines values for SensitivityLabelSource.
  */
 public enum SensitivityLabelSource {
-    /** Enum value current. */
+    /**
+     * Enum value current.
+     */
     CURRENT("current"),
 
-    /** Enum value recommended. */
+    /**
+     * Enum value recommended.
+     */
     RECOMMENDED("recommended");
 
-    /** The actual serialized value for a SensitivityLabelSource instance. */
-    private String value;
+    /**
+     * The actual serialized value for a SensitivityLabelSource instance.
+     */
+    private final String value;
 
-    SensitivityLabelSource(String value) {
+    private SensitivityLabelSource(String value) {
         this.value = value;
     }
 

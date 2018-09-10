@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Properties of column in sync group table.
  */
-public class SyncGroupSchemaTableColumn {
+public final class SyncGroupSchemaTableColumn {
     /**
      * Quoted name of sync group table column.
      */
@@ -35,7 +35,7 @@ public class SyncGroupSchemaTableColumn {
     /**
      * Get the quotedName value.
      *
-     * @return the quotedName value
+     * @return the quotedName value.
      */
     public String quotedName() {
         return this.quotedName;
@@ -44,7 +44,7 @@ public class SyncGroupSchemaTableColumn {
     /**
      * Set the quotedName value.
      *
-     * @param quotedName the quotedName value to set
+     * @param quotedName the quotedName value to set.
      * @return the SyncGroupSchemaTableColumn object itself.
      */
     public SyncGroupSchemaTableColumn withQuotedName(String quotedName) {
@@ -55,7 +55,7 @@ public class SyncGroupSchemaTableColumn {
     /**
      * Get the dataSize value.
      *
-     * @return the dataSize value
+     * @return the dataSize value.
      */
     public String dataSize() {
         return this.dataSize;
@@ -64,7 +64,7 @@ public class SyncGroupSchemaTableColumn {
     /**
      * Set the dataSize value.
      *
-     * @param dataSize the dataSize value to set
+     * @param dataSize the dataSize value to set.
      * @return the SyncGroupSchemaTableColumn object itself.
      */
     public SyncGroupSchemaTableColumn withDataSize(String dataSize) {
@@ -75,7 +75,7 @@ public class SyncGroupSchemaTableColumn {
     /**
      * Get the dataType value.
      *
-     * @return the dataType value
+     * @return the dataType value.
      */
     public String dataType() {
         return this.dataType;
@@ -84,12 +84,11 @@ public class SyncGroupSchemaTableColumn {
     /**
      * Set the dataType value.
      *
-     * @param dataType the dataType value to set
+     * @param dataType the dataType value to set.
      * @return the SyncGroupSchemaTableColumn object itself.
      */
     public SyncGroupSchemaTableColumn withDataType(String dataType) {
         this.dataType = dataType;
         return this;
     }
-
 }

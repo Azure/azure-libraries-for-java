@@ -9,13 +9,12 @@
 package com.microsoft.azure.v2.management.sql;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.List;
 
 /**
  * The elastic pool edition capabilities.
  */
-public class ElasticPoolEditionCapability {
+public final class ElasticPoolEditionCapability {
     /**
      * The elastic pool edition name.
      */
@@ -44,7 +43,7 @@ public class ElasticPoolEditionCapability {
     /**
      * Get the name value.
      *
-     * @return the name value
+     * @return the name value.
      */
     public String name() {
         return this.name;
@@ -53,7 +52,7 @@ public class ElasticPoolEditionCapability {
     /**
      * Get the status value.
      *
-     * @return the status value
+     * @return the status value.
      */
     public CapabilityStatus status() {
         return this.status;
@@ -62,7 +61,7 @@ public class ElasticPoolEditionCapability {
     /**
      * Get the supportedElasticPoolDtus value.
      *
-     * @return the supportedElasticPoolDtus value
+     * @return the supportedElasticPoolDtus value.
      */
     public List<ElasticPoolDtuCapability> supportedElasticPoolDtus() {
         return this.supportedElasticPoolDtus;
@@ -71,10 +70,9 @@ public class ElasticPoolEditionCapability {
     /**
      * Get the zoneRedundant value.
      *
-     * @return the zoneRedundant value
+     * @return the zoneRedundant value.
      */
     public Boolean zoneRedundant() {
         return this.zoneRedundant;
     }
-
 }

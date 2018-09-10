@@ -9,36 +9,48 @@
 package com.microsoft.azure.v2.management.sql;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.microsoft.rest.ExpandableStringEnum;
-
+import com.microsoft.rest.v2.ExpandableStringEnum;
 import java.util.Collection;
 
 /**
  * Defines values for UnitType.
  */
 public final class UnitType extends ExpandableStringEnum<UnitType> {
-    /** Static value count for UnitType. */
+    /**
+     * Static value count for UnitType.
+     */
     public static final UnitType COUNT = fromString("count");
 
-    /** Static value bytes for UnitType. */
+    /**
+     * Static value bytes for UnitType.
+     */
     public static final UnitType BYTES = fromString("bytes");
 
-    /** Static value seconds for UnitType. */
+    /**
+     * Static value seconds for UnitType.
+     */
     public static final UnitType SECONDS = fromString("seconds");
 
-    /** Static value percent for UnitType. */
+    /**
+     * Static value percent for UnitType.
+     */
     public static final UnitType PERCENT = fromString("percent");
 
-    /** Static value countPerSecond for UnitType. */
+    /**
+     * Static value countPerSecond for UnitType.
+     */
     public static final UnitType COUNT_PER_SECOND = fromString("countPerSecond");
 
-    /** Static value bytesPerSecond for UnitType. */
+    /**
+     * Static value bytesPerSecond for UnitType.
+     */
     public static final UnitType BYTES_PER_SECOND = fromString("bytesPerSecond");
 
     /**
      * Creates or finds a UnitType from its string representation.
-     * @param name a name to look for
-     * @return the corresponding UnitType
+     *
+     * @param name a name to look for.
+     * @return the corresponding UnitType.
      */
     @JsonCreator
     public static UnitType fromString(String name) {
@@ -46,7 +58,7 @@ public final class UnitType extends ExpandableStringEnum<UnitType> {
     }
 
     /**
-     * @return known UnitType values
+     * @return known UnitType values.
      */
     public static Collection<UnitType> values() {
         return values(UnitType.class);

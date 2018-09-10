@@ -8,15 +8,16 @@
 
 package com.microsoft.azure.v2.management.sql.implementation;
 
-import java.util.UUID;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.v2.management.sql.ProxyResource;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
+import java.util.UUID;
 
 /**
  * An server Active Directory Administrator.
  */
 @JsonFlatten
-public class ServerAzureADAdministratorInner extends ProxyResourceInner {
+public class ServerAzureADAdministratorInner extends ProxyResource {
     /**
      * The type of administrator.
      */
@@ -51,7 +52,7 @@ public class ServerAzureADAdministratorInner extends ProxyResourceInner {
     /**
      * Get the administratorType value.
      *
-     * @return the administratorType value
+     * @return the administratorType value.
      */
     public String administratorType() {
         return this.administratorType;
@@ -60,7 +61,7 @@ public class ServerAzureADAdministratorInner extends ProxyResourceInner {
     /**
      * Set the administratorType value.
      *
-     * @param administratorType the administratorType value to set
+     * @param administratorType the administratorType value to set.
      * @return the ServerAzureADAdministratorInner object itself.
      */
     public ServerAzureADAdministratorInner withAdministratorType(String administratorType) {
@@ -71,7 +72,7 @@ public class ServerAzureADAdministratorInner extends ProxyResourceInner {
     /**
      * Get the login value.
      *
-     * @return the login value
+     * @return the login value.
      */
     public String login() {
         return this.login;
@@ -80,7 +81,7 @@ public class ServerAzureADAdministratorInner extends ProxyResourceInner {
     /**
      * Set the login value.
      *
-     * @param login the login value to set
+     * @param login the login value to set.
      * @return the ServerAzureADAdministratorInner object itself.
      */
     public ServerAzureADAdministratorInner withLogin(String login) {
@@ -91,7 +92,7 @@ public class ServerAzureADAdministratorInner extends ProxyResourceInner {
     /**
      * Get the sid value.
      *
-     * @return the sid value
+     * @return the sid value.
      */
     public UUID sid() {
         return this.sid;
@@ -100,7 +101,7 @@ public class ServerAzureADAdministratorInner extends ProxyResourceInner {
     /**
      * Set the sid value.
      *
-     * @param sid the sid value to set
+     * @param sid the sid value to set.
      * @return the ServerAzureADAdministratorInner object itself.
      */
     public ServerAzureADAdministratorInner withSid(UUID sid) {
@@ -111,7 +112,7 @@ public class ServerAzureADAdministratorInner extends ProxyResourceInner {
     /**
      * Get the tenantId value.
      *
-     * @return the tenantId value
+     * @return the tenantId value.
      */
     public UUID tenantId() {
         return this.tenantId;
@@ -120,12 +121,11 @@ public class ServerAzureADAdministratorInner extends ProxyResourceInner {
     /**
      * Set the tenantId value.
      *
-     * @param tenantId the tenantId value to set
+     * @param tenantId the tenantId value to set.
      * @return the ServerAzureADAdministratorInner object itself.
      */
     public ServerAzureADAdministratorInner withTenantId(UUID tenantId) {
         this.tenantId = tenantId;
         return this;
     }
-
 }

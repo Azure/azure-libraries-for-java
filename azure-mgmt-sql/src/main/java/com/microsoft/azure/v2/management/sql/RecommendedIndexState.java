@@ -15,43 +15,67 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Defines values for RecommendedIndexState.
  */
 public enum RecommendedIndexState {
-    /** Enum value Active. */
+    /**
+     * Enum value Active.
+     */
     ACTIVE("Active"),
 
-    /** Enum value Pending. */
+    /**
+     * Enum value Pending.
+     */
     PENDING("Pending"),
 
-    /** Enum value Executing. */
+    /**
+     * Enum value Executing.
+     */
     EXECUTING("Executing"),
 
-    /** Enum value Verifying. */
+    /**
+     * Enum value Verifying.
+     */
     VERIFYING("Verifying"),
 
-    /** Enum value Pending Revert. */
+    /**
+     * Enum value Pending Revert.
+     */
     PENDING_REVERT("Pending Revert"),
 
-    /** Enum value Reverting. */
+    /**
+     * Enum value Reverting.
+     */
     REVERTING("Reverting"),
 
-    /** Enum value Reverted. */
+    /**
+     * Enum value Reverted.
+     */
     REVERTED("Reverted"),
 
-    /** Enum value Ignored. */
+    /**
+     * Enum value Ignored.
+     */
     IGNORED("Ignored"),
 
-    /** Enum value Expired. */
+    /**
+     * Enum value Expired.
+     */
     EXPIRED("Expired"),
 
-    /** Enum value Blocked. */
+    /**
+     * Enum value Blocked.
+     */
     BLOCKED("Blocked"),
 
-    /** Enum value Success. */
+    /**
+     * Enum value Success.
+     */
     SUCCESS("Success");
 
-    /** The actual serialized value for a RecommendedIndexState instance. */
-    private String value;
+    /**
+     * The actual serialized value for a RecommendedIndexState instance.
+     */
+    private final String value;
 
-    RecommendedIndexState(String value) {
+    private RecommendedIndexState(String value) {
         this.value = value;
     }
 

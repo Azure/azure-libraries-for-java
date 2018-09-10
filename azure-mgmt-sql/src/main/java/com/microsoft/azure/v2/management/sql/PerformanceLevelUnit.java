@@ -15,13 +15,17 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Defines values for PerformanceLevelUnit.
  */
 public enum PerformanceLevelUnit {
-    /** Enum value DTU. */
+    /**
+     * Enum value DTU.
+     */
     DTU("DTU");
 
-    /** The actual serialized value for a PerformanceLevelUnit instance. */
-    private String value;
+    /**
+     * The actual serialized value for a PerformanceLevelUnit instance.
+     */
+    private final String value;
 
-    PerformanceLevelUnit(String value) {
+    private PerformanceLevelUnit(String value) {
         this.value = value;
     }
 

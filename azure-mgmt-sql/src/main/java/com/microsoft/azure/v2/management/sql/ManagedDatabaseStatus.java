@@ -9,33 +9,43 @@
 package com.microsoft.azure.v2.management.sql;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.microsoft.rest.ExpandableStringEnum;
-
+import com.microsoft.rest.v2.ExpandableStringEnum;
 import java.util.Collection;
 
 /**
  * Defines values for ManagedDatabaseStatus.
  */
 public final class ManagedDatabaseStatus extends ExpandableStringEnum<ManagedDatabaseStatus> {
-    /** Static value Online for ManagedDatabaseStatus. */
+    /**
+     * Static value Online for ManagedDatabaseStatus.
+     */
     public static final ManagedDatabaseStatus ONLINE = fromString("Online");
 
-    /** Static value Offline for ManagedDatabaseStatus. */
+    /**
+     * Static value Offline for ManagedDatabaseStatus.
+     */
     public static final ManagedDatabaseStatus OFFLINE = fromString("Offline");
 
-    /** Static value Shutdown for ManagedDatabaseStatus. */
+    /**
+     * Static value Shutdown for ManagedDatabaseStatus.
+     */
     public static final ManagedDatabaseStatus SHUTDOWN = fromString("Shutdown");
 
-    /** Static value Creating for ManagedDatabaseStatus. */
+    /**
+     * Static value Creating for ManagedDatabaseStatus.
+     */
     public static final ManagedDatabaseStatus CREATING = fromString("Creating");
 
-    /** Static value Inaccessible for ManagedDatabaseStatus. */
+    /**
+     * Static value Inaccessible for ManagedDatabaseStatus.
+     */
     public static final ManagedDatabaseStatus INACCESSIBLE = fromString("Inaccessible");
 
     /**
      * Creates or finds a ManagedDatabaseStatus from its string representation.
-     * @param name a name to look for
-     * @return the corresponding ManagedDatabaseStatus
+     *
+     * @param name a name to look for.
+     * @return the corresponding ManagedDatabaseStatus.
      */
     @JsonCreator
     public static ManagedDatabaseStatus fromString(String name) {
@@ -43,7 +53,7 @@ public final class ManagedDatabaseStatus extends ExpandableStringEnum<ManagedDat
     }
 
     /**
-     * @return known ManagedDatabaseStatus values
+     * @return known ManagedDatabaseStatus values.
      */
     public static Collection<ManagedDatabaseStatus> values() {
         return values(ManagedDatabaseStatus.class);

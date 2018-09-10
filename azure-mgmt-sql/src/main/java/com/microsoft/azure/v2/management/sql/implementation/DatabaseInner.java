@@ -8,23 +8,24 @@
 
 package com.microsoft.azure.v2.management.sql.implementation;
 
-import org.joda.time.DateTime;
-import java.util.UUID;
-import com.microsoft.azure.v2.management.sql.CreateMode;
-import com.microsoft.azure.v2.management.sql.DatabaseEditions;
-import com.microsoft.azure.v2.management.sql.ServiceObjectiveName;
-import java.util.List;
-import com.microsoft.azure.v2.management.sql.RecommendedIndex;
-import com.microsoft.azure.v2.management.sql.ReadScale;
-import com.microsoft.azure.v2.management.sql.SampleName;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.v2.management.sql.CreateMode;
+import com.microsoft.azure.v2.management.sql.DatabaseEdition;
+import com.microsoft.azure.v2.management.sql.ReadScale;
+import com.microsoft.azure.v2.management.sql.RecommendedIndex;
+import com.microsoft.azure.v2.management.sql.SampleName;
+import com.microsoft.azure.v2.management.sql.ServiceObjectiveName;
+import com.microsoft.azure.v2.management.sql.TrackedResource;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
+import java.time.OffsetDateTime;
+import java.util.List;
+import java.util.UUID;
 
 /**
  * Represents a database.
  */
 @JsonFlatten
-public class DatabaseInner extends TrackedResourceInner {
+public class DatabaseInner extends TrackedResource {
     /**
      * Kind of database.  This is metadata used for the Azure portal
      * experience.
@@ -43,7 +44,7 @@ public class DatabaseInner extends TrackedResourceInner {
      * The creation date of the database (ISO8601 format).
      */
     @JsonProperty(value = "properties.creationDate", access = JsonProperty.Access.WRITE_ONLY)
-    private DateTime creationDate;
+    private OffsetDateTime creationDate;
 
     /**
      * The containment state of the database.
@@ -69,7 +70,7 @@ public class DatabaseInner extends TrackedResourceInner {
      * for this database (ISO8601 format).
      */
     @JsonProperty(value = "properties.earliestRestoreDate", access = JsonProperty.Access.WRITE_ONLY)
-    private DateTime earliestRestoreDate;
+    private OffsetDateTime earliestRestoreDate;
 
     /**
      * Specifies the mode of database creation.
@@ -132,7 +133,7 @@ public class DatabaseInner extends TrackedResourceInner {
      * required. Specifies the time that the database was deleted.
      */
     @JsonProperty(value = "properties.sourceDatabaseDeletionDate")
-    private DateTime sourceDatabaseDeletionDate;
+    private OffsetDateTime sourceDatabaseDeletionDate;
 
     /**
      * Conditional. If createMode is PointInTimeRestore, this value is
@@ -142,7 +143,7 @@ public class DatabaseInner extends TrackedResourceInner {
      * the source database's earliestRestoreDate value.
      */
     @JsonProperty(value = "properties.restorePointInTime")
-    private DateTime restorePointInTime;
+    private OffsetDateTime restorePointInTime;
 
     /**
      * Conditional. If createMode is RestoreLongTermRetentionBackup, then this
@@ -165,7 +166,7 @@ public class DatabaseInner extends TrackedResourceInner {
      * 'System2'.
      */
     @JsonProperty(value = "properties.edition")
-    private DatabaseEditions edition;
+    private DatabaseEdition edition;
 
     /**
      * The max size of the database expressed in bytes. If createMode is not
@@ -257,7 +258,7 @@ public class DatabaseInner extends TrackedResourceInner {
      * The list of service tier advisors for this database. Expanded property.
      */
     @JsonProperty(value = "properties.serviceTierAdvisors", access = JsonProperty.Access.WRITE_ONLY)
-    private List<ServiceTierAdvisorInner> serviceTierAdvisors;
+    private List<ServiceTierAdvisorInner> serviceTierAdvisorsProperty;
 
     /**
      * The transparent data encryption info for this database.
@@ -305,7 +306,7 @@ public class DatabaseInner extends TrackedResourceInner {
     /**
      * Get the kind value.
      *
-     * @return the kind value
+     * @return the kind value.
      */
     public String kind() {
         return this.kind;
@@ -314,7 +315,7 @@ public class DatabaseInner extends TrackedResourceInner {
     /**
      * Get the collation value.
      *
-     * @return the collation value
+     * @return the collation value.
      */
     public String collation() {
         return this.collation;
@@ -323,7 +324,7 @@ public class DatabaseInner extends TrackedResourceInner {
     /**
      * Set the collation value.
      *
-     * @param collation the collation value to set
+     * @param collation the collation value to set.
      * @return the DatabaseInner object itself.
      */
     public DatabaseInner withCollation(String collation) {
@@ -334,16 +335,16 @@ public class DatabaseInner extends TrackedResourceInner {
     /**
      * Get the creationDate value.
      *
-     * @return the creationDate value
+     * @return the creationDate value.
      */
-    public DateTime creationDate() {
+    public OffsetDateTime creationDate() {
         return this.creationDate;
     }
 
     /**
      * Get the containmentState value.
      *
-     * @return the containmentState value
+     * @return the containmentState value.
      */
     public Long containmentState() {
         return this.containmentState;
@@ -352,7 +353,7 @@ public class DatabaseInner extends TrackedResourceInner {
     /**
      * Get the currentServiceObjectiveId value.
      *
-     * @return the currentServiceObjectiveId value
+     * @return the currentServiceObjectiveId value.
      */
     public UUID currentServiceObjectiveId() {
         return this.currentServiceObjectiveId;
@@ -361,7 +362,7 @@ public class DatabaseInner extends TrackedResourceInner {
     /**
      * Get the databaseId value.
      *
-     * @return the databaseId value
+     * @return the databaseId value.
      */
     public UUID databaseId() {
         return this.databaseId;
@@ -370,16 +371,16 @@ public class DatabaseInner extends TrackedResourceInner {
     /**
      * Get the earliestRestoreDate value.
      *
-     * @return the earliestRestoreDate value
+     * @return the earliestRestoreDate value.
      */
-    public DateTime earliestRestoreDate() {
+    public OffsetDateTime earliestRestoreDate() {
         return this.earliestRestoreDate;
     }
 
     /**
      * Get the createMode value.
      *
-     * @return the createMode value
+     * @return the createMode value.
      */
     public CreateMode createMode() {
         return this.createMode;
@@ -388,7 +389,7 @@ public class DatabaseInner extends TrackedResourceInner {
     /**
      * Set the createMode value.
      *
-     * @param createMode the createMode value to set
+     * @param createMode the createMode value to set.
      * @return the DatabaseInner object itself.
      */
     public DatabaseInner withCreateMode(CreateMode createMode) {
@@ -399,7 +400,7 @@ public class DatabaseInner extends TrackedResourceInner {
     /**
      * Get the sourceDatabaseId value.
      *
-     * @return the sourceDatabaseId value
+     * @return the sourceDatabaseId value.
      */
     public String sourceDatabaseId() {
         return this.sourceDatabaseId;
@@ -408,7 +409,7 @@ public class DatabaseInner extends TrackedResourceInner {
     /**
      * Set the sourceDatabaseId value.
      *
-     * @param sourceDatabaseId the sourceDatabaseId value to set
+     * @param sourceDatabaseId the sourceDatabaseId value to set.
      * @return the DatabaseInner object itself.
      */
     public DatabaseInner withSourceDatabaseId(String sourceDatabaseId) {
@@ -419,19 +420,20 @@ public class DatabaseInner extends TrackedResourceInner {
     /**
      * Get the sourceDatabaseDeletionDate value.
      *
-     * @return the sourceDatabaseDeletionDate value
+     * @return the sourceDatabaseDeletionDate value.
      */
-    public DateTime sourceDatabaseDeletionDate() {
+    public OffsetDateTime sourceDatabaseDeletionDate() {
         return this.sourceDatabaseDeletionDate;
     }
 
     /**
      * Set the sourceDatabaseDeletionDate value.
      *
-     * @param sourceDatabaseDeletionDate the sourceDatabaseDeletionDate value to set
+     * @param sourceDatabaseDeletionDate the sourceDatabaseDeletionDate value
+     * to set.
      * @return the DatabaseInner object itself.
      */
-    public DatabaseInner withSourceDatabaseDeletionDate(DateTime sourceDatabaseDeletionDate) {
+    public DatabaseInner withSourceDatabaseDeletionDate(OffsetDateTime sourceDatabaseDeletionDate) {
         this.sourceDatabaseDeletionDate = sourceDatabaseDeletionDate;
         return this;
     }
@@ -439,19 +441,19 @@ public class DatabaseInner extends TrackedResourceInner {
     /**
      * Get the restorePointInTime value.
      *
-     * @return the restorePointInTime value
+     * @return the restorePointInTime value.
      */
-    public DateTime restorePointInTime() {
+    public OffsetDateTime restorePointInTime() {
         return this.restorePointInTime;
     }
 
     /**
      * Set the restorePointInTime value.
      *
-     * @param restorePointInTime the restorePointInTime value to set
+     * @param restorePointInTime the restorePointInTime value to set.
      * @return the DatabaseInner object itself.
      */
-    public DatabaseInner withRestorePointInTime(DateTime restorePointInTime) {
+    public DatabaseInner withRestorePointInTime(OffsetDateTime restorePointInTime) {
         this.restorePointInTime = restorePointInTime;
         return this;
     }
@@ -459,7 +461,7 @@ public class DatabaseInner extends TrackedResourceInner {
     /**
      * Get the recoveryServicesRecoveryPointResourceId value.
      *
-     * @return the recoveryServicesRecoveryPointResourceId value
+     * @return the recoveryServicesRecoveryPointResourceId value.
      */
     public String recoveryServicesRecoveryPointResourceId() {
         return this.recoveryServicesRecoveryPointResourceId;
@@ -468,7 +470,8 @@ public class DatabaseInner extends TrackedResourceInner {
     /**
      * Set the recoveryServicesRecoveryPointResourceId value.
      *
-     * @param recoveryServicesRecoveryPointResourceId the recoveryServicesRecoveryPointResourceId value to set
+     * @param recoveryServicesRecoveryPointResourceId the
+     * recoveryServicesRecoveryPointResourceId value to set.
      * @return the DatabaseInner object itself.
      */
     public DatabaseInner withRecoveryServicesRecoveryPointResourceId(String recoveryServicesRecoveryPointResourceId) {
@@ -479,19 +482,19 @@ public class DatabaseInner extends TrackedResourceInner {
     /**
      * Get the edition value.
      *
-     * @return the edition value
+     * @return the edition value.
      */
-    public DatabaseEditions edition() {
+    public DatabaseEdition edition() {
         return this.edition;
     }
 
     /**
      * Set the edition value.
      *
-     * @param edition the edition value to set
+     * @param edition the edition value to set.
      * @return the DatabaseInner object itself.
      */
-    public DatabaseInner withEdition(DatabaseEditions edition) {
+    public DatabaseInner withEdition(DatabaseEdition edition) {
         this.edition = edition;
         return this;
     }
@@ -499,7 +502,7 @@ public class DatabaseInner extends TrackedResourceInner {
     /**
      * Get the maxSizeBytes value.
      *
-     * @return the maxSizeBytes value
+     * @return the maxSizeBytes value.
      */
     public String maxSizeBytes() {
         return this.maxSizeBytes;
@@ -508,7 +511,7 @@ public class DatabaseInner extends TrackedResourceInner {
     /**
      * Set the maxSizeBytes value.
      *
-     * @param maxSizeBytes the maxSizeBytes value to set
+     * @param maxSizeBytes the maxSizeBytes value to set.
      * @return the DatabaseInner object itself.
      */
     public DatabaseInner withMaxSizeBytes(String maxSizeBytes) {
@@ -519,7 +522,7 @@ public class DatabaseInner extends TrackedResourceInner {
     /**
      * Get the requestedServiceObjectiveId value.
      *
-     * @return the requestedServiceObjectiveId value
+     * @return the requestedServiceObjectiveId value.
      */
     public UUID requestedServiceObjectiveId() {
         return this.requestedServiceObjectiveId;
@@ -528,7 +531,8 @@ public class DatabaseInner extends TrackedResourceInner {
     /**
      * Set the requestedServiceObjectiveId value.
      *
-     * @param requestedServiceObjectiveId the requestedServiceObjectiveId value to set
+     * @param requestedServiceObjectiveId the requestedServiceObjectiveId value
+     * to set.
      * @return the DatabaseInner object itself.
      */
     public DatabaseInner withRequestedServiceObjectiveId(UUID requestedServiceObjectiveId) {
@@ -539,7 +543,7 @@ public class DatabaseInner extends TrackedResourceInner {
     /**
      * Get the requestedServiceObjectiveName value.
      *
-     * @return the requestedServiceObjectiveName value
+     * @return the requestedServiceObjectiveName value.
      */
     public ServiceObjectiveName requestedServiceObjectiveName() {
         return this.requestedServiceObjectiveName;
@@ -548,7 +552,8 @@ public class DatabaseInner extends TrackedResourceInner {
     /**
      * Set the requestedServiceObjectiveName value.
      *
-     * @param requestedServiceObjectiveName the requestedServiceObjectiveName value to set
+     * @param requestedServiceObjectiveName the requestedServiceObjectiveName
+     * value to set.
      * @return the DatabaseInner object itself.
      */
     public DatabaseInner withRequestedServiceObjectiveName(ServiceObjectiveName requestedServiceObjectiveName) {
@@ -559,7 +564,7 @@ public class DatabaseInner extends TrackedResourceInner {
     /**
      * Get the serviceLevelObjective value.
      *
-     * @return the serviceLevelObjective value
+     * @return the serviceLevelObjective value.
      */
     public ServiceObjectiveName serviceLevelObjective() {
         return this.serviceLevelObjective;
@@ -568,7 +573,7 @@ public class DatabaseInner extends TrackedResourceInner {
     /**
      * Get the status value.
      *
-     * @return the status value
+     * @return the status value.
      */
     public String status() {
         return this.status;
@@ -577,7 +582,7 @@ public class DatabaseInner extends TrackedResourceInner {
     /**
      * Get the elasticPoolName value.
      *
-     * @return the elasticPoolName value
+     * @return the elasticPoolName value.
      */
     public String elasticPoolName() {
         return this.elasticPoolName;
@@ -586,7 +591,7 @@ public class DatabaseInner extends TrackedResourceInner {
     /**
      * Set the elasticPoolName value.
      *
-     * @param elasticPoolName the elasticPoolName value to set
+     * @param elasticPoolName the elasticPoolName value to set.
      * @return the DatabaseInner object itself.
      */
     public DatabaseInner withElasticPoolName(String elasticPoolName) {
@@ -597,25 +602,25 @@ public class DatabaseInner extends TrackedResourceInner {
     /**
      * Get the defaultSecondaryLocation value.
      *
-     * @return the defaultSecondaryLocation value
+     * @return the defaultSecondaryLocation value.
      */
     public String defaultSecondaryLocation() {
         return this.defaultSecondaryLocation;
     }
 
     /**
-     * Get the serviceTierAdvisors value.
+     * Get the serviceTierAdvisorsProperty value.
      *
-     * @return the serviceTierAdvisors value
+     * @return the serviceTierAdvisorsProperty value.
      */
-    public List<ServiceTierAdvisorInner> serviceTierAdvisors() {
-        return this.serviceTierAdvisors;
+    public List<ServiceTierAdvisorInner> serviceTierAdvisorsProperty() {
+        return this.serviceTierAdvisorsProperty;
     }
 
     /**
      * Get the transparentDataEncryption value.
      *
-     * @return the transparentDataEncryption value
+     * @return the transparentDataEncryption value.
      */
     public List<TransparentDataEncryptionInner> transparentDataEncryption() {
         return this.transparentDataEncryption;
@@ -624,7 +629,7 @@ public class DatabaseInner extends TrackedResourceInner {
     /**
      * Get the recommendedIndex value.
      *
-     * @return the recommendedIndex value
+     * @return the recommendedIndex value.
      */
     public List<RecommendedIndex> recommendedIndex() {
         return this.recommendedIndex;
@@ -633,7 +638,7 @@ public class DatabaseInner extends TrackedResourceInner {
     /**
      * Get the failoverGroupId value.
      *
-     * @return the failoverGroupId value
+     * @return the failoverGroupId value.
      */
     public String failoverGroupId() {
         return this.failoverGroupId;
@@ -642,7 +647,7 @@ public class DatabaseInner extends TrackedResourceInner {
     /**
      * Get the readScale value.
      *
-     * @return the readScale value
+     * @return the readScale value.
      */
     public ReadScale readScale() {
         return this.readScale;
@@ -651,7 +656,7 @@ public class DatabaseInner extends TrackedResourceInner {
     /**
      * Set the readScale value.
      *
-     * @param readScale the readScale value to set
+     * @param readScale the readScale value to set.
      * @return the DatabaseInner object itself.
      */
     public DatabaseInner withReadScale(ReadScale readScale) {
@@ -662,7 +667,7 @@ public class DatabaseInner extends TrackedResourceInner {
     /**
      * Get the sampleName value.
      *
-     * @return the sampleName value
+     * @return the sampleName value.
      */
     public SampleName sampleName() {
         return this.sampleName;
@@ -671,7 +676,7 @@ public class DatabaseInner extends TrackedResourceInner {
     /**
      * Set the sampleName value.
      *
-     * @param sampleName the sampleName value to set
+     * @param sampleName the sampleName value to set.
      * @return the DatabaseInner object itself.
      */
     public DatabaseInner withSampleName(SampleName sampleName) {
@@ -682,7 +687,7 @@ public class DatabaseInner extends TrackedResourceInner {
     /**
      * Get the zoneRedundant value.
      *
-     * @return the zoneRedundant value
+     * @return the zoneRedundant value.
      */
     public Boolean zoneRedundant() {
         return this.zoneRedundant;
@@ -691,12 +696,11 @@ public class DatabaseInner extends TrackedResourceInner {
     /**
      * Set the zoneRedundant value.
      *
-     * @param zoneRedundant the zoneRedundant value to set
+     * @param zoneRedundant the zoneRedundant value to set.
      * @return the DatabaseInner object itself.
      */
     public DatabaseInner withZoneRedundant(Boolean zoneRedundant) {
         this.zoneRedundant = zoneRedundant;
         return this;
     }
-
 }

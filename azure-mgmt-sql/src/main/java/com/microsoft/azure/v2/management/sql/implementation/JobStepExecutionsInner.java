@@ -8,69 +8,72 @@
 
 package com.microsoft.azure.v2.management.sql.implementation;
 
-import retrofit2.Retrofit;
-import com.google.common.reflect.TypeToken;
-import com.microsoft.azure.AzureServiceFuture;
-import com.microsoft.azure.CloudException;
-import com.microsoft.azure.ListOperationCallback;
-import com.microsoft.azure.Page;
-import com.microsoft.azure.PagedList;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import com.microsoft.rest.ServiceResponse;
-import java.io.IOException;
-import java.util.List;
+import com.microsoft.azure.v2.AzureProxy;
+import com.microsoft.azure.v2.CloudException;
+import com.microsoft.azure.v2.Page;
+import com.microsoft.azure.v2.PagedList;
+import com.microsoft.rest.v2.BodyResponse;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
+import com.microsoft.rest.v2.annotations.ExpectedResponses;
+import com.microsoft.rest.v2.annotations.GET;
+import com.microsoft.rest.v2.annotations.HeaderParam;
+import com.microsoft.rest.v2.annotations.Host;
+import com.microsoft.rest.v2.annotations.PathParam;
+import com.microsoft.rest.v2.annotations.QueryParam;
+import com.microsoft.rest.v2.annotations.UnexpectedResponseExceptionType;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
+import io.reactivex.Single;
+import io.reactivex.annotations.NonNull;
+import java.time.OffsetDateTime;
 import java.util.UUID;
-import okhttp3.ResponseBody;
-import org.joda.time.DateTime;
-import retrofit2.http.GET;
-import retrofit2.http.Header;
-import retrofit2.http.Headers;
-import retrofit2.http.Path;
-import retrofit2.http.Query;
-import retrofit2.http.Url;
-import retrofit2.Response;
-import rx.functions.Func1;
-import rx.Observable;
 
 /**
- * An instance of this class provides access to all the operations defined
- * in JobStepExecutions.
+ * An instance of this class provides access to all the operations defined in
+ * JobStepExecutions.
  */
-public class JobStepExecutionsInner {
-    /** The Retrofit service to perform REST calls. */
+public final class JobStepExecutionsInner {
+    /**
+     * The proxy service used to perform REST calls.
+     */
     private JobStepExecutionsService service;
-    /** The service client containing this operation class. */
+
+    /**
+     * The service client containing this operation class.
+     */
     private SqlManagementClientImpl client;
 
     /**
      * Initializes an instance of JobStepExecutionsInner.
      *
-     * @param retrofit the Retrofit instance built from a Retrofit Builder.
      * @param client the instance of the service client containing this operation class.
      */
-    public JobStepExecutionsInner(Retrofit retrofit, SqlManagementClientImpl client) {
-        this.service = retrofit.create(JobStepExecutionsService.class);
+    public JobStepExecutionsInner(SqlManagementClientImpl client) {
+        this.service = AzureProxy.create(JobStepExecutionsService.class, client);
         this.client = client;
     }
 
     /**
-     * The interface defining all the services for JobStepExecutions to be
-     * used by Retrofit to perform actually REST calls.
+     * The interface defining all the services for JobStepExecutions to be used
+     * by the proxy service to perform REST calls.
      */
-    interface JobStepExecutionsService {
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.JobStepExecutions listByJobExecution" })
+    @Host("https://management.azure.com")
+    private interface JobStepExecutionsService {
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/executions/{jobExecutionId}/steps")
-        Observable<Response<ResponseBody>> listByJobExecution(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("jobAgentName") String jobAgentName, @Path("jobName") String jobName, @Path("jobExecutionId") UUID jobExecutionId, @Path("subscriptionId") String subscriptionId, @Query("createTimeMin") DateTime createTimeMin, @Query("createTimeMax") DateTime createTimeMax, @Query("endTimeMin") DateTime endTimeMin, @Query("endTimeMax") DateTime endTimeMax, @Query("isActive") Boolean isActive, @Query("$skip") Integer skip, @Query("$top") Integer top, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl1<JobExecutionInner>>> listByJobExecution(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("jobAgentName") String jobAgentName, @PathParam("jobName") String jobName, @PathParam("jobExecutionId") UUID jobExecutionId, @PathParam("subscriptionId") String subscriptionId, @QueryParam("createTimeMin") OffsetDateTime createTimeMin, @QueryParam("createTimeMax") OffsetDateTime createTimeMax, @QueryParam("endTimeMin") OffsetDateTime endTimeMin, @QueryParam("endTimeMax") OffsetDateTime endTimeMax, @QueryParam("isActive") Boolean isActive, @QueryParam("$skip") Integer skip, @QueryParam("$top") Integer top, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.JobStepExecutions get" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/executions/{jobExecutionId}/steps/{stepName}")
-        Observable<Response<ResponseBody>> get(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("jobAgentName") String jobAgentName, @Path("jobName") String jobName, @Path("jobExecutionId") UUID jobExecutionId, @Path("stepName") String stepName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<JobExecutionInner>> get(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("jobAgentName") String jobAgentName, @PathParam("jobName") String jobName, @PathParam("jobExecutionId") UUID jobExecutionId, @PathParam("stepName") String stepName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.JobStepExecutions listByJobExecutionNext" })
-        @GET
-        Observable<Response<ResponseBody>> listByJobExecutionNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
-
+        @GET("{nextUrl}")
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl1<JobExecutionInner>>> listByJobExecutionNext(@PathParam(value = "nextUrl", encoded = true) String nextUrl, @HeaderParam("accept-language") String acceptLanguage);
     }
 
     /**
@@ -80,18 +83,18 @@ public class JobStepExecutionsInner {
      * @param serverName The name of the server.
      * @param jobAgentName The name of the job agent.
      * @param jobName The name of the job to get.
-     * @param jobExecutionId The id of the job execution
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @param jobExecutionId The id of the job execution.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;JobExecutionInner&gt; object if successful.
      */
-    public PagedList<JobExecutionInner> listByJobExecution(final String resourceGroupName, final String serverName, final String jobAgentName, final String jobName, final UUID jobExecutionId) {
-        ServiceResponse<Page<JobExecutionInner>> response = listByJobExecutionSinglePageAsync(resourceGroupName, serverName, jobAgentName, jobName, jobExecutionId).toBlocking().single();
-        return new PagedList<JobExecutionInner>(response.body()) {
+    public PagedList<JobExecutionInner> listByJobExecution(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName, @NonNull String jobName, @NonNull UUID jobExecutionId) {
+        Page<JobExecutionInner> response = listByJobExecutionSinglePageAsync(resourceGroupName, serverName, jobAgentName, jobName, jobExecutionId).blockingGet();
+        return new PagedList<JobExecutionInner>(response) {
             @Override
             public Page<JobExecutionInner> nextPage(String nextPageLink) {
-                return listByJobExecutionNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listByJobExecutionNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -103,66 +106,19 @@ public class JobStepExecutionsInner {
      * @param serverName The name of the server.
      * @param jobAgentName The name of the job agent.
      * @param jobName The name of the job to get.
-     * @param jobExecutionId The id of the job execution
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @param jobExecutionId The id of the job execution.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;JobExecutionInner&gt; object.
      */
-    public ServiceFuture<List<JobExecutionInner>> listByJobExecutionAsync(final String resourceGroupName, final String serverName, final String jobAgentName, final String jobName, final UUID jobExecutionId, final ListOperationCallback<JobExecutionInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listByJobExecutionSinglePageAsync(resourceGroupName, serverName, jobAgentName, jobName, jobExecutionId),
-            new Func1<String, Observable<ServiceResponse<Page<JobExecutionInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<JobExecutionInner>>> call(String nextPageLink) {
-                    return listByJobExecutionNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Lists the step executions of a job execution.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param jobAgentName The name of the job agent.
-     * @param jobName The name of the job to get.
-     * @param jobExecutionId The id of the job execution
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;JobExecutionInner&gt; object
-     */
-    public Observable<Page<JobExecutionInner>> listByJobExecutionAsync(final String resourceGroupName, final String serverName, final String jobAgentName, final String jobName, final UUID jobExecutionId) {
-        return listByJobExecutionWithServiceResponseAsync(resourceGroupName, serverName, jobAgentName, jobName, jobExecutionId)
-            .map(new Func1<ServiceResponse<Page<JobExecutionInner>>, Page<JobExecutionInner>>() {
-                @Override
-                public Page<JobExecutionInner> call(ServiceResponse<Page<JobExecutionInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Lists the step executions of a job execution.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param jobAgentName The name of the job agent.
-     * @param jobName The name of the job to get.
-     * @param jobExecutionId The id of the job execution
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;JobExecutionInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<JobExecutionInner>>> listByJobExecutionWithServiceResponseAsync(final String resourceGroupName, final String serverName, final String jobAgentName, final String jobName, final UUID jobExecutionId) {
+    public Observable<Page<JobExecutionInner>> listByJobExecutionAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName, @NonNull String jobName, @NonNull UUID jobExecutionId) {
         return listByJobExecutionSinglePageAsync(resourceGroupName, serverName, jobAgentName, jobName, jobExecutionId)
-            .concatMap(new Func1<ServiceResponse<Page<JobExecutionInner>>, Observable<ServiceResponse<Page<JobExecutionInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<JobExecutionInner>>> call(ServiceResponse<Page<JobExecutionInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listByJobExecutionNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<JobExecutionInner> page) -> {
+                String nextPageLink = page.nextPageLink();
+                if (nextPageLink == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listByJobExecutionNextAsync(nextPageLink));
             });
     }
 
@@ -173,11 +129,11 @@ public class JobStepExecutionsInner {
      * @param serverName The name of the server.
      * @param jobAgentName The name of the job agent.
      * @param jobName The name of the job to get.
-     * @param jobExecutionId The id of the job execution
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;JobExecutionInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param jobExecutionId The id of the job execution.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;JobExecutionInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<JobExecutionInner>>> listByJobExecutionSinglePageAsync(final String resourceGroupName, final String serverName, final String jobAgentName, final String jobName, final UUID jobExecutionId) {
+    public Single<Page<JobExecutionInner>> listByJobExecutionSinglePageAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName, @NonNull String jobName, @NonNull UUID jobExecutionId) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -197,25 +153,15 @@ public class JobStepExecutionsInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2017-03-01-preview";
-        final DateTime createTimeMin = null;
-        final DateTime createTimeMax = null;
-        final DateTime endTimeMin = null;
-        final DateTime endTimeMax = null;
+        final OffsetDateTime createTimeMin = null;
+        final OffsetDateTime createTimeMax = null;
+        final OffsetDateTime endTimeMin = null;
+        final OffsetDateTime endTimeMax = null;
         final Boolean isActive = null;
         final Integer skip = null;
         final Integer top = null;
-        return service.listByJobExecution(resourceGroupName, serverName, jobAgentName, jobName, jobExecutionId, this.client.subscriptionId(), createTimeMin, createTimeMax, endTimeMin, endTimeMax, isActive, skip, top, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<JobExecutionInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<JobExecutionInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl1<JobExecutionInner>> result = listByJobExecutionDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<JobExecutionInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.listByJobExecution(resourceGroupName, serverName, jobAgentName, jobName, jobExecutionId, this.client.subscriptionId(), createTimeMin, createTimeMax, endTimeMin, endTimeMax, isActive, skip, top, apiVersion, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl1<JobExecutionInner>> res) -> res.body());
     }
 
     /**
@@ -225,7 +171,7 @@ public class JobStepExecutionsInner {
      * @param serverName The name of the server.
      * @param jobAgentName The name of the job agent.
      * @param jobName The name of the job to get.
-     * @param jobExecutionId The id of the job execution
+     * @param jobExecutionId The id of the job execution.
      * @param createTimeMin If specified, only job executions created at or after the specified time are included.
      * @param createTimeMax If specified, only job executions created before the specified time are included.
      * @param endTimeMin If specified, only job executions completed at or after the specified time are included.
@@ -233,17 +179,17 @@ public class JobStepExecutionsInner {
      * @param isActive If specified, only active or only completed job executions are included.
      * @param skip The number of elements in the collection to skip.
      * @param top The number of elements to return from the collection.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;JobExecutionInner&gt; object if successful.
      */
-    public PagedList<JobExecutionInner> listByJobExecution(final String resourceGroupName, final String serverName, final String jobAgentName, final String jobName, final UUID jobExecutionId, final DateTime createTimeMin, final DateTime createTimeMax, final DateTime endTimeMin, final DateTime endTimeMax, final Boolean isActive, final Integer skip, final Integer top) {
-        ServiceResponse<Page<JobExecutionInner>> response = listByJobExecutionSinglePageAsync(resourceGroupName, serverName, jobAgentName, jobName, jobExecutionId, createTimeMin, createTimeMax, endTimeMin, endTimeMax, isActive, skip, top).toBlocking().single();
-        return new PagedList<JobExecutionInner>(response.body()) {
+    public PagedList<JobExecutionInner> listByJobExecution(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName, @NonNull String jobName, @NonNull UUID jobExecutionId, OffsetDateTime createTimeMin, OffsetDateTime createTimeMax, OffsetDateTime endTimeMin, OffsetDateTime endTimeMax, Boolean isActive, Integer skip, Integer top) {
+        Page<JobExecutionInner> response = listByJobExecutionSinglePageAsync(resourceGroupName, serverName, jobAgentName, jobName, jobExecutionId, createTimeMin, createTimeMax, endTimeMin, endTimeMax, isActive, skip, top).blockingGet();
+        return new PagedList<JobExecutionInner>(response) {
             @Override
             public Page<JobExecutionInner> nextPage(String nextPageLink) {
-                return listByJobExecutionNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listByJobExecutionNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -255,7 +201,7 @@ public class JobStepExecutionsInner {
      * @param serverName The name of the server.
      * @param jobAgentName The name of the job agent.
      * @param jobName The name of the job to get.
-     * @param jobExecutionId The id of the job execution
+     * @param jobExecutionId The id of the job execution.
      * @param createTimeMin If specified, only job executions created at or after the specified time are included.
      * @param createTimeMax If specified, only job executions created before the specified time are included.
      * @param endTimeMin If specified, only job executions completed at or after the specified time are included.
@@ -263,101 +209,40 @@ public class JobStepExecutionsInner {
      * @param isActive If specified, only active or only completed job executions are included.
      * @param skip The number of elements in the collection to skip.
      * @param top The number of elements to return from the collection.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;JobExecutionInner&gt; object.
      */
-    public ServiceFuture<List<JobExecutionInner>> listByJobExecutionAsync(final String resourceGroupName, final String serverName, final String jobAgentName, final String jobName, final UUID jobExecutionId, final DateTime createTimeMin, final DateTime createTimeMax, final DateTime endTimeMin, final DateTime endTimeMax, final Boolean isActive, final Integer skip, final Integer top, final ListOperationCallback<JobExecutionInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listByJobExecutionSinglePageAsync(resourceGroupName, serverName, jobAgentName, jobName, jobExecutionId, createTimeMin, createTimeMax, endTimeMin, endTimeMax, isActive, skip, top),
-            new Func1<String, Observable<ServiceResponse<Page<JobExecutionInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<JobExecutionInner>>> call(String nextPageLink) {
-                    return listByJobExecutionNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Lists the step executions of a job execution.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param jobAgentName The name of the job agent.
-     * @param jobName The name of the job to get.
-     * @param jobExecutionId The id of the job execution
-     * @param createTimeMin If specified, only job executions created at or after the specified time are included.
-     * @param createTimeMax If specified, only job executions created before the specified time are included.
-     * @param endTimeMin If specified, only job executions completed at or after the specified time are included.
-     * @param endTimeMax If specified, only job executions completed before the specified time are included.
-     * @param isActive If specified, only active or only completed job executions are included.
-     * @param skip The number of elements in the collection to skip.
-     * @param top The number of elements to return from the collection.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;JobExecutionInner&gt; object
-     */
-    public Observable<Page<JobExecutionInner>> listByJobExecutionAsync(final String resourceGroupName, final String serverName, final String jobAgentName, final String jobName, final UUID jobExecutionId, final DateTime createTimeMin, final DateTime createTimeMax, final DateTime endTimeMin, final DateTime endTimeMax, final Boolean isActive, final Integer skip, final Integer top) {
-        return listByJobExecutionWithServiceResponseAsync(resourceGroupName, serverName, jobAgentName, jobName, jobExecutionId, createTimeMin, createTimeMax, endTimeMin, endTimeMax, isActive, skip, top)
-            .map(new Func1<ServiceResponse<Page<JobExecutionInner>>, Page<JobExecutionInner>>() {
-                @Override
-                public Page<JobExecutionInner> call(ServiceResponse<Page<JobExecutionInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Lists the step executions of a job execution.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param jobAgentName The name of the job agent.
-     * @param jobName The name of the job to get.
-     * @param jobExecutionId The id of the job execution
-     * @param createTimeMin If specified, only job executions created at or after the specified time are included.
-     * @param createTimeMax If specified, only job executions created before the specified time are included.
-     * @param endTimeMin If specified, only job executions completed at or after the specified time are included.
-     * @param endTimeMax If specified, only job executions completed before the specified time are included.
-     * @param isActive If specified, only active or only completed job executions are included.
-     * @param skip The number of elements in the collection to skip.
-     * @param top The number of elements to return from the collection.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;JobExecutionInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<JobExecutionInner>>> listByJobExecutionWithServiceResponseAsync(final String resourceGroupName, final String serverName, final String jobAgentName, final String jobName, final UUID jobExecutionId, final DateTime createTimeMin, final DateTime createTimeMax, final DateTime endTimeMin, final DateTime endTimeMax, final Boolean isActive, final Integer skip, final Integer top) {
+    public Observable<Page<JobExecutionInner>> listByJobExecutionAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName, @NonNull String jobName, @NonNull UUID jobExecutionId, OffsetDateTime createTimeMin, OffsetDateTime createTimeMax, OffsetDateTime endTimeMin, OffsetDateTime endTimeMax, Boolean isActive, Integer skip, Integer top) {
         return listByJobExecutionSinglePageAsync(resourceGroupName, serverName, jobAgentName, jobName, jobExecutionId, createTimeMin, createTimeMax, endTimeMin, endTimeMax, isActive, skip, top)
-            .concatMap(new Func1<ServiceResponse<Page<JobExecutionInner>>, Observable<ServiceResponse<Page<JobExecutionInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<JobExecutionInner>>> call(ServiceResponse<Page<JobExecutionInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listByJobExecutionNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<JobExecutionInner> page) -> {
+                String nextPageLink = page.nextPageLink();
+                if (nextPageLink == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listByJobExecutionNextAsync(nextPageLink));
             });
     }
 
     /**
      * Lists the step executions of a job execution.
      *
-    ServiceResponse<PageImpl1<JobExecutionInner>> * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-    ServiceResponse<PageImpl1<JobExecutionInner>> * @param serverName The name of the server.
-    ServiceResponse<PageImpl1<JobExecutionInner>> * @param jobAgentName The name of the job agent.
-    ServiceResponse<PageImpl1<JobExecutionInner>> * @param jobName The name of the job to get.
-    ServiceResponse<PageImpl1<JobExecutionInner>> * @param jobExecutionId The id of the job execution
-    ServiceResponse<PageImpl1<JobExecutionInner>> * @param createTimeMin If specified, only job executions created at or after the specified time are included.
-    ServiceResponse<PageImpl1<JobExecutionInner>> * @param createTimeMax If specified, only job executions created before the specified time are included.
-    ServiceResponse<PageImpl1<JobExecutionInner>> * @param endTimeMin If specified, only job executions completed at or after the specified time are included.
-    ServiceResponse<PageImpl1<JobExecutionInner>> * @param endTimeMax If specified, only job executions completed before the specified time are included.
-    ServiceResponse<PageImpl1<JobExecutionInner>> * @param isActive If specified, only active or only completed job executions are included.
-    ServiceResponse<PageImpl1<JobExecutionInner>> * @param skip The number of elements in the collection to skip.
-    ServiceResponse<PageImpl1<JobExecutionInner>> * @param top The number of elements to return from the collection.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;JobExecutionInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param jobAgentName The name of the job agent.
+     * @param jobName The name of the job to get.
+     * @param jobExecutionId The id of the job execution.
+     * @param createTimeMin If specified, only job executions created at or after the specified time are included.
+     * @param createTimeMax If specified, only job executions created before the specified time are included.
+     * @param endTimeMin If specified, only job executions completed at or after the specified time are included.
+     * @param endTimeMax If specified, only job executions completed before the specified time are included.
+     * @param isActive If specified, only active or only completed job executions are included.
+     * @param skip The number of elements in the collection to skip.
+     * @param top The number of elements to return from the collection.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;JobExecutionInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<JobExecutionInner>>> listByJobExecutionSinglePageAsync(final String resourceGroupName, final String serverName, final String jobAgentName, final String jobName, final UUID jobExecutionId, final DateTime createTimeMin, final DateTime createTimeMax, final DateTime endTimeMin, final DateTime endTimeMax, final Boolean isActive, final Integer skip, final Integer top) {
+    public Single<Page<JobExecutionInner>> listByJobExecutionSinglePageAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName, @NonNull String jobName, @NonNull UUID jobExecutionId, OffsetDateTime createTimeMin, OffsetDateTime createTimeMax, OffsetDateTime endTimeMin, OffsetDateTime endTimeMax, Boolean isActive, Integer skip, Integer top) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -377,25 +262,8 @@ public class JobStepExecutionsInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2017-03-01-preview";
-        return service.listByJobExecution(resourceGroupName, serverName, jobAgentName, jobName, jobExecutionId, this.client.subscriptionId(), createTimeMin, createTimeMax, endTimeMin, endTimeMax, isActive, skip, top, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<JobExecutionInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<JobExecutionInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl1<JobExecutionInner>> result = listByJobExecutionDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<JobExecutionInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl1<JobExecutionInner>> listByJobExecutionDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl1<JobExecutionInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl1<JobExecutionInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+        return service.listByJobExecution(resourceGroupName, serverName, jobAgentName, jobName, jobExecutionId, this.client.subscriptionId(), createTimeMin, createTimeMax, endTimeMin, endTimeMax, isActive, skip, top, apiVersion, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl1<JobExecutionInner>> res) -> res.body());
     }
 
     /**
@@ -405,15 +273,15 @@ public class JobStepExecutionsInner {
      * @param serverName The name of the server.
      * @param jobAgentName The name of the job agent.
      * @param jobName The name of the job to get.
-     * @param jobExecutionId The unique id of the job execution
+     * @param jobExecutionId The unique id of the job execution.
      * @param stepName The name of the step.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the JobExecutionInner object if successful.
      */
-    public JobExecutionInner get(String resourceGroupName, String serverName, String jobAgentName, String jobName, UUID jobExecutionId, String stepName) {
-        return getWithServiceResponseAsync(resourceGroupName, serverName, jobAgentName, jobName, jobExecutionId, stepName).toBlocking().single().body();
+    public JobExecutionInner get(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName, @NonNull String jobName, @NonNull UUID jobExecutionId, @NonNull String stepName) {
+        return getAsync(resourceGroupName, serverName, jobAgentName, jobName, jobExecutionId, stepName).blockingGet();
     }
 
     /**
@@ -423,14 +291,14 @@ public class JobStepExecutionsInner {
      * @param serverName The name of the server.
      * @param jobAgentName The name of the job agent.
      * @param jobName The name of the job to get.
-     * @param jobExecutionId The unique id of the job execution
+     * @param jobExecutionId The unique id of the job execution.
      * @param stepName The name of the step.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<JobExecutionInner> getAsync(String resourceGroupName, String serverName, String jobAgentName, String jobName, UUID jobExecutionId, String stepName, final ServiceCallback<JobExecutionInner> serviceCallback) {
-        return ServiceFuture.fromResponse(getWithServiceResponseAsync(resourceGroupName, serverName, jobAgentName, jobName, jobExecutionId, stepName), serviceCallback);
+    public ServiceFuture<JobExecutionInner> getAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName, @NonNull String jobName, @NonNull UUID jobExecutionId, @NonNull String stepName, ServiceCallback<JobExecutionInner> serviceCallback) {
+        return ServiceFuture.fromBody(getAsync(resourceGroupName, serverName, jobAgentName, jobName, jobExecutionId, stepName), serviceCallback);
     }
 
     /**
@@ -440,33 +308,12 @@ public class JobStepExecutionsInner {
      * @param serverName The name of the server.
      * @param jobAgentName The name of the job agent.
      * @param jobName The name of the job to get.
-     * @param jobExecutionId The unique id of the job execution
+     * @param jobExecutionId The unique id of the job execution.
      * @param stepName The name of the step.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the JobExecutionInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<JobExecutionInner> getAsync(String resourceGroupName, String serverName, String jobAgentName, String jobName, UUID jobExecutionId, String stepName) {
-        return getWithServiceResponseAsync(resourceGroupName, serverName, jobAgentName, jobName, jobExecutionId, stepName).map(new Func1<ServiceResponse<JobExecutionInner>, JobExecutionInner>() {
-            @Override
-            public JobExecutionInner call(ServiceResponse<JobExecutionInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Gets a step execution of a job execution.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param jobAgentName The name of the job agent.
-     * @param jobName The name of the job to get.
-     * @param jobExecutionId The unique id of the job execution
-     * @param stepName The name of the step.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the JobExecutionInner object
-     */
-    public Observable<ServiceResponse<JobExecutionInner>> getWithServiceResponseAsync(String resourceGroupName, String serverName, String jobAgentName, String jobName, UUID jobExecutionId, String stepName) {
+    public Single<BodyResponse<JobExecutionInner>> getWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName, @NonNull String jobName, @NonNull UUID jobExecutionId, @NonNull String stepName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -489,42 +336,41 @@ public class JobStepExecutionsInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2017-03-01-preview";
-        return service.get(resourceGroupName, serverName, jobAgentName, jobName, jobExecutionId, stepName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<JobExecutionInner>>>() {
-                @Override
-                public Observable<ServiceResponse<JobExecutionInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<JobExecutionInner> clientResponse = getDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.get(resourceGroupName, serverName, jobAgentName, jobName, jobExecutionId, stepName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<JobExecutionInner> getDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<JobExecutionInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<JobExecutionInner>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Gets a step execution of a job execution.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param jobAgentName The name of the job agent.
+     * @param jobName The name of the job to get.
+     * @param jobExecutionId The unique id of the job execution.
+     * @param stepName The name of the step.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<JobExecutionInner> getAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName, @NonNull String jobName, @NonNull UUID jobExecutionId, @NonNull String stepName) {
+        return getWithRestResponseAsync(resourceGroupName, serverName, jobAgentName, jobName, jobExecutionId, stepName)
+            .flatMapMaybe((BodyResponse<JobExecutionInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
      * Lists the step executions of a job execution.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;JobExecutionInner&gt; object if successful.
      */
-    public PagedList<JobExecutionInner> listByJobExecutionNext(final String nextPageLink) {
-        ServiceResponse<Page<JobExecutionInner>> response = listByJobExecutionNextSinglePageAsync(nextPageLink).toBlocking().single();
-        return new PagedList<JobExecutionInner>(response.body()) {
+    public PagedList<JobExecutionInner> listByJobExecutionNext(@NonNull String nextPageLink) {
+        Page<JobExecutionInner> response = listByJobExecutionNextSinglePageAsync(nextPageLink).blockingGet();
+        return new PagedList<JobExecutionInner>(response) {
             @Override
             public Page<JobExecutionInner> nextPage(String nextPageLink) {
-                return listByJobExecutionNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listByJobExecutionNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -533,92 +379,34 @@ public class JobStepExecutionsInner {
      * Lists the step executions of a job execution.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;JobExecutionInner&gt; object.
      */
-    public ServiceFuture<List<JobExecutionInner>> listByJobExecutionNextAsync(final String nextPageLink, final ServiceFuture<List<JobExecutionInner>> serviceFuture, final ListOperationCallback<JobExecutionInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listByJobExecutionNextSinglePageAsync(nextPageLink),
-            new Func1<String, Observable<ServiceResponse<Page<JobExecutionInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<JobExecutionInner>>> call(String nextPageLink) {
-                    return listByJobExecutionNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Lists the step executions of a job execution.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;JobExecutionInner&gt; object
-     */
-    public Observable<Page<JobExecutionInner>> listByJobExecutionNextAsync(final String nextPageLink) {
-        return listByJobExecutionNextWithServiceResponseAsync(nextPageLink)
-            .map(new Func1<ServiceResponse<Page<JobExecutionInner>>, Page<JobExecutionInner>>() {
-                @Override
-                public Page<JobExecutionInner> call(ServiceResponse<Page<JobExecutionInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Lists the step executions of a job execution.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;JobExecutionInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<JobExecutionInner>>> listByJobExecutionNextWithServiceResponseAsync(final String nextPageLink) {
+    public Observable<Page<JobExecutionInner>> listByJobExecutionNextAsync(@NonNull String nextPageLink) {
         return listByJobExecutionNextSinglePageAsync(nextPageLink)
-            .concatMap(new Func1<ServiceResponse<Page<JobExecutionInner>>, Observable<ServiceResponse<Page<JobExecutionInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<JobExecutionInner>>> call(ServiceResponse<Page<JobExecutionInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listByJobExecutionNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<JobExecutionInner> page) -> {
+                String nextPageLink1 = page.nextPageLink();
+                if (nextPageLink1 == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listByJobExecutionNextAsync(nextPageLink1));
             });
     }
 
     /**
      * Lists the step executions of a job execution.
      *
-    ServiceResponse<PageImpl1<JobExecutionInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;JobExecutionInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;JobExecutionInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<JobExecutionInner>>> listByJobExecutionNextSinglePageAsync(final String nextPageLink) {
+    public Single<Page<JobExecutionInner>> listByJobExecutionNextSinglePageAsync(@NonNull String nextPageLink) {
         if (nextPageLink == null) {
             throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
         }
         String nextUrl = String.format("%s", nextPageLink);
-        return service.listByJobExecutionNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<JobExecutionInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<JobExecutionInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl1<JobExecutionInner>> result = listByJobExecutionNextDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<JobExecutionInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.listByJobExecutionNext(nextUrl, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl1<JobExecutionInner>> res) -> res.body());
     }
-
-    private ServiceResponse<PageImpl1<JobExecutionInner>> listByJobExecutionNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl1<JobExecutionInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl1<JobExecutionInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
-    }
-
 }

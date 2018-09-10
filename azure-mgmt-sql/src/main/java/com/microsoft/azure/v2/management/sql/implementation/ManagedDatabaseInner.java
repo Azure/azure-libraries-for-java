@@ -8,18 +8,19 @@
 
 package com.microsoft.azure.v2.management.sql.implementation;
 
-import com.microsoft.azure.v2.management.sql.ManagedDatabaseStatus;
-import org.joda.time.DateTime;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.azure.v2.management.sql.CatalogCollationType;
 import com.microsoft.azure.v2.management.sql.ManagedDatabaseCreateMode;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.v2.management.sql.ManagedDatabaseStatus;
+import com.microsoft.azure.v2.management.sql.TrackedResource;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
+import java.time.OffsetDateTime;
 
 /**
  * A managed database resource.
  */
 @JsonFlatten
-public class ManagedDatabaseInner extends TrackedResourceInner {
+public class ManagedDatabaseInner extends TrackedResource {
     /**
      * Collation of the managed database.
      */
@@ -37,13 +38,13 @@ public class ManagedDatabaseInner extends TrackedResourceInner {
      * Creation date of the database.
      */
     @JsonProperty(value = "properties.creationDate", access = JsonProperty.Access.WRITE_ONLY)
-    private DateTime creationDate;
+    private OffsetDateTime creationDate;
 
     /**
      * Earliest restore point in time for point in time restore.
      */
     @JsonProperty(value = "properties.earliestRestorePoint", access = JsonProperty.Access.WRITE_ONLY)
-    private DateTime earliestRestorePoint;
+    private OffsetDateTime earliestRestorePoint;
 
     /**
      * Conditional. If createMode is PointInTimeRestore, this value is
@@ -51,7 +52,7 @@ public class ManagedDatabaseInner extends TrackedResourceInner {
      * database that will be restored to create the new database.
      */
     @JsonProperty(value = "properties.restorePointInTime")
-    private DateTime restorePointInTime;
+    private OffsetDateTime restorePointInTime;
 
     /**
      * Geo paired region.
@@ -110,7 +111,7 @@ public class ManagedDatabaseInner extends TrackedResourceInner {
     /**
      * Get the collation value.
      *
-     * @return the collation value
+     * @return the collation value.
      */
     public String collation() {
         return this.collation;
@@ -119,7 +120,7 @@ public class ManagedDatabaseInner extends TrackedResourceInner {
     /**
      * Set the collation value.
      *
-     * @param collation the collation value to set
+     * @param collation the collation value to set.
      * @return the ManagedDatabaseInner object itself.
      */
     public ManagedDatabaseInner withCollation(String collation) {
@@ -130,7 +131,7 @@ public class ManagedDatabaseInner extends TrackedResourceInner {
     /**
      * Get the status value.
      *
-     * @return the status value
+     * @return the status value.
      */
     public ManagedDatabaseStatus status() {
         return this.status;
@@ -139,37 +140,37 @@ public class ManagedDatabaseInner extends TrackedResourceInner {
     /**
      * Get the creationDate value.
      *
-     * @return the creationDate value
+     * @return the creationDate value.
      */
-    public DateTime creationDate() {
+    public OffsetDateTime creationDate() {
         return this.creationDate;
     }
 
     /**
      * Get the earliestRestorePoint value.
      *
-     * @return the earliestRestorePoint value
+     * @return the earliestRestorePoint value.
      */
-    public DateTime earliestRestorePoint() {
+    public OffsetDateTime earliestRestorePoint() {
         return this.earliestRestorePoint;
     }
 
     /**
      * Get the restorePointInTime value.
      *
-     * @return the restorePointInTime value
+     * @return the restorePointInTime value.
      */
-    public DateTime restorePointInTime() {
+    public OffsetDateTime restorePointInTime() {
         return this.restorePointInTime;
     }
 
     /**
      * Set the restorePointInTime value.
      *
-     * @param restorePointInTime the restorePointInTime value to set
+     * @param restorePointInTime the restorePointInTime value to set.
      * @return the ManagedDatabaseInner object itself.
      */
-    public ManagedDatabaseInner withRestorePointInTime(DateTime restorePointInTime) {
+    public ManagedDatabaseInner withRestorePointInTime(OffsetDateTime restorePointInTime) {
         this.restorePointInTime = restorePointInTime;
         return this;
     }
@@ -177,7 +178,7 @@ public class ManagedDatabaseInner extends TrackedResourceInner {
     /**
      * Get the defaultSecondaryLocation value.
      *
-     * @return the defaultSecondaryLocation value
+     * @return the defaultSecondaryLocation value.
      */
     public String defaultSecondaryLocation() {
         return this.defaultSecondaryLocation;
@@ -186,7 +187,7 @@ public class ManagedDatabaseInner extends TrackedResourceInner {
     /**
      * Get the catalogCollation value.
      *
-     * @return the catalogCollation value
+     * @return the catalogCollation value.
      */
     public CatalogCollationType catalogCollation() {
         return this.catalogCollation;
@@ -195,7 +196,7 @@ public class ManagedDatabaseInner extends TrackedResourceInner {
     /**
      * Set the catalogCollation value.
      *
-     * @param catalogCollation the catalogCollation value to set
+     * @param catalogCollation the catalogCollation value to set.
      * @return the ManagedDatabaseInner object itself.
      */
     public ManagedDatabaseInner withCatalogCollation(CatalogCollationType catalogCollation) {
@@ -206,7 +207,7 @@ public class ManagedDatabaseInner extends TrackedResourceInner {
     /**
      * Get the createMode value.
      *
-     * @return the createMode value
+     * @return the createMode value.
      */
     public ManagedDatabaseCreateMode createMode() {
         return this.createMode;
@@ -215,7 +216,7 @@ public class ManagedDatabaseInner extends TrackedResourceInner {
     /**
      * Set the createMode value.
      *
-     * @param createMode the createMode value to set
+     * @param createMode the createMode value to set.
      * @return the ManagedDatabaseInner object itself.
      */
     public ManagedDatabaseInner withCreateMode(ManagedDatabaseCreateMode createMode) {
@@ -226,7 +227,7 @@ public class ManagedDatabaseInner extends TrackedResourceInner {
     /**
      * Get the storageContainerUri value.
      *
-     * @return the storageContainerUri value
+     * @return the storageContainerUri value.
      */
     public String storageContainerUri() {
         return this.storageContainerUri;
@@ -235,7 +236,7 @@ public class ManagedDatabaseInner extends TrackedResourceInner {
     /**
      * Set the storageContainerUri value.
      *
-     * @param storageContainerUri the storageContainerUri value to set
+     * @param storageContainerUri the storageContainerUri value to set.
      * @return the ManagedDatabaseInner object itself.
      */
     public ManagedDatabaseInner withStorageContainerUri(String storageContainerUri) {
@@ -246,7 +247,7 @@ public class ManagedDatabaseInner extends TrackedResourceInner {
     /**
      * Get the sourceDatabaseId value.
      *
-     * @return the sourceDatabaseId value
+     * @return the sourceDatabaseId value.
      */
     public String sourceDatabaseId() {
         return this.sourceDatabaseId;
@@ -255,7 +256,7 @@ public class ManagedDatabaseInner extends TrackedResourceInner {
     /**
      * Set the sourceDatabaseId value.
      *
-     * @param sourceDatabaseId the sourceDatabaseId value to set
+     * @param sourceDatabaseId the sourceDatabaseId value to set.
      * @return the ManagedDatabaseInner object itself.
      */
     public ManagedDatabaseInner withSourceDatabaseId(String sourceDatabaseId) {
@@ -266,7 +267,7 @@ public class ManagedDatabaseInner extends TrackedResourceInner {
     /**
      * Get the storageContainerSasToken value.
      *
-     * @return the storageContainerSasToken value
+     * @return the storageContainerSasToken value.
      */
     public String storageContainerSasToken() {
         return this.storageContainerSasToken;
@@ -275,7 +276,8 @@ public class ManagedDatabaseInner extends TrackedResourceInner {
     /**
      * Set the storageContainerSasToken value.
      *
-     * @param storageContainerSasToken the storageContainerSasToken value to set
+     * @param storageContainerSasToken the storageContainerSasToken value to
+     * set.
      * @return the ManagedDatabaseInner object itself.
      */
     public ManagedDatabaseInner withStorageContainerSasToken(String storageContainerSasToken) {
@@ -286,10 +288,9 @@ public class ManagedDatabaseInner extends TrackedResourceInner {
     /**
      * Get the failoverGroupId value.
      *
-     * @return the failoverGroupId value
+     * @return the failoverGroupId value.
      */
     public String failoverGroupId() {
         return this.failoverGroupId;
     }
-
 }

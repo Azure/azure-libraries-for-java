@@ -8,79 +8,86 @@
 
 package com.microsoft.azure.v2.management.sql.implementation;
 
-import retrofit2.Retrofit;
-import com.google.common.reflect.TypeToken;
-import com.microsoft.azure.AzureServiceFuture;
-import com.microsoft.azure.CloudException;
-import com.microsoft.azure.ListOperationCallback;
-import com.microsoft.azure.Page;
-import com.microsoft.azure.PagedList;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import com.microsoft.rest.ServiceResponse;
-import com.microsoft.rest.Validator;
-import java.io.IOException;
-import java.util.List;
-import okhttp3.ResponseBody;
-import retrofit2.http.Body;
-import retrofit2.http.GET;
-import retrofit2.http.Header;
-import retrofit2.http.Headers;
-import retrofit2.http.HTTP;
-import retrofit2.http.Path;
-import retrofit2.http.PUT;
-import retrofit2.http.Query;
-import retrofit2.http.Url;
-import retrofit2.Response;
-import rx.functions.Func1;
-import rx.Observable;
+import com.microsoft.azure.v2.AzureProxy;
+import com.microsoft.azure.v2.CloudException;
+import com.microsoft.azure.v2.Page;
+import com.microsoft.azure.v2.PagedList;
+import com.microsoft.rest.v2.BodyResponse;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
+import com.microsoft.rest.v2.Validator;
+import com.microsoft.rest.v2.VoidResponse;
+import com.microsoft.rest.v2.annotations.BodyParam;
+import com.microsoft.rest.v2.annotations.DELETE;
+import com.microsoft.rest.v2.annotations.ExpectedResponses;
+import com.microsoft.rest.v2.annotations.GET;
+import com.microsoft.rest.v2.annotations.HeaderParam;
+import com.microsoft.rest.v2.annotations.Host;
+import com.microsoft.rest.v2.annotations.PathParam;
+import com.microsoft.rest.v2.annotations.PUT;
+import com.microsoft.rest.v2.annotations.QueryParam;
+import com.microsoft.rest.v2.annotations.UnexpectedResponseExceptionType;
+import io.reactivex.Completable;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
+import io.reactivex.Single;
+import io.reactivex.annotations.NonNull;
 
 /**
- * An instance of this class provides access to all the operations defined
- * in JobCredentials.
+ * An instance of this class provides access to all the operations defined in
+ * JobCredentials.
  */
-public class JobCredentialsInner {
-    /** The Retrofit service to perform REST calls. */
+public final class JobCredentialsInner {
+    /**
+     * The proxy service used to perform REST calls.
+     */
     private JobCredentialsService service;
-    /** The service client containing this operation class. */
+
+    /**
+     * The service client containing this operation class.
+     */
     private SqlManagementClientImpl client;
 
     /**
      * Initializes an instance of JobCredentialsInner.
      *
-     * @param retrofit the Retrofit instance built from a Retrofit Builder.
      * @param client the instance of the service client containing this operation class.
      */
-    public JobCredentialsInner(Retrofit retrofit, SqlManagementClientImpl client) {
-        this.service = retrofit.create(JobCredentialsService.class);
+    public JobCredentialsInner(SqlManagementClientImpl client) {
+        this.service = AzureProxy.create(JobCredentialsService.class, client);
         this.client = client;
     }
 
     /**
-     * The interface defining all the services for JobCredentials to be
-     * used by Retrofit to perform actually REST calls.
+     * The interface defining all the services for JobCredentials to be used by
+     * the proxy service to perform REST calls.
      */
-    interface JobCredentialsService {
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.JobCredentials listByAgent" })
+    @Host("https://management.azure.com")
+    private interface JobCredentialsService {
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/credentials")
-        Observable<Response<ResponseBody>> listByAgent(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("jobAgentName") String jobAgentName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl1<JobCredentialInner>>> listByAgent(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("jobAgentName") String jobAgentName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.JobCredentials get" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/credentials/{credentialName}")
-        Observable<Response<ResponseBody>> get(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("jobAgentName") String jobAgentName, @Path("credentialName") String credentialName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<JobCredentialInner>> get(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("jobAgentName") String jobAgentName, @PathParam("credentialName") String credentialName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.JobCredentials createOrUpdate" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/credentials/{credentialName}")
-        Observable<Response<ResponseBody>> createOrUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("jobAgentName") String jobAgentName, @Path("credentialName") String credentialName, @Path("subscriptionId") String subscriptionId, @Body JobCredentialInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 201})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<JobCredentialInner>> createOrUpdate(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("jobAgentName") String jobAgentName, @PathParam("credentialName") String credentialName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json; charset=utf-8") JobCredentialInner parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.JobCredentials delete" })
-        @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/credentials/{credentialName}", method = "DELETE", hasBody = true)
-        Observable<Response<ResponseBody>> delete(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("jobAgentName") String jobAgentName, @Path("credentialName") String credentialName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @DELETE("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/credentials/{credentialName}")
+        @ExpectedResponses({200, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<VoidResponse> delete(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("jobAgentName") String jobAgentName, @PathParam("credentialName") String credentialName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.JobCredentials listByAgentNext" })
-        @GET
-        Observable<Response<ResponseBody>> listByAgentNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
-
+        @GET("{nextUrl}")
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl1<JobCredentialInner>>> listByAgentNext(@PathParam(value = "nextUrl", encoded = true) String nextUrl, @HeaderParam("accept-language") String acceptLanguage);
     }
 
     /**
@@ -89,17 +96,17 @@ public class JobCredentialsInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param jobAgentName The name of the job agent.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;JobCredentialInner&gt; object if successful.
      */
-    public PagedList<JobCredentialInner> listByAgent(final String resourceGroupName, final String serverName, final String jobAgentName) {
-        ServiceResponse<Page<JobCredentialInner>> response = listByAgentSinglePageAsync(resourceGroupName, serverName, jobAgentName).toBlocking().single();
-        return new PagedList<JobCredentialInner>(response.body()) {
+    public PagedList<JobCredentialInner> listByAgent(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName) {
+        Page<JobCredentialInner> response = listByAgentSinglePageAsync(resourceGroupName, serverName, jobAgentName).blockingGet();
+        return new PagedList<JobCredentialInner>(response) {
             @Override
             public Page<JobCredentialInner> nextPage(String nextPageLink) {
-                return listByAgentNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listByAgentNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -110,74 +117,31 @@ public class JobCredentialsInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param jobAgentName The name of the job agent.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;JobCredentialInner&gt; object.
      */
-    public ServiceFuture<List<JobCredentialInner>> listByAgentAsync(final String resourceGroupName, final String serverName, final String jobAgentName, final ListOperationCallback<JobCredentialInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listByAgentSinglePageAsync(resourceGroupName, serverName, jobAgentName),
-            new Func1<String, Observable<ServiceResponse<Page<JobCredentialInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<JobCredentialInner>>> call(String nextPageLink) {
-                    return listByAgentNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets a list of jobs credentials.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param jobAgentName The name of the job agent.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;JobCredentialInner&gt; object
-     */
-    public Observable<Page<JobCredentialInner>> listByAgentAsync(final String resourceGroupName, final String serverName, final String jobAgentName) {
-        return listByAgentWithServiceResponseAsync(resourceGroupName, serverName, jobAgentName)
-            .map(new Func1<ServiceResponse<Page<JobCredentialInner>>, Page<JobCredentialInner>>() {
-                @Override
-                public Page<JobCredentialInner> call(ServiceResponse<Page<JobCredentialInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets a list of jobs credentials.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param jobAgentName The name of the job agent.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;JobCredentialInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<JobCredentialInner>>> listByAgentWithServiceResponseAsync(final String resourceGroupName, final String serverName, final String jobAgentName) {
+    public Observable<Page<JobCredentialInner>> listByAgentAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName) {
         return listByAgentSinglePageAsync(resourceGroupName, serverName, jobAgentName)
-            .concatMap(new Func1<ServiceResponse<Page<JobCredentialInner>>, Observable<ServiceResponse<Page<JobCredentialInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<JobCredentialInner>>> call(ServiceResponse<Page<JobCredentialInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listByAgentNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<JobCredentialInner> page) -> {
+                String nextPageLink = page.nextPageLink();
+                if (nextPageLink == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listByAgentNextAsync(nextPageLink));
             });
     }
 
     /**
      * Gets a list of jobs credentials.
      *
-    ServiceResponse<PageImpl1<JobCredentialInner>> * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-    ServiceResponse<PageImpl1<JobCredentialInner>> * @param serverName The name of the server.
-    ServiceResponse<PageImpl1<JobCredentialInner>> * @param jobAgentName The name of the job agent.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;JobCredentialInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param jobAgentName The name of the job agent.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;JobCredentialInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<JobCredentialInner>>> listByAgentSinglePageAsync(final String resourceGroupName, final String serverName, final String jobAgentName) {
+    public Single<Page<JobCredentialInner>> listByAgentSinglePageAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -191,25 +155,8 @@ public class JobCredentialsInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2017-03-01-preview";
-        return service.listByAgent(resourceGroupName, serverName, jobAgentName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<JobCredentialInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<JobCredentialInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl1<JobCredentialInner>> result = listByAgentDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<JobCredentialInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl1<JobCredentialInner>> listByAgentDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl1<JobCredentialInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl1<JobCredentialInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+        return service.listByAgent(resourceGroupName, serverName, jobAgentName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl1<JobCredentialInner>> res) -> res.body());
     }
 
     /**
@@ -219,13 +166,13 @@ public class JobCredentialsInner {
      * @param serverName The name of the server.
      * @param jobAgentName The name of the job agent.
      * @param credentialName The name of the credential.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the JobCredentialInner object if successful.
      */
-    public JobCredentialInner get(String resourceGroupName, String serverName, String jobAgentName, String credentialName) {
-        return getWithServiceResponseAsync(resourceGroupName, serverName, jobAgentName, credentialName).toBlocking().single().body();
+    public JobCredentialInner get(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName, @NonNull String credentialName) {
+        return getAsync(resourceGroupName, serverName, jobAgentName, credentialName).blockingGet();
     }
 
     /**
@@ -236,11 +183,11 @@ public class JobCredentialsInner {
      * @param jobAgentName The name of the job agent.
      * @param credentialName The name of the credential.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<JobCredentialInner> getAsync(String resourceGroupName, String serverName, String jobAgentName, String credentialName, final ServiceCallback<JobCredentialInner> serviceCallback) {
-        return ServiceFuture.fromResponse(getWithServiceResponseAsync(resourceGroupName, serverName, jobAgentName, credentialName), serviceCallback);
+    public ServiceFuture<JobCredentialInner> getAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName, @NonNull String credentialName, ServiceCallback<JobCredentialInner> serviceCallback) {
+        return ServiceFuture.fromBody(getAsync(resourceGroupName, serverName, jobAgentName, credentialName), serviceCallback);
     }
 
     /**
@@ -250,29 +197,10 @@ public class JobCredentialsInner {
      * @param serverName The name of the server.
      * @param jobAgentName The name of the job agent.
      * @param credentialName The name of the credential.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the JobCredentialInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<JobCredentialInner> getAsync(String resourceGroupName, String serverName, String jobAgentName, String credentialName) {
-        return getWithServiceResponseAsync(resourceGroupName, serverName, jobAgentName, credentialName).map(new Func1<ServiceResponse<JobCredentialInner>, JobCredentialInner>() {
-            @Override
-            public JobCredentialInner call(ServiceResponse<JobCredentialInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Gets a jobs credential.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param jobAgentName The name of the job agent.
-     * @param credentialName The name of the credential.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the JobCredentialInner object
-     */
-    public Observable<ServiceResponse<JobCredentialInner>> getWithServiceResponseAsync(String resourceGroupName, String serverName, String jobAgentName, String credentialName) {
+    public Single<BodyResponse<JobCredentialInner>> getWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName, @NonNull String credentialName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -289,25 +217,22 @@ public class JobCredentialsInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2017-03-01-preview";
-        return service.get(resourceGroupName, serverName, jobAgentName, credentialName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<JobCredentialInner>>>() {
-                @Override
-                public Observable<ServiceResponse<JobCredentialInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<JobCredentialInner> clientResponse = getDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.get(resourceGroupName, serverName, jobAgentName, credentialName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<JobCredentialInner> getDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<JobCredentialInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<JobCredentialInner>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Gets a jobs credential.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param jobAgentName The name of the job agent.
+     * @param credentialName The name of the credential.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<JobCredentialInner> getAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName, @NonNull String credentialName) {
+        return getWithRestResponseAsync(resourceGroupName, serverName, jobAgentName, credentialName)
+            .flatMapMaybe((BodyResponse<JobCredentialInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
@@ -318,13 +243,13 @@ public class JobCredentialsInner {
      * @param jobAgentName The name of the job agent.
      * @param credentialName The name of the credential.
      * @param parameters The requested job credential state.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the JobCredentialInner object if successful.
      */
-    public JobCredentialInner createOrUpdate(String resourceGroupName, String serverName, String jobAgentName, String credentialName, JobCredentialInner parameters) {
-        return createOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, jobAgentName, credentialName, parameters).toBlocking().single().body();
+    public JobCredentialInner createOrUpdate(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName, @NonNull String credentialName, @NonNull JobCredentialInner parameters) {
+        return createOrUpdateAsync(resourceGroupName, serverName, jobAgentName, credentialName, parameters).blockingGet();
     }
 
     /**
@@ -336,11 +261,11 @@ public class JobCredentialsInner {
      * @param credentialName The name of the credential.
      * @param parameters The requested job credential state.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<JobCredentialInner> createOrUpdateAsync(String resourceGroupName, String serverName, String jobAgentName, String credentialName, JobCredentialInner parameters, final ServiceCallback<JobCredentialInner> serviceCallback) {
-        return ServiceFuture.fromResponse(createOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, jobAgentName, credentialName, parameters), serviceCallback);
+    public ServiceFuture<JobCredentialInner> createOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName, @NonNull String credentialName, @NonNull JobCredentialInner parameters, ServiceCallback<JobCredentialInner> serviceCallback) {
+        return ServiceFuture.fromBody(createOrUpdateAsync(resourceGroupName, serverName, jobAgentName, credentialName, parameters), serviceCallback);
     }
 
     /**
@@ -351,30 +276,10 @@ public class JobCredentialsInner {
      * @param jobAgentName The name of the job agent.
      * @param credentialName The name of the credential.
      * @param parameters The requested job credential state.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the JobCredentialInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<JobCredentialInner> createOrUpdateAsync(String resourceGroupName, String serverName, String jobAgentName, String credentialName, JobCredentialInner parameters) {
-        return createOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, jobAgentName, credentialName, parameters).map(new Func1<ServiceResponse<JobCredentialInner>, JobCredentialInner>() {
-            @Override
-            public JobCredentialInner call(ServiceResponse<JobCredentialInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Creates or updates a job credential.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param jobAgentName The name of the job agent.
-     * @param credentialName The name of the credential.
-     * @param parameters The requested job credential state.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the JobCredentialInner object
-     */
-    public Observable<ServiceResponse<JobCredentialInner>> createOrUpdateWithServiceResponseAsync(String resourceGroupName, String serverName, String jobAgentName, String credentialName, JobCredentialInner parameters) {
+    public Single<BodyResponse<JobCredentialInner>> createOrUpdateWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName, @NonNull String credentialName, @NonNull JobCredentialInner parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -395,26 +300,23 @@ public class JobCredentialsInner {
         }
         Validator.validate(parameters);
         final String apiVersion = "2017-03-01-preview";
-        return service.createOrUpdate(resourceGroupName, serverName, jobAgentName, credentialName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<JobCredentialInner>>>() {
-                @Override
-                public Observable<ServiceResponse<JobCredentialInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<JobCredentialInner> clientResponse = createOrUpdateDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.createOrUpdate(resourceGroupName, serverName, jobAgentName, credentialName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<JobCredentialInner> createOrUpdateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<JobCredentialInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<JobCredentialInner>() { }.getType())
-                .register(201, new TypeToken<JobCredentialInner>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Creates or updates a job credential.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param jobAgentName The name of the job agent.
+     * @param credentialName The name of the credential.
+     * @param parameters The requested job credential state.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<JobCredentialInner> createOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName, @NonNull String credentialName, @NonNull JobCredentialInner parameters) {
+        return createOrUpdateWithRestResponseAsync(resourceGroupName, serverName, jobAgentName, credentialName, parameters)
+            .flatMapMaybe((BodyResponse<JobCredentialInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
@@ -424,12 +326,12 @@ public class JobCredentialsInner {
      * @param serverName The name of the server.
      * @param jobAgentName The name of the job agent.
      * @param credentialName The name of the credential.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void delete(String resourceGroupName, String serverName, String jobAgentName, String credentialName) {
-        deleteWithServiceResponseAsync(resourceGroupName, serverName, jobAgentName, credentialName).toBlocking().single().body();
+    public void delete(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName, @NonNull String credentialName) {
+        deleteAsync(resourceGroupName, serverName, jobAgentName, credentialName).blockingAwait();
     }
 
     /**
@@ -440,11 +342,11 @@ public class JobCredentialsInner {
      * @param jobAgentName The name of the job agent.
      * @param credentialName The name of the credential.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<Void> deleteAsync(String resourceGroupName, String serverName, String jobAgentName, String credentialName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(deleteWithServiceResponseAsync(resourceGroupName, serverName, jobAgentName, credentialName), serviceCallback);
+    public ServiceFuture<Void> deleteAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName, @NonNull String credentialName, ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromBody(deleteAsync(resourceGroupName, serverName, jobAgentName, credentialName), serviceCallback);
     }
 
     /**
@@ -454,29 +356,10 @@ public class JobCredentialsInner {
      * @param serverName The name of the server.
      * @param jobAgentName The name of the job agent.
      * @param credentialName The name of the credential.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<Void> deleteAsync(String resourceGroupName, String serverName, String jobAgentName, String credentialName) {
-        return deleteWithServiceResponseAsync(resourceGroupName, serverName, jobAgentName, credentialName).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Deletes a job credential.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param jobAgentName The name of the job agent.
-     * @param credentialName The name of the credential.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
-     */
-    public Observable<ServiceResponse<Void>> deleteWithServiceResponseAsync(String resourceGroupName, String serverName, String jobAgentName, String credentialName) {
+    public Single<VoidResponse> deleteWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName, @NonNull String credentialName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -493,43 +376,39 @@ public class JobCredentialsInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2017-03-01-preview";
-        return service.delete(resourceGroupName, serverName, jobAgentName, credentialName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
-                @Override
-                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<Void> clientResponse = deleteDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.delete(resourceGroupName, serverName, jobAgentName, credentialName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<Void> deleteDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<Void>() { }.getType())
-                .register(204, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Deletes a job credential.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param jobAgentName The name of the job agent.
+     * @param credentialName The name of the credential.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Completable deleteAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName, @NonNull String credentialName) {
+        return deleteWithRestResponseAsync(resourceGroupName, serverName, jobAgentName, credentialName)
+            .toCompletable();
     }
 
     /**
      * Gets a list of jobs credentials.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;JobCredentialInner&gt; object if successful.
      */
-    public PagedList<JobCredentialInner> listByAgentNext(final String nextPageLink) {
-        ServiceResponse<Page<JobCredentialInner>> response = listByAgentNextSinglePageAsync(nextPageLink).toBlocking().single();
-        return new PagedList<JobCredentialInner>(response.body()) {
+    public PagedList<JobCredentialInner> listByAgentNext(@NonNull String nextPageLink) {
+        Page<JobCredentialInner> response = listByAgentNextSinglePageAsync(nextPageLink).blockingGet();
+        return new PagedList<JobCredentialInner>(response) {
             @Override
             public Page<JobCredentialInner> nextPage(String nextPageLink) {
-                return listByAgentNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listByAgentNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -538,92 +417,34 @@ public class JobCredentialsInner {
      * Gets a list of jobs credentials.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;JobCredentialInner&gt; object.
      */
-    public ServiceFuture<List<JobCredentialInner>> listByAgentNextAsync(final String nextPageLink, final ServiceFuture<List<JobCredentialInner>> serviceFuture, final ListOperationCallback<JobCredentialInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listByAgentNextSinglePageAsync(nextPageLink),
-            new Func1<String, Observable<ServiceResponse<Page<JobCredentialInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<JobCredentialInner>>> call(String nextPageLink) {
-                    return listByAgentNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets a list of jobs credentials.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;JobCredentialInner&gt; object
-     */
-    public Observable<Page<JobCredentialInner>> listByAgentNextAsync(final String nextPageLink) {
-        return listByAgentNextWithServiceResponseAsync(nextPageLink)
-            .map(new Func1<ServiceResponse<Page<JobCredentialInner>>, Page<JobCredentialInner>>() {
-                @Override
-                public Page<JobCredentialInner> call(ServiceResponse<Page<JobCredentialInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets a list of jobs credentials.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;JobCredentialInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<JobCredentialInner>>> listByAgentNextWithServiceResponseAsync(final String nextPageLink) {
+    public Observable<Page<JobCredentialInner>> listByAgentNextAsync(@NonNull String nextPageLink) {
         return listByAgentNextSinglePageAsync(nextPageLink)
-            .concatMap(new Func1<ServiceResponse<Page<JobCredentialInner>>, Observable<ServiceResponse<Page<JobCredentialInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<JobCredentialInner>>> call(ServiceResponse<Page<JobCredentialInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listByAgentNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<JobCredentialInner> page) -> {
+                String nextPageLink1 = page.nextPageLink();
+                if (nextPageLink1 == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listByAgentNextAsync(nextPageLink1));
             });
     }
 
     /**
      * Gets a list of jobs credentials.
      *
-    ServiceResponse<PageImpl1<JobCredentialInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;JobCredentialInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;JobCredentialInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<JobCredentialInner>>> listByAgentNextSinglePageAsync(final String nextPageLink) {
+    public Single<Page<JobCredentialInner>> listByAgentNextSinglePageAsync(@NonNull String nextPageLink) {
         if (nextPageLink == null) {
             throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
         }
         String nextUrl = String.format("%s", nextPageLink);
-        return service.listByAgentNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<JobCredentialInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<JobCredentialInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl1<JobCredentialInner>> result = listByAgentNextDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<JobCredentialInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.listByAgentNext(nextUrl, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl1<JobCredentialInner>> res) -> res.body());
     }
-
-    private ServiceResponse<PageImpl1<JobCredentialInner>> listByAgentNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl1<JobCredentialInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl1<JobCredentialInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
-    }
-
 }

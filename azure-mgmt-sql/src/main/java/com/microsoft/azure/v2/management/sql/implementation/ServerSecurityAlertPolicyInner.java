@@ -8,16 +8,17 @@
 
 package com.microsoft.azure.v2.management.sql.implementation;
 
-import com.microsoft.azure.v2.management.sql.SecurityAlertPolicyState;
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.v2.management.sql.ProxyResource;
+import com.microsoft.azure.v2.management.sql.SecurityAlertPolicyState;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
+import java.util.List;
 
 /**
  * A server security alert policy.
  */
 @JsonFlatten
-public class ServerSecurityAlertPolicyInner extends ProxyResourceInner {
+public class ServerSecurityAlertPolicyInner extends ProxyResource {
     /**
      * Specifies the state of the policy, whether it is enabled or disabled.
      * Possible values include: 'New', 'Enabled', 'Disabled'.
@@ -68,7 +69,7 @@ public class ServerSecurityAlertPolicyInner extends ProxyResourceInner {
     /**
      * Get the state value.
      *
-     * @return the state value
+     * @return the state value.
      */
     public SecurityAlertPolicyState state() {
         return this.state;
@@ -77,7 +78,7 @@ public class ServerSecurityAlertPolicyInner extends ProxyResourceInner {
     /**
      * Set the state value.
      *
-     * @param state the state value to set
+     * @param state the state value to set.
      * @return the ServerSecurityAlertPolicyInner object itself.
      */
     public ServerSecurityAlertPolicyInner withState(SecurityAlertPolicyState state) {
@@ -88,7 +89,7 @@ public class ServerSecurityAlertPolicyInner extends ProxyResourceInner {
     /**
      * Get the disabledAlerts value.
      *
-     * @return the disabledAlerts value
+     * @return the disabledAlerts value.
      */
     public List<String> disabledAlerts() {
         return this.disabledAlerts;
@@ -97,7 +98,7 @@ public class ServerSecurityAlertPolicyInner extends ProxyResourceInner {
     /**
      * Set the disabledAlerts value.
      *
-     * @param disabledAlerts the disabledAlerts value to set
+     * @param disabledAlerts the disabledAlerts value to set.
      * @return the ServerSecurityAlertPolicyInner object itself.
      */
     public ServerSecurityAlertPolicyInner withDisabledAlerts(List<String> disabledAlerts) {
@@ -108,7 +109,7 @@ public class ServerSecurityAlertPolicyInner extends ProxyResourceInner {
     /**
      * Get the emailAddresses value.
      *
-     * @return the emailAddresses value
+     * @return the emailAddresses value.
      */
     public List<String> emailAddresses() {
         return this.emailAddresses;
@@ -117,7 +118,7 @@ public class ServerSecurityAlertPolicyInner extends ProxyResourceInner {
     /**
      * Set the emailAddresses value.
      *
-     * @param emailAddresses the emailAddresses value to set
+     * @param emailAddresses the emailAddresses value to set.
      * @return the ServerSecurityAlertPolicyInner object itself.
      */
     public ServerSecurityAlertPolicyInner withEmailAddresses(List<String> emailAddresses) {
@@ -128,7 +129,7 @@ public class ServerSecurityAlertPolicyInner extends ProxyResourceInner {
     /**
      * Get the emailAccountAdmins value.
      *
-     * @return the emailAccountAdmins value
+     * @return the emailAccountAdmins value.
      */
     public Boolean emailAccountAdmins() {
         return this.emailAccountAdmins;
@@ -137,7 +138,7 @@ public class ServerSecurityAlertPolicyInner extends ProxyResourceInner {
     /**
      * Set the emailAccountAdmins value.
      *
-     * @param emailAccountAdmins the emailAccountAdmins value to set
+     * @param emailAccountAdmins the emailAccountAdmins value to set.
      * @return the ServerSecurityAlertPolicyInner object itself.
      */
     public ServerSecurityAlertPolicyInner withEmailAccountAdmins(Boolean emailAccountAdmins) {
@@ -148,7 +149,7 @@ public class ServerSecurityAlertPolicyInner extends ProxyResourceInner {
     /**
      * Get the storageEndpoint value.
      *
-     * @return the storageEndpoint value
+     * @return the storageEndpoint value.
      */
     public String storageEndpoint() {
         return this.storageEndpoint;
@@ -157,7 +158,7 @@ public class ServerSecurityAlertPolicyInner extends ProxyResourceInner {
     /**
      * Set the storageEndpoint value.
      *
-     * @param storageEndpoint the storageEndpoint value to set
+     * @param storageEndpoint the storageEndpoint value to set.
      * @return the ServerSecurityAlertPolicyInner object itself.
      */
     public ServerSecurityAlertPolicyInner withStorageEndpoint(String storageEndpoint) {
@@ -168,7 +169,7 @@ public class ServerSecurityAlertPolicyInner extends ProxyResourceInner {
     /**
      * Get the storageAccountAccessKey value.
      *
-     * @return the storageAccountAccessKey value
+     * @return the storageAccountAccessKey value.
      */
     public String storageAccountAccessKey() {
         return this.storageAccountAccessKey;
@@ -177,7 +178,7 @@ public class ServerSecurityAlertPolicyInner extends ProxyResourceInner {
     /**
      * Set the storageAccountAccessKey value.
      *
-     * @param storageAccountAccessKey the storageAccountAccessKey value to set
+     * @param storageAccountAccessKey the storageAccountAccessKey value to set.
      * @return the ServerSecurityAlertPolicyInner object itself.
      */
     public ServerSecurityAlertPolicyInner withStorageAccountAccessKey(String storageAccountAccessKey) {
@@ -188,7 +189,7 @@ public class ServerSecurityAlertPolicyInner extends ProxyResourceInner {
     /**
      * Get the retentionDays value.
      *
-     * @return the retentionDays value
+     * @return the retentionDays value.
      */
     public Integer retentionDays() {
         return this.retentionDays;
@@ -197,12 +198,11 @@ public class ServerSecurityAlertPolicyInner extends ProxyResourceInner {
     /**
      * Set the retentionDays value.
      *
-     * @param retentionDays the retentionDays value to set
+     * @param retentionDays the retentionDays value to set.
      * @return the ServerSecurityAlertPolicyInner object itself.
      */
     public ServerSecurityAlertPolicyInner withRetentionDays(Integer retentionDays) {
         this.retentionDays = retentionDays;
         return this;
     }
-
 }

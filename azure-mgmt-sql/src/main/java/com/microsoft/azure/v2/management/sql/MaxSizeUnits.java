@@ -15,22 +15,32 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Defines values for MaxSizeUnits.
  */
 public enum MaxSizeUnits {
-    /** Enum value Megabytes. */
+    /**
+     * Enum value Megabytes.
+     */
     MEGABYTES("Megabytes"),
 
-    /** Enum value Gigabytes. */
+    /**
+     * Enum value Gigabytes.
+     */
     GIGABYTES("Gigabytes"),
 
-    /** Enum value Terabytes. */
+    /**
+     * Enum value Terabytes.
+     */
     TERABYTES("Terabytes"),
 
-    /** Enum value Petabytes. */
+    /**
+     * Enum value Petabytes.
+     */
     PETABYTES("Petabytes");
 
-    /** The actual serialized value for a MaxSizeUnits instance. */
-    private String value;
+    /**
+     * The actual serialized value for a MaxSizeUnits instance.
+     */
+    private final String value;
 
-    MaxSizeUnits(String value) {
+    private MaxSizeUnits(String value) {
         this.value = value;
     }
 

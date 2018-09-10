@@ -8,9 +8,10 @@
 
 package com.microsoft.azure.v2.management.sql.implementation;
 
+import com.microsoft.azure.v2.management.sql.ProxyResource;
 
 /**
  * A job version.
  */
-public class JobVersionInner extends ProxyResourceInner {
+public final class JobVersionInner extends ProxyResource {
 }

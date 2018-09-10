@@ -15,16 +15,22 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Defines values for StorageKeyType.
  */
 public enum StorageKeyType {
-    /** Enum value StorageAccessKey. */
+    /**
+     * Enum value StorageAccessKey.
+     */
     STORAGE_ACCESS_KEY("StorageAccessKey"),
 
-    /** Enum value SharedAccessKey. */
+    /**
+     * Enum value SharedAccessKey.
+     */
     SHARED_ACCESS_KEY("SharedAccessKey");
 
-    /** The actual serialized value for a StorageKeyType instance. */
-    private String value;
+    /**
+     * The actual serialized value for a StorageKeyType instance.
+     */
+    private final String value;
 
-    StorageKeyType(String value) {
+    private StorageKeyType(String value) {
         this.value = value;
     }
 

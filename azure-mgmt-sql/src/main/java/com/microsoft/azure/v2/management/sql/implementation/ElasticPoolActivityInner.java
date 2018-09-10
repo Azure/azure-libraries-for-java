@@ -8,16 +8,17 @@
 
 package com.microsoft.azure.v2.management.sql.implementation;
 
-import org.joda.time.DateTime;
-import java.util.UUID;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.v2.management.sql.ProxyResource;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
+import java.time.OffsetDateTime;
+import java.util.UUID;
 
 /**
  * Represents the activity on an elastic pool.
  */
 @JsonFlatten
-public class ElasticPoolActivityInner extends ProxyResourceInner {
+public class ElasticPoolActivityInner extends ProxyResource {
     /**
      * The geo-location where the resource lives.
      */
@@ -28,7 +29,7 @@ public class ElasticPoolActivityInner extends ProxyResourceInner {
      * The time the operation finished (ISO8601 format).
      */
     @JsonProperty(value = "properties.endTime", access = JsonProperty.Access.WRITE_ONLY)
-    private DateTime endTime;
+    private OffsetDateTime endTime;
 
     /**
      * The error code if available.
@@ -112,7 +113,7 @@ public class ElasticPoolActivityInner extends ProxyResourceInner {
      * The time the operation started (ISO8601 format).
      */
     @JsonProperty(value = "properties.startTime", access = JsonProperty.Access.WRITE_ONLY)
-    private DateTime startTime;
+    private OffsetDateTime startTime;
 
     /**
      * The current state of the operation.
@@ -147,7 +148,7 @@ public class ElasticPoolActivityInner extends ProxyResourceInner {
     /**
      * Get the location value.
      *
-     * @return the location value
+     * @return the location value.
      */
     public String location() {
         return this.location;
@@ -156,7 +157,7 @@ public class ElasticPoolActivityInner extends ProxyResourceInner {
     /**
      * Set the location value.
      *
-     * @param location the location value to set
+     * @param location the location value to set.
      * @return the ElasticPoolActivityInner object itself.
      */
     public ElasticPoolActivityInner withLocation(String location) {
@@ -167,16 +168,16 @@ public class ElasticPoolActivityInner extends ProxyResourceInner {
     /**
      * Get the endTime value.
      *
-     * @return the endTime value
+     * @return the endTime value.
      */
-    public DateTime endTime() {
+    public OffsetDateTime endTime() {
         return this.endTime;
     }
 
     /**
      * Get the errorCode value.
      *
-     * @return the errorCode value
+     * @return the errorCode value.
      */
     public Integer errorCode() {
         return this.errorCode;
@@ -185,7 +186,7 @@ public class ElasticPoolActivityInner extends ProxyResourceInner {
     /**
      * Get the errorMessage value.
      *
-     * @return the errorMessage value
+     * @return the errorMessage value.
      */
     public String errorMessage() {
         return this.errorMessage;
@@ -194,7 +195,7 @@ public class ElasticPoolActivityInner extends ProxyResourceInner {
     /**
      * Get the errorSeverity value.
      *
-     * @return the errorSeverity value
+     * @return the errorSeverity value.
      */
     public Integer errorSeverity() {
         return this.errorSeverity;
@@ -203,7 +204,7 @@ public class ElasticPoolActivityInner extends ProxyResourceInner {
     /**
      * Get the operation value.
      *
-     * @return the operation value
+     * @return the operation value.
      */
     public String operation() {
         return this.operation;
@@ -212,7 +213,7 @@ public class ElasticPoolActivityInner extends ProxyResourceInner {
     /**
      * Get the operationId value.
      *
-     * @return the operationId value
+     * @return the operationId value.
      */
     public UUID operationId() {
         return this.operationId;
@@ -221,7 +222,7 @@ public class ElasticPoolActivityInner extends ProxyResourceInner {
     /**
      * Get the percentComplete value.
      *
-     * @return the percentComplete value
+     * @return the percentComplete value.
      */
     public Integer percentComplete() {
         return this.percentComplete;
@@ -230,7 +231,7 @@ public class ElasticPoolActivityInner extends ProxyResourceInner {
     /**
      * Get the requestedDatabaseDtuMax value.
      *
-     * @return the requestedDatabaseDtuMax value
+     * @return the requestedDatabaseDtuMax value.
      */
     public Integer requestedDatabaseDtuMax() {
         return this.requestedDatabaseDtuMax;
@@ -239,7 +240,7 @@ public class ElasticPoolActivityInner extends ProxyResourceInner {
     /**
      * Get the requestedDatabaseDtuMin value.
      *
-     * @return the requestedDatabaseDtuMin value
+     * @return the requestedDatabaseDtuMin value.
      */
     public Integer requestedDatabaseDtuMin() {
         return this.requestedDatabaseDtuMin;
@@ -248,7 +249,7 @@ public class ElasticPoolActivityInner extends ProxyResourceInner {
     /**
      * Get the requestedDtu value.
      *
-     * @return the requestedDtu value
+     * @return the requestedDtu value.
      */
     public Integer requestedDtu() {
         return this.requestedDtu;
@@ -257,7 +258,7 @@ public class ElasticPoolActivityInner extends ProxyResourceInner {
     /**
      * Get the requestedElasticPoolName value.
      *
-     * @return the requestedElasticPoolName value
+     * @return the requestedElasticPoolName value.
      */
     public String requestedElasticPoolName() {
         return this.requestedElasticPoolName;
@@ -266,7 +267,7 @@ public class ElasticPoolActivityInner extends ProxyResourceInner {
     /**
      * Get the requestedStorageLimitInGB value.
      *
-     * @return the requestedStorageLimitInGB value
+     * @return the requestedStorageLimitInGB value.
      */
     public Long requestedStorageLimitInGB() {
         return this.requestedStorageLimitInGB;
@@ -275,7 +276,7 @@ public class ElasticPoolActivityInner extends ProxyResourceInner {
     /**
      * Get the elasticPoolName value.
      *
-     * @return the elasticPoolName value
+     * @return the elasticPoolName value.
      */
     public String elasticPoolName() {
         return this.elasticPoolName;
@@ -284,7 +285,7 @@ public class ElasticPoolActivityInner extends ProxyResourceInner {
     /**
      * Get the serverName value.
      *
-     * @return the serverName value
+     * @return the serverName value.
      */
     public String serverName() {
         return this.serverName;
@@ -293,16 +294,16 @@ public class ElasticPoolActivityInner extends ProxyResourceInner {
     /**
      * Get the startTime value.
      *
-     * @return the startTime value
+     * @return the startTime value.
      */
-    public DateTime startTime() {
+    public OffsetDateTime startTime() {
         return this.startTime;
     }
 
     /**
      * Get the state value.
      *
-     * @return the state value
+     * @return the state value.
      */
     public String state() {
         return this.state;
@@ -311,7 +312,7 @@ public class ElasticPoolActivityInner extends ProxyResourceInner {
     /**
      * Get the requestedStorageLimitInMB value.
      *
-     * @return the requestedStorageLimitInMB value
+     * @return the requestedStorageLimitInMB value.
      */
     public Integer requestedStorageLimitInMB() {
         return this.requestedStorageLimitInMB;
@@ -320,7 +321,7 @@ public class ElasticPoolActivityInner extends ProxyResourceInner {
     /**
      * Get the requestedDatabaseDtuGuarantee value.
      *
-     * @return the requestedDatabaseDtuGuarantee value
+     * @return the requestedDatabaseDtuGuarantee value.
      */
     public Integer requestedDatabaseDtuGuarantee() {
         return this.requestedDatabaseDtuGuarantee;
@@ -329,7 +330,7 @@ public class ElasticPoolActivityInner extends ProxyResourceInner {
     /**
      * Get the requestedDatabaseDtuCap value.
      *
-     * @return the requestedDatabaseDtuCap value
+     * @return the requestedDatabaseDtuCap value.
      */
     public Integer requestedDatabaseDtuCap() {
         return this.requestedDatabaseDtuCap;
@@ -338,10 +339,9 @@ public class ElasticPoolActivityInner extends ProxyResourceInner {
     /**
      * Get the requestedDtuGuarantee value.
      *
-     * @return the requestedDtuGuarantee value
+     * @return the requestedDtuGuarantee value.
      */
     public Integer requestedDtuGuarantee() {
         return this.requestedDtuGuarantee;
     }
-
 }

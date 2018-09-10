@@ -15,19 +15,27 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Defines values for RecommendedIndexAction.
  */
 public enum RecommendedIndexAction {
-    /** Enum value Create. */
+    /**
+     * Enum value Create.
+     */
     CREATE("Create"),
 
-    /** Enum value Drop. */
+    /**
+     * Enum value Drop.
+     */
     DROP("Drop"),
 
-    /** Enum value Rebuild. */
+    /**
+     * Enum value Rebuild.
+     */
     REBUILD("Rebuild");
 
-    /** The actual serialized value for a RecommendedIndexAction instance. */
-    private String value;
+    /**
+     * The actual serialized value for a RecommendedIndexAction instance.
+     */
+    private final String value;
 
-    RecommendedIndexAction(String value) {
+    private RecommendedIndexAction(String value) {
         this.value = value;
     }
 

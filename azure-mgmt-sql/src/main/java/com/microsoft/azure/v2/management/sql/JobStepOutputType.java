@@ -9,21 +9,23 @@
 package com.microsoft.azure.v2.management.sql;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.microsoft.rest.ExpandableStringEnum;
-
+import com.microsoft.rest.v2.ExpandableStringEnum;
 import java.util.Collection;
 
 /**
  * Defines values for JobStepOutputType.
  */
 public final class JobStepOutputType extends ExpandableStringEnum<JobStepOutputType> {
-    /** Static value SqlDatabase for JobStepOutputType. */
+    /**
+     * Static value SqlDatabase for JobStepOutputType.
+     */
     public static final JobStepOutputType SQL_DATABASE = fromString("SqlDatabase");
 
     /**
      * Creates or finds a JobStepOutputType from its string representation.
-     * @param name a name to look for
-     * @return the corresponding JobStepOutputType
+     *
+     * @param name a name to look for.
+     * @return the corresponding JobStepOutputType.
      */
     @JsonCreator
     public static JobStepOutputType fromString(String name) {
@@ -31,7 +33,7 @@ public final class JobStepOutputType extends ExpandableStringEnum<JobStepOutputT
     }
 
     /**
-     * @return known JobStepOutputType values
+     * @return known JobStepOutputType values.
      */
     public static Collection<JobStepOutputType> values() {
         return values(JobStepOutputType.class);

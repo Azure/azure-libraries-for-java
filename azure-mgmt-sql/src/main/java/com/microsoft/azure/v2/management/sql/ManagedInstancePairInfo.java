@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Pairs of Managed Instances in the failover group.
  */
-public class ManagedInstancePairInfo {
+public final class ManagedInstancePairInfo {
     /**
      * Id of Primary Managed Instance in pair.
      */
@@ -29,7 +29,7 @@ public class ManagedInstancePairInfo {
     /**
      * Get the primaryManagedInstanceId value.
      *
-     * @return the primaryManagedInstanceId value
+     * @return the primaryManagedInstanceId value.
      */
     public String primaryManagedInstanceId() {
         return this.primaryManagedInstanceId;
@@ -38,7 +38,8 @@ public class ManagedInstancePairInfo {
     /**
      * Set the primaryManagedInstanceId value.
      *
-     * @param primaryManagedInstanceId the primaryManagedInstanceId value to set
+     * @param primaryManagedInstanceId the primaryManagedInstanceId value to
+     * set.
      * @return the ManagedInstancePairInfo object itself.
      */
     public ManagedInstancePairInfo withPrimaryManagedInstanceId(String primaryManagedInstanceId) {
@@ -49,7 +50,7 @@ public class ManagedInstancePairInfo {
     /**
      * Get the partnerManagedInstanceId value.
      *
-     * @return the partnerManagedInstanceId value
+     * @return the partnerManagedInstanceId value.
      */
     public String partnerManagedInstanceId() {
         return this.partnerManagedInstanceId;
@@ -58,12 +59,12 @@ public class ManagedInstancePairInfo {
     /**
      * Set the partnerManagedInstanceId value.
      *
-     * @param partnerManagedInstanceId the partnerManagedInstanceId value to set
+     * @param partnerManagedInstanceId the partnerManagedInstanceId value to
+     * set.
      * @return the ManagedInstancePairInfo object itself.
      */
     public ManagedInstancePairInfo withPartnerManagedInstanceId(String partnerManagedInstanceId) {
         this.partnerManagedInstanceId = partnerManagedInstanceId;
         return this;
     }
-
 }

@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Partner server information for the failover group.
  */
-public class PartnerInfo {
+public final class PartnerInfo {
     /**
      * Resource identifier of the partner server.
      */
@@ -36,7 +36,7 @@ public class PartnerInfo {
     /**
      * Get the id value.
      *
-     * @return the id value
+     * @return the id value.
      */
     public String id() {
         return this.id;
@@ -45,7 +45,7 @@ public class PartnerInfo {
     /**
      * Set the id value.
      *
-     * @param id the id value to set
+     * @param id the id value to set.
      * @return the PartnerInfo object itself.
      */
     public PartnerInfo withId(String id) {
@@ -56,7 +56,7 @@ public class PartnerInfo {
     /**
      * Get the location value.
      *
-     * @return the location value
+     * @return the location value.
      */
     public String location() {
         return this.location;
@@ -65,10 +65,9 @@ public class PartnerInfo {
     /**
      * Get the replicationRole value.
      *
-     * @return the replicationRole value
+     * @return the replicationRole value.
      */
     public FailoverGroupReplicationRole replicationRole() {
         return this.replicationRole;
     }
-
 }

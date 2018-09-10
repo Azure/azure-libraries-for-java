@@ -8,15 +8,16 @@
 
 package com.microsoft.azure.v2.management.sql.implementation;
 
-import com.microsoft.azure.v2.management.sql.GeoBackupPolicyState;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.v2.management.sql.GeoBackupPolicyState;
+import com.microsoft.azure.v2.management.sql.ProxyResource;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
 
 /**
  * A database geo backup policy.
  */
 @JsonFlatten
-public class GeoBackupPolicyInner extends ProxyResourceInner {
+public class GeoBackupPolicyInner extends ProxyResource {
     /**
      * The state of the geo backup policy. Possible values include: 'Disabled',
      * 'Enabled'.
@@ -46,7 +47,7 @@ public class GeoBackupPolicyInner extends ProxyResourceInner {
     /**
      * Get the state value.
      *
-     * @return the state value
+     * @return the state value.
      */
     public GeoBackupPolicyState state() {
         return this.state;
@@ -55,7 +56,7 @@ public class GeoBackupPolicyInner extends ProxyResourceInner {
     /**
      * Set the state value.
      *
-     * @param state the state value to set
+     * @param state the state value to set.
      * @return the GeoBackupPolicyInner object itself.
      */
     public GeoBackupPolicyInner withState(GeoBackupPolicyState state) {
@@ -66,7 +67,7 @@ public class GeoBackupPolicyInner extends ProxyResourceInner {
     /**
      * Get the storageType value.
      *
-     * @return the storageType value
+     * @return the storageType value.
      */
     public String storageType() {
         return this.storageType;
@@ -75,7 +76,7 @@ public class GeoBackupPolicyInner extends ProxyResourceInner {
     /**
      * Get the kind value.
      *
-     * @return the kind value
+     * @return the kind value.
      */
     public String kind() {
         return this.kind;
@@ -84,10 +85,9 @@ public class GeoBackupPolicyInner extends ProxyResourceInner {
     /**
      * Get the location value.
      *
-     * @return the location value
+     * @return the location value.
      */
     public String location() {
         return this.location;
     }
-
 }

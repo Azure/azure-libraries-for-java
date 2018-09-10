@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * The minimum per-database DTU capability.
  */
-public class ElasticPoolPerDatabaseMinDtuCapability {
+public final class ElasticPoolPerDatabaseMinDtuCapability {
     /**
      * The maximum DTUs per database.
      */
@@ -30,7 +30,7 @@ public class ElasticPoolPerDatabaseMinDtuCapability {
     /**
      * Get the limit value.
      *
-     * @return the limit value
+     * @return the limit value.
      */
     public Long limit() {
         return this.limit;
@@ -39,10 +39,9 @@ public class ElasticPoolPerDatabaseMinDtuCapability {
     /**
      * Get the status value.
      *
-     * @return the status value
+     * @return the status value.
      */
     public CapabilityStatus status() {
         return this.status;
     }
-
 }

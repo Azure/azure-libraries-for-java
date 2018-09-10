@@ -8,16 +8,17 @@
 
 package com.microsoft.azure.v2.management.sql.implementation;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.azure.v2.management.sql.ResourceIdentity;
 import com.microsoft.azure.v2.management.sql.Sku;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.v2.management.sql.TrackedResource;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
 
 /**
  * An Azure SQL managed instance.
  */
 @JsonFlatten
-public class ManagedInstanceInner extends TrackedResourceInner {
+public class ManagedInstanceInner extends TrackedResource {
     /**
      * The Azure Active Directory identity of the managed instance.
      */
@@ -84,7 +85,7 @@ public class ManagedInstanceInner extends TrackedResourceInner {
     /**
      * Get the identity value.
      *
-     * @return the identity value
+     * @return the identity value.
      */
     public ResourceIdentity identity() {
         return this.identity;
@@ -93,7 +94,7 @@ public class ManagedInstanceInner extends TrackedResourceInner {
     /**
      * Set the identity value.
      *
-     * @param identity the identity value to set
+     * @param identity the identity value to set.
      * @return the ManagedInstanceInner object itself.
      */
     public ManagedInstanceInner withIdentity(ResourceIdentity identity) {
@@ -104,7 +105,7 @@ public class ManagedInstanceInner extends TrackedResourceInner {
     /**
      * Get the sku value.
      *
-     * @return the sku value
+     * @return the sku value.
      */
     public Sku sku() {
         return this.sku;
@@ -113,7 +114,7 @@ public class ManagedInstanceInner extends TrackedResourceInner {
     /**
      * Set the sku value.
      *
-     * @param sku the sku value to set
+     * @param sku the sku value to set.
      * @return the ManagedInstanceInner object itself.
      */
     public ManagedInstanceInner withSku(Sku sku) {
@@ -124,7 +125,7 @@ public class ManagedInstanceInner extends TrackedResourceInner {
     /**
      * Get the fullyQualifiedDomainName value.
      *
-     * @return the fullyQualifiedDomainName value
+     * @return the fullyQualifiedDomainName value.
      */
     public String fullyQualifiedDomainName() {
         return this.fullyQualifiedDomainName;
@@ -133,7 +134,7 @@ public class ManagedInstanceInner extends TrackedResourceInner {
     /**
      * Get the administratorLogin value.
      *
-     * @return the administratorLogin value
+     * @return the administratorLogin value.
      */
     public String administratorLogin() {
         return this.administratorLogin;
@@ -142,7 +143,7 @@ public class ManagedInstanceInner extends TrackedResourceInner {
     /**
      * Set the administratorLogin value.
      *
-     * @param administratorLogin the administratorLogin value to set
+     * @param administratorLogin the administratorLogin value to set.
      * @return the ManagedInstanceInner object itself.
      */
     public ManagedInstanceInner withAdministratorLogin(String administratorLogin) {
@@ -153,7 +154,7 @@ public class ManagedInstanceInner extends TrackedResourceInner {
     /**
      * Get the administratorLoginPassword value.
      *
-     * @return the administratorLoginPassword value
+     * @return the administratorLoginPassword value.
      */
     public String administratorLoginPassword() {
         return this.administratorLoginPassword;
@@ -162,7 +163,8 @@ public class ManagedInstanceInner extends TrackedResourceInner {
     /**
      * Set the administratorLoginPassword value.
      *
-     * @param administratorLoginPassword the administratorLoginPassword value to set
+     * @param administratorLoginPassword the administratorLoginPassword value
+     * to set.
      * @return the ManagedInstanceInner object itself.
      */
     public ManagedInstanceInner withAdministratorLoginPassword(String administratorLoginPassword) {
@@ -173,7 +175,7 @@ public class ManagedInstanceInner extends TrackedResourceInner {
     /**
      * Get the subnetId value.
      *
-     * @return the subnetId value
+     * @return the subnetId value.
      */
     public String subnetId() {
         return this.subnetId;
@@ -182,7 +184,7 @@ public class ManagedInstanceInner extends TrackedResourceInner {
     /**
      * Set the subnetId value.
      *
-     * @param subnetId the subnetId value to set
+     * @param subnetId the subnetId value to set.
      * @return the ManagedInstanceInner object itself.
      */
     public ManagedInstanceInner withSubnetId(String subnetId) {
@@ -193,7 +195,7 @@ public class ManagedInstanceInner extends TrackedResourceInner {
     /**
      * Get the state value.
      *
-     * @return the state value
+     * @return the state value.
      */
     public String state() {
         return this.state;
@@ -202,7 +204,7 @@ public class ManagedInstanceInner extends TrackedResourceInner {
     /**
      * Get the licenseType value.
      *
-     * @return the licenseType value
+     * @return the licenseType value.
      */
     public String licenseType() {
         return this.licenseType;
@@ -211,7 +213,7 @@ public class ManagedInstanceInner extends TrackedResourceInner {
     /**
      * Set the licenseType value.
      *
-     * @param licenseType the licenseType value to set
+     * @param licenseType the licenseType value to set.
      * @return the ManagedInstanceInner object itself.
      */
     public ManagedInstanceInner withLicenseType(String licenseType) {
@@ -222,7 +224,7 @@ public class ManagedInstanceInner extends TrackedResourceInner {
     /**
      * Get the vCores value.
      *
-     * @return the vCores value
+     * @return the vCores value.
      */
     public Integer vCores() {
         return this.vCores;
@@ -231,7 +233,7 @@ public class ManagedInstanceInner extends TrackedResourceInner {
     /**
      * Set the vCores value.
      *
-     * @param vCores the vCores value to set
+     * @param vCores the vCores value to set.
      * @return the ManagedInstanceInner object itself.
      */
     public ManagedInstanceInner withVCores(Integer vCores) {
@@ -242,7 +244,7 @@ public class ManagedInstanceInner extends TrackedResourceInner {
     /**
      * Get the storageSizeInGB value.
      *
-     * @return the storageSizeInGB value
+     * @return the storageSizeInGB value.
      */
     public Integer storageSizeInGB() {
         return this.storageSizeInGB;
@@ -251,12 +253,11 @@ public class ManagedInstanceInner extends TrackedResourceInner {
     /**
      * Set the storageSizeInGB value.
      *
-     * @param storageSizeInGB the storageSizeInGB value to set
+     * @param storageSizeInGB the storageSizeInGB value to set.
      * @return the ManagedInstanceInner object itself.
      */
     public ManagedInstanceInner withStorageSizeInGB(Integer storageSizeInGB) {
         this.storageSizeInGB = storageSizeInGB;
         return this;
     }
-
 }

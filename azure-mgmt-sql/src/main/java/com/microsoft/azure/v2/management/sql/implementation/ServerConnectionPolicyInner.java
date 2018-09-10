@@ -8,15 +8,16 @@
 
 package com.microsoft.azure.v2.management.sql.implementation;
 
-import com.microsoft.azure.v2.management.sql.ServerConnectionType;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.v2.management.sql.ProxyResource;
+import com.microsoft.azure.v2.management.sql.ServerConnectionType;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
 
 /**
  * A server secure connection policy.
  */
 @JsonFlatten
-public class ServerConnectionPolicyInner extends ProxyResourceInner {
+public class ServerConnectionPolicyInner extends ProxyResource {
     /**
      * Metadata used for the Azure portal experience.
      */
@@ -39,7 +40,7 @@ public class ServerConnectionPolicyInner extends ProxyResourceInner {
     /**
      * Get the kind value.
      *
-     * @return the kind value
+     * @return the kind value.
      */
     public String kind() {
         return this.kind;
@@ -48,7 +49,7 @@ public class ServerConnectionPolicyInner extends ProxyResourceInner {
     /**
      * Get the location value.
      *
-     * @return the location value
+     * @return the location value.
      */
     public String location() {
         return this.location;
@@ -57,7 +58,7 @@ public class ServerConnectionPolicyInner extends ProxyResourceInner {
     /**
      * Get the connectionType value.
      *
-     * @return the connectionType value
+     * @return the connectionType value.
      */
     public ServerConnectionType connectionType() {
         return this.connectionType;
@@ -66,12 +67,11 @@ public class ServerConnectionPolicyInner extends ProxyResourceInner {
     /**
      * Set the connectionType value.
      *
-     * @param connectionType the connectionType value to set
+     * @param connectionType the connectionType value to set.
      * @return the ServerConnectionPolicyInner object itself.
      */
     public ServerConnectionPolicyInner withConnectionType(ServerConnectionType connectionType) {
         this.connectionType = connectionType;
         return this;
     }
-
 }

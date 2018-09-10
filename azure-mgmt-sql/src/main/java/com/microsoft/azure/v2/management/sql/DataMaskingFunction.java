@@ -15,28 +15,42 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Defines values for DataMaskingFunction.
  */
 public enum DataMaskingFunction {
-    /** Enum value Default. */
+    /**
+     * Enum value Default.
+     */
     DEFAULT("Default"),
 
-    /** Enum value CCN. */
+    /**
+     * Enum value CCN.
+     */
     CCN("CCN"),
 
-    /** Enum value Email. */
+    /**
+     * Enum value Email.
+     */
     EMAIL("Email"),
 
-    /** Enum value Number. */
+    /**
+     * Enum value Number.
+     */
     NUMBER("Number"),
 
-    /** Enum value SSN. */
+    /**
+     * Enum value SSN.
+     */
     SSN("SSN"),
 
-    /** Enum value Text. */
+    /**
+     * Enum value Text.
+     */
     TEXT("Text");
 
-    /** The actual serialized value for a DataMaskingFunction instance. */
-    private String value;
+    /**
+     * The actual serialized value for a DataMaskingFunction instance.
+     */
+    private final String value;
 
-    DataMaskingFunction(String value) {
+    private DataMaskingFunction(String value) {
         this.value = value;
     }
 

@@ -9,13 +9,12 @@
 package com.microsoft.azure.v2.management.sql;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.List;
 
 /**
  * The server capabilities.
  */
-public class ServerVersionCapability {
+public final class ServerVersionCapability {
     /**
      * The server version name.
      */
@@ -44,7 +43,7 @@ public class ServerVersionCapability {
     /**
      * Get the name value.
      *
-     * @return the name value
+     * @return the name value.
      */
     public String name() {
         return this.name;
@@ -53,7 +52,7 @@ public class ServerVersionCapability {
     /**
      * Get the status value.
      *
-     * @return the status value
+     * @return the status value.
      */
     public CapabilityStatus status() {
         return this.status;
@@ -62,7 +61,7 @@ public class ServerVersionCapability {
     /**
      * Get the supportedEditions value.
      *
-     * @return the supportedEditions value
+     * @return the supportedEditions value.
      */
     public List<EditionCapability> supportedEditions() {
         return this.supportedEditions;
@@ -71,10 +70,9 @@ public class ServerVersionCapability {
     /**
      * Get the supportedElasticPoolEditions value.
      *
-     * @return the supportedElasticPoolEditions value
+     * @return the supportedElasticPoolEditions value.
      */
     public List<ElasticPoolEditionCapability> supportedElasticPoolEditions() {
         return this.supportedElasticPoolEditions;
     }
-
 }

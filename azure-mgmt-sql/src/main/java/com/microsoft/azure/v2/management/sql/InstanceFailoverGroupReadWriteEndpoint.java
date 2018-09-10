@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Read-write endpoint of the failover group instance.
  */
-public class InstanceFailoverGroupReadWriteEndpoint {
+public final class InstanceFailoverGroupReadWriteEndpoint {
     /**
      * Failover policy of the read-write endpoint for the failover group. If
      * failoverPolicy is Automatic then failoverWithDataLossGracePeriodMinutes
@@ -33,7 +33,7 @@ public class InstanceFailoverGroupReadWriteEndpoint {
     /**
      * Get the failoverPolicy value.
      *
-     * @return the failoverPolicy value
+     * @return the failoverPolicy value.
      */
     public ReadWriteEndpointFailoverPolicy failoverPolicy() {
         return this.failoverPolicy;
@@ -42,7 +42,7 @@ public class InstanceFailoverGroupReadWriteEndpoint {
     /**
      * Set the failoverPolicy value.
      *
-     * @param failoverPolicy the failoverPolicy value to set
+     * @param failoverPolicy the failoverPolicy value to set.
      * @return the InstanceFailoverGroupReadWriteEndpoint object itself.
      */
     public InstanceFailoverGroupReadWriteEndpoint withFailoverPolicy(ReadWriteEndpointFailoverPolicy failoverPolicy) {
@@ -53,7 +53,7 @@ public class InstanceFailoverGroupReadWriteEndpoint {
     /**
      * Get the failoverWithDataLossGracePeriodMinutes value.
      *
-     * @return the failoverWithDataLossGracePeriodMinutes value
+     * @return the failoverWithDataLossGracePeriodMinutes value.
      */
     public Integer failoverWithDataLossGracePeriodMinutes() {
         return this.failoverWithDataLossGracePeriodMinutes;
@@ -62,12 +62,12 @@ public class InstanceFailoverGroupReadWriteEndpoint {
     /**
      * Set the failoverWithDataLossGracePeriodMinutes value.
      *
-     * @param failoverWithDataLossGracePeriodMinutes the failoverWithDataLossGracePeriodMinutes value to set
+     * @param failoverWithDataLossGracePeriodMinutes the
+     * failoverWithDataLossGracePeriodMinutes value to set.
      * @return the InstanceFailoverGroupReadWriteEndpoint object itself.
      */
     public InstanceFailoverGroupReadWriteEndpoint withFailoverWithDataLossGracePeriodMinutes(Integer failoverWithDataLossGracePeriodMinutes) {
         this.failoverWithDataLossGracePeriodMinutes = failoverWithDataLossGracePeriodMinutes;
         return this;
     }
-
 }

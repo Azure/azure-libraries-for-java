@@ -8,98 +8,132 @@
 
 package com.microsoft.azure.v2.management.sql.implementation;
 
-import retrofit2.Retrofit;
-import com.google.common.reflect.TypeToken;
-import com.microsoft.azure.AzureServiceFuture;
-import com.microsoft.azure.CloudException;
-import com.microsoft.azure.ListOperationCallback;
+import com.microsoft.azure.v2.AzureProxy;
+import com.microsoft.azure.v2.CloudException;
+import com.microsoft.azure.v2.OperationStatus;
+import com.microsoft.azure.v2.Page;
+import com.microsoft.azure.v2.PagedList;
 import com.microsoft.azure.v2.management.sql.JobAgentUpdate;
-import com.microsoft.azure.Page;
-import com.microsoft.azure.PagedList;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import com.microsoft.rest.ServiceResponse;
-import com.microsoft.rest.Validator;
-import java.io.IOException;
-import java.util.List;
+import com.microsoft.azure.v2.util.ServiceFutureUtil;
+import com.microsoft.rest.v2.BodyResponse;
+import com.microsoft.rest.v2.OperationDescription;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
+import com.microsoft.rest.v2.Validator;
+import com.microsoft.rest.v2.VoidResponse;
+import com.microsoft.rest.v2.annotations.BodyParam;
+import com.microsoft.rest.v2.annotations.DELETE;
+import com.microsoft.rest.v2.annotations.ExpectedResponses;
+import com.microsoft.rest.v2.annotations.GET;
+import com.microsoft.rest.v2.annotations.HeaderParam;
+import com.microsoft.rest.v2.annotations.Host;
+import com.microsoft.rest.v2.annotations.PATCH;
+import com.microsoft.rest.v2.annotations.PathParam;
+import com.microsoft.rest.v2.annotations.PUT;
+import com.microsoft.rest.v2.annotations.QueryParam;
+import com.microsoft.rest.v2.annotations.ResumeOperation;
+import com.microsoft.rest.v2.annotations.UnexpectedResponseExceptionType;
+import io.reactivex.Completable;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
+import io.reactivex.Single;
+import io.reactivex.annotations.NonNull;
+import java.util.HashMap;
 import java.util.Map;
-import okhttp3.ResponseBody;
-import retrofit2.http.Body;
-import retrofit2.http.GET;
-import retrofit2.http.Header;
-import retrofit2.http.Headers;
-import retrofit2.http.HTTP;
-import retrofit2.http.PATCH;
-import retrofit2.http.Path;
-import retrofit2.http.PUT;
-import retrofit2.http.Query;
-import retrofit2.http.Url;
-import retrofit2.Response;
-import rx.functions.Func1;
-import rx.Observable;
 
 /**
- * An instance of this class provides access to all the operations defined
- * in JobAgents.
+ * An instance of this class provides access to all the operations defined in
+ * JobAgents.
  */
-public class JobAgentsInner {
-    /** The Retrofit service to perform REST calls. */
+public final class JobAgentsInner {
+    /**
+     * The proxy service used to perform REST calls.
+     */
     private JobAgentsService service;
-    /** The service client containing this operation class. */
+
+    /**
+     * The service client containing this operation class.
+     */
     private SqlManagementClientImpl client;
 
     /**
      * Initializes an instance of JobAgentsInner.
      *
-     * @param retrofit the Retrofit instance built from a Retrofit Builder.
      * @param client the instance of the service client containing this operation class.
      */
-    public JobAgentsInner(Retrofit retrofit, SqlManagementClientImpl client) {
-        this.service = retrofit.create(JobAgentsService.class);
+    public JobAgentsInner(SqlManagementClientImpl client) {
+        this.service = AzureProxy.create(JobAgentsService.class, client);
         this.client = client;
     }
 
     /**
-     * The interface defining all the services for JobAgents to be
-     * used by Retrofit to perform actually REST calls.
+     * The interface defining all the services for JobAgents to be used by the
+     * proxy service to perform REST calls.
      */
-    interface JobAgentsService {
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.JobAgents listByServer" })
+    @Host("https://management.azure.com")
+    private interface JobAgentsService {
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents")
-        Observable<Response<ResponseBody>> listByServer(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl1<JobAgentInner>>> listByServer(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.JobAgents get" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}")
-        Observable<Response<ResponseBody>> get(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("jobAgentName") String jobAgentName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<JobAgentInner>> get(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("jobAgentName") String jobAgentName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.JobAgents createOrUpdate" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}")
-        Observable<Response<ResponseBody>> createOrUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("jobAgentName") String jobAgentName, @Path("subscriptionId") String subscriptionId, @Body JobAgentInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 201, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Observable<OperationStatus<JobAgentInner>> beginCreateOrUpdate(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("jobAgentName") String jobAgentName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json; charset=utf-8") JobAgentInner parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.JobAgents beginCreateOrUpdate" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}")
-        Observable<Response<ResponseBody>> beginCreateOrUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("jobAgentName") String jobAgentName, @Path("subscriptionId") String subscriptionId, @Body JobAgentInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 201, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<JobAgentInner>> createOrUpdate(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("jobAgentName") String jobAgentName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json; charset=utf-8") JobAgentInner parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.JobAgents delete" })
-        @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}", method = "DELETE", hasBody = true)
-        Observable<Response<ResponseBody>> delete(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("jobAgentName") String jobAgentName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}")
+        @ExpectedResponses({200, 201, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<JobAgentInner>> resumeCreateOrUpdate(OperationDescription operationDescription);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.JobAgents beginDelete" })
-        @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}", method = "DELETE", hasBody = true)
-        Observable<Response<ResponseBody>> beginDelete(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("jobAgentName") String jobAgentName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @DELETE("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Observable<OperationStatus<Void>> beginDelete(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("jobAgentName") String jobAgentName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.JobAgents update" })
+        @DELETE("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<VoidResponse> delete(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("jobAgentName") String jobAgentName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
+
+        @DELETE("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<Void>> resumeDelete(OperationDescription operationDescription);
+
         @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}")
-        Observable<Response<ResponseBody>> update(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("jobAgentName") String jobAgentName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body JobAgentUpdate parameters, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Observable<OperationStatus<JobAgentInner>> beginUpdate(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("jobAgentName") String jobAgentName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @BodyParam("application/json; charset=utf-8") JobAgentUpdate parameters);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.JobAgents beginUpdate" })
         @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}")
-        Observable<Response<ResponseBody>> beginUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("jobAgentName") String jobAgentName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body JobAgentUpdate parameters, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<JobAgentInner>> update(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("jobAgentName") String jobAgentName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @BodyParam("application/json; charset=utf-8") JobAgentUpdate parameters);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.JobAgents listByServerNext" })
-        @GET
-        Observable<Response<ResponseBody>> listByServerNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<JobAgentInner>> resumeUpdate(OperationDescription operationDescription);
 
+        @GET("{nextUrl}")
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl1<JobAgentInner>>> listByServerNext(@PathParam(value = "nextUrl", encoded = true) String nextUrl, @HeaderParam("accept-language") String acceptLanguage);
     }
 
     /**
@@ -107,17 +141,17 @@ public class JobAgentsInner {
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;JobAgentInner&gt; object if successful.
      */
-    public PagedList<JobAgentInner> listByServer(final String resourceGroupName, final String serverName) {
-        ServiceResponse<Page<JobAgentInner>> response = listByServerSinglePageAsync(resourceGroupName, serverName).toBlocking().single();
-        return new PagedList<JobAgentInner>(response.body()) {
+    public PagedList<JobAgentInner> listByServer(@NonNull String resourceGroupName, @NonNull String serverName) {
+        Page<JobAgentInner> response = listByServerSinglePageAsync(resourceGroupName, serverName).blockingGet();
+        return new PagedList<JobAgentInner>(response) {
             @Override
             public Page<JobAgentInner> nextPage(String nextPageLink) {
-                return listByServerNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listByServerNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -127,71 +161,30 @@ public class JobAgentsInner {
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;JobAgentInner&gt; object.
      */
-    public ServiceFuture<List<JobAgentInner>> listByServerAsync(final String resourceGroupName, final String serverName, final ListOperationCallback<JobAgentInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listByServerSinglePageAsync(resourceGroupName, serverName),
-            new Func1<String, Observable<ServiceResponse<Page<JobAgentInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<JobAgentInner>>> call(String nextPageLink) {
-                    return listByServerNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets a list of job agents in a server.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;JobAgentInner&gt; object
-     */
-    public Observable<Page<JobAgentInner>> listByServerAsync(final String resourceGroupName, final String serverName) {
-        return listByServerWithServiceResponseAsync(resourceGroupName, serverName)
-            .map(new Func1<ServiceResponse<Page<JobAgentInner>>, Page<JobAgentInner>>() {
-                @Override
-                public Page<JobAgentInner> call(ServiceResponse<Page<JobAgentInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets a list of job agents in a server.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;JobAgentInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<JobAgentInner>>> listByServerWithServiceResponseAsync(final String resourceGroupName, final String serverName) {
+    public Observable<Page<JobAgentInner>> listByServerAsync(@NonNull String resourceGroupName, @NonNull String serverName) {
         return listByServerSinglePageAsync(resourceGroupName, serverName)
-            .concatMap(new Func1<ServiceResponse<Page<JobAgentInner>>, Observable<ServiceResponse<Page<JobAgentInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<JobAgentInner>>> call(ServiceResponse<Page<JobAgentInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listByServerNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<JobAgentInner> page) -> {
+                String nextPageLink = page.nextPageLink();
+                if (nextPageLink == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listByServerNextAsync(nextPageLink));
             });
     }
 
     /**
      * Gets a list of job agents in a server.
      *
-    ServiceResponse<PageImpl1<JobAgentInner>> * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-    ServiceResponse<PageImpl1<JobAgentInner>> * @param serverName The name of the server.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;JobAgentInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;JobAgentInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<JobAgentInner>>> listByServerSinglePageAsync(final String resourceGroupName, final String serverName) {
+    public Single<Page<JobAgentInner>> listByServerSinglePageAsync(@NonNull String resourceGroupName, @NonNull String serverName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -202,25 +195,8 @@ public class JobAgentsInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2017-03-01-preview";
-        return service.listByServer(resourceGroupName, serverName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<JobAgentInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<JobAgentInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl1<JobAgentInner>> result = listByServerDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<JobAgentInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl1<JobAgentInner>> listByServerDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl1<JobAgentInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl1<JobAgentInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+        return service.listByServer(resourceGroupName, serverName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl1<JobAgentInner>> res) -> res.body());
     }
 
     /**
@@ -229,13 +205,13 @@ public class JobAgentsInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param jobAgentName The name of the job agent to be retrieved.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the JobAgentInner object if successful.
      */
-    public JobAgentInner get(String resourceGroupName, String serverName, String jobAgentName) {
-        return getWithServiceResponseAsync(resourceGroupName, serverName, jobAgentName).toBlocking().single().body();
+    public JobAgentInner get(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName) {
+        return getAsync(resourceGroupName, serverName, jobAgentName).blockingGet();
     }
 
     /**
@@ -245,11 +221,11 @@ public class JobAgentsInner {
      * @param serverName The name of the server.
      * @param jobAgentName The name of the job agent to be retrieved.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<JobAgentInner> getAsync(String resourceGroupName, String serverName, String jobAgentName, final ServiceCallback<JobAgentInner> serviceCallback) {
-        return ServiceFuture.fromResponse(getWithServiceResponseAsync(resourceGroupName, serverName, jobAgentName), serviceCallback);
+    public ServiceFuture<JobAgentInner> getAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName, ServiceCallback<JobAgentInner> serviceCallback) {
+        return ServiceFuture.fromBody(getAsync(resourceGroupName, serverName, jobAgentName), serviceCallback);
     }
 
     /**
@@ -258,28 +234,10 @@ public class JobAgentsInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param jobAgentName The name of the job agent to be retrieved.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the JobAgentInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<JobAgentInner> getAsync(String resourceGroupName, String serverName, String jobAgentName) {
-        return getWithServiceResponseAsync(resourceGroupName, serverName, jobAgentName).map(new Func1<ServiceResponse<JobAgentInner>, JobAgentInner>() {
-            @Override
-            public JobAgentInner call(ServiceResponse<JobAgentInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Gets a job agent.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param jobAgentName The name of the job agent to be retrieved.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the JobAgentInner object
-     */
-    public Observable<ServiceResponse<JobAgentInner>> getWithServiceResponseAsync(String resourceGroupName, String serverName, String jobAgentName) {
+    public Single<BodyResponse<JobAgentInner>> getWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -293,25 +251,21 @@ public class JobAgentsInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2017-03-01-preview";
-        return service.get(resourceGroupName, serverName, jobAgentName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<JobAgentInner>>>() {
-                @Override
-                public Observable<ServiceResponse<JobAgentInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<JobAgentInner> clientResponse = getDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.get(resourceGroupName, serverName, jobAgentName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<JobAgentInner> getDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<JobAgentInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<JobAgentInner>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Gets a job agent.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param jobAgentName The name of the job agent to be retrieved.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<JobAgentInner> getAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName) {
+        return getWithRestResponseAsync(resourceGroupName, serverName, jobAgentName)
+            .flatMapMaybe((BodyResponse<JobAgentInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
@@ -321,13 +275,13 @@ public class JobAgentsInner {
      * @param serverName The name of the server.
      * @param jobAgentName The name of the job agent to be created or updated.
      * @param parameters The requested job agent resource state.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the JobAgentInner object if successful.
      */
-    public JobAgentInner createOrUpdate(String resourceGroupName, String serverName, String jobAgentName, JobAgentInner parameters) {
-        return createOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, jobAgentName, parameters).toBlocking().last().body();
+    public JobAgentInner beginCreateOrUpdate(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName, @NonNull JobAgentInner parameters) {
+        return beginCreateOrUpdateAsync(resourceGroupName, serverName, jobAgentName, parameters).blockingLast().result();
     }
 
     /**
@@ -338,11 +292,11 @@ public class JobAgentsInner {
      * @param jobAgentName The name of the job agent to be created or updated.
      * @param parameters The requested job agent resource state.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;JobAgentInner&gt; object.
      */
-    public ServiceFuture<JobAgentInner> createOrUpdateAsync(String resourceGroupName, String serverName, String jobAgentName, JobAgentInner parameters, final ServiceCallback<JobAgentInner> serviceCallback) {
-        return ServiceFuture.fromResponse(createOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, jobAgentName, parameters), serviceCallback);
+    public ServiceFuture<JobAgentInner> beginCreateOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName, @NonNull JobAgentInner parameters, ServiceCallback<JobAgentInner> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginCreateOrUpdateAsync(resourceGroupName, serverName, jobAgentName, parameters), serviceCallback);
     }
 
     /**
@@ -352,29 +306,10 @@ public class JobAgentsInner {
      * @param serverName The name of the server.
      * @param jobAgentName The name of the job agent to be created or updated.
      * @param parameters The requested job agent resource state.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<JobAgentInner> createOrUpdateAsync(String resourceGroupName, String serverName, String jobAgentName, JobAgentInner parameters) {
-        return createOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, jobAgentName, parameters).map(new Func1<ServiceResponse<JobAgentInner>, JobAgentInner>() {
-            @Override
-            public JobAgentInner call(ServiceResponse<JobAgentInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Creates or updates a job agent.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param jobAgentName The name of the job agent to be created or updated.
-     * @param parameters The requested job agent resource state.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<JobAgentInner>> createOrUpdateWithServiceResponseAsync(String resourceGroupName, String serverName, String jobAgentName, JobAgentInner parameters) {
+    public Observable<OperationStatus<JobAgentInner>> beginCreateOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName, @NonNull JobAgentInner parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -392,8 +327,7 @@ public class JobAgentsInner {
         }
         Validator.validate(parameters);
         final String apiVersion = "2017-03-01-preview";
-        Observable<Response<ResponseBody>> observable = service.createOrUpdate(resourceGroupName, serverName, jobAgentName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<JobAgentInner>() { }.getType());
+        return service.beginCreateOrUpdate(resourceGroupName, serverName, jobAgentName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage());
     }
 
     /**
@@ -403,13 +337,13 @@ public class JobAgentsInner {
      * @param serverName The name of the server.
      * @param jobAgentName The name of the job agent to be created or updated.
      * @param parameters The requested job agent resource state.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the JobAgentInner object if successful.
      */
-    public JobAgentInner beginCreateOrUpdate(String resourceGroupName, String serverName, String jobAgentName, JobAgentInner parameters) {
-        return beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, jobAgentName, parameters).toBlocking().single().body();
+    public JobAgentInner createOrUpdate(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName, @NonNull JobAgentInner parameters) {
+        return createOrUpdateAsync(resourceGroupName, serverName, jobAgentName, parameters).blockingGet();
     }
 
     /**
@@ -420,11 +354,11 @@ public class JobAgentsInner {
      * @param jobAgentName The name of the job agent to be created or updated.
      * @param parameters The requested job agent resource state.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<JobAgentInner> beginCreateOrUpdateAsync(String resourceGroupName, String serverName, String jobAgentName, JobAgentInner parameters, final ServiceCallback<JobAgentInner> serviceCallback) {
-        return ServiceFuture.fromResponse(beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, jobAgentName, parameters), serviceCallback);
+    public ServiceFuture<JobAgentInner> createOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName, @NonNull JobAgentInner parameters, ServiceCallback<JobAgentInner> serviceCallback) {
+        return ServiceFuture.fromBody(createOrUpdateAsync(resourceGroupName, serverName, jobAgentName, parameters), serviceCallback);
     }
 
     /**
@@ -434,29 +368,10 @@ public class JobAgentsInner {
      * @param serverName The name of the server.
      * @param jobAgentName The name of the job agent to be created or updated.
      * @param parameters The requested job agent resource state.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the JobAgentInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<JobAgentInner> beginCreateOrUpdateAsync(String resourceGroupName, String serverName, String jobAgentName, JobAgentInner parameters) {
-        return beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, jobAgentName, parameters).map(new Func1<ServiceResponse<JobAgentInner>, JobAgentInner>() {
-            @Override
-            public JobAgentInner call(ServiceResponse<JobAgentInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Creates or updates a job agent.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param jobAgentName The name of the job agent to be created or updated.
-     * @param parameters The requested job agent resource state.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the JobAgentInner object
-     */
-    public Observable<ServiceResponse<JobAgentInner>> beginCreateOrUpdateWithServiceResponseAsync(String resourceGroupName, String serverName, String jobAgentName, JobAgentInner parameters) {
+    public Single<BodyResponse<JobAgentInner>> createOrUpdateWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName, @NonNull JobAgentInner parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -474,27 +389,36 @@ public class JobAgentsInner {
         }
         Validator.validate(parameters);
         final String apiVersion = "2017-03-01-preview";
-        return service.beginCreateOrUpdate(resourceGroupName, serverName, jobAgentName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<JobAgentInner>>>() {
-                @Override
-                public Observable<ServiceResponse<JobAgentInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<JobAgentInner> clientResponse = beginCreateOrUpdateDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.createOrUpdate(resourceGroupName, serverName, jobAgentName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<JobAgentInner> beginCreateOrUpdateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<JobAgentInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<JobAgentInner>() { }.getType())
-                .register(201, new TypeToken<JobAgentInner>() { }.getType())
-                .register(202, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Creates or updates a job agent.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param jobAgentName The name of the job agent to be created or updated.
+     * @param parameters The requested job agent resource state.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<JobAgentInner> createOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName, @NonNull JobAgentInner parameters) {
+        return createOrUpdateWithRestResponseAsync(resourceGroupName, serverName, jobAgentName, parameters)
+            .flatMapMaybe((BodyResponse<JobAgentInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
+    }
+
+    /**
+     * Creates or updates a job agent. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<JobAgentInner>> resumeCreateOrUpdate(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeCreateOrUpdate(operationDescription);
     }
 
     /**
@@ -503,12 +427,12 @@ public class JobAgentsInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param jobAgentName The name of the job agent to be deleted.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void delete(String resourceGroupName, String serverName, String jobAgentName) {
-        deleteWithServiceResponseAsync(resourceGroupName, serverName, jobAgentName).toBlocking().last().body();
+    public void beginDelete(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName) {
+        beginDeleteAsync(resourceGroupName, serverName, jobAgentName).blockingLast();
     }
 
     /**
@@ -518,11 +442,11 @@ public class JobAgentsInner {
      * @param serverName The name of the server.
      * @param jobAgentName The name of the job agent to be deleted.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;Void&gt; object.
      */
-    public ServiceFuture<Void> deleteAsync(String resourceGroupName, String serverName, String jobAgentName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(deleteWithServiceResponseAsync(resourceGroupName, serverName, jobAgentName), serviceCallback);
+    public ServiceFuture<Void> beginDeleteAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName, ServiceCallback<Void> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginDeleteAsync(resourceGroupName, serverName, jobAgentName), serviceCallback);
     }
 
     /**
@@ -531,28 +455,10 @@ public class JobAgentsInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param jobAgentName The name of the job agent to be deleted.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<Void> deleteAsync(String resourceGroupName, String serverName, String jobAgentName) {
-        return deleteWithServiceResponseAsync(resourceGroupName, serverName, jobAgentName).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Deletes a job agent.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param jobAgentName The name of the job agent to be deleted.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<Void>> deleteWithServiceResponseAsync(String resourceGroupName, String serverName, String jobAgentName) {
+    public Observable<OperationStatus<Void>> beginDeleteAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -566,8 +472,7 @@ public class JobAgentsInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2017-03-01-preview";
-        Observable<Response<ResponseBody>> observable = service.delete(resourceGroupName, serverName, jobAgentName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
+        return service.beginDelete(resourceGroupName, serverName, jobAgentName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
     /**
@@ -576,12 +481,12 @@ public class JobAgentsInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param jobAgentName The name of the job agent to be deleted.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void beginDelete(String resourceGroupName, String serverName, String jobAgentName) {
-        beginDeleteWithServiceResponseAsync(resourceGroupName, serverName, jobAgentName).toBlocking().single().body();
+    public void delete(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName) {
+        deleteAsync(resourceGroupName, serverName, jobAgentName).blockingAwait();
     }
 
     /**
@@ -591,11 +496,11 @@ public class JobAgentsInner {
      * @param serverName The name of the server.
      * @param jobAgentName The name of the job agent to be deleted.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<Void> beginDeleteAsync(String resourceGroupName, String serverName, String jobAgentName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(beginDeleteWithServiceResponseAsync(resourceGroupName, serverName, jobAgentName), serviceCallback);
+    public ServiceFuture<Void> deleteAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName, ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromBody(deleteAsync(resourceGroupName, serverName, jobAgentName), serviceCallback);
     }
 
     /**
@@ -604,28 +509,10 @@ public class JobAgentsInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param jobAgentName The name of the job agent to be deleted.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<Void> beginDeleteAsync(String resourceGroupName, String serverName, String jobAgentName) {
-        return beginDeleteWithServiceResponseAsync(resourceGroupName, serverName, jobAgentName).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Deletes a job agent.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param jobAgentName The name of the job agent to be deleted.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
-     */
-    public Observable<ServiceResponse<Void>> beginDeleteWithServiceResponseAsync(String resourceGroupName, String serverName, String jobAgentName) {
+    public Single<VoidResponse> deleteWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -639,27 +526,35 @@ public class JobAgentsInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2017-03-01-preview";
-        return service.beginDelete(resourceGroupName, serverName, jobAgentName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
-                @Override
-                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<Void> clientResponse = beginDeleteDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.delete(resourceGroupName, serverName, jobAgentName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<Void> beginDeleteDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<Void>() { }.getType())
-                .register(202, new TypeToken<Void>() { }.getType())
-                .register(204, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Deletes a job agent.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param jobAgentName The name of the job agent to be deleted.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Completable deleteAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName) {
+        return deleteWithRestResponseAsync(resourceGroupName, serverName, jobAgentName)
+            .toCompletable();
+    }
+
+    /**
+     * Deletes a job agent. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<Void>> resumeDelete(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeDelete(operationDescription);
     }
 
     /**
@@ -668,13 +563,13 @@ public class JobAgentsInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param jobAgentName The name of the job agent to be updated.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the JobAgentInner object if successful.
      */
-    public JobAgentInner update(String resourceGroupName, String serverName, String jobAgentName) {
-        return updateWithServiceResponseAsync(resourceGroupName, serverName, jobAgentName).toBlocking().last().body();
+    public JobAgentInner beginUpdate(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName) {
+        return beginUpdateAsync(resourceGroupName, serverName, jobAgentName).blockingLast().result();
     }
 
     /**
@@ -684,11 +579,11 @@ public class JobAgentsInner {
      * @param serverName The name of the server.
      * @param jobAgentName The name of the job agent to be updated.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;JobAgentInner&gt; object.
      */
-    public ServiceFuture<JobAgentInner> updateAsync(String resourceGroupName, String serverName, String jobAgentName, final ServiceCallback<JobAgentInner> serviceCallback) {
-        return ServiceFuture.fromResponse(updateWithServiceResponseAsync(resourceGroupName, serverName, jobAgentName), serviceCallback);
+    public ServiceFuture<JobAgentInner> beginUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName, ServiceCallback<JobAgentInner> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginUpdateAsync(resourceGroupName, serverName, jobAgentName), serviceCallback);
     }
 
     /**
@@ -697,28 +592,10 @@ public class JobAgentsInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param jobAgentName The name of the job agent to be updated.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<JobAgentInner> updateAsync(String resourceGroupName, String serverName, String jobAgentName) {
-        return updateWithServiceResponseAsync(resourceGroupName, serverName, jobAgentName).map(new Func1<ServiceResponse<JobAgentInner>, JobAgentInner>() {
-            @Override
-            public JobAgentInner call(ServiceResponse<JobAgentInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Updates a job agent.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param jobAgentName The name of the job agent to be updated.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<JobAgentInner>> updateWithServiceResponseAsync(String resourceGroupName, String serverName, String jobAgentName) {
+    public Observable<OperationStatus<JobAgentInner>> beginUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -735,9 +612,9 @@ public class JobAgentsInner {
         final Map<String, String> tags = null;
         JobAgentUpdate parameters = new JobAgentUpdate();
         parameters.withTags(null);
-        Observable<Response<ResponseBody>> observable = service.update(resourceGroupName, serverName, jobAgentName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent());
-        return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<JobAgentInner>() { }.getType());
+        return service.beginUpdate(resourceGroupName, serverName, jobAgentName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters);
     }
+
     /**
      * Updates a job agent.
      *
@@ -745,13 +622,13 @@ public class JobAgentsInner {
      * @param serverName The name of the server.
      * @param jobAgentName The name of the job agent to be updated.
      * @param tags Resource tags.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the JobAgentInner object if successful.
      */
-    public JobAgentInner update(String resourceGroupName, String serverName, String jobAgentName, Map<String, String> tags) {
-        return updateWithServiceResponseAsync(resourceGroupName, serverName, jobAgentName, tags).toBlocking().last().body();
+    public JobAgentInner beginUpdate(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName, Map<String, String> tags) {
+        return beginUpdateAsync(resourceGroupName, serverName, jobAgentName, tags).blockingLast().result();
     }
 
     /**
@@ -762,11 +639,11 @@ public class JobAgentsInner {
      * @param jobAgentName The name of the job agent to be updated.
      * @param tags Resource tags.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;JobAgentInner&gt; object.
      */
-    public ServiceFuture<JobAgentInner> updateAsync(String resourceGroupName, String serverName, String jobAgentName, Map<String, String> tags, final ServiceCallback<JobAgentInner> serviceCallback) {
-        return ServiceFuture.fromResponse(updateWithServiceResponseAsync(resourceGroupName, serverName, jobAgentName, tags), serviceCallback);
+    public ServiceFuture<JobAgentInner> beginUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName, Map<String, String> tags, ServiceCallback<JobAgentInner> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginUpdateAsync(resourceGroupName, serverName, jobAgentName, tags), serviceCallback);
     }
 
     /**
@@ -776,29 +653,10 @@ public class JobAgentsInner {
      * @param serverName The name of the server.
      * @param jobAgentName The name of the job agent to be updated.
      * @param tags Resource tags.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<JobAgentInner> updateAsync(String resourceGroupName, String serverName, String jobAgentName, Map<String, String> tags) {
-        return updateWithServiceResponseAsync(resourceGroupName, serverName, jobAgentName, tags).map(new Func1<ServiceResponse<JobAgentInner>, JobAgentInner>() {
-            @Override
-            public JobAgentInner call(ServiceResponse<JobAgentInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Updates a job agent.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param jobAgentName The name of the job agent to be updated.
-     * @param tags Resource tags.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<JobAgentInner>> updateWithServiceResponseAsync(String resourceGroupName, String serverName, String jobAgentName, Map<String, String> tags) {
+    public Observable<OperationStatus<JobAgentInner>> beginUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName, Map<String, String> tags) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -815,8 +673,7 @@ public class JobAgentsInner {
         final String apiVersion = "2017-03-01-preview";
         JobAgentUpdate parameters = new JobAgentUpdate();
         parameters.withTags(tags);
-        Observable<Response<ResponseBody>> observable = service.update(resourceGroupName, serverName, jobAgentName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent());
-        return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<JobAgentInner>() { }.getType());
+        return service.beginUpdate(resourceGroupName, serverName, jobAgentName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters);
     }
 
     /**
@@ -825,13 +682,13 @@ public class JobAgentsInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param jobAgentName The name of the job agent to be updated.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the JobAgentInner object if successful.
      */
-    public JobAgentInner beginUpdate(String resourceGroupName, String serverName, String jobAgentName) {
-        return beginUpdateWithServiceResponseAsync(resourceGroupName, serverName, jobAgentName).toBlocking().single().body();
+    public JobAgentInner update(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName) {
+        return updateAsync(resourceGroupName, serverName, jobAgentName).blockingGet();
     }
 
     /**
@@ -841,11 +698,11 @@ public class JobAgentsInner {
      * @param serverName The name of the server.
      * @param jobAgentName The name of the job agent to be updated.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<JobAgentInner> beginUpdateAsync(String resourceGroupName, String serverName, String jobAgentName, final ServiceCallback<JobAgentInner> serviceCallback) {
-        return ServiceFuture.fromResponse(beginUpdateWithServiceResponseAsync(resourceGroupName, serverName, jobAgentName), serviceCallback);
+    public ServiceFuture<JobAgentInner> updateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName, ServiceCallback<JobAgentInner> serviceCallback) {
+        return ServiceFuture.fromBody(updateAsync(resourceGroupName, serverName, jobAgentName), serviceCallback);
     }
 
     /**
@@ -854,28 +711,10 @@ public class JobAgentsInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param jobAgentName The name of the job agent to be updated.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the JobAgentInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<JobAgentInner> beginUpdateAsync(String resourceGroupName, String serverName, String jobAgentName) {
-        return beginUpdateWithServiceResponseAsync(resourceGroupName, serverName, jobAgentName).map(new Func1<ServiceResponse<JobAgentInner>, JobAgentInner>() {
-            @Override
-            public JobAgentInner call(ServiceResponse<JobAgentInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Updates a job agent.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param jobAgentName The name of the job agent to be updated.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the JobAgentInner object
-     */
-    public Observable<ServiceResponse<JobAgentInner>> beginUpdateWithServiceResponseAsync(String resourceGroupName, String serverName, String jobAgentName) {
+    public Single<BodyResponse<JobAgentInner>> updateWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -892,18 +731,21 @@ public class JobAgentsInner {
         final Map<String, String> tags = null;
         JobAgentUpdate parameters = new JobAgentUpdate();
         parameters.withTags(null);
-        return service.beginUpdate(resourceGroupName, serverName, jobAgentName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<JobAgentInner>>>() {
-                @Override
-                public Observable<ServiceResponse<JobAgentInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<JobAgentInner> clientResponse = beginUpdateDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.update(resourceGroupName, serverName, jobAgentName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters);
+    }
+
+    /**
+     * Updates a job agent.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param jobAgentName The name of the job agent to be updated.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<JobAgentInner> updateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName) {
+        return updateWithRestResponseAsync(resourceGroupName, serverName, jobAgentName)
+            .flatMapMaybe((BodyResponse<JobAgentInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
@@ -913,13 +755,13 @@ public class JobAgentsInner {
      * @param serverName The name of the server.
      * @param jobAgentName The name of the job agent to be updated.
      * @param tags Resource tags.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the JobAgentInner object if successful.
      */
-    public JobAgentInner beginUpdate(String resourceGroupName, String serverName, String jobAgentName, Map<String, String> tags) {
-        return beginUpdateWithServiceResponseAsync(resourceGroupName, serverName, jobAgentName, tags).toBlocking().single().body();
+    public JobAgentInner update(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName, Map<String, String> tags) {
+        return updateAsync(resourceGroupName, serverName, jobAgentName, tags).blockingGet();
     }
 
     /**
@@ -930,11 +772,11 @@ public class JobAgentsInner {
      * @param jobAgentName The name of the job agent to be updated.
      * @param tags Resource tags.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<JobAgentInner> beginUpdateAsync(String resourceGroupName, String serverName, String jobAgentName, Map<String, String> tags, final ServiceCallback<JobAgentInner> serviceCallback) {
-        return ServiceFuture.fromResponse(beginUpdateWithServiceResponseAsync(resourceGroupName, serverName, jobAgentName, tags), serviceCallback);
+    public ServiceFuture<JobAgentInner> updateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName, Map<String, String> tags, ServiceCallback<JobAgentInner> serviceCallback) {
+        return ServiceFuture.fromBody(updateAsync(resourceGroupName, serverName, jobAgentName, tags), serviceCallback);
     }
 
     /**
@@ -944,29 +786,10 @@ public class JobAgentsInner {
      * @param serverName The name of the server.
      * @param jobAgentName The name of the job agent to be updated.
      * @param tags Resource tags.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the JobAgentInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<JobAgentInner> beginUpdateAsync(String resourceGroupName, String serverName, String jobAgentName, Map<String, String> tags) {
-        return beginUpdateWithServiceResponseAsync(resourceGroupName, serverName, jobAgentName, tags).map(new Func1<ServiceResponse<JobAgentInner>, JobAgentInner>() {
-            @Override
-            public JobAgentInner call(ServiceResponse<JobAgentInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Updates a job agent.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param jobAgentName The name of the job agent to be updated.
-     * @param tags Resource tags.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the JobAgentInner object
-     */
-    public Observable<ServiceResponse<JobAgentInner>> beginUpdateWithServiceResponseAsync(String resourceGroupName, String serverName, String jobAgentName, Map<String, String> tags) {
+    public Single<BodyResponse<JobAgentInner>> updateWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName, Map<String, String> tags) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -983,43 +806,53 @@ public class JobAgentsInner {
         final String apiVersion = "2017-03-01-preview";
         JobAgentUpdate parameters = new JobAgentUpdate();
         parameters.withTags(tags);
-        return service.beginUpdate(resourceGroupName, serverName, jobAgentName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<JobAgentInner>>>() {
-                @Override
-                public Observable<ServiceResponse<JobAgentInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<JobAgentInner> clientResponse = beginUpdateDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.update(resourceGroupName, serverName, jobAgentName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters);
     }
 
-    private ServiceResponse<JobAgentInner> beginUpdateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<JobAgentInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<JobAgentInner>() { }.getType())
-                .register(202, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Updates a job agent.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param jobAgentName The name of the job agent to be updated.
+     * @param tags Resource tags.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<JobAgentInner> updateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String jobAgentName, Map<String, String> tags) {
+        return updateWithRestResponseAsync(resourceGroupName, serverName, jobAgentName, tags)
+            .flatMapMaybe((BodyResponse<JobAgentInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
+    }
+
+    /**
+     * Updates a job agent. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<JobAgentInner>> resumeUpdate(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeUpdate(operationDescription);
     }
 
     /**
      * Gets a list of job agents in a server.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;JobAgentInner&gt; object if successful.
      */
-    public PagedList<JobAgentInner> listByServerNext(final String nextPageLink) {
-        ServiceResponse<Page<JobAgentInner>> response = listByServerNextSinglePageAsync(nextPageLink).toBlocking().single();
-        return new PagedList<JobAgentInner>(response.body()) {
+    public PagedList<JobAgentInner> listByServerNext(@NonNull String nextPageLink) {
+        Page<JobAgentInner> response = listByServerNextSinglePageAsync(nextPageLink).blockingGet();
+        return new PagedList<JobAgentInner>(response) {
             @Override
             public Page<JobAgentInner> nextPage(String nextPageLink) {
-                return listByServerNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listByServerNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -1028,92 +861,34 @@ public class JobAgentsInner {
      * Gets a list of job agents in a server.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;JobAgentInner&gt; object.
      */
-    public ServiceFuture<List<JobAgentInner>> listByServerNextAsync(final String nextPageLink, final ServiceFuture<List<JobAgentInner>> serviceFuture, final ListOperationCallback<JobAgentInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listByServerNextSinglePageAsync(nextPageLink),
-            new Func1<String, Observable<ServiceResponse<Page<JobAgentInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<JobAgentInner>>> call(String nextPageLink) {
-                    return listByServerNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets a list of job agents in a server.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;JobAgentInner&gt; object
-     */
-    public Observable<Page<JobAgentInner>> listByServerNextAsync(final String nextPageLink) {
-        return listByServerNextWithServiceResponseAsync(nextPageLink)
-            .map(new Func1<ServiceResponse<Page<JobAgentInner>>, Page<JobAgentInner>>() {
-                @Override
-                public Page<JobAgentInner> call(ServiceResponse<Page<JobAgentInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets a list of job agents in a server.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;JobAgentInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<JobAgentInner>>> listByServerNextWithServiceResponseAsync(final String nextPageLink) {
+    public Observable<Page<JobAgentInner>> listByServerNextAsync(@NonNull String nextPageLink) {
         return listByServerNextSinglePageAsync(nextPageLink)
-            .concatMap(new Func1<ServiceResponse<Page<JobAgentInner>>, Observable<ServiceResponse<Page<JobAgentInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<JobAgentInner>>> call(ServiceResponse<Page<JobAgentInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listByServerNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<JobAgentInner> page) -> {
+                String nextPageLink1 = page.nextPageLink();
+                if (nextPageLink1 == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listByServerNextAsync(nextPageLink1));
             });
     }
 
     /**
      * Gets a list of job agents in a server.
      *
-    ServiceResponse<PageImpl1<JobAgentInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;JobAgentInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;JobAgentInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<JobAgentInner>>> listByServerNextSinglePageAsync(final String nextPageLink) {
+    public Single<Page<JobAgentInner>> listByServerNextSinglePageAsync(@NonNull String nextPageLink) {
         if (nextPageLink == null) {
             throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
         }
         String nextUrl = String.format("%s", nextPageLink);
-        return service.listByServerNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<JobAgentInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<JobAgentInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl1<JobAgentInner>> result = listByServerNextDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<JobAgentInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.listByServerNext(nextUrl, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl1<JobAgentInner>> res) -> res.body());
     }
-
-    private ServiceResponse<PageImpl1<JobAgentInner>> listByServerNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl1<JobAgentInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl1<JobAgentInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
-    }
-
 }

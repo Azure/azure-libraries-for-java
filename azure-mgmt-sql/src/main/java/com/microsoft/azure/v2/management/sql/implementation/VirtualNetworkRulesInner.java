@@ -8,87 +8,112 @@
 
 package com.microsoft.azure.v2.management.sql.implementation;
 
-import retrofit2.Retrofit;
-import com.google.common.reflect.TypeToken;
-import com.microsoft.azure.AzureServiceFuture;
-import com.microsoft.azure.CloudException;
-import com.microsoft.azure.ListOperationCallback;
-import com.microsoft.azure.Page;
-import com.microsoft.azure.PagedList;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import com.microsoft.rest.ServiceResponse;
-import com.microsoft.rest.Validator;
-import java.io.IOException;
-import java.util.List;
-import okhttp3.ResponseBody;
-import retrofit2.http.Body;
-import retrofit2.http.GET;
-import retrofit2.http.Header;
-import retrofit2.http.Headers;
-import retrofit2.http.HTTP;
-import retrofit2.http.Path;
-import retrofit2.http.PUT;
-import retrofit2.http.Query;
-import retrofit2.http.Url;
-import retrofit2.Response;
-import rx.functions.Func1;
-import rx.Observable;
+import com.microsoft.azure.v2.AzureProxy;
+import com.microsoft.azure.v2.CloudException;
+import com.microsoft.azure.v2.OperationStatus;
+import com.microsoft.azure.v2.Page;
+import com.microsoft.azure.v2.PagedList;
+import com.microsoft.azure.v2.util.ServiceFutureUtil;
+import com.microsoft.rest.v2.BodyResponse;
+import com.microsoft.rest.v2.OperationDescription;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
+import com.microsoft.rest.v2.Validator;
+import com.microsoft.rest.v2.VoidResponse;
+import com.microsoft.rest.v2.annotations.BodyParam;
+import com.microsoft.rest.v2.annotations.DELETE;
+import com.microsoft.rest.v2.annotations.ExpectedResponses;
+import com.microsoft.rest.v2.annotations.GET;
+import com.microsoft.rest.v2.annotations.HeaderParam;
+import com.microsoft.rest.v2.annotations.Host;
+import com.microsoft.rest.v2.annotations.PathParam;
+import com.microsoft.rest.v2.annotations.PUT;
+import com.microsoft.rest.v2.annotations.QueryParam;
+import com.microsoft.rest.v2.annotations.ResumeOperation;
+import com.microsoft.rest.v2.annotations.UnexpectedResponseExceptionType;
+import io.reactivex.Completable;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
+import io.reactivex.Single;
+import io.reactivex.annotations.NonNull;
 
 /**
- * An instance of this class provides access to all the operations defined
- * in VirtualNetworkRules.
+ * An instance of this class provides access to all the operations defined in
+ * VirtualNetworkRules.
  */
-public class VirtualNetworkRulesInner {
-    /** The Retrofit service to perform REST calls. */
+public final class VirtualNetworkRulesInner {
+    /**
+     * The proxy service used to perform REST calls.
+     */
     private VirtualNetworkRulesService service;
-    /** The service client containing this operation class. */
+
+    /**
+     * The service client containing this operation class.
+     */
     private SqlManagementClientImpl client;
 
     /**
      * Initializes an instance of VirtualNetworkRulesInner.
      *
-     * @param retrofit the Retrofit instance built from a Retrofit Builder.
      * @param client the instance of the service client containing this operation class.
      */
-    public VirtualNetworkRulesInner(Retrofit retrofit, SqlManagementClientImpl client) {
-        this.service = retrofit.create(VirtualNetworkRulesService.class);
+    public VirtualNetworkRulesInner(SqlManagementClientImpl client) {
+        this.service = AzureProxy.create(VirtualNetworkRulesService.class, client);
         this.client = client;
     }
 
     /**
      * The interface defining all the services for VirtualNetworkRules to be
-     * used by Retrofit to perform actually REST calls.
+     * used by the proxy service to perform REST calls.
      */
-    interface VirtualNetworkRulesService {
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.VirtualNetworkRules get" })
+    @Host("https://management.azure.com")
+    private interface VirtualNetworkRulesService {
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/virtualNetworkRules/{virtualNetworkRuleName}")
-        Observable<Response<ResponseBody>> get(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("virtualNetworkRuleName") String virtualNetworkRuleName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<VirtualNetworkRuleInner>> get(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("virtualNetworkRuleName") String virtualNetworkRuleName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.VirtualNetworkRules createOrUpdate" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/virtualNetworkRules/{virtualNetworkRuleName}")
-        Observable<Response<ResponseBody>> createOrUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("virtualNetworkRuleName") String virtualNetworkRuleName, @Path("subscriptionId") String subscriptionId, @Body VirtualNetworkRuleInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 201, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Observable<OperationStatus<VirtualNetworkRuleInner>> beginCreateOrUpdate(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("virtualNetworkRuleName") String virtualNetworkRuleName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json; charset=utf-8") VirtualNetworkRuleInner parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.VirtualNetworkRules beginCreateOrUpdate" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/virtualNetworkRules/{virtualNetworkRuleName}")
-        Observable<Response<ResponseBody>> beginCreateOrUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("virtualNetworkRuleName") String virtualNetworkRuleName, @Path("subscriptionId") String subscriptionId, @Body VirtualNetworkRuleInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200, 201, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<VirtualNetworkRuleInner>> createOrUpdate(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("virtualNetworkRuleName") String virtualNetworkRuleName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json; charset=utf-8") VirtualNetworkRuleInner parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.VirtualNetworkRules delete" })
-        @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/virtualNetworkRules/{virtualNetworkRuleName}", method = "DELETE", hasBody = true)
-        Observable<Response<ResponseBody>> delete(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("virtualNetworkRuleName") String virtualNetworkRuleName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/virtualNetworkRules/{virtualNetworkRuleName}")
+        @ExpectedResponses({200, 201, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<VirtualNetworkRuleInner>> resumeCreateOrUpdate(OperationDescription operationDescription);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.VirtualNetworkRules beginDelete" })
-        @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/virtualNetworkRules/{virtualNetworkRuleName}", method = "DELETE", hasBody = true)
-        Observable<Response<ResponseBody>> beginDelete(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("virtualNetworkRuleName") String virtualNetworkRuleName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @DELETE("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/virtualNetworkRules/{virtualNetworkRuleName}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Observable<OperationStatus<Void>> beginDelete(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("virtualNetworkRuleName") String virtualNetworkRuleName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.VirtualNetworkRules listByServer" })
+        @DELETE("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/virtualNetworkRules/{virtualNetworkRuleName}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<VoidResponse> delete(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("virtualNetworkRuleName") String virtualNetworkRuleName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
+
+        @DELETE("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/virtualNetworkRules/{virtualNetworkRuleName}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<Void>> resumeDelete(OperationDescription operationDescription);
+
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/virtualNetworkRules")
-        Observable<Response<ResponseBody>> listByServer(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl1<VirtualNetworkRuleInner>>> listByServer(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.v2.management.sql.VirtualNetworkRules listByServerNext" })
-        @GET
-        Observable<Response<ResponseBody>> listByServerNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
-
+        @GET("{nextUrl}")
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl1<VirtualNetworkRuleInner>>> listByServerNext(@PathParam(value = "nextUrl", encoded = true) String nextUrl, @HeaderParam("accept-language") String acceptLanguage);
     }
 
     /**
@@ -97,13 +122,13 @@ public class VirtualNetworkRulesInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param virtualNetworkRuleName The name of the virtual network rule.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the VirtualNetworkRuleInner object if successful.
      */
-    public VirtualNetworkRuleInner get(String resourceGroupName, String serverName, String virtualNetworkRuleName) {
-        return getWithServiceResponseAsync(resourceGroupName, serverName, virtualNetworkRuleName).toBlocking().single().body();
+    public VirtualNetworkRuleInner get(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String virtualNetworkRuleName) {
+        return getAsync(resourceGroupName, serverName, virtualNetworkRuleName).blockingGet();
     }
 
     /**
@@ -113,11 +138,11 @@ public class VirtualNetworkRulesInner {
      * @param serverName The name of the server.
      * @param virtualNetworkRuleName The name of the virtual network rule.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<VirtualNetworkRuleInner> getAsync(String resourceGroupName, String serverName, String virtualNetworkRuleName, final ServiceCallback<VirtualNetworkRuleInner> serviceCallback) {
-        return ServiceFuture.fromResponse(getWithServiceResponseAsync(resourceGroupName, serverName, virtualNetworkRuleName), serviceCallback);
+    public ServiceFuture<VirtualNetworkRuleInner> getAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String virtualNetworkRuleName, ServiceCallback<VirtualNetworkRuleInner> serviceCallback) {
+        return ServiceFuture.fromBody(getAsync(resourceGroupName, serverName, virtualNetworkRuleName), serviceCallback);
     }
 
     /**
@@ -126,28 +151,10 @@ public class VirtualNetworkRulesInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param virtualNetworkRuleName The name of the virtual network rule.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the VirtualNetworkRuleInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<VirtualNetworkRuleInner> getAsync(String resourceGroupName, String serverName, String virtualNetworkRuleName) {
-        return getWithServiceResponseAsync(resourceGroupName, serverName, virtualNetworkRuleName).map(new Func1<ServiceResponse<VirtualNetworkRuleInner>, VirtualNetworkRuleInner>() {
-            @Override
-            public VirtualNetworkRuleInner call(ServiceResponse<VirtualNetworkRuleInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Gets a virtual network rule.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param virtualNetworkRuleName The name of the virtual network rule.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the VirtualNetworkRuleInner object
-     */
-    public Observable<ServiceResponse<VirtualNetworkRuleInner>> getWithServiceResponseAsync(String resourceGroupName, String serverName, String virtualNetworkRuleName) {
+    public Single<BodyResponse<VirtualNetworkRuleInner>> getWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String virtualNetworkRuleName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -161,25 +168,21 @@ public class VirtualNetworkRulesInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2015-05-01-preview";
-        return service.get(resourceGroupName, serverName, virtualNetworkRuleName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<VirtualNetworkRuleInner>>>() {
-                @Override
-                public Observable<ServiceResponse<VirtualNetworkRuleInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<VirtualNetworkRuleInner> clientResponse = getDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.get(resourceGroupName, serverName, virtualNetworkRuleName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<VirtualNetworkRuleInner> getDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<VirtualNetworkRuleInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<VirtualNetworkRuleInner>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Gets a virtual network rule.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param virtualNetworkRuleName The name of the virtual network rule.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<VirtualNetworkRuleInner> getAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String virtualNetworkRuleName) {
+        return getWithRestResponseAsync(resourceGroupName, serverName, virtualNetworkRuleName)
+            .flatMapMaybe((BodyResponse<VirtualNetworkRuleInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
@@ -189,13 +192,13 @@ public class VirtualNetworkRulesInner {
      * @param serverName The name of the server.
      * @param virtualNetworkRuleName The name of the virtual network rule.
      * @param parameters The requested virtual Network Rule Resource state.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the VirtualNetworkRuleInner object if successful.
      */
-    public VirtualNetworkRuleInner createOrUpdate(String resourceGroupName, String serverName, String virtualNetworkRuleName, VirtualNetworkRuleInner parameters) {
-        return createOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, virtualNetworkRuleName, parameters).toBlocking().last().body();
+    public VirtualNetworkRuleInner beginCreateOrUpdate(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String virtualNetworkRuleName, @NonNull VirtualNetworkRuleInner parameters) {
+        return beginCreateOrUpdateAsync(resourceGroupName, serverName, virtualNetworkRuleName, parameters).blockingLast().result();
     }
 
     /**
@@ -206,11 +209,11 @@ public class VirtualNetworkRulesInner {
      * @param virtualNetworkRuleName The name of the virtual network rule.
      * @param parameters The requested virtual Network Rule Resource state.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;VirtualNetworkRuleInner&gt; object.
      */
-    public ServiceFuture<VirtualNetworkRuleInner> createOrUpdateAsync(String resourceGroupName, String serverName, String virtualNetworkRuleName, VirtualNetworkRuleInner parameters, final ServiceCallback<VirtualNetworkRuleInner> serviceCallback) {
-        return ServiceFuture.fromResponse(createOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, virtualNetworkRuleName, parameters), serviceCallback);
+    public ServiceFuture<VirtualNetworkRuleInner> beginCreateOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String virtualNetworkRuleName, @NonNull VirtualNetworkRuleInner parameters, ServiceCallback<VirtualNetworkRuleInner> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginCreateOrUpdateAsync(resourceGroupName, serverName, virtualNetworkRuleName, parameters), serviceCallback);
     }
 
     /**
@@ -220,29 +223,10 @@ public class VirtualNetworkRulesInner {
      * @param serverName The name of the server.
      * @param virtualNetworkRuleName The name of the virtual network rule.
      * @param parameters The requested virtual Network Rule Resource state.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<VirtualNetworkRuleInner> createOrUpdateAsync(String resourceGroupName, String serverName, String virtualNetworkRuleName, VirtualNetworkRuleInner parameters) {
-        return createOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, virtualNetworkRuleName, parameters).map(new Func1<ServiceResponse<VirtualNetworkRuleInner>, VirtualNetworkRuleInner>() {
-            @Override
-            public VirtualNetworkRuleInner call(ServiceResponse<VirtualNetworkRuleInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Creates or updates an existing virtual network rule.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param virtualNetworkRuleName The name of the virtual network rule.
-     * @param parameters The requested virtual Network Rule Resource state.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<VirtualNetworkRuleInner>> createOrUpdateWithServiceResponseAsync(String resourceGroupName, String serverName, String virtualNetworkRuleName, VirtualNetworkRuleInner parameters) {
+    public Observable<OperationStatus<VirtualNetworkRuleInner>> beginCreateOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String virtualNetworkRuleName, @NonNull VirtualNetworkRuleInner parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -260,8 +244,7 @@ public class VirtualNetworkRulesInner {
         }
         Validator.validate(parameters);
         final String apiVersion = "2015-05-01-preview";
-        Observable<Response<ResponseBody>> observable = service.createOrUpdate(resourceGroupName, serverName, virtualNetworkRuleName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<VirtualNetworkRuleInner>() { }.getType());
+        return service.beginCreateOrUpdate(resourceGroupName, serverName, virtualNetworkRuleName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage());
     }
 
     /**
@@ -271,13 +254,13 @@ public class VirtualNetworkRulesInner {
      * @param serverName The name of the server.
      * @param virtualNetworkRuleName The name of the virtual network rule.
      * @param parameters The requested virtual Network Rule Resource state.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the VirtualNetworkRuleInner object if successful.
      */
-    public VirtualNetworkRuleInner beginCreateOrUpdate(String resourceGroupName, String serverName, String virtualNetworkRuleName, VirtualNetworkRuleInner parameters) {
-        return beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, virtualNetworkRuleName, parameters).toBlocking().single().body();
+    public VirtualNetworkRuleInner createOrUpdate(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String virtualNetworkRuleName, @NonNull VirtualNetworkRuleInner parameters) {
+        return createOrUpdateAsync(resourceGroupName, serverName, virtualNetworkRuleName, parameters).blockingGet();
     }
 
     /**
@@ -288,11 +271,11 @@ public class VirtualNetworkRulesInner {
      * @param virtualNetworkRuleName The name of the virtual network rule.
      * @param parameters The requested virtual Network Rule Resource state.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<VirtualNetworkRuleInner> beginCreateOrUpdateAsync(String resourceGroupName, String serverName, String virtualNetworkRuleName, VirtualNetworkRuleInner parameters, final ServiceCallback<VirtualNetworkRuleInner> serviceCallback) {
-        return ServiceFuture.fromResponse(beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, virtualNetworkRuleName, parameters), serviceCallback);
+    public ServiceFuture<VirtualNetworkRuleInner> createOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String virtualNetworkRuleName, @NonNull VirtualNetworkRuleInner parameters, ServiceCallback<VirtualNetworkRuleInner> serviceCallback) {
+        return ServiceFuture.fromBody(createOrUpdateAsync(resourceGroupName, serverName, virtualNetworkRuleName, parameters), serviceCallback);
     }
 
     /**
@@ -302,29 +285,10 @@ public class VirtualNetworkRulesInner {
      * @param serverName The name of the server.
      * @param virtualNetworkRuleName The name of the virtual network rule.
      * @param parameters The requested virtual Network Rule Resource state.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the VirtualNetworkRuleInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<VirtualNetworkRuleInner> beginCreateOrUpdateAsync(String resourceGroupName, String serverName, String virtualNetworkRuleName, VirtualNetworkRuleInner parameters) {
-        return beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, virtualNetworkRuleName, parameters).map(new Func1<ServiceResponse<VirtualNetworkRuleInner>, VirtualNetworkRuleInner>() {
-            @Override
-            public VirtualNetworkRuleInner call(ServiceResponse<VirtualNetworkRuleInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Creates or updates an existing virtual network rule.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param virtualNetworkRuleName The name of the virtual network rule.
-     * @param parameters The requested virtual Network Rule Resource state.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the VirtualNetworkRuleInner object
-     */
-    public Observable<ServiceResponse<VirtualNetworkRuleInner>> beginCreateOrUpdateWithServiceResponseAsync(String resourceGroupName, String serverName, String virtualNetworkRuleName, VirtualNetworkRuleInner parameters) {
+    public Single<BodyResponse<VirtualNetworkRuleInner>> createOrUpdateWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String virtualNetworkRuleName, @NonNull VirtualNetworkRuleInner parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -342,27 +306,36 @@ public class VirtualNetworkRulesInner {
         }
         Validator.validate(parameters);
         final String apiVersion = "2015-05-01-preview";
-        return service.beginCreateOrUpdate(resourceGroupName, serverName, virtualNetworkRuleName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<VirtualNetworkRuleInner>>>() {
-                @Override
-                public Observable<ServiceResponse<VirtualNetworkRuleInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<VirtualNetworkRuleInner> clientResponse = beginCreateOrUpdateDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.createOrUpdate(resourceGroupName, serverName, virtualNetworkRuleName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<VirtualNetworkRuleInner> beginCreateOrUpdateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<VirtualNetworkRuleInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<VirtualNetworkRuleInner>() { }.getType())
-                .register(201, new TypeToken<VirtualNetworkRuleInner>() { }.getType())
-                .register(202, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Creates or updates an existing virtual network rule.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param virtualNetworkRuleName The name of the virtual network rule.
+     * @param parameters The requested virtual Network Rule Resource state.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<VirtualNetworkRuleInner> createOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String virtualNetworkRuleName, @NonNull VirtualNetworkRuleInner parameters) {
+        return createOrUpdateWithRestResponseAsync(resourceGroupName, serverName, virtualNetworkRuleName, parameters)
+            .flatMapMaybe((BodyResponse<VirtualNetworkRuleInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
+    }
+
+    /**
+     * Creates or updates an existing virtual network rule. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<VirtualNetworkRuleInner>> resumeCreateOrUpdate(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeCreateOrUpdate(operationDescription);
     }
 
     /**
@@ -371,12 +344,12 @@ public class VirtualNetworkRulesInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param virtualNetworkRuleName The name of the virtual network rule.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void delete(String resourceGroupName, String serverName, String virtualNetworkRuleName) {
-        deleteWithServiceResponseAsync(resourceGroupName, serverName, virtualNetworkRuleName).toBlocking().last().body();
+    public void beginDelete(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String virtualNetworkRuleName) {
+        beginDeleteAsync(resourceGroupName, serverName, virtualNetworkRuleName).blockingLast();
     }
 
     /**
@@ -386,11 +359,11 @@ public class VirtualNetworkRulesInner {
      * @param serverName The name of the server.
      * @param virtualNetworkRuleName The name of the virtual network rule.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;Void&gt; object.
      */
-    public ServiceFuture<Void> deleteAsync(String resourceGroupName, String serverName, String virtualNetworkRuleName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(deleteWithServiceResponseAsync(resourceGroupName, serverName, virtualNetworkRuleName), serviceCallback);
+    public ServiceFuture<Void> beginDeleteAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String virtualNetworkRuleName, ServiceCallback<Void> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginDeleteAsync(resourceGroupName, serverName, virtualNetworkRuleName), serviceCallback);
     }
 
     /**
@@ -399,28 +372,10 @@ public class VirtualNetworkRulesInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param virtualNetworkRuleName The name of the virtual network rule.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
      */
-    public Observable<Void> deleteAsync(String resourceGroupName, String serverName, String virtualNetworkRuleName) {
-        return deleteWithServiceResponseAsync(resourceGroupName, serverName, virtualNetworkRuleName).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Deletes the virtual network rule with the given name.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param virtualNetworkRuleName The name of the virtual network rule.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<Void>> deleteWithServiceResponseAsync(String resourceGroupName, String serverName, String virtualNetworkRuleName) {
+    public Observable<OperationStatus<Void>> beginDeleteAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String virtualNetworkRuleName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -434,8 +389,7 @@ public class VirtualNetworkRulesInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2015-05-01-preview";
-        Observable<Response<ResponseBody>> observable = service.delete(resourceGroupName, serverName, virtualNetworkRuleName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
+        return service.beginDelete(resourceGroupName, serverName, virtualNetworkRuleName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
     /**
@@ -444,12 +398,12 @@ public class VirtualNetworkRulesInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param virtualNetworkRuleName The name of the virtual network rule.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    public void beginDelete(String resourceGroupName, String serverName, String virtualNetworkRuleName) {
-        beginDeleteWithServiceResponseAsync(resourceGroupName, serverName, virtualNetworkRuleName).toBlocking().single().body();
+    public void delete(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String virtualNetworkRuleName) {
+        deleteAsync(resourceGroupName, serverName, virtualNetworkRuleName).blockingAwait();
     }
 
     /**
@@ -459,11 +413,11 @@ public class VirtualNetworkRulesInner {
      * @param serverName The name of the server.
      * @param virtualNetworkRuleName The name of the virtual network rule.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<Void> beginDeleteAsync(String resourceGroupName, String serverName, String virtualNetworkRuleName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(beginDeleteWithServiceResponseAsync(resourceGroupName, serverName, virtualNetworkRuleName), serviceCallback);
+    public ServiceFuture<Void> deleteAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String virtualNetworkRuleName, ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromBody(deleteAsync(resourceGroupName, serverName, virtualNetworkRuleName), serviceCallback);
     }
 
     /**
@@ -472,28 +426,10 @@ public class VirtualNetworkRulesInner {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param virtualNetworkRuleName The name of the virtual network rule.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
      */
-    public Observable<Void> beginDeleteAsync(String resourceGroupName, String serverName, String virtualNetworkRuleName) {
-        return beginDeleteWithServiceResponseAsync(resourceGroupName, serverName, virtualNetworkRuleName).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Deletes the virtual network rule with the given name.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param virtualNetworkRuleName The name of the virtual network rule.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
-     */
-    public Observable<ServiceResponse<Void>> beginDeleteWithServiceResponseAsync(String resourceGroupName, String serverName, String virtualNetworkRuleName) {
+    public Single<VoidResponse> deleteWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String virtualNetworkRuleName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -507,27 +443,35 @@ public class VirtualNetworkRulesInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2015-05-01-preview";
-        return service.beginDelete(resourceGroupName, serverName, virtualNetworkRuleName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
-                @Override
-                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<Void> clientResponse = beginDeleteDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.delete(resourceGroupName, serverName, virtualNetworkRuleName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
     }
 
-    private ServiceResponse<Void> beginDeleteDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<Void>() { }.getType())
-                .register(202, new TypeToken<Void>() { }.getType())
-                .register(204, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+    /**
+     * Deletes the virtual network rule with the given name.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param virtualNetworkRuleName The name of the virtual network rule.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Completable deleteAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String virtualNetworkRuleName) {
+        return deleteWithRestResponseAsync(resourceGroupName, serverName, virtualNetworkRuleName)
+            .toCompletable();
+    }
+
+    /**
+     * Deletes the virtual network rule with the given name. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<Void>> resumeDelete(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeDelete(operationDescription);
     }
 
     /**
@@ -535,17 +479,17 @@ public class VirtualNetworkRulesInner {
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;VirtualNetworkRuleInner&gt; object if successful.
      */
-    public PagedList<VirtualNetworkRuleInner> listByServer(final String resourceGroupName, final String serverName) {
-        ServiceResponse<Page<VirtualNetworkRuleInner>> response = listByServerSinglePageAsync(resourceGroupName, serverName).toBlocking().single();
-        return new PagedList<VirtualNetworkRuleInner>(response.body()) {
+    public PagedList<VirtualNetworkRuleInner> listByServer(@NonNull String resourceGroupName, @NonNull String serverName) {
+        Page<VirtualNetworkRuleInner> response = listByServerSinglePageAsync(resourceGroupName, serverName).blockingGet();
+        return new PagedList<VirtualNetworkRuleInner>(response) {
             @Override
             public Page<VirtualNetworkRuleInner> nextPage(String nextPageLink) {
-                return listByServerNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listByServerNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -555,71 +499,30 @@ public class VirtualNetworkRulesInner {
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;VirtualNetworkRuleInner&gt; object.
      */
-    public ServiceFuture<List<VirtualNetworkRuleInner>> listByServerAsync(final String resourceGroupName, final String serverName, final ListOperationCallback<VirtualNetworkRuleInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listByServerSinglePageAsync(resourceGroupName, serverName),
-            new Func1<String, Observable<ServiceResponse<Page<VirtualNetworkRuleInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<VirtualNetworkRuleInner>>> call(String nextPageLink) {
-                    return listByServerNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets a list of virtual network rules in a server.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;VirtualNetworkRuleInner&gt; object
-     */
-    public Observable<Page<VirtualNetworkRuleInner>> listByServerAsync(final String resourceGroupName, final String serverName) {
-        return listByServerWithServiceResponseAsync(resourceGroupName, serverName)
-            .map(new Func1<ServiceResponse<Page<VirtualNetworkRuleInner>>, Page<VirtualNetworkRuleInner>>() {
-                @Override
-                public Page<VirtualNetworkRuleInner> call(ServiceResponse<Page<VirtualNetworkRuleInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets a list of virtual network rules in a server.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;VirtualNetworkRuleInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<VirtualNetworkRuleInner>>> listByServerWithServiceResponseAsync(final String resourceGroupName, final String serverName) {
+    public Observable<Page<VirtualNetworkRuleInner>> listByServerAsync(@NonNull String resourceGroupName, @NonNull String serverName) {
         return listByServerSinglePageAsync(resourceGroupName, serverName)
-            .concatMap(new Func1<ServiceResponse<Page<VirtualNetworkRuleInner>>, Observable<ServiceResponse<Page<VirtualNetworkRuleInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<VirtualNetworkRuleInner>>> call(ServiceResponse<Page<VirtualNetworkRuleInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listByServerNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<VirtualNetworkRuleInner> page) -> {
+                String nextPageLink = page.nextPageLink();
+                if (nextPageLink == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listByServerNextAsync(nextPageLink));
             });
     }
 
     /**
      * Gets a list of virtual network rules in a server.
      *
-    ServiceResponse<PageImpl1<VirtualNetworkRuleInner>> * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-    ServiceResponse<PageImpl1<VirtualNetworkRuleInner>> * @param serverName The name of the server.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;VirtualNetworkRuleInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;VirtualNetworkRuleInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<VirtualNetworkRuleInner>>> listByServerSinglePageAsync(final String resourceGroupName, final String serverName) {
+    public Single<Page<VirtualNetworkRuleInner>> listByServerSinglePageAsync(@NonNull String resourceGroupName, @NonNull String serverName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -630,42 +533,25 @@ public class VirtualNetworkRulesInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2015-05-01-preview";
-        return service.listByServer(resourceGroupName, serverName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<VirtualNetworkRuleInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<VirtualNetworkRuleInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl1<VirtualNetworkRuleInner>> result = listByServerDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<VirtualNetworkRuleInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl1<VirtualNetworkRuleInner>> listByServerDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl1<VirtualNetworkRuleInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl1<VirtualNetworkRuleInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
+        return service.listByServer(resourceGroupName, serverName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl1<VirtualNetworkRuleInner>> res) -> res.body());
     }
 
     /**
      * Gets a list of virtual network rules in a server.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the PagedList&lt;VirtualNetworkRuleInner&gt; object if successful.
      */
-    public PagedList<VirtualNetworkRuleInner> listByServerNext(final String nextPageLink) {
-        ServiceResponse<Page<VirtualNetworkRuleInner>> response = listByServerNextSinglePageAsync(nextPageLink).toBlocking().single();
-        return new PagedList<VirtualNetworkRuleInner>(response.body()) {
+    public PagedList<VirtualNetworkRuleInner> listByServerNext(@NonNull String nextPageLink) {
+        Page<VirtualNetworkRuleInner> response = listByServerNextSinglePageAsync(nextPageLink).blockingGet();
+        return new PagedList<VirtualNetworkRuleInner>(response) {
             @Override
             public Page<VirtualNetworkRuleInner> nextPage(String nextPageLink) {
-                return listByServerNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listByServerNextSinglePageAsync(nextPageLink).blockingGet();
             }
         };
     }
@@ -674,92 +560,34 @@ public class VirtualNetworkRulesInner {
      * Gets a list of virtual network rules in a server.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;VirtualNetworkRuleInner&gt; object.
      */
-    public ServiceFuture<List<VirtualNetworkRuleInner>> listByServerNextAsync(final String nextPageLink, final ServiceFuture<List<VirtualNetworkRuleInner>> serviceFuture, final ListOperationCallback<VirtualNetworkRuleInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listByServerNextSinglePageAsync(nextPageLink),
-            new Func1<String, Observable<ServiceResponse<Page<VirtualNetworkRuleInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<VirtualNetworkRuleInner>>> call(String nextPageLink) {
-                    return listByServerNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Gets a list of virtual network rules in a server.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;VirtualNetworkRuleInner&gt; object
-     */
-    public Observable<Page<VirtualNetworkRuleInner>> listByServerNextAsync(final String nextPageLink) {
-        return listByServerNextWithServiceResponseAsync(nextPageLink)
-            .map(new Func1<ServiceResponse<Page<VirtualNetworkRuleInner>>, Page<VirtualNetworkRuleInner>>() {
-                @Override
-                public Page<VirtualNetworkRuleInner> call(ServiceResponse<Page<VirtualNetworkRuleInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Gets a list of virtual network rules in a server.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;VirtualNetworkRuleInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<VirtualNetworkRuleInner>>> listByServerNextWithServiceResponseAsync(final String nextPageLink) {
+    public Observable<Page<VirtualNetworkRuleInner>> listByServerNextAsync(@NonNull String nextPageLink) {
         return listByServerNextSinglePageAsync(nextPageLink)
-            .concatMap(new Func1<ServiceResponse<Page<VirtualNetworkRuleInner>>, Observable<ServiceResponse<Page<VirtualNetworkRuleInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<VirtualNetworkRuleInner>>> call(ServiceResponse<Page<VirtualNetworkRuleInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listByServerNextWithServiceResponseAsync(nextPageLink));
+            .toObservable()
+            .concatMap((Page<VirtualNetworkRuleInner> page) -> {
+                String nextPageLink1 = page.nextPageLink();
+                if (nextPageLink1 == null) {
+                    return Observable.just(page);
                 }
+                return Observable.just(page).concatWith(listByServerNextAsync(nextPageLink1));
             });
     }
 
     /**
      * Gets a list of virtual network rules in a server.
      *
-    ServiceResponse<PageImpl1<VirtualNetworkRuleInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;VirtualNetworkRuleInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;VirtualNetworkRuleInner&gt;&gt; object if successful.
      */
-    public Observable<ServiceResponse<Page<VirtualNetworkRuleInner>>> listByServerNextSinglePageAsync(final String nextPageLink) {
+    public Single<Page<VirtualNetworkRuleInner>> listByServerNextSinglePageAsync(@NonNull String nextPageLink) {
         if (nextPageLink == null) {
             throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
         }
         String nextUrl = String.format("%s", nextPageLink);
-        return service.listByServerNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<VirtualNetworkRuleInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<VirtualNetworkRuleInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl1<VirtualNetworkRuleInner>> result = listByServerNextDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<VirtualNetworkRuleInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
+        return service.listByServerNext(nextUrl, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl1<VirtualNetworkRuleInner>> res) -> res.body());
     }
-
-    private ServiceResponse<PageImpl1<VirtualNetworkRuleInner>> listByServerNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl1<VirtualNetworkRuleInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl1<VirtualNetworkRuleInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
-    }
-
 }

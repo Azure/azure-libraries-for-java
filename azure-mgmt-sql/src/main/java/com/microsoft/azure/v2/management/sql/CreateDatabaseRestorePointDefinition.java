@@ -14,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * Contains the information necessary to perform a create database restore
  * point operation.
  */
-public class CreateDatabaseRestorePointDefinition {
+public final class CreateDatabaseRestorePointDefinition {
     /**
      * The restore point label to apply.
      */
@@ -24,7 +24,7 @@ public class CreateDatabaseRestorePointDefinition {
     /**
      * Get the restorePointLabel value.
      *
-     * @return the restorePointLabel value
+     * @return the restorePointLabel value.
      */
     public String restorePointLabel() {
         return this.restorePointLabel;
@@ -33,12 +33,11 @@ public class CreateDatabaseRestorePointDefinition {
     /**
      * Set the restorePointLabel value.
      *
-     * @param restorePointLabel the restorePointLabel value to set
+     * @param restorePointLabel the restorePointLabel value to set.
      * @return the CreateDatabaseRestorePointDefinition object itself.
      */
     public CreateDatabaseRestorePointDefinition withRestorePointLabel(String restorePointLabel) {
         this.restorePointLabel = restorePointLabel;
         return this;
     }
-
 }

@@ -8,15 +8,16 @@
 
 package com.microsoft.azure.v2.management.sql.implementation;
 
-import org.joda.time.DateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.v2.management.sql.ProxyResource;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
+import java.time.OffsetDateTime;
 
 /**
  * A restorable dropped database.
  */
 @JsonFlatten
-public class RestorableDroppedDatabaseInner extends ProxyResourceInner {
+public class RestorableDroppedDatabaseInner extends ProxyResource {
     /**
      * The geo-location where the resource lives.
      */
@@ -57,24 +58,24 @@ public class RestorableDroppedDatabaseInner extends ProxyResourceInner {
      * The creation date of the database (ISO8601 format).
      */
     @JsonProperty(value = "properties.creationDate", access = JsonProperty.Access.WRITE_ONLY)
-    private DateTime creationDate;
+    private OffsetDateTime creationDate;
 
     /**
      * The deletion date of the database (ISO8601 format).
      */
     @JsonProperty(value = "properties.deletionDate", access = JsonProperty.Access.WRITE_ONLY)
-    private DateTime deletionDate;
+    private OffsetDateTime deletionDate;
 
     /**
      * The earliest restore date of the database (ISO8601 format).
      */
     @JsonProperty(value = "properties.earliestRestoreDate", access = JsonProperty.Access.WRITE_ONLY)
-    private DateTime earliestRestoreDate;
+    private OffsetDateTime earliestRestoreDate;
 
     /**
      * Get the location value.
      *
-     * @return the location value
+     * @return the location value.
      */
     public String location() {
         return this.location;
@@ -83,7 +84,7 @@ public class RestorableDroppedDatabaseInner extends ProxyResourceInner {
     /**
      * Get the databaseName value.
      *
-     * @return the databaseName value
+     * @return the databaseName value.
      */
     public String databaseName() {
         return this.databaseName;
@@ -92,7 +93,7 @@ public class RestorableDroppedDatabaseInner extends ProxyResourceInner {
     /**
      * Get the edition value.
      *
-     * @return the edition value
+     * @return the edition value.
      */
     public String edition() {
         return this.edition;
@@ -101,7 +102,7 @@ public class RestorableDroppedDatabaseInner extends ProxyResourceInner {
     /**
      * Get the maxSizeBytes value.
      *
-     * @return the maxSizeBytes value
+     * @return the maxSizeBytes value.
      */
     public String maxSizeBytes() {
         return this.maxSizeBytes;
@@ -110,7 +111,7 @@ public class RestorableDroppedDatabaseInner extends ProxyResourceInner {
     /**
      * Get the serviceLevelObjective value.
      *
-     * @return the serviceLevelObjective value
+     * @return the serviceLevelObjective value.
      */
     public String serviceLevelObjective() {
         return this.serviceLevelObjective;
@@ -119,7 +120,7 @@ public class RestorableDroppedDatabaseInner extends ProxyResourceInner {
     /**
      * Get the elasticPoolName value.
      *
-     * @return the elasticPoolName value
+     * @return the elasticPoolName value.
      */
     public String elasticPoolName() {
         return this.elasticPoolName;
@@ -128,28 +129,27 @@ public class RestorableDroppedDatabaseInner extends ProxyResourceInner {
     /**
      * Get the creationDate value.
      *
-     * @return the creationDate value
+     * @return the creationDate value.
      */
-    public DateTime creationDate() {
+    public OffsetDateTime creationDate() {
         return this.creationDate;
     }
 
     /**
      * Get the deletionDate value.
      *
-     * @return the deletionDate value
+     * @return the deletionDate value.
      */
-    public DateTime deletionDate() {
+    public OffsetDateTime deletionDate() {
         return this.deletionDate;
     }
 
     /**
      * Get the earliestRestoreDate value.
      *
-     * @return the earliestRestoreDate value
+     * @return the earliestRestoreDate value.
      */
-    public DateTime earliestRestoreDate() {
+    public OffsetDateTime earliestRestoreDate() {
         return this.earliestRestoreDate;
     }
-
 }

@@ -8,19 +8,33 @@
 
 package com.microsoft.azure.v2.management.sql.implementation;
 
-import com.microsoft.azure.v2.management.sql.FailoverGroupReadWriteEndpoint;
-import com.microsoft.azure.v2.management.sql.FailoverGroupReadOnlyEndpoint;
-import com.microsoft.azure.v2.management.sql.FailoverGroupReplicationRole;
-import java.util.List;
-import com.microsoft.azure.v2.management.sql.PartnerInfo;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.v2.management.sql.FailoverGroupReadOnlyEndpoint;
+import com.microsoft.azure.v2.management.sql.FailoverGroupReadWriteEndpoint;
+import com.microsoft.azure.v2.management.sql.FailoverGroupReplicationRole;
+import com.microsoft.azure.v2.management.sql.PartnerInfo;
+import com.microsoft.azure.v2.management.sql.ProxyResource;
+import com.microsoft.rest.v2.serializer.JsonFlatten;
+import java.util.List;
+import java.util.Map;
 
 /**
  * A failover group.
  */
 @JsonFlatten
-public class FailoverGroupInner extends TrackedResourceInner {
+public class FailoverGroupInner extends ProxyResource {
+    /**
+     * Resource location.
+     */
+    @JsonProperty(value = "location", access = JsonProperty.Access.WRITE_ONLY)
+    private String location;
+
+    /**
+     * Resource tags.
+     */
+    @JsonProperty(value = "tags")
+    private Map<String, String> tags;
+
     /**
      * Read-write endpoint of the failover group instance.
      */
@@ -56,12 +70,41 @@ public class FailoverGroupInner extends TrackedResourceInner {
      * List of databases in the failover group.
      */
     @JsonProperty(value = "properties.databases")
-    private List<String> databases;
+    private List<String> databasesProperty;
+
+    /**
+     * Get the location value.
+     *
+     * @return the location value.
+     */
+    public String location() {
+        return this.location;
+    }
+
+    /**
+     * Get the tags value.
+     *
+     * @return the tags value.
+     */
+    public Map<String, String> tags() {
+        return this.tags;
+    }
+
+    /**
+     * Set the tags value.
+     *
+     * @param tags the tags value to set.
+     * @return the FailoverGroupInner object itself.
+     */
+    public FailoverGroupInner withTags(Map<String, String> tags) {
+        this.tags = tags;
+        return this;
+    }
 
     /**
      * Get the readWriteEndpoint value.
      *
-     * @return the readWriteEndpoint value
+     * @return the readWriteEndpoint value.
      */
     public FailoverGroupReadWriteEndpoint readWriteEndpoint() {
         return this.readWriteEndpoint;
@@ -70,7 +113,7 @@ public class FailoverGroupInner extends TrackedResourceInner {
     /**
      * Set the readWriteEndpoint value.
      *
-     * @param readWriteEndpoint the readWriteEndpoint value to set
+     * @param readWriteEndpoint the readWriteEndpoint value to set.
      * @return the FailoverGroupInner object itself.
      */
     public FailoverGroupInner withReadWriteEndpoint(FailoverGroupReadWriteEndpoint readWriteEndpoint) {
@@ -81,7 +124,7 @@ public class FailoverGroupInner extends TrackedResourceInner {
     /**
      * Get the readOnlyEndpoint value.
      *
-     * @return the readOnlyEndpoint value
+     * @return the readOnlyEndpoint value.
      */
     public FailoverGroupReadOnlyEndpoint readOnlyEndpoint() {
         return this.readOnlyEndpoint;
@@ -90,7 +133,7 @@ public class FailoverGroupInner extends TrackedResourceInner {
     /**
      * Set the readOnlyEndpoint value.
      *
-     * @param readOnlyEndpoint the readOnlyEndpoint value to set
+     * @param readOnlyEndpoint the readOnlyEndpoint value to set.
      * @return the FailoverGroupInner object itself.
      */
     public FailoverGroupInner withReadOnlyEndpoint(FailoverGroupReadOnlyEndpoint readOnlyEndpoint) {
@@ -101,7 +144,7 @@ public class FailoverGroupInner extends TrackedResourceInner {
     /**
      * Get the replicationRole value.
      *
-     * @return the replicationRole value
+     * @return the replicationRole value.
      */
     public FailoverGroupReplicationRole replicationRole() {
         return this.replicationRole;
@@ -110,7 +153,7 @@ public class FailoverGroupInner extends TrackedResourceInner {
     /**
      * Get the replicationState value.
      *
-     * @return the replicationState value
+     * @return the replicationState value.
      */
     public String replicationState() {
         return this.replicationState;
@@ -119,7 +162,7 @@ public class FailoverGroupInner extends TrackedResourceInner {
     /**
      * Get the partnerServers value.
      *
-     * @return the partnerServers value
+     * @return the partnerServers value.
      */
     public List<PartnerInfo> partnerServers() {
         return this.partnerServers;
@@ -128,7 +171,7 @@ public class FailoverGroupInner extends TrackedResourceInner {
     /**
      * Set the partnerServers value.
      *
-     * @param partnerServers the partnerServers value to set
+     * @param partnerServers the partnerServers value to set.
      * @return the FailoverGroupInner object itself.
      */
     public FailoverGroupInner withPartnerServers(List<PartnerInfo> partnerServers) {
@@ -137,23 +180,22 @@ public class FailoverGroupInner extends TrackedResourceInner {
     }
 
     /**
-     * Get the databases value.
+     * Get the databasesProperty value.
      *
-     * @return the databases value
+     * @return the databasesProperty value.
      */
-    public List<String> databases() {
-        return this.databases;
+    public List<String> databasesProperty() {
+        return this.databasesProperty;
     }
 
     /**
-     * Set the databases value.
+     * Set the databasesProperty value.
      *
-     * @param databases the databases value to set
+     * @param databasesProperty the databasesProperty value to set.
      * @return the FailoverGroupInner object itself.
      */
-    public FailoverGroupInner withDatabases(List<String> databases) {
-        this.databases = databases;
+    public FailoverGroupInner withDatabasesProperty(List<String> databasesProperty) {
+        this.databasesProperty = databasesProperty;
         return this;
     }
-
 }

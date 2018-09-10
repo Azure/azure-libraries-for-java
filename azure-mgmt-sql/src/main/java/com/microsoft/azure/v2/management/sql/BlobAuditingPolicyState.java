@@ -15,16 +15,22 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Defines values for BlobAuditingPolicyState.
  */
 public enum BlobAuditingPolicyState {
-    /** Enum value Enabled. */
+    /**
+     * Enum value Enabled.
+     */
     ENABLED("Enabled"),
 
-    /** Enum value Disabled. */
+    /**
+     * Enum value Disabled.
+     */
     DISABLED("Disabled");
 
-    /** The actual serialized value for a BlobAuditingPolicyState instance. */
-    private String value;
+    /**
+     * The actual serialized value for a BlobAuditingPolicyState instance.
+     */
+    private final String value;
 
-    BlobAuditingPolicyState(String value) {
+    private BlobAuditingPolicyState(String value) {
         this.value = value;
     }
 

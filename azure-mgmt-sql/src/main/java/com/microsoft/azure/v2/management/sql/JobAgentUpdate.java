@@ -9,13 +9,12 @@
 package com.microsoft.azure.v2.management.sql;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.Map;
 
 /**
  * An update to an Azure SQL job agent.
  */
-public class JobAgentUpdate {
+public final class JobAgentUpdate {
     /**
      * Resource tags.
      */
@@ -25,7 +24,7 @@ public class JobAgentUpdate {
     /**
      * Get the tags value.
      *
-     * @return the tags value
+     * @return the tags value.
      */
     public Map<String, String> tags() {
         return this.tags;
@@ -34,12 +33,11 @@ public class JobAgentUpdate {
     /**
      * Set the tags value.
      *
-     * @param tags the tags value to set
+     * @param tags the tags value to set.
      * @return the JobAgentUpdate object itself.
      */
     public JobAgentUpdate withTags(Map<String, String> tags) {
         this.tags = tags;
         return this;
     }
-
 }

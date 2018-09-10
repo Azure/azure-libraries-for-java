@@ -19,7 +19,7 @@ public class WarDeployTests extends AppServiceTest {
 
     @Override
     protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {
-        WEBAPP_NAME = generateRandomResourceName("java-webapp-", 20);
+        WEBAPP_NAME = "JAVA" + generateRandomResourceName("webapp-", 20);
 
         super.initializeClients(restClient, defaultSubscription, domain);
     }

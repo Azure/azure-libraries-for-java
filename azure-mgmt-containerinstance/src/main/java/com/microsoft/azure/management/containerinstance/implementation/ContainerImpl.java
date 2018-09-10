@@ -210,6 +210,28 @@ class ContainerImpl implements
     }
 
     @Override
+    public ContainerImpl withEnvironmentVariableWithSecuredValue(Map<String, String> environmentVariables) {
+        for (Map.Entry<String, String> entry : environmentVariables.entrySet()) {
+            this.withEnvironmentVariableWithSecuredValue(entry.getKey(), entry.getValue());
+        }
+
+        return this;
+    }
+
+    @Override
+    public ContainerImpl withEnvironmentVariableWithSecuredValue(String envName, String securedValue) {
+        if (innerContainer.environmentVariables() == null) {
+            innerContainer.withEnvironmentVariables(new ArrayList<EnvironmentVariable>());
+        }
+
+        innerContainer.environmentVariables().add(new EnvironmentVariable()
+            .withName(envName)
+            .withSecureValue(securedValue));
+
+        return this;
+    }
+
+    @Override
     public ContainerImpl withVolumeMountSetting(String volumeName, String mountPath) {
         if (innerContainer.volumeMounts() == null) {
             innerContainer.withVolumeMounts(new ArrayList<VolumeMount>());

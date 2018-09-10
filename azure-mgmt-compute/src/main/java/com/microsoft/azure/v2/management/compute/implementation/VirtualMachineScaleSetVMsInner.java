@@ -14,6 +14,7 @@ import com.microsoft.azure.v2.OperationStatus;
 import com.microsoft.azure.v2.Page;
 import com.microsoft.azure.v2.PagedList;
 import com.microsoft.azure.v2.management.compute.RunCommandInput;
+import com.microsoft.azure.v2.management.compute.RunCommandResult;
 import com.microsoft.azure.v2.util.ServiceFutureUtil;
 import com.microsoft.rest.v2.BodyResponse;
 import com.microsoft.rest.v2.OperationDescription;
@@ -248,18 +249,18 @@ public final class VirtualMachineScaleSetVMsInner {
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualmachines/{instanceId}/runCommand")
         @ExpectedResponses({200, 202, 204})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Observable<OperationStatus<RunCommandResultInner>> beginRunCommand(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("vmScaleSetName") String vmScaleSetName, @PathParam("instanceId") String instanceId, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json; charset=utf-8") RunCommandInput parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
+        Observable<OperationStatus<RunCommandResult>> beginRunCommand(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("vmScaleSetName") String vmScaleSetName, @PathParam("instanceId") String instanceId, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json; charset=utf-8") RunCommandInput parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualmachines/{instanceId}/runCommand")
         @ExpectedResponses({200, 202, 204})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Single<BodyResponse<RunCommandResultInner>> runCommand(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("vmScaleSetName") String vmScaleSetName, @PathParam("instanceId") String instanceId, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json; charset=utf-8") RunCommandInput parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
+        Single<BodyResponse<RunCommandResult>> runCommand(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("vmScaleSetName") String vmScaleSetName, @PathParam("instanceId") String instanceId, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json; charset=utf-8") RunCommandInput parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualmachines/{instanceId}/runCommand")
         @ExpectedResponses({200, 202, 204})
         @UnexpectedResponseExceptionType(CloudException.class)
         @ResumeOperation
-        Observable<OperationStatus<RunCommandResultInner>> resumeRunCommand(OperationDescription operationDescription);
+        Observable<OperationStatus<RunCommandResult>> resumeRunCommand(OperationDescription operationDescription);
 
         @GET("{nextUrl}")
         @ExpectedResponses({200})
@@ -1930,9 +1931,9 @@ public final class VirtualMachineScaleSetVMsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return the RunCommandResultInner object if successful.
+     * @return the RunCommandResult object if successful.
      */
-    public RunCommandResultInner beginRunCommand(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, @NonNull String instanceId, @NonNull RunCommandInput parameters) {
+    public RunCommandResult beginRunCommand(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, @NonNull String instanceId, @NonNull RunCommandInput parameters) {
         return beginRunCommandAsync(resourceGroupName, vmScaleSetName, instanceId, parameters).blockingLast().result();
     }
 
@@ -1945,9 +1946,9 @@ public final class VirtualMachineScaleSetVMsInner {
      * @param parameters Parameters supplied to the Run command operation.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the ServiceFuture&lt;RunCommandResultInner&gt; object.
+     * @return the ServiceFuture&lt;RunCommandResult&gt; object.
      */
-    public ServiceFuture<RunCommandResultInner> beginRunCommandAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, @NonNull String instanceId, @NonNull RunCommandInput parameters, ServiceCallback<RunCommandResultInner> serviceCallback) {
+    public ServiceFuture<RunCommandResult> beginRunCommandAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, @NonNull String instanceId, @NonNull RunCommandInput parameters, ServiceCallback<RunCommandResult> serviceCallback) {
         return ServiceFutureUtil.fromLRO(beginRunCommandAsync(resourceGroupName, vmScaleSetName, instanceId, parameters), serviceCallback);
     }
 
@@ -1961,7 +1962,7 @@ public final class VirtualMachineScaleSetVMsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @return the observable for the request.
      */
-    public Observable<OperationStatus<RunCommandResultInner>> beginRunCommandAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, @NonNull String instanceId, @NonNull RunCommandInput parameters) {
+    public Observable<OperationStatus<RunCommandResult>> beginRunCommandAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, @NonNull String instanceId, @NonNull RunCommandInput parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -1992,9 +1993,9 @@ public final class VirtualMachineScaleSetVMsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return the RunCommandResultInner object if successful.
+     * @return the RunCommandResult object if successful.
      */
-    public RunCommandResultInner runCommand(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, @NonNull String instanceId, @NonNull RunCommandInput parameters) {
+    public RunCommandResult runCommand(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, @NonNull String instanceId, @NonNull RunCommandInput parameters) {
         return runCommandAsync(resourceGroupName, vmScaleSetName, instanceId, parameters).blockingGet();
     }
 
@@ -2009,7 +2010,7 @@ public final class VirtualMachineScaleSetVMsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<RunCommandResultInner> runCommandAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, @NonNull String instanceId, @NonNull RunCommandInput parameters, ServiceCallback<RunCommandResultInner> serviceCallback) {
+    public ServiceFuture<RunCommandResult> runCommandAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, @NonNull String instanceId, @NonNull RunCommandInput parameters, ServiceCallback<RunCommandResult> serviceCallback) {
         return ServiceFuture.fromBody(runCommandAsync(resourceGroupName, vmScaleSetName, instanceId, parameters), serviceCallback);
     }
 
@@ -2023,7 +2024,7 @@ public final class VirtualMachineScaleSetVMsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @return a Single which performs the network request upon subscription.
      */
-    public Single<BodyResponse<RunCommandResultInner>> runCommandWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, @NonNull String instanceId, @NonNull RunCommandInput parameters) {
+    public Single<BodyResponse<RunCommandResult>> runCommandWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, @NonNull String instanceId, @NonNull RunCommandInput parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -2054,9 +2055,9 @@ public final class VirtualMachineScaleSetVMsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @return a Single which performs the network request upon subscription.
      */
-    public Maybe<RunCommandResultInner> runCommandAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, @NonNull String instanceId, @NonNull RunCommandInput parameters) {
+    public Maybe<RunCommandResult> runCommandAsync(@NonNull String resourceGroupName, @NonNull String vmScaleSetName, @NonNull String instanceId, @NonNull RunCommandInput parameters) {
         return runCommandWithRestResponseAsync(resourceGroupName, vmScaleSetName, instanceId, parameters)
-            .flatMapMaybe((BodyResponse<RunCommandResultInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
+            .flatMapMaybe((BodyResponse<RunCommandResult> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 
     /**
@@ -2066,7 +2067,7 @@ public final class VirtualMachineScaleSetVMsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @return the observable for the request.
      */
-    public Observable<OperationStatus<RunCommandResultInner>> resumeRunCommand(OperationDescription operationDescription) {
+    public Observable<OperationStatus<RunCommandResult>> resumeRunCommand(OperationDescription operationDescription) {
         if (operationDescription == null) {
             throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
         }

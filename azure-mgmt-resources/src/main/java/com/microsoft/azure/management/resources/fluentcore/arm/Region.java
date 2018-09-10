@@ -64,6 +64,8 @@ public final class Region {
      **************************************************/
     public static final Region CHINA_NORTH = new Region("chinanorth", "China North");
     public static final Region CHINA_EAST = new Region("chinaeast", "China East");
+    public static final Region CHINA_NORTH2 = new Region("chinanorth2", "China North 2");
+    public static final Region CHINA_EAST2 = new Region("chinaeast2", "China East 2");
     /**************************************************
      * Azure German Cloud
      **************************************************/

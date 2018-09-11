@@ -11,7 +11,7 @@ import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.HasId;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.HasName;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.HasResourceGroup;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
-import com.microsoft.azure.management.sql.implementation.TransparentDataEncryptionActivityInner;
+import com.microsoft.azure.v2.management.sql.implementation.TransparentDataEncryptionActivityInner;
 
 
 /**

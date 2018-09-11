@@ -5,10 +5,10 @@
  */
 package com.microsoft.azure.v2.management.sql;
 
-import com.microsoft.azure.management.apigeneration.Beta;
+import com.microsoft.rest.v2.annotations.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
-import com.microsoft.azure.management.sql.implementation.MetricInner;
+import com.microsoft.azure.v2.management.sql.implementation.MetricInner;
 import org.joda.time.DateTime;
 
 import java.util.List;

@@ -6,7 +6,7 @@
 
 package com.microsoft.azure.v2.management.sql;
 
-import com.microsoft.azure.management.apigeneration.Beta;
+import com.microsoft.rest.v2.annotations.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.GroupableResource;
@@ -15,8 +15,8 @@ import com.microsoft.azure.v2.management.resources.fluentcore.model.Appliable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Refreshable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Updatable;
-import com.microsoft.azure.management.sql.implementation.ServerInner;
-import com.microsoft.azure.management.sql.implementation.SqlServerManager;
+import com.microsoft.azure.v2.management.sql.implementation.ServerInner;
+import com.microsoft.azure.v2.management.sql.implementation.SqlServerManager;
 import rx.Observable;
 
 import java.util.List;

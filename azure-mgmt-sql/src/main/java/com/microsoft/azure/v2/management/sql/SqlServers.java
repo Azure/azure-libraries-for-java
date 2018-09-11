@@ -6,7 +6,7 @@
 
 package com.microsoft.azure.v2.management.sql;
 
-import com.microsoft.azure.management.apigeneration.Beta;
+import com.microsoft.rest.v2.annotations.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.collection.SupportsBatchDeletion;
@@ -20,8 +20,8 @@ import com.microsoft.azure.v2.management.resources.fluentcore.collection.Support
 import com.microsoft.azure.v2.management.resources.fluentcore.collection.SupportsDeletingById;
 import com.microsoft.azure.v2.management.resources.fluentcore.collection.SupportsListing;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
-import com.microsoft.azure.management.sql.implementation.ServersInner;
-import com.microsoft.azure.management.sql.implementation.SqlServerManager;
+import com.microsoft.azure.v2.management.sql.implementation.ServersInner;
+import com.microsoft.azure.v2.management.sql.implementation.SqlServerManager;
 import rx.Observable;
 
 import java.util.List;

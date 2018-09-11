@@ -5,13 +5,13 @@
  */
 package com.microsoft.azure.v2.management.sql;
 
-import com.microsoft.azure.management.apigeneration.Beta;
+import com.microsoft.rest.v2.annotations.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.HasId;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.HasName;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Refreshable;
-import com.microsoft.azure.management.sql.implementation.SubscriptionUsageInner;
+import com.microsoft.azure.v2.management.sql.implementation.SubscriptionUsageInner;
 
 /**
  * The result of SQL server usages per current subscription.

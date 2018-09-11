@@ -12,7 +12,7 @@ import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.HasName
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.HasResourceGroup;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Refreshable;
-import com.microsoft.azure.management.sql.implementation.ServiceTierAdvisorInner;
+import com.microsoft.azure.v2.management.sql.implementation.ServiceTierAdvisorInner;
 import org.joda.time.DateTime;
 
 import java.util.List;

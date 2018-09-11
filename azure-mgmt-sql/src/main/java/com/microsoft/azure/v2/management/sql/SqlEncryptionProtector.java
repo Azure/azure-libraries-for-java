@@ -5,7 +5,7 @@
  */
 package com.microsoft.azure.v2.management.sql;
 
-import com.microsoft.azure.management.apigeneration.Beta;
+import com.microsoft.rest.v2.annotations.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
@@ -16,7 +16,7 @@ import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Indexable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Refreshable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Updatable;
-import com.microsoft.azure.management.sql.implementation.EncryptionProtectorInner;
+import com.microsoft.azure.v2.management.sql.implementation.EncryptionProtectorInner;
 
 /**
  * An immutable client-side representation of an Azure SQL Encryption Protector.

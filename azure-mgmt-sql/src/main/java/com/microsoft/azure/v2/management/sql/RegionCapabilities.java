@@ -9,7 +9,7 @@ package com.microsoft.azure.v2.management.sql;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
-import com.microsoft.azure.management.sql.implementation.LocationCapabilitiesInner;
+import com.microsoft.azure.v2.management.sql.implementation.LocationCapabilitiesInner;
 
 import java.util.Map;
 

@@ -6,7 +6,7 @@
 package com.microsoft.azure.v2.management.sql;
 
 import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.apigeneration.Beta;
+import com.microsoft.rest.v2.annotations.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.ExternalChildResource;
@@ -15,7 +15,7 @@ import com.microsoft.azure.v2.management.resources.fluentcore.model.Appliable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Refreshable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Updatable;
-import com.microsoft.azure.management.sql.implementation.SyncMemberInner;
+import com.microsoft.azure.v2.management.sql.implementation.SyncMemberInner;
 import rx.Completable;
 import rx.Observable;
 

@@ -27,16 +27,16 @@ import io.reactivex.Observable;
  */
 @LangDefinition
 public abstract class IndependentChildImpl<
-            FluentModelT extends IndependentChild<ManagerT>,
-            FluentParentModelT extends Resource & HasResourceGroup,
-            InnerModelT,
-            FluentModelImplT extends IndependentChildImpl<FluentModelT, FluentParentModelT, InnerModelT, FluentModelImplT, ManagerT>,
-            ManagerT>
+        FluentModelT extends IndependentChild<ManagerT>,
+        FluentParentModelT extends Resource & HasResourceGroup,
+        InnerModelT,
+        FluentModelImplT extends IndependentChildImpl<FluentModelT, FluentParentModelT, InnerModelT, FluentModelImplT, ManagerT>,
+        ManagerT>
         extends
         CreatableUpdatableImpl<FluentModelT, InnerModelT, FluentModelImplT>
         implements
-            IndependentChild<ManagerT>,
-            IndependentChild.DefinitionStages.WithParentResource<FluentModelT, FluentParentModelT> {
+        IndependentChild<ManagerT>,
+        IndependentChild.DefinitionStages.WithParentResource<FluentModelT, FluentParentModelT> {
     private String groupName;
     protected String parentName;
     private String creatableParentResourceKey;

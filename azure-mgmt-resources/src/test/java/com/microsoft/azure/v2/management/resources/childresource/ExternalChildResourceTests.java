@@ -7,6 +7,9 @@
 package com.microsoft.azure.v2.management.resources.childresource;
 
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Creatable;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Indexable;
+import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
 import org.junit.Assert;
 import org.junit.Test;
@@ -176,5 +179,78 @@ public class ExternalChildResourceTests {
         PulletsImpl pullets = chicken.pullets();
         List<PulletImpl> result = pullets.commitAndGetAllAsync().blockingGet();
         Assert.assertEquals(2, result.size());
+    }
+
+    @Test
+    public void canCrossReferenceChildren() throws Exception {
+        SchoolsImpl schools = new SchoolsImpl();
+
+        Observable<Indexable> items = schools.define("redmondSchool")
+                .withAddress("sc-address")
+                .defineTeacher("maria")
+                .withSubject("Maths")
+                .attach()
+                .defineStudent("bob")
+                .withAge(10)
+                .withTeacher("maria")   // Refer another creatable external child resource with key 'maria' in the parent
+                .attach()
+                .createAsync();
+
+        final SchoolsImpl.SchoolImpl foundSchool[] = new SchoolsImpl.SchoolImpl[1];
+        final SchoolsImpl.TeacherImpl foundTeacher[] = new SchoolsImpl.TeacherImpl[1];
+        final SchoolsImpl.StudentImpl foundStudent[] = new SchoolsImpl.StudentImpl[1];
+
+        items.doOnNext(indexable -> {
+                    if (indexable instanceof SchoolsImpl.SchoolImpl) {
+                        foundSchool[0] = (SchoolsImpl.SchoolImpl) indexable;
+                    }
+                    if (indexable instanceof SchoolsImpl.TeacherImpl) {
+                        foundTeacher[0] = (SchoolsImpl.TeacherImpl) indexable;
+                    }
+                    if (indexable instanceof SchoolsImpl.StudentImpl) {
+                        foundStudent[0] = (SchoolsImpl.StudentImpl) indexable;
+                    }
+                }).blockingLast();
+
+        Assert.assertNotNull(foundSchool[0]);
+        Assert.assertNotNull(foundTeacher[0]);
+        Assert.assertNotNull(foundStudent[0]);
+
+        Assert.assertTrue(foundSchool[0].isInvoked());
+        Assert.assertTrue(foundTeacher[0].isInvoked());
+        Assert.assertTrue(foundStudent[0].isInvoked());
+    }
+
+    @Test
+    public void canCreateChildrenIndependently() throws Exception {
+        SchoolsImpl schools = new SchoolsImpl();
+
+        Creatable<SchoolsImpl.TeacherImpl>  creatableTeacher = schools.independentTeachers()
+                .define("john")
+                .withSubject("physics");
+
+        Creatable<SchoolsImpl.StudentImpl> creatableStudent = schools.independentStudents()
+                .define("nit")
+                .withAge(15)
+                .withTeacher(creatableTeacher);
+
+        final SchoolsImpl.TeacherImpl foundTeacher[] = new SchoolsImpl.TeacherImpl[1];
+        final SchoolsImpl.StudentImpl foundStudent[] = new SchoolsImpl.StudentImpl[1];
+
+        creatableStudent.createAsync()
+                .doOnNext(indexable -> {
+                    if (indexable instanceof SchoolsImpl.TeacherImpl) {
+                        foundTeacher[0] = (SchoolsImpl.TeacherImpl) indexable;
+                    }
+                    if (indexable instanceof SchoolsImpl.StudentImpl) {
+                        foundStudent[0] = (SchoolsImpl.StudentImpl) indexable;
+                    }
+                }).blockingLast();
+
+        Assert.assertNotNull(foundTeacher[0]);
+        Assert.assertNotNull(foundStudent[0]);
+
+        Assert.assertTrue(foundTeacher[0].isInvoked());
+        Assert.assertTrue(foundStudent[0].isInvoked());
     }
 }

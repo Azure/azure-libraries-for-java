@@ -10,7 +10,6 @@ import com.microsoft.azure.v2.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Executable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.implementation.ExecutableImpl;
 import io.reactivex.Observable;
-import io.reactivex.functions.Function;
 
 import java.util.concurrent.TimeUnit;
 
@@ -29,12 +28,7 @@ public class BreadSliceImpl extends ExecutableImpl<IBreadSlice> implements IBrea
         System.out.println("Bread("+ this.name +")::executeWorkAsync() [Getting slice from store]");
         return Observable.just(this)
                 .delay(250, TimeUnit.MILLISECONDS)
-                .map(new Function<BreadSliceImpl, IBreadSlice>() {
-                    @Override
-                    public IBreadSlice apply(BreadSliceImpl breadSlice) {
-                        return breadSlice;
-                    }
-                });
+                .map(breadSlice -> (IBreadSlice) breadSlice);
     }
 
     @Override

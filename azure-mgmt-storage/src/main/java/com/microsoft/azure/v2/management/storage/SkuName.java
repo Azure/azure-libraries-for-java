@@ -45,7 +45,7 @@ public enum SkuName {
      */
     private final String value;
 
-    private SkuName(String value) {
+    SkuName(String value) {
         this.value = value;
     }
 

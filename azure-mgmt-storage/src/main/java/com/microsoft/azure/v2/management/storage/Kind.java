@@ -35,7 +35,7 @@ public enum Kind {
      */
     private final String value;
 
-    private Kind(String value) {
+    Kind(String value) {
         this.value = value;
     }
 

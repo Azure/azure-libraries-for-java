@@ -64,7 +64,7 @@ public final class Utils {
             return 0;
         }
         long a = value;
-        return (int)a;
+        return (int) a;
     }
 
     /**

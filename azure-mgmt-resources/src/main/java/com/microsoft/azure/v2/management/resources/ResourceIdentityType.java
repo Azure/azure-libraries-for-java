@@ -25,7 +25,7 @@ public enum ResourceIdentityType {
      */
     private final String value;
 
-    private ResourceIdentityType(String value) {
+    ResourceIdentityType(String value) {
         this.value = value;
     }
 

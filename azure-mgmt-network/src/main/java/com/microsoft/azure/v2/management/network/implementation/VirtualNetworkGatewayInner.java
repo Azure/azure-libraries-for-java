@@ -12,7 +12,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.azure.v2.Resource;
 import com.microsoft.azure.v2.SubResource;
 import com.microsoft.azure.v2.management.network.BgpSettings;
-import com.microsoft.azure.v2.management.network.VirtualNetworkGatewayIPConfiguration;
 import com.microsoft.azure.v2.management.network.VirtualNetworkGatewaySku;
 import com.microsoft.azure.v2.management.network.VirtualNetworkGatewayType;
 import com.microsoft.azure.v2.management.network.VpnClientConfiguration;

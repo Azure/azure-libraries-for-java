@@ -36,7 +36,7 @@ class PulletImpl extends ExternalChildResourceImpl<Pullet, Object, ChickenImpl, 
     }
 
     @Override
-    public Observable<Pullet> createAsync() {
+    public Observable<Pullet> createResourceAsync() {
         try {
             Thread.sleep(2000);
         } catch (InterruptedException ex) {
@@ -53,7 +53,7 @@ class PulletImpl extends ExternalChildResourceImpl<Pullet, Object, ChickenImpl, 
     }
 
     @Override
-    public Observable<Pullet> updateAsync() {
+    public Observable<Pullet> updateResourceAsync() {
         try {
             Thread.sleep(2000);
         } catch (InterruptedException ex) {
@@ -70,10 +70,10 @@ class PulletImpl extends ExternalChildResourceImpl<Pullet, Object, ChickenImpl, 
     }
 
     @Override
-    public Completable deleteAsync() {
+    public Completable deleteResourceAsync() {
         try {
             Thread.sleep(2000);
-        } catch (InterruptedException ignored) {
+        } catch (InterruptedException ex) {
         }
 
         if (this.failFlag == FailFlag.OnDelete) {

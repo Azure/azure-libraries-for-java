@@ -30,7 +30,7 @@ public enum Reason {
      */
     private final String value;
 
-    private Reason(String value) {
+    Reason(String value) {
         this.value = value;
     }
 

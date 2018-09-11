@@ -10,7 +10,6 @@ import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.impleme
 import com.microsoft.azure.v2.management.resources.fluentcore.dag.TaskGroup;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
-import io.reactivex.ObservableSource;
 import io.reactivex.Single;
 import io.reactivex.exceptions.CompositeException;
 import io.reactivex.functions.Action;
@@ -164,15 +163,10 @@ public abstract class ExternalChildResourceCollectionImpl<
                                         self.childCollection.remove(childResource.name());
                                     }
                                 })
-                                .onErrorResumeNext(new Function<Throwable, ObservableSource<? extends Void>>() {
-                                    @Override
-                                    public ObservableSource<? extends Void> apply(Throwable throwable) throws Exception {
-                                        exceptionsList.add(throwable);
-                                        return Observable.empty();
-                                    }
-                                })
-                                .lastElement()
-                                .flatMapCompletable(o -> Completable.complete());
+                                .onErrorResumeNext(throwable -> {
+                                    exceptionsList.add(throwable);
+                                    return Completable.complete();
+                                });
                     }
                 });
 

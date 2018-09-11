@@ -30,7 +30,7 @@ public enum DeploymentMode {
      */
     private final String value;
 
-    private DeploymentMode(String value) {
+    DeploymentMode(String value) {
         this.value = value;
     }
 

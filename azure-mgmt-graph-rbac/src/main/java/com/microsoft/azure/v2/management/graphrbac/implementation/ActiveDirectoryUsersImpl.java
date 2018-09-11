@@ -106,7 +106,7 @@ class ActiveDirectoryUsersImpl
 
                    }
                 })
-                .map((io.reactivex.functions.Function<UserInner, ActiveDirectoryUser>)userInner -> {
+                .map((io.reactivex.functions.Function<UserInner, ActiveDirectoryUser>) userInner -> {
                     if (userInner == null) {
                         return null;
                     }

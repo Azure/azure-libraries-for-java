@@ -211,7 +211,7 @@ class TrafficManagerEndpointImpl extends ExternalChildResourceImpl<TrafficManage
     }
 
     @Override
-    public Observable<TrafficManagerEndpoint> createAsync() {
+    public Observable<TrafficManagerEndpoint> createResourceAsync() {
         final TrafficManagerEndpointImpl self = this;
         return
         this.client.createOrUpdateAsync(this.parent().resourceGroupName(),
@@ -225,12 +225,12 @@ class TrafficManagerEndpointImpl extends ExternalChildResourceImpl<TrafficManage
     }
 
     @Override
-    public Observable<TrafficManagerEndpoint> updateAsync() {
-        return createAsync();
+    public Observable<TrafficManagerEndpoint> updateResourceAsync() {
+        return createResourceAsync();
     }
 
     @Override
-    public Completable deleteAsync() {
+    public Completable deleteResourceAsync() {
         return this.client.deleteAsync(this.parent().resourceGroupName(),
                 this.parent().name(),
                 this.endpointType().localName(),

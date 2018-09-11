@@ -23,7 +23,6 @@ import com.microsoft.azure.v2.management.trafficmanager.implementation.TrafficMa
 import com.microsoft.rest.v2.ServiceCallback;
 import com.microsoft.rest.v2.ServiceFuture;
 import io.reactivex.Maybe;
-import rx.Observable;
 
 /**
  * Entry point to traffic manager profile management API in Azure.

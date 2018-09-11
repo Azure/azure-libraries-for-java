@@ -30,7 +30,7 @@ public enum SkuTier {
      */
     private final String value;
 
-    private SkuTier(String value) {
+    SkuTier(String value) {
         this.value = value;
     }
 

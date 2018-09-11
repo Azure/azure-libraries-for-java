@@ -16,7 +16,6 @@ import com.microsoft.azure.v2.management.compute.VirtualMachineScaleSetNetworkPr
 import com.microsoft.azure.v2.management.compute.VirtualMachineScaleSetOSDisk;
 import com.microsoft.azure.v2.management.compute.VirtualMachineScaleSetOSProfile;
 import com.microsoft.azure.v2.management.compute.VirtualMachineScaleSetStorageProfile;
-import com.microsoft.azure.v2.management.compute.VirtualMachineScaleSetVMProfile;
 import com.microsoft.azure.v2.management.compute.VirtualMachineScaleSets;
 import com.microsoft.azure.v2.management.graphrbac.implementation.GraphRbacManager;
 import com.microsoft.azure.v2.management.network.implementation.NetworkManager;
@@ -24,8 +23,8 @@ import com.microsoft.azure.v2.management.resources.fluentcore.arm.collection.imp
 import com.microsoft.azure.v2.management.storage.implementation.StorageManager;
 import com.microsoft.rest.v2.ServiceCallback;
 import com.microsoft.rest.v2.ServiceFuture;
-import rx.Completable;
-import rx.Observable;
+import io.reactivex.Completable;
+import io.reactivex.Observable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,7 +63,7 @@ public class VirtualMachineScaleSetsImpl
 
     @Override
     public Completable deallocateAsync(String groupName, String name) {
-        return this.inner().deallocateAsync(groupName, name).toCompletable();
+        return this.inner().deallocateAsync(groupName, name);
     }
 
     @Override
@@ -79,7 +78,7 @@ public class VirtualMachineScaleSetsImpl
 
     @Override
     public Completable powerOffAsync(String groupName, String name) {
-        return this.inner().powerOffAsync(groupName, name).toCompletable();
+        return this.inner().powerOffAsync(groupName, name);
     }
 
     @Override
@@ -94,7 +93,7 @@ public class VirtualMachineScaleSetsImpl
 
     @Override
     public Completable restartAsync(String groupName, String name) {
-        return this.inner().restartAsync(groupName, name).toCompletable();
+        return this.inner().restartAsync(groupName, name);
     }
 
     @Override
@@ -109,7 +108,7 @@ public class VirtualMachineScaleSetsImpl
 
     @Override
     public Completable startAsync(String groupName, String name) {
-        return this.inner().startAsync(groupName, name).toCompletable();
+        return this.inner().startAsync(groupName, name);
     }
 
     @Override
@@ -124,7 +123,7 @@ public class VirtualMachineScaleSetsImpl
 
     @Override
     public Completable reimageAsync(String groupName, String name) {
-       return this.inner().reimageAsync(groupName, name).toCompletable();
+       return this.inner().reimageAsync(groupName, name);
     }
 
     @Override
@@ -134,7 +133,9 @@ public class VirtualMachineScaleSetsImpl
 
     @Override
     public RunCommandResult runPowerShellScriptInVMInstance(String groupName, String scaleSetName, String vmId, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters) {
-        return this.runPowerShellScriptInVMInstanceAsync(groupName, scaleSetName, vmId, scriptLines, scriptParameters).toBlocking().last();
+        return this.runPowerShellScriptInVMInstanceAsync(groupName, scaleSetName, vmId, scriptLines, scriptParameters)
+                .lastElement()
+                .blockingGet(null);
     }
 
     @Override
@@ -148,7 +149,9 @@ public class VirtualMachineScaleSetsImpl
 
     @Override
     public RunCommandResult runShellScriptInVMInstance(String groupName, String scaleSetName, String vmId, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters) {
-        return this.runShellScriptInVMInstanceAsync(groupName, scaleSetName, vmId, scriptLines, scriptParameters).toBlocking().last();
+        return this.runShellScriptInVMInstanceAsync(groupName, scaleSetName, vmId, scriptLines, scriptParameters)
+                .lastElement()
+                .blockingGet(null);
     }
 
     @Override
@@ -162,12 +165,16 @@ public class VirtualMachineScaleSetsImpl
 
     @Override
     public RunCommandResult runCommandInVMInstance(String groupName, String scaleSetName, String vmId, RunCommandInput inputCommand) {
-        return this.runCommandVMInstanceAsync(groupName, scaleSetName, vmId, inputCommand).toBlocking().last();
+        return this.runCommandVMInstanceAsync(groupName, scaleSetName, vmId, inputCommand)
+                .lastElement()
+                .blockingGet(null);
     }
 
     @Override
     public Observable<RunCommandResult> runCommandVMInstanceAsync(String groupName, String scaleSetName, String vmId, RunCommandInput inputCommand) {
-        return this.manager().inner().virtualMachineScaleSetVMs().runCommandAsync(groupName, scaleSetName, vmId, inputCommand);
+        return this.manager().inner().virtualMachineScaleSetVMs()
+                .runCommandAsync(groupName, scaleSetName, vmId, inputCommand)
+                .toObservable();
     }
 
     @Override
@@ -179,7 +186,7 @@ public class VirtualMachineScaleSetsImpl
     protected VirtualMachineScaleSetImpl wrapModel(String name) {
         VirtualMachineScaleSetInner inner = new VirtualMachineScaleSetInner();
 
-        inner.withVirtualMachineProfile(new VirtualMachineScaleSetVMProfile());
+        inner.withVirtualMachineProfile(new VirtualMachineScaleSetVMProfileInner());
         inner.virtualMachineProfile()
                 .withStorageProfile(new VirtualMachineScaleSetStorageProfile()
                         .withOsDisk(new VirtualMachineScaleSetOSDisk().withVhdContainers(new ArrayList<String>())));

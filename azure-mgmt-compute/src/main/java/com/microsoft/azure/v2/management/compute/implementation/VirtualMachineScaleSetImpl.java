@@ -35,7 +35,6 @@ import com.microsoft.azure.v2.management.compute.VirtualMachinePriorityTypes;
 import com.microsoft.azure.v2.management.compute.VirtualMachineScaleSet;
 import com.microsoft.azure.v2.management.compute.VirtualMachineScaleSetDataDisk;
 import com.microsoft.azure.v2.management.compute.VirtualMachineScaleSetExtension;
-import com.microsoft.azure.v2.management.compute.VirtualMachineScaleSetExtensionProfile;
 import com.microsoft.azure.v2.management.compute.VirtualMachineScaleSetIPConfiguration;
 import com.microsoft.azure.v2.management.compute.VirtualMachineScaleSetManagedDiskParameters;
 import com.microsoft.azure.v2.management.compute.VirtualMachineScaleSetNetworkConfiguration;
@@ -47,7 +46,6 @@ import com.microsoft.azure.v2.management.compute.VirtualMachineScaleSetPublicIPA
 import com.microsoft.azure.v2.management.compute.VirtualMachineScaleSetSku;
 import com.microsoft.azure.v2.management.compute.VirtualMachineScaleSetSkuTypes;
 import com.microsoft.azure.v2.management.compute.VirtualMachineScaleSetStorageProfile;
-import com.microsoft.azure.v2.management.compute.VirtualMachineScaleSetUpdate;
 import com.microsoft.azure.v2.management.compute.VirtualMachineScaleSetVMs;
 import com.microsoft.azure.v2.management.compute.WinRMConfiguration;
 import com.microsoft.azure.v2.management.compute.WinRMListener;
@@ -77,10 +75,9 @@ import com.microsoft.azure.v2.management.storage.StorageAccount;
 import com.microsoft.azure.v2.management.storage.implementation.StorageManager;
 import com.microsoft.rest.v2.ServiceCallback;
 import com.microsoft.rest.v2.ServiceFuture;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func0;
-import rx.functions.Func1;
+import io.reactivex.Completable;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -201,14 +198,14 @@ public class VirtualMachineScaleSetImpl
 
     @Override
     public void deallocate() {
-        this.deallocateAsync().await();
+        this.deallocateAsync().blockingAwait();
     }
 
     @Override
     public Completable deallocateAsync() {
-        Observable<Void> d = this.manager().inner().virtualMachineScaleSets().deallocateAsync(this.resourceGroupName(), this.name());
-        Observable<VirtualMachineScaleSet> r = this.refreshAsync();
-        return Observable.concat(d, r).toCompletable();
+        Completable deallocateOp = this.manager().inner().virtualMachineScaleSets().deallocateAsync(this.resourceGroupName(), this.name());
+        Completable refreshOp = this.refreshAsync().flatMapCompletable(o -> Completable.complete());
+        return deallocateOp.andThen(refreshOp);
     }
 
     @Override
@@ -218,12 +215,12 @@ public class VirtualMachineScaleSetImpl
 
     @Override
     public void powerOff() {
-        this.powerOffAsync().await();
+        this.powerOffAsync().blockingAwait();
     }
 
     @Override
     public Completable powerOffAsync() {
-        return this.manager().inner().virtualMachineScaleSets().powerOffAsync(this.resourceGroupName(), this.name()).toCompletable();
+        return this.manager().inner().virtualMachineScaleSets().powerOffAsync(this.resourceGroupName(), this.name());
     }
 
     @Override
@@ -233,12 +230,12 @@ public class VirtualMachineScaleSetImpl
 
     @Override
     public void restart() {
-        this.restartAsync().await();
+        this.restartAsync().blockingAwait();
     }
 
     @Override
     public Completable restartAsync() {
-        return this.manager().inner().virtualMachineScaleSets().restartAsync(this.resourceGroupName(), this.name()).toCompletable();
+        return this.manager().inner().virtualMachineScaleSets().restartAsync(this.resourceGroupName(), this.name());
     }
 
     @Override
@@ -248,12 +245,12 @@ public class VirtualMachineScaleSetImpl
 
     @Override
     public void start() {
-        this.startAsync().await();
+        this.startAsync().blockingAwait();
     }
 
     @Override
     public Completable startAsync() {
-        return this.manager().inner().virtualMachineScaleSets().startAsync(this.resourceGroupName(), this.name()).toCompletable();
+        return this.manager().inner().virtualMachineScaleSets().startAsync(this.resourceGroupName(), this.name());
     }
 
     @Override
@@ -263,12 +260,12 @@ public class VirtualMachineScaleSetImpl
 
     @Override
     public void reimage() {
-        this.reimageAsync().await();
+        this.reimageAsync().blockingAwait();
     }
 
     @Override
     public Completable reimageAsync() {
-        return this.manager().inner().virtualMachineScaleSets().reimageAsync(this.resourceGroupName(), this.name()).toCompletable();
+        return this.manager().inner().virtualMachineScaleSets().reimageAsync(this.resourceGroupName(), this.name());
     }
 
     @Override
@@ -1449,7 +1446,7 @@ public class VirtualMachineScaleSetImpl
         if (this.extensions.size() > 0) {
             this.inner()
                     .virtualMachineProfile()
-                    .withExtensionProfile(new VirtualMachineScaleSetExtensionProfile())
+                    .withExtensionProfile(new VirtualMachineScaleSetExtensionProfileInner())
                     .extensionProfile()
                     .withExtensions(innersFromWrappers(this.extensions.values()));
         }
@@ -1477,7 +1474,8 @@ public class VirtualMachineScaleSetImpl
         this.virtualMachineScaleSetMsiHandler.processCreatedExternalIdentities();
         this.virtualMachineScaleSetMsiHandler.handleExternalIdentities();
         return this.manager().inner().virtualMachineScaleSets()
-                .createOrUpdateAsync(resourceGroupName(), name(), inner());
+                .createOrUpdateAsync(resourceGroupName(), name(), inner())
+                .toObservable();
     }
 
     @Override
@@ -1492,7 +1490,7 @@ public class VirtualMachineScaleSetImpl
         if (this.extensions.size() > 0) {
             this.inner()
                     .virtualMachineProfile()
-                    .withExtensionProfile(new VirtualMachineScaleSetExtensionProfile())
+                    .withExtensionProfile(new VirtualMachineScaleSetExtensionProfileInner())
                     .extensionProfile()
                     .withExtensions(innersFromWrappers(this.extensions.values()));
         }
@@ -1511,40 +1509,36 @@ public class VirtualMachineScaleSetImpl
         this.bootDiagnosticsHandler.handleDiagnosticsSettings();
         this.virtualMachineScaleSetMsiHandler.processCreatedExternalIdentities();
         //
-        VirtualMachineScaleSetUpdate updateParameter = VMSSPatchPayload.preparePatchPayload(this);
+        VirtualMachineScaleSetUpdateInner updateParameter = VMSSPatchPayload.preparePatchPayload(this);
         //
         this.virtualMachineScaleSetMsiHandler.handleExternalIdentities(updateParameter);
         //
         final VirtualMachineScaleSetImpl self = this;
         return this.manager().inner().virtualMachineScaleSets()
                 .updateAsync(resourceGroupName(), name(), updateParameter)
-                .map(new Func1<VirtualMachineScaleSetInner, VirtualMachineScaleSet>() {
-                    @Override
-                    public VirtualMachineScaleSet call(VirtualMachineScaleSetInner vmssInner) {
-                        setInner(vmssInner);
-                        self.clearCachedProperties();
-                        self.initializeChildrenFromInner();
-                        self.virtualMachineScaleSetMsiHandler.clear();
-                        return self;
-                    }
+                .map(vmssInner -> {
+                    setInner(vmssInner);
+                    this.clearCachedProperties();
+                    this.initializeChildrenFromInner();
+                    this.virtualMachineScaleSetMsiHandler.clear();
+                    return (VirtualMachineScaleSet) this;
+                })
+                .toObservable();
+    }
+
+    @Override
+    public Maybe<VirtualMachineScaleSet> refreshAsync() {
+        return super.refreshAsync()
+                .map(virtualMachineScaleSet -> {
+                    VirtualMachineScaleSetImpl impl = (VirtualMachineScaleSetImpl) virtualMachineScaleSet;
+                    impl.clearCachedProperties();
+                    impl.initializeChildrenFromInner();
+                    return impl;
                 });
     }
 
     @Override
-    public Observable<VirtualMachineScaleSet> refreshAsync() {
-        return super.refreshAsync().map(new Func1<VirtualMachineScaleSet, VirtualMachineScaleSet>() {
-            @Override
-            public VirtualMachineScaleSet call(VirtualMachineScaleSet virtualMachineScaleSet) {
-                VirtualMachineScaleSetImpl impl = (VirtualMachineScaleSetImpl) virtualMachineScaleSet;
-                impl.clearCachedProperties();
-                impl.initializeChildrenFromInner();
-                return impl;
-            }
-        });
-    }
-
-    @Override
-    protected Observable<VirtualMachineScaleSetInner> getInnerAsync() {
+    protected Maybe<VirtualMachineScaleSetInner> getInnerAsync() {
         return this.manager().inner().virtualMachineScaleSets().getByResourceGroupAsync(this.resourceGroupName(), this.name());
     }
 
@@ -2846,5 +2840,14 @@ public class VirtualMachineScaleSetImpl
                 this.vmssInner().virtualMachineProfile().diagnosticsProfile().bootDiagnostics().withStorageUri(null);
             }
         }
+    }
+
+    public interface Func0<V> {
+        /**
+         * Computes a result, or throws an exception if unable to do so.
+         *
+         * @return computed result
+         */
+        V call();
     }
 }

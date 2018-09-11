@@ -19,7 +19,7 @@ public final class Region {
     // This needs to be at the beginning for the initialization to happen correctly
     private static final Map<String, Region> VALUES_BY_NAME = new HashMap<>();
 
-    // CHECKSTYLE IGNORE Javadoc FOR NEXT 50 LINES
+    // CHECKSTYLE IGNORE Javadoc FOR NEXT 52 LINES
     /**************************************************
      * Azure Cloud - Americas
      **************************************************/
@@ -64,6 +64,8 @@ public final class Region {
      **************************************************/
     public static final Region CHINA_NORTH = new Region("chinanorth", "China North");
     public static final Region CHINA_EAST = new Region("chinaeast", "China East");
+    public static final Region CHINA_NORTH2 = new Region("chinanorth2", "China North 2");
+    public static final Region CHINA_EAST2 = new Region("chinaeast2", "China East 2");
     /**************************************************
      * Azure German Cloud
      **************************************************/

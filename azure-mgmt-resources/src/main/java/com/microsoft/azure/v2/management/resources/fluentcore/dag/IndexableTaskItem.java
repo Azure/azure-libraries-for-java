@@ -66,7 +66,7 @@ public abstract class IndexableTaskItem
             protected io.reactivex.Observable<Indexable> invokeTaskAsync(TaskGroup.InvocationContext context) {
                 FunctionalTaskItem.Context fContext = new FunctionalTaskItem.Context(this);
                 fContext.setInnerContext(context);
-                return taskItem.call(fContext);
+                return taskItem.apply(fContext);
             }
         };
     }

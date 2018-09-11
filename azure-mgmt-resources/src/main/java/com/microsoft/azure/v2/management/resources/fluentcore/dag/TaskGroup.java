@@ -472,7 +472,7 @@ public class TaskGroup
                     }
                 };
 
-                return postRunObservable.flatMap(onNext,
+                return postRunObservable.flatMap(onNext, // no onNext call as stream is created from Completable.
                         onError,
                         onComplete);
             }

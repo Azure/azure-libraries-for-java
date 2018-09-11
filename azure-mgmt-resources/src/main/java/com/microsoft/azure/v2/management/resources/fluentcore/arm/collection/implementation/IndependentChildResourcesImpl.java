@@ -30,7 +30,7 @@ public abstract class IndependentChildResourcesImpl<
         InnerCollectionT,
         ManagerT extends ManagerBase,
         ParentT extends Resource & HasResourceGroup>
-    extends IndependentChildrenImpl<T, ImplT, InnerT, InnerCollectionT, ManagerT, ParentT> {
+        extends IndependentChildrenImpl<T, ImplT, InnerT, InnerCollectionT, ManagerT, ParentT> {
 
     protected IndependentChildResourcesImpl(InnerCollectionT innerCollection, ManagerT manager) {
         super(innerCollection, manager);

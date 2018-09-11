@@ -44,7 +44,7 @@ public abstract class CreatableResourcesImpl<T extends Indexable, ImplT extends 
 
     @Override
     @SafeVarargs
-    public final CreatedResources<T> create(Creatable<T>... creatables) {
+    public final CreatedResources<T> create(Creatable<T> ... creatables) {
         return createAsyncNonStream(creatables)
                 .blockingGet();
     }
@@ -81,10 +81,9 @@ public abstract class CreatableResourcesImpl<T extends Indexable, ImplT extends 
         return ServiceFuture.fromBody(createAsyncNonStream(creatables), callback);
     }
 
-
     private Single<CreatedResources<T>> createAsyncNonStream(List<Creatable<T>> creatables) {
         return Utils.<CreatableUpdatableResourcesRoot<T>>rootResource(this.createAsync(creatables))
-                .map(new Function<CreatableUpdatableResourcesRoot<T>, CreatedResources<T>>() {
+                .map(new io.reactivex.functions.Function<CreatableUpdatableResourcesRoot<T>, CreatedResources<T>>() {
                     @Override
                     public CreatedResources<T> apply(CreatableUpdatableResourcesRoot<T> tCreatableUpdatableResourcesRoot) {
                         return new CreatedResourcesImpl<>(tCreatableUpdatableResourcesRoot);
@@ -108,8 +107,8 @@ public abstract class CreatableResourcesImpl<T extends Indexable, ImplT extends 
      * @param <ResourceT> the type of the resources in the batch.
      */
     private class CreatedResourcesImpl<ResourceT extends Indexable>
-        extends HashMap<String, ResourceT>
-        implements CreatedResources<ResourceT> {
+            extends HashMap<String, ResourceT>
+            implements CreatedResources<ResourceT> {
         private static final long serialVersionUID = -1360746896732289907L;
         private CreatableUpdatableResourcesRoot<ResourceT> creatableUpdatableResourcesRoot;
 
@@ -146,7 +145,7 @@ public abstract class CreatableResourcesImpl<T extends Indexable, ImplT extends 
         }
     }
 
-     /**
+    /**
      * The local root resource that is used as dummy parent resource for the batch creatable resources
      * added via <code>SupportsBatchCreation.create()</code> or <code>CreatableResourcesImpl#createAsync</code>.
      *
@@ -218,6 +217,9 @@ public abstract class CreatableResourcesImpl<T extends Indexable, ImplT extends 
             return true;
         }
 
+        // Below overrides returns null as this is not a real resource in Azure
+        // but a dummy resource representing parent of a batch of creatable Azure
+        // resources.
         @Override
         protected Maybe<Object> getInnerAsync() {
             return Maybe.empty();

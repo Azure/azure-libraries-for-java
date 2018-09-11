@@ -88,7 +88,7 @@ public class RoleAssignmentHelper {
     public RoleAssignmentHelper withAccessTo(final String scope, final BuiltInRole asRole) {
         FunctionalTaskItem creator = new FunctionalTaskItem() {
             @Override
-            public Observable<Indexable> call(final Context cxt) {
+            public Observable<Indexable> apply(final Context cxt) {
                 final String principalId = idProvider.principalId();
                 if (principalId == null) {
                     return cxt.voidObservable();
@@ -145,7 +145,7 @@ public class RoleAssignmentHelper {
     public RoleAssignmentHelper withAccessTo(final String scope, final String roleDefinitionId) {
         FunctionalTaskItem creator = new FunctionalTaskItem() {
             @Override
-            public Observable<Indexable> call(final Context cxt) {
+            public Observable<Indexable> apply(final Context cxt) {
                 final String principalId = idProvider.principalId();
                 if (principalId == null) {
                     return cxt.voidObservable();
@@ -191,7 +191,7 @@ public class RoleAssignmentHelper {
         }
         FunctionalTaskItem remover = new FunctionalTaskItem() {
             @Override
-            public Observable<Indexable> call(final Context cxt) {
+            public Observable<Indexable> apply(final Context cxt) {
                 return rbacManager
                         .roleAssignments()
                         .deleteByIdAsync(roleAssignment.id())
@@ -213,7 +213,7 @@ public class RoleAssignmentHelper {
     public RoleAssignmentHelper withoutAccessTo(final String scope, final BuiltInRole asRole) {
         FunctionalTaskItem remover = new FunctionalTaskItem() {
             @Override
-            public Observable<Indexable> call(final Context cxt) {
+            public Observable<Indexable> apply(final Context cxt) {
                 return rbacManager
                         .roleDefinitions()
                         .getByScopeAndRoleNameAsync(scope, asRole.toString())

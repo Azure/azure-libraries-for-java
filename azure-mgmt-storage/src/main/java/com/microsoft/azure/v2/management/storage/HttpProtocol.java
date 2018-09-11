@@ -30,7 +30,7 @@ public enum HttpProtocol {
      */
     private final String value;
 
-    private HttpProtocol(String value) {
+    HttpProtocol(String value) {
         this.value = value;
     }
 

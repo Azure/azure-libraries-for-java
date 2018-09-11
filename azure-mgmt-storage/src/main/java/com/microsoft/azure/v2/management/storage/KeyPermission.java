@@ -30,7 +30,7 @@ public enum KeyPermission {
      */
     private final String value;
 
-    private KeyPermission(String value) {
+    KeyPermission(String value) {
         this.value = value;
     }
 

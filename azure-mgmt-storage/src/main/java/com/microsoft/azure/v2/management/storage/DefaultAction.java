@@ -30,7 +30,7 @@ public enum DefaultAction {
      */
     private final String value;
 
-    private DefaultAction(String value) {
+    DefaultAction(String value) {
         this.value = value;
     }
 

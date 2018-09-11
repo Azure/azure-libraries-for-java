@@ -30,7 +30,7 @@ public enum AccessTier {
      */
     private final String value;
 
-    private AccessTier(String value) {
+    AccessTier(String value) {
         this.value = value;
     }
 

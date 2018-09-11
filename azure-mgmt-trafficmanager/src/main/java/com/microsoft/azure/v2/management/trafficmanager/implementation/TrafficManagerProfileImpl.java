@@ -6,7 +6,6 @@
 package com.microsoft.azure.v2.management.trafficmanager.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
 import com.microsoft.azure.v2.management.resources.fluentcore.utils.Utils;
 import com.microsoft.azure.v2.management.trafficmanager.MonitorProtocol;

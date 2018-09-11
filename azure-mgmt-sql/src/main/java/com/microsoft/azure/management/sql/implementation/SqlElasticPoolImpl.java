@@ -189,7 +189,7 @@ public class SqlElasticPoolImpl
 
     @Override
     public Region region() {
-        return Region.findByLabelOrName(this.regionName());
+        return Region.fromName(this.regionName());
     }
 
     @Override

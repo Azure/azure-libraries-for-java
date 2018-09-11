@@ -919,7 +919,7 @@ public class AzureTests extends TestBase {
         Subscription subscription = azure.getCurrentSubscription();
         Assert.assertNotNull(subscription);
         for (Location location : subscription.listLocations()) {
-            Region region = Region.findByLabelOrName(location.name());
+            Region region = Region.fromName(location.name());
             Assert.assertNotNull("Could not find region " + location.name(), region);
             Assert.assertEquals(region, location.region());
             Assert.assertEquals(region.name().toLowerCase(), location.name().toLowerCase());

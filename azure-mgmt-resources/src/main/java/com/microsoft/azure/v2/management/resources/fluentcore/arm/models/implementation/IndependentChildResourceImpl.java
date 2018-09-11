@@ -28,15 +28,15 @@ import java.util.TreeMap;
  */
 @LangDefinition
 public abstract class IndependentChildResourceImpl<
-            FluentModelT extends IndependentChildResource<ManagerT, InnerModelT>,
-            FluentParentModelT extends Resource & HasResourceGroup,
-            InnerModelT extends com.microsoft.azure.v2.Resource,
-            FluentModelImplT extends IndependentChildResourceImpl<FluentModelT, FluentParentModelT, InnerModelT, FluentModelImplT, ManagerT>,
-            ManagerT>
+        FluentModelT extends IndependentChildResource<ManagerT, InnerModelT>,
+        FluentParentModelT extends Resource & HasResourceGroup,
+        InnerModelT extends com.microsoft.azure.v2.Resource,
+        FluentModelImplT extends IndependentChildResourceImpl<FluentModelT, FluentParentModelT, InnerModelT, FluentModelImplT, ManagerT>,
+        ManagerT>
         extends
-            IndependentChildImpl<FluentModelT, FluentParentModelT, InnerModelT, FluentModelImplT, ManagerT>
+        IndependentChildImpl<FluentModelT, FluentParentModelT, InnerModelT, FluentModelImplT, ManagerT>
         implements
-            IndependentChildResource<ManagerT, InnerModelT> {
+        IndependentChildResource<ManagerT, InnerModelT> {
     /**
      * Creates a new instance of CreatableUpdatableImpl.
      *
@@ -116,6 +116,9 @@ public abstract class IndependentChildResourceImpl<
      */
     @SuppressWarnings("unchecked")
     public final FluentModelImplT withTag(String key, String value) {
+        if (this.inner().getTags() == null) {
+            this.inner().withTags(new HashMap<String, String>());
+        }
         this.inner().getTags().put(key, value);
         return (FluentModelImplT) this;
     }
@@ -127,7 +130,9 @@ public abstract class IndependentChildResourceImpl<
      */
     @SuppressWarnings("unchecked")
     public final FluentModelImplT withoutTag(String key) {
-        this.inner().getTags().remove(key);
+        if (this.inner().getTags() != null) {
+            this.inner().getTags().remove(key);
+        }
         return (FluentModelImplT) this;
     }
 

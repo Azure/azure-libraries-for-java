@@ -29,9 +29,9 @@ public abstract class GroupableResourceImpl<
         FluentModelImplT extends GroupableResourceImpl<FluentModelT, InnerModelT, FluentModelImplT, ManagerT>,
         ManagerT extends ManagerBase>
         extends
-            ResourceImpl<FluentModelT, InnerModelT, FluentModelImplT>
+        ResourceImpl<FluentModelT, InnerModelT, FluentModelImplT>
         implements
-            GroupableResource<ManagerT, InnerModelT> {
+        GroupableResource<ManagerT, InnerModelT> {
 
     protected final ManagerT myManager;
     protected Creatable<ResourceGroup> creatableGroup;

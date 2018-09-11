@@ -10,6 +10,7 @@ import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.impleme
 import com.microsoft.azure.v2.management.resources.fluentcore.dag.TaskGroup;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
 import io.reactivex.Single;
 import io.reactivex.exceptions.CompositeException;
 import io.reactivex.functions.Action;
@@ -155,7 +156,7 @@ public abstract class ExternalChildResourceCollectionImpl<
                 }).flatMapCompletable(new Function<FluentModelTImpl, Completable>() {
                     @Override
                     public Completable apply(final FluentModelTImpl childResource) {
-                        return childResource.deleteAsync()
+                        return childResource.deleteResourceAsync()
                                 .doOnComplete(new Action() {
                                     @Override
                                     public void run() {
@@ -163,13 +164,15 @@ public abstract class ExternalChildResourceCollectionImpl<
                                         self.childCollection.remove(childResource.name());
                                     }
                                 })
-                                .onErrorResumeNext(new Function<Throwable, Completable>() {
+                                .onErrorResumeNext(new Function<Throwable, ObservableSource<? extends Void>>() {
                                     @Override
-                                    public Completable apply(Throwable throwable) {
+                                    public ObservableSource<? extends Void> apply(Throwable throwable) throws Exception {
                                         exceptionsList.add(throwable);
-                                        return Completable.complete();
+                                        return Observable.empty();
                                     }
-                                });
+                                })
+                                .lastElement()
+                                .flatMapCompletable(o -> Completable.complete());
                     }
                 });
 
@@ -182,7 +185,7 @@ public abstract class ExternalChildResourceCollectionImpl<
                 }).flatMap(new Function<FluentModelTImpl, Observable<FluentModelTImpl>>() {
                     @Override
                     public Observable<FluentModelTImpl> apply(final FluentModelTImpl childResource) {
-                        return childResource.createAsync()
+                        return childResource.createResourceAsync()
                                 .map(new Function<FluentModelT, FluentModelTImpl>() {
                                     @Override
                                     public FluentModelTImpl apply(FluentModelT fluentModelT) {
@@ -215,7 +218,7 @@ public abstract class ExternalChildResourceCollectionImpl<
                 }).flatMap(new Function<FluentModelTImpl, Observable<FluentModelTImpl>>() {
                     @Override
                     public Observable<FluentModelTImpl> apply(final FluentModelTImpl childResource) {
-                        return childResource.updateAsync()
+                        return childResource.updateResourceAsync()
                                 .map(new Function<FluentModelT, FluentModelTImpl>() {
                                     @Override
                                     public FluentModelTImpl apply(FluentModelT e) {

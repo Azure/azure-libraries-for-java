@@ -16,8 +16,8 @@ import com.microsoft.azure.v2.management.resources.fluentcore.model.implementati
  * @param <ParentT> parent interface
  */
 public abstract class ChildResourceImpl<InnerT, ParentImplT extends ParentT, ParentT>
-    extends IndexableWrapperImpl<InnerT>
-    implements ChildResource<ParentT> {
+        extends IndexableWrapperImpl<InnerT>
+        implements ChildResource<ParentT> {
 
     private final ParentImplT parent;
 

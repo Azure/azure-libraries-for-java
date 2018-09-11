@@ -9,7 +9,6 @@ package com.microsoft.azure.v2.management.compute;
 import com.microsoft.azure.v2.PagedList;
 import com.microsoft.azure.v2.management.compute.implementation.ComputeManager;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.v2.management.compute.ScaleTier;
 import com.microsoft.rest.v2.http.HttpPipeline;
 import org.junit.Assert;
 import org.junit.Ignore;
@@ -194,8 +193,7 @@ public class SharedGalleryImageTests extends ComputeManagementTest {
                 .withLocation(REGION.toString())
                 .withSourceCustomImage(customImage)
                 // Options - Start
-                .withRegionAvailability(Region.US_EAST2)
-                .withScaleTier(ScaleTier.S30)
+                .withRegionAvailability(Region.US_EAST2, 1)
                 // Options - End
                 .create();
 
@@ -203,8 +201,6 @@ public class SharedGalleryImageTests extends ComputeManagementTest {
         Assert.assertNotNull(imageVersion.inner());
         Assert.assertNotNull(imageVersion.availableRegions());
         Assert.assertEquals(2, imageVersion.availableRegions().size());
-        Assert.assertNotNull(imageVersion.scaleTier());
-        Assert.assertTrue(imageVersion.scaleTier().equals(ScaleTier.S30));
         Assert.assertFalse(imageVersion.isExcludedFromLatest());
 
         //

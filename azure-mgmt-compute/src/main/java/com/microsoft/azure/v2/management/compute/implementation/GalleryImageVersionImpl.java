@@ -13,6 +13,7 @@ import com.microsoft.azure.v2.management.compute.GalleryImageVersionPublishingPr
 import com.microsoft.azure.v2.management.compute.GalleryImageVersionStorageProfile;
 import com.microsoft.azure.v2.management.compute.ManagedArtifact;
 import com.microsoft.azure.v2.management.compute.ReplicationStatus;
+import com.microsoft.azure.v2.management.compute.TargetRegion;
 import com.microsoft.azure.v2.management.compute.VirtualMachineCustomImage;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
@@ -118,11 +119,11 @@ class GalleryImageVersionImpl extends CreatableUpdatableImpl<GalleryImageVersion
     }
 
     @Override
-    public List<Region> availableRegions() {
-        List<Region> regions = new ArrayList<Region>();
-        if (this.inner().publishingProfile() != null && this.inner().publishingProfile().regions() != null) {
-            for (String regionStr : this.inner().publishingProfile().regions()) {
-                regions.add(Region.fromName(regionStr));
+    public List<TargetRegion> availableRegions() {
+        List<TargetRegion> regions = new ArrayList<TargetRegion>();
+        if (this.inner().publishingProfile() != null && this.inner().publishingProfile().targetRegions() != null) {
+            for (TargetRegion targetRegion : this.inner().publishingProfile().targetRegions()) {
+                regions.add(new TargetRegion().withName(targetRegion.name()).withRegionalReplicaCount(targetRegion.regionalReplicaCount()));
             }
         }
         return Collections.unmodifiableList(regions);
@@ -143,15 +144,6 @@ class GalleryImageVersionImpl extends CreatableUpdatableImpl<GalleryImageVersion
             return this.inner().publishingProfile().excludeFromLatest();
         } else {
             return false;
-        }
-    }
-
-    @Override
-    public ScaleTier scaleTier() {
-        if (this.inner().publishingProfile() != null) {
-            return this.inner().publishingProfile().scaleTier();
-        } else {
-            return null;
         }
     }
 
@@ -213,32 +205,39 @@ class GalleryImageVersionImpl extends CreatableUpdatableImpl<GalleryImageVersion
     }
 
     @Override
-    public GalleryImageVersionImpl withRegionAvailability(Region region) {
+    public GalleryImageVersionImpl withRegionAvailability(Region region, int replicaCount) {
         if (this.inner().publishingProfile() == null) {
             this.inner().withPublishingProfile(new GalleryImageVersionPublishingProfile());
         }
-        if (this.inner().publishingProfile().regions() == null) {
-            this.inner().publishingProfile().withRegions(new ArrayList<String>());
+        if (this.inner().publishingProfile().targetRegions() == null) {
+            this.inner().publishingProfile().withTargetRegions(new ArrayList<TargetRegion>());
         }
+
         boolean found = false;
         String newRegionName = region.toString();
         String newRegionNameTrimmed = newRegionName.replaceAll("\\s", "");
-        for (String regionStr : this.inner().publishingProfile().regions()) {
+        for (TargetRegion targetRegion : this.inner().publishingProfile().targetRegions()) {
+            String regionStr = targetRegion.name();
             String regionStrTrimmed = regionStr.replaceAll("\\s", "");
             if (regionStrTrimmed.equalsIgnoreCase(newRegionNameTrimmed)) {
+                targetRegion.withRegionalReplicaCount(replicaCount); // Update existing
                 found = true;
                 break;
             }
         }
         if (!found) {
-            this.inner().publishingProfile().regions().add(newRegionName);
+            TargetRegion targetRegion = new TargetRegion()
+                    .withName(newRegionName)
+                    .withRegionalReplicaCount(replicaCount);
+            this.inner().publishingProfile().targetRegions().add(targetRegion);
         }
         //
         // Gallery image version publishing profile regions list must contain the location of image version.
         //
         found = false;
         String locationTrimmed = this.location().replaceAll("\\s", "");
-        for (String regionStr : this.inner().publishingProfile().regions()) {
+        for (TargetRegion targetRegion : this.inner().publishingProfile().targetRegions()) {
+            String regionStr = targetRegion.name();
             String regionStrTrimmed = regionStr.replaceAll("\\s", "");
             if (regionStrTrimmed.equalsIgnoreCase(locationTrimmed)) {
                 found = true;
@@ -246,27 +245,28 @@ class GalleryImageVersionImpl extends CreatableUpdatableImpl<GalleryImageVersion
             }
         }
         if (!found) {
-            this.inner().publishingProfile().regions().add(this.location());
+            TargetRegion defaultTargetRegion = new TargetRegion()
+                    .withName(this.location())
+                    .withRegionalReplicaCount(null); // null means default where service default to 1 replica
+            this.inner().publishingProfile().targetRegions().add(defaultTargetRegion);
         }
         //
         return this;
     }
 
     @Override
-    public GalleryImageVersionImpl withRegionAvailability(List<Region> regions) {
+    public GalleryImageVersionImpl withRegionAvailability(List<TargetRegion> targetRegions) {
         if (this.inner().publishingProfile() == null) {
             this.inner().withPublishingProfile(new GalleryImageVersionPublishingProfile());
         }
-        this.inner().publishingProfile().withRegions(new ArrayList<String>());
-        for (Region region : regions) {
-            this.inner().publishingProfile().regions().add(region.toString());
-        }
+        this.inner().publishingProfile().withTargetRegions(targetRegions);
         //
         // Gallery image version publishing profile regions list must contain the location of image version.
         //
         boolean found = false;
         String locationTrimmed = this.location().replaceAll("\\s", "");
-        for (String regionStr : this.inner().publishingProfile().regions()) {
+        for (TargetRegion targetRegion : this.inner().publishingProfile().targetRegions()) {
+            String regionStr = targetRegion.name();
             String regionStrTrimmed = regionStr.replaceAll("\\s", "");
             if (regionStrTrimmed.equalsIgnoreCase(locationTrimmed)) {
                 found = true;
@@ -274,7 +274,10 @@ class GalleryImageVersionImpl extends CreatableUpdatableImpl<GalleryImageVersion
             }
         }
         if (!found) {
-            this.inner().publishingProfile().regions().add(this.location());
+            TargetRegion defaultTargetRegion = new TargetRegion()
+                    .withName(this.location())
+                    .withRegionalReplicaCount(null); // null means default where service default to 1 replica
+            this.inner().publishingProfile().targetRegions().add(defaultTargetRegion);
         }
         //
         return this;
@@ -282,13 +285,14 @@ class GalleryImageVersionImpl extends CreatableUpdatableImpl<GalleryImageVersion
 
     @Override
     public Update withoutRegionAvailability(Region region) {
-        if (this.inner().publishingProfile() != null && this.inner().publishingProfile().regions() != null) {
+        if (this.inner().publishingProfile() != null && this.inner().publishingProfile().targetRegions() != null) {
             int foundIndex = -1;
             int i = 0;
             String regionNameToRemove = region.toString();
             String regionNameToRemoveTrimmed = regionNameToRemove.replaceAll("\\s", "");
 
-            for (String regionStr : this.inner().publishingProfile().regions()) {
+            for (TargetRegion targetRegion : this.inner().publishingProfile().targetRegions()) {
+                String regionStr = targetRegion.name();
                 String regionStrTrimmed = regionStr.replaceAll("\\s", "");
                 if (regionStrTrimmed.equalsIgnoreCase(regionNameToRemoveTrimmed)) {
                     foundIndex = i;
@@ -297,21 +301,11 @@ class GalleryImageVersionImpl extends CreatableUpdatableImpl<GalleryImageVersion
                 i++;
             }
             if (foundIndex != -1) {
-                this.inner().publishingProfile().regions().remove(foundIndex);
+                this.inner().publishingProfile().targetRegions().remove(foundIndex);
             }
         }
         return this;
     }
-
-    @Override
-    public GalleryImageVersionImpl withScaleTier(ScaleTier scaleTier) {
-        if (this.inner().publishingProfile() == null) {
-            this.inner().withPublishingProfile(new GalleryImageVersionPublishingProfile());
-        }
-        this.inner().publishingProfile().withScaleTier(scaleTier);
-        return this;
-    }
-
 
     @Override
     public GalleryImageVersionImpl withEndOfLifeDate(OffsetDateTime endOfLifeDate) {

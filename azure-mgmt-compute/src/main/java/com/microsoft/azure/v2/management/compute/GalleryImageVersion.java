@@ -67,7 +67,7 @@ public interface GalleryImageVersion extends HasInner<GalleryImageVersionInner>,
      * @return the regions in which the image version is available.
      */
     @Beta(since="V1_15_0")
-    List<Region> availableRegions();
+    List<TargetRegion> availableRegions();
 
     /**
      * @return the date indicating image version's end of life.
@@ -81,12 +81,6 @@ public interface GalleryImageVersion extends HasInner<GalleryImageVersionInner>,
      */
     @Beta(since="V1_15_0")
     Boolean isExcludedFromLatest();
-
-    /**
-     * @return the image version scale tier.
-     */
-    @Beta(since="V1_15_0")
-    ScaleTier scaleTier();
 
     /**
      * @return the replicationStatus of image version in published regions.
@@ -210,10 +204,11 @@ public interface GalleryImageVersion extends HasInner<GalleryImageVersionInner>,
              * Specifies a region in which image version needs to be available.
              *
              * @param region the region
+             * @param replicaCount the replica count
              * @return the next definition stage
              */
             @Beta(since="V1_15_0")
-            WithCreate withRegionAvailability(Region region);
+            WithCreate withRegionAvailability(Region region, int replicaCount);
 
             /**
              * Specifies list of regions in which image version needs to be available.
@@ -222,22 +217,7 @@ public interface GalleryImageVersion extends HasInner<GalleryImageVersionInner>,
              * @return the next definition stage
              */
             @Beta(since="V1_15_0")
-            WithCreate withRegionAvailability(List<Region> regions);
-        }
-
-        /**
-         * The stage of the image version definition allowing to specify the scale tier.
-         */
-        @Beta(since="V1_15_0")
-        interface WithScaleTier {
-            /**
-             * Specifies the scale tier.
-             *
-             * @param scaleTier the scale tier
-             * @return the next stage of the definition
-             */
-            @Beta(since="V1_15_0")
-            WithCreate withScaleTier(ScaleTier scaleTier);
+            WithCreate withRegionAvailability(List<TargetRegion> regions);
         }
 
         /**
@@ -294,7 +274,6 @@ public interface GalleryImageVersion extends HasInner<GalleryImageVersionInner>,
         @Beta(since="V1_15_0")
         interface WithCreate extends Creatable<GalleryImageVersion>,
                 DefinitionStages.WithAvailableRegion,
-                DefinitionStages.WithScaleTier,
                 DefinitionStages.WithEndOfLifeDate,
                 DefinitionStages.WithExcludeFromLatest,
                 DefinitionStages.WithTags {
@@ -306,7 +285,6 @@ public interface GalleryImageVersion extends HasInner<GalleryImageVersionInner>,
     @Beta(since="V1_15_0")
     interface Update extends Appliable<GalleryImageVersion>,
             UpdateStages.WithAvailableRegion,
-            UpdateStages.WithScaleTier,
             UpdateStages.WithEndOfLifeDate,
             UpdateStages.WithExcludeFromLatest,
             UpdateStages.WithTags {
@@ -327,10 +305,11 @@ public interface GalleryImageVersion extends HasInner<GalleryImageVersionInner>,
              * Specifies a region in which image version needs to be available.
              *
              * @param region the region
-             * @return the next update stage
+             * @param replicaCount the replica count
+             * @return the next definition stage
              */
             @Beta(since="V1_15_0")
-            Update withRegionAvailability(Region region);
+            Update withRegionAvailability(Region region, int replicaCount);
 
             /**
              * Specifies list of regions in which image version needs to be available.
@@ -339,7 +318,7 @@ public interface GalleryImageVersion extends HasInner<GalleryImageVersionInner>,
              * @return the next update stage
              */
             @Beta(since="V1_15_0")
-            Update withRegionAvailability(List<Region> regions);
+            Update withRegionAvailability(List<TargetRegion> regions);
 
             /**
              * Specifies that an image version should be removed from an existing region serving it.
@@ -349,21 +328,6 @@ public interface GalleryImageVersion extends HasInner<GalleryImageVersionInner>,
              */
             @Beta(since="V1_15_0")
             Update withoutRegionAvailability(Region region);
-        }
-
-        /**
-         * The stage of the image version update allowing to specify the scale tier.
-         */
-        @Beta(since="V1_15_0")
-        interface WithScaleTier {
-            /**
-             * Specifies the scale tier.
-             *
-             * @param scaleTier the scale tier
-             * @return the next stage of the update
-             */
-            @Beta(since="V1_15_0")
-            Update withScaleTier(ScaleTier scaleTier);
         }
 
         /**

@@ -4,15 +4,10 @@
  * license information.
  */
 
-package com.microsoft.azure.management.compute;
+package com.microsoft.azure.v2.management.compute;
 
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.v2.management.compute.CachingTypes;
-import com.microsoft.azure.v2.management.compute.DiskVolumeEncryptionMonitor;
-import com.microsoft.azure.v2.management.compute.EncryptionStatus;
-import com.microsoft.azure.v2.management.compute.VirtualMachine;
-import com.microsoft.azure.v2.management.compute.VirtualMachineSizeTypes;
-import com.microsoft.rest.RestClient;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
+import com.microsoft.rest.v2.http.HttpPipeline;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -20,10 +15,11 @@ import org.junit.Test;
 public class VirtualMachineEncryptionOperationsTests extends ComputeManagementTest {
     private static String RG_NAME = "";
     private static Region REGION = Region.US_EAST;
+
     @Override
-    protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {
-        RG_NAME = generateRandomResourceName("vmencryptst", 18);
-        super.initializeClients(restClient, defaultSubscription, domain);
+    protected void initializeClients(HttpPipeline httpPipeline, String defaultSubscription, String domain) {
+        RG_NAME = generateRandomResourceName("javacsmrg", 15);
+        super.initializeClients(httpPipeline, defaultSubscription, domain);
     }
 
     @Override

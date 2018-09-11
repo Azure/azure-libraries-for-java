@@ -4,30 +4,24 @@
  * license information.
  */
 
-package com.microsoft.azure.management.compute;
+package com.microsoft.azure.v2.management.compute;
 
-import com.microsoft.azure.management.network.LoadBalancer;
-import com.microsoft.azure.management.network.LoadBalancerFrontend;
-import com.microsoft.azure.management.network.LoadBalancerPublicFrontend;
-import com.microsoft.azure.management.network.LoadBalancerSkuType;
-import com.microsoft.azure.management.network.LoadBalancingRule;
-import com.microsoft.azure.management.network.Network;
-import com.microsoft.azure.management.network.PublicIPAddress;
-import com.microsoft.azure.management.network.PublicIPSkuType;
-import com.microsoft.azure.management.network.Subnet;
-import com.microsoft.azure.management.network.TransportProtocol;
-import com.microsoft.azure.management.resources.ResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.arm.AvailabilityZoneId;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.model.CreatedResources;
-import com.microsoft.azure.v2.management.compute.CachingTypes;
-import com.microsoft.azure.v2.management.compute.Disk;
-import com.microsoft.azure.v2.management.compute.KnownLinuxVirtualMachineImage;
-import com.microsoft.azure.v2.management.compute.VirtualMachine;
-import com.microsoft.azure.v2.management.compute.VirtualMachineDataDisk;
-import com.microsoft.azure.v2.management.compute.VirtualMachineSizeTypes;
-import com.microsoft.rest.RestClient;
+import com.microsoft.azure.v2.management.network.LoadBalancer;
+import com.microsoft.azure.v2.management.network.LoadBalancerFrontend;
+import com.microsoft.azure.v2.management.network.LoadBalancerPublicFrontend;
+import com.microsoft.azure.v2.management.network.LoadBalancerSkuType;
+import com.microsoft.azure.v2.management.network.LoadBalancingRule;
+import com.microsoft.azure.v2.management.network.Network;
+import com.microsoft.azure.v2.management.network.PublicIPAddress;
+import com.microsoft.azure.v2.management.network.PublicIPSkuType;
+import com.microsoft.azure.v2.management.network.Subnet;
+import com.microsoft.azure.v2.management.network.TransportProtocol;
+import com.microsoft.azure.v2.management.resources.ResourceGroup;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.AvailabilityZoneId;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Creatable;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.CreatedResources;
+import com.microsoft.rest.v2.http.HttpPipeline;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -41,9 +35,9 @@ public class VirtualMachineAvailabilityZoneOperationsTests extends ComputeManage
     private static final String VMNAME = "javavm";
 
     @Override
-    protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {
+    protected void initializeClients(HttpPipeline httpPipeline, String defaultSubscription, String domain) {
         RG_NAME = generateRandomResourceName("javacsmrg", 15);
-        super.initializeClients(restClient, defaultSubscription, domain);
+        super.initializeClients(httpPipeline, defaultSubscription, domain);
     }
 
     @Override

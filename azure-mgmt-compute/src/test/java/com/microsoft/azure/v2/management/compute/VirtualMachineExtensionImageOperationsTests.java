@@ -4,16 +4,9 @@
  * license information.
  */
 
-package com.microsoft.azure.management.compute;
+package com.microsoft.azure.v2.management.compute;
 
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.v2.management.compute.OperatingSystemTypes;
-import com.microsoft.azure.v2.management.compute.VirtualMachineExtensionImage;
-import com.microsoft.azure.v2.management.compute.VirtualMachineExtensionImageType;
-import com.microsoft.azure.v2.management.compute.VirtualMachineExtensionImageTypes;
-import com.microsoft.azure.v2.management.compute.VirtualMachineExtensionImageVersion;
-import com.microsoft.azure.v2.management.compute.VirtualMachineExtensionImageVersions;
-import com.microsoft.azure.v2.management.compute.VirtualMachinePublisher;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
 import org.junit.Assert;
 import org.junit.Test;
 

@@ -4,14 +4,12 @@
  * license information.
  */
 
-package com.microsoft.azure.management.compute;
+package com.microsoft.azure.v2.management.compute;
 
-import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.resources.fluentcore.arm.AvailabilityZoneId;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.v2.management.compute.ComputeResourceType;
-import com.microsoft.azure.v2.management.compute.ComputeSku;
-import com.microsoft.rest.RestClient;
+import com.microsoft.azure.v2.PagedList;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.AvailabilityZoneId;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
+import com.microsoft.rest.v2.http.HttpPipeline;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -20,8 +18,8 @@ import java.util.Set;
 
 public class ComputeSkuTetsts extends ComputeManagementTest {
     @Override
-    protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {
-        super.initializeClients(restClient, defaultSubscription, domain);
+    protected void initializeClients(HttpPipeline httpPipeline, String defaultSubscription, String domain) {
+        super.initializeClients(httpPipeline, defaultSubscription, domain);
     }
 
     @Test

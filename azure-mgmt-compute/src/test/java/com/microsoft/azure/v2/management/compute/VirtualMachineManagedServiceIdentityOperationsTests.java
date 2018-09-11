@@ -4,27 +4,21 @@
  * license information.
  */
 
-package com.microsoft.azure.management.compute;
+package com.microsoft.azure.v2.management.compute;
 
-import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.graphrbac.BuiltInRole;
-import com.microsoft.azure.management.graphrbac.RoleAssignment;
-import com.microsoft.azure.management.graphrbac.ServicePrincipal;
-import com.microsoft.azure.management.resources.ResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.dag.TaskGroup;
-import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
-import com.microsoft.azure.management.storage.StorageAccount;
-import com.microsoft.azure.v2.management.compute.CachingTypes;
-import com.microsoft.azure.v2.management.compute.KnownLinuxVirtualMachineImage;
-import com.microsoft.azure.v2.management.compute.ResourceIdentityType;
-import com.microsoft.azure.v2.management.compute.VirtualMachine;
-import com.microsoft.azure.v2.management.compute.VirtualMachineSizeTypes;
-import com.microsoft.rest.RestClient;
+import com.microsoft.azure.v2.PagedList;
+import com.microsoft.azure.v2.management.graphrbac.BuiltInRole;
+import com.microsoft.azure.v2.management.graphrbac.RoleAssignment;
+import com.microsoft.azure.v2.management.graphrbac.ServicePrincipal;
+import com.microsoft.azure.v2.management.resources.ResourceGroup;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.v2.management.resources.fluentcore.dag.TaskGroup;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Indexable;
+import com.microsoft.azure.v2.management.storage.StorageAccount;
+import com.microsoft.rest.v2.http.HttpPipeline;
+import io.reactivex.Observable;
 import org.junit.Assert;
 import org.junit.Test;
-import rx.Observable;
-import rx.functions.Action1;
 
 public class VirtualMachineManagedServiceIdentityOperationsTests extends ComputeManagementTest {
     private static String RG_NAME = "";
@@ -32,10 +26,11 @@ public class VirtualMachineManagedServiceIdentityOperationsTests extends Compute
     private static final String VMNAME = "javavm";
 
     @Override
-    protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {
+    protected void initializeClients(HttpPipeline httpPipeline, String defaultSubscription, String domain) {
         RG_NAME = generateRandomResourceName("javacsmrg", 15);
-        super.initializeClients(restClient, defaultSubscription, domain);
+        super.initializeClients(httpPipeline, defaultSubscription, domain);
     }
+
 
     @Override
     protected void cleanUpResources() {
@@ -127,17 +122,12 @@ public class VirtualMachineManagedServiceIdentityOperationsTests extends Compute
         final VirtualMachine[] virtualMachines = new VirtualMachine[1];
         final RoleAssignment[] roleAssignments = new RoleAssignment[1];
 
-        resources
-                .toBlocking()
-                .subscribe(new Action1<Indexable>() {
-                    @Override
-                    public void call(Indexable indexable) {
-                        if (indexable instanceof VirtualMachine) {
-                            virtualMachines[0] = (VirtualMachine) indexable;
-                        }
-                        if (indexable instanceof RoleAssignment) {
-                            roleAssignments[0] = (RoleAssignment) indexable;
-                        }
+        resources.subscribe(indexable -> {
+                    if (indexable instanceof VirtualMachine) {
+                        virtualMachines[0] = (VirtualMachine) indexable;
+                    }
+                    if (indexable instanceof RoleAssignment) {
+                        roleAssignments[0] = (RoleAssignment) indexable;
                     }
                 });
 
@@ -185,16 +175,11 @@ public class VirtualMachineManagedServiceIdentityOperationsTests extends Compute
         Assert.assertNotNull(hasTaskGroup);
         TaskGroup vmTaskGroup = hasTaskGroup.taskGroup();
         vmTaskGroup.invokeAsync(vmTaskGroup.newInvocationContext())
-                .toBlocking()
-                .subscribe(new Action1<Indexable>() {
-                    @Override
-                    public void call(Indexable indexable) {
-                        if (indexable instanceof RoleAssignment) {
-                            roleAssignments[0] = (RoleAssignment) indexable;
-                        }
+                .subscribe(indexable -> {
+                    if (indexable instanceof RoleAssignment) {
+                        roleAssignments[0] = (RoleAssignment) indexable;
                     }
                 });
-
         Assert.assertNotNull(roleAssignments[0]);
         Assert.assertTrue((roleAssignments[0]).key().equalsIgnoreCase(savedRoleAssignment.key()));
     }

@@ -4,23 +4,12 @@
  * license information.
  */
 
-package com.microsoft.azure.management.compute;
+package com.microsoft.azure.v2.management.compute;
 
-import com.microsoft.azure.PagedList;
+import com.microsoft.azure.v2.PagedList;
 import com.microsoft.azure.v2.management.compute.implementation.ComputeManager;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.v2.management.compute.CachingTypes;
-import com.microsoft.azure.v2.management.compute.Disk;
-import com.microsoft.azure.v2.management.compute.ImageDataDisk;
-import com.microsoft.azure.v2.management.compute.KnownLinuxVirtualMachineImage;
-import com.microsoft.azure.v2.management.compute.OperatingSystemStateTypes;
-import com.microsoft.azure.v2.management.compute.OperatingSystemTypes;
-import com.microsoft.azure.v2.management.compute.VirtualMachine;
-import com.microsoft.azure.v2.management.compute.VirtualMachineCustomImage;
-import com.microsoft.azure.v2.management.compute.VirtualMachineDataDisk;
-import com.microsoft.azure.v2.management.compute.VirtualMachineSizeTypes;
-import com.microsoft.azure.v2.management.compute.VirtualMachineUnmanagedDataDisk;
-import com.microsoft.rest.RestClient;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
+import com.microsoft.rest.v2.http.HttpPipeline;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -32,10 +21,11 @@ public class VirtualMachineCustomImageOperationsTest extends ComputeManagementTe
     private static Region region = Region.US_WEST_CENTRAL;
 
     @Override
-    protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {
+    protected void initializeClients(HttpPipeline httpPipeline, String defaultSubscription, String domain) {
         RG_NAME = generateRandomResourceName("javacsmrg", 15);
-        super.initializeClients(restClient, defaultSubscription, domain);
+        super.initializeClients(httpPipeline, defaultSubscription, domain);
     }
+
     @Override
     protected void cleanUpResources() {
         resourceManager.resourceGroups().deleteByName(RG_NAME);

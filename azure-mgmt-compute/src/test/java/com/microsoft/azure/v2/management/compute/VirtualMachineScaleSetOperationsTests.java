@@ -4,45 +4,31 @@
  * license information.
  */
 
-package com.microsoft.azure.management.compute;
+package com.microsoft.azure.v2.management.compute;
 
-import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.graphrbac.BuiltInRole;
-import com.microsoft.azure.management.graphrbac.RoleAssignment;
-import com.microsoft.azure.management.graphrbac.ServicePrincipal;
-import com.microsoft.azure.management.network.*;
-import com.microsoft.azure.management.resources.ResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.arm.AvailabilityZoneId;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.storage.StorageAccount;
-import com.microsoft.azure.management.storage.StorageAccountKey;
 import com.microsoft.azure.storage.CloudStorageAccount;
 import com.microsoft.azure.storage.blob.CloudBlobClient;
 import com.microsoft.azure.storage.blob.CloudBlobContainer;
 import com.microsoft.azure.storage.blob.CloudBlockBlob;
-import com.microsoft.azure.v2.management.compute.KnownLinuxVirtualMachineImage;
-import com.microsoft.azure.v2.management.compute.OperatingSystemTypes;
-import com.microsoft.azure.v2.management.compute.PowerState;
-import com.microsoft.azure.v2.management.compute.ResourceIdentityType;
-import com.microsoft.azure.v2.management.compute.Sku;
-import com.microsoft.azure.v2.management.compute.UpgradeMode;
-import com.microsoft.azure.v2.management.compute.VirtualMachineImage;
-import com.microsoft.azure.v2.management.compute.VirtualMachineScaleSet;
-import com.microsoft.azure.v2.management.compute.VirtualMachineScaleSetExtension;
-import com.microsoft.azure.v2.management.compute.VirtualMachineScaleSetPublicIPAddressConfiguration;
-import com.microsoft.azure.v2.management.compute.VirtualMachineScaleSetSkuTypes;
-import com.microsoft.azure.v2.management.compute.VirtualMachineScaleSetVM;
-import com.microsoft.azure.v2.management.compute.VirtualMachineScaleSetVMs;
-import com.microsoft.rest.RestClient;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
+import com.microsoft.azure.v2.PagedList;
+import com.microsoft.azure.v2.management.graphrbac.BuiltInRole;
+import com.microsoft.azure.v2.management.graphrbac.RoleAssignment;
+import com.microsoft.azure.v2.management.graphrbac.ServicePrincipal;
+import com.microsoft.azure.v2.management.network.*;
+import com.microsoft.azure.v2.management.resources.ResourceGroup;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.AvailabilityZoneId;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.v2.management.storage.StorageAccount;
+import com.microsoft.azure.v2.management.storage.StorageAccountKey;
+import com.microsoft.rest.v2.http.HttpPipeline;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.URI;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -52,10 +38,11 @@ public class VirtualMachineScaleSetOperationsTests extends ComputeManagementTest
     private static final Region REGION = Region.US_EAST;
 
     @Override
-    protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {
+    protected void initializeClients(HttpPipeline httpPipeline, String defaultSubscription, String domain) {
         RG_NAME = generateRandomResourceName("javacsmrg", 15);
-        super.initializeClients(restClient, defaultSubscription, domain);
+        super.initializeClients(httpPipeline, defaultSubscription, domain);
     }
+
     @Override
     protected void cleanUpResources() {
         if (RG_NAME != null) {
@@ -254,12 +241,12 @@ public class VirtualMachineScaleSetOperationsTests extends ComputeManagementTest
         String fqdn = publicIPAddress.fqdn();
         // Assert public load balancing connection
         if (!isPlaybackMode()) {
-            OkHttpClient client = new OkHttpClient();
-            Request request = new Request.Builder()
-                    .url("http://" + fqdn)
-                    .build();
-            Response response = client.newCall(request).execute();
-            Assert.assertEquals(response.code(), 200);
+            URL url = new URL("http://" + fqdn);
+            HttpURLConnection connection = (HttpURLConnection)url.openConnection();
+            connection.setRequestMethod("GET");
+            connection.connect();
+            int code = connection.getResponseCode();
+            Assert.assertEquals(code, 200);
         }
 
         // Check SSH to VM instances via Nat rule

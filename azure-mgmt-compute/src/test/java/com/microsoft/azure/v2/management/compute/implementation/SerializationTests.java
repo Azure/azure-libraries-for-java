@@ -3,12 +3,11 @@
  * Licensed under the MIT License. See License.txt in the project root for
  * license information.
  */
-package com.microsoft.azure.management.compute.implementation;
+package com.microsoft.azure.v2.management.compute.implementation;
 
 import com.microsoft.azure.v2.management.compute.VirtualMachineIdentity;
 import com.microsoft.azure.v2.management.compute.VirtualMachineIdentityUserAssignedIdentitiesValue;
-import com.microsoft.azure.serializer.AzureJacksonAdapter;
-import com.microsoft.azure.v2.management.compute.implementation.VirtualMachineInner;
+import com.microsoft.azure.v2.serializer.AzureJacksonAdapter;
 import org.junit.Test;
 
 import java.io.IOException;

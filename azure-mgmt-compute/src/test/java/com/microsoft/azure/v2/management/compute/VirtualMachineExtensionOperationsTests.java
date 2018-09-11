@@ -4,16 +4,12 @@
  * license information.
  */
 
-package com.microsoft.azure.management.compute;
+package com.microsoft.azure.v2.management.compute;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.storage.StorageAccount;
-import com.microsoft.azure.v2.management.compute.KnownLinuxVirtualMachineImage;
-import com.microsoft.azure.v2.management.compute.VirtualMachine;
-import com.microsoft.azure.v2.management.compute.VirtualMachineExtension;
-import com.microsoft.azure.v2.management.compute.VirtualMachineSizeTypes;
-import com.microsoft.rest.RestClient;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.v2.management.storage.StorageAccount;
+import com.microsoft.rest.v2.http.HttpPipeline;
 import org.apache.commons.codec.binary.Base64;
 import org.junit.Assert;
 import org.junit.Test;
@@ -26,10 +22,11 @@ import java.util.Map;
 public class VirtualMachineExtensionOperationsTests extends ComputeManagementTest {
     private static String RG_NAME = "";
     private static Region REGION = Region.US_SOUTH_CENTRAL;
+
     @Override
-    protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {
+    protected void initializeClients(HttpPipeline httpPipeline, String defaultSubscription, String domain) {
         RG_NAME = generateRandomResourceName("vmexttest", 15);
-        super.initializeClients(restClient, defaultSubscription, domain);
+        super.initializeClients(httpPipeline, defaultSubscription, domain);
     }
 
     @Override

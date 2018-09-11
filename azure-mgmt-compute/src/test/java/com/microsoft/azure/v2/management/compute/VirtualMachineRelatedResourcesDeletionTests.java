@@ -4,30 +4,24 @@
  * license information.
  */
 
-package com.microsoft.azure.management.compute;
+package com.microsoft.azure.v2.management.compute;
 
-import com.microsoft.azure.CloudException;
-import com.microsoft.azure.management.network.Network;
-import com.microsoft.azure.management.network.NetworkInterface;
-import com.microsoft.azure.management.network.PublicIPAddress;
-import com.microsoft.azure.management.resources.ResourceGroup;
-import com.microsoft.azure.management.resources.core.TestBase;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
-import com.microsoft.azure.management.storage.StorageAccount;
-import com.microsoft.azure.v2.management.compute.AvailabilitySet;
-import com.microsoft.azure.v2.management.compute.KnownLinuxVirtualMachineImage;
-import com.microsoft.azure.v2.management.compute.VirtualMachine;
-import com.microsoft.azure.v2.management.compute.VirtualMachineSizeTypes;
-import com.microsoft.rest.RestClient;
+import com.microsoft.azure.v2.CloudException;
+import com.microsoft.azure.v2.management.network.Network;
+import com.microsoft.azure.v2.management.network.NetworkInterface;
+import com.microsoft.azure.v2.management.network.PublicIPAddress;
+import com.microsoft.azure.v2.management.resources.ResourceGroup;
+import com.microsoft.azure.v2.management.resources.core.TestBase;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.Resource;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Creatable;
+import com.microsoft.azure.v2.management.resources.fluentcore.utils.SdkContext;
+import com.microsoft.azure.v2.management.storage.StorageAccount;
+import com.microsoft.rest.v2.http.HttpPipeline;
+import io.reactivex.Completable;
+import io.reactivex.Observable;
 import org.junit.Assert;
 import org.junit.Test;
-
-import rx.Completable;
-import rx.functions.Func1;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -43,9 +37,9 @@ public class VirtualMachineRelatedResourcesDeletionTests extends ComputeManageme
     private static String RG_NAME = "";
 
     @Override
-    protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {
+    protected void initializeClients(HttpPipeline httpPipeline, String defaultSubscription, String domain) {
         RG_NAME = generateRandomResourceName("javacsmrg", 15);
-        super.initializeClients(restClient, defaultSubscription, domain);
+        super.initializeClients(httpPipeline, defaultSubscription, domain);
     }
 
     @Override
@@ -142,9 +136,7 @@ public class VirtualMachineRelatedResourcesDeletionTests extends ComputeManageme
 
         // Start the parallel creation of everything
         computeManager.virtualMachines().createAsync(new ArrayList<>(vmDefinitions.values()))
-           .map(new Func1<Indexable, Indexable>() {
-                @Override
-                public Indexable call(Indexable createdResource) {
+                .map(createdResource -> {
                     if (createdResource instanceof Resource) {
                         Resource resource = (Resource) createdResource;
                         System.out.println("Created: " + resource.id());
@@ -165,15 +157,12 @@ public class VirtualMachineRelatedResourcesDeletionTests extends ComputeManageme
                         }
                     }
                     return createdResource;
-                }
-           })
-           .onErrorReturn(new Func1<Throwable, Indexable>() {
-                @Override
-                public Indexable call(Throwable throwable) {
+                })
+                .onErrorResumeNext(throwable -> {
                     errors.add(throwable);
-                    return null;
-                }
-            }).toBlocking().last();
+                    return Observable.empty();
+                })
+                .blockingLast();
 
         // Delete remaining successfully created NICs of failed VM creations
         Collection<String> nicIdsToDelete = new ArrayList<>();
@@ -199,7 +188,7 @@ public class VirtualMachineRelatedResourcesDeletionTests extends ComputeManageme
         }
 
         // Delete as much as possible, postponing the errors till the end
-        Completable.mergeDelayError(deleteObservables).await();
+        Completable.mergeDelayError(deleteObservables).blockingAwait();
 
         // Show any errors
         for (Throwable error : errors) {

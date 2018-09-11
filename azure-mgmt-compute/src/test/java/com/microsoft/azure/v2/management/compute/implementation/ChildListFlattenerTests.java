@@ -4,12 +4,11 @@
  * license information.
  */
 
-package com.microsoft.azure.management.compute.implementation;
+package com.microsoft.azure.v2.management.compute.implementation;
 
-import com.microsoft.azure.Page;
-import com.microsoft.azure.PagedList;
-import com.microsoft.azure.v2.management.compute.implementation.ChildListFlattener;
-import com.microsoft.rest.RestException;
+import com.microsoft.azure.v2.Page;
+import com.microsoft.azure.v2.PagedList;
+import com.microsoft.rest.v2.RestException;
 import org.junit.Assert;
 import org.junit.Test;
 

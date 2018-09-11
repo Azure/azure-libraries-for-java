@@ -4,39 +4,27 @@
  * license information.
  */
 
-package com.microsoft.azure.management.compute;
+package com.microsoft.azure.v2.management.compute;
 
-import com.microsoft.azure.management.network.Network;
-import com.microsoft.azure.management.network.NetworkInterface;
-import com.microsoft.azure.management.network.NetworkSecurityGroup;
-import com.microsoft.azure.management.network.NicIPConfiguration;
-import com.microsoft.azure.management.network.PublicIPAddress;
-import com.microsoft.azure.management.network.SecurityRuleProtocol;
-import com.microsoft.azure.management.network.Subnet;
-import com.microsoft.azure.management.resources.ResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.model.CreatedResources;
-import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
-import com.microsoft.azure.management.storage.SkuName;
-import com.microsoft.azure.management.storage.StorageAccount;
-import com.microsoft.azure.v2.management.compute.CachingTypes;
-import com.microsoft.azure.v2.management.compute.KnownLinuxVirtualMachineImage;
-import com.microsoft.azure.v2.management.compute.KnownWindowsVirtualMachineImage;
-import com.microsoft.azure.v2.management.compute.PowerState;
-import com.microsoft.azure.v2.management.compute.RunCommandInputParameter;
-import com.microsoft.azure.v2.management.compute.RunCommandResult;
-import com.microsoft.azure.v2.management.compute.VirtualMachine;
-import com.microsoft.azure.v2.management.compute.VirtualMachineInstanceView;
-import com.microsoft.azure.v2.management.compute.VirtualMachineSizeTypes;
-import com.microsoft.azure.v2.management.compute.VirtualMachineUnmanagedDataDisk;
-import com.microsoft.rest.RestClient;
+import com.microsoft.azure.v2.management.compute.implementation.VirtualMachineInstanceViewInner;
+import com.microsoft.azure.v2.management.network.Network;
+import com.microsoft.azure.v2.management.network.NetworkInterface;
+import com.microsoft.azure.v2.management.network.NetworkSecurityGroup;
+import com.microsoft.azure.v2.management.network.NicIPConfiguration;
+import com.microsoft.azure.v2.management.network.PublicIPAddress;
+import com.microsoft.azure.v2.management.network.SecurityRuleProtocol;
+import com.microsoft.azure.v2.management.network.Subnet;
+import com.microsoft.azure.v2.management.resources.ResourceGroup;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.Resource;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Creatable;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.CreatedResources;
+import com.microsoft.azure.v2.management.resources.fluentcore.utils.SdkContext;
+import com.microsoft.azure.v2.management.storage.SkuName;
+import com.microsoft.azure.v2.management.storage.StorageAccount;
+import com.microsoft.rest.v2.http.HttpPipeline;
 import org.junit.Assert;
 import org.junit.Test;
-
-import rx.functions.Func1;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -51,9 +39,9 @@ public class VirtualMachineOperationsTests extends ComputeManagementTest {
     private static final String VMNAME = "javavm";
 
     @Override
-    protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {
+    protected void initializeClients(HttpPipeline httpPipeline, String defaultSubscription, String domain) {
         RG_NAME = generateRandomResourceName("javacsmrg", 15);
-        super.initializeClients(restClient, defaultSubscription, domain);
+        super.initializeClients(httpPipeline, defaultSubscription, domain);
     }
 
     @Override
@@ -158,7 +146,7 @@ public class VirtualMachineOperationsTests extends ComputeManagementTest {
         // Fetch instance view
         PowerState powerState = foundVM.powerState();
         Assert.assertEquals(powerState, PowerState.RUNNING);
-        VirtualMachineInstanceView instanceView = foundVM.instanceView();
+        VirtualMachineInstanceViewInner instanceView = foundVM.instanceView();
         Assert.assertNotNull(instanceView);
         Assert.assertNotNull(instanceView.statuses().size() > 0);
 
@@ -245,30 +233,27 @@ public class VirtualMachineOperationsTests extends ComputeManagementTest {
         final AtomicInteger resourceCount = new AtomicInteger(0);
         List<Creatable<VirtualMachine>> virtualMachineCreatables = creatablesInfo.virtualMachineCreatables;
         computeManager.virtualMachines().createAsync(virtualMachineCreatables)
-                .map(new Func1<Indexable, Indexable>() {
-                    @Override
-                    public Indexable call(Indexable createdResource) {
-                        if (createdResource instanceof Resource) {
-                            Resource resource = (Resource) createdResource;
-                            System.out.println("Created: " + resource.id());
-                            if (resource instanceof VirtualMachine) {
-                                VirtualMachine virtualMachine = (VirtualMachine) resource;
-                                Assert.assertTrue(virtualMachineNames.contains(virtualMachine.name()));
-                                Assert.assertNotNull(virtualMachine.id());
-                            } else if (resource instanceof Network) {
-                                Network network = (Network) resource;
-                                Assert.assertTrue(networkNames.contains(network.name()));
-                                Assert.assertNotNull(network.id());
-                            } else if (resource instanceof PublicIPAddress) {
-                                PublicIPAddress publicIPAddress = (PublicIPAddress) resource;
-                                Assert.assertTrue(publicIPAddressNames.contains(publicIPAddress.name()));
-                                Assert.assertNotNull(publicIPAddress.id());
-                            }
+                .map(createdResource -> {
+                    if (createdResource instanceof Resource) {
+                        Resource resource = (Resource) createdResource;
+                        System.out.println("Created: " + resource.id());
+                        if (resource instanceof VirtualMachine) {
+                            VirtualMachine virtualMachine = (VirtualMachine) resource;
+                            Assert.assertTrue(virtualMachineNames.contains(virtualMachine.name()));
+                            Assert.assertNotNull(virtualMachine.id());
+                        } else if (resource instanceof Network) {
+                            Network network = (Network) resource;
+                            Assert.assertTrue(networkNames.contains(network.name()));
+                            Assert.assertNotNull(network.id());
+                        } else if (resource instanceof PublicIPAddress) {
+                            PublicIPAddress publicIPAddress = (PublicIPAddress) resource;
+                            Assert.assertTrue(publicIPAddressNames.contains(publicIPAddress.name()));
+                            Assert.assertNotNull(publicIPAddress.id());
                         }
-                        resourceCount.incrementAndGet();
-                        return createdResource;
                     }
-                }).toBlocking().last();
+                    resourceCount.incrementAndGet();
+                    return createdResource;
+                }).blockingLast();
         // 1 resource group, 1 storage, 5 network, 5 publicIp, 5 nic, 5 virtual machines
         // Additional one for CreatableUpdatableResourceRoot.
         // TODO - ans - We should not emit CreatableUpdatableResourceRoot.

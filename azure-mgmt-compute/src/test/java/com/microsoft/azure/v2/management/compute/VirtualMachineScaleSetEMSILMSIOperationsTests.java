@@ -4,35 +4,28 @@
  * license information.
  */
 
-package com.microsoft.azure.management.compute;
+package com.microsoft.azure.v2.management.compute;
 
-import com.microsoft.azure.PagedList;
+import com.microsoft.azure.v2.PagedList;
 import com.microsoft.azure.v2.management.compute.implementation.ComputeManager;
-import com.microsoft.azure.management.graphrbac.BuiltInRole;
-import com.microsoft.azure.management.graphrbac.RoleAssignment;
-import com.microsoft.azure.management.graphrbac.RoleDefinition;
-import com.microsoft.azure.management.msi.Identity;
-import com.microsoft.azure.management.msi.implementation.MSIManager;
-import com.microsoft.azure.management.network.LoadBalancer;
-import com.microsoft.azure.management.network.Network;
-import com.microsoft.azure.management.network.TransportProtocol;
-import com.microsoft.azure.management.network.implementation.NetworkManager;
-import com.microsoft.azure.management.resources.ResourceGroup;
-import com.microsoft.azure.management.resources.core.TestBase;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.implementation.ResourceManager;
-import com.microsoft.azure.v2.management.compute.KnownLinuxVirtualMachineImage;
-import com.microsoft.azure.v2.management.compute.ResourceIdentityType;
-import com.microsoft.azure.v2.management.compute.VirtualMachineScaleSet;
-import com.microsoft.azure.v2.management.compute.VirtualMachineScaleSetSkuTypes;
-import com.microsoft.rest.RestClient;
+import com.microsoft.azure.v2.management.graphrbac.BuiltInRole;
+import com.microsoft.azure.v2.management.graphrbac.RoleAssignment;
+import com.microsoft.azure.v2.management.msi.Identity;
+import com.microsoft.azure.v2.management.msi.implementation.MSIManager;
+import com.microsoft.azure.v2.management.network.LoadBalancer;
+import com.microsoft.azure.v2.management.network.Network;
+import com.microsoft.azure.v2.management.network.TransportProtocol;
+import com.microsoft.azure.v2.management.network.implementation.NetworkManager;
+import com.microsoft.azure.v2.management.resources.ResourceGroup;
+import com.microsoft.azure.v2.management.resources.core.TestBase;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Creatable;
+import com.microsoft.azure.v2.management.resources.implementation.ResourceManager;
+import com.microsoft.rest.v2.http.HttpPipeline;
+import io.reactivex.Observable;
 import org.junit.Assert;
 import org.junit.Test;
-import rx.Observable;
-import rx.functions.Func1;
 
-import java.io.IOException;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -47,11 +40,11 @@ public class VirtualMachineScaleSetEMSILMSIOperationsTests  extends TestBase {
     private NetworkManager networkManager;
 
     @Override
-    protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) throws IOException {
-        this.msiManager = MSIManager.authenticate(restClient, defaultSubscription);
+    protected void initializeClients(HttpPipeline httpPipeline, String defaultSubscription, String domain) {
+        this.msiManager = MSIManager.authenticate(httpPipeline, defaultSubscription, domain);
         this.resourceManager = msiManager.resourceManager();
-        this.computeManager = ComputeManager.authenticate(restClient, defaultSubscription);
-        this.networkManager = NetworkManager.authenticate(restClient, defaultSubscription);
+        this.computeManager = ComputeManager.authenticate(httpPipeline, defaultSubscription, domain);
+        this.networkManager = NetworkManager.authenticate(httpPipeline, defaultSubscription);
     }
 
     @Override
@@ -174,8 +167,7 @@ public class VirtualMachineScaleSetEMSILMSIOperationsTests  extends TestBase {
         Assert.assertTrue("Expected role assignment not found for the virtual network for identity" + createdIdentity.name(), found);
 
         RoleAssignment assignment = lookupRoleAssignmentUsingScopeAndRoleAsync(network.id(), BuiltInRole.READER, createdIdentity.principalId())
-                .toBlocking()
-                .last();
+                .blockingLast(null);
 
         Assert.assertNotNull("Expected role assignment with ROLE not found for the virtual network for identity", assignment);
 
@@ -196,8 +188,7 @@ public class VirtualMachineScaleSetEMSILMSIOperationsTests  extends TestBase {
         Assert.assertTrue("Expected role assignment not found for the resource group for identity" + implicitlyCreatedIdentity.name(), found);
 
         assignment = lookupRoleAssignmentUsingScopeAndRoleAsync(resourceGroup.id(), BuiltInRole.CONTRIBUTOR, implicitlyCreatedIdentity.principalId())
-                .toBlocking()
-                .last();
+                .blockingLast(null);
 
         Assert.assertNotNull("Expected role assignment with ROLE not found for the resource group for identity", assignment);
 
@@ -238,7 +229,7 @@ public class VirtualMachineScaleSetEMSILMSIOperationsTests  extends TestBase {
         Assert.assertNotNull(virtualMachineScaleSet.userAssignedManagedServiceIdentityIds());
         Assert.assertEquals(2, virtualMachineScaleSet.userAssignedManagedServiceIdentityIds().size());
         Assert.assertNotNull(virtualMachineScaleSet.managedServiceIdentityType());
-        Assert.assertTrue(virtualMachineScaleSet.managedServiceIdentityType().equals(ResourceIdentityType.SYSTEM_ASSIGNED_USER_ASSIGNED));
+        Assert.assertTrue(virtualMachineScaleSet.managedServiceIdentityType().equals(ResourceIdentityType.SYSTEM_ASSIGNED__USER_ASSIGNED));
         //
         Assert.assertNotNull(virtualMachineScaleSet.systemAssignedManagedServiceIdentityPrincipalId());
         Assert.assertNotNull(virtualMachineScaleSet.systemAssignedManagedServiceIdentityTenantId());
@@ -247,7 +238,7 @@ public class VirtualMachineScaleSetEMSILMSIOperationsTests  extends TestBase {
         Assert.assertNotNull(virtualMachineScaleSet.userAssignedManagedServiceIdentityIds());
         Assert.assertEquals(2, virtualMachineScaleSet.userAssignedManagedServiceIdentityIds().size());
         Assert.assertNotNull(virtualMachineScaleSet.managedServiceIdentityType());
-        Assert.assertTrue(virtualMachineScaleSet.managedServiceIdentityType().equals(ResourceIdentityType.SYSTEM_ASSIGNED_USER_ASSIGNED));
+        Assert.assertTrue(virtualMachineScaleSet.managedServiceIdentityType().equals(ResourceIdentityType.SYSTEM_ASSIGNED__USER_ASSIGNED));
         //
         Assert.assertNotNull(virtualMachineScaleSet.systemAssignedManagedServiceIdentityPrincipalId());
         Assert.assertNotNull(virtualMachineScaleSet.systemAssignedManagedServiceIdentityTenantId());
@@ -261,7 +252,7 @@ public class VirtualMachineScaleSetEMSILMSIOperationsTests  extends TestBase {
         Assert.assertNotNull(virtualMachineScaleSet.userAssignedManagedServiceIdentityIds());
         Assert.assertEquals(1, virtualMachineScaleSet.userAssignedManagedServiceIdentityIds().size());
         Assert.assertNotNull(virtualMachineScaleSet.managedServiceIdentityType());
-        Assert.assertTrue(virtualMachineScaleSet.managedServiceIdentityType().equals(ResourceIdentityType.SYSTEM_ASSIGNED_USER_ASSIGNED));
+        Assert.assertTrue(virtualMachineScaleSet.managedServiceIdentityType().equals(ResourceIdentityType.SYSTEM_ASSIGNED__USER_ASSIGNED));
         Assert.assertNotNull(virtualMachineScaleSet.systemAssignedManagedServiceIdentityPrincipalId());
         Assert.assertNotNull(virtualMachineScaleSet.systemAssignedManagedServiceIdentityTenantId());
         // Remove identities one by one (second one)
@@ -382,8 +373,7 @@ public class VirtualMachineScaleSetEMSILMSIOperationsTests  extends TestBase {
         Assert.assertTrue("Expected role assignment not found for the virtual network for local identity" + virtualMachineScaleSet.systemAssignedManagedServiceIdentityPrincipalId(), found);
 
         RoleAssignment assignment = lookupRoleAssignmentUsingScopeAndRoleAsync(network.id(), BuiltInRole.CONTRIBUTOR, virtualMachineScaleSet.systemAssignedManagedServiceIdentityPrincipalId())
-                .toBlocking()
-                .last();
+                .blockingLast(null);
 
         Assert.assertNotNull("Expected role assignment with ROLE not found for the virtual network for system assigned identity", assignment);
 
@@ -403,8 +393,7 @@ public class VirtualMachineScaleSetEMSILMSIOperationsTests  extends TestBase {
         Assert.assertTrue("Expected role assignment not found for the resource group for identity" + identity.name(), found);
 
         assignment = lookupRoleAssignmentUsingScopeAndRoleAsync(resourceGroup.id(), BuiltInRole.CONTRIBUTOR, identity.principalId())
-                .toBlocking()
-                .last();
+                .blockingLast(null);
 
         Assert.assertNotNull("Expected role assignment with ROLE not found for the resource group for system assigned identity", assignment);
     }
@@ -582,24 +571,18 @@ public class VirtualMachineScaleSetEMSILMSIOperationsTests  extends TestBase {
         return this.msiManager.graphRbacManager()
                 .roleDefinitions()
                 .getByScopeAndRoleNameAsync(scope, role.toString())
-                .flatMap(new Func1<RoleDefinition, Observable<RoleAssignment>>() {
-                    @Override
-                    public Observable<RoleAssignment> call(final RoleDefinition roleDefinition) {
-                        return msiManager.graphRbacManager()
-                                .roleAssignments()
-                                .listByScopeAsync(scope)
-                                .filter(new Func1<RoleAssignment, Boolean>() {
-                                    @Override
-                                    public Boolean call(RoleAssignment roleAssignment) {
-                                        if (roleDefinition != null && roleAssignment != null) {
-                                            return roleAssignment.roleDefinitionId().equalsIgnoreCase(roleDefinition.id()) && roleAssignment.principalId().equalsIgnoreCase(principalId);
-                                        } else {
-                                            return false;
-                                        }
-                                    }
-                                });
-                    }
-                })
-                .switchIfEmpty(Observable.<RoleAssignment>just(null));
+                .flatMap(roleDefinition -> {
+                    return msiManager.graphRbacManager()
+                            .roleAssignments()
+                            .listByScopeAsync(scope)
+                            .filter(roleAssignment -> {
+                                if (roleDefinition != null && roleAssignment != null) {
+                                    return roleAssignment.roleDefinitionId().equalsIgnoreCase(roleDefinition.id()) && roleAssignment.principalId().equalsIgnoreCase(principalId);
+                                } else {
+                                    return false;
+                                }
+                            });
+                });
+
     }
 }

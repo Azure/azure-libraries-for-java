@@ -4,25 +4,14 @@
  * license information.
  */
 
-package com.microsoft.azure.management.compute;
+package com.microsoft.azure.v2.management.compute;
 
-import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.network.LoadBalancer;
-import com.microsoft.azure.management.network.Network;
-import com.microsoft.azure.management.resources.ResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.v2.management.compute.CachingTypes;
-import com.microsoft.azure.v2.management.compute.KnownLinuxVirtualMachineImage;
-import com.microsoft.azure.v2.management.compute.StorageAccountTypes;
-import com.microsoft.azure.v2.management.compute.VirtualMachine;
-import com.microsoft.azure.v2.management.compute.VirtualMachineCustomImage;
-import com.microsoft.azure.v2.management.compute.VirtualMachineDataDisk;
-import com.microsoft.azure.v2.management.compute.VirtualMachineScaleSet;
-import com.microsoft.azure.v2.management.compute.VirtualMachineScaleSetSkuTypes;
-import com.microsoft.azure.v2.management.compute.VirtualMachineScaleSetVM;
-import com.microsoft.azure.v2.management.compute.VirtualMachineScaleSetVMs;
-import com.microsoft.azure.v2.management.compute.VirtualMachineSizeTypes;
-import com.microsoft.rest.RestClient;
+import com.microsoft.azure.v2.PagedList;
+import com.microsoft.azure.v2.management.network.LoadBalancer;
+import com.microsoft.azure.v2.management.network.Network;
+import com.microsoft.azure.v2.management.resources.ResourceGroup;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
+import com.microsoft.rest.v2.http.HttpPipeline;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -30,11 +19,11 @@ public class VirtualMachineScaleSetManagedDiskOperationsTests extends ComputeMan
     private static String RG_NAME = "";
     private static Region region = Region.US_EAST;
 
-    @Override
-    protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {
+    protected void initializeClients(HttpPipeline httpPipeline, String defaultSubscription, String domain) {
         RG_NAME = generateRandomResourceName("javacsmrg", 15);
-        super.initializeClients(restClient, defaultSubscription, domain);
+        super.initializeClients(httpPipeline, defaultSubscription, domain);
     }
+
     @Override
     protected void cleanUpResources() {
         resourceManager.resourceGroups().deleteByName(RG_NAME);

@@ -4,25 +4,25 @@
  * license information.
  */
 
-package com.microsoft.azure.management.compute;
+package com.microsoft.azure.v2.management.compute;
 
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.microsoft.azure.v2.management.compute.implementation.ComputeManager;
-import com.microsoft.azure.management.graphrbac.implementation.GraphRbacManager;
-import com.microsoft.azure.management.network.LoadBalancer;
-import com.microsoft.azure.management.network.LoadBalancerSkuType;
-import com.microsoft.azure.management.network.Network;
-import com.microsoft.azure.management.network.PublicIPAddress;
-import com.microsoft.azure.management.network.PublicIPSkuType;
-import com.microsoft.azure.management.network.TransportProtocol;
-import com.microsoft.azure.management.network.implementation.NetworkManager;
-import com.microsoft.azure.management.resources.ResourceGroup;
-import com.microsoft.azure.management.resources.core.TestBase;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.implementation.ResourceManager;
-import com.microsoft.azure.management.storage.implementation.StorageManager;
-import com.microsoft.rest.RestClient;
+import com.microsoft.azure.v2.management.graphrbac.implementation.GraphRbacManager;
+import com.microsoft.azure.v2.management.network.LoadBalancer;
+import com.microsoft.azure.v2.management.network.LoadBalancerSkuType;
+import com.microsoft.azure.v2.management.network.Network;
+import com.microsoft.azure.v2.management.network.PublicIPAddress;
+import com.microsoft.azure.v2.management.network.PublicIPSkuType;
+import com.microsoft.azure.v2.management.network.TransportProtocol;
+import com.microsoft.azure.v2.management.network.implementation.NetworkManager;
+import com.microsoft.azure.v2.management.resources.ResourceGroup;
+import com.microsoft.azure.v2.management.resources.core.TestBase;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.v2.management.resources.implementation.ResourceManager;
+import com.microsoft.azure.v2.management.storage.implementation.StorageManager;
+import com.microsoft.rest.v2.http.HttpPipeline;
 import org.junit.Assert;
 
 import java.io.IOException;
@@ -45,21 +45,21 @@ public abstract class ComputeManagementTest extends TestBase {
     protected GraphRbacManager rbacManager;
 
     @Override
-    protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {
+    protected void initializeClients(HttpPipeline httpPipeline, String defaultSubscription, String domain) {
         resourceManager = ResourceManager
-                .authenticate(restClient)
+                .authenticate(httpPipeline)
                 .withSubscription(defaultSubscription);
 
         computeManager = ComputeManager
-                .authenticate(restClient, defaultSubscription);
+                .authenticate(httpPipeline, defaultSubscription, domain);
 
         networkManager = NetworkManager
-                .authenticate(restClient, defaultSubscription);
+                .authenticate(httpPipeline, defaultSubscription);
 
         storageManager = StorageManager
-                .authenticate(restClient, defaultSubscription);
+                .authenticate(httpPipeline, defaultSubscription);
 
-        rbacManager = GraphRbacManager.authenticate(restClient, domain);
+        rbacManager = GraphRbacManager.authenticate(httpPipeline, domain);
     }
 
     @Override

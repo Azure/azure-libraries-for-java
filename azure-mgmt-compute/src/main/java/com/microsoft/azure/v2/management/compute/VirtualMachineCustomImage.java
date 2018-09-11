@@ -273,14 +273,14 @@ public interface VirtualMachineCustomImage extends
         /**
          * The stage of an image definition allowing to enable zone resiliency.
          */
-        @Beta(since="V1_8_0")
+        @Beta(since = "V1_8_0")
         interface WithZoneResilient {
             /**
              * Specifies that zone resiliency should be enabled for the image.
              *
              * @return the next stage of the definition
              */
-            @Beta(since="V1_8_0")
+            @Beta(since = "V1_8_0")
             WithCreate withZoneResilient();
         }
 

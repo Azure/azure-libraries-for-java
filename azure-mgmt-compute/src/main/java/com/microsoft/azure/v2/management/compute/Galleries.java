@@ -21,7 +21,7 @@ import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
  * Entry point to galleries management API in Azure.
  */
 @Fluent
-@Beta(since="V1_15_0")
+@Beta(since = "V1_15_0")
 public interface Galleries extends SupportsCreating<Gallery.DefinitionStages.Blank>,
         SupportsDeletingByResourceGroup,
         SupportsBatchDeletion,

@@ -16,7 +16,7 @@ import java.util.Map;
 /**
  * Defines values for SnapshotSkuType.
  */
-@Beta(since="V1_8_0")
+@Beta(since = "V1_8_0")
 @LangDefinition
 public final class SnapshotSkuType {
 

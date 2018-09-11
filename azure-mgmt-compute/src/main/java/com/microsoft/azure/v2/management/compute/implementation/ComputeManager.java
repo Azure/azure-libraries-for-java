@@ -240,7 +240,7 @@ public final class ComputeManager extends Manager<ComputeManager, ComputeManagem
     /**
      * @return the compute service gallery management entry point
      */
-    @Beta(since="V1_15_0")
+    @Beta(since = "V1_15_0")
     public Galleries galleries() {
         if (galleries == null) {
             galleries = new GalleriesImpl(this);
@@ -251,7 +251,7 @@ public final class ComputeManager extends Manager<ComputeManager, ComputeManagem
     /**
      * @return the compute service gallery image management entry point
      */
-    @Beta(since="V1_15_0")
+    @Beta(since = "V1_15_0")
     public GalleryImages galleryImages() {
         if (galleryImages == null) {
             galleryImages = new GalleryImagesImpl(this);
@@ -262,7 +262,7 @@ public final class ComputeManager extends Manager<ComputeManager, ComputeManagem
     /**
      * @return the compute service gallery image version management entry point
      */
-    @Beta(since="V1_15_0")
+    @Beta(since = "V1_15_0")
     public GalleryImageVersions galleryImageVersions() {
         if (galleryImageVersions == null) {
             galleryImageVersions = new GalleryImageVersionsImpl(this);

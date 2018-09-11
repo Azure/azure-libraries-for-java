@@ -287,7 +287,7 @@ public interface VirtualMachines extends
      * @param scriptParameters script parameters
      * @return result of PowerShell script execution
      */
-    @Beta(since="V1_14_0")
+    @Beta(since = "V1_14_0")
     RunCommandResult runPowerShellScript(String groupName, String name, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters);
 
     /**
@@ -299,7 +299,7 @@ public interface VirtualMachines extends
      * @param scriptParameters script parameters
      * @return handle to the asynchronous execution
      */
-    @Beta(since="V1_14_0")
+    @Beta(since = "V1_14_0")
     Observable<RunCommandResult> runPowerShellScriptAsync(String groupName, String name, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters);
 
     /**
@@ -311,7 +311,7 @@ public interface VirtualMachines extends
      * @param scriptParameters script parameters
      * @return result of shell script execution
      */
-    @Beta(since="V1_14_0")
+    @Beta(since = "V1_14_0")
     RunCommandResult runShellScript(String groupName, String name, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters);
 
 
@@ -324,7 +324,7 @@ public interface VirtualMachines extends
      * @param scriptParameters script parameters
      * @return handle to the asynchronous execution
      */
-    @Beta(since="V1_14_0")
+    @Beta(since = "V1_14_0")
     Observable<RunCommandResult> runShellScriptAsync(String groupName, String name, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters);
 
     /**
@@ -335,7 +335,7 @@ public interface VirtualMachines extends
      * @param inputCommand command input
      * @return result of execution
      */
-    @Beta(since="V1_14_0")
+    @Beta(since = "V1_14_0")
     RunCommandResult runCommand(String groupName, String name, RunCommandInput inputCommand);
 
     /**
@@ -346,6 +346,6 @@ public interface VirtualMachines extends
      * @param inputCommand command input
      * @return handle to the asynchronous execution
      */
-    @Beta(since="V1_14_0")
+    @Beta(since = "V1_14_0")
     Observable<RunCommandResult> runCommandAsync(String groupName, String name, RunCommandInput inputCommand);
 }

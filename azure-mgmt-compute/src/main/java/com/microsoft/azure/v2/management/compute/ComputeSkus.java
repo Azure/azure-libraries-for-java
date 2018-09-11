@@ -22,7 +22,7 @@ import io.reactivex.Observable;
  * Entry point to compute service SKUs.
  */
 @Fluent
-@Beta(since="V1_5_0")
+@Beta(since = "V1_5_0")
 public interface ComputeSkus
         extends SupportsListing<ComputeSku>,
         SupportsListingByRegion<ComputeSku>,

@@ -66,7 +66,7 @@ public interface Disks extends
      * @param accessDuration access duration
      * @return a representation of the deferred computation of this call returning a read-only SAS URI to the disk
      */
-    @Beta(since="V1_2_0")
+    @Beta(since = "V1_2_0")
     Observable<String> grantAccessAsync(String resourceGroupName,
                                         String diskName,
                                         AccessLevel accessLevel,
@@ -82,7 +82,7 @@ public interface Disks extends
      * @param callback the callback to call on success or failure, on success it will pass read-only SAS URI to the disk in callback
      * @return a handle to cancel the request
      */
-    @Beta(since="V1_2_0")
+    @Beta(since = "V1_2_0")
     ServiceFuture<String> grantAccessAsync(String resourceGroupName,
                                            String diskName,
                                            AccessLevel accessLevel,
@@ -104,7 +104,7 @@ public interface Disks extends
      * @param diskName the disk name
      * @return a representation of the deferred computation of this call
      */
-    @Beta(since="V1_2_0")
+    @Beta(since = "V1_2_0")
     Completable revokeAccessAsync(String resourceGroupName, String diskName);
 
     /**
@@ -115,6 +115,6 @@ public interface Disks extends
      * @param callback the callback to call on success or failure
      * @return a handle to cancel the request
      */
-    @Beta(since="V1_2_0")
+    @Beta(since = "V1_2_0")
     ServiceFuture<Void> revokeAccessAsync(String resourceGroupName, String diskName, ServiceCallback<Void> callback);
 }

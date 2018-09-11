@@ -30,7 +30,7 @@ import java.util.Map;
  * A gallery image resource is a container for multiple versions of the same image.
  */
 @Fluent
-@Beta(since="V1_15_0")
+@Beta(since = "V1_15_0")
 public interface GalleryImage extends HasInner<GalleryImageInner>,
         Indexable,
         Refreshable<GalleryImage>,
@@ -39,110 +39,110 @@ public interface GalleryImage extends HasInner<GalleryImageInner>,
     /**
      * @return the description of the image.
      */
-    @Beta(since="V1_15_0")
+    @Beta(since = "V1_15_0")
     String description();
 
     /**
      * @return the disk types not supported by the image.
      */
-    @Beta(since="V1_15_0")
+    @Beta(since = "V1_15_0")
     List<DiskSkuTypes> unsupportedDiskTypes();
 
     /**
      * @return a description of features not supported by the image.
      */
-    @Beta(since="V1_15_0")
+    @Beta(since = "V1_15_0")
     Disallowed disallowed();
 
     /**
      * @return the date indicating image's end of life.
      */
-    @Beta(since="V1_15_0")
+    @Beta(since = "V1_15_0")
     OffsetDateTime endOfLifeDate();
 
     /**
      * @return the image eula.
      */
-    @Beta(since="V1_15_0")
+    @Beta(since = "V1_15_0")
     String eula();
 
     /**
      * @return the ARM id of the image.
      */
-    @Beta(since="V1_15_0")
+    @Beta(since = "V1_15_0")
     String id();
 
     /**
      * @return an identifier describing publisher, offer and sku of the image.
      */
-    @Beta(since="V1_15_0")
+    @Beta(since = "V1_15_0")
     GalleryImageIdentifier identifier();
 
     /**
      * @return the location of the image.
      */
-    @Beta(since="V1_15_0")
+    @Beta(since = "V1_15_0")
     String location();
 
     /**
      * @return the image name.
      */
-    @Beta(since="V1_15_0")
+    @Beta(since = "V1_15_0")
     String name();
 
     /**
      * @return the OS state of the image.
      */
-    @Beta(since="V1_15_0")
+    @Beta(since = "V1_15_0")
     OperatingSystemStateTypes osState();
 
     /**
      * @return the image OS type.
      */
-    @Beta(since="V1_15_0")
+    @Beta(since = "V1_15_0")
     OperatingSystemTypes osType();
 
     /**
      * @return the uri to image privacy statement.
      */
-    @Beta(since="V1_15_0")
+    @Beta(since = "V1_15_0")
     String privacyStatementUri();
 
     /**
      * @return the provisioningState of image resource.
      */
-    @Beta(since="V1_15_0")
+    @Beta(since = "V1_15_0")
     String provisioningState();
 
     /**
      * @return the purchasePlan of the image.
      */
-    @Beta(since="V1_15_0")
+    @Beta(since = "V1_15_0")
     ImagePurchasePlan purchasePlan();
 
     /**
      * @return the value describing recommended configuration for a virtual machine
      * based on this image.
      */
-    @Beta(since="V1_15_0")
+    @Beta(since = "V1_15_0")
     RecommendedMachineConfiguration recommendedVirtualMachineConfiguration();
 
     /**
      * @return the uri to the image release note.
      */
-    @Beta(since="V1_15_0")
+    @Beta(since = "V1_15_0")
     String releaseNoteUri();
 
     /**
      * @return the tags associated with the image.
      */
-    @Beta(since="V1_15_0")
+    @Beta(since = "V1_15_0")
     Map<String, String> tags();
 
     /**
      * @return the type value.
      */
-    @Beta(since="V1_15_0")
+    @Beta(since = "V1_15_0")
     String type();
 
     /**
@@ -152,7 +152,7 @@ public interface GalleryImage extends HasInner<GalleryImageInner>,
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    @Beta(since="V1_15_0")
+    @Beta(since = "V1_15_0")
     Observable<GalleryImageVersion> getVersionAsync(String versionName);
 
     /**
@@ -162,7 +162,7 @@ public interface GalleryImage extends HasInner<GalleryImageInner>,
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the image version
      */
-    @Beta(since="V1_15_0")
+    @Beta(since = "V1_15_0")
     GalleryImageVersion getVersion(String versionName);
 
     /**
@@ -170,7 +170,7 @@ public interface GalleryImage extends HasInner<GalleryImageInner>,
      *
      * @return the observable for the request
      */
-    @Beta(since="V1_15_0")
+    @Beta(since = "V1_15_0")
     Observable<GalleryImageVersion> listVersionsAsync();
 
     /**
@@ -178,13 +178,13 @@ public interface GalleryImage extends HasInner<GalleryImageInner>,
      *
      * @return the list of image versions
      */
-    @Beta(since="V1_15_0")
+    @Beta(since = "V1_15_0")
     PagedList<GalleryImageVersion> listVersions();
 
     /**
      * The entirety of the gallery image definition.
      */
-    @Beta(since="V1_15_0")
+    @Beta(since = "V1_15_0")
     interface Definition extends DefinitionStages.Blank,
             DefinitionStages.WithGallery,
             DefinitionStages.WithLocation,
@@ -196,19 +196,19 @@ public interface GalleryImage extends HasInner<GalleryImageInner>,
     /**
      * Grouping of gallery image definition stages.
      */
-    @Beta(since="V1_15_0")
+    @Beta(since = "V1_15_0")
     interface DefinitionStages {
         /**
          * The first stage of a gallery image definition.
          */
-        @Beta(since="V1_15_0")
+        @Beta(since = "V1_15_0")
         interface Blank extends WithGallery {
         }
 
         /**
          * The stage of the gallery image definition allowing to specify parent gallery it belongs to.
          */
-        @Beta(since="V1_15_0")
+        @Beta(since = "V1_15_0")
         interface WithGallery {
            /**
             * Specifies the gallery in which this image resides.
@@ -217,7 +217,7 @@ public interface GalleryImage extends HasInner<GalleryImageInner>,
             * @param galleryName The name of the gallery
             * @return the next definition stage
             */
-           @Beta(since="V1_15_0")
+           @Beta(since = "V1_15_0")
             WithLocation withExistingGallery(String resourceGroupName, String galleryName);
 
             /**
@@ -226,14 +226,14 @@ public interface GalleryImage extends HasInner<GalleryImageInner>,
              * @param gallery the gallery
              * @return the next definition stage
              */
-            @Beta(since="V1_15_0")
+            @Beta(since = "V1_15_0")
             WithLocation withExistingGallery(Gallery gallery);
         }
 
         /**
          * The stage of the gallery image definition allowing to specify location of the image.
          */
-        @Beta(since="V1_15_0")
+        @Beta(since = "V1_15_0")
         interface WithLocation {
            /**
             * Specifies location.
@@ -241,7 +241,7 @@ public interface GalleryImage extends HasInner<GalleryImageInner>,
             * @param location resource location
             * @return the next definition stage
             */
-           @Beta(since="V1_15_0")
+           @Beta(since = "V1_15_0")
            WithIdentifier withLocation(String location);
 
             /**
@@ -250,7 +250,7 @@ public interface GalleryImage extends HasInner<GalleryImageInner>,
              * @param location resource location
              * @return the next definition stage
              */
-            @Beta(since="V1_15_0")
+            @Beta(since = "V1_15_0")
             WithIdentifier withLocation(Region location);
         }
 
@@ -258,7 +258,7 @@ public interface GalleryImage extends HasInner<GalleryImageInner>,
          * The stage of the gallery image definition allowing to specify identifier that
          * identifies publisher, offer and sku of the image.
          */
-        @Beta(since="V1_15_0")
+        @Beta(since = "V1_15_0")
         interface WithIdentifier {
             /**
              * Specifies identifier (publisher, offer and sku) for the image.
@@ -266,7 +266,7 @@ public interface GalleryImage extends HasInner<GalleryImageInner>,
              * @param identifier the identifier parameter value
              * @return the next definition stage
              */
-            @Beta(since="V1_15_0")
+            @Beta(since = "V1_15_0")
             WithOsTypeAndState withIdentifier(GalleryImageIdentifier identifier);
 
             /**
@@ -277,18 +277,18 @@ public interface GalleryImage extends HasInner<GalleryImageInner>,
              * @param sku image sku name
              * @return the next definition stage
              */
-            @Beta(since="V1_15_0")
+            @Beta(since = "V1_15_0")
             WithOsTypeAndState withIdentifier(String publisher, String offer, String sku);
         }
 
-        @Beta(since="V1_15_0")
+        @Beta(since = "V1_15_0")
         interface WithOsTypeAndState {
             /**
              * Specifies that image is a Windows image with OS state as generalized.
              *
              * @return the next definition stage
              */
-            @Beta(since="V1_15_0")
+            @Beta(since = "V1_15_0")
             WithCreate withGeneralizedWindows();
 
             /**
@@ -296,7 +296,7 @@ public interface GalleryImage extends HasInner<GalleryImageInner>,
              *
              * @return the next definition stage
              */
-            @Beta(since="V1_15_0")
+            @Beta(since = "V1_15_0")
             WithCreate withGeneralizedLinux();
 
             /**
@@ -305,7 +305,7 @@ public interface GalleryImage extends HasInner<GalleryImageInner>,
              * @param osState operating system state
              * @return the next definition stage
              */
-            @Beta(since="V1_15_0")
+            @Beta(since = "V1_15_0")
             WithCreate withWindows(OperatingSystemStateTypes osState);
 
             /**
@@ -314,14 +314,14 @@ public interface GalleryImage extends HasInner<GalleryImageInner>,
              * @param osState operating system state
              * @return the next definition stage
              */
-            @Beta(since="V1_15_0")
+            @Beta(since = "V1_15_0")
             WithCreate withLinux(OperatingSystemStateTypes osState);
         }
 
         /**
          * The stage of the gallery image definition allowing to specify description.
          */
-        @Beta(since="V1_15_0")
+        @Beta(since = "V1_15_0")
         interface WithDescription {
             /**
              * Specifies description.
@@ -329,7 +329,7 @@ public interface GalleryImage extends HasInner<GalleryImageInner>,
              * @param description the description of the gallery image
              * @return the next definition stage
              */
-            @Beta(since="V1_15_0")
+            @Beta(since = "V1_15_0")
             WithCreate withDescription(String description);
         }
 
@@ -337,7 +337,7 @@ public interface GalleryImage extends HasInner<GalleryImageInner>,
          * The stage of the gallery image definition allowing to specify settings disallowed
          * for a virtual machine based on the image.
          */
-        @Beta(since="V1_15_0")
+        @Beta(since = "V1_15_0")
         interface WithDisallowed {
             /**
              * Specifies the disk type not supported by the image.
@@ -345,7 +345,7 @@ public interface GalleryImage extends HasInner<GalleryImageInner>,
              * @param diskType the disk type
              * @return the next definition stage
              */
-            @Beta(since="V1_15_0")
+            @Beta(since = "V1_15_0")
             WithCreate withUnsupportedDiskType(DiskSkuTypes diskType);
 
             /**
@@ -354,7 +354,7 @@ public interface GalleryImage extends HasInner<GalleryImageInner>,
              * @param diskTypes the disk types
              * @return the next definition stage
              */
-            @Beta(since="V1_15_0")
+            @Beta(since = "V1_15_0")
             WithCreate withUnsupportedDiskTypes(List<DiskSkuTypes> diskTypes);
 
             /**
@@ -363,14 +363,14 @@ public interface GalleryImage extends HasInner<GalleryImageInner>,
              * @param disallowed the disallowed settings
              * @return the next definition stage
              */
-            @Beta(since="V1_15_0")
+            @Beta(since = "V1_15_0")
             WithCreate withDisallowed(Disallowed disallowed);
         }
 
         /**
          * The stage of the gallery image definition allowing to specify end of life of the version.
          */
-        @Beta(since="V1_15_0")
+        @Beta(since = "V1_15_0")
         interface WithEndOfLifeDate {
             /**
              * Specifies end of life date of the image.
@@ -378,14 +378,14 @@ public interface GalleryImage extends HasInner<GalleryImageInner>,
              * @param endOfLifeDate the end of life of the gallery image
              * @return the next definition stage
              */
-            @Beta(since="V1_15_0")
+            @Beta(since = "V1_15_0")
             WithCreate withEndOfLifeDate(OffsetDateTime endOfLifeDate);
         }
 
         /**
          * The stage of the gallery image definition allowing to specify eula.
          */
-        @Beta(since="V1_15_0")
+        @Beta(since = "V1_15_0")
         interface WithEula {
             /**
              * Specifies eula.
@@ -393,14 +393,14 @@ public interface GalleryImage extends HasInner<GalleryImageInner>,
              * @param eula the Eula agreement for the gallery image
              * @return the next definition stage
              */
-            @Beta(since="V1_15_0")
+            @Beta(since = "V1_15_0")
             WithCreate withEula(String eula);
         }
 
         /**
          * The stage of the gallery image definition allowing to specify privacy statement uri.
          */
-        @Beta(since="V1_15_0")
+        @Beta(since = "V1_15_0")
         interface WithPrivacyStatementUri {
             /**
              * Specifies image privacy statement uri.
@@ -408,14 +408,14 @@ public interface GalleryImage extends HasInner<GalleryImageInner>,
              * @param privacyStatementUri The privacy statement uri
              * @return the next definition stage
              */
-            @Beta(since="V1_15_0")
+            @Beta(since = "V1_15_0")
             WithCreate withPrivacyStatementUri(String privacyStatementUri);
         }
 
         /**
          * The stage of the gallery image definition allowing to specify purchase plan.
          */
-        @Beta(since="V1_15_0")
+        @Beta(since = "V1_15_0")
         interface WithPurchasePlan {
             /**
              * Specifies purchase plan for this image.
@@ -425,7 +425,7 @@ public interface GalleryImage extends HasInner<GalleryImageInner>,
              * @param product product name
              * @return the next definition stage
              */
-            @Beta(since="V1_15_0")
+            @Beta(since = "V1_15_0")
             WithCreate withPurchasePlan(String name, String publisher, String product);
 
             /**
@@ -434,7 +434,7 @@ public interface GalleryImage extends HasInner<GalleryImageInner>,
              * @param purchasePlan the purchase plan
              * @return the next definition stage
              */
-            @Beta(since="V1_15_0")
+            @Beta(since = "V1_15_0")
             WithCreate withPurchasePlan(ImagePurchasePlan purchasePlan);
         }
 
@@ -442,7 +442,7 @@ public interface GalleryImage extends HasInner<GalleryImageInner>,
          * The stage of the gallery image definition allowing to specify recommended
          * configuration for the virtual machine.
          */
-        @Beta(since="V1_15_0")
+        @Beta(since = "V1_15_0")
         interface WithRecommendedVMConfiguration {
             /**
              * Specifies the recommended minimum number of virtual CUPs for the virtual machine bases on the image.
@@ -450,7 +450,7 @@ public interface GalleryImage extends HasInner<GalleryImageInner>,
              * @param minCount the minimum number of virtual CPUs
              * @return the next definition stage
              */
-            @Beta(since="V1_15_0")
+            @Beta(since = "V1_15_0")
             WithCreate withRecommendedMinimumCPUsCountForVirtualMachine(int minCount);
 
             /**
@@ -459,7 +459,7 @@ public interface GalleryImage extends HasInner<GalleryImageInner>,
              * @param maxCount the maximum number of virtual CPUs
              * @return the next definition stage
              */
-            @Beta(since="V1_15_0")
+            @Beta(since = "V1_15_0")
             WithCreate withRecommendedMaximumCPUsCountForVirtualMachine(int maxCount);
 
             /**
@@ -469,7 +469,7 @@ public interface GalleryImage extends HasInner<GalleryImageInner>,
              * @param maxCount the maximum number of virtual CPUs
              * @return the next definition stage
              */
-            @Beta(since="V1_15_0")
+            @Beta(since = "V1_15_0")
             WithCreate withRecommendedCPUsCountForVirtualMachine(int minCount, int maxCount);
 
             /**
@@ -478,7 +478,7 @@ public interface GalleryImage extends HasInner<GalleryImageInner>,
              * @param minMB the minimum memory in MB
              * @return the next definition stage
              */
-            @Beta(since="V1_15_0")
+            @Beta(since = "V1_15_0")
             WithCreate withRecommendedMinimumMemoryForVirtualMachine(int minMB);
 
             /**
@@ -487,7 +487,7 @@ public interface GalleryImage extends HasInner<GalleryImageInner>,
              * @param maxMB the maximum memory in MB
              * @return the next definition stage
              */
-            @Beta(since="V1_15_0")
+            @Beta(since = "V1_15_0")
             WithCreate withRecommendedMaximumMemoryForVirtualMachine(int maxMB);
 
             /**
@@ -497,7 +497,7 @@ public interface GalleryImage extends HasInner<GalleryImageInner>,
              * @param maxMB the maximum memory in MB
              * @return the next definition stage
              */
-            @Beta(since="V1_15_0")
+            @Beta(since = "V1_15_0")
             WithCreate withRecommendedMemoryForVirtualMachine(int minMB, int maxMB);
 
             /**
@@ -506,14 +506,14 @@ public interface GalleryImage extends HasInner<GalleryImageInner>,
              * @param recommendedConfig the recommended configuration
              * @return the next definition stage
              */
-            @Beta(since="V1_15_0")
+            @Beta(since = "V1_15_0")
             WithCreate withRecommendedConfigurationForVirtualMachine(RecommendedMachineConfiguration recommendedConfig);
         }
 
         /**
          * The stage of the gallery image definition allowing to specify uri to release note.
          */
-        @Beta(since="V1_15_0")
+        @Beta(since = "V1_15_0")
         interface WithReleaseNoteUri {
             /**
              * Specifies uri to release note.
@@ -521,14 +521,14 @@ public interface GalleryImage extends HasInner<GalleryImageInner>,
              * @param releaseNoteUri the release note uri
              * @return the next definition stage
              */
-            @Beta(since="V1_15_0")
+            @Beta(since = "V1_15_0")
             WithCreate withReleaseNoteUri(String releaseNoteUri);
         }
 
         /**
          * The stage of the gallery image definition allowing to specify tags.
          */
-        @Beta(since="V1_15_0")
+        @Beta(since = "V1_15_0")
         interface WithTags {
             /**
              * Specifies tags.
@@ -536,7 +536,7 @@ public interface GalleryImage extends HasInner<GalleryImageInner>,
              * @param tags resource tags
              * @return the next definition stage
              */
-            @Beta(since="V1_15_0")
+            @Beta(since = "V1_15_0")
             WithCreate withTags(Map<String, String> tags);
         }
 
@@ -545,7 +545,7 @@ public interface GalleryImage extends HasInner<GalleryImageInner>,
          * the resource to be created (via {@link WithCreate#create()}), but also allows
          * for any other optional settings to be specified.
          */
-        @Beta(since="V1_15_0")
+        @Beta(since = "V1_15_0")
         interface WithCreate extends Creatable<GalleryImage>,
                 DefinitionStages.WithDescription,
                 DefinitionStages.WithDisallowed,
@@ -561,7 +561,7 @@ public interface GalleryImage extends HasInner<GalleryImageInner>,
     /**
      * The template for a gallery image update operation, containing all the settings that can be modified.
      */
-    @Beta(since="V1_15_0")
+    @Beta(since = "V1_15_0")
     interface Update extends Appliable<GalleryImage>,
             UpdateStages.WithDescription,
             UpdateStages.WithDisallowed,
@@ -577,12 +577,12 @@ public interface GalleryImage extends HasInner<GalleryImageInner>,
     /**
      * Grouping of gallery image update stages.
      */
-    @Beta(since="V1_15_0")
+    @Beta(since = "V1_15_0")
     interface UpdateStages {
         /**
          * The stage of the gallery image update allowing to specify description.
          */
-        @Beta(since="V1_15_0")
+        @Beta(since = "V1_15_0")
         interface WithDescription {
             /**
              * Specifies description of the gallery image resource.
@@ -590,7 +590,7 @@ public interface GalleryImage extends HasInner<GalleryImageInner>,
              * @param description The description
              * @return the next update stage
              */
-            @Beta(since="V1_15_0")
+            @Beta(since = "V1_15_0")
             Update withDescription(String description);
         }
 
@@ -598,7 +598,7 @@ public interface GalleryImage extends HasInner<GalleryImageInner>,
          * The stage of the gallery image update allowing to specify settings disallowed
          * for a virtual machine based on the image.
          */
-        @Beta(since="V1_15_0")
+        @Beta(since = "V1_15_0")
         interface WithDisallowed {
             /**
              * Specifies the disk type not supported by the image.
@@ -606,7 +606,7 @@ public interface GalleryImage extends HasInner<GalleryImageInner>,
              * @param diskType the disk type
              * @return the next update stage
              */
-            @Beta(since="V1_15_0")
+            @Beta(since = "V1_15_0")
             Update withUnsupportedDiskType(DiskSkuTypes diskType);
 
             /**
@@ -615,7 +615,7 @@ public interface GalleryImage extends HasInner<GalleryImageInner>,
              * @param diskTypes the disk types
              * @return the next update stage
              */
-            @Beta(since="V1_15_0")
+            @Beta(since = "V1_15_0")
             Update withUnsupportedDiskTypes(List<DiskSkuTypes> diskTypes);
 
             /**
@@ -624,7 +624,7 @@ public interface GalleryImage extends HasInner<GalleryImageInner>,
              * @param diskType the disk type
              * @return the next update stage
              */
-            @Beta(since="V1_15_0")
+            @Beta(since = "V1_15_0")
             Update withoutUnsupportedDiskType(DiskSkuTypes diskType);
 
             /**
@@ -633,14 +633,14 @@ public interface GalleryImage extends HasInner<GalleryImageInner>,
              * @param disallowed the disallowed settings
              * @return the next update stage
              */
-            @Beta(since="V1_15_0")
+            @Beta(since = "V1_15_0")
             Update withDisallowed(Disallowed disallowed);
         }
 
         /**
          * The stage of the gallery image update allowing to specify EndOfLifeDate.
          */
-        @Beta(since="V1_15_0")
+        @Beta(since = "V1_15_0")
         interface WithEndOfLifeDate {
             /**
              * Specifies end of life date of the image.
@@ -648,14 +648,14 @@ public interface GalleryImage extends HasInner<GalleryImageInner>,
              * @param endOfLifeDate the end of life of the gallery image
              * @return the next update stage
              */
-            @Beta(since="V1_15_0")
+            @Beta(since = "V1_15_0")
             Update withEndOfLifeDate(OffsetDateTime endOfLifeDate);
         }
 
         /**
          * The stage of the gallery image update allowing to specify Eula.
          */
-        @Beta(since="V1_15_0")
+        @Beta(since = "V1_15_0")
         interface WithEula {
             /**
              * Specifies eula.
@@ -663,14 +663,14 @@ public interface GalleryImage extends HasInner<GalleryImageInner>,
              * @param eula the Eula agreement for the gallery image
              * @return the next update stage
              */
-            @Beta(since="V1_15_0")
+            @Beta(since = "V1_15_0")
             Update withEula(String eula);
         }
 
         /**
          * The stage of the gallery image update allowing to specify OsState.
          */
-        @Beta(since="V1_15_0")
+        @Beta(since = "V1_15_0")
         interface WithOsState {
             /**
              * Specifies osState.
@@ -678,14 +678,14 @@ public interface GalleryImage extends HasInner<GalleryImageInner>,
              * @param osState the OS State.
              * @return the next update stage
              */
-            @Beta(since="V1_15_0")
+            @Beta(since = "V1_15_0")
             Update withOsState(OperatingSystemStateTypes osState);
         }
 
         /**
          * The stage of the gallery image update allowing to specify privacy statement uri.
          */
-        @Beta(since="V1_15_0")
+        @Beta(since = "V1_15_0")
         interface WithPrivacyStatementUri {
             /**
              * Specifies image privacy statement uri.
@@ -693,7 +693,7 @@ public interface GalleryImage extends HasInner<GalleryImageInner>,
              * @param privacyStatementUri the privacy statement uri
              * @return the next update stage
              */
-            @Beta(since="V1_15_0")
+            @Beta(since = "V1_15_0")
             Update withPrivacyStatementUri(String privacyStatementUri);
         }
 
@@ -701,7 +701,7 @@ public interface GalleryImage extends HasInner<GalleryImageInner>,
          * The stage of the gallery image definition allowing to specify recommended
          * configuration for the virtual machine.
          */
-        @Beta(since="V1_15_0")
+        @Beta(since = "V1_15_0")
         interface WithRecommendedVMConfiguration {
             /**
              * Specifies the recommended minimum number of virtual CUPs for the virtual machine bases on the image.
@@ -709,7 +709,7 @@ public interface GalleryImage extends HasInner<GalleryImageInner>,
              * @param minCount the minimum number of virtual CPUs
              * @return the next update stage
              */
-            @Beta(since="V1_15_0")
+            @Beta(since = "V1_15_0")
             Update withRecommendedMinimumCPUsCountForVirtualMachine(int minCount);
 
             /**
@@ -718,7 +718,7 @@ public interface GalleryImage extends HasInner<GalleryImageInner>,
              * @param maxCount the maximum number of virtual CPUs
              * @return the next update stage
              */
-            @Beta(since="V1_15_0")
+            @Beta(since = "V1_15_0")
             Update withRecommendedMaximumCPUsCountForVirtualMachine(int maxCount);
 
             /**
@@ -728,7 +728,7 @@ public interface GalleryImage extends HasInner<GalleryImageInner>,
              * @param maxCount the maximum number of virtual CPUs
              * @return the next update stage
              */
-            @Beta(since="V1_15_0")
+            @Beta(since = "V1_15_0")
             Update withRecommendedCPUsCountForVirtualMachine(int minCount, int maxCount);
 
             /**
@@ -737,7 +737,7 @@ public interface GalleryImage extends HasInner<GalleryImageInner>,
              * @param minMB the minimum memory in MB
              * @return the next update stage
              */
-            @Beta(since="V1_15_0")
+            @Beta(since = "V1_15_0")
             Update withRecommendedMinimumMemoryForVirtualMachine(int minMB);
 
             /**
@@ -746,7 +746,7 @@ public interface GalleryImage extends HasInner<GalleryImageInner>,
              * @param maxMB the maximum memory in MB
              * @return the next update stage
              */
-            @Beta(since="V1_15_0")
+            @Beta(since = "V1_15_0")
             Update withRecommendedMaximumMemoryForVirtualMachine(int maxMB);
 
             /**
@@ -756,7 +756,7 @@ public interface GalleryImage extends HasInner<GalleryImageInner>,
              * @param maxMB the maximum memory in MB
              * @return the next update stage
              */
-            @Beta(since="V1_15_0")
+            @Beta(since = "V1_15_0")
             Update withRecommendedMemoryForVirtualMachine(int minMB, int maxMB);
 
             /**
@@ -765,14 +765,14 @@ public interface GalleryImage extends HasInner<GalleryImageInner>,
              * @param recommendedConfig the recommended configuration
              * @return the next update stage
              */
-            @Beta(since="V1_15_0")
+            @Beta(since = "V1_15_0")
             Update withRecommendedConfigurationForVirtualMachine(RecommendedMachineConfiguration recommendedConfig);
         }
 
         /**
          * The stage of the gallery image update allowing to specify uri to release note.
          */
-        @Beta(since="V1_15_0")
+        @Beta(since = "V1_15_0")
         interface WithReleaseNoteUri {
             /**
              * Specifies release note uri.
@@ -780,21 +780,21 @@ public interface GalleryImage extends HasInner<GalleryImageInner>,
              * @param releaseNoteUri the release note uri
              * @return the next update stage
              */
-            @Beta(since="V1_15_0")
+            @Beta(since = "V1_15_0")
             Update withReleaseNoteUri(String releaseNoteUri);
         }
 
         /**
          * The stage of the gallery image update allowing to specify Tags.
          */
-        @Beta(since="V1_15_0")
+        @Beta(since = "V1_15_0")
         interface WithTags {
             /**
              * Specifies tags.
              * @param tags resource tags
              * @return the next update stage
              */
-            @Beta(since="V1_15_0")
+            @Beta(since = "V1_15_0")
             Update withTags(Map<String, String> tags);
         }
     }

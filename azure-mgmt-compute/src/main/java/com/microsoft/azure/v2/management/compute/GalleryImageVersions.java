@@ -19,7 +19,7 @@ import io.reactivex.Observable;
  * Entry point to gallery image versions management API in Azure.
  */
 @Fluent
-@Beta(since="V1_15_0")
+@Beta(since = "V1_15_0")
 public interface GalleryImageVersions extends SupportsCreating<GalleryImageVersion.DefinitionStages.Blank>,
         HasInner<GalleryImageVersionsInner> {
     /**
@@ -32,7 +32,7 @@ public interface GalleryImageVersions extends SupportsCreating<GalleryImageVersi
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    @Beta(since="V1_15_0")
+    @Beta(since = "V1_15_0")
     Observable<GalleryImageVersion> getByGalleryImageAsync(String resourceGroupName, String galleryName, String galleryImageName, String galleryImageVersionName);
 
     /**
@@ -45,7 +45,7 @@ public interface GalleryImageVersions extends SupportsCreating<GalleryImageVersi
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the gallery image version resource
      */
-    @Beta(since="V1_15_0")
+    @Beta(since = "V1_15_0")
     GalleryImageVersion getByGalleryImage(String resourceGroupName, String galleryName, String galleryImageName, String galleryImageVersionName);
 
     /**
@@ -57,7 +57,7 @@ public interface GalleryImageVersions extends SupportsCreating<GalleryImageVersi
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    @Beta(since="V1_15_0")
+    @Beta(since = "V1_15_0")
     Observable<GalleryImageVersion> listByGalleryImageAsync(final String resourceGroupName, final String galleryName, final String galleryImageName);
 
     /**
@@ -69,7 +69,7 @@ public interface GalleryImageVersions extends SupportsCreating<GalleryImageVersi
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return list of gallery image versions
      */
-    @Beta(since="V1_15_0")
+    @Beta(since = "V1_15_0")
     PagedList<GalleryImageVersion> listByGalleryImage(final String resourceGroupName, final String galleryName, final String galleryImageName);
 
     /**
@@ -82,7 +82,7 @@ public interface GalleryImageVersions extends SupportsCreating<GalleryImageVersi
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the completable for the request
      */
-    @Beta(since="V1_15_0")
+    @Beta(since = "V1_15_0")
     Completable deleteByGalleryImageAsync(String resourceGroupName, String galleryName, String galleryImageName, String galleryImageVersionName);
 
     /**
@@ -94,6 +94,6 @@ public interface GalleryImageVersions extends SupportsCreating<GalleryImageVersi
      * @param galleryImageVersionName The name of the gallery image version.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      */
-    @Beta(since="V1_15_0")
+    @Beta(since = "V1_15_0")
     void deleteByGalleryImage(String resourceGroupName, String galleryName, String galleryImageName, String galleryImageVersionName);
 }

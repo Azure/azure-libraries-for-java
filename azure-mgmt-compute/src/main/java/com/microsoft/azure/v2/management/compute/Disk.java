@@ -71,7 +71,7 @@ public interface Disk extends
     /**
      * @return the availability zones assigned to the disk
      */
-    @Beta(since="V1_3_0")
+    @Beta(since = "V1_3_0")
     Set<AvailabilityZoneId> availabilityZones();
 
     /**
@@ -402,7 +402,7 @@ public interface Disk extends
         /**
          * The stage of the managed disk definition allowing to specify availability zone.
          */
-        @Beta(since="V1_3_0")
+        @Beta(since = "V1_3_0")
         interface WithAvailabilityZone {
             /**
              * Specifies the availability zone for the managed disk.
@@ -410,7 +410,7 @@ public interface Disk extends
              * @param zoneId the zone identifier.
              * @return the next stage of the definition
              */
-            @Beta(since="V1_3_0")
+            @Beta(since = "V1_3_0")
             WithCreate withAvailabilityZone(AvailabilityZoneId zoneId);
         }
 

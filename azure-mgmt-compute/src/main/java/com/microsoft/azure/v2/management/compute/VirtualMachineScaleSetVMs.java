@@ -28,7 +28,7 @@ public interface VirtualMachineScaleSetVMs extends
      * @param instanceIds instance IDs of the virtual machine scale set instances to be deleted
      * @return a representation of the deferred computation of this call.
      */
-    @Beta(since="V1_4_0")
+    @Beta(since = "V1_4_0")
     Completable deleteInstancesAsync(Collection<String> instanceIds);
 
     /**
@@ -37,7 +37,7 @@ public interface VirtualMachineScaleSetVMs extends
      * @param instanceIds instance IDs of the virtual machine scale set instances to be deleted
      * @return a representation of the deferred computation of this call.
      */
-    @Beta(since="V1_4_0")
+    @Beta(since = "V1_4_0")
     Completable deleteInstancesAsync(String... instanceIds);
 
     /**
@@ -45,7 +45,7 @@ public interface VirtualMachineScaleSetVMs extends
      *
      * @param instanceIds instance IDs of the virtual machine scale set instances to be deleted
      */
-    @Beta(since="V1_4_0")
+    @Beta(since = "V1_4_0")
     void deleteInstances(String... instanceIds);
 
     /**
@@ -54,7 +54,7 @@ public interface VirtualMachineScaleSetVMs extends
      * @param instanceIds instance IDs of the virtual machine scale set instances to be updated
      * @return a representation of the deferred computation of this call.
      */
-    @Beta(since="V1_4_0")
+    @Beta(since = "V1_4_0")
     Completable updateInstancesAsync(Collection<String> instanceIds);
 
     /**
@@ -63,7 +63,7 @@ public interface VirtualMachineScaleSetVMs extends
      * @param instanceIds instance IDs of the virtual machine scale set instances to be updated
      * @return a representation of the deferred computation of this call.
      */
-    @Beta(since="V1_4_0")
+    @Beta(since = "V1_4_0")
     Completable updateInstancesAsync(String... instanceIds);
 
     /**
@@ -71,6 +71,6 @@ public interface VirtualMachineScaleSetVMs extends
      *
      * @param instanceIds instance IDs of the virtual machine scale set instances to be updated
      */
-    @Beta(since="V1_4_0")
+    @Beta(since = "V1_4_0")
     void updateInstances(String... instanceIds);
 }

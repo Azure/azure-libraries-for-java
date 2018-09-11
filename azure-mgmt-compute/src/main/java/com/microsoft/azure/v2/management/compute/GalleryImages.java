@@ -19,7 +19,7 @@ import io.reactivex.Observable;
  * Entry point to gallery images management API in Azure.
  */
 @Fluent
-@Beta(since="V1_15_0")
+@Beta(since = "V1_15_0")
 public interface GalleryImages extends SupportsCreating<GalleryImage.DefinitionStages.Blank>,
         HasInner<GalleryImagesInner> {
     /**
@@ -31,7 +31,7 @@ public interface GalleryImages extends SupportsCreating<GalleryImage.DefinitionS
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    @Beta(since="V1_15_0")
+    @Beta(since = "V1_15_0")
     Observable<GalleryImage> getByGalleryAsync(String resourceGroupName, String galleryName, String galleryImageName);
 
     /**
@@ -43,7 +43,7 @@ public interface GalleryImages extends SupportsCreating<GalleryImage.DefinitionS
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the gallery image
      */
-    @Beta(since="V1_15_0")
+    @Beta(since = "V1_15_0")
     GalleryImage getByGallery(String resourceGroupName, String galleryName, String galleryImageName);
 
     /**
@@ -54,7 +54,7 @@ public interface GalleryImages extends SupportsCreating<GalleryImage.DefinitionS
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    @Beta(since="V1_15_0")
+    @Beta(since = "V1_15_0")
     Observable<GalleryImage> listByGalleryAsync(final String resourceGroupName, final String galleryName);
 
     /**
@@ -65,7 +65,7 @@ public interface GalleryImages extends SupportsCreating<GalleryImage.DefinitionS
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the list of images in the gallery
      */
-    @Beta(since="V1_15_0")
+    @Beta(since = "V1_15_0")
     PagedList<GalleryImage> listByGallery(final String resourceGroupName, final String galleryName);
 
     /**
@@ -77,7 +77,7 @@ public interface GalleryImages extends SupportsCreating<GalleryImage.DefinitionS
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the completable for the request
      */
-    @Beta(since="V1_15_0")
+    @Beta(since = "V1_15_0")
     Completable deleteByGalleryAsync(String resourceGroupName, String galleryName, String galleryImageName);
 
     /**
@@ -88,6 +88,6 @@ public interface GalleryImages extends SupportsCreating<GalleryImage.DefinitionS
      * @param galleryImageName The name of the gallery image.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      */
-    @Beta(since="V1_15_0")
+    @Beta(since = "V1_15_0")
     void deleteByGallery(String resourceGroupName, String galleryName, String galleryImageName);
 }

@@ -51,7 +51,7 @@ public interface Snapshots extends
      * @param accessDuration access duration
      * @return a representation of the deferred computation of this call returning a read-only SAS URI to the snapshot
      */
-    @Beta(since="V1_2_0")
+    @Beta(since = "V1_2_0")
     Observable<String> grantAccessAsync(String resourceGroupName,
                                         String snapshotName,
                                         AccessLevel accessLevel,
@@ -67,7 +67,7 @@ public interface Snapshots extends
      * @param callback the callback to call on success or failure, on success it will pass read-only SAS URI to the snapshot in callback
      * @return a handle to cancel the request
      */
-    @Beta(since="V1_2_0")
+    @Beta(since = "V1_2_0")
     ServiceFuture<String> grantAccessAsync(String resourceGroupName,
                                            String snapshotName,
                                            AccessLevel accessLevel,
@@ -95,7 +95,7 @@ public interface Snapshots extends
      * @param snapName the snapshot name
      * @return a representation of the deferred computation of this call
      */
-    @Beta(since="V1_2_0")
+    @Beta(since = "V1_2_0")
     Completable revokeAccessAsync(String resourceGroupName, String snapName);
 
     /**
@@ -106,7 +106,7 @@ public interface Snapshots extends
      * @param callback the callback to call on success or failure
      * @return a handle to cancel the request
      */
-    @Beta(since="V1_2_0")
+    @Beta(since = "V1_2_0")
     ServiceFuture<Void> revokeAccessAsync(String resourceGroupName, String snapName, ServiceCallback<Void> callback);
 
     /**

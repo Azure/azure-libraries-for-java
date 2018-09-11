@@ -40,7 +40,7 @@ public enum RollingUpgradeStatusCode {
      */
     private final String value;
 
-    private RollingUpgradeStatusCode(String value) {
+    RollingUpgradeStatusCode(String value) {
         this.value = value;
     }
 

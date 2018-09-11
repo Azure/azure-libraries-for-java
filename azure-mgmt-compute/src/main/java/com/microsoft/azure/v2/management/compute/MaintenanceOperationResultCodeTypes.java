@@ -40,7 +40,7 @@ public enum MaintenanceOperationResultCodeTypes {
      */
     private final String value;
 
-    private MaintenanceOperationResultCodeTypes(String value) {
+    MaintenanceOperationResultCodeTypes(String value) {
         this.value = value;
     }
 

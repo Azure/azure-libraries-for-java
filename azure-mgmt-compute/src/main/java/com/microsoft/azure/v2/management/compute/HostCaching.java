@@ -35,7 +35,7 @@ public enum HostCaching {
      */
     private final String value;
 
-    private HostCaching(String value) {
+    HostCaching(String value) {
         this.value = value;
     }
 

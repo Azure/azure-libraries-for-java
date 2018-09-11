@@ -21,7 +21,6 @@ import com.microsoft.rest.v2.annotations.QueryParam;
 import com.microsoft.rest.v2.annotations.UnexpectedResponseExceptionType;
 import io.reactivex.Maybe;
 import io.reactivex.Single;
-import java.util.ArrayList;
 import java.util.List;
 
 /**

@@ -2842,6 +2842,11 @@ public class VirtualMachineScaleSetImpl
         }
     }
 
+    /**
+     * Func that takes no argument but return a value.
+     *
+     * @param <V> the return type
+     */
     public interface Func0<V> {
         /**
          * Computes a result, or throws an exception if unable to do so.

@@ -35,7 +35,7 @@ public enum StatusLevelTypes {
      */
     private final String value;
 
-    private StatusLevelTypes(String value) {
+    StatusLevelTypes(String value) {
         this.value = value;
     }
 

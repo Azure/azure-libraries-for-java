@@ -40,7 +40,7 @@ public enum UpgradeState {
      */
     private final String value;
 
-    private UpgradeState(String value) {
+    UpgradeState(String value) {
         this.value = value;
     }
 

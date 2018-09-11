@@ -35,7 +35,7 @@ public enum ResourceSkuCapacityScaleType {
      */
     private final String value;
 
-    private ResourceSkuCapacityScaleType(String value) {
+    ResourceSkuCapacityScaleType(String value) {
         this.value = value;
     }
 

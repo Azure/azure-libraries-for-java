@@ -66,7 +66,7 @@ class VirtualMachineExtensionsImpl extends
         // Resolve reference getExtensions
         //
         Observable<VirtualMachineExtension> resolvedExtensionsStream = extensions
-                .filter(extension ->extension.isReference())
+                .filter(extension -> extension.isReference())
                 .flatMap(extension -> client.getAsync(parent().resourceGroupName(), parent().name(), extension.name())
                         .map(extensionInner -> new VirtualMachineExtensionImpl(extension.name(), parent(), extensionInner, client))
                         .toObservable());

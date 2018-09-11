@@ -30,7 +30,7 @@ public enum OperatingSystemTypes {
      */
     private final String value;
 
-    private OperatingSystemTypes(String value) {
+    OperatingSystemTypes(String value) {
         this.value = value;
     }
 

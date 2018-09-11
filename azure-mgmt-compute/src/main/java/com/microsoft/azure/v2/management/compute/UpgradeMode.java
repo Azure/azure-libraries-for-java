@@ -35,7 +35,7 @@ public enum UpgradeMode {
      */
     private final String value;
 
-    private UpgradeMode(String value) {
+    UpgradeMode(String value) {
         this.value = value;
     }
 

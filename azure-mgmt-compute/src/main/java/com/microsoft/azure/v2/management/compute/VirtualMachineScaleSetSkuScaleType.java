@@ -30,7 +30,7 @@ public enum VirtualMachineScaleSetSkuScaleType {
      */
     private final String value;
 
-    private VirtualMachineScaleSetSkuScaleType(String value) {
+    VirtualMachineScaleSetSkuScaleType(String value) {
         this.value = value;
     }
 

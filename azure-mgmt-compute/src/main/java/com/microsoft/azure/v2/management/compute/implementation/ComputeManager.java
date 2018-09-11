@@ -87,6 +87,7 @@ public final class ComputeManager extends Manager<ComputeManager, ComputeManagem
      *
      * @param httpPipeline the httpPipeline to be used for API calls.
      * @param subscriptionId the subscription
+     * @param domain the domain
      * @return the ComputeManager
      */
     public static ComputeManager authenticate(HttpPipeline httpPipeline, String subscriptionId, String domain) {

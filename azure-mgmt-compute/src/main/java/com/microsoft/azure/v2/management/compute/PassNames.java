@@ -25,7 +25,7 @@ public enum PassNames {
      */
     private final String value;
 
-    private PassNames(String value) {
+    PassNames(String value) {
         this.value = value;
     }
 

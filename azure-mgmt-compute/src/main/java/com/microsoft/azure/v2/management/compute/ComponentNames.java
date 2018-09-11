@@ -25,7 +25,7 @@ public enum ComponentNames {
      */
     private final String value;
 
-    private ComponentNames(String value) {
+    ComponentNames(String value) {
         this.value = value;
     }
 

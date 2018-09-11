@@ -30,7 +30,7 @@ public enum RollingUpgradeActionType {
      */
     private final String value;
 
-    private RollingUpgradeActionType(String value) {
+    RollingUpgradeActionType(String value) {
         this.value = value;
     }
 

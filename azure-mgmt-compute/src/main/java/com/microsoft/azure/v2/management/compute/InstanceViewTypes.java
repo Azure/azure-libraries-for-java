@@ -25,7 +25,7 @@ public enum InstanceViewTypes {
      */
     private final String value;
 
-    private InstanceViewTypes(String value) {
+    InstanceViewTypes(String value) {
         this.value = value;
     }
 

@@ -35,7 +35,7 @@ public enum CachingTypes {
      */
     private final String value;
 
-    private CachingTypes(String value) {
+    CachingTypes(String value) {
         this.value = value;
     }
 

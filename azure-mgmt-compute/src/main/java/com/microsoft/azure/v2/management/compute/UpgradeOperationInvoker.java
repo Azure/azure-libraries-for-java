@@ -35,7 +35,7 @@ public enum UpgradeOperationInvoker {
      */
     private final String value;
 
-    private UpgradeOperationInvoker(String value) {
+    UpgradeOperationInvoker(String value) {
         this.value = value;
     }
 

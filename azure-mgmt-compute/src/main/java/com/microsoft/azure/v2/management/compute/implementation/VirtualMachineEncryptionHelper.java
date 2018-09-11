@@ -81,7 +81,7 @@ class VirtualMachineEncryptionHelper {
         final EnableDisableEncryptConfig encryptConfig = new DisableEncryptConfig(volumeType);
         return validateBeforeDecryptAsync(volumeType)
                 // Update the encryption extension if already installed
-                .flatMap(aBoolean-> updateEncryptionExtensionAsync(encryptConfig))
+                .flatMap(aBoolean -> updateEncryptionExtensionAsync(encryptConfig))
                 // If encryption extension is not then install it
                 .switchIfEmpty(installEncryptionExtensionAsync(encryptConfig))
                 // Validate and retrieve the encryption extension status

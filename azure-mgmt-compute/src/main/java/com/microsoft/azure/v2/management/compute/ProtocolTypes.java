@@ -30,7 +30,7 @@ public enum ProtocolTypes {
      */
     private final String value;
 
-    private ProtocolTypes(String value) {
+    ProtocolTypes(String value) {
         this.value = value;
     }
 

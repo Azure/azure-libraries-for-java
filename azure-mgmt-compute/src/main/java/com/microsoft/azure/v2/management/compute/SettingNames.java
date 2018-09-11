@@ -30,7 +30,7 @@ public enum SettingNames {
      */
     private final String value;
 
-    private SettingNames(String value) {
+    SettingNames(String value) {
         this.value = value;
     }
 

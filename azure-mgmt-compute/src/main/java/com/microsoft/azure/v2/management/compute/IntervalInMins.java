@@ -40,7 +40,7 @@ public enum IntervalInMins {
      */
     private final String value;
 
-    private IntervalInMins(String value) {
+    IntervalInMins(String value) {
         this.value = value;
     }
 

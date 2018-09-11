@@ -30,7 +30,7 @@ public enum ResourceSkuRestrictionsType {
      */
     private final String value;
 
-    private ResourceSkuRestrictionsType(String value) {
+    ResourceSkuRestrictionsType(String value) {
         this.value = value;
     }
 

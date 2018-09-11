@@ -20,9 +20,11 @@ import com.microsoft.rest.v2.ServiceFuture;
 import io.reactivex.Completable;
 import io.reactivex.Maybe;
 import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
 import io.reactivex.functions.Function;
 
 import java.util.Objects;
+import java.util.concurrent.Callable;
 
 /**
  * Externalized child resource abstract implementation.
@@ -166,7 +168,7 @@ public abstract class ExternalChildResourceImpl<FluentModelT extends Indexable,
      *
      * @return the observable to track the delete action.
      */
-    public abstract Observable<Void> deleteResourceAsync();
+    public abstract Completable deleteResourceAsync();
 
     /**
      * @return the key of this child resource in the collection maintained by ExternalChildResourceCollectionImpl
@@ -441,8 +443,10 @@ public abstract class ExternalChildResourceImpl<FluentModelT extends Indexable,
                     //  }).andThen(voidObservable());
                     //
                     return this.externalChild.deleteResourceAsync()
-                            .doOnNext(createdExternalChild -> externalChild.setPendingOperation(PendingOperation.None))
-                            .flatMap(aVoid -> voidObservable());
+                            .andThen(Observable.defer((Callable<ObservableSource<Indexable>>) () -> {
+                                externalChild.setPendingOperation(PendingOperation.None);
+                                return voidObservable();
+                            }));
                 default:
                     // PendingOperation.None
                     //

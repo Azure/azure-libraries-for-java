@@ -45,7 +45,7 @@ public enum State {
      */
     private final String value;
 
-    private State(String value) {
+    State(String value) {
         this.value = value;
     }
 

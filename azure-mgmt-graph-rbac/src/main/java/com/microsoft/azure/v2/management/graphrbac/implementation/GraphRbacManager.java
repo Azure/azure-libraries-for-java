@@ -63,7 +63,7 @@ public final class GraphRbacManager implements HasInner<GraphRbacManagementClien
     /**
      * Creates an instance of GraphRbacManager that exposes Graph RBAC management API entry points.
      *
-     * @param restClient the RestClient to be used for API calls
+     * @param httpPipeline the httpPipeline to be used for API calls
      * @param tenantId the tenantId in Active Directory
      * @return the interface exposing Graph RBAC management API entry points that work across subscriptions
      */

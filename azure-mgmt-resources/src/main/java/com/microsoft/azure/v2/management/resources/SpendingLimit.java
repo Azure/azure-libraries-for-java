@@ -35,7 +35,7 @@ public enum SpendingLimit {
      */
     private final String value;
 
-    private SpendingLimit(String value) {
+    SpendingLimit(String value) {
         this.value = value;
     }
 

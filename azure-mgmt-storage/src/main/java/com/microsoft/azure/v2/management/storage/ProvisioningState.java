@@ -35,7 +35,7 @@ public enum ProvisioningState {
      */
     private final String value;
 
-    private ProvisioningState(String value) {
+    ProvisioningState(String value) {
         this.value = value;
     }
 

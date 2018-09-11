@@ -48,11 +48,12 @@ class RoleDefinitionsImpl
     @Override
     public Maybe<RoleDefinition> getByIdAsync(String id) {
         return manager().roleInner().roleDefinitions().getByIdAsync(id).map(roleDefinitionInner -> {
-        if (roleDefinitionInner == null) {
-            return null;
-        } else {
-            return new RoleDefinitionImpl(roleDefinitionInner, manager());
-        }});
+            if (roleDefinitionInner == null) {
+                return null;
+            } else {
+                return new RoleDefinitionImpl(roleDefinitionInner, manager());
+            }
+        });
     }
 
     @Override

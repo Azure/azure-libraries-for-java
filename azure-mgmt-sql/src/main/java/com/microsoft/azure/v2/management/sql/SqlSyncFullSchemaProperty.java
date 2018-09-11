@@ -9,8 +9,8 @@ import com.microsoft.rest.v2.annotations.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.v2.management.sql.implementation.SyncFullSchemaPropertiesInner;
-import org.joda.time.DateTime;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 
 /**
@@ -29,5 +29,5 @@ public interface SqlSyncFullSchemaProperty
     /**
      * @return last update time of the database schema.
      */
-    DateTime lastUpdateTime();
+    OffsetDateTime lastUpdateTime();
 }

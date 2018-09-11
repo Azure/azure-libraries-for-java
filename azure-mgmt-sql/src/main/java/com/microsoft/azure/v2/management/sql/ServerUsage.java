@@ -10,7 +10,8 @@ import com.microsoft.rest.v2.annotations.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.v2.management.sql.implementation.ServerUsageInner;
-import org.joda.time.DateTime;
+
+import java.time.OffsetDateTime;
 
 
 /**
@@ -54,6 +55,6 @@ public interface ServerUsage extends
     /**
      * @return the next reset time for the metric (ISO8601 format)
      */
-    DateTime nextResetTime();
+    OffsetDateTime nextResetTime();
 }
 

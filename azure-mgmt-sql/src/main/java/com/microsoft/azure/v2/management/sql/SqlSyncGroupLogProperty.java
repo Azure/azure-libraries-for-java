@@ -9,7 +9,8 @@ import com.microsoft.rest.v2.annotations.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.v2.management.sql.implementation.SyncGroupLogPropertiesInner;
-import org.joda.time.DateTime;
+
+import java.time.OffsetDateTime;
 
 /**
  * An immutable client-side representation of an Azure SQL Server Sync Group.
@@ -22,7 +23,7 @@ public interface SqlSyncGroupLogProperty
     /**
      * @return timestamp of the sync group log
      */
-    DateTime timestamp();
+    OffsetDateTime timestamp();
 
     /**
      * @return the type of the sync group log

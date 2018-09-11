@@ -16,8 +16,8 @@ import com.microsoft.azure.v2.management.compute.InstanceViewStatus;
 import com.microsoft.azure.v2.management.compute.OperatingSystemTypes;
 import com.microsoft.azure.v2.management.compute.VirtualMachineExtensionInstanceView;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.ResourceUtils;
-import rx.Observable;
-import rx.functions.Func1;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -96,23 +96,21 @@ class LinuxDiskVolumeEncryptionMonitorImpl implements DiskVolumeEncryptionMonito
 
     @Override
     public DiskVolumeEncryptionMonitor refresh() {
-        return refreshAsync().toBlocking().last();
+        return refreshAsync().blockingGet();
     }
 
     @Override
-    public Observable<DiskVolumeEncryptionMonitor> refreshAsync() {
+    public Maybe<DiskVolumeEncryptionMonitor> refreshAsync() {
         // Refreshes the cached encryption extension installed in the Linux virtual machine.
         //
         final DiskVolumeEncryptionMonitor self = this;
         return retrieveEncryptExtensionWithInstanceViewAsync()
-                .flatMap(new Func1<VirtualMachineExtensionInner, Observable<DiskVolumeEncryptionMonitor>>() {
-                    @Override
-                    public Observable<DiskVolumeEncryptionMonitor> call(VirtualMachineExtensionInner virtualMachineExtensionInner) {
-                        encryptionExtension = virtualMachineExtensionInner;
-                        return Observable.just(self);
-                    }
+                .lastElement()
+                .map(virtualMachineExtensionInner -> {
+                    encryptionExtension = virtualMachineExtensionInner;
+                    return (DiskVolumeEncryptionMonitor) this;
                 })
-                .switchIfEmpty(Observable.just(self));
+                .switchIfEmpty(Maybe.just((DiskVolumeEncryptionMonitor) this));
     }
 
     /**
@@ -145,15 +143,9 @@ class LinuxDiskVolumeEncryptionMonitorImpl implements DiskVolumeEncryptionMonito
                 .inner()
                 .virtualMachineExtensions()
                 .getAsync(rgName, vmName, extension.name(), "instanceView")
-                .flatMap(new Func1<VirtualMachineExtensionInner, Observable<VirtualMachineExtensionInner>>() {
-                    @Override
-                    public Observable<VirtualMachineExtensionInner> call(VirtualMachineExtensionInner virtualMachineExtensionInner) {
-                        if (virtualMachineExtensionInner == null) {
-                            return Observable.empty();
-                        }
-                        return Observable.just(virtualMachineExtensionInner);
-                    }
-                });
+                // Maybe.empty() upon server returns empty body
+                // then toObservable() returns Observable.empty()
+                .toObservable();
     }
 
     /**
@@ -168,23 +160,18 @@ class LinuxDiskVolumeEncryptionMonitorImpl implements DiskVolumeEncryptionMonito
                 .inner()
                 .virtualMachines()
                 .getByResourceGroupAsync(rgName, vmName)
-                .flatMap(new Func1<VirtualMachineInner, Observable<VirtualMachineExtensionInner>>() {
-                    @Override
-                    public Observable<VirtualMachineExtensionInner> call(VirtualMachineInner virtualMachine) {
-                        if (virtualMachine == null) {
-                            return Observable.error(new Exception(String.format("VM with name '%s' not found (resource group '%s')",
-                                    vmName, rgName)));
-                        }
-                        if (virtualMachine.resources() != null) {
-                            for (VirtualMachineExtensionInner extension : virtualMachine.resources()) {
-                                if (extension.publisher().equalsIgnoreCase("Microsoft.Azure.Security")
-                                        && extension.virtualMachineExtensionType().equalsIgnoreCase("AzureDiskEncryptionForLinux")) {
-                                    return retrieveExtensionWithInstanceViewAsync(extension);
-                                }
+                .switchIfEmpty(Maybe.error(new Exception(String.format("VM with name '%s' not found (resource group '%s')", vmName, rgName))))
+                .toObservable()
+                .flatMap(virtualMachineInner -> {
+                    if (virtualMachineInner.resources() != null) {
+                        for (VirtualMachineExtensionInner extension : virtualMachineInner.resources()) {
+                            if (extension.publisher().equalsIgnoreCase("Microsoft.Azure.Security")
+                                    && extension.virtualMachineExtensionType().equalsIgnoreCase("AzureDiskEncryptionForLinux")) {
+                                return retrieveExtensionWithInstanceViewAsync(extension);
                             }
                         }
-                        return Observable.empty();
                     }
+                    return Observable.empty();
                 });
     }
 

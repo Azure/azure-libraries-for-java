@@ -7,8 +7,7 @@
 package com.microsoft.azure.v2.management.compute;
 
 import com.microsoft.azure.management.apigeneration.Fluent;
-
-import rx.Observable;
+import io.reactivex.Observable;
 
 /**
  * Virtual machine encryption related operations.

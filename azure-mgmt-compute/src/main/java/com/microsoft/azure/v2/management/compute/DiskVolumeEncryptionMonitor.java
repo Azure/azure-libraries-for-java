@@ -9,7 +9,7 @@ package com.microsoft.azure.v2.management.compute;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Refreshable;
-import rx.Observable;
+import io.reactivex.Maybe;
 
 /**
  * Type that can be used to monitor encryption enable and disable status of a virtual machine.
@@ -37,5 +37,5 @@ public interface DiskVolumeEncryptionMonitor
      * @return a representation of the deferred computation of this call returning the encryption status once the refresh is done
      */
     @Method
-    Observable<DiskVolumeEncryptionMonitor> refreshAsync();
+    Maybe<DiskVolumeEncryptionMonitor> refreshAsync();
 }

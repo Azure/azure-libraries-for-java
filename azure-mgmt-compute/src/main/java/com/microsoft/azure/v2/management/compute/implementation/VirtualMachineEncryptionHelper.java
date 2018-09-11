@@ -17,10 +17,8 @@ import com.microsoft.azure.v2.management.compute.OperatingSystemTypes;
 import com.microsoft.azure.v2.management.compute.VirtualMachine;
 import com.microsoft.azure.v2.management.compute.VirtualMachineEncryptionConfiguration;
 import com.microsoft.azure.v2.management.compute.VirtualMachineExtension;
-import com.microsoft.azure.v2.management.compute.VirtualMachineExtensionInstanceView;
-import rx.Observable;
-import rx.functions.Func0;
-import rx.functions.Func1;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -66,26 +64,11 @@ class VirtualMachineEncryptionHelper {
                 // If encryption extension is not installed then install it
                 .switchIfEmpty(installEncryptionExtensionAsync(encryptConfig))
                 // Retrieve the encryption key URL after extension install or update
-                .flatMap(new Func1<VirtualMachine, Observable<String>>() {
-                    @Override
-                    public Observable<String> call(VirtualMachine virtualMachine) {
-                        return retrieveEncryptionExtensionStatusStringAsync(ERROR_EXPECTED_KEY_VAULT_URL_NOT_FOUND);
-                    }
-                })
+                .flatMap(virtualMachine -> retrieveEncryptionExtensionStatusStringAsync(ERROR_EXPECTED_KEY_VAULT_URL_NOT_FOUND))
                 // Update the VM's OS Disk (in storage profile) with the encryption metadata
-                .flatMap(new Func1<String, Observable<VirtualMachine>>() {
-                    @Override
-                    public Observable<VirtualMachine> call(String keyVaultSecretUrl) {
-                        return updateVMStorageProfileAsync(encryptConfig, keyVaultSecretUrl);
-                    }
-                })
+                .flatMap(keyVaultSecretUrl -> updateVMStorageProfileAsync(encryptConfig, keyVaultSecretUrl))
                 // Gets the encryption status
-                .flatMap(new Func1<VirtualMachine, Observable<DiskVolumeEncryptionMonitor>>() {
-                    @Override
-                    public Observable<DiskVolumeEncryptionMonitor> call(VirtualMachine virtualMachine) {
-                        return getDiskVolumeEncryptDecryptStatusAsync(virtualMachine);
-                    }
-                });
+                .flatMap(virtualMachine -> getDiskVolumeEncryptDecryptStatusAsync(virtualMachine).toObservable());
     }
 
     /**
@@ -98,35 +81,15 @@ class VirtualMachineEncryptionHelper {
         final EnableDisableEncryptConfig encryptConfig = new DisableEncryptConfig(volumeType);
         return validateBeforeDecryptAsync(volumeType)
                 // Update the encryption extension if already installed
-                .flatMap(new Func1<Boolean, Observable<VirtualMachine>>() {
-                    @Override
-                    public Observable<VirtualMachine> call(Boolean aBoolean) {
-                        return updateEncryptionExtensionAsync(encryptConfig);
-                    }
-                })
+                .flatMap(aBoolean-> updateEncryptionExtensionAsync(encryptConfig))
                 // If encryption extension is not then install it
                 .switchIfEmpty(installEncryptionExtensionAsync(encryptConfig))
                 // Validate and retrieve the encryption extension status
-                .flatMap(new Func1<VirtualMachine, Observable<String>>() {
-                    @Override
-                    public Observable<String> call(VirtualMachine virtualMachine) {
-                        return retrieveEncryptionExtensionStatusStringAsync(ERROR_ENCRYPTION_EXTENSION_STATUS_IS_EMPTY);
-                    }
-                })
+                .flatMap(virtualMachine -> retrieveEncryptionExtensionStatusStringAsync(ERROR_ENCRYPTION_EXTENSION_STATUS_IS_EMPTY))
                 // Update the VM's OS profile by marking encryption disabled
-                .flatMap(new Func1<String, Observable<VirtualMachine>>() {
-                    @Override
-                    public Observable<VirtualMachine> call(String status) {
-                        return updateVMStorageProfileAsync(encryptConfig);
-                    }
-                })
+                .flatMap(status -> updateVMStorageProfileAsync(encryptConfig))
                 // Gets the encryption status
-                .flatMap(new Func1<VirtualMachine, Observable<DiskVolumeEncryptionMonitor>>() {
-                    @Override
-                    public Observable<DiskVolumeEncryptionMonitor> call(VirtualMachine virtualMachine) {
-                        return getDiskVolumeEncryptDecryptStatusAsync(virtualMachine);
-                    }
-                });
+                .flatMap(virtualMachine -> getDiskVolumeEncryptDecryptStatusAsync(virtualMachine).toObservable());
     }
 
     /**
@@ -163,14 +126,11 @@ class VirtualMachineEncryptionHelper {
                 return toErrorObservable(ERROR_ON_LINUX_DECRYPTING_NON_DATA_DISK_IS_NOT_SUPPORTED);
             }
             return getDiskVolumeEncryptDecryptStatusAsync(virtualMachine)
-                    .flatMap(new Func1<DiskVolumeEncryptionMonitor, Observable<Boolean>>() {
-                        @Override
-                        public Observable<Boolean> call(DiskVolumeEncryptionMonitor status) {
-                            if (status.osDiskStatus().equals(EncryptionStatus.ENCRYPTED)) {
-                                return toErrorObservable(ERROR_ON_LINUX_DATA_DISK_DECRYPT_NOT_ALLOWED_IF_OS_DISK_IS_ENCRYPTED);
-                            }
-                            return Observable.just(true);
+                    .flatMapObservable(status -> {
+                        if (status.osDiskStatus().equals(EncryptionStatus.ENCRYPTED)) {
+                            return toErrorObservable(ERROR_ON_LINUX_DATA_DISK_DECRYPT_NOT_ALLOWED_IF_OS_DISK_IS_ENCRYPTED);
                         }
+                        return Observable.just(true);
                     });
         }
         return Observable.just(true);
@@ -184,24 +144,11 @@ class VirtualMachineEncryptionHelper {
      */
     private Observable<VirtualMachineExtension> getEncryptionExtensionInstalledInVMAsync() {
         return virtualMachine.listExtensionsAsync()
-                // firstOrDefault() is used intentionally here instead of first() to ensure
-                // this method return empty observable if matching extension is not found.
-                //
-                .firstOrDefault(null, new Func1<VirtualMachineExtension, Boolean>() {
-                    @Override
-                    public Boolean call(final VirtualMachineExtension extension) {
-                        return extension.publisherName().equalsIgnoreCase(encryptionExtensionPublisher)
-                                && extension.typeName().equalsIgnoreCase(encryptionExtensionType());
-                    }
-                }).flatMap(new Func1<VirtualMachineExtension, Observable<VirtualMachineExtension>>() {
-                    @Override
-                    public Observable<VirtualMachineExtension> call(VirtualMachineExtension extension) {
-                        if (extension == null) {
-                            return Observable.empty();
-                        }
-                        return Observable.just(extension);
-                    }
-                });
+                .filter(extension -> extension.publisherName().equalsIgnoreCase(encryptionExtensionPublisher)
+                            && extension.typeName().equalsIgnoreCase(encryptionExtensionType()))
+                .firstElement()
+                .flatMap(extension -> Maybe.just(extension))
+                .toObservable();
     }
 
     /**
@@ -213,17 +160,14 @@ class VirtualMachineEncryptionHelper {
      */
     private Observable<VirtualMachine> updateEncryptionExtensionAsync(final EnableDisableEncryptConfig encryptConfig) {
         return getEncryptionExtensionInstalledInVMAsync()
-                .flatMap(new Func1<VirtualMachineExtension, Observable<VirtualMachine>>() {
-                    @Override
-                    public Observable<VirtualMachine> call(final VirtualMachineExtension encryptionExtension) {
-                        final HashMap<String, Object> publicSettings = encryptConfig.extensionPublicSettings();
-                        return virtualMachine.update()
-                                .updateExtension(encryptionExtension.name())
-                                    .withPublicSettings(publicSettings)
-                                    .withProtectedSettings(encryptConfig.extensionProtectedSettings())
-                                    .parent()
-                                .applyAsync();
-                    }
+                .flatMap(encryptionExtension -> {
+                    final HashMap<String, Object> publicSettings = encryptConfig.extensionPublicSettings();
+                    return virtualMachine.update()
+                            .updateExtension(encryptionExtension.name())
+                            .withPublicSettings(publicSettings)
+                            .withProtectedSettings(encryptConfig.extensionProtectedSettings())
+                            .parent()
+                            .applyAsync();
                 });
     }
 
@@ -234,21 +178,19 @@ class VirtualMachineEncryptionHelper {
      * @return an observable that emits updated virtual machine
      */
     private Observable<VirtualMachine> installEncryptionExtensionAsync(final EnableDisableEncryptConfig encryptConfig) {
-        return Observable.defer(new Func0<Observable<VirtualMachine>>() {
-            @Override
-            public Observable<VirtualMachine> call() {
-                final String extensionName = encryptionExtensionType();
-                return virtualMachine.update()
-                        .defineNewExtension(extensionName)
-                        .withPublisher(encryptionExtensionPublisher)
-                        .withType(encryptionExtensionType())
-                        .withVersion(encryptionExtensionVersion())
-                        .withPublicSettings(encryptConfig.extensionPublicSettings())
-                        .withProtectedSettings(encryptConfig.extensionProtectedSettings())
-                        .withMinorVersionAutoUpgrade()
-                        .attach()
-                        .applyAsync();
-            }
+
+        return Observable.defer(() -> {
+            final String extensionName = encryptionExtensionType();
+            return virtualMachine.update()
+                    .defineNewExtension(extensionName)
+                    .withPublisher(encryptionExtensionPublisher)
+                    .withType(encryptionExtensionType())
+                    .withVersion(encryptionExtensionVersion())
+                    .withPublicSettings(encryptConfig.extensionPublicSettings())
+                    .withProtectedSettings(encryptConfig.extensionProtectedSettings())
+                    .withMinorVersionAutoUpgrade()
+                    .attach()
+                    .applyAsync();
         });
     }
 
@@ -266,29 +208,23 @@ class VirtualMachineEncryptionHelper {
         final VirtualMachineEncryptionHelper self = this;
         return getEncryptionExtensionInstalledInVMAsync()
                 .switchIfEmpty(self.<VirtualMachineExtension>toErrorObservable(ERROR_ENCRYPTION_EXTENSION_NOT_FOUND))
-                .flatMap(new Func1<VirtualMachineExtension, Observable<VirtualMachineExtensionInstanceView>>() {
-                    @Override
-                    public Observable<VirtualMachineExtensionInstanceView> call(VirtualMachineExtension extension) {
-                        if (!extension.provisioningState().equalsIgnoreCase("Succeeded")) {
-                            return self.toErrorObservable((String.format(ERROR_NON_SUCCESS_PROVISIONING_STATE, extension.provisioningState())));
-                        }
-                        return extension.getInstanceViewAsync();
+                .flatMap(extension -> {
+                    if (!extension.provisioningState().equalsIgnoreCase("Succeeded")) {
+                        return self.toErrorObservable((String.format(ERROR_NON_SUCCESS_PROVISIONING_STATE, extension.provisioningState())));
                     }
+                    return extension.getInstanceViewAsync();
                 })
-                .flatMap(new Func1<VirtualMachineExtensionInstanceView, Observable<String>>() {
-                    @Override
-                    public Observable<String> call(VirtualMachineExtensionInstanceView instanceView) {
-                        if (instanceView == null
-                                || instanceView.statuses() == null
-                                || instanceView.statuses().size() == 0) {
-                            return self.toErrorObservable(ERROR_EXPECTED_ENCRYPTION_EXTENSION_STATUS_NOT_FOUND);
-                        }
-                        String extensionStatus = instanceView.statuses().get(0).message();
-                        if (extensionStatus == null) {
-                            return self.toErrorObservable(statusEmptyErrorMessage);
-                        }
-                        return Observable.just(extensionStatus);
+                .flatMap(instanceView -> {
+                    if (instanceView == null
+                            || instanceView.statuses() == null
+                            || instanceView.statuses().size() == 0) {
+                        return self.toErrorObservable(ERROR_EXPECTED_ENCRYPTION_EXTENSION_STATUS_NOT_FOUND);
                     }
+                    String extensionStatus = instanceView.statuses().get(0).message();
+                    if (extensionStatus == null) {
+                        return self.toErrorObservable(statusEmptyErrorMessage);
+                    }
+                    return Observable.just(extensionStatus);
                 });
     }
 
@@ -329,7 +265,7 @@ class VirtualMachineEncryptionHelper {
      * @param virtualMachine the virtual machine on which encryption or decryption is running
      * @return an observable that emits current encrypt or decrypt status
      */
-    private Observable<DiskVolumeEncryptionMonitor> getDiskVolumeEncryptDecryptStatusAsync(VirtualMachine virtualMachine) {
+    private Maybe<DiskVolumeEncryptionMonitor> getDiskVolumeEncryptDecryptStatusAsync(VirtualMachine virtualMachine) {
         if (osType == OperatingSystemTypes.LINUX) {
             return new LinuxDiskVolumeEncryptionMonitorImpl(virtualMachine.id(), virtualMachine.manager()).refreshAsync();
         } else {

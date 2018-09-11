@@ -13,7 +13,7 @@ import com.microsoft.azure.v2.management.compute.OperatingSystemTypes;
 import com.microsoft.azure.v2.management.compute.VirtualMachine;
 import com.microsoft.azure.v2.management.compute.VirtualMachineEncryption;
 import com.microsoft.azure.v2.management.compute.WindowsVMDiskEncryptionConfiguration;
-import rx.Observable;
+import io.reactivex.Observable;
 
 /**
  * Implementation of VirtualMachineEncryption.
@@ -59,34 +59,38 @@ class VirtualMachineEncryptionImpl implements VirtualMachineEncryption {
     @Override
     public Observable<DiskVolumeEncryptionMonitor> getMonitorAsync() {
         if (this.virtualMachine.osType() == OperatingSystemTypes.LINUX) {
-            return new LinuxDiskVolumeEncryptionMonitorImpl(virtualMachine.id(), virtualMachine.manager()).refreshAsync();
+            return new LinuxDiskVolumeEncryptionMonitorImpl(virtualMachine.id(), virtualMachine.manager())
+                    .refreshAsync()
+                    .toObservable();
         } else {
-            return new WindowsVolumeEncryptionMonitorImpl(virtualMachine.id(), virtualMachine.manager()).refreshAsync();
+            return new WindowsVolumeEncryptionMonitorImpl(virtualMachine.id(), virtualMachine.manager())
+                    .refreshAsync()
+                    .toObservable();
         }
     }
 
     @Override
     public DiskVolumeEncryptionMonitor enable(String keyVaultId, String aadClientId, String aadSecret) {
-        return enableAsync(keyVaultId, aadClientId, aadSecret).toBlocking().last();
+        return enableAsync(keyVaultId, aadClientId, aadSecret).blockingLast(null);
     }
 
     @Override
     public DiskVolumeEncryptionMonitor enable(WindowsVMDiskEncryptionConfiguration encryptionSettings) {
-        return enableAsync(encryptionSettings).toBlocking().last();
+        return enableAsync(encryptionSettings).blockingLast(null);
     }
 
     @Override
     public DiskVolumeEncryptionMonitor enable(LinuxVMDiskEncryptionConfiguration encryptionSettings) {
-        return enableAsync(encryptionSettings).toBlocking().last();
+        return enableAsync(encryptionSettings).blockingLast(null);
     }
 
     @Override
     public DiskVolumeEncryptionMonitor disable(final DiskVolumeType volumeType) {
-        return disableAsync(volumeType).toBlocking().last();
+        return disableAsync(volumeType).blockingLast(null);
     }
 
     @Override
     public DiskVolumeEncryptionMonitor getMonitor() {
-        return getMonitorAsync().toBlocking().last();
+        return getMonitorAsync().blockingLast(null);
     }
 }

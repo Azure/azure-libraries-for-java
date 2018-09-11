@@ -13,8 +13,8 @@ import com.microsoft.azure.v2.management.compute.EncryptionStatus;
 import com.microsoft.azure.v2.management.compute.OperatingSystemTypes;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.ResourceUtils;
 import com.microsoft.azure.v2.management.resources.fluentcore.utils.Utils;
-import rx.Observable;
-import rx.functions.Func1;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -114,31 +114,28 @@ class WindowsVolumeEncryptionMonitorImpl implements DiskVolumeEncryptionMonitor 
 
     @Override
     public DiskVolumeEncryptionMonitor refresh() {
-        return refreshAsync().toBlocking().last();
+        return refreshAsync().blockingGet();
     }
 
     @Override
-    public Observable<DiskVolumeEncryptionMonitor> refreshAsync() {
+    public Maybe<DiskVolumeEncryptionMonitor> refreshAsync() {
         final WindowsVolumeEncryptionMonitorImpl self = this;
         // Refreshes the cached Windows virtual machine and installed encryption extension
         //
         return retrieveVirtualMachineAsync()
-                .flatMap(new Func1<VirtualMachineInner, Observable<DiskVolumeEncryptionMonitor>>() {
-                    @Override
-                    public Observable<DiskVolumeEncryptionMonitor> call(VirtualMachineInner virtualMachine) {
-                        self.virtualMachine = virtualMachine;
-                        if (virtualMachine.resources() != null) {
-                            for (VirtualMachineExtensionInner extension : virtualMachine.resources()) {
-                                if (extension.publisher().equalsIgnoreCase("Microsoft.Azure.Security")
-                                        && extension.virtualMachineExtensionType().equalsIgnoreCase("AzureDiskEncryption")) {
-                                    self.encryptionExtension = extension;
-                                    break;
-                                }
+                .map(virtualMachineInner -> {
+                    this.virtualMachine = virtualMachineInner;
+                    if (virtualMachineInner.resources() != null) {
+                        for (VirtualMachineExtensionInner extension : virtualMachineInner.resources()) {
+                            if (extension.publisher().equalsIgnoreCase("Microsoft.Azure.Security")
+                                    && extension.virtualMachineExtensionType().equalsIgnoreCase("AzureDiskEncryption")) {
+                                this.encryptionExtension = extension;
+                                break;
                             }
                         }
-                        return Observable.<DiskVolumeEncryptionMonitor>just(self);
                     }
-                });
+                    return (DiskVolumeEncryptionMonitor) this;
+                }).lastElement();
     }
 
     /**
@@ -152,16 +149,8 @@ class WindowsVolumeEncryptionMonitorImpl implements DiskVolumeEncryptionMonitor 
                 .inner()
                 .virtualMachines()
                 .getByResourceGroupAsync(rgName, vmName)
-                .flatMap(new Func1<VirtualMachineInner, Observable<VirtualMachineInner>>() {
-                    @Override
-                    public Observable<VirtualMachineInner> call(VirtualMachineInner virtualMachine) {
-                        if (virtualMachine == null) {
-                            return Observable.error(new Exception(String.format("VM with name '%s' not found (resource group '%s')",
-                                    vmName, rgName)));
-                        }
-                        return Observable.just(virtualMachine);
-                    }
-                });
+                .switchIfEmpty(Maybe.error(new Exception(String.format("VM with name '%s' not found (resource group '%s')", vmName, rgName))))
+                .toObservable();
     }
 
     private boolean hasEncryptionDetails() {

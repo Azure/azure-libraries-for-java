@@ -6,9 +6,9 @@
 
 package com.microsoft.azure.v2.management.compute.implementation;
 
-import com.microsoft.azure.v2.AzureEnvironment;
-import com.microsoft.azure.AzureResponseBuilder;
 import com.microsoft.azure.v2.credentials.AzureTokenCredentials;
+import com.microsoft.azure.v2.management.resources.fluentcore.utils.ProviderRegistrationPolicyFactory;
+import com.microsoft.azure.v2.management.resources.fluentcore.utils.ResourceManagerThrottlingPolicyFactory;
 import com.microsoft.rest.v2.annotations.Beta;
 import com.microsoft.azure.v2.management.compute.AvailabilitySets;
 import com.microsoft.azure.v2.management.compute.ComputeSkus;
@@ -28,11 +28,10 @@ import com.microsoft.azure.v2.management.network.implementation.NetworkManager;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.AzureConfigurable;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.implementation.AzureConfigurableImpl;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.implementation.Manager;
-import com.microsoft.azure.v2.management.resources.fluentcore.utils.ProviderRegistrationInterceptor;
-import com.microsoft.azure.v2.management.resources.fluentcore.utils.ResourceManagerThrottlingInterceptor;
 import com.microsoft.azure.v2.management.storage.implementation.StorageManager;
-import com.microsoft.azure.serializer.AzureJacksonAdapter;
-import com.microsoft.rest.RestClient;
+import com.microsoft.rest.v2.http.HttpPipeline;
+import com.microsoft.rest.v2.http.HttpPipelineBuilder;
+import com.microsoft.rest.v2.policy.CredentialsPolicyFactory;
 
 /**
  * Entry point to Azure compute resource management.
@@ -72,30 +71,27 @@ public final class ComputeManager extends Manager<ComputeManager, ComputeManagem
      *
      * @param credentials the credentials to use
      * @param subscriptionId the subscription
+     * @param domain the domain
      * @return the ComputeManager
      */
-    public static ComputeManager authenticate(AzureTokenCredentials credentials, String subscriptionId) {
-        return new ComputeManager(new RestClient.Builder()
-                .withBaseUrl(credentials.environment(), AzureEnvironment.Endpoint.RESOURCE_MANAGER)
-                .withCredentials(credentials)
-                .withSerializerAdapter(new AzureJacksonAdapter())
-                .withResponseBuilderFactory(new AzureResponseBuilder.Factory())
-                .withInterceptor(new ProviderRegistrationInterceptor(credentials))
-                .withInterceptor(new ResourceManagerThrottlingInterceptor())
-                .build(), subscriptionId);
+    public static ComputeManager authenticate(AzureTokenCredentials credentials, String subscriptionId, String domain) {
+        return new ComputeManager(new HttpPipelineBuilder()
+                .withRequestPolicy(new CredentialsPolicyFactory(credentials))
+                .withRequestPolicy(new ProviderRegistrationPolicyFactory(credentials))
+                .withRequestPolicy(new ResourceManagerThrottlingPolicyFactory())
+                .build(), subscriptionId, domain);
     }
 
     /**
      * Creates an instance of ComputeManager that exposes Compute resource management API entry points.
      *
-     * @param restClient the RestClient to be used for API calls.
+     * @param httpPipeline the httpPipeline to be used for API calls.
      * @param subscriptionId the subscription
      * @return the ComputeManager
      */
-    public static ComputeManager authenticate(RestClient restClient, String subscriptionId) {
-        return new ComputeManager(restClient, subscriptionId);
+    public static ComputeManager authenticate(HttpPipeline httpPipeline, String subscriptionId, String domain) {
+        return new ComputeManager(httpPipeline, subscriptionId, domain);
     }
-
     /**
      * The interface allowing configurations to be set.
      */
@@ -116,18 +112,18 @@ public final class ComputeManager extends Manager<ComputeManager, ComputeManagem
     private static final class ConfigurableImpl extends AzureConfigurableImpl<Configurable> implements  Configurable {
         @Override
         public ComputeManager authenticate(AzureTokenCredentials credentials, String subscriptionId) {
-            return ComputeManager.authenticate(buildRestClient(credentials), subscriptionId);
+            return ComputeManager.authenticate(buildPipeline(credentials), subscriptionId, credentials.domain());
         }
     }
 
-    private ComputeManager(RestClient restClient, String subscriptionId) {
+    private ComputeManager(HttpPipeline httpPipeline, String subscriptionId, String domain) {
         super(
-                restClient,
+                httpPipeline,
                 subscriptionId,
-                new ComputeManagementClientImpl(restClient).withSubscriptionId(subscriptionId));
-        storageManager = StorageManager.authenticate(restClient, subscriptionId);
-        networkManager = NetworkManager.authenticate(restClient, subscriptionId);
-        rbacManager = GraphRbacManager.authenticate(restClient, ((AzureTokenCredentials) (restClient.credentials())).domain());
+                new ComputeManagementClientImpl(httpPipeline).withSubscriptionId(subscriptionId));
+        storageManager = StorageManager.authenticate(httpPipeline, subscriptionId);
+        networkManager = NetworkManager.authenticate(httpPipeline, subscriptionId);
+        rbacManager = GraphRbacManager.authenticate(httpPipeline, domain);
     }
 
     /**

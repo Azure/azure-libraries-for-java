@@ -10,7 +10,6 @@ import com.microsoft.azure.v2.AzureEnvironment;
 import com.microsoft.azure.v2.Page;
 import com.microsoft.azure.v2.PagedList;
 import com.microsoft.azure.v2.SubResource;
-import com.microsoft.azure.v2.credentials.AzureTokenCredentials;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.v2.management.compute.AvailabilitySet;
 import com.microsoft.azure.v2.management.compute.AvailabilitySetSkuTypes;
@@ -51,10 +50,8 @@ import com.microsoft.azure.v2.management.compute.VirtualMachineDataDisk;
 import com.microsoft.azure.v2.management.compute.VirtualMachineEncryption;
 import com.microsoft.azure.v2.management.compute.VirtualMachineUnmanagedDataDisk;
 import com.microsoft.azure.v2.management.compute.VirtualMachineExtension;
-import com.microsoft.azure.v2.management.compute.VirtualMachineInstanceView;
 import com.microsoft.azure.v2.management.compute.VirtualMachineSize;
 import com.microsoft.azure.v2.management.compute.VirtualMachineSizeTypes;
-import com.microsoft.azure.v2.management.compute.VirtualMachineUpdate;
 import com.microsoft.azure.v2.management.compute.WinRMConfiguration;
 import com.microsoft.azure.v2.management.compute.WinRMListener;
 import com.microsoft.azure.v2.management.compute.WindowsConfiguration;
@@ -77,13 +74,12 @@ import com.microsoft.azure.v2.management.resources.fluentcore.utils.Utils;
 import com.microsoft.azure.v2.management.resources.implementation.PageImpl;
 import com.microsoft.azure.v2.management.storage.StorageAccount;
 import com.microsoft.azure.v2.management.storage.implementation.StorageManager;
-import com.microsoft.rest.RestClient;
 import com.microsoft.rest.v2.ServiceCallback;
 import com.microsoft.rest.v2.ServiceFuture;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func0;
-import rx.functions.Func1;
+import io.reactivex.Completable;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -138,7 +134,7 @@ class VirtualMachineImpl
     private NetworkInterface existingPrimaryNetworkInterfaceToAssociate;
     // reference to a list of existing network interfaces that needs to be used as virtual machine's secondary network interface
     private List<NetworkInterface> existingSecondaryNetworkInterfacesToAssociate;
-    private VirtualMachineInstanceView virtualMachineInstanceView;
+    private VirtualMachineInstanceViewInner virtualMachineInstanceView;
     private boolean isMarketplaceLinuxImage;
     // Intermediate state of network interface definition to which private IP can be associated
     private NetworkInterface.DefinitionStages.WithPrimaryPrivateIP nicDefinitionWithPrivateIp;
@@ -195,34 +191,31 @@ class VirtualMachineImpl
     // Verbs
 
     @Override
-    public Observable<VirtualMachine> refreshAsync() {
-        return super.refreshAsync().map(new Func1<VirtualMachine, VirtualMachine>() {
-            @Override
-            public VirtualMachine call(VirtualMachine virtualMachine) {
-                reset(virtualMachine.inner());
-                virtualMachineExtensions.refresh();
-                return virtualMachine;
-            }
-        });
+    public Maybe<VirtualMachine> refreshAsync() {
+        return super.refreshAsync()
+                .map(virtualMachine -> {
+                    reset(virtualMachine.inner());
+                    virtualMachineExtensions.refresh();
+                    return virtualMachine;
+                });
     }
 
     @Override
-    protected Observable<VirtualMachineInner> getInnerAsync() {
+    protected Maybe<VirtualMachineInner> getInnerAsync() {
         return this.manager().inner().virtualMachines().getByResourceGroupAsync(this.resourceGroupName(), this.name());
     }
 
     @Override
     public void deallocate() {
-        this.deallocateAsync().await();
+        this.deallocateAsync().blockingAwait();
     }
 
     @Override
     public Completable deallocateAsync() {
-        Observable<Void> o = this.manager().inner().virtualMachines().deallocateAsync(this.resourceGroupName(), this.name());
-        Observable<VirtualMachine> r = this.refreshAsync();
-
+        Completable deallocateOp = this.manager().inner().virtualMachines().deallocateAsync(this.resourceGroupName(), this.name());
+        Completable refreshOp = this.refreshAsync().flatMapCompletable(o -> Completable.complete());
         // Refresh after deallocate to ensure the inner is updatable (due to a change in behavior in Managed Disks)
-        return Observable.concat(o, r).toCompletable();
+        return deallocateOp.andThen(refreshOp);
     }
 
     @Override
@@ -232,12 +225,12 @@ class VirtualMachineImpl
 
     @Override
     public void generalize() {
-        this.generalizeAsync().await();
+        this.generalizeAsync().blockingAwait();
     }
 
     @Override
     public Completable generalizeAsync() {
-        return this.manager().inner().virtualMachines().generalizeAsync(this.resourceGroupName(), this.name()).toCompletable();
+        return this.manager().inner().virtualMachines().generalizeAsync(this.resourceGroupName(), this.name());
     }
 
     @Override
@@ -247,12 +240,12 @@ class VirtualMachineImpl
 
     @Override
     public void powerOff() {
-        this.powerOffAsync().await();
+        this.powerOffAsync().blockingAwait();
     }
 
     @Override
     public Completable powerOffAsync() {
-        return this.manager().inner().virtualMachines().powerOffAsync(this.resourceGroupName(), this.name()).toCompletable();
+        return this.manager().inner().virtualMachines().powerOffAsync(this.resourceGroupName(), this.name());
     }
 
     @Override
@@ -267,7 +260,7 @@ class VirtualMachineImpl
 
     @Override
     public Completable restartAsync() {
-        return this.manager().inner().virtualMachines().restartAsync(this.resourceGroupName(), this.name()).toCompletable();
+        return this.manager().inner().virtualMachines().restartAsync(this.resourceGroupName(), this.name());
     }
 
     @Override
@@ -277,12 +270,12 @@ class VirtualMachineImpl
 
     @Override
     public void start() {
-        this.startAsync().await();
+        this.startAsync().blockingAwait();
     }
 
     @Override
     public Completable startAsync() {
-        return this.manager().inner().virtualMachines().startAsync(this.resourceGroupName(), this.name()).toCompletable();
+        return this.manager().inner().virtualMachines().startAsync(this.resourceGroupName(), this.name());
     }
 
     @Override
@@ -292,12 +285,12 @@ class VirtualMachineImpl
 
     @Override
     public void redeploy() {
-        this.redeployAsync().await();
+        this.redeployAsync().blockingAwait();
     }
 
     @Override
     public Completable redeployAsync() {
-        return this.manager().inner().virtualMachines().redeployAsync(this.resourceGroupName(), this.name()).toCompletable();
+        return this.manager().inner().virtualMachines().redeployAsync(this.resourceGroupName(), this.name());
     }
 
     @Override
@@ -314,12 +307,7 @@ class VirtualMachineImpl
     @Override
     public Completable convertToManagedAsync() {
         return this.manager().inner().virtualMachines().convertToManagedDisksAsync(this.resourceGroupName(), this.name())
-                .flatMap(new Func1<Void, Observable<?>>() {
-                    @Override
-                    public Observable<?> call(Void theVoid) {
-                        return refreshAsync();
-                    }
-                }).toCompletable();
+                .andThen(refreshAsync().flatMapCompletable(o -> Completable.complete()));
     }
 
     @Override
@@ -347,7 +335,7 @@ class VirtualMachineImpl
 
     @Override
     public String capture(String containerName, String vhdPrefix, boolean overwriteVhd) {
-        return this.captureAsync(containerName, vhdPrefix, overwriteVhd).toBlocking().last();
+        return this.captureAsync(containerName, vhdPrefix, overwriteVhd).blockingLast(null);
     }
 
     @Override
@@ -356,46 +344,33 @@ class VirtualMachineImpl
         parameters.withDestinationContainerName(containerName);
         parameters.withOverwriteVhds(overwriteVhd);
         parameters.withVhdPrefix(vhdPrefix);
-        return this.manager().inner().virtualMachines().captureAsync(this.resourceGroupName(),
-                this.name(),
-                parameters)
-                .map(new Func1<VirtualMachineCaptureResultInner, String>() {
-                    @Override
-                    public String call(VirtualMachineCaptureResultInner innerResult) {
-                        if (innerResult == null) {
-                            return null;
-                        }
-                        return new Gson().toJson(innerResult);
-                    }
-                });
+        return this.manager().inner().virtualMachines().captureAsync(this.resourceGroupName(), this.name(), parameters)
+                .map(innerResult -> new Gson().toJson(innerResult))
+                .toObservable();
     }
 
     @Override
     public ServiceFuture<String> captureAsync(String containerName, String vhdPrefix, boolean overwriteVhd, ServiceCallback<String> callback) {
-        return ServiceFuture.fromBody(this.captureAsync(containerName, vhdPrefix, overwriteVhd), callback);
+        return ServiceFuture.fromBody(this.captureAsync(containerName, vhdPrefix, overwriteVhd).lastElement(), callback);
     }
 
     @Override
-    public VirtualMachineInstanceView refreshInstanceView() {
-        return refreshInstanceViewAsync().toBlocking().last();
+    public VirtualMachineInstanceViewInner refreshInstanceView() {
+        return refreshInstanceViewAsync().blockingLast();
     }
 
     @Override
-    public Observable<VirtualMachineInstanceView> refreshInstanceViewAsync() {
-        return this.manager().inner().virtualMachines().getByResourceGroupAsync(this.resourceGroupName(),
-                this.name(),
-                InstanceViewTypes.INSTANCE_VIEW)
-                .map(new Func1<VirtualMachineInner, VirtualMachineInstanceView>() {
-                    @Override
-                    public VirtualMachineInstanceView call(VirtualMachineInner virtualMachineInner) {
-                        if (virtualMachineInner != null) {
-                            virtualMachineInstanceView = virtualMachineInner.instanceView();
-                        } else {
-                            virtualMachineInstanceView = null;
-                        }
-                        return virtualMachineInstanceView;
+    public Observable<VirtualMachineInstanceViewInner> refreshInstanceViewAsync() {
+        return this.manager().inner().virtualMachines().getByResourceGroupAsync(this.resourceGroupName(), this.name(), InstanceViewTypes.INSTANCE_VIEW)
+                .flatMap(virtualMachineInner -> {
+                    virtualMachineInstanceView = virtualMachineInner.instanceView();
+                    if (virtualMachineInstanceView == null) {
+                        return Maybe.empty();
+                    } else {
+                        return Maybe.just(virtualMachineInstanceView);
                     }
-                });
+                })
+                .toObservable();
     }
 
     @Override
@@ -1613,7 +1588,7 @@ class VirtualMachineImpl
     }
 
     @Override
-    public VirtualMachineInstanceView instanceView() {
+    public VirtualMachineInstanceViewInner instanceView() {
         if (this.virtualMachineInstanceView == null) {
             this.refreshInstanceView();
         }
@@ -1735,17 +1710,13 @@ class VirtualMachineImpl
         this.handleAvailabilitySettings();
         this.virtualMachineMsiHandler.processCreatedExternalIdentities();
         this.virtualMachineMsiHandler.handleExternalIdentities();
-        final VirtualMachineImpl self = this;
         return this.manager().inner().virtualMachines()
                 .createOrUpdateAsync(resourceGroupName(), vmName, inner())
-                .map(new Func1<VirtualMachineInner, VirtualMachine>() {
-                    @Override
-                    public VirtualMachine call(VirtualMachineInner virtualMachineInner) {
-                        reset(virtualMachineInner);
-                        return self;
-                    }
-
-                });
+                .map(virtualMachineInner -> {
+                    reset(virtualMachineInner);
+                    return (VirtualMachine) this;
+                })
+                .toObservable();
     }
 
     @Override
@@ -1761,7 +1732,7 @@ class VirtualMachineImpl
         this.handleAvailabilitySettings();
         this.virtualMachineMsiHandler.processCreatedExternalIdentities();
         //
-        VirtualMachineUpdate updateParameter = new VirtualMachineUpdate();
+        VirtualMachineUpdateInner updateParameter = new VirtualMachineUpdateInner();
         //
         updateParameter.withPlan(this.inner().plan());
         updateParameter.withHardwareProfile(this.inner().hardwareProfile());
@@ -1775,17 +1746,13 @@ class VirtualMachineImpl
         //
         this.virtualMachineMsiHandler.handleExternalIdentities(updateParameter);
         //
-        final VirtualMachineImpl self = this;
         return this.manager().inner().virtualMachines()
                 .updateAsync(resourceGroupName(), vmName, updateParameter)
-                .map(new Func1<VirtualMachineInner, VirtualMachine>() {
-                    @Override
-                    public VirtualMachine call(VirtualMachineInner virtualMachineInner) {
-                        reset(virtualMachineInner);
-                        return self;
-                    }
-
-                });
+                .map(virtualMachineInner -> {
+                    reset(virtualMachineInner);
+                    return (VirtualMachine) this;
+                })
+                .toObservable();
     }
 
     // CreateUpdateTaskGroup.ResourceCreator.afterPostRunAsync implementation
@@ -1796,7 +1763,7 @@ class VirtualMachineImpl
         if (isGroupFaulted) {
             return Completable.complete();
         } else {
-            return this.refreshAsync().toCompletable();
+            return this.refreshAsync().flatMapCompletable(o -> Completable.complete());
         }
     }
 
@@ -1848,22 +1815,7 @@ class VirtualMachineImpl
     }
 
     AzureEnvironment environment() {
-        RestClient restClient = this.manager().inner().restClient();
-        AzureEnvironment environment = null;
-        if (restClient.credentials() instanceof AzureTokenCredentials) {
-            environment = ((AzureTokenCredentials) restClient.credentials()).environment();
-        }
-        String baseUrl = restClient.retrofit().baseUrl().toString();
-        for (AzureEnvironment env : AzureEnvironment.knownEnvironments()) {
-            if (env.resourceManagerEndpoint().toLowerCase().contains(baseUrl.toLowerCase())) {
-                environment = env;
-                break;
-            }
-        }
-        if (environment != null) {
-            return environment;
-        }
-        throw new IllegalArgumentException("Unknown environment");
+        return this.manager().inner().azureEnvironment();
     }
 
     private void setOSDiskDefaults() {
@@ -2359,17 +2311,15 @@ class VirtualMachineImpl
                 }
                 // Func to get the next available lun
                 //
-                Func0<Integer> nextLun = new Func0<Integer>() {
-                    @Override
-                    public Integer call() {
-                        Integer lun = 0;
-                        while (usedLuns.contains(lun)) {
-                            lun++;
-                        }
-                        usedLuns.add(lun);
-                        return lun;
+                Func0<Integer> nextLun = () -> {
+                    Integer lun = 0;
+                    while (usedLuns.contains(lun)) {
+                        lun++;
                     }
+                    usedLuns.add(lun);
+                    return lun;
                 };
+
                 setAttachableNewDataDisks(nextLun);
                 setAttachableExistingDataDisks(nextLun);
                 setImplicitDataDisks(nextLun);
@@ -2646,5 +2596,14 @@ class VirtualMachineImpl
                 this.vmInner().diagnosticsProfile().bootDiagnostics().withStorageUri(null);
             }
         }
+    }
+
+    public interface Func0<V> {
+        /**
+         * Computes a result, or throws an exception if unable to do so.
+         *
+         * @return computed result
+         */
+        V call();
     }
 }

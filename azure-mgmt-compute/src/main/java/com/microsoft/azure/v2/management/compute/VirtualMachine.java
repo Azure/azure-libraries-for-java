@@ -7,6 +7,7 @@
 package com.microsoft.azure.v2.management.compute;
 
 import com.microsoft.azure.v2.PagedList;
+import com.microsoft.azure.v2.management.compute.implementation.VirtualMachineInstanceViewInner;
 import com.microsoft.rest.v2.annotations.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.Method;
@@ -28,8 +29,8 @@ import com.microsoft.azure.v2.management.resources.fluentcore.model.Updatable;
 import com.microsoft.azure.v2.management.storage.StorageAccount;
 import com.microsoft.rest.v2.ServiceCallback;
 import com.microsoft.rest.v2.ServiceFuture;
-import rx.Completable;
-import rx.Observable;
+import io.reactivex.Completable;
+import io.reactivex.Observable;
 
 import java.util.List;
 import java.util.Map;
@@ -237,7 +238,7 @@ public interface VirtualMachine extends
      * @return the refreshed instance view
      */
     @Method
-    VirtualMachineInstanceView refreshInstanceView();
+    VirtualMachineInstanceViewInner refreshInstanceView();
 
     /**
      * Refreshes the virtual machine instance view to sync with Azure.
@@ -245,7 +246,7 @@ public interface VirtualMachine extends
      * @return an observable that emits the instance view of the virtual machine.
      */
     @Method
-    Observable<VirtualMachineInstanceView> refreshInstanceViewAsync();
+    Observable<VirtualMachineInstanceViewInner> refreshInstanceViewAsync();
 
     /**
      * Run shell script in a virtual machine.
@@ -444,7 +445,7 @@ public interface VirtualMachine extends
      *
      * @return the virtual machine's instance view
      */
-    VirtualMachineInstanceView instanceView();
+    VirtualMachineInstanceViewInner instanceView();
 
     /**
      * @return the availability zones assigned to the virtual machine

@@ -28,10 +28,9 @@ import com.microsoft.azure.v2.management.resources.fluentcore.arm.collection.imp
 import com.microsoft.azure.v2.management.storage.implementation.StorageManager;
 import com.microsoft.rest.v2.ServiceCallback;
 import com.microsoft.rest.v2.ServiceFuture;
-import rx.Completable;
-import rx.Observable;
-import rx.exceptions.Exceptions;
-import rx.functions.Func1;
+import io.reactivex.Completable;
+import io.reactivex.Observable;
+import io.reactivex.exceptions.Exceptions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,7 +77,7 @@ class VirtualMachinesImpl
 
     @Override
     public Completable deallocateAsync(String groupName, String name) {
-        return this.inner().deallocateAsync(groupName, name).toCompletable();
+        return this.inner().deallocateAsync(groupName, name);
     }
 
     @Override
@@ -93,7 +92,7 @@ class VirtualMachinesImpl
 
     @Override
     public Completable generalizeAsync(String groupName, String name) {
-        return this.inner().generalizeAsync(groupName, name).toCompletable();
+        return this.inner().generalizeAsync(groupName, name);
     }
 
     @Override
@@ -108,7 +107,7 @@ class VirtualMachinesImpl
 
     @Override
     public Completable powerOffAsync(String groupName, String name) {
-        return this.inner().powerOffAsync(groupName, name).toCompletable();
+        return this.inner().powerOffAsync(groupName, name);
     }
 
     @Override
@@ -123,7 +122,7 @@ class VirtualMachinesImpl
 
     @Override
     public Completable restartAsync(String groupName, String name) {
-        return this.inner().restartAsync(groupName, name).toCompletable();
+        return this.inner().restartAsync(groupName, name);
     }
 
     @Override
@@ -138,7 +137,7 @@ class VirtualMachinesImpl
 
     @Override
     public Completable startAsync(String groupName, String name) {
-        return this.inner().startAsync(groupName, name).toCompletable();
+        return this.inner().startAsync(groupName, name);
     }
 
     @Override
@@ -153,7 +152,7 @@ class VirtualMachinesImpl
 
     @Override
     public Completable redeployAsync(String groupName, String name) {
-        return this.inner().redeployAsync(groupName, name).toCompletable();
+        return this.inner().redeployAsync(groupName, name);
     }
 
     @Override
@@ -166,7 +165,7 @@ class VirtualMachinesImpl
                           String containerName,
                           String vhdPrefix,
                           boolean overwriteVhd) {
-        return this.captureAsync(groupName, name, containerName, vhdPrefix, overwriteVhd).toBlocking().last();
+        return this.captureAsync(groupName, name, containerName, vhdPrefix, overwriteVhd).blockingLast(null);
     }
 
     @Override
@@ -176,26 +175,21 @@ class VirtualMachinesImpl
         parameters.withOverwriteVhds(overwriteVhd);
         parameters.withVhdPrefix(vhdPrefix);
         return this.inner().captureAsync(groupName, name, parameters)
-                .map(new Func1<VirtualMachineCaptureResultInner, String>() {
-                    @Override
-                    public String call(VirtualMachineCaptureResultInner innerResult) {
-                        if (innerResult == null) {
-                            return null;
-                        }
-                        ObjectMapper mapper = new ObjectMapper();
-                        //Object to JSON string
-                        try {
-                            return mapper.writeValueAsString(innerResult);
-                        } catch (JsonProcessingException e) {
-                            throw Exceptions.propagate(e);
-                        }
+                .map(innerResult -> {
+                    ObjectMapper mapper = new ObjectMapper();
+                    //Object to JSON string
+                    try {
+                        return mapper.writeValueAsString(innerResult);
+                    } catch (JsonProcessingException e) {
+                        throw Exceptions.propagate(e);
                     }
-                });
+                })
+                .toObservable();
     }
 
     @Override
     public ServiceFuture<String> captureAsync(String groupName, String name, String containerName, String vhdPrefix, boolean overwriteVhd, ServiceCallback<String> callback) {
-        return ServiceFuture.fromBody(captureAsync(groupName, name, containerName, vhdPrefix, overwriteVhd), callback);
+        return ServiceFuture.fromBody(captureAsync(groupName, name, containerName, vhdPrefix, overwriteVhd).lastElement(), callback);
     }
 
     @Override
@@ -205,7 +199,7 @@ class VirtualMachinesImpl
 
     @Override
     public Completable migrateToManagedAsync(String groupName, String name) {
-       return this.inner().convertToManagedDisksAsync(groupName, name).toCompletable();
+       return this.inner().convertToManagedDisksAsync(groupName, name);
     }
 
     @Override
@@ -215,7 +209,7 @@ class VirtualMachinesImpl
 
     @Override
     public RunCommandResult runPowerShellScript(String groupName, String name, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters) {
-        return this.runPowerShellScriptAsync(groupName, name, scriptLines, scriptParameters).toBlocking().last();
+        return this.runPowerShellScriptAsync(groupName, name, scriptLines, scriptParameters).blockingLast(null);
     }
 
     @Override
@@ -229,7 +223,7 @@ class VirtualMachinesImpl
 
     @Override
     public RunCommandResult runShellScript(String groupName, String name, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters) {
-        return this.runShellScriptAsync(groupName, name, scriptLines, scriptParameters).toBlocking().last();
+        return this.runShellScriptAsync(groupName, name, scriptLines, scriptParameters).blockingLast(null);
     }
 
     @Override
@@ -243,12 +237,12 @@ class VirtualMachinesImpl
 
     @Override
     public RunCommandResult runCommand(String groupName, String name, RunCommandInput inputCommand) {
-        return this.runCommandAsync(groupName, name, inputCommand).toBlocking().last();
+        return this.runCommandAsync(groupName, name, inputCommand).blockingLast(null);
     }
 
     @Override
     public Observable<RunCommandResult> runCommandAsync(String groupName, String name, RunCommandInput inputCommand) {
-        return this.inner().runCommandAsync(groupName, name, inputCommand);
+        return this.inner().runCommandAsync(groupName, name, inputCommand).toObservable();
     }
 
     // Getters

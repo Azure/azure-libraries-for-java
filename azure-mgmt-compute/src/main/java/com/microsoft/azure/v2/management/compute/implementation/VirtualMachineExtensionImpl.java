@@ -12,10 +12,9 @@ import com.microsoft.azure.v2.management.compute.VirtualMachineExtensionImage;
 import com.microsoft.azure.v2.management.compute.VirtualMachineExtensionInstanceView;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.ResourceUtils;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
-import com.microsoft.azure.v2.management.resources.fluentcore.utils.RXMapper;
-
-import rx.Observable;
-import rx.functions.Func1;
+import io.reactivex.Completable;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -98,18 +97,14 @@ class VirtualMachineExtensionImpl
 
     @Override
     public VirtualMachineExtensionInstanceView getInstanceView() {
-        return getInstanceViewAsync().toBlocking().last();
+        return getInstanceViewAsync().blockingLast(null);
     }
 
     @Override
     public Observable<VirtualMachineExtensionInstanceView> getInstanceViewAsync() {
         return this.client.getAsync(this.parent().resourceGroupName(), this.parent().name(), this.name(), "instanceView")
-                .map(new Func1<VirtualMachineExtensionInner, VirtualMachineExtensionInstanceView>() {
-                    @Override
-                    public VirtualMachineExtensionInstanceView call(VirtualMachineExtensionInner virtualMachineExtensionInner) {
-                        return virtualMachineExtensionInner.instanceView();
-                    }
-                });
+                .map(virtualMachineExtensionInner -> virtualMachineExtensionInner.instanceView())
+                .toObservable();
     }
 
     @Override
@@ -220,7 +215,7 @@ class VirtualMachineExtensionImpl
     }
 
     @Override
-    protected Observable<VirtualMachineExtensionInner> getInnerAsync() {
+    protected Maybe<VirtualMachineExtensionInner> getInnerAsync() {
         String name;
         if (this.isReference()) {
             name = ResourceUtils.nameFromResourceId(this.inner().id());
@@ -234,19 +229,13 @@ class VirtualMachineExtensionImpl
     //
     @Override
     public Observable<VirtualMachineExtension> createResourceAsync() {
-        final VirtualMachineExtensionImpl self = this;
-        return this.client.createOrUpdateAsync(this.parent().resourceGroupName(),
-                this.parent().name(),
-                this.name(),
-                this.inner())
-                .map(new Func1<VirtualMachineExtensionInner, VirtualMachineExtension>() {
-                    @Override
-                    public VirtualMachineExtension call(VirtualMachineExtensionInner inner) {
-                        self.setInner(inner);
-                        self.initializeSettings();
-                        return self;
-                    }
-                });
+        return this.client.createOrUpdateAsync(this.parent().resourceGroupName(), this.parent().name(), this.name(), this.inner())
+                .map(inner -> {
+                    this.setInner(inner);
+                    this.initializeSettings();
+                    return (VirtualMachineExtension) this;
+                })
+                .toObservable();
     }
 
     @Override
@@ -254,36 +243,31 @@ class VirtualMachineExtensionImpl
         this.nullifySettingsIfEmpty();
         if (this.isReference()) {
             String extensionName = ResourceUtils.nameFromResourceId(this.inner().id());
-            return this.client.getAsync(this.parent().resourceGroupName(),
-                    this.parent().name(), extensionName)
-                    .flatMap(new Func1<VirtualMachineExtensionInner, Observable<VirtualMachineExtension>>() {
-                        @Override
-                        public Observable<VirtualMachineExtension> call(VirtualMachineExtensionInner resource) {
-                            inner()
-                                .withPublisher(resource.publisher())
+            return this.client.getAsync(this.parent().resourceGroupName(), this.parent().name(), extensionName)
+                    .flatMapObservable(resource -> {
+                        inner().withPublisher(resource.publisher())
                                 .withVirtualMachineExtensionType(resource.virtualMachineExtensionType())
                                 .withTypeHandlerVersion(resource.typeHandlerVersion());
-                            if (inner().autoUpgradeMinorVersion() == null) {
-                                inner().withAutoUpgradeMinorVersion(resource.autoUpgradeMinorVersion());
-                            }
-                            LinkedHashMap<String, Object> publicSettings =
-                                    (LinkedHashMap<String, Object>) resource.settings();
-                            if (publicSettings != null && publicSettings.size() > 0) {
-                                LinkedHashMap<String, Object> innerPublicSettings =
-                                        (LinkedHashMap<String, Object>) inner().settings();
-                                if (innerPublicSettings == null) {
-                                    inner().withSettings(new LinkedHashMap<String, Object>());
-                                    innerPublicSettings = (LinkedHashMap<String, Object>) inner().settings();
-                                }
-
-                                for (Map.Entry<String, Object> entry : publicSettings.entrySet()) {
-                                    if (!innerPublicSettings.containsKey(entry.getKey())) {
-                                        innerPublicSettings.put(entry.getKey(), entry.getValue());
-                                    }
-                                }
-                            }
-                            return createResourceAsync();
+                        if (inner().autoUpgradeMinorVersion() == null) {
+                            inner().withAutoUpgradeMinorVersion(resource.autoUpgradeMinorVersion());
                         }
+                        LinkedHashMap<String, Object> publicSettings =
+                                (LinkedHashMap<String, Object>) resource.settings();
+                        if (publicSettings != null && publicSettings.size() > 0) {
+                            LinkedHashMap<String, Object> innerPublicSettings =
+                                    (LinkedHashMap<String, Object>) inner().settings();
+                            if (innerPublicSettings == null) {
+                                inner().withSettings(new LinkedHashMap<String, Object>());
+                                innerPublicSettings = (LinkedHashMap<String, Object>) inner().settings();
+                            }
+
+                            for (Map.Entry<String, Object> entry : publicSettings.entrySet()) {
+                                if (!innerPublicSettings.containsKey(entry.getKey())) {
+                                    innerPublicSettings.put(entry.getKey(), entry.getValue());
+                                }
+                            }
+                        }
+                        return createResourceAsync();
                     });
         } else {
             return this.createResourceAsync();
@@ -291,11 +275,8 @@ class VirtualMachineExtensionImpl
     }
 
     @Override
-    public Observable<Void> deleteResourceAsync() {
-        return RXMapper.mapToVoid(this.client.deleteAsync(
-                this.parent().resourceGroupName(),
-                this.parent().name(),
-                this.name()));
+    public Completable deleteResourceAsync() {
+        return this.client.deleteAsync(this.parent().resourceGroupName(), this.parent().name(), this.name());
     }
 
     /**

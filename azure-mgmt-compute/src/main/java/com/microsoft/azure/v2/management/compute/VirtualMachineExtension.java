@@ -9,7 +9,7 @@ import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.ExternalChildResource;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Attachable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Settable;
-import rx.Observable;
+import io.reactivex.Observable;
 
 import java.util.HashMap;
 import java.util.Map;

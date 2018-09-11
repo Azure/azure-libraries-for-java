@@ -72,7 +72,9 @@ public abstract class GroupableResourcesImpl<
     @Override
     public final Maybe<T> getByIdAsync(String id) {
         ResourceId resourceId = ResourceId.fromString(id);
-
+        if (resourceId == null) {
+            return Maybe.empty();
+        }
         return getByResourceGroupAsync(resourceId.resourceGroupName(), resourceId.name());
     }
 

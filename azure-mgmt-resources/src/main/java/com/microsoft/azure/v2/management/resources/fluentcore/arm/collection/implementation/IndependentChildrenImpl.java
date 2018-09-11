@@ -43,8 +43,8 @@ public abstract class IndependentChildrenImpl<
         InnerCollectionT,
         ManagerT extends ManagerBase,
         ParentT extends Resource & HasResourceGroup>
-    extends CreatableResourcesImpl<T, ImplT, InnerT>
-    implements
+        extends CreatableResourcesImpl<T, ImplT, InnerT>
+        implements
         SupportsGettingById<T>,
         SupportsGettingByParent<T, ParentT, ManagerT>,
         SupportsListingByParent<T, ParentT, ManagerT>,
@@ -67,12 +67,12 @@ public abstract class IndependentChildrenImpl<
 
     @Override
     public T getByParent(String resourceGroup, String parentName, String name) {
-        return getByParentAsync(resourceGroup, parentName, name).blockingGet();
+        return getByParentAsync(resourceGroup, parentName, name).blockingGet(null);
     }
 
     @Override
     public T getByParent(ParentT parentResource, String name) {
-        return getByParentAsync(parentResource, name).blockingGet();
+        return getByParentAsync(parentResource, name).blockingGet(null);
     }
 
     @Override
@@ -82,7 +82,7 @@ public abstract class IndependentChildrenImpl<
 
     @Override
     public T getById(String id) {
-        return getByIdAsync(id).blockingGet();
+        return getByIdAsync(id).blockingGet(null);
     }
 
     @Override
@@ -90,9 +90,10 @@ public abstract class IndependentChildrenImpl<
         if (id == null) {
             return Maybe.empty();
         }
-
         ResourceId resourceId = ResourceId.fromString(id);
-
+        if (resourceId == null) {
+            return Maybe.empty();
+        }
         return getByParentAsync(resourceId.resourceGroupName(), resourceId.parent().name(), resourceId.name());
     }
 

@@ -19,9 +19,9 @@ import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
  */
 @Fluent()
 public interface GroupableResource<TManager, InnerT> extends
-    Resource,
-    HasResourceGroup,
-    HasManager<TManager>,
+        Resource,
+        HasResourceGroup,
+        HasManager<TManager>,
         HasInner<InnerT> {
 
     /**
@@ -36,8 +36,8 @@ public interface GroupableResource<TManager, InnerT> extends
          * @param <T> the next stage of the definition
          */
         interface WithGroup<T> extends
-            WithExistingResourceGroup<T>,
-            WithNewResourceGroup<T> {
+                WithExistingResourceGroup<T>,
+                WithNewResourceGroup<T> {
         }
 
         /**

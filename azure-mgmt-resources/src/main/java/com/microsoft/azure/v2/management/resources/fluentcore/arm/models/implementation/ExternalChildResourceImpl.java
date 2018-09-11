@@ -6,14 +6,23 @@
 package com.microsoft.azure.v2.management.resources.fluentcore.arm.models.implementation;
 
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.ExternalChildResource;
+import com.microsoft.azure.v2.management.resources.fluentcore.dag.FunctionalTaskItem;
 import com.microsoft.azure.v2.management.resources.fluentcore.dag.IndexableTaskItem;
 import com.microsoft.azure.v2.management.resources.fluentcore.dag.TaskGroup;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Appliable;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Creatable;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Executable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Indexable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Refreshable;
+import com.microsoft.azure.v2.management.resources.fluentcore.utils.Utils;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
 import io.reactivex.Completable;
 import io.reactivex.Maybe;
 import io.reactivex.Observable;
 import io.reactivex.functions.Function;
+
+import java.util.Objects;
 
 /**
  * Externalized child resource abstract implementation.
@@ -36,10 +45,12 @@ public abstract class ExternalChildResourceImpl<FluentModelT extends Indexable,
         ParentImplT extends ParentT,
         ParentT>
         extends
-            ChildResourceImpl<InnerModelT, ParentImplT, ParentT>
+        ChildResourceImpl<InnerModelT, ParentImplT, ParentT>
         implements
+        Appliable<FluentModelT>,
+        Creatable<FluentModelT>,
         TaskGroup.HasTaskGroup,
-            ExternalChildResource<FluentModelT, ParentT>,
+        ExternalChildResource<FluentModelT, ParentT>,
         Refreshable<FluentModelT> {
     /**
      * State representing any pending action that needs to be performed on this child resource.
@@ -126,25 +137,36 @@ public abstract class ExternalChildResourceImpl<FluentModelT extends Indexable,
     }
 
     /**
+     * Prepare this external child resource for update.
+     *
+     * @return this external child resource prepared for update
+     */
+    @SuppressWarnings("unchecked")
+    protected final FluentModelT prepareUpdate() {
+        this.setPendingOperation(ExternalChildResourceImpl.PendingOperation.ToBeCreated);
+        return (FluentModelT) this;
+    }
+
+    /**
      * Creates this external child resource.
      *
      * @return the observable to track the create action
      */
-    public abstract io.reactivex.Observable<FluentModelT> createAsync();
+    public abstract Observable<FluentModelT> createResourceAsync();
 
     /**
      * Update this external child resource.
      *
      * @return the observable to track the update action
      */
-    public abstract Observable<FluentModelT> updateAsync();
+    public abstract Observable<FluentModelT> updateResourceAsync();
 
     /**
      * Delete this external child resource.
      *
      * @return the observable to track the delete action.
      */
-    public abstract Completable deleteAsync();
+    public abstract Observable<Void> deleteResourceAsync();
 
     /**
      * @return the key of this child resource in the collection maintained by ExternalChildResourceCollectionImpl
@@ -168,6 +190,170 @@ public abstract class ExternalChildResourceImpl<FluentModelT extends Indexable,
                 return (FluentModelT) self;
             }
         });
+    }
+
+    /**
+     * Add a dependency task item for this model.
+     *
+     * @param dependency the dependency task item.
+     * @return key to be used as parameter to taskResult(string) method to retrieve result the task item
+     */
+    protected String addDependency(FunctionalTaskItem dependency) {
+        Objects.requireNonNull(dependency);
+        return this.taskGroup().addDependency(dependency);
+    }
+
+    /**
+     * Add a dependency task group for this model.
+     *
+     * @param dependency the dependency.
+     * @return key to be used as parameter to taskResult(string) method to retrieve result of root
+     * task in the given dependency task group
+     */
+    protected String addDependency(TaskGroup.HasTaskGroup dependency) {
+        Objects.requireNonNull(dependency);
+        this.taskGroup().addDependencyTaskGroup(dependency.taskGroup());
+        return dependency.taskGroup().key();
+    }
+
+    /**
+     * Add a creatable dependency for this model.
+     *
+     * @param creatable the creatable dependency.
+     * @return the key to be used as parameter to taskResult(string) method to retrieve created dependency
+     */
+    @SuppressWarnings("unchecked")
+    protected String addDependency(Creatable<? extends Indexable> creatable) {
+        TaskGroup.HasTaskGroup dependency = (TaskGroup.HasTaskGroup) creatable;
+        return this.addDependency(dependency);
+    }
+
+    /**
+     * Add an appliable dependency for this model.
+     *
+     * @param appliable the appliable dependency.
+     * @return the key to be used as parameter to taskResult(string) method to retrieve updated dependency
+     */
+    @SuppressWarnings("unchecked")
+    protected String addeDependency(Appliable<? extends Indexable> appliable) {
+        TaskGroup.HasTaskGroup dependency = (TaskGroup.HasTaskGroup) appliable;
+        return this.addDependency(dependency);
+    }
+
+    /**
+     * Add an executable dependency for this model.
+     *
+     * @param executable the executable dependency
+     * @return the key to be used as parameter to taskResult(string) method to retrieve result of executing
+     * the executable dependency
+     */
+    @SuppressWarnings("unchecked")
+    protected String addDependency(Executable<? extends Indexable> executable) {
+        TaskGroup.HasTaskGroup dependency = (TaskGroup.HasTaskGroup) executable;
+        return this.addDependency(dependency);
+    }
+
+    /**
+     * Add a "post-run" dependent task item for this model.
+     *
+     * @param dependent the "post-run" dependent task item.
+     * @return key to be used as parameter to taskResult(string) method to retrieve result of root
+     * task in the given dependent task group
+     */
+    public String addPostRunDependent(FunctionalTaskItem dependent) {
+        Objects.requireNonNull(dependent);
+        return this.taskGroup().addPostRunDependent(dependent);
+    }
+
+    /**
+     * Add a "post-run" dependent for this model.
+     *
+     * @param dependent the "post-run" dependent.
+     * @return key to be used as parameter to taskResult(string) method to retrieve result of root
+     * task in the given dependent task group
+     */
+    protected String addPostRunDependent(TaskGroup.HasTaskGroup dependent) {
+        Objects.requireNonNull(dependent);
+        this.taskGroup().addPostRunDependentTaskGroup(dependent.taskGroup());
+        return dependent.taskGroup().key();
+    }
+
+    /**
+     * Add a creatable "post-run" dependent for this model.
+     *
+     * @param creatable the creatable "post-run" dependent.
+     * @return the key to be used as parameter to taskResult(string) method to retrieve created "post-run" dependent
+     */
+    @SuppressWarnings("unchecked")
+    protected String addPostRunDependent(Creatable<? extends Indexable> creatable) {
+        TaskGroup.HasTaskGroup dependency = (TaskGroup.HasTaskGroup) creatable;
+        return this.addPostRunDependent(dependency);
+    }
+
+    /**
+     * Add an appliable "post-run" dependent for this model.
+     *
+     * @param appliable the appliable "post-run" dependent.
+     * @return the key to be used as parameter to taskResult(string) method to retrieve updated "post-run" dependent
+     */
+    @SuppressWarnings("unchecked")
+    protected String addPostRunDependent(Appliable<? extends Indexable> appliable) {
+        TaskGroup.HasTaskGroup dependency = (TaskGroup.HasTaskGroup) appliable;
+        return this.addPostRunDependent(dependency);
+    }
+
+    /**
+     * Add an executable "post-run" dependent for this model.
+     *
+     * @param executable the executable "post-run" dependent
+     * @return the key to be used as parameter to taskResult(string) method to retrieve result of executing
+     * the executable "post-run" dependent
+     */
+    @SuppressWarnings("unchecked")
+    protected void addPostRunDependent(Executable<? extends Indexable> executable) {
+        TaskGroup.HasTaskGroup dependency = (TaskGroup.HasTaskGroup) executable;
+        this.addPostRunDependent(dependency);
+    }
+
+    /**
+     * Enables adding delayed dependencies and depends.
+     */
+    public void beforeGroupCreateOrUpdate() {
+        // NOP: Extended types can override this to add additional dependencies
+        //
+    }
+
+    @Override
+    public Observable<Indexable> createAsync() {
+        return taskGroup().invokeAsync(this.taskGroup().newInvocationContext());
+    }
+
+    @Override
+    public FluentModelT create() {
+        return Utils.<FluentModelT>rootResource(createAsync()).blockingGet();
+    }
+
+    @Override
+    public ServiceFuture<FluentModelT> createAsync(final ServiceCallback<FluentModelT> callback) {
+        return ServiceFuture.fromBody(Utils.<FluentModelT>rootResource(createAsync()), callback);
+    }
+
+    @Override
+    public Observable<FluentModelT> applyAsync() {
+        return taskGroup().invokeAsync(this.taskGroup().newInvocationContext())
+                .lastElement()
+                .map(indexable -> (FluentModelT) indexable)
+                .toObservable();
+    }
+
+    @Override
+    public FluentModelT apply() {
+        return applyAsync().blockingLast();
+    }
+
+    @Override
+    public ServiceFuture<FluentModelT> applyAsync(ServiceCallback<FluentModelT> callback) {
+        return ServiceFuture.fromBody(applyAsync().lastElement(), callback);
     }
 
     protected abstract Maybe<InnerModelT> getInnerAsync();
@@ -229,29 +415,37 @@ public abstract class ExternalChildResourceImpl<FluentModelT extends Indexable,
         }
 
         @Override
+        public void beforeGroupInvoke() {
+            this.externalChild.beforeGroupCreateOrUpdate();
+        }
+
+        @Override
         public Observable<Indexable> invokeTaskAsync(TaskGroup.InvocationContext context) {
             switch (this.externalChild.pendingOperation()) {
                 case ToBeCreated:
-                    return this.externalChild.createAsync()
-                            .map(new Function<FluentModelT, Indexable>() {
-                                @Override
-                                public Indexable apply(FluentModelT fluentModelT) {
-                                    return fluentModelT;
-                                }
-                            });
+                    return this.externalChild.createResourceAsync()
+                            .doOnNext(createdExternalChild -> externalChild.setPendingOperation(PendingOperation.None))
+                            .map(createdExternalChild -> createdExternalChild);
                 case ToBeUpdated:
-                    return this.externalChild.updateAsync()
-                            .map(new Function<FluentModelT, Indexable>() {
-                                @Override
-                                public Indexable apply(FluentModelT fluentModelT) {
-                                    return fluentModelT;
-                                }
-                            });
+                    return this.externalChild.updateResourceAsync()
+                            .doOnNext(createdExternalChild -> externalChild.setPendingOperation(PendingOperation.None))
+                            .map(updatedExternalChild -> updatedExternalChild);
                 case ToBeRemoved:
-                    return this.externalChild.deleteAsync()
-                            .andThen(Observable.just(voidIndexable()));
+                    // With 2.0 runtime, deleteResourceAsync() will be returning 'Completable' then use below code instead
+                    //
+                    //  return this.externalChild.deleteResourceAsync().doOnCompleted(new Action0() {
+                    //      @Override
+                    //      public void call() {
+                    //          externalChild.setPendingOperation(PendingOperation.None);
+                    //      }
+                    //  }).andThen(voidObservable());
+                    //
+                    return this.externalChild.deleteResourceAsync()
+                            .doOnNext(createdExternalChild -> externalChild.setPendingOperation(PendingOperation.None))
+                            .flatMap(aVoid -> voidObservable());
                 default:
                     // PendingOperation.None
+                    //
                     return Observable.error(new IllegalStateException("No action pending on child resource: " + externalChild.name + ", invokeAsync should not be called "));
             }
         }

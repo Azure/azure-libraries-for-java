@@ -7,7 +7,6 @@
 package com.microsoft.azure.v2.management.resources.fluentcore.dag;
 
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Indexable;
-import io.reactivex.annotations.NonNull;
 
 import java.util.Objects;
 
@@ -27,8 +26,9 @@ public final class VoidIndexable implements Indexable {
      *
      * @param key the key.
      */
-    public VoidIndexable(@NonNull String key) {
-        this.key = Objects.requireNonNull(key);
+    public VoidIndexable(String key) {
+        Objects.requireNonNull(key);
+        this.key = key;
     }
 
     @Override

@@ -10,17 +10,13 @@ import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Indexable;
 import io.reactivex.Observable;
 
+import java.util.function.Function;
+
 /**
  * Simplified functional interface equivalent to abstract class {@link IndexableTaskItem}.
  */
-public interface FunctionalTaskItem {
-    /**
-     * Perform the functional task.
-     * @param context The context
-     * @return An observable which emits the result of the task.
-     */
-    Observable<Indexable> call(FunctionalTaskItem.Context context);
-
+public interface FunctionalTaskItem
+        extends Function<FunctionalTaskItem.Context, Observable<Indexable>> {
     /**
      * Type representing context of an {@link FunctionalTaskItem}.
      */

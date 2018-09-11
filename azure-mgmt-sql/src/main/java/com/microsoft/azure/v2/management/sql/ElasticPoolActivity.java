@@ -13,7 +13,8 @@ import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.HasName
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.HasResourceGroup;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.v2.management.sql.implementation.ElasticPoolActivityInner;
-import org.joda.time.DateTime;
+
+import java.time.OffsetDateTime;
 
 
 /**
@@ -28,7 +29,7 @@ public interface ElasticPoolActivity extends
     /**
      * @return the time the operation finished (ISO8601 format)
      */
-    DateTime endTime();
+    OffsetDateTime endTime();
 
     /**
      * @return the error code if available
@@ -98,7 +99,7 @@ public interface ElasticPoolActivity extends
     /**
      * @return the time the operation started (ISO8601 format)
      */
-    DateTime startTime();
+    OffsetDateTime startTime();
 
     /**
      * @return the current state of the operation

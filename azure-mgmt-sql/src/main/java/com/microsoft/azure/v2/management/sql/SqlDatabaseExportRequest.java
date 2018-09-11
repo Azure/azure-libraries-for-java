@@ -12,7 +12,7 @@ import com.microsoft.azure.v2.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Executable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.v2.management.sql.implementation.ExportRequestInner;
-import com.microsoft.azure.management.storage.StorageAccount;
+import com.microsoft.azure.v2.management.storage.StorageAccount;
 
 /**
  * An immutable client-side representation of an Azure SQL Database export operation request.

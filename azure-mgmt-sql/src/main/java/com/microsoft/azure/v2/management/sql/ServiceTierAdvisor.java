@@ -13,8 +13,8 @@ import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.HasReso
 import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Refreshable;
 import com.microsoft.azure.v2.management.sql.implementation.ServiceTierAdvisorInner;
-import org.joda.time.DateTime;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -43,12 +43,12 @@ public interface ServiceTierAdvisor extends
     /**
      * @return the observation period start (ISO8601 format)
      */
-    DateTime observationPeriodStart();
+    OffsetDateTime observationPeriodStart();
 
     /**
      * @return the observation period start (ISO8601 format)
      */
-    DateTime observationPeriodEnd();
+    OffsetDateTime observationPeriodEnd();
 
     /**
      * @return the activeTimeRatio for the service tier advisor

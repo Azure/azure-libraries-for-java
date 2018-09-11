@@ -5,9 +5,9 @@
  */
 package com.microsoft.azure.v2.management.sql;
 
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.ExpandableStringEnum;
 import com.microsoft.rest.v2.annotations.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.rest.ExpandableStringEnum;
 
 import java.util.Collection;
 

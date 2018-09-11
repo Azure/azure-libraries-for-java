@@ -5,7 +5,7 @@
  */
 package com.microsoft.azure.v2.management.sql;
 
-import com.microsoft.azure.PagedList;
+import com.microsoft.azure.v2.PagedList;
 import com.microsoft.rest.v2.annotations.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.Method;
@@ -16,9 +16,11 @@ import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Refreshable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Updatable;
 import com.microsoft.azure.v2.management.sql.implementation.SyncGroupInner;
-import org.joda.time.DateTime;
+
 import rx.Completable;
 import rx.Observable;
+
+import java.time.OffsetDateTime;
 
 /**
  * An immutable client-side representation of an Azure SQL Server Sync Group.
@@ -55,7 +57,7 @@ public interface SqlSyncGroup
     /**
      * @return last sync time of the sync group
      */
-    DateTime lastSyncTime();
+    OffsetDateTime lastSyncTime();
 
     /**
      * @return conflict resolution policy of the sync group

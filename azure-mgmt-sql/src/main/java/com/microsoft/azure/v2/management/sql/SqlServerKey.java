@@ -18,8 +18,9 @@ import com.microsoft.azure.v2.management.resources.fluentcore.model.Indexable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Refreshable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Updatable;
 import com.microsoft.azure.v2.management.sql.implementation.ServerKeyInner;
-import org.joda.time.DateTime;
 import rx.Completable;
+
+import java.time.OffsetDateTime;
 
 /**
  * An immutable client-side representation of an Azure SQL Server Key.
@@ -73,7 +74,7 @@ public interface SqlServerKey
     /**
      * @return the server key creation date
      */
-    DateTime creationDate();
+    OffsetDateTime creationDate();
 
     /**
      * Deletes the SQL Server Key.
@@ -127,7 +128,7 @@ public interface SqlServerKey
              * @param creationDate the server key creation date
              * @return The next stage of the definition.
              */
-            SqlServerKey.Update withCreationDate(DateTime creationDate);
+            SqlServerKey.Update withCreationDate(OffsetDateTime creationDate);
         }
     }
 }

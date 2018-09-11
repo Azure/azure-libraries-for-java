@@ -19,10 +19,10 @@ import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Refreshable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Updatable;
 import com.microsoft.azure.v2.management.sql.implementation.ElasticPoolInner;
-import org.joda.time.DateTime;
 import rx.Completable;
 import rx.Observable;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 
 /**
@@ -46,7 +46,7 @@ public interface SqlElasticPool
     /**
      * @return the creation date of the Azure SQL Elastic Pool
      */
-    DateTime creationDate();
+    OffsetDateTime creationDate();
 
     /**
      * @return the state of the Azure SQL Elastic Pool

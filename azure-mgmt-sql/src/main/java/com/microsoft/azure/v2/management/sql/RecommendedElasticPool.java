@@ -17,9 +17,9 @@ import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Refreshable;
 import com.microsoft.azure.v2.management.sql.implementation.RecommendedElasticPoolInner;
 import com.microsoft.azure.v2.management.sql.implementation.SqlServerManager;
-import org.joda.time.DateTime;
 import rx.Observable;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 
 /**
@@ -71,12 +71,12 @@ public interface RecommendedElasticPool extends
     /**
      * @return the observation period start (ISO8601 format).
      */
-    DateTime observationPeriodStart();
+    OffsetDateTime observationPeriodStart();
 
     /**
      * @return the observation period start (ISO8601 format).
      */
-    DateTime observationPeriodEnd();
+    OffsetDateTime observationPeriodEnd();
 
     /**
      * @return maximum observed DTU.

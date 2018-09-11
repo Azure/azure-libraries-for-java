@@ -10,7 +10,8 @@ import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.HasName;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.v2.management.sql.implementation.DatabaseUsageInner;
-import org.joda.time.DateTime;
+
+import java.time.OffsetDateTime;
 
 /**
  * The result of SQL server usages per SQL Database.
@@ -49,5 +50,5 @@ public interface SqlDatabaseUsageMetric extends
     /**
      * @return the next reset time for the usage metric (ISO8601 format)
      */
-    DateTime nextResetTime();
+    OffsetDateTime nextResetTime();
 }

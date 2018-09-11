@@ -7,7 +7,6 @@
 package com.microsoft.azure.v2.management.sql;
 
 import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
 
 import java.util.UUID;
 
@@ -16,8 +15,7 @@ import java.util.UUID;
  * An immutable client-side representation of an Azure SQL database's Upgrade hint.
  */
 @Fluent
-public interface UpgradeHintInterface extends
-        HasInner<UpgradeHint> {
+public interface UpgradeHintInterface {
     /**
      * @return Target ServiceLevelObjective for upgrade hint.
      */

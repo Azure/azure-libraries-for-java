@@ -14,7 +14,8 @@ import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.HasReso
 import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Refreshable;
 import com.microsoft.azure.v2.management.sql.implementation.RestorableDroppedDatabaseInner;
-import org.joda.time.DateTime;
+
+import java.time.OffsetDateTime;
 
 /**
  * Response containing Azure SQL restorable dropped database.
@@ -61,15 +62,15 @@ public interface SqlRestorableDroppedDatabase extends
     /**
      * @return the creation date of the database (ISO8601 format)
      */
-    DateTime creationDate();
+    OffsetDateTime creationDate();
 
     /**
      * @return the deletion date of the database (ISO8601 format)
      */
-    DateTime deletionDate();
+    OffsetDateTime deletionDate();
 
     /**
      * @return the earliest restore date of the database (ISO8601 format)
      */
-    DateTime earliestRestoreDate();
+    OffsetDateTime earliestRestoreDate();
 }

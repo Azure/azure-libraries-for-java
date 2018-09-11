@@ -11,8 +11,9 @@ import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.Resource;
 import com.microsoft.azure.v2.management.resources.fluentcore.collection.SupportsCreating;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.storage.StorageAccount;
-import org.joda.time.DateTime;
+import com.microsoft.azure.v2.management.storage.StorageAccount;
+
+import java.time.OffsetDateTime;
 
 /**
  * A representation of the Azure SQL Database operations.
@@ -309,7 +310,7 @@ public interface SqlDatabaseOperations extends
              * @return The next stage of the definition.
              */
             @Beta(since = "V1_8_0")
-            SqlDatabaseOperations.DefinitionStages.WithCreateAllOptions fromRestorePoint(RestorePoint restorePoint, DateTime restorePointDateTime);
+            SqlDatabaseOperations.DefinitionStages.WithCreateAllOptions fromRestorePoint(RestorePoint restorePoint, OffsetDateTime restorePointDateTime);
         }
 
         /**
@@ -333,7 +334,7 @@ public interface SqlDatabaseOperations extends
              * @return The next stage of the definition.
              */
             @Beta(since = "V1_8_0")
-            SqlDatabaseOperations.DefinitionStages.WithCreateAfterElasticPoolOptions fromRestorePoint(RestorePoint restorePoint, DateTime restorePointDateTime);
+            SqlDatabaseOperations.DefinitionStages.WithCreateAfterElasticPoolOptions fromRestorePoint(RestorePoint restorePoint, OffsetDateTime restorePointDateTime);
         }
 
         /**

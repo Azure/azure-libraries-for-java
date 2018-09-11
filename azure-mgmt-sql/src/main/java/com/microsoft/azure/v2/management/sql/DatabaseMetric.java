@@ -8,7 +8,7 @@ package com.microsoft.azure.v2.management.sql;
 
 import com.microsoft.rest.v2.annotations.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
-import org.joda.time.DateTime;
+import java.time.OffsetDateTime;
 
 
 /**
@@ -46,6 +46,6 @@ public interface DatabaseMetric {
     /**
      * @return the next reset time for the metric (ISO8601 format)
      */
-    DateTime nextResetTime();
+    OffsetDateTime nextResetTime();
 }
 

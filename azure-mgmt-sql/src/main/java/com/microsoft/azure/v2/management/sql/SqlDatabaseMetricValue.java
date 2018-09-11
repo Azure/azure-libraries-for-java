@@ -8,7 +8,8 @@ package com.microsoft.azure.v2.management.sql;
 import com.microsoft.rest.v2.annotations.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
-import org.joda.time.DateTime;
+
+import java.time.OffsetDateTime;
 
 /**
  * Response containing the Azure SQL Database metric value.
@@ -39,7 +40,7 @@ public interface SqlDatabaseMetricValue extends HasInner<MetricValue> {
     /**
      * @return the metric timestamp (ISO-8601 format)
      */
-    DateTime timestamp();
+    OffsetDateTime timestamp();
 
     /**
      * @return the total value of the metric

@@ -11,7 +11,7 @@ import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.HasPare
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Executable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.v2.management.sql.implementation.ImportExtensionRequestInner;
-import com.microsoft.azure.management.storage.StorageAccount;
+import com.microsoft.azure.v2.management.storage.StorageAccount;
 
 /**
  * An immutable client-side representation of an Azure SQL Database import operation request.

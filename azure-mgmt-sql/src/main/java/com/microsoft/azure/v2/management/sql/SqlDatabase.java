@@ -19,11 +19,11 @@ import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Refreshable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Updatable;
 import com.microsoft.azure.v2.management.sql.implementation.DatabaseInner;
-import com.microsoft.azure.management.storage.StorageAccount;
-import org.joda.time.DateTime;
+import com.microsoft.azure.v2.management.storage.StorageAccount;
 import rx.Completable;
 import rx.Observable;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -54,7 +54,7 @@ public interface SqlDatabase
     /**
      * @return the creation date of the Azure SQL Database
      */
-    DateTime creationDate();
+    OffsetDateTime creationDate();
 
     /**
      * @return the current Service Level Objective Id of the Azure SQL Database, this is the Id of the
@@ -73,7 +73,7 @@ public interface SqlDatabase
      * records the start date and time when recovery is available for this
      * Azure SQL Database.
      */
-    DateTime earliestRestoreDate();
+    OffsetDateTime earliestRestoreDate();
 
     /**
      * @return the edition of the Azure SQL Database
@@ -666,7 +666,7 @@ public interface SqlDatabase
              * @return The next stage of the definition.
              */
             @Beta(since = "V1_8_0")
-            SqlDatabase.DefinitionStages.WithAttachAfterElasticPoolOptions<ParentT> fromRestorePoint(RestorePoint restorePoint, DateTime restorePointDateTime);
+            SqlDatabase.DefinitionStages.WithAttachAfterElasticPoolOptions<ParentT> fromRestorePoint(RestorePoint restorePoint, OffsetDateTime restorePointDateTime);
         }
 
         /**
@@ -692,7 +692,7 @@ public interface SqlDatabase
              * @return The next stage of the definition.
              */
             @Beta(since = "V1_8_0")
-            SqlDatabase.DefinitionStages.WithAttachAllOptions<ParentT> fromRestorePoint(RestorePoint restorePoint, DateTime restorePointDateTime);
+            SqlDatabase.DefinitionStages.WithAttachAllOptions<ParentT> fromRestorePoint(RestorePoint restorePoint, OffsetDateTime restorePointDateTime);
         }
 
         /**

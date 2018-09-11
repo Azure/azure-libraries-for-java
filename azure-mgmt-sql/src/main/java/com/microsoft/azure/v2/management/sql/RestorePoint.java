@@ -13,7 +13,8 @@ import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.HasName
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.HasResourceGroup;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.v2.management.sql.implementation.RestorePointInner;
-import org.joda.time.DateTime;
+
+import java.time.OffsetDateTime;
 
 
 /**
@@ -51,12 +52,12 @@ public interface RestorePoint extends
      * @return restore point creation time (ISO8601 format). Populated when
      * restorePointType = CONTINUOUS. Null otherwise.
      */
-    DateTime restorePointCreationDate();
+    OffsetDateTime restorePointCreationDate();
 
     /**
      * @return earliest restore time (ISO8601 format). Populated when restorePointType
      * = DISCRETE. Null otherwise.
      */
-    DateTime earliestRestoreDate();
+    OffsetDateTime earliestRestoreDate();
 }
 

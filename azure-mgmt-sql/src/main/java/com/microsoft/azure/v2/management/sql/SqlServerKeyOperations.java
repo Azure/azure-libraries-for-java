@@ -9,7 +9,8 @@ import com.microsoft.rest.v2.annotations.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Creatable;
-import org.joda.time.DateTime;
+
+import java.time.OffsetDateTime;
 
 /**
  * A representation of the Azure SQL Server Key operations.
@@ -114,7 +115,7 @@ public interface SqlServerKeyOperations extends
              * @param creationDate the server key creation date
              * @return The next stage of the definition.
              */
-            SqlServerKeyOperations.DefinitionStages.WithCreate withCreationDate(DateTime creationDate);
+            SqlServerKeyOperations.DefinitionStages.WithCreate withCreationDate(OffsetDateTime creationDate);
         }
 
         /**

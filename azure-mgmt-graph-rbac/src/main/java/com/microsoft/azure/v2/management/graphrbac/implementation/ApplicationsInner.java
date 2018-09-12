@@ -110,7 +110,7 @@ public final class ApplicationsInner {
         @GET("{tenantID}/applications/{applicationObjectId}/keyCredentials")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(GraphErrorException.class)
-        Single<BodyResponse<List<KeyCredentialInner>>> listKeyCredentials(@PathParam("applicationObjectId") String applicationObjectId, @PathParam("tenantID") String tenantID, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
+        Single<BodyResponse<PageImpl<KeyCredentialInner>>> listKeyCredentials(@PathParam("applicationObjectId") String applicationObjectId, @PathParam("tenantID") String tenantID, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
         @PATCH("{tenantID}/applications/{applicationObjectId}/keyCredentials")
         @ExpectedResponses({204})
@@ -120,7 +120,7 @@ public final class ApplicationsInner {
         @GET("{tenantID}/applications/{applicationObjectId}/passwordCredentials")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(GraphErrorException.class)
-        Single<BodyResponse<List<PasswordCredentialInner>>> listPasswordCredentials(@PathParam("applicationObjectId") String applicationObjectId, @PathParam("tenantID") String tenantID, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
+        Single<BodyResponse<PageImpl<PasswordCredentialInner>>> listPasswordCredentials(@PathParam("applicationObjectId") String applicationObjectId, @PathParam("tenantID") String tenantID, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
         @PATCH("{tenantID}/applications/{applicationObjectId}/passwordCredentials")
         @ExpectedResponses({204})
@@ -609,20 +609,14 @@ public final class ApplicationsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the List&lt;KeyCredentialInner&gt; object if successful.
      */
-    public List<KeyCredentialInner> listKeyCredentials(@NonNull String applicationObjectId) {
-        return listKeyCredentialsAsync(applicationObjectId).blockingGet();
-    }
-
-    /**
-     * Get the keyCredentials associated with an application.
-     *
-     * @param applicationObjectId Application object ID.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return a ServiceFuture which will be completed with the result of the network request.
-     */
-    public ServiceFuture<List<KeyCredentialInner>> listKeyCredentialsAsync(@NonNull String applicationObjectId, ServiceCallback<List<KeyCredentialInner>> serviceCallback) {
-        return ServiceFuture.fromBody(listKeyCredentialsAsync(applicationObjectId), serviceCallback);
+    public PagedList<KeyCredentialInner> listKeyCredentials(@NonNull String applicationObjectId) {
+        Page<KeyCredentialInner> response = listKeyCredentialsSinglePageAsync(applicationObjectId).blockingGet();
+        return new PagedList<KeyCredentialInner>(response) {
+            @Override
+            public Page<KeyCredentialInner> nextPage(String nextLink) {
+                return null;
+            }
+        };
     }
 
     /**
@@ -632,7 +626,18 @@ public final class ApplicationsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @return a Single which performs the network request upon subscription.
      */
-    public Single<BodyResponse<List<KeyCredentialInner>>> listKeyCredentialsWithRestResponseAsync(@NonNull String applicationObjectId) {
+    public Maybe<Page<KeyCredentialInner>> listKeyCredentialsAsync(@NonNull String applicationObjectId) {
+        return listKeyCredentialsSinglePageAsync(applicationObjectId).toMaybe();
+
+    }
+
+    /**
+     * Get the keyCredentials associated with an application.
+     *
+     * @param applicationObjectId Application object ID.
+     * @return the List&lt;KeyCredentialInner&gt; object if successful.
+     */
+    public Single<Page<KeyCredentialInner>> listKeyCredentialsSinglePageAsync(@NonNull String applicationObjectId) {
         if (applicationObjectId == null) {
             throw new IllegalArgumentException("Parameter applicationObjectId is required and cannot be null.");
         }
@@ -642,19 +647,8 @@ public final class ApplicationsInner {
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        return service.listKeyCredentials(applicationObjectId, this.client.tenantID(), this.client.apiVersion(), this.client.acceptLanguage());
-    }
-
-    /**
-     * Get the keyCredentials associated with an application.
-     *
-     * @param applicationObjectId Application object ID.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return a Single which performs the network request upon subscription.
-     */
-    public Maybe<List<KeyCredentialInner>> listKeyCredentialsAsync(@NonNull String applicationObjectId) {
-        return listKeyCredentialsWithRestResponseAsync(applicationObjectId)
-            .flatMapMaybe((BodyResponse<List<KeyCredentialInner>> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
+        return service.listKeyCredentials(applicationObjectId, this.client.tenantID(), this.client.apiVersion(), this.client.acceptLanguage())
+                .map((BodyResponse<PageImpl<KeyCredentialInner>> res) -> res.body());
     }
 
     /**
@@ -732,20 +726,14 @@ public final class ApplicationsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the List&lt;PasswordCredentialInner&gt; object if successful.
      */
-    public List<PasswordCredentialInner> listPasswordCredentials(@NonNull String applicationObjectId) {
-        return listPasswordCredentialsAsync(applicationObjectId).blockingGet();
-    }
-
-    /**
-     * Get the passwordCredentials associated with an application.
-     *
-     * @param applicationObjectId Application object ID.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return a ServiceFuture which will be completed with the result of the network request.
-     */
-    public ServiceFuture<List<PasswordCredentialInner>> listPasswordCredentialsAsync(@NonNull String applicationObjectId, ServiceCallback<List<PasswordCredentialInner>> serviceCallback) {
-        return ServiceFuture.fromBody(listPasswordCredentialsAsync(applicationObjectId), serviceCallback);
+    public PagedList<PasswordCredentialInner> listPasswordCredentials(@NonNull String applicationObjectId) {
+        Page<PasswordCredentialInner> response = listPasswordCredentialsSinglePageAsync(applicationObjectId).blockingGet();
+        return new PagedList<PasswordCredentialInner>(response) {
+            @Override
+            public Page<PasswordCredentialInner> nextPage(String nextLink) {
+                return null;
+            }
+        };
     }
 
     /**
@@ -755,7 +743,18 @@ public final class ApplicationsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @return a Single which performs the network request upon subscription.
      */
-    public Single<BodyResponse<List<PasswordCredentialInner>>> listPasswordCredentialsWithRestResponseAsync(@NonNull String applicationObjectId) {
+    public Maybe<Page<PasswordCredentialInner>> listPasswordCredentialsAsync(@NonNull String applicationObjectId) {
+        return listPasswordCredentialsSinglePageAsync(applicationObjectId).toMaybe();
+
+    }
+
+    /**
+     * Get the passwordCredentials associated with an application.
+     *
+     * @param applicationObjectId Application object ID.
+     * @return the List&lt;PasswordCredentialInner&gt; object if successful.
+     */
+    public Single<Page<PasswordCredentialInner>> listPasswordCredentialsSinglePageAsync(@NonNull String applicationObjectId) {
         if (applicationObjectId == null) {
             throw new IllegalArgumentException("Parameter applicationObjectId is required and cannot be null.");
         }
@@ -765,19 +764,8 @@ public final class ApplicationsInner {
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        return service.listPasswordCredentials(applicationObjectId, this.client.tenantID(), this.client.apiVersion(), this.client.acceptLanguage());
-    }
-
-    /**
-     * Get the passwordCredentials associated with an application.
-     *
-     * @param applicationObjectId Application object ID.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return a Single which performs the network request upon subscription.
-     */
-    public Maybe<List<PasswordCredentialInner>> listPasswordCredentialsAsync(@NonNull String applicationObjectId) {
-        return listPasswordCredentialsWithRestResponseAsync(applicationObjectId)
-            .flatMapMaybe((BodyResponse<List<PasswordCredentialInner>> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
+        return service.listPasswordCredentials(applicationObjectId, this.client.tenantID(), this.client.apiVersion(), this.client.acceptLanguage())
+                .map((BodyResponse<PageImpl<PasswordCredentialInner>> res) -> res.body());
     }
 
     /**

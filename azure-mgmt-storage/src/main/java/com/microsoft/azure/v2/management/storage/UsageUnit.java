@@ -50,7 +50,7 @@ public enum UsageUnit {
      */
     private final String value;
 
-    private UsageUnit(String value) {
+    UsageUnit(String value) {
         this.value = value;
     }
 

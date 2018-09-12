@@ -25,7 +25,7 @@ public enum Action {
      */
     private final String value;
 
-    private Action(String value) {
+    Action(String value) {
         this.value = value;
     }
 

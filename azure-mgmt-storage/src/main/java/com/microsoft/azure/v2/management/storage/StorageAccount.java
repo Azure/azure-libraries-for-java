@@ -21,7 +21,6 @@ import com.microsoft.azure.v2.management.storage.implementation.StorageManager;
 import com.microsoft.rest.v2.ServiceCallback;
 import com.microsoft.rest.v2.ServiceFuture;
 import io.reactivex.Maybe;
-import io.reactivex.Observable;
 
 import java.time.OffsetDateTime;
 import java.util.List;

@@ -45,7 +45,7 @@ public enum SubscriptionState {
      */
     private final String value;
 
-    private SubscriptionState(String value) {
+    SubscriptionState(String value) {
         this.value = value;
     }
 

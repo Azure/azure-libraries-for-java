@@ -166,7 +166,7 @@ public abstract class ExternalChildResourceImpl<FluentModelT extends Indexable,
      *
      * @return the observable to track the delete action.
      */
-    public abstract Observable<Void> deleteResourceAsync();
+    public abstract Completable deleteResourceAsync();
 
     /**
      * @return the key of this child resource in the collection maintained by ExternalChildResourceCollectionImpl
@@ -441,8 +441,10 @@ public abstract class ExternalChildResourceImpl<FluentModelT extends Indexable,
                     //  }).andThen(voidObservable());
                     //
                     return this.externalChild.deleteResourceAsync()
-                            .doOnNext(createdExternalChild -> externalChild.setPendingOperation(PendingOperation.None))
-                            .flatMap(aVoid -> voidObservable());
+                            .andThen(Observable.defer(() -> {
+                                externalChild.setPendingOperation(PendingOperation.None);
+                                return voidObservable();
+                            }));
                 default:
                     // PendingOperation.None
                     //

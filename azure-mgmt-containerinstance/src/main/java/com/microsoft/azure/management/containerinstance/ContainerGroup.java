@@ -801,6 +801,7 @@ public interface ContainerGroup extends
              *
              * @param <ParentT> the stage of the parent definition to return to after attaching this definition
              */
+            @Beta(Beta.SinceVersion.V1_15_0)
             interface WithEnvironmentVariables<ParentT> {
                 /**
                  * Specifies the environment variables.
@@ -818,6 +819,25 @@ public interface ContainerGroup extends
                  * @return the next stage of the definition
                  */
                 WithContainerInstanceAttach<ParentT> withEnvironmentVariable(String envName, String envValue);
+
+                /**
+                 * Specifies a collection of name and secure value pairs for the environment variables.
+                 *
+                 * @param environmentVariables the environment variables in a name and value pair to be set after the container gets initialized
+                 * @return the next stage of the definition
+                 */
+                @Beta(Beta.SinceVersion.V1_15_0)
+                WithContainerInstanceAttach<ParentT> withEnvironmentVariableWithSecuredValue(Map<String, String> environmentVariables);
+
+                /**
+                 * Specifies the environment variable that has a secured value.
+                 *
+                 * @param envName the environment variable name
+                 * @param securedValue the environment variable secured value
+                 * @return the next stage of the definition
+                 */
+                @Beta(Beta.SinceVersion.V1_15_0)
+                WithContainerInstanceAttach<ParentT> withEnvironmentVariableWithSecuredValue(String envName, String securedValue);
             }
 
             /**

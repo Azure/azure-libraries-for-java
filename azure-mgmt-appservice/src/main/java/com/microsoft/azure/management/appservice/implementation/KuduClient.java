@@ -41,9 +41,9 @@ class KuduClient {
 
     KuduClient(WebAppBase webAppBase) {
         service = webAppBase.manager().restClient().newBuilder()
-                .withBaseUrl("https://" + webAppBase.defaultHostName()
+                .withBaseUrl("https://" + webAppBase.defaultHostName().toLowerCase()
                         .replace("http://", "")
-                        .replace(webAppBase.name(), webAppBase.name() + ".scm"))
+                        .replace(webAppBase.name().toLowerCase(), webAppBase.name().toLowerCase() + ".scm"))
                 .withConnectionTimeout(3, TimeUnit.MINUTES)
                 .withReadTimeout(3, TimeUnit.MINUTES)
                 .build()

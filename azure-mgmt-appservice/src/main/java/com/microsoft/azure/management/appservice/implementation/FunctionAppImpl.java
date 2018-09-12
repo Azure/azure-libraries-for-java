@@ -25,6 +25,7 @@ import com.microsoft.azure.management.storage.StorageAccount;
 import com.microsoft.azure.management.storage.StorageAccountKey;
 import com.microsoft.rest.LogLevel;
 import com.microsoft.rest.credentials.TokenCredentials;
+import okhttp3.HttpUrl;
 import okhttp3.Request;
 import org.joda.time.DateTime;
 import retrofit2.http.Body;
@@ -79,9 +80,12 @@ class FunctionAppImpl
     FunctionAppImpl(final String name, SiteInner innerObject, SiteConfigResourceInner configObject, AppServiceManager manager) {
         super(name, innerObject, configObject, manager);
         functionAppKeyService = manager.restClient().retrofit().create(FunctionAppKeyService.class);
-        String defaultHostName = defaultHostName().startsWith("http") ? defaultHostName() : "http://" + defaultHostName();
+        HttpUrl defaultHostName = HttpUrl.parse(defaultHostName());
+        if (defaultHostName == null) {
+            defaultHostName = new HttpUrl.Builder().host(defaultHostName()).scheme("http").build();
+        }
         functionService = manager.restClient().newBuilder()
-                .withBaseUrl(defaultHostName)
+                .withBaseUrl(defaultHostName.toString())
                 .withCredentials(new FunctionCredentials(this))
                 .withLogLevel(LogLevel.BODY_AND_HEADERS)
                 .build()

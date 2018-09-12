@@ -32,8 +32,8 @@ public class TestKubernetesCluster extends TestTemplate<KubernetesCluster, Kuber
         final String newName = "aks" + this.testId;
         final String dnsPrefix = "dns" + newName;
         final String agentPoolName = "ap" + newName;
-        final String clientId = "aabd680f-74de-4690-bf94-f40142e0a187";
-        final String secret = "f3ed0d90-6c56-407e-9217-6bbe8fc6f42a";
+        final String clientId = "clientId";
+        final String secret = "secret";
 
         KubernetesCluster resource = kubernetesClusters.define(newName)
             .withRegion(Region.US_EAST)

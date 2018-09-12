@@ -114,9 +114,15 @@ class RoleAssignmentImpl
                                 return observable.zipWith(Observable.range(1, 30), new Func2<Throwable, Integer, Integer>() {
                                     @Override
                                     public Integer call(Throwable throwable, Integer integer) {
-                                        if (throwable instanceof CloudException
-                                                && ((CloudException) throwable).body().code().equalsIgnoreCase("PrincipalNotFound")) {
-                                            return integer;
+                                        if (throwable instanceof CloudException) {
+                                            CloudException cloudException = (CloudException) throwable;
+                                            if ((cloudException.body().code() != null && cloudException.body().code().equalsIgnoreCase("PrincipalNotFound"))
+                                                    || (cloudException.body().message() != null && cloudException.body().message().toLowerCase().contains("does not exist in the directory"))) {
+                                                // ref: https://github.com/Azure/azure-cli/blob/dev/src/command_modules/azure-cli-role/azure/cli/command_modules/role/custom.py#L1048-L1065
+                                                return integer;
+                                            } else {
+                                                throw Exceptions.propagate(throwable);
+                                            }
                                         } else {
                                             throw Exceptions.propagate(throwable);
                                         }

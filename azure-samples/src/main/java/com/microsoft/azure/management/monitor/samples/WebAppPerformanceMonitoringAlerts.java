@@ -27,7 +27,6 @@ import java.io.File;
  *  - Setup an action group to trigger a notification to the heavy performance alerts
  *  - Create auto-mitigated metric alerts for the App Service plan when
  *    - average CPUPercentage on any of Web App instance (where Instance = *) over the last 5 minutes is above 80%
- *    - average MemoryPercentage on three of my instances (where Instance = "RD00155D44CA4E", "RD07893F35CE3D", "RD00093E32CE8F") over the last 5 minutes is above 90%
  */
 public final class WebAppPerformanceMonitoringAlerts {
 
@@ -84,11 +83,6 @@ public final class WebAppPerformanceMonitoringAlerts {
                         .withMetricName("CPUPercentage", "Microsoft.Web/serverfarms")
                         .withCondition(MetricAlertRuleCondition.GREATER_THAN, MetricAlertRuleTimeAggregation.TOTAL, 80)
                         .withDimension("Instance", "*")
-                        .attach()
-                    .defineAlertCriteria("Metric2")
-                        .withMetricName("MemoryPercentage", "Microsoft.Web/serverfarms")
-                        .withCondition(MetricAlertRuleCondition.GREATER_THAN, MetricAlertRuleTimeAggregation.TOTAL, 90)
-                        .withDimension("Instance", "RD00155D44CA4E", "RD07893F35CE3D", "RD00093E32CE8F")
                         .attach()
                     .create();
             Utils.print(ma);

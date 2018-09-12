@@ -75,8 +75,8 @@ class ActiveDirectoryApplicationImpl
 
     Maybe<ActiveDirectoryApplication> refreshCredentialsAsync() {
         final Single<ActiveDirectoryApplication> keyCredentials = manager.inner().applications().listKeyCredentialsAsync(id())
-                .flattenAsObservable(keyCredentialInners -> keyCredentialInners)
-                .map((io.reactivex.functions.Function<KeyCredentialInner, CertificateCredential>) keyCredentialInner -> new CertificateCredentialImpl<ActiveDirectoryApplication>(keyCredentialInner))
+                .flattenAsObservable(keyCredentialInners -> keyCredentialInners.items())
+                .map(inner -> (CertificateCredential) new CertificateCredentialImpl<ActiveDirectoryApplication>(inner))
                 .toMap(certificateCredential -> certificateCredential.name())
                 .map(stringCertificateCredentialMap -> {
                     ActiveDirectoryApplicationImpl.this.cachedCertificateCredentials = stringCertificateCredentialMap;
@@ -84,7 +84,7 @@ class ActiveDirectoryApplicationImpl
                 });
 
         final Single<ActiveDirectoryApplication> passwordCredentials = manager.inner().applications().listPasswordCredentialsAsync(id())
-                .flattenAsObservable(passwordCredentialInners -> passwordCredentialInners)
+                .flattenAsObservable(passwordCredentialInners -> passwordCredentialInners.items())
                 .map((io.reactivex.functions.Function<PasswordCredentialInner, PasswordCredential>) passwordCredentialInner -> new PasswordCredentialImpl<ActiveDirectoryApplication>(passwordCredentialInner))
                 .toMap(passwordCredential -> passwordCredential.name())
                 .map(stringPasswordCredentialMap -> {

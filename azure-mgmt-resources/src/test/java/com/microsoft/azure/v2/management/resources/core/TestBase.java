@@ -185,7 +185,6 @@ public abstract class TestBase {
             final File credFile = new File(System.getenv("AZURE_AUTH_LOCATION"));
             credentials = ApplicationTokenCredentials.fromFile(credFile);
             pipeline = buildRestClient(new HttpPipelineBuilder(new HttpPipelineOptions().withHttpClient(NettyClient.createDefault()))
-                    .withRequestPolicy(new HostPolicyFactory(this.baseUri()))
                     .withRequestPolicy(new ProviderRegistrationPolicyFactory(credentials))
                     .withRequestPolicy(new CredentialsPolicyFactory(credentials))
                     .withRequestPolicy(new TimeoutPolicyFactory(3, TimeUnit.MINUTES))

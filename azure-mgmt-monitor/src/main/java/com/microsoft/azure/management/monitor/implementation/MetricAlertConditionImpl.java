@@ -56,7 +56,7 @@ class MetricAlertConditionImpl
     }
 
     @Override
-    public MetricAlertConditionImpl withCondition(MetricAlertRuleCondition condition, MetricAlertRuleTimeAggregation timeAggregation, double threshold) {
+    public MetricAlertConditionImpl withCondition(MetricAlertRuleTimeAggregation timeAggregation, MetricAlertRuleCondition condition, double threshold) {
         this.inner().withOperator(condition);
         this.inner().withTimeAggregation(timeAggregation);
         this.inner().withThreshold(threshold);

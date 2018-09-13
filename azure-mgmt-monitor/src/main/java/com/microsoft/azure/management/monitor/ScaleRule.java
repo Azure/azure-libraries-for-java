@@ -174,6 +174,31 @@ public interface ScaleRule extends
              * @return the next stage of the definition.
              */
             WithCondition withStatistic(Period duration, Period frequency, MetricStatisticType statisticType);
+
+            /**
+             * Sets statistics for autoscale trigger action with default values of 10 minutes for duration, 1 minute for frequency(time grain) and 'Average' for statistic type.
+             *
+             * @return the next stage of the definition.
+             */
+            @Method
+            WithCondition withStatistic();
+
+            /**
+             * Sets statistics for autoscale trigger action with default values of 1 minute for frequency(time grain) and 'Average' for statistic type.
+             *
+             * @param duration the range of time in which instance data is collected. This value must be greater than the delay in metric collection, which can vary from resource-to-resource. Must be between 12 hours and 5 minutes.
+             * @return the next stage of the definition.
+             */
+            WithCondition withStatistic(Period duration);
+
+            /**
+             * Sets statistics for autoscale trigger action with default values of 1 minute for frequency(time grain).
+             *
+             * @param duration the range of time in which instance data is collected. This value must be greater than the delay in metric collection, which can vary from resource-to-resource. Must be between 12 hours and 5 minutes.
+             * @param statisticType the metric statistic type. How the metrics from multiple instances are combined. Possible values include: 'Average', 'Min', 'Max', 'Sum'.
+             * @return the next stage of the definition.
+             */
+            WithCondition withStatistic(Period duration, MetricStatisticType statisticType);
         }
 
         /**
@@ -188,7 +213,7 @@ public interface ScaleRule extends
              * @param threshold the threshold of the metric that triggers the scale action.
              * @return the next stage of the definition.
              */
-            WithScaleAction withCondition(ComparisonOperationType condition, TimeAggregationType timeAggregation, double threshold);
+            WithScaleAction withCondition(TimeAggregationType timeAggregation, ComparisonOperationType condition, double threshold);
         }
 
         /**
@@ -270,6 +295,31 @@ public interface ScaleRule extends
              * @return the next stage of the definition.
              */
             WithCondition withStatistic(Period duration, Period frequency, MetricStatisticType statisticType);
+
+            /**
+             * Sets statistics for autoscale trigger action with default values of 10 minutes for duration, 1 minute for frequency(time grain) and 'Average' for statistic type.
+             *
+             * @return the next stage of the definition.
+             */
+            @Method
+            WithCondition withStatistic();
+
+            /**
+             * Sets statistics for autoscale trigger action with default values of 1 minute for frequency(time grain) and 'Average' for statistic type.
+             *
+             * @param duration the range of time in which instance data is collected. This value must be greater than the delay in metric collection, which can vary from resource-to-resource. Must be between 12 hours and 5 minutes.
+             * @return the next stage of the definition.
+             */
+            WithCondition withStatistic(Period duration);
+
+            /**
+             * Sets statistics for autoscale trigger action with default values of 1 minute for frequency(time grain).
+             *
+             * @param duration the range of time in which instance data is collected. This value must be greater than the delay in metric collection, which can vary from resource-to-resource. Must be between 12 hours and 5 minutes.
+             * @param statisticType the metric statistic type. How the metrics from multiple instances are combined. Possible values include: 'Average', 'Min', 'Max', 'Sum'.
+             * @return the next stage of the definition.
+             */
+            WithCondition withStatistic(Period duration, MetricStatisticType statisticType);
         }
 
         /**
@@ -284,7 +334,7 @@ public interface ScaleRule extends
              * @param threshold the threshold of the metric that triggers the scale action.
              * @return the next stage of the definition.
              */
-            WithScaleAction withCondition(ComparisonOperationType condition, TimeAggregationType timeAggregation, double threshold);
+            WithScaleAction withCondition(TimeAggregationType timeAggregation, ComparisonOperationType condition, double threshold);
         }
 
         /**
@@ -372,6 +422,31 @@ public interface ScaleRule extends
              * @return the next stage of the definition.
              */
             WithCondition withStatistic(Period duration, Period frequency, MetricStatisticType statisticType);
+
+            /**
+             * Sets statistics for autoscale trigger action with default values of 10 minutes for duration, 1 minute for frequency(time grain) and 'Average' for statistic type.
+             *
+             * @return the next stage of the definition.
+             */
+            @Method
+            WithCondition withStatistic();
+
+            /**
+             * Sets statistics for autoscale trigger action with default values of 1 minute for frequency(time grain) and 'Average' for statistic type.
+             *
+             * @param duration the range of time in which instance data is collected. This value must be greater than the delay in metric collection, which can vary from resource-to-resource. Must be between 12 hours and 5 minutes.
+             * @return the next stage of the definition.
+             */
+            WithCondition withStatistic(Period duration);
+
+            /**
+             * Sets statistics for autoscale trigger action with default values of 1 minute for frequency(time grain).
+             *
+             * @param duration the range of time in which instance data is collected. This value must be greater than the delay in metric collection, which can vary from resource-to-resource. Must be between 12 hours and 5 minutes.
+             * @param statisticType the metric statistic type. How the metrics from multiple instances are combined. Possible values include: 'Average', 'Min', 'Max', 'Sum'.
+             * @return the next stage of the definition.
+             */
+            WithCondition withStatistic(Period duration, MetricStatisticType statisticType);
         }
 
         /**
@@ -386,7 +461,7 @@ public interface ScaleRule extends
              * @param threshold the threshold of the metric that triggers the scale action.
              * @return the next stage of the definition.
              */
-            WithScaleAction withCondition(ComparisonOperationType condition, TimeAggregationType timeAggregation, double threshold);
+            WithScaleAction withCondition(TimeAggregationType timeAggregation, ComparisonOperationType condition, double threshold);
         }
         /**
          * The stage of the definition which specifies action to take when the metric alert will be triggered.
@@ -449,6 +524,31 @@ public interface ScaleRule extends
         Update withStatistic(Period duration, Period frequency, MetricStatisticType statisticType);
 
         /**
+         * Sets statistics for autoscale trigger action with default values of 10 minutes for duration, 1 minute for frequency(time grain) and 'Average' for statistic type.
+         *
+         * @return the next stage of the definition.
+         */
+        @Method
+        Update withStatistic();
+
+        /**
+         * Sets statistics for autoscale trigger action with default values of 1 minute for frequency(time grain) and 'Average' for statistic type.
+         *
+         * @param duration the range of time in which instance data is collected. This value must be greater than the delay in metric collection, which can vary from resource-to-resource. Must be between 12 hours and 5 minutes.
+         * @return the next stage of the definition.
+         */
+        Update withStatistic(Period duration);
+
+        /**
+         * Sets statistics for autoscale trigger action with default values of 1 minute for frequency(time grain).
+         *
+         * @param duration the range of time in which instance data is collected. This value must be greater than the delay in metric collection, which can vary from resource-to-resource. Must be between 12 hours and 5 minutes.
+         * @param statisticType the metric statistic type. How the metrics from multiple instances are combined. Possible values include: 'Average', 'Min', 'Max', 'Sum'.
+         * @return the next stage of the definition.
+         */
+        Update withStatistic(Period duration, MetricStatisticType statisticType);
+
+        /**
          * Updates the condition to monitor for the current metric alert.
          *
          * @param condition the operator that is used to compare the metric data and the threshold. Possible values include: 'Equals', 'NotEquals', 'GreaterThan', 'GreaterThanOrEqual', 'LessThan', 'LessThanOrEqual'.
@@ -456,7 +556,7 @@ public interface ScaleRule extends
          * @param threshold the threshold of the metric that triggers the scale action.
          * @return the next stage of the scale rule update.
          */
-        Update withCondition(ComparisonOperationType condition, TimeAggregationType timeAggregation, double threshold);
+        Update withCondition(TimeAggregationType timeAggregation, ComparisonOperationType condition, double threshold);
 
         /**
          * Updates the action to be performed when the scale rule will be active.

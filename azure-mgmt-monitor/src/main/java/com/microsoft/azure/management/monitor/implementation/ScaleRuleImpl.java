@@ -172,7 +172,22 @@ class ScaleRuleImpl
     }
 
     @Override
-    public ScaleRuleImpl withCondition(ComparisonOperationType condition, TimeAggregationType timeAggregation, double threshold) {
+    public ScaleRuleImpl withStatistic() {
+        return withStatistic(Period.minutes(10), Period.minutes(1), MetricStatisticType.AVERAGE);
+    }
+
+    @Override
+    public ScaleRuleImpl withStatistic(Period duration) {
+        return withStatistic(duration, Period.minutes(1), MetricStatisticType.AVERAGE);
+    }
+
+    @Override
+    public ScaleRuleImpl withStatistic(Period duration, MetricStatisticType statisticType) {
+        return withStatistic(duration, Period.minutes(1), statisticType);
+    }
+
+    @Override
+    public ScaleRuleImpl withCondition(TimeAggregationType timeAggregation, ComparisonOperationType condition, double threshold) {
         this.inner().metricTrigger().withOperator(condition);
         this.inner().metricTrigger().withTimeAggregation(timeAggregation);
         this.inner().metricTrigger().withThreshold(threshold);

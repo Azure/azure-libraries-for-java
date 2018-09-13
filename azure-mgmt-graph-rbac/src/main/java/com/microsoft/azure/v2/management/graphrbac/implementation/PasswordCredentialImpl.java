@@ -37,7 +37,7 @@ class PasswordCredentialImpl<T>
     PasswordCredentialImpl(PasswordCredentialInner passwordCredential) {
         super(passwordCredential);
         if (passwordCredential.customKeyIdentifier() != null && !passwordCredential.customKeyIdentifier().isEmpty()) {
-            this.name = new String(Base64.getDecoder().decode(passwordCredential.customKeyIdentifier()));
+            this.name = new String(passwordCredential.customKeyIdentifier());
         } else {
             this.name = passwordCredential.keyId();
         }

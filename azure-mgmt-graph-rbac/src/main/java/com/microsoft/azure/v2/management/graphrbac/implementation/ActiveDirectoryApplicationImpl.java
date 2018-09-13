@@ -25,6 +25,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Implementation for ServicePrincipal and its parent interfaces.
@@ -294,7 +295,7 @@ class ActiveDirectoryApplicationImpl
             createParameters.passwordCredentials().add(credential.inner());
         } else {
             if (updateParameters.passwordCredentials() == null) {
-                updateParameters.withPasswordCredentials(new ArrayList<PasswordCredentialInner>());
+                updateParameters.withPasswordCredentials(cachedPasswordCredentials.values().stream().map(pc -> pc.inner()).collect(Collectors.toList()));
             }
             updateParameters.passwordCredentials().add(credential.inner());
         }

@@ -37,8 +37,8 @@ class CertificateCredentialImpl<T>
 
     CertificateCredentialImpl(KeyCredentialInner keyCredential) {
         super(keyCredential);
-        if (keyCredential.customKeyIdentifier() != null && keyCredential.customKeyIdentifier().length != 0) {
-            this.name = new String(Base64.getDecoder().decode(keyCredential.customKeyIdentifier()));
+        if (keyCredential.customKeyIdentifier() != null && keyCredential.customKeyIdentifier().length > 0) {
+            this.name = new String(keyCredential.customKeyIdentifier());
         } else {
             this.name = keyCredential.keyId();
         }

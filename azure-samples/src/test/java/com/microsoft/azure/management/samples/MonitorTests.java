@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.management.samples;
 
+import com.microsoft.azure.management.monitor.samples.AutoscaleSettingsBasedOnPerformanceOrSchedule;
 import com.microsoft.azure.management.monitor.samples.QueryMetricsAndActivityLogs;
 import com.microsoft.azure.management.monitor.samples.SecurityBreachOrRiskActivityLogAlerts;
 import com.microsoft.azure.management.monitor.samples.WebAppPerformanceMonitoringAlerts;
@@ -30,5 +31,10 @@ public class MonitorTests extends SamplesTestBase {
     @Test
     public void testWebAppPerformanceMonitoringAlerts() {
         Assert.assertTrue(WebAppPerformanceMonitoringAlerts.runSample(azure));
+    }
+
+    @Test
+    public void testAutoscaleSettingsBasedOnPerformanceOrSchedule() {
+        Assert.assertTrue(AutoscaleSettingsBasedOnPerformanceOrSchedule.runSample(azure));
     }
 }

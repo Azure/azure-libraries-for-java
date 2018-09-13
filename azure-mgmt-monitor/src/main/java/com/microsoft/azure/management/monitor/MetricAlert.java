@@ -84,6 +84,7 @@ public interface MetricAlert extends
     /**
      * @return metric alert criterias, indexed by name
      */
+    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     Map<String, MetricAlertCondition> alertCriterias();
 
     /**

@@ -10,6 +10,7 @@ package com.microsoft.azure.management.monitor;
 
 import java.util.Map;
 import java.util.List;
+import com.microsoft.azure.management.monitor.implementation.AutoscaleProfileInner;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 
@@ -30,7 +31,7 @@ public class AutoscaleSettingResourcePatch {
      * can be specified.
      */
     @JsonProperty(value = "properties.profiles", required = true)
-    private List<AutoscaleProfile> profiles;
+    private List<AutoscaleProfileInner> profiles;
 
     /**
      * the collection of notifications.
@@ -83,7 +84,7 @@ public class AutoscaleSettingResourcePatch {
      *
      * @return the profiles value
      */
-    public List<AutoscaleProfile> profiles() {
+    public List<AutoscaleProfileInner> profiles() {
         return this.profiles;
     }
 
@@ -93,7 +94,7 @@ public class AutoscaleSettingResourcePatch {
      * @param profiles the profiles value to set
      * @return the AutoscaleSettingResourcePatch object itself.
      */
-    public AutoscaleSettingResourcePatch withProfiles(List<AutoscaleProfile> profiles) {
+    public AutoscaleSettingResourcePatch withProfiles(List<AutoscaleProfileInner> profiles) {
         this.profiles = profiles;
         return this;
     }

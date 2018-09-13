@@ -36,7 +36,7 @@ class PasswordCredentialImpl<T>
 
     PasswordCredentialImpl(PasswordCredentialInner passwordCredential) {
         super(passwordCredential);
-        if (passwordCredential.customKeyIdentifier() != null && !passwordCredential.customKeyIdentifier().isEmpty()) {
+        if (passwordCredential.customKeyIdentifier() != null && passwordCredential.customKeyIdentifier().length > 0) {
             this.name = new String(passwordCredential.customKeyIdentifier());
         } else {
             this.name = passwordCredential.keyId();
@@ -45,7 +45,7 @@ class PasswordCredentialImpl<T>
 
     PasswordCredentialImpl(String name, HasCredential<?> parent) {
         super(new PasswordCredentialInner()
-                .withCustomKeyIdentifier(Base64.getEncoder().encodeToString(name.getBytes()))
+                .withCustomKeyIdentifier(name.getBytes())
                 .withStartDate(OffsetDateTime.now())
                 .withEndDate(OffsetDateTime.now().plusYears(1)));
         this.name = name;

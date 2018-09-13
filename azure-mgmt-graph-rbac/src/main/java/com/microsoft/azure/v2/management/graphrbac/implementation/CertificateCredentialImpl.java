@@ -47,8 +47,7 @@ class CertificateCredentialImpl<T>
     CertificateCredentialImpl(String name, HasCredential<?> parent) {
         super(new KeyCredentialInner()
                 .withUsage("Verify")
-                // TODO: service no longer takes string but byte[], check encoding is necessary
-                .withCustomKeyIdentifier(Base64.getEncoder().encode(name.getBytes()))
+                .withCustomKeyIdentifier(name.getBytes())
                 .withStartDate(OffsetDateTime.now())
                 .withEndDate(OffsetDateTime.now().plusYears(1)));
         this.name = name;

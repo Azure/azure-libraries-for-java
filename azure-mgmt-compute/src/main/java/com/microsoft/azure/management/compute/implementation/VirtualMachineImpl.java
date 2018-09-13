@@ -1771,6 +1771,7 @@ class VirtualMachineImpl
         updateParameter.withAvailabilitySet(this.inner().availabilitySet());
         updateParameter.withLicenseType(this.inner().licenseType());
         updateParameter.withZones(this.inner().zones());
+        updateParameter.withTags(this.inner().getTags());
         //
         this.virtualMachineMsiHandler.handleExternalIdentities(updateParameter);
         //

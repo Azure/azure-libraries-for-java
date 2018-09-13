@@ -28,11 +28,7 @@ import org.junit.Test;
 
 import rx.functions.Func1;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class VirtualMachineOperationsTests extends ComputeManagementTest {
@@ -366,6 +362,37 @@ public class VirtualMachineOperationsTests extends ComputeManagementTest {
         Assert.assertNotNull(unmanagedDataDisks);
         Assert.assertEquals(2, unmanagedDataDisks.size());
     }
+
+
+    @Test
+    public void canUpdateTagsOnVM() {
+        //Create
+        VirtualMachine virtualMachine = computeManager.virtualMachines()
+                .define(VMNAME)
+                .withRegion(REGION)
+                .withNewResourceGroup(RG_NAME)
+                .withNewPrimaryNetwork("10.0.0.0/28")
+                .withPrimaryPrivateIPAddressDynamic()
+                .withoutPrimaryPublicIPAddress()
+                .withPopularLinuxImage(KnownLinuxVirtualMachineImage.UBUNTU_SERVER_16_04_LTS)
+                .withRootUsername("firstuser")
+                .withRootPassword("afh123RVS!")
+                .withSize(VirtualMachineSizeTypes.STANDARD_D3_V2)
+                .create();
+
+        //checking to see if withTag correctly update
+        virtualMachine.update().withTag("test", "testValue").apply();
+        Assert.assertEquals("testValue", virtualMachine.inner().getTags().get("test"));
+
+        //checking to see if withTags correctly updates
+        Map<String, String> testTags = new HashMap<String, String>();
+        testTags.put("testTag", "testValue");
+        virtualMachine.update().withTags(testTags).apply();
+        Assert.assertEquals(testTags, virtualMachine.inner().getTags());
+
+    }
+
+
 
     @Test
     public void canRunScriptOnVM() {

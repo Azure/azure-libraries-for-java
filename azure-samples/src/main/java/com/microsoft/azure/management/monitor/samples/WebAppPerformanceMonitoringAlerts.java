@@ -81,7 +81,7 @@ public final class WebAppPerformanceMonitoringAlerts {
                     .withActionGroups(ag.id())
                     .defineAlertCriteria("Metric1")
                         .withMetricName("CPUPercentage", "Microsoft.Web/serverfarms")
-                        .withCondition(MetricAlertRuleCondition.GREATER_THAN, MetricAlertRuleTimeAggregation.TOTAL, 80)
+                        .withCondition(MetricAlertRuleTimeAggregation.TOTAL, MetricAlertRuleCondition.GREATER_THAN, 80)
                         .withDimension("Instance", "*")
                         .attach()
                     .create();

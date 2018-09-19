@@ -145,6 +145,7 @@ public class VirtualMachineUpdate extends UpdateResource {
         return this;
     }
 
+
     /**
      * Get specifies the hardware settings for the virtual machine.
      *
@@ -204,6 +205,7 @@ public class VirtualMachineUpdate extends UpdateResource {
         this.osProfile = osProfile;
         return this;
     }
+
 
     /**
      * Get specifies the network interfaces of the virtual machine.

@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.management.storage;
 
+import com.microsoft.azure.v2.AzureEnvironment;
 import com.microsoft.azure.v2.management.resources.core.TestBase;
 import com.microsoft.azure.v2.management.resources.implementation.ResourceManager;
 import com.microsoft.azure.v2.management.storage.implementation.StorageManager;
@@ -19,9 +20,9 @@ public abstract class StorageManagementTest extends TestBase {
     protected static StorageManager storageManager;
 
     @Override
-    protected void initializeClients(HttpPipeline httpPipeline, String defaultSubscription, String domain) {
+    protected void initializeClients(HttpPipeline httpPipeline, String defaultSubscription, String domain, AzureEnvironment environment) {
         resourceManager = ResourceManager
-                .authenticate(httpPipeline)
+                .authenticate(httpPipeline, environment)
                 .withSubscription(defaultSubscription);
 
         storageManager = StorageManager

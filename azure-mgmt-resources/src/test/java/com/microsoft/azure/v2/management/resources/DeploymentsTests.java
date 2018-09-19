@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.v2.management.resources;
 
+import com.microsoft.azure.v2.AzureEnvironment;
 import com.microsoft.azure.v2.PagedList;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.v2.management.resources.fluentcore.utils.SdkContext;
@@ -29,8 +30,8 @@ public class DeploymentsTests extends ResourceManagerTestBase {
     private static final String contentVersion = "1.0.0.0";
 
     @Override
-    protected void initializeClients(HttpPipeline pipeline, String defaultSubscription, String domain) {
-        super.initializeClients(pipeline, defaultSubscription, domain);
+    protected void initializeClients(HttpPipeline pipeline, String defaultSubscription, String domain, AzureEnvironment environment) {
+        super.initializeClients(pipeline, defaultSubscription, domain, environment);
         testId = SdkContext.randomResourceName("", 9);
         resourceGroups = resourceClient.resourceGroups();
         rgName = "rg" + testId;

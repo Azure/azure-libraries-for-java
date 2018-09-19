@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.v2.management.resources.fluentcore.arm.implementation;
 
+import com.microsoft.azure.v2.AzureEnvironment;
 import com.microsoft.azure.v2.management.resources.implementation.ResourceManager;
 import com.microsoft.rest.v2.http.HttpPipeline;
 
@@ -17,9 +18,9 @@ public abstract class ManagerBase {
     private ResourceManager resourceManager;
     private final String subscriptionId;
 
-    protected ManagerBase(HttpPipeline pipeline, String subscriptionId) {
+    protected ManagerBase(HttpPipeline pipeline, String subscriptionId, AzureEnvironment azureEnvironment) {
         if (pipeline != null) {
-            this.resourceManager = ResourceManager.authenticate(pipeline).withSubscription(subscriptionId);
+            this.resourceManager = ResourceManager.authenticate(pipeline, azureEnvironment).withSubscription(subscriptionId);
         }
         this.subscriptionId = subscriptionId;
     }

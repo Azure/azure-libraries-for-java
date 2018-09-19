@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.v2.management.compute;
 
+import com.microsoft.azure.v2.AzureEnvironment;
 import com.microsoft.azure.v2.management.compute.implementation.VirtualMachineInstanceViewInner;
 import com.microsoft.azure.v2.management.network.Network;
 import com.microsoft.azure.v2.management.network.NetworkInterface;
@@ -39,9 +40,9 @@ public class VirtualMachineOperationsTests extends ComputeManagementTest {
     private static final String VMNAME = "javavm";
 
     @Override
-    protected void initializeClients(HttpPipeline httpPipeline, String defaultSubscription, String domain) {
+    protected void initializeClients(HttpPipeline httpPipeline, String defaultSubscription, String domain, AzureEnvironment environment) {
         RG_NAME = generateRandomResourceName("javacsmrg", 15);
-        super.initializeClients(httpPipeline, defaultSubscription, domain);
+        super.initializeClients(httpPipeline, defaultSubscription, domain, environment);
     }
 
     @Override

@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.v2.management.compute.implementation;
 
+import com.microsoft.azure.v2.AzureEnvironment;
 import com.microsoft.azure.v2.credentials.AzureTokenCredentials;
 import com.microsoft.azure.v2.management.resources.fluentcore.utils.ProviderRegistrationPolicyFactory;
 import com.microsoft.azure.v2.management.resources.fluentcore.utils.ResourceManagerThrottlingPolicyFactory;
@@ -79,7 +80,7 @@ public final class ComputeManager extends Manager<ComputeManager, ComputeManagem
                 .withRequestPolicy(new CredentialsPolicyFactory(credentials))
                 .withRequestPolicy(new ProviderRegistrationPolicyFactory(credentials))
                 .withRequestPolicy(new ResourceManagerThrottlingPolicyFactory())
-                .build(), subscriptionId, domain);
+                .build(), subscriptionId, domain, credentials.environment());
     }
 
     /**
@@ -90,8 +91,8 @@ public final class ComputeManager extends Manager<ComputeManager, ComputeManagem
      * @param domain the domain
      * @return the ComputeManager
      */
-    public static ComputeManager authenticate(HttpPipeline httpPipeline, String subscriptionId, String domain) {
-        return new ComputeManager(httpPipeline, subscriptionId, domain);
+    public static ComputeManager authenticate(HttpPipeline httpPipeline, String subscriptionId, String domain, AzureEnvironment environment) {
+        return new ComputeManager(httpPipeline, subscriptionId, domain, environment);
     }
     /**
      * The interface allowing configurations to be set.
@@ -113,18 +114,19 @@ public final class ComputeManager extends Manager<ComputeManager, ComputeManagem
     private static final class ConfigurableImpl extends AzureConfigurableImpl<Configurable> implements  Configurable {
         @Override
         public ComputeManager authenticate(AzureTokenCredentials credentials, String subscriptionId) {
-            return ComputeManager.authenticate(buildPipeline(credentials), subscriptionId, credentials.domain());
+            return ComputeManager.authenticate(buildPipeline(credentials), subscriptionId, credentials.domain(), credentials.environment());
         }
     }
 
-    private ComputeManager(HttpPipeline httpPipeline, String subscriptionId, String domain) {
+    private ComputeManager(HttpPipeline httpPipeline, String subscriptionId, String domain, AzureEnvironment environment) {
         super(
                 httpPipeline,
                 subscriptionId,
-                new ComputeManagementClientImpl(httpPipeline).withSubscriptionId(subscriptionId));
-        storageManager = StorageManager.authenticate(httpPipeline, subscriptionId);
-        networkManager = NetworkManager.authenticate(httpPipeline, subscriptionId);
-        rbacManager = GraphRbacManager.authenticate(httpPipeline, domain);
+                environment,
+                new ComputeManagementClientImpl(httpPipeline, environment).withSubscriptionId(subscriptionId));
+        storageManager = StorageManager.authenticate(httpPipeline, subscriptionId, environment);
+        networkManager = NetworkManager.authenticate(httpPipeline, subscriptionId, environment);
+        rbacManager = GraphRbacManager.authenticate(httpPipeline, domain, environment);
     }
 
     /**

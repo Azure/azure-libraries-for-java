@@ -52,13 +52,13 @@ public abstract class ComputeManagementTest extends TestBase {
                 .withSubscription(defaultSubscription);
 
         computeManager = ComputeManager
-                .authenticate(httpPipeline, defaultSubscription, domain);
+                .authenticate(httpPipeline, defaultSubscription, domain, azureEnvironment);
 
         networkManager = NetworkManager
-                .authenticate(httpPipeline, defaultSubscription);
+                .authenticate(httpPipeline, defaultSubscription, azureEnvironment);
 
         storageManager = StorageManager
-                .authenticate(httpPipeline, defaultSubscription);
+                .authenticate(httpPipeline, defaultSubscription, azureEnvironment);
 
         rbacManager = GraphRbacManager.authenticate(httpPipeline, domain, azureEnvironment);
     }

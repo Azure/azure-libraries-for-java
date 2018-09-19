@@ -26,7 +26,7 @@ public abstract class StorageManagementTest extends TestBase {
                 .withSubscription(defaultSubscription);
 
         storageManager = StorageManager
-                .authenticate(httpPipeline, defaultSubscription);
+                .authenticate(httpPipeline, defaultSubscription, environment);
     }
 
 }

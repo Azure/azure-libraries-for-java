@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.management;
 
+import com.microsoft.azure.v2.AzureEnvironment;
 import com.microsoft.azure.v2.management.resources.core.TestBase;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.v2.management.resources.fluentcore.utils.SdkContext;
@@ -30,12 +31,12 @@ public class TrafficManagerTests extends TestBase {
     protected TrafficManager trafficManager;
 
     @Override
-    protected void initializeClients(HttpPipeline httpPipeline, String defaultSubscription, String domain) {
+    protected void initializeClients(HttpPipeline httpPipeline, String defaultSubscription, String domain, AzureEnvironment environment) {
         resourceManager = ResourceManager
-                .authenticate(httpPipeline)
+                .authenticate(httpPipeline, environment)
                 .withSubscription(defaultSubscription);
         trafficManager = TrafficManager
-                .authenticate(httpPipeline, defaultSubscription);
+                .authenticate(httpPipeline, defaultSubscription, environment);
     }
 
     @Override

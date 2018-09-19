@@ -29,7 +29,7 @@ public class NetworkManagementTest extends TestBase {
                 .withSubscription(defaultSubscription);
 
         networkManager = NetworkManager
-                .authenticate(pipeline, defaultSubscription);
+                .authenticate(pipeline, defaultSubscription, environment);
     }
 
     @Override

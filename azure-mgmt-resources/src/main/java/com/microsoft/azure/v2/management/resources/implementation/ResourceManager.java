@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.v2.management.resources.implementation;
 
+import com.microsoft.azure.v2.AzureEnvironment;
 import com.microsoft.azure.v2.credentials.AzureTokenCredentials;
 import com.microsoft.azure.v2.management.resources.Deployments;
 import com.microsoft.azure.v2.management.resources.Features;
@@ -54,7 +55,7 @@ public final class ResourceManager extends ManagerBase implements HasInner<Resou
                 .withRequestPolicy(new CredentialsPolicyFactory(credentials))
                 .withRequestPolicy(new ProviderRegistrationPolicyFactory(credentials))
                 .withRequestPolicy(new ResourceManagerThrottlingPolicyFactory())
-                .build());
+                .build(), credentials.environment());
     }
 
     /**
@@ -63,8 +64,8 @@ public final class ResourceManager extends ManagerBase implements HasInner<Resou
      * @param pipeline the HTTP pipeline to be used for API calls
      * @return the interface exposing resource management API entry points that work across subscriptions
      */
-    public static ResourceManager.Authenticated authenticate(HttpPipeline pipeline) {
-        return new AuthenticatedImpl(pipeline);
+    public static ResourceManager.Authenticated authenticate(HttpPipeline pipeline, AzureEnvironment azureEnvironment) {
+        return new AuthenticatedImpl(pipeline, azureEnvironment);
     }
 
     /**
@@ -94,7 +95,7 @@ public final class ResourceManager extends ManagerBase implements HasInner<Resou
      */
     private static class ConfigurableImpl extends AzureConfigurableImpl<Configurable> implements Configurable {
         public ResourceManager.Authenticated authenticate(AzureTokenCredentials credentials) {
-            return ResourceManager.authenticate(buildPipeline(credentials));
+            return ResourceManager.authenticate(buildPipeline(credentials), credentials.environment());
         }
     }
 
@@ -131,9 +132,9 @@ public final class ResourceManager extends ManagerBase implements HasInner<Resou
         private Subscriptions subscriptions;
         private Tenants tenants;
 
-        AuthenticatedImpl(HttpPipeline pipeline) {
+        AuthenticatedImpl(HttpPipeline pipeline, AzureEnvironment azureEnvironment) {
             this.pipeline = pipeline;
-            this.subscriptionClient = new SubscriptionClientImpl(pipeline);
+            this.subscriptionClient = new SubscriptionClientImpl(pipeline, azureEnvironment);
         }
 
         public Subscriptions subscriptions() {
@@ -152,18 +153,18 @@ public final class ResourceManager extends ManagerBase implements HasInner<Resou
 
         @Override
         public ResourceManager withSubscription(String subscriptionId) {
-           return new ResourceManager(pipeline, subscriptionId);
+           return new ResourceManager(pipeline, subscriptionId, subscriptionClient.azureEnvironment());
         }
     }
 
-    private ResourceManager(HttpPipeline pipeline, String subscriptionId) {
-        super(null, subscriptionId);
+    private ResourceManager(HttpPipeline pipeline, String subscriptionId, AzureEnvironment azureEnvironment) {
+        super(null, subscriptionId, azureEnvironment);
         super.setResourceManager(this);
-        this.resourceManagementClient = new ResourceManagementClientImpl(pipeline);
+        this.resourceManagementClient = new ResourceManagementClientImpl(pipeline, azureEnvironment);
         this.resourceManagementClient.withSubscriptionId(subscriptionId);
-        this.featureClient = new FeatureClientImpl(pipeline);
+        this.featureClient = new FeatureClientImpl(pipeline, azureEnvironment);
         this.featureClient.withSubscriptionId(subscriptionId);
-        this.policyClient = new PolicyClientImpl(pipeline);
+        this.policyClient = new PolicyClientImpl(pipeline, azureEnvironment);
         this.policyClient.withSubscriptionId(subscriptionId);
     }
 

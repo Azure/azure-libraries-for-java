@@ -20,11 +20,13 @@ import io.reactivex.Single;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Implementation for ServicePrincipal and its parent interfaces.
@@ -75,8 +77,8 @@ class ActiveDirectoryApplicationImpl
 
     Maybe<ActiveDirectoryApplication> refreshCredentialsAsync() {
         final Single<ActiveDirectoryApplication> keyCredentials = manager.inner().applications().listKeyCredentialsAsync(id())
-                .flattenAsObservable(keyCredentialInners -> keyCredentialInners)
-                .map((io.reactivex.functions.Function<KeyCredentialInner, CertificateCredential>) keyCredentialInner -> new CertificateCredentialImpl<ActiveDirectoryApplication>(keyCredentialInner))
+                .flattenAsObservable(keyCredentialInners -> keyCredentialInners.items())
+                .map(inner -> (CertificateCredential) new CertificateCredentialImpl<ActiveDirectoryApplication>(inner))
                 .toMap(certificateCredential -> certificateCredential.name())
                 .map(stringCertificateCredentialMap -> {
                     ActiveDirectoryApplicationImpl.this.cachedCertificateCredentials = stringCertificateCredentialMap;
@@ -84,7 +86,7 @@ class ActiveDirectoryApplicationImpl
                 });
 
         final Single<ActiveDirectoryApplication> passwordCredentials = manager.inner().applications().listPasswordCredentialsAsync(id())
-                .flattenAsObservable(passwordCredentialInners -> passwordCredentialInners)
+                .flattenAsObservable(passwordCredentialInners -> passwordCredentialInners.items())
                 .map((io.reactivex.functions.Function<PasswordCredentialInner, PasswordCredential>) passwordCredentialInner -> new PasswordCredentialImpl<ActiveDirectoryApplication>(passwordCredentialInner))
                 .toMap(passwordCredential -> passwordCredential.name())
                 .map(stringPasswordCredentialMap -> {
@@ -294,7 +296,7 @@ class ActiveDirectoryApplicationImpl
             createParameters.passwordCredentials().add(credential.inner());
         } else {
             if (updateParameters.passwordCredentials() == null) {
-                updateParameters.withPasswordCredentials(new ArrayList<PasswordCredentialInner>());
+                updateParameters.withPasswordCredentials(cachedPasswordCredentials.values().stream().map(pc -> pc.inner()).collect(Collectors.toList()));
             }
             updateParameters.passwordCredentials().add(credential.inner());
         }

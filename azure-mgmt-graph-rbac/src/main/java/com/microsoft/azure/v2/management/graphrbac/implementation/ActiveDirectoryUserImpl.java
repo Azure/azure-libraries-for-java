@@ -122,11 +122,11 @@ class ActiveDirectoryUserImpl
 
     @Override
     public Observable<ActiveDirectoryUser> createResourceAsync() {
-        Maybe<ActiveDirectoryUserImpl> domain;
+        Observable<ActiveDirectoryUserImpl> domain;
         if (emailAlias != null) {
             domain = manager().inner().domains().listAsync()
                 .map(domainInners -> {
-                    for (DomainInner inner : domainInners) {
+                    for (DomainInner inner : domainInners.items()) {
                         if (inner.isVerified() && inner.isDefault()) {
                             if (emailAlias != null) {
                                 withUserPrincipalName(emailAlias + "@" + inner.name());
@@ -137,12 +137,11 @@ class ActiveDirectoryUserImpl
                     return ActiveDirectoryUserImpl.this;
                 });
         } else {
-            domain = Maybe.just(this);
+            domain = Observable.just(this);
         }
         //
-        return domain.concatMap(adUser -> manager().inner().users().createAsync(createParameters))
-        .map(innerToFluentMap(this))
-        .toObservable();
+        return domain.concatMap(adUser -> manager().inner().users().createAsync(createParameters).toObservable())
+        .map(innerToFluentMap(this));
     }
 
     public Observable<ActiveDirectoryUser> updateResourceAsync() {

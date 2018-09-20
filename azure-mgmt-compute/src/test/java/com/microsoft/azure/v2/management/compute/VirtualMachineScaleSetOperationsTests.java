@@ -10,6 +10,7 @@ import com.microsoft.azure.storage.CloudStorageAccount;
 import com.microsoft.azure.storage.blob.CloudBlobClient;
 import com.microsoft.azure.storage.blob.CloudBlobContainer;
 import com.microsoft.azure.storage.blob.CloudBlockBlob;
+import com.microsoft.azure.v2.AzureEnvironment;
 import com.microsoft.azure.v2.PagedList;
 import com.microsoft.azure.v2.management.graphrbac.BuiltInRole;
 import com.microsoft.azure.v2.management.graphrbac.RoleAssignment;
@@ -38,9 +39,9 @@ public class VirtualMachineScaleSetOperationsTests extends ComputeManagementTest
     private static final Region REGION = Region.US_EAST;
 
     @Override
-    protected void initializeClients(HttpPipeline httpPipeline, String defaultSubscription, String domain) {
+    protected void initializeClients(HttpPipeline httpPipeline, String defaultSubscription, String domain, AzureEnvironment environment) {
         RG_NAME = generateRandomResourceName("javacsmrg", 15);
-        super.initializeClients(httpPipeline, defaultSubscription, domain);
+        super.initializeClients(httpPipeline, defaultSubscription, domain, environment);
     }
 
     @Override

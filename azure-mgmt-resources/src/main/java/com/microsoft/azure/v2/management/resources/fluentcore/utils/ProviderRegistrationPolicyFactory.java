@@ -83,7 +83,7 @@ public final class ProviderRegistrationPolicyFactory implements RequestPolicyFac
                             new HostPolicyFactory(request.url().getHost()),
                             new CredentialsPolicyFactory(credentials));
 
-                    final Providers providers = ResourceManager.authenticate(pipeline)
+                    final Providers providers = ResourceManager.authenticate(pipeline, credentials.environment())
                             .withSubscription(matcher.group(1))
                             .providers();
 

@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.v2.management.storage.implementation;
 
+import com.microsoft.azure.v2.AzureEnvironment;
 import com.microsoft.azure.v2.credentials.AzureTokenCredentials;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.AzureConfigurable;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.implementation.AzureConfigurableImpl;
@@ -49,7 +50,7 @@ public final class StorageManager extends Manager<StorageManager, StorageManagem
                 .withRequestPolicy(new CredentialsPolicyFactory(credentials))
                 .withRequestPolicy(new ProviderRegistrationPolicyFactory(credentials))
                 .withRequestPolicy(new ResourceManagerThrottlingPolicyFactory())
-                .build(), subscriptionId);
+                .build(), subscriptionId, credentials.environment());
     }
 
     /**
@@ -59,8 +60,8 @@ public final class StorageManager extends Manager<StorageManager, StorageManagem
      * @param subscriptionId the subscription UUID
      * @return the StorageManager
      */
-    public static StorageManager authenticate(HttpPipeline httpPipeline, String subscriptionId) {
-        return new StorageManager(httpPipeline, subscriptionId);
+    public static StorageManager authenticate(HttpPipeline httpPipeline, String subscriptionId, AzureEnvironment environment) {
+        return new StorageManager(httpPipeline, subscriptionId, environment);
     }
 
     /**
@@ -82,15 +83,16 @@ public final class StorageManager extends Manager<StorageManager, StorageManagem
      */
     private static final class ConfigurableImpl extends AzureConfigurableImpl<Configurable> implements Configurable {
         public StorageManager authenticate(AzureTokenCredentials credentials, String subscriptionId) {
-            return StorageManager.authenticate(buildPipeline(credentials), subscriptionId);
+            return StorageManager.authenticate(buildPipeline(credentials), subscriptionId, credentials.environment());
         }
     }
 
-    private StorageManager(HttpPipeline httpPipeline, String subscriptionId) {
+    private StorageManager(HttpPipeline httpPipeline, String subscriptionId, AzureEnvironment environment) {
         super(
                 httpPipeline,
                 subscriptionId,
-                new StorageManagementClientImpl(httpPipeline).withSubscriptionId(subscriptionId));
+                environment,
+                new StorageManagementClientImpl(httpPipeline, environment).withSubscriptionId(subscriptionId));
     }
 
     /**

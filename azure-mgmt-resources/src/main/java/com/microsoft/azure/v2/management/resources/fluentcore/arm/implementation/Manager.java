@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.v2.management.resources.fluentcore.arm.implementation;
 
+import com.microsoft.azure.v2.AzureEnvironment;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
 import com.microsoft.rest.v2.http.HttpPipeline;
 
@@ -18,8 +19,8 @@ public abstract class Manager<T, InnerT> extends ManagerBase implements HasInner
 
     protected final InnerT innerManagementClient;
 
-    protected Manager(HttpPipeline pipeline, String subscriptionId, InnerT innerManagementClient) {
-        super(pipeline, subscriptionId);
+    protected Manager(HttpPipeline pipeline, String subscriptionId, AzureEnvironment environment, InnerT innerManagementClient) {
+        super(pipeline, subscriptionId, environment);
         this.innerManagementClient = innerManagementClient;
     }
 

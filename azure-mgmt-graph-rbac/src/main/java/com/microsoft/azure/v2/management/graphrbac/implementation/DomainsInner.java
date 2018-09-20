@@ -10,6 +10,8 @@ package com.microsoft.azure.v2.management.graphrbac.implementation;
 
 import com.microsoft.azure.v2.AzureProxy;
 import com.microsoft.azure.v2.CloudException;
+import com.microsoft.azure.v2.Page;
+import com.microsoft.azure.v2.PagedList;
 import com.microsoft.rest.v2.BodyResponse;
 import com.microsoft.rest.v2.ServiceCallback;
 import com.microsoft.rest.v2.ServiceFuture;
@@ -21,6 +23,7 @@ import com.microsoft.rest.v2.annotations.PathParam;
 import com.microsoft.rest.v2.annotations.QueryParam;
 import com.microsoft.rest.v2.annotations.UnexpectedResponseExceptionType;
 import io.reactivex.Maybe;
+import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.reactivex.annotations.NonNull;
 import java.util.List;
@@ -59,7 +62,7 @@ public final class DomainsInner {
         @GET("{tenantID}/domains")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Single<BodyResponse<List<DomainInner>>> list(@PathParam("tenantID") String tenantID, @QueryParam("$filter") String filter, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
+        Single<BodyResponse<PageImpl<DomainInner>>> list(@PathParam("tenantID") String tenantID, @QueryParam("$filter") String filter, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
         @GET("{tenantID}/domains/{domainName}")
         @ExpectedResponses({200})
@@ -68,33 +71,37 @@ public final class DomainsInner {
     }
 
     /**
-     * Gets a list of domains for the current tenant.
+     * Lists domains by filter parameters.
      *
-     * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return the List&lt;DomainInner&gt; object if successful.
+     * @return the PagedList&lt;DomainInner&gt; object if successful.
      */
-    public List<DomainInner> list() {
-        return listAsync().blockingGet();
+    public PagedList<DomainInner> list() {
+        Page<DomainInner> response = listSinglePageAsync().blockingGet();
+        return new PagedList<DomainInner>(response) {
+            @Override
+            public Page<DomainInner> nextPage(String nextLink) {
+                return null;
+            }
+        };
     }
 
     /**
-     * Gets a list of domains for the current tenant.
+     * Lists domains by filter parameters.
      *
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return a ServiceFuture which will be completed with the result of the network request.
+     * @return the observable to the PagedList&lt;DomainInner&gt; object.
      */
-    public ServiceFuture<List<DomainInner>> listAsync(ServiceCallback<List<DomainInner>> serviceCallback) {
-        return ServiceFuture.fromBody(listAsync(), serviceCallback);
+    public Observable<Page<DomainInner>> listAsync() {
+        return listSinglePageAsync()
+                .toObservable();
     }
 
     /**
-     * Gets a list of domains for the current tenant.
+     * Lists domains by filter parameters.
      *
-     * @return a Single which performs the network request upon subscription.
+     * @return the Single&lt;Page&lt;DomainInner&gt;&gt; object if successful.
      */
-    public Single<BodyResponse<List<DomainInner>>> listWithRestResponseAsync() {
+    public Single<Page<DomainInner>> listSinglePageAsync() {
         if (this.client.tenantID() == null) {
             throw new IllegalArgumentException("Parameter this.client.tenantID() is required and cannot be null.");
         }
@@ -102,71 +109,56 @@ public final class DomainsInner {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
         final String filter = null;
-        return service.list(this.client.tenantID(), filter, this.client.apiVersion(), this.client.acceptLanguage());
+        return service.list(this.client.tenantID(), filter, this.client.apiVersion(), this.client.acceptLanguage())
+                .map((BodyResponse<PageImpl<DomainInner>> res) -> res.body());
     }
 
     /**
-     * Gets a list of domains for the current tenant.
+     * Lists domains by filter parameters.
      *
-     * @return a Single which performs the network request upon subscription.
-     */
-    public Maybe<List<DomainInner>> listAsync() {
-        return listWithRestResponseAsync()
-            .flatMapMaybe((BodyResponse<List<DomainInner>> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
-    }
-
-    /**
-     * Gets a list of domains for the current tenant.
-     *
-     * @param filter The filter to apply to the operation.
+     * @param filter The filters to apply to the operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return the List&lt;DomainInner&gt; object if successful.
+     * @return the PagedList&lt;DomainInner&gt; object if successful.
      */
-    public List<DomainInner> list(String filter) {
-        return listAsync(filter).blockingGet();
+    public PagedList<DomainInner> list(String filter) {
+        Page<DomainInner> response = listSinglePageAsync(filter).blockingGet();
+        return new PagedList<DomainInner>(response) {
+            @Override
+            public Page<DomainInner> nextPage(String nextLink) {
+                return null;
+            }
+        };
     }
 
     /**
-     * Gets a list of domains for the current tenant.
+     * Lists domains by filter parameters.
      *
-     * @param filter The filter to apply to the operation.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @param filter The filters to apply to the operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return a ServiceFuture which will be completed with the result of the network request.
+     * @return the observable to the PagedList&lt;DomainInner&gt; object.
      */
-    public ServiceFuture<List<DomainInner>> listAsync(String filter, ServiceCallback<List<DomainInner>> serviceCallback) {
-        return ServiceFuture.fromBody(listAsync(filter), serviceCallback);
+    public Observable<Page<DomainInner>> listAsync(String filter) {
+        return listSinglePageAsync(filter)
+                .toObservable();
     }
 
     /**
-     * Gets a list of domains for the current tenant.
+     * Lists domains by filter parameters.
      *
-     * @param filter The filter to apply to the operation.
+     * @param filter The filters to apply to the operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return a Single which performs the network request upon subscription.
+     * @return the Single&lt;Page&lt;DomainInner&gt;&gt; object if successful.
      */
-    public Single<BodyResponse<List<DomainInner>>> listWithRestResponseAsync(String filter) {
+    public Single<Page<DomainInner>> listSinglePageAsync(String filter) {
         if (this.client.tenantID() == null) {
             throw new IllegalArgumentException("Parameter this.client.tenantID() is required and cannot be null.");
         }
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        return service.list(this.client.tenantID(), filter, this.client.apiVersion(), this.client.acceptLanguage());
-    }
-
-    /**
-     * Gets a list of domains for the current tenant.
-     *
-     * @param filter The filter to apply to the operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return a Single which performs the network request upon subscription.
-     */
-    public Maybe<List<DomainInner>> listAsync(String filter) {
-        return listWithRestResponseAsync(filter)
-            .flatMapMaybe((BodyResponse<List<DomainInner>> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
+        return service.list(this.client.tenantID(), filter, this.client.apiVersion(), this.client.acceptLanguage())
+                .map((BodyResponse<PageImpl<DomainInner>> res) -> res.body());
     }
 
     /**

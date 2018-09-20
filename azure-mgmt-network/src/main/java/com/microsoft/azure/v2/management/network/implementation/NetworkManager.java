@@ -5,6 +5,7 @@
  */
 package com.microsoft.azure.v2.management.network.implementation;
 
+import com.microsoft.azure.v2.AzureEnvironment;
 import com.microsoft.azure.v2.SubResource;
 import com.microsoft.azure.v2.credentials.AzureTokenCredentials;
 import com.microsoft.azure.v2.management.network.ApplicationGateway;
@@ -20,12 +21,12 @@ import com.microsoft.azure.v2.management.network.Network;
 import com.microsoft.azure.v2.management.network.NetworkInterfaces;
 import com.microsoft.azure.v2.management.network.NetworkSecurityGroups;
 import com.microsoft.azure.v2.management.network.NetworkUsages;
+import com.microsoft.azure.v2.management.network.NetworkWatchers;
 import com.microsoft.azure.v2.management.network.Networks;
 import com.microsoft.azure.v2.management.network.PublicIPAddresses;
 import com.microsoft.azure.v2.management.network.RouteFilters;
 import com.microsoft.azure.v2.management.network.RouteTables;
 import com.microsoft.azure.v2.management.network.Subnet;
-import com.microsoft.azure.v2.management.network.NetworkWatchers;
 import com.microsoft.azure.v2.management.network.VirtualNetworkGateways;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.AzureConfigurable;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.ResourceUtils;
@@ -90,7 +91,7 @@ public final class NetworkManager extends Manager<NetworkManager, NetworkManagem
                 .withRequestPolicy(new CredentialsPolicyFactory(credentials))
                 .withRequestPolicy(new ProviderRegistrationPolicyFactory(credentials))
                 .withRequestPolicy(new ResourceManagerThrottlingPolicyFactory())
-                .build(), subscriptionId);
+                .build(), subscriptionId, credentials.environment());
     }
 
     /**
@@ -100,8 +101,8 @@ public final class NetworkManager extends Manager<NetworkManager, NetworkManagem
      * @param subscriptionId the subscription UUID
      * @return the StorageManager
      */
-    public static NetworkManager authenticate(HttpPipeline httpPipeline, String subscriptionId) {
-        return new NetworkManager(httpPipeline, subscriptionId);
+    public static NetworkManager authenticate(HttpPipeline httpPipeline, String subscriptionId, AzureEnvironment environment) {
+        return new NetworkManager(httpPipeline, subscriptionId, environment);
     }
 
     /**
@@ -123,15 +124,16 @@ public final class NetworkManager extends Manager<NetworkManager, NetworkManagem
      */
     private static final class ConfigurableImpl extends AzureConfigurableImpl<Configurable> implements Configurable {
         public NetworkManager authenticate(AzureTokenCredentials credentials, String subscriptionId) {
-            return NetworkManager.authenticate(buildPipeline(credentials), subscriptionId);
+            return NetworkManager.authenticate(buildPipeline(credentials), subscriptionId, credentials.environment());
         }
     }
 
-    private NetworkManager(HttpPipeline httpPipeline, String subscriptionId) {
+    private NetworkManager(HttpPipeline httpPipeline, String subscriptionId, AzureEnvironment environment) {
         super(
                 httpPipeline,
                 subscriptionId,
-                new NetworkManagementClientImpl(httpPipeline).withSubscriptionId(subscriptionId));
+                environment,
+                new NetworkManagementClientImpl(httpPipeline, environment).withSubscriptionId(subscriptionId));
     }
 
     /**

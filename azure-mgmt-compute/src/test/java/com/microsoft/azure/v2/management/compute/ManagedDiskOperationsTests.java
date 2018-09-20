@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.v2.management.compute;
 
+import com.microsoft.azure.v2.AzureEnvironment;
 import com.microsoft.azure.v2.PagedList;
 import com.microsoft.azure.v2.management.resources.ResourceGroup;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
@@ -18,9 +19,9 @@ public class ManagedDiskOperationsTests extends ComputeManagementTest {
     private static Region region = Region.US_WEST_CENTRAL;
 
     @Override
-    protected void initializeClients(HttpPipeline httpPipeline, String defaultSubscription, String domain) {
+    protected void initializeClients(HttpPipeline httpPipeline, String defaultSubscription, String domain, AzureEnvironment environment) {
         RG_NAME = generateRandomResourceName("javacsmrg", 15);
-        super.initializeClients(httpPipeline, defaultSubscription, domain);
+        super.initializeClients(httpPipeline, defaultSubscription, domain, environment);
     }
 
     @Override

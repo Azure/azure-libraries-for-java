@@ -5,6 +5,7 @@
  */
 package com.microsoft.azure.v2.management.trafficmanager.implementation;
 
+import com.microsoft.azure.v2.AzureEnvironment;
 import com.microsoft.azure.v2.credentials.AzureTokenCredentials;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.AzureConfigurable;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.implementation.AzureConfigurableImpl;
@@ -45,7 +46,7 @@ public final class TrafficManager extends Manager<TrafficManager, TrafficManager
                 .withRequestPolicy(new CredentialsPolicyFactory(credentials))
                 .withRequestPolicy(new ProviderRegistrationPolicyFactory(credentials))
                 .withRequestPolicy(new ResourceManagerThrottlingPolicyFactory())
-                .build(), subscriptionId);
+                .build(), subscriptionId, credentials.environment());
     }
 
     /**
@@ -55,8 +56,8 @@ public final class TrafficManager extends Manager<TrafficManager, TrafficManager
      * @param subscriptionId the subscription UUID
      * @return the TrafficManager
      */
-    public static TrafficManager authenticate(HttpPipeline httpPipeline, String subscriptionId) {
-        return new TrafficManager(httpPipeline, subscriptionId);
+    public static TrafficManager authenticate(HttpPipeline httpPipeline, String subscriptionId, AzureEnvironment environment) {
+        return new TrafficManager(httpPipeline, subscriptionId, environment);
     }
 
     /**
@@ -81,15 +82,16 @@ public final class TrafficManager extends Manager<TrafficManager, TrafficManager
             implements Configurable {
 
         public TrafficManager authenticate(AzureTokenCredentials credentials, String subscriptionId) {
-            return TrafficManager.authenticate(buildPipeline(credentials), subscriptionId);
+            return TrafficManager.authenticate(buildPipeline(credentials), subscriptionId, credentials.environment());
         }
     }
 
-    private TrafficManager(HttpPipeline httpPipeline, String subscriptionId) {
+    private TrafficManager(HttpPipeline httpPipeline, String subscriptionId, AzureEnvironment environment) {
         super(
                 httpPipeline,
                 subscriptionId,
-                new TrafficManagerManagementClientImpl(httpPipeline).withSubscriptionId(subscriptionId));
+                environment,
+                new TrafficManagerManagementClientImpl(httpPipeline, environment).withSubscriptionId(subscriptionId));
     }
 
     /**

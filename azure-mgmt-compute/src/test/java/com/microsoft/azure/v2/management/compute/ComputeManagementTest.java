@@ -8,6 +8,7 @@ package com.microsoft.azure.v2.management.compute;
 
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
+import com.microsoft.azure.v2.AzureEnvironment;
 import com.microsoft.azure.v2.management.compute.implementation.ComputeManager;
 import com.microsoft.azure.v2.management.graphrbac.implementation.GraphRbacManager;
 import com.microsoft.azure.v2.management.network.LoadBalancer;
@@ -45,21 +46,21 @@ public abstract class ComputeManagementTest extends TestBase {
     protected GraphRbacManager rbacManager;
 
     @Override
-    protected void initializeClients(HttpPipeline httpPipeline, String defaultSubscription, String domain) {
+    protected void initializeClients(HttpPipeline httpPipeline, String defaultSubscription, String domain, AzureEnvironment azureEnvironment) {
         resourceManager = ResourceManager
-                .authenticate(httpPipeline)
+                .authenticate(httpPipeline, azureEnvironment)
                 .withSubscription(defaultSubscription);
 
         computeManager = ComputeManager
-                .authenticate(httpPipeline, defaultSubscription, domain);
+                .authenticate(httpPipeline, defaultSubscription, domain, azureEnvironment);
 
         networkManager = NetworkManager
-                .authenticate(httpPipeline, defaultSubscription);
+                .authenticate(httpPipeline, defaultSubscription, azureEnvironment);
 
         storageManager = StorageManager
-                .authenticate(httpPipeline, defaultSubscription);
+                .authenticate(httpPipeline, defaultSubscription, azureEnvironment);
 
-        rbacManager = GraphRbacManager.authenticate(httpPipeline, domain);
+        rbacManager = GraphRbacManager.authenticate(httpPipeline, domain, azureEnvironment);
     }
 
     @Override

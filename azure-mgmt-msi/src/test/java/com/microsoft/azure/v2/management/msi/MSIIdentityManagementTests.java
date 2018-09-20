@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.v2.management.msi;
 
+import com.microsoft.azure.v2.AzureEnvironment;
 import com.microsoft.azure.v2.PagedList;
 import com.microsoft.azure.v2.management.graphrbac.BuiltInRole;
 import com.microsoft.azure.v2.management.graphrbac.RoleAssignment;
@@ -33,8 +34,8 @@ public class MSIIdentityManagementTests extends TestBase {
     private ResourceManager resourceManager;
 
     @Override
-    protected void initializeClients(HttpPipeline httpPipeline, String defaultSubscription, String domain) throws IOException {
-        this.msiManager = MSIManager.authenticate(httpPipeline, defaultSubscription, domain);
+    protected void initializeClients(HttpPipeline httpPipeline, String defaultSubscription, String domain, AzureEnvironment environment) throws IOException {
+        this.msiManager = MSIManager.authenticate(httpPipeline, defaultSubscription, domain, environment);
         this.resourceManager = msiManager.resourceManager();
     }
 

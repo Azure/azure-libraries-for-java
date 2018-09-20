@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.v2.management.compute;
 
+import com.microsoft.azure.v2.AzureEnvironment;
 import com.microsoft.azure.v2.PagedList;
 import com.microsoft.azure.v2.management.network.LoadBalancer;
 import com.microsoft.azure.v2.management.network.Network;
@@ -19,9 +20,9 @@ public class VirtualMachineScaleSetManagedDiskOperationsTests extends ComputeMan
     private static String RG_NAME = "";
     private static Region region = Region.US_EAST;
 
-    protected void initializeClients(HttpPipeline httpPipeline, String defaultSubscription, String domain) {
+    protected void initializeClients(HttpPipeline httpPipeline, String defaultSubscription, String domain, AzureEnvironment environment) {
         RG_NAME = generateRandomResourceName("javacsmrg", 15);
-        super.initializeClients(httpPipeline, defaultSubscription, domain);
+        super.initializeClients(httpPipeline, defaultSubscription, domain, environment);
     }
 
     @Override

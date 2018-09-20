@@ -10,18 +10,22 @@ import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.v2.management.graphrbac.ActiveDirectoryGroup;
 import com.microsoft.azure.v2.management.graphrbac.ActiveDirectoryObject;
 import com.microsoft.azure.v2.management.graphrbac.ActiveDirectoryUser;
+import com.microsoft.azure.v2.management.graphrbac.GetObjectsParameters;
 import com.microsoft.azure.v2.management.graphrbac.GroupAddMemberParameters;
 import com.microsoft.azure.v2.management.graphrbac.GroupCreateParameters;
 import com.microsoft.azure.v2.management.graphrbac.ServicePrincipal;
 import com.microsoft.azure.v2.management.resources.fluentcore.utils.Utils;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
 import com.microsoft.rest.v2.protocol.SerializerAdapter;
+import io.reactivex.Completable;
 import io.reactivex.Maybe;
 import io.reactivex.Observable;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -127,19 +131,18 @@ class ActiveDirectoryGroupImpl
             group = manager().inner().groups().createAsync(createParameters)
                     .map(innerToFluentMap(this));
         }
+        Completable members = Completable.complete();
         if (!membersToRemove.isEmpty()) {
-            group = group.concatMap(g -> Observable.fromIterable(membersToRemove)
+            members = members.andThen(Observable.fromIterable(membersToRemove)
                     .flatMapCompletable(s -> manager().inner().groups().removeMemberAsync(id(), s))
-                    .doOnComplete(membersToRemove::clear)
-                    .<ActiveDirectoryGroup>toMaybe());
+                    .doOnComplete(membersToRemove::clear));
         }
         if (!membersToAdd.isEmpty()) {
-            group = group.concatMap(g -> Observable.fromIterable(membersToAdd)
+            members = members.andThen(Observable.fromIterable(membersToAdd)
                     .flatMapCompletable(s -> manager().inner().groups().addMemberAsync(id(), new GroupAddMemberParameters().withUrl(s)))
-                    .doOnComplete(membersToAdd::clear)
-                    .<ActiveDirectoryGroup>toMaybe());
+                    .doOnComplete(membersToAdd::clear));
         }
-        return group.toObservable().concatMap(g -> Observable.<ActiveDirectoryGroup>just(this));
+        return Completable.fromMaybe(group).andThen(members).andThen(Observable.just(this));
     }
 
     @Override
@@ -157,7 +160,7 @@ class ActiveDirectoryGroupImpl
     @Override
     public ActiveDirectoryGroupImpl withMember(String objectId) {
         membersToAdd.add(String.format("%s/%s/directoryObjects/%s",
-                manager().inner().azureEnvironment().graphEndpoint(), manager().tenantId(), objectId));
+                manager().inner().azureEnvironment().graphEndpoint().replaceAll("/+$", ""), manager().tenantId(), objectId));
         return this;
     }
 

@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.v2.management.resources;
 
+import com.microsoft.azure.v2.AzureEnvironment;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.v2.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.rest.v2.http.HttpPipeline;
@@ -16,8 +17,8 @@ public class ResourceGroupsTests extends ResourceManagerTestBase {
     private static ResourceGroups resourceGroups;
 
     @Override
-    protected void initializeClients(HttpPipeline pipeline, String defaultSubscription, String domain) {
-        super.initializeClients(pipeline, defaultSubscription, domain);
+    protected void initializeClients(HttpPipeline pipeline, String defaultSubscription, String domain, AzureEnvironment environment) {
+        super.initializeClients(pipeline, defaultSubscription, domain, environment);
         resourceGroups = resourceClient.resourceGroups();
     }
 

@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.v2.management.msi.implementation;
 
+import com.microsoft.azure.v2.AzureEnvironment;
 import com.microsoft.azure.v2.credentials.AzureTokenCredentials;
 import com.microsoft.azure.v2.management.graphrbac.implementation.GraphRbacManager;
 import com.microsoft.azure.v2.management.msi.Identities;
@@ -51,7 +52,8 @@ public final class MSIManager extends Manager<MSIManager, ManagedServiceIdentity
                 .withRequestPolicy(new ResourceManagerThrottlingPolicyFactory())
                 .build(),
                 subscriptionId,
-                credentials.domain());
+                credentials.domain(),
+                credentials.environment());
     }
 
     /**
@@ -62,8 +64,8 @@ public final class MSIManager extends Manager<MSIManager, ManagedServiceIdentity
      * @param domain the domain
      * @return the MSIManager
      */
-    public static MSIManager authenticate(HttpPipeline httpPipeline, String subscriptionId, String domain) {
-        return new MSIManager(httpPipeline, subscriptionId, domain);
+    public static MSIManager authenticate(HttpPipeline httpPipeline, String subscriptionId, String domain, AzureEnvironment environment) {
+        return new MSIManager(httpPipeline, subscriptionId, domain, environment);
     }
     /**
      * The interface allowing configurations to be set.
@@ -84,15 +86,16 @@ public final class MSIManager extends Manager<MSIManager, ManagedServiceIdentity
      */
     private static final class ConfigurableImpl extends AzureConfigurableImpl<Configurable> implements Configurable {
         public MSIManager authenticate(AzureTokenCredentials credentials, String subscriptionId) {
-            return MSIManager.authenticate(buildPipeline(credentials), subscriptionId, credentials.domain());
+            return MSIManager.authenticate(buildPipeline(credentials), subscriptionId, credentials.domain(), credentials.environment());
         }
     }
 
-    private MSIManager(HttpPipeline httpPipeline, String subscriptionId, String domain) {
+    private MSIManager(HttpPipeline httpPipeline, String subscriptionId, String domain, AzureEnvironment environment) {
         super(httpPipeline,
               subscriptionId,
-              new ManagedServiceIdentityClientImpl(httpPipeline).withSubscriptionId(subscriptionId));
-        rbacManager = GraphRbacManager.authenticate(httpPipeline, domain);
+              environment,
+              new ManagedServiceIdentityClientImpl(httpPipeline, environment).withSubscriptionId(subscriptionId));
+        rbacManager = GraphRbacManager.authenticate(httpPipeline, domain, environment);
     }
 
     /**

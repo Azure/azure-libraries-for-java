@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.v2.management.compute;
 
+import com.microsoft.azure.v2.AzureEnvironment;
 import com.microsoft.azure.v2.PagedList;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.AvailabilityZoneId;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
@@ -18,8 +19,8 @@ import java.util.Set;
 
 public class ComputeSkuTetsts extends ComputeManagementTest {
     @Override
-    protected void initializeClients(HttpPipeline httpPipeline, String defaultSubscription, String domain) {
-        super.initializeClients(httpPipeline, defaultSubscription, domain);
+    protected void initializeClients(HttpPipeline httpPipeline, String defaultSubscription, String domain, AzureEnvironment environment) {
+        super.initializeClients(httpPipeline, defaultSubscription, domain, environment);
     }
 
     @Test

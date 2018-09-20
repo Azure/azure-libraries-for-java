@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.v2.management.resources;
 
+import com.microsoft.azure.v2.AzureEnvironment;
 import com.microsoft.azure.v2.management.resources.core.TestBase;
 import com.microsoft.azure.v2.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.azure.v2.management.resources.implementation.ResourceManager;
@@ -19,9 +20,9 @@ public class ProvidersTests extends TestBase {
     protected static ResourceManager resourceManager;
 
     @Override
-    protected void initializeClients(HttpPipeline pipeline, String defaultSubscription, String domain) {
+    protected void initializeClients(HttpPipeline pipeline, String defaultSubscription, String domain, AzureEnvironment environment) {
         resourceManager = ResourceManager
-                .authenticate(pipeline)
+                .authenticate(pipeline, environment)
                 .withSubscription(defaultSubscription);
     }
 

@@ -81,7 +81,7 @@ public final class RoleAssignmentsInner implements InnerSupportsDelete<RoleAssig
         Single<BodyResponse<RoleAssignmentInner>> delete(@PathParam(value = "scope", encoded = true) String scope, @PathParam("roleAssignmentName") String roleAssignmentName, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
         @PUT("{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}")
-        @ExpectedResponses({201})
+        @ExpectedResponses({200, 201})
         @UnexpectedResponseExceptionType(CloudException.class)
         Single<BodyResponse<RoleAssignmentInner>> create(@PathParam(value = "scope", encoded = true) String scope, @PathParam("roleAssignmentName") String roleAssignmentName, @BodyParam("application/json; charset=utf-8") RoleAssignmentCreateParameters parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
@@ -96,7 +96,7 @@ public final class RoleAssignmentsInner implements InnerSupportsDelete<RoleAssig
         Single<BodyResponse<RoleAssignmentInner>> deleteById(@PathParam(value = "roleId", encoded = true) String roleId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
         @PUT("{roleId}")
-        @ExpectedResponses({201})
+        @ExpectedResponses({200, 201})
         @UnexpectedResponseExceptionType(CloudException.class)
         Single<BodyResponse<RoleAssignmentInner>> createById(@PathParam(value = "roleId", encoded = true) String roleId, @BodyParam("application/json; charset=utf-8") RoleAssignmentCreateParameters parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 

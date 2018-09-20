@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.v2.management.compute;
 
+import com.microsoft.azure.v2.AzureEnvironment;
 import com.microsoft.azure.v2.PagedList;
 import com.microsoft.azure.v2.management.compute.implementation.ComputeManager;
 import com.microsoft.azure.v2.management.graphrbac.BuiltInRole;
@@ -40,11 +41,11 @@ public class VirtualMachineScaleSetEMSILMSIOperationsTests  extends TestBase {
     private NetworkManager networkManager;
 
     @Override
-    protected void initializeClients(HttpPipeline httpPipeline, String defaultSubscription, String domain) {
-        this.msiManager = MSIManager.authenticate(httpPipeline, defaultSubscription, domain);
+    protected void initializeClients(HttpPipeline httpPipeline, String defaultSubscription, String domain, AzureEnvironment environment) {
+        this.msiManager = MSIManager.authenticate(httpPipeline, defaultSubscription, domain, environment);
         this.resourceManager = msiManager.resourceManager();
-        this.computeManager = ComputeManager.authenticate(httpPipeline, defaultSubscription, domain);
-        this.networkManager = NetworkManager.authenticate(httpPipeline, defaultSubscription);
+        this.computeManager = ComputeManager.authenticate(httpPipeline, defaultSubscription, domain, environment);
+        this.networkManager = NetworkManager.authenticate(httpPipeline, defaultSubscription, environment);
     }
 
     @Override

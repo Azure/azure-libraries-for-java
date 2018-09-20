@@ -11,13 +11,11 @@ import com.microsoft.azure.v2.credentials.ApplicationTokenCredentials;
 import com.microsoft.azure.v2.management.resources.fluentcore.utils.ProviderRegistrationPolicyFactory;
 import com.microsoft.azure.v2.management.resources.fluentcore.utils.ResourceManagerThrottlingPolicyFactory;
 import com.microsoft.azure.v2.management.resources.fluentcore.utils.SdkContext;
-import com.microsoft.rest.v2.http.HttpClientConfiguration;
 import com.microsoft.rest.v2.http.HttpPipeline;
 import com.microsoft.rest.v2.http.HttpPipelineBuilder;
 import com.microsoft.rest.v2.http.HttpPipelineOptions;
 import com.microsoft.rest.v2.http.NettyClient;
 import com.microsoft.rest.v2.policy.CredentialsPolicyFactory;
-import com.microsoft.rest.v2.policy.HostPolicyFactory;
 import com.microsoft.rest.v2.policy.HttpLogDetailLevel;
 import com.microsoft.rest.v2.policy.HttpLoggingPolicyFactory;
 import com.microsoft.rest.v2.policy.TimeoutPolicyFactory;
@@ -33,9 +31,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
-import java.net.InetSocketAddress;
-import java.net.Proxy;
-import java.net.Proxy.Type;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
@@ -185,7 +180,6 @@ public abstract class TestBase {
             final File credFile = new File(System.getenv("AZURE_AUTH_LOCATION"));
             credentials = ApplicationTokenCredentials.fromFile(credFile);
             pipeline = buildRestClient(new HttpPipelineBuilder(new HttpPipelineOptions().withHttpClient(NettyClient.createDefault()))
-                    .withRequestPolicy(new HostPolicyFactory(this.baseUri()))
                     .withRequestPolicy(new ProviderRegistrationPolicyFactory(credentials))
                     .withRequestPolicy(new CredentialsPolicyFactory(credentials))
                     .withRequestPolicy(new TimeoutPolicyFactory(3, TimeUnit.MINUTES))
@@ -201,7 +195,7 @@ public abstract class TestBase {
             interceptorManager.addTextReplacementRule(baseUri(), playbackUri + "/");
             interceptorManager.addTextReplacementRule("https://graph.windows.net/", playbackUri + "/");
         }
-        initializeClients(pipeline, defaultSubscription, credentials.domain());
+        initializeClients(pipeline, defaultSubscription, credentials.domain(), credentials.environment());
     }
 
     @After
@@ -233,6 +227,6 @@ public abstract class TestBase {
         return builder.build();
     }
 
-    protected abstract void initializeClients(HttpPipeline pipeline, String defaultSubscription, String domain) throws IOException;
+    protected abstract void initializeClients(HttpPipeline pipeline, String defaultSubscription, String domain, AzureEnvironment azureEnvironment) throws IOException;
     protected abstract void cleanUpResources();
 }

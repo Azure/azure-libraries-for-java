@@ -8,6 +8,7 @@ package com.microsoft.azure.v2.management.graphrbac.implementation;
 
 import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
+import com.microsoft.azure.v2.AzureEnvironment;
 import com.microsoft.azure.v2.credentials.AzureTokenCredentials;
 import com.microsoft.azure.v2.management.graphrbac.ActiveDirectoryUsers;
 import com.microsoft.azure.v2.management.graphrbac.ActiveDirectoryApplications;
@@ -57,7 +58,7 @@ public final class GraphRbacManager implements HasInner<GraphRbacManagementClien
                 .withRequestPolicy(new CredentialsPolicyFactory(credentials))
                 .withRequestPolicy(new ProviderRegistrationPolicyFactory(credentials))
                 .withRequestPolicy(new ResourceManagerThrottlingPolicyFactory())
-                .build(), credentials.domain());
+                .build(), credentials.domain(), credentials.environment());
     }
 
     /**
@@ -67,8 +68,8 @@ public final class GraphRbacManager implements HasInner<GraphRbacManagementClien
      * @param tenantId the tenantId in Active Directory
      * @return the interface exposing Graph RBAC management API entry points that work across subscriptions
      */
-    public static GraphRbacManager authenticate(HttpPipeline httpPipeline, String tenantId) {
-        return new GraphRbacManager(httpPipeline, tenantId);
+    public static GraphRbacManager authenticate(HttpPipeline httpPipeline, String tenantId, AzureEnvironment azureEnvironment) {
+        return new GraphRbacManager(httpPipeline, tenantId, azureEnvironment);
     }
 
     /**
@@ -98,13 +99,13 @@ public final class GraphRbacManager implements HasInner<GraphRbacManagementClien
      */
     private static class ConfigurableImpl extends AzureConfigurableImpl<Configurable> implements Configurable {
         public GraphRbacManager authenticate(AzureTokenCredentials credentials) {
-            return GraphRbacManager.authenticate(buildPipeline(credentials), credentials.domain());
+            return GraphRbacManager.authenticate(buildPipeline(credentials), credentials.domain(), credentials.environment());
         }
     }
 
-    private GraphRbacManager(HttpPipeline httpPipeline, String tenantId) {
-        this.graphRbacManagementClient = new GraphRbacManagementClientImpl(httpPipeline).withTenantID(tenantId);
-        this.authorizationManagementClient = new AuthorizationManagementClientImpl(httpPipeline);
+    private GraphRbacManager(HttpPipeline httpPipeline, String tenantId, AzureEnvironment azureEnvironment) {
+        this.graphRbacManagementClient = new GraphRbacManagementClientImpl(httpPipeline, azureEnvironment).withTenantID(tenantId);
+        this.authorizationManagementClient = new AuthorizationManagementClientImpl(httpPipeline, azureEnvironment);
         this.tenantId = tenantId;
     }
 

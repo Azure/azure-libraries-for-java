@@ -5,6 +5,7 @@
  */
 package com.microsoft.azure.v2.management.resources;
 
+import com.microsoft.azure.v2.AzureEnvironment;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.v2.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.rest.v2.http.HttpPipeline;
@@ -21,11 +22,11 @@ public class TooManyRequestsRetryInterceptorTests extends ResourceManagerTestBas
     private ResourceGroup rg;
 
     @Override
-    protected void initializeClients(HttpPipeline pipeline, String defaultSubscription, String domain) {
+    protected void initializeClients(HttpPipeline pipeline, String defaultSubscription, String domain, AzureEnvironment environment) {
         testId = SdkContext.randomResourceName("", 9);
         rgName = "rg429" + testId;
 
-        super.initializeClients(pipeline, defaultSubscription, domain);
+        super.initializeClients(pipeline, defaultSubscription, domain, environment);
         resourceGroups = resourceClient.resourceGroups();
 
         rg = resourceGroups.define(rgName)

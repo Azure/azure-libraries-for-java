@@ -556,6 +556,9 @@ SqlDatabase database = sqlServer.databases().define("myNewDatabase")
     <td><ul style="list-style-type:circle">
 <li><a href="https://github.com/Azure-Samples/monitor-java-query-metrics-activitylogs">Get metrics and activity logs for a resource</a></li>
 <li><a href="https://github.com/Azure-Samples/eventhub-java-manage-event-hub-events">Stream Azure Service Logs and Metrics for consumption through Event Hub</a></li>
+<li><a href="https://github.com/Azure-Samples/monitor-java-activitylog-alerts-on-security-breach-or-risk">Configuring activity log alerts to be triggered on potential security breaches or risks.</a></li>
+<li><a href="https://github.com/Azure-Samples/monitor-java-metric-alerts-on-critical-performance">Configuring metric alerts to be triggered on potential performance downgrade.</a></li>
+<li><a href="https://github.com/Azure-Samples/monitor-java-autoscale-based-on-performance">Configuring autoscale settings to scale out based on webapp request count statistic.</a></li>
 </ul></td>
   </tr>
 

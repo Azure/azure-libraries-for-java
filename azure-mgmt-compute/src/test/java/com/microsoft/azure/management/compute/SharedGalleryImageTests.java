@@ -154,10 +154,19 @@ public class SharedGalleryImageTests extends ComputeManagementTest {
     }
 
     @Test
-    @Ignore("CI fails this test with no useful trace, work fine locally")
+    @Ignore("Service consistently fail with error 'Replication job not completed at region:XXXXX', reported to service team, ")
     public void canCreateUpdateGetDeleteGalleryImageVersion() {
         //
-        // Create a gallery
+        // Create {
+        //  "startTime": "2018-09-18T19:19:33.6467692+00:00",
+        //  "endTime": "2018-09-18T19:27:34.3244427+00:00",
+        //  "status": "Failed",
+        //  "error": {
+        //    "code": "CrpPirReplicationJobsNotCompleted",
+        //    "message": "Replication job not completed at region: westcentralus"
+        //  },
+        //  "name": "971500cb-f79e-4303-9f6a-df90010a7cc1"
+        //}a gallery
         //
         final String galleryName = generateRandomResourceName("jsim", 15); // "jsim94f154754";
 
@@ -193,8 +202,7 @@ public class SharedGalleryImageTests extends ComputeManagementTest {
                 .withLocation(REGION.toString())
                 .withSourceCustomImage(customImage)
                 // Options - Start
-                .withRegionAvailability(Region.US_EAST2)
-                .withScaleTier(ScaleTier.S30)
+                .withRegionAvailability(Region.US_WEST2, 1)
                 // Options - End
                 .create();
 
@@ -202,15 +210,22 @@ public class SharedGalleryImageTests extends ComputeManagementTest {
         Assert.assertNotNull(imageVersion.inner());
         Assert.assertNotNull(imageVersion.availableRegions());
         Assert.assertEquals(2, imageVersion.availableRegions().size());
-        Assert.assertNotNull(imageVersion.scaleTier());
-        Assert.assertTrue(imageVersion.scaleTier().equals(ScaleTier.S30));
+        boolean found = false;
+        String expectedRegion = "westus2";
+        for(TargetRegion targetRegion: imageVersion.availableRegions()) {
+            if (targetRegion.name().replaceAll("\\s", "").equalsIgnoreCase(expectedRegion)) {
+                found = true;
+                break;
+            }
+        }
+        Assert.assertTrue("expected region" + expectedRegion + " not found", found);
         Assert.assertFalse(imageVersion.isExcludedFromLatest());
 
         //
         // Update image version
         //
         imageVersion.update()
-                .withoutRegionAvailability(Region.US_EAST2)
+                .withoutRegionAvailability(Region.US_WEST2)
                 .apply();
 
         Assert.assertNotNull(imageVersion.availableRegions());

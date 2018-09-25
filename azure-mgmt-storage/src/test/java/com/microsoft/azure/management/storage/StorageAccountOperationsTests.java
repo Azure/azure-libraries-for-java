@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.management.storage;
 
+import com.microsoft.azure.v2.AzureEnvironment;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Indexable;
 import com.microsoft.azure.v2.management.resources.fluentcore.utils.Utils;
@@ -30,11 +31,11 @@ public class StorageAccountOperationsTests extends StorageManagementTest {
     private static String SA_NAME = "";
 
     @Override
-    protected void initializeClients(HttpPipeline httpPipeline, String defaultSubscription, String domain) {
+    protected void initializeClients(HttpPipeline httpPipeline, String defaultSubscription, String domain, AzureEnvironment environment) {
         RG_NAME = generateRandomResourceName("javacsmrg", 15);
         SA_NAME = generateRandomResourceName("javacsmsa", 15);
 
-        super.initializeClients(httpPipeline, defaultSubscription, domain);
+        super.initializeClients(httpPipeline, defaultSubscription, domain, environment);
     }
     @Override
     protected void cleanUpResources() {

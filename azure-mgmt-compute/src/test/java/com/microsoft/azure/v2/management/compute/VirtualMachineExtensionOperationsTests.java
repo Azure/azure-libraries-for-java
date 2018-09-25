@@ -7,6 +7,7 @@
 package com.microsoft.azure.v2.management.compute;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.microsoft.azure.v2.AzureEnvironment;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.v2.management.storage.StorageAccount;
 import com.microsoft.rest.v2.http.HttpPipeline;
@@ -24,9 +25,9 @@ public class VirtualMachineExtensionOperationsTests extends ComputeManagementTes
     private static Region REGION = Region.US_SOUTH_CENTRAL;
 
     @Override
-    protected void initializeClients(HttpPipeline httpPipeline, String defaultSubscription, String domain) {
+    protected void initializeClients(HttpPipeline httpPipeline, String defaultSubscription, String domain, AzureEnvironment environment) {
         RG_NAME = generateRandomResourceName("vmexttest", 15);
-        super.initializeClients(httpPipeline, defaultSubscription, domain);
+        super.initializeClients(httpPipeline, defaultSubscription, domain, environment);
     }
 
     @Override

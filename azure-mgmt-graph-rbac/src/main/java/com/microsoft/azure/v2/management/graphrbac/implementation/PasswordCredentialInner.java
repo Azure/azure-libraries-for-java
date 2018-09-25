@@ -25,7 +25,7 @@ public final class PasswordCredentialInner {
      * Custom key identifier. (manually added)
      */
     @JsonProperty(value = "customKeyIdentifier")
-    private String customKeyIdentifier;
+    private byte[] customKeyIdentifier;
 
     /**
      * Start date.
@@ -76,7 +76,7 @@ public final class PasswordCredentialInner {
      *
      * @return the customKeyIdentifier value
      */
-    public String customKeyIdentifier() {
+    public byte[] customKeyIdentifier() {
         return this.customKeyIdentifier;
     }
 
@@ -166,7 +166,7 @@ public final class PasswordCredentialInner {
      * @param customKeyIdentifier the customKeyIdentifier value to set
      * @return the PasswordCredentialInner object itself.
      */
-    public PasswordCredentialInner withCustomKeyIdentifier(String customKeyIdentifier) {
+    public PasswordCredentialInner withCustomKeyIdentifier(byte[] customKeyIdentifier) {
         this.customKeyIdentifier = customKeyIdentifier;
         return this;
     }

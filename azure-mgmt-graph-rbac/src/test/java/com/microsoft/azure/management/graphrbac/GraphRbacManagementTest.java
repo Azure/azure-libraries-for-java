@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.management.graphrbac;
 
+import com.microsoft.azure.v2.AzureEnvironment;
 import com.microsoft.azure.v2.management.graphrbac.implementation.GraphRbacManager;
 import com.microsoft.azure.v2.management.resources.core.TestBase;
 import com.microsoft.azure.v2.management.resources.implementation.ResourceManager;
@@ -19,9 +20,9 @@ public abstract class GraphRbacManagementTest extends TestBase {
     protected static ResourceManager resourceManager;
 
     @Override
-    protected void initializeClients(HttpPipeline httpPipeline, String defaultSubscription, String domain) {
-        graphRbacManager = GraphRbacManager.authenticate(httpPipeline, domain);
-        resourceManager = ResourceManager.authenticate(httpPipeline).withSubscription(defaultSubscription);
+    protected void initializeClients(HttpPipeline httpPipeline, String defaultSubscription, String domain, AzureEnvironment azureEnvironment) {
+        graphRbacManager = GraphRbacManager.authenticate(httpPipeline, domain, azureEnvironment);
+        resourceManager = ResourceManager.authenticate(httpPipeline, azureEnvironment).withSubscription(defaultSubscription);
     }
 
     @Override

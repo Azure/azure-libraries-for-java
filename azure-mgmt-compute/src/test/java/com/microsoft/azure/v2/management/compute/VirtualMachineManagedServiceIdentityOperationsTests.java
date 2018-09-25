@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.v2.management.compute;
 
+import com.microsoft.azure.v2.AzureEnvironment;
 import com.microsoft.azure.v2.PagedList;
 import com.microsoft.azure.v2.management.graphrbac.BuiltInRole;
 import com.microsoft.azure.v2.management.graphrbac.RoleAssignment;
@@ -26,9 +27,9 @@ public class VirtualMachineManagedServiceIdentityOperationsTests extends Compute
     private static final String VMNAME = "javavm";
 
     @Override
-    protected void initializeClients(HttpPipeline httpPipeline, String defaultSubscription, String domain) {
+    protected void initializeClients(HttpPipeline httpPipeline, String defaultSubscription, String domain, AzureEnvironment environment) {
         RG_NAME = generateRandomResourceName("javacsmrg", 15);
-        super.initializeClients(httpPipeline, defaultSubscription, domain);
+        super.initializeClients(httpPipeline, defaultSubscription, domain, environment);
     }
 
 

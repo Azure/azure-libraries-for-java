@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.v2.management.resources;
 
+import com.microsoft.azure.v2.AzureEnvironment;
 import com.microsoft.azure.v2.management.resources.core.TestBase;
 import com.microsoft.azure.v2.management.resources.implementation.ResourceManager;
 import com.microsoft.rest.v2.http.HttpPipeline;
@@ -17,9 +18,9 @@ class ResourceManagerTestBase extends TestBase {
     protected static ResourceManager resourceClient;
 
     @Override
-    protected void initializeClients(HttpPipeline pipeline, String defaultSubscription, String domain) {
+    protected void initializeClients(HttpPipeline pipeline, String defaultSubscription, String domain, AzureEnvironment azureEnvironment) {
         resourceClient = ResourceManager
-                .authenticate(pipeline)
+                .authenticate(pipeline, azureEnvironment)
                 .withSubscription(defaultSubscription);
     }
 

@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.v2.management.compute;
 
+import com.microsoft.azure.v2.AzureEnvironment;
 import com.microsoft.azure.v2.management.compute.implementation.VirtualMachineScaleSetInner;
 import com.microsoft.azure.v2.management.network.LoadBalancer;
 import com.microsoft.azure.v2.management.network.LoadBalancerSkuType;
@@ -28,9 +29,9 @@ public class VirtualMachineScaleSetBootDiagnosticsTests extends ComputeManagemen
     private static final String VMNAME = "javavm";
 
     @Override
-    protected void initializeClients(HttpPipeline httpPipeline, String defaultSubscription, String domain) {
+    protected void initializeClients(HttpPipeline httpPipeline, String defaultSubscription, String domain, AzureEnvironment environment) {
         RG_NAME = generateRandomResourceName("javacsmrg", 15);
-        super.initializeClients(httpPipeline, defaultSubscription, domain);
+        super.initializeClients(httpPipeline, defaultSubscription, domain, environment);
     }
 
     @Override

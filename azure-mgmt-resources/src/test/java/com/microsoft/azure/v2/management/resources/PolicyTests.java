@@ -7,6 +7,7 @@
 package com.microsoft.azure.v2.management.resources;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.microsoft.azure.v2.AzureEnvironment;
 import com.microsoft.azure.v2.CloudException;
 import com.microsoft.azure.v2.management.resources.core.TestBase;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
@@ -25,9 +26,9 @@ public class PolicyTests extends TestBase {
     private String policyRule = "{\"if\":{\"not\":{\"field\":\"location\",\"in\":[\"northeurope\",\"westeurope\"]}},\"then\":{\"effect\":\"deny\"}}";
 
     @Override
-    protected void initializeClients(HttpPipeline pipeline, String defaultSubscription, String domain) {
+    protected void initializeClients(HttpPipeline pipeline, String defaultSubscription, String domain, AzureEnvironment environment) {
         resourceManager = ResourceManager
-                .authenticate(pipeline)
+                .authenticate(pipeline, environment)
                 .withSubscription(defaultSubscription);
     }
 

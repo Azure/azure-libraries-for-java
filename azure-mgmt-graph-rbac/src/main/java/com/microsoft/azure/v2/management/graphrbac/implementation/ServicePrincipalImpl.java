@@ -8,6 +8,7 @@ package com.microsoft.azure.v2.management.graphrbac.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.v2.CloudException;
+import com.microsoft.azure.v2.Page;
 import com.microsoft.azure.v2.management.graphrbac.ActiveDirectoryApplication;
 import com.microsoft.azure.v2.management.graphrbac.BuiltInRole;
 import com.microsoft.azure.v2.management.graphrbac.CertificateCredential;
@@ -26,6 +27,7 @@ import io.reactivex.Single;
 import rx.exceptions.Exceptions;
 
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -237,12 +239,12 @@ class ServicePrincipalImpl
 
     Single<ServicePrincipal> refreshCredentialsAsync() {
         final Maybe<ServicePrincipal> keyCredentials = manager.inner().servicePrincipals().listKeyCredentialsAsync(id())
-                .map((io.reactivex.functions.Function<List<KeyCredentialInner>, Map<String, CertificateCredential>>) keyCredentialInners -> {
-                    if (keyCredentialInners == null || keyCredentialInners.isEmpty()) {
+                .map((io.reactivex.functions.Function<Page<KeyCredentialInner>, Map<String, CertificateCredential>>) keyCredentialInners -> {
+                    if (keyCredentialInners.items() == null || keyCredentialInners.items().isEmpty()) {
                         return Collections.emptyMap();
                     }
                     Map<String, CertificateCredential> certificateCredentialMap = new HashMap<String, CertificateCredential>();
-                    for (KeyCredentialInner inner : keyCredentialInners) {
+                    for (KeyCredentialInner inner : keyCredentialInners.items()) {
                         CertificateCredential credential = new CertificateCredentialImpl<>(inner);
                         certificateCredentialMap.put(credential.name(), credential);
                     }
@@ -253,12 +255,12 @@ class ServicePrincipalImpl
                 });
         //
         final Maybe<ServicePrincipal> passwordCredentials = manager.inner().servicePrincipals().listPasswordCredentialsAsync(id())
-                .map((io.reactivex.functions.Function<List<PasswordCredentialInner>, Map<String, PasswordCredential>>) passwordCredentialInners -> {
-                    if (passwordCredentialInners == null || passwordCredentialInners.isEmpty()) {
+                .map((io.reactivex.functions.Function<Page<PasswordCredentialInner>, Map<String, PasswordCredential>>) passwordCredentialInners -> {
+                    if (passwordCredentialInners.items() == null || passwordCredentialInners.items().isEmpty()) {
                         return Collections.emptyMap();
                     }
                     Map<String, PasswordCredential> passwordCredentialMap = new HashMap<String, PasswordCredential>();
-                    for (PasswordCredentialInner inner : passwordCredentialInners) {
+                    for (PasswordCredentialInner inner : passwordCredentialInners.items()) {
                         PasswordCredential credential = new PasswordCredentialImpl<>(inner);
                         passwordCredentialMap.put(credential.name(), credential);
                     }
@@ -268,8 +270,7 @@ class ServicePrincipalImpl
                     return ServicePrincipalImpl.this;
                 });
         //
-        return keyCredentials.mergeWith(passwordCredentials)
-                .single(ServicePrincipalImpl.this);
+        return keyCredentials.mergeWith(passwordCredentials).lastOrError();
     }
 
     @Override

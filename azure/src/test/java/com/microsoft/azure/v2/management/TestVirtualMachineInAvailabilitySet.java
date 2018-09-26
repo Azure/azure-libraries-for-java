@@ -6,12 +6,12 @@
 
 package com.microsoft.azure.v2.management;
 
-import com.microsoft.azure.management.compute.KnownLinuxVirtualMachineImage;
-import com.microsoft.azure.management.compute.VirtualMachine;
-import com.microsoft.azure.management.compute.VirtualMachineSizeTypes;
-import com.microsoft.azure.management.compute.VirtualMachines;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
+import com.microsoft.azure.v2.management.compute.KnownLinuxVirtualMachineImage;
+import com.microsoft.azure.v2.management.compute.VirtualMachine;
+import com.microsoft.azure.v2.management.compute.VirtualMachineSizeTypes;
+import com.microsoft.azure.v2.management.compute.VirtualMachines;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.v2.management.resources.fluentcore.utils.SdkContext;
 import org.junit.Assert;
 
 public class TestVirtualMachineInAvailabilitySet extends TestTemplate<VirtualMachine, VirtualMachines> {

@@ -6,23 +6,22 @@
 package com.microsoft.azure.v2.management;
 
 import com.google.common.util.concurrent.SettableFuture;
-import com.microsoft.azure.management.network.ApplicationSecurityGroup;
-import com.microsoft.azure.management.network.NetworkInterface;
-import com.microsoft.azure.management.network.NetworkSecurityGroup;
-import com.microsoft.azure.management.network.NetworkSecurityGroups;
-import com.microsoft.azure.management.network.NetworkSecurityRule;
-import com.microsoft.azure.management.network.SecurityRuleProtocol;
-import com.microsoft.azure.management.network.Subnet;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
-import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
+import com.microsoft.azure.v2.management.network.ApplicationSecurityGroup;
+import com.microsoft.azure.v2.management.network.NetworkInterface;
+import com.microsoft.azure.v2.management.network.NetworkSecurityGroup;
+import com.microsoft.azure.v2.management.network.NetworkSecurityGroups;
+import com.microsoft.azure.v2.management.network.NetworkSecurityRule;
+import com.microsoft.azure.v2.management.network.SecurityRuleProtocol;
+import com.microsoft.azure.v2.management.network.Subnet;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Indexable;
+import com.microsoft.azure.v2.management.resources.fluentcore.utils.SdkContext;
+import com.microsoft.azure.v2.management.resources.fluentcore.utils.Utils;
 
 import java.util.List;
 
+import io.reactivex.Observable;
 import org.junit.Assert;
-import rx.Observable;
-import rx.Subscriber;
 
 /**
  * Test for network security group CRUD.
@@ -66,22 +65,7 @@ public class TestNSG extends TestTemplate<NetworkSecurityGroup, NetworkSecurityG
                 .createAsync();
 
         Utils.<NetworkSecurityGroup>rootResource(resourceStream)
-                .subscribe(new Subscriber<NetworkSecurityGroup>() {
-                       @Override
-                       public void onCompleted() {
-                            System.out.print("completed");
-                       }
-
-                       @Override
-                       public void onError(Throwable throwable) {
-                            nsgFuture.setException(throwable);
-                       }
-
-                       @Override
-                       public void onNext(NetworkSecurityGroup networkSecurityGroup) {
-                            nsgFuture.set(networkSecurityGroup);
-                       }
-                   });
+                .subscribe(networkSecurityGroup -> nsgFuture.set(networkSecurityGroup), throwable -> nsgFuture.setException(throwable));
 
         NetworkSecurityGroup nsg = nsgFuture.get();
 

@@ -5,13 +5,13 @@
  */
 package com.microsoft.azure.v2.management;
 
-import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.compute.VirtualMachineSize;
+import com.microsoft.azure.v2.PagedList;
+import com.microsoft.azure.v2.management.compute.VirtualMachineSize;
 import org.junit.Assert;
 
-import com.microsoft.azure.management.compute.AvailabilitySet;
-import com.microsoft.azure.management.compute.AvailabilitySets;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.v2.management.compute.AvailabilitySet;
+import com.microsoft.azure.v2.management.compute.AvailabilitySets;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
 
 public class TestAvailabilitySet extends TestTemplate<AvailabilitySet, AvailabilitySets> {
     @Override

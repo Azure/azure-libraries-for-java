@@ -5,19 +5,18 @@
  */
 package com.microsoft.azure.v2;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
-import com.microsoft.azure.management.graphrbac.ActiveDirectoryApplications;
-import com.microsoft.azure.management.graphrbac.ActiveDirectoryGroups;
-import com.microsoft.azure.management.graphrbac.ActiveDirectoryUsers;
-import com.microsoft.azure.management.graphrbac.RoleAssignments;
-import com.microsoft.azure.management.graphrbac.RoleDefinitions;
-import com.microsoft.azure.management.graphrbac.ServicePrincipals;
+import com.microsoft.azure.v2.management.graphrbac.ActiveDirectoryApplications;
+import com.microsoft.azure.v2.management.graphrbac.ActiveDirectoryGroups;
+import com.microsoft.azure.v2.management.graphrbac.ActiveDirectoryUsers;
+import com.microsoft.azure.v2.management.graphrbac.RoleAssignments;
+import com.microsoft.azure.v2.management.graphrbac.RoleDefinitions;
+import com.microsoft.azure.v2.management.graphrbac.ServicePrincipals;
+import com.microsoft.rest.v2.annotations.Beta;
 
 /**
  * Exposes methods related to managing access permissions in Azure.
  */
-@Beta(SinceVersion.V1_2_0)
+@Beta(since = "V1_2_0")
 public interface AccessManagement {
     /**
      * Entry point to AD user management APIs.

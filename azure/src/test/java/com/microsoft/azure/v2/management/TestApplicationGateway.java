@@ -12,33 +12,33 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import com.microsoft.azure.management.network.ApplicationGatewayUrlPathMap;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
+import com.microsoft.azure.v2.management.network.ApplicationGatewayUrlPathMap;
+import com.microsoft.azure.v2.management.resources.fluentcore.utils.SdkContext;
 import org.junit.Assert;
 
-import com.microsoft.azure.management.network.ApplicationGateway;
-import com.microsoft.azure.management.network.ApplicationGatewayAuthenticationCertificate;
-import com.microsoft.azure.management.network.ApplicationGatewayBackend;
-import com.microsoft.azure.management.network.ApplicationGatewayBackendAddress;
-import com.microsoft.azure.management.network.ApplicationGatewayBackendHttpConfiguration;
-import com.microsoft.azure.management.network.ApplicationGatewayListener;
-import com.microsoft.azure.management.network.ApplicationGatewayProbe;
-import com.microsoft.azure.management.network.ApplicationGatewayIPConfiguration;
-import com.microsoft.azure.management.network.ApplicationGatewayFrontend;
-import com.microsoft.azure.management.network.ApplicationGatewayProtocol;
-import com.microsoft.azure.management.network.ApplicationGatewayRedirectConfiguration;
-import com.microsoft.azure.management.network.ApplicationGatewayRedirectType;
-import com.microsoft.azure.management.network.ApplicationGatewayRequestRoutingRule;
-import com.microsoft.azure.management.network.ApplicationGatewaySkuName;
-import com.microsoft.azure.management.network.ApplicationGatewaySslCertificate;
-import com.microsoft.azure.management.network.ApplicationGatewaySslProtocol;
-import com.microsoft.azure.management.network.ApplicationGatewayTier;
-import com.microsoft.azure.management.network.ApplicationGateways;
-import com.microsoft.azure.management.network.Network;
-import com.microsoft.azure.management.network.PublicIPAddress;
-import com.microsoft.azure.management.network.PublicIPAddresses;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
+import com.microsoft.azure.v2.management.network.ApplicationGateway;
+import com.microsoft.azure.v2.management.network.ApplicationGatewayAuthenticationCertificate;
+import com.microsoft.azure.v2.management.network.ApplicationGatewayBackend;
+import com.microsoft.azure.v2.management.network.ApplicationGatewayBackendAddress;
+import com.microsoft.azure.v2.management.network.ApplicationGatewayBackendHttpConfiguration;
+import com.microsoft.azure.v2.management.network.ApplicationGatewayListener;
+import com.microsoft.azure.v2.management.network.ApplicationGatewayProbe;
+import com.microsoft.azure.v2.management.network.ApplicationGatewayIPConfiguration;
+import com.microsoft.azure.v2.management.network.ApplicationGatewayFrontend;
+import com.microsoft.azure.v2.management.network.ApplicationGatewayProtocol;
+import com.microsoft.azure.v2.management.network.ApplicationGatewayRedirectConfiguration;
+import com.microsoft.azure.v2.management.network.ApplicationGatewayRedirectType;
+import com.microsoft.azure.v2.management.network.ApplicationGatewayRequestRoutingRule;
+import com.microsoft.azure.v2.management.network.ApplicationGatewaySkuName;
+import com.microsoft.azure.v2.management.network.ApplicationGatewaySslCertificate;
+import com.microsoft.azure.v2.management.network.ApplicationGatewaySslProtocol;
+import com.microsoft.azure.v2.management.network.ApplicationGatewayTier;
+import com.microsoft.azure.v2.management.network.ApplicationGateways;
+import com.microsoft.azure.v2.management.network.Network;
+import com.microsoft.azure.v2.management.network.PublicIPAddress;
+import com.microsoft.azure.v2.management.network.PublicIPAddresses;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Creatable;
 
 /**
  * Test of application gateway management.

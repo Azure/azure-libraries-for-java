@@ -5,19 +5,18 @@
  */
 package com.microsoft.azure.v2.management;
 
-import com.microsoft.azure.management.network.LocalNetworkGateway;
-import com.microsoft.azure.management.network.Network;
-import com.microsoft.azure.management.network.Subnet;
-import com.microsoft.azure.management.network.VirtualNetworkGateway;
-import com.microsoft.azure.management.network.VirtualNetworkGatewayConnection;
-import com.microsoft.azure.management.network.VirtualNetworkGatewaySkuName;
-import com.microsoft.azure.management.network.VirtualNetworkGateways;
-import com.microsoft.azure.management.network.implementation.NetworkManager;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
+import com.microsoft.azure.v2.management.network.LocalNetworkGateway;
+import com.microsoft.azure.v2.management.network.Network;
+import com.microsoft.azure.v2.management.network.Subnet;
+import com.microsoft.azure.v2.management.network.VirtualNetworkGateway;
+import com.microsoft.azure.v2.management.network.VirtualNetworkGatewayConnection;
+import com.microsoft.azure.v2.management.network.VirtualNetworkGatewaySkuName;
+import com.microsoft.azure.v2.management.network.VirtualNetworkGateways;
+import com.microsoft.azure.v2.management.network.implementation.NetworkManager;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.v2.management.resources.fluentcore.utils.SdkContext;
+import io.reactivex.Observable;
 import org.junit.Assert;
-import rx.Observable;
-import rx.functions.Func1;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -220,15 +219,11 @@ public class TestVirtualNetworkGateway {
                     .withSku(VirtualNetworkGatewaySkuName.VPN_GW1)
                     .createAsync();
 
-            Observable.merge(vngwObservable, vngw2Observable).map(new Func1<Object, Void>() {
-                @Override
-                public Void call(Object object) {
-                    if (object instanceof VirtualNetworkGateway) {
-                        gws.add((VirtualNetworkGateway) object);
-                    }
-                    return null;
+            Observable.merge(vngwObservable, vngw2Observable).doOnNext(object -> {
+                if (object instanceof VirtualNetworkGateway) {
+                    gws.add((VirtualNetworkGateway) object);
                 }
-            }).toCompletable().await();
+            }).blockingLast();
             VirtualNetworkGateway vngw1 = gws.get(0);
             VirtualNetworkGateway vngw2 = gws.get(1);
             vngw1.connections()

@@ -6,18 +6,18 @@
 
 package com.microsoft.azure.v2.management;
 
-import com.microsoft.azure.management.network.PublicIPAddress;
-import com.microsoft.azure.management.network.PublicIPAddresses;
-import com.microsoft.azure.management.resources.ResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
-import com.microsoft.azure.management.trafficmanager.EndpointType;
-import com.microsoft.azure.management.trafficmanager.TargetAzureResourceType;
-import com.microsoft.azure.management.trafficmanager.TrafficManagerAzureEndpoint;
-import com.microsoft.azure.management.trafficmanager.TrafficManagerExternalEndpoint;
-import com.microsoft.azure.management.trafficmanager.TrafficManagerNestedProfileEndpoint;
-import com.microsoft.azure.management.trafficmanager.TrafficManagerProfile;
-import com.microsoft.azure.management.trafficmanager.TrafficManagerProfiles;
+import com.microsoft.azure.v2.management.network.PublicIPAddress;
+import com.microsoft.azure.v2.management.network.PublicIPAddresses;
+import com.microsoft.azure.v2.management.resources.ResourceGroup;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.v2.management.resources.fluentcore.utils.SdkContext;
+import com.microsoft.azure.v2.management.trafficmanager.EndpointType;
+import com.microsoft.azure.v2.management.trafficmanager.TargetAzureResourceType;
+import com.microsoft.azure.v2.management.trafficmanager.TrafficManagerAzureEndpoint;
+import com.microsoft.azure.v2.management.trafficmanager.TrafficManagerExternalEndpoint;
+import com.microsoft.azure.v2.management.trafficmanager.TrafficManagerNestedProfileEndpoint;
+import com.microsoft.azure.v2.management.trafficmanager.TrafficManagerProfile;
+import com.microsoft.azure.v2.management.trafficmanager.TrafficManagerProfiles;
 import org.junit.Assert;
 
 import java.util.Map;

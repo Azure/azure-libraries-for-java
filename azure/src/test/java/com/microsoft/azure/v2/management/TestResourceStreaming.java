@@ -6,20 +6,18 @@
 
 package com.microsoft.azure.v2.management;
 
-import com.microsoft.azure.management.compute.KnownWindowsVirtualMachineImage;
-import com.microsoft.azure.management.compute.VirtualMachine;
-import com.microsoft.azure.management.compute.VirtualMachineSizeTypes;
-import com.microsoft.azure.management.compute.VirtualMachines;
-import com.microsoft.azure.management.resources.ResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
-import com.microsoft.azure.management.storage.StorageAccount;
-import com.microsoft.azure.management.storage.StorageAccounts;
+import com.microsoft.azure.v2.management.compute.KnownWindowsVirtualMachineImage;
+import com.microsoft.azure.v2.management.compute.VirtualMachine;
+import com.microsoft.azure.v2.management.compute.VirtualMachineSizeTypes;
+import com.microsoft.azure.v2.management.compute.VirtualMachines;
+import com.microsoft.azure.v2.management.resources.ResourceGroup;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.Resource;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Creatable;
+import com.microsoft.azure.v2.management.resources.fluentcore.utils.SdkContext;
+import com.microsoft.azure.v2.management.storage.StorageAccount;
+import com.microsoft.azure.v2.management.storage.StorageAccounts;
 import org.junit.Assert;
-import rx.functions.Func1;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -58,15 +56,12 @@ public class TestResourceStreaming extends TestTemplate<VirtualMachine, VirtualM
                 .withNewStorageAccount(storageCreatable)
                 .withNewAvailabilitySet(SdkContext.randomResourceName("avset", 10))
                 .createAsync()
-                .map(new Func1<Indexable, Resource>() {
-                    @Override
-                    public Resource call(Indexable resource) {
-                        resourceCount.incrementAndGet();
-                        Resource createdResource = (Resource) resource;
-                        System.out.println("Created :" + createdResource.id());
-                        return createdResource;
-                    }
-                }).toBlocking().last();
+                .map(resource -> {
+                    resourceCount.incrementAndGet();
+                    Resource createdResource = (Resource) resource;
+                    System.out.println("Created :" + createdResource.id());
+                    return createdResource;
+                }).blockingLast();
 
         Assert.assertTrue(resourceCount.get() == 7);
         return virtualMachine;

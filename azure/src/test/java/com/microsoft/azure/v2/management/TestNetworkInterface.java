@@ -10,14 +10,14 @@ import java.util.List;
 
 import org.junit.Assert;
 
-import com.microsoft.azure.management.network.LoadBalancerBackend;
-import com.microsoft.azure.management.network.LoadBalancerInboundNatRule;
-import com.microsoft.azure.management.network.Network;
-import com.microsoft.azure.management.network.NetworkInterface;
-import com.microsoft.azure.management.network.NetworkInterfaces;
-import com.microsoft.azure.management.network.NicIPConfiguration;
-import com.microsoft.azure.management.network.Subnet;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.v2.management.network.LoadBalancerBackend;
+import com.microsoft.azure.v2.management.network.LoadBalancerInboundNatRule;
+import com.microsoft.azure.v2.management.network.Network;
+import com.microsoft.azure.v2.management.network.NetworkInterface;
+import com.microsoft.azure.v2.management.network.NetworkInterfaces;
+import com.microsoft.azure.v2.management.network.NicIPConfiguration;
+import com.microsoft.azure.v2.management.network.Subnet;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
 
 public class TestNetworkInterface extends TestTemplate<NetworkInterface, NetworkInterfaces> {
     @Override

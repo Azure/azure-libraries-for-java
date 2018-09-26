@@ -5,17 +5,18 @@
  */
 package com.microsoft.azure.v2.management;
 
-import com.microsoft.azure.management.network.NetworkWatcher;
-import com.microsoft.azure.management.network.Troubleshooting;
-import com.microsoft.azure.management.network.VirtualNetworkGateway;
-import com.microsoft.azure.management.network.VirtualNetworkGatewayConnection;
-import com.microsoft.azure.management.network.VirtualNetworkGatewaySkuName;
-import com.microsoft.azure.management.resources.core.TestBase;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
-import com.microsoft.azure.management.storage.StorageAccount;
+import com.microsoft.azure.v2.AzureEnvironment;
+import com.microsoft.azure.v2.management.network.NetworkWatcher;
+import com.microsoft.azure.v2.management.network.Troubleshooting;
+import com.microsoft.azure.v2.management.network.VirtualNetworkGateway;
+import com.microsoft.azure.v2.management.network.VirtualNetworkGatewayConnection;
+import com.microsoft.azure.v2.management.network.VirtualNetworkGatewaySkuName;
+import com.microsoft.azure.v2.management.resources.core.TestBase;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.v2.management.resources.fluentcore.utils.SdkContext;
+import com.microsoft.azure.v2.management.storage.StorageAccount;
 import com.microsoft.azure.v2.Azure;
-import com.microsoft.rest.RestClient;
+import com.microsoft.rest.v2.http.HttpPipeline;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -24,8 +25,8 @@ public class VirtualNetworkGatewayTests extends TestBase {
     private Azure azure;
 
     @Override
-    protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {
-        Azure.Authenticated azureAuthed = Azure.authenticate(restClient, defaultSubscription, domain);
+    protected void initializeClients(HttpPipeline httpPipeline, String defaultSubscription, String domain, AzureEnvironment azureEnvironment) {
+        Azure.Authenticated azureAuthed = Azure.authenticate(httpPipeline, azureEnvironment, domain, defaultSubscription);
         azure = azureAuthed.withSubscription(defaultSubscription);
     }
 

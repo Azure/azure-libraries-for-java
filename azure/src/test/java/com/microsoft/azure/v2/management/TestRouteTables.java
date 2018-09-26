@@ -10,12 +10,12 @@ import java.util.Map;
 
 import org.junit.Assert;
 
-import com.microsoft.azure.management.network.Route;
-import com.microsoft.azure.management.network.RouteNextHopType;
-import com.microsoft.azure.management.network.RouteTable;
-import com.microsoft.azure.management.network.RouteTables;
-import com.microsoft.azure.management.network.Subnet;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.v2.management.network.Route;
+import com.microsoft.azure.v2.management.network.RouteNextHopType;
+import com.microsoft.azure.v2.management.network.RouteTable;
+import com.microsoft.azure.v2.management.network.RouteTables;
+import com.microsoft.azure.v2.management.network.Subnet;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
 
 /**
  * Test of virtual network management.

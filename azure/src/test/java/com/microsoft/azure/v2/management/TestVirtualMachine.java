@@ -6,20 +6,19 @@
 
 package com.microsoft.azure.v2.management;
 
+import io.reactivex.Observable;
 import org.junit.Assert;
 
 import com.google.common.util.concurrent.SettableFuture;
-import com.microsoft.azure.management.compute.Disk;
-import com.microsoft.azure.management.compute.KnownWindowsVirtualMachineImage;
-import com.microsoft.azure.management.compute.VirtualMachine;
-import com.microsoft.azure.management.compute.VirtualMachineDataDisk;
-import com.microsoft.azure.management.compute.VirtualMachineSizeTypes;
-import com.microsoft.azure.management.compute.VirtualMachines;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
-import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
-import rx.Observable;
-import rx.functions.Action1;
+import com.microsoft.azure.v2.management.compute.Disk;
+import com.microsoft.azure.v2.management.compute.KnownWindowsVirtualMachineImage;
+import com.microsoft.azure.v2.management.compute.VirtualMachine;
+import com.microsoft.azure.v2.management.compute.VirtualMachineDataDisk;
+import com.microsoft.azure.v2.management.compute.VirtualMachineSizeTypes;
+import com.microsoft.azure.v2.management.compute.VirtualMachines;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Indexable;
+import com.microsoft.azure.v2.management.resources.fluentcore.utils.Utils;
 
 public class TestVirtualMachine extends TestTemplate<VirtualMachine, VirtualMachines> {
     @Override
@@ -42,11 +41,8 @@ public class TestVirtualMachine extends TestTemplate<VirtualMachine, VirtualMach
                 .createAsync();
 
         Utils.<VirtualMachine>rootResource(resourceStream)
-                .subscribe(new Action1<VirtualMachine>() {
-                    @Override
-                    public void call(VirtualMachine virtualMachine) {
-                        future.set(virtualMachine);
-                    }
+                .doOnSuccess(virtualMachine -> {
+                    future.set(virtualMachine);
                 });
         vms[0] = future.get();
 

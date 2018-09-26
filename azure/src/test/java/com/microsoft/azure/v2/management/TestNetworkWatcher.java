@@ -5,19 +5,19 @@
  */
 package com.microsoft.azure.v2.management;
 
-import com.microsoft.azure.management.compute.KnownLinuxVirtualMachineImage;
-import com.microsoft.azure.management.compute.VirtualMachine;
-import com.microsoft.azure.management.compute.VirtualMachineSizeTypes;
-import com.microsoft.azure.management.compute.VirtualMachines;
-import com.microsoft.azure.management.network.*;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.model.CreatedResources;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
-import com.microsoft.azure.management.storage.StorageAccount;
-import com.microsoft.azure.management.storage.StorageAccounts;
+import com.microsoft.azure.v2.management.compute.KnownLinuxVirtualMachineImage;
+import com.microsoft.azure.v2.management.compute.VirtualMachine;
+import com.microsoft.azure.v2.management.compute.VirtualMachineSizeTypes;
+import com.microsoft.azure.v2.management.compute.VirtualMachines;
+import com.microsoft.azure.v2.management.network.*;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Creatable;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.CreatedResources;
+import com.microsoft.azure.v2.management.resources.fluentcore.utils.SdkContext;
+import com.microsoft.azure.v2.management.storage.StorageAccount;
+import com.microsoft.azure.v2.management.storage.StorageAccounts;
 import org.junit.Assert;
 
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
 
 import java.util.ArrayList;
 import java.util.List;

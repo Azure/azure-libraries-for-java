@@ -5,26 +5,27 @@
  */
 package com.microsoft.azure.v2.management;
 
-import com.microsoft.azure.management.compute.KnownLinuxVirtualMachineImage;
-import com.microsoft.azure.management.compute.VirtualMachine;
-import com.microsoft.azure.management.network.ApplicationGateway;
-import com.microsoft.azure.management.network.ApplicationGatewayBackend;
-import com.microsoft.azure.management.network.ApplicationGatewayBackendHealth;
-import com.microsoft.azure.management.network.ApplicationGatewayBackendHttpConfigurationHealth;
-import com.microsoft.azure.management.network.ApplicationGatewayBackendServerHealth;
-import com.microsoft.azure.management.network.ApplicationGatewayOperationalState;
-import com.microsoft.azure.management.network.ApplicationGatewayRequestRoutingRule;
-import com.microsoft.azure.management.network.Network;
-import com.microsoft.azure.management.network.NetworkInterface;
-import com.microsoft.azure.management.network.NicIPConfiguration;
-import com.microsoft.azure.management.resources.ResourceGroup;
-import com.microsoft.azure.management.resources.core.TestBase;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.model.CreatedResources;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
+import com.microsoft.azure.v2.AzureEnvironment;
+import com.microsoft.azure.v2.management.compute.KnownLinuxVirtualMachineImage;
+import com.microsoft.azure.v2.management.compute.VirtualMachine;
+import com.microsoft.azure.v2.management.network.ApplicationGateway;
+import com.microsoft.azure.v2.management.network.ApplicationGatewayBackend;
+import com.microsoft.azure.v2.management.network.ApplicationGatewayBackendHealth;
+import com.microsoft.azure.v2.management.network.ApplicationGatewayBackendHttpConfigurationHealth;
+import com.microsoft.azure.v2.management.network.ApplicationGatewayBackendServerHealth;
+import com.microsoft.azure.v2.management.network.ApplicationGatewayOperationalState;
+import com.microsoft.azure.v2.management.network.ApplicationGatewayRequestRoutingRule;
+import com.microsoft.azure.v2.management.network.Network;
+import com.microsoft.azure.v2.management.network.NetworkInterface;
+import com.microsoft.azure.v2.management.network.NicIPConfiguration;
+import com.microsoft.azure.v2.management.resources.ResourceGroup;
+import com.microsoft.azure.v2.management.resources.core.TestBase;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Creatable;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.CreatedResources;
+import com.microsoft.azure.v2.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.azure.v2.Azure;
-import com.microsoft.rest.RestClient;
+import com.microsoft.rest.v2.http.HttpPipeline;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -36,8 +37,8 @@ public class ApplicationGatewayTests extends TestBase {
     private Azure azure;
 
     @Override
-    protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {
-        Azure.Authenticated azureAuthed = Azure.authenticate(restClient, defaultSubscription, domain);
+    protected void initializeClients(HttpPipeline httpPipeline, String defaultSubscription, String domain, AzureEnvironment azureEnvironment) {
+        Azure.Authenticated azureAuthed = Azure.authenticate(httpPipeline, azureEnvironment, domain, defaultSubscription);
         azure = azureAuthed.withSubscription(defaultSubscription);
     }
 

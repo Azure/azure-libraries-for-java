@@ -6,13 +6,13 @@
 
 package com.microsoft.azure.v2.management;
 
-import com.microsoft.azure.management.compute.VirtualMachineUnmanagedDataDisk;
-import com.microsoft.azure.management.compute.KnownWindowsVirtualMachineImage;
-import com.microsoft.azure.management.compute.VirtualMachine;
-import com.microsoft.azure.management.compute.VirtualMachines;
-import com.microsoft.azure.management.compute.CachingTypes;
-import com.microsoft.azure.management.compute.VirtualMachineSizeTypes;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.v2.management.compute.VirtualMachineUnmanagedDataDisk;
+import com.microsoft.azure.v2.management.compute.KnownWindowsVirtualMachineImage;
+import com.microsoft.azure.v2.management.compute.VirtualMachine;
+import com.microsoft.azure.v2.management.compute.VirtualMachines;
+import com.microsoft.azure.v2.management.compute.CachingTypes;
+import com.microsoft.azure.v2.management.compute.VirtualMachineSizeTypes;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
 import org.junit.Assert;
 
 public class TestVirtualMachineDataDisk extends TestTemplate<VirtualMachine, VirtualMachines> {

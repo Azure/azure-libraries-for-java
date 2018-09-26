@@ -7,13 +7,13 @@ package com.microsoft.azure.v2.management;
 
 import org.junit.Assert;
 
-import com.microsoft.azure.management.network.LoadBalancer;
-import com.microsoft.azure.management.network.NetworkInterface;
-import com.microsoft.azure.management.network.NicIPConfiguration;
-import com.microsoft.azure.management.network.LoadBalancerPublicFrontend;
-import com.microsoft.azure.management.network.PublicIPAddress;
-import com.microsoft.azure.management.network.PublicIPAddresses;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.v2.management.network.LoadBalancer;
+import com.microsoft.azure.v2.management.network.NetworkInterface;
+import com.microsoft.azure.v2.management.network.NicIPConfiguration;
+import com.microsoft.azure.v2.management.network.LoadBalancerPublicFrontend;
+import com.microsoft.azure.v2.management.network.PublicIPAddress;
+import com.microsoft.azure.v2.management.network.PublicIPAddresses;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
 
 /**
  * Tests public IPs.

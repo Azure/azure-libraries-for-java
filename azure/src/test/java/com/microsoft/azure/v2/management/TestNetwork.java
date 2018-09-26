@@ -10,21 +10,21 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.microsoft.azure.management.network.ServiceEndpointType;
+import com.microsoft.azure.v2.management.network.ServiceEndpointType;
 import org.junit.Assert;
 
-import com.microsoft.azure.management.network.NetworkPeeringGatewayUse;
-import com.microsoft.azure.management.network.Network;
-import com.microsoft.azure.management.network.NetworkPeering;
-import com.microsoft.azure.management.network.NetworkSecurityGroup;
-import com.microsoft.azure.management.network.Networks;
-import com.microsoft.azure.management.network.RouteTable;
-import com.microsoft.azure.management.network.Subnet;
-import com.microsoft.azure.management.network.VirtualNetworkPeeringState;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.model.CreatedResources;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
+import com.microsoft.azure.v2.management.network.NetworkPeeringGatewayUse;
+import com.microsoft.azure.v2.management.network.Network;
+import com.microsoft.azure.v2.management.network.NetworkPeering;
+import com.microsoft.azure.v2.management.network.NetworkSecurityGroup;
+import com.microsoft.azure.v2.management.network.Networks;
+import com.microsoft.azure.v2.management.network.RouteTable;
+import com.microsoft.azure.v2.management.network.Subnet;
+import com.microsoft.azure.v2.management.network.VirtualNetworkPeeringState;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Creatable;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.CreatedResources;
+import com.microsoft.azure.v2.management.resources.fluentcore.utils.SdkContext;
 
 /**
  * Test of virtual network management.

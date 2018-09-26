@@ -5,63 +5,63 @@
  */
 package com.microsoft.azure.v2.management;
 
-import com.microsoft.azure.CloudException;
-import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.batchai.BatchAICluster;
-import com.microsoft.azure.management.batchai.BatchAIJob;
-import com.microsoft.azure.management.batchai.BatchAIExperiment;
-import com.microsoft.azure.management.batchai.OutputDirectory;
-import com.microsoft.azure.management.batchai.BatchAIWorkspace;
-import com.microsoft.azure.management.compute.CachingTypes;
-import com.microsoft.azure.management.compute.Disk;
-import com.microsoft.azure.management.compute.KnownLinuxVirtualMachineImage;
-import com.microsoft.azure.management.compute.PowerState;
-import com.microsoft.azure.management.compute.VirtualMachine;
-import com.microsoft.azure.management.compute.VirtualMachineImage;
-import com.microsoft.azure.management.compute.VirtualMachineOffer;
-import com.microsoft.azure.management.compute.VirtualMachinePublisher;
-import com.microsoft.azure.management.compute.VirtualMachineSizeTypes;
-import com.microsoft.azure.management.compute.VirtualMachineSku;
-import com.microsoft.azure.management.locks.LockLevel;
-import com.microsoft.azure.management.locks.ManagementLock;
-import com.microsoft.azure.management.network.Access;
-import com.microsoft.azure.management.network.ConnectionMonitor;
-import com.microsoft.azure.management.network.ConnectionMonitorQueryResult;
-import com.microsoft.azure.management.network.ConnectivityCheck;
-import com.microsoft.azure.management.network.Direction;
-import com.microsoft.azure.management.network.FlowLogSettings;
-import com.microsoft.azure.management.network.IpFlowProtocol;
-import com.microsoft.azure.management.network.Network;
-import com.microsoft.azure.management.network.NetworkSecurityGroup;
-import com.microsoft.azure.management.network.NetworkWatcher;
-import com.microsoft.azure.management.network.NextHop;
-import com.microsoft.azure.management.network.NextHopType;
-import com.microsoft.azure.management.network.PacketCapture;
-import com.microsoft.azure.management.network.PcProtocol;
-import com.microsoft.azure.management.network.PcStatus;
-import com.microsoft.azure.management.network.SecurityGroupView;
-import com.microsoft.azure.management.network.Subnet;
-import com.microsoft.azure.management.network.Topology;
-import com.microsoft.azure.management.network.VerificationIPFlow;
-import com.microsoft.azure.management.resources.Deployment;
-import com.microsoft.azure.management.resources.DeploymentMode;
-import com.microsoft.azure.management.resources.GenericResource;
-import com.microsoft.azure.management.resources.Location;
-import com.microsoft.azure.management.resources.ResourceGroup;
-import com.microsoft.azure.management.resources.Subscription;
-import com.microsoft.azure.management.resources.core.TestBase;
-import com.microsoft.azure.management.resources.fluentcore.arm.CountryIsoCode;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.model.CreatedResources;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
-import com.microsoft.azure.management.storage.SkuName;
-import com.microsoft.azure.management.storage.StorageAccount;
+import com.microsoft.azure.v2.AzureEnvironment;
+import com.microsoft.azure.v2.CloudException;
+import com.microsoft.azure.v2.PagedList;
+//import com.microsoft.azure.v2.management.batchai.BatchAICluster;
+//import com.microsoft.azure.v2.management.batchai.BatchAIJob;
+//import com.microsoft.azure.v2.management.batchai.BatchAIExperiment;
+//import com.microsoft.azure.v2.management.batchai.OutputDirectory;
+//import com.microsoft.azure.v2.management.batchai.BatchAIWorkspace;
+import com.microsoft.azure.v2.management.compute.CachingTypes;
+//import com.microsoft.azure.v2.management.compute.Disk;
+import com.microsoft.azure.v2.management.compute.KnownLinuxVirtualMachineImage;
+import com.microsoft.azure.v2.management.compute.PowerState;
+import com.microsoft.azure.v2.management.compute.VirtualMachine;
+import com.microsoft.azure.v2.management.compute.VirtualMachineImage;
+import com.microsoft.azure.v2.management.compute.VirtualMachineOffer;
+import com.microsoft.azure.v2.management.compute.VirtualMachinePublisher;
+import com.microsoft.azure.v2.management.compute.VirtualMachineSizeTypes;
+import com.microsoft.azure.v2.management.compute.VirtualMachineSku;
+//import com.microsoft.azure.v2.management.locks.LockLevel;
+//import com.microsoft.azure.v2.management.locks.ManagementLock;
+import com.microsoft.azure.v2.management.network.Access;
+import com.microsoft.azure.v2.management.network.ConnectionMonitor;
+import com.microsoft.azure.v2.management.network.ConnectionMonitorQueryResult;
+import com.microsoft.azure.v2.management.network.ConnectivityCheck;
+import com.microsoft.azure.v2.management.network.Direction;
+import com.microsoft.azure.v2.management.network.FlowLogSettings;
+import com.microsoft.azure.v2.management.network.IpFlowProtocol;
+// import com.microsoft.azure.v2.management.network.Network;
+import com.microsoft.azure.v2.management.network.NetworkSecurityGroup;
+import com.microsoft.azure.v2.management.network.NetworkWatcher;
+import com.microsoft.azure.v2.management.network.NextHop;
+import com.microsoft.azure.v2.management.network.NextHopType;
+import com.microsoft.azure.v2.management.network.PacketCapture;
+import com.microsoft.azure.v2.management.network.PcProtocol;
+import com.microsoft.azure.v2.management.network.PcStatus;
+import com.microsoft.azure.v2.management.network.SecurityGroupView;
+//import com.microsoft.azure.v2.management.network.Subnet;
+import com.microsoft.azure.v2.management.network.Topology;
+import com.microsoft.azure.v2.management.network.VerificationIPFlow;
+import com.microsoft.azure.v2.management.resources.Deployment;
+import com.microsoft.azure.v2.management.resources.DeploymentMode;
+import com.microsoft.azure.v2.management.resources.GenericResource;
+import com.microsoft.azure.v2.management.resources.Location;
+//import com.microsoft.azure.v2.management.resources.ResourceGroup;
+import com.microsoft.azure.v2.management.resources.Subscription;
+import com.microsoft.azure.v2.management.resources.core.TestBase;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.CountryIsoCode;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
+//import com.microsoft.azure.v2.management.resources.fluentcore.model.Creatable;
+//import com.microsoft.azure.v2.management.resources.fluentcore.model.CreatedResources;
+import com.microsoft.azure.v2.management.resources.fluentcore.utils.SdkContext;
+import com.microsoft.azure.v2.management.storage.SkuName;
+import com.microsoft.azure.v2.management.storage.StorageAccount;
 import com.microsoft.azure.v2.Azure;
-import com.microsoft.rest.RestClient;
+//import com.microsoft.rest.RestClient;
 
-import rx.Observable;
-import rx.schedulers.Schedulers;
+import com.microsoft.rest.v2.http.HttpPipeline;
 
 import org.junit.Assert;
 import org.junit.Ignore;
@@ -79,8 +79,8 @@ public class AzureTests extends TestBase {
     private Azure azure;
 
     @Override
-    protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {
-        Azure.Authenticated azureAuthed = Azure.authenticate(restClient, defaultSubscription, domain);
+    protected void initializeClients(HttpPipeline httpPipeline, String defaultSubscription, String domain, AzureEnvironment azureEnvironment) {
+        Azure.Authenticated azureAuthed = Azure.authenticate(httpPipeline, azureEnvironment, domain, defaultSubscription);
         azure = azureAuthed.withSubscription(defaultSubscription);
     }
 
@@ -243,210 +243,210 @@ public class AzureTests extends TestBase {
         azure.resourceGroups().beginDeleteByName(nsg.resourceGroupName());
     }
 
-    /**
-     * Tests management locks.
-     * NOTE: This requires the service principal to have an Owner role on the subscription
-     * @throws Exception
-     */
-    @Test
-    public void testManagementLocks() throws Exception {
-        // Prepare a VM
-        final String password = SdkContext.randomResourceName("P@s", 14);
-        final String rgName = SdkContext.randomResourceName("rg", 15);
-        final String vmName = SdkContext.randomResourceName("vm", 15);
-        final String storageName = SdkContext.randomResourceName("st", 15);
-        final String diskName = SdkContext.randomResourceName("dsk", 15);
-        final String netName = SdkContext.randomResourceName("net", 15);
-        final Region region = Region.US_EAST;
-
-        ResourceGroup resourceGroup = null;
-        ManagementLock lockGroup = null,
-                lockVM = null,
-                lockStorage = null,
-                lockDiskRO = null,
-                lockDiskDel = null,
-                lockSubnet = null;
-        try {
-            resourceGroup = azure.resourceGroups().define(rgName)
-                    .withRegion(region)
-                    .create();
-            Assert.assertNotNull(resourceGroup);
-
-            Creatable<Network> netDefinition = azure.networks().define(netName)
-                    .withRegion(region)
-                    .withExistingResourceGroup(resourceGroup)
-                    .withAddressSpace("10.0.0.0/28");
-
-            // Define a VM for testing VM locks
-            Creatable<VirtualMachine> vmDefinition = azure.virtualMachines().define(vmName)
-                    .withRegion(region)
-                    .withExistingResourceGroup(resourceGroup)
-                    .withNewPrimaryNetwork(netDefinition)
-                    .withPrimaryPrivateIPAddressDynamic()
-                    .withoutPrimaryPublicIPAddress()
-                    .withPopularLinuxImage(KnownLinuxVirtualMachineImage.UBUNTU_SERVER_16_04_LTS)
-                    .withRootUsername("tester")
-                    .withRootPassword(password)
-                    .withSize(VirtualMachineSizeTypes.BASIC_A1);
-
-            // Define a managed disk for testing locks on that
-            Creatable<Disk> diskDefinition = azure.disks().define(diskName)
-                    .withRegion(region)
-                    .withExistingResourceGroup(resourceGroup)
-                    .withData()
-                    .withSizeInGB(100);
-
-            // Define a storage account for testing locks on that
-            Creatable<StorageAccount> storageDefinition = azure.storageAccounts().define(storageName)
-                    .withRegion(region)
-                    .withExistingResourceGroup(resourceGroup);
-
-            // Create resources in parallel to save time and money
-            Observable.merge(
-                    storageDefinition.createAsync().subscribeOn(Schedulers.io()),
-                    vmDefinition.createAsync().subscribeOn(Schedulers.io()),
-                    diskDefinition.createAsync().subscribeOn(Schedulers.io()))
-            .toBlocking().subscribe();
-
-            VirtualMachine vm = (VirtualMachine) vmDefinition;
-            StorageAccount storage = (StorageAccount) storageDefinition;
-            Disk disk = (Disk) diskDefinition;
-            Network network = vm.getPrimaryNetworkInterface().primaryIPConfiguration().getNetwork();
-            Subnet subnet = network.subnets().values().iterator().next();
-
-            // Lock subnet
-            Creatable<ManagementLock> lockSubnetDef = azure.managementLocks().define("subnetLock")
-                    .withLockedResource(subnet.inner().id())
-                    .withLevel(LockLevel.READ_ONLY);
-
-            // Lock VM
-            Creatable<ManagementLock> lockVMDef = azure.managementLocks().define("vmlock")
-                    .withLockedResource(vm)
-                    .withLevel(LockLevel.READ_ONLY)
-                    .withNotes("vm readonly lock");
-
-            // Lock resource group
-            Creatable<ManagementLock> lockGroupDef = azure.managementLocks().define("rglock")
-                    .withLockedResource(resourceGroup.id())
-                    .withLevel(LockLevel.CAN_NOT_DELETE);
-
-            // Lock storage
-            Creatable<ManagementLock> lockStorageDef = azure.managementLocks().define("stLock")
-                    .withLockedResource(storage)
-                    .withLevel(LockLevel.CAN_NOT_DELETE);
-
-            // Create locks in parallel
-            @SuppressWarnings("unchecked")
-            CreatedResources<ManagementLock> created = azure.managementLocks().create(lockVMDef, lockGroupDef, lockStorageDef, lockSubnetDef);
-            lockVM = created.get(lockVMDef.key());
-            lockStorage = created.get(lockStorageDef.key());
-            lockGroup = created.get(lockGroupDef.key());
-            lockSubnet = created.get(lockSubnetDef.key());
-
-            // Lock disk synchronously
-            lockDiskRO = azure.managementLocks().define("diskLockRO")
-                    .withLockedResource(disk)
-                    .withLevel(LockLevel.READ_ONLY)
-                    .create();
-
-            lockDiskDel = azure.managementLocks().define("diskLockDel")
-                    .withLockedResource(disk)
-                    .withLevel(LockLevel.CAN_NOT_DELETE)
-                    .create();
-
-            // Verify VM lock
-            Assert.assertEquals(2, azure.managementLocks().listForResource(vm.id()).size());
-
-            Assert.assertNotNull(lockVM);
-            lockVM = azure.managementLocks().getById(lockVM.id());
-            Assert.assertNotNull(lockVM);
-            TestUtils.print(lockVM);
-            Assert.assertEquals(LockLevel.READ_ONLY, lockVM.level());
-            Assert.assertTrue(vm.id().equalsIgnoreCase(lockVM.lockedResourceId()));
-
-            // Verify resource group lock
-            Assert.assertNotNull(lockGroup);
-            lockGroup = azure.managementLocks().getByResourceGroup(resourceGroup.name(), "rglock");
-            Assert.assertNotNull(lockGroup);
-            TestUtils.print(lockVM);
-            Assert.assertEquals(LockLevel.CAN_NOT_DELETE, lockGroup.level());
-            Assert.assertTrue(resourceGroup.id().equalsIgnoreCase(lockGroup.lockedResourceId()));
-
-            // Verify storage account lock
-            Assert.assertEquals(2, azure.managementLocks().listForResource(storage.id()).size());
-
-            Assert.assertNotNull(lockStorage);
-            lockStorage = azure.managementLocks().getById(lockStorage.id());
-            Assert.assertNotNull(lockStorage);
-            TestUtils.print(lockStorage);
-            Assert.assertEquals(LockLevel.CAN_NOT_DELETE, lockStorage.level());
-            Assert.assertTrue(storage.id().equalsIgnoreCase(lockStorage.lockedResourceId()));
-
-            // Verify disk lock
-            Assert.assertEquals(3, azure.managementLocks().listForResource(disk.id()).size());
-
-            Assert.assertNotNull(lockDiskRO);
-            lockDiskRO = azure.managementLocks().getById(lockDiskRO.id());
-            Assert.assertNotNull(lockDiskRO);
-            TestUtils.print(lockDiskRO);
-            Assert.assertEquals(LockLevel.READ_ONLY, lockDiskRO.level());
-            Assert.assertTrue(disk.id().equalsIgnoreCase(lockDiskRO.lockedResourceId()));
-
-            Assert.assertNotNull(lockDiskDel);
-            lockDiskDel = azure.managementLocks().getById(lockDiskDel.id());
-            Assert.assertNotNull(lockDiskDel);
-            TestUtils.print(lockDiskDel);
-            Assert.assertEquals(LockLevel.CAN_NOT_DELETE, lockDiskDel.level());
-            Assert.assertTrue(disk.id().equalsIgnoreCase(lockDiskDel.lockedResourceId()));
-
-            // Verify subnet lock
-            Assert.assertEquals(2, azure.managementLocks().listForResource(network.id()).size());
-
-            lockSubnet = azure.managementLocks().getById(lockSubnet.id());
-            Assert.assertNotNull(lockSubnet);
-            TestUtils.print(lockSubnet);
-            Assert.assertEquals(LockLevel.READ_ONLY, lockSubnet.level());
-            Assert.assertTrue(subnet.inner().id().equalsIgnoreCase(lockSubnet.lockedResourceId()));
-
-            // Verify lock collection
-            List<ManagementLock> locksSubscription = azure.managementLocks().list();
-            List<ManagementLock> locksGroup = azure.managementLocks().listByResourceGroup(vm.resourceGroupName());
-            Assert.assertNotNull(locksSubscription);
-            Assert.assertNotNull(locksGroup);
-
-            int locksAllCount = locksSubscription.size();
-            System.out.println("All locks: " + locksAllCount);
-            Assert.assertTrue(6 <= locksAllCount);
-
-            int locksGroupCount = locksGroup.size();
-            System.out.println("Group locks: " + locksGroupCount);
-            Assert.assertEquals(6, locksGroup.size());
-        } catch (Exception ex) {
-            ex.printStackTrace(System.out);
-        } finally {
-            if (resourceGroup != null) {
-                if (lockGroup != null) {
-                    azure.managementLocks().deleteById(lockGroup.id());
-                }
-                if (lockVM != null) {
-                    azure.managementLocks().deleteById(lockVM.id());
-                }
-                if (lockDiskRO != null) {
-                    azure.managementLocks().deleteById(lockDiskRO.id());
-                }
-                if (lockDiskDel != null) {
-                    azure.managementLocks().deleteById(lockDiskDel.id());
-                }
-                if (lockStorage != null) {
-                    azure.managementLocks().deleteById(lockStorage.id());
-                }
-                if (lockSubnet != null) {
-                    azure.managementLocks().deleteById(lockSubnet.id());
-                }
-                azure.resourceGroups().beginDeleteByName(resourceGroup.name());
-            }
-        }
-    }
+//    /**
+//     * Tests management locks.
+//     * NOTE: This requires the service principal to have an Owner role on the subscription
+//     * @throws Exception
+//     */
+//    @Test
+//    public void testManagementLocks() throws Exception {
+//        // Prepare a VM
+//        final String password = SdkContext.randomResourceName("P@s", 14);
+//        final String rgName = SdkContext.randomResourceName("rg", 15);
+//        final String vmName = SdkContext.randomResourceName("vm", 15);
+//        final String storageName = SdkContext.randomResourceName("st", 15);
+//        final String diskName = SdkContext.randomResourceName("dsk", 15);
+//        final String netName = SdkContext.randomResourceName("net", 15);
+//        final Region region = Region.US_EAST;
+//
+//        ResourceGroup resourceGroup = null;
+//        ManagementLock lockGroup = null,
+//                lockVM = null,
+//                lockStorage = null,
+//                lockDiskRO = null,
+//                lockDiskDel = null,
+//                lockSubnet = null;
+//        try {
+//            resourceGroup = azure.resourceGroups().define(rgName)
+//                    .withRegion(region)
+//                    .create();
+//            Assert.assertNotNull(resourceGroup);
+//
+//            Creatable<Network> netDefinition = azure.networks().define(netName)
+//                    .withRegion(region)
+//                    .withExistingResourceGroup(resourceGroup)
+//                    .withAddressSpace("10.0.0.0/28");
+//
+//            // Define a VM for testing VM locks
+//            Creatable<VirtualMachine> vmDefinition = azure.virtualMachines().define(vmName)
+//                    .withRegion(region)
+//                    .withExistingResourceGroup(resourceGroup)
+//                    .withNewPrimaryNetwork(netDefinition)
+//                    .withPrimaryPrivateIPAddressDynamic()
+//                    .withoutPrimaryPublicIPAddress()
+//                    .withPopularLinuxImage(KnownLinuxVirtualMachineImage.UBUNTU_SERVER_16_04_LTS)
+//                    .withRootUsername("tester")
+//                    .withRootPassword(password)
+//                    .withSize(VirtualMachineSizeTypes.BASIC_A1);
+//
+//            // Define a managed disk for testing locks on that
+//            Creatable<Disk> diskDefinition = azure.disks().define(diskName)
+//                    .withRegion(region)
+//                    .withExistingResourceGroup(resourceGroup)
+//                    .withData()
+//                    .withSizeInGB(100);
+//
+//            // Define a storage account for testing locks on that
+//            Creatable<StorageAccount> storageDefinition = azure.storageAccounts().define(storageName)
+//                    .withRegion(region)
+//                    .withExistingResourceGroup(resourceGroup);
+//
+//            // Create resources in parallel to save time and money
+//            Observable.merge(
+//                    storageDefinition.createAsync().subscribeOn(Schedulers.io()),
+//                    vmDefinition.createAsync().subscribeOn(Schedulers.io()),
+//                    diskDefinition.createAsync().subscribeOn(Schedulers.io()))
+//            .toBlocking().subscribe();
+//
+//            VirtualMachine vm = (VirtualMachine) vmDefinition;
+//            StorageAccount storage = (StorageAccount) storageDefinition;
+//            Disk disk = (Disk) diskDefinition;
+//            Network network = vm.getPrimaryNetworkInterface().primaryIPConfiguration().getNetwork();
+//            Subnet subnet = network.subnets().values().iterator().next();
+//
+//            // Lock subnet
+//            Creatable<ManagementLock> lockSubnetDef = azure.managementLocks().define("subnetLock")
+//                    .withLockedResource(subnet.inner().id())
+//                    .withLevel(LockLevel.READ_ONLY);
+//
+//            // Lock VM
+//            Creatable<ManagementLock> lockVMDef = azure.managementLocks().define("vmlock")
+//                    .withLockedResource(vm)
+//                    .withLevel(LockLevel.READ_ONLY)
+//                    .withNotes("vm readonly lock");
+//
+//            // Lock resource group
+//            Creatable<ManagementLock> lockGroupDef = azure.managementLocks().define("rglock")
+//                    .withLockedResource(resourceGroup.id())
+//                    .withLevel(LockLevel.CAN_NOT_DELETE);
+//
+//            // Lock storage
+//            Creatable<ManagementLock> lockStorageDef = azure.managementLocks().define("stLock")
+//                    .withLockedResource(storage)
+//                    .withLevel(LockLevel.CAN_NOT_DELETE);
+//
+//            // Create locks in parallel
+//            @SuppressWarnings("unchecked")
+//            CreatedResources<ManagementLock> created = azure.managementLocks().create(lockVMDef, lockGroupDef, lockStorageDef, lockSubnetDef);
+//            lockVM = created.get(lockVMDef.key());
+//            lockStorage = created.get(lockStorageDef.key());
+//            lockGroup = created.get(lockGroupDef.key());
+//            lockSubnet = created.get(lockSubnetDef.key());
+//
+//            // Lock disk synchronously
+//            lockDiskRO = azure.managementLocks().define("diskLockRO")
+//                    .withLockedResource(disk)
+//                    .withLevel(LockLevel.READ_ONLY)
+//                    .create();
+//
+//            lockDiskDel = azure.managementLocks().define("diskLockDel")
+//                    .withLockedResource(disk)
+//                    .withLevel(LockLevel.CAN_NOT_DELETE)
+//                    .create();
+//
+//            // Verify VM lock
+//            Assert.assertEquals(2, azure.managementLocks().listForResource(vm.id()).size());
+//
+//            Assert.assertNotNull(lockVM);
+//            lockVM = azure.managementLocks().getById(lockVM.id());
+//            Assert.assertNotNull(lockVM);
+//            TestUtils.print(lockVM);
+//            Assert.assertEquals(LockLevel.READ_ONLY, lockVM.level());
+//            Assert.assertTrue(vm.id().equalsIgnoreCase(lockVM.lockedResourceId()));
+//
+//            // Verify resource group lock
+//            Assert.assertNotNull(lockGroup);
+//            lockGroup = azure.managementLocks().getByResourceGroup(resourceGroup.name(), "rglock");
+//            Assert.assertNotNull(lockGroup);
+//            TestUtils.print(lockVM);
+//            Assert.assertEquals(LockLevel.CAN_NOT_DELETE, lockGroup.level());
+//            Assert.assertTrue(resourceGroup.id().equalsIgnoreCase(lockGroup.lockedResourceId()));
+//
+//            // Verify storage account lock
+//            Assert.assertEquals(2, azure.managementLocks().listForResource(storage.id()).size());
+//
+//            Assert.assertNotNull(lockStorage);
+//            lockStorage = azure.managementLocks().getById(lockStorage.id());
+//            Assert.assertNotNull(lockStorage);
+//            TestUtils.print(lockStorage);
+//            Assert.assertEquals(LockLevel.CAN_NOT_DELETE, lockStorage.level());
+//            Assert.assertTrue(storage.id().equalsIgnoreCase(lockStorage.lockedResourceId()));
+//
+//            // Verify disk lock
+//            Assert.assertEquals(3, azure.managementLocks().listForResource(disk.id()).size());
+//
+//            Assert.assertNotNull(lockDiskRO);
+//            lockDiskRO = azure.managementLocks().getById(lockDiskRO.id());
+//            Assert.assertNotNull(lockDiskRO);
+//            TestUtils.print(lockDiskRO);
+//            Assert.assertEquals(LockLevel.READ_ONLY, lockDiskRO.level());
+//            Assert.assertTrue(disk.id().equalsIgnoreCase(lockDiskRO.lockedResourceId()));
+//
+//            Assert.assertNotNull(lockDiskDel);
+//            lockDiskDel = azure.managementLocks().getById(lockDiskDel.id());
+//            Assert.assertNotNull(lockDiskDel);
+//            TestUtils.print(lockDiskDel);
+//            Assert.assertEquals(LockLevel.CAN_NOT_DELETE, lockDiskDel.level());
+//            Assert.assertTrue(disk.id().equalsIgnoreCase(lockDiskDel.lockedResourceId()));
+//
+//            // Verify subnet lock
+//            Assert.assertEquals(2, azure.managementLocks().listForResource(network.id()).size());
+//
+//            lockSubnet = azure.managementLocks().getById(lockSubnet.id());
+//            Assert.assertNotNull(lockSubnet);
+//            TestUtils.print(lockSubnet);
+//            Assert.assertEquals(LockLevel.READ_ONLY, lockSubnet.level());
+//            Assert.assertTrue(subnet.inner().id().equalsIgnoreCase(lockSubnet.lockedResourceId()));
+//
+//            // Verify lock collection
+//            List<ManagementLock> locksSubscription = azure.managementLocks().list();
+//            List<ManagementLock> locksGroup = azure.managementLocks().listByResourceGroup(vm.resourceGroupName());
+//            Assert.assertNotNull(locksSubscription);
+//            Assert.assertNotNull(locksGroup);
+//
+//            int locksAllCount = locksSubscription.size();
+//            System.out.println("All locks: " + locksAllCount);
+//            Assert.assertTrue(6 <= locksAllCount);
+//
+//            int locksGroupCount = locksGroup.size();
+//            System.out.println("Group locks: " + locksGroupCount);
+//            Assert.assertEquals(6, locksGroup.size());
+//        } catch (Exception ex) {
+//            ex.printStackTrace(System.out);
+//        } finally {
+//            if (resourceGroup != null) {
+//                if (lockGroup != null) {
+//                    azure.managementLocks().deleteById(lockGroup.id());
+//                }
+//                if (lockVM != null) {
+//                    azure.managementLocks().deleteById(lockVM.id());
+//                }
+//                if (lockDiskRO != null) {
+//                    azure.managementLocks().deleteById(lockDiskRO.id());
+//                }
+//                if (lockDiskDel != null) {
+//                    azure.managementLocks().deleteById(lockDiskDel.id());
+//                }
+//                if (lockStorage != null) {
+//                    azure.managementLocks().deleteById(lockStorage.id());
+//                }
+//                if (lockSubnet != null) {
+//                    azure.managementLocks().deleteById(lockSubnet.id());
+//                }
+//                azure.resourceGroups().beginDeleteByName(resourceGroup.name());
+//            }
+//        }
+//    }
 
 
     /**
@@ -467,11 +467,11 @@ public class AzureTests extends TestBase {
                         for (VirtualMachineSku s : o.skus().list()) {
                             System.out.println(String.format("\t\tSku name: %s", s.name()));
                         }
-                    } catch (com.microsoft.rest.RestException e) {
+                    } catch (com.microsoft.rest.v2.RestException e) {
                         e.printStackTrace();
                     }
                 }
-            } catch (com.microsoft.rest.RestException e) {
+            } catch (com.microsoft.rest.v2.RestException e) {
                 e.printStackTrace();
             }
         }
@@ -965,81 +965,81 @@ public class AzureTests extends TestBase {
         azure.resourceGroups().beginDeleteByName(storageAccount.resourceGroupName());
     }
 
-    @Test
-    public void testBatchAccount() throws Exception {
-        new TestBatch().runTest(azure.batchAccounts(), azure.resourceGroups());
-    }
+//    @Test
+//    public void testBatchAccount() throws Exception {
+//        new TestBatch().runTest(azure.batchAccounts(), azure.resourceGroups());
+//    }
 
-    @Test
-    public void testBatchAI() throws Exception {
-        new TestBatchAI.Basic(azure.storageAccounts(), azure.networks()).runTest(azure.batchAIWorkspaces(), azure.resourceGroups());
-    }
+//    @Test
+//    public void testBatchAI() throws Exception {
+//        new TestBatchAI.Basic(azure.storageAccounts(), azure.networks()).runTest(azure.batchAIWorkspaces(), azure.resourceGroups());
+//    }
 
-    @Test
-    public void testBatchAIJob() throws Exception {
-        final Region region = Region.US_EAST;
-        final String groupName = SdkContext.randomResourceName("rg", 10);
-        final String workspaceName = SdkContext.randomResourceName("ws", 10);
-        final String clusterName = SdkContext.randomResourceName("cluster", 15);
-        final String experimentName = SdkContext.randomResourceName("exp", 10);
-        final String userName = "tirekicker";
-        try {
+//    @Test
+//    public void testBatchAIJob() throws Exception {
+//        final Region region = Region.US_EAST;
+//        final String groupName = SdkContext.randomResourceName("rg", 10);
+//        final String workspaceName = SdkContext.randomResourceName("ws", 10);
+//        final String clusterName = SdkContext.randomResourceName("cluster", 15);
+//        final String experimentName = SdkContext.randomResourceName("exp", 10);
+//        final String userName = "tirekicker";
+//        try {
+//
+//            BatchAIWorkspace workspace = azure.batchAIWorkspaces().define(workspaceName)
+//                    .withRegion(region)
+//                    .withNewResourceGroup(groupName)
+//                    .create();
+//            BatchAIExperiment experiment = workspace.experiments().define(experimentName).create();
+//
+//            BatchAICluster cluster = workspace.clusters().define(clusterName)
+//                    .withVMSize(VirtualMachineSizeTypes.STANDARD_D1_V2.toString())
+//                    .withUserName(userName)
+//                    .withPassword("MyPassword")
+//                    .withAutoScale(1, 1)
+//                    .create();
+//            Assert.assertEquals("steady", cluster.allocationState().toString());
+//            Assert.assertEquals(userName, cluster.adminUserName());
+//
+//            BatchAIJob job = experiment.jobs().define("myJob")
+//                    .withExistingClusterId(cluster.id())
+//                    .withNodeCount(1)
+//                    .withStdOutErrPathPrefix("$AZ_BATCHAI_MOUNT_ROOT/azurefileshare")
+//                    .defineCognitiveToolkit()
+//                        .withPythonScriptFile("$AZ_BATCHAI_INPUT_SAMPLE/ConvNet_MNIST.py")
+//                        .withCommandLineArgs("$AZ_BATCHAI_INPUT_SAMPLE $AZ_BATCHAI_OUTPUT_MODEL")
+//                        .attach()
+//                    .withInputDirectory("SAMPLE", "$AZ_BATCHAI_MOUNT_ROOT/azurefileshare/mnistcntksample")
+//                    .withOutputDirectory("MODEL", "$AZ_BATCHAI_MOUNT_ROOT/azurefileshare/model")
+//                    .defineOutputDirectory("OUTPUT")
+//                        .withPathPrefix("$AZ_BATCHAI_MOUNT_ROOT/azurefileshare/output")
+//                        .withPathSuffix("suffix")
+//                        .attach()
+//                    .withContainerImage("microsoft/cntk:2.1-gpu-python3.5-cuda8.0-cudnn6.0")
+//                    .create();
+//            Assert.assertEquals(2,job.outputDirectories().size());
+//            OutputDirectory outputDirectory = null;
+//            for (OutputDirectory directory : job.outputDirectories()) {
+//                if ("OUTPUT".equalsIgnoreCase(directory.id())) {
+//                    outputDirectory = directory;
+//                }
+//            }
+//            Assert.assertNotNull(outputDirectory);
+//            Assert.assertEquals("suffix", outputDirectory.pathSuffix().toLowerCase());
+//
+//            experiment.jobs().list();
+//
+//            BatchAIJob job2 = experiment.jobs().getById(job.id());
+//            Assert.assertEquals(cluster.id(), job2.cluster().id());
+//
+//        } finally {
+//            azure.resourceGroups().beginDeleteByName(groupName);
+//        }
+//    }
 
-            BatchAIWorkspace workspace = azure.batchAIWorkspaces().define(workspaceName)
-                    .withRegion(region)
-                    .withNewResourceGroup(groupName)
-                    .create();
-            BatchAIExperiment experiment = workspace.experiments().define(experimentName).create();
-
-            BatchAICluster cluster = workspace.clusters().define(clusterName)
-                    .withVMSize(VirtualMachineSizeTypes.STANDARD_D1_V2.toString())
-                    .withUserName(userName)
-                    .withPassword("MyPassword")
-                    .withAutoScale(1, 1)
-                    .create();
-            Assert.assertEquals("steady", cluster.allocationState().toString());
-            Assert.assertEquals(userName, cluster.adminUserName());
-
-            BatchAIJob job = experiment.jobs().define("myJob")
-                    .withExistingClusterId(cluster.id())
-                    .withNodeCount(1)
-                    .withStdOutErrPathPrefix("$AZ_BATCHAI_MOUNT_ROOT/azurefileshare")
-                    .defineCognitiveToolkit()
-                        .withPythonScriptFile("$AZ_BATCHAI_INPUT_SAMPLE/ConvNet_MNIST.py")
-                        .withCommandLineArgs("$AZ_BATCHAI_INPUT_SAMPLE $AZ_BATCHAI_OUTPUT_MODEL")
-                        .attach()
-                    .withInputDirectory("SAMPLE", "$AZ_BATCHAI_MOUNT_ROOT/azurefileshare/mnistcntksample")
-                    .withOutputDirectory("MODEL", "$AZ_BATCHAI_MOUNT_ROOT/azurefileshare/model")
-                    .defineOutputDirectory("OUTPUT")
-                        .withPathPrefix("$AZ_BATCHAI_MOUNT_ROOT/azurefileshare/output")
-                        .withPathSuffix("suffix")
-                        .attach()
-                    .withContainerImage("microsoft/cntk:2.1-gpu-python3.5-cuda8.0-cudnn6.0")
-                    .create();
-            Assert.assertEquals(2,job.outputDirectories().size());
-            OutputDirectory outputDirectory = null;
-            for (OutputDirectory directory : job.outputDirectories()) {
-                if ("OUTPUT".equalsIgnoreCase(directory.id())) {
-                    outputDirectory = directory;
-                }
-            }
-            Assert.assertNotNull(outputDirectory);
-            Assert.assertEquals("suffix", outputDirectory.pathSuffix().toLowerCase());
-
-            experiment.jobs().list();
-
-            BatchAIJob job2 = experiment.jobs().getById(job.id());
-            Assert.assertEquals(cluster.id(), job2.cluster().id());
-
-        } finally {
-            azure.resourceGroups().beginDeleteByName(groupName);
-        }
-    }
-
-    @Test
-    public void testBatchAIFileServer() throws Exception {
-        new TestBatchAIFileServers(azure.networks()).runTest(azure.batchAIWorkspaces(), azure.resourceGroups());
-    }
+//    @Test
+//    public void testBatchAIFileServer() throws Exception {
+//        new TestBatchAIFileServers(azure.networks()).runTest(azure.batchAIWorkspaces(), azure.resourceGroups());
+//    }
 
     @Test
     public void testTrafficManager() throws Exception {
@@ -1047,90 +1047,90 @@ public class AzureTests extends TestBase {
                 .runTest(azure.trafficManagerProfiles(), azure.resourceGroups());
     }
 
-    @Test
-    public void testRedis() throws Exception {
-        new TestRedis()
-                .runTest(azure.redisCaches(), azure.resourceGroups());
-    }
+//    @Test
+//    public void testRedis() throws Exception {
+//        new TestRedis()
+//                .runTest(azure.redisCaches(), azure.resourceGroups());
+//    }
 
-    @Test
-    public void testCdnManager() throws Exception {
-        new TestCdn()
-                .runTest(azure.cdnProfiles(), azure.resourceGroups());
-    }
+//    @Test
+//    public void testCdnManager() throws Exception {
+//        new TestCdn()
+//                .runTest(azure.cdnProfiles(), azure.resourceGroups());
+//    }
 
-    @Test
-    public void testDnsZones() throws Exception {
-        addTextReplacementRule("https://management.azure.com:443/", playbackUri + "/");
-        new TestDns()
-                .runTest(azure.dnsZones(), azure.resourceGroups());
-    }
+//    @Test
+//    public void testDnsZones() throws Exception {
+//        addTextReplacementRule("https://management.azure.com:443/", playbackUri + "/");
+//        new TestDns()
+//                .runTest(azure.dnsZones(), azure.resourceGroups());
+//    }
 
-    @Test
-    public void testSqlServer() throws Exception {
-        new TestSql().runTest(azure.sqlServers(), azure.resourceGroups());
-    }
+//    @Test
+//    public void testSqlServer() throws Exception {
+//        new TestSql().runTest(azure.sqlServers(), azure.resourceGroups());
+//    }
 
     @Test
     public void testResourceStreaming() throws Exception {
         new TestResourceStreaming(azure.storageAccounts()).runTest(azure.virtualMachines(), azure.resourceGroups());
     }
 
-    @Test
-    public void testContainerService() throws Exception {
-        new TestContainerService()
-                .runTest(azure.containerServices(), azure.resourceGroups());
-    }
+//    @Test
+//    public void testContainerService() throws Exception {
+//        new TestContainerService()
+//                .runTest(azure.containerServices(), azure.resourceGroups());
+//    }
 
-    @Test
-    public void testKubernetesCluster() throws Exception {
-        if (isPlaybackMode()) {
-            new TestKubernetesCluster()
-                .runTest(azure.kubernetesClusters(), azure.resourceGroups());
-        }
-    }
+//    @Test
+//    public void testKubernetesCluster() throws Exception {
+//        if (isPlaybackMode()) {
+//            new TestKubernetesCluster()
+//                .runTest(azure.kubernetesClusters(), azure.resourceGroups());
+//        }
+//    }
 
-    @Test
-    public void testContainerInstance() throws Exception {
-        new TestContainerInstance()
-            .runTest(azure.containerGroups(), azure.resourceGroups());
-    }
+//    @Test
+//    public void testContainerInstance() throws Exception {
+//        new TestContainerInstance()
+//            .runTest(azure.containerGroups(), azure.resourceGroups());
+//    }
 
-    @Test
-    public void testContainerRegistry() throws Exception {
-        new TestContainerRegistry()
-                .runTest(azure.containerRegistries(), azure.resourceGroups());
-    }
+//    @Test
+//    public void testContainerRegistry() throws Exception {
+//        new TestContainerRegistry()
+//                .runTest(azure.containerRegistries(), azure.resourceGroups());
+//    }
 
-    @Test
-    @Ignore("Runs locally find but fails for unknown reason on check in.")
-    public void testCosmosDB() throws Exception {
-        new TestCosmosDB()
-                .runTest(azure.cosmosDBAccounts(), azure.resourceGroups());
-    }
+//    @Test
+//    @Ignore("Runs locally find but fails for unknown reason on check in.")
+//    public void testCosmosDB() throws Exception {
+//        new TestCosmosDB()
+//                .runTest(azure.cosmosDBAccounts(), azure.resourceGroups());
+//    }
 
-    @Test
-    public void testSearchServiceFreeSku() throws Exception {
-        new TestSearchService.SearchServiceFreeSku()
-            .runTest(azure.searchServices(), azure.resourceGroups());
-    }
+//    @Test
+//    public void testSearchServiceFreeSku() throws Exception {
+//        new TestSearchService.SearchServiceFreeSku()
+//            .runTest(azure.searchServices(), azure.resourceGroups());
+//    }
 
-    @Test
-    public void testSearchServiceBasicSku() throws Exception {
-        new TestSearchService.SearchServiceBasicSku()
-            .runTest(azure.searchServices(), azure.resourceGroups());
-    }
+//    @Test
+//    public void testSearchServiceBasicSku() throws Exception {
+//        new TestSearchService.SearchServiceBasicSku()
+//            .runTest(azure.searchServices(), azure.resourceGroups());
+//    }
 
-    @Test
-    public void testSearchServiceStandardSku() throws Exception {
-        new TestSearchService.SearchServiceStandardSku()
-            .runTest(azure.searchServices(), azure.resourceGroups());
-    }
+//    @Test
+//    public void testSearchServiceStandardSku() throws Exception {
+//        new TestSearchService.SearchServiceStandardSku()
+//            .runTest(azure.searchServices(), azure.resourceGroups());
+//    }
 
-    @Test
-    public void testSearchServiceAnySku() throws Exception {
-        new TestSearchService.SearchServiceAnySku()
-            .runTest(azure.searchServices(), azure.resourceGroups());
-    }
+//    @Test
+//    public void testSearchServiceAnySku() throws Exception {
+//        new TestSearchService.SearchServiceAnySku()
+//            .runTest(azure.searchServices(), azure.resourceGroups());
+//    }
 
 }

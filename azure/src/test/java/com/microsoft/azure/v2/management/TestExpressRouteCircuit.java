@@ -5,12 +5,12 @@
  */
 package com.microsoft.azure.v2.management;
 
-import com.microsoft.azure.management.network.ExpressRouteCircuit;
-import com.microsoft.azure.management.network.ExpressRouteCircuitSkuType;
-import com.microsoft.azure.management.network.ExpressRouteCircuits;
-import com.microsoft.azure.management.network.ExpressRoutePeeringType;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
+import com.microsoft.azure.v2.management.network.ExpressRouteCircuit;
+import com.microsoft.azure.v2.management.network.ExpressRouteCircuitSkuType;
+import com.microsoft.azure.v2.management.network.ExpressRouteCircuits;
+import com.microsoft.azure.v2.management.network.ExpressRoutePeeringType;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.v2.management.resources.fluentcore.utils.SdkContext;
 import org.junit.Assert;
 
 /**
@@ -109,7 +109,7 @@ public class TestExpressRouteCircuit {
         @Override
         public ExpressRouteCircuit updateResource(ExpressRouteCircuit resource) throws Exception {
             Assert.assertTrue(resource.peeringsMap().containsKey(ExpressRoutePeeringType.MICROSOFT_PEERING.toString()));
-            com.microsoft.azure.management.network.ExpressRouteCircuitPeering peering =
+            com.microsoft.azure.v2.management.network.ExpressRouteCircuitPeering peering =
                     resource.peeringsMap().get(ExpressRoutePeeringType.MICROSOFT_PEERING.toString())
                     .update()
                     .withVlanId(300)

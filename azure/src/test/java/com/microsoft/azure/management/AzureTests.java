@@ -7,6 +7,11 @@ package com.microsoft.azure.management;
 
 import com.microsoft.azure.CloudException;
 import com.microsoft.azure.PagedList;
+import com.microsoft.azure.management.batchai.BatchAICluster;
+import com.microsoft.azure.management.batchai.BatchAIJob;
+import com.microsoft.azure.management.batchai.BatchAIExperiment;
+import com.microsoft.azure.management.batchai.OutputDirectory;
+import com.microsoft.azure.management.batchai.BatchAIWorkspace;
 import com.microsoft.azure.management.compute.CachingTypes;
 import com.microsoft.azure.management.compute.Disk;
 import com.microsoft.azure.management.compute.KnownLinuxVirtualMachineImage;
@@ -20,35 +25,24 @@ import com.microsoft.azure.management.compute.VirtualMachineSku;
 import com.microsoft.azure.management.locks.LockLevel;
 import com.microsoft.azure.management.locks.ManagementLock;
 import com.microsoft.azure.management.network.Access;
-import com.microsoft.azure.management.network.ApplicationGateway;
-import com.microsoft.azure.management.network.ApplicationGatewayBackend;
-import com.microsoft.azure.management.network.ApplicationGatewayBackendHealth;
-import com.microsoft.azure.management.network.ApplicationGatewayBackendHttpConfigurationHealth;
-import com.microsoft.azure.management.network.ApplicationGatewayBackendServerHealth;
-import com.microsoft.azure.management.network.ApplicationGatewayOperationalState;
-import com.microsoft.azure.management.network.ApplicationGatewayRequestRoutingRule;
+import com.microsoft.azure.management.network.ConnectionMonitor;
+import com.microsoft.azure.management.network.ConnectionMonitorQueryResult;
 import com.microsoft.azure.management.network.ConnectivityCheck;
 import com.microsoft.azure.management.network.Direction;
 import com.microsoft.azure.management.network.FlowLogSettings;
+import com.microsoft.azure.management.network.IpFlowProtocol;
 import com.microsoft.azure.management.network.Network;
-import com.microsoft.azure.management.network.NetworkInterface;
 import com.microsoft.azure.management.network.NetworkSecurityGroup;
 import com.microsoft.azure.management.network.NetworkWatcher;
 import com.microsoft.azure.management.network.NextHop;
 import com.microsoft.azure.management.network.NextHopType;
-import com.microsoft.azure.management.network.NicIPConfiguration;
 import com.microsoft.azure.management.network.PacketCapture;
 import com.microsoft.azure.management.network.PcProtocol;
 import com.microsoft.azure.management.network.PcStatus;
-import com.microsoft.azure.management.network.Protocol;
 import com.microsoft.azure.management.network.SecurityGroupView;
 import com.microsoft.azure.management.network.Subnet;
 import com.microsoft.azure.management.network.Topology;
-import com.microsoft.azure.management.network.Troubleshooting;
 import com.microsoft.azure.management.network.VerificationIPFlow;
-import com.microsoft.azure.management.network.VirtualNetworkGateway;
-import com.microsoft.azure.management.network.VirtualNetworkGatewayConnection;
-import com.microsoft.azure.management.network.VirtualNetworkGatewaySkuName;
 import com.microsoft.azure.management.resources.Deployment;
 import com.microsoft.azure.management.resources.DeploymentMode;
 import com.microsoft.azure.management.resources.GenericResource;
@@ -73,11 +67,9 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -558,160 +550,6 @@ public class AzureTests extends TestBase {
                 .runTest(azure.loadBalancers(), azure.resourceGroups());
     }
 
-    /**
-     * Tests a complex internal application gateway.
-     * @throws Exception
-     */
-    @Test
-    public void testAppGatewaysInternalComplex() throws Exception {
-        new TestApplicationGateway.PrivateComplex()
-            .runTest(azure.applicationGateways(),  azure.resourceGroups());
-    }
-
-    @Test
-    public void testAppGatewayBackendHealthCheck() throws Exception {
-        String testId = SdkContext.randomResourceName("", 15);
-        String name = "ag" + testId;
-        Region region = Region.US_EAST;
-        String password = SdkContext.randomResourceName("Abc.123", 12);
-        String vnetName = "net" + testId;
-        String rgName = "rg" + testId;
-
-        try {
-            // Create a vnet
-            Network network = azure.networks().define(vnetName)
-                    .withRegion(region)
-                    .withNewResourceGroup(rgName)
-                    .withAddressSpace("10.0.0.0/28")
-                    .withSubnet("subnet1", "10.0.0.0/29")
-                    .withSubnet("subnet2", "10.0.0.8/29")
-                    .create();
-
-            // Create VMs for the backend in the network to connect to
-            List<Creatable<VirtualMachine>> vmsDefinitions = new ArrayList<>();
-            for (int i = 0; i < 2; i++) {
-                vmsDefinitions.add(azure.virtualMachines().define("vm" + i + testId)
-                        .withRegion(region)
-                        .withExistingResourceGroup(rgName)
-                        .withExistingPrimaryNetwork(network)
-                        .withSubnet("subnet2")
-                        .withPrimaryPrivateIPAddressDynamic()
-                        .withoutPrimaryPublicIPAddress()
-                        .withPopularLinuxImage(KnownLinuxVirtualMachineImage.UBUNTU_SERVER_16_04_LTS)
-                        .withRootUsername("tester")
-                        .withRootPassword(password));
-            }
-
-            CreatedResources<VirtualMachine> createdVms = azure.virtualMachines().create(vmsDefinitions);
-            VirtualMachine[] vms = new VirtualMachine[createdVms.size()];
-            for (int i = 0; i < vmsDefinitions.size(); i++) {
-                vms[i] = createdVms.get(vmsDefinitions.get(i).key());
-            }
-
-            String[] ipAddresses = new String[vms.length];
-            for (int i = 0; i < vms.length; i++) {
-                ipAddresses[i] = vms[i].getPrimaryNetworkInterface().primaryPrivateIP();
-            }
-
-            // Create the app gateway in the other subnet of the same vnet and point the backend at the VMs
-            ApplicationGateway appGateway = azure.applicationGateways().define(name)
-                    .withRegion(region)
-                    .withExistingResourceGroup(rgName)
-                    .defineRequestRoutingRule("rule1")
-                        .fromPrivateFrontend()
-                        .fromFrontendHttpPort(80)
-                        .toBackendHttpPort(8080)
-                        .toBackendIPAddresses(ipAddresses) // Connect the VMs via IP addresses
-                        .attach()
-                    .defineRequestRoutingRule("rule2")
-                        .fromPrivateFrontend()
-                        .fromFrontendHttpPort(25)
-                        .toBackendHttpPort(22)
-                        .toBackend("nicBackend")
-                        .attach()
-                    .withExistingSubnet(network.subnets().get("subnet1")) // Backend for connecting the VMs via NICs
-                    .create();
-
-            // Connect the 1st VM via NIC IP config
-            NetworkInterface nic = vms[0].getPrimaryNetworkInterface();
-            Assert.assertNotNull(nic);
-            ApplicationGatewayBackend appGatewayBackend = appGateway.backends().get("nicBackend");
-            Assert.assertNotNull(appGatewayBackend);
-            nic.update().updateIPConfiguration(nic.primaryIPConfiguration().name())
-                .withExistingApplicationGatewayBackend(appGateway, appGatewayBackend.name())
-                .parent()
-            .apply();
-
-            // Get the health of the VMs
-            appGateway.refresh();
-            Map<String, ApplicationGatewayBackendHealth> backendHealths = appGateway.checkBackendHealth();
-
-            StringBuilder info = new StringBuilder();
-            info.append("\nApplication gateway backend healths: ").append(backendHealths.size());
-            for (ApplicationGatewayBackendHealth backendHealth : backendHealths.values()) {
-                info.append("\n\tApplication gateway backend name: ").append(backendHealth.name())
-                    .append("\n\t\tHTTP configuration healths: ").append(backendHealth.httpConfigurationHealths().size());
-                Assert.assertNotNull(backendHealth.backend());
-                for (ApplicationGatewayBackendHttpConfigurationHealth backendConfigHealth : backendHealth.httpConfigurationHealths().values()) {
-                    info.append("\n\t\t\tHTTP configuration name: ").append(backendConfigHealth.name())
-                        .append("\n\t\t\tServers: ").append(backendConfigHealth.inner().servers().size());
-                    Assert.assertNotNull(backendConfigHealth.backendHttpConfiguration());
-                    for (ApplicationGatewayBackendServerHealth serverHealth : backendConfigHealth.serverHealths().values()) {
-                        NicIPConfiguration ipConfig = serverHealth.getNetworkInterfaceIPConfiguration();
-                        if (ipConfig != null) {
-                            info.append("\n\t\t\t\tServer NIC ID: ").append(ipConfig.parent().id())
-                                .append("\n\t\t\t\tIP Config name: ").append(ipConfig.name());
-                        } else {
-                            info.append("\n\t\t\t\tServer IP: " + serverHealth.ipAddress());
-                        }
-                        info.append("\n\t\t\t\tHealth status: ").append(serverHealth.status());
-                    }
-                }
-            }
-            System.out.println(info.toString());
-
-            // Verify app gateway
-            Assert.assertEquals(2,  appGateway.backends().size());
-            ApplicationGatewayRequestRoutingRule rule1 = appGateway.requestRoutingRules().get("rule1");
-            Assert.assertNotNull(rule1);
-            ApplicationGatewayBackend backend1 = rule1.backend();
-            Assert.assertNotNull(backend1);
-            ApplicationGatewayRequestRoutingRule rule2 = appGateway.requestRoutingRules().get("rule2");
-            Assert.assertNotNull(rule2);
-            ApplicationGatewayBackend backend2 = rule2.backend();
-            Assert.assertNotNull(backend2);
-
-            Assert.assertEquals(2, backendHealths.size());
-
-            // Verify first backend (IP address-based)
-            ApplicationGatewayBackendHealth backendHealth1 = backendHealths.get(backend1.name());
-            Assert.assertNotNull(backendHealth1);
-            Assert.assertNotNull(backendHealth1.backend());
-            for (int i = 0; i < ipAddresses.length; i++) {
-                Assert.assertTrue(backend1.containsIPAddress(ipAddresses[i]));
-            }
-
-            // Verify second backend (NIC based)
-            ApplicationGatewayBackendHealth backendHealth2 = backendHealths.get(backend2.name());
-            Assert.assertNotNull(backendHealth2);
-            Assert.assertNotNull(backendHealth2.backend());
-            Assert.assertEquals(backend2.name(), backendHealth2.name());
-            Assert.assertEquals(1,  backendHealth2.httpConfigurationHealths().size());
-            ApplicationGatewayBackendHttpConfigurationHealth httpConfigHealth2 = backendHealth2.httpConfigurationHealths().values().iterator().next();
-            Assert.assertNotNull(httpConfigHealth2.backendHttpConfiguration());
-            Assert.assertEquals(1, httpConfigHealth2.serverHealths().size());
-            ApplicationGatewayBackendServerHealth serverHealth = httpConfigHealth2.serverHealths().values().iterator().next();
-            NicIPConfiguration ipConfig2 = serverHealth.getNetworkInterfaceIPConfiguration();
-            Assert.assertEquals(nic.primaryIPConfiguration().name(), ipConfig2.name());
-        } catch (Exception e) {
-            throw e;
-        } finally {
-            if (azure.resourceGroups().contain(rgName)) {
-                azure.resourceGroups().beginDeleteByName(rgName);
-            }
-        }
-    }
-
     @Test
     public void testManagedDiskVMUpdate() throws Exception {
         final String rgName = SdkContext.randomResourceName("rg", 13);
@@ -739,124 +577,6 @@ public class AzureTests extends TestBase {
                 .withNewDataDisk(200)
                 .apply();
         azure.resourceGroups().beginDeleteByName(rgName);
-    }
-
-    /**
-     * Tests a minimal internal application gateway
-     * @throws Exception
-     */
-    @Test
-    public void testAppGatewaysInternalMinimal() throws Exception {
-        new TestApplicationGateway.PrivateMinimal()
-            .runTest(azure.applicationGateways(),  azure.resourceGroups());
-    }
-
-    @Test
-    public void testAppGatewaysStartStop() throws Exception {
-        String rgName = SdkContext.randomResourceName("rg", 13);
-        Region region = Region.US_EAST;
-        String name = SdkContext.randomResourceName("ag", 15);
-        ApplicationGateway appGateway = azure.applicationGateways().define(name)
-            .withRegion(region)
-            .withNewResourceGroup(rgName)
-
-        // Request routing rules
-        .defineRequestRoutingRule("rule1")
-            .fromPrivateFrontend()
-            .fromFrontendHttpPort(80)
-            .toBackendHttpPort(8080)
-            .toBackendIPAddress("11.1.1.1")
-            .toBackendIPAddress("11.1.1.2")
-            .attach()
-        .create();
-
-        // Test stop/start
-        appGateway.stop();
-        Assert.assertEquals(ApplicationGatewayOperationalState.STOPPED, appGateway.operationalState());
-        appGateway.start();
-        Assert.assertEquals(ApplicationGatewayOperationalState.RUNNING, appGateway.operationalState());
-
-        azure.resourceGroups().beginDeleteByName(rgName);
-    }
-
-    @Test
-    public void testApplicationGatewaysInParallel() throws Exception {
-        String rgName = SdkContext.randomResourceName("rg", 13);
-        Region region = Region.US_EAST;
-        Creatable<ResourceGroup> resourceGroup = azure.resourceGroups().define(rgName)
-                .withRegion(region);
-        List<Creatable<ApplicationGateway>> agCreatables = new ArrayList<>();
-
-        agCreatables.add(azure.applicationGateways().define(SdkContext.randomResourceName("ag", 13))
-                .withRegion(Region.US_EAST)
-                .withNewResourceGroup(resourceGroup)
-                .defineRequestRoutingRule("rule1")
-                    .fromPrivateFrontend()
-                    .fromFrontendHttpPort(80)
-                    .toBackendHttpPort(8080)
-                    .toBackendIPAddress("10.0.0.1")
-                    .toBackendIPAddress("10.0.0.2")
-                    .attach());
-
-        agCreatables.add(azure.applicationGateways().define(SdkContext.randomResourceName("ag", 13))
-                .withRegion(Region.US_EAST)
-                .withNewResourceGroup(resourceGroup)
-                .defineRequestRoutingRule("rule1")
-                    .fromPrivateFrontend()
-                    .fromFrontendHttpPort(80)
-                    .toBackendHttpPort(8080)
-                    .toBackendIPAddress("10.0.0.3")
-                    .toBackendIPAddress("10.0.0.4")
-                    .attach());
-
-        CreatedResources<ApplicationGateway> created = azure.applicationGateways().create(agCreatables);
-        List<ApplicationGateway> ags = new ArrayList<>();
-        List<String> agIds = new ArrayList<>();
-        for (Creatable<ApplicationGateway> creatable : agCreatables) {
-            ApplicationGateway ag = created.get(creatable.key());
-            Assert.assertNotNull(ag);
-            ags.add(ag);
-            agIds.add(ag.id());
-        }
-
-        azure.applicationGateways().stop(agIds);
-
-        for (ApplicationGateway ag : ags) {
-            Assert.assertEquals(ApplicationGatewayOperationalState.STOPPED, ag.refresh().operationalState());
-        }
-
-        azure.applicationGateways().start(agIds);
-
-        for (ApplicationGateway ag : ags) {
-            Assert.assertEquals(ApplicationGatewayOperationalState.RUNNING, ag.refresh().operationalState());
-        }
-
-        azure.applicationGateways().deleteByIds(agIds);
-        for (String id : agIds) {
-            Assert.assertNull(azure.applicationGateways().getById(id));
-        }
-
-        azure.resourceGroups().beginDeleteByName(rgName);
-    }
-
-    /**
-     * Tests a minimal Internet-facing application gateway.
-     * @throws Exception
-     */
-    @Test
-    public void testAppGatewaysInternetFacingMinimal() throws Exception {
-        new TestApplicationGateway.PublicMinimal()
-            .runTest(azure.applicationGateways(),  azure.resourceGroups());
-    }
-
-    /**
-     * Tests a complex Internet-facing application gateway.
-     * @throws Exception
-     */
-    @Test
-    public void testAppGatewaysInternetFacingComplex() throws Exception {
-        new TestApplicationGateway.PublicComplex()
-            .runTest(azure.applicationGateways(),  azure.resourceGroups());
     }
 
     /**
@@ -892,9 +612,38 @@ public class AzureTests extends TestBase {
      * @throws Exception
      */
     @Test
+    public void testNetworkWithAccessFromServiceToSubnet() throws Exception {
+        new TestNetwork.WithAccessFromServiceToSubnet()
+                .runTest(azure.networks(), azure.resourceGroups());
+    }
+
+    /**
+     * Tests virtual network peering
+     * @throws Exception
+     */
+    @Test
     public void testNetworkPeerings() throws Exception {
         new TestNetwork.WithPeering()
             .runTest(azure.networks(), azure.resourceGroups());
+    }
+
+    /**
+     * Tests virtual network with DDoS protection plan
+     * @throws Exception
+     */
+    @Test
+    public void testDdosAndVmProtection() throws Exception {
+        new TestNetwork.WithDDosProtectionPlanAndVmProtection()
+                .runTest(azure.networks(), azure.resourceGroups());
+    }
+
+    /**
+     * Tests updateTags for virtual network.
+     * @throws Exception
+     */
+    @Test
+    public void testNetworkUpdateTags() throws Exception {
+        new TestNetwork.WithUpdateTags().runTest(azure.networks(), azure.resourceGroups());
     }
 
     /**
@@ -952,6 +701,7 @@ public class AzureTests extends TestBase {
     }
 
     @Test
+    @Ignore("Cannot run because of service-side issue with FlowLogSettings.")
     public void testNetworkWatcherFunctions() throws Exception {
         TestNetworkWatcher tnw = new TestNetworkWatcher();
 
@@ -961,7 +711,23 @@ public class AzureTests extends TestBase {
         VirtualMachine[] virtualMachines = tnw.ensureNetwork(azure.networkWatchers().manager().networks(),
                 azure.virtualMachines(), azure.networkInterfaces());
 
-        Topology topology = nw.getTopology(virtualMachines[0].resourceGroupName());
+        ConnectionMonitor connectionMonitor = nw.connectionMonitors()
+                .define("NewConnectionMonitor")
+                .withSourceId(virtualMachines[0].id())
+                .withDestinationId(virtualMachines[1].id())
+                .withDestinationPort(80)
+                .withTag("tag1", "value1")
+                .withoutAutoStart()
+                .withMonitoringInterval(35)
+                .create();
+        Assert.assertEquals("value1", connectionMonitor.tags().get("tag1"));
+        Assert.assertEquals(35, connectionMonitor.monitoringIntervalInSeconds());
+        Assert.assertEquals("NotStarted", connectionMonitor.monitoringStatus());
+        Assert.assertEquals("NewConnectionMonitor", connectionMonitor.name());
+
+        connectionMonitor.start();
+        Assert.assertEquals("Running", connectionMonitor.monitoringStatus());
+        Topology topology = nw.topology().withTargetResourceGroup(virtualMachines[0].resourceGroupName()).execute();
         Assert.assertEquals(11, topology.resources().size());
         Assert.assertTrue(topology.resources().containsKey(virtualMachines[0].getPrimaryNetworkInterface().networkSecurityGroupId()));
         Assert.assertEquals(4, topology.resources().get(virtualMachines[0].primaryNetworkInterfaceId()).associations().size());
@@ -993,7 +759,7 @@ public class AzureTests extends TestBase {
         VerificationIPFlow verificationIPFlow = nw.verifyIPFlow()
                 .withTargetResourceId(virtualMachines[0].id())
                 .withDirection(Direction.OUTBOUND)
-                .withProtocol(Protocol.TCP)
+                .withProtocol(IpFlowProtocol.TCP)
                 .withLocalIPAddress("10.0.0.4")
                 .withRemoteIPAddress("8.8.8.8")
                 .withLocalPort("443")
@@ -1033,108 +799,14 @@ public class AzureTests extends TestBase {
                 .execute();
         Assert.assertEquals("Reachable", connectivityCheck.connectionStatus().toString());
 
+        ConnectionMonitorQueryResult queryResult = connectionMonitor.query();
+
         azure.virtualMachines().deleteById(virtualMachines[1].id());
-        topology.refresh();
+        topology.execute();
         Assert.assertEquals(10, topology.resources().size());
 
         azure.resourceGroups().deleteByName(nw.resourceGroupName());
         azure.resourceGroups().deleteByName(tnw.groupName());
-    }
-
-    @Test
-    @Ignore("Service has bug that cause 'InternalServerError' - record this once service is fixed")
-    //
-
-    public void testNetworkWatcherTroubleshooting() throws Exception {
-        String gatewayName = SdkContext.randomResourceName("vngw", 8);
-        String connectionName = SdkContext.randomResourceName("vngwc", 8);
-
-        TestNetworkWatcher tnw = new TestNetworkWatcher();
-        NetworkWatcher nw = tnw.createResource(azure.networkWatchers());
-        Region region = nw.region();
-        String resourceGroup = nw.resourceGroupName();
-
-        VirtualNetworkGateway vngw1 = azure.virtualNetworkGateways().define(gatewayName)
-                .withRegion(region)
-                .withExistingResourceGroup(resourceGroup)
-                .withNewNetwork("10.11.0.0/16", "10.11.255.0/27")
-                .withRouteBasedVpn()
-                .withSku(VirtualNetworkGatewaySkuName.VPN_GW1)
-                .create();
-
-        VirtualNetworkGateway vngw2 = azure.virtualNetworkGateways().define(gatewayName + "2")
-                .withRegion(region)
-                .withExistingResourceGroup(resourceGroup)
-                .withNewNetwork("10.41.0.0/16", "10.41.255.0/27")
-                .withRouteBasedVpn()
-                .withSku(VirtualNetworkGatewaySkuName.VPN_GW1)
-                .create();
-        VirtualNetworkGatewayConnection connection1 = vngw1.connections()
-                .define(connectionName)
-                .withVNetToVNet()
-                .withSecondVirtualNetworkGateway(vngw2)
-                .withSharedKey("MySecretKey")
-                .create();
-
-        // Create storage account to store troubleshooting information
-        StorageAccount storageAccount = azure.storageAccounts().define("sa" + SdkContext.randomResourceName("", 8))
-                .withRegion(region)
-                .withExistingResourceGroup(resourceGroup)
-                .create();
-
-        // Troubleshoot connection
-        Troubleshooting troubleshooting = nw.troubleshoot()
-                .withTargetResourceId(connection1.id())
-                .withStorageAccount(storageAccount.id())
-                .withStoragePath(storageAccount.endPoints().primary().blob() + "results")
-                .execute();
-        Assert.assertEquals("UnHealthy", troubleshooting.code());
-
-        // Create corresponding connection on second gateway to make it work
-        vngw2.connections()
-                .define(connectionName + "2")
-                .withVNetToVNet()
-                .withSecondVirtualNetworkGateway(vngw1)
-                .withSharedKey("MySecretKey")
-                .create();
-        SdkContext.sleep(250000);
-        troubleshooting = nw.troubleshoot()
-                .withTargetResourceId(connection1.id())
-                .withStorageAccount(storageAccount.id())
-                .withStoragePath(storageAccount.endPoints().primary().blob() + "results")
-                .execute();
-        Assert.assertEquals("Healthy", troubleshooting.code());
-
-        azure.resourceGroups().deleteByName(resourceGroup);
-    }
-
-    /**
-     * Tests the virtual network gateway implementation.
-     * @throws Exception
-     */
-    @Test
-    public void testVirtualNetworkGateways() throws Exception {
-        new TestVirtualNetworkGateway.Basic(azure.virtualNetworkGateways().manager()).runTest(azure.virtualNetworkGateways(), azure.resourceGroups());
-    }
-
-    /**
-     * Tests the virtual network gateway and virtual network gateway connection implementations for Site-to-Site connection.
-     * @throws Exception
-     */
-    @Test
-    public void testVirtualNetworkGatewaySiteToSite() throws Exception {
-        new TestVirtualNetworkGateway.SiteToSite(azure.virtualNetworkGateways().manager())
-                .runTest(azure.virtualNetworkGateways(), azure.resourceGroups());
-    }
-
-    /**
-     * Tests the virtual network gateway and virtual network gateway connection implementations for VNet-to-VNet connection.
-     * @throws Exception
-     */
-    @Test
-    public void testVirtualNetworkGatewayVNetToVNet() throws Exception {
-        new TestVirtualNetworkGateway.VNetToVNet(azure.virtualNetworkGateways().manager())
-                .runTest(azure.virtualNetworkGateways(), azure.resourceGroups());
     }
 
     /**
@@ -1169,6 +841,7 @@ public class AzureTests extends TestBase {
      * @throws Exception
      */
     @Test
+    @Ignore("osDiskSize is returned as 127 instead of 128 - known service bug")
     public void testVirtualMachines() throws Exception {
         // Future: This method needs to have a better specific name since we are going to include unit test for
         // different vm scenarios.
@@ -1246,8 +919,8 @@ public class AzureTests extends TestBase {
         Subscription subscription = azure.getCurrentSubscription();
         Assert.assertNotNull(subscription);
         for (Location location : subscription.listLocations()) {
-            Region region = Region.findByLabelOrName(location.name());
-            Assert.assertNotNull(region);
+            Region region = Region.fromName(location.name());
+            Assert.assertNotNull("Could not find region " + location.name(), region);
             Assert.assertEquals(region, location.region());
             Assert.assertEquals(region.name().toLowerCase(), location.name().toLowerCase());
         }
@@ -1298,17 +971,73 @@ public class AzureTests extends TestBase {
 
     @Test
     public void testBatchAI() throws Exception {
-        new TestBatchAI.Basic(azure.storageAccounts()).runTest(azure.batchAIClusters(), azure.resourceGroups());
+        new TestBatchAI.Basic(azure.storageAccounts(), azure.networks()).runTest(azure.batchAIWorkspaces(), azure.resourceGroups());
     }
 
     @Test
     public void testBatchAIJob() throws Exception {
-        new TestBatchAI.JobCreate().runTest(azure.batchAIClusters(), azure.resourceGroups());
+        final Region region = Region.US_EAST;
+        final String groupName = SdkContext.randomResourceName("rg", 10);
+        final String workspaceName = SdkContext.randomResourceName("ws", 10);
+        final String clusterName = SdkContext.randomResourceName("cluster", 15);
+        final String experimentName = SdkContext.randomResourceName("exp", 10);
+        final String userName = "tirekicker";
+        try {
+
+            BatchAIWorkspace workspace = azure.batchAIWorkspaces().define(workspaceName)
+                    .withRegion(region)
+                    .withNewResourceGroup(groupName)
+                    .create();
+            BatchAIExperiment experiment = workspace.experiments().define(experimentName).create();
+
+            BatchAICluster cluster = workspace.clusters().define(clusterName)
+                    .withVMSize(VirtualMachineSizeTypes.STANDARD_D1_V2.toString())
+                    .withUserName(userName)
+                    .withPassword("MyPassword")
+                    .withAutoScale(1, 1)
+                    .create();
+            Assert.assertEquals("steady", cluster.allocationState().toString());
+            Assert.assertEquals(userName, cluster.adminUserName());
+
+            BatchAIJob job = experiment.jobs().define("myJob")
+                    .withExistingClusterId(cluster.id())
+                    .withNodeCount(1)
+                    .withStdOutErrPathPrefix("$AZ_BATCHAI_MOUNT_ROOT/azurefileshare")
+                    .defineCognitiveToolkit()
+                        .withPythonScriptFile("$AZ_BATCHAI_INPUT_SAMPLE/ConvNet_MNIST.py")
+                        .withCommandLineArgs("$AZ_BATCHAI_INPUT_SAMPLE $AZ_BATCHAI_OUTPUT_MODEL")
+                        .attach()
+                    .withInputDirectory("SAMPLE", "$AZ_BATCHAI_MOUNT_ROOT/azurefileshare/mnistcntksample")
+                    .withOutputDirectory("MODEL", "$AZ_BATCHAI_MOUNT_ROOT/azurefileshare/model")
+                    .defineOutputDirectory("OUTPUT")
+                        .withPathPrefix("$AZ_BATCHAI_MOUNT_ROOT/azurefileshare/output")
+                        .withPathSuffix("suffix")
+                        .attach()
+                    .withContainerImage("microsoft/cntk:2.1-gpu-python3.5-cuda8.0-cudnn6.0")
+                    .create();
+            Assert.assertEquals(2,job.outputDirectories().size());
+            OutputDirectory outputDirectory = null;
+            for (OutputDirectory directory : job.outputDirectories()) {
+                if ("OUTPUT".equalsIgnoreCase(directory.id())) {
+                    outputDirectory = directory;
+                }
+            }
+            Assert.assertNotNull(outputDirectory);
+            Assert.assertEquals("suffix", outputDirectory.pathSuffix().toLowerCase());
+
+            experiment.jobs().list();
+
+            BatchAIJob job2 = experiment.jobs().getById(job.id());
+            Assert.assertEquals(cluster.id(), job2.cluster().id());
+
+        } finally {
+            azure.resourceGroups().beginDeleteByName(groupName);
+        }
     }
 
     @Test
     public void testBatchAIFileServer() throws Exception {
-        new TestBatchAIFileServers().runTest(azure.batchAIFileServers(), azure.resourceGroups());
+        new TestBatchAIFileServers(azure.networks()).runTest(azure.batchAIWorkspaces(), azure.resourceGroups());
     }
 
     @Test
@@ -1353,10 +1082,11 @@ public class AzureTests extends TestBase {
     }
 
     @Test
-    @Ignore("QuotaExceeded error: Public preview limit of 5 for managed cluster(AKS) has been reached for subscription sub-id in location ukwest. Same error even after deleting all clusters")
     public void testKubernetesCluster() throws Exception {
-        new TestKubernetesCluster()
-            .runTest(azure.kubernetesClusters(), azure.resourceGroups());
+        if (isPlaybackMode()) {
+            new TestKubernetesCluster()
+                .runTest(azure.kubernetesClusters(), azure.resourceGroups());
+        }
     }
 
     @Test

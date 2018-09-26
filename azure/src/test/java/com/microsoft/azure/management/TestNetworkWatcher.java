@@ -27,7 +27,7 @@ import java.util.List;
  */
 public class TestNetworkWatcher extends TestTemplate<NetworkWatcher, NetworkWatchers> {
     private static String TEST_ID = "";
-    private static Region REGION = Region.US_NORTH_CENTRAL;
+    private static Region REGION = Region.US_SOUTH_CENTRAL;
     private String groupName;
     private String nwName;
 
@@ -66,7 +66,14 @@ public class TestNetworkWatcher extends TestTemplate<NetworkWatcher, NetworkWatc
                 .apply();
         resource.refresh();
         Assert.assertTrue(resource.tags().containsKey("tag2"));
-        Assert.assertTrue(!resource.tags().containsKey("tag1"));
+        Assert.assertFalse(resource.tags().containsKey("tag1"));
+
+        resource.updateTags()
+                .withTag("tag3", "value3")
+                .withoutTag("tag2")
+                .applyTags();
+        Assert.assertTrue(resource.tags().containsKey("tag3"));
+        Assert.assertFalse(resource.tags().containsKey("tag2"));
         return resource;
     }
 

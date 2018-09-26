@@ -12,6 +12,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import com.microsoft.azure.management.network.ApplicationGatewayUrlPathMap;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import org.junit.Assert;
 
@@ -234,6 +235,149 @@ public class TestApplicationGateway {
             Assert.assertTrue(rule.backend() != null);
             Assert.assertTrue("backend2".equalsIgnoreCase(rule.backend().name()));
 
+            resource.updateTags()
+                    .withTag("tag3", "value3")
+                    .withoutTag("tag1")
+                    .applyTags();
+            Assert.assertEquals("value3", resource.tags().get("tag3"));
+            Assert.assertFalse(resource.tags().containsKey("tag1"));
+            return resource;
+        }
+    }
+
+    /**
+     * Minimalistic internal (private) app gateway test.
+     */
+    public static class UrlPathBased extends TestTemplate<ApplicationGateway, ApplicationGateways> {
+        UrlPathBased() {
+            initializeResourceNames();
+        }
+
+        @Override
+        public void print(ApplicationGateway resource) {
+            TestApplicationGateway.printAppGateway(resource);
+        }
+
+        @Override
+        public ApplicationGateway createResource(final ApplicationGateways resources) throws Exception {
+            // Prepare a separate thread for resource creation
+            Thread creationThread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    // Create an application gateway
+                    resources.define(TestApplicationGateway.APP_GATEWAY_NAME)
+                            .withRegion(REGION)
+                            .withNewResourceGroup(GROUP_NAME)
+                            .definePathBasedRoutingRule("pathMap")
+                                .fromListener("myListener")
+                                .toBackendHttpConfiguration("config1")
+                                .toBackend("backendPool")
+                                .definePathRule("pathRule")
+                                    .toBackendHttpConfiguration("config1")
+                                    .toBackend("backendPool")
+                                    .withPath("/images/*")
+                                    .attach()
+                                .attach()
+                            .defineListener("myListener")
+                                .withPublicFrontend()
+                                .withFrontendPort(80)
+                                .attach()
+                            .defineBackend("backendPool")
+                                .attach()
+                            .defineBackendHttpConfiguration("config1")
+                                .withCookieBasedAffinity()
+                                .withPort(8081)
+                                .withRequestTimeout(33)
+                                .attach()
+                            .create();
+                }
+            });
+
+            // Start the creation...
+            creationThread.start();
+
+            //...But bail out after 30 sec, as it is enough to test the results
+            SdkContext.sleep(60 * 1000);
+
+            // Get the resource as created so far
+            String resourceId = createResourceId(resources.manager().subscriptionId());
+            ApplicationGateway appGateway = resources.manager().applicationGateways().getById(resourceId);
+            Assert.assertNotNull(appGateway);
+            Assert.assertEquals(ApplicationGatewayTier.STANDARD, appGateway.tier());
+            Assert.assertEquals(ApplicationGatewaySkuName.STANDARD_SMALL, appGateway.size());
+            Assert.assertEquals(1, appGateway.instanceCount());
+
+            // Verify frontend ports
+            Assert.assertEquals(1, appGateway.frontendPorts().size());
+            Assert.assertNotNull(appGateway.frontendPortNameFromNumber(80));
+
+            // Verify frontends
+            Assert.assertTrue(appGateway.isPublic());
+            Assert.assertEquals(1, appGateway.frontends().size());
+
+            // Verify listeners
+            Assert.assertEquals(1, appGateway.listeners().size());
+            Assert.assertNotNull(appGateway.listenerByPortNumber(80));
+
+            // Verify backends
+            Assert.assertEquals(1, appGateway.backends().size());
+
+            // Verify backend HTTP configs
+            Assert.assertEquals(1, appGateway.backendHttpConfigurations().size());
+
+            // Verify rules
+            Assert.assertEquals(1, appGateway.requestRoutingRules().size());
+            ApplicationGatewayRequestRoutingRule rule = appGateway.requestRoutingRules().get("pathMap");
+            Assert.assertNotNull(rule);
+            Assert.assertEquals(80, rule.frontendPort());
+            Assert.assertEquals(ApplicationGatewayProtocol.HTTP, rule.frontendProtocol());
+            Assert.assertNotNull(rule.listener());
+            Assert.assertNotNull(rule.listener().frontend());
+            Assert.assertTrue(rule.listener().frontend().isPublic());
+            Assert.assertTrue(!rule.listener().frontend().isPrivate());
+            creationThread.join();
+            return appGateway;
+        }
+
+        @Override
+        public ApplicationGateway updateResource(final ApplicationGateway resource) throws Exception {
+            resource.update()
+                    .withoutUrlPathMap("pathMap")
+                    // Request routing rules
+                    .definePathBasedRoutingRule("rule2")
+                        .fromListener("myListener")
+                        .toBackendHttpPort(8080)
+                        .toBackendIPAddress("11.1.1.1")
+                        .toBackendIPAddress("11.1.1.2")
+                        .definePathRule("newRule")
+                            .toBackendHttpConfiguration("config1")
+                            .toBackend("backendPool")
+                            .withPath("/pictures/*")
+                            .attach()
+                        .definePathRule("newRule2")
+                            .toBackendHttpConfiguration("config1")
+                            .toBackend("backendPool2")
+                            .withPath("/video/*")
+                            .attach()
+                        .attach()
+                        .defineBackend("backendPool2")
+                            .attach()
+                    .apply();
+            resource.refresh();
+            ApplicationGatewayRequestRoutingRule rule = resource.requestRoutingRules().get("rule2");
+            Assert.assertNotNull(rule);
+            Assert.assertEquals(0, rule.backendAddresses().size());
+            ApplicationGatewayUrlPathMap pathMap = resource.urlPathMaps().get("rule2");
+            Assert.assertNotNull(pathMap.defaultBackend());
+            Assert.assertEquals(2, pathMap.defaultBackend().addresses().size());
+            Assert.assertTrue(pathMap.defaultBackend().containsIPAddress("11.1.1.1"));
+            Assert.assertTrue(pathMap.defaultBackend().containsIPAddress("11.1.1.2"));
+            Assert.assertEquals(8080, pathMap.defaultBackendHttpConfiguration().port());
+            Assert.assertEquals(1, resource.urlPathMaps().size());
+            Assert.assertFalse(resource.requestRoutingRules().containsKey("pathMap"));
+            Assert.assertTrue(resource.requestRoutingRules().containsKey("rule2"));
+            Assert.assertEquals(2, pathMap.pathRules().size());
+            Assert.assertEquals("/pictures/*", pathMap.pathRules().get("newRule").paths().get(0));
             return resource;
         }
     }
@@ -798,6 +942,7 @@ public class TestApplicationGateway {
                                 .attach()
 
                             .withDisabledSslProtocols(ApplicationGatewaySslProtocol.TLSV1_0, ApplicationGatewaySslProtocol.TLSV1_1)
+                            .withHttp2()
                             .create();
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -822,6 +967,7 @@ public class TestApplicationGateway {
             Assert.assertEquals(ApplicationGatewaySkuName.STANDARD_MEDIUM, appGateway.size());
             Assert.assertEquals(2, appGateway.instanceCount());
             Assert.assertEquals(1, appGateway.ipConfigurations().size());
+            Assert.assertTrue(appGateway.isHttp2Enabled());
 
             // Verify frontend ports
             Assert.assertEquals(3, appGateway.frontendPorts().size());
@@ -977,6 +1123,7 @@ public class TestApplicationGateway {
                     .withHealthyHttpResponseBodyContents(null)
                     .parent()
                 .withoutDisabledSslProtocols(ApplicationGatewaySslProtocol.TLSV1_0, ApplicationGatewaySslProtocol.TLSV1_1)
+                .withoutHttp2()
                 .withTag("tag1", "value1")
                 .withTag("tag2", "value2")
                 .apply();
@@ -987,6 +1134,7 @@ public class TestApplicationGateway {
             Assert.assertTrue(resource.tags().containsKey("tag1"));
             Assert.assertTrue(resource.size().equals(ApplicationGatewaySkuName.STANDARD_SMALL));
             Assert.assertTrue(resource.instanceCount() == 1);
+            Assert.assertFalse(resource.isHttp2Enabled());
 
             // Verify listeners
             ApplicationGatewayListener listener = resource.listeners().get("listener1");

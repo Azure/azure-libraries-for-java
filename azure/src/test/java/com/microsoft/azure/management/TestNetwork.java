@@ -7,8 +7,10 @@ package com.microsoft.azure.management;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
+import com.microsoft.azure.management.network.ServiceEndpointType;
 import org.junit.Assert;
 
 import com.microsoft.azure.management.network.NetworkPeeringGatewayUse;
@@ -142,6 +144,101 @@ public class TestNetwork {
     }
 
     /**
+     * Test of network with subnets configured to have access from azure service.
+     */
+    public static class WithAccessFromServiceToSubnet extends TestTemplate<Network, Networks> {
+
+        @Override
+        public Network createResource(Networks networks) throws Exception {
+            final String newName = "net" + this.testId;
+            Region region = Region.US_WEST;
+            String groupName = "rg" + this.testId;
+
+
+            // Create a network
+            final Network network = networks.define(newName)
+                    .withRegion(region)
+                    .withNewResourceGroup(groupName)
+                    .withAddressSpace("10.0.0.0/28")
+                    .withSubnet("subnetA", "10.0.0.0/29")
+                    .defineSubnet("subnetB")
+                        .withAddressPrefix("10.0.0.8/29")
+                        .withAccessFromService(ServiceEndpointType.MICROSOFT_STORAGE)
+                        .attach()
+                    .create();
+
+            // Verify address spaces
+            Assert.assertEquals(1, network.addressSpaces().size());
+            Assert.assertTrue(network.addressSpaces().contains("10.0.0.0/28"));
+
+            // Verify subnets
+            Assert.assertEquals(2, network.subnets().size());
+            Subnet subnet = network.subnets().get("subnetA");
+            Assert.assertEquals("10.0.0.0/29", subnet.addressPrefix());
+
+            subnet = network.subnets().get("subnetB");
+            Assert.assertEquals("10.0.0.8/29", subnet.addressPrefix());
+            Assert.assertNotNull(subnet.servicesWithAccess());
+            Assert.assertTrue(subnet.servicesWithAccess().containsKey(ServiceEndpointType.MICROSOFT_STORAGE));
+            Assert.assertTrue(subnet.servicesWithAccess().get(ServiceEndpointType.MICROSOFT_STORAGE).size() > 0);
+            return network;
+        }
+
+        @Override
+        public Network updateResource(Network resource) throws Exception {
+            resource =  resource.update()
+                    .withTag("tag1", "value1")
+                    .withTag("tag2", "value2")
+                    .withAddressSpace("141.25.0.0/16")
+                    .withoutAddressSpace("10.1.0.0/28")
+                    .withSubnet("subnetC", "141.25.0.0/29")
+                    .withoutSubnet("subnetA")
+                    .updateSubnet("subnetB")
+                        .withAddressPrefix("141.25.0.8/29")
+                        .withoutAccessFromService(ServiceEndpointType.MICROSOFT_STORAGE)
+                        .parent()
+                    .defineSubnet("subnetD")
+                        .withAddressPrefix("141.25.0.16/29")
+                        .withAccessFromService(ServiceEndpointType.MICROSOFT_STORAGE)
+                        .attach()
+                    .apply();
+
+            Assert.assertTrue(resource.tags().containsKey("tag1"));
+
+            // Verify address spaces
+            Assert.assertEquals(2, resource.addressSpaces().size());
+            Assert.assertFalse(resource.addressSpaces().contains("10.1.0.0/28"));
+
+            // Verify subnets
+            Assert.assertEquals(3, resource.subnets().size());
+            Assert.assertFalse(resource.subnets().containsKey("subnetA"));
+
+            Subnet subnet = resource.subnets().get("subnetB");
+            Assert.assertNotNull(subnet);
+            Assert.assertEquals("141.25.0.8/29", subnet.addressPrefix());
+            Assert.assertNotNull(subnet.servicesWithAccess());
+            Assert.assertTrue(subnet.servicesWithAccess().isEmpty());
+
+            subnet = resource.subnets().get("subnetC");
+            Assert.assertNotNull(subnet);
+            Assert.assertEquals("141.25.0.0/29", subnet.addressPrefix());
+
+            subnet = resource.subnets().get("subnetD");
+            Assert.assertNotNull(subnet);
+            Assert.assertEquals("141.25.0.16/29", subnet.addressPrefix());
+            Assert.assertNotNull(subnet.servicesWithAccess());
+            Assert.assertTrue(subnet.servicesWithAccess().containsKey(ServiceEndpointType.MICROSOFT_STORAGE));
+
+            return resource;
+        }
+
+        @Override
+        public void print(Network resource) {
+            printNetwork(resource);
+        }
+    }
+
+    /**
      * Test of network peerings.
      */
     public static class WithPeering extends TestTemplate<Network, Networks> {
@@ -185,6 +282,8 @@ public class TestNetwork {
             // Verify local peering
             Assert.assertNotNull(localNetwork.peerings());
             Assert.assertEquals(1,  localNetwork.peerings().list().size());
+            Assert.assertEquals(1, localPeering.remoteAddressSpaces().size());
+            Assert.assertEquals("10.1.0.0/27", localPeering.remoteAddressSpaces().get(0));
             localPeering = localNetwork.peerings().list().get(0);
             Assert.assertNotNull(localPeering);
             Assert.assertTrue(localPeering.name().equalsIgnoreCase("peer0"));
@@ -257,6 +356,85 @@ public class TestNetwork {
     }
 
     /**
+     * Test of network with DDoS protection plan.
+     */
+    public static class WithDDosProtectionPlanAndVmProtection extends TestTemplate<Network, Networks> {
+        @Override
+        public Network createResource(Networks networks) throws Exception {
+            Region region = Region.US_EAST2;
+            String groupName = "rg" + this.testId;
+
+            String networkName = SdkContext.randomResourceName("net", 15);
+
+            Network network = networks.define(networkName)
+                    .withRegion(region)
+                    .withNewResourceGroup(groupName)
+                    .withNewDdosProtectionPlan()
+                    .withVmProtection()
+                    .create();
+            Assert.assertTrue(network.isDdosProtectionEnabled());
+            Assert.assertNotNull(network.ddosProtectionPlanId());
+            Assert.assertTrue(network.isVmProtectionEnabled());
+
+            return network;
+        }
+
+        @Override
+        public Network updateResource(Network network) throws Exception {
+            network.update()
+                    .withoutDdosProtectionPlan()
+                    .withoutVmProtection()
+                    .apply();
+            Assert.assertFalse(network.isDdosProtectionEnabled());
+            Assert.assertNull(network.ddosProtectionPlanId());
+            Assert.assertFalse(network.isVmProtectionEnabled());
+            return network;
+        }
+
+        @Override
+        public void print(Network resource) {
+            printNetwork(resource);
+        }
+    }
+
+    /**
+     * Test of network updateTags functionality.
+     */
+    public static class WithUpdateTags extends TestTemplate<Network, Networks> {
+        @Override
+        public Network createResource(Networks networks) throws Exception {
+            Region region = Region.US_SOUTH_CENTRAL;
+            String groupName = "rg" + this.testId;
+
+            String networkName = SdkContext.randomResourceName("net", 15);
+
+            Network network = networks.define(networkName)
+                    .withRegion(region)
+                    .withNewResourceGroup(groupName)
+                    .withTag("tag1", "value1")
+                    .create();
+            Assert.assertEquals("value1", network.tags().get("tag1"));
+            return network;
+        }
+
+        @Override
+        public Network updateResource(Network network) throws Exception {
+            network.updateTags()
+                    .withoutTag("tag1")
+                    .withTag("tag2", "value2")
+                    .applyTags();
+            Assert.assertFalse(network.tags().containsKey("tag1"));
+            Assert.assertEquals("value2", network.tags().get("tag2"));
+            return network;
+        }
+
+        @Override
+        public void print(Network resource) {
+            printNetwork(resource);
+        }
+    }
+
+    /**
      * Outputs info about a network.
      * @param resource a network
      */
@@ -285,6 +463,17 @@ public class TestNetwork {
             RouteTable routeTable = subnet.getRouteTable();
             if (routeTable != null) {
                 info.append("\n\tRoute table ID: ").append(routeTable.id());
+            }
+
+            // Output services with access
+            Map<ServiceEndpointType, List<Region>> services = subnet.servicesWithAccess();
+            if (services.size() > 0) {
+                info.append("\n\tServices with access");
+                for (Map.Entry<ServiceEndpointType, List<Region>> service : services.entrySet()) {
+                    info.append("\n\t\tService: ")
+                            .append(service.getKey())
+                            .append(" Regions: " + service.getValue() + "");
+                }
             }
         }
 

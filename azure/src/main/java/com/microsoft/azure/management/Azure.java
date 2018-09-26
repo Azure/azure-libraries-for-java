@@ -18,8 +18,8 @@ import com.microsoft.azure.management.appservice.WebApps;
 import com.microsoft.azure.management.appservice.implementation.AppServiceManager;
 import com.microsoft.azure.management.batch.BatchAccounts;
 import com.microsoft.azure.management.batch.implementation.BatchManager;
-import com.microsoft.azure.management.batchai.BatchAIClusters;
-import com.microsoft.azure.management.batchai.BatchAIFileServers;
+import com.microsoft.azure.management.batchai.BatchAIUsages;
+import com.microsoft.azure.management.batchai.BatchAIWorkspaces;
 import com.microsoft.azure.management.batchai.implementation.BatchAIManager;
 import com.microsoft.azure.management.cdn.CdnProfiles;
 import com.microsoft.azure.management.cdn.implementation.CdnManager;
@@ -27,6 +27,9 @@ import com.microsoft.azure.management.compute.AvailabilitySets;
 import com.microsoft.azure.management.compute.ComputeSkus;
 import com.microsoft.azure.management.compute.ComputeUsages;
 import com.microsoft.azure.management.compute.Disks;
+import com.microsoft.azure.management.compute.Galleries;
+import com.microsoft.azure.management.compute.GalleryImageVersions;
+import com.microsoft.azure.management.compute.GalleryImages;
 import com.microsoft.azure.management.compute.Snapshots;
 import com.microsoft.azure.management.compute.VirtualMachineCustomImages;
 import com.microsoft.azure.management.compute.VirtualMachineImages;
@@ -44,6 +47,10 @@ import com.microsoft.azure.management.dns.DnsZones;
 import com.microsoft.azure.management.dns.implementation.DnsZoneManager;
 import com.microsoft.azure.management.cosmosdb.CosmosDBAccounts;
 import com.microsoft.azure.management.cosmosdb.implementation.CosmosDBManager;
+import com.microsoft.azure.management.eventhub.EventHubDisasterRecoveryPairings;
+import com.microsoft.azure.management.eventhub.EventHubNamespaces;
+import com.microsoft.azure.management.eventhub.EventHubs;
+import com.microsoft.azure.management.eventhub.implementation.EventHubManager;
 import com.microsoft.azure.management.graphrbac.ActiveDirectoryGroups;
 import com.microsoft.azure.management.graphrbac.ActiveDirectoryUsers;
 import com.microsoft.azure.management.graphrbac.ActiveDirectoryApplications;
@@ -55,10 +62,20 @@ import com.microsoft.azure.management.keyvault.Vaults;
 import com.microsoft.azure.management.keyvault.implementation.KeyVaultManager;
 import com.microsoft.azure.management.locks.ManagementLocks;
 import com.microsoft.azure.management.locks.implementation.AuthorizationManager;
+import com.microsoft.azure.management.monitor.ActionGroups;
+import com.microsoft.azure.management.monitor.ActivityLogs;
+import com.microsoft.azure.management.monitor.AlertRules;
+import com.microsoft.azure.management.monitor.AutoscaleSettings;
+import com.microsoft.azure.management.monitor.DiagnosticSettings;
+import com.microsoft.azure.management.monitor.MetricDefinitions;
+import com.microsoft.azure.management.monitor.implementation.MonitorManager;
 import com.microsoft.azure.management.msi.Identities;
 import com.microsoft.azure.management.msi.implementation.MSIManager;
 import com.microsoft.azure.management.network.ApplicationGateways;
+import com.microsoft.azure.management.network.ApplicationSecurityGroups;
+import com.microsoft.azure.management.network.DdosProtectionPlans;
 import com.microsoft.azure.management.network.ExpressRouteCircuits;
+import com.microsoft.azure.management.network.ExpressRouteCrossConnections;
 import com.microsoft.azure.management.network.LoadBalancers;
 import com.microsoft.azure.management.network.LocalNetworkGateways;
 import com.microsoft.azure.management.network.NetworkInterfaces;
@@ -67,6 +84,7 @@ import com.microsoft.azure.management.network.NetworkUsages;
 import com.microsoft.azure.management.network.Networks;
 import com.microsoft.azure.management.network.NetworkWatchers;
 import com.microsoft.azure.management.network.PublicIPAddresses;
+import com.microsoft.azure.management.network.RouteFilters;
 import com.microsoft.azure.management.network.RouteTables;
 import com.microsoft.azure.management.network.VirtualNetworkGateways;
 import com.microsoft.azure.management.network.implementation.NetworkManager;
@@ -96,7 +114,7 @@ import com.microsoft.azure.management.sql.implementation.SqlServerManager;
 import com.microsoft.azure.management.storage.StorageAccounts;
 import com.microsoft.azure.management.storage.StorageSkus;
 import com.microsoft.azure.management.storage.Usages;
-import com.microsoft.azure.v2.management.storage.implementation.StorageManager;
+import com.microsoft.azure.management.storage.implementation.StorageManager;
 import com.microsoft.azure.management.trafficmanager.TrafficManagerProfiles;
 import com.microsoft.azure.management.trafficmanager.implementation.TrafficManager;
 import com.microsoft.azure.serializer.AzureJacksonAdapter;
@@ -130,6 +148,8 @@ public final class Azure {
     private final CosmosDBManager cosmosDBManager;
     private final AuthorizationManager authorizationManager;
     private final MSIManager msiManager;
+    private final MonitorManager monitorManager;
+    private final EventHubManager eventHubManager;
     private final String subscriptionId;
     private final Authenticated authenticated;
 
@@ -398,7 +418,7 @@ public final class Azure {
         this.cdnManager = CdnManager.authenticate(restClient, subscriptionId);
         this.dnsZoneManager = DnsZoneManager.authenticate(restClient, subscriptionId);
         this.appServiceManager = AppServiceManager.authenticate(restClient, tenantId, subscriptionId);
-        this.sqlServerManager = SqlServerManager.authenticate(restClient, subscriptionId);
+        this.sqlServerManager = SqlServerManager.authenticate(restClient, tenantId, subscriptionId);
         this.serviceBusManager = ServiceBusManager.authenticate(restClient, subscriptionId);
         this.containerInstanceManager = ContainerInstanceManager.authenticate(restClient, subscriptionId);
         this.containerRegistryManager = ContainerRegistryManager.authenticate(restClient, subscriptionId);
@@ -407,6 +427,8 @@ public final class Azure {
         this.searchServiceManager = SearchServiceManager.authenticate(restClient, subscriptionId);
         this.authorizationManager = AuthorizationManager.authenticate(restClient, subscriptionId);
         this.msiManager = MSIManager.authenticate(restClient, subscriptionId);
+        this.monitorManager = MonitorManager.authenticate(restClient, subscriptionId);
+        this.eventHubManager = EventHubManager.authenticate(restClient, subscriptionId);
         this.subscriptionId = subscriptionId;
         this.authenticated = authenticated;
     }
@@ -588,6 +610,38 @@ public final class Azure {
     }
 
     /**
+     * @return entry point to managing express route cross connections
+     */
+    @Beta(SinceVersion.V1_11_0)
+    public ExpressRouteCrossConnections expressRouteCrossConnections() {
+        return networkManager.expressRouteCrossConnections();
+    }
+
+    /**
+     * @return entry point to managing express route circuits
+     */
+    @Beta(SinceVersion.V1_10_0)
+    public ApplicationSecurityGroups applicationSecurityGroups() {
+        return networkManager.applicationSecurityGroups();
+    }
+
+    /**
+     * @return entry point to managing route filters
+     */
+    @Beta(SinceVersion.V1_10_0)
+    public RouteFilters routeFilters() {
+        return networkManager.routeFilters();
+    }
+
+    /**
+     * @return entry point to managing DDoS protection plans
+     */
+    @Beta(SinceVersion.V1_10_0)
+    public DdosProtectionPlans ddosProtectionPlans() {
+        return networkManager.ddosProtectionPlans();
+    }
+
+    /**
      * @return entry point to managing virtual machines
      */
     public VirtualMachines virtualMachines() {
@@ -674,15 +728,17 @@ public final class Azure {
     /**
      * @return entry point to managing batch AI clusters.
      */
-    public BatchAIClusters batchAIClusters() {
-        return batchAIManager.clusters();
+    @Beta(SinceVersion.V1_12_0)
+    public BatchAIWorkspaces batchAIWorkspaces() {
+        return batchAIManager.workspaces();
     }
 
     /**
-     * @return entry point to managing batch AI file servers.
+     * @return entry point to managing batch AI usages.
      */
-    public BatchAIFileServers batchAIFileServers() {
-        return batchAIManager.fileServers();
+    @Beta(SinceVersion.V1_12_0)
+    public BatchAIUsages batchAIUsages() {
+        return batchAIManager.usages();
     }
 
     /**
@@ -815,5 +871,102 @@ public final class Azure {
     @Beta(SinceVersion.V1_2_0)
     public AccessManagement accessManagement() {
         return this.authenticated;
+    }
+
+    /**
+     * @return entry point to listing activity log events in Azure
+     */
+    @Beta(SinceVersion.V1_6_0)
+    public ActivityLogs activityLogs() {
+        return this.monitorManager.activityLogs();
+    }
+
+    /**
+     * @return entry point to listing metric definitions in Azure
+     */
+    @Beta(SinceVersion.V1_6_0)
+    public MetricDefinitions metricDefinitions() {
+        return this.monitorManager.metricDefinitions();
+    }
+
+    /**
+     * @return entry point to listing diagnostic settings in Azure
+     */
+    @Beta(SinceVersion.V1_8_0)
+    public DiagnosticSettings diagnosticSettings() {
+        return this.monitorManager.diagnosticSettings();
+    }
+
+    /**
+     * @return entry point to managing action groups in Azure
+     */
+    @Beta(SinceVersion.V1_9_0)
+    public ActionGroups actionGroups() {
+        return this.monitorManager.actionGroups();
+    }
+
+    /**
+     * @return entry point to managing alertRules in Azure
+     */
+    @Beta(SinceVersion.V1_15_0)
+    public AlertRules alertRules() {
+        return this.monitorManager.alertRules();
+    }
+
+
+    /**
+     * @return entry point to managing Autoscale Settings in Azure
+     */
+    @Beta(SinceVersion.V1_15_0)
+    public AutoscaleSettings autoscaleSettings() {
+        return this.monitorManager.autoscaleSettings();
+    }
+
+    /**
+     * @return entry point to managing event hub namespaces.
+     */
+    @Beta(SinceVersion.V1_7_0)
+    public EventHubNamespaces eventHubNamespaces() {
+        return this.eventHubManager.namespaces();
+    }
+
+    /**
+     * @return entry point to managing event hubs.
+     */
+    @Beta(SinceVersion.V1_7_0)
+    public EventHubs eventHubs() {
+        return this.eventHubManager.eventHubs();
+    }
+
+    /**
+     * @return entry point to managing event hub namespace geo disaster recovery.
+     */
+    @Beta(SinceVersion.V1_7_0)
+    public EventHubDisasterRecoveryPairings eventHubDisasterRecoveryPairings() {
+        return this.eventHubManager.eventHubDisasterRecoveryPairings();
+    }
+
+    /**
+     * @return entry point to manage compute galleries.
+     */
+    @Beta(Beta.SinceVersion.V1_15_0)
+    public Galleries galleries() {
+        return this.computeManager.galleries();
+    }
+
+    /**
+     * @return entry point to manage compute gallery images.
+     */
+    @Beta(Beta.SinceVersion.V1_15_0)
+    public GalleryImages galleryImages() {
+        return this.computeManager.galleryImages();
+    }
+
+    /**
+     * @return entry point to manage compute gallery image versions.
+     */
+    @Beta(Beta.SinceVersion.V1_15_0)
+    public GalleryImageVersions galleryImageVersions() {
+        return this.computeManager.galleryImageVersions();
     }
 }

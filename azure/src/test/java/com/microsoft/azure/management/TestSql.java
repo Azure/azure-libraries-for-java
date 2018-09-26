@@ -50,7 +50,7 @@ public class TestSql extends TestTemplate<SqlServer, SqlServers>  {
         // Including master database
         Assert.assertEquals(sqlServers[0].databases().list().size(), 3);
         Assert.assertEquals(sqlServers[0].elasticPools().list().size(), 1);
-        Assert.assertEquals(sqlServers[0].firewallRules().list().size(), 1);
+        Assert.assertEquals(sqlServers[0].firewallRules().list().size(), 2);
 
         return sqlServers[0];
     }
@@ -67,7 +67,7 @@ public class TestSql extends TestTemplate<SqlServer, SqlServers>  {
         // Just master database
         Assert.assertEquals(1, sqlServer.databases().list().size());
         Assert.assertEquals(0, sqlServer.elasticPools().list().size());
-        Assert.assertEquals(1, sqlServer.firewallRules().list().size());
+        Assert.assertEquals(2, sqlServer.firewallRules().list().size());
 
         return sqlServer;
     }

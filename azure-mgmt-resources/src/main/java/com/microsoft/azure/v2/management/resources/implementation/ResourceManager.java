@@ -62,10 +62,11 @@ public final class ResourceManager extends ManagerBase implements HasInner<Resou
      * Creates an instance of ResourceManager that exposes resource management API entry points.
      *
      * @param pipeline the HTTP pipeline to be used for API calls
+     * @param environment the azure environment hosting the APIs
      * @return the interface exposing resource management API entry points that work across subscriptions
      */
-    public static ResourceManager.Authenticated authenticate(HttpPipeline pipeline, AzureEnvironment azureEnvironment) {
-        return new AuthenticatedImpl(pipeline, azureEnvironment);
+    public static ResourceManager.Authenticated authenticate(HttpPipeline pipeline, AzureEnvironment environment) {
+        return new AuthenticatedImpl(pipeline, environment);
     }
 
     /**

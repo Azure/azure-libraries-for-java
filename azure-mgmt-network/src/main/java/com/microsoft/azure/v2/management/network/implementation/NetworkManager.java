@@ -97,8 +97,9 @@ public final class NetworkManager extends Manager<NetworkManager, NetworkManagem
     /**
      * Creates an instance of NetworkManager that exposes storage resource management API entry points.
      *
-     * @param httpPipeline the HttpPipeline to be used for API calls.
+     * @param httpPipeline the HttpPipeline to be used for API calls
      * @param subscriptionId the subscription UUID
+     * @param environment the azure environment hosting the APIs
      * @return the StorageManager
      */
     public static NetworkManager authenticate(HttpPipeline httpPipeline, String subscriptionId, AzureEnvironment environment) {

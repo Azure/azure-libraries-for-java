@@ -10,7 +10,6 @@ import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.v2.management.graphrbac.ActiveDirectoryGroup;
 import com.microsoft.azure.v2.management.graphrbac.ActiveDirectoryObject;
 import com.microsoft.azure.v2.management.graphrbac.ActiveDirectoryUser;
-import com.microsoft.azure.v2.management.graphrbac.GetObjectsParameters;
 import com.microsoft.azure.v2.management.graphrbac.GroupAddMemberParameters;
 import com.microsoft.azure.v2.management.graphrbac.GroupCreateParameters;
 import com.microsoft.azure.v2.management.graphrbac.ServicePrincipal;
@@ -22,10 +21,8 @@ import io.reactivex.Maybe;
 import io.reactivex.Observable;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**

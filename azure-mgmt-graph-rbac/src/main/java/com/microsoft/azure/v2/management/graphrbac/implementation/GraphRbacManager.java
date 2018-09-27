@@ -66,10 +66,11 @@ public final class GraphRbacManager implements HasInner<GraphRbacManagementClien
      *
      * @param httpPipeline the httpPipeline to be used for API calls
      * @param tenantId the tenantId in Active Directory
+     * @param environment the azure environment hosting the APIs
      * @return the interface exposing Graph RBAC management API entry points that work across subscriptions
      */
-    public static GraphRbacManager authenticate(HttpPipeline httpPipeline, String tenantId, AzureEnvironment azureEnvironment) {
-        return new GraphRbacManager(httpPipeline, tenantId, azureEnvironment);
+    public static GraphRbacManager authenticate(HttpPipeline httpPipeline, String tenantId, AzureEnvironment environment) {
+        return new GraphRbacManager(httpPipeline, tenantId, environment);
     }
 
     /**

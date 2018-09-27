@@ -16,7 +16,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.time.Duration;
 import java.time.OffsetDateTime;
-import java.util.Base64;
 
 /**
  * Implementation for ServicePrincipal and its parent interfaces.

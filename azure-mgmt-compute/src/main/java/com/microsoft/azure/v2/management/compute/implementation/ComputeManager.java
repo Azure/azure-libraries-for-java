@@ -89,6 +89,7 @@ public final class ComputeManager extends Manager<ComputeManager, ComputeManagem
      * @param httpPipeline the httpPipeline to be used for API calls.
      * @param subscriptionId the subscription
      * @param domain the domain
+     * @param environment the azure environment hosting the APIs
      * @return the ComputeManager
      */
     public static ComputeManager authenticate(HttpPipeline httpPipeline, String subscriptionId, String domain, AzureEnvironment environment) {

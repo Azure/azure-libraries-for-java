@@ -403,7 +403,7 @@ public final class Azure {
     private Azure(HttpPipeline httpPipeline, String subscriptionId, String tenantId, AzureEnvironment environment, Authenticated authenticated) {
         this.resourceManager = ResourceManager.authenticate(httpPipeline, environment).withSubscription(subscriptionId);
         this.storageManager = StorageManager.authenticate(httpPipeline, subscriptionId, environment);
-        this.computeManager = ComputeManager.authenticate(httpPipeline, subscriptionId,tenantId, environment);
+        this.computeManager = ComputeManager.authenticate(httpPipeline, subscriptionId, tenantId, environment);
         this.networkManager = NetworkManager.authenticate(httpPipeline, subscriptionId, environment);
 //         this.keyVaultManager = KeyVaultManager.authenticate(httpPipeline, subscriptionId, tenantId, environment);
 //         this.batchManager = BatchManager.authenticate(httpPipeline, subscriptionId, environment);

@@ -62,6 +62,7 @@ public final class MSIManager extends Manager<MSIManager, ManagedServiceIdentity
      * @param httpPipeline the httpPipeline to be used for API calls.
      * @param subscriptionId the subscription UUID
      * @param domain the domain
+     * @param environment the azure environment hosting the APIs
      * @return the MSIManager
      */
     public static MSIManager authenticate(HttpPipeline httpPipeline, String subscriptionId, String domain, AzureEnvironment environment) {

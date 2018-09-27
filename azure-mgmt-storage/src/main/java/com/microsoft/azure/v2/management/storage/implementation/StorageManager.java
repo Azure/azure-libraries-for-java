@@ -56,8 +56,9 @@ public final class StorageManager extends Manager<StorageManager, StorageManagem
     /**
      * Creates an instance of StorageManager that exposes storage resource management API entry points.
      *
-     * @param httpPipeline the HttpPipeline to be used for API calls.
+     * @param httpPipeline the HttpPipeline to be used for API calls
      * @param subscriptionId the subscription UUID
+     * @param environment the azure environment hosting the APIs
      * @return the StorageManager
      */
     public static StorageManager authenticate(HttpPipeline httpPipeline, String subscriptionId, AzureEnvironment environment) {

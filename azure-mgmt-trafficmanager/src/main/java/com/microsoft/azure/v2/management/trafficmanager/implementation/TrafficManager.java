@@ -54,6 +54,7 @@ public final class TrafficManager extends Manager<TrafficManager, TrafficManager
      *
      * @param httpPipeline the HttpPipeline to be used for API calls.
      * @param subscriptionId the subscription UUID
+     * @param environment the azure environment hosting the APIs
      * @return the TrafficManager
      */
     public static TrafficManager authenticate(HttpPipeline httpPipeline, String subscriptionId, AzureEnvironment environment) {

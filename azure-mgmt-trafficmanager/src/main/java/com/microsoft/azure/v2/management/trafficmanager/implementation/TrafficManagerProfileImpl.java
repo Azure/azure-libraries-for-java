@@ -20,6 +20,7 @@ import io.reactivex.Completable;
 import io.reactivex.Maybe;
 import io.reactivex.Observable;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Implementation for TrafficManagerProfile.
@@ -254,11 +255,15 @@ class TrafficManagerProfileImpl
         // required for the new routing method.
         final ProfilesInner innerCollection = this.manager().inner().profiles();
         return self.endpoints.commitAndGetAllAsync()
-                .flatMapMaybe(endpoints -> innerCollection.createOrUpdateAsync(resourceGroupName(), name(), inner())
-                            .map(profileInner -> {
-                                setInner(profileInner);
-                                return (TrafficManagerProfile) this;
-                            })).toObservable();
+                .flatMapMaybe(endpoints -> innerCollection.getByResourceGroupAsync(resourceGroupName(), name())
+                    .flatMap(profileInner -> {
+                        inner().withEndpointsProperty(profileInner.endpointsProperty());
+                        return innerCollection.createOrUpdateAsync(resourceGroupName(), name(), inner())
+                                .map(profileInner2 -> {
+                                    setInner(profileInner2);
+                                    return (TrafficManagerProfile) this;
+                                });
+                        })).toObservable();
      }
 
     @Override

@@ -15,7 +15,7 @@ import com.microsoft.azure.v2.serializer.AzureJacksonAdapter;
 import com.microsoft.rest.v2.http.HttpPipeline;
 import com.microsoft.rest.v2.http.HttpRequest;
 import com.microsoft.rest.v2.http.HttpResponse;
-import com.microsoft.rest.v2.policy.CredentialsPolicyFactory;
+import com.microsoft.azure.v2.policy.AsyncCredentialsPolicyFactory;
 import com.microsoft.rest.v2.policy.HostPolicyFactory;
 import com.microsoft.rest.v2.policy.RequestPolicy;
 import com.microsoft.rest.v2.policy.RequestPolicyFactory;
@@ -81,7 +81,7 @@ public final class ProviderRegistrationPolicyFactory implements RequestPolicyFac
 
                     HttpPipeline pipeline = HttpPipeline.build(
                             new HostPolicyFactory(request.url().getHost()),
-                            new CredentialsPolicyFactory(credentials));
+                            new AsyncCredentialsPolicyFactory(credentials));
 
                     final Providers providers = ResourceManager.authenticate(pipeline, credentials.environment())
                             .withSubscription(matcher.group(1))

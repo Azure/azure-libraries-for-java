@@ -11,7 +11,6 @@ package com.microsoft.azure.v2.management.trafficmanager.implementation;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.azure.v2.management.trafficmanager.EndpointMonitorStatus;
 import com.microsoft.azure.v2.management.trafficmanager.EndpointStatus;
-import com.microsoft.azure.v2.management.trafficmanager.ProxyResource;
 import com.microsoft.rest.v2.annotations.SkipParentValidation;
 import com.microsoft.rest.v2.serializer.JsonFlatten;
 import java.util.List;

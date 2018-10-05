@@ -20,7 +20,6 @@ import io.reactivex.Completable;
 import io.reactivex.Maybe;
 import io.reactivex.Observable;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * Implementation for TrafficManagerProfile.

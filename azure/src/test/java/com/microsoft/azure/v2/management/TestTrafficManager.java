@@ -97,14 +97,21 @@ public class TestTrafficManager extends TestTemplate<TrafficManagerProfile, Traf
         // Creates a TM profile
         //
 
-        // bugfix
-        TrafficManagerProfile updatedProfile = nestedProfile.update()
-                                .defineAzureTargetEndpoint(azureEndpointName)
-                                    .toResourceId(publicIPAddress.id())
-                                    .withTrafficDisabled()
-                                    .withRoutingPriority(11)
-                                    .attach()
-                                .apply();
+        TrafficManagerProfile updatedProfile = null;
+
+        try {
+            // bugfix
+            updatedProfile = nestedProfile.update()
+                    .defineAzureTargetEndpoint(azureEndpointName)
+                    .toResourceId(publicIPAddress.id())
+                    .withTrafficDisabled()
+                    .withRoutingPriority(11)
+                    .attach()
+                    .apply();
+        } catch (Exception ex) {
+            this.publicIPAddresses.manager().resourceManager().resourceGroups().beginDeleteByName(groupName);
+        }
+
 
         Assert.assertEquals(1, updatedProfile.azureEndpoints().size());
         Assert.assertTrue(updatedProfile.azureEndpoints().containsKey(azureEndpointName));

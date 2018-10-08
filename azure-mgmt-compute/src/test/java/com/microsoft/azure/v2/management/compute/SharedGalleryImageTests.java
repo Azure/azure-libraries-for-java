@@ -28,7 +28,7 @@ public class SharedGalleryImageTests extends ComputeManagementTest {
 
     @Override
     protected void cleanUpResources() {
-       resourceManager.resourceGroups().deleteByName(RG_NAME);
+       resourceManager.resourceGroups().beginDeleteByName(RG_NAME);
     }
 
     @Test

@@ -13,7 +13,6 @@ import com.microsoft.azure.v2.management.graphrbac.implementation.RoleAssignment
 import com.microsoft.azure.v2.management.msi.Identity;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.Resource;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
-import com.microsoft.azure.v2.management.resources.fluentcore.utils.SdkContext;
 import io.reactivex.Maybe;
 import io.reactivex.Observable;
 

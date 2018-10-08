@@ -7,11 +7,16 @@
 package com.microsoft.azure.v2.management.samples;
 
 import com.microsoft.azure.v2.management.resources.samples.ManageResourceGroup;
+import com.microsoft.azure.v2.management.resources.samples.DeployUsingARMTemplate;
 import org.junit.Assert;
 import org.junit.Test;
 
 public class ResourceSampleTests extends SamplesTestBase {
 
+    @Test
+    public void testDeployUsingARMTemplate() {
+        Assert.assertTrue(DeployUsingARMTemplate.runSample(azure));
+    }
 
     @Test
     public void testManageResourceGroup() {

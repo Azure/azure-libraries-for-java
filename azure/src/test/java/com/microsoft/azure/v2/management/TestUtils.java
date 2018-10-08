@@ -7,7 +7,6 @@
 package com.microsoft.azure.v2.management;
 
 import com.microsoft.azure.v2.management.compute.VirtualMachine;
-//import com.microsoft.azure.v2.management.locks.ManagementLock;
 import com.microsoft.azure.v2.management.compute.DataDisk;
 
 /**
@@ -17,14 +16,6 @@ public final class TestUtils {
     private TestUtils() {
 
     }
-
-//    public static void print(ManagementLock lock) {
-//        StringBuffer info = new StringBuffer();
-//        info.append("\nLock ID: ").append(lock.id())
-//            .append("\nLocked resource ID: ").append(lock.lockedResourceId())
-//            .append("\nLevel: ").append(lock.level());
-//        System.out.println(info.toString());
-//    }
 
     /**
      * Shows the virtual machine.

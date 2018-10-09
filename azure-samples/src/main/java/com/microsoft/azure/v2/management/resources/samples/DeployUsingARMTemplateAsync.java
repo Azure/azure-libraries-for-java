@@ -18,6 +18,9 @@ import com.microsoft.rest.v2.policy.HttpLogDetailLevel;
 import com.microsoft.rest.v2.policy.HttpLoggingPolicyFactory;
 import io.reactivex.Maybe;
 import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Function;
 
 import java.io.File;
 import java.io.IOException;
@@ -66,37 +69,43 @@ public final class DeployUsingARMTemplateAsync {
 
             Observable.range(1, numDeployments)
                     .flatMapMaybe(integer -> {
-                            try {
-                                String params;
-                                if (integer == numDeployments) {
-                                    params = "{\"sshKeyData\":{\"value\":\"bad content\"}}"; // Invalid parameters as a negative path
-                                } else {
-                                    params = parameters;
-                                }
-                                String deploymentName = deploymentPrefix + "-" + integer;
-                                deploymentList.add(deploymentName);
-                                return azure.deployments()
-                                        .define(deploymentName)
-                                        .withNewResourceGroup(rgPrefix + "-" + integer, Region.US_SOUTH_CENTRAL)
-                                        .withTemplateLink(templateUri, templateContentVersion)
-                                        .withParameters(params)
-                                        .withMode(DeploymentMode.COMPLETE)
-                                        .createAsync().lastElement();
-                            } catch (IOException e) {
-                                return Maybe.error(e);
+                        try {
+                            String params;
+                            if (integer == numDeployments) {
+                                params = "{\"sshKeyData\":{\"value\":\"bad content\"}}"; // Invalid parameters as a negative path
+                            } else {
+                                params = parameters;
                             }
+                            String deploymentName = deploymentPrefix + "-" + integer;
+                            deploymentList.add(deploymentName);
+                            return azure.deployments()
+                                    .define(deploymentName)
+                                    .withNewResourceGroup(rgPrefix + "-" + integer, Region.US_SOUTH_CENTRAL)
+                                    .withTemplateLink(templateUri, templateContentVersion)
+                                    .withParameters(params)
+                                    .withMode(DeploymentMode.COMPLETE)
+                                    .createAsync().lastElement();
+                        } catch (IOException e) {
+                            return Maybe.error(e);
+                        }
                     })
                     .map(indexable -> {
-                            return (Deployment) indexable;
+                        return (Deployment) indexable;
+                    })
+                    .onErrorResumeNext(new Function<Throwable, ObservableSource<? extends Deployment>>() {
+                        @Override
+                        public ObservableSource<? extends Deployment> apply(Throwable throwable) throws Exception {
+                            return Observable.empty();
+                        }
                     })
                     .doOnNext(deployment -> {
-                            if (deployment != null) {
-                                System.out.println("Deployment finished: " + deployment.name());
-                                succeeded.add(deployment.name());
-                            }
+                        if (deployment != null) {
+                            System.out.println("Deployment finished: " + deployment.name());
+                            succeeded.add(deployment.name());
+                        }
                     })
                     .doOnComplete(() -> {
-                            latch.countDown();
+                        latch.countDown();
                     }).subscribe();
 
             latch.await();

@@ -19,9 +19,17 @@ public class ResourceSampleTests extends SamplesTestBase {
     }
 
     @Test
-    @Ignore("Azure returns error: The value of parameter linuxConfiguration.ssh.publicKeys.keyData is invalid.")
     public void testDeployUsingARMTemplateAsync() {
         Assert.assertTrue(DeployUsingARMTemplateAsync.runSample(azure));
+    }
+
+    @Test
+    public void testDeployUsingARMTemplateWithDeploymentOperations() {
+        if (isPlaybackMode()) {
+            Assert.assertTrue(DeployUsingARMTemplateWithDeploymentOperations.runSample(azure, 0));
+        } else {
+            Assert.assertTrue(DeployUsingARMTemplateWithDeploymentOperations.runSample(azure, -1));
+        }
     }
 
     @Test

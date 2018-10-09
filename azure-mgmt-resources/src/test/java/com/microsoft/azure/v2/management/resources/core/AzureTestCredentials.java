@@ -8,6 +8,7 @@ package com.microsoft.azure.v2.management.resources.core;
 
 import com.microsoft.azure.v2.AzureEnvironment;
 import com.microsoft.azure.v2.credentials.ApplicationTokenCredentials;
+import io.reactivex.Single;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -30,10 +31,10 @@ public class AzureTestCredentials extends ApplicationTokenCredentials {
     }
 
     @Override
-    public String getToken(String resource) throws IOException {
+    public Single<String> getToken(String resource) {
         if (!isPlaybackMode) {
             super.getToken(resource);
         }
-        return "https:/asdd.com";
+        return Single.just("https:/asdd.com");
     }
 }

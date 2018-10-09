@@ -7,7 +7,8 @@
 package com.microsoft.azure.v2.management.resources.core;
 
 import com.microsoft.azure.v2.AzureEnvironment;
-import com.microsoft.azure.v2.credentials.ApplicationTokenCredentials;
+import com.microsoft.azure.v2.credentials.AzureCliCredentials;
+import com.microsoft.azure.v2.credentials.AzureTokenCredentials;
 import com.microsoft.azure.v2.management.resources.fluentcore.utils.ProviderRegistrationPolicyFactory;
 import com.microsoft.azure.v2.management.resources.fluentcore.utils.ResourceManagerThrottlingPolicyFactory;
 import com.microsoft.azure.v2.management.resources.fluentcore.utils.SdkContext;
@@ -15,7 +16,7 @@ import com.microsoft.rest.v2.http.HttpPipeline;
 import com.microsoft.rest.v2.http.HttpPipelineBuilder;
 import com.microsoft.rest.v2.http.HttpPipelineOptions;
 import com.microsoft.rest.v2.http.NettyClient;
-import com.microsoft.rest.v2.policy.CredentialsPolicyFactory;
+import com.microsoft.azure.v2.policy.AsyncCredentialsPolicyFactory;
 import com.microsoft.rest.v2.policy.HttpLogDetailLevel;
 import com.microsoft.rest.v2.policy.HttpLoggingPolicyFactory;
 import com.microsoft.rest.v2.policy.TimeoutPolicyFactory;
@@ -153,14 +154,14 @@ public abstract class TestBase {
 
         interceptorManager = InterceptorManager.create(testName.getMethodName(), testMode);
 
-        ApplicationTokenCredentials credentials;
+        AzureTokenCredentials credentials;
         HttpPipeline pipeline;
         String defaultSubscription;
 
         if (isPlaybackMode()) {
             credentials = new AzureTestCredentials(playbackUri, ZERO_TENANT, true);
             pipeline = buildRestClient(new HttpPipelineBuilder()
-                            .withRequestPolicy(new CredentialsPolicyFactory(credentials))
+                            .withRequestPolicy(new AsyncCredentialsPolicyFactory(credentials))
                             .withRequestPolicy(new ResourceManagerThrottlingPolicyFactory())
                             .withRequestPolicy(new HttpLoggingPolicyFactory(HttpLogDetailLevel.BODY_AND_HEADERS, true))
                             .withHttpClient(interceptorManager.initPlaybackClient())
@@ -178,10 +179,10 @@ public abstract class TestBase {
         }
         else { // Record mode
             final File credFile = new File(System.getenv("AZURE_AUTH_LOCATION"));
-            credentials = ApplicationTokenCredentials.fromFile(credFile);
+            credentials = AzureCliCredentials.create();
             pipeline = buildRestClient(new HttpPipelineBuilder(new HttpPipelineOptions().withHttpClient(NettyClient.createDefault()))
                     .withRequestPolicy(new ProviderRegistrationPolicyFactory(credentials))
-                    .withRequestPolicy(new CredentialsPolicyFactory(credentials))
+                    .withRequestPolicy(new AsyncCredentialsPolicyFactory(credentials))
                     .withRequestPolicy(new TimeoutPolicyFactory(3, TimeUnit.MINUTES))
                     .withRequestPolicy(interceptorManager.initRecordPolicy())
                     .withRequestPolicy(new ResourceManagerThrottlingPolicyFactory())

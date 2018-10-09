@@ -15,10 +15,10 @@ import com.microsoft.azure.v2.management.resources.fluentcore.arm.implementation
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.implementation.Manager;
 import com.microsoft.azure.v2.management.resources.fluentcore.utils.ProviderRegistrationPolicyFactory;
 import com.microsoft.azure.v2.management.resources.fluentcore.utils.ResourceManagerThrottlingPolicyFactory;
+import com.microsoft.azure.v2.policy.AsyncCredentialsPolicyFactory;
 import com.microsoft.rest.v2.annotations.Beta;
 import com.microsoft.rest.v2.http.HttpPipeline;
 import com.microsoft.rest.v2.http.HttpPipelineBuilder;
-import com.microsoft.rest.v2.policy.CredentialsPolicyFactory;
 
 /**
  * Entry point to Azure Managed Service Identity (MSI) resource management.
@@ -47,7 +47,7 @@ public final class MSIManager extends Manager<MSIManager, ManagedServiceIdentity
      */
     public static MSIManager authenticate(AzureTokenCredentials credentials, String subscriptionId) {
         return new MSIManager(new HttpPipelineBuilder()
-                .withRequestPolicy(new CredentialsPolicyFactory(credentials))
+                .withRequestPolicy(new AsyncCredentialsPolicyFactory(credentials))
                 .withRequestPolicy(new ProviderRegistrationPolicyFactory(credentials))
                 .withRequestPolicy(new ResourceManagerThrottlingPolicyFactory())
                 .build(),

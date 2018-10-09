@@ -8,9 +8,6 @@ package com.microsoft.azure.v2.management.compute.implementation;
 
 import com.microsoft.azure.v2.AzureEnvironment;
 import com.microsoft.azure.v2.credentials.AzureTokenCredentials;
-import com.microsoft.azure.v2.management.resources.fluentcore.utils.ProviderRegistrationPolicyFactory;
-import com.microsoft.azure.v2.management.resources.fluentcore.utils.ResourceManagerThrottlingPolicyFactory;
-import com.microsoft.rest.v2.annotations.Beta;
 import com.microsoft.azure.v2.management.compute.AvailabilitySets;
 import com.microsoft.azure.v2.management.compute.ComputeSkus;
 import com.microsoft.azure.v2.management.compute.ComputeUsages;
@@ -29,10 +26,13 @@ import com.microsoft.azure.v2.management.network.implementation.NetworkManager;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.AzureConfigurable;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.implementation.AzureConfigurableImpl;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.implementation.Manager;
+import com.microsoft.azure.v2.management.resources.fluentcore.utils.ProviderRegistrationPolicyFactory;
+import com.microsoft.azure.v2.management.resources.fluentcore.utils.ResourceManagerThrottlingPolicyFactory;
 import com.microsoft.azure.v2.management.storage.implementation.StorageManager;
+import com.microsoft.rest.v2.annotations.Beta;
 import com.microsoft.rest.v2.http.HttpPipeline;
 import com.microsoft.rest.v2.http.HttpPipelineBuilder;
-import com.microsoft.rest.v2.policy.CredentialsPolicyFactory;
+import com.microsoft.azure.v2.policy.AsyncCredentialsPolicyFactory;
 
 /**
  * Entry point to Azure compute resource management.
@@ -77,7 +77,7 @@ public final class ComputeManager extends Manager<ComputeManager, ComputeManagem
      */
     public static ComputeManager authenticate(AzureTokenCredentials credentials, String subscriptionId, String domain) {
         return new ComputeManager(new HttpPipelineBuilder()
-                .withRequestPolicy(new CredentialsPolicyFactory(credentials))
+                .withRequestPolicy(new AsyncCredentialsPolicyFactory(credentials))
                 .withRequestPolicy(new ProviderRegistrationPolicyFactory(credentials))
                 .withRequestPolicy(new ResourceManagerThrottlingPolicyFactory())
                 .build(), subscriptionId, domain, credentials.environment());

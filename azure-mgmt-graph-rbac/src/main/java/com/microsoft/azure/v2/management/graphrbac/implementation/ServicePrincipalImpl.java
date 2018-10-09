@@ -24,7 +24,7 @@ import io.reactivex.Completable;
 import io.reactivex.Maybe;
 import io.reactivex.Observable;
 import io.reactivex.Single;
-import rx.exceptions.Exceptions;
+import io.reactivex.exceptions.Exceptions;
 
 import java.util.ArrayList;
 import java.util.Collections;

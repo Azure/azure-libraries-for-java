@@ -7,7 +7,7 @@
 package com.microsoft.azure.v2.management.samples;
 
 
-import com.microsoft.azure.v2.Azure;
+import com.microsoft.azure.v2.management.Azure;
 import com.microsoft.azure.v2.AzureEnvironment;
 import com.microsoft.azure.v2.management.resources.core.TestBase;
 import com.microsoft.rest.v2.http.HttpPipeline;

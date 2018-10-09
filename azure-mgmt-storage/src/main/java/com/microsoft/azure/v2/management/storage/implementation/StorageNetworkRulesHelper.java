@@ -14,7 +14,6 @@ import com.microsoft.azure.v2.management.storage.NetworkRuleSet;
 import com.microsoft.azure.v2.management.storage.StorageAccountCreateParameters;
 import com.microsoft.azure.v2.management.storage.StorageAccountUpdateParameters;
 import com.microsoft.azure.v2.management.storage.VirtualNetworkRule;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -377,7 +376,7 @@ final class StorageNetworkRulesHelper {
             }
             bypassSet.add(bypassStr);
         }
-        networkRuleSet.withBypass(Bypass.fromString(StringUtils.join(bypassSet, ", ")));
+        networkRuleSet.withBypass(Bypass.fromString(String.join(", ", bypassSet)));
     }
 
     /**
@@ -398,7 +397,7 @@ final class StorageNetworkRulesHelper {
             if (bypassSet.isEmpty() && !bypassStr.equalsIgnoreCase(BYPASS_NONE_STR)) {
                 bypassSet.add(BYPASS_NONE_STR);
             }
-            networkRuleSet.withBypass(Bypass.fromString(StringUtils.join(bypassSet, ", ")));
+            networkRuleSet.withBypass(Bypass.fromString(String.join(", ", bypassSet)));
         }
     }
 

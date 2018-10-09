@@ -11,13 +11,13 @@ import com.microsoft.rest.v2.http.HttpResponse;
 import com.microsoft.rest.v2.policy.RequestPolicy;
 import com.microsoft.rest.v2.policy.RequestPolicyFactory;
 import com.microsoft.rest.v2.policy.RequestPolicyOptions;
+import io.netty.handler.codec.http.HttpResponseStatus;
 import io.reactivex.Single;
 import io.reactivex.SingleSource;
 import io.reactivex.exceptions.Exceptions;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import org.apache.commons.io.IOUtils;
-import org.apache.http.HttpStatus;
 import org.junit.Assert;
 import org.slf4j.LoggerFactory;
 
@@ -144,7 +144,7 @@ public class InterceptorManager {
                             networkCallRecord.Response = responseData;
                             // remove pre-added header if this is a waiting or redirection
                             if (networkCallRecord.Response.get("Body").contains("<Status>InProgress</Status>")
-                                    || Integer.parseInt(networkCallRecord.Response.get("StatusCode")) == HttpStatus.SC_TEMPORARY_REDIRECT) {
+                                    || Integer.parseInt(networkCallRecord.Response.get("StatusCode")) == HttpResponseStatus.TEMPORARY_REDIRECT.code()) {
                                 // Do nothing
                             } else {
                                 synchronized (recordedData.getNetworkCallRecords()) {

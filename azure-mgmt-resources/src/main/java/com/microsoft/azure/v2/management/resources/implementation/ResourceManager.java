@@ -25,7 +25,7 @@ import com.microsoft.azure.v2.management.resources.fluentcore.utils.ProviderRegi
 import com.microsoft.azure.v2.management.resources.fluentcore.utils.ResourceManagerThrottlingPolicyFactory;
 import com.microsoft.rest.v2.http.HttpPipeline;
 import com.microsoft.rest.v2.http.HttpPipelineBuilder;
-import com.microsoft.rest.v2.policy.CredentialsPolicyFactory;
+import com.microsoft.azure.v2.policy.AsyncCredentialsPolicyFactory;
 
 /**
  * Entry point to Azure resource management.
@@ -52,7 +52,7 @@ public final class ResourceManager extends ManagerBase implements HasInner<Resou
      */
     public static ResourceManager.Authenticated authenticate(AzureTokenCredentials credentials) {
         return new AuthenticatedImpl(new HttpPipelineBuilder()
-                .withRequestPolicy(new CredentialsPolicyFactory(credentials))
+                .withRequestPolicy(new AsyncCredentialsPolicyFactory(credentials))
                 .withRequestPolicy(new ProviderRegistrationPolicyFactory(credentials))
                 .withRequestPolicy(new ResourceManagerThrottlingPolicyFactory())
                 .build(), credentials.environment());

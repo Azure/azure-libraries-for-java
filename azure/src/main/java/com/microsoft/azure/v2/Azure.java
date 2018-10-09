@@ -8,15 +8,6 @@ package com.microsoft.azure.v2;
 
 import com.microsoft.azure.v2.credentials.ApplicationTokenCredentials;
 import com.microsoft.azure.v2.credentials.AzureTokenCredentials;
-//import com.microsoft.azure.v2.management.appservice.WebApps;
-//import com.microsoft.azure.v2.management.appservice.implementation.AppServiceManager;
-//import com.microsoft.azure.v2.management.batch.BatchAccounts;
-//import com.microsoft.azure.v2.management.batch.implementation.BatchManager;
-//import com.microsoft.azure.v2.management.batchai.BatchAIUsages;
-//import com.microsoft.azure.v2.management.batchai.BatchAIWorkspaces;
-//import com.microsoft.azure.v2.management.batchai.implementation.BatchAIManager;
-//import com.microsoft.azure.v2.management.cdn.CdnProfiles;
-//import com.microsoft.azure.v2.management.cdn.implementation.CdnManager;
 import com.microsoft.azure.v2.management.compute.AvailabilitySets;
 import com.microsoft.azure.v2.management.compute.ComputeSkus;
 import com.microsoft.azure.v2.management.compute.ComputeUsages;
@@ -30,39 +21,13 @@ import com.microsoft.azure.v2.management.compute.VirtualMachineImages;
 import com.microsoft.azure.v2.management.compute.VirtualMachineScaleSets;
 import com.microsoft.azure.v2.management.compute.VirtualMachines;
 import com.microsoft.azure.v2.management.compute.implementation.ComputeManager;
-//import com.microsoft.azure.v2.management.containerinstance.ContainerGroups;
-//import com.microsoft.azure.v2.management.containerinstance.implementation.ContainerInstanceManager;
-//import com.microsoft.azure.v2.management.containerregistry.Registries;
-//import com.microsoft.azure.v2.management.containerregistry.implementation.ContainerRegistryManager;
-//import com.microsoft.azure.v2.management.containerservice.ContainerServices;
-//import com.microsoft.azure.v2.management.containerservice.KubernetesClusters;
-//import com.microsoft.azure.v2.management.containerservice.implementation.ContainerServiceManager;
-//import com.microsoft.azure.v2.management.dns.DnsZones;
-//import com.microsoft.azure.v2.management.dns.implementation.DnsZoneManager;
-//import com.microsoft.azure.v2.management.cosmosdb.CosmosDBAccounts;
-//import com.microsoft.azure.v2.management.cosmosdb.implementation.CosmosDBManager;
-//import com.microsoft.azure.v2.management.eventhub.EventHubDisasterRecoveryPairings;
-//import com.microsoft.azure.v2.management.eventhub.EventHubNamespaces;
-//import com.microsoft.azure.v2.management.eventhub.EventHubs;
-//import com.microsoft.azure.v2.management.eventhub.implementation.EventHubManager;
+import com.microsoft.azure.v2.management.graphrbac.ActiveDirectoryApplications;
 import com.microsoft.azure.v2.management.graphrbac.ActiveDirectoryGroups;
 import com.microsoft.azure.v2.management.graphrbac.ActiveDirectoryUsers;
-import com.microsoft.azure.v2.management.graphrbac.ActiveDirectoryApplications;
 import com.microsoft.azure.v2.management.graphrbac.RoleAssignments;
 import com.microsoft.azure.v2.management.graphrbac.RoleDefinitions;
 import com.microsoft.azure.v2.management.graphrbac.ServicePrincipals;
 import com.microsoft.azure.v2.management.graphrbac.implementation.GraphRbacManager;
-//import com.microsoft.azure.v2.management.keyvault.Vaults;
-//import com.microsoft.azure.v2.management.keyvault.implementation.KeyVaultManager;
-//import com.microsoft.azure.v2.management.locks.ManagementLocks;
-//import com.microsoft.azure.v2.management.locks.implementation.AuthorizationManager;
-//import com.microsoft.azure.v2.management.monitor.ActionGroups;
-//import com.microsoft.azure.v2.management.monitor.ActivityLogs;
-//import com.microsoft.azure.v2.management.monitor.AlertRules;
-//import com.microsoft.azure.v2.management.monitor.AutoscaleSettings;
-//import com.microsoft.azure.v2.management.monitor.DiagnosticSettings;
-//import com.microsoft.azure.v2.management.monitor.MetricDefinitions;
-//import com.microsoft.azure.v2.management.monitor.implementation.MonitorManager;
 import com.microsoft.azure.v2.management.msi.Identities;
 import com.microsoft.azure.v2.management.msi.implementation.MSIManager;
 import com.microsoft.azure.v2.management.network.ApplicationGateways;
@@ -75,15 +40,13 @@ import com.microsoft.azure.v2.management.network.LocalNetworkGateways;
 import com.microsoft.azure.v2.management.network.NetworkInterfaces;
 import com.microsoft.azure.v2.management.network.NetworkSecurityGroups;
 import com.microsoft.azure.v2.management.network.NetworkUsages;
-import com.microsoft.azure.v2.management.network.Networks;
 import com.microsoft.azure.v2.management.network.NetworkWatchers;
+import com.microsoft.azure.v2.management.network.Networks;
 import com.microsoft.azure.v2.management.network.PublicIPAddresses;
 import com.microsoft.azure.v2.management.network.RouteFilters;
 import com.microsoft.azure.v2.management.network.RouteTables;
 import com.microsoft.azure.v2.management.network.VirtualNetworkGateways;
 import com.microsoft.azure.v2.management.network.implementation.NetworkManager;
-//import com.microsoft.azure.v2.management.redis.RedisCaches;
-//import com.microsoft.azure.v2.management.redis.implementation.RedisManager;
 import com.microsoft.azure.v2.management.resources.Deployments;
 import com.microsoft.azure.v2.management.resources.Features;
 import com.microsoft.azure.v2.management.resources.GenericResources;
@@ -99,25 +62,63 @@ import com.microsoft.azure.v2.management.resources.fluentcore.arm.implementation
 import com.microsoft.azure.v2.management.resources.fluentcore.utils.ProviderRegistrationPolicyFactory;
 import com.microsoft.azure.v2.management.resources.fluentcore.utils.ResourceManagerThrottlingPolicyFactory;
 import com.microsoft.azure.v2.management.resources.implementation.ResourceManager;
-//import com.microsoft.azure.v2.management.search.SearchServices;
-//import com.microsoft.azure.v2.management.search.implementation.SearchServiceManager;
-//import com.microsoft.azure.v2.management.servicebus.ServiceBusNamespaces;
-//import com.microsoft.azure.v2.management.servicebus.implementation.ServiceBusManager;
-//import com.microsoft.azure.v2.management.sql.SqlServers;
-//import com.microsoft.azure.v2.management.sql.implementation.SqlServerManager;
 import com.microsoft.azure.v2.management.storage.StorageAccounts;
 import com.microsoft.azure.v2.management.storage.StorageSkus;
 import com.microsoft.azure.v2.management.storage.Usages;
 import com.microsoft.azure.v2.management.storage.implementation.StorageManager;
 import com.microsoft.azure.v2.management.trafficmanager.TrafficManagerProfiles;
 import com.microsoft.azure.v2.management.trafficmanager.implementation.TrafficManager;
+import com.microsoft.azure.v2.policy.AsyncCredentialsPolicyFactory;
 import com.microsoft.rest.v2.annotations.Beta;
 import com.microsoft.rest.v2.http.HttpPipeline;
 import com.microsoft.rest.v2.http.HttpPipelineBuilder;
-import com.microsoft.rest.v2.policy.CredentialsPolicyFactory;
 
 import java.io.File;
 import java.io.IOException;
+
+//import com.microsoft.azure.v2.management.appservice.WebApps;
+//import com.microsoft.azure.v2.management.appservice.implementation.AppServiceManager;
+//import com.microsoft.azure.v2.management.batch.BatchAccounts;
+//import com.microsoft.azure.v2.management.batch.implementation.BatchManager;
+//import com.microsoft.azure.v2.management.batchai.BatchAIUsages;
+//import com.microsoft.azure.v2.management.batchai.BatchAIWorkspaces;
+//import com.microsoft.azure.v2.management.batchai.implementation.BatchAIManager;
+//import com.microsoft.azure.v2.management.cdn.CdnProfiles;
+//import com.microsoft.azure.v2.management.cdn.implementation.CdnManager;
+//import com.microsoft.azure.v2.management.containerinstance.ContainerGroups;
+//import com.microsoft.azure.v2.management.containerinstance.implementation.ContainerInstanceManager;
+//import com.microsoft.azure.v2.management.containerregistry.Registries;
+//import com.microsoft.azure.v2.management.containerregistry.implementation.ContainerRegistryManager;
+//import com.microsoft.azure.v2.management.containerservice.ContainerServices;
+//import com.microsoft.azure.v2.management.containerservice.KubernetesClusters;
+//import com.microsoft.azure.v2.management.containerservice.implementation.ContainerServiceManager;
+//import com.microsoft.azure.v2.management.dns.DnsZones;
+//import com.microsoft.azure.v2.management.dns.implementation.DnsZoneManager;
+//import com.microsoft.azure.v2.management.cosmosdb.CosmosDBAccounts;
+//import com.microsoft.azure.v2.management.cosmosdb.implementation.CosmosDBManager;
+//import com.microsoft.azure.v2.management.eventhub.EventHubDisasterRecoveryPairings;
+//import com.microsoft.azure.v2.management.eventhub.EventHubNamespaces;
+//import com.microsoft.azure.v2.management.eventhub.EventHubs;
+//import com.microsoft.azure.v2.management.eventhub.implementation.EventHubManager;
+//import com.microsoft.azure.v2.management.keyvault.Vaults;
+//import com.microsoft.azure.v2.management.keyvault.implementation.KeyVaultManager;
+//import com.microsoft.azure.v2.management.locks.ManagementLocks;
+//import com.microsoft.azure.v2.management.locks.implementation.AuthorizationManager;
+//import com.microsoft.azure.v2.management.monitor.ActionGroups;
+//import com.microsoft.azure.v2.management.monitor.ActivityLogs;
+//import com.microsoft.azure.v2.management.monitor.AlertRules;
+//import com.microsoft.azure.v2.management.monitor.AutoscaleSettings;
+//import com.microsoft.azure.v2.management.monitor.DiagnosticSettings;
+//import com.microsoft.azure.v2.management.monitor.MetricDefinitions;
+//import com.microsoft.azure.v2.management.monitor.implementation.MonitorManager;
+//import com.microsoft.azure.v2.management.redis.RedisCaches;
+//import com.microsoft.azure.v2.management.redis.implementation.RedisManager;
+//import com.microsoft.azure.v2.management.search.SearchServices;
+//import com.microsoft.azure.v2.management.search.implementation.SearchServiceManager;
+//import com.microsoft.azure.v2.management.servicebus.ServiceBusNamespaces;
+//import com.microsoft.azure.v2.management.servicebus.implementation.ServiceBusManager;
+//import com.microsoft.azure.v2.management.sql.SqlServers;
+//import com.microsoft.azure.v2.management.sql.implementation.SqlServerManager;
 
 /**
  * The entry point for accessing resource management APIs in Azure.
@@ -157,7 +158,7 @@ public final class Azure {
      */
     public static Authenticated authenticate(AzureTokenCredentials credentials) {
         return new AuthenticatedImpl(new HttpPipelineBuilder()
-                .withRequestPolicy(new CredentialsPolicyFactory(credentials))
+                .withRequestPolicy(new AsyncCredentialsPolicyFactory(credentials))
                 .withRequestPolicy(new ProviderRegistrationPolicyFactory(credentials))
                 .withRequestPolicy(new ResourceManagerThrottlingPolicyFactory())
                 .build(), credentials.environment(), credentials.domain());
@@ -182,7 +183,7 @@ public final class Azure {
     public static Authenticated authenticate(File credentialsFile) throws IOException {
         ApplicationTokenCredentials credentials = ApplicationTokenCredentials.fromFile(credentialsFile);
         return new AuthenticatedImpl(new HttpPipelineBuilder()
-                .withRequestPolicy(new CredentialsPolicyFactory(credentials))
+                .withRequestPolicy(new AsyncCredentialsPolicyFactory(credentials))
                 .withRequestPolicy(new ProviderRegistrationPolicyFactory(credentials))
                 .withRequestPolicy(new ResourceManagerThrottlingPolicyFactory())
                 .build(), credentials.environment(), credentials.domain()).withDefaultSubscription(credentials.defaultSubscriptionId());

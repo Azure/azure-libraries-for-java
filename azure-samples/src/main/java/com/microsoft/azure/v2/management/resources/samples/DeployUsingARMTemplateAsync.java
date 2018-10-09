@@ -19,7 +19,6 @@ import com.microsoft.rest.v2.policy.HttpLoggingPolicyFactory;
 import io.reactivex.Maybe;
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
 
 import java.io.File;

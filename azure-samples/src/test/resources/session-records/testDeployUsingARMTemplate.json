@@ -1,0 +1,135 @@
+{
+  "networkCallRecords" : [ {
+    "Method" : "PUT",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rgrsatbe18477342e1b?api-version=2016-09-01",
+    "Headers" : {
+      "Content-Type" : "application/json; charset=utf-8"
+    },
+    "Response" : {
+      "date" : "Mon, 08 Oct 2018 21:55:12 GMT",
+      "content-length" : "191",
+      "expires" : "-1",
+      "x-ms-ratelimit-remaining-subscription-writes" : "1199",
+      "retry-after" : "0",
+      "StatusCode" : "201",
+      "pragma" : "no-cache",
+      "x-ms-correlation-request-id" : "24604be6-50f1-44ec-bbd0-959740f8c881",
+      "strict-transport-security" : "max-age=31536000; includeSubDomains",
+      "x-content-type-options" : "nosniff",
+      "x-ms-routing-request-id" : "WESTUS2:20181008T215512Z:24604be6-50f1-44ec-bbd0-959740f8c881",
+      "content-type" : "application/json; charset=utf-8",
+      "cache-control" : "no-cache",
+      "x-ms-request-id" : "24604be6-50f1-44ec-bbd0-959740f8c881",
+      "Body" : "{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgrsatbe18477342e1b\",\"name\":\"rgrsatbe18477342e1b\",\"location\":\"westus\",\"properties\":{\"provisioningState\":\"Succeeded\"}}"
+    }
+  }, {
+    "Method" : "PUT",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rgrsatbe18477342e1b/providers/Microsoft.Resources/deployments/dprsatea159902d09ac?api-version=2016-09-01",
+    "Headers" : {
+      "Content-Type" : "application/json; charset=utf-8"
+    },
+    "Response" : {
+      "date" : "Mon, 08 Oct 2018 21:55:14 GMT",
+      "content-length" : "1811",
+      "expires" : "-1",
+      "x-ms-ratelimit-remaining-subscription-writes" : "1198",
+      "retry-after" : "0",
+      "StatusCode" : "201",
+      "pragma" : "no-cache",
+      "x-ms-correlation-request-id" : "adce8675-0d62-477c-8263-a496c6483ab6",
+      "strict-transport-security" : "max-age=31536000; includeSubDomains",
+      "x-content-type-options" : "nosniff",
+      "x-ms-routing-request-id" : "WESTUS2:20181008T215515Z:adce8675-0d62-477c-8263-a496c6483ab6",
+      "content-type" : "application/json; charset=utf-8",
+      "cache-control" : "no-cache",
+      "x-ms-request-id" : "adce8675-0d62-477c-8263-a496c6483ab6",
+      "Body" : "{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgrsatbe18477342e1b/providers/Microsoft.Resources/deployments/dprsatea159902d09ac\",\"name\":\"dprsatea159902d09ac\",\"properties\":{\"templateHash\":\"7420066792161734910\",\"parameters\":{\"hostingPlanName\":{\"type\":\"String\",\"value\":\"hprsatbc049255f0d7f\"},\"webSiteName\":{\"type\":\"String\",\"value\":\"wnrsat37a015410c6ad\"},\"skuName\":{\"type\":\"String\",\"value\":\"F1\"},\"skuCapacity\":{\"type\":\"Int\",\"value\":1}},\"mode\":\"Incremental\",\"provisioningState\":\"Accepted\",\"timestamp\":\"2018-10-08T21:55:14.9687934Z\",\"duration\":\"PT0.6719114S\",\"correlationId\":\"adce8675-0d62-477c-8263-a496c6483ab6\",\"providers\":[{\"namespace\":\"Microsoft.Web\",\"resourceTypes\":[{\"resourceType\":\"serverfarms\",\"locations\":[\"westus\"]},{\"resourceType\":\"sites\",\"locations\":[\"westus\"]},{\"resourceType\":\"sites/config\",\"locations\":[null]}]}],\"dependencies\":[{\"dependsOn\":[{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgrsatbe18477342e1b/providers/Microsoft.Web/serverfarms/hprsatbc049255f0d7f\",\"resourceType\":\"Microsoft.Web/serverfarms\",\"resourceName\":\"hprsatbc049255f0d7f\"}],\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgrsatbe18477342e1b/providers/Microsoft.Web/sites/wnrsat37a015410c6ad\",\"resourceType\":\"Microsoft.Web/sites\",\"resourceName\":\"wnrsat37a015410c6ad\"},{\"dependsOn\":[{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgrsatbe18477342e1b/providers/Microsoft.Web/sites/wnrsat37a015410c6ad\",\"resourceType\":\"Microsoft.Web/sites\",\"resourceName\":\"wnrsat37a015410c6ad\"}],\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgrsatbe18477342e1b/providers/Microsoft.Web/sites/wnrsat37a015410c6ad/config/web\",\"resourceType\":\"Microsoft.Web/sites/config\",\"resourceName\":\"wnrsat37a015410c6ad/web\"}]}}",
+      "azure-asyncoperation" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rgrsatbe18477342e1b/providers/Microsoft.Resources/deployments/dprsatea159902d09ac/operationStatuses/08586625711711807410?api-version=2016-09-01"
+    }
+  }, {
+    "Method" : "GET",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rgrsatbe18477342e1b/providers/Microsoft.Resources/deployments/dprsatea159902d09ac/operationStatuses/08586625711711807410?api-version=2016-09-01",
+    "Headers" : { },
+    "Response" : {
+      "date" : "Mon, 08 Oct 2018 21:55:45 GMT",
+      "content-length" : "20",
+      "expires" : "-1",
+      "retry-after" : "0",
+      "x-ms-ratelimit-remaining-subscription-reads" : "11999",
+      "StatusCode" : "200",
+      "pragma" : "no-cache",
+      "x-ms-correlation-request-id" : "f7506f8d-fee7-4381-9a72-b1ffea34b775",
+      "strict-transport-security" : "max-age=31536000; includeSubDomains",
+      "x-content-type-options" : "nosniff",
+      "x-ms-routing-request-id" : "WESTUS2:20181008T215545Z:f7506f8d-fee7-4381-9a72-b1ffea34b775",
+      "content-type" : "application/json; charset=utf-8",
+      "cache-control" : "no-cache",
+      "x-ms-request-id" : "f7506f8d-fee7-4381-9a72-b1ffea34b775",
+      "Body" : "{\"status\":\"Running\"}"
+    }
+  }, {
+    "Method" : "GET",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rgrsatbe18477342e1b/providers/Microsoft.Resources/deployments/dprsatea159902d09ac/operationStatuses/08586625711711807410?api-version=2016-09-01",
+    "Headers" : { },
+    "Response" : {
+      "date" : "Mon, 08 Oct 2018 21:56:14 GMT",
+      "content-length" : "22",
+      "expires" : "-1",
+      "retry-after" : "0",
+      "x-ms-ratelimit-remaining-subscription-reads" : "11998",
+      "StatusCode" : "200",
+      "pragma" : "no-cache",
+      "x-ms-correlation-request-id" : "622a21a9-2349-4bdc-9975-7ef78fbf4df9",
+      "strict-transport-security" : "max-age=31536000; includeSubDomains",
+      "x-content-type-options" : "nosniff",
+      "x-ms-routing-request-id" : "WESTUS2:20181008T215615Z:622a21a9-2349-4bdc-9975-7ef78fbf4df9",
+      "content-type" : "application/json; charset=utf-8",
+      "cache-control" : "no-cache",
+      "x-ms-request-id" : "622a21a9-2349-4bdc-9975-7ef78fbf4df9",
+      "Body" : "{\"status\":\"Succeeded\"}"
+    }
+  }, {
+    "Method" : "GET",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rgrsatbe18477342e1b/providers/Microsoft.Resources/deployments/dprsatea159902d09ac?api-version=2016-09-01",
+    "Headers" : { },
+    "Response" : {
+      "date" : "Mon, 08 Oct 2018 21:56:15 GMT",
+      "content-length" : "1997",
+      "expires" : "-1",
+      "retry-after" : "0",
+      "x-ms-ratelimit-remaining-subscription-reads" : "11999",
+      "StatusCode" : "200",
+      "pragma" : "no-cache",
+      "x-ms-correlation-request-id" : "08189c3d-42bf-42ba-8cf9-60ac43d151eb",
+      "strict-transport-security" : "max-age=31536000; includeSubDomains",
+      "x-content-type-options" : "nosniff",
+      "x-ms-routing-request-id" : "WESTUS2:20181008T215615Z:08189c3d-42bf-42ba-8cf9-60ac43d151eb",
+      "content-type" : "application/json; charset=utf-8",
+      "cache-control" : "no-cache",
+      "x-ms-request-id" : "08189c3d-42bf-42ba-8cf9-60ac43d151eb",
+      "Body" : "{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgrsatbe18477342e1b/providers/Microsoft.Resources/deployments/dprsatea159902d09ac\",\"name\":\"dprsatea159902d09ac\",\"properties\":{\"templateHash\":\"7420066792161734910\",\"parameters\":{\"hostingPlanName\":{\"type\":\"String\",\"value\":\"hprsatbc049255f0d7f\"},\"webSiteName\":{\"type\":\"String\",\"value\":\"wnrsat37a015410c6ad\"},\"skuName\":{\"type\":\"String\",\"value\":\"F1\"},\"skuCapacity\":{\"type\":\"Int\",\"value\":1}},\"mode\":\"Incremental\",\"provisioningState\":\"Succeeded\",\"timestamp\":\"2018-10-08T21:55:49.8178223Z\",\"duration\":\"PT35.5209403S\",\"correlationId\":\"adce8675-0d62-477c-8263-a496c6483ab6\",\"providers\":[{\"namespace\":\"Microsoft.Web\",\"resourceTypes\":[{\"resourceType\":\"serverfarms\",\"locations\":[\"westus\"]},{\"resourceType\":\"sites\",\"locations\":[\"westus\"]},{\"resourceType\":\"sites/config\",\"locations\":[null]}]}],\"dependencies\":[{\"dependsOn\":[{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgrsatbe18477342e1b/providers/Microsoft.Web/serverfarms/hprsatbc049255f0d7f\",\"resourceType\":\"Microsoft.Web/serverfarms\",\"resourceName\":\"hprsatbc049255f0d7f\"}],\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgrsatbe18477342e1b/providers/Microsoft.Web/sites/wnrsat37a015410c6ad\",\"resourceType\":\"Microsoft.Web/sites\",\"resourceName\":\"wnrsat37a015410c6ad\"},{\"dependsOn\":[{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgrsatbe18477342e1b/providers/Microsoft.Web/sites/wnrsat37a015410c6ad\",\"resourceType\":\"Microsoft.Web/sites\",\"resourceName\":\"wnrsat37a015410c6ad\"}],\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgrsatbe18477342e1b/providers/Microsoft.Web/sites/wnrsat37a015410c6ad/config/web\",\"resourceType\":\"Microsoft.Web/sites/config\",\"resourceName\":\"wnrsat37a015410c6ad/web\"}],\"outputResources\":[{\"id\":\"Microsoft.Web/serverfarms/hprsatbc049255f0d7f\"},{\"id\":\"Microsoft.Web/sites/wnrsat37a015410c6ad\"},{\"id\":\"Microsoft.Web/sites/wnrsat37a015410c6ad/config/web\"}]}}"
+    }
+  }, {
+    "Method" : "DELETE",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rgrsatbe18477342e1b?api-version=2016-09-01",
+    "Headers" : { },
+    "Response" : {
+      "date" : "Mon, 08 Oct 2018 21:56:15 GMT",
+      "content-length" : "0",
+      "expires" : "-1",
+      "x-ms-ratelimit-remaining-subscription-deletes" : "14999",
+      "retry-after" : "0",
+      "StatusCode" : "202",
+      "pragma" : "no-cache",
+      "x-ms-correlation-request-id" : "2c28ed9c-3446-41ba-9ecf-677efd6935bf",
+      "strict-transport-security" : "max-age=31536000; includeSubDomains",
+      "x-content-type-options" : "nosniff",
+      "x-ms-routing-request-id" : "WESTUS2:20181008T215616Z:2c28ed9c-3446-41ba-9ecf-677efd6935bf",
+      "location" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1SR1JTQVRCRTE4NDc3MzQyRTFCLVdFU1RVUyIsImpvYkxvY2F0aW9uIjoid2VzdHVzIn0?api-version=2016-09-01",
+      "cache-control" : "no-cache",
+      "x-ms-request-id" : "2c28ed9c-3446-41ba-9ecf-677efd6935bf",
+      "Body" : ""
+    }
+  } ],
+  "variables" : [ "rgrsatbe18477342e1b", "dprsatea159902d09ac", "hprsatbc049255f0d7f", "wnrsat37a015410c6ad", "0efb8c69-953b-417f-b02d-02a5d67bfc77", "22b7b6df-4d69-4fd8-9c18-47d099b0b2f9" ]
+}

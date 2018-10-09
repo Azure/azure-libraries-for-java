@@ -6,12 +6,31 @@
 
 package com.microsoft.azure.v2.management.samples;
 
-import com.microsoft.azure.v2.management.resources.samples.ManageResourceGroup;
+import com.microsoft.azure.v2.management.resources.samples.*;
 import org.junit.Assert;
 import org.junit.Test;
 
 public class ResourceSampleTests extends SamplesTestBase {
 
+    @Test
+    public void testDeployUsingARMTemplate() {
+        Assert.assertTrue(DeployUsingARMTemplate.runSample(azure));
+    }
+
+    @Test
+    public void testDeployUsingARMTemplateWithProgress() {
+        Assert.assertTrue(DeployUsingARMTemplateWithProgress.runSample(azure));
+    }
+
+    @Test
+    public void testDeployUsingARMTemplateWithTags() {
+        Assert.assertTrue(DeployUsingARMTemplateWithTags.runSample(azure));
+    }
+
+    @Test
+    public void testDeployVirtualMachineUsingARMTemplate() {
+        Assert.assertTrue(DeployVirtualMachineUsingARMTemplate.runSample(azure));
+    }
 
     @Test
     public void testManageResourceGroup() {

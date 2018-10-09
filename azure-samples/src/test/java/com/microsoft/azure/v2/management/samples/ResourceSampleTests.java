@@ -7,6 +7,7 @@
 package com.microsoft.azure.v2.management.samples;
 
 import com.microsoft.azure.v2.management.resources.samples.DeployUsingARMTemplateWithProgress;
+import com.microsoft.azure.v2.management.resources.samples.DeployUsingARMTemplateWithTags;
 import com.microsoft.azure.v2.management.resources.samples.ManageResourceGroup;
 import com.microsoft.azure.v2.management.resources.samples.DeployUsingARMTemplate;
 import org.junit.Assert;
@@ -22,6 +23,11 @@ public class ResourceSampleTests extends SamplesTestBase {
     @Test
     public void testDeployUsingARMTemplateWithProgress() {
         Assert.assertTrue(DeployUsingARMTemplateWithProgress.runSample(azure));
+    }
+
+    @Test
+    public void testDeployUsingARMTemplateWithTags() {
+        Assert.assertTrue(DeployUsingARMTemplateWithTags.runSample(azure));
     }
 
     @Test

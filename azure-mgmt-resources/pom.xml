@@ -51,28 +51,27 @@
       <artifactId>azure-client-runtime</artifactId>
     </dependency>
     <dependency>
+      <groupId>com.microsoft.azure</groupId>
+      <artifactId>azure-annotations</artifactId>
+    </dependency>
+    <!--<dependency>-->
+    <!--<groupId>org.apache.commons</groupId>-->
+    <!--<artifactId>commons-lang3</artifactId>-->
+    <!--</dependency>-->
+    <!--<dependency>-->
+    <!--<groupId>org.apache.httpcomponents</groupId>-->
+    <!--<artifactId>httpcore</artifactId>-->
+    <!--</dependency>-->
+    <!-- test dependencies -->
+    <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>com.google.guava</groupId>
-      <artifactId>guava</artifactId>
-      <version>19.0</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>io.reactivex</groupId>
-      <artifactId>rxjava</artifactId>
-    </dependency>
-    <dependency>
       <groupId>com.microsoft.azure.v2</groupId>
       <artifactId>azure-client-authentication</artifactId>
       <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.microsoft.azure</groupId>
-      <artifactId>azure-annotations</artifactId>
     </dependency>
     <dependency>
       <groupId>commons-io</groupId>
@@ -85,13 +84,10 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.apache.commons</groupId>
-      <artifactId>commons-lang3</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.httpcomponents</groupId>
-      <artifactId>httpcore</artifactId>
-      <version>4.4.5</version>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <version>19.0</version>
+      <scope>test</scope>
     </dependency>
   </dependencies>
   <build>

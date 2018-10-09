@@ -6,7 +6,6 @@
 
 package com.microsoft.azure.v2.management.resources.fluentcore.dag;
 
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -264,7 +263,7 @@ public class DAGraph<DataT, NodeT extends DAGNode<DataT, NodeT>> extends Graph<D
     private void bubbleUpNodeTable(DAGraph<DataT, NodeT> from, LinkedList<String> path) {
         if (path.contains(from.rootNode.key())) {
             path.push(from.rootNode.key()); // For better error message
-            throw new IllegalStateException("Detected circular dependency: " + StringUtils.join(path, " -> "));
+            throw new IllegalStateException("Detected circular dependency: " + String.join(" -> ", path));
         }
         path.push(from.rootNode.key());
         for (DAGraph<DataT, NodeT> to : from.parentDAGs) {

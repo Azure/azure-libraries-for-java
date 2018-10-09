@@ -45,10 +45,7 @@ import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.v2.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.azure.v2.management.storage.SkuName;
 import com.microsoft.azure.v2.management.storage.StorageAccount;
-import com.microsoft.azure.v2.Azure;
-
 import com.microsoft.rest.v2.http.HttpPipeline;
-
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;

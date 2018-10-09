@@ -24,7 +24,6 @@ import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.CreatedResources;
 import com.microsoft.azure.v2.management.resources.fluentcore.utils.SdkContext;
-import com.microsoft.azure.v2.Azure;
 import com.microsoft.rest.v2.http.HttpPipeline;
 import org.junit.Assert;
 import org.junit.Test;

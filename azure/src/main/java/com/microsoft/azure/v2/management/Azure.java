@@ -4,8 +4,11 @@
  * license information.
  */
 
-package com.microsoft.azure.v2;
+package com.microsoft.azure.v2.management;
 
+import com.microsoft.azure.v2.AzureEnvironment;
+import com.microsoft.azure.v2.CloudException;
+import com.microsoft.azure.v2.PagedList;
 import com.microsoft.azure.v2.credentials.ApplicationTokenCredentials;
 import com.microsoft.azure.v2.credentials.AzureTokenCredentials;
 import com.microsoft.azure.v2.management.compute.AvailabilitySets;

@@ -7,8 +7,8 @@
 package com.microsoft.azure.v2.management.resources.fluentcore.arm;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
+
 import java.security.InvalidParameterException;
-import org.apache.commons.lang3.StringUtils;
 
 /**
  * Instantiate itself from a resource id, and give easy access to resource information like subscription, resourceGroup,
@@ -61,7 +61,7 @@ public final class ResourceId {
             } else {
                 String[] parentSplits = new String[splits.length - 2];
                 System.arraycopy(splits, 0, parentSplits, 0, splits.length - 2);
-                this.parentId = "/" + StringUtils.join(parentSplits, "/");
+                this.parentId = "/" + String.join("/", parentSplits);
             }
 
             for (int i = 0; i < splits.length && i < 6; i++) {

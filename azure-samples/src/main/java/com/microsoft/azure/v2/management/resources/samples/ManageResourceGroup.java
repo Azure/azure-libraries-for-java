@@ -7,7 +7,7 @@
 package com.microsoft.azure.v2.management.resources.samples;
 
 
-import com.microsoft.azure.v2.Azure;
+import com.microsoft.azure.v2.management.Azure;
 import com.microsoft.azure.v2.management.resources.ResourceGroup;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.v2.management.resources.fluentcore.utils.SdkContext;

@@ -19,7 +19,7 @@ import com.microsoft.azure.v2.management.resources.fluentcore.model.implementati
 import io.reactivex.Maybe;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.Resource;
 import io.reactivex.Observable;
-import rx.exceptions.Exceptions;
+import io.reactivex.exceptions.Exceptions;
 
 import java.util.concurrent.TimeUnit;
 

@@ -19,6 +19,7 @@ public class ResourceSampleTests extends SamplesTestBase {
     }
 
     @Test
+    @Ignore("rsa public key nt ")
     public void testDeployUsingARMTemplateAsync() {
         Assert.assertTrue(DeployUsingARMTemplateAsync.runSample(azure));
     }

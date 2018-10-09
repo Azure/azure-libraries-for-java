@@ -10,7 +10,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.microsoft.azure.v2.Azure;
+import com.microsoft.azure.v2.management.Azure;
 import com.microsoft.azure.v2.management.resources.Deployment;
 import com.microsoft.azure.v2.management.resources.DeploymentMode;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;

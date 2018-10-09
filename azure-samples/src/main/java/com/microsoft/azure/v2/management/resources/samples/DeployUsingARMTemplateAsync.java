@@ -9,7 +9,7 @@ package com.microsoft.azure.v2.management.resources.samples;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.io.ByteStreams;
-import com.microsoft.azure.v2.Azure;
+import com.microsoft.azure.v2.management.Azure;
 import com.microsoft.azure.v2.management.resources.Deployment;
 import com.microsoft.azure.v2.management.resources.DeploymentMode;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;

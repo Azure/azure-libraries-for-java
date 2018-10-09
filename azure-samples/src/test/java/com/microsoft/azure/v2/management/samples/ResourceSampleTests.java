@@ -33,6 +33,11 @@ public class ResourceSampleTests extends SamplesTestBase {
     }
 
     @Test
+    public void testManageResource() {
+        Assert.assertTrue(ManageResource.runSample(azure));
+    }
+
+    @Test
     public void testManageResourceGroup() {
         Assert.assertTrue(ManageResourceGroup.runSample(azure));
     }

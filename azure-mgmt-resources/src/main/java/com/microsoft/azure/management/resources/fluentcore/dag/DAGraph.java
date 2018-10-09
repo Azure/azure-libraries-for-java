@@ -53,7 +53,7 @@ public class DAGraph<DataT, NodeT extends DAGNode<DataT, NodeT>> extends Graph<D
     }
 
     /**
-     * @return <tt>true</tt> if this DAG is merged with one or more DAG and hence has parents
+     * @return true if this DAG is merged with one or more DAG and hence has parents
      */
     public boolean hasParents() {
         return this.parentDAGs.size() > 0;
@@ -70,14 +70,14 @@ public class DAGraph<DataT, NodeT extends DAGNode<DataT, NodeT>> extends Graph<D
      * Checks whether the given node is root node of this DAG.
      *
      * @param node the node {@link DAGNode} to be checked
-     * @return <tt>true</tt> if the given node is root node
+     * @return true if the given node is root node
      */
     public boolean isRootNode(NodeT node) {
         return this.rootNode == node;
     }
 
     /**
-     * @return <tt>true</tt> if this dag is the preparer responsible for
+     * @return true if this dag is the preparer responsible for
      * preparing the DAG for traversal.
      */
     public boolean isPreparer() {

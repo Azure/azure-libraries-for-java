@@ -1,0 +1,282 @@
+{
+  "networkCallRecords" : [ {
+    "Method" : "PUT",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rgrsat0e15281601dee?api-version=2016-09-01",
+    "Headers" : {
+      "Content-Type" : "application/json; charset=utf-8"
+    },
+    "Response" : {
+      "date" : "Tue, 09 Oct 2018 17:18:47 GMT",
+      "content-length" : "191",
+      "expires" : "-1",
+      "x-ms-ratelimit-remaining-subscription-writes" : "1199",
+      "retry-after" : "0",
+      "StatusCode" : "201",
+      "pragma" : "no-cache",
+      "x-ms-correlation-request-id" : "47403c55-52b8-40b3-b179-325317a4f392",
+      "strict-transport-security" : "max-age=31536000; includeSubDomains",
+      "x-content-type-options" : "nosniff",
+      "x-ms-routing-request-id" : "WESTUS2:20181009T171847Z:47403c55-52b8-40b3-b179-325317a4f392",
+      "content-type" : "application/json; charset=utf-8",
+      "cache-control" : "no-cache",
+      "x-ms-request-id" : "47403c55-52b8-40b3-b179-325317a4f392",
+      "Body" : "{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgrsat0e15281601dee\",\"name\":\"rgrsat0e15281601dee\",\"location\":\"westus\",\"properties\":{\"provisioningState\":\"Succeeded\"}}"
+    }
+  }, {
+    "Method" : "PUT",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rgrsat0e15281601dee/providers/Microsoft.Resources/deployments/dprsat4d89843922121?api-version=2016-09-01",
+    "Headers" : {
+      "Content-Type" : "application/json; charset=utf-8"
+    },
+    "Response" : {
+      "date" : "Tue, 09 Oct 2018 17:18:50 GMT",
+      "content-length" : "2468",
+      "expires" : "-1",
+      "x-ms-ratelimit-remaining-subscription-writes" : "1198",
+      "retry-after" : "0",
+      "StatusCode" : "201",
+      "pragma" : "no-cache",
+      "x-ms-correlation-request-id" : "8883b07a-a314-42f7-926a-98ba417a6c07",
+      "strict-transport-security" : "max-age=31536000; includeSubDomains",
+      "x-content-type-options" : "nosniff",
+      "x-ms-routing-request-id" : "WESTUS2:20181009T171850Z:8883b07a-a314-42f7-926a-98ba417a6c07",
+      "content-type" : "application/json; charset=utf-8",
+      "cache-control" : "no-cache",
+      "x-ms-request-id" : "8883b07a-a314-42f7-926a-98ba417a6c07",
+      "Body" : "{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgrsat0e15281601dee/providers/Microsoft.Resources/deployments/dprsat4d89843922121\",\"name\":\"dprsat4d89843922121\",\"properties\":{\"templateHash\":\"18337023323581854454\",\"parameters\":{\"adminUsername\":{\"type\":\"String\",\"value\":\"tirekicker\"},\"adminPassword\":{\"type\":\"String\",\"value\":\"12NewPA$$w0rd!\"},\"windowsOSVersion\":{\"type\":\"String\",\"value\":\"2012-R2-Datacenter\"},\"osDiskName\":{\"type\":\"String\",\"value\":\"osdisk-bdf331145100\"}},\"mode\":\"Incremental\",\"provisioningState\":\"Accepted\",\"timestamp\":\"2018-10-09T17:18:50.0553005Z\",\"duration\":\"PT1.1439958S\",\"correlationId\":\"8883b07a-a314-42f7-926a-98ba417a6c07\",\"providers\":[{\"namespace\":\"Microsoft.Network\",\"resourceTypes\":[{\"resourceType\":\"publicIPAddresses\",\"locations\":[\"westus\"]},{\"resourceType\":\"virtualNetworks\",\"locations\":[\"westus\"]},{\"resourceType\":\"networkInterfaces\",\"locations\":[\"westus\"]}]},{\"namespace\":\"Microsoft.Compute\",\"resourceTypes\":[{\"resourceType\":\"disks\",\"locations\":[\"westus\"]},{\"resourceType\":\"virtualMachines\",\"locations\":[\"westus\"]}]}],\"dependencies\":[{\"dependsOn\":[{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgrsat0e15281601dee/providers/Microsoft.Network/publicIPAddresses/myip\",\"resourceType\":\"Microsoft.Network/publicIPAddresses\",\"resourceName\":\"myip\"},{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgrsat0e15281601dee/providers/Microsoft.Network/virtualNetworks/myvnet\",\"resourceType\":\"Microsoft.Network/virtualNetworks\",\"resourceName\":\"myvnet\"}],\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgrsat0e15281601dee/providers/Microsoft.Network/networkInterfaces/mynic\",\"resourceType\":\"Microsoft.Network/networkInterfaces\",\"resourceName\":\"mynic\"},{\"dependsOn\":[{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgrsat0e15281601dee/providers/Microsoft.Network/networkInterfaces/mynic\",\"resourceType\":\"Microsoft.Network/networkInterfaces\",\"resourceName\":\"mynic\"},{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgrsat0e15281601dee/providers/Microsoft.Compute/disks/myManagedDataDisk\",\"resourceType\":\"Microsoft.Compute/disks\",\"resourceName\":\"myManagedDataDisk\"}],\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgrsat0e15281601dee/providers/Microsoft.Compute/virtualMachines/myVMDataDisk\",\"resourceType\":\"Microsoft.Compute/virtualMachines\",\"resourceName\":\"myVMDataDisk\"}]}}",
+      "azure-asyncoperation" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rgrsat0e15281601dee/providers/Microsoft.Resources/deployments/dprsat4d89843922121/operationStatuses/08586625013565663317?api-version=2016-09-01"
+    }
+  }, {
+    "Method" : "GET",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rgrsat0e15281601dee/providers/Microsoft.Resources/deployments/dprsat4d89843922121/operationStatuses/08586625013565663317?api-version=2016-09-01",
+    "Headers" : { },
+    "Response" : {
+      "date" : "Tue, 09 Oct 2018 17:19:19 GMT",
+      "content-length" : "20",
+      "expires" : "-1",
+      "retry-after" : "0",
+      "x-ms-ratelimit-remaining-subscription-reads" : "11999",
+      "StatusCode" : "200",
+      "pragma" : "no-cache",
+      "x-ms-correlation-request-id" : "f69ef24a-a5c7-49d3-9c69-de0421d39453",
+      "strict-transport-security" : "max-age=31536000; includeSubDomains",
+      "x-content-type-options" : "nosniff",
+      "x-ms-routing-request-id" : "WESTUS2:20181009T171920Z:f69ef24a-a5c7-49d3-9c69-de0421d39453",
+      "content-type" : "application/json; charset=utf-8",
+      "cache-control" : "no-cache",
+      "x-ms-request-id" : "f69ef24a-a5c7-49d3-9c69-de0421d39453",
+      "Body" : "{\"status\":\"Running\"}"
+    }
+  }, {
+    "Method" : "GET",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rgrsat0e15281601dee/providers/Microsoft.Resources/deployments/dprsat4d89843922121/operationStatuses/08586625013565663317?api-version=2016-09-01",
+    "Headers" : { },
+    "Response" : {
+      "date" : "Tue, 09 Oct 2018 17:19:50 GMT",
+      "content-length" : "20",
+      "expires" : "-1",
+      "retry-after" : "0",
+      "x-ms-ratelimit-remaining-subscription-reads" : "11998",
+      "StatusCode" : "200",
+      "pragma" : "no-cache",
+      "x-ms-correlation-request-id" : "47bb61a4-cf26-4e11-bc51-1f4ae3452244",
+      "strict-transport-security" : "max-age=31536000; includeSubDomains",
+      "x-content-type-options" : "nosniff",
+      "x-ms-routing-request-id" : "WESTUS2:20181009T171950Z:47bb61a4-cf26-4e11-bc51-1f4ae3452244",
+      "content-type" : "application/json; charset=utf-8",
+      "cache-control" : "no-cache",
+      "x-ms-request-id" : "47bb61a4-cf26-4e11-bc51-1f4ae3452244",
+      "Body" : "{\"status\":\"Running\"}"
+    }
+  }, {
+    "Method" : "GET",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rgrsat0e15281601dee/providers/Microsoft.Resources/deployments/dprsat4d89843922121/operationStatuses/08586625013565663317?api-version=2016-09-01",
+    "Headers" : { },
+    "Response" : {
+      "date" : "Tue, 09 Oct 2018 17:20:19 GMT",
+      "content-length" : "20",
+      "expires" : "-1",
+      "retry-after" : "0",
+      "x-ms-ratelimit-remaining-subscription-reads" : "11997",
+      "StatusCode" : "200",
+      "pragma" : "no-cache",
+      "x-ms-correlation-request-id" : "739cce0a-2201-4198-8cdb-66c94e1b61e2",
+      "strict-transport-security" : "max-age=31536000; includeSubDomains",
+      "x-content-type-options" : "nosniff",
+      "x-ms-routing-request-id" : "WESTUS2:20181009T172020Z:739cce0a-2201-4198-8cdb-66c94e1b61e2",
+      "content-type" : "application/json; charset=utf-8",
+      "cache-control" : "no-cache",
+      "x-ms-request-id" : "739cce0a-2201-4198-8cdb-66c94e1b61e2",
+      "Body" : "{\"status\":\"Running\"}"
+    }
+  }, {
+    "Method" : "GET",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rgrsat0e15281601dee/providers/Microsoft.Resources/deployments/dprsat4d89843922121/operationStatuses/08586625013565663317?api-version=2016-09-01",
+    "Headers" : { },
+    "Response" : {
+      "date" : "Tue, 09 Oct 2018 17:20:50 GMT",
+      "content-length" : "20",
+      "expires" : "-1",
+      "retry-after" : "0",
+      "x-ms-ratelimit-remaining-subscription-reads" : "11996",
+      "StatusCode" : "200",
+      "pragma" : "no-cache",
+      "x-ms-correlation-request-id" : "be53c5ae-2fc5-4342-bb1d-563655c0bcf6",
+      "strict-transport-security" : "max-age=31536000; includeSubDomains",
+      "x-content-type-options" : "nosniff",
+      "x-ms-routing-request-id" : "WESTUS2:20181009T172050Z:be53c5ae-2fc5-4342-bb1d-563655c0bcf6",
+      "content-type" : "application/json; charset=utf-8",
+      "cache-control" : "no-cache",
+      "x-ms-request-id" : "be53c5ae-2fc5-4342-bb1d-563655c0bcf6",
+      "Body" : "{\"status\":\"Running\"}"
+    }
+  }, {
+    "Method" : "GET",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rgrsat0e15281601dee/providers/Microsoft.Resources/deployments/dprsat4d89843922121/operationStatuses/08586625013565663317?api-version=2016-09-01",
+    "Headers" : { },
+    "Response" : {
+      "date" : "Tue, 09 Oct 2018 17:21:19 GMT",
+      "content-length" : "20",
+      "expires" : "-1",
+      "retry-after" : "0",
+      "x-ms-ratelimit-remaining-subscription-reads" : "11995",
+      "StatusCode" : "200",
+      "pragma" : "no-cache",
+      "x-ms-correlation-request-id" : "9c0e7a57-49f6-42fb-8835-a280eafdf5ee",
+      "strict-transport-security" : "max-age=31536000; includeSubDomains",
+      "x-content-type-options" : "nosniff",
+      "x-ms-routing-request-id" : "WESTUS2:20181009T172120Z:9c0e7a57-49f6-42fb-8835-a280eafdf5ee",
+      "content-type" : "application/json; charset=utf-8",
+      "cache-control" : "no-cache",
+      "x-ms-request-id" : "9c0e7a57-49f6-42fb-8835-a280eafdf5ee",
+      "Body" : "{\"status\":\"Running\"}"
+    }
+  }, {
+    "Method" : "GET",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rgrsat0e15281601dee/providers/Microsoft.Resources/deployments/dprsat4d89843922121/operationStatuses/08586625013565663317?api-version=2016-09-01",
+    "Headers" : { },
+    "Response" : {
+      "date" : "Tue, 09 Oct 2018 17:21:50 GMT",
+      "content-length" : "20",
+      "expires" : "-1",
+      "retry-after" : "0",
+      "x-ms-ratelimit-remaining-subscription-reads" : "11994",
+      "StatusCode" : "200",
+      "pragma" : "no-cache",
+      "x-ms-correlation-request-id" : "2b3d9985-bf82-4ff5-b585-b51a464cad0a",
+      "strict-transport-security" : "max-age=31536000; includeSubDomains",
+      "x-content-type-options" : "nosniff",
+      "x-ms-routing-request-id" : "WESTUS2:20181009T172150Z:2b3d9985-bf82-4ff5-b585-b51a464cad0a",
+      "content-type" : "application/json; charset=utf-8",
+      "cache-control" : "no-cache",
+      "x-ms-request-id" : "2b3d9985-bf82-4ff5-b585-b51a464cad0a",
+      "Body" : "{\"status\":\"Running\"}"
+    }
+  }, {
+    "Method" : "GET",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rgrsat0e15281601dee/providers/Microsoft.Resources/deployments/dprsat4d89843922121/operationStatuses/08586625013565663317?api-version=2016-09-01",
+    "Headers" : { },
+    "Response" : {
+      "date" : "Tue, 09 Oct 2018 17:22:20 GMT",
+      "content-length" : "20",
+      "expires" : "-1",
+      "retry-after" : "0",
+      "x-ms-ratelimit-remaining-subscription-reads" : "11993",
+      "StatusCode" : "200",
+      "pragma" : "no-cache",
+      "x-ms-correlation-request-id" : "6ccc054c-4d95-466b-8bf9-ae25013c3b56",
+      "strict-transport-security" : "max-age=31536000; includeSubDomains",
+      "x-content-type-options" : "nosniff",
+      "x-ms-routing-request-id" : "WESTUS2:20181009T172220Z:6ccc054c-4d95-466b-8bf9-ae25013c3b56",
+      "content-type" : "application/json; charset=utf-8",
+      "cache-control" : "no-cache",
+      "x-ms-request-id" : "6ccc054c-4d95-466b-8bf9-ae25013c3b56",
+      "Body" : "{\"status\":\"Running\"}"
+    }
+  }, {
+    "Method" : "GET",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rgrsat0e15281601dee/providers/Microsoft.Resources/deployments/dprsat4d89843922121/operationStatuses/08586625013565663317?api-version=2016-09-01",
+    "Headers" : { },
+    "Response" : {
+      "date" : "Tue, 09 Oct 2018 17:22:50 GMT",
+      "content-length" : "22",
+      "expires" : "-1",
+      "retry-after" : "0",
+      "x-ms-ratelimit-remaining-subscription-reads" : "11992",
+      "StatusCode" : "200",
+      "pragma" : "no-cache",
+      "x-ms-correlation-request-id" : "2641bf0f-db0d-4bee-8403-2eca47275b82",
+      "strict-transport-security" : "max-age=31536000; includeSubDomains",
+      "x-content-type-options" : "nosniff",
+      "x-ms-routing-request-id" : "WESTUS2:20181009T172251Z:2641bf0f-db0d-4bee-8403-2eca47275b82",
+      "content-type" : "application/json; charset=utf-8",
+      "cache-control" : "no-cache",
+      "x-ms-request-id" : "2641bf0f-db0d-4bee-8403-2eca47275b82",
+      "Body" : "{\"status\":\"Succeeded\"}"
+    }
+  }, {
+    "Method" : "GET",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rgrsat0e15281601dee/providers/Microsoft.Resources/deployments/dprsat4d89843922121?api-version=2016-09-01",
+    "Headers" : { },
+    "Response" : {
+      "date" : "Tue, 09 Oct 2018 17:22:50 GMT",
+      "content-length" : "2802",
+      "expires" : "-1",
+      "retry-after" : "0",
+      "x-ms-ratelimit-remaining-subscription-reads" : "11999",
+      "StatusCode" : "200",
+      "pragma" : "no-cache",
+      "x-ms-correlation-request-id" : "9b7c6589-65e5-416c-b60a-0467a76d52ff",
+      "strict-transport-security" : "max-age=31536000; includeSubDomains",
+      "x-content-type-options" : "nosniff",
+      "x-ms-routing-request-id" : "WESTUS2:20181009T172251Z:9b7c6589-65e5-416c-b60a-0467a76d52ff",
+      "content-type" : "application/json; charset=utf-8",
+      "cache-control" : "no-cache",
+      "x-ms-request-id" : "9b7c6589-65e5-416c-b60a-0467a76d52ff",
+      "Body" : "{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgrsat0e15281601dee/providers/Microsoft.Resources/deployments/dprsat4d89843922121\",\"name\":\"dprsat4d89843922121\",\"properties\":{\"templateHash\":\"18337023323581854454\",\"parameters\":{\"adminUsername\":{\"type\":\"String\",\"value\":\"tirekicker\"},\"adminPassword\":{\"type\":\"String\",\"value\":\"12NewPA$$w0rd!\"},\"windowsOSVersion\":{\"type\":\"String\",\"value\":\"2012-R2-Datacenter\"},\"osDiskName\":{\"type\":\"String\",\"value\":\"osdisk-bdf331145100\"}},\"mode\":\"Incremental\",\"provisioningState\":\"Succeeded\",\"timestamp\":\"2018-10-09T17:22:48.5103199Z\",\"duration\":\"PT3M59.5990152S\",\"correlationId\":\"8883b07a-a314-42f7-926a-98ba417a6c07\",\"providers\":[{\"namespace\":\"Microsoft.Network\",\"resourceTypes\":[{\"resourceType\":\"publicIPAddresses\",\"locations\":[\"westus\"]},{\"resourceType\":\"virtualNetworks\",\"locations\":[\"westus\"]},{\"resourceType\":\"networkInterfaces\",\"locations\":[\"westus\"]}]},{\"namespace\":\"Microsoft.Compute\",\"resourceTypes\":[{\"resourceType\":\"disks\",\"locations\":[\"westus\"]},{\"resourceType\":\"virtualMachines\",\"locations\":[\"westus\"]}]}],\"dependencies\":[{\"dependsOn\":[{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgrsat0e15281601dee/providers/Microsoft.Network/publicIPAddresses/myip\",\"resourceType\":\"Microsoft.Network/publicIPAddresses\",\"resourceName\":\"myip\"},{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgrsat0e15281601dee/providers/Microsoft.Network/virtualNetworks/myvnet\",\"resourceType\":\"Microsoft.Network/virtualNetworks\",\"resourceName\":\"myvnet\"}],\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgrsat0e15281601dee/providers/Microsoft.Network/networkInterfaces/mynic\",\"resourceType\":\"Microsoft.Network/networkInterfaces\",\"resourceName\":\"mynic\"},{\"dependsOn\":[{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgrsat0e15281601dee/providers/Microsoft.Network/networkInterfaces/mynic\",\"resourceType\":\"Microsoft.Network/networkInterfaces\",\"resourceName\":\"mynic\"},{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgrsat0e15281601dee/providers/Microsoft.Compute/disks/myManagedDataDisk\",\"resourceType\":\"Microsoft.Compute/disks\",\"resourceName\":\"myManagedDataDisk\"}],\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgrsat0e15281601dee/providers/Microsoft.Compute/virtualMachines/myVMDataDisk\",\"resourceType\":\"Microsoft.Compute/virtualMachines\",\"resourceName\":\"myVMDataDisk\"}],\"outputResources\":[{\"id\":\"Microsoft.Compute/disks/myManagedDataDisk\"},{\"id\":\"Microsoft.Compute/disks/myManagedDataDisk1\"},{\"id\":\"Microsoft.Compute/virtualMachines/myVMDataDisk\"},{\"id\":\"Microsoft.Network/networkInterfaces/mynic\"},{\"id\":\"Microsoft.Network/publicIPAddresses/myip\"},{\"id\":\"Microsoft.Network/virtualNetworks/myvnet\"}]}}"
+    }
+  }, {
+    "Method" : "GET",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rgrsat0e15281601dee/providers/Microsoft.Resources/deployments/dprsat4d89843922121?api-version=2016-09-01",
+    "Headers" : { },
+    "Response" : {
+      "date" : "Tue, 09 Oct 2018 17:22:51 GMT",
+      "content-length" : "2802",
+      "expires" : "-1",
+      "retry-after" : "0",
+      "x-ms-ratelimit-remaining-subscription-reads" : "11991",
+      "StatusCode" : "200",
+      "pragma" : "no-cache",
+      "x-ms-correlation-request-id" : "a5c861c5-f0d2-466c-a1e4-75c8d8030a1b",
+      "strict-transport-security" : "max-age=31536000; includeSubDomains",
+      "x-content-type-options" : "nosniff",
+      "x-ms-routing-request-id" : "WESTUS2:20181009T172251Z:a5c861c5-f0d2-466c-a1e4-75c8d8030a1b",
+      "content-type" : "application/json; charset=utf-8",
+      "cache-control" : "no-cache",
+      "x-ms-request-id" : "a5c861c5-f0d2-466c-a1e4-75c8d8030a1b",
+      "Body" : "{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgrsat0e15281601dee/providers/Microsoft.Resources/deployments/dprsat4d89843922121\",\"name\":\"dprsat4d89843922121\",\"properties\":{\"templateHash\":\"18337023323581854454\",\"parameters\":{\"adminUsername\":{\"type\":\"String\",\"value\":\"tirekicker\"},\"adminPassword\":{\"type\":\"String\",\"value\":\"12NewPA$$w0rd!\"},\"windowsOSVersion\":{\"type\":\"String\",\"value\":\"2012-R2-Datacenter\"},\"osDiskName\":{\"type\":\"String\",\"value\":\"osdisk-bdf331145100\"}},\"mode\":\"Incremental\",\"provisioningState\":\"Succeeded\",\"timestamp\":\"2018-10-09T17:22:48.5103199Z\",\"duration\":\"PT3M59.5990152S\",\"correlationId\":\"8883b07a-a314-42f7-926a-98ba417a6c07\",\"providers\":[{\"namespace\":\"Microsoft.Network\",\"resourceTypes\":[{\"resourceType\":\"publicIPAddresses\",\"locations\":[\"westus\"]},{\"resourceType\":\"virtualNetworks\",\"locations\":[\"westus\"]},{\"resourceType\":\"networkInterfaces\",\"locations\":[\"westus\"]}]},{\"namespace\":\"Microsoft.Compute\",\"resourceTypes\":[{\"resourceType\":\"disks\",\"locations\":[\"westus\"]},{\"resourceType\":\"virtualMachines\",\"locations\":[\"westus\"]}]}],\"dependencies\":[{\"dependsOn\":[{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgrsat0e15281601dee/providers/Microsoft.Network/publicIPAddresses/myip\",\"resourceType\":\"Microsoft.Network/publicIPAddresses\",\"resourceName\":\"myip\"},{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgrsat0e15281601dee/providers/Microsoft.Network/virtualNetworks/myvnet\",\"resourceType\":\"Microsoft.Network/virtualNetworks\",\"resourceName\":\"myvnet\"}],\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgrsat0e15281601dee/providers/Microsoft.Network/networkInterfaces/mynic\",\"resourceType\":\"Microsoft.Network/networkInterfaces\",\"resourceName\":\"mynic\"},{\"dependsOn\":[{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgrsat0e15281601dee/providers/Microsoft.Network/networkInterfaces/mynic\",\"resourceType\":\"Microsoft.Network/networkInterfaces\",\"resourceName\":\"mynic\"},{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgrsat0e15281601dee/providers/Microsoft.Compute/disks/myManagedDataDisk\",\"resourceType\":\"Microsoft.Compute/disks\",\"resourceName\":\"myManagedDataDisk\"}],\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgrsat0e15281601dee/providers/Microsoft.Compute/virtualMachines/myVMDataDisk\",\"resourceType\":\"Microsoft.Compute/virtualMachines\",\"resourceName\":\"myVMDataDisk\"}],\"outputResources\":[{\"id\":\"Microsoft.Compute/disks/myManagedDataDisk\"},{\"id\":\"Microsoft.Compute/disks/myManagedDataDisk1\"},{\"id\":\"Microsoft.Compute/virtualMachines/myVMDataDisk\"},{\"id\":\"Microsoft.Network/networkInterfaces/mynic\"},{\"id\":\"Microsoft.Network/publicIPAddresses/myip\"},{\"id\":\"Microsoft.Network/virtualNetworks/myvnet\"}]}}"
+    }
+  }, {
+    "Method" : "DELETE",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rgrsat0e15281601dee?api-version=2016-09-01",
+    "Headers" : { },
+    "Response" : {
+      "date" : "Tue, 09 Oct 2018 17:22:51 GMT",
+      "content-length" : "0",
+      "expires" : "-1",
+      "x-ms-ratelimit-remaining-subscription-deletes" : "14999",
+      "retry-after" : "0",
+      "StatusCode" : "202",
+      "pragma" : "no-cache",
+      "x-ms-correlation-request-id" : "0aff755a-0384-49ea-8a95-ee1e0ab4a29c",
+      "strict-transport-security" : "max-age=31536000; includeSubDomains",
+      "x-content-type-options" : "nosniff",
+      "x-ms-routing-request-id" : "WESTUS2:20181009T172251Z:0aff755a-0384-49ea-8a95-ee1e0ab4a29c",
+      "location" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1SR1JTQVQwRTE1MjgxNjAxREVFLVdFU1RVUyIsImpvYkxvY2F0aW9uIjoid2VzdHVzIn0?api-version=2016-09-01",
+      "cache-control" : "no-cache",
+      "x-ms-request-id" : "0aff755a-0384-49ea-8a95-ee1e0ab4a29c",
+      "Body" : ""
+    }
+  } ],
+  "variables" : [ "rgrsat0e15281601dee", "dprsat4d89843922121", "osdisk-bdf331145100", "04425365-70e9-4bf6-b147-975f3eb7c1b8", "37baa576-40ab-4edf-8abf-ca39d56069cf", "60176798-dc58-4325-8da1-23c4e4109c4f" ]
+}

@@ -11,6 +11,7 @@ import com.microsoft.azure.v2.management.compute.samples.CreateVirtualMachineUsi
 import com.microsoft.azure.v2.management.compute.samples.CreateVirtualMachineUsingCustomImageFromVM;
 import com.microsoft.azure.v2.management.compute.samples.CreateVirtualMachineUsingSpecializedDiskFromSnapshot;
 import com.microsoft.azure.v2.management.compute.samples.CreateVirtualMachineUsingSpecializedDiskFromVhd;
+import com.microsoft.azure.v2.management.compute.samples.CreateVirtualMachinesAsyncTrackingRelatedResources;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -20,6 +21,12 @@ public class ComputeSampleTests extends SamplesTestBase {
     @Test
     public void testConvertVirtualMachineToManagedDisks() {
         Assert.assertTrue(ConvertVirtualMachineToManagedDisks.runSample(azure));
+    }
+
+    @Test
+    @Ignore("Sample leverages true parallelization, which cannot be recorded, until GenericResources support deleteByIds()")
+    public void testCreateVirtualMachinesAsyncTrackingRelatedResources() {
+        Assert.assertTrue(CreateVirtualMachinesAsyncTrackingRelatedResources.runSample(azure));
     }
 
     @Test

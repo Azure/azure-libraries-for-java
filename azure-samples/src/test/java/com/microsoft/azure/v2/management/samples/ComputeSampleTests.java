@@ -12,6 +12,7 @@ import com.microsoft.azure.v2.management.compute.samples.CreateVirtualMachineUsi
 import com.microsoft.azure.v2.management.compute.samples.CreateVirtualMachineUsingSpecializedDiskFromSnapshot;
 import com.microsoft.azure.v2.management.compute.samples.CreateVirtualMachineUsingSpecializedDiskFromVhd;
 import com.microsoft.azure.v2.management.compute.samples.CreateVirtualMachinesAsyncTrackingRelatedResources;
+import com.microsoft.azure.v2.management.compute.samples.CreateVirtualMachinesInParallel;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -27,6 +28,12 @@ public class ComputeSampleTests extends SamplesTestBase {
     @Ignore("Sample leverages true parallelization, which cannot be recorded, until GenericResources support deleteByIds()")
     public void testCreateVirtualMachinesAsyncTrackingRelatedResources() {
         Assert.assertTrue(CreateVirtualMachinesAsyncTrackingRelatedResources.runSample(azure));
+    }
+
+    @Test
+    @Ignore("Playback failure with unexpected GET request")
+    public void testCreateVirtualMachinesInParallel() {
+        Assert.assertTrue(CreateVirtualMachinesInParallel.runSample(azure));
     }
 
     @Test

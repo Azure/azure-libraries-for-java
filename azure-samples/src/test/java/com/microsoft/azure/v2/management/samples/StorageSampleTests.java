@@ -7,6 +7,7 @@
 package com.microsoft.azure.v2.management.samples;
 
 import com.microsoft.azure.v2.management.storage.samples.ManageStorageAccount;
+import com.microsoft.azure.v2.management.storage.samples.ManageStorageAccountAsync;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -14,6 +15,11 @@ public class StorageSampleTests extends SamplesTestBase {
     @Test
     public void testManageStorageAccount() {
         Assert.assertTrue(ManageStorageAccount.runSample(azure));
+    }
+
+    @Test
+    public void testManageStorageAccountAsync() {
+        Assert.assertTrue(ManageStorageAccountAsync.runSample(azure));
     }
 
 }

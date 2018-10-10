@@ -10,6 +10,7 @@ import com.microsoft.azure.v2.management.compute.samples.ConvertVirtualMachineTo
 import com.microsoft.azure.v2.management.compute.samples.CreateVirtualMachineUsingCustomImageFromVHD;
 import com.microsoft.azure.v2.management.compute.samples.CreateVirtualMachineUsingCustomImageFromVM;
 import com.microsoft.azure.v2.management.compute.samples.CreateVirtualMachineUsingSpecializedDiskFromSnapshot;
+import com.microsoft.azure.v2.management.compute.samples.CreateVirtualMachineUsingSpecializedDiskFromVhd;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -37,5 +38,9 @@ public class ComputeSampleTests extends SamplesTestBase {
         Assert.assertTrue(CreateVirtualMachineUsingSpecializedDiskFromSnapshot.runSample(azure));
     }
 
+    @Test
+    public void testCreateVirtualMachineUsingSpecializedDiskFromVhd() {
+        Assert.assertTrue(CreateVirtualMachineUsingSpecializedDiskFromVhd.runSample(azure));
+    }
 
 }

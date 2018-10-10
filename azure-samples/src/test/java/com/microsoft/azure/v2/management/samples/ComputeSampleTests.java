@@ -8,6 +8,7 @@ package com.microsoft.azure.v2.management.samples;
 
 import com.microsoft.azure.v2.management.compute.samples.ConvertVirtualMachineToManagedDisks;
 import com.microsoft.azure.v2.management.compute.samples.CreateVirtualMachineUsingCustomImageFromVHD;
+import com.microsoft.azure.v2.management.compute.samples.CreateVirtualMachineUsingCustomImageFromVM;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -23,4 +24,11 @@ public class ComputeSampleTests extends SamplesTestBase {
     public void testCreateVirtualMachineUsingCustomImageFromVHD() {
         Assert.assertTrue(CreateVirtualMachineUsingCustomImageFromVHD.runSample(azure));
     }
+
+    @Test
+    @Ignore("Need to investigate - 'Disks or snapshot cannot be resized down.'")
+    public void testCreateVirtualMachineUsingCustomImageFromVM() {
+        Assert.assertTrue(CreateVirtualMachineUsingCustomImageFromVM.runSample(azure));
+    }
+
 }

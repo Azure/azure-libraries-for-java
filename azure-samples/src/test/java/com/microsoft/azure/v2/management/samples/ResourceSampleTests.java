@@ -8,7 +8,6 @@ package com.microsoft.azure.v2.management.samples;
 
 import com.microsoft.azure.v2.management.resources.samples.*;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class ResourceSampleTests extends SamplesTestBase {
@@ -19,7 +18,6 @@ public class ResourceSampleTests extends SamplesTestBase {
     }
 
     @Test
-    @Ignore("rsa public key nt ")
     public void testDeployUsingARMTemplateAsync() {
         Assert.assertTrue(DeployUsingARMTemplateAsync.runSample(azure));
     }

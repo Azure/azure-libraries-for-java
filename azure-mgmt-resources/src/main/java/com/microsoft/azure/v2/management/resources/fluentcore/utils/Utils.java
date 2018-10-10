@@ -16,6 +16,9 @@ import com.microsoft.rest.v2.annotations.Host;
 import com.microsoft.rest.v2.annotations.HostParam;
 import com.microsoft.rest.v2.http.HttpClient;
 import com.microsoft.rest.v2.http.HttpPipeline;
+import com.microsoft.rest.v2.policy.DecodingPolicyFactory;
+import com.microsoft.rest.v2.policy.HttpLogDetailLevel;
+import com.microsoft.rest.v2.policy.HttpLoggingPolicyFactory;
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
@@ -121,7 +124,7 @@ public final class Utils {
      * @return an Observable pointing to the content of the file
      */
     public static Flowable<byte[]> downloadFileAsync(String url, HttpClient httpClient) {
-        FileService service = RestProxy.create(FileService.class, HttpPipeline.build(httpClient));
+        FileService service = RestProxy.create(FileService.class, HttpPipeline.build(httpClient, new DecodingPolicyFactory(), new HttpLoggingPolicyFactory(HttpLogDetailLevel.BODY_AND_HEADERS)));
         return service.download(url);
     }
 

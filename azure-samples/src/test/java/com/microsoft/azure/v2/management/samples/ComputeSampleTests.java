@@ -23,6 +23,7 @@ import com.microsoft.azure.v2.management.compute.samples.ManageResourceFromMSIEn
 import com.microsoft.azure.v2.management.compute.samples.ManageStorageFromMSIEnabledVirtualMachine;
 import com.microsoft.azure.v2.management.compute.samples.ManageUserAssignedMSIEnabledVirtualMachine;
 import com.microsoft.azure.v2.management.compute.samples.ManageVirtualMachine;
+import com.microsoft.azure.v2.management.compute.samples.ManageVirtualMachineAsync;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -117,6 +118,11 @@ public class ComputeSampleTests extends SamplesTestBase {
     @Test
     public void testManageVirtualMachine() {
         Assert.assertTrue(ManageVirtualMachine.runSample(azure));
+    }
+
+    @Test
+    public void testManageVirtualMachineAsync() {
+        Assert.assertTrue(ManageVirtualMachineAsync.runSample(azure));
     }
 
 

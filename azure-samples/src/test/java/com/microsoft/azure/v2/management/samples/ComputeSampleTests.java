@@ -14,6 +14,7 @@ import com.microsoft.azure.v2.management.compute.samples.CreateVirtualMachineUsi
 import com.microsoft.azure.v2.management.compute.samples.CreateVirtualMachinesAsyncTrackingRelatedResources;
 import com.microsoft.azure.v2.management.compute.samples.CreateVirtualMachinesInParallel;
 import com.microsoft.azure.v2.management.compute.samples.CreateVirtualMachinesUsingCustomImageOrSpecializedVHD;
+import com.microsoft.azure.v2.management.compute.samples.ListComputeSkus;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -61,6 +62,11 @@ public class ComputeSampleTests extends SamplesTestBase {
     @Test
     public void testCreateVirtualMachineUsingSpecializedDiskFromVhd() {
         Assert.assertTrue(CreateVirtualMachineUsingSpecializedDiskFromVhd.runSample(azure));
+    }
+
+    @Test
+    public void testListComputeSkus() {
+        Assert.assertTrue(ListComputeSkus.runSample(azure));
     }
 
 }

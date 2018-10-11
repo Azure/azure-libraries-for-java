@@ -22,6 +22,7 @@ import com.microsoft.azure.v2.management.compute.samples.ManageManagedDisks;
 import com.microsoft.azure.v2.management.compute.samples.ManageResourceFromMSIEnabledVirtualMachineBelongsToAADGroup;
 import com.microsoft.azure.v2.management.compute.samples.ManageStorageFromMSIEnabledVirtualMachine;
 import com.microsoft.azure.v2.management.compute.samples.ManageUserAssignedMSIEnabledVirtualMachine;
+import com.microsoft.azure.v2.management.compute.samples.ManageVirtualMachine;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -111,6 +112,11 @@ public class ComputeSampleTests extends SamplesTestBase {
     @Test
     public void testManageUserAssignedMSIEnabledVirtualMachine() {
         Assert.assertTrue(ManageUserAssignedMSIEnabledVirtualMachine.runSample(azure));
+    }
+
+    @Test
+    public void testManageVirtualMachine() {
+        Assert.assertTrue(ManageVirtualMachine.runSample(azure));
     }
 
 

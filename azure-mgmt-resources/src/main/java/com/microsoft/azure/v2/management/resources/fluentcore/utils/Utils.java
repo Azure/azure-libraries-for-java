@@ -197,6 +197,17 @@ public final class Utils {
         }
     }
 
+    /**
+     * @param id resource id
+     * @return resource group id for the resource id provided
+     */
+    public static String resourceGroupId(String id) {
+        final ResourceId resourceId = ResourceId.fromString(id);
+        return String.format("/subscriptions/%s/resourceGroups/%s",
+                resourceId.subscriptionId(),
+                resourceId.resourceGroupName());
+    }
+
 
     /**
      * A RestProxy service used to download a file.

@@ -24,6 +24,7 @@ import com.microsoft.azure.v2.management.compute.samples.ManageStorageFromMSIEna
 import com.microsoft.azure.v2.management.compute.samples.ManageUserAssignedMSIEnabledVirtualMachine;
 import com.microsoft.azure.v2.management.compute.samples.ManageVirtualMachine;
 import com.microsoft.azure.v2.management.compute.samples.ManageVirtualMachineAsync;
+import com.microsoft.azure.v2.management.compute.samples.ManageVirtualMachineScaleSet;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -125,7 +126,11 @@ public class ComputeSampleTests extends SamplesTestBase {
         Assert.assertTrue(ManageVirtualMachineAsync.runSample(azure));
     }
 
-
+    @Test
+    @Ignore("Error code: VMExtensionProvisioningError. VM has reported a failure when processing extension 'CustomScriptForLinux'")
+    public void testManageVirtualMachineScaleSet() {
+        Assert.assertTrue(ManageVirtualMachineScaleSet.runSample(azure));
+    }
 
 
 }

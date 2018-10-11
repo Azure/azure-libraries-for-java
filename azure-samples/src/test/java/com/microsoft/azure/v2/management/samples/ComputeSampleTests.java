@@ -19,6 +19,7 @@ import com.microsoft.azure.v2.management.compute.samples.ListVirtualMachineExten
 import com.microsoft.azure.v2.management.compute.samples.ListVirtualMachineImages;
 import com.microsoft.azure.v2.management.compute.samples.ManageAvailabilitySet;
 import com.microsoft.azure.v2.management.compute.samples.ManageManagedDisks;
+import com.microsoft.azure.v2.management.compute.samples.ManageResourceFromMSIEnabledVirtualMachineBelongsToAADGroup;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -91,6 +92,12 @@ public class ComputeSampleTests extends SamplesTestBase {
     @Test
     public void testManageManagedDisks() {
         Assert.assertTrue(ManageManagedDisks.runSample(azure));
+    }
+
+    @Test
+    @Ignore("Skipping for now - looks like a service side issue")
+    public void testManageResourceFromMSIEnabledVirtualMachineBelongsToAADGroup() {
+        Assert.assertTrue(ManageResourceFromMSIEnabledVirtualMachineBelongsToAADGroup.runSample(azure));
     }
 
 }

@@ -27,7 +27,9 @@ import com.microsoft.azure.v2.management.network.LoadBalancerTcpProbe;
 import com.microsoft.azure.v2.management.network.model.GroupableParentResourceWithTagsImpl;
 import com.microsoft.azure.v2.management.network.model.HasNetworkInterfaces;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.ResourceUtils;
+import com.microsoft.azure.v2.management.resources.fluentcore.dag.FunctionalTaskItem;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Creatable;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Indexable;
 import com.microsoft.azure.v2.management.resources.fluentcore.utils.SdkContext;
 import io.reactivex.Maybe;
 import io.reactivex.Observable;
@@ -286,34 +288,36 @@ class LoadBalancerImpl
     }
 
     @Override
-    protected void afterCreating() {
-        if (this.nicsInBackends != null) {
-            List<Exception> nicExceptions = new ArrayList<>();
-
-            // Update the NICs to point to the backend pool
-            for (Entry<String, String> nicInBackend : this.nicsInBackends.entrySet()) {
-                String nicId = nicInBackend.getKey();
-                String backendName = nicInBackend.getValue();
-                try {
-                    NetworkInterface nic = this.manager().networkInterfaces().getById(nicId);
-                    NicIPConfiguration nicIP = nic.primaryIPConfiguration();
-                    nic.update()
-                        .updateIPConfiguration(nicIP.name())
-                            .withExistingLoadBalancerBackend(this, backendName)
-                            .parent()
-                        .apply();
-                } catch (Exception e) {
-                    nicExceptions.add(e);
+    public void beforeGroupCreateOrUpdate() {
+        addPostRunDependent(context -> {
+            List<Observable<NetworkInterface>> nicObservables = new ArrayList<>();
+            if (LoadBalancerImpl.this.nicsInBackends != null && !LoadBalancerImpl.this.nicsInBackends.isEmpty()) {
+                // Update the NICs to point to the backend pool
+                for (Entry<String, String> nicInBackend : LoadBalancerImpl.this.nicsInBackends.entrySet()) {
+                    String nicId = nicInBackend.getKey();
+                    String backendName = nicInBackend.getValue();
+                        NetworkInterface nic = manager().networkInterfaces().getById(nicId);
+                        NicIPConfiguration nicIP = nic.primaryIPConfiguration();
+                        nicObservables.add(nic.update()
+                                .updateIPConfiguration(nicIP.name())
+                                    .withExistingLoadBalancerBackend(LoadBalancerImpl.this, backendName)
+                                    .parent()
+                                .applyAsync());
                 }
-            }
 
-            if (!nicExceptions.isEmpty()) {
-                throw new CompositeException(nicExceptions);
+                return Observable.mergeDelayError(nicObservables)
+                        .ignoreElements()
+                        .doOnComplete(() -> LoadBalancerImpl.this.nicsInBackends.clear())
+                        .andThen(LoadBalancerImpl.this.refreshAsync().ignoreElement())
+                        .andThen(context.voidObservable());
+            } else {
+                return context.voidObservable();
             }
+        });
+    }
 
-            this.nicsInBackends.clear();
-            this.refresh();
-        }
+    @Override
+    protected void afterCreating() {
     }
 
     @Override

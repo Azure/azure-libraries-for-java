@@ -8,6 +8,7 @@ package com.microsoft.azure.v2.management.resources.fluentcore.utils;
 
 import com.microsoft.azure.v2.Page;
 import com.microsoft.azure.v2.PagedList;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.ResourceId;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Indexable;
 import com.microsoft.azure.v2.management.resources.implementation.PageImpl;
 import com.microsoft.rest.v2.RestProxy;
@@ -195,6 +196,7 @@ public final class Utils {
             list.remove(foundIndex);
         }
     }
+
 
     /**
      * A RestProxy service used to download a file.

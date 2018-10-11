@@ -17,6 +17,7 @@ import com.microsoft.azure.v2.management.compute.samples.CreateVirtualMachinesUs
 import com.microsoft.azure.v2.management.compute.samples.ListComputeSkus;
 import com.microsoft.azure.v2.management.compute.samples.ListVirtualMachineExtensionImages;
 import com.microsoft.azure.v2.management.compute.samples.ListVirtualMachineImages;
+import com.microsoft.azure.v2.management.compute.samples.ManageAvailabilitySet;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -79,6 +80,11 @@ public class ComputeSampleTests extends SamplesTestBase {
     @Test
     public void testListVirtualMachineImages() {
         Assert.assertTrue(ListVirtualMachineImages.runSample(azure));
+    }
+
+    @Test
+    public void testManageAvailabilitySet() {
+        Assert.assertTrue(ManageAvailabilitySet.runSample(azure));
     }
 
 }

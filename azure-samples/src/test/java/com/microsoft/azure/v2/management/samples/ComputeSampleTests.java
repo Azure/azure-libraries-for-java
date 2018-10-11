@@ -13,6 +13,7 @@ import com.microsoft.azure.v2.management.compute.samples.CreateVirtualMachineUsi
 import com.microsoft.azure.v2.management.compute.samples.CreateVirtualMachineUsingSpecializedDiskFromVhd;
 import com.microsoft.azure.v2.management.compute.samples.CreateVirtualMachinesAsyncTrackingRelatedResources;
 import com.microsoft.azure.v2.management.compute.samples.CreateVirtualMachinesInParallel;
+import com.microsoft.azure.v2.management.compute.samples.CreateVirtualMachinesUsingCustomImageOrSpecializedVHD;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -34,6 +35,11 @@ public class ComputeSampleTests extends SamplesTestBase {
     @Ignore("Playback failure with unexpected GET request")
     public void testCreateVirtualMachinesInParallel() {
         Assert.assertTrue(CreateVirtualMachinesInParallel.runSample(azure));
+    }
+
+    @Test
+    public void testCreateVirtualMachinesUsingCustomImageOrSpecializedVHD() {
+        Assert.assertTrue(CreateVirtualMachinesUsingCustomImageOrSpecializedVHD.runSample(azure));
     }
 
     @Test

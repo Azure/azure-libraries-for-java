@@ -31,6 +31,7 @@ import com.microsoft.azure.v2.management.compute.samples.ManageVirtualMachineSca
 import com.microsoft.azure.v2.management.compute.samples.ManageVirtualMachineWithDisk;
 import com.microsoft.azure.v2.management.compute.samples.ManageVirtualMachineWithUnmanagedDisks;
 import com.microsoft.azure.v2.management.compute.samples.ManageVirtualMachinesInParallel;
+import com.microsoft.azure.v2.management.compute.samples.ManageZonalVirtualMachine;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -170,6 +171,11 @@ public class ComputeSampleTests extends SamplesTestBase {
     @Test
     public void testManageVirtualMachinesInParallel() {
         Assert.assertTrue(ManageVirtualMachinesInParallel.runSample(azure));
+    }
+
+    @Test
+    public void testManageZonalVirtualMachine() {
+        Assert.assertTrue(ManageZonalVirtualMachine.runSample(azure));
     }
 
 

@@ -4,7 +4,7 @@
  * license information.
  */
 
-package com.microsoft.azure.management.samples;
+package com.microsoft.azure.v2.management.samples;
 
 import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.ChannelExec;

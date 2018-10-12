@@ -24,6 +24,7 @@ import com.microsoft.azure.v2.management.compute.samples.ManageStorageFromMSIEna
 import com.microsoft.azure.v2.management.compute.samples.ManageUserAssignedMSIEnabledVirtualMachine;
 import com.microsoft.azure.v2.management.compute.samples.ManageVirtualMachine;
 import com.microsoft.azure.v2.management.compute.samples.ManageVirtualMachineAsync;
+import com.microsoft.azure.v2.management.compute.samples.ManageVirtualMachineExtension;
 import com.microsoft.azure.v2.management.compute.samples.ManageVirtualMachineScaleSet;
 import com.microsoft.azure.v2.management.compute.samples.ManageVirtualMachineScaleSetAsync;
 import org.junit.Assert;
@@ -134,9 +135,15 @@ public class ComputeSampleTests extends SamplesTestBase {
     }
 
     @Test
-    @Ignore("Netty force close error")
+    @Ignore("Netty force close error. Error: An existing connection was forcibly closed by the remote host")
     public void testManageVirtualMachineScaleSetAsync() {
         Assert.assertTrue(ManageVirtualMachineScaleSetAsync.runSample(azure));
+    }
+
+    @Test
+    @Ignore("Netty force close error. Error: An existing connection was forcibly closed by the remote host")
+    public void testManageVirtualMachineExtension() {
+        Assert.assertTrue(ManageVirtualMachineExtension.runSample(azure));
     }
 
 }

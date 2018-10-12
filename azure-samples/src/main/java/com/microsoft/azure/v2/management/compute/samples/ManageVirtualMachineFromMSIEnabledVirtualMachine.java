@@ -58,7 +58,7 @@ public final class ManageVirtualMachineFromMSIEnabledVirtualMachine {
                 //
                 credentials = MSICredentials.forVirtualMachine(new MSIConfigurationForVirtualMachine().withClientId(clientId));
             } else {
-                credentials = MSICredentials.forVirtualMachine()
+                credentials = MSICredentials.forVirtualMachine();
             }
 
             Azure azure = Azure.configure()

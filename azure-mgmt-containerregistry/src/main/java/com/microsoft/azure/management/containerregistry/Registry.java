@@ -114,9 +114,37 @@ public interface Registry extends
     Observable<RegistryUsage> listQuotaUsagesAsync();
 
     /**
+     * @return returns the upload location for the user to be able to upload the source.
+     */
+    @Beta(SinceVersion.V1_14_0)
+    SourceUploadDefinition getBuildSourceUploadUrl();
+
+    /**
+     * Gets the upload location for the user to be able to upload the source asynchronously.
+     *
+     * @return a representation of the future computation of this call
+     */
+    @Beta(SinceVersion.V1_14_0)
+    Observable<SourceUploadDefinition> getBuildSourceUploadUrlAsync();
+
+    /**
      * @return returns entry point to manage container registry webhooks.
      */
     WebhookOperations webhooks();
+
+    /**
+     * @return returns entry point to manage the builds such as queued quick builds and queued build tasks
+     *   for the container registry.
+     */
+    @Beta(SinceVersion.V1_14_0)
+    QueuedBuildOperations queuedBuilds();
+
+    /**
+     * @return returns entry point to manage the build tasks for the container registry.
+     */
+    @Beta(SinceVersion.V1_14_0)
+    BuildTaskOperations buildTasks();
+
 
 
     /**

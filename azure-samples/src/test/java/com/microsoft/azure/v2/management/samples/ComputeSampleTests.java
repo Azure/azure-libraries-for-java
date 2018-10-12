@@ -25,6 +25,7 @@ import com.microsoft.azure.v2.management.compute.samples.ManageUserAssignedMSIEn
 import com.microsoft.azure.v2.management.compute.samples.ManageVirtualMachine;
 import com.microsoft.azure.v2.management.compute.samples.ManageVirtualMachineAsync;
 import com.microsoft.azure.v2.management.compute.samples.ManageVirtualMachineScaleSet;
+import com.microsoft.azure.v2.management.compute.samples.ManageVirtualMachineScaleSetAsync;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -132,5 +133,10 @@ public class ComputeSampleTests extends SamplesTestBase {
         Assert.assertTrue(ManageVirtualMachineScaleSet.runSample(azure));
     }
 
+    @Test
+    @Ignore("Netty force close error")
+    public void testManageVirtualMachineScaleSetAsync() {
+        Assert.assertTrue(ManageVirtualMachineScaleSetAsync.runSample(azure));
+    }
 
 }

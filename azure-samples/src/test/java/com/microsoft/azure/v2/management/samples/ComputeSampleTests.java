@@ -28,6 +28,7 @@ import com.microsoft.azure.v2.management.compute.samples.ManageVirtualMachineExt
 import com.microsoft.azure.v2.management.compute.samples.ManageVirtualMachineScaleSet;
 import com.microsoft.azure.v2.management.compute.samples.ManageVirtualMachineScaleSetAsync;
 import com.microsoft.azure.v2.management.compute.samples.ManageVirtualMachineScaleSetWithUnmanagedDisks;
+import com.microsoft.azure.v2.management.compute.samples.ManageVirtualMachineWithDisk;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -152,5 +153,11 @@ public class ComputeSampleTests extends SamplesTestBase {
     public void testManageVirtualMachineScaleSetWithUnmanagedDisks() {
         Assert.assertTrue(ManageVirtualMachineScaleSetWithUnmanagedDisks.runSample(azure));
     }
+
+    @Test
+    public void testManageVirtualMachineWithDisk() {
+        Assert.assertTrue(ManageVirtualMachineWithDisk.runSample(azure));
+    }
+
 
 }

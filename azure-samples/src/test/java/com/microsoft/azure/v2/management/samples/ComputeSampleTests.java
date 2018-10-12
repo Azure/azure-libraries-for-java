@@ -30,6 +30,7 @@ import com.microsoft.azure.v2.management.compute.samples.ManageVirtualMachineSca
 import com.microsoft.azure.v2.management.compute.samples.ManageVirtualMachineScaleSetWithUnmanagedDisks;
 import com.microsoft.azure.v2.management.compute.samples.ManageVirtualMachineWithDisk;
 import com.microsoft.azure.v2.management.compute.samples.ManageVirtualMachineWithUnmanagedDisks;
+import com.microsoft.azure.v2.management.compute.samples.ManageVirtualMachinesInParallel;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -164,6 +165,11 @@ public class ComputeSampleTests extends SamplesTestBase {
     @Ignore("Netty force close error. Error: An existing connection was forcibly closed by the remote host")
     public void testManageVirtualMachineWithUnmanagedDisks() {
         Assert.assertTrue(ManageVirtualMachineWithUnmanagedDisks.runSample(azure));
+    }
+
+    @Test
+    public void testManageVirtualMachinesInParallel() {
+        Assert.assertTrue(ManageVirtualMachinesInParallel.runSample(azure));
     }
 
 

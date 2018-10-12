@@ -32,6 +32,7 @@ import com.microsoft.azure.v2.management.compute.samples.ManageVirtualMachineWit
 import com.microsoft.azure.v2.management.compute.samples.ManageVirtualMachineWithUnmanagedDisks;
 import com.microsoft.azure.v2.management.compute.samples.ManageVirtualMachinesInParallel;
 import com.microsoft.azure.v2.management.compute.samples.ManageZonalVirtualMachine;
+import com.microsoft.azure.v2.management.compute.samples.ManageZonalVirtualMachineScaleSet;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -177,6 +178,12 @@ public class ComputeSampleTests extends SamplesTestBase {
     public void testManageZonalVirtualMachine() {
         Assert.assertTrue(ManageZonalVirtualMachine.runSample(azure));
     }
+
+    @Test
+    public void testManageZonalVirtualMachineScaleSet() {
+        Assert.assertTrue(ManageZonalVirtualMachineScaleSet.runSample(azure));
+    }
+    
 
 
 }

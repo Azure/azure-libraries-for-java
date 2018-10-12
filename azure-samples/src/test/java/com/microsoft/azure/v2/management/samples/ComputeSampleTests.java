@@ -147,7 +147,7 @@ public class ComputeSampleTests extends SamplesTestBase {
     }
 
     @Test
-    @Ignore("Netty force close error. Error: An existing connection was forcibly closed by the remote host")
+    //@Ignore("Netty force close error. Error: An existing connection was forcibly closed by the remote host")
     public void testManageVirtualMachineExtension() {
         Assert.assertTrue(ManageVirtualMachineExtension.runSample(azure));
     }
@@ -183,7 +183,7 @@ public class ComputeSampleTests extends SamplesTestBase {
     public void testManageZonalVirtualMachineScaleSet() {
         Assert.assertTrue(ManageZonalVirtualMachineScaleSet.runSample(azure));
     }
-    
+
 
 
 }

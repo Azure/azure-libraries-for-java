@@ -8,66 +8,75 @@ package com.microsoft.azure.v2.management.samples;
 
 import com.microsoft.azure.v2.management.network.samples.CreateSimpleInternetFacingLoadBalancer;
 import com.microsoft.azure.v2.management.network.samples.ManageApplicationGateway;
+import com.microsoft.azure.v2.management.network.samples.ManageIPAddress;
+import com.microsoft.azure.v2.management.network.samples.ManageInternalLoadBalancer;
+import com.microsoft.azure.v2.management.network.samples.ManageInternetFacingLoadBalancer;
+import com.microsoft.azure.v2.management.network.samples.ManageNetworkInterface;
+import com.microsoft.azure.v2.management.network.samples.ManageNetworkPeeringInSameSubscription;
+import com.microsoft.azure.v2.management.network.samples.ManageNetworkSecurityGroup;
+import com.microsoft.azure.v2.management.network.samples.ManageSimpleApplicationGateway;
+import com.microsoft.azure.v2.management.network.samples.ManageVirtualMachinesInParallelWithNetwork;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class NetworkSampleTests extends SamplesTestBase {
 
-//    @Test
-//    public void testManageNetworkPeeringInSameSubscription() {
-//        Assert.assertTrue(ManageNetworkPeeringInSameSubscription.runSample(azure));
-//    }
+    @Test
+    public void testManageNetworkPeeringInSameSubscription() {
+        Assert.assertTrue(ManageNetworkPeeringInSameSubscription.runSample(azure));
+    }
 //
 //    @Test
 //    public void testVerifyNetworkPeeringWithNetworkWatcher() {
 //        Assert.assertTrue(VerifyNetworkPeeringWithNetworkWatcher.runSample(azure));
 //    }
 
-    @Test
+    @Ignore("Already recorded")
     public void testManageApplicationGateway() {
         Assert.assertTrue(ManageApplicationGateway.runSample(azure));
     }
 
-//    @Test
-//    public void testManageInternalLoadBalancer() {
-//        Assert.assertTrue(ManageInternalLoadBalancer.runSample(azure));
-//    }
-//
     @Test
+    public void testManageInternalLoadBalancer() {
+        Assert.assertTrue(ManageInternalLoadBalancer.runSample(azure));
+    }
+
+    @Ignore("Already recorded")
     public void testCreateSimpleInternetFacingLoadBalancer() {
         Assert.assertTrue(CreateSimpleInternetFacingLoadBalancer.runSample(azure));
     }
 
-//    @Test
-//    public void testManageInternetFacingLoadBalancer() {
-//        Assert.assertTrue(ManageInternetFacingLoadBalancer.runSample(azure));
-//    }
-//
-//    @Test
-//    public void testManageIPAddress() {
-//        Assert.assertTrue(ManageIPAddress.runSample(azure));
-//    }
-//
-//    @Test
-//    public void testManageNetworkInterface() {
-//        Assert.assertTrue(ManageNetworkInterface.runSample(azure));
-//    }
-//
-//    @Test
-//    public void testManageNetworkSecurityGroup() {
-//        Assert.assertTrue(ManageNetworkSecurityGroup.runSample(azure));
-//    }
-//
-//    @Test
-//    public void testManageSimpleApplicationGateway() {
-//        Assert.assertTrue(ManageSimpleApplicationGateway.runSample(azure));
-//    }
-//
-//    @Test
-//    public void testManageVirtualMachinesInParallelWithNetwork() {
-//        Assert.assertTrue(ManageVirtualMachinesInParallelWithNetwork.runSample(azure));
-//    }
-//
+    @Test
+    public void testManageInternetFacingLoadBalancer() {
+        Assert.assertTrue(ManageInternetFacingLoadBalancer.runSample(azure));
+    }
+
+    @Test
+    public void testManageIPAddress() {
+        Assert.assertTrue(ManageIPAddress.runSample(azure));
+    }
+
+    @Test
+    public void testManageNetworkInterface() {
+        Assert.assertTrue(ManageNetworkInterface.runSample(azure));
+    }
+
+    @Test
+    public void testManageNetworkSecurityGroup() {
+        Assert.assertTrue(ManageNetworkSecurityGroup.runSample(azure));
+    }
+
+    @Test
+    public void testManageSimpleApplicationGateway() {
+        Assert.assertTrue(ManageSimpleApplicationGateway.runSample(azure));
+    }
+
+    @Test
+    public void testManageVirtualMachinesInParallelWithNetwork() {
+        Assert.assertTrue(ManageVirtualMachinesInParallelWithNetwork.runSample(azure));
+    }
+
 //    @Test
 //    public void testManageVirtualNetwork() {
 //        Assert.assertTrue(ManageVirtualNetwork.runSample(azure));

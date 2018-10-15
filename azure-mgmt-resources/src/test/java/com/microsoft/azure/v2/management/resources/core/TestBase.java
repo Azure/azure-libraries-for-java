@@ -7,6 +7,7 @@
 package com.microsoft.azure.v2.management.resources.core;
 
 import com.microsoft.azure.v2.AzureEnvironment;
+import com.microsoft.azure.v2.credentials.ApplicationTokenCredentials;
 import com.microsoft.azure.v2.credentials.AzureCliCredentials;
 import com.microsoft.azure.v2.credentials.AzureTokenCredentials;
 import com.microsoft.azure.v2.management.resources.fluentcore.utils.ProviderRegistrationPolicyFactory;
@@ -181,7 +182,7 @@ public abstract class TestBase {
         }
         else { // Record mode
             final File credFile = new File(System.getenv("AZURE_AUTH_LOCATION"));
-            credentials = AzureCliCredentials.create();
+            credentials = ApplicationTokenCredentials.fromFile(credFile);
             pipeline = buildRestClient(new HttpPipelineBuilder(new HttpPipelineOptions().withHttpClient(NettyClient.createDefault()))
                     .withRequestPolicy(new RetryPolicyFactory())
                     .withRequestPolicy(new ProviderRegistrationPolicyFactory(credentials))

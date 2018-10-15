@@ -51,7 +51,7 @@ public class ComputeSampleTests extends SamplesTestBase {
     }
 
     @Test
-    @Ignore("Playback failure with unexpected GET request")
+    @Ignore("Test passes in record mode, but still has forced closure by remote host error when deleting resource group. Fails in playback.")
     public void testCreateVirtualMachinesInParallel() {
         Assert.assertTrue(CreateVirtualMachinesInParallel.runSample(azure));
     }
@@ -141,19 +141,17 @@ public class ComputeSampleTests extends SamplesTestBase {
     }
 
     @Test
-    @Ignore("Netty force close error. Error: An existing connection was forcibly closed by the remote host")
     public void testManageVirtualMachineScaleSetAsync() {
         Assert.assertTrue(ManageVirtualMachineScaleSetAsync.runSample(azure));
     }
 
     @Test
-    //@Ignore("Netty force close error. Error: An existing connection was forcibly closed by the remote host")
     public void testManageVirtualMachineExtension() {
         Assert.assertTrue(ManageVirtualMachineExtension.runSample(azure));
     }
 
     @Test
-    @Ignore("Netty force close error. Error: An existing connection was forcibly closed by the remote host")
+    @Ignore("Custom script extension installation is failing, need to investigate")
     public void testManageVirtualMachineScaleSetWithUnmanagedDisks() {
         Assert.assertTrue(ManageVirtualMachineScaleSetWithUnmanagedDisks.runSample(azure));
     }
@@ -164,7 +162,6 @@ public class ComputeSampleTests extends SamplesTestBase {
     }
 
     @Test
-    @Ignore("Netty force close error. Error: An existing connection was forcibly closed by the remote host")
     public void testManageVirtualMachineWithUnmanagedDisks() {
         Assert.assertTrue(ManageVirtualMachineWithUnmanagedDisks.runSample(azure));
     }

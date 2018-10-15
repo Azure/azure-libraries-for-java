@@ -8,11 +8,14 @@ package com.microsoft.azure.management.containerregistry.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.containerregistry.AccessKeyType;
+import com.microsoft.azure.management.containerregistry.BuildTaskOperations;
+import com.microsoft.azure.management.containerregistry.QueuedBuildOperations;
 import com.microsoft.azure.management.containerregistry.Registry;
 import com.microsoft.azure.management.containerregistry.RegistryCredentials;
 import com.microsoft.azure.management.containerregistry.RegistryUsage;
 import com.microsoft.azure.management.containerregistry.Sku;
 import com.microsoft.azure.management.containerregistry.SkuName;
+import com.microsoft.azure.management.containerregistry.SourceUploadDefinition;
 import com.microsoft.azure.management.containerregistry.StorageAccountProperties;
 import com.microsoft.azure.management.containerregistry.WebhookOperations;
 import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
@@ -23,6 +26,7 @@ import com.microsoft.azure.management.storage.implementation.StorageManager;
 import org.joda.time.DateTime;
 import rx.Completable;
 import rx.Observable;
+import rx.functions.Func1;
 
 import java.util.Collection;
 
@@ -45,6 +49,8 @@ public class RegistryImpl
     private String storageAccountId;
     private String creatableStorageAccountKey;
     private WebhooksImpl webhooks;
+    private QueuedBuildOperations queuedBuilds;
+    private BuildTaskOperations buildTasks;
 
     protected RegistryImpl(String name, RegistryInner innerObject, ContainerRegistryManager manager,
                            final StorageManager storageManager) {
@@ -271,6 +277,39 @@ public class RegistryImpl
     @Override
     public WebhookOperations webhooks() {
         return new WebhookOperationsImpl(this);
+    }
+
+    @Override
+    public QueuedBuildOperations queuedBuilds() {
+        if (this.queuedBuilds == null) {
+            this.queuedBuilds = new QueuedBuildOperationsImpl(this);
+        }
+        return this.queuedBuilds;
+    }
+
+    @Override
+    public BuildTaskOperations buildTasks() {
+        if (this.buildTasks == null) {
+            this.buildTasks = new BuildTaskOperationsImpl(this);
+        }
+        return this.buildTasks;
+    }
+
+    @Override
+    public SourceUploadDefinition getBuildSourceUploadUrl() {
+        return this.getBuildSourceUploadUrlAsync().toBlocking().single();
+    }
+
+    @Override
+    public Observable<SourceUploadDefinition> getBuildSourceUploadUrlAsync() {
+        return this.manager().inner().registries()
+            .getBuildSourceUploadUrlAsync(this.resourceGroupName(), this.name())
+            .map(new Func1<SourceUploadDefinitionInner, SourceUploadDefinition>() {
+                @Override
+                public SourceUploadDefinition call(SourceUploadDefinitionInner sourceUploadDefinitionInner) {
+                    return new SourceUploadDefinitionImpl(sourceUploadDefinitionInner);
+                }
+            });
     }
 
     @Override

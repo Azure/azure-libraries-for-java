@@ -19,6 +19,7 @@ import com.microsoft.rest.v2.http.NettyClient;
 import com.microsoft.azure.v2.policy.AsyncCredentialsPolicyFactory;
 import com.microsoft.rest.v2.policy.HttpLogDetailLevel;
 import com.microsoft.rest.v2.policy.HttpLoggingPolicyFactory;
+import com.microsoft.rest.v2.policy.RetryPolicyFactory;
 import com.microsoft.rest.v2.policy.TimeoutPolicyFactory;
 import org.junit.After;
 import org.junit.Assume;
@@ -161,6 +162,7 @@ public abstract class TestBase {
         if (isPlaybackMode()) {
             credentials = new AzureTestCredentials(playbackUri, ZERO_TENANT, true);
             pipeline = buildRestClient(new HttpPipelineBuilder()
+                            .withRequestPolicy(new RetryPolicyFactory())
                             .withRequestPolicy(new AsyncCredentialsPolicyFactory(credentials))
                             .withRequestPolicy(new ResourceManagerThrottlingPolicyFactory())
                             .withRequestPolicy(new HttpLoggingPolicyFactory(HttpLogDetailLevel.BODY_AND_HEADERS, true))
@@ -181,6 +183,7 @@ public abstract class TestBase {
             final File credFile = new File(System.getenv("AZURE_AUTH_LOCATION"));
             credentials = AzureCliCredentials.create();
             pipeline = buildRestClient(new HttpPipelineBuilder(new HttpPipelineOptions().withHttpClient(NettyClient.createDefault()))
+                    .withRequestPolicy(new RetryPolicyFactory())
                     .withRequestPolicy(new ProviderRegistrationPolicyFactory(credentials))
                     .withRequestPolicy(new AsyncCredentialsPolicyFactory(credentials))
                     .withRequestPolicy(new TimeoutPolicyFactory(3, TimeUnit.MINUTES))

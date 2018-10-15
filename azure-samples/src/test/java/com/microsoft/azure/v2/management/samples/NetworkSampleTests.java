@@ -7,6 +7,7 @@
 package com.microsoft.azure.v2.management.samples;
 
 import com.microsoft.azure.v2.management.network.samples.CreateSimpleInternetFacingLoadBalancer;
+import com.microsoft.azure.v2.management.network.samples.ManageApplicationGateway;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -21,12 +22,12 @@ public class NetworkSampleTests extends SamplesTestBase {
 //    public void testVerifyNetworkPeeringWithNetworkWatcher() {
 //        Assert.assertTrue(VerifyNetworkPeeringWithNetworkWatcher.runSample(azure));
 //    }
-//
-//    @Test
-//    public void testManageApplicationGateway() {
-//        Assert.assertTrue(ManageApplicationGateway.runSample(azure));
-//    }
-//
+
+    @Test
+    public void testManageApplicationGateway() {
+        Assert.assertTrue(ManageApplicationGateway.runSample(azure));
+    }
+
 //    @Test
 //    public void testManageInternalLoadBalancer() {
 //        Assert.assertTrue(ManageInternalLoadBalancer.runSample(azure));

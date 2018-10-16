@@ -242,11 +242,11 @@ public class DockerUtils {
         String caPemContent = ""; // it stores the content of the ca.pem certificate file
         boolean dockerHostTlsEnabled = false;
         String dockerHostUrl = "tcp://" + dockerHostIP + ":2375";
-        com.microsoft.azure.management.samples.SSHShell sshShell = null;
+        com.microsoft.azure.v2.management.samples.SSHShell sshShell = null;
 
         try {
             System.out.println("Copy Docker setup scripts to remote host: " + dockerHostIP);
-            sshShell = com.microsoft.azure.management.samples.SSHShell.open(dockerHostIP, 22, vmUserName, vmPassword);
+            sshShell = com.microsoft.azure.v2.management.samples.SSHShell.open(dockerHostIP, 22, vmUserName, vmPassword);
 
             sshShell.upload(new ByteArrayInputStream(INSTALL_DOCKER_FOR_UBUNTU_SERVER_16_04_LTS.getBytes()),
                     "INSTALL_DOCKER_FOR_UBUNTU_SERVER_16_04_LTS.sh",
@@ -298,7 +298,7 @@ public class DockerUtils {
         }
         try {
             System.out.println("Trying to install Docker host at: " + dockerHostIP);
-            sshShell = com.microsoft.azure.management.samples.SSHShell.open(dockerHostIP, 22, vmUserName, vmPassword);
+            sshShell = com.microsoft.azure.v2.management.samples.SSHShell.open(dockerHostIP, 22, vmUserName, vmPassword);
 
             String output = sshShell.executeCommand("bash -c ~/.azuredocker/INSTALL_DOCKER_FOR_UBUNTU_SERVER_16_04_LTS.sh", true, true);
             System.out.println(output);
@@ -316,7 +316,7 @@ public class DockerUtils {
 
         try {
             System.out.println("Trying to create OPENSSL certificates");
-            sshShell = com.microsoft.azure.management.samples.SSHShell.open(dockerHostIP, 22, vmUserName, vmPassword);
+            sshShell = com.microsoft.azure.v2.management.samples.SSHShell.open(dockerHostIP, 22, vmUserName, vmPassword);
 
             String output = sshShell.executeCommand("bash -c ~/.azuredocker/CREATE_OPENSSL_TLS_CERTS_FOR_UBUNTU.sh", true, true);
             System.out.println(output);
@@ -334,7 +334,7 @@ public class DockerUtils {
 
         try {
             System.out.println("Trying to install TLS certificates");
-            sshShell = com.microsoft.azure.management.samples.SSHShell.open(dockerHostIP, 22, vmUserName, vmPassword);
+            sshShell = com.microsoft.azure.v2.management.samples.SSHShell.open(dockerHostIP, 22, vmUserName, vmPassword);
 
             String output = sshShell.executeCommand("bash -c ~/.azuredocker/INSTALL_DOCKER_TLS_CERTS_FOR_UBUNTU.sh", true, true);
             System.out.println(output);
@@ -356,7 +356,7 @@ public class DockerUtils {
 
         try {
             System.out.println("Trying to setup Docker config: " + dockerHostIP);
-            sshShell = com.microsoft.azure.management.samples.SSHShell.open(dockerHostIP, 22, vmUserName, vmPassword);
+            sshShell = com.microsoft.azure.v2.management.samples.SSHShell.open(dockerHostIP, 22, vmUserName, vmPassword);
 
 //            // Setup Docker daemon to allow connection from any Docker clients
 //            String output = sshShell.executeCommand("bash -c ~/.azuredocker/CREATE_DEFAULT_DOCKERD_OPTS_TLS_DISABLED.sh", true, true);

@@ -8,6 +8,7 @@ package com.microsoft.azure.v2.management.resources.fluentcore.utils;
 
 import com.microsoft.azure.v2.Page;
 import com.microsoft.azure.v2.PagedList;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.ResourceId;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Indexable;
 import com.microsoft.azure.v2.management.resources.implementation.PageImpl;
 import com.microsoft.rest.v2.RestProxy;
@@ -16,6 +17,9 @@ import com.microsoft.rest.v2.annotations.Host;
 import com.microsoft.rest.v2.annotations.HostParam;
 import com.microsoft.rest.v2.http.HttpClient;
 import com.microsoft.rest.v2.http.HttpPipeline;
+import com.microsoft.rest.v2.policy.DecodingPolicyFactory;
+import com.microsoft.rest.v2.policy.HttpLogDetailLevel;
+import com.microsoft.rest.v2.policy.HttpLoggingPolicyFactory;
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
@@ -121,7 +125,7 @@ public final class Utils {
      * @return an Observable pointing to the content of the file
      */
     public static Flowable<byte[]> downloadFileAsync(String url, HttpClient httpClient) {
-        FileService service = RestProxy.create(FileService.class, HttpPipeline.build(httpClient));
+        FileService service = RestProxy.create(FileService.class, HttpPipeline.build(httpClient, new DecodingPolicyFactory(), new HttpLoggingPolicyFactory(HttpLogDetailLevel.BODY_AND_HEADERS)));
         return service.download(url);
     }
 
@@ -192,6 +196,18 @@ public final class Utils {
             list.remove(foundIndex);
         }
     }
+
+    /**
+     * @param id resource id
+     * @return resource group id for the resource id provided
+     */
+    public static String resourceGroupId(String id) {
+        final ResourceId resourceId = ResourceId.fromString(id);
+        return String.format("/subscriptions/%s/resourceGroups/%s",
+                resourceId.subscriptionId(),
+                resourceId.resourceGroupName());
+    }
+
 
     /**
      * A RestProxy service used to download a file.

@@ -17,7 +17,9 @@ import com.microsoft.azure.v2.management.graphrbac.ActiveDirectoryApplication;
 import com.microsoft.azure.v2.management.graphrbac.ActiveDirectoryGroup;
 import com.microsoft.azure.v2.management.graphrbac.ActiveDirectoryObject;
 import com.microsoft.azure.v2.management.graphrbac.ActiveDirectoryUser;
+import com.microsoft.azure.v2.management.graphrbac.Permission;
 import com.microsoft.azure.v2.management.graphrbac.RoleAssignment;
+import com.microsoft.azure.v2.management.graphrbac.RoleDefinition;
 import com.microsoft.azure.v2.management.graphrbac.ServicePrincipal;
 import com.microsoft.azure.v2.management.msi.Identity;
 import com.microsoft.azure.v2.management.network.ApplicationGateway;
@@ -2218,41 +2220,41 @@ public final class Utils {
         System.out.println(builder.toString());
     }
 
-//    /**
-//     * Print Active Directory User info.
-//     * @param role role definition
-//     */
-//    public static void print(RoleDefinition role) {
-//        StringBuilder builder = new StringBuilder()
-//                .append("Role Definition: ").append(role.id())
-//                .append("\n\tName: ").append(role.name())
-//                .append("\n\tRole Name: ").append(role.roleName())
-//                .append("\n\tType: ").append(role.type())
-//                .append("\n\tDescription: ").append(role.description())
-//                .append("\n\tType: ").append(role.type());
-//
-//        Set<Permission> permissions = role.permissions();
-//        builder.append("\n\tPermissions: ").append(permissions.size());
-//        for (Permission permission : permissions) {
-//            builder.append("\n\t\tPermission Actions: " + permission.actions().size());
-//            for (String action : permission.actions()) {
-//                builder.append("\n\t\t\tName :").append(action);
-//            }
-//            builder.append("\n\t\tPermission Not Actions: " + permission.notActions().size());
-//            for (String notAction : permission.notActions()) {
-//                builder.append("\n\t\t\tName :").append(notAction);
-//            }
-//        }
-//
-//        Set<String> assignableScopes = role.assignableScopes();
-//        builder.append("\n\tAssignable scopes: ").append(assignableScopes.size());
-//        for (String scope : assignableScopes) {
-//            builder.append("\n\t\tAssignable Scope: ")
-//                    .append("\n\t\t\tName :").append(scope);
-//        }
-//
-//        System.out.println(builder.toString());
-//    }
+    /**
+     * Print Active Directory User info.
+     * @param role role definition
+     */
+    public static void print(RoleDefinition role) {
+        StringBuilder builder = new StringBuilder()
+                .append("Role Definition: ").append(role.id())
+                .append("\n\tName: ").append(role.name())
+                .append("\n\tRole Name: ").append(role.roleName())
+                .append("\n\tType: ").append(role.type())
+                .append("\n\tDescription: ").append(role.description())
+                .append("\n\tType: ").append(role.type());
+
+        Set<Permission> permissions = role.permissions();
+        builder.append("\n\tPermissions: ").append(permissions.size());
+        for (Permission permission : permissions) {
+            builder.append("\n\t\tPermission Actions: " + permission.actions().size());
+            for (String action : permission.actions()) {
+                builder.append("\n\t\t\tName :").append(action);
+            }
+            builder.append("\n\t\tPermission Not Actions: " + permission.notActions().size());
+            for (String notAction : permission.notActions()) {
+                builder.append("\n\t\t\tName :").append(notAction);
+            }
+        }
+
+        Set<String> assignableScopes = role.assignableScopes();
+        builder.append("\n\tAssignable scopes: ").append(assignableScopes.size());
+        for (String scope : assignableScopes) {
+            builder.append("\n\t\tAssignable Scope: ")
+                    .append("\n\t\t\tName :").append(scope);
+        }
+
+        System.out.println(builder.toString());
+    }
 
     /**
      * Print Role Assignment info.

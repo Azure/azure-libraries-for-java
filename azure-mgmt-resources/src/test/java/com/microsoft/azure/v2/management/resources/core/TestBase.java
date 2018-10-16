@@ -8,16 +8,15 @@ package com.microsoft.azure.v2.management.resources.core;
 
 import com.microsoft.azure.v2.AzureEnvironment;
 import com.microsoft.azure.v2.credentials.ApplicationTokenCredentials;
-import com.microsoft.azure.v2.credentials.AzureCliCredentials;
 import com.microsoft.azure.v2.credentials.AzureTokenCredentials;
 import com.microsoft.azure.v2.management.resources.fluentcore.utils.ProviderRegistrationPolicyFactory;
 import com.microsoft.azure.v2.management.resources.fluentcore.utils.ResourceManagerThrottlingPolicyFactory;
 import com.microsoft.azure.v2.management.resources.fluentcore.utils.SdkContext;
+import com.microsoft.azure.v2.policy.AsyncCredentialsPolicyFactory;
 import com.microsoft.rest.v2.http.HttpPipeline;
 import com.microsoft.rest.v2.http.HttpPipelineBuilder;
 import com.microsoft.rest.v2.http.HttpPipelineOptions;
 import com.microsoft.rest.v2.http.NettyClient;
-import com.microsoft.azure.v2.policy.AsyncCredentialsPolicyFactory;
 import com.microsoft.rest.v2.policy.HttpLogDetailLevel;
 import com.microsoft.rest.v2.policy.HttpLoggingPolicyFactory;
 import com.microsoft.rest.v2.policy.RetryPolicyFactory;

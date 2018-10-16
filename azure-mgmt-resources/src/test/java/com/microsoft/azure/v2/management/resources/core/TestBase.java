@@ -162,6 +162,7 @@ public abstract class TestBase {
         if (isPlaybackMode()) {
             credentials = new AzureTestCredentials(playbackUri, ZERO_TENANT, true);
             pipeline = buildRestClient(new HttpPipelineBuilder()
+                            .withRequestPolicy(new RetryPolicyFactory())
                             .withRequestPolicy(new AsyncCredentialsPolicyFactory(credentials))
                             .withRequestPolicy(new ResourceManagerThrottlingPolicyFactory())
                             .withRequestPolicy(new HttpLoggingPolicyFactory(HttpLogDetailLevel.BODY_AND_HEADERS, true))

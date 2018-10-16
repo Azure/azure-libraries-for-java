@@ -33,6 +33,7 @@ import com.microsoft.azure.v2.management.network.ApplicationGatewayProbe;
 import com.microsoft.azure.v2.management.network.ApplicationGatewayRedirectConfiguration;
 import com.microsoft.azure.v2.management.network.ApplicationGatewayRequestRoutingRule;
 import com.microsoft.azure.v2.management.network.ApplicationGatewaySslCertificate;
+import com.microsoft.azure.v2.management.network.EffectiveNetworkSecurityRule;
 import com.microsoft.azure.v2.management.network.FlowLogSettings;
 import com.microsoft.azure.v2.management.network.LoadBalancer;
 import com.microsoft.azure.v2.management.network.LoadBalancerBackend;
@@ -56,12 +57,14 @@ import com.microsoft.azure.v2.management.network.PacketCapture;
 import com.microsoft.azure.v2.management.network.PacketCaptureFilter;
 import com.microsoft.azure.v2.management.network.PublicIPAddress;
 import com.microsoft.azure.v2.management.network.RouteTable;
+import com.microsoft.azure.v2.management.network.SecurityGroupView;
 import com.microsoft.azure.v2.management.network.ServiceEndpointType;
 import com.microsoft.azure.v2.management.network.Subnet;
 import com.microsoft.azure.v2.management.network.Topology;
 import com.microsoft.azure.v2.management.network.TopologyAssociation;
 import com.microsoft.azure.v2.management.network.TopologyResource;
 import com.microsoft.azure.v2.management.network.VerificationIPFlow;
+import com.microsoft.azure.v2.management.network.implementation.SecurityGroupNetworkInterfaceInner;
 import com.microsoft.azure.v2.management.network.implementation.SecurityRuleInner;
 import com.microsoft.azure.v2.management.resources.ResourceGroup;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
@@ -2418,40 +2421,40 @@ public final class Utils {
                 .toString());
     }
 
-//    /**
-//     * Print availability set info.
-//     *
-//     * @param resource an availability set
-//     */
-//    public static void print(SecurityGroupView resource) {
-//        StringBuilder sb = new StringBuilder().append("Security group view: ")
-//                .append("\n\tVirtual machine id: ").append(resource.vmId());
-//        for (SecurityGroupNetworkInterface sgni : resource.networkInterfaces().values()) {
-//            sb.append("\n\tSecurity group network interface:").append(sgni.id())
-//                    .append("\n\t\tSecurity group network interface:")
-//                    .append("\n\t\tEffective security rules:");
-//            for (EffectiveNetworkSecurityRule rule : sgni.securityRuleAssociations().effectiveSecurityRules()) {
-//                sb.append("\n\t\t\tName: ").append(rule.name())
-//                        .append("\n\t\t\tDirection: ").append(rule.direction())
-//                        .append("\n\t\t\tAccess: ").append(rule.access())
-//                        .append("\n\t\t\tPriority: ").append(rule.priority())
-//                        .append("\n\t\t\tSource address prefix: ").append(rule.sourceAddressPrefix())
-//                        .append("\n\t\t\tSource port range: ").append(rule.sourcePortRange())
-//                        .append("\n\t\t\tDestination address prefix: ").append(rule.destinationAddressPrefix())
-//                        .append("\n\t\t\tDestination port range: ").append(rule.destinationPortRange())
-//                        .append("\n\t\t\tProtocol: ").append(rule.protocol());
-//            }
-//            sb.append("\n\t\tSubnet:").append(sgni.securityRuleAssociations().subnetAssociation().id());
-//            printSecurityRule(sb, sgni.securityRuleAssociations().subnetAssociation().securityRules());
-//            if (sgni.securityRuleAssociations().networkInterfaceAssociation() != null) {
-//                sb.append("\n\t\tNetwork interface:").append(sgni.securityRuleAssociations().networkInterfaceAssociation().id());
-//                printSecurityRule(sb, sgni.securityRuleAssociations().networkInterfaceAssociation().securityRules());
-//            }
-//            sb.append("\n\t\tDefault security rules:");
-//            printSecurityRule(sb, sgni.securityRuleAssociations().defaultSecurityRules());
-//        }
-//        System.out.println(sb.toString());
-//    }
+    /**
+     * Print availability set info.
+     *
+     * @param resource an availability set
+     */
+    public static void print(SecurityGroupView resource) {
+        StringBuilder sb = new StringBuilder().append("Security group view: ")
+                .append("\n\tVirtual machine id: ").append(resource.vmId());
+        for (SecurityGroupNetworkInterfaceInner sgni : resource.networkInterfaces().values()) {
+            sb.append("\n\tSecurity group network interface:").append(sgni.id())
+                    .append("\n\t\tSecurity group network interface:")
+                    .append("\n\t\tEffective security rules:");
+            for (EffectiveNetworkSecurityRule rule : sgni.securityRuleAssociations().effectiveSecurityRules()) {
+                sb.append("\n\t\t\tName: ").append(rule.name())
+                        .append("\n\t\t\tDirection: ").append(rule.direction())
+                        .append("\n\t\t\tAccess: ").append(rule.access())
+                        .append("\n\t\t\tPriority: ").append(rule.priority())
+                        .append("\n\t\t\tSource address prefix: ").append(rule.sourceAddressPrefix())
+                        .append("\n\t\t\tSource port range: ").append(rule.sourcePortRange())
+                        .append("\n\t\t\tDestination address prefix: ").append(rule.destinationAddressPrefix())
+                        .append("\n\t\t\tDestination port range: ").append(rule.destinationPortRange())
+                        .append("\n\t\t\tProtocol: ").append(rule.protocol());
+            }
+            sb.append("\n\t\tSubnet:").append(sgni.securityRuleAssociations().subnetAssociation().id());
+            printSecurityRule(sb, sgni.securityRuleAssociations().subnetAssociation().securityRules());
+            if (sgni.securityRuleAssociations().networkInterfaceAssociation() != null) {
+                sb.append("\n\t\tNetwork interface:").append(sgni.securityRuleAssociations().networkInterfaceAssociation().id());
+                printSecurityRule(sb, sgni.securityRuleAssociations().networkInterfaceAssociation().securityRules());
+            }
+            sb.append("\n\t\tDefault security rules:");
+            printSecurityRule(sb, sgni.securityRuleAssociations().defaultSecurityRules());
+        }
+        System.out.println(sb.toString());
+    }
 
     private static void printSecurityRule(StringBuilder sb, List<SecurityRuleInner> rules) {
         for (SecurityRuleInner rule : rules) {

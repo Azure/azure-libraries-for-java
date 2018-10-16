@@ -422,7 +422,7 @@ class VirtualNetworkGatewayImpl
         }
         //
         return pipCompletable.mergeWith(networkCompletable)
-                .andThen(VirtualNetworkGatewayImpl.this.manager().inner().virtualNetworkGateways().createOrUpdateAsync(resourceGroupName(), name(), inner()))
+                .andThen(Maybe.defer(() -> VirtualNetworkGatewayImpl.this.manager().inner().virtualNetworkGateways().createOrUpdateAsync(resourceGroupName(), name(), inner())))
                 .toObservable();
     }
 

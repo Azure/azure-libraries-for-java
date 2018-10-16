@@ -10,7 +10,9 @@ import com.microsoft.azure.v2.management.resources.fluentcore.utils.SdkContext;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.time.LocalDate;
 import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 
 public class NetworkWatcherTests extends NetworkManagementTest {
@@ -48,8 +50,8 @@ public class NetworkWatcherTests extends NetworkManagementTest {
         String localProvider = providers.providersByCountry().get("United States").states().get(0).providers().get(0);
         AzureReachabilityReport report = nw.azureReachabilityReport()
                 .withProviderLocation("United States", "washington")
-                .withStartTime(OffsetDateTime.parse("2018-04-10"))
-                .withEndTime(OffsetDateTime.parse("2018-04-12"))
+                .withStartTime(LocalDate.parse("2018-04-10").atStartOfDay().atOffset(ZoneOffset.UTC))
+                .withEndTime(LocalDate.parse("2018-04-12").atStartOfDay().atOffset(ZoneOffset.UTC))
                 .withProviders(localProvider)
                 .withAzureLocations("West US")
                 .execute();

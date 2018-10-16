@@ -5,35 +5,32 @@
  */
 package com.microsoft.azure.v2.management.network.implementation;
 
+import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.v2.SubResource;
 import com.microsoft.azure.v2.management.network.InboundNatPool;
+import com.microsoft.azure.v2.management.network.LoadBalancer;
 import com.microsoft.azure.v2.management.network.LoadBalancerBackend;
 import com.microsoft.azure.v2.management.network.LoadBalancerFrontend;
 import com.microsoft.azure.v2.management.network.LoadBalancerHttpProbe;
 import com.microsoft.azure.v2.management.network.LoadBalancerInboundNatPool;
 import com.microsoft.azure.v2.management.network.LoadBalancerInboundNatRule;
 import com.microsoft.azure.v2.management.network.LoadBalancerPrivateFrontend;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.v2.management.network.LoadBalancer;
+import com.microsoft.azure.v2.management.network.LoadBalancerProbe;
+import com.microsoft.azure.v2.management.network.LoadBalancerPublicFrontend;
 import com.microsoft.azure.v2.management.network.LoadBalancerSkuType;
+import com.microsoft.azure.v2.management.network.LoadBalancerTcpProbe;
 import com.microsoft.azure.v2.management.network.LoadBalancingRule;
 import com.microsoft.azure.v2.management.network.NetworkInterface;
 import com.microsoft.azure.v2.management.network.NicIPConfiguration;
-import com.microsoft.azure.v2.management.network.LoadBalancerProbe;
 import com.microsoft.azure.v2.management.network.ProbeProtocol;
-import com.microsoft.azure.v2.management.network.LoadBalancerPublicFrontend;
 import com.microsoft.azure.v2.management.network.PublicIPAddress;
-import com.microsoft.azure.v2.management.network.LoadBalancerTcpProbe;
 import com.microsoft.azure.v2.management.network.model.GroupableParentResourceWithTagsImpl;
 import com.microsoft.azure.v2.management.network.model.HasNetworkInterfaces;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.ResourceUtils;
-import com.microsoft.azure.v2.management.resources.fluentcore.dag.FunctionalTaskItem;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.v2.management.resources.fluentcore.model.Indexable;
 import com.microsoft.azure.v2.management.resources.fluentcore.utils.SdkContext;
 import io.reactivex.Maybe;
 import io.reactivex.Observable;
-import io.reactivex.exceptions.CompositeException;
 
 import java.util.ArrayList;
 import java.util.Collections;

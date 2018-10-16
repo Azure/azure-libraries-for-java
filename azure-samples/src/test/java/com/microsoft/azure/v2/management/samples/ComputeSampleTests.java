@@ -120,6 +120,7 @@ public class ComputeSampleTests extends SamplesTestBase {
     }
 
     @Test
+    @Ignore("Custom script extension installation is failing, need to investigate")
     public void testManageUserAssignedMSIEnabledVirtualMachine() {
         Assert.assertTrue(ManageUserAssignedMSIEnabledVirtualMachine.runSample(azure));
     }
@@ -141,6 +142,7 @@ public class ComputeSampleTests extends SamplesTestBase {
     }
 
     @Test
+    @Ignore("Forced closure of connection error")
     public void testManageVirtualMachineScaleSetAsync() {
         Assert.assertTrue(ManageVirtualMachineScaleSetAsync.runSample(azure));
     }

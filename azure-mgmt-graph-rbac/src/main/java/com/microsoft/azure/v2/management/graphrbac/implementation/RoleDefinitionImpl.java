@@ -7,12 +7,14 @@
 package com.microsoft.azure.v2.management.graphrbac.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
+import com.microsoft.azure.v2.management.graphrbac.Permission;
 import com.microsoft.azure.v2.management.graphrbac.RoleDefinition;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.implementation.WrapperImpl;
 
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Implementation for ServicePrincipal and its parent interfaces.
@@ -67,12 +69,15 @@ class RoleDefinitionImpl
     }
 
     @Override
-    public Set<PermissionInner> permissions() {
+    public Set<Permission> permissions() {
         if (inner().permissionsProperty() == null) {
             return null;
         }
-        HashSet<PermissionInner> permissionInners = new HashSet<>(inner().permissionsProperty());
-        return Collections.unmodifiableSet(permissionInners);
+        HashSet<Permission> permissions = new HashSet<>(inner().permissionsProperty()
+                .stream()
+                .map(p -> new PermissionImpl(p))
+                .collect(Collectors.toList()));
+        return Collections.unmodifiableSet(permissions);
     }
 
     @Override

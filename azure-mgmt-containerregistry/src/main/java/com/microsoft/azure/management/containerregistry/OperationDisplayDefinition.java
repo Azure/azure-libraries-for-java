@@ -39,7 +39,7 @@ public class OperationDisplayDefinition {
     private String description;
 
     /**
-     * Get the provider value.
+     * Get the resource provider name: Microsoft.ContainerRegistry.
      *
      * @return the provider value
      */
@@ -48,7 +48,7 @@ public class OperationDisplayDefinition {
     }
 
     /**
-     * Set the provider value.
+     * Set the resource provider name: Microsoft.ContainerRegistry.
      *
      * @param provider the provider value to set
      * @return the OperationDisplayDefinition object itself.
@@ -59,7 +59,7 @@ public class OperationDisplayDefinition {
     }
 
     /**
-     * Get the resource value.
+     * Get the resource on which the operation is performed.
      *
      * @return the resource value
      */
@@ -68,7 +68,7 @@ public class OperationDisplayDefinition {
     }
 
     /**
-     * Set the resource value.
+     * Set the resource on which the operation is performed.
      *
      * @param resource the resource value to set
      * @return the OperationDisplayDefinition object itself.
@@ -79,7 +79,7 @@ public class OperationDisplayDefinition {
     }
 
     /**
-     * Get the operation value.
+     * Get the operation that users can perform.
      *
      * @return the operation value
      */
@@ -88,7 +88,7 @@ public class OperationDisplayDefinition {
     }
 
     /**
-     * Set the operation value.
+     * Set the operation that users can perform.
      *
      * @param operation the operation value to set
      * @return the OperationDisplayDefinition object itself.
@@ -99,7 +99,7 @@ public class OperationDisplayDefinition {
     }
 
     /**
-     * Get the description value.
+     * Get the description for the operation.
      *
      * @return the description value
      */
@@ -108,7 +108,7 @@ public class OperationDisplayDefinition {
     }
 
     /**
-     * Set the description value.
+     * Set the description for the operation.
      *
      * @param description the description value to set
      * @return the OperationDisplayDefinition object itself.

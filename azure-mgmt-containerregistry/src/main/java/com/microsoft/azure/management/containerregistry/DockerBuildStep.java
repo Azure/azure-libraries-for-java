@@ -9,24 +9,16 @@
 package com.microsoft.azure.management.containerregistry;
 
 import java.util.List;
-import com.microsoft.azure.management.containerregistry.implementation.BuildArgumentInner;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import com.microsoft.azure.management.containerregistry.implementation.BuildStepPropertiesInner;
 
 /**
  * The Docker build step.
  */
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
 @JsonTypeName("Docker")
-public class DockerBuildStep extends BuildStepPropertiesInner {
-    /**
-     * The repository branch name.
-     */
-    @JsonProperty(value = "branch")
-    private String branch;
-
+public class DockerBuildStep extends TaskStepProperties {
     /**
      * The fully qualified image names including the repository and tag.
      */
@@ -48,58 +40,20 @@ public class DockerBuildStep extends BuildStepPropertiesInner {
     private Boolean noCache;
 
     /**
-     * The Docker file path relative to the source control root.
+     * The Docker file path relative to the source context.
      */
-    @JsonProperty(value = "dockerFilePath")
+    @JsonProperty(value = "dockerFilePath", required = true)
     private String dockerFilePath;
 
     /**
-     * The relative context path for a docker build in the source.
+     * The collection of override arguments to be used when executing this
+     * build step.
      */
-    @JsonProperty(value = "contextPath")
-    private String contextPath;
+    @JsonProperty(value = "arguments")
+    private List<Argument> arguments;
 
     /**
-     * The custom arguments for building this build step.
-     */
-    @JsonProperty(value = "buildArguments")
-    private List<BuildArgumentInner> buildArguments;
-
-    /**
-     * List of base image dependencies for a step.
-     */
-    @JsonProperty(value = "baseImageDependencies", access = JsonProperty.Access.WRITE_ONLY)
-    private List<BaseImageDependency> baseImageDependencies;
-
-    /**
-     * The type of the auto trigger for base image dependency updates. Possible
-     * values include: 'All', 'Runtime', 'None'.
-     */
-    @JsonProperty(value = "baseImageTrigger")
-    private BaseImageTriggerType baseImageTrigger;
-
-    /**
-     * Get the branch value.
-     *
-     * @return the branch value
-     */
-    public String branch() {
-        return this.branch;
-    }
-
-    /**
-     * Set the branch value.
-     *
-     * @param branch the branch value to set
-     * @return the DockerBuildStep object itself.
-     */
-    public DockerBuildStep withBranch(String branch) {
-        this.branch = branch;
-        return this;
-    }
-
-    /**
-     * Get the imageNames value.
+     * Get the fully qualified image names including the repository and tag.
      *
      * @return the imageNames value
      */
@@ -108,7 +62,7 @@ public class DockerBuildStep extends BuildStepPropertiesInner {
     }
 
     /**
-     * Set the imageNames value.
+     * Set the fully qualified image names including the repository and tag.
      *
      * @param imageNames the imageNames value to set
      * @return the DockerBuildStep object itself.
@@ -119,7 +73,7 @@ public class DockerBuildStep extends BuildStepPropertiesInner {
     }
 
     /**
-     * Get the isPushEnabled value.
+     * Get the value of this property indicates whether the image built should be pushed to the registry or not.
      *
      * @return the isPushEnabled value
      */
@@ -128,7 +82,7 @@ public class DockerBuildStep extends BuildStepPropertiesInner {
     }
 
     /**
-     * Set the isPushEnabled value.
+     * Set the value of this property indicates whether the image built should be pushed to the registry or not.
      *
      * @param isPushEnabled the isPushEnabled value to set
      * @return the DockerBuildStep object itself.
@@ -139,7 +93,7 @@ public class DockerBuildStep extends BuildStepPropertiesInner {
     }
 
     /**
-     * Get the noCache value.
+     * Get the value of this property indicates whether the image cache is enabled or not.
      *
      * @return the noCache value
      */
@@ -148,7 +102,7 @@ public class DockerBuildStep extends BuildStepPropertiesInner {
     }
 
     /**
-     * Set the noCache value.
+     * Set the value of this property indicates whether the image cache is enabled or not.
      *
      * @param noCache the noCache value to set
      * @return the DockerBuildStep object itself.
@@ -159,7 +113,7 @@ public class DockerBuildStep extends BuildStepPropertiesInner {
     }
 
     /**
-     * Get the dockerFilePath value.
+     * Get the Docker file path relative to the source context.
      *
      * @return the dockerFilePath value
      */
@@ -168,7 +122,7 @@ public class DockerBuildStep extends BuildStepPropertiesInner {
     }
 
     /**
-     * Set the dockerFilePath value.
+     * Set the Docker file path relative to the source context.
      *
      * @param dockerFilePath the dockerFilePath value to set
      * @return the DockerBuildStep object itself.
@@ -179,71 +133,22 @@ public class DockerBuildStep extends BuildStepPropertiesInner {
     }
 
     /**
-     * Get the contextPath value.
+     * Get the collection of override arguments to be used when executing this build step.
      *
-     * @return the contextPath value
+     * @return the arguments value
      */
-    public String contextPath() {
-        return this.contextPath;
+    public List<Argument> arguments() {
+        return this.arguments;
     }
 
     /**
-     * Set the contextPath value.
+     * Set the collection of override arguments to be used when executing this build step.
      *
-     * @param contextPath the contextPath value to set
+     * @param arguments the arguments value to set
      * @return the DockerBuildStep object itself.
      */
-    public DockerBuildStep withContextPath(String contextPath) {
-        this.contextPath = contextPath;
-        return this;
-    }
-
-    /**
-     * Get the buildArguments value.
-     *
-     * @return the buildArguments value
-     */
-    public List<BuildArgumentInner> buildArguments() {
-        return this.buildArguments;
-    }
-
-    /**
-     * Set the buildArguments value.
-     *
-     * @param buildArguments the buildArguments value to set
-     * @return the DockerBuildStep object itself.
-     */
-    public DockerBuildStep withBuildArguments(List<BuildArgumentInner> buildArguments) {
-        this.buildArguments = buildArguments;
-        return this;
-    }
-
-    /**
-     * Get the baseImageDependencies value.
-     *
-     * @return the baseImageDependencies value
-     */
-    public List<BaseImageDependency> baseImageDependencies() {
-        return this.baseImageDependencies;
-    }
-
-    /**
-     * Get the baseImageTrigger value.
-     *
-     * @return the baseImageTrigger value
-     */
-    public BaseImageTriggerType baseImageTrigger() {
-        return this.baseImageTrigger;
-    }
-
-    /**
-     * Set the baseImageTrigger value.
-     *
-     * @param baseImageTrigger the baseImageTrigger value to set
-     * @return the DockerBuildStep object itself.
-     */
-    public DockerBuildStep withBaseImageTrigger(BaseImageTriggerType baseImageTrigger) {
-        this.baseImageTrigger = baseImageTrigger;
+    public DockerBuildStep withArguments(List<Argument> arguments) {
+        this.arguments = arguments;
         return this;
     }
 

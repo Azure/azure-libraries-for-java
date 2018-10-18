@@ -136,14 +136,14 @@ public interface Registry extends
      * @return returns entry point to manage the builds such as queued quick builds and queued build tasks
      *   for the container registry.
      */
-    @Beta(SinceVersion.V1_14_0)
-    QueuedBuildOperations queuedBuilds();
+//    @Beta(SinceVersion.V1_14_0)
+//    QueuedBuildOperations queuedBuilds();
 
     /**
      * @return returns entry point to manage the build tasks for the container registry.
      */
-    @Beta(SinceVersion.V1_14_0)
-    BuildTaskOperations buildTasks();
+//    @Beta(SinceVersion.V1_14_0)
+//    BuildTaskOperations buildTasks();
 
 
 
@@ -163,7 +163,7 @@ public interface Registry extends
      */
     interface DefinitionStages {
         /**
-         * The first stage of a container service definition.
+         * The first stage of a container registry definition.
          */
         interface Blank extends
                 GroupableResource.DefinitionWithRegion<WithGroup> {

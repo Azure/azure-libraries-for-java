@@ -12,8 +12,10 @@ import com.microsoft.azure.management.containerregistry.ProvisioningState;
 import com.microsoft.azure.management.containerregistry.Registry;
 import com.microsoft.azure.management.containerregistry.Webhook;
 import com.microsoft.azure.management.containerregistry.WebhookAction;
+import com.microsoft.azure.management.containerregistry.WebhookCreateParameters;
 import com.microsoft.azure.management.containerregistry.WebhookEventInfo;
 import com.microsoft.azure.management.containerregistry.WebhookStatus;
+import com.microsoft.azure.management.containerregistry.WebhookUpdateParameters;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
@@ -44,8 +46,8 @@ public class WebhookImpl
         Webhook.UpdateResource<Registry.Update>,
         Webhook.Update {
 
-    private WebhookCreateParametersInner webhookCreateParametersInner;
-    private WebhookUpdateParametersInner webhookUpdateParametersInner;
+    private WebhookCreateParameters webhookCreateParametersInner;
+    private WebhookUpdateParameters webhookUpdateParametersInner;
 
     private Map<String, String> tags;
     private Map<String, String> customHeaders;
@@ -386,9 +388,9 @@ public class WebhookImpl
         this.isInCreateMode = isInCreateMode;
 
         if (this.isInCreateMode && parent() != null) {
-            this.webhookCreateParametersInner = new WebhookCreateParametersInner().withLocation(parent().regionName());
+            this.webhookCreateParametersInner = new WebhookCreateParameters().withLocation(parent().regionName());
         } else {
-            this.webhookUpdateParametersInner = new WebhookUpdateParametersInner();
+            this.webhookUpdateParametersInner = new WebhookUpdateParameters();
         }
 
         return this;
@@ -490,16 +492,16 @@ public class WebhookImpl
         return this;
     }
 
-    private WebhookCreateParametersInner ensureWebhookCreateParametersInner() {
+    private WebhookCreateParameters ensureWebhookCreateParametersInner() {
         if (this.webhookCreateParametersInner == null && parent() != null) {
-            this.webhookCreateParametersInner = new WebhookCreateParametersInner().withLocation(parent().regionName());
+            this.webhookCreateParametersInner = new WebhookCreateParameters().withLocation(parent().regionName());
         }
         return this.webhookCreateParametersInner;
     }
 
-    private WebhookUpdateParametersInner ensureWebhookUpdateParametersInner() {
+    private WebhookUpdateParameters ensureWebhookUpdateParametersInner() {
         if (this.webhookUpdateParametersInner == null && parent() != null) {
-            this.webhookUpdateParametersInner = new WebhookUpdateParametersInner();
+            this.webhookUpdateParametersInner = new WebhookUpdateParameters();
         }
         return this.webhookUpdateParametersInner;
     }

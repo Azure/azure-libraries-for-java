@@ -22,7 +22,7 @@ public class RegenerateCredentialParameters {
     private PasswordName name;
 
     /**
-     * Get the name value.
+     * Get specifies name of the password which should be regenerated -- password or password2. Possible values include: 'password', 'password2'.
      *
      * @return the name value
      */
@@ -31,7 +31,7 @@ public class RegenerateCredentialParameters {
     }
 
     /**
-     * Set the name value.
+     * Set specifies name of the password which should be regenerated -- password or password2. Possible values include: 'password', 'password2'.
      *
      * @param name the name value to set
      * @return the RegenerateCredentialParameters object itself.

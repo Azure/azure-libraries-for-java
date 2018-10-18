@@ -12,6 +12,7 @@ import com.microsoft.azure.credentials.AzureTokenCredentials;
 import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
 import com.microsoft.azure.management.containerregistry.Registries;
+import com.microsoft.azure.management.containerregistry.Tasks;
 import com.microsoft.azure.management.resources.fluentcore.arm.AzureConfigurable;
 import com.microsoft.azure.management.resources.fluentcore.arm.implementation.AzureConfigurableImpl;
 import com.microsoft.azure.management.resources.fluentcore.arm.implementation.Manager;
@@ -29,6 +30,7 @@ public final class ContainerRegistryManager extends Manager<ContainerRegistryMan
     // The service managers
     private RegistriesImpl registries;
     private StorageManager storageManager;
+    private TasksImpl tasks;
 
     /**
      * Get a Configurable instance that can be used to create ContainerRegistryManager with optional configuration.
@@ -110,5 +112,12 @@ public final class ContainerRegistryManager extends Manager<ContainerRegistryMan
             registries = new RegistriesImpl(this, this.storageManager);
         }
         return registries;
+    }
+
+    public Tasks containerRegistryTasks(){
+        if (tasks == null){
+            tasks = new TasksImpl(this);
+        }
+        return this.tasks;
     }
 }

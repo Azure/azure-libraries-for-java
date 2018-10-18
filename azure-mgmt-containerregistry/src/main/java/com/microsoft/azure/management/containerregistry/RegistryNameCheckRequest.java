@@ -29,13 +29,14 @@ public class RegistryNameCheckRequest {
 
     /**
      * Creates an instance of RegistryNameCheckRequest class.
+     * @param name the name of the container registry.
      */
     public RegistryNameCheckRequest() {
         type = "Microsoft.ContainerRegistry/registries";
     }
 
     /**
-     * Get the name value.
+     * Get the name of the container registry.
      *
      * @return the name value
      */
@@ -44,7 +45,7 @@ public class RegistryNameCheckRequest {
     }
 
     /**
-     * Set the name value.
+     * Set the name of the container registry.
      *
      * @param name the name value to set
      * @return the RegistryNameCheckRequest object itself.
@@ -55,7 +56,7 @@ public class RegistryNameCheckRequest {
     }
 
     /**
-     * Get the type value.
+     * Get the resource type of the container registry. This field must be set to 'Microsoft.ContainerRegistry/registries'.
      *
      * @return the type value
      */
@@ -64,7 +65,7 @@ public class RegistryNameCheckRequest {
     }
 
     /**
-     * Set the type value.
+     * Set the resource type of the container registry. This field must be set to 'Microsoft.ContainerRegistry/registries'.
      *
      * @param type the type value to set
      * @return the RegistryNameCheckRequest object itself.

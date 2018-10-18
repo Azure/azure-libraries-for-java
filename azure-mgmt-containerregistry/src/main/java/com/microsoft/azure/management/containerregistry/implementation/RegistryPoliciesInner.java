@@ -29,7 +29,7 @@ public class RegistryPoliciesInner {
     private TrustPolicy trustPolicy;
 
     /**
-     * Get the quarantinePolicy value.
+     * Get an object that represents quarantine policy for a container registry.
      *
      * @return the quarantinePolicy value
      */
@@ -38,7 +38,7 @@ public class RegistryPoliciesInner {
     }
 
     /**
-     * Set the quarantinePolicy value.
+     * Set an object that represents quarantine policy for a container registry.
      *
      * @param quarantinePolicy the quarantinePolicy value to set
      * @return the RegistryPoliciesInner object itself.
@@ -49,7 +49,7 @@ public class RegistryPoliciesInner {
     }
 
     /**
-     * Get the trustPolicy value.
+     * Get an object that represents content trust policy for a container registry.
      *
      * @return the trustPolicy value
      */
@@ -58,7 +58,7 @@ public class RegistryPoliciesInner {
     }
 
     /**
-     * Set the trustPolicy value.
+     * Set an object that represents content trust policy for a container registry.
      *
      * @param trustPolicy the trustPolicy value to set
      * @return the RegistryPoliciesInner object itself.

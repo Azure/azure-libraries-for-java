@@ -27,7 +27,7 @@ public class RegistryPassword {
     private String value;
 
     /**
-     * Get the name value.
+     * Get the password name. Possible values include: 'password', 'password2'.
      *
      * @return the name value
      */
@@ -36,7 +36,7 @@ public class RegistryPassword {
     }
 
     /**
-     * Set the name value.
+     * Set the password name. Possible values include: 'password', 'password2'.
      *
      * @param name the name value to set
      * @return the RegistryPassword object itself.
@@ -47,7 +47,7 @@ public class RegistryPassword {
     }
 
     /**
-     * Get the value value.
+     * Get the password value.
      *
      * @return the value value
      */
@@ -56,7 +56,7 @@ public class RegistryPassword {
     }
 
     /**
-     * Set the value value.
+     * Set the password value.
      *
      * @param value the value value to set
      * @return the RegistryPassword object itself.

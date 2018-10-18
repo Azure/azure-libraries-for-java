@@ -28,7 +28,7 @@ public class SourceUploadDefinitionInner {
     private String relativePath;
 
     /**
-     * Get the uploadUrl value.
+     * Get the URL where the client can upload the source.
      *
      * @return the uploadUrl value
      */
@@ -37,7 +37,7 @@ public class SourceUploadDefinitionInner {
     }
 
     /**
-     * Set the uploadUrl value.
+     * Set the URL where the client can upload the source.
      *
      * @param uploadUrl the uploadUrl value to set
      * @return the SourceUploadDefinitionInner object itself.
@@ -48,7 +48,7 @@ public class SourceUploadDefinitionInner {
     }
 
     /**
-     * Get the relativePath value.
+     * Get the relative path to the source. This is used to submit the subsequent queue build request.
      *
      * @return the relativePath value
      */
@@ -57,7 +57,7 @@ public class SourceUploadDefinitionInner {
     }
 
     /**
-     * Set the relativePath value.
+     * Set the relative path to the source. This is used to submit the subsequent queue build request.
      *
      * @param relativePath the relativePath value to set
      * @return the SourceUploadDefinitionInner object itself.

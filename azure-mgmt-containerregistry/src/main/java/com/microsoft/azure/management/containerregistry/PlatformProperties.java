@@ -11,60 +11,85 @@ package com.microsoft.azure.management.containerregistry;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * The platform properties against which the build has to happen.
+ * The platform properties against which the run has to happen.
  */
 public class PlatformProperties {
     /**
-     * The operating system type required for the build. Possible values
-     * include: 'Windows', 'Linux'.
+     * The operating system type required for the run. Possible values include:
+     * 'Windows', 'Linux'.
      */
-    @JsonProperty(value = "osType", required = true)
-    private OsType osType;
+    @JsonProperty(value = "os", required = true)
+    private OS os;
 
     /**
-     * The CPU configuration in terms of number of cores required for the
-     * build.
+     * The OS architecture. Possible values include: 'amd64', 'x86', 'arm'.
      */
-    @JsonProperty(value = "cpu")
-    private Integer cpu;
+    @JsonProperty(value = "architecture")
+    private Architecture architecture;
 
     /**
-     * Get the osType value.
+     * Variant of the CPU. Possible values include: 'v6', 'v7', 'v8'.
+     */
+    @JsonProperty(value = "variant")
+    private Variant variant;
+
+    /**
+     * Get the operating system type required for the run. Possible values include: 'Windows', 'Linux'.
      *
-     * @return the osType value
+     * @return the os value
      */
-    public OsType osType() {
-        return this.osType;
+    public OS os() {
+        return this.os;
     }
 
     /**
-     * Set the osType value.
+     * Set the operating system type required for the run. Possible values include: 'Windows', 'Linux'.
      *
-     * @param osType the osType value to set
+     * @param os the os value to set
      * @return the PlatformProperties object itself.
      */
-    public PlatformProperties withOsType(OsType osType) {
-        this.osType = osType;
+    public PlatformProperties withOs(OS os) {
+        this.os = os;
         return this;
     }
 
     /**
-     * Get the cpu value.
+     * Get the OS architecture. Possible values include: 'amd64', 'x86', 'arm'.
      *
-     * @return the cpu value
+     * @return the architecture value
      */
-    public Integer cpu() {
-        return this.cpu;
+    public Architecture architecture() {
+        return this.architecture;
     }
 
     /**
-     * Set the cpu value.
+     * Set the OS architecture. Possible values include: 'amd64', 'x86', 'arm'.
      *
-     * @param cpu the cpu value to set
+     * @param architecture the architecture value to set
      * @return the PlatformProperties object itself.
      */
-    public PlatformProperties withCpu(Integer cpu) {
-        this.cpu = cpu;
+    public PlatformProperties withArchitecture(Architecture architecture) {
+        this.architecture = architecture;
+        return this;
+    }
+
+    /**
+     * Get variant of the CPU. Possible values include: 'v6', 'v7', 'v8'.
+     *
+     * @return the variant value
+     */
+    public Variant variant() {
+        return this.variant;
+    }
+
+    /**
+     * Set variant of the CPU. Possible values include: 'v6', 'v7', 'v8'.
+     *
+     * @param variant the variant value to set
+     * @return the PlatformProperties object itself.
+     */
+    public PlatformProperties withVariant(Variant variant) {
+        this.variant = variant;
         return this;
     }
 

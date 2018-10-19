@@ -7,6 +7,7 @@
 package com.microsoft.azure.management.containerregistry;
 
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -14,20 +15,21 @@ import java.util.Arrays;
 public class RegistryTaskTests extends RegistryTest {
 
     @Test
+    @Ignore("Needs personal tokens to run")
     public void FileTaskTest(){
         final String newName = generateRandomResourceName("acr", 10);
         final String rgName = generateRandomResourceName("rgacr", 10);
-        String githubRepoUrl = "https://github.com/iscai-msft/file_task_test.git";
-        String githubBranch = "master";
-        String githubPAT = "36b0983ab6957db8748bee783d4751dd04714d5d";
+        String githubRepoUrl = "Replace with your github repository url, eg: https://github.com/Azure/acr.git";
+        String githubBranch = "Replace with your github repositoty branch, eg: master";
+        String githubPAT = "Replace with your github personal access token which should have the scopes: admin:repo_hook and repo";
 
-//        Registry registry = registryManager.containerRegistries().define(newName + "1")
-//                .withRegion(Region.US_WEST_CENTRAL)
-//                .withNewResourceGroup(rgName)
-//                .withPremiumSku()
-//                .withRegistryNameAsAdminUser()
-//                .withTag("tag1", "value1")
-//                .create();
+        Registry registry = registryManager.containerRegistries().define(newName + "1")
+                .withRegion(Region.US_WEST_CENTRAL)
+                .withNewResourceGroup(rgName)
+                .withPremiumSku()
+                .withRegistryNameAsAdminUser()
+                .withTag("tag1", "value1")
+                .create();
 
         SourceTrigger sourceTrigger = new SourceTrigger()
                 .withName("SampleSourceTrigger")
@@ -46,7 +48,7 @@ public class RegistryTaskTests extends RegistryTest {
 
         Task task = registryManager.containerRegistryTasks().define(generateRandomResourceName("ft", 10))
 
-                .withExistingRegistry("rgacr91216", "acr7105111")
+                .withExistingRegistry(rgName, newName)
                 .withLocation(Region.US_WEST_CENTRAL.name())
                 .withLinux(Architecture.AMD64)
                 .defineFileTaskStep()

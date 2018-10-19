@@ -1,9 +1,9 @@
-///**
-// * Copyright (c) Microsoft Corporation. All rights reserved.
-// * Licensed under the MIT License. See License.txt in the project root for
-// * license information.
-// */
-//package com.microsoft.azure.management.containerregistry.implementation;
+/**
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT License. See License.txt in the project root for
+ * license information.
+ */
+package com.microsoft.azure.management.containerregistry.implementation;
 //
 //import com.microsoft.azure.Page;
 //import com.microsoft.azure.PagedList;
@@ -17,9 +17,12 @@
 //import rx.Observable;
 //import rx.functions.Func1;
 //
-///**
-// * Represents a build task collection of operations associated with a container registry.
-// */
+/**
+ * Represents a build task collection of operations associated with a container registry.
+ */
+public class BuildTaskOperationsImpl {
+
+}
 //@LangDefinition
 //public class BuildTaskOperationsImpl implements BuildTaskOperations {
 //    private final RegistryImpl containerRegistry;

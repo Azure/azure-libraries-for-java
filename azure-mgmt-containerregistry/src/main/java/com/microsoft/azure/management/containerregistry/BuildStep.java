@@ -1,9 +1,9 @@
-///**
-// * Copyright (c) Microsoft Corporation. All rights reserved.
-// * Licensed under the MIT License. See License.txt in the project root for
-// * license information.
-// */
-//package com.microsoft.azure.management.containerregistry;
+/**
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT License. See License.txt in the project root for
+ * license information.
+ */
+package com.microsoft.azure.management.containerregistry;
 //
 //import com.microsoft.azure.management.apigeneration.Beta;
 //import com.microsoft.azure.management.apigeneration.Fluent;
@@ -17,9 +17,12 @@
 //import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
 //import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
 //
-///**
-// * An object that represents a build step for a build task in a container registry.
-// */
+/**
+ * An object that represents a build step for a build task in a container registry.
+ */
+public interface BuildStep {
+
+}
 //@Fluent
 //@Beta(Beta.SinceVersion.V1_14_0)
 //public interface BuildStep extends

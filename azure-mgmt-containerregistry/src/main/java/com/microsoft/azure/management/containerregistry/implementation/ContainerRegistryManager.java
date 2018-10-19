@@ -94,6 +94,12 @@ public final class ContainerRegistryManager extends Manager<ContainerRegistryMan
         }
     }
 
+    /**
+     * Creates a ContainerRegistryManager.
+     *
+     * @param restClient the RestClient used to authenticate through StorageManager.
+     * @param subscriptionId the subscription id used in authentication through StorageManager.
+     */
     private ContainerRegistryManager(RestClient restClient, String subscriptionId) {
         super(
                 restClient,
@@ -114,8 +120,13 @@ public final class ContainerRegistryManager extends Manager<ContainerRegistryMan
         return registries;
     }
 
-    public Tasks containerRegistryTasks(){
-        if (tasks == null){
+    /**
+     * Gets the current instance of ContainerRegistryManager's tasks.
+     *
+     * @return the tasks of the current instance of ContainerRegistryManager.
+     */
+    public Tasks containerRegistryTasks() {
+        if (tasks == null) {
             tasks = new TasksImpl(this);
         }
         return this.tasks;

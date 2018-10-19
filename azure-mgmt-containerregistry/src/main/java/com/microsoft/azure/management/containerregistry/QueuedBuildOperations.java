@@ -1,9 +1,9 @@
-///**
-// * Copyright (c) Microsoft Corporation. All rights reserved.
-// * Licensed under the MIT License. See License.txt in the project root for
-// * license information.
-// */
-//package com.microsoft.azure.management.containerregistry;
+/**
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT License. See License.txt in the project root for
+ * license information.
+ */
+package com.microsoft.azure.management.containerregistry;
 //
 //import com.microsoft.azure.PagedList;
 //import com.microsoft.azure.management.apigeneration.Beta;
@@ -11,9 +11,12 @@
 //import rx.Completable;
 //import rx.Observable;
 //
-///**
-// * Grouping of container registry queued build actions.
-// */
+/**
+ * Grouping of container registry queued build actions.
+ */
+public interface QueuedBuildOperations {
+
+}
 //@Fluent
 //@Beta(Beta.SinceVersion.V1_14_0)
 //public interface QueuedBuildOperations {

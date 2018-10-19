@@ -29,7 +29,6 @@ public class RegistryNameCheckRequest {
 
     /**
      * Creates an instance of RegistryNameCheckRequest class.
-     * @param name the name of the container registry.
      */
     public RegistryNameCheckRequest() {
         type = "Microsoft.ContainerRegistry/registries";

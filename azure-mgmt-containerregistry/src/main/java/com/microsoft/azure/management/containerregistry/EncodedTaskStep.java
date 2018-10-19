@@ -8,13 +8,14 @@
 
 package com.microsoft.azure.management.containerregistry;
 
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
+import java.util.List;
+
 /**
- * The properties of a encoded task step.
+ * The properties of an EncodedTask step.
  */
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
 @JsonTypeName("EncodedTask")
@@ -53,7 +54,7 @@ public class EncodedTaskStep extends TaskStepProperties {
      * @param encodedTaskContent the encodedTaskContent value to set
      * @return the EncodedTaskStep object itself.
      */
-    public EncodedTaskStep withEncodedTaskContent(String encodedTaskContent) {
+    public EncodedTaskStep withBase64EncodedTaskContent(String encodedTaskContent) {
         this.encodedTaskContent = encodedTaskContent;
         return this;
     }
@@ -73,7 +74,7 @@ public class EncodedTaskStep extends TaskStepProperties {
      * @param encodedValuesContent the encodedValuesContent value to set
      * @return the EncodedTaskStep object itself.
      */
-    public EncodedTaskStep withEncodedValuesContent(String encodedValuesContent) {
+    public EncodedTaskStep withBase64EncodedValuesContent(String encodedValuesContent) {
         this.encodedValuesContent = encodedValuesContent;
         return this;
     }

@@ -12,6 +12,7 @@ import com.microsoft.azure.management.containerregistry.BaseImageTrigger;
 import com.microsoft.azure.management.containerregistry.OS;
 import com.microsoft.azure.management.containerregistry.PlatformProperties;
 import com.microsoft.azure.management.containerregistry.ProvisioningState;
+import com.microsoft.azure.management.containerregistry.RegistryEncodedTaskStep;
 import com.microsoft.azure.management.containerregistry.RegistryFileTaskStep;
 import com.microsoft.azure.management.containerregistry.SourceTrigger;
 import com.microsoft.azure.management.containerregistry.Task;
@@ -40,6 +41,7 @@ class TaskImpl implements
     private TaskInner inner;
     private TasksInner tasksInner;
     private RegistryFileTaskStepImpl fileTaskStep;
+    private RegistryEncodedTaskStepImpl encodedTaskStep;
 
     @Override
     public String parentId() {
@@ -86,8 +88,9 @@ class TaskImpl implements
     }
 
     @Override
-    public DefinitionStages.EncodedTaskStep defineEncodedTaskStep() {
-        return null;
+    public RegistryEncodedTaskStep.DefinitionStages.Blank defineEncodedTaskStep() {
+        this.encodedTaskStep = new RegistryEncodedTaskStepImpl(this);
+        return this.encodedTaskStep;
     }
 
     @Override
@@ -241,7 +244,11 @@ class TaskImpl implements
     @Override
     public Observable<Indexable> createAsync() {
         final Task task = this;
-        this.inner.withStep(this.fileTaskStep.inner());
+        if (this.fileTaskStep != null) {
+            this.inner.withStep(this.fileTaskStep.inner());
+        } else if (this.encodedTaskStep != null) {
+            this.inner.withStep(this.encodedTaskStep.inner());
+        }
         return tasksInner.createAsync(resourceGroupName, registryName, taskName, this.inner).map(new Func1<TaskInner, Indexable>() {
             @Override
             public Indexable call(TaskInner taskInner) {

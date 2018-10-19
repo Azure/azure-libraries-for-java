@@ -10,11 +10,14 @@ import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.containerregistry.implementation.TaskInner;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
+import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
+import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
 import org.joda.time.DateTime;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,8 +28,8 @@ import java.util.List;
 public interface Task extends
         Resource,
         HasInner<TaskInner>,
-        Refreshable<Task>
-        /*Updatable<Task.Update>*/ {
+        Refreshable<Task>,
+        Updatable<Task.Update> {
 
     /**
      * @return the parent ID of this resource
@@ -62,6 +65,18 @@ public interface Task extends
     DefinitionStages.Platform,
     DefinitionStages.TaskType,
     DefinitionStages.TaskCreatable {
+
+    }
+
+    /**
+     * Container interface for all the updates related to a registry task.
+     */
+    interface Update extends
+            UpdateStages.Platform,
+            UpdateStages.Trigger,
+            UpdateStages.AgentConfiguration,
+            UpdateStages.Timeout,
+            Appliable<Task> {
 
     }
 
@@ -105,21 +120,21 @@ public interface Task extends
         interface Platform {
 
             /**
-             * The function that allows us to specify a Linux OS system for the platform.
+             * The function that specifies a Linux OS system for the platform.
              *
              * @return the next stage of the container registry task definition.
              */
             TaskType withLinux();
 
             /**
-             * The function that allows us to specify a Windows OS system for the platform.
+             * The function that specifies a Windows OS system for the platform.
              *
              * @return the next stage of the container registry task definition.
              */
             TaskType withWindows();
 
             /**
-             * The function that allows us to specify a Linux OS system and architecture for the platform.
+             * The function that specifies a Linux OS system and architecture for the platform.
              *
              * @param architecture the CPU architecture.
              * @return the next stage of the container registry task definition.
@@ -127,7 +142,7 @@ public interface Task extends
             TaskType withLinux(Architecture architecture);
 
             /**
-             * The function that allows us to specify a Windows OS system and architecture for the platform.
+             * The function that specifies a Windows OS system and architecture for the platform.
              *
              * @param architecture the CPU architecture
              * @return the next stage of the container registry task definition.
@@ -135,7 +150,7 @@ public interface Task extends
             TaskType withWindows(Architecture architecture);
 
             /**
-             * The function that allows us to specify a Linux OS system, architecture, and CPU variant.
+             * The function that specifies a Linux OS system, architecture, and CPU variant.
              *
              * @param architecture the CPU architecture.
              * @param variant the CPU variant.
@@ -144,7 +159,7 @@ public interface Task extends
             TaskType withLinux(Architecture architecture, Variant variant);
 
             /**
-             * The function that allows us to specify a Windows OS system, architecture, and CPU variant.
+             * The function that specifies a Windows OS system, architecture, and CPU variant.
              *
              * @param architecture the CPU architecture.
              * @param variant the CPU variant.
@@ -153,7 +168,7 @@ public interface Task extends
             TaskType withWindows(Architecture architecture, Variant variant);
 
             /**
-             * The function that allows us to specify platform.
+             * The function that specifies a platform.
              *
              * @param platformProperties the properties of the platform.
              * @return the next stage of the container registry task definition.
@@ -162,26 +177,26 @@ public interface Task extends
         }
 
         /**
-         * The stage of the container registry task definition that allows us to specify the type of task step.
+         * The stage of the container registry task definition that specifies the type of task step.
          */
         interface TaskType {
 
             /**
-             * The function that allows us to have a task step of type FileTaskStep.
+             * The function that specifies a task step of type FileTaskStep.
              *
              * @return the first stage of the FileTaskStep definition.
              */
             RegistryFileTaskStep.DefinitionStages.Blank defineFileTaskStep();
 
             /**
-             * The function that allows us to have a task step of type EncodedTaskStep.
+             * The function that specifies a task step of type EncodedTaskStep.
              *
              * @return the first stage of the EncodedTaskStep definition.
              */
             RegistryEncodedTaskStep.DefinitionStages.Blank defineEncodedTaskStep();
 
             /**
-             * The function that allows us to have a task step of type DockerTaskStep.
+             * The function that specifies a task step of type DockerTaskStep.
              *
              * @return the first stage of the DockerTaskStep definition.
              */
@@ -192,12 +207,12 @@ public interface Task extends
 
 
         /**
-         * The stage of the container registry task definition that allows us to specify the trigger for the container registry task.
+         * The stage of the container registry task definition that specifies the trigger for the container registry task.
          */
         interface Trigger {
 
             /**
-             * The function that allows us to specify a list of source triggers.
+             * The function that specifies a list of source triggers.
              *
              * @param sourceTriggers a list that contains SourceTriggers.
              * @return the next stage of the container registry task definition.
@@ -205,7 +220,7 @@ public interface Task extends
             TaskCreatable withTrigger(List<SourceTrigger> sourceTriggers);
 
             /**
-             * The function that allows us to specify a BaseImageTrigger.
+             * The function that specifies a BaseImageTrigger.
              *
              * @param baseImageTrigger a BaseImageTrigger.
              * @return the next stage of the container registry task definition.
@@ -213,7 +228,7 @@ public interface Task extends
             TaskCreatable withTrigger(BaseImageTrigger baseImageTrigger);
 
             /**
-             * The function that allows us to specify both a list of SourceTriggers and a BaseImageTrigger.
+             * The function that specifies both a list of SourceTriggers and a BaseImageTrigger.
              *
              * @param sourceTriggers a list that contains SourceTriggers.
              * @param baseImageTrigger a BaseImageTrigger.
@@ -224,17 +239,32 @@ public interface Task extends
 
 
         /**
-         * The stage of the container registry task definition that allows us to specify the AgentConfiguration for the container registry task.
+         * The stage of the container registry task definition that specifies the AgentConfiguration for the container registry task.
          */
         interface AgentConfiguration {
 
             /**
-             * The function that allows us to set the count of the CPU.
+             * The function that specifies the count of the CPU.
              *
              * @param count the CPU count.
              * @return the next stage of the container registry task definition.
              */
             TaskCreatable withCpuCount(int count);
+        }
+
+
+        /**
+         * The stage of the container registry task definition that specifies the timeout for the container registry task.
+         */
+        interface Timeout {
+
+            /**
+             * The function that sets the timeout time.
+             *
+             * @param timeout the time for timeout.
+             * @return the nextstage of the container registry task definition.
+             */
+            TaskCreatable withTimeout(int timeout);
         }
 
         /**
@@ -244,8 +274,132 @@ public interface Task extends
         interface TaskCreatable extends
                 Trigger,
                 AgentConfiguration,
+                Timeout,
                 Creatable<Task> {
 
+        }
+
+
+
+
+    }
+
+    /**
+     * Grouping of registry task update stages.
+     */
+    interface UpdateStages {
+        /**
+         * The stage of the container registry task update allowing to update the platform.
+         */
+        interface Platform {
+
+            /**
+             * The function that specifies a Linux OS system for the platform.
+             *
+             * @return the next stage of the container registry task update.
+             */
+            Update withLinux();
+
+            /**
+             * The function that specifies a Windows OS system for the platform.
+             *
+             * @return the next stage of the container registry task update.
+             */
+            Update withWindows();
+
+            /**
+             * The function that specifies a Linux OS system and architecture for the platform.
+             *
+             * @param architecture the CPU architecture.
+             * @return the next stage of the container registry task update.
+             */
+            Update withLinux(Architecture architecture);
+
+            /**
+             * The function that specifies a Windows OS system and architecture for the platform.
+             *
+             * @param architecture the CPU architecture
+             * @return the next stage of the container registry task update.
+             */
+            Update withWindows(Architecture architecture);
+
+            /**
+             * The function that specifies a Linux OS system, architecture, and CPU variant.
+             *
+             * @param architecture the CPU architecture.
+             * @param variant the CPU variant.
+             * @return the next stage of the container registry task update.
+             */
+            Update withLinux(Architecture architecture, Variant variant);
+
+            /**
+             * The function that specifies a Windows OS system, architecture, and CPU variant.
+             *
+             * @param architecture the CPU architecture.
+             * @param variant the CPU variant.
+             * @return the next stage of the container registry task update.
+             */
+            Update withWindows(Architecture architecture, Variant variant);
+
+            /**
+             * The function that specifies a platform.
+             *
+             * @param platformProperties the properties of the platform.
+             * @return the next stage of the container registry task update.
+             */
+            Update withPlatform(PlatformUpdateParameters platformProperties);
+        }
+
+        /**
+         * The stage of the container registry task update that updates the trigger for the container registry task.
+         */
+        interface Trigger {
+
+            /**
+             * The function that updates a list of source triggers.
+             *
+             * @param sourceTriggers a list that contains SourceTriggers.
+             * @return the next stage of the container registry task update.
+             */
+            Update withTrigger(ArrayList<SourceTriggerUpdateParameters> sourceTriggers);
+
+            /**
+             * The function that updates a BaseImageTrigger.
+             *
+             * @param baseImageTrigger a BaseImageTrigger.
+             * @return the next stage of the container registry task update.
+             */
+            Update withTrigger(BaseImageTriggerUpdateParameters baseImageTrigger);
+
+            /**
+             * The function that updates both a list of SourceTriggers and a BaseImageTrigger.
+             *
+             * @param sourceTriggers a list that contains SourceTriggers.
+             * @param baseImageTrigger a BaseImageTrigger.
+             * @return the next stage of the container registry task update.
+             */
+            Update withTrigger(List<SourceTriggerUpdateParameters> sourceTriggers, BaseImageTriggerUpdateParameters baseImageTrigger);
+        }
+
+        /**
+         * The stage of the container registry task update that updates the AgentConfiguration for the container registry task.
+         */
+        interface AgentConfiguration {
+
+            /**
+             * The function that updates the count of the CPU.
+             *
+             * @param count the CPU count.
+             * @return the next stage of the container registry task update.
+             */
+            Update withCpuCount(int count);
+        }
+
+        /**
+         * The stage of the container registry task update that updates the timeout for the container registry task.
+         */
+        interface Timeout {
+            Update withTimeout(int timeout);
         }
     }
 

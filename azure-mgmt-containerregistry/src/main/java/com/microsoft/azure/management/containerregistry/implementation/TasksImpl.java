@@ -18,6 +18,6 @@ class TasksImpl implements Tasks {
     }
     @Override
     public Task.DefinitionStages.Blank define(String name) {
-        return new TaskImpl(this.registryManager.inner().tasks(), name, new TaskInner());
+        return new TaskImpl(this.registryManager.inner().tasks(), name);
     }
 }

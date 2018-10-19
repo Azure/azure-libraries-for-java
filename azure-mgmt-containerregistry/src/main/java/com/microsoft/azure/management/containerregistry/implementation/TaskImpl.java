@@ -9,18 +9,24 @@ package com.microsoft.azure.management.containerregistry.implementation;
 import com.microsoft.azure.management.containerregistry.AgentProperties;
 import com.microsoft.azure.management.containerregistry.Architecture;
 import com.microsoft.azure.management.containerregistry.BaseImageTrigger;
+import com.microsoft.azure.management.containerregistry.BaseImageTriggerUpdateParameters;
 import com.microsoft.azure.management.containerregistry.OS;
 import com.microsoft.azure.management.containerregistry.PlatformProperties;
+import com.microsoft.azure.management.containerregistry.PlatformUpdateParameters;
 import com.microsoft.azure.management.containerregistry.ProvisioningState;
 import com.microsoft.azure.management.containerregistry.RegistryDockerTaskStep;
 import com.microsoft.azure.management.containerregistry.RegistryEncodedTaskStep;
 import com.microsoft.azure.management.containerregistry.RegistryFileTaskStep;
 import com.microsoft.azure.management.containerregistry.SourceTrigger;
+import com.microsoft.azure.management.containerregistry.SourceTriggerUpdateParameters;
 import com.microsoft.azure.management.containerregistry.Task;
 import com.microsoft.azure.management.containerregistry.TaskStatus;
+import com.microsoft.azure.management.containerregistry.TaskUpdateParameters;
 import com.microsoft.azure.management.containerregistry.TriggerProperties;
+import com.microsoft.azure.management.containerregistry.TriggerUpdateParameters;
 import com.microsoft.azure.management.containerregistry.Variant;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
@@ -29,12 +35,14 @@ import rx.Observable;
 import rx.functions.Func1;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 class TaskImpl implements
         Task,
-        Task.Definition {
+        Task.Definition,
+        Task.Update {
 
     private String resourceGroupName;
     private String registryName;
@@ -44,6 +52,7 @@ class TaskImpl implements
     private RegistryFileTaskStepImpl fileTaskStep;
     private RegistryEncodedTaskStepImpl encodedTaskStep;
     private RegistryDockerTaskStepImpl dockerTaskStep;
+    private TaskUpdateParameters taskUpdateParameters;
 
     @Override
     public String parentId() {
@@ -70,11 +79,21 @@ class TaskImpl implements
         return 0;
     }
 
-    TaskImpl(TasksInner tasksInner, String taskName, TaskInner inner) {
+    TaskImpl(TasksInner tasksInner, String taskName) {
         this.tasksInner = tasksInner;
         this.taskName = taskName;
-        this.inner = inner;
+        this.inner = new TaskInner();
     }
+
+    TaskImpl(TasksInner tasksInner, TaskInner inner) {
+        this.tasksInner = tasksInner;
+        this.taskName = inner.name();
+        this.inner = inner;
+        this.resourceGroupName = ResourceUtils.groupFromResourceId(this.inner.id());
+        this.registryName = ResourceUtils.nameFromResourceId(ResourceUtils.parentResourceIdFromResourceId(this.inner.id()));
+        this.taskUpdateParameters = new TaskUpdateParameters();
+    }
+
 
     @Override
     public DefinitionStages.Location withExistingRegistry(String resourceGroupName, String registryName) {
@@ -109,67 +128,103 @@ class TaskImpl implements
     }
 
     @Override
-    public DefinitionStages.TaskType withLinux() {
-        if (this.inner.platform() == null) {
-            this.inner.withPlatform(new PlatformProperties());
+    public TaskImpl withLinux() {
+        if (isInCreateMode()) {
+            if (this.inner.platform() == null) {
+                this.inner.withPlatform(new PlatformProperties());
+            }
+            this.inner.platform().withOs(OS.LINUX);
+            return this;
+        } else {
+            this.taskUpdateParameters.platform().withOs(OS.LINUX);
+            return this;
         }
-        this.inner.platform().withOs(OS.LINUX);
-        return this;
     }
 
     @Override
-    public DefinitionStages.TaskType withWindows() {
-        if (this.inner.platform() == null) {
-            this.inner.withPlatform(new PlatformProperties());
+    public TaskImpl withWindows() {
+        if (isInCreateMode()) {
+            if (this.inner.platform() == null) {
+                this.inner.withPlatform(new PlatformProperties());
+            }
+            this.inner.platform().withOs(OS.WINDOWS);
+            return this;
+        } else {
+            this.taskUpdateParameters.platform().withOs(OS.WINDOWS);
+            return this;
         }
-        this.inner.platform().withOs(OS.WINDOWS);
-        return this;
     }
 
     @Override
-    public DefinitionStages.TaskType withLinux(Architecture architecture) {
-        if (this.inner.platform() == null) {
-            this.inner.withPlatform(new PlatformProperties());
+    public TaskImpl withLinux(Architecture architecture) {
+        if (isInCreateMode()) {
+            if (this.inner.platform() == null) {
+                this.inner.withPlatform(new PlatformProperties());
+            }
+            this.inner.platform().withOs(OS.LINUX).withArchitecture(architecture);
+            return this;
+        } else {
+            this.taskUpdateParameters.platform().withOs(OS.LINUX).withArchitecture(architecture);
+            return this;
         }
-        this.inner.platform().withOs(OS.LINUX).withArchitecture(architecture);
-        return this;
     }
 
     @Override
-    public DefinitionStages.TaskType withWindows(Architecture architecture) {
-        if (this.inner.platform() == null) {
-            this.inner.withPlatform(new PlatformProperties());
+    public TaskImpl withWindows(Architecture architecture) {
+        if (isInCreateMode()) {
+            if (this.inner.platform() == null) {
+                this.inner.withPlatform(new PlatformProperties());
+            }
+            this.inner.platform().withOs(OS.WINDOWS).withArchitecture(architecture);
+            return this;
+        } else {
+            this.taskUpdateParameters.platform().withOs(OS.WINDOWS).withArchitecture(architecture);
+            return this;
         }
-        this.inner.platform().withOs(OS.WINDOWS).withArchitecture(architecture);
-        return this;
     }
 
     @Override
-    public DefinitionStages.TaskType withLinux(Architecture architecture, Variant variant) {
-        if (this.inner.platform() == null) {
-            this.inner.withPlatform(new PlatformProperties());
+    public TaskImpl withLinux(Architecture architecture, Variant variant) {
+        if (isInCreateMode()) {
+            if (this.inner.platform() == null) {
+                this.inner.withPlatform(new PlatformProperties());
+            }
+            this.inner.platform().withOs(OS.LINUX).withArchitecture(architecture).withVariant(variant);
+            return this;
+        } else {
+            this.taskUpdateParameters.platform().withOs(OS.LINUX).withArchitecture(architecture).withVariant(variant);
+            return this;
         }
-        this.inner.platform().withOs(OS.LINUX).withArchitecture(architecture).withVariant(variant);
-        return this;
     }
 
     @Override
-    public DefinitionStages.TaskType withWindows(Architecture architecture, Variant variant) {
-        if (this.inner.platform() == null) {
-            this.inner.withPlatform(new PlatformProperties());
+    public TaskImpl withWindows(Architecture architecture, Variant variant) {
+        if (isInCreateMode()) {
+            if (this.inner.platform() == null) {
+                this.inner.withPlatform(new PlatformProperties());
+            }
+            this.inner.platform().withOs(OS.WINDOWS).withArchitecture(architecture).withVariant(variant);
+            return this;
+        } else {
+            this.taskUpdateParameters.platform().withOs(OS.WINDOWS).withArchitecture(architecture).withVariant(variant);
+            return this;
         }
-        this.inner.platform().withOs(OS.WINDOWS).withArchitecture(architecture).withVariant(variant);
-        return this;
     }
 
     @Override
-    public DefinitionStages.TaskType withPlatform(PlatformProperties platformProperties) {
+    public TaskImpl withPlatform(PlatformProperties platformProperties) {
         this.inner.withPlatform(platformProperties);
         return this;
     }
 
     @Override
-    public DefinitionStages.TaskCreatable withTrigger(List<SourceTrigger> sourceTriggers) {
+    public TaskImpl withPlatform(PlatformUpdateParameters platformProperties) {
+        this.taskUpdateParameters.withPlatform(platformProperties);
+        return this;
+    }
+
+    @Override
+    public TaskImpl withTrigger(List<SourceTrigger> sourceTriggers) {
         if (this.inner.trigger() == null) {
             this.inner.withTrigger(new TriggerProperties());
         }
@@ -178,7 +233,15 @@ class TaskImpl implements
     }
 
     @Override
-    public DefinitionStages.TaskCreatable withTrigger(BaseImageTrigger baseImageTrigger) {
+    public TaskImpl withTrigger(ArrayList<SourceTriggerUpdateParameters> sourceTriggers) {
+        TriggerUpdateParameters triggerUpdateParameters = new TriggerUpdateParameters();
+        triggerUpdateParameters.withSourceTriggers(sourceTriggers);
+        this.taskUpdateParameters.withTrigger(triggerUpdateParameters);
+        return this;
+    }
+
+    @Override
+    public TaskImpl withTrigger(BaseImageTrigger baseImageTrigger) {
         if (this.inner.trigger() == null) {
             this.inner.withTrigger(new TriggerProperties());
         }
@@ -187,7 +250,15 @@ class TaskImpl implements
     }
 
     @Override
-    public DefinitionStages.TaskCreatable withTrigger(List<SourceTrigger> sourceTriggers, BaseImageTrigger baseImageTrigger) {
+    public TaskImpl withTrigger(BaseImageTriggerUpdateParameters baseImageTrigger) {
+        TriggerUpdateParameters triggerUpdateParameters = new TriggerUpdateParameters();
+        triggerUpdateParameters.withBaseImageTrigger(baseImageTrigger);
+        this.taskUpdateParameters.withTrigger(triggerUpdateParameters);
+        return this;
+    }
+
+    @Override
+    public TaskImpl withTrigger(List<SourceTrigger> sourceTriggers, BaseImageTrigger baseImageTrigger) {
         if (this.inner.trigger() == null) {
             this.inner.withTrigger(new TriggerProperties());
         }
@@ -196,12 +267,32 @@ class TaskImpl implements
     }
 
     @Override
-    public DefinitionStages.TaskCreatable withCpuCount(int count) {
+    public TaskImpl withTrigger(List<SourceTriggerUpdateParameters> sourceTriggers, BaseImageTriggerUpdateParameters baseImageTrigger) {
+        TriggerUpdateParameters triggerUpdateParameters = new TriggerUpdateParameters();
+        triggerUpdateParameters.withSourceTriggers(sourceTriggers);
+        triggerUpdateParameters.withBaseImageTrigger(baseImageTrigger);
+        this.taskUpdateParameters.withTrigger(triggerUpdateParameters);
+        return this;
+    }
+
+    @Override
+    public TaskImpl withCpuCount(int count) {
         if (this.inner.agentConfiguration() == null) {
             this.inner.withAgentConfiguration(new AgentProperties());
         }
         this.inner.agentConfiguration().withCpu(count);
         return this;
+    }
+
+    @Override
+    public DefinitionStages.TaskCreatable withTimeout(int timeout) {
+        if (isInCreateMode()) {
+            this.inner.withTimeout(timeout);
+        } else {
+            this.taskUpdateParameters.withTimeout(timeout);
+        }
+        return this;
+
     }
 
     @Override
@@ -257,6 +348,7 @@ class TaskImpl implements
         return tasksInner.createAsync(resourceGroupName, registryName, taskName, this.inner).map(new Func1<TaskInner, Indexable>() {
             @Override
             public Indexable call(TaskInner taskInner) {
+                inner = taskInner;
                 return task;
             }
         });
@@ -274,12 +366,55 @@ class TaskImpl implements
 
     @Override
     public Task refresh() {
-        return null;
+        return refreshAsync().toBlocking().last();
     }
 
     @Override
     public Observable<Task> refreshAsync() {
+        final Task task = this;
+        return this.tasksInner.getAsync(resourceGroupName, registryName, taskName).map(new Func1<TaskInner, Task>() {
+            @Override
+            public Task call(TaskInner taskInner) {
+                inner = taskInner;
+                return task;
+            }
+        });
+    }
+
+    @Override
+    public Update update() {
+        return this;
+    }
+
+    @Override
+    public Task apply() {
+        return applyAsync().toBlocking().last();
+    }
+
+    @Override
+    public Observable<Task> applyAsync() {
+        final Task task = this;
+        return tasksInner.updateAsync(resourceGroupName, registryName, taskName, this.taskUpdateParameters).map(new Func1<TaskInner, Task>() {
+            @Override
+            public Task call(TaskInner taskInner) {
+                inner = taskInner;
+                taskUpdateParameters = new TaskUpdateParameters();
+                return task;
+            }
+        });
+    }
+
+    @Override
+    public ServiceFuture<Task> applyAsync(ServiceCallback<Task> callback) {
         return null;
     }
+
+    private boolean isInCreateMode() {
+        if (this.inner().id() == null) {
+            return true;
+        }
+        return false;
+    }
+
 
 }

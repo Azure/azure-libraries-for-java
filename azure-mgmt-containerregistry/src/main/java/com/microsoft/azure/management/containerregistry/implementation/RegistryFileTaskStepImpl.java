@@ -11,7 +11,7 @@ import com.microsoft.azure.management.containerregistry.RegistryFileTaskStep;
 import com.microsoft.azure.management.containerregistry.SetValue;
 import com.microsoft.azure.management.containerregistry.Task;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
-import com.microsoft.azure.management.storage.OverridingValue;
+import com.microsoft.azure.management.containerregistry.OverridingValue;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -12,6 +12,7 @@ import com.microsoft.azure.management.containerregistry.BaseImageTrigger;
 import com.microsoft.azure.management.containerregistry.OS;
 import com.microsoft.azure.management.containerregistry.PlatformProperties;
 import com.microsoft.azure.management.containerregistry.ProvisioningState;
+import com.microsoft.azure.management.containerregistry.RegistryDockerTaskStep;
 import com.microsoft.azure.management.containerregistry.RegistryEncodedTaskStep;
 import com.microsoft.azure.management.containerregistry.RegistryFileTaskStep;
 import com.microsoft.azure.management.containerregistry.SourceTrigger;
@@ -42,6 +43,7 @@ class TaskImpl implements
     private TasksInner tasksInner;
     private RegistryFileTaskStepImpl fileTaskStep;
     private RegistryEncodedTaskStepImpl encodedTaskStep;
+    private RegistryDockerTaskStepImpl dockerTaskStep;
 
     @Override
     public String parentId() {
@@ -94,8 +96,9 @@ class TaskImpl implements
     }
 
     @Override
-    public DefinitionStages.DockerTaskStep defineDockerTaskStep() {
-        return null;
+    public RegistryDockerTaskStep.DefinitionStages.Blank defineDockerTaskStep() {
+        this.dockerTaskStep = new RegistryDockerTaskStepImpl(this);
+        return this.dockerTaskStep;
     }
 
 
@@ -248,6 +251,8 @@ class TaskImpl implements
             this.inner.withStep(this.fileTaskStep.inner());
         } else if (this.encodedTaskStep != null) {
             this.inner.withStep(this.encodedTaskStep.inner());
+        } else if (this.dockerTaskStep != null) {
+            this.inner.withStep(this.dockerTaskStep.inner());
         }
         return tasksInner.createAsync(resourceGroupName, registryName, taskName, this.inner).map(new Func1<TaskInner, Indexable>() {
             @Override

@@ -185,18 +185,10 @@ public interface Task extends
              *
              * @return the first stage of the DockerTaskStep definition.
              */
-            DockerTaskStep defineDockerTaskStep();
+            RegistryDockerTaskStep.DefinitionStages.Blank defineDockerTaskStep();
         }
 
 
-
-        interface EncodedTaskStep {
-
-        }
-
-        interface DockerTaskStep {
-
-        }
 
 
         /**

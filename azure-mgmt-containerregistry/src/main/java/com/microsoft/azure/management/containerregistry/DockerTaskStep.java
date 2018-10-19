@@ -18,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
  */
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
 @JsonTypeName("Docker")
-public class DockerBuildStep extends TaskStepProperties {
+public class DockerTaskStep extends TaskStepProperties {
     /**
      * The fully qualified image names including the repository and tag.
      */
@@ -67,7 +67,7 @@ public class DockerBuildStep extends TaskStepProperties {
      * @param imageNames the imageNames value to set
      * @return the DockerBuildStep object itself.
      */
-    public DockerBuildStep withImageNames(List<String> imageNames) {
+    public DockerTaskStep withImageNames(List<String> imageNames) {
         this.imageNames = imageNames;
         return this;
     }
@@ -87,7 +87,7 @@ public class DockerBuildStep extends TaskStepProperties {
      * @param isPushEnabled the isPushEnabled value to set
      * @return the DockerBuildStep object itself.
      */
-    public DockerBuildStep withIsPushEnabled(Boolean isPushEnabled) {
+    public DockerTaskStep withIsPushEnabled(Boolean isPushEnabled) {
         this.isPushEnabled = isPushEnabled;
         return this;
     }
@@ -107,7 +107,7 @@ public class DockerBuildStep extends TaskStepProperties {
      * @param noCache the noCache value to set
      * @return the DockerBuildStep object itself.
      */
-    public DockerBuildStep withNoCache(Boolean noCache) {
+    public DockerTaskStep withNoCache(Boolean noCache) {
         this.noCache = noCache;
         return this;
     }
@@ -127,7 +127,7 @@ public class DockerBuildStep extends TaskStepProperties {
      * @param dockerFilePath the dockerFilePath value to set
      * @return the DockerBuildStep object itself.
      */
-    public DockerBuildStep withDockerFilePath(String dockerFilePath) {
+    public DockerTaskStep withDockerFilePath(String dockerFilePath) {
         this.dockerFilePath = dockerFilePath;
         return this;
     }
@@ -147,7 +147,7 @@ public class DockerBuildStep extends TaskStepProperties {
      * @param arguments the arguments value to set
      * @return the DockerBuildStep object itself.
      */
-    public DockerBuildStep withArguments(List<Argument> arguments) {
+    public DockerTaskStep withArguments(List<Argument> arguments) {
         this.arguments = arguments;
         return this;
     }

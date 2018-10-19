@@ -13,7 +13,6 @@ import java.util.Map;
 import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.resources.fluentcore.model.Attachable;
-import com.microsoft.azure.management.storage.OverridingValue;
 
 /**
  * The properties of an encoded task step.
@@ -51,7 +50,7 @@ public interface RegistryEncodedTaskStep {
         interface EncodedTaskStep {
 
             /**
-             * The function that llows us to specify the base64 encoded task content.
+             * The function that specifies the base64 encoded task content.
              *
              * @param encodedTaskContent the base64 encoded task content.
              * @return the next stage of the container registry EncodedTaskStep definition.
@@ -67,7 +66,7 @@ public interface RegistryEncodedTaskStep {
         interface EncodedTaskStepAttachable extends Attachable<Task.DefinitionStages.TaskCreatable> {
 
             /**
-             * The function that allows us to specify the base64 encoded value content.
+             * The function that specifies the base64 encoded value content.
              *
              * @param encodedValueContent the base64 encoded value content.
              * @return the next stage of the container registry EncodedTaskStep definition.
@@ -75,7 +74,7 @@ public interface RegistryEncodedTaskStep {
             EncodedTaskStepAttachable withBase64EncodedValueContent(String encodedValueContent);
 
             /**
-             * The function that allows us to specify values that override the corresponding values specified under the function withBase64EncodedValueContent().
+             * The function that specifies the values that override the corresponding values specified under the function withBase64EncodedValueContent().
              *
              * @param overridingValues a map which contains the values that will override the corresponding values specified under the function withBase64EncodedValueContent().
              * @return the next stage of the container registry EncodedTaskStep definition.
@@ -83,7 +82,7 @@ public interface RegistryEncodedTaskStep {
             EncodedTaskStepAttachable withOverridingValues(Map<String, OverridingValue> overridingValues);
 
             /**
-             * The function that allows us to specify a single value that will override the corresponding value specified under the function withBase64EncodedValueContent().
+             * The function that specifies a single value that will override the corresponding value specified under the function withBase64EncodedValueContent().
              * @param name the name of the value to be overriden.
              * @param overridingValue the value of the value to be overriden.
              * @return the next stage of the container registry EncodedTaskStep definition.

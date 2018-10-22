@@ -11,14 +11,17 @@ package com.microsoft.azure.management.trafficmanager.implementation;
 import com.microsoft.azure.management.trafficmanager.EndpointStatus;
 import com.microsoft.azure.management.trafficmanager.EndpointMonitorStatus;
 import java.util.List;
+import com.microsoft.azure.management.trafficmanager.EndpointPropertiesSubnetsItem;
+import com.microsoft.azure.management.trafficmanager.EndpointPropertiesCustomHeadersItem;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.ProxyResource;
 
 /**
  * Class representing a Traffic Manager endpoint.
  */
 @JsonFlatten
-public class EndpointInner extends ProxyResourceInner {
+public class EndpointInner extends ProxyResource {
     /**
      * The Azure Resource URI of the of the endpoint. Not applicable to
      * endpoints of type 'ExternalEndpoints'.
@@ -27,8 +30,9 @@ public class EndpointInner extends ProxyResourceInner {
     private String targetResourceId;
 
     /**
-     * The fully-qualified DNS name of the endpoint. Traffic Manager returns
-     * this value in DNS responses to direct traffic to this endpoint.
+     * The fully-qualified DNS name or IP address of the endpoint. Traffic
+     * Manager returns this value in DNS responses to direct traffic to this
+     * endpoint.
      */
     @JsonProperty(value = "properties.target")
     private String target;
@@ -49,7 +53,7 @@ public class EndpointInner extends ProxyResourceInner {
     private Long weight;
 
     /**
-     * The priority of this endpoint when using the ‘Priority’ traffic routing
+     * The priority of this endpoint when using the 'Priority' traffic routing
      * method. Possible values are from 1 to 1000, lower values represent
      * higher priority. This is an optional parameter.  If specified, it must
      * be specified on all endpoints, and no two endpoints can share the same
@@ -60,7 +64,7 @@ public class EndpointInner extends ProxyResourceInner {
 
     /**
      * Specifies the location of the external or nested endpoints when using
-     * the ‘Performance’ traffic routing method.
+     * the 'Performance' traffic routing method.
      */
     @JsonProperty(value = "properties.endpointLocation")
     private String endpointLocation;
@@ -83,14 +87,28 @@ public class EndpointInner extends ProxyResourceInner {
 
     /**
      * The list of countries/regions mapped to this endpoint when using the
-     * ‘Geographic’ traffic routing method. Please consult Traffic Manager
+     * 'Geographic' traffic routing method. Please consult Traffic Manager
      * Geographic documentation for a full list of accepted values.
      */
     @JsonProperty(value = "properties.geoMapping")
     private List<String> geoMapping;
 
     /**
-     * Get the targetResourceId value.
+     * The list of subnets, IP addresses, and/or address ranges mapped to this
+     * endpoint when using the 'Subnet' traffic routing method. An empty list
+     * will match all ranges not covered by other endpoints.
+     */
+    @JsonProperty(value = "properties.subnets")
+    private List<EndpointPropertiesSubnetsItem> subnets;
+
+    /**
+     * List of custom headers.
+     */
+    @JsonProperty(value = "properties.customHeaders")
+    private List<EndpointPropertiesCustomHeadersItem> customHeaders;
+
+    /**
+     * Get the Azure Resource URI of the of the endpoint. Not applicable to endpoints of type 'ExternalEndpoints'.
      *
      * @return the targetResourceId value
      */
@@ -99,7 +117,7 @@ public class EndpointInner extends ProxyResourceInner {
     }
 
     /**
-     * Set the targetResourceId value.
+     * Set the Azure Resource URI of the of the endpoint. Not applicable to endpoints of type 'ExternalEndpoints'.
      *
      * @param targetResourceId the targetResourceId value to set
      * @return the EndpointInner object itself.
@@ -110,7 +128,7 @@ public class EndpointInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the target value.
+     * Get the fully-qualified DNS name or IP address of the endpoint. Traffic Manager returns this value in DNS responses to direct traffic to this endpoint.
      *
      * @return the target value
      */
@@ -119,7 +137,7 @@ public class EndpointInner extends ProxyResourceInner {
     }
 
     /**
-     * Set the target value.
+     * Set the fully-qualified DNS name or IP address of the endpoint. Traffic Manager returns this value in DNS responses to direct traffic to this endpoint.
      *
      * @param target the target value to set
      * @return the EndpointInner object itself.
@@ -130,7 +148,7 @@ public class EndpointInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the endpointStatus value.
+     * Get the status of the endpoint. If the endpoint is Enabled, it is probed for endpoint health and is included in the traffic routing method. Possible values include: 'Enabled', 'Disabled'.
      *
      * @return the endpointStatus value
      */
@@ -139,7 +157,7 @@ public class EndpointInner extends ProxyResourceInner {
     }
 
     /**
-     * Set the endpointStatus value.
+     * Set the status of the endpoint. If the endpoint is Enabled, it is probed for endpoint health and is included in the traffic routing method. Possible values include: 'Enabled', 'Disabled'.
      *
      * @param endpointStatus the endpointStatus value to set
      * @return the EndpointInner object itself.
@@ -150,7 +168,7 @@ public class EndpointInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the weight value.
+     * Get the weight of this endpoint when using the 'Weighted' traffic routing method. Possible values are from 1 to 1000.
      *
      * @return the weight value
      */
@@ -159,7 +177,7 @@ public class EndpointInner extends ProxyResourceInner {
     }
 
     /**
-     * Set the weight value.
+     * Set the weight of this endpoint when using the 'Weighted' traffic routing method. Possible values are from 1 to 1000.
      *
      * @param weight the weight value to set
      * @return the EndpointInner object itself.
@@ -170,7 +188,7 @@ public class EndpointInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the priority value.
+     * Get the priority of this endpoint when using the 'Priority' traffic routing method. Possible values are from 1 to 1000, lower values represent higher priority. This is an optional parameter.  If specified, it must be specified on all endpoints, and no two endpoints can share the same priority value.
      *
      * @return the priority value
      */
@@ -179,7 +197,7 @@ public class EndpointInner extends ProxyResourceInner {
     }
 
     /**
-     * Set the priority value.
+     * Set the priority of this endpoint when using the 'Priority' traffic routing method. Possible values are from 1 to 1000, lower values represent higher priority. This is an optional parameter.  If specified, it must be specified on all endpoints, and no two endpoints can share the same priority value.
      *
      * @param priority the priority value to set
      * @return the EndpointInner object itself.
@@ -190,7 +208,7 @@ public class EndpointInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the endpointLocation value.
+     * Get specifies the location of the external or nested endpoints when using the 'Performance' traffic routing method.
      *
      * @return the endpointLocation value
      */
@@ -199,7 +217,7 @@ public class EndpointInner extends ProxyResourceInner {
     }
 
     /**
-     * Set the endpointLocation value.
+     * Set specifies the location of the external or nested endpoints when using the 'Performance' traffic routing method.
      *
      * @param endpointLocation the endpointLocation value to set
      * @return the EndpointInner object itself.
@@ -210,7 +228,7 @@ public class EndpointInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the endpointMonitorStatus value.
+     * Get the monitoring status of the endpoint. Possible values include: 'CheckingEndpoint', 'Online', 'Degraded', 'Disabled', 'Inactive', 'Stopped'.
      *
      * @return the endpointMonitorStatus value
      */
@@ -219,7 +237,7 @@ public class EndpointInner extends ProxyResourceInner {
     }
 
     /**
-     * Set the endpointMonitorStatus value.
+     * Set the monitoring status of the endpoint. Possible values include: 'CheckingEndpoint', 'Online', 'Degraded', 'Disabled', 'Inactive', 'Stopped'.
      *
      * @param endpointMonitorStatus the endpointMonitorStatus value to set
      * @return the EndpointInner object itself.
@@ -230,7 +248,7 @@ public class EndpointInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the minChildEndpoints value.
+     * Get the minimum number of endpoints that must be available in the child profile in order for the parent profile to be considered available. Only applicable to endpoint of type 'NestedEndpoints'.
      *
      * @return the minChildEndpoints value
      */
@@ -239,7 +257,7 @@ public class EndpointInner extends ProxyResourceInner {
     }
 
     /**
-     * Set the minChildEndpoints value.
+     * Set the minimum number of endpoints that must be available in the child profile in order for the parent profile to be considered available. Only applicable to endpoint of type 'NestedEndpoints'.
      *
      * @param minChildEndpoints the minChildEndpoints value to set
      * @return the EndpointInner object itself.
@@ -250,7 +268,7 @@ public class EndpointInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the geoMapping value.
+     * Get the list of countries/regions mapped to this endpoint when using the 'Geographic' traffic routing method. Please consult Traffic Manager Geographic documentation for a full list of accepted values.
      *
      * @return the geoMapping value
      */
@@ -259,13 +277,53 @@ public class EndpointInner extends ProxyResourceInner {
     }
 
     /**
-     * Set the geoMapping value.
+     * Set the list of countries/regions mapped to this endpoint when using the 'Geographic' traffic routing method. Please consult Traffic Manager Geographic documentation for a full list of accepted values.
      *
      * @param geoMapping the geoMapping value to set
      * @return the EndpointInner object itself.
      */
     public EndpointInner withGeoMapping(List<String> geoMapping) {
         this.geoMapping = geoMapping;
+        return this;
+    }
+
+    /**
+     * Get the list of subnets, IP addresses, and/or address ranges mapped to this endpoint when using the 'Subnet' traffic routing method. An empty list will match all ranges not covered by other endpoints.
+     *
+     * @return the subnets value
+     */
+    public List<EndpointPropertiesSubnetsItem> subnets() {
+        return this.subnets;
+    }
+
+    /**
+     * Set the list of subnets, IP addresses, and/or address ranges mapped to this endpoint when using the 'Subnet' traffic routing method. An empty list will match all ranges not covered by other endpoints.
+     *
+     * @param subnets the subnets value to set
+     * @return the EndpointInner object itself.
+     */
+    public EndpointInner withSubnets(List<EndpointPropertiesSubnetsItem> subnets) {
+        this.subnets = subnets;
+        return this;
+    }
+
+    /**
+     * Get list of custom headers.
+     *
+     * @return the customHeaders value
+     */
+    public List<EndpointPropertiesCustomHeadersItem> customHeaders() {
+        return this.customHeaders;
+    }
+
+    /**
+     * Set list of custom headers.
+     *
+     * @param customHeaders the customHeaders value to set
+     * @return the EndpointInner object itself.
+     */
+    public EndpointInner withCustomHeaders(List<EndpointPropertiesCustomHeadersItem> customHeaders) {
+        this.customHeaders = customHeaders;
         return this;
     }
 

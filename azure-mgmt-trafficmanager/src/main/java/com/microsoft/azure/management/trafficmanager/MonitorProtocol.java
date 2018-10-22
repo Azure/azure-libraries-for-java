@@ -8,55 +8,37 @@
 
 package com.microsoft.azure.management.trafficmanager;
 
-import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.Collection;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.microsoft.rest.ExpandableStringEnum;
 
 /**
  * Defines values for MonitorProtocol.
  */
-public final class MonitorProtocol {
+public final class MonitorProtocol extends ExpandableStringEnum<MonitorProtocol> {
     /** Static value HTTP for MonitorProtocol. */
-    public static final MonitorProtocol HTTP = new MonitorProtocol("HTTP");
+    public static final MonitorProtocol HTTP = fromString("HTTP");
 
     /** Static value HTTPS for MonitorProtocol. */
-    public static final MonitorProtocol HTTPS = new MonitorProtocol("HTTPS");
+    public static final MonitorProtocol HTTPS = fromString("HTTPS");
 
     /** Static value TCP for MonitorProtocol. */
-    public static final MonitorProtocol TCP = new MonitorProtocol("TCP");
-
-    private String value;
+    public static final MonitorProtocol TCP = fromString("TCP");
 
     /**
-     * Creates a custom value for MonitorProtocol.
-     * @param value the custom value
+     * Creates or finds a MonitorProtocol from its string representation.
+     * @param name a name to look for
+     * @return the corresponding MonitorProtocol
      */
-    public MonitorProtocol(String value) {
-        this.value = value;
+    @JsonCreator
+    public static MonitorProtocol fromString(String name) {
+        return fromString(name, MonitorProtocol.class);
     }
 
-    @JsonValue
-    @Override
-    public String toString() {
-        return value;
-    }
-
-    @Override
-    public int hashCode() {
-        return value.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof MonitorProtocol)) {
-            return false;
-        }
-        if (obj == this) {
-            return true;
-        }
-        MonitorProtocol rhs = (MonitorProtocol) obj;
-        if (value == null) {
-            return rhs.value == null;
-        } else {
-            return value.equals(rhs.value);
-        }
+    /**
+     * @return known MonitorProtocol values
+     */
+    public static Collection<MonitorProtocol> values() {
+        return values(MonitorProtocol.class);
     }
 }

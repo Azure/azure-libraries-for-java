@@ -10,6 +10,8 @@ import com.microsoft.azure.management.containerregistry.AgentProperties;
 import com.microsoft.azure.management.containerregistry.Architecture;
 import com.microsoft.azure.management.containerregistry.BaseImageTrigger;
 import com.microsoft.azure.management.containerregistry.BaseImageTriggerUpdateParameters;
+import com.microsoft.azure.management.containerregistry.FileTaskStep;
+import com.microsoft.azure.management.containerregistry.FileTaskStepUpdateParameters;
 import com.microsoft.azure.management.containerregistry.OS;
 import com.microsoft.azure.management.containerregistry.PlatformProperties;
 import com.microsoft.azure.management.containerregistry.PlatformUpdateParameters;
@@ -104,8 +106,7 @@ class TaskImpl implements
 
     @Override
     public RegistryFileTaskStep.DefinitionStages.Blank defineFileTaskStep() {
-        this.fileTaskStep = new RegistryFileTaskStepImpl(this);
-        return this.fileTaskStep;
+        return new RegistryFileTaskStepImpl(this);
     }
 
     @Override
@@ -285,7 +286,7 @@ class TaskImpl implements
     }
 
     @Override
-    public DefinitionStages.TaskCreatable withTimeout(int timeout) {
+    public TaskImpl withTimeout(int timeout) {
         if (isInCreateMode()) {
             this.inner.withTimeout(timeout);
         } else {
@@ -338,13 +339,7 @@ class TaskImpl implements
     @Override
     public Observable<Indexable> createAsync() {
         final Task task = this;
-        if (this.fileTaskStep != null) {
-            this.inner.withStep(this.fileTaskStep.inner());
-        } else if (this.encodedTaskStep != null) {
-            this.inner.withStep(this.encodedTaskStep.inner());
-        } else if (this.dockerTaskStep != null) {
-            this.inner.withStep(this.dockerTaskStep.inner());
-        }
+
         return tasksInner.createAsync(resourceGroupName, registryName, taskName, this.inner).map(new Func1<TaskInner, Indexable>() {
             @Override
             public Indexable call(TaskInner taskInner) {
@@ -415,6 +410,15 @@ class TaskImpl implements
         }
         return false;
     }
+
+    void withFileTaskStepCreateParameters(FileTaskStep fileTaskStep) {
+        this.inner.withStep(fileTaskStep);
+    }
+
+    void withFileTaskStepUpdateParameters(FileTaskStepUpdateParameters fileTaskStepUpdateParameters) {
+        this.taskUpdateParameters.withStep(fileTaskStepUpdateParameters);
+    }
+
 
 
 }

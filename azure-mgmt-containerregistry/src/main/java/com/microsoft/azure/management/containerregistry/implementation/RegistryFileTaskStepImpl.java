@@ -7,6 +7,7 @@
 package com.microsoft.azure.management.containerregistry.implementation;
 
 import com.microsoft.azure.management.containerregistry.FileTaskStep;
+import com.microsoft.azure.management.containerregistry.FileTaskStepUpdateParameters;
 import com.microsoft.azure.management.containerregistry.RegistryFileTaskStep;
 import com.microsoft.azure.management.containerregistry.SetValue;
 import com.microsoft.azure.management.containerregistry.Task;
@@ -20,29 +21,40 @@ import java.util.Map;
 class RegistryFileTaskStepImpl implements
         RegistryFileTaskStep,
         RegistryFileTaskStep.Definition,
+        RegistryFileTaskStep.Update,
         HasInner<FileTaskStep> {
 
     private FileTaskStep fileTaskStep;
+    private FileTaskStepUpdateParameters fileTaskStepUpdateParameters;
     private TaskImpl taskImpl;
 
     RegistryFileTaskStepImpl(TaskImpl taskImpl) {
         this.fileTaskStep = new FileTaskStep();
         this.taskImpl = taskImpl;
+        this.fileTaskStepUpdateParameters = new FileTaskStepUpdateParameters();
     }
     @Override
-    public DefinitionStages.FileTaskStepAttachable withTaskPath(String path) {
-        fileTaskStep.withTaskFilePath(path);
+    public RegistryFileTaskStepImpl withTaskPath(String path) {
+        if (isInCreateMode()) {
+            fileTaskStep.withTaskFilePath(path);
+        } else {
+            fileTaskStepUpdateParameters.withTaskFilePath(path);
+        }
         return this;
     }
 
     @Override
-    public DefinitionStages.FileTaskStepAttachable withValuesPath(String path) {
-        fileTaskStep.withValuesFilePath(path);
+    public RegistryFileTaskStepImpl withValuesPath(String path) {
+        if (isInCreateMode()) {
+            fileTaskStep.withValuesFilePath(path);
+        } else {
+            fileTaskStepUpdateParameters.withValuesFilePath(path);
+        }
         return this;
     }
 
     @Override
-    public DefinitionStages.FileTaskStepAttachable withOverridingValues(Map<String, OverridingValue> overridingValues) {
+    public RegistryFileTaskStepImpl withOverridingValues(Map<String, OverridingValue> overridingValues) {
         List<SetValue> overridingValuesList = new ArrayList<SetValue>();
         for (Map.Entry<String, OverridingValue> entry : overridingValues.entrySet()) {
             SetValue value = new SetValue();
@@ -52,12 +64,16 @@ class RegistryFileTaskStepImpl implements
             overridingValuesList.add(value);
 
         }
-        fileTaskStep.withValues(overridingValuesList);
+        if (isInCreateMode()) {
+            fileTaskStep.withValues(overridingValuesList);
+        } else {
+            fileTaskStepUpdateParameters.withValues(overridingValuesList);
+        }
         return this;
     }
 
     @Override
-    public DefinitionStages.FileTaskStepAttachable withOverridingValue(String name, OverridingValue overridingValue) {
+    public RegistryFileTaskStepImpl withOverridingValue(String name, OverridingValue overridingValue) {
         if (fileTaskStep.values() == null) {
             fileTaskStep.withValues(new ArrayList<SetValue>());
         }
@@ -65,17 +81,35 @@ class RegistryFileTaskStepImpl implements
         value.withName(name);
         value.withValue(overridingValue.value());
         value.withIsSecret(overridingValue.isSecret());
-        fileTaskStep.values().add(value);
+        if (isInCreateMode()) {
+            fileTaskStep.values().add(value);
+        } else {
+            fileTaskStepUpdateParameters.values().add(value);
+        }
         return this;
     }
 
     @Override
     public Task.DefinitionStages.TaskCreatable attach() {
+        this.taskImpl.withFileTaskStepCreateParameters(fileTaskStep);
         return this.taskImpl;
     }
 
     @Override
     public FileTaskStep inner() {
         return fileTaskStep;
+    }
+
+    @Override
+    public Task.Update parent() {
+        this.taskImpl.withFileTaskStepUpdateParameters(fileTaskStepUpdateParameters);
+        return this.taskImpl;
+    }
+
+    private boolean isInCreateMode() {
+        if (this.taskImpl.inner().id() == null) {
+            return true;
+        }
+        return false;
     }
 }

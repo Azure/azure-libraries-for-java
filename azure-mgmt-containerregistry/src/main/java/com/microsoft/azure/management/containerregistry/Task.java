@@ -206,6 +206,8 @@ public interface Task extends
 
 
 
+
+
         /**
          * The stage of the container registry task definition that specifies the trigger for the container registry task.
          */
@@ -288,6 +290,34 @@ public interface Task extends
      * Grouping of registry task update stages.
      */
     interface UpdateStages {
+
+        /**
+         * The stage of the container registry task definition that specifies the type of task step.
+         */
+        interface TaskType {
+
+            /**
+             * The function that specifies a task step of type FileTaskStep.
+             *
+             * @return the first stage of the FileTaskStep definition.
+             */
+            RegistryFileTaskStep.Update updateFileTaskStep();
+
+            /**
+             * The function that specifies a task step of type EncodedTaskStep.
+             *
+             * @return the first stage of the EncodedTaskStep definition.
+             */
+            RegistryEncodedTaskStep.UpdateStages.Blank updateEncodedTaskStep();
+
+            /**
+             * The function that specifies a task step of type DockerTaskStep.
+             *
+             * @return the first stage of the DockerTaskStep definition.
+             */
+            RegistryDockerTaskStep.UpdateStages.Blank updateDockerTaskStep();
+        }
+
         /**
          * The stage of the container registry task update allowing to update the platform.
          */
@@ -355,6 +385,7 @@ public interface Task extends
          */
         interface Trigger {
 
+
             /**
              * The function that updates a list of source triggers.
              *
@@ -401,6 +432,9 @@ public interface Task extends
         interface Timeout {
             Update withTimeout(int timeout);
         }
+
+
+
     }
 
 

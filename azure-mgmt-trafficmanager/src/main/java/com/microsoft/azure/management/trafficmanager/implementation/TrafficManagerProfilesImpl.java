@@ -8,6 +8,7 @@ package com.microsoft.azure.management.trafficmanager.implementation;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
 import com.microsoft.azure.management.trafficmanager.CheckProfileDnsNameAvailabilityResult;
+import com.microsoft.azure.management.trafficmanager.CheckTrafficManagerRelativeDnsNameAvailabilityParameters;
 import com.microsoft.azure.management.trafficmanager.DnsConfig;
 import com.microsoft.azure.management.trafficmanager.GeographicHierarchies;
 import com.microsoft.azure.management.trafficmanager.GeographicLocation;
@@ -47,8 +48,8 @@ class TrafficManagerProfilesImpl
 
     @Override
     public Observable<CheckProfileDnsNameAvailabilityResult> checkDnsNameAvailabilityAsync(String dnsNameLabel) {
-        CheckTrafficManagerRelativeDnsNameAvailabilityParametersInner parameter =
-                new CheckTrafficManagerRelativeDnsNameAvailabilityParametersInner()
+        CheckTrafficManagerRelativeDnsNameAvailabilityParameters parameter =
+                new CheckTrafficManagerRelativeDnsNameAvailabilityParameters()
                         .withName(dnsNameLabel)
                         .withType("Microsoft.Network/trafficManagerProfiles");
         return this.inner()

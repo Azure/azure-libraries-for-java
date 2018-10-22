@@ -15,13 +15,12 @@ import com.microsoft.azure.management.trafficmanager.EndpointPropertiesSubnetsIt
 import com.microsoft.azure.management.trafficmanager.EndpointPropertiesCustomHeadersItem;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.ProxyResource;
 
 /**
  * Class representing a Traffic Manager endpoint.
  */
 @JsonFlatten
-public class EndpointInner extends ProxyResource {
+public class EndpointInner extends ProxyResourceInner {
     /**
      * The Azure Resource URI of the of the endpoint. Not applicable to
      * endpoints of type 'ExternalEndpoints'.

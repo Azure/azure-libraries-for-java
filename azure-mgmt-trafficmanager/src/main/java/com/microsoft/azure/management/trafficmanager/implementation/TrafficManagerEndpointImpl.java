@@ -40,6 +40,7 @@ class TrafficManagerEndpointImpl extends ExternalChildResourceImpl<TrafficManage
         TrafficManagerEndpoint.UpdateExternalEndpoint,
         TrafficManagerEndpoint.UpdateNestedProfileEndpoint {
     private final EndpointsInner client;
+    private EndpointType endpointType;
 
     TrafficManagerEndpointImpl(String name,
                                TrafficManagerProfileImpl parent,
@@ -56,7 +57,11 @@ class TrafficManagerEndpointImpl extends ExternalChildResourceImpl<TrafficManage
 
     @Override
     public EndpointType endpointType() {
-        return EndpointType.fromValue(this.inner().type());
+        if (this.inner().type() != null) {
+            return EndpointType.fromValue(this.inner().type());
+        } else {
+            return this.endpointType;
+        }
     }
 
     @Override
@@ -251,5 +256,9 @@ class TrafficManagerEndpointImpl extends ExternalChildResourceImpl<TrafficManage
                 this.parent().name(),
                 this.endpointType().toString(),
                 this.name());
+    }
+
+    void withEndpointType(EndpointType endpointType) {
+        this.endpointType = endpointType;
     }
 }

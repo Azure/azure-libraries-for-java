@@ -14,13 +14,12 @@ import com.microsoft.azure.management.trafficmanager.HeatMapEndpoint;
 import com.microsoft.azure.management.trafficmanager.TrafficFlow;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.ProxyResource;
 
 /**
  * Class representing a Traffic Manager HeatMap.
  */
 @JsonFlatten
-public class HeatMapModelInner extends ProxyResource {
+public class HeatMapModelInner extends ProxyResourceInner {
     /**
      * The beginning of the time window for this HeatMap, inclusive.
      */

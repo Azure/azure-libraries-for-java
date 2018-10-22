@@ -128,7 +128,8 @@ public class HeatMapsInner {
         final String heatMapType = "default";
         final List<Double> topLeft = null;
         final List<Double> botRight = null;
-        String topLeftConverted = this.client.serializerAdapter().serializeList(topLeft, CollectionFormat.CSV);String botRightConverted = this.client.serializerAdapter().serializeList(botRight, CollectionFormat.CSV);
+        String topLeftConverted = this.client.serializerAdapter().serializeList(topLeft, CollectionFormat.CSV);
+        String botRightConverted = this.client.serializerAdapter().serializeList(botRight, CollectionFormat.CSV);
         return service.get(this.client.subscriptionId(), resourceGroupName, profileName, heatMapType, topLeftConverted, botRightConverted, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<HeatMapModelInner>>>() {
                 @Override
@@ -219,7 +220,8 @@ public class HeatMapsInner {
         Validator.validate(topLeft);
         Validator.validate(botRight);
         final String heatMapType = "default";
-        String topLeftConverted = this.client.serializerAdapter().serializeList(topLeft, CollectionFormat.CSV);String botRightConverted = this.client.serializerAdapter().serializeList(botRight, CollectionFormat.CSV);
+        String topLeftConverted = this.client.serializerAdapter().serializeList(topLeft, CollectionFormat.CSV);
+        String botRightConverted = this.client.serializerAdapter().serializeList(botRight, CollectionFormat.CSV);
         return service.get(this.client.subscriptionId(), resourceGroupName, profileName, heatMapType, topLeftConverted, botRightConverted, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<HeatMapModelInner>>>() {
                 @Override

@@ -3,6 +3,7 @@
  * Licensed under the MIT License. See License.txt in the project root for
  * license information.
  */
+
 package com.microsoft.azure.management.containerregistry;
 
 
@@ -32,6 +33,12 @@ public interface Task extends
         Updatable<Task.Update> {
 
     /**
+     * @return the name of the resource's resource group
+     */
+    String resourceGroupName();
+
+
+    /**
      * @return the parent ID of this resource
      */
     String parentId();
@@ -52,9 +59,29 @@ public interface Task extends
     TaskStatus status();
 
     /**
+     * @return the RegistryTaskStep of the current task
+     */
+    RegistryTaskStep registryTaskStep();
+
+    /**
      * @return the build timeout settings in seconds
      */
     int timeout();
+
+    /**
+     * @return the build timeout settings in seconds
+     */
+    PlatformProperties platform();
+
+    /**
+     * @return the CPU count
+     */
+    int cpuCount();
+
+    /**
+     * @return the trigger of the task
+     */
+    TriggerProperties trigger();
 
     /**
      * Container interface for all the definitions related to a registry task.
@@ -76,6 +103,7 @@ public interface Task extends
             UpdateStages.Trigger,
             UpdateStages.AgentConfiguration,
             UpdateStages.Timeout,
+            UpdateStages.TaskType,
             Appliable<Task> {
 
     }
@@ -308,14 +336,14 @@ public interface Task extends
              *
              * @return the first stage of the EncodedTaskStep definition.
              */
-            RegistryEncodedTaskStep.UpdateStages.Blank updateEncodedTaskStep();
+            RegistryEncodedTaskStep.Update updateEncodedTaskStep();
 
             /**
              * The function that specifies a task step of type DockerTaskStep.
              *
              * @return the first stage of the DockerTaskStep definition.
              */
-            RegistryDockerTaskStep.UpdateStages.Blank updateDockerTaskStep();
+            RegistryDockerTaskStep.Update updateDockerTaskStep();
         }
 
         /**

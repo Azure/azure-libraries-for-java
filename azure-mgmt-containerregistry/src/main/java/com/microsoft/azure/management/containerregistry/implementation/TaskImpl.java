@@ -10,6 +10,10 @@ import com.microsoft.azure.management.containerregistry.AgentProperties;
 import com.microsoft.azure.management.containerregistry.Architecture;
 import com.microsoft.azure.management.containerregistry.BaseImageTrigger;
 import com.microsoft.azure.management.containerregistry.BaseImageTriggerUpdateParameters;
+import com.microsoft.azure.management.containerregistry.DockerBuildStepUpdateParameters;
+import com.microsoft.azure.management.containerregistry.DockerTaskStep;
+import com.microsoft.azure.management.containerregistry.EncodedTaskStep;
+import com.microsoft.azure.management.containerregistry.EncodedTaskStepUpdateParameters;
 import com.microsoft.azure.management.containerregistry.FileTaskStep;
 import com.microsoft.azure.management.containerregistry.FileTaskStepUpdateParameters;
 import com.microsoft.azure.management.containerregistry.OS;
@@ -19,6 +23,7 @@ import com.microsoft.azure.management.containerregistry.ProvisioningState;
 import com.microsoft.azure.management.containerregistry.RegistryDockerTaskStep;
 import com.microsoft.azure.management.containerregistry.RegistryEncodedTaskStep;
 import com.microsoft.azure.management.containerregistry.RegistryFileTaskStep;
+import com.microsoft.azure.management.containerregistry.RegistryTaskStep;
 import com.microsoft.azure.management.containerregistry.SourceTrigger;
 import com.microsoft.azure.management.containerregistry.SourceTriggerUpdateParameters;
 import com.microsoft.azure.management.containerregistry.Task;
@@ -51,40 +56,74 @@ class TaskImpl implements
     private String taskName;
     private TaskInner inner;
     private TasksInner tasksInner;
-    private RegistryFileTaskStepImpl fileTaskStep;
-    private RegistryEncodedTaskStepImpl encodedTaskStep;
-    private RegistryDockerTaskStepImpl dockerTaskStep;
     private TaskUpdateParameters taskUpdateParameters;
+    private RegistryTaskStep registryTaskStep;
+
+    @Override
+    public String resourceGroupName() {
+        return ResourceUtils.groupFromResourceId(this.id());
+    }
 
     @Override
     public String parentId() {
-        return null;
+        return ResourceUtils.parentResourceIdFromResourceId(this.id());
     }
 
     @Override
     public ProvisioningState provisioningState() {
-        return null;
+        return this.inner.provisioningState();
     }
 
     @Override
     public DateTime creationDate() {
-        return null;
+        return this.inner.creationDate();
     }
 
     @Override
     public TaskStatus status() {
-        return null;
+        return this.inner.status();
+    }
+
+    @Override
+    public RegistryTaskStep registryTaskStep() {
+        if (registryTaskStep != null) {
+            return registryTaskStep;
+        }
+        if (this.inner.step() instanceof FileTaskStep) {
+            registryTaskStep = new RegistryFileTaskStepImpl(this);
+        } else if (this.inner.step() instanceof EncodedTaskStep) {
+            registryTaskStep = new RegistryEncodedTaskStepImpl(this);
+        } else if (this.inner.step() instanceof DockerTaskStep) {
+            registryTaskStep = new RegistryDockerTaskStepImpl(this);
+        }
+        return registryTaskStep;
     }
 
     @Override
     public int timeout() {
-        return 0;
+        return this.inner.timeout();
+    }
+
+    @Override
+    public PlatformProperties platform() {
+        return this.inner.platform();
+    }
+
+    @Override
+    public int cpuCount() {
+        return this.inner.agentConfiguration().cpu();
+    }
+
+    @Override
+    public TriggerProperties trigger() {
+        return this.inner.trigger();
     }
 
     TaskImpl(TasksInner tasksInner, String taskName) {
         this.tasksInner = tasksInner;
         this.taskName = taskName;
         this.inner = new TaskInner();
+        this.taskUpdateParameters = new TaskUpdateParameters();
     }
 
     TaskImpl(TasksInner tasksInner, TaskInner inner) {
@@ -111,14 +150,12 @@ class TaskImpl implements
 
     @Override
     public RegistryEncodedTaskStep.DefinitionStages.Blank defineEncodedTaskStep() {
-        this.encodedTaskStep = new RegistryEncodedTaskStepImpl(this);
-        return this.encodedTaskStep;
+        return new RegistryEncodedTaskStepImpl(this);
     }
 
     @Override
     public RegistryDockerTaskStep.DefinitionStages.Blank defineDockerTaskStep() {
-        this.dockerTaskStep = new RegistryDockerTaskStepImpl(this);
-        return this.dockerTaskStep;
+        return new RegistryDockerTaskStepImpl(this);
     }
 
 
@@ -278,10 +315,17 @@ class TaskImpl implements
 
     @Override
     public TaskImpl withCpuCount(int count) {
-        if (this.inner.agentConfiguration() == null) {
-            this.inner.withAgentConfiguration(new AgentProperties());
+        if (isInCreateMode()) {
+            if (this.inner.agentConfiguration() == null) {
+                this.inner.withAgentConfiguration(new AgentProperties());
+            }
+            this.inner.agentConfiguration().withCpu(count);
+        } else {
+            if (this.taskUpdateParameters.agentConfiguration() == null) {
+                this.taskUpdateParameters.withAgentConfiguration(new AgentProperties());
+            }
+            this.taskUpdateParameters.agentConfiguration().withCpu(count);
         }
-        this.inner.agentConfiguration().withCpu(count);
         return this;
     }
 
@@ -394,6 +438,7 @@ class TaskImpl implements
             public Task call(TaskInner taskInner) {
                 inner = taskInner;
                 taskUpdateParameters = new TaskUpdateParameters();
+                registryTaskStep = null;
                 return task;
             }
         });
@@ -419,6 +464,43 @@ class TaskImpl implements
         this.taskUpdateParameters.withStep(fileTaskStepUpdateParameters);
     }
 
+    void withEncodedTaskStepCreateParameters(EncodedTaskStep encodedTaskStep) {
+        this.inner.withStep(encodedTaskStep);
+    }
 
+    void withEncodedTaskStepUpdateParameters(EncodedTaskStepUpdateParameters encodedTaskStepUpdateParameters) {
+        this.taskUpdateParameters.withStep(encodedTaskStepUpdateParameters);
+    }
 
+    void withDockerTaskStepCreateParameters(DockerTaskStep dockerTaskStep) {
+        this.inner.withStep(dockerTaskStep);
+    }
+
+    void withDockerTaskStepUpdateParameters(DockerBuildStepUpdateParameters dockerTaskStepUpdateParameters) {
+        this.taskUpdateParameters.withStep(dockerTaskStepUpdateParameters);
+    }
+
+    @Override
+    public RegistryFileTaskStep.Update updateFileTaskStep() {
+        if (!(this.inner.step() instanceof FileTaskStep)) {
+            throw new IllegalArgumentException("Calling updateFileTaskStep on a Task that is not a file task.");
+        }
+        return new RegistryFileTaskStepImpl(this);
+    }
+
+    @Override
+    public RegistryEncodedTaskStep.Update updateEncodedTaskStep() {
+        if (!(this.inner.step() instanceof EncodedTaskStep)) {
+            throw new IllegalArgumentException("Calling updateEncodedTaskStep on a Task that is not an encoded task.");
+        }
+        return new RegistryEncodedTaskStepImpl(this);
+    }
+
+    @Override
+    public RegistryDockerTaskStep.Update updateDockerTaskStep() {
+        if (!(this.inner.step() instanceof DockerTaskStep)) {
+            throw new IllegalArgumentException("Calling updateDockerTaskStep on a Task that is not a Docker task.");
+        }
+        return new RegistryDockerTaskStepImpl(this);
+    }
 }

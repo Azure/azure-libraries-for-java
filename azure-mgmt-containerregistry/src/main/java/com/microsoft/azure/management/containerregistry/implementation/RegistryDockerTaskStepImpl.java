@@ -7,6 +7,8 @@
  */
 package com.microsoft.azure.management.containerregistry.implementation;
 
+import com.microsoft.azure.management.containerregistry.Argument;
+import com.microsoft.azure.management.containerregistry.DockerBuildStepUpdateParameters;
 import com.microsoft.azure.management.containerregistry.DockerTaskStep;
 import com.microsoft.azure.management.containerregistry.RegistryDockerTaskStep;
 import com.microsoft.azure.management.containerregistry.Task;
@@ -14,56 +16,118 @@ import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 
 import java.util.List;
 
-class RegistryDockerTaskStepImpl implements
+class RegistryDockerTaskStepImpl
+        extends RegistryTaskStepImpl
+        implements
         RegistryDockerTaskStep,
         RegistryDockerTaskStep.Definition,
+        RegistryDockerTaskStep.Update,
         HasInner<DockerTaskStep> {
 
     private DockerTaskStep dockerTaskStep;
+    private DockerBuildStepUpdateParameters dockerTaskStepUpdateParameters;
     private TaskImpl taskImpl;
 
     RegistryDockerTaskStepImpl(TaskImpl taskImpl) {
+        super(taskImpl.inner().step());
         this.dockerTaskStep = new DockerTaskStep();
         this.taskImpl = taskImpl;
+        this.dockerTaskStepUpdateParameters = new DockerBuildStepUpdateParameters();
     }
+
     @Override
-    public DefinitionStages.DockerTaskStepAttachable withDockerFilePath(String path) {
-        dockerTaskStep.withDockerFilePath(path);
+    public List<String> imageNames() {
+        DockerTaskStep dockerTaskStep = (DockerTaskStep) taskImpl.inner().step();
+        return dockerTaskStep.imageNames();
+    }
+
+    @Override
+    public Boolean isPushEnabled() {
+        DockerTaskStep dockerTaskStep = (DockerTaskStep) taskImpl.inner().step();
+        return dockerTaskStep.isPushEnabled();
+    }
+
+    @Override
+    public Boolean noCache() {
+        DockerTaskStep dockerTaskStep = (DockerTaskStep) taskImpl.inner().step();
+        return dockerTaskStep.noCache();
+    }
+
+    @Override
+    public String dockerFilePath() {
+        DockerTaskStep dockerTaskStep = (DockerTaskStep) taskImpl.inner().step();
+        return dockerTaskStep.dockerFilePath();
+    }
+
+    @Override
+    public List<Argument> arguments() {
+        DockerTaskStep dockerTaskStep = (DockerTaskStep) taskImpl.inner().step();
+        return dockerTaskStep.arguments();
+    }
+
+    @Override
+    public RegistryDockerTaskStepImpl withDockerFilePath(String path) {
+        if (isInCreateMode()) {
+            dockerTaskStep.withDockerFilePath(path);
+        } else {
+            dockerTaskStepUpdateParameters.withDockerFilePath(path);
+        }
         return this;
     }
 
     @Override
-    public DefinitionStages.DockerTaskStepAttachable withImageNames(List<String> imageNames) {
-        dockerTaskStep.withImageNames(imageNames);
+    public RegistryDockerTaskStepImpl withImageNames(List<String> imageNames) {
+        if (isInCreateMode()) {
+            dockerTaskStep.withImageNames(imageNames);
+        } else {
+            dockerTaskStepUpdateParameters.withImageNames(imageNames);
+        }
         return this;
     }
 
     @Override
-    public DefinitionStages.DockerTaskStepAttachable withPushEnabled() {
-        dockerTaskStep.withIsPushEnabled(true);
+    public RegistryDockerTaskStepImpl withPushEnabled() {
+        if (isInCreateMode()) {
+            dockerTaskStep.withIsPushEnabled(true);
+        } else {
+            dockerTaskStepUpdateParameters.withIsPushEnabled(true);
+        }
         return this;
     }
 
     @Override
-    public DefinitionStages.DockerTaskStepAttachable withPushDisabled() {
-        dockerTaskStep.withIsPushEnabled(false);
+    public RegistryDockerTaskStepImpl withPushDisabled() {
+        if (isInCreateMode()) {
+            dockerTaskStep.withIsPushEnabled(false);
+        } else {
+            dockerTaskStepUpdateParameters.withIsPushEnabled(false);
+        }
         return this;
     }
 
     @Override
-    public DefinitionStages.DockerTaskStepAttachable withCache() {
-        dockerTaskStep.withNoCache(false);
+    public RegistryDockerTaskStepImpl withCache() {
+        if (isInCreateMode()) {
+            dockerTaskStep.withNoCache(false);
+        } else {
+            dockerTaskStepUpdateParameters.withNoCache(false);
+        }
         return this;
     }
 
     @Override
-    public DefinitionStages.DockerTaskStepAttachable withoutCache() {
-        dockerTaskStep.withNoCache(true);
+    public RegistryDockerTaskStepImpl withoutCache() {
+        if (isInCreateMode()) {
+            dockerTaskStep.withNoCache(true);
+        } else {
+            dockerTaskStepUpdateParameters.withNoCache(true);
+        }
         return this;
     }
 
     @Override
     public Task.DefinitionStages.TaskCreatable attach() {
+        this.taskImpl.withDockerTaskStepCreateParameters(dockerTaskStep);
         return this.taskImpl;
     }
 
@@ -71,4 +135,19 @@ class RegistryDockerTaskStepImpl implements
     public DockerTaskStep inner() {
         return dockerTaskStep;
     }
+
+    @Override
+    public Task.Update parent() {
+        this.taskImpl.withDockerTaskStepUpdateParameters(dockerTaskStepUpdateParameters);
+        return this.taskImpl;
+    }
+
+    private boolean isInCreateMode() {
+        if (this.taskImpl.inner().id() == null) {
+            return true;
+        }
+        return false;
+    }
+
+
 }

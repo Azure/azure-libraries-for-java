@@ -10,8 +10,8 @@ import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.resources.fluentcore.model.Attachable;
 import com.microsoft.azure.management.resources.fluentcore.model.Settable;
-import javafx.scene.Parent;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -19,7 +19,24 @@ import java.util.Map;
  */
 @Fluent()
 @Beta(Beta.SinceVersion.V1_1_0)
-public interface RegistryFileTaskStep {
+public interface RegistryFileTaskStep extends RegistryTaskStep {
+
+    /**
+     * @return the task file path of this file task step
+     */
+    String taskFilePath();
+
+    /**
+     * @return the values file path of this file task step
+     */
+    String valuesFilePath();
+
+    /**
+     * @return the values of this file task step
+     */
+    List<SetValue> values();
+
+
 
     /**
      * Container interface for all the definitions related to a RegistryFileTaskStep.
@@ -31,6 +48,9 @@ public interface RegistryFileTaskStep {
 
     }
 
+    /**
+     * Container interface for all the updates related to a RegistryFileTaskStep.
+     */
     interface Update extends
             RegistryFileTaskStep.UpdateStages.FileTaskStep,
             RegistryFileTaskStep.UpdateStages.ValuePath,

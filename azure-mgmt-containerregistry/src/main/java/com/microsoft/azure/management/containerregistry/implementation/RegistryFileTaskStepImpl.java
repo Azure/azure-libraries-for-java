@@ -18,7 +18,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-class RegistryFileTaskStepImpl implements
+class RegistryFileTaskStepImpl
+        extends RegistryTaskStepImpl
+        implements
         RegistryFileTaskStep,
         RegistryFileTaskStep.Definition,
         RegistryFileTaskStep.Update,
@@ -29,10 +31,30 @@ class RegistryFileTaskStepImpl implements
     private TaskImpl taskImpl;
 
     RegistryFileTaskStepImpl(TaskImpl taskImpl) {
+        super(taskImpl.inner().step());
         this.fileTaskStep = new FileTaskStep();
         this.taskImpl = taskImpl;
         this.fileTaskStepUpdateParameters = new FileTaskStepUpdateParameters();
     }
+
+    @Override
+    public String taskFilePath() {
+        FileTaskStep fileTaskStep = (FileTaskStep) taskImpl.inner().step();
+        return fileTaskStep.taskFilePath();
+    }
+
+    @Override
+    public String valuesFilePath() {
+        FileTaskStep fileTaskStep = (FileTaskStep) taskImpl.inner().step();
+        return fileTaskStep.valuesFilePath();
+    }
+
+    @Override
+    public List<SetValue> values() {
+        FileTaskStep fileTaskStep = (FileTaskStep) taskImpl.inner().step();
+        return fileTaskStep.values();
+    }
+
     @Override
     public RegistryFileTaskStepImpl withTaskPath(String path) {
         if (isInCreateMode()) {
@@ -112,4 +134,6 @@ class RegistryFileTaskStepImpl implements
         }
         return false;
     }
+
+
 }

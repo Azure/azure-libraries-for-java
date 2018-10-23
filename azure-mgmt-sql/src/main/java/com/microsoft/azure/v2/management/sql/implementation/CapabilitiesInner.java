@@ -10,6 +10,7 @@ package com.microsoft.azure.v2.management.sql.implementation;
 
 import com.microsoft.azure.v2.AzureProxy;
 import com.microsoft.azure.v2.CloudException;
+import com.microsoft.azure.v2.management.sql.CapabilityGroup;
 import com.microsoft.rest.v2.BodyResponse;
 import com.microsoft.rest.v2.ServiceCallback;
 import com.microsoft.rest.v2.ServiceFuture;
@@ -55,64 +56,124 @@ public final class CapabilitiesInner {
      */
     @Host("https://management.azure.com")
     private interface CapabilitiesService {
-        @GET("subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationId}/capabilities")
+        @GET("subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationName}/capabilities")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Single<BodyResponse<LocationCapabilitiesInner>> listByLocation(@PathParam("subscriptionId") String subscriptionId, @PathParam("locationId") String locationId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
+        Single<BodyResponse<LocationCapabilitiesInner>> listByLocation(@PathParam("locationName") String locationName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("include") CapabilityGroup include, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
     }
 
     /**
-     * Gets the capabilities available for the specified location.
+     * Gets the subscription capabilities available for the specified location.
      *
-     * @param locationId The location id whose capabilities are retrieved.
+     * @param locationName The location name whose capabilities are retrieved.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the LocationCapabilitiesInner object if successful.
      */
-    public LocationCapabilitiesInner listByLocation(@NonNull String locationId) {
-        return listByLocationAsync(locationId).blockingGet();
+    public LocationCapabilitiesInner listByLocation(@NonNull String locationName) {
+        return listByLocationAsync(locationName).blockingGet();
     }
 
     /**
-     * Gets the capabilities available for the specified location.
+     * Gets the subscription capabilities available for the specified location.
      *
-     * @param locationId The location id whose capabilities are retrieved.
+     * @param locationName The location name whose capabilities are retrieved.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @return a ServiceFuture which will be completed with the result of the network request.
      */
-    public ServiceFuture<LocationCapabilitiesInner> listByLocationAsync(@NonNull String locationId, ServiceCallback<LocationCapabilitiesInner> serviceCallback) {
-        return ServiceFuture.fromBody(listByLocationAsync(locationId), serviceCallback);
+    public ServiceFuture<LocationCapabilitiesInner> listByLocationAsync(@NonNull String locationName, ServiceCallback<LocationCapabilitiesInner> serviceCallback) {
+        return ServiceFuture.fromBody(listByLocationAsync(locationName), serviceCallback);
     }
 
     /**
-     * Gets the capabilities available for the specified location.
+     * Gets the subscription capabilities available for the specified location.
      *
-     * @param locationId The location id whose capabilities are retrieved.
+     * @param locationName The location name whose capabilities are retrieved.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @return a Single which performs the network request upon subscription.
      */
-    public Single<BodyResponse<LocationCapabilitiesInner>> listByLocationWithRestResponseAsync(@NonNull String locationId) {
+    public Single<BodyResponse<LocationCapabilitiesInner>> listByLocationWithRestResponseAsync(@NonNull String locationName) {
+        if (locationName == null) {
+            throw new IllegalArgumentException("Parameter locationName is required and cannot be null.");
+        }
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        if (locationId == null) {
-            throw new IllegalArgumentException("Parameter locationId is required and cannot be null.");
-        }
-        final String apiVersion = "2014-04-01";
-        return service.listByLocation(this.client.subscriptionId(), locationId, apiVersion, this.client.acceptLanguage());
+        final String apiVersion = "2017-10-01-preview";
+        final CapabilityGroup include = null;
+        return service.listByLocation(locationName, this.client.subscriptionId(), include, apiVersion, this.client.acceptLanguage());
     }
 
     /**
-     * Gets the capabilities available for the specified location.
+     * Gets the subscription capabilities available for the specified location.
      *
-     * @param locationId The location id whose capabilities are retrieved.
+     * @param locationName The location name whose capabilities are retrieved.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @return a Single which performs the network request upon subscription.
      */
-    public Maybe<LocationCapabilitiesInner> listByLocationAsync(@NonNull String locationId) {
-        return listByLocationWithRestResponseAsync(locationId)
+    public Maybe<LocationCapabilitiesInner> listByLocationAsync(@NonNull String locationName) {
+        return listByLocationWithRestResponseAsync(locationName)
+            .flatMapMaybe((BodyResponse<LocationCapabilitiesInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
+    }
+
+    /**
+     * Gets the subscription capabilities available for the specified location.
+     *
+     * @param locationName The location name whose capabilities are retrieved.
+     * @param include If specified, restricts the response to only include the selected item. Possible values include: 'supportedEditions', 'supportedElasticPoolEditions', 'supportedManagedInstanceVersions'.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the LocationCapabilitiesInner object if successful.
+     */
+    public LocationCapabilitiesInner listByLocation(@NonNull String locationName, CapabilityGroup include) {
+        return listByLocationAsync(locationName, include).blockingGet();
+    }
+
+    /**
+     * Gets the subscription capabilities available for the specified location.
+     *
+     * @param locationName The location name whose capabilities are retrieved.
+     * @param include If specified, restricts the response to only include the selected item. Possible values include: 'supportedEditions', 'supportedElasticPoolEditions', 'supportedManagedInstanceVersions'.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
+     */
+    public ServiceFuture<LocationCapabilitiesInner> listByLocationAsync(@NonNull String locationName, CapabilityGroup include, ServiceCallback<LocationCapabilitiesInner> serviceCallback) {
+        return ServiceFuture.fromBody(listByLocationAsync(locationName, include), serviceCallback);
+    }
+
+    /**
+     * Gets the subscription capabilities available for the specified location.
+     *
+     * @param locationName The location name whose capabilities are retrieved.
+     * @param include If specified, restricts the response to only include the selected item. Possible values include: 'supportedEditions', 'supportedElasticPoolEditions', 'supportedManagedInstanceVersions'.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Single<BodyResponse<LocationCapabilitiesInner>> listByLocationWithRestResponseAsync(@NonNull String locationName, CapabilityGroup include) {
+        if (locationName == null) {
+            throw new IllegalArgumentException("Parameter locationName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        final String apiVersion = "2017-10-01-preview";
+        return service.listByLocation(locationName, this.client.subscriptionId(), include, apiVersion, this.client.acceptLanguage());
+    }
+
+    /**
+     * Gets the subscription capabilities available for the specified location.
+     *
+     * @param locationName The location name whose capabilities are retrieved.
+     * @param include If specified, restricts the response to only include the selected item. Possible values include: 'supportedEditions', 'supportedElasticPoolEditions', 'supportedManagedInstanceVersions'.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<LocationCapabilitiesInner> listByLocationAsync(@NonNull String locationName, CapabilityGroup include) {
+        return listByLocationWithRestResponseAsync(locationName, include)
             .flatMapMaybe((BodyResponse<LocationCapabilitiesInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
     }
 }

@@ -5,6 +5,7 @@
  */
 package com.microsoft.azure.v2.management.sql;
 
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
 import com.microsoft.rest.v2.annotations.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.Method;
@@ -23,7 +24,6 @@ import java.time.OffsetDateTime;
 public interface SqlDatabaseOperations extends
     SupportsCreating<SqlDatabaseOperations.DefinitionStages.WithSqlServer>,
         SqlChildrenOperations<SqlDatabase> {
-
     /**
      * Container interface for all the definitions that need to be implemented.
      */

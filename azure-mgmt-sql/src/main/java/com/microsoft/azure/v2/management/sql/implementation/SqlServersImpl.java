@@ -77,7 +77,7 @@ class SqlServersImpl
     }
 
     @Override
-    public SqlServer.DefinitionStages.Blank define(String name) {
+    public SqlServer.DefinitionStages.WithRegion define(String name) {
         return wrapModel(name);
     }
 

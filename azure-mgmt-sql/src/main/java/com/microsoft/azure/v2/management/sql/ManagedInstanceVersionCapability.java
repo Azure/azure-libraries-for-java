@@ -12,9 +12,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 /**
- * The server capability.
+ * The managed instance capability.
  */
-public final class ServerVersionCapability {
+public final class ManagedInstanceVersionCapability {
     /**
      * The server version name.
      */
@@ -22,16 +22,10 @@ public final class ServerVersionCapability {
     private String name;
 
     /**
-     * The list of supported database editions.
+     * The list of supported managed instance editions.
      */
     @JsonProperty(value = "supportedEditions", access = JsonProperty.Access.WRITE_ONLY)
-    private List<EditionCapability> supportedEditions;
-
-    /**
-     * The list of supported elastic pool editions.
-     */
-    @JsonProperty(value = "supportedElasticPoolEditions", access = JsonProperty.Access.WRITE_ONLY)
-    private List<ElasticPoolEditionCapability> supportedElasticPoolEditions;
+    private List<ManagedInstanceEditionCapability> supportedEditions;
 
     /**
      * The status of the capability. Possible values include: 'Visible',
@@ -60,17 +54,8 @@ public final class ServerVersionCapability {
      *
      * @return the supportedEditions value.
      */
-    public List<EditionCapability> supportedEditions() {
+    public List<ManagedInstanceEditionCapability> supportedEditions() {
         return this.supportedEditions;
-    }
-
-    /**
-     * Get the supportedElasticPoolEditions value.
-     *
-     * @return the supportedElasticPoolEditions value.
-     */
-    public List<ElasticPoolEditionCapability> supportedElasticPoolEditions() {
-        return this.supportedElasticPoolEditions;
     }
 
     /**
@@ -95,9 +80,9 @@ public final class ServerVersionCapability {
      * Set the reason value.
      *
      * @param reason the reason value to set.
-     * @return the ServerVersionCapability object itself.
+     * @return the ManagedInstanceVersionCapability object itself.
      */
-    public ServerVersionCapability withReason(String reason) {
+    public ManagedInstanceVersionCapability withReason(String reason) {
         this.reason = reason;
         return this;
     }

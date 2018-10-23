@@ -11,37 +11,37 @@ package com.microsoft.azure.v2.management.sql;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * The minimum per-database DTU capability.
+ * The log size capability.
  */
-public final class ElasticPoolPerDatabaseMinDtuCapability {
+public final class LogSizeCapability {
     /**
-     * The maximum DTUs per database.
+     * The log size limit (see 'unit' for the units).
      */
     @JsonProperty(value = "limit", access = JsonProperty.Access.WRITE_ONLY)
-    private Long limit;
+    private Integer limit;
 
     /**
-     * The status of the capability. Possible values include: 'Visible',
-     * 'Available', 'Default', 'Disabled'.
+     * The units that the limit is expressed in. Possible values include:
+     * 'Megabytes', 'Gigabytes', 'Terabytes', 'Petabytes', 'Percent'.
      */
-    @JsonProperty(value = "status", access = JsonProperty.Access.WRITE_ONLY)
-    private CapabilityStatus status;
+    @JsonProperty(value = "unit", access = JsonProperty.Access.WRITE_ONLY)
+    private LogSizeUnit unit;
 
     /**
      * Get the limit value.
      *
      * @return the limit value.
      */
-    public Long limit() {
+    public Integer limit() {
         return this.limit;
     }
 
     /**
-     * Get the status value.
+     * Get the unit value.
      *
-     * @return the status value.
+     * @return the unit value.
      */
-    public CapabilityStatus status() {
-        return this.status;
+    public LogSizeUnit unit() {
+        return this.unit;
     }
 }

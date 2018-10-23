@@ -12,7 +12,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 /**
- * The elastic pool edition capabilities.
+ * The elastic pool edition capability.
  */
 public final class ElasticPoolEditionCapability {
     /**
@@ -22,17 +22,10 @@ public final class ElasticPoolEditionCapability {
     private String name;
 
     /**
-     * The status of the elastic pool edition. Possible values include:
-     * 'Visible', 'Available', 'Default', 'Disabled'.
-     */
-    @JsonProperty(value = "status", access = JsonProperty.Access.WRITE_ONLY)
-    private CapabilityStatus status;
-
-    /**
      * The list of supported elastic pool DTU levels for the edition.
      */
-    @JsonProperty(value = "supportedElasticPoolDtus", access = JsonProperty.Access.WRITE_ONLY)
-    private List<ElasticPoolDtuCapability> supportedElasticPoolDtus;
+    @JsonProperty(value = "supportedElasticPoolPerformanceLevels", access = JsonProperty.Access.WRITE_ONLY)
+    private List<ElasticPoolPerformanceLevelCapability> supportedElasticPoolPerformanceLevels;
 
     /**
      * Whether or not zone redundancy is supported for the edition.
@@ -41,12 +34,43 @@ public final class ElasticPoolEditionCapability {
     private Boolean zoneRedundant;
 
     /**
+     * The status of the capability. Possible values include: 'Visible',
+     * 'Available', 'Default', 'Disabled'.
+     */
+    @JsonProperty(value = "status", access = JsonProperty.Access.WRITE_ONLY)
+    private CapabilityStatus status;
+
+    /**
+     * The reason for the capability not being available.
+     */
+    @JsonProperty(value = "reason")
+    private String reason;
+
+    /**
      * Get the name value.
      *
      * @return the name value.
      */
     public String name() {
         return this.name;
+    }
+
+    /**
+     * Get the supportedElasticPoolPerformanceLevels value.
+     *
+     * @return the supportedElasticPoolPerformanceLevels value.
+     */
+    public List<ElasticPoolPerformanceLevelCapability> supportedElasticPoolPerformanceLevels() {
+        return this.supportedElasticPoolPerformanceLevels;
+    }
+
+    /**
+     * Get the zoneRedundant value.
+     *
+     * @return the zoneRedundant value.
+     */
+    public Boolean zoneRedundant() {
+        return this.zoneRedundant;
     }
 
     /**
@@ -59,20 +83,22 @@ public final class ElasticPoolEditionCapability {
     }
 
     /**
-     * Get the supportedElasticPoolDtus value.
+     * Get the reason value.
      *
-     * @return the supportedElasticPoolDtus value.
+     * @return the reason value.
      */
-    public List<ElasticPoolDtuCapability> supportedElasticPoolDtus() {
-        return this.supportedElasticPoolDtus;
+    public String reason() {
+        return this.reason;
     }
 
     /**
-     * Get the zoneRedundant value.
+     * Set the reason value.
      *
-     * @return the zoneRedundant value.
+     * @param reason the reason value to set.
+     * @return the ElasticPoolEditionCapability object itself.
      */
-    public Boolean zoneRedundant() {
-        return this.zoneRedundant;
+    public ElasticPoolEditionCapability withReason(String reason) {
+        this.reason = reason;
+        return this;
     }
 }

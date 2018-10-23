@@ -11,6 +11,8 @@ package com.microsoft.azure.v2.management.sql.implementation;
 import com.microsoft.azure.v2.AzureProxy;
 import com.microsoft.azure.v2.CloudException;
 import com.microsoft.azure.v2.OperationStatus;
+import com.microsoft.azure.v2.Page;
+import com.microsoft.azure.v2.PagedList;
 import com.microsoft.azure.v2.management.sql.ElasticPoolUpdate;
 import com.microsoft.azure.v2.util.ServiceFutureUtil;
 import com.microsoft.rest.v2.BodyResponse;
@@ -70,53 +72,6 @@ public final class ElasticPoolsInner {
      */
     @Host("https://management.azure.com")
     private interface ElasticPoolsService {
-        @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/elasticPools/{elasticPoolName}")
-        @ExpectedResponses({200, 201, 202, 204})
-        @UnexpectedResponseExceptionType(CloudException.class)
-        Observable<OperationStatus<ElasticPoolInner>> beginCreateOrUpdate(@PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("elasticPoolName") String elasticPoolName, @QueryParam("api-version") String apiVersion, @BodyParam("application/json; charset=utf-8") ElasticPoolInner parameters, @HeaderParam("accept-language") String acceptLanguage);
-
-        @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/elasticPools/{elasticPoolName}")
-        @ExpectedResponses({200, 201, 202, 204})
-        @UnexpectedResponseExceptionType(CloudException.class)
-        Single<BodyResponse<ElasticPoolInner>> createOrUpdate(@PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("elasticPoolName") String elasticPoolName, @QueryParam("api-version") String apiVersion, @BodyParam("application/json; charset=utf-8") ElasticPoolInner parameters, @HeaderParam("accept-language") String acceptLanguage);
-
-        @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/elasticPools/{elasticPoolName}")
-        @ExpectedResponses({200, 201, 202, 204})
-        @UnexpectedResponseExceptionType(CloudException.class)
-        @ResumeOperation
-        Observable<OperationStatus<ElasticPoolInner>> resumeCreateOrUpdate(OperationDescription operationDescription);
-
-        @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/elasticPools/{elasticPoolName}")
-        @ExpectedResponses({200, 202, 204})
-        @UnexpectedResponseExceptionType(CloudException.class)
-        Observable<OperationStatus<ElasticPoolInner>> beginUpdate(@PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("elasticPoolName") String elasticPoolName, @QueryParam("api-version") String apiVersion, @BodyParam("application/json; charset=utf-8") ElasticPoolUpdate parameters, @HeaderParam("accept-language") String acceptLanguage);
-
-        @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/elasticPools/{elasticPoolName}")
-        @ExpectedResponses({200, 202, 204})
-        @UnexpectedResponseExceptionType(CloudException.class)
-        Single<BodyResponse<ElasticPoolInner>> update(@PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("elasticPoolName") String elasticPoolName, @QueryParam("api-version") String apiVersion, @BodyParam("application/json; charset=utf-8") ElasticPoolUpdate parameters, @HeaderParam("accept-language") String acceptLanguage);
-
-        @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/elasticPools/{elasticPoolName}")
-        @ExpectedResponses({200, 202, 204})
-        @UnexpectedResponseExceptionType(CloudException.class)
-        @ResumeOperation
-        Observable<OperationStatus<ElasticPoolInner>> resumeUpdate(OperationDescription operationDescription);
-
-        @DELETE("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/elasticPools/{elasticPoolName}")
-        @ExpectedResponses({200, 204})
-        @UnexpectedResponseExceptionType(CloudException.class)
-        Single<VoidResponse> delete(@PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("elasticPoolName") String elasticPoolName, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
-
-        @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/elasticPools/{elasticPoolName}")
-        @ExpectedResponses({200})
-        @UnexpectedResponseExceptionType(CloudException.class)
-        Single<BodyResponse<ElasticPoolInner>> get(@PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("elasticPoolName") String elasticPoolName, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
-
-        @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/elasticPools")
-        @ExpectedResponses({200})
-        @UnexpectedResponseExceptionType(CloudException.class)
-        Single<BodyResponse<List<ElasticPoolInner>>> listByServer(@PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
-
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/elasticPools/{elasticPoolName}/metrics")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
@@ -126,511 +81,69 @@ public final class ElasticPoolsInner {
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
         Single<BodyResponse<List<MetricDefinitionInner>>> listMetricDefinitions(@PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("elasticPoolName") String elasticPoolName, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
-    }
 
-    /**
-     * Creates a new elastic pool or updates an existing elastic pool.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param elasticPoolName The name of the elastic pool to be operated on (updated or created).
-     * @param parameters The required parameters for creating or updating an elastic pool.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws CloudException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return the ElasticPoolInner object if successful.
-     */
-    public ElasticPoolInner beginCreateOrUpdate(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String elasticPoolName, @NonNull ElasticPoolInner parameters) {
-        return beginCreateOrUpdateAsync(resourceGroupName, serverName, elasticPoolName, parameters).blockingLast().result();
-    }
+        @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/elasticPools")
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl1<ElasticPoolInner>>> listByServer(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("$skip") Integer skip, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-    /**
-     * Creates a new elastic pool or updates an existing elastic pool.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param elasticPoolName The name of the elastic pool to be operated on (updated or created).
-     * @param parameters The required parameters for creating or updating an elastic pool.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the ServiceFuture&lt;ElasticPoolInner&gt; object.
-     */
-    public ServiceFuture<ElasticPoolInner> beginCreateOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String elasticPoolName, @NonNull ElasticPoolInner parameters, ServiceCallback<ElasticPoolInner> serviceCallback) {
-        return ServiceFutureUtil.fromLRO(beginCreateOrUpdateAsync(resourceGroupName, serverName, elasticPoolName, parameters), serviceCallback);
-    }
+        @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/elasticPools/{elasticPoolName}")
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<ElasticPoolInner>> get(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("elasticPoolName") String elasticPoolName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-    /**
-     * Creates a new elastic pool or updates an existing elastic pool.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param elasticPoolName The name of the elastic pool to be operated on (updated or created).
-     * @param parameters The required parameters for creating or updating an elastic pool.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the observable for the request.
-     */
-    public Observable<OperationStatus<ElasticPoolInner>> beginCreateOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String elasticPoolName, @NonNull ElasticPoolInner parameters) {
-        if (this.client.subscriptionId() == null) {
-            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
-        }
-        if (resourceGroupName == null) {
-            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
-        }
-        if (serverName == null) {
-            throw new IllegalArgumentException("Parameter serverName is required and cannot be null.");
-        }
-        if (elasticPoolName == null) {
-            throw new IllegalArgumentException("Parameter elasticPoolName is required and cannot be null.");
-        }
-        if (parameters == null) {
-            throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
-        }
-        Validator.validate(parameters);
-        final String apiVersion = "2014-04-01";
-        return service.beginCreateOrUpdate(this.client.subscriptionId(), resourceGroupName, serverName, elasticPoolName, apiVersion, parameters, this.client.acceptLanguage());
-    }
+        @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/elasticPools/{elasticPoolName}")
+        @ExpectedResponses({200, 201, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Observable<OperationStatus<ElasticPoolInner>> beginCreateOrUpdate(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("elasticPoolName") String elasticPoolName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json; charset=utf-8") ElasticPoolInner parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-    /**
-     * Creates a new elastic pool or updates an existing elastic pool.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param elasticPoolName The name of the elastic pool to be operated on (updated or created).
-     * @param parameters The required parameters for creating or updating an elastic pool.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws CloudException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return the ElasticPoolInner object if successful.
-     */
-    public ElasticPoolInner createOrUpdate(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String elasticPoolName, @NonNull ElasticPoolInner parameters) {
-        return createOrUpdateAsync(resourceGroupName, serverName, elasticPoolName, parameters).blockingGet();
-    }
+        @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/elasticPools/{elasticPoolName}")
+        @ExpectedResponses({200, 201, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<ElasticPoolInner>> createOrUpdate(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("elasticPoolName") String elasticPoolName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json; charset=utf-8") ElasticPoolInner parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-    /**
-     * Creates a new elastic pool or updates an existing elastic pool.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param elasticPoolName The name of the elastic pool to be operated on (updated or created).
-     * @param parameters The required parameters for creating or updating an elastic pool.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return a ServiceFuture which will be completed with the result of the network request.
-     */
-    public ServiceFuture<ElasticPoolInner> createOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String elasticPoolName, @NonNull ElasticPoolInner parameters, ServiceCallback<ElasticPoolInner> serviceCallback) {
-        return ServiceFuture.fromBody(createOrUpdateAsync(resourceGroupName, serverName, elasticPoolName, parameters), serviceCallback);
-    }
+        @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/elasticPools/{elasticPoolName}")
+        @ExpectedResponses({200, 201, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<ElasticPoolInner>> resumeCreateOrUpdate(OperationDescription operationDescription);
 
-    /**
-     * Creates a new elastic pool or updates an existing elastic pool.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param elasticPoolName The name of the elastic pool to be operated on (updated or created).
-     * @param parameters The required parameters for creating or updating an elastic pool.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return a Single which performs the network request upon subscription.
-     */
-    public Single<BodyResponse<ElasticPoolInner>> createOrUpdateWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String elasticPoolName, @NonNull ElasticPoolInner parameters) {
-        if (this.client.subscriptionId() == null) {
-            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
-        }
-        if (resourceGroupName == null) {
-            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
-        }
-        if (serverName == null) {
-            throw new IllegalArgumentException("Parameter serverName is required and cannot be null.");
-        }
-        if (elasticPoolName == null) {
-            throw new IllegalArgumentException("Parameter elasticPoolName is required and cannot be null.");
-        }
-        if (parameters == null) {
-            throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
-        }
-        Validator.validate(parameters);
-        final String apiVersion = "2014-04-01";
-        return service.createOrUpdate(this.client.subscriptionId(), resourceGroupName, serverName, elasticPoolName, apiVersion, parameters, this.client.acceptLanguage());
-    }
+        @DELETE("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/elasticPools/{elasticPoolName}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Observable<OperationStatus<Void>> beginDelete(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("elasticPoolName") String elasticPoolName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-    /**
-     * Creates a new elastic pool or updates an existing elastic pool.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param elasticPoolName The name of the elastic pool to be operated on (updated or created).
-     * @param parameters The required parameters for creating or updating an elastic pool.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return a Single which performs the network request upon subscription.
-     */
-    public Maybe<ElasticPoolInner> createOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String elasticPoolName, @NonNull ElasticPoolInner parameters) {
-        return createOrUpdateWithRestResponseAsync(resourceGroupName, serverName, elasticPoolName, parameters)
-            .flatMapMaybe((BodyResponse<ElasticPoolInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
-    }
+        @DELETE("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/elasticPools/{elasticPoolName}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<VoidResponse> delete(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("elasticPoolName") String elasticPoolName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-    /**
-     * Creates a new elastic pool or updates an existing elastic pool. (resume watch).
-     *
-     * @param operationDescription The OperationDescription object.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the observable for the request.
-     */
-    public Observable<OperationStatus<ElasticPoolInner>> resumeCreateOrUpdate(OperationDescription operationDescription) {
-        if (operationDescription == null) {
-            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
-        }
-        return service.resumeCreateOrUpdate(operationDescription);
-    }
+        @DELETE("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/elasticPools/{elasticPoolName}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<Void>> resumeDelete(OperationDescription operationDescription);
 
-    /**
-     * Updates an existing elastic pool.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param elasticPoolName The name of the elastic pool to be updated.
-     * @param parameters The required parameters for updating an elastic pool.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws CloudException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return the ElasticPoolInner object if successful.
-     */
-    public ElasticPoolInner beginUpdate(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String elasticPoolName, @NonNull ElasticPoolUpdate parameters) {
-        return beginUpdateAsync(resourceGroupName, serverName, elasticPoolName, parameters).blockingLast().result();
-    }
+        @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/elasticPools/{elasticPoolName}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Observable<OperationStatus<ElasticPoolInner>> beginUpdate(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("elasticPoolName") String elasticPoolName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json; charset=utf-8") ElasticPoolUpdate parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-    /**
-     * Updates an existing elastic pool.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param elasticPoolName The name of the elastic pool to be updated.
-     * @param parameters The required parameters for updating an elastic pool.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the ServiceFuture&lt;ElasticPoolInner&gt; object.
-     */
-    public ServiceFuture<ElasticPoolInner> beginUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String elasticPoolName, @NonNull ElasticPoolUpdate parameters, ServiceCallback<ElasticPoolInner> serviceCallback) {
-        return ServiceFutureUtil.fromLRO(beginUpdateAsync(resourceGroupName, serverName, elasticPoolName, parameters), serviceCallback);
-    }
+        @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/elasticPools/{elasticPoolName}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<ElasticPoolInner>> update(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @PathParam("elasticPoolName") String elasticPoolName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json; charset=utf-8") ElasticPoolUpdate parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage);
 
-    /**
-     * Updates an existing elastic pool.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param elasticPoolName The name of the elastic pool to be updated.
-     * @param parameters The required parameters for updating an elastic pool.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the observable for the request.
-     */
-    public Observable<OperationStatus<ElasticPoolInner>> beginUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String elasticPoolName, @NonNull ElasticPoolUpdate parameters) {
-        if (this.client.subscriptionId() == null) {
-            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
-        }
-        if (resourceGroupName == null) {
-            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
-        }
-        if (serverName == null) {
-            throw new IllegalArgumentException("Parameter serverName is required and cannot be null.");
-        }
-        if (elasticPoolName == null) {
-            throw new IllegalArgumentException("Parameter elasticPoolName is required and cannot be null.");
-        }
-        if (parameters == null) {
-            throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
-        }
-        Validator.validate(parameters);
-        final String apiVersion = "2014-04-01";
-        return service.beginUpdate(this.client.subscriptionId(), resourceGroupName, serverName, elasticPoolName, apiVersion, parameters, this.client.acceptLanguage());
-    }
+        @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/elasticPools/{elasticPoolName}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        @ResumeOperation
+        Observable<OperationStatus<ElasticPoolInner>> resumeUpdate(OperationDescription operationDescription);
 
-    /**
-     * Updates an existing elastic pool.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param elasticPoolName The name of the elastic pool to be updated.
-     * @param parameters The required parameters for updating an elastic pool.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws CloudException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return the ElasticPoolInner object if successful.
-     */
-    public ElasticPoolInner update(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String elasticPoolName, @NonNull ElasticPoolUpdate parameters) {
-        return updateAsync(resourceGroupName, serverName, elasticPoolName, parameters).blockingGet();
-    }
-
-    /**
-     * Updates an existing elastic pool.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param elasticPoolName The name of the elastic pool to be updated.
-     * @param parameters The required parameters for updating an elastic pool.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return a ServiceFuture which will be completed with the result of the network request.
-     */
-    public ServiceFuture<ElasticPoolInner> updateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String elasticPoolName, @NonNull ElasticPoolUpdate parameters, ServiceCallback<ElasticPoolInner> serviceCallback) {
-        return ServiceFuture.fromBody(updateAsync(resourceGroupName, serverName, elasticPoolName, parameters), serviceCallback);
-    }
-
-    /**
-     * Updates an existing elastic pool.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param elasticPoolName The name of the elastic pool to be updated.
-     * @param parameters The required parameters for updating an elastic pool.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return a Single which performs the network request upon subscription.
-     */
-    public Single<BodyResponse<ElasticPoolInner>> updateWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String elasticPoolName, @NonNull ElasticPoolUpdate parameters) {
-        if (this.client.subscriptionId() == null) {
-            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
-        }
-        if (resourceGroupName == null) {
-            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
-        }
-        if (serverName == null) {
-            throw new IllegalArgumentException("Parameter serverName is required and cannot be null.");
-        }
-        if (elasticPoolName == null) {
-            throw new IllegalArgumentException("Parameter elasticPoolName is required and cannot be null.");
-        }
-        if (parameters == null) {
-            throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
-        }
-        Validator.validate(parameters);
-        final String apiVersion = "2014-04-01";
-        return service.update(this.client.subscriptionId(), resourceGroupName, serverName, elasticPoolName, apiVersion, parameters, this.client.acceptLanguage());
-    }
-
-    /**
-     * Updates an existing elastic pool.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param elasticPoolName The name of the elastic pool to be updated.
-     * @param parameters The required parameters for updating an elastic pool.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return a Single which performs the network request upon subscription.
-     */
-    public Maybe<ElasticPoolInner> updateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String elasticPoolName, @NonNull ElasticPoolUpdate parameters) {
-        return updateWithRestResponseAsync(resourceGroupName, serverName, elasticPoolName, parameters)
-            .flatMapMaybe((BodyResponse<ElasticPoolInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
-    }
-
-    /**
-     * Updates an existing elastic pool. (resume watch).
-     *
-     * @param operationDescription The OperationDescription object.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return the observable for the request.
-     */
-    public Observable<OperationStatus<ElasticPoolInner>> resumeUpdate(OperationDescription operationDescription) {
-        if (operationDescription == null) {
-            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
-        }
-        return service.resumeUpdate(operationDescription);
-    }
-
-    /**
-     * Deletes the elastic pool.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param elasticPoolName The name of the elastic pool to be deleted.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws CloudException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     */
-    public void delete(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String elasticPoolName) {
-        deleteAsync(resourceGroupName, serverName, elasticPoolName).blockingAwait();
-    }
-
-    /**
-     * Deletes the elastic pool.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param elasticPoolName The name of the elastic pool to be deleted.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return a ServiceFuture which will be completed with the result of the network request.
-     */
-    public ServiceFuture<Void> deleteAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String elasticPoolName, ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromBody(deleteAsync(resourceGroupName, serverName, elasticPoolName), serviceCallback);
-    }
-
-    /**
-     * Deletes the elastic pool.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param elasticPoolName The name of the elastic pool to be deleted.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return a Single which performs the network request upon subscription.
-     */
-    public Single<VoidResponse> deleteWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String elasticPoolName) {
-        if (this.client.subscriptionId() == null) {
-            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
-        }
-        if (resourceGroupName == null) {
-            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
-        }
-        if (serverName == null) {
-            throw new IllegalArgumentException("Parameter serverName is required and cannot be null.");
-        }
-        if (elasticPoolName == null) {
-            throw new IllegalArgumentException("Parameter elasticPoolName is required and cannot be null.");
-        }
-        final String apiVersion = "2014-04-01";
-        return service.delete(this.client.subscriptionId(), resourceGroupName, serverName, elasticPoolName, apiVersion, this.client.acceptLanguage());
-    }
-
-    /**
-     * Deletes the elastic pool.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param elasticPoolName The name of the elastic pool to be deleted.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return a Single which performs the network request upon subscription.
-     */
-    public Completable deleteAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String elasticPoolName) {
-        return deleteWithRestResponseAsync(resourceGroupName, serverName, elasticPoolName)
-            .toCompletable();
-    }
-
-    /**
-     * Gets an elastic pool.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param elasticPoolName The name of the elastic pool to be retrieved.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws CloudException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return the ElasticPoolInner object if successful.
-     */
-    public ElasticPoolInner get(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String elasticPoolName) {
-        return getAsync(resourceGroupName, serverName, elasticPoolName).blockingGet();
-    }
-
-    /**
-     * Gets an elastic pool.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param elasticPoolName The name of the elastic pool to be retrieved.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return a ServiceFuture which will be completed with the result of the network request.
-     */
-    public ServiceFuture<ElasticPoolInner> getAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String elasticPoolName, ServiceCallback<ElasticPoolInner> serviceCallback) {
-        return ServiceFuture.fromBody(getAsync(resourceGroupName, serverName, elasticPoolName), serviceCallback);
-    }
-
-    /**
-     * Gets an elastic pool.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param elasticPoolName The name of the elastic pool to be retrieved.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return a Single which performs the network request upon subscription.
-     */
-    public Single<BodyResponse<ElasticPoolInner>> getWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String elasticPoolName) {
-        if (this.client.subscriptionId() == null) {
-            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
-        }
-        if (resourceGroupName == null) {
-            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
-        }
-        if (serverName == null) {
-            throw new IllegalArgumentException("Parameter serverName is required and cannot be null.");
-        }
-        if (elasticPoolName == null) {
-            throw new IllegalArgumentException("Parameter elasticPoolName is required and cannot be null.");
-        }
-        final String apiVersion = "2014-04-01";
-        return service.get(this.client.subscriptionId(), resourceGroupName, serverName, elasticPoolName, apiVersion, this.client.acceptLanguage());
-    }
-
-    /**
-     * Gets an elastic pool.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param elasticPoolName The name of the elastic pool to be retrieved.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return a Single which performs the network request upon subscription.
-     */
-    public Maybe<ElasticPoolInner> getAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String elasticPoolName) {
-        return getWithRestResponseAsync(resourceGroupName, serverName, elasticPoolName)
-            .flatMapMaybe((BodyResponse<ElasticPoolInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
-    }
-
-    /**
-     * Returns a list of elastic pools in a server.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws CloudException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return the List&lt;ElasticPoolInner&gt; object if successful.
-     */
-    public List<ElasticPoolInner> listByServer(@NonNull String resourceGroupName, @NonNull String serverName) {
-        return listByServerAsync(resourceGroupName, serverName).blockingGet();
-    }
-
-    /**
-     * Returns a list of elastic pools in a server.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return a ServiceFuture which will be completed with the result of the network request.
-     */
-    public ServiceFuture<List<ElasticPoolInner>> listByServerAsync(@NonNull String resourceGroupName, @NonNull String serverName, ServiceCallback<List<ElasticPoolInner>> serviceCallback) {
-        return ServiceFuture.fromBody(listByServerAsync(resourceGroupName, serverName), serviceCallback);
-    }
-
-    /**
-     * Returns a list of elastic pools in a server.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return a Single which performs the network request upon subscription.
-     */
-    public Single<BodyResponse<List<ElasticPoolInner>>> listByServerWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName) {
-        if (this.client.subscriptionId() == null) {
-            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
-        }
-        if (resourceGroupName == null) {
-            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
-        }
-        if (serverName == null) {
-            throw new IllegalArgumentException("Parameter serverName is required and cannot be null.");
-        }
-        final String apiVersion = "2014-04-01";
-        return service.listByServer(this.client.subscriptionId(), resourceGroupName, serverName, apiVersion, this.client.acceptLanguage());
-    }
-
-    /**
-     * Returns a list of elastic pools in a server.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @return a Single which performs the network request upon subscription.
-     */
-    public Maybe<List<ElasticPoolInner>> listByServerAsync(@NonNull String resourceGroupName, @NonNull String serverName) {
-        return listByServerWithRestResponseAsync(resourceGroupName, serverName)
-            .flatMapMaybe((BodyResponse<List<ElasticPoolInner>> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
+        @GET("{nextUrl}")
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Single<BodyResponse<PageImpl1<ElasticPoolInner>>> listByServerNext(@PathParam(value = "nextUrl", encoded = true) String nextUrl, @HeaderParam("accept-language") String acceptLanguage);
     }
 
     /**
@@ -776,5 +289,700 @@ public final class ElasticPoolsInner {
     public Maybe<List<MetricDefinitionInner>> listMetricDefinitionsAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String elasticPoolName) {
         return listMetricDefinitionsWithRestResponseAsync(resourceGroupName, serverName, elasticPoolName)
             .flatMapMaybe((BodyResponse<List<MetricDefinitionInner>> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
+    }
+
+    /**
+     * Gets all elastic pools in a server.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the PagedList&lt;ElasticPoolInner&gt; object if successful.
+     */
+    public PagedList<ElasticPoolInner> listByServer(@NonNull String resourceGroupName, @NonNull String serverName) {
+        Page<ElasticPoolInner> response = listByServerSinglePageAsync(resourceGroupName, serverName).blockingGet();
+        return new PagedList<ElasticPoolInner>(response) {
+            @Override
+            public Page<ElasticPoolInner> nextPage(String nextPageLink) {
+                return listByServerNextSinglePageAsync(nextPageLink).blockingGet();
+            }
+        };
+    }
+
+    /**
+     * Gets all elastic pools in a server.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;ElasticPoolInner&gt; object.
+     */
+    public Observable<Page<ElasticPoolInner>> listByServerAsync(@NonNull String resourceGroupName, @NonNull String serverName) {
+        return listByServerSinglePageAsync(resourceGroupName, serverName)
+            .toObservable()
+            .concatMap((Page<ElasticPoolInner> page) -> {
+                String nextPageLink = page.nextPageLink();
+                if (nextPageLink == null) {
+                    return Observable.just(page);
+                }
+                return Observable.just(page).concatWith(listByServerNextAsync(nextPageLink));
+            });
+    }
+
+    /**
+     * Gets all elastic pools in a server.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;ElasticPoolInner&gt;&gt; object if successful.
+     */
+    public Single<Page<ElasticPoolInner>> listByServerSinglePageAsync(@NonNull String resourceGroupName, @NonNull String serverName) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (serverName == null) {
+            throw new IllegalArgumentException("Parameter serverName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        final String apiVersion = "2017-10-01-preview";
+        final Integer skip = null;
+        return service.listByServer(resourceGroupName, serverName, this.client.subscriptionId(), skip, apiVersion, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl1<ElasticPoolInner>> res) -> res.body());
+    }
+
+    /**
+     * Gets all elastic pools in a server.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param skip The number of elements in the collection to skip.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the PagedList&lt;ElasticPoolInner&gt; object if successful.
+     */
+    public PagedList<ElasticPoolInner> listByServer(@NonNull String resourceGroupName, @NonNull String serverName, Integer skip) {
+        Page<ElasticPoolInner> response = listByServerSinglePageAsync(resourceGroupName, serverName, skip).blockingGet();
+        return new PagedList<ElasticPoolInner>(response) {
+            @Override
+            public Page<ElasticPoolInner> nextPage(String nextPageLink) {
+                return listByServerNextSinglePageAsync(nextPageLink).blockingGet();
+            }
+        };
+    }
+
+    /**
+     * Gets all elastic pools in a server.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param skip The number of elements in the collection to skip.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;ElasticPoolInner&gt; object.
+     */
+    public Observable<Page<ElasticPoolInner>> listByServerAsync(@NonNull String resourceGroupName, @NonNull String serverName, Integer skip) {
+        return listByServerSinglePageAsync(resourceGroupName, serverName, skip)
+            .toObservable()
+            .concatMap((Page<ElasticPoolInner> page) -> {
+                String nextPageLink = page.nextPageLink();
+                if (nextPageLink == null) {
+                    return Observable.just(page);
+                }
+                return Observable.just(page).concatWith(listByServerNextAsync(nextPageLink));
+            });
+    }
+
+    /**
+     * Gets all elastic pools in a server.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param skip The number of elements in the collection to skip.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;ElasticPoolInner&gt;&gt; object if successful.
+     */
+    public Single<Page<ElasticPoolInner>> listByServerSinglePageAsync(@NonNull String resourceGroupName, @NonNull String serverName, Integer skip) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (serverName == null) {
+            throw new IllegalArgumentException("Parameter serverName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        final String apiVersion = "2017-10-01-preview";
+        return service.listByServer(resourceGroupName, serverName, this.client.subscriptionId(), skip, apiVersion, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl1<ElasticPoolInner>> res) -> res.body());
+    }
+
+    /**
+     * Gets an elastic pool.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param elasticPoolName The name of the elastic pool.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the ElasticPoolInner object if successful.
+     */
+    public ElasticPoolInner get(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String elasticPoolName) {
+        return getAsync(resourceGroupName, serverName, elasticPoolName).blockingGet();
+    }
+
+    /**
+     * Gets an elastic pool.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param elasticPoolName The name of the elastic pool.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
+     */
+    public ServiceFuture<ElasticPoolInner> getAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String elasticPoolName, ServiceCallback<ElasticPoolInner> serviceCallback) {
+        return ServiceFuture.fromBody(getAsync(resourceGroupName, serverName, elasticPoolName), serviceCallback);
+    }
+
+    /**
+     * Gets an elastic pool.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param elasticPoolName The name of the elastic pool.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Single<BodyResponse<ElasticPoolInner>> getWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String elasticPoolName) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (serverName == null) {
+            throw new IllegalArgumentException("Parameter serverName is required and cannot be null.");
+        }
+        if (elasticPoolName == null) {
+            throw new IllegalArgumentException("Parameter elasticPoolName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        final String apiVersion = "2017-10-01-preview";
+        return service.get(resourceGroupName, serverName, elasticPoolName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
+    }
+
+    /**
+     * Gets an elastic pool.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param elasticPoolName The name of the elastic pool.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<ElasticPoolInner> getAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String elasticPoolName) {
+        return getWithRestResponseAsync(resourceGroupName, serverName, elasticPoolName)
+            .flatMapMaybe((BodyResponse<ElasticPoolInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
+    }
+
+    /**
+     * Creates or updates an elastic pool.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param elasticPoolName The name of the elastic pool.
+     * @param parameters The elastic pool parameters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the ElasticPoolInner object if successful.
+     */
+    public ElasticPoolInner beginCreateOrUpdate(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String elasticPoolName, @NonNull ElasticPoolInner parameters) {
+        return beginCreateOrUpdateAsync(resourceGroupName, serverName, elasticPoolName, parameters).blockingLast().result();
+    }
+
+    /**
+     * Creates or updates an elastic pool.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param elasticPoolName The name of the elastic pool.
+     * @param parameters The elastic pool parameters.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;ElasticPoolInner&gt; object.
+     */
+    public ServiceFuture<ElasticPoolInner> beginCreateOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String elasticPoolName, @NonNull ElasticPoolInner parameters, ServiceCallback<ElasticPoolInner> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginCreateOrUpdateAsync(resourceGroupName, serverName, elasticPoolName, parameters), serviceCallback);
+    }
+
+    /**
+     * Creates or updates an elastic pool.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param elasticPoolName The name of the elastic pool.
+     * @param parameters The elastic pool parameters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<ElasticPoolInner>> beginCreateOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String elasticPoolName, @NonNull ElasticPoolInner parameters) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (serverName == null) {
+            throw new IllegalArgumentException("Parameter serverName is required and cannot be null.");
+        }
+        if (elasticPoolName == null) {
+            throw new IllegalArgumentException("Parameter elasticPoolName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (parameters == null) {
+            throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
+        }
+        Validator.validate(parameters);
+        final String apiVersion = "2017-10-01-preview";
+        return service.beginCreateOrUpdate(resourceGroupName, serverName, elasticPoolName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage());
+    }
+
+    /**
+     * Creates or updates an elastic pool.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param elasticPoolName The name of the elastic pool.
+     * @param parameters The elastic pool parameters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the ElasticPoolInner object if successful.
+     */
+    public ElasticPoolInner createOrUpdate(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String elasticPoolName, @NonNull ElasticPoolInner parameters) {
+        return createOrUpdateAsync(resourceGroupName, serverName, elasticPoolName, parameters).blockingGet();
+    }
+
+    /**
+     * Creates or updates an elastic pool.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param elasticPoolName The name of the elastic pool.
+     * @param parameters The elastic pool parameters.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
+     */
+    public ServiceFuture<ElasticPoolInner> createOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String elasticPoolName, @NonNull ElasticPoolInner parameters, ServiceCallback<ElasticPoolInner> serviceCallback) {
+        return ServiceFuture.fromBody(createOrUpdateAsync(resourceGroupName, serverName, elasticPoolName, parameters), serviceCallback);
+    }
+
+    /**
+     * Creates or updates an elastic pool.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param elasticPoolName The name of the elastic pool.
+     * @param parameters The elastic pool parameters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Single<BodyResponse<ElasticPoolInner>> createOrUpdateWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String elasticPoolName, @NonNull ElasticPoolInner parameters) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (serverName == null) {
+            throw new IllegalArgumentException("Parameter serverName is required and cannot be null.");
+        }
+        if (elasticPoolName == null) {
+            throw new IllegalArgumentException("Parameter elasticPoolName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (parameters == null) {
+            throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
+        }
+        Validator.validate(parameters);
+        final String apiVersion = "2017-10-01-preview";
+        return service.createOrUpdate(resourceGroupName, serverName, elasticPoolName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage());
+    }
+
+    /**
+     * Creates or updates an elastic pool.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param elasticPoolName The name of the elastic pool.
+     * @param parameters The elastic pool parameters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<ElasticPoolInner> createOrUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String elasticPoolName, @NonNull ElasticPoolInner parameters) {
+        return createOrUpdateWithRestResponseAsync(resourceGroupName, serverName, elasticPoolName, parameters)
+            .flatMapMaybe((BodyResponse<ElasticPoolInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
+    }
+
+    /**
+     * Creates or updates an elastic pool. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<ElasticPoolInner>> resumeCreateOrUpdate(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeCreateOrUpdate(operationDescription);
+    }
+
+    /**
+     * Deletes an elastic pool.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param elasticPoolName The name of the elastic pool.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    public void beginDelete(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String elasticPoolName) {
+        beginDeleteAsync(resourceGroupName, serverName, elasticPoolName).blockingLast();
+    }
+
+    /**
+     * Deletes an elastic pool.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param elasticPoolName The name of the elastic pool.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;Void&gt; object.
+     */
+    public ServiceFuture<Void> beginDeleteAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String elasticPoolName, ServiceCallback<Void> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginDeleteAsync(resourceGroupName, serverName, elasticPoolName), serviceCallback);
+    }
+
+    /**
+     * Deletes an elastic pool.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param elasticPoolName The name of the elastic pool.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<Void>> beginDeleteAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String elasticPoolName) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (serverName == null) {
+            throw new IllegalArgumentException("Parameter serverName is required and cannot be null.");
+        }
+        if (elasticPoolName == null) {
+            throw new IllegalArgumentException("Parameter elasticPoolName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        final String apiVersion = "2017-10-01-preview";
+        return service.beginDelete(resourceGroupName, serverName, elasticPoolName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
+    }
+
+    /**
+     * Deletes an elastic pool.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param elasticPoolName The name of the elastic pool.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    public void delete(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String elasticPoolName) {
+        deleteAsync(resourceGroupName, serverName, elasticPoolName).blockingAwait();
+    }
+
+    /**
+     * Deletes an elastic pool.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param elasticPoolName The name of the elastic pool.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
+     */
+    public ServiceFuture<Void> deleteAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String elasticPoolName, ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromBody(deleteAsync(resourceGroupName, serverName, elasticPoolName), serviceCallback);
+    }
+
+    /**
+     * Deletes an elastic pool.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param elasticPoolName The name of the elastic pool.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Single<VoidResponse> deleteWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String elasticPoolName) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (serverName == null) {
+            throw new IllegalArgumentException("Parameter serverName is required and cannot be null.");
+        }
+        if (elasticPoolName == null) {
+            throw new IllegalArgumentException("Parameter elasticPoolName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        final String apiVersion = "2017-10-01-preview";
+        return service.delete(resourceGroupName, serverName, elasticPoolName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage());
+    }
+
+    /**
+     * Deletes an elastic pool.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param elasticPoolName The name of the elastic pool.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Completable deleteAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String elasticPoolName) {
+        return deleteWithRestResponseAsync(resourceGroupName, serverName, elasticPoolName)
+            .toCompletable();
+    }
+
+    /**
+     * Deletes an elastic pool. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<Void>> resumeDelete(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeDelete(operationDescription);
+    }
+
+    /**
+     * Updates an elastic pool.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param elasticPoolName The name of the elastic pool.
+     * @param parameters The elastic pool update parameters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the ElasticPoolInner object if successful.
+     */
+    public ElasticPoolInner beginUpdate(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String elasticPoolName, @NonNull ElasticPoolUpdate parameters) {
+        return beginUpdateAsync(resourceGroupName, serverName, elasticPoolName, parameters).blockingLast().result();
+    }
+
+    /**
+     * Updates an elastic pool.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param elasticPoolName The name of the elastic pool.
+     * @param parameters The elastic pool update parameters.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the ServiceFuture&lt;ElasticPoolInner&gt; object.
+     */
+    public ServiceFuture<ElasticPoolInner> beginUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String elasticPoolName, @NonNull ElasticPoolUpdate parameters, ServiceCallback<ElasticPoolInner> serviceCallback) {
+        return ServiceFutureUtil.fromLRO(beginUpdateAsync(resourceGroupName, serverName, elasticPoolName, parameters), serviceCallback);
+    }
+
+    /**
+     * Updates an elastic pool.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param elasticPoolName The name of the elastic pool.
+     * @param parameters The elastic pool update parameters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<ElasticPoolInner>> beginUpdateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String elasticPoolName, @NonNull ElasticPoolUpdate parameters) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (serverName == null) {
+            throw new IllegalArgumentException("Parameter serverName is required and cannot be null.");
+        }
+        if (elasticPoolName == null) {
+            throw new IllegalArgumentException("Parameter elasticPoolName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (parameters == null) {
+            throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
+        }
+        Validator.validate(parameters);
+        final String apiVersion = "2017-10-01-preview";
+        return service.beginUpdate(resourceGroupName, serverName, elasticPoolName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage());
+    }
+
+    /**
+     * Updates an elastic pool.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param elasticPoolName The name of the elastic pool.
+     * @param parameters The elastic pool update parameters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the ElasticPoolInner object if successful.
+     */
+    public ElasticPoolInner update(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String elasticPoolName, @NonNull ElasticPoolUpdate parameters) {
+        return updateAsync(resourceGroupName, serverName, elasticPoolName, parameters).blockingGet();
+    }
+
+    /**
+     * Updates an elastic pool.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param elasticPoolName The name of the elastic pool.
+     * @param parameters The elastic pool update parameters.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a ServiceFuture which will be completed with the result of the network request.
+     */
+    public ServiceFuture<ElasticPoolInner> updateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String elasticPoolName, @NonNull ElasticPoolUpdate parameters, ServiceCallback<ElasticPoolInner> serviceCallback) {
+        return ServiceFuture.fromBody(updateAsync(resourceGroupName, serverName, elasticPoolName, parameters), serviceCallback);
+    }
+
+    /**
+     * Updates an elastic pool.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param elasticPoolName The name of the elastic pool.
+     * @param parameters The elastic pool update parameters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Single<BodyResponse<ElasticPoolInner>> updateWithRestResponseAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String elasticPoolName, @NonNull ElasticPoolUpdate parameters) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (serverName == null) {
+            throw new IllegalArgumentException("Parameter serverName is required and cannot be null.");
+        }
+        if (elasticPoolName == null) {
+            throw new IllegalArgumentException("Parameter elasticPoolName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (parameters == null) {
+            throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
+        }
+        Validator.validate(parameters);
+        final String apiVersion = "2017-10-01-preview";
+        return service.update(resourceGroupName, serverName, elasticPoolName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage());
+    }
+
+    /**
+     * Updates an elastic pool.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param elasticPoolName The name of the elastic pool.
+     * @param parameters The elastic pool update parameters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return a Single which performs the network request upon subscription.
+     */
+    public Maybe<ElasticPoolInner> updateAsync(@NonNull String resourceGroupName, @NonNull String serverName, @NonNull String elasticPoolName, @NonNull ElasticPoolUpdate parameters) {
+        return updateWithRestResponseAsync(resourceGroupName, serverName, elasticPoolName, parameters)
+            .flatMapMaybe((BodyResponse<ElasticPoolInner> res) -> res.body() == null ? Maybe.empty() : Maybe.just(res.body()));
+    }
+
+    /**
+     * Updates an elastic pool. (resume watch).
+     *
+     * @param operationDescription The OperationDescription object.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable for the request.
+     */
+    public Observable<OperationStatus<ElasticPoolInner>> resumeUpdate(OperationDescription operationDescription) {
+        if (operationDescription == null) {
+            throw new IllegalArgumentException("Parameter operationDescription is required and cannot be null.");
+        }
+        return service.resumeUpdate(operationDescription);
+    }
+
+    /**
+     * Gets all elastic pools in a server.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the PagedList&lt;ElasticPoolInner&gt; object if successful.
+     */
+    public PagedList<ElasticPoolInner> listByServerNext(@NonNull String nextPageLink) {
+        Page<ElasticPoolInner> response = listByServerNextSinglePageAsync(nextPageLink).blockingGet();
+        return new PagedList<ElasticPoolInner>(response) {
+            @Override
+            public Page<ElasticPoolInner> nextPage(String nextPageLink) {
+                return listByServerNextSinglePageAsync(nextPageLink).blockingGet();
+            }
+        };
+    }
+
+    /**
+     * Gets all elastic pools in a server.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the observable to the PagedList&lt;ElasticPoolInner&gt; object.
+     */
+    public Observable<Page<ElasticPoolInner>> listByServerNextAsync(@NonNull String nextPageLink) {
+        return listByServerNextSinglePageAsync(nextPageLink)
+            .toObservable()
+            .concatMap((Page<ElasticPoolInner> page) -> {
+                String nextPageLink1 = page.nextPageLink();
+                if (nextPageLink1 == null) {
+                    return Observable.just(page);
+                }
+                return Observable.just(page).concatWith(listByServerNextAsync(nextPageLink1));
+            });
+    }
+
+    /**
+     * Gets all elastic pools in a server.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @return the Single&lt;Page&lt;ElasticPoolInner&gt;&gt; object if successful.
+     */
+    public Single<Page<ElasticPoolInner>> listByServerNextSinglePageAsync(@NonNull String nextPageLink) {
+        if (nextPageLink == null) {
+            throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
+        }
+        String nextUrl = String.format("%s", nextPageLink);
+        return service.listByServerNext(nextUrl, this.client.acceptLanguage())
+            .map((BodyResponse<PageImpl1<ElasticPoolInner>> res) -> res.body());
     }
 }

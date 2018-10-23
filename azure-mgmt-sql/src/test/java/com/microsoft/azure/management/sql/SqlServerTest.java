@@ -6,15 +6,14 @@
 
 package com.microsoft.azure.management.sql;
 
-import com.microsoft.azure.management.resources.core.TestBase;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
-import com.microsoft.azure.management.resources.implementation.ResourceManager;
-import com.microsoft.azure.management.sql.implementation.SqlServerManager;
-import com.microsoft.azure.management.storage.implementation.StorageManager;
-import com.microsoft.rest.RestClient;
+import com.microsoft.azure.v2.management.resources.core.TestBase;
+import com.microsoft.azure.v2.management.resources.fluentcore.utils.SdkContext;
+import com.microsoft.azure.v2.management.resources.implementation.ResourceManager;
+import com.microsoft.azure.v2.management.sql.implementation.SqlServerManager;
+import com.microsoft.azure.v2.management.storage.implementation.StorageManager;
+import com.microsoft.rest.v2.http.HttpPipeline;
+import com.microsoft.rest.v2.http.HttpPipelineBuilder;
 
-import java.net.InetSocketAddress;
-import java.net.Proxy;
 import java.util.concurrent.TimeUnit;
 
 public abstract class SqlServerTest extends TestBase {
@@ -25,27 +24,27 @@ public abstract class SqlServerTest extends TestBase {
     protected static String SQL_SERVER_NAME = "";
 
     @Override
-    protected RestClient buildRestClient(RestClient.Builder builder, boolean isMocked) {
+    protected HttpPipeline buildRestClient(HttpPipelineBuilder builder, boolean isMocked) {
         if (!isMocked) {
-        return super.buildRestClient(builder.withReadTimeout(150, TimeUnit.SECONDS) , isMocked);
+        return super.buildRestClient(builder.withTimeoutPolicy(150, TimeUnit.SECONDS) , isMocked);
     }
         return super.buildRestClient(builder, isMocked);
     }
 
     @Override
-    protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {
+    protected void initializeClients(HttpPipeline httpPipeline, String defaultSubscription, String domain) {
         RG_NAME = generateRandomResourceName("rgsql", 20);
         SQL_SERVER_NAME = generateRandomResourceName("javasqlserver", 20);
 
         resourceManager = ResourceManager
-                .authenticate(restClient)
+                .authenticate(httpPipeline)
                 .withSubscription(defaultSubscription);
 
         sqlServerManager = SqlServerManager
-                .authenticate(restClient, domain, defaultSubscription);
+                .authenticate(httpPipeline, domain, defaultSubscription);
 
         storageManager = StorageManager
-            .authenticate(restClient, defaultSubscription);
+            .authenticate(httpPipeline, defaultSubscription);
     }
 
     @Override

@@ -12,26 +12,20 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 /**
- * The server capability.
+ * The managed server capability.
  */
-public final class ServerVersionCapability {
+public final class ManagedInstanceEditionCapability {
     /**
-     * The server version name.
+     * The managed server version name.
      */
     @JsonProperty(value = "name", access = JsonProperty.Access.WRITE_ONLY)
     private String name;
 
     /**
-     * The list of supported database editions.
+     * The supported families.
      */
-    @JsonProperty(value = "supportedEditions", access = JsonProperty.Access.WRITE_ONLY)
-    private List<EditionCapability> supportedEditions;
-
-    /**
-     * The list of supported elastic pool editions.
-     */
-    @JsonProperty(value = "supportedElasticPoolEditions", access = JsonProperty.Access.WRITE_ONLY)
-    private List<ElasticPoolEditionCapability> supportedElasticPoolEditions;
+    @JsonProperty(value = "supportedFamilies", access = JsonProperty.Access.WRITE_ONLY)
+    private List<ManagedInstanceFamilyCapability> supportedFamilies;
 
     /**
      * The status of the capability. Possible values include: 'Visible',
@@ -56,21 +50,12 @@ public final class ServerVersionCapability {
     }
 
     /**
-     * Get the supportedEditions value.
+     * Get the supportedFamilies value.
      *
-     * @return the supportedEditions value.
+     * @return the supportedFamilies value.
      */
-    public List<EditionCapability> supportedEditions() {
-        return this.supportedEditions;
-    }
-
-    /**
-     * Get the supportedElasticPoolEditions value.
-     *
-     * @return the supportedElasticPoolEditions value.
-     */
-    public List<ElasticPoolEditionCapability> supportedElasticPoolEditions() {
-        return this.supportedElasticPoolEditions;
+    public List<ManagedInstanceFamilyCapability> supportedFamilies() {
+        return this.supportedFamilies;
     }
 
     /**
@@ -95,9 +80,9 @@ public final class ServerVersionCapability {
      * Set the reason value.
      *
      * @param reason the reason value to set.
-     * @return the ServerVersionCapability object itself.
+     * @return the ManagedInstanceEditionCapability object itself.
      */
-    public ServerVersionCapability withReason(String reason) {
+    public ManagedInstanceEditionCapability withReason(String reason) {
         this.reason = reason;
         return this;
     }

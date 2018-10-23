@@ -364,7 +364,7 @@ public class SqlServerImpl
     }
 
     @Override
-    public SqlServerImpl withoutAccessFromAzureServices() {
+    public SqlServerImpl withAzureServicesAccessDisabled() {
         allowAzureServicesAccess = false;
         return this;
     }
@@ -396,25 +396,6 @@ public class SqlServerImpl
     @Override
     public SqlFirewallRuleImpl defineFirewallRule(String name) {
         return this.sqlFirewallRules.defineInlineFirewallRule(name);
-    }
-
-    @Override
-    public SqlServerImpl withNewFirewallRule(String ipAddress) {
-        return this.withNewFirewallRule(ipAddress, ipAddress);
-    }
-
-    @Override
-    public SqlServerImpl withNewFirewallRule(String startIPAddress, String endIPAddress) {
-        return this.withNewFirewallRule(startIPAddress, endIPAddress, SdkContext.randomResourceName("firewall_", 15));
-    }
-
-    @Override
-    public SqlServerImpl withNewFirewallRule(String startIPAddress, String endIPAddress, String firewallRuleName) {
-        return this.sqlFirewallRules
-            .defineInlineFirewallRule(firewallRuleName)
-            .withStartIPAddress(startIPAddress)
-            .withEndIPAddress(endIPAddress)
-            .attach();
     }
 
     @Override
@@ -490,27 +471,8 @@ public class SqlServerImpl
     }
 
     @Override
-    public SqlServerImpl withNewElasticPool(String elasticPoolName, ElasticPoolEditions elasticPoolEdition) {
-        return this.sqlElasticPools
-            .defineInlineElasticPool(elasticPoolName)
-            .withEdition(elasticPoolEdition)
-            .attach();
-    }
-
-    @Override
     public SqlServerImpl withoutElasticPool(String elasticPoolName) {
         sqlElasticPools.removeInlineElasticPool(elasticPoolName);
-        return this;
-    }
-
-    @Override
-    public SqlServerImpl withNewElasticPool(String elasticPoolName, ElasticPoolEditions elasticPoolEdition, String... databaseNames) {
-        this.withNewElasticPool(elasticPoolName, elasticPoolEdition);
-        for (String dbName : databaseNames) {
-            this.defineDatabase(dbName)
-                .withExistingElasticPool(elasticPoolName)
-                .attach();
-        }
         return this;
     }
 
@@ -518,13 +480,6 @@ public class SqlServerImpl
     public SqlDatabaseImpl defineDatabase(String name) {
         return this.sqlDatabases
             .defineInlineDatabase(name);
-    }
-
-    @Override
-    public SqlServerImpl withNewDatabase(String databaseName) {
-        return this.sqlDatabases
-            .defineInlineDatabase(databaseName)
-            .attach();
     }
 
     @Override

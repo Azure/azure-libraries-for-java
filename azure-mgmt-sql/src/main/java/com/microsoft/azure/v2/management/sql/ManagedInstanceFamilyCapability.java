@@ -10,41 +10,22 @@ package com.microsoft.azure.v2.management.sql;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
-import java.util.UUID;
 
 /**
- * The service objectives capability.
+ * The managed server family capability.
  */
-public final class ServiceObjectiveCapability {
+public final class ManagedInstanceFamilyCapability {
     /**
-     * The unique ID of the service objective.
-     */
-    @JsonProperty(value = "id", access = JsonProperty.Access.WRITE_ONLY)
-    private UUID id;
-
-    /**
-     * The service objective name.
+     * Family name.
      */
     @JsonProperty(value = "name", access = JsonProperty.Access.WRITE_ONLY)
     private String name;
 
     /**
-     * The list of supported maximum database sizes.
-     */
-    @JsonProperty(value = "supportedMaxSizes", access = JsonProperty.Access.WRITE_ONLY)
-    private List<MaxSizeRangeCapability> supportedMaxSizes;
-
-    /**
-     * The performance level.
-     */
-    @JsonProperty(value = "performanceLevel", access = JsonProperty.Access.WRITE_ONLY)
-    private PerformanceLevelCapability performanceLevel;
-
-    /**
-     * The sku.
+     * SKU name.
      */
     @JsonProperty(value = "sku", access = JsonProperty.Access.WRITE_ONLY)
-    private Sku sku;
+    private String sku;
 
     /**
      * List of supported license types.
@@ -53,10 +34,22 @@ public final class ServiceObjectiveCapability {
     private List<LicenseTypeCapability> supportedLicenseTypes;
 
     /**
-     * The included (free) max size.
+     * List of supported virtual cores values.
+     */
+    @JsonProperty(value = "supportedVcoresValues", access = JsonProperty.Access.WRITE_ONLY)
+    private List<ManagedInstanceVcoresCapability> supportedVcoresValues;
+
+    /**
+     * Included size.
      */
     @JsonProperty(value = "includedMaxSize", access = JsonProperty.Access.WRITE_ONLY)
     private MaxSizeCapability includedMaxSize;
+
+    /**
+     * Storage size ranges.
+     */
+    @JsonProperty(value = "supportedStorageSizes", access = JsonProperty.Access.WRITE_ONLY)
+    private List<MaxSizeRangeCapability> supportedStorageSizes;
 
     /**
      * The status of the capability. Possible values include: 'Visible',
@@ -72,15 +65,6 @@ public final class ServiceObjectiveCapability {
     private String reason;
 
     /**
-     * Get the id value.
-     *
-     * @return the id value.
-     */
-    public UUID id() {
-        return this.id;
-    }
-
-    /**
      * Get the name value.
      *
      * @return the name value.
@@ -90,29 +74,11 @@ public final class ServiceObjectiveCapability {
     }
 
     /**
-     * Get the supportedMaxSizes value.
-     *
-     * @return the supportedMaxSizes value.
-     */
-    public List<MaxSizeRangeCapability> supportedMaxSizes() {
-        return this.supportedMaxSizes;
-    }
-
-    /**
-     * Get the performanceLevel value.
-     *
-     * @return the performanceLevel value.
-     */
-    public PerformanceLevelCapability performanceLevel() {
-        return this.performanceLevel;
-    }
-
-    /**
      * Get the sku value.
      *
      * @return the sku value.
      */
-    public Sku sku() {
+    public String sku() {
         return this.sku;
     }
 
@@ -126,12 +92,30 @@ public final class ServiceObjectiveCapability {
     }
 
     /**
+     * Get the supportedVcoresValues value.
+     *
+     * @return the supportedVcoresValues value.
+     */
+    public List<ManagedInstanceVcoresCapability> supportedVcoresValues() {
+        return this.supportedVcoresValues;
+    }
+
+    /**
      * Get the includedMaxSize value.
      *
      * @return the includedMaxSize value.
      */
     public MaxSizeCapability includedMaxSize() {
         return this.includedMaxSize;
+    }
+
+    /**
+     * Get the supportedStorageSizes value.
+     *
+     * @return the supportedStorageSizes value.
+     */
+    public List<MaxSizeRangeCapability> supportedStorageSizes() {
+        return this.supportedStorageSizes;
     }
 
     /**
@@ -156,9 +140,9 @@ public final class ServiceObjectiveCapability {
      * Set the reason value.
      *
      * @param reason the reason value to set.
-     * @return the ServiceObjectiveCapability object itself.
+     * @return the ManagedInstanceFamilyCapability object itself.
      */
-    public ServiceObjectiveCapability withReason(String reason) {
+    public ManagedInstanceFamilyCapability withReason(String reason) {
         this.reason = reason;
         return this;
     }

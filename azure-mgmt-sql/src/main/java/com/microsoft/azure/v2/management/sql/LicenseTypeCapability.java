@@ -9,29 +9,16 @@
 package com.microsoft.azure.v2.management.sql;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.util.List;
 
 /**
- * The server capability.
+ * The license type capability.
  */
-public final class ServerVersionCapability {
+public final class LicenseTypeCapability {
     /**
-     * The server version name.
+     * License type identifier.
      */
     @JsonProperty(value = "name", access = JsonProperty.Access.WRITE_ONLY)
     private String name;
-
-    /**
-     * The list of supported database editions.
-     */
-    @JsonProperty(value = "supportedEditions", access = JsonProperty.Access.WRITE_ONLY)
-    private List<EditionCapability> supportedEditions;
-
-    /**
-     * The list of supported elastic pool editions.
-     */
-    @JsonProperty(value = "supportedElasticPoolEditions", access = JsonProperty.Access.WRITE_ONLY)
-    private List<ElasticPoolEditionCapability> supportedElasticPoolEditions;
 
     /**
      * The status of the capability. Possible values include: 'Visible',
@@ -56,24 +43,6 @@ public final class ServerVersionCapability {
     }
 
     /**
-     * Get the supportedEditions value.
-     *
-     * @return the supportedEditions value.
-     */
-    public List<EditionCapability> supportedEditions() {
-        return this.supportedEditions;
-    }
-
-    /**
-     * Get the supportedElasticPoolEditions value.
-     *
-     * @return the supportedElasticPoolEditions value.
-     */
-    public List<ElasticPoolEditionCapability> supportedElasticPoolEditions() {
-        return this.supportedElasticPoolEditions;
-    }
-
-    /**
      * Get the status value.
      *
      * @return the status value.
@@ -95,9 +64,9 @@ public final class ServerVersionCapability {
      * Set the reason value.
      *
      * @param reason the reason value to set.
-     * @return the ServerVersionCapability object itself.
+     * @return the LicenseTypeCapability object itself.
      */
-    public ServerVersionCapability withReason(String reason) {
+    public LicenseTypeCapability withReason(String reason) {
         this.reason = reason;
         return this;
     }

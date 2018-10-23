@@ -11,6 +11,7 @@ package com.microsoft.azure.v2.management.sql.implementation;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.azure.v2.management.sql.ElasticPoolEdition;
 import com.microsoft.azure.v2.management.sql.ProxyResource;
+import com.microsoft.azure.v2.management.sql.TrackedResource;
 import com.microsoft.rest.v2.serializer.JsonFlatten;
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -80,7 +81,7 @@ public class RecommendedElasticPoolInner extends ProxyResource {
      * The list of databases in this pool. Expanded property.
      */
     @JsonProperty(value = "properties.databases", access = JsonProperty.Access.WRITE_ONLY)
-    private List<DatabaseInner> databasesProperty;
+    private List<TrackedResource> databasesProperty;
 
     /**
      * The list of databases housed in the server. Expanded property.
@@ -218,7 +219,7 @@ public class RecommendedElasticPoolInner extends ProxyResource {
      *
      * @return the databasesProperty value.
      */
-    public List<DatabaseInner> databasesProperty() {
+    public List<TrackedResource> databasesProperty() {
         return this.databasesProperty;
     }
 

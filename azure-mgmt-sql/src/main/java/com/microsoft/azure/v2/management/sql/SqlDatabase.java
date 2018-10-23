@@ -32,7 +32,6 @@ import java.util.UUID;
  * An immutable client-side representation of an Azure SQL Server Database.
  */
 @Fluent
-@Beta(since = "V1_7_0")
 public interface SqlDatabase
     extends
         ExternalChildResource<SqlDatabase, SqlServer>,
@@ -136,12 +135,6 @@ public interface SqlDatabase
     Region region();
 
     /**
-     * @return the upgradeHint value
-     */
-    @Deprecated
-    UpgradeHintInterface getUpgradeHint();
-
-    /**
      * @return true if this Database is SqlWarehouse
      */
     boolean isDataWarehouse();
@@ -162,22 +155,13 @@ public interface SqlDatabase
      * @return the list of all restore points on this database
      */
     @Method
-    @Beta(since = "V1_7_0")
     Observable<RestorePoint> listRestorePointsAsync();
-
-    /**
-     * @return the list of usages (DatabaseMetrics) of this database
-     */
-    @Method
-    @Deprecated
-    List<DatabaseMetric> listUsages();
 
     /**
      * @param filter an OData filter expression that describes a subset of metrics to return.
      * @return the list of metrics for this database
      */
     @Method
-    @Beta(since = "V1_7_0")
     List<SqlDatabaseMetric> listMetrics(String filter);
 
     /**
@@ -185,21 +169,18 @@ public interface SqlDatabase
      * @return a representation of the deferred computation of the metrics for this database
      */
     @Method
-    @Beta(since = "V1_7_0")
     Observable<SqlDatabaseMetric> listMetricsAsync(String filter);
 
     /**
      * @return the list of metric definitions for this database
      */
     @Method
-    @Beta(since = "V1_7_0")
     List<SqlDatabaseMetricDefinition> listMetricDefinitions();
 
     /**
      * @return a representation of the deferred computation of the metric definitions for this database
      */
     @Method
-    @Beta(since = "V1_7_0")
     Observable<SqlDatabaseMetricDefinition> listMetricDefinitionsAsync();
 
     /**
@@ -216,7 +197,6 @@ public interface SqlDatabase
      * @return a representation of the deferred computation of an Azure SQL Database Transparent Data Encryption for this database
      */
     @Method
-    @Beta(since = "V1_7_0")
     Observable<TransparentDataEncryption> getTransparentDataEncryptionAsync();
 
     /**
@@ -229,7 +209,6 @@ public interface SqlDatabase
      * @return a representation of the deferred computation of the information about service tier advisors for this database
      */
     @Method
-    @Beta(since = "V1_7_0")
     Observable<ServiceTierAdvisor> listServiceTierAdvisorsAsync();
 
     /**
@@ -242,7 +221,6 @@ public interface SqlDatabase
      * @return a representation of the deferred computation of all the replication links associated with this database
      */
     @Method
-    @Beta(since = "V1_7_0")
     Observable<ReplicationLink> listReplicationLinksAsync();
 
     /**
@@ -251,7 +229,6 @@ public interface SqlDatabase
      * @param storageUri the storage URI to use
      * @return response object
      */
-    @Beta(since = "V1_7_0")
     SqlDatabaseExportRequest.DefinitionStages.WithStorageTypeAndKey exportTo(String storageUri);
 
     /**
@@ -262,7 +239,6 @@ public interface SqlDatabase
      * @param fileName the exported database file name
      * @return response object
      */
-    @Beta(since = "V1_7_0")
     SqlDatabaseExportRequest.DefinitionStages.WithAuthenticationTypeAndLoginPassword exportTo(StorageAccount storageAccount, String containerName, String fileName);
 
     /**
@@ -273,7 +249,6 @@ public interface SqlDatabase
      * @param fileName the exported database file name
      * @return response object
      */
-    @Beta(since = "V1_7_0")
     SqlDatabaseExportRequest.DefinitionStages.WithAuthenticationTypeAndLoginPassword exportTo(Creatable<StorageAccount> storageAccountCreatable, String containerName, String fileName);
 
     /**
@@ -282,7 +257,6 @@ public interface SqlDatabase
      * @param storageUri the storage URI to use
      * @return response object
      */
-    @Beta(since = "V1_7_0")
     SqlDatabaseImportRequest.DefinitionStages.WithStorageTypeAndKey importBacpac(String storageUri);
 
     /**
@@ -293,7 +267,6 @@ public interface SqlDatabase
      * @param fileName the exported database file name
      * @return response object
      */
-    @Beta(since = "V1_7_0")
     SqlDatabaseImportRequest.DefinitionStages.WithAuthenticationTypeAndLoginPassword importBacpac(StorageAccount storageAccount, String containerName, String fileName);
 
     /**
@@ -302,7 +275,6 @@ public interface SqlDatabase
      * @param policyName the name of the security alert policy
      * @return the first stage of the SqlDatabaseThreatDetectionPolicy definition
      */
-    @Beta(since = "V1_7_0")
     SqlDatabaseThreatDetectionPolicy.DefinitionStages.Blank defineThreatDetectionPolicy(String policyName);
 
     /**
@@ -311,7 +283,6 @@ public interface SqlDatabase
      * @return the SQL database threat detection policy for the current database
      */
     @Method
-    @Beta(since = "V1_7_0")
     SqlDatabaseThreatDetectionPolicy getThreatDetectionPolicy();
 
     /**
@@ -320,7 +291,6 @@ public interface SqlDatabase
      * @return the SQL database automatic tuning state and options
      */
     @Method
-    @Beta(since = "V1_8_0")
     SqlDatabaseAutomaticTuning getDatabaseAutomaticTuning();
 
     /**
@@ -329,7 +299,6 @@ public interface SqlDatabase
      * @return the SQL database usage metrics
      */
     @Method
-    @Beta(since = "V1_8_0")
     List<SqlDatabaseUsageMetric> listUsageMetrics();
 
     /**
@@ -338,7 +307,6 @@ public interface SqlDatabase
      * @return a representation of the deferred computation of this call returning the SQL database usage metrics
      */
     @Method
-    @Beta(since = "V1_8_0")
     Observable<SqlDatabaseUsageMetric> listUsageMetricsAsync();
 
 
@@ -349,7 +317,6 @@ public interface SqlDatabase
      * @return the renamed SQL database
      */
     @Method
-    @Beta(since = "V1_8_0")
     SqlDatabase rename(String newDatabaseName);
 
     /**
@@ -359,7 +326,6 @@ public interface SqlDatabase
      * @return a representation of the deferred computation of this call
      */
     @Method
-    @Beta(since = "V1_8_0")
     Observable<SqlDatabase> renameAsync(String newDatabaseName);
 
     /**
@@ -374,13 +340,11 @@ public interface SqlDatabase
      * @return a representation of the deferred computation of this call
      */
     @Method
-    @Beta(since = "V1_7_0")
     Completable deleteAsync();
 
     /**
      * @return the SQL Sync Group entry point for the current database
      */
-    @Beta(since = "V1_9_0")
     SqlSyncGroupOperations.SqlSyncGroupActionsDefinition syncGroups();
 
 
@@ -417,8 +381,65 @@ public interface SqlDatabase
          *
          * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
-        interface Blank<ParentT> extends
-            SqlDatabase.DefinitionStages.WithAllDifferentOptions<ParentT> {
+        interface Blank<ParentT> {
+            /**
+             * Sets a "Basic" edition for the SQL Database.
+             *
+             * @return The next stage of the definition
+             */
+            SqlDatabase.DefinitionStages.WithAllDifferentOptions<ParentT> withBasicEdition();
+
+            /**
+             * Sets a "Basic" edition and maximum storage capacity for the SQL Database.
+             *
+             * @return The next stage of the definition
+             */
+            SqlDatabase.DefinitionStages.WithAllDifferentOptions<ParentT> withBasicEdition(SqlDatabaseBasicStorage maxStorageCapacity);
+
+            /**
+             * Sets a "Standard" edition for the SQL Database.
+             *
+             * @param serviceObjective edition to be set for database
+             * @return The next stage of the definition
+             */
+            SqlDatabase.DefinitionStages.WithAllDifferentOptions<ParentT> withStandardEdition(SqlDatabaseStandardServiceObjective serviceObjective);
+
+            /**
+             * Sets a "Standard" edition and maximum storage capacity for the SQL Database.
+             *
+             * @param serviceObjective edition to be set for database
+             * @param maxStorageCapacity edition to be set for database
+             * @return The next stage of the definition
+             */
+            SqlDatabase.DefinitionStages.WithAllDifferentOptions<ParentT> withStandardEdition(SqlDatabaseStandardServiceObjective serviceObjective, SqlDatabaseStandardStorage maxStorageCapacity);
+
+            /**
+             * Sets a "Premium" edition for the SQL Database.
+             *
+             * @param serviceObjective edition to be set for database
+             * @return The next stage of the definition
+             */
+            SqlDatabase.DefinitionStages.WithAllDifferentOptions<ParentT> withPremiumEdition(SqlDatabasePremiumServiceObjective serviceObjective);
+
+            /**
+             * Sets a "Premium" edition and maximum storage capacity for the SQL Database.
+             *
+             * @param serviceObjective edition to be set for database
+             * @param maxStorageCapacity edition to be set for database
+             * @return The next stage of the definition
+             */
+            SqlDatabase.DefinitionStages.WithAllDifferentOptions<ParentT> withPremiumEdition(SqlDatabasePremiumServiceObjective serviceObjective, SqlDatabasePremiumStorage maxStorageCapacity);
+
+            /**
+             * Sets a fine grained properties of SQL Database edition for the SQL Database.
+             *
+             * @param skuName name of the sku.
+             * @param skuTier Sku tier name. To see possible values, query the capabilities API for the requested region via sqlServers().getCapabilitiesByRegion(Region.[Region name]).
+             *                Possible values include: 'Web', 'Business', 'Basic', 'Standard', 'Premium', 'PremiumRS', 'Free', 'Stretch', 'DataWarehouse',
+             *                'System', 'System2' etc.
+             * @return The next stage of the definition
+             */
+            SqlDatabase.DefinitionStages.WithAllDifferentOptions<ParentT> withCustomEdition(String skuName, String skuTier);
         }
 
         /**
@@ -426,7 +447,6 @@ public interface SqlDatabase
          *
          * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
-        @Beta(since = "V1_7_0")
         interface WithAllDifferentOptions<ParentT> extends
             SqlDatabase.DefinitionStages.WithElasticPoolName<ParentT>,
             SqlDatabase.DefinitionStages.WithRestorableDroppedDatabase<ParentT>,
@@ -434,7 +454,6 @@ public interface SqlDatabase
             SqlDatabase.DefinitionStages.WithRestorePointDatabase<ParentT>,
             SqlDatabase.DefinitionStages.WithSampleDatabase<ParentT>,
             SqlDatabase.DefinitionStages.WithSourceDatabaseId<ParentT>,
-            SqlDatabase.DefinitionStages.WithEditionDefaults<ParentT>,
             SqlDatabase.DefinitionStages.WithAttachAllOptions<ParentT> {
         }
 
@@ -494,7 +513,6 @@ public interface SqlDatabase
              * @param storageUri the source URI for the database to be imported
              * @return The next stage of the definition.
              */
-            @Beta(since = "V1_7_0")
             SqlDatabase.DefinitionStages.WithStorageKey<ParentT> importFrom(String storageUri);
 
             /**
@@ -505,7 +523,6 @@ public interface SqlDatabase
              * @param fileName the exported database file name
              * @return The next stage of the definition.
              */
-            @Beta(since = "V1_7_0")
             SqlDatabase.DefinitionStages.WithAuthentication<ParentT> importFrom(StorageAccount storageAccount, String containerName, String fileName);
         }
 
@@ -519,14 +536,12 @@ public interface SqlDatabase
              * @param storageAccessKey the storage access key to use
              * @return next definition stage
              */
-            @Beta(since = "V1_7_0")
             SqlDatabase.DefinitionStages.WithAuthentication<ParentT> withStorageAccessKey(String storageAccessKey);
 
             /**
              * @param sharedAccessKey the shared access key to use; it must be preceded with a "?."
              * @return next definition stage
              */
-            @Beta(since = "V1_7_0")
             SqlDatabase.DefinitionStages.WithAuthentication<ParentT> withSharedAccessKey(String sharedAccessKey);
         }
 
@@ -541,7 +556,6 @@ public interface SqlDatabase
              * @param administratorPassword the SQL administrator password
              * @return next definition stage
              */
-            @Beta(since = "V1_7_0")
             SqlDatabase.DefinitionStages.WithAttachAllOptions<ParentT> withSqlAdministratorLoginAndPassword(String administratorLogin, String administratorPassword);
 
             /**
@@ -549,7 +563,6 @@ public interface SqlDatabase
              * @param administratorPassword the Active Directory administrator password
              * @return next definition stage
              */
-            @Beta(since = "V1_7_0")
             SqlDatabase.DefinitionStages.WithAttachAllOptions<ParentT> withActiveDirectoryLoginAndPassword(String administratorLogin, String administratorPassword);
         }
 
@@ -565,7 +578,6 @@ public interface SqlDatabase
              * @param storageUri the source URI for the database to be imported
              * @return The next stage of the definition.
              */
-            @Beta(since = "V1_7_0")
             SqlDatabase.DefinitionStages.WithStorageKeyAfterElasticPool<ParentT> importFrom(String storageUri);
 
             /**
@@ -576,7 +588,6 @@ public interface SqlDatabase
              * @param fileName the exported database file name
              * @return The next stage of the definition.
              */
-            @Beta(since = "V1_7_0")
             SqlDatabase.DefinitionStages.WithAuthenticationAfterElasticPool<ParentT> importFrom(StorageAccount storageAccount, String containerName, String fileName);
         }
 
@@ -590,14 +601,12 @@ public interface SqlDatabase
              * @param storageAccessKey the storage access key to use
              * @return next definition stage
              */
-            @Beta(since = "V1_7_0")
             SqlDatabase.DefinitionStages.WithAuthenticationAfterElasticPool<ParentT> withStorageAccessKey(String storageAccessKey);
 
             /**
              * @param sharedAccessKey the shared access key to use; it must be preceded with a "?."
              * @return next definition stage
              */
-            @Beta(since = "V1_7_0")
             SqlDatabase.DefinitionStages.WithAuthenticationAfterElasticPool<ParentT> withSharedAccessKey(String sharedAccessKey);
         }
 
@@ -612,7 +621,6 @@ public interface SqlDatabase
              * @param administratorPassword the SQL administrator password
              * @return next definition stage
              */
-            @Beta(since = "V1_7_0")
             SqlDatabase.DefinitionStages.WithAttachFinal<ParentT> withSqlAdministratorLoginAndPassword(String administratorLogin, String administratorPassword);
 
             /**
@@ -620,7 +628,6 @@ public interface SqlDatabase
              * @param administratorPassword the Active Directory administrator password
              * @return next definition stage
              */
-            @Beta(since = "V1_7_0")
             SqlDatabase.DefinitionStages.WithAttachFinal<ParentT> withActiveDirectoryLoginAndPassword(String administratorLogin, String administratorPassword);
         }
 
@@ -639,7 +646,6 @@ public interface SqlDatabase
              * @param restorableDroppedDatabase the restorable dropped database
              * @return The next stage of the definition.
              */
-            @Beta(since = "V1_7_0")
             SqlDatabase.DefinitionStages.WithAttachFinal<ParentT> fromRestorableDroppedDatabase(SqlRestorableDroppedDatabase restorableDroppedDatabase);
         }
 
@@ -655,7 +661,6 @@ public interface SqlDatabase
              * @param restorePoint the restore point
              * @return The next stage of the definition.
              */
-            @Beta(since = "V1_7_0")
             SqlDatabase.DefinitionStages.WithAttachAfterElasticPoolOptions<ParentT> fromRestorePoint(RestorePoint restorePoint);
 
             /**
@@ -665,7 +670,6 @@ public interface SqlDatabase
              * @param restorePointDateTime date and time to restore from
              * @return The next stage of the definition.
              */
-            @Beta(since = "V1_8_0")
             SqlDatabase.DefinitionStages.WithAttachAfterElasticPoolOptions<ParentT> fromRestorePoint(RestorePoint restorePoint, OffsetDateTime restorePointDateTime);
         }
 
@@ -681,7 +685,6 @@ public interface SqlDatabase
              * @param restorePoint the restore point
              * @return The next stage of the definition.
              */
-            @Beta(since = "V1_7_0")
             SqlDatabase.DefinitionStages.WithAttachAllOptions<ParentT> fromRestorePoint(RestorePoint restorePoint);
 
             /**
@@ -691,7 +694,6 @@ public interface SqlDatabase
              * @param restorePointDateTime date and time to restore from
              * @return The next stage of the definition.
              */
-            @Beta(since = "V1_8_0")
             SqlDatabase.DefinitionStages.WithAttachAllOptions<ParentT> fromRestorePoint(RestorePoint restorePoint, OffsetDateTime restorePointDateTime);
         }
 
@@ -707,7 +709,6 @@ public interface SqlDatabase
              * @param sampleName the sample database to use as the source
              * @return The next stage of the definition.
              */
-            @Beta(since = "V1_7_0")
             SqlDatabase.DefinitionStages.WithAttachAfterElasticPoolOptions<ParentT> fromSample(SampleName sampleName);
         }
 
@@ -723,7 +724,6 @@ public interface SqlDatabase
              * @param sampleName the sample database to use as the source
              * @return The next stage of the definition.
              */
-            @Beta(since = "V1_7_0")
             SqlDatabase.DefinitionStages.WithAttachAllOptions<ParentT> fromSample(SampleName sampleName);
         }
 
@@ -818,98 +818,6 @@ public interface SqlDatabase
         }
 
         /**
-         * The SQL Database definition to set the edition for database.
-         *
-         * @param <ParentT> the stage of the parent definition to return to after attaching this definition
-         */
-        interface WithEdition<ParentT> {
-            /**
-             * Sets the edition for the SQL Database.
-             *
-             * @param edition edition to be set for database
-             * @return The next stage of the definition
-             */
-            @Deprecated
-            SqlDatabase.DefinitionStages.WithAttachAllOptions<ParentT> withEdition(DatabaseEditions edition);
-        }
-
-        /**
-         * The SQL Database definition to set the edition default for database.
-         *
-         * @param <ParentT> the stage of the parent definition to return to after attaching this definition
-         */
-        interface WithEditionDefaults<ParentT> extends WithAttachFinal<ParentT> {
-            /**
-             * Sets a "Basic" edition for the SQL Database.
-             *
-             * @return The next stage of the definition
-             */
-            @Beta(since = "V1_7_0")
-            SqlDatabase.DefinitionStages.WithEditionDefaults<ParentT> withBasicEdition();
-
-            /**
-             * Sets a "Basic" edition and maximum storage capacity for the SQL Database.
-             *
-             * @return The next stage of the definition
-             */
-            @Beta(since = "V1_7_0")
-            SqlDatabase.DefinitionStages.WithEditionDefaults<ParentT> withBasicEdition(SqlDatabaseBasicStorage maxStorageCapacity);
-
-            /**
-             * Sets a "Standard" edition for the SQL Database.
-             *
-             * @param serviceObjective edition to be set for database
-             * @return The next stage of the definition
-             */
-            @Beta(since = "V1_7_0")
-            SqlDatabase.DefinitionStages.WithEditionDefaults<ParentT> withStandardEdition(SqlDatabaseStandardServiceObjective serviceObjective);
-
-            /**
-             * Sets a "Standard" edition and maximum storage capacity for the SQL Database.
-             *
-             * @param serviceObjective edition to be set for database
-             * @param maxStorageCapacity edition to be set for database
-             * @return The next stage of the definition
-             */
-            @Beta(since = "V1_7_0")
-            SqlDatabase.DefinitionStages.WithEditionDefaults<ParentT> withStandardEdition(SqlDatabaseStandardServiceObjective serviceObjective, SqlDatabaseStandardStorage maxStorageCapacity);
-
-            /**
-             * Sets a "Premium" edition for the SQL Database.
-             *
-             * @param serviceObjective edition to be set for database
-             * @return The next stage of the definition
-             */
-            @Beta(since = "V1_7_0")
-            SqlDatabase.DefinitionStages.WithEditionDefaults<ParentT> withPremiumEdition(SqlDatabasePremiumServiceObjective serviceObjective);
-
-            /**
-             * Sets a "Premium" edition and maximum storage capacity for the SQL Database.
-             *
-             * @param serviceObjective edition to be set for database
-             * @param maxStorageCapacity edition to be set for database
-             * @return The next stage of the definition
-             */
-            @Beta(since = "V1_7_0")
-            SqlDatabase.DefinitionStages.WithEditionDefaults<ParentT> withPremiumEdition(SqlDatabasePremiumServiceObjective serviceObjective, SqlDatabasePremiumStorage maxStorageCapacity);
-
-            /**
-             * The SQL Database definition to set the collation for database.
-             *
-             * @param <ParentT> the stage of the parent definition to return to after attaching this definition
-             */
-            interface WithCollation<ParentT> {
-                /**
-                 * Sets the collation for the SQL Database.
-                 *
-                 * @param collation collation to be set for database
-                 * @return The next stage of the definition
-                 */
-                SqlDatabase.DefinitionStages.WithEditionDefaults<ParentT> withCollation(String collation);
-            }
-        }
-
-        /**
          * The SQL Database definition to set the collation for database.
          *
          * @param <ParentT> the stage of the parent definition to return to after attaching this definition
@@ -967,8 +875,6 @@ public interface SqlDatabase
          */
         interface WithAttachAllOptions<ParentT> extends
             SqlDatabase.DefinitionStages.WithServiceObjective<ParentT>,
-            SqlDatabase.DefinitionStages.WithEdition<ParentT>,
-            SqlDatabase.DefinitionStages.WithEditionDefaults<ParentT>,
             SqlDatabase.DefinitionStages.WithCollation<ParentT>,
             SqlDatabase.DefinitionStages.WithMaxSizeBytes<ParentT>,
             SqlDatabase.DefinitionStages.WithAttachFinal<ParentT> {
@@ -1008,19 +914,10 @@ public interface SqlDatabase
          */
         interface WithEdition {
             /**
-             * Sets the edition for the SQL Database.
-             *
-             * @param edition edition to be set for database
-             * @return The next stage of the update.
-             */
-            @Deprecated
-            Update withEdition(DatabaseEditions edition);
-            /**
              * Sets a "Basic" edition for the SQL Database.
              *
              * @return The next stage of the definition
              */
-            @Beta(since = "V1_7_0")
             Update withBasicEdition();
 
             /**
@@ -1028,7 +925,6 @@ public interface SqlDatabase
              *
              * @return The next stage of the definition
              */
-            @Beta(since = "V1_7_0")
             Update withBasicEdition(SqlDatabaseBasicStorage maxStorageCapacity);
 
             /**
@@ -1037,7 +933,6 @@ public interface SqlDatabase
              * @param serviceObjective edition to be set for database
              * @return The next stage of the definition
              */
-            @Beta(since = "V1_7_0")
             Update withStandardEdition(SqlDatabaseStandardServiceObjective serviceObjective);
 
             /**
@@ -1047,7 +942,6 @@ public interface SqlDatabase
              * @param maxStorageCapacity edition to be set for database
              * @return The next stage of the definition
              */
-            @Beta(since = "V1_7_0")
             Update withStandardEdition(SqlDatabaseStandardServiceObjective serviceObjective, SqlDatabaseStandardStorage maxStorageCapacity);
 
             /**
@@ -1056,7 +950,6 @@ public interface SqlDatabase
              * @param serviceObjective edition to be set for database
              * @return The next stage of the definition
              */
-            @Beta(since = "V1_7_0")
             Update withPremiumEdition(SqlDatabasePremiumServiceObjective serviceObjective);
 
             /**
@@ -1066,7 +959,6 @@ public interface SqlDatabase
              * @param maxStorageCapacity edition to be set for database
              * @return The next stage of the definition
              */
-            @Beta(since = "V1_7_0")
             Update withPremiumEdition(SqlDatabasePremiumServiceObjective serviceObjective, SqlDatabasePremiumStorage maxStorageCapacity);
         }
 

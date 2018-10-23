@@ -9,46 +9,38 @@
 package com.microsoft.azure.v2.management.sql;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
+import com.microsoft.rest.v2.ExpandableStringEnum;
+import java.util.Collection;
 
 /**
  * Defines values for PerformanceLevelUnit.
  */
-public enum PerformanceLevelUnit {
+public final class PerformanceLevelUnit extends ExpandableStringEnum<PerformanceLevelUnit> {
     /**
-     * Enum value DTU.
+     * Static value DTU for PerformanceLevelUnit.
      */
-    DTU("DTU");
+    public static final PerformanceLevelUnit DTU = fromString("DTU");
 
     /**
-     * The actual serialized value for a PerformanceLevelUnit instance.
+     * Static value VCores for PerformanceLevelUnit.
      */
-    private final String value;
-
-    private PerformanceLevelUnit(String value) {
-        this.value = value;
-    }
+    public static final PerformanceLevelUnit VCORES = fromString("VCores");
 
     /**
-     * Parses a serialized value to a PerformanceLevelUnit instance.
+     * Creates or finds a PerformanceLevelUnit from its string representation.
      *
-     * @param value the serialized value to parse.
-     * @return the parsed PerformanceLevelUnit object, or null if unable to parse.
+     * @param name a name to look for.
+     * @return the corresponding PerformanceLevelUnit.
      */
     @JsonCreator
-    public static PerformanceLevelUnit fromString(String value) {
-        PerformanceLevelUnit[] items = PerformanceLevelUnit.values();
-        for (PerformanceLevelUnit item : items) {
-            if (item.toString().equalsIgnoreCase(value)) {
-                return item;
-            }
-        }
-        return null;
+    public static PerformanceLevelUnit fromString(String name) {
+        return fromString(name, PerformanceLevelUnit.class);
     }
 
-    @JsonValue
-    @Override
-    public String toString() {
-        return this.value;
+    /**
+     * @return known PerformanceLevelUnit values.
+     */
+    public static Collection<PerformanceLevelUnit> values() {
+        return values(PerformanceLevelUnit.class);
     }
 }

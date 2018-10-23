@@ -19,6 +19,8 @@ import com.microsoft.azure.v2.management.sql.AuthenticationType;
 import com.microsoft.azure.v2.management.sql.CreateMode;
 import com.microsoft.azure.v2.management.sql.DatabaseEditions;
 import com.microsoft.azure.v2.management.sql.DatabaseMetric;
+import com.microsoft.azure.v2.management.sql.DatabaseUpdate;
+import com.microsoft.azure.v2.management.sql.ImportRequest;
 import com.microsoft.azure.v2.management.sql.ReplicationLink;
 import com.microsoft.azure.v2.management.sql.RestorePoint;
 import com.microsoft.azure.v2.management.sql.SampleName;
@@ -44,9 +46,10 @@ import com.microsoft.azure.v2.management.sql.SqlWarehouse;
 import com.microsoft.azure.v2.management.sql.StorageKeyType;
 import com.microsoft.azure.v2.management.sql.TransparentDataEncryption;
 import com.microsoft.azure.v2.management.sql.UpgradeHintInterface;
-import com.microsoft.azure.management.storage.StorageAccount;
-import com.microsoft.azure.management.storage.StorageAccountKey;
-import org.joda.time.DateTime;
+import com.microsoft.azure.v2.management.storage.StorageAccount;
+import com.microsoft.azure.v2.management.storage.StorageAccountKey;
+
+import io.reactivex.Maybe;
 import rx.Completable;
 import rx.Observable;
 import rx.functions.Func1;
@@ -88,7 +91,7 @@ class SqlDatabaseImpl
     protected String sqlServerName;
     protected String sqlServerLocation;
     private boolean isPatchUpdate;
-    private ImportRequestInner importRequestInner;
+    private ImportRequest importRequestInner;
 
     private SqlSyncGroupOperationsImpl syncGroups;
 
@@ -587,7 +590,7 @@ class SqlDatabaseImpl
     }
 
     @Override
-    protected Observable<DatabaseInner> getInnerAsync() {
+    protected Maybe<DatabaseInner> getInnerAsync() {
         return this.sqlServerManager.inner().databases().getAsync(this.resourceGroupName, this.sqlServerName, this.name());
     }
 
@@ -660,10 +663,10 @@ class SqlDatabaseImpl
     }
 
     @Override
-    public Observable<SqlDatabase> updateResourceAsync() {
+    public Maybe<SqlDatabase> updateResourceAsync() {
         if (this.isPatchUpdate) {
             final SqlDatabaseImpl self = this;
-            DatabaseUpdateInner databaseUpdateInner = new DatabaseUpdateInner()
+            DatabaseUpdate databaseUpdateInner = new DatabaseUpdate()
                 .withTags(self.inner().getTags())
                 .withCollation(self.inner().collation())
                 .withSourceDatabaseId(self.inner().sourceDatabaseId())

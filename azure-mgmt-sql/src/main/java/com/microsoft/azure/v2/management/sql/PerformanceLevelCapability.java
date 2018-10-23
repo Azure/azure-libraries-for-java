@@ -11,29 +11,29 @@ package com.microsoft.azure.v2.management.sql;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * The maximum size capability.
+ * The performance level capability.
  */
-public final class MaxSizeCapability {
+public final class PerformanceLevelCapability {
     /**
-     * The maximum size limit (see 'unit' for the units).
+     * Performance level value.
      */
-    @JsonProperty(value = "limit", access = JsonProperty.Access.WRITE_ONLY)
-    private Integer limit;
+    @JsonProperty(value = "value", access = JsonProperty.Access.WRITE_ONLY)
+    private Double value;
 
     /**
-     * The units that the limit is expressed in. Possible values include:
-     * 'Megabytes', 'Gigabytes', 'Terabytes', 'Petabytes'.
+     * Unit type used to measure performance level. Possible values include:
+     * 'DTU', 'VCores'.
      */
     @JsonProperty(value = "unit", access = JsonProperty.Access.WRITE_ONLY)
-    private MaxSizeUnit unit;
+    private PerformanceLevelUnit unit;
 
     /**
-     * Get the limit value.
+     * Get the value value.
      *
-     * @return the limit value.
+     * @return the value value.
      */
-    public Integer limit() {
-        return this.limit;
+    public Double value() {
+        return this.value;
     }
 
     /**
@@ -41,7 +41,7 @@ public final class MaxSizeCapability {
      *
      * @return the unit value.
      */
-    public MaxSizeUnit unit() {
+    public PerformanceLevelUnit unit() {
         return this.unit;
     }
 }

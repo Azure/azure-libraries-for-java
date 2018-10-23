@@ -6,14 +6,51 @@
 
 package com.microsoft.azure.management.sql;
 
-import com.microsoft.azure.management.resources.core.TestUtilities;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
-import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
-import com.microsoft.azure.management.sql.implementation.SyncGroupInner;
-import com.microsoft.azure.management.storage.StorageAccount;
+import com.microsoft.azure.v2.management.resources.core.TestUtilities;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Creatable;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Indexable;
+import com.microsoft.azure.v2.management.resources.fluentcore.utils.SdkContext;
+import com.microsoft.azure.v2.management.resources.fluentcore.utils.Utils;
+import com.microsoft.azure.v2.management.sql.AutomaticTuningMode;
+import com.microsoft.azure.v2.management.sql.AutomaticTuningOptionModeActual;
+import com.microsoft.azure.v2.management.sql.AutomaticTuningOptionModeDesired;
+import com.microsoft.azure.v2.management.sql.AutomaticTuningServerMode;
+import com.microsoft.azure.v2.management.sql.CheckNameAvailabilityReason;
+import com.microsoft.azure.v2.management.sql.CheckNameAvailabilityResult;
+import com.microsoft.azure.v2.management.sql.CreateMode;
+import com.microsoft.azure.v2.management.sql.DatabaseEditions;
+import com.microsoft.azure.v2.management.sql.ElasticPoolEditions;
+import com.microsoft.azure.v2.management.sql.FailoverGroupReplicationRole;
+import com.microsoft.azure.v2.management.sql.ReadOnlyEndpointFailoverPolicy;
+import com.microsoft.azure.v2.management.sql.ReadWriteEndpointFailoverPolicy;
+import com.microsoft.azure.v2.management.sql.RecommendedElasticPool;
+import com.microsoft.azure.v2.management.sql.RegionCapabilities;
+import com.microsoft.azure.v2.management.sql.ReplicationLink;
+import com.microsoft.azure.v2.management.sql.SampleName;
+import com.microsoft.azure.v2.management.sql.ServiceObjective;
+import com.microsoft.azure.v2.management.sql.ServiceObjectiveName;
+import com.microsoft.azure.v2.management.sql.ServiceTierAdvisor;
+import com.microsoft.azure.v2.management.sql.SqlActiveDirectoryAdministrator;
+import com.microsoft.azure.v2.management.sql.SqlDatabase;
+import com.microsoft.azure.v2.management.sql.SqlDatabaseAutomaticTuning;
+import com.microsoft.azure.v2.management.sql.SqlDatabaseImportExportResponse;
+import com.microsoft.azure.v2.management.sql.SqlDatabaseStandardServiceObjective;
+import com.microsoft.azure.v2.management.sql.SqlElasticPool;
+import com.microsoft.azure.v2.management.sql.SqlFailoverGroup;
+import com.microsoft.azure.v2.management.sql.SqlFirewallRule;
+import com.microsoft.azure.v2.management.sql.SqlServer;
+import com.microsoft.azure.v2.management.sql.SqlServerAutomaticTuning;
+import com.microsoft.azure.v2.management.sql.SqlServerDnsAlias;
+import com.microsoft.azure.v2.management.sql.SqlSyncGroup;
+import com.microsoft.azure.v2.management.sql.SqlSyncMember;
+import com.microsoft.azure.v2.management.sql.SqlWarehouse;
+import com.microsoft.azure.v2.management.sql.SyncDirection;
+import com.microsoft.azure.v2.management.sql.SyncMemberDbType;
+import com.microsoft.azure.v2.management.sql.TransparentDataEncryption;
+import com.microsoft.azure.v2.management.sql.TransparentDataEncryptionActivity;
+import com.microsoft.azure.v2.management.sql.TransparentDataEncryptionStates;
+import com.microsoft.azure.v2.management.storage.StorageAccount;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -714,22 +751,55 @@ public class SqlServerOperationsTests extends SqlServerTest {
         String elasticPool3Name = "elasticPool3";
         String elasticPool1Name = SQL_ELASTIC_POOL_NAME;
 
+        SqlServer sqlServer = null;
+
+        RegionCapabilities capabilities = sqlServerManager.sqlServers().getCapabilitiesByRegion(Region.US_CENTRAL);
         // Create
-        SqlServer sqlServer = sqlServerManager.sqlServers().define(SQL_SERVER_NAME)
+        sqlServer = sqlServerManager
+                .sqlServers()
+                .define(SQL_SERVER_NAME)
                 .withRegion(Region.US_CENTRAL)
                 .withNewResourceGroup(RG_NAME)
                 .withAdministratorLogin("userName")
                 .withAdministratorPassword("Password~1")
-                .withoutAccessFromAzureServices()
-                .withNewDatabase(SQL_DATABASE_NAME)
-                .withNewDatabase(database2Name)
-                .withNewElasticPool(elasticPool1Name, ElasticPoolEditions.STANDARD)
-                .withNewElasticPool(elasticPool2Name, ElasticPoolEditions.PREMIUM, database1InEPName, database2InEPName)
-                .withNewElasticPool(elasticPool3Name, ElasticPoolEditions.STANDARD)
-                .withNewFirewallRule(START_IPADDRESS, END_IPADDRESS, SQL_FIREWALLRULE_NAME)
-                .withNewFirewallRule(START_IPADDRESS, END_IPADDRESS)
-                .withNewFirewallRule(START_IPADDRESS)
+                .withAzureServicesAccessDisabled()
+                .defineDatabase(SQL_DATABASE_NAME)
+                    .withCustomEdition("","")
+                    .attach()
+                .defineDatabase(database2Name)
+                    .withBasicEdition()
+                    .attach()
+                .defineElasticPool(elasticPool1Name)
+                    .withStandardPool()
+                    .attach()
+                // incompatable inmompatable.
+                //.withNewElasticPool(elasticPool2Name, ElasticPoolEditions.PREMIUM, database1InEPName, database2InEPName)
+                .defineElasticPool(elasticPool2Name)
+                    .withPremiumPool()
+                    .attach()
+                .defineElasticPool(elasticPool3Name)
+                    .withStandardPool()
+                    .attach()
+                .defineFirewallRule(SQL_FIREWALLRULE_NAME)
+                    .withIPAddressRange(START_IPADDRESS, END_IPADDRESS)
+                    .attach()
+                .defineFirewallRule(SQL_FIREWALLRULE_NAME + "1")
+                    .withIPAddressRange(START_IPADDRESS, END_IPADDRESS)
+                    .attach()
+                .defineFirewallRule(SQL_FIREWALLRULE_NAME + "2")
+                    .withIPAddressRange(START_IPADDRESS, START_IPADDRESS)
+                    .attach()
                 .create();
+
+        sqlServer.update()
+                .withAzureServicesAccessEnabled()
+                .apply();
+
+        sqlServer.update()
+                .withAzureServicesAccessEnabled()
+                .apply();
+
+        sqlServer.firewallRules().list();
 
         validateMultiCreation(database2Name, database1InEPName, database2InEPName, elasticPool1Name, elasticPool2Name, elasticPool3Name, sqlServer, false);
         elasticPool1Name = SQL_ELASTIC_POOL_NAME + " U";

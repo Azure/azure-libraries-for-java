@@ -9,22 +9,31 @@
 package com.microsoft.azure.v2.management.sql.implementation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.azure.v2.management.sql.ElasticPoolEdition;
+import com.microsoft.azure.v2.management.sql.ElasticPoolLicenseType;
+import com.microsoft.azure.v2.management.sql.ElasticPoolPerDatabaseSettings;
 import com.microsoft.azure.v2.management.sql.ElasticPoolState;
+import com.microsoft.azure.v2.management.sql.Sku;
 import com.microsoft.azure.v2.management.sql.TrackedResource;
 import com.microsoft.rest.v2.serializer.JsonFlatten;
 import java.time.OffsetDateTime;
 
 /**
- * Represents a database elastic pool.
+ * An elastic pool.
  */
 @JsonFlatten
 public class ElasticPoolInner extends TrackedResource {
     /**
-     * The creation date of the elastic pool (ISO8601 format).
+     * The sku property.
      */
-    @JsonProperty(value = "properties.creationDate", access = JsonProperty.Access.WRITE_ONLY)
-    private OffsetDateTime creationDate;
+    @JsonProperty(value = "sku")
+    private Sku sku;
+
+    /**
+     * Kind of elastic pool. This is metadata used for the Azure portal
+     * experience.
+     */
+    @JsonProperty(value = "kind", access = JsonProperty.Access.WRITE_ONLY)
+    private String kind;
 
     /**
      * The state of the elastic pool. Possible values include: 'Creating',
@@ -34,58 +43,65 @@ public class ElasticPoolInner extends TrackedResource {
     private ElasticPoolState state;
 
     /**
-     * The edition of the elastic pool. Possible values include: 'Basic',
-     * 'Standard', 'Premium'.
+     * The creation date of the elastic pool (ISO8601 format).
      */
-    @JsonProperty(value = "properties.edition")
-    private ElasticPoolEdition edition;
+    @JsonProperty(value = "properties.creationDate", access = JsonProperty.Access.WRITE_ONLY)
+    private OffsetDateTime creationDate;
 
     /**
-     * The total shared DTU for the database elastic pool.
+     * The storage limit for the database elastic pool in bytes.
      */
-    @JsonProperty(value = "properties.dtu")
-    private Integer dtu;
+    @JsonProperty(value = "properties.maxSizeBytes")
+    private Long maxSizeBytes;
 
     /**
-     * The maximum DTU any one database can consume.
+     * The per database settings for the elastic pool.
      */
-    @JsonProperty(value = "properties.databaseDtuMax")
-    private Integer databaseDtuMax;
+    @JsonProperty(value = "properties.perDatabaseSettings")
+    private ElasticPoolPerDatabaseSettings perDatabaseSettings;
 
     /**
-     * The minimum DTU all databases are guaranteed.
-     */
-    @JsonProperty(value = "properties.databaseDtuMin")
-    private Integer databaseDtuMin;
-
-    /**
-     * Gets storage limit for the database elastic pool in MB.
-     */
-    @JsonProperty(value = "properties.storageMB")
-    private Integer storageMB;
-
-    /**
-     * Whether or not this database elastic pool is zone redundant, which means
-     * the replicas of this database will be spread across multiple
+     * Whether or not this elastic pool is zone redundant, which means the
+     * replicas of this elastic pool will be spread across multiple
      * availability zones.
      */
     @JsonProperty(value = "properties.zoneRedundant")
     private Boolean zoneRedundant;
 
     /**
-     * Kind of elastic pool.  This is metadata used for the Azure portal
-     * experience.
+     * The license type to apply for this elastic pool. Possible values
+     * include: 'LicenseIncluded', 'BasePrice'.
      */
-    @JsonProperty(value = "kind", access = JsonProperty.Access.WRITE_ONLY)
-    private String kind;
+    @JsonProperty(value = "properties.licenseType")
+    private ElasticPoolLicenseType licenseType;
 
     /**
-     * Get the creationDate value.
+     * Get the sku value.
      *
-     * @return the creationDate value.
+     * @return the sku value.
      */
-    public OffsetDateTime creationDate() {
-        return this.creationDate;
+    public Sku sku() {
+        return this.sku;
+    }
+
+    /**
+     * Set the sku value.
+     *
+     * @param sku the sku value to set.
+     * @return the ElasticPoolInner object itself.
+     */
+    public ElasticPoolInner withSku(Sku sku) {
+        this.sku = sku;
+        return this;
+    }
+
+    /**
+     * Get the kind value.
+     *
+     * @return the kind value.
+     */
+    public String kind() {
+        return this.kind;
     }
 
     /**
@@ -98,102 +114,51 @@ public class ElasticPoolInner extends TrackedResource {
     }
 
     /**
-     * Get the edition value.
+     * Get the creationDate value.
      *
-     * @return the edition value.
+     * @return the creationDate value.
      */
-    public ElasticPoolEdition edition() {
-        return this.edition;
+    public OffsetDateTime creationDate() {
+        return this.creationDate;
     }
 
     /**
-     * Set the edition value.
+     * Get the maxSizeBytes value.
      *
-     * @param edition the edition value to set.
+     * @return the maxSizeBytes value.
+     */
+    public Long maxSizeBytes() {
+        return this.maxSizeBytes;
+    }
+
+    /**
+     * Set the maxSizeBytes value.
+     *
+     * @param maxSizeBytes the maxSizeBytes value to set.
      * @return the ElasticPoolInner object itself.
      */
-    public ElasticPoolInner withEdition(ElasticPoolEdition edition) {
-        this.edition = edition;
+    public ElasticPoolInner withMaxSizeBytes(Long maxSizeBytes) {
+        this.maxSizeBytes = maxSizeBytes;
         return this;
     }
 
     /**
-     * Get the dtu value.
+     * Get the perDatabaseSettings value.
      *
-     * @return the dtu value.
+     * @return the perDatabaseSettings value.
      */
-    public Integer dtu() {
-        return this.dtu;
+    public ElasticPoolPerDatabaseSettings perDatabaseSettings() {
+        return this.perDatabaseSettings;
     }
 
     /**
-     * Set the dtu value.
+     * Set the perDatabaseSettings value.
      *
-     * @param dtu the dtu value to set.
+     * @param perDatabaseSettings the perDatabaseSettings value to set.
      * @return the ElasticPoolInner object itself.
      */
-    public ElasticPoolInner withDtu(Integer dtu) {
-        this.dtu = dtu;
-        return this;
-    }
-
-    /**
-     * Get the databaseDtuMax value.
-     *
-     * @return the databaseDtuMax value.
-     */
-    public Integer databaseDtuMax() {
-        return this.databaseDtuMax;
-    }
-
-    /**
-     * Set the databaseDtuMax value.
-     *
-     * @param databaseDtuMax the databaseDtuMax value to set.
-     * @return the ElasticPoolInner object itself.
-     */
-    public ElasticPoolInner withDatabaseDtuMax(Integer databaseDtuMax) {
-        this.databaseDtuMax = databaseDtuMax;
-        return this;
-    }
-
-    /**
-     * Get the databaseDtuMin value.
-     *
-     * @return the databaseDtuMin value.
-     */
-    public Integer databaseDtuMin() {
-        return this.databaseDtuMin;
-    }
-
-    /**
-     * Set the databaseDtuMin value.
-     *
-     * @param databaseDtuMin the databaseDtuMin value to set.
-     * @return the ElasticPoolInner object itself.
-     */
-    public ElasticPoolInner withDatabaseDtuMin(Integer databaseDtuMin) {
-        this.databaseDtuMin = databaseDtuMin;
-        return this;
-    }
-
-    /**
-     * Get the storageMB value.
-     *
-     * @return the storageMB value.
-     */
-    public Integer storageMB() {
-        return this.storageMB;
-    }
-
-    /**
-     * Set the storageMB value.
-     *
-     * @param storageMB the storageMB value to set.
-     * @return the ElasticPoolInner object itself.
-     */
-    public ElasticPoolInner withStorageMB(Integer storageMB) {
-        this.storageMB = storageMB;
+    public ElasticPoolInner withPerDatabaseSettings(ElasticPoolPerDatabaseSettings perDatabaseSettings) {
+        this.perDatabaseSettings = perDatabaseSettings;
         return this;
     }
 
@@ -218,11 +183,22 @@ public class ElasticPoolInner extends TrackedResource {
     }
 
     /**
-     * Get the kind value.
+     * Get the licenseType value.
      *
-     * @return the kind value.
+     * @return the licenseType value.
      */
-    public String kind() {
-        return this.kind;
+    public ElasticPoolLicenseType licenseType() {
+        return this.licenseType;
+    }
+
+    /**
+     * Set the licenseType value.
+     *
+     * @param licenseType the licenseType value to set.
+     * @return the ElasticPoolInner object itself.
+     */
+    public ElasticPoolInner withLicenseType(ElasticPoolLicenseType licenseType) {
+        this.licenseType = licenseType;
+        return this;
     }
 }

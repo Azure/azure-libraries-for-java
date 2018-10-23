@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * The VirtualMachineScaleSetIdentityUserAssignedIdentitiesValue model.
  */
-public final class VirtualMachineScaleSetIdentityUserAssignedIdentitiesValue {
+public class VirtualMachineScaleSetIdentityUserAssignedIdentitiesValue {
     /**
      * The principal id of user assigned identity.
      */

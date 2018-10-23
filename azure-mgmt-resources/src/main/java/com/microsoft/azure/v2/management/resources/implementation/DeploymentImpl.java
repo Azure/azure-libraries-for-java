@@ -319,7 +319,7 @@ public final class DeploymentImpl extends
                         return Observable.just((Indexable) DeploymentImpl.this);
                     }
                 })
-                .flatMap(indexable -> manager().inner().deployments().beginCreateOrUpdateAsync(resourceGroupName(), name(), createRequestFromInner()))
+                .flatMap(indexable -> manager().inner().deployments().beginCreateOrUpdateAsync(resourceGroupName(), name(), createRequestFromInner()).firstElement().toObservable())
                 .map(status -> status.result())
                 .map(innerToFluentMap(this));
     }

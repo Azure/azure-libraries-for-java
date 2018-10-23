@@ -1,5 +1,9 @@
 *.class
 
+#Javadoc files
+dist/
+.publish/
+
 #External libs
 extlib/
 
@@ -45,6 +49,7 @@ local.properties
 target
 .idea
 *.iml
+.factorypath
 
 # Mac OS #
 .DS_Store
@@ -55,3 +60,4 @@ Thumbs.db
 
 # reduced pom files should not be included
 dependency-reduced-pom.xml
+package-lock.json

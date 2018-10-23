@@ -1,383 +1,437 @@
 {
   "networkCallRecords" : [ {
     "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/networkWatchers?api-version=2017-08-01",
-    "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/1.3.1-SNAPSHOT OS:Linux/4.10.0-35-generic MacAddressHash:1c2ba720438fc324d596b25f7da790760fc8b42f9e797d95bd9c778984352b3d Java:1.8.0_144 (NetworkManagementClient)",
-      "Content-Type" : "application/json; charset=utf-8"
-    },
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/networkWatchers?api-version=2018-06-01",
+    "Headers" : { },
     "Response" : {
-      "date" : "Fri, 17 Nov 2017 02:51:59 GMT",
-      "content-length" : "742",
+      "date" : "Thu, 27 Sep 2018 00:40:54 GMT",
+      "content-length" : "8219",
       "expires" : "-1",
-      "vary" : "Accept-Encoding",
-      "x-ms-original-request-ids" : "7c3a714f-c5f7-4076-a043-9efb2ec7eee5",
+      "x-ms-original-request-ids" : "dcf334ce-4b91-40fe-baa0-d8c4de4bbab6",
       "retry-after" : "0",
-      "x-ms-ratelimit-remaining-subscription-reads" : "14998",
+      "x-ms-ratelimit-remaining-subscription-reads" : "11964",
       "StatusCode" : "200",
       "pragma" : "no-cache",
+      "x-ms-correlation-request-id" : "eac756de-9249-4415-8926-2d9d5551197e",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "e4b49449-adc2-4fd7-9df3-d0f96433182e",
-      "x-ms-routing-request-id" : "WESTUS2:20171117T025159Z:e4b49449-adc2-4fd7-9df3-d0f96433182e",
+      "x-content-type-options" : "nosniff",
+      "x-ms-routing-request-id" : "WESTUS2:20180927T004055Z:eac756de-9249-4415-8926-2d9d5551197e",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "e4b49449-adc2-4fd7-9df3-d0f96433182e",
-      "Body" : "{\"value\":[{\"name\":\"nw94147\",\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg43952/providers/Microsoft.Network/networkWatchers/nw94147\",\"etag\":\"W/\\\"ad01400b-7614-4d11-94cd-6251ee7df83b\\\"\",\"type\":\"Microsoft.Network/networkWatchers\",\"location\":\"westus\",\"tags\":{},\"properties\":{\"provisioningState\":\"Succeeded\",\"runningOperationIds\":[]}},{\"name\":\"nw804071\",\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/nw804071group/providers/Microsoft.Network/networkWatchers/nw804071\",\"etag\":\"W/\\\"001d5667-2493-4418-9ff5-d35c7185b015\\\"\",\"type\":\"Microsoft.Network/networkWatchers\",\"location\":\"northcentralus\",\"tags\":{\"tag1\":\"value1\"},\"properties\":{\"provisioningState\":\"Succeeded\",\"runningOperationIds\":[]}}]}"
+      "x-ms-request-id" : "eac756de-9249-4415-8926-2d9d5551197e",
+      "Body" : "{\"value\":[{\"name\":\"nw27039\",\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg40387/providers/Microsoft.Network/networkWatchers/nw27039\",\"etag\":\"W/\\\"23f1051a-18c8-451f-b2bb-3c655f2ac1ff\\\"\",\"type\":\"Microsoft.Network/networkWatchers\",\"location\":\"westus\",\"tags\":{},\"properties\":{\"provisioningState\":\"Succeeded\",\"flowLogs\":[],\"runningOperationIds\":[]}},{\"name\":\"nw81103\",\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/javanwmrg89119/providers/Microsoft.Network/networkWatchers/nw81103\",\"etag\":\"W/\\\"2d8563ec-2065-458a-bca9-d243bc224000\\\"\",\"type\":\"Microsoft.Network/networkWatchers\",\"location\":\"southcentralus\",\"tags\":{},\"properties\":{\"provisioningState\":\"Succeeded\",\"flowLogs\":[],\"runningOperationIds\":[]}},{\"name\":\"westcentralus-watcher\",\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/NetworkWatcherRg/providers/Microsoft.Network/networkWatchers/westcentralus-watcher\",\"etag\":\"W/\\\"53f1c8a5-c7c1-4be3-bfb9-8e09f446efd7\\\"\",\"type\":\"Microsoft.Network/networkWatchers\",\"location\":\"westcentralus\",\"properties\":{\"provisioningState\":\"Succeeded\",\"flowLogs\":[{\"name\":\"Microsoft.Networkcli_test_nw_flow_logjxlev3fgp6pxlkrgr4lirtex4grp6hqd7o5kbh2atjwt7einrr2ihvgnsg1\",\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/cli_test_nw_flow_logjxlev3fgp6pxlkrgr4lirtex4grp6hqd7o5kbh2atjwt7einrr2ihvg/providers/Microsoft.Network/networkWatchers/westcentralus-watcher/FlowLogs/Microsoft.Networkcli_test_nw_flow_logjxlev3fgp6pxlkrgr4lirtex4grp6hqd7o5kbh2atjwt7einrr2ihvgnsg1\",\"etag\":\"W/\\\"53f1c8a5-c7c1-4be3-bfb9-8e09f446efd7\\\"\",\"properties\":{\"provisioningState\":\"Succeeded\",\"targetResourceId\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/cli_test_nw_flow_logjxlev3fgp6pxlkrgr4lirtex4grp6hqd7o5kbh2atjwt7einrr2ihvg/providers/Microsoft.Network/networkSecurityGroups/nsg1\",\"targetResourceGuid\":\"8c8991b1-16f4-403b-b6db-e42b7345b836\",\"storageId\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/cli_test_nw_flow_logjxlev3fgp6pxlkrgr4lirtex4grp6hqd7o5kbh2atjwt7einrr2ihvg/providers/Microsoft.Storage/storageAccounts/clitestnwrymfxh2qqvq3xbq\",\"enabled\":true,\"flowAnalyticsConfiguration\":{},\"retentionPolicy\":{\"days\":0,\"enabled\":false}},\"type\":\"Microsoft.Network/networkWatchers/FlowLogs\"},{\"name\":\"Microsoft.Networkcli_test_nw_flow_logdom6byqknn3kx2aj4bdjtssttq6etghtk7kidks32e2jdmoffqd2mfsnsg1\",\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/cli_test_nw_flow_logdom6byqknn3kx2aj4bdjtssttq6etghtk7kidks32e2jdmoffqd2mfs/providers/Microsoft.Network/networkWatchers/westcentralus-watcher/FlowLogs/Microsoft.Networkcli_test_nw_flow_logdom6byqknn3kx2aj4bdjtssttq6etghtk7kidks32e2jdmoffqd2mfsnsg1\",\"etag\":\"W/\\\"53f1c8a5-c7c1-4be3-bfb9-8e09f446efd7\\\"\",\"properties\":{\"provisioningState\":\"Succeeded\",\"targetResourceId\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/cli_test_nw_flow_logdom6byqknn3kx2aj4bdjtssttq6etghtk7kidks32e2jdmoffqd2mfs/providers/Microsoft.Network/networkSecurityGroups/nsg1\",\"targetResourceGuid\":\"0ecd2875-1c60-4970-aafe-b32533febab5\",\"storageId\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/cli_test_nw_flow_logdom6byqknn3kx2aj4bdjtssttq6etghtk7kidks32e2jdmoffqd2mfs/providers/Microsoft.Storage/storageAccounts/clitestnwxgrnjsaxnnsezzq\",\"enabled\":true,\"flowAnalyticsConfiguration\":{},\"retentionPolicy\":{\"days\":0,\"enabled\":false}},\"type\":\"Microsoft.Network/networkWatchers/FlowLogs\"},{\"name\":\"Microsoft.Networkcli_test_nw_flow_logrcssovnsrs73gzx2qzarlv4o2nklgxk7zfovja6n4ua64nn7runcnsrnsg1\",\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/cli_test_nw_flow_logrcssovnsrs73gzx2qzarlv4o2nklgxk7zfovja6n4ua64nn7runcnsr/providers/Microsoft.Network/networkWatchers/westcentralus-watcher/FlowLogs/Microsoft.Networkcli_test_nw_flow_logrcssovnsrs73gzx2qzarlv4o2nklgxk7zfovja6n4ua64nn7runcnsrnsg1\",\"etag\":\"W/\\\"53f1c8a5-c7c1-4be3-bfb9-8e09f446efd7\\\"\",\"properties\":{\"provisioningState\":\"Succeeded\",\"targetResourceId\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/cli_test_nw_flow_logrcssovnsrs73gzx2qzarlv4o2nklgxk7zfovja6n4ua64nn7runcnsr/providers/Microsoft.Network/networkSecurityGroups/nsg1\",\"targetResourceGuid\":\"d057bf9a-0fcf-4485-8478-36fde2a1cc7c\",\"storageId\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/cli_test_nw_flow_logrcssovnsrs73gzx2qzarlv4o2nklgxk7zfovja6n4ua64nn7runcnsr/providers/Microsoft.Storage/storageAccounts/clitestnwebc4hfgu2uhh7fh\",\"enabled\":true,\"flowAnalyticsConfiguration\":{},\"retentionPolicy\":{\"days\":0,\"enabled\":false}},\"type\":\"Microsoft.Network/networkWatchers/FlowLogs\"},{\"name\":\"Microsoft.Networkcli_test_nw_flow_logu5bpfoecfmxbjvqxdjdcjjg7zmg5zb2vog4tz34wzewppgwxdvy2phcnsg1\",\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/cli_test_nw_flow_logu5bpfoecfmxbjvqxdjdcjjg7zmg5zb2vog4tz34wzewppgwxdvy2phc/providers/Microsoft.Network/networkWatchers/westcentralus-watcher/FlowLogs/Microsoft.Networkcli_test_nw_flow_logu5bpfoecfmxbjvqxdjdcjjg7zmg5zb2vog4tz34wzewppgwxdvy2phcnsg1\",\"etag\":\"W/\\\"53f1c8a5-c7c1-4be3-bfb9-8e09f446efd7\\\"\",\"properties\":{\"provisioningState\":\"Succeeded\",\"targetResourceId\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/cli_test_nw_flow_logu5bpfoecfmxbjvqxdjdcjjg7zmg5zb2vog4tz34wzewppgwxdvy2phc/providers/Microsoft.Network/networkSecurityGroups/nsg1\",\"targetResourceGuid\":\"6a832c35-48c7-4712-8a5d-d2aa3646319b\",\"storageId\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/cli_test_nw_flow_logu5bpfoecfmxbjvqxdjdcjjg7zmg5zb2vog4tz34wzewppgwxdvy2phc/providers/Microsoft.Storage/storageAccounts/clitestnwh2znw7cw44s2y7i\",\"enabled\":true,\"flowAnalyticsConfiguration\":{},\"retentionPolicy\":{\"days\":0,\"enabled\":false}},\"type\":\"Microsoft.Network/networkWatchers/FlowLogs\"},{\"name\":\"Microsoft.Networkcli_test_nw_flow_log4oihmtozmgmt7ab7swshphrxhqyegddavdyginzgjalhv6sc6wmmd42nsg1\",\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/cli_test_nw_flow_log4oihmtozmgmt7ab7swshphrxhqyegddavdyginzgjalhv6sc6wmmd42/providers/Microsoft.Network/networkWatchers/westcentralus-watcher/FlowLogs/Microsoft.Networkcli_test_nw_flow_log4oihmtozmgmt7ab7swshphrxhqyegddavdyginzgjalhv6sc6wmmd42nsg1\",\"etag\":\"W/\\\"53f1c8a5-c7c1-4be3-bfb9-8e09f446efd7\\\"\",\"properties\":{\"provisioningState\":\"Succeeded\",\"targetResourceId\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/cli_test_nw_flow_log4oihmtozmgmt7ab7swshphrxhqyegddavdyginzgjalhv6sc6wmmd42/providers/Microsoft.Network/networkSecurityGroups/nsg1\",\"targetResourceGuid\":\"21bb653d-3e27-48e9-8371-7157b51f6d4f\",\"storageId\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/cli_test_nw_flow_log4oihmtozmgmt7ab7swshphrxhqyegddavdyginzgjalhv6sc6wmmd42/providers/Microsoft.Storage/storageAccounts/clitestnwnxrlorb7shx66ob\",\"enabled\":true,\"flowAnalyticsConfiguration\":{},\"retentionPolicy\":{\"days\":0,\"enabled\":false}},\"type\":\"Microsoft.Network/networkWatchers/FlowLogs\"},{\"name\":\"Microsoft.Networkcli_test_nw_flow_logkc5vfonkxhrpfzdquxvw5r4rhr3wzhdfbgnmdkiw7x6dwjrtj2czr3vnsg1\",\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/cli_test_nw_flow_logkc5vfonkxhrpfzdquxvw5r4rhr3wzhdfbgnmdkiw7x6dwjrtj2czr3v/providers/Microsoft.Network/networkWatchers/westcentralus-watcher/FlowLogs/Microsoft.Networkcli_test_nw_flow_logkc5vfonkxhrpfzdquxvw5r4rhr3wzhdfbgnmdkiw7x6dwjrtj2czr3vnsg1\",\"etag\":\"W/\\\"53f1c8a5-c7c1-4be3-bfb9-8e09f446efd7\\\"\",\"properties\":{\"provisioningState\":\"Succeeded\",\"targetResourceId\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/cli_test_nw_flow_logkc5vfonkxhrpfzdquxvw5r4rhr3wzhdfbgnmdkiw7x6dwjrtj2czr3v/providers/Microsoft.Network/networkSecurityGroups/nsg1\",\"targetResourceGuid\":\"6e7b7b10-1562-4202-b748-45e816b51f3a\",\"storageId\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/cli_test_nw_flow_logkc5vfonkxhrpfzdquxvw5r4rhr3wzhdfbgnmdkiw7x6dwjrtj2czr3v/providers/Microsoft.Storage/storageAccounts/clitestnww4ccjvbi7zhwi5g\",\"enabled\":true,\"flowAnalyticsConfiguration\":{},\"retentionPolicy\":{\"days\":0,\"enabled\":false}},\"type\":\"Microsoft.Network/networkWatchers/FlowLogs\"}],\"runningOperationIds\":[]}}]}"
     }
   }, {
     "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/networkWatchers?api-version=2017-08-01",
-    "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/1.3.1-SNAPSHOT OS:Linux/4.10.0-35-generic MacAddressHash:1c2ba720438fc324d596b25f7da790760fc8b42f9e797d95bd9c778984352b3d Java:1.8.0_144 (NetworkManagementClient)",
-      "Content-Type" : "application/json; charset=utf-8"
-    },
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/networkWatchers?api-version=2018-06-01",
+    "Headers" : { },
     "Response" : {
-      "date" : "Fri, 17 Nov 2017 02:51:59 GMT",
-      "content-length" : "742",
+      "date" : "Thu, 27 Sep 2018 00:40:55 GMT",
+      "content-length" : "8219",
       "expires" : "-1",
-      "vary" : "Accept-Encoding",
-      "x-ms-original-request-ids" : "00988dcb-a489-4eec-8a33-149d6cd13a79",
+      "x-ms-original-request-ids" : "412d186d-c91a-4a5e-891b-4f5a5c3a69b2",
       "retry-after" : "0",
-      "x-ms-ratelimit-remaining-subscription-reads" : "14997",
+      "x-ms-ratelimit-remaining-subscription-reads" : "11958",
       "StatusCode" : "200",
       "pragma" : "no-cache",
+      "x-ms-correlation-request-id" : "23609e5d-d1fe-4936-b85f-c94d220de6ed",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "f4a35dd8-c98b-411d-92a5-260b1b4f5c6c",
-      "x-ms-routing-request-id" : "WESTUS2:20171117T025159Z:f4a35dd8-c98b-411d-92a5-260b1b4f5c6c",
+      "x-content-type-options" : "nosniff",
+      "x-ms-routing-request-id" : "WESTUS2:20180927T004055Z:23609e5d-d1fe-4936-b85f-c94d220de6ed",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "f4a35dd8-c98b-411d-92a5-260b1b4f5c6c",
-      "Body" : "{\"value\":[{\"name\":\"nw94147\",\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg43952/providers/Microsoft.Network/networkWatchers/nw94147\",\"etag\":\"W/\\\"ad01400b-7614-4d11-94cd-6251ee7df83b\\\"\",\"type\":\"Microsoft.Network/networkWatchers\",\"location\":\"westus\",\"tags\":{},\"properties\":{\"provisioningState\":\"Succeeded\",\"runningOperationIds\":[]}},{\"name\":\"nw804071\",\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/nw804071group/providers/Microsoft.Network/networkWatchers/nw804071\",\"etag\":\"W/\\\"001d5667-2493-4418-9ff5-d35c7185b015\\\"\",\"type\":\"Microsoft.Network/networkWatchers\",\"location\":\"northcentralus\",\"tags\":{\"tag1\":\"value1\"},\"properties\":{\"provisioningState\":\"Succeeded\",\"runningOperationIds\":[]}}]}"
+      "x-ms-request-id" : "23609e5d-d1fe-4936-b85f-c94d220de6ed",
+      "Body" : "{\"value\":[{\"name\":\"nw27039\",\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg40387/providers/Microsoft.Network/networkWatchers/nw27039\",\"etag\":\"W/\\\"23f1051a-18c8-451f-b2bb-3c655f2ac1ff\\\"\",\"type\":\"Microsoft.Network/networkWatchers\",\"location\":\"westus\",\"tags\":{},\"properties\":{\"provisioningState\":\"Succeeded\",\"flowLogs\":[],\"runningOperationIds\":[]}},{\"name\":\"nw81103\",\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/javanwmrg89119/providers/Microsoft.Network/networkWatchers/nw81103\",\"etag\":\"W/\\\"2d8563ec-2065-458a-bca9-d243bc224000\\\"\",\"type\":\"Microsoft.Network/networkWatchers\",\"location\":\"southcentralus\",\"tags\":{},\"properties\":{\"provisioningState\":\"Succeeded\",\"flowLogs\":[],\"runningOperationIds\":[]}},{\"name\":\"westcentralus-watcher\",\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/NetworkWatcherRg/providers/Microsoft.Network/networkWatchers/westcentralus-watcher\",\"etag\":\"W/\\\"53f1c8a5-c7c1-4be3-bfb9-8e09f446efd7\\\"\",\"type\":\"Microsoft.Network/networkWatchers\",\"location\":\"westcentralus\",\"properties\":{\"provisioningState\":\"Succeeded\",\"flowLogs\":[{\"name\":\"Microsoft.Networkcli_test_nw_flow_logjxlev3fgp6pxlkrgr4lirtex4grp6hqd7o5kbh2atjwt7einrr2ihvgnsg1\",\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/cli_test_nw_flow_logjxlev3fgp6pxlkrgr4lirtex4grp6hqd7o5kbh2atjwt7einrr2ihvg/providers/Microsoft.Network/networkWatchers/westcentralus-watcher/FlowLogs/Microsoft.Networkcli_test_nw_flow_logjxlev3fgp6pxlkrgr4lirtex4grp6hqd7o5kbh2atjwt7einrr2ihvgnsg1\",\"etag\":\"W/\\\"53f1c8a5-c7c1-4be3-bfb9-8e09f446efd7\\\"\",\"properties\":{\"provisioningState\":\"Succeeded\",\"targetResourceId\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/cli_test_nw_flow_logjxlev3fgp6pxlkrgr4lirtex4grp6hqd7o5kbh2atjwt7einrr2ihvg/providers/Microsoft.Network/networkSecurityGroups/nsg1\",\"targetResourceGuid\":\"8c8991b1-16f4-403b-b6db-e42b7345b836\",\"storageId\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/cli_test_nw_flow_logjxlev3fgp6pxlkrgr4lirtex4grp6hqd7o5kbh2atjwt7einrr2ihvg/providers/Microsoft.Storage/storageAccounts/clitestnwrymfxh2qqvq3xbq\",\"enabled\":true,\"flowAnalyticsConfiguration\":{},\"retentionPolicy\":{\"days\":0,\"enabled\":false}},\"type\":\"Microsoft.Network/networkWatchers/FlowLogs\"},{\"name\":\"Microsoft.Networkcli_test_nw_flow_logdom6byqknn3kx2aj4bdjtssttq6etghtk7kidks32e2jdmoffqd2mfsnsg1\",\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/cli_test_nw_flow_logdom6byqknn3kx2aj4bdjtssttq6etghtk7kidks32e2jdmoffqd2mfs/providers/Microsoft.Network/networkWatchers/westcentralus-watcher/FlowLogs/Microsoft.Networkcli_test_nw_flow_logdom6byqknn3kx2aj4bdjtssttq6etghtk7kidks32e2jdmoffqd2mfsnsg1\",\"etag\":\"W/\\\"53f1c8a5-c7c1-4be3-bfb9-8e09f446efd7\\\"\",\"properties\":{\"provisioningState\":\"Succeeded\",\"targetResourceId\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/cli_test_nw_flow_logdom6byqknn3kx2aj4bdjtssttq6etghtk7kidks32e2jdmoffqd2mfs/providers/Microsoft.Network/networkSecurityGroups/nsg1\",\"targetResourceGuid\":\"0ecd2875-1c60-4970-aafe-b32533febab5\",\"storageId\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/cli_test_nw_flow_logdom6byqknn3kx2aj4bdjtssttq6etghtk7kidks32e2jdmoffqd2mfs/providers/Microsoft.Storage/storageAccounts/clitestnwxgrnjsaxnnsezzq\",\"enabled\":true,\"flowAnalyticsConfiguration\":{},\"retentionPolicy\":{\"days\":0,\"enabled\":false}},\"type\":\"Microsoft.Network/networkWatchers/FlowLogs\"},{\"name\":\"Microsoft.Networkcli_test_nw_flow_logrcssovnsrs73gzx2qzarlv4o2nklgxk7zfovja6n4ua64nn7runcnsrnsg1\",\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/cli_test_nw_flow_logrcssovnsrs73gzx2qzarlv4o2nklgxk7zfovja6n4ua64nn7runcnsr/providers/Microsoft.Network/networkWatchers/westcentralus-watcher/FlowLogs/Microsoft.Networkcli_test_nw_flow_logrcssovnsrs73gzx2qzarlv4o2nklgxk7zfovja6n4ua64nn7runcnsrnsg1\",\"etag\":\"W/\\\"53f1c8a5-c7c1-4be3-bfb9-8e09f446efd7\\\"\",\"properties\":{\"provisioningState\":\"Succeeded\",\"targetResourceId\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/cli_test_nw_flow_logrcssovnsrs73gzx2qzarlv4o2nklgxk7zfovja6n4ua64nn7runcnsr/providers/Microsoft.Network/networkSecurityGroups/nsg1\",\"targetResourceGuid\":\"d057bf9a-0fcf-4485-8478-36fde2a1cc7c\",\"storageId\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/cli_test_nw_flow_logrcssovnsrs73gzx2qzarlv4o2nklgxk7zfovja6n4ua64nn7runcnsr/providers/Microsoft.Storage/storageAccounts/clitestnwebc4hfgu2uhh7fh\",\"enabled\":true,\"flowAnalyticsConfiguration\":{},\"retentionPolicy\":{\"days\":0,\"enabled\":false}},\"type\":\"Microsoft.Network/networkWatchers/FlowLogs\"},{\"name\":\"Microsoft.Networkcli_test_nw_flow_logu5bpfoecfmxbjvqxdjdcjjg7zmg5zb2vog4tz34wzewppgwxdvy2phcnsg1\",\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/cli_test_nw_flow_logu5bpfoecfmxbjvqxdjdcjjg7zmg5zb2vog4tz34wzewppgwxdvy2phc/providers/Microsoft.Network/networkWatchers/westcentralus-watcher/FlowLogs/Microsoft.Networkcli_test_nw_flow_logu5bpfoecfmxbjvqxdjdcjjg7zmg5zb2vog4tz34wzewppgwxdvy2phcnsg1\",\"etag\":\"W/\\\"53f1c8a5-c7c1-4be3-bfb9-8e09f446efd7\\\"\",\"properties\":{\"provisioningState\":\"Succeeded\",\"targetResourceId\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/cli_test_nw_flow_logu5bpfoecfmxbjvqxdjdcjjg7zmg5zb2vog4tz34wzewppgwxdvy2phc/providers/Microsoft.Network/networkSecurityGroups/nsg1\",\"targetResourceGuid\":\"6a832c35-48c7-4712-8a5d-d2aa3646319b\",\"storageId\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/cli_test_nw_flow_logu5bpfoecfmxbjvqxdjdcjjg7zmg5zb2vog4tz34wzewppgwxdvy2phc/providers/Microsoft.Storage/storageAccounts/clitestnwh2znw7cw44s2y7i\",\"enabled\":true,\"flowAnalyticsConfiguration\":{},\"retentionPolicy\":{\"days\":0,\"enabled\":false}},\"type\":\"Microsoft.Network/networkWatchers/FlowLogs\"},{\"name\":\"Microsoft.Networkcli_test_nw_flow_log4oihmtozmgmt7ab7swshphrxhqyegddavdyginzgjalhv6sc6wmmd42nsg1\",\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/cli_test_nw_flow_log4oihmtozmgmt7ab7swshphrxhqyegddavdyginzgjalhv6sc6wmmd42/providers/Microsoft.Network/networkWatchers/westcentralus-watcher/FlowLogs/Microsoft.Networkcli_test_nw_flow_log4oihmtozmgmt7ab7swshphrxhqyegddavdyginzgjalhv6sc6wmmd42nsg1\",\"etag\":\"W/\\\"53f1c8a5-c7c1-4be3-bfb9-8e09f446efd7\\\"\",\"properties\":{\"provisioningState\":\"Succeeded\",\"targetResourceId\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/cli_test_nw_flow_log4oihmtozmgmt7ab7swshphrxhqyegddavdyginzgjalhv6sc6wmmd42/providers/Microsoft.Network/networkSecurityGroups/nsg1\",\"targetResourceGuid\":\"21bb653d-3e27-48e9-8371-7157b51f6d4f\",\"storageId\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/cli_test_nw_flow_log4oihmtozmgmt7ab7swshphrxhqyegddavdyginzgjalhv6sc6wmmd42/providers/Microsoft.Storage/storageAccounts/clitestnwnxrlorb7shx66ob\",\"enabled\":true,\"flowAnalyticsConfiguration\":{},\"retentionPolicy\":{\"days\":0,\"enabled\":false}},\"type\":\"Microsoft.Network/networkWatchers/FlowLogs\"},{\"name\":\"Microsoft.Networkcli_test_nw_flow_logkc5vfonkxhrpfzdquxvw5r4rhr3wzhdfbgnmdkiw7x6dwjrtj2czr3vnsg1\",\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/cli_test_nw_flow_logkc5vfonkxhrpfzdquxvw5r4rhr3wzhdfbgnmdkiw7x6dwjrtj2czr3v/providers/Microsoft.Network/networkWatchers/westcentralus-watcher/FlowLogs/Microsoft.Networkcli_test_nw_flow_logkc5vfonkxhrpfzdquxvw5r4rhr3wzhdfbgnmdkiw7x6dwjrtj2czr3vnsg1\",\"etag\":\"W/\\\"53f1c8a5-c7c1-4be3-bfb9-8e09f446efd7\\\"\",\"properties\":{\"provisioningState\":\"Succeeded\",\"targetResourceId\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/cli_test_nw_flow_logkc5vfonkxhrpfzdquxvw5r4rhr3wzhdfbgnmdkiw7x6dwjrtj2czr3v/providers/Microsoft.Network/networkSecurityGroups/nsg1\",\"targetResourceGuid\":\"6e7b7b10-1562-4202-b748-45e816b51f3a\",\"storageId\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/cli_test_nw_flow_logkc5vfonkxhrpfzdquxvw5r4rhr3wzhdfbgnmdkiw7x6dwjrtj2czr3v/providers/Microsoft.Storage/storageAccounts/clitestnww4ccjvbi7zhwi5g\",\"enabled\":true,\"flowAnalyticsConfiguration\":{},\"retentionPolicy\":{\"days\":0,\"enabled\":false}},\"type\":\"Microsoft.Network/networkWatchers/FlowLogs\"}],\"runningOperationIds\":[]}}]}"
     }
   }, {
     "Method" : "DELETE",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/nw804071group/providers/Microsoft.Network/networkWatchers/nw804071?api-version=2017-08-01",
-    "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/1.3.1-SNAPSHOT OS:Linux/4.10.0-35-generic MacAddressHash:1c2ba720438fc324d596b25f7da790760fc8b42f9e797d95bd9c778984352b3d Java:1.8.0_144 (NetworkManagementClient)",
-      "Content-Type" : "application/json; charset=utf-8"
-    },
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/javanwmrg89119/providers/Microsoft.Network/networkWatchers/nw81103?api-version=2018-06-01",
+    "Headers" : { },
     "Response" : {
-      "date" : "Fri, 17 Nov 2017 02:52:01 GMT",
-      "content-length" : "0",
+      "date" : "Thu, 27 Sep 2018 00:40:55 GMT",
       "server" : "Microsoft-HTTPAPI/2.0",
+      "content-length" : "0",
       "expires" : "-1",
-      "x-ms-ratelimit-remaining-subscription-writes" : "1199",
+      "x-ms-ratelimit-remaining-subscription-deletes" : "14998",
       "retry-after" : "0",
       "StatusCode" : "202",
       "pragma" : "no-cache",
+      "x-ms-correlation-request-id" : "e379792b-3312-456d-8c7a-0cbb2c3027eb",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "cfbf086d-6eaf-449a-8a75-962abd3f5fa2",
-      "x-ms-routing-request-id" : "WESTUS2:20171117T025201Z:cfbf086d-6eaf-449a-8a75-962abd3f5fa2",
-      "location" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/northcentralus/operationResults/b9c3f945-7200-4113-bb9a-5d3f84e2a006?api-version=2017-08-01",
+      "x-content-type-options" : "nosniff",
+      "x-ms-routing-request-id" : "WESTUS2:20180927T004056Z:e379792b-3312-456d-8c7a-0cbb2c3027eb",
+      "location" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/southcentralus/operationResults/6574a45c-2972-4ebe-aaa9-ed884344bddf?api-version=2018-06-01",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "b9c3f945-7200-4113-bb9a-5d3f84e2a006",
+      "x-ms-request-id" : "6574a45c-2972-4ebe-aaa9-ed884344bddf",
       "Body" : "",
-      "azure-asyncoperation" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/northcentralus/operations/b9c3f945-7200-4113-bb9a-5d3f84e2a006?api-version=2017-08-01"
+      "azure-asyncoperation" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/southcentralus/operations/6574a45c-2972-4ebe-aaa9-ed884344bddf?api-version=2018-06-01"
     }
   }, {
     "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/northcentralus/operations/b9c3f945-7200-4113-bb9a-5d3f84e2a006?api-version=2017-08-01",
-    "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/1.3.1-SNAPSHOT OS:Linux/4.10.0-35-generic MacAddressHash:1c2ba720438fc324d596b25f7da790760fc8b42f9e797d95bd9c778984352b3d Java:1.8.0_144 (NetworkManagementClient)"
-    },
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/southcentralus/operations/6574a45c-2972-4ebe-aaa9-ed884344bddf?api-version=2018-06-01",
+    "Headers" : { },
     "Response" : {
-      "date" : "Fri, 17 Nov 2017 02:52:01 GMT",
-      "server" : "Microsoft-HTTPAPI/2.0",
-      "content-length" : "30",
-      "expires" : "-1",
-      "transfer-encoding" : "chunked",
-      "vary" : "Accept-Encoding",
-      "retry-after" : "0",
-      "x-ms-ratelimit-remaining-subscription-reads" : "14996",
-      "StatusCode" : "200",
-      "pragma" : "no-cache",
-      "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "86b539ab-8c1c-4ffa-b6aa-be2efd470cda",
-      "x-ms-routing-request-id" : "WESTUS2:20171117T025201Z:86b539ab-8c1c-4ffa-b6aa-be2efd470cda",
-      "content-type" : "application/json; charset=utf-8",
-      "cache-control" : "no-cache",
-      "x-ms-request-id" : "5f0013c4-1d93-4d41-8776-b01c2cdb94b5",
-      "Body" : "{\r\n  \"status\": \"InProgress\"\r\n}"
-    }
-  }, {
-    "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/northcentralus/operations/b9c3f945-7200-4113-bb9a-5d3f84e2a006?api-version=2017-08-01",
-    "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/1.3.1-SNAPSHOT OS:Linux/4.10.0-35-generic MacAddressHash:1c2ba720438fc324d596b25f7da790760fc8b42f9e797d95bd9c778984352b3d Java:1.8.0_144 (NetworkManagementClient)"
-    },
-    "Response" : {
-      "date" : "Fri, 17 Nov 2017 02:52:11 GMT",
-      "server" : "Microsoft-HTTPAPI/2.0",
+      "date" : "Thu, 27 Sep 2018 00:41:05 GMT",
       "content-length" : "29",
+      "server" : "Microsoft-HTTPAPI/2.0",
       "expires" : "-1",
-      "transfer-encoding" : "chunked",
-      "vary" : "Accept-Encoding",
       "retry-after" : "0",
-      "x-ms-ratelimit-remaining-subscription-reads" : "14995",
+      "x-ms-ratelimit-remaining-subscription-reads" : "11981",
       "StatusCode" : "200",
       "pragma" : "no-cache",
+      "x-ms-correlation-request-id" : "2f1e6f07-cc50-4ec4-91cc-9a696c16d67c",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "cd0234aa-a1c0-447a-8abf-a1fb2d895387",
-      "x-ms-routing-request-id" : "WESTUS2:20171117T025211Z:cd0234aa-a1c0-447a-8abf-a1fb2d895387",
+      "x-content-type-options" : "nosniff",
+      "x-ms-routing-request-id" : "WESTUS2:20180927T004106Z:2f1e6f07-cc50-4ec4-91cc-9a696c16d67c",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "c2f009bf-a292-4123-8707-40aef7aa09ba",
+      "x-ms-request-id" : "50c08326-cf0c-4624-9aff-b95056ca6010",
       "Body" : "{\r\n  \"status\": \"Succeeded\"\r\n}"
     }
   }, {
     "Method" : "PUT",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/nw483717group?api-version=2016-09-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/nw132720group?api-version=2016-09-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/1.3.1-SNAPSHOT OS:Linux/4.10.0-35-generic MacAddressHash:1c2ba720438fc324d596b25f7da790760fc8b42f9e797d95bd9c778984352b3d Java:1.8.0_144 (ResourceManagementClient, 2016-09-01)",
       "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "date" : "Fri, 17 Nov 2017 02:52:13 GMT",
+      "date" : "Thu, 27 Sep 2018 00:41:06 GMT",
       "content-length" : "187",
       "expires" : "-1",
-      "x-ms-ratelimit-remaining-subscription-writes" : "1198",
+      "x-ms-ratelimit-remaining-subscription-writes" : "1190",
       "retry-after" : "0",
       "StatusCode" : "201",
       "pragma" : "no-cache",
+      "x-ms-correlation-request-id" : "4b362fc3-f99f-4a43-8793-cf1b3fcc4429",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "aa40a905-208e-48e0-88ca-05303c11a829",
-      "x-ms-routing-request-id" : "WESTUS2:20171117T025213Z:aa40a905-208e-48e0-88ca-05303c11a829",
+      "x-content-type-options" : "nosniff",
+      "x-ms-routing-request-id" : "WESTUS2:20180927T004107Z:4b362fc3-f99f-4a43-8793-cf1b3fcc4429",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "aa40a905-208e-48e0-88ca-05303c11a829",
-      "Body" : "{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/nw483717group\",\"name\":\"nw483717group\",\"location\":\"northcentralus\",\"properties\":{\"provisioningState\":\"Succeeded\"}}"
+      "x-ms-request-id" : "4b362fc3-f99f-4a43-8793-cf1b3fcc4429",
+      "Body" : "{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/nw132720group\",\"name\":\"nw132720group\",\"location\":\"southcentralus\",\"properties\":{\"provisioningState\":\"Succeeded\"}}"
     }
   }, {
     "Method" : "PUT",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/nw483717group/providers/Microsoft.Network/networkWatchers/nw483717?api-version=2017-08-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/nw132720group/providers/Microsoft.Network/networkWatchers/nw132720?api-version=2018-06-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/1.3.1-SNAPSHOT OS:Linux/4.10.0-35-generic MacAddressHash:1c2ba720438fc324d596b25f7da790760fc8b42f9e797d95bd9c778984352b3d Java:1.8.0_144 (NetworkManagementClient)",
       "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "date" : "Fri, 17 Nov 2017 02:52:14 GMT",
-      "content-length" : "446",
+      "date" : "Thu, 27 Sep 2018 00:41:07 GMT",
+      "content-length" : "467",
       "server" : "Microsoft-HTTPAPI/2.0",
       "expires" : "-1",
-      "x-ms-ratelimit-remaining-subscription-writes" : "1197",
+      "x-ms-ratelimit-remaining-subscription-writes" : "1191",
       "retry-after" : "0",
       "StatusCode" : "201",
       "pragma" : "no-cache",
+      "x-ms-correlation-request-id" : "f832533f-fc6d-4999-8250-34b13e86c316",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "537c6906-4d40-4b76-83dd-ebac4975ea25",
-      "x-ms-routing-request-id" : "WESTUS2:20171117T025214Z:537c6906-4d40-4b76-83dd-ebac4975ea25",
+      "x-content-type-options" : "nosniff",
+      "x-ms-routing-request-id" : "WESTUS2:20180927T004108Z:f832533f-fc6d-4999-8250-34b13e86c316",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "3062ab34-e4c3-4cce-8c40-2cc8ce88535f",
-      "Body" : "{\r\n  \"name\": \"nw483717\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/nw483717group/providers/Microsoft.Network/networkWatchers/nw483717\",\r\n  \"etag\": \"W/\\\"0b60ae5e-af38-4418-9e44-34b778434982\\\"\",\r\n  \"type\": \"Microsoft.Network/networkWatchers\",\r\n  \"location\": \"northcentralus\",\r\n  \"tags\": {\r\n    \"tag1\": \"value1\"\r\n  },\r\n  \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"runningOperationIds\": []\r\n  }\r\n}",
-      "azure-asyncoperation" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/northcentralus/operations/3062ab34-e4c3-4cce-8c40-2cc8ce88535f?api-version=2017-08-01"
+      "x-ms-request-id" : "ef973c04-4d3a-4322-9752-fe370db96481",
+      "Body" : "{\r\n  \"name\": \"nw132720\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/nw132720group/providers/Microsoft.Network/networkWatchers/nw132720\",\r\n  \"etag\": \"W/\\\"2aa00e74-51cd-445b-8701-f968594e8dd4\\\"\",\r\n  \"type\": \"Microsoft.Network/networkWatchers\",\r\n  \"location\": \"southcentralus\",\r\n  \"tags\": {\r\n    \"tag1\": \"value1\"\r\n  },\r\n  \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"flowLogs\": [],\r\n    \"runningOperationIds\": []\r\n  }\r\n}",
+      "azure-asyncoperation" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/southcentralus/operations/ef973c04-4d3a-4322-9752-fe370db96481?api-version=2018-06-01"
     }
   }, {
     "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/networkWatchers?api-version=2017-08-01",
-    "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/1.3.1-SNAPSHOT OS:Linux/4.10.0-35-generic MacAddressHash:1c2ba720438fc324d596b25f7da790760fc8b42f9e797d95bd9c778984352b3d Java:1.8.0_144 (NetworkManagementClient)",
-      "Content-Type" : "application/json; charset=utf-8"
-    },
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/southcentralus/operations/ef973c04-4d3a-4322-9752-fe370db96481?api-version=2018-06-01",
+    "Headers" : { },
     "Response" : {
-      "date" : "Fri, 17 Nov 2017 02:52:14 GMT",
-      "content-length" : "742",
-      "expires" : "-1",
-      "vary" : "Accept-Encoding",
-      "x-ms-original-request-ids" : "7312089e-baf2-4407-a6c4-a8a4c0af8e63",
-      "retry-after" : "0",
-      "x-ms-ratelimit-remaining-subscription-reads" : "14994",
-      "StatusCode" : "200",
-      "pragma" : "no-cache",
-      "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "60414c18-e81e-46d4-9ad9-c6ce44aaa681",
-      "x-ms-routing-request-id" : "WESTUS2:20171117T025214Z:60414c18-e81e-46d4-9ad9-c6ce44aaa681",
-      "content-type" : "application/json; charset=utf-8",
-      "cache-control" : "no-cache",
-      "x-ms-request-id" : "60414c18-e81e-46d4-9ad9-c6ce44aaa681",
-      "Body" : "{\"value\":[{\"name\":\"nw94147\",\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg43952/providers/Microsoft.Network/networkWatchers/nw94147\",\"etag\":\"W/\\\"ad01400b-7614-4d11-94cd-6251ee7df83b\\\"\",\"type\":\"Microsoft.Network/networkWatchers\",\"location\":\"westus\",\"tags\":{},\"properties\":{\"provisioningState\":\"Succeeded\",\"runningOperationIds\":[]}},{\"name\":\"nw483717\",\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/nw483717group/providers/Microsoft.Network/networkWatchers/nw483717\",\"etag\":\"W/\\\"0b60ae5e-af38-4418-9e44-34b778434982\\\"\",\"type\":\"Microsoft.Network/networkWatchers\",\"location\":\"northcentralus\",\"tags\":{\"tag1\":\"value1\"},\"properties\":{\"provisioningState\":\"Succeeded\",\"runningOperationIds\":[]}}]}"
-    }
-  }, {
-    "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/nw483717group/providers/Microsoft.Network/networkWatchers/nw483717?api-version=2017-08-01",
-    "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/1.3.1-SNAPSHOT OS:Linux/4.10.0-35-generic MacAddressHash:1c2ba720438fc324d596b25f7da790760fc8b42f9e797d95bd9c778984352b3d Java:1.8.0_144 (NetworkManagementClient)",
-      "Content-Type" : "application/json; charset=utf-8"
-    },
-    "Response" : {
-      "date" : "Fri, 17 Nov 2017 02:52:14 GMT",
+      "date" : "Thu, 27 Sep 2018 00:41:38 GMT",
+      "content-length" : "29",
       "server" : "Microsoft-HTTPAPI/2.0",
-      "content-length" : "446",
       "expires" : "-1",
-      "transfer-encoding" : "chunked",
-      "vary" : "Accept-Encoding",
       "retry-after" : "0",
-      "x-ms-ratelimit-remaining-subscription-reads" : "14993",
+      "x-ms-ratelimit-remaining-subscription-reads" : "11974",
       "StatusCode" : "200",
       "pragma" : "no-cache",
+      "x-ms-correlation-request-id" : "2e6ae82e-4f38-441e-bd27-38f5b68d594b",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "a81f1635-0f39-47c1-b718-635395b7745b",
-      "x-ms-routing-request-id" : "WESTUS2:20171117T025214Z:a81f1635-0f39-47c1-b718-635395b7745b",
+      "x-content-type-options" : "nosniff",
+      "x-ms-routing-request-id" : "WESTUS2:20180927T004138Z:2e6ae82e-4f38-441e-bd27-38f5b68d594b",
       "content-type" : "application/json; charset=utf-8",
-      "etag" : "W/\"0b60ae5e-af38-4418-9e44-34b778434982\"",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "7bac537c-c11c-42e8-ba23-97f2adea3311",
-      "Body" : "{\r\n  \"name\": \"nw483717\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/nw483717group/providers/Microsoft.Network/networkWatchers/nw483717\",\r\n  \"etag\": \"W/\\\"0b60ae5e-af38-4418-9e44-34b778434982\\\"\",\r\n  \"type\": \"Microsoft.Network/networkWatchers\",\r\n  \"location\": \"northcentralus\",\r\n  \"tags\": {\r\n    \"tag1\": \"value1\"\r\n  },\r\n  \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"runningOperationIds\": []\r\n  }\r\n}"
+      "x-ms-request-id" : "a90ede55-d85a-44d2-a284-8a1fb329cc83",
+      "Body" : "{\r\n  \"status\": \"Succeeded\"\r\n}"
     }
   }, {
     "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/nw483717group/providers/Microsoft.Network/networkWatchers/nw483717?api-version=2017-08-01",
-    "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/1.3.1-SNAPSHOT OS:Linux/4.10.0-35-generic MacAddressHash:1c2ba720438fc324d596b25f7da790760fc8b42f9e797d95bd9c778984352b3d Java:1.8.0_144 (NetworkManagementClient)",
-      "Content-Type" : "application/json; charset=utf-8"
-    },
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/nw132720group/providers/Microsoft.Network/networkWatchers/nw132720?api-version=2018-06-01",
+    "Headers" : { },
     "Response" : {
-      "date" : "Fri, 17 Nov 2017 02:52:14 GMT",
+      "date" : "Thu, 27 Sep 2018 00:41:38 GMT",
+      "content-length" : "467",
       "server" : "Microsoft-HTTPAPI/2.0",
-      "content-length" : "446",
       "expires" : "-1",
-      "transfer-encoding" : "chunked",
-      "vary" : "Accept-Encoding",
       "retry-after" : "0",
-      "x-ms-ratelimit-remaining-subscription-reads" : "14992",
+      "x-ms-ratelimit-remaining-subscription-reads" : "11980",
       "StatusCode" : "200",
       "pragma" : "no-cache",
+      "x-ms-correlation-request-id" : "7dd629ad-9c32-4d35-90b6-17c9b27134ec",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "c2f133f6-b527-46d0-8d7c-79d044a74929",
-      "x-ms-routing-request-id" : "WESTUS2:20171117T025215Z:c2f133f6-b527-46d0-8d7c-79d044a74929",
+      "x-content-type-options" : "nosniff",
+      "x-ms-routing-request-id" : "WESTUS2:20180927T004139Z:7dd629ad-9c32-4d35-90b6-17c9b27134ec",
       "content-type" : "application/json; charset=utf-8",
-      "etag" : "W/\"0b60ae5e-af38-4418-9e44-34b778434982\"",
+      "etag" : "W/\"39fbd2ad-5a1d-4668-ae2e-9004ae4929e8\"",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "609e9fbf-c368-4eb6-81ea-df0318383bf4",
-      "Body" : "{\r\n  \"name\": \"nw483717\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/nw483717group/providers/Microsoft.Network/networkWatchers/nw483717\",\r\n  \"etag\": \"W/\\\"0b60ae5e-af38-4418-9e44-34b778434982\\\"\",\r\n  \"type\": \"Microsoft.Network/networkWatchers\",\r\n  \"location\": \"northcentralus\",\r\n  \"tags\": {\r\n    \"tag1\": \"value1\"\r\n  },\r\n  \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"runningOperationIds\": []\r\n  }\r\n}"
+      "x-ms-request-id" : "051cdf3e-c135-4ab3-9fa9-95038b4eaa8d",
+      "Body" : "{\r\n  \"name\": \"nw132720\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/nw132720group/providers/Microsoft.Network/networkWatchers/nw132720\",\r\n  \"etag\": \"W/\\\"39fbd2ad-5a1d-4668-ae2e-9004ae4929e8\\\"\",\r\n  \"type\": \"Microsoft.Network/networkWatchers\",\r\n  \"location\": \"southcentralus\",\r\n  \"tags\": {\r\n    \"tag1\": \"value1\"\r\n  },\r\n  \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"flowLogs\": [],\r\n    \"runningOperationIds\": []\r\n  }\r\n}"
+    }
+  }, {
+    "Method" : "GET",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/networkWatchers?api-version=2018-06-01",
+    "Headers" : { },
+    "Response" : {
+      "date" : "Thu, 27 Sep 2018 00:41:38 GMT",
+      "content-length" : "8235",
+      "expires" : "-1",
+      "x-ms-original-request-ids" : "0a221f79-de2a-4e82-ad75-1adb7aa191a6",
+      "retry-after" : "0",
+      "x-ms-ratelimit-remaining-subscription-reads" : "11963",
+      "StatusCode" : "200",
+      "pragma" : "no-cache",
+      "x-ms-correlation-request-id" : "63b8a419-aac8-4431-8445-ac72ec2c9574",
+      "strict-transport-security" : "max-age=31536000; includeSubDomains",
+      "x-content-type-options" : "nosniff",
+      "x-ms-routing-request-id" : "WESTUS2:20180927T004139Z:63b8a419-aac8-4431-8445-ac72ec2c9574",
+      "content-type" : "application/json; charset=utf-8",
+      "cache-control" : "no-cache",
+      "x-ms-request-id" : "63b8a419-aac8-4431-8445-ac72ec2c9574",
+      "Body" : "{\"value\":[{\"name\":\"nw27039\",\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg40387/providers/Microsoft.Network/networkWatchers/nw27039\",\"etag\":\"W/\\\"23f1051a-18c8-451f-b2bb-3c655f2ac1ff\\\"\",\"type\":\"Microsoft.Network/networkWatchers\",\"location\":\"westus\",\"tags\":{},\"properties\":{\"provisioningState\":\"Succeeded\",\"flowLogs\":[],\"runningOperationIds\":[]}},{\"name\":\"nw132720\",\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/nw132720group/providers/Microsoft.Network/networkWatchers/nw132720\",\"etag\":\"W/\\\"39fbd2ad-5a1d-4668-ae2e-9004ae4929e8\\\"\",\"type\":\"Microsoft.Network/networkWatchers\",\"location\":\"southcentralus\",\"tags\":{\"tag1\":\"value1\"},\"properties\":{\"provisioningState\":\"Succeeded\",\"flowLogs\":[],\"runningOperationIds\":[]}},{\"name\":\"westcentralus-watcher\",\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/NetworkWatcherRg/providers/Microsoft.Network/networkWatchers/westcentralus-watcher\",\"etag\":\"W/\\\"53f1c8a5-c7c1-4be3-bfb9-8e09f446efd7\\\"\",\"type\":\"Microsoft.Network/networkWatchers\",\"location\":\"westcentralus\",\"properties\":{\"provisioningState\":\"Succeeded\",\"flowLogs\":[{\"name\":\"Microsoft.Networkcli_test_nw_flow_logjxlev3fgp6pxlkrgr4lirtex4grp6hqd7o5kbh2atjwt7einrr2ihvgnsg1\",\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/cli_test_nw_flow_logjxlev3fgp6pxlkrgr4lirtex4grp6hqd7o5kbh2atjwt7einrr2ihvg/providers/Microsoft.Network/networkWatchers/westcentralus-watcher/FlowLogs/Microsoft.Networkcli_test_nw_flow_logjxlev3fgp6pxlkrgr4lirtex4grp6hqd7o5kbh2atjwt7einrr2ihvgnsg1\",\"etag\":\"W/\\\"53f1c8a5-c7c1-4be3-bfb9-8e09f446efd7\\\"\",\"properties\":{\"provisioningState\":\"Succeeded\",\"targetResourceId\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/cli_test_nw_flow_logjxlev3fgp6pxlkrgr4lirtex4grp6hqd7o5kbh2atjwt7einrr2ihvg/providers/Microsoft.Network/networkSecurityGroups/nsg1\",\"targetResourceGuid\":\"8c8991b1-16f4-403b-b6db-e42b7345b836\",\"storageId\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/cli_test_nw_flow_logjxlev3fgp6pxlkrgr4lirtex4grp6hqd7o5kbh2atjwt7einrr2ihvg/providers/Microsoft.Storage/storageAccounts/clitestnwrymfxh2qqvq3xbq\",\"enabled\":true,\"flowAnalyticsConfiguration\":{},\"retentionPolicy\":{\"days\":0,\"enabled\":false}},\"type\":\"Microsoft.Network/networkWatchers/FlowLogs\"},{\"name\":\"Microsoft.Networkcli_test_nw_flow_logdom6byqknn3kx2aj4bdjtssttq6etghtk7kidks32e2jdmoffqd2mfsnsg1\",\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/cli_test_nw_flow_logdom6byqknn3kx2aj4bdjtssttq6etghtk7kidks32e2jdmoffqd2mfs/providers/Microsoft.Network/networkWatchers/westcentralus-watcher/FlowLogs/Microsoft.Networkcli_test_nw_flow_logdom6byqknn3kx2aj4bdjtssttq6etghtk7kidks32e2jdmoffqd2mfsnsg1\",\"etag\":\"W/\\\"53f1c8a5-c7c1-4be3-bfb9-8e09f446efd7\\\"\",\"properties\":{\"provisioningState\":\"Succeeded\",\"targetResourceId\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/cli_test_nw_flow_logdom6byqknn3kx2aj4bdjtssttq6etghtk7kidks32e2jdmoffqd2mfs/providers/Microsoft.Network/networkSecurityGroups/nsg1\",\"targetResourceGuid\":\"0ecd2875-1c60-4970-aafe-b32533febab5\",\"storageId\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/cli_test_nw_flow_logdom6byqknn3kx2aj4bdjtssttq6etghtk7kidks32e2jdmoffqd2mfs/providers/Microsoft.Storage/storageAccounts/clitestnwxgrnjsaxnnsezzq\",\"enabled\":true,\"flowAnalyticsConfiguration\":{},\"retentionPolicy\":{\"days\":0,\"enabled\":false}},\"type\":\"Microsoft.Network/networkWatchers/FlowLogs\"},{\"name\":\"Microsoft.Networkcli_test_nw_flow_logrcssovnsrs73gzx2qzarlv4o2nklgxk7zfovja6n4ua64nn7runcnsrnsg1\",\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/cli_test_nw_flow_logrcssovnsrs73gzx2qzarlv4o2nklgxk7zfovja6n4ua64nn7runcnsr/providers/Microsoft.Network/networkWatchers/westcentralus-watcher/FlowLogs/Microsoft.Networkcli_test_nw_flow_logrcssovnsrs73gzx2qzarlv4o2nklgxk7zfovja6n4ua64nn7runcnsrnsg1\",\"etag\":\"W/\\\"53f1c8a5-c7c1-4be3-bfb9-8e09f446efd7\\\"\",\"properties\":{\"provisioningState\":\"Succeeded\",\"targetResourceId\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/cli_test_nw_flow_logrcssovnsrs73gzx2qzarlv4o2nklgxk7zfovja6n4ua64nn7runcnsr/providers/Microsoft.Network/networkSecurityGroups/nsg1\",\"targetResourceGuid\":\"d057bf9a-0fcf-4485-8478-36fde2a1cc7c\",\"storageId\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/cli_test_nw_flow_logrcssovnsrs73gzx2qzarlv4o2nklgxk7zfovja6n4ua64nn7runcnsr/providers/Microsoft.Storage/storageAccounts/clitestnwebc4hfgu2uhh7fh\",\"enabled\":true,\"flowAnalyticsConfiguration\":{},\"retentionPolicy\":{\"days\":0,\"enabled\":false}},\"type\":\"Microsoft.Network/networkWatchers/FlowLogs\"},{\"name\":\"Microsoft.Networkcli_test_nw_flow_logu5bpfoecfmxbjvqxdjdcjjg7zmg5zb2vog4tz34wzewppgwxdvy2phcnsg1\",\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/cli_test_nw_flow_logu5bpfoecfmxbjvqxdjdcjjg7zmg5zb2vog4tz34wzewppgwxdvy2phc/providers/Microsoft.Network/networkWatchers/westcentralus-watcher/FlowLogs/Microsoft.Networkcli_test_nw_flow_logu5bpfoecfmxbjvqxdjdcjjg7zmg5zb2vog4tz34wzewppgwxdvy2phcnsg1\",\"etag\":\"W/\\\"53f1c8a5-c7c1-4be3-bfb9-8e09f446efd7\\\"\",\"properties\":{\"provisioningState\":\"Succeeded\",\"targetResourceId\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/cli_test_nw_flow_logu5bpfoecfmxbjvqxdjdcjjg7zmg5zb2vog4tz34wzewppgwxdvy2phc/providers/Microsoft.Network/networkSecurityGroups/nsg1\",\"targetResourceGuid\":\"6a832c35-48c7-4712-8a5d-d2aa3646319b\",\"storageId\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/cli_test_nw_flow_logu5bpfoecfmxbjvqxdjdcjjg7zmg5zb2vog4tz34wzewppgwxdvy2phc/providers/Microsoft.Storage/storageAccounts/clitestnwh2znw7cw44s2y7i\",\"enabled\":true,\"flowAnalyticsConfiguration\":{},\"retentionPolicy\":{\"days\":0,\"enabled\":false}},\"type\":\"Microsoft.Network/networkWatchers/FlowLogs\"},{\"name\":\"Microsoft.Networkcli_test_nw_flow_log4oihmtozmgmt7ab7swshphrxhqyegddavdyginzgjalhv6sc6wmmd42nsg1\",\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/cli_test_nw_flow_log4oihmtozmgmt7ab7swshphrxhqyegddavdyginzgjalhv6sc6wmmd42/providers/Microsoft.Network/networkWatchers/westcentralus-watcher/FlowLogs/Microsoft.Networkcli_test_nw_flow_log4oihmtozmgmt7ab7swshphrxhqyegddavdyginzgjalhv6sc6wmmd42nsg1\",\"etag\":\"W/\\\"53f1c8a5-c7c1-4be3-bfb9-8e09f446efd7\\\"\",\"properties\":{\"provisioningState\":\"Succeeded\",\"targetResourceId\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/cli_test_nw_flow_log4oihmtozmgmt7ab7swshphrxhqyegddavdyginzgjalhv6sc6wmmd42/providers/Microsoft.Network/networkSecurityGroups/nsg1\",\"targetResourceGuid\":\"21bb653d-3e27-48e9-8371-7157b51f6d4f\",\"storageId\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/cli_test_nw_flow_log4oihmtozmgmt7ab7swshphrxhqyegddavdyginzgjalhv6sc6wmmd42/providers/Microsoft.Storage/storageAccounts/clitestnwnxrlorb7shx66ob\",\"enabled\":true,\"flowAnalyticsConfiguration\":{},\"retentionPolicy\":{\"days\":0,\"enabled\":false}},\"type\":\"Microsoft.Network/networkWatchers/FlowLogs\"},{\"name\":\"Microsoft.Networkcli_test_nw_flow_logkc5vfonkxhrpfzdquxvw5r4rhr3wzhdfbgnmdkiw7x6dwjrtj2czr3vnsg1\",\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/cli_test_nw_flow_logkc5vfonkxhrpfzdquxvw5r4rhr3wzhdfbgnmdkiw7x6dwjrtj2czr3v/providers/Microsoft.Network/networkWatchers/westcentralus-watcher/FlowLogs/Microsoft.Networkcli_test_nw_flow_logkc5vfonkxhrpfzdquxvw5r4rhr3wzhdfbgnmdkiw7x6dwjrtj2czr3vnsg1\",\"etag\":\"W/\\\"53f1c8a5-c7c1-4be3-bfb9-8e09f446efd7\\\"\",\"properties\":{\"provisioningState\":\"Succeeded\",\"targetResourceId\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/cli_test_nw_flow_logkc5vfonkxhrpfzdquxvw5r4rhr3wzhdfbgnmdkiw7x6dwjrtj2czr3v/providers/Microsoft.Network/networkSecurityGroups/nsg1\",\"targetResourceGuid\":\"6e7b7b10-1562-4202-b748-45e816b51f3a\",\"storageId\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/cli_test_nw_flow_logkc5vfonkxhrpfzdquxvw5r4rhr3wzhdfbgnmdkiw7x6dwjrtj2czr3v/providers/Microsoft.Storage/storageAccounts/clitestnww4ccjvbi7zhwi5g\",\"enabled\":true,\"flowAnalyticsConfiguration\":{},\"retentionPolicy\":{\"days\":0,\"enabled\":false}},\"type\":\"Microsoft.Network/networkWatchers/FlowLogs\"}],\"runningOperationIds\":[]}}]}"
+    }
+  }, {
+    "Method" : "GET",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/nw132720group/providers/Microsoft.Network/networkWatchers/nw132720?api-version=2018-06-01",
+    "Headers" : { },
+    "Response" : {
+      "date" : "Thu, 27 Sep 2018 00:41:38 GMT",
+      "content-length" : "467",
+      "server" : "Microsoft-HTTPAPI/2.0",
+      "expires" : "-1",
+      "retry-after" : "0",
+      "x-ms-ratelimit-remaining-subscription-reads" : "11957",
+      "StatusCode" : "200",
+      "pragma" : "no-cache",
+      "x-ms-correlation-request-id" : "401b058f-6265-4756-8f4b-244e630181b8",
+      "strict-transport-security" : "max-age=31536000; includeSubDomains",
+      "x-content-type-options" : "nosniff",
+      "x-ms-routing-request-id" : "WESTUS2:20180927T004139Z:401b058f-6265-4756-8f4b-244e630181b8",
+      "content-type" : "application/json; charset=utf-8",
+      "etag" : "W/\"39fbd2ad-5a1d-4668-ae2e-9004ae4929e8\"",
+      "cache-control" : "no-cache",
+      "x-ms-request-id" : "033e3059-a994-45e5-bd02-b320d5ddea91",
+      "Body" : "{\r\n  \"name\": \"nw132720\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/nw132720group/providers/Microsoft.Network/networkWatchers/nw132720\",\r\n  \"etag\": \"W/\\\"39fbd2ad-5a1d-4668-ae2e-9004ae4929e8\\\"\",\r\n  \"type\": \"Microsoft.Network/networkWatchers\",\r\n  \"location\": \"southcentralus\",\r\n  \"tags\": {\r\n    \"tag1\": \"value1\"\r\n  },\r\n  \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"flowLogs\": [],\r\n    \"runningOperationIds\": []\r\n  }\r\n}"
+    }
+  }, {
+    "Method" : "GET",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/nw132720group/providers/Microsoft.Network/networkWatchers/nw132720?api-version=2018-06-01",
+    "Headers" : { },
+    "Response" : {
+      "date" : "Thu, 27 Sep 2018 00:41:38 GMT",
+      "content-length" : "467",
+      "server" : "Microsoft-HTTPAPI/2.0",
+      "expires" : "-1",
+      "retry-after" : "0",
+      "x-ms-ratelimit-remaining-subscription-reads" : "11973",
+      "StatusCode" : "200",
+      "pragma" : "no-cache",
+      "x-ms-correlation-request-id" : "23a978fc-b6e1-48b1-a924-7bd90ae2378f",
+      "strict-transport-security" : "max-age=31536000; includeSubDomains",
+      "x-content-type-options" : "nosniff",
+      "x-ms-routing-request-id" : "WESTUS2:20180927T004139Z:23a978fc-b6e1-48b1-a924-7bd90ae2378f",
+      "content-type" : "application/json; charset=utf-8",
+      "etag" : "W/\"39fbd2ad-5a1d-4668-ae2e-9004ae4929e8\"",
+      "cache-control" : "no-cache",
+      "x-ms-request-id" : "9712d568-1f2a-45ba-9b9f-1c82c71eb74d",
+      "Body" : "{\r\n  \"name\": \"nw132720\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/nw132720group/providers/Microsoft.Network/networkWatchers/nw132720\",\r\n  \"etag\": \"W/\\\"39fbd2ad-5a1d-4668-ae2e-9004ae4929e8\\\"\",\r\n  \"type\": \"Microsoft.Network/networkWatchers\",\r\n  \"location\": \"southcentralus\",\r\n  \"tags\": {\r\n    \"tag1\": \"value1\"\r\n  },\r\n  \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"flowLogs\": [],\r\n    \"runningOperationIds\": []\r\n  }\r\n}"
     }
   }, {
     "Method" : "PUT",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/nw483717group/providers/Microsoft.Network/networkWatchers/nw483717?api-version=2017-08-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/nw132720group/providers/Microsoft.Network/networkWatchers/nw132720?api-version=2018-06-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/1.3.1-SNAPSHOT OS:Linux/4.10.0-35-generic MacAddressHash:1c2ba720438fc324d596b25f7da790760fc8b42f9e797d95bd9c778984352b3d Java:1.8.0_144 (NetworkManagementClient)",
       "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "date" : "Fri, 17 Nov 2017 02:52:15 GMT",
+      "date" : "Thu, 27 Sep 2018 00:41:39 GMT",
+      "content-length" : "467",
       "server" : "Microsoft-HTTPAPI/2.0",
-      "content-length" : "446",
       "expires" : "-1",
-      "transfer-encoding" : "chunked",
-      "vary" : "Accept-Encoding",
       "x-ms-ratelimit-remaining-subscription-writes" : "1196",
       "retry-after" : "0",
       "StatusCode" : "200",
       "pragma" : "no-cache",
+      "x-ms-correlation-request-id" : "b534dfad-72f1-4442-9c99-652da10af29e",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "1223b029-339f-41f0-8204-8428ad229562",
-      "x-ms-routing-request-id" : "WESTUS2:20171117T025215Z:1223b029-339f-41f0-8204-8428ad229562",
+      "x-content-type-options" : "nosniff",
+      "x-ms-routing-request-id" : "WESTUS2:20180927T004140Z:b534dfad-72f1-4442-9c99-652da10af29e",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "066f50b6-3b21-4eff-a6ff-25729974a614",
-      "Body" : "{\r\n  \"name\": \"nw483717\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/nw483717group/providers/Microsoft.Network/networkWatchers/nw483717\",\r\n  \"etag\": \"W/\\\"56f16434-6d72-4b9b-83c8-354f1c25535b\\\"\",\r\n  \"type\": \"Microsoft.Network/networkWatchers\",\r\n  \"location\": \"northcentralus\",\r\n  \"tags\": {\r\n    \"tag2\": \"value2\"\r\n  },\r\n  \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"runningOperationIds\": []\r\n  }\r\n}",
-      "azure-asyncoperation" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/northcentralus/operations/066f50b6-3b21-4eff-a6ff-25729974a614?api-version=2017-08-01"
+      "x-ms-request-id" : "117dec06-2d6b-4c38-b059-8fed016709a8",
+      "Body" : "{\r\n  \"name\": \"nw132720\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/nw132720group/providers/Microsoft.Network/networkWatchers/nw132720\",\r\n  \"etag\": \"W/\\\"b6a1316a-ade2-4790-b30a-0e1da54186f6\\\"\",\r\n  \"type\": \"Microsoft.Network/networkWatchers\",\r\n  \"location\": \"southcentralus\",\r\n  \"tags\": {\r\n    \"tag2\": \"value2\"\r\n  },\r\n  \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"flowLogs\": [],\r\n    \"runningOperationIds\": []\r\n  }\r\n}",
+      "azure-asyncoperation" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/southcentralus/operations/117dec06-2d6b-4c38-b059-8fed016709a8?api-version=2018-06-01"
     }
   }, {
     "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/nw483717group/providers/Microsoft.Network/networkWatchers/nw483717?api-version=2017-08-01",
-    "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/1.3.1-SNAPSHOT OS:Linux/4.10.0-35-generic MacAddressHash:1c2ba720438fc324d596b25f7da790760fc8b42f9e797d95bd9c778984352b3d Java:1.8.0_144 (NetworkManagementClient)",
-      "Content-Type" : "application/json; charset=utf-8"
-    },
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/southcentralus/operations/117dec06-2d6b-4c38-b059-8fed016709a8?api-version=2018-06-01",
+    "Headers" : { },
     "Response" : {
-      "date" : "Fri, 17 Nov 2017 02:52:15 GMT",
+      "date" : "Thu, 27 Sep 2018 00:42:10 GMT",
+      "content-length" : "29",
       "server" : "Microsoft-HTTPAPI/2.0",
-      "content-length" : "446",
       "expires" : "-1",
-      "transfer-encoding" : "chunked",
-      "vary" : "Accept-Encoding",
       "retry-after" : "0",
-      "x-ms-ratelimit-remaining-subscription-reads" : "14991",
+      "x-ms-ratelimit-remaining-subscription-reads" : "11962",
       "StatusCode" : "200",
       "pragma" : "no-cache",
+      "x-ms-correlation-request-id" : "5d319300-c465-4a13-b5c0-f2397d88f645",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "1df8be23-5bbb-45c3-bfad-8427d9726378",
-      "x-ms-routing-request-id" : "WESTUS2:20171117T025215Z:1df8be23-5bbb-45c3-bfad-8427d9726378",
+      "x-content-type-options" : "nosniff",
+      "x-ms-routing-request-id" : "WESTUS2:20180927T004210Z:5d319300-c465-4a13-b5c0-f2397d88f645",
       "content-type" : "application/json; charset=utf-8",
-      "etag" : "W/\"56f16434-6d72-4b9b-83c8-354f1c25535b\"",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "9327371a-2dd6-49a5-9d35-f5ee3f79b01f",
-      "Body" : "{\r\n  \"name\": \"nw483717\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/nw483717group/providers/Microsoft.Network/networkWatchers/nw483717\",\r\n  \"etag\": \"W/\\\"56f16434-6d72-4b9b-83c8-354f1c25535b\\\"\",\r\n  \"type\": \"Microsoft.Network/networkWatchers\",\r\n  \"location\": \"northcentralus\",\r\n  \"tags\": {\r\n    \"tag2\": \"value2\"\r\n  },\r\n  \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"runningOperationIds\": []\r\n  }\r\n}"
+      "x-ms-request-id" : "10380513-3d39-4b11-8c74-5154281889fb",
+      "Body" : "{\r\n  \"status\": \"Succeeded\"\r\n}"
     }
   }, {
-    "Method" : "DELETE",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/nw483717group/providers/Microsoft.Network/networkWatchers/nw483717?api-version=2017-08-01",
+    "Method" : "GET",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/nw132720group/providers/Microsoft.Network/networkWatchers/nw132720?api-version=2018-06-01",
+    "Headers" : { },
+    "Response" : {
+      "date" : "Thu, 27 Sep 2018 00:42:09 GMT",
+      "content-length" : "467",
+      "server" : "Microsoft-HTTPAPI/2.0",
+      "expires" : "-1",
+      "retry-after" : "0",
+      "x-ms-ratelimit-remaining-subscription-reads" : "11956",
+      "StatusCode" : "200",
+      "pragma" : "no-cache",
+      "x-ms-correlation-request-id" : "6dc24f0c-8d4c-4a0f-b786-bd033f0f4928",
+      "strict-transport-security" : "max-age=31536000; includeSubDomains",
+      "x-content-type-options" : "nosniff",
+      "x-ms-routing-request-id" : "WESTUS2:20180927T004210Z:6dc24f0c-8d4c-4a0f-b786-bd033f0f4928",
+      "content-type" : "application/json; charset=utf-8",
+      "etag" : "W/\"b6a1316a-ade2-4790-b30a-0e1da54186f6\"",
+      "cache-control" : "no-cache",
+      "x-ms-request-id" : "38a7f964-adc2-4ee1-bb79-2796fa49ec86",
+      "Body" : "{\r\n  \"name\": \"nw132720\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/nw132720group/providers/Microsoft.Network/networkWatchers/nw132720\",\r\n  \"etag\": \"W/\\\"b6a1316a-ade2-4790-b30a-0e1da54186f6\\\"\",\r\n  \"type\": \"Microsoft.Network/networkWatchers\",\r\n  \"location\": \"southcentralus\",\r\n  \"tags\": {\r\n    \"tag2\": \"value2\"\r\n  },\r\n  \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"flowLogs\": [],\r\n    \"runningOperationIds\": []\r\n  }\r\n}"
+    }
+  }, {
+    "Method" : "GET",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/nw132720group/providers/Microsoft.Network/networkWatchers/nw132720?api-version=2018-06-01",
+    "Headers" : { },
+    "Response" : {
+      "date" : "Thu, 27 Sep 2018 00:42:10 GMT",
+      "content-length" : "467",
+      "server" : "Microsoft-HTTPAPI/2.0",
+      "expires" : "-1",
+      "retry-after" : "0",
+      "x-ms-ratelimit-remaining-subscription-reads" : "11972",
+      "StatusCode" : "200",
+      "pragma" : "no-cache",
+      "x-ms-correlation-request-id" : "0bb38f5b-42cc-4dfd-8032-b3a04bf2e8d7",
+      "strict-transport-security" : "max-age=31536000; includeSubDomains",
+      "x-content-type-options" : "nosniff",
+      "x-ms-routing-request-id" : "WESTUS2:20180927T004210Z:0bb38f5b-42cc-4dfd-8032-b3a04bf2e8d7",
+      "content-type" : "application/json; charset=utf-8",
+      "etag" : "W/\"b6a1316a-ade2-4790-b30a-0e1da54186f6\"",
+      "cache-control" : "no-cache",
+      "x-ms-request-id" : "e7f82728-868c-4c45-b7c5-c59c6b70c3f0",
+      "Body" : "{\r\n  \"name\": \"nw132720\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/nw132720group/providers/Microsoft.Network/networkWatchers/nw132720\",\r\n  \"etag\": \"W/\\\"b6a1316a-ade2-4790-b30a-0e1da54186f6\\\"\",\r\n  \"type\": \"Microsoft.Network/networkWatchers\",\r\n  \"location\": \"southcentralus\",\r\n  \"tags\": {\r\n    \"tag2\": \"value2\"\r\n  },\r\n  \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"flowLogs\": [],\r\n    \"runningOperationIds\": []\r\n  }\r\n}"
+    }
+  }, {
+    "Method" : "PATCH",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/nw132720group/providers/Microsoft.Network/networkWatchers/nw132720?api-version=2018-06-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/1.3.1-SNAPSHOT OS:Linux/4.10.0-35-generic MacAddressHash:1c2ba720438fc324d596b25f7da790760fc8b42f9e797d95bd9c778984352b3d Java:1.8.0_144 (NetworkManagementClient)",
       "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "date" : "Fri, 17 Nov 2017 02:52:15 GMT",
-      "content-length" : "0",
+      "date" : "Thu, 27 Sep 2018 00:42:10 GMT",
+      "content-length" : "467",
       "server" : "Microsoft-HTTPAPI/2.0",
       "expires" : "-1",
       "x-ms-ratelimit-remaining-subscription-writes" : "1195",
       "retry-after" : "0",
+      "StatusCode" : "200",
+      "pragma" : "no-cache",
+      "x-ms-correlation-request-id" : "67bf640d-1276-4387-a69e-db843e8fac8d",
+      "strict-transport-security" : "max-age=31536000; includeSubDomains",
+      "x-content-type-options" : "nosniff",
+      "x-ms-routing-request-id" : "WESTUS2:20180927T004211Z:67bf640d-1276-4387-a69e-db843e8fac8d",
+      "content-type" : "application/json; charset=utf-8",
+      "cache-control" : "no-cache",
+      "x-ms-request-id" : "02bc9f0b-dc1c-4d75-a285-f2796ec7605f",
+      "Body" : "{\r\n  \"name\": \"nw132720\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/nw132720group/providers/Microsoft.Network/networkWatchers/nw132720\",\r\n  \"etag\": \"W/\\\"cb7734df-4946-4802-aa65-52455911529d\\\"\",\r\n  \"type\": \"Microsoft.Network/networkWatchers\",\r\n  \"location\": \"southcentralus\",\r\n  \"tags\": {\r\n    \"tag3\": \"value3\"\r\n  },\r\n  \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"flowLogs\": [],\r\n    \"runningOperationIds\": []\r\n  }\r\n}"
+    }
+  }, {
+    "Method" : "DELETE",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/nw132720group/providers/Microsoft.Network/networkWatchers/nw132720?api-version=2018-06-01",
+    "Headers" : { },
+    "Response" : {
+      "date" : "Thu, 27 Sep 2018 00:42:11 GMT",
+      "server" : "Microsoft-HTTPAPI/2.0",
+      "content-length" : "0",
+      "expires" : "-1",
+      "x-ms-ratelimit-remaining-subscription-deletes" : "14994",
+      "retry-after" : "0",
       "StatusCode" : "202",
       "pragma" : "no-cache",
+      "x-ms-correlation-request-id" : "e362bb6a-fa1e-4a36-bef2-e4e70cf0d79e",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "ee399a01-47a7-4238-a5d6-605084c8ac5c",
-      "x-ms-routing-request-id" : "WESTUS2:20171117T025216Z:ee399a01-47a7-4238-a5d6-605084c8ac5c",
-      "location" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/northcentralus/operationResults/f8d21627-2008-48c5-bb6a-2740cd7384ab?api-version=2017-08-01",
+      "x-content-type-options" : "nosniff",
+      "x-ms-routing-request-id" : "WESTUS2:20180927T004211Z:e362bb6a-fa1e-4a36-bef2-e4e70cf0d79e",
+      "location" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/southcentralus/operationResults/ae9ee961-a285-472d-8577-7f726a040f2f?api-version=2018-06-01",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "f8d21627-2008-48c5-bb6a-2740cd7384ab",
+      "x-ms-request-id" : "ae9ee961-a285-472d-8577-7f726a040f2f",
       "Body" : "",
-      "azure-asyncoperation" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/northcentralus/operations/f8d21627-2008-48c5-bb6a-2740cd7384ab?api-version=2017-08-01"
+      "azure-asyncoperation" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/southcentralus/operations/ae9ee961-a285-472d-8577-7f726a040f2f?api-version=2018-06-01"
     }
   }, {
     "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/northcentralus/operations/f8d21627-2008-48c5-bb6a-2740cd7384ab?api-version=2017-08-01",
-    "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/1.3.1-SNAPSHOT OS:Linux/4.10.0-35-generic MacAddressHash:1c2ba720438fc324d596b25f7da790760fc8b42f9e797d95bd9c778984352b3d Java:1.8.0_144 (NetworkManagementClient)"
-    },
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/southcentralus/operations/ae9ee961-a285-472d-8577-7f726a040f2f?api-version=2018-06-01",
+    "Headers" : { },
     "Response" : {
-      "date" : "Fri, 17 Nov 2017 02:52:16 GMT",
-      "server" : "Microsoft-HTTPAPI/2.0",
+      "date" : "Thu, 27 Sep 2018 00:42:21 GMT",
       "content-length" : "29",
+      "server" : "Microsoft-HTTPAPI/2.0",
       "expires" : "-1",
-      "transfer-encoding" : "chunked",
-      "vary" : "Accept-Encoding",
       "retry-after" : "0",
-      "x-ms-ratelimit-remaining-subscription-reads" : "14990",
+      "x-ms-ratelimit-remaining-subscription-reads" : "11955",
       "StatusCode" : "200",
       "pragma" : "no-cache",
+      "x-ms-correlation-request-id" : "59dc694d-6e47-4ac1-b68d-b0a4aaea2ace",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "06f38b95-36e2-414d-9ab9-bfd69584dc62",
-      "x-ms-routing-request-id" : "WESTUS2:20171117T025216Z:06f38b95-36e2-414d-9ab9-bfd69584dc62",
+      "x-content-type-options" : "nosniff",
+      "x-ms-routing-request-id" : "WESTUS2:20180927T004221Z:59dc694d-6e47-4ac1-b68d-b0a4aaea2ace",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "591fe8e7-cc0f-4693-925d-aeffcd88fc73",
+      "x-ms-request-id" : "67e71a3b-da28-43d3-8c43-ff135f0e432a",
       "Body" : "{\r\n  \"status\": \"Succeeded\"\r\n}"
     }
   }, {
     "Method" : "DELETE",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/nw483717group?api-version=2016-09-01",
-    "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/1.3.1-SNAPSHOT OS:Linux/4.10.0-35-generic MacAddressHash:1c2ba720438fc324d596b25f7da790760fc8b42f9e797d95bd9c778984352b3d Java:1.8.0_144 (ResourceManagementClient, 2016-09-01)",
-      "Content-Type" : "application/json; charset=utf-8"
-    },
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/nw132720group?api-version=2016-09-01",
+    "Headers" : { },
     "Response" : {
-      "date" : "Fri, 17 Nov 2017 02:52:17 GMT",
+      "date" : "Thu, 27 Sep 2018 00:42:22 GMT",
       "content-length" : "0",
       "expires" : "-1",
-      "x-ms-ratelimit-remaining-subscription-writes" : "1194",
+      "x-ms-ratelimit-remaining-subscription-deletes" : "14997",
       "retry-after" : "0",
       "StatusCode" : "202",
       "pragma" : "no-cache",
+      "x-ms-correlation-request-id" : "e1741d45-1d00-4861-b0b5-cdd217d27a81",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "cf54fcc8-88dd-4e3a-9cbc-e61edc599d50",
-      "x-ms-routing-request-id" : "WESTUS2:20171117T025217Z:cf54fcc8-88dd-4e3a-9cbc-e61edc599d50",
-      "location" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1OVzQ4MzcxN0dST1VQLU5PUlRIQ0VOVFJBTFVTIiwiam9iTG9jYXRpb24iOiJub3J0aGNlbnRyYWx1cyJ9?api-version=2016-09-01",
+      "x-content-type-options" : "nosniff",
+      "x-ms-routing-request-id" : "WESTUS2:20180927T004223Z:e1741d45-1d00-4861-b0b5-cdd217d27a81",
+      "location" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1OVzEzMjcyMEdST1VQLVNPVVRIQ0VOVFJBTFVTIiwiam9iTG9jYXRpb24iOiJzb3V0aGNlbnRyYWx1cyJ9?api-version=2016-09-01",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "cf54fcc8-88dd-4e3a-9cbc-e61edc599d50",
+      "x-ms-request-id" : "e1741d45-1d00-4861-b0b5-cdd217d27a81",
       "Body" : ""
     }
   } ],
-  "variables" : [ "942672", "fb008e6c-7170-4e50-a4f6-794c09dc04f7", "e07185b2-2440-4638-8e70-fbe0ea0479c1", "483717", "69ede658-bb23-4bd2-b4d0-f6aa94a57d11", "a051251d-7998-418c-a410-94d2a01f94e3", "33d38efd-ed4f-4a09-a842-4dc3db231050", "c4f84e62-aa8b-4fba-b12f-79a057daec55", "d4c1592b-eab1-407e-9498-4f453cefed7d", "20d88e10-e675-4e23-9d2d-fb780d6f1b69", "00c0f15d-367c-4f53-9606-65fcf54814bd", "28f12fdb-59bf-4934-9a4d-9d32c2a47fba" ]
+  "variables" : [ "313406", "3ea5bcc3-331d-4074-94e0-079d716c7b85", "7e6862d6-1bce-43e5-bc1e-2186ef39ce2c", "9da2c02d-628c-470e-b541-4318f4187877", "132720", "8f93c4f6-1144-41c8-804e-3465f6f75f5a", "a6a7159a-1f85-44f3-9888-de030bd37b19", "2e7c339b-d734-41f2-ad0c-f377f06e9ac6", "bab13f0b-0f32-4104-bdb8-407959565f3a", "809cff30-1937-4b57-8be0-a1947f38f883", "7e0b7005-cceb-4537-adee-4470a4c5905f", "70642b9d-f7c1-4e84-aaf6-347f41d2d14e", "cfb5330f-9105-45da-9bdb-032a96da3292", "ae408d98-9850-479a-9a97-cccc7844b3ef", "227a12c3-593c-40d9-ac7e-ec3f5dc77dc2" ]
 }

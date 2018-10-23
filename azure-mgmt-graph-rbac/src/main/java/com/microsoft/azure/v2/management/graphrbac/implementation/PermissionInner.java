@@ -9,6 +9,7 @@
 package com.microsoft.azure.v2.management.graphrbac.implementation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
 /**

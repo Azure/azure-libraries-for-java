@@ -351,7 +351,7 @@ public final class DeploymentsInner {
      * @return the DeploymentExtendedInner object if successful.
      */
     public DeploymentExtendedInner beginCreateOrUpdate(@NonNull String resourceGroupName, @NonNull String deploymentName, @NonNull DeploymentProperties properties) {
-        return beginCreateOrUpdateAsync(resourceGroupName, deploymentName, properties).blockingLast().result();
+        return beginCreateOrUpdateAsync(resourceGroupName, deploymentName, properties).blockingFirst().result();
     }
 
     /**

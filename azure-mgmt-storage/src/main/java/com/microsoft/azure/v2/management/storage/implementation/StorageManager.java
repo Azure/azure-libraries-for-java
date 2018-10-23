@@ -18,7 +18,7 @@ import com.microsoft.azure.v2.management.storage.StorageSkus;
 import com.microsoft.azure.v2.management.storage.Usages;
 import com.microsoft.rest.v2.http.HttpPipeline;
 import com.microsoft.rest.v2.http.HttpPipelineBuilder;
-import com.microsoft.rest.v2.policy.CredentialsPolicyFactory;
+import com.microsoft.azure.v2.policy.AsyncCredentialsPolicyFactory;
 
 /**
  * Entry point to Azure storage resource management.
@@ -47,7 +47,7 @@ public final class StorageManager extends Manager<StorageManager, StorageManagem
      */
     public static StorageManager authenticate(AzureTokenCredentials credentials, String subscriptionId) {
         return new StorageManager(new HttpPipelineBuilder()
-                .withRequestPolicy(new CredentialsPolicyFactory(credentials))
+                .withRequestPolicy(new AsyncCredentialsPolicyFactory(credentials))
                 .withRequestPolicy(new ProviderRegistrationPolicyFactory(credentials))
                 .withRequestPolicy(new ResourceManagerThrottlingPolicyFactory())
                 .build(), subscriptionId, credentials.environment());
@@ -56,8 +56,9 @@ public final class StorageManager extends Manager<StorageManager, StorageManagem
     /**
      * Creates an instance of StorageManager that exposes storage resource management API entry points.
      *
-     * @param httpPipeline the HttpPipeline to be used for API calls.
+     * @param httpPipeline the HttpPipeline to be used for API calls
      * @param subscriptionId the subscription UUID
+     * @param environment the azure environment hosting the APIs
      * @return the StorageManager
      */
     public static StorageManager authenticate(HttpPipeline httpPipeline, String subscriptionId, AzureEnvironment environment) {

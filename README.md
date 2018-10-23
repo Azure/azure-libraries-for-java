@@ -648,7 +648,7 @@ If you would like to become an active contributor to this project please follow 
 5. Create new Pull Request
 
 ## More Information
-* [Javadoc](http://azure.github.io/azure-sdk-for-java)
+* [Javadoc](http://azure.github.io/azure-libraries-for-java/v2/)
 * [http://azure.com/java](http://azure.com/java)
 * If you don't have a Microsoft Azure subscription you can get a FREE trial account [here](http://go.microsoft.com/fwlink/?LinkId=330212)
 

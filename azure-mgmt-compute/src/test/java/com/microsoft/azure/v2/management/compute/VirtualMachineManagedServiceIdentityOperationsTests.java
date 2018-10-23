@@ -123,7 +123,7 @@ public class VirtualMachineManagedServiceIdentityOperationsTests extends Compute
         final VirtualMachine[] virtualMachines = new VirtualMachine[1];
         final RoleAssignment[] roleAssignments = new RoleAssignment[1];
 
-        resources.subscribe(indexable -> {
+        resources.blockingSubscribe(indexable -> {
                     if (indexable instanceof VirtualMachine) {
                         virtualMachines[0] = (VirtualMachine) indexable;
                     }

@@ -10,9 +10,9 @@ import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
 import com.microsoft.azure.v2.AzureEnvironment;
 import com.microsoft.azure.v2.credentials.AzureTokenCredentials;
-import com.microsoft.azure.v2.management.graphrbac.ActiveDirectoryUsers;
 import com.microsoft.azure.v2.management.graphrbac.ActiveDirectoryApplications;
 import com.microsoft.azure.v2.management.graphrbac.ActiveDirectoryGroups;
+import com.microsoft.azure.v2.management.graphrbac.ActiveDirectoryUsers;
 import com.microsoft.azure.v2.management.graphrbac.RoleAssignments;
 import com.microsoft.azure.v2.management.graphrbac.RoleDefinitions;
 import com.microsoft.azure.v2.management.graphrbac.ServicePrincipals;
@@ -23,7 +23,7 @@ import com.microsoft.azure.v2.management.resources.fluentcore.utils.ProviderRegi
 import com.microsoft.azure.v2.management.resources.fluentcore.utils.ResourceManagerThrottlingPolicyFactory;
 import com.microsoft.rest.v2.http.HttpPipeline;
 import com.microsoft.rest.v2.http.HttpPipelineBuilder;
-import com.microsoft.rest.v2.policy.CredentialsPolicyFactory;
+import com.microsoft.azure.v2.policy.AsyncCredentialsPolicyFactory;
 
 /**
  * Entry point to Azure Graph RBAC management.
@@ -55,7 +55,7 @@ public final class GraphRbacManager implements HasInner<GraphRbacManagementClien
      */
     public static GraphRbacManager authenticate(AzureTokenCredentials credentials) {
         return new GraphRbacManager(new HttpPipelineBuilder()
-                .withRequestPolicy(new CredentialsPolicyFactory(credentials))
+                .withRequestPolicy(new AsyncCredentialsPolicyFactory(credentials))
                 .withRequestPolicy(new ProviderRegistrationPolicyFactory(credentials))
                 .withRequestPolicy(new ResourceManagerThrottlingPolicyFactory())
                 .build(), credentials.domain(), credentials.environment());
@@ -66,10 +66,11 @@ public final class GraphRbacManager implements HasInner<GraphRbacManagementClien
      *
      * @param httpPipeline the httpPipeline to be used for API calls
      * @param tenantId the tenantId in Active Directory
+     * @param environment the azure environment hosting the APIs
      * @return the interface exposing Graph RBAC management API entry points that work across subscriptions
      */
-    public static GraphRbacManager authenticate(HttpPipeline httpPipeline, String tenantId, AzureEnvironment azureEnvironment) {
-        return new GraphRbacManager(httpPipeline, tenantId, azureEnvironment);
+    public static GraphRbacManager authenticate(HttpPipeline httpPipeline, String tenantId, AzureEnvironment environment) {
+        return new GraphRbacManager(httpPipeline, tenantId, environment);
     }
 
     /**

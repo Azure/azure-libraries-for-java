@@ -7,6 +7,7 @@
 package com.microsoft.azure.v2.management.graphrbac.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
+import com.microsoft.azure.v2.CloudException;
 import com.microsoft.azure.v2.management.graphrbac.ActiveDirectoryGroup;
 import com.microsoft.azure.v2.management.graphrbac.ActiveDirectoryUser;
 import com.microsoft.azure.v2.management.graphrbac.BuiltInRole;
@@ -18,6 +19,9 @@ import com.microsoft.azure.v2.management.resources.fluentcore.model.implementati
 import io.reactivex.Maybe;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.Resource;
 import io.reactivex.Observable;
+import io.reactivex.exceptions.Exceptions;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * Implementation for ServicePrincipal and its parent interfaces.
@@ -79,7 +83,18 @@ class RoleAssignmentImpl
 
         return
         Observable.zip(objectIdObservable, roleDefinitionIdObservable, (objectId, roleDefinitionId) -> new RoleAssignmentCreateParameters().withPrincipalId(objectId).withRoleDefinitionId(roleDefinitionId))
-                .flatMap(createParameter -> manager().roleInner().roleAssignments().createAsync(scope(), name(), createParameter).toObservable()).map(innerToFluentMap(this));
+                .flatMap(createParameter ->
+                        manager().roleInner().roleAssignments().createAsync(scope(), name(), createParameter)
+                                .toObservable())
+                .retryWhen(throwableObservable -> throwableObservable.zipWith(Observable.range(1, 30), (throwable, integer) -> {
+                    if (throwable instanceof CloudException
+                            && ((CloudException) throwable).body().code().equalsIgnoreCase("PrincipalNotFound")) {
+                        return integer;
+                    } else {
+                        throw Exceptions.propagate(throwable);
+                    }
+                }).flatMap(i -> Observable.timer(i, TimeUnit.SECONDS)))
+                .map(innerToFluentMap(this));
     }
 
     @Override

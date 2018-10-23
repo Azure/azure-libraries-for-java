@@ -15,10 +15,10 @@ import com.microsoft.azure.v2.management.resources.fluentcore.arm.implementation
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.implementation.Manager;
 import com.microsoft.azure.v2.management.resources.fluentcore.utils.ProviderRegistrationPolicyFactory;
 import com.microsoft.azure.v2.management.resources.fluentcore.utils.ResourceManagerThrottlingPolicyFactory;
+import com.microsoft.azure.v2.policy.AsyncCredentialsPolicyFactory;
 import com.microsoft.rest.v2.annotations.Beta;
 import com.microsoft.rest.v2.http.HttpPipeline;
 import com.microsoft.rest.v2.http.HttpPipelineBuilder;
-import com.microsoft.rest.v2.policy.CredentialsPolicyFactory;
 
 /**
  * Entry point to Azure Managed Service Identity (MSI) resource management.
@@ -47,7 +47,7 @@ public final class MSIManager extends Manager<MSIManager, ManagedServiceIdentity
      */
     public static MSIManager authenticate(AzureTokenCredentials credentials, String subscriptionId) {
         return new MSIManager(new HttpPipelineBuilder()
-                .withRequestPolicy(new CredentialsPolicyFactory(credentials))
+                .withRequestPolicy(new AsyncCredentialsPolicyFactory(credentials))
                 .withRequestPolicy(new ProviderRegistrationPolicyFactory(credentials))
                 .withRequestPolicy(new ResourceManagerThrottlingPolicyFactory())
                 .build(),
@@ -62,6 +62,7 @@ public final class MSIManager extends Manager<MSIManager, ManagedServiceIdentity
      * @param httpPipeline the httpPipeline to be used for API calls.
      * @param subscriptionId the subscription UUID
      * @param domain the domain
+     * @param environment the azure environment hosting the APIs
      * @return the MSIManager
      */
     public static MSIManager authenticate(HttpPipeline httpPipeline, String subscriptionId, String domain, AzureEnvironment environment) {

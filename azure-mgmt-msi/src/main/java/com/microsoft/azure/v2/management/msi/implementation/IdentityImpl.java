@@ -13,7 +13,6 @@ import com.microsoft.azure.v2.management.graphrbac.implementation.RoleAssignment
 import com.microsoft.azure.v2.management.msi.Identity;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.Resource;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
-import com.microsoft.azure.v2.management.resources.fluentcore.utils.SdkContext;
 import io.reactivex.Maybe;
 import io.reactivex.Observable;
 
@@ -119,15 +118,7 @@ final class IdentityImpl
         return this.manager().inner().userAssignedIdentities()
                 .createOrUpdateAsync(this.resourceGroupName(), this.name(), this.inner())
                 .map(innerToFluentMap(this))
-                .toObservable()
-                .flatMap(identity -> {
-                    // Often getting 'Principal xxx does not exist in the directory yyy'
-                    // error when attempting to create role (access) assignments just
-                    // after identity creation, so delaying here for some time before
-                    // proceeding with next operation.
-                    //
-                    return SdkContext.delayedEmitAsync(identity, 30 * 1000);
-                });
+                .toObservable();
     }
 
     @Override

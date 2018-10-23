@@ -37,7 +37,7 @@ import com.microsoft.azure.v2.management.resources.fluentcore.utils.ResourceMana
 import com.microsoft.rest.v2.annotations.Beta;
 import com.microsoft.rest.v2.http.HttpPipeline;
 import com.microsoft.rest.v2.http.HttpPipelineBuilder;
-import com.microsoft.rest.v2.policy.CredentialsPolicyFactory;
+import com.microsoft.azure.v2.policy.AsyncCredentialsPolicyFactory;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -88,7 +88,7 @@ public final class NetworkManager extends Manager<NetworkManager, NetworkManagem
      */
     public static NetworkManager authenticate(AzureTokenCredentials credentials, String subscriptionId) {
         return new NetworkManager(new HttpPipelineBuilder()
-                .withRequestPolicy(new CredentialsPolicyFactory(credentials))
+                .withRequestPolicy(new AsyncCredentialsPolicyFactory(credentials))
                 .withRequestPolicy(new ProviderRegistrationPolicyFactory(credentials))
                 .withRequestPolicy(new ResourceManagerThrottlingPolicyFactory())
                 .build(), subscriptionId, credentials.environment());
@@ -97,8 +97,9 @@ public final class NetworkManager extends Manager<NetworkManager, NetworkManagem
     /**
      * Creates an instance of NetworkManager that exposes storage resource management API entry points.
      *
-     * @param httpPipeline the HttpPipeline to be used for API calls.
+     * @param httpPipeline the HttpPipeline to be used for API calls
      * @param subscriptionId the subscription UUID
+     * @param environment the azure environment hosting the APIs
      * @return the StorageManager
      */
     public static NetworkManager authenticate(HttpPipeline httpPipeline, String subscriptionId, AzureEnvironment environment) {

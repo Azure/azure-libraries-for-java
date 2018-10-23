@@ -7,14 +7,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>com.microsoft.azure</groupId>
+        <groupId>com.microsoft.azure.v2</groupId>
         <artifactId>azure-parent</artifactId>
-        <version>1.5.2-SNAPSHOT</version>
+        <version>2.0.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>azure-samples</artifactId>
-    <version>1.5.2-SNAPSHOT</version>
+    <version>2.0.0-SNAPSHOT</version>
 
     <name>Microsoft Azure SDK samples</name>
     <description>This package contains Microsoft Azure SDK samples.</description>
@@ -48,69 +48,41 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.microsoft.azure</groupId>
-            <artifactId>azure-servicebus</artifactId>
-            <version>0.9.7</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>javax.ws.rs</groupId>
-                    <artifactId>jsr311-api</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.apache.httpcomponents</groupId>
-                    <artifactId>httpclient</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>com.microsoft.azure</groupId>
+            <groupId>com.microsoft.azure.v2</groupId>
             <artifactId>azure</artifactId>
-            <version>1.5.2-SNAPSHOT</version>
+            <version>2.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>com.microsoft.azure</groupId>
+            <groupId>com.microsoft.azure.v2</groupId>
             <artifactId>azure-mgmt-resources</artifactId>
-            <version>1.5.2-SNAPSHOT</version>
+            <version>2.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>com.microsoft.azure</groupId>
+            <groupId>com.microsoft.azure.v2</groupId>
             <artifactId>azure-mgmt-storage</artifactId>
-            <version>1.5.2-SNAPSHOT</version>
+            <version>2.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>com.microsoft.azure</groupId>
+            <groupId>com.microsoft.azure.v2</groupId>
             <artifactId>azure-mgmt-network</artifactId>
-            <version>1.5.2-SNAPSHOT</version>
+            <version>2.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>com.microsoft.azure</groupId>
+            <groupId>com.microsoft.azure.v2</groupId>
             <artifactId>azure-mgmt-compute</artifactId>
-            <version>1.5.2-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.microsoft.azure</groupId>
-            <artifactId>azure-mgmt-appservice</artifactId>
-            <version>1.5.2-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.microsoft.azure</groupId>
-            <artifactId>azure-mgmt-cosmosdb</artifactId>
-            <version>1.5.2-SNAPSHOT</version>
+            <version>2.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
-            <version>1.7.21</version>
         </dependency>
         <dependency>
             <groupId>commons-net</groupId>
             <artifactId>commons-net</artifactId>
-            <version>3.3</version>
         </dependency>
         <dependency>
             <groupId>org.eclipse.jgit</groupId>
             <artifactId>org.eclipse.jgit</artifactId>
-            <version>4.5.0.201609210915-r</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.apache.httpcomponents</groupId>
@@ -121,22 +93,19 @@
         <dependency>
             <groupId>com.microsoft.azure</groupId>
             <artifactId>azure-storage</artifactId>
-            <version>6.1.0</version>
         </dependency>
         <dependency>
             <groupId>com.jcraft</groupId>
             <artifactId>jsch</artifactId>
-            <version>0.1.53</version>
         </dependency>
         <dependency>
             <groupId>com.github.cverges.expect4j</groupId>
             <artifactId>expect4j</artifactId>
-            <version>1.6</version>
-            </dependency>
+        </dependency>
         <dependency>
-            <groupId>com.microsoft.azure</groupId>
+            <groupId>com.microsoft.azure.v2</groupId>
             <artifactId>azure-mgmt-resources</artifactId>
-            <version>1.5.2-SNAPSHOT</version>
+            <version>2.0.0-SNAPSHOT</version>
             <type>test-jar</type>
             <scope>test</scope>
         </dependency>
@@ -153,22 +122,18 @@
         <dependency>
             <groupId>com.github.docker-java</groupId>
             <artifactId>docker-java</artifactId>
-            <version>3.0.6</version>
         </dependency>
         <dependency>
             <groupId>io.fabric8</groupId>
             <artifactId>kubernetes-client</artifactId>
-            <version>2.2.14</version>
         </dependency>
         <dependency>
             <groupId>com.microsoft.azure</groupId>
             <artifactId>azure-documentdb</artifactId>
-            <version>1.9.4</version>
         </dependency>
         <dependency>
             <groupId>com.spotify</groupId>
             <artifactId>docker-client</artifactId>
-            <version>8.9.0</version>
         </dependency>
     </dependencies>
     <build>

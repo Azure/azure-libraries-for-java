@@ -12,6 +12,7 @@ import com.microsoft.azure.management.containerregistry.AccessKeyType;
 //import com.microsoft.azure.management.containerregistry.QueuedBuildOperations;
 import com.microsoft.azure.management.containerregistry.Registry;
 import com.microsoft.azure.management.containerregistry.RegistryCredentials;
+import com.microsoft.azure.management.containerregistry.RegistryTaskRun;
 import com.microsoft.azure.management.containerregistry.RegistryUpdateParameters;
 import com.microsoft.azure.management.containerregistry.RegistryUsage;
 import com.microsoft.azure.management.containerregistry.Sku;
@@ -278,6 +279,11 @@ public class RegistryImpl
     @Override
     public WebhookOperations webhooks() {
         return new WebhookOperationsImpl(this);
+    }
+
+    @Override
+    public RegistryTaskRun.DefinitionStages.BlankFromRegistry scheduleRun() {
+        return new RegistryTaskRunImpl(this.manager().inner().registries()).withExistingRegistry(this.resourceGroupName(), this.name());
     }
 
 //    @Override

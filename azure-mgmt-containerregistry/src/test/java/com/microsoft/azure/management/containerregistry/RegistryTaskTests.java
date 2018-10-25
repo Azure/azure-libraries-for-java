@@ -6,6 +6,8 @@
 
 package com.microsoft.azure.management.containerregistry;
 
+import com.microsoft.azure.management.containerregistry.implementation.RunInner;
+import com.microsoft.azure.management.containerregistry.implementation.RunsInner;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import org.junit.Assert;
@@ -521,11 +523,11 @@ public class RegistryTaskTests extends RegistryTest {
                 .withLocation(Region.US_WEST_CENTRAL.name())
                 .withLinux(Architecture.AMD64)
                 .defineDockerTaskStep()
-                .withDockerFilePath(dockerFilePath)
-                .withImageNames(Arrays.asList(imageName))
-                .withCache()
-                .withPushEnabled()
-                .attach()
+                    .withDockerFilePath(dockerFilePath)
+                    .withImageNames(Arrays.asList(imageName))
+                    .withCache()
+                    .withPushEnabled()
+                    .attach()
                 .withCpuCount(2)
                 .withTrigger(Arrays.asList(sourceTrigger), baseImageTrigger)
                 .create();
@@ -592,6 +594,317 @@ public class RegistryTaskTests extends RegistryTest {
 
         //Checking to see whether error is raised if update is called on the incorrect task step type.
         Assert.assertTrue(errorRaised);
+
+    }
+
+    @Test
+    public void FileTaskRunRequestFromRegistry() {
+        final String acrName = generateRandomResourceName("acr", 10);
+        final String rgName = generateRandomResourceName("rgacr", 10);
+        String taskFilePath = "https://github.com/iscai-msft/file_task_test.git#master:samples/java/task/acb.yaml";
+
+        Registry registry = registryManager.containerRegistries().define(acrName)
+                .withRegion(Region.US_WEST_CENTRAL)
+                .withNewResourceGroup(rgName)
+                .withPremiumSku()
+                .withRegistryNameAsAdminUser()
+                .withTag("tag1", "value1")
+                .create();
+
+        RegistryTaskRun registryTaskRun = registry.scheduleRun()
+                .withLinux()
+                .withFileTaskRunRequest()
+                    .defineFileTaskStep()
+                        .withTaskPath(taskFilePath)
+                        .attach()
+                    .withSourceLocation("https://github.com/iscai-msft/file_task_test.git")
+                .execute();
+
+        Assert.assertEquals(registry.resourceGroupName(), registryTaskRun.resourceGroupName());
+        Assert.assertEquals(acrName, registryTaskRun.registryName());
+        //Assert.assertEquals(OS.LINUX, registryTaskRun.inner().platform().os());
+
+
+    }
+
+    @Test
+    public void FileTaskRunRequestFromRuns() {
+        final String acrName = generateRandomResourceName("acr", 10);
+        final String rgName = generateRandomResourceName("rgacr", 10);
+        String taskFilePath = "https://github.com/iscai-msft/file_task_test.git#master:samples/java/task/acb.yaml";
+
+        Registry registry = registryManager.containerRegistries().define(acrName)
+                .withRegion(Region.US_WEST_CENTRAL)
+                .withNewResourceGroup(rgName)
+                .withPremiumSku()
+                .withRegistryNameAsAdminUser()
+                .withTag("tag1", "value1")
+                .create();
+
+        RegistryTaskRun registryTaskRun = registryManager.registryTaskRuns().scheduleRun()
+                .withExistingRegistry(rgName, acrName)
+                .withLinux()
+                .withFileTaskRunRequest()
+                    .defineFileTaskStep()
+                        .withTaskPath(taskFilePath)
+                        .attach()
+                .withSourceLocation("https://github.com/iscai-msft/file_task_test.git")
+                .execute();
+
+        Assert.assertEquals(registry.resourceGroupName(), registryTaskRun.resourceGroupName());
+        Assert.assertEquals(acrName, registryTaskRun.registryName());
+
+
+    }
+
+    @Test
+    public void EncodedTaskRunRequestFromRegistry() {
+        final String acrName = generateRandomResourceName("acr", 10);
+        final String rgName = generateRandomResourceName("rgacr", 10);
+        String encodedTaskContent = "dmVyc2lvbjogMC4wLjEKc3RlcHM6CiAgLSBidWlsZDogLXQge3suUnVuLlJlZ2lzdHJ5fX0vamF2YS1zYW1wbGU6e3suUnVuLklEfX0gLgogICAgd29ya2luZ0RpcmVjdG9yeTogc2FtcGxlcy9qYXZhL3Rhc2sKICAtIHB1c2g6IAogICAgLSB7ey5SdW4uUmVnaXN0cnl9fS9qYXZhLXNhbXBsZTp7ey5SdW4uSUR9fQ==";
+
+        Registry registry = registryManager.containerRegistries().define(acrName)
+                .withRegion(Region.US_WEST_CENTRAL)
+                .withNewResourceGroup(rgName)
+                .withPremiumSku()
+                .withRegistryNameAsAdminUser()
+                .withTag("tag1", "value1")
+                .create();
+
+        RegistryTaskRun registryTaskRun = registry.scheduleRun()
+                .withLinux()
+                .withEncodedTaskRunRequest()
+                    .defineEncodedTaskStep()
+                        .withBase64EncodedTaskContent(encodedTaskContent)
+                        .attach()
+                    .withSourceLocation("https://github.com/iscai-msft/encoded_task_test.git")
+                .execute();
+
+
+        Assert.assertEquals(registry.resourceGroupName(), registryTaskRun.resourceGroupName());
+        Assert.assertEquals(acrName, registryTaskRun.registryName());
+    }
+
+    @Test
+    public void EncodedTaskRunRequestFromRuns() {
+        final String acrName = generateRandomResourceName("acr", 10);
+        final String rgName = generateRandomResourceName("rgacr", 10);
+        String encodedTaskContent = "dmVyc2lvbjogMC4wLjEKc3RlcHM6CiAgLSBidWlsZDogLXQge3suUnVuLlJlZ2lzdHJ5fX0vamF2YS1zYW1wbGU6e3suUnVuLklEfX0gLgogICAgd29ya2luZ0RpcmVjdG9yeTogc2FtcGxlcy9qYXZhL3Rhc2sKICAtIHB1c2g6IAogICAgLSB7ey5SdW4uUmVnaXN0cnl9fS9qYXZhLXNhbXBsZTp7ey5SdW4uSUR9fQ==";
+
+        Registry registry = registryManager.containerRegistries().define(acrName)
+                .withRegion(Region.US_WEST_CENTRAL)
+                .withNewResourceGroup(rgName)
+                .withPremiumSku()
+                .withRegistryNameAsAdminUser()
+                .withTag("tag1", "value1")
+                .create();
+
+        RegistryTaskRun registryTaskRun = registryManager.registryTaskRuns().scheduleRun()
+                .withExistingRegistry(rgName, acrName)
+                .withLinux()
+                .withEncodedTaskRunRequest()
+                    .defineEncodedTaskStep()
+                        .withBase64EncodedTaskContent(encodedTaskContent)
+                        .attach()
+                .withSourceLocation("https://github.com/iscai-msft/encoded_task_test.git")
+                .execute();
+
+
+        Assert.assertEquals(registry.resourceGroupName(), registryTaskRun.resourceGroupName());
+        Assert.assertEquals(acrName, registryTaskRun.registryName());
+    }
+
+    @Test
+    public void DockerTaskRunRequestFromRegistry() {
+        final String acrName = generateRandomResourceName("acr", 10);
+        final String rgName = generateRandomResourceName("rgacr", 10);
+        String dockerFilePath = "https://github.com/iscai-msft/docker_task_test/tree/master/samples/java/task/Dockerfile";
+        String imageName = "java-sample:{{.Run.ID}}";
+        String sourceLocation = "https://github.com/iscai-msft/docker_task_test.git";
+
+        Registry registry = registryManager.containerRegistries().define(acrName)
+                .withRegion(Region.US_WEST_CENTRAL)
+                .withNewResourceGroup(rgName)
+                .withPremiumSku()
+                .withRegistryNameAsAdminUser()
+                .withTag("tag1", "value1")
+                .create();
+
+        RegistryTaskRun registryTaskRun = registry.scheduleRun()
+                .withLinux()
+                .withDockerTaskRunRequest()
+                    .defineDockerTaskStep()
+                        .withDockerFilePath(dockerFilePath)
+                        .withImageNames(Arrays.asList(imageName))
+                        .withCache()
+                        .withPushEnabled()
+                        .attach()
+                    .withSourceLocation(sourceLocation)
+                .execute();
+
+        Assert.assertEquals(registry.resourceGroupName(), registryTaskRun.resourceGroupName());
+        Assert.assertEquals(acrName, registryTaskRun.registryName());
+
+
+
+    }
+
+    @Test
+    public void DockerTaskRunRequestFromRuns() {
+        final String acrName = generateRandomResourceName("acr", 10);
+        final String rgName = generateRandomResourceName("rgacr", 10);
+        String dockerFilePath = "https://github.com/iscai-msft/docker_task_test/tree/master/samples/java/task/Dockerfile";
+        String imageName = "java-sample:{{.Run.ID}}";
+        String sourceLocation = "https://github.com/iscai-msft/docker_task_test.git";
+
+        Registry registry = registryManager.containerRegistries().define(acrName)
+                .withRegion(Region.US_WEST_CENTRAL)
+                .withNewResourceGroup(rgName)
+                .withPremiumSku()
+                .withRegistryNameAsAdminUser()
+                .withTag("tag1", "value1")
+                .create();
+
+        RegistryTaskRun registryTaskRun = registryManager.registryTaskRuns().scheduleRun()
+                .withExistingRegistry(rgName, acrName)
+                .withLinux()
+                .withDockerTaskRunRequest()
+                    .defineDockerTaskStep()
+                        .withDockerFilePath(dockerFilePath)
+                        .withImageNames(Arrays.asList(imageName))
+                        .withCache()
+                        .withPushEnabled()
+                        .attach()
+                .withSourceLocation(sourceLocation)
+                .execute();
+
+        Assert.assertEquals(registry.resourceGroupName(), registryTaskRun.resourceGroupName());
+        Assert.assertEquals(acrName, registryTaskRun.registryName());
+
+
+
+    }
+
+    @Test
+    public void TaskRunRequestFromRegistry() {
+        final String acrName = generateRandomResourceName("acr", 10);
+        final String rgName = generateRandomResourceName("rgacr", 10);
+        String dockerFilePath = "https://github.com/iscai-msft/docker_task_test/tree/master/samples/java/task/Dockerfile";
+        String imageName = "java-sample:{{.Run.ID}}";
+        String taskName = generateRandomResourceName("ft", 10);
+        String githubRepoUrl = "https://github.com/iscai-msft/docker_task_test.git";
+        String githubBranch = "master";
+        String githubPAT = "2224b93c9c1e18e66e64f8320b300313420feff8";
+
+        Registry registry = registryManager.containerRegistries().define(acrName)
+                .withRegion(Region.US_WEST_CENTRAL)
+                .withNewResourceGroup(rgName)
+                .withPremiumSku()
+                .withRegistryNameAsAdminUser()
+                .withTag("tag1", "value1")
+                .create();
+
+        SourceTrigger sourceTrigger = new SourceTrigger()
+                .withName("SampleSourceTrigger")
+                .withSourceRepository(new SourceProperties()
+                        .withSourceControlType(SourceControlType.GITHUB)
+                        .withBranch(githubBranch)
+                        .withRepositoryUrl(githubRepoUrl)
+                        .withSourceControlAuthProperties(new AuthInfo().withTokenType(TokenType.PAT).withToken(githubPAT)))
+                .withSourceTriggerEvents(Arrays.asList(SourceTriggerEvent.COMMIT, SourceTriggerEvent.PULLREQUEST))
+                .withStatus(TriggerStatus.ENABLED);
+
+        BaseImageTrigger baseImageTrigger = new BaseImageTrigger()
+                .withName("SampleBaseImageTrigger")
+                .withBaseImageTriggerType(BaseImageTriggerType.RUNTIME);
+
+        Task task = registryManager.containerRegistryTasks().define(taskName)
+
+                .withExistingRegistry(rgName, acrName)
+                .withLocation(Region.US_WEST_CENTRAL.name())
+                .withLinux(Architecture.AMD64)
+                .defineDockerTaskStep()
+                    .withDockerFilePath(dockerFilePath)
+                    .withImageNames(Arrays.asList(imageName))
+                    .withCache()
+                    .withPushEnabled()
+                    .attach()
+                .withCpuCount(2)
+                .withTrigger(Arrays.asList(sourceTrigger), baseImageTrigger)
+                .create();
+
+        RegistryTaskRun registryTaskRun = registry.scheduleRun()
+                .withTaskRunRequest(taskName)
+                .withArchiveDisabled()
+                .execute();
+
+        Assert.assertEquals(registry.resourceGroupName(), registryTaskRun.resourceGroupName());
+        Assert.assertEquals(acrName, registryTaskRun.registryName());
+        Assert.assertEquals(taskName, registryTaskRun.taskName());
+        Assert.assertTrue(!registryTaskRun.inner().isArchiveEnabled());
+
+
+    }
+
+    @Test
+    public void TaskRunRequestFromRuns() {
+        final String acrName = generateRandomResourceName("acr", 10);
+        final String rgName = generateRandomResourceName("rgacr", 10);
+        String dockerFilePath = "https://github.com/iscai-msft/docker_task_test/tree/master/samples/java/task/Dockerfile";
+        String imageName = "java-sample:{{.Run.ID}}";
+        String taskName = generateRandomResourceName("ft", 10);
+        String githubRepoUrl = "https://github.com/iscai-msft/docker_task_test.git";
+        String githubBranch = "master";
+        String githubPAT = "2224b93c9c1e18e66e64f8320b300313420feff8";
+
+        Registry registry = registryManager.containerRegistries().define(acrName)
+                .withRegion(Region.US_WEST_CENTRAL)
+                .withNewResourceGroup(rgName)
+                .withPremiumSku()
+                .withRegistryNameAsAdminUser()
+                .withTag("tag1", "value1")
+                .create();
+
+        SourceTrigger sourceTrigger = new SourceTrigger()
+                .withName("SampleSourceTrigger")
+                .withSourceRepository(new SourceProperties()
+                        .withSourceControlType(SourceControlType.GITHUB)
+                        .withBranch(githubBranch)
+                        .withRepositoryUrl(githubRepoUrl)
+                        .withSourceControlAuthProperties(new AuthInfo().withTokenType(TokenType.PAT).withToken(githubPAT)))
+                .withSourceTriggerEvents(Arrays.asList(SourceTriggerEvent.COMMIT, SourceTriggerEvent.PULLREQUEST))
+                .withStatus(TriggerStatus.ENABLED);
+
+        BaseImageTrigger baseImageTrigger = new BaseImageTrigger()
+                .withName("SampleBaseImageTrigger")
+                .withBaseImageTriggerType(BaseImageTriggerType.RUNTIME);
+
+        Task task = registryManager.containerRegistryTasks().define(taskName)
+
+                .withExistingRegistry(rgName, acrName)
+                .withLocation(Region.US_WEST_CENTRAL.name())
+                .withLinux(Architecture.AMD64)
+                .defineDockerTaskStep()
+                .withDockerFilePath(dockerFilePath)
+                .withImageNames(Arrays.asList(imageName))
+                .withCache()
+                .withPushEnabled()
+                .attach()
+                .withCpuCount(2)
+                .withTrigger(Arrays.asList(sourceTrigger), baseImageTrigger)
+                .create();
+
+        RegistryTaskRun registryTaskRun = registryManager.registryTaskRuns().scheduleRun()
+                .withExistingRegistry(rgName, acrName)
+                .withTaskRunRequest(taskName)
+                .withArchiveDisabled()
+                .execute();
+
+        Assert.assertEquals(registry.resourceGroupName(), registryTaskRun.resourceGroupName());
+        Assert.assertEquals(acrName, registryTaskRun.registryName());
+        Assert.assertEquals(taskName, registryTaskRun.taskName());
+        Assert.assertTrue(!registryTaskRun.inner().isArchiveEnabled());
+
 
     }
 

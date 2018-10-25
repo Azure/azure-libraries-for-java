@@ -8,8 +8,8 @@ package com.microsoft.azure.management.containerregistry;
 
 import com.microsoft.azure.management.containerregistry.implementation.ContainerRegistryManager;
 import com.microsoft.azure.management.resources.core.TestBase;
+import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.implementation.ResourceManager;
-import com.microsoft.azure.management.storage.implementation.StorageManager;
 import com.microsoft.rest.RestClient;
 
 /**
@@ -27,6 +27,10 @@ public abstract class RegistryTest extends TestBase {
 
         registryManager = ContainerRegistryManager
                 .authenticate(restClient, defaultSubscription);
+
+
+
     }
+
 
 }

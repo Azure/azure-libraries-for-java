@@ -146,6 +146,7 @@ public interface Registry extends
 //    BuildTaskOperations buildTasks();
 
 
+    RegistryTaskRun.DefinitionStages.BlankFromRegistry scheduleRun();
 
     /**
      * Container interface for all the definitions related to a registry.

@@ -794,7 +794,7 @@ public class RegistryTaskTests extends RegistryTest {
         String taskName = generateRandomResourceName("ft", 10);
         String githubRepoUrl = "https://github.com/iscai-msft/docker_task_test.git";
         String githubBranch = "master";
-        String githubPAT = "2224b93c9c1e18e66e64f8320b300313420feff8";
+        String githubPAT = "Replace with your github personal access token which should have the scopes: admin:repo_hook and repo";
 
         Registry registry = registryManager.containerRegistries().define(acrName)
                 .withRegion(Region.US_WEST_CENTRAL)
@@ -855,7 +855,7 @@ public class RegistryTaskTests extends RegistryTest {
         String taskName = generateRandomResourceName("ft", 10);
         String githubRepoUrl = "https://github.com/iscai-msft/docker_task_test.git";
         String githubBranch = "master";
-        String githubPAT = "2224b93c9c1e18e66e64f8320b300313420feff8";
+        String githubPAT = "Replace with your github personal access token which should have the scopes: admin:repo_hook and repo";
 
         Registry registry = registryManager.containerRegistries().define(acrName)
                 .withRegion(Region.US_WEST_CENTRAL)

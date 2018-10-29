@@ -18,9 +18,8 @@ import com.microsoft.azure.management.resources.fluentcore.model.Settable;
  * The properties of an encoded task step.
  */
 @Fluent()
-@Beta(Beta.SinceVersion.V1_1_0)
+@Beta
 public interface RegistryEncodedTaskStep extends RegistryTaskStep {
-
     /**
      * @return the encoded task content of this encoded task step
      */
@@ -41,40 +40,34 @@ public interface RegistryEncodedTaskStep extends RegistryTaskStep {
      */
     interface Definition extends
             RegistryEncodedTaskStep.DefinitionStages.Blank,
-            RegistryEncodedTaskStep.DefinitionStages.EncodedTaskStep,
+            RegistryEncodedTaskStep.DefinitionStages.EncodedTaskContent,
             RegistryEncodedTaskStep.DefinitionStages.EncodedTaskStepAttachable {
-
-
     }
 
     /**
      * Container interface for all the updates related to a RegistryEncodedTaskStep.
      */
     interface Update extends
-            RegistryEncodedTaskStep.UpdateStages.EncodedTaskStep,
+            RegistryEncodedTaskStep.UpdateStages.EncodedTaskContent,
             RegistryEncodedTaskStep.UpdateStages.ValuePath,
             RegistryEncodedTaskStep.UpdateStages.OverridingValues,
             Settable<Task.Update> {
-
     }
 
     /**
-     * Grouping of registry task definition stages.
+     * Grouping of registry encoded task definition stages.
      */
     interface DefinitionStages {
-
         /**
          * The first stage of a RegistryEncodedTaskStep definition.
          */
-        interface Blank extends EncodedTaskStep {
-
+        interface Blank extends EncodedTaskContent {
         }
 
         /**
-         * The stage of the container registry EncodedTaskStep definition allowing to specify the base 64 encoded task content.
+         * The stage of the container registry EncodedTaskStep definition allowing to specify the base64 encoded task content.
          */
-        interface EncodedTaskStep {
-
+        interface EncodedTaskContent {
             /**
              * The function that specifies the base64 encoded task content.
              *
@@ -84,13 +77,11 @@ public interface RegistryEncodedTaskStep extends RegistryTaskStep {
             EncodedTaskStepAttachable withBase64EncodedTaskContent(String encodedTaskContent);
         }
 
-
         /**
          * The stage of the definition which contains all the minimum required inputs for the resource to be attached,
          *  but also allows for any other optional settings to be specified.
          */
         interface EncodedTaskStepAttachable extends Attachable<Task.DefinitionStages.TaskCreatable> {
-
             /**
              * The function that specifies the base64 encoded value content.
              *
@@ -109,25 +100,23 @@ public interface RegistryEncodedTaskStep extends RegistryTaskStep {
 
             /**
              * The function that specifies a single value that will override the corresponding value specified under the function withBase64EncodedValueContent().
-             * @param name the name of the value to be overriden.
-             * @param overridingValue the value of the value to be overriden.
+             *
+             * @param name the name of the value to be overridden.
+             * @param overridingValue the value of the value to be overridden.
              * @return the next stage of the container registry EncodedTaskStep definition.
              */
             EncodedTaskStepAttachable withOverridingValue(String name, OverridingValue overridingValue);
-
         }
     }
 
     /**
-     * Grouping of registry task update stages.
+     * Grouping of registry encoded task update stages.
      */
     interface UpdateStages {
-
         /**
          * The stage of the container registry EncodedTaskStep update allowing to specify the task path.
          */
-        interface EncodedTaskStep {
-
+        interface EncodedTaskContent {
             /**
              * The function that specifies the path to the base64 encoded task content.
              *
@@ -165,13 +154,12 @@ public interface RegistryEncodedTaskStep extends RegistryTaskStep {
             /**
              * The function that specifies a single value that will override the corresponding value specified under the function withBase64EncodedValueContent().
              *
-             * @param name the name of the value to be overriden.
-             * @param overridingValue the value of the value to be overriden.
+             * @param name the name of the value to be overridden.
+             * @param overridingValue the value of the value to be overridden.
              * @return the next stage of the container registry EncodedTaskStep update.
              */
             Update withOverridingValue(String name, OverridingValue overridingValue);
         }
     }
-
 }
 

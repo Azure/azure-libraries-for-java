@@ -124,9 +124,19 @@ public interface Registries extends
     Observable<CheckNameAvailabilityResult> checkNameAvailabilityAsync(String name);
 
     /**
+     * The function that gets the URL of the build source upload.
+     *
+     * @return the URL of the build source upload.
+     */
+    SourceUploadDefinition getBuildSourceUploadUrl(String rgName, String acrName);
+
+
+
+    /**
      * @return returns entry point to manage container registry webhooks.
      */
     WebhooksClient webhooks();
+
 
 
     /**

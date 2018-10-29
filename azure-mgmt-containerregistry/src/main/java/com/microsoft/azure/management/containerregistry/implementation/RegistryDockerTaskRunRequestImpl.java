@@ -8,8 +8,8 @@ package com.microsoft.azure.management.containerregistry.implementation;
 import com.microsoft.azure.management.containerregistry.DockerBuildRequest;
 import com.microsoft.azure.management.containerregistry.PlatformProperties;
 import com.microsoft.azure.management.containerregistry.RegistryDockerTaskRunRequest;
-import com.microsoft.azure.management.containerregistry.RegistryTaskRun;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
+import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
 
 import java.util.List;
 
@@ -23,7 +23,7 @@ class RegistryDockerTaskRunRequestImpl implements
 
     @Override
     public int timeout() {
-        return this.inner.timeout();
+        return Utils.toPrimitiveInt(this.inner.timeout());
     }
 
     @Override
@@ -33,7 +33,10 @@ class RegistryDockerTaskRunRequestImpl implements
 
     @Override
     public int cpuCount() {
-        return this.inner.agentConfiguration().cpu();
+        if (this.inner.agentConfiguration() == null) {
+            return 0;
+        }
+        return Utils.toPrimitiveInt(this.inner.agentConfiguration().cpu());
     }
 
     @Override
@@ -43,7 +46,7 @@ class RegistryDockerTaskRunRequestImpl implements
 
     @Override
     public boolean isArchiveEnabled() {
-        return this.inner.isArchiveEnabled();
+        return Utils.toPrimitiveBoolean(this.inner.isArchiveEnabled());
     }
 
     RegistryDockerTaskRunRequestImpl(RegistryTaskRunImpl registryTaskRunImpl) {
@@ -51,50 +54,49 @@ class RegistryDockerTaskRunRequestImpl implements
         this.registryTaskRunImpl = registryTaskRunImpl;
     }
 
-
     @Override
-    public DefinitionStages.DockerTaskRunRequestStep defineDockerTaskStep() {
+    public RegistryDockerTaskRunRequestImpl defineDockerTaskStep() {
         return this;
     }
 
     @Override
-    public DefinitionStages.DockerTaskRunRequestStepAttachable withDockerFilePath(String path) {
+    public RegistryDockerTaskRunRequestImpl withDockerFilePath(String path) {
         this.inner.withDockerFilePath(path);
         return this;
     }
 
     @Override
-    public DefinitionStages.DockerTaskRunRequestStepAttachable withImageNames(List<String> imageNames) {
+    public RegistryDockerTaskRunRequestImpl withImageNames(List<String> imageNames) {
         this.inner.withImageNames(imageNames);
         return this;
     }
 
     @Override
-    public DefinitionStages.DockerTaskRunRequestStepAttachable withPushEnabled() {
+    public RegistryDockerTaskRunRequestImpl withPushEnabled() {
         this.inner.withIsPushEnabled(true);
         return this;
     }
 
     @Override
-    public DefinitionStages.DockerTaskRunRequestStepAttachable withPushDisabled() {
+    public RegistryDockerTaskRunRequestImpl withPushDisabled() {
         this.inner.withIsPushEnabled(false);
         return this;
     }
 
     @Override
-    public DefinitionStages.DockerTaskRunRequestStepAttachable withCache() {
+    public RegistryDockerTaskRunRequestImpl withCache() {
         this.inner.withNoCache(false);
         return this;
     }
 
     @Override
-    public DefinitionStages.DockerTaskRunRequestStepAttachable withoutCache() {
+    public RegistryDockerTaskRunRequestImpl withoutCache() {
         this.inner.withNoCache(true);
         return this;
     }
 
     @Override
-    public RegistryTaskRun.DefinitionStages.RunRequestExecutableWithSourceLocation attach() {
+    public RegistryTaskRunImpl attach() {
         this.registryTaskRunImpl.withDockerTaskRunRequest(this.inner);
         return this.registryTaskRunImpl;
     }

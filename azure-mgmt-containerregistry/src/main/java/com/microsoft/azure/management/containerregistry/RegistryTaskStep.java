@@ -12,7 +12,6 @@ import java.util.List;
  * An immutable client-side representation of an Azure RegistryTaskStep registry task.
  */
 public interface RegistryTaskStep {
-
     /**
      * @return the base image dependencies of this RegistryTaskStep
      */

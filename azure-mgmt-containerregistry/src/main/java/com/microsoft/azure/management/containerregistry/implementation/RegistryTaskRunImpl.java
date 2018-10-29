@@ -13,36 +13,41 @@ import com.microsoft.azure.management.containerregistry.FileTaskRunRequest;
 import com.microsoft.azure.management.containerregistry.OS;
 import com.microsoft.azure.management.containerregistry.OverridingValue;
 import com.microsoft.azure.management.containerregistry.PlatformProperties;
+import com.microsoft.azure.management.containerregistry.ProvisioningState;
 import com.microsoft.azure.management.containerregistry.RegistryTaskRun;
-import com.microsoft.azure.management.containerregistry.RunRequest;
+import com.microsoft.azure.management.containerregistry.RunStatus;
+import com.microsoft.azure.management.containerregistry.RunType;
 import com.microsoft.azure.management.containerregistry.SetValue;
 import com.microsoft.azure.management.containerregistry.TaskRunRequest;
 import com.microsoft.azure.management.containerregistry.Variant;
+import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
+import org.joda.time.DateTime;
 import rx.Observable;
 import rx.functions.Func1;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 
 class RegistryTaskRunImpl implements
         RegistryTaskRun,
         RegistryTaskRun.Definition {
 
+    private final ContainerRegistryManager registryManager;
+    private final String key = UUID.randomUUID().toString();
     private String resourceGroupName;
     private String registryName;
     private RunInner inner;
-    private RunRequest runRequest;
     private RegistriesInner registriesInner;
     private FileTaskRunRequest fileTaskRunRequest;
     private EncodedTaskRunRequest encodedTaskRunRequest;
     private DockerBuildRequest dockerTaskRunRequest;
     private TaskRunRequest taskRunRequest;
     private PlatformProperties platform;
-
 
     @Override
     public String resourceGroupName() {
@@ -59,11 +64,60 @@ class RegistryTaskRunImpl implements
         return this.inner.task();
     }
 
+    @Override
+    public RunStatus status() {
+        return this.inner.status();
+    }
 
-    RegistryTaskRunImpl(RegistriesInner registriesInner) {
-        this.registriesInner = registriesInner;
+    @Override
+    public RunType runType() {
+        return this.inner.runType();
+    }
+
+    @Override
+    public DateTime lastUpdatedTime() {
+        return this.inner.lastUpdatedTime();
+    }
+
+    @Override
+    public DateTime createTime() {
+        return this.inner.createTime();
+    }
+
+    @Override
+    public boolean isArchiveEnabled() {
+        return Utils.toPrimitiveBoolean(this.inner.isArchiveEnabled());
+    }
+
+    @Override
+    public PlatformProperties platform() {
+        return this.inner.platform();
+    }
+
+    @Override
+    public int cpu() {
+        if (this.inner.agentConfiguration() == null) {
+            return 0;
+        }
+        return Utils.toPrimitiveInt(this.inner.agentConfiguration().cpu());
+    }
+
+    @Override
+    public ProvisioningState provisioningState() {
+        return this.inner.provisioningState();
+    }
+
+    @Override
+    public String runId() {
+        return this.inner.runId();
+    }
+
+
+    RegistryTaskRunImpl(ContainerRegistryManager registryManager, RunInner runInner) {
+        this.registryManager = registryManager;
+        this.registriesInner = registryManager.inner().registries();
         this.platform = new PlatformProperties();
-        this.inner = new RunInner();
+        this.inner = runInner;
     }
 
     @Override
@@ -114,7 +168,6 @@ class RegistryTaskRunImpl implements
             }
             this.dockerTaskRunRequest.agentConfiguration().withCpu(count);
         }
-
         return this;
     }
 
@@ -144,6 +197,9 @@ class RegistryTaskRunImpl implements
 
     @Override
     public RegistryTaskRunImpl withOverridingValues(Map<String, OverridingValue> overridingValues) {
+        if (overridingValues.size() == 0) {
+            return this;
+        }
         List<SetValue> overridingValuesList = new ArrayList<SetValue>();
         for (Map.Entry<String, OverridingValue> entry : overridingValues.entrySet()) {
             SetValue value = new SetValue();
@@ -172,13 +228,29 @@ class RegistryTaskRunImpl implements
 
     @Override
     public RegistryTaskRunImpl withArchiveEnabled() {
-        this.inner.withIsArchiveEnabled(true);
+        if (this.fileTaskRunRequest != null) {
+            this.fileTaskRunRequest.withIsArchiveEnabled(true);
+        } else if (this.encodedTaskRunRequest != null) {
+            this.encodedTaskRunRequest.withIsArchiveEnabled(true);
+        } else if (this.dockerTaskRunRequest != null) {
+            this.dockerTaskRunRequest.withIsArchiveEnabled(true);
+        } else if (this.taskRunRequest != null) {
+            this.taskRunRequest.withIsArchiveEnabled(true);
+        }
         return this;
     }
 
     @Override
     public RegistryTaskRunImpl withArchiveDisabled() {
-        this.inner.withIsArchiveEnabled(false);
+        if (this.fileTaskRunRequest != null) {
+            this.fileTaskRunRequest.withIsArchiveEnabled(false);
+        } else if (this.encodedTaskRunRequest != null) {
+            this.encodedTaskRunRequest.withIsArchiveEnabled(false);
+        } else if (this.dockerTaskRunRequest != null) {
+            this.dockerTaskRunRequest.withIsArchiveEnabled(false);
+        } else if (this.taskRunRequest != null) {
+            this.taskRunRequest.withIsArchiveEnabled(false);
+        }
         return this;
     }
 
@@ -231,23 +303,37 @@ class RegistryTaskRunImpl implements
 
     @Override
     public Observable<RegistryTaskRun> executeAsync() {
-        final RegistryTaskRun registryTaskRun = this;
+        final RegistryTaskRunImpl self = this;
         if (this.fileTaskRunRequest != null) {
-            return this.registriesInner.scheduleRunAsync(this.resourceGroupName, this.registryName, this.fileTaskRunRequest).map((runInner) -> registryTaskRun);
+            return this.registriesInner.scheduleRunAsync(this.resourceGroupName, this.registryName, this.fileTaskRunRequest).map(new Func1<RunInner, RegistryTaskRun>() {
+                @Override
+                public RegistryTaskRun call(RunInner runInner) {
+                    self.inner = runInner;
+                    return self;
+                }
+            });
         } else if (this.encodedTaskRunRequest != null) {
-            return this.registriesInner.scheduleRunAsync(this.resourceGroupName, this.registryName, this.encodedTaskRunRequest).map((runInner) -> registryTaskRun);
+            return this.registriesInner.scheduleRunAsync(this.resourceGroupName, this.registryName, this.encodedTaskRunRequest).map(new Func1<RunInner, RegistryTaskRun>() {
+                @Override
+                public RegistryTaskRun call(RunInner runInner) {
+                    self.inner = runInner;
+                    return self;
+                }
+            });
         } else if (this.dockerTaskRunRequest != null) {
             return this.registriesInner.scheduleRunAsync(this.resourceGroupName, this.registryName, this.dockerTaskRunRequest).map(new Func1<RunInner, RegistryTaskRun>() {
                 @Override
                 public RegistryTaskRun call(RunInner runInner) {
-                    return registryTaskRun;
+                    self.inner = runInner;
+                    return self;
                 }
             });
         } else if (this.taskRunRequest != null) {
             return this.registriesInner.scheduleRunAsync(this.resourceGroupName, this.registryName, this.taskRunRequest).map(new Func1<RunInner, RegistryTaskRun>() {
                 @Override
                 public RegistryTaskRun call(RunInner runInner) {
-                    return registryTaskRun;
+                    self.inner = runInner;
+                    return self;
                 }
             });
         }
@@ -256,7 +342,7 @@ class RegistryTaskRunImpl implements
 
     @Override
     public ServiceFuture<RegistryTaskRun> executeAsync(ServiceCallback<RegistryTaskRun> callback) {
-        return null;
+        return ServiceFuture.fromBody(this.executeAsync(), callback);
     }
 
     @Override
@@ -266,26 +352,39 @@ class RegistryTaskRunImpl implements
 
     @Override
     public String key() {
-        return null;
+        return this.key;
     }
-
-
-
-
 
     void withFileTaskRunRequest(FileTaskRunRequest fileTaskRunRequest) {
         this.fileTaskRunRequest = fileTaskRunRequest;
-        this.fileTaskRunRequest.withPlatform(platform);
+        this.fileTaskRunRequest.withPlatform(this.platform);
     }
 
     void withEncodedTaskRunRequest(EncodedTaskRunRequest encodedTaskRunRequest) {
         this.encodedTaskRunRequest = encodedTaskRunRequest;
-        this.encodedTaskRunRequest.withPlatform(platform);
+        this.encodedTaskRunRequest.withPlatform(this.platform);
     }
 
     void withDockerTaskRunRequest(DockerBuildRequest dockerTaskRunRequest) {
         this.dockerTaskRunRequest = dockerTaskRunRequest;
-        this.dockerTaskRunRequest.withPlatform(platform);
+        this.dockerTaskRunRequest.withPlatform(this.platform);
     }
 
+    @Override
+    public RegistryTaskRun refresh() {
+        return refreshAsync().toBlocking().last();
+    }
+
+    @Override
+    public Observable<RegistryTaskRun> refreshAsync() {
+        final RegistryTaskRunImpl self = this;
+        return registryManager.inner().runs().getAsync(this.resourceGroupName, this.registryName, this.inner.runId()).map(new Func1<RunInner, RegistryTaskRun>() {
+
+            @Override
+            public RegistryTaskRun call(RunInner runInner) {
+                self.inner = runInner;
+                return self;
+            }
+        });
+    }
 }

@@ -10,6 +10,8 @@ import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.containerregistry.implementation.RunInner;
 import com.microsoft.azure.management.resources.fluentcore.model.Executable;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
+import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
+import org.joda.time.DateTime;
 
 import java.util.Map;
 
@@ -17,27 +19,69 @@ import java.util.Map;
  * An immutable client-side representation of an Azure RegistryDockerTaskRunRequest registry task run request.
  */
 @Fluent()
-@Beta(Beta.SinceVersion.V1_1_0)
+@Beta
 public interface RegistryTaskRun extends
-        HasInner<RunInner> {
-
+        HasInner<RunInner>,
+        Refreshable<RegistryTaskRun> {
     /**
      * @return the name of the resource group for this task run request
      */
     String resourceGroupName();
 
     /**
-     * @return the registry name of this Docker task run request
+     * @return the registry name of this task run request
      */
     String registryName();
 
     /**
-     * @return the name of the task in the case of a TaskRunRequest, null in other cases
+     * @return the name of the task in the case of a TaskRunRequest (or null if task is still queued), null in other cases
      */
     String taskName();
 
+    /**
+     * @return the status of the run request
+     */
+    RunStatus status();
 
+    /**
+     * @return the run type of the run request
+     */
+    RunType runType();
 
+    /**
+     * @return the last time the run request was updated
+     */
+    DateTime lastUpdatedTime();
+
+    /**
+     * @return the time when the run request was created
+     */
+    DateTime createTime();
+
+    /**
+     * @return whether archiving is enabled for the run request
+     */
+    boolean isArchiveEnabled();
+
+    /**
+     * @return the platform properties of the run request
+     */
+    PlatformProperties platform();
+
+    /**
+     * @return the numbers of cpu
+     */
+    int cpu();
+
+    /**
+     * @return the provisioning state of the run request
+     */
+    ProvisioningState provisioningState();
+
+    /**
+     * @return the id of the run
+     */
+    String runId();
 
     /**
      * Container interface for all the definitions related to a RegistryTaskRun.
@@ -51,14 +95,12 @@ public interface RegistryTaskRun extends
         DefinitionStages.RunRequestType,
         DefinitionStages.RunRequestExecutableWithSourceLocation,
         DefinitionStages.RunRequestExecutable {
-
     }
 
     /**
      * Grouping of registry task run definition stages.
      */
     interface DefinitionStages {
-
         /**
          * The first stage of a a RegistryTaskRun definition if originating from a call on a registry.
          */
@@ -66,10 +108,9 @@ public interface RegistryTaskRun extends
         }
 
         /**
-         * The first stage of a a RegistryTaskRun definition if originating from a call on the list of RegistryTaskRuns.
+         * The first stage of a RegistryTaskRun definition if definition is originating from a call on an existing RegistryTaskRun.
          */
         interface BlankFromRuns  {
-
             /**
              * The function that specifies the registry this task run is called on.
              *
@@ -80,15 +121,13 @@ public interface RegistryTaskRun extends
             PlatformAltTaskRunRequest withExistingRegistry(String resourceGroupName, String registryName);
         }
 
-
         /**
          * The stage of the container registry task run definition that allows to specify the task run is going to be run
          * with a TaskRunRequest.
          */
         interface PlatformAltTaskRunRequest extends Platform {
-
             /**
-             * The function that specifies the task run will be called with a TaskRunRequest.
+             * The function that specifies the name of the existing task to run.
              *
              * @param taskName the name of the created task to pass into the task run request.
              * @return the next stage of the container registry task run definition.
@@ -137,7 +176,6 @@ public interface RegistryTaskRun extends
          * The stage of the container registry task definition that specifies the platform for the container registry task run.
          */
         interface Platform {
-
             /**
              * The function that specifies the platform will have a Linux OS.
              *
@@ -195,7 +233,6 @@ public interface RegistryTaskRun extends
             RunRequestType withPlatform(PlatformProperties platformProperties);
         }
 
-
         /**
          * The stage of the definition that specifies the task run request type.
          */
@@ -235,12 +272,10 @@ public interface RegistryTaskRun extends
             RunRequestExecutable withCpuCount(int count);
         }
 
-
         /**
          * The stage of the container registry task run definition that specifies the enabling and disabling of archiving.
          */
         interface Archive {
-
             /**
              * The function that specifies archiving is enabled.
              *
@@ -263,7 +298,6 @@ public interface RegistryTaskRun extends
         interface RunRequestExecutableWithSourceLocation extends
                 AgentConfiguration,
                 RunRequestExecutable {
-
             /**
              * The function that specifies the location of the source control.
              *
@@ -279,7 +313,6 @@ public interface RegistryTaskRun extends
              * @return the next stage of the container registry task run definition.
              */
             RunRequestExecutableWithSourceLocation withTimeout(int timeout);
-
         }
 
         /**
@@ -290,13 +323,6 @@ public interface RegistryTaskRun extends
         interface RunRequestExecutable extends
                 Archive,
                 Executable<RegistryTaskRun> {
-
         }
-
-
-
-
     }
-
-
 }

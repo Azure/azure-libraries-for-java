@@ -15,6 +15,7 @@ import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.management.containerregistry.OverridingValue;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -26,41 +27,47 @@ class RegistryEncodedTaskStepImpl
         RegistryEncodedTaskStep.Update,
         HasInner<EncodedTaskStep> {
 
-    private EncodedTaskStep encodedTaskStep;
+    private EncodedTaskStep inner;
     private EncodedTaskStepUpdateParameters encodedTaskStepUpdateParameters;
     private TaskImpl taskImpl;
 
     RegistryEncodedTaskStepImpl(TaskImpl taskImpl) {
         super(taskImpl.inner().step());
-        this.encodedTaskStep = new EncodedTaskStep();
+        this.inner = new EncodedTaskStep();
+        if (taskImpl.inner().step() != null && !(taskImpl.inner().step() instanceof EncodedTaskStep)) {
+            throw new IllegalArgumentException("Constructor for RegistryEncodedTaskStepImpl invoked for class that is not an EncodedTaskStep");
+        }
         this.taskImpl = taskImpl;
         this.encodedTaskStepUpdateParameters = new EncodedTaskStepUpdateParameters();
     }
 
     @Override
     public String encodedTaskContent() {
-        EncodedTaskStep encodedTaskStep = (EncodedTaskStep) taskImpl.inner().step();
+        EncodedTaskStep encodedTaskStep = (EncodedTaskStep) this.taskImpl.inner().step();
         return encodedTaskStep.encodedTaskContent();
     }
 
     @Override
     public String encodedValuesContent() {
-        EncodedTaskStep encodedTaskStep = (EncodedTaskStep) taskImpl.inner().step();
+        EncodedTaskStep encodedTaskStep = (EncodedTaskStep) this.taskImpl.inner().step();
         return encodedTaskStep.encodedValuesContent();
     }
 
     @Override
     public List<SetValue> values() {
-        EncodedTaskStep encodedTaskStep = (EncodedTaskStep) taskImpl.inner().step();
-        return encodedTaskStep.values();
+        EncodedTaskStep encodedTaskStep = (EncodedTaskStep) this.taskImpl.inner().step();
+        if (encodedTaskStep.values() == null) {
+            return Collections.unmodifiableList(new ArrayList<>());
+        }
+        return Collections.unmodifiableList(encodedTaskStep.values());
     }
 
     @Override
     public RegistryEncodedTaskStepImpl withBase64EncodedTaskContent(String encodedTaskContent) {
         if (isInCreateMode()) {
-            encodedTaskStep.withBase64EncodedTaskContent(encodedTaskContent);
+            this.inner.withBase64EncodedTaskContent(encodedTaskContent);
         } else {
-            encodedTaskStepUpdateParameters.withEncodedTaskContent(encodedTaskContent);
+            this.encodedTaskStepUpdateParameters.withEncodedTaskContent(encodedTaskContent);
         }
         return this;
     }
@@ -68,15 +75,18 @@ class RegistryEncodedTaskStepImpl
     @Override
     public RegistryEncodedTaskStepImpl withBase64EncodedValueContent(String encodedValueContent) {
         if (isInCreateMode()) {
-            encodedTaskStep.withBase64EncodedValuesContent(encodedValueContent);
+            this.inner.withBase64EncodedValuesContent(encodedValueContent);
         } else {
-            encodedTaskStepUpdateParameters.withEncodedValuesContent(encodedValueContent);
+            this.encodedTaskStepUpdateParameters.withEncodedValuesContent(encodedValueContent);
         }
         return this;
     }
 
     @Override
     public RegistryEncodedTaskStepImpl withOverridingValues(Map<String, OverridingValue> overridingValues) {
+        if (overridingValues.size() == 0) {
+            return this;
+        }
         List<SetValue> overridingValuesList = new ArrayList<SetValue>();
         for (Map.Entry<String, OverridingValue> entry : overridingValues.entrySet()) {
             SetValue value = new SetValue();
@@ -84,48 +94,47 @@ class RegistryEncodedTaskStepImpl
             value.withValue(entry.getValue().value());
             value.withIsSecret(entry.getValue().isSecret());
             overridingValuesList.add(value);
-
         }
         if (isInCreateMode()) {
-            encodedTaskStep.withValues(overridingValuesList);
+            this.inner.withValues(overridingValuesList);
         } else {
-            encodedTaskStepUpdateParameters.withValues(overridingValuesList);
+            this.encodedTaskStepUpdateParameters.withValues(overridingValuesList);
         }
         return this;
     }
 
     @Override
     public RegistryEncodedTaskStepImpl withOverridingValue(String name, OverridingValue overridingValue) {
-        if (encodedTaskStep.values() == null) {
-            encodedTaskStep.withValues(new ArrayList<SetValue>());
+        if (this.inner.values() == null) {
+            this.inner.withValues(new ArrayList<SetValue>());
         }
         SetValue value = new SetValue();
         value.withName(name);
         value.withValue(overridingValue.value());
         value.withIsSecret(overridingValue.isSecret());
         if (isInCreateMode()) {
-            encodedTaskStep.values().add(value);
+            this.inner.values().add(value);
         } else {
-            encodedTaskStepUpdateParameters.values().add(value);
+            this.encodedTaskStepUpdateParameters.values().add(value);
         }
         return this;
     }
 
     @Override
     public Task.DefinitionStages.TaskCreatable attach() {
-        this.taskImpl.withEncodedTaskStepCreateParameters(encodedTaskStep);
+        this.taskImpl.withEncodedTaskStepCreateParameters(this.inner);
+        return this.taskImpl;
+    }
+
+    @Override
+    public Task.Update parent() {
+        this.taskImpl.withEncodedTaskStepUpdateParameters(this.encodedTaskStepUpdateParameters);
         return this.taskImpl;
     }
 
     @Override
     public EncodedTaskStep inner() {
-        return encodedTaskStep;
-    }
-
-    @Override
-    public Task.Update parent() {
-        this.taskImpl.withEncodedTaskStepUpdateParameters(encodedTaskStepUpdateParameters);
-        return this.taskImpl;
+        return this.inner;
     }
 
     private boolean isInCreateMode() {
@@ -134,6 +143,4 @@ class RegistryEncodedTaskStepImpl
         }
         return false;
     }
-
-
 }

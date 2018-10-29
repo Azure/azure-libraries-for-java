@@ -16,9 +16,8 @@ import java.util.Map;
  * An immutable client-side representation of an Azure registry file task run request.
  */
 @Fluent()
-@Beta(Beta.SinceVersion.V1_1_0)
+@Beta
 public interface RegistryFileTaskRunRequest {
-
     /**
      * @return the length of the timeout.
      */
@@ -49,9 +48,8 @@ public interface RegistryFileTaskRunRequest {
      */
     interface Definition extends
             DefinitionStages.Blank,
-            DefinitionStages.FileTaskRunRequestStep,
+            DefinitionStages.FileTaskPath,
             DefinitionStages.FileTaskRunRequestStepAttachable {
-
     }
 
     /**
@@ -62,21 +60,18 @@ public interface RegistryFileTaskRunRequest {
          * The first stage of a file task run request definition.
          */
         interface Blank {
-
             /**
              * The function that begins the definition of the file task step in the task run request.
              *
              * @return the next stage of the container file task run request definition.
              */
-            FileTaskRunRequestStep defineFileTaskStep();
+            FileTaskPath defineFileTaskStep();
         }
-
 
         /**
          * The stage of the container file task run request definition that specifies the path to the task file.
          */
-        interface FileTaskRunRequestStep {
-
+        interface FileTaskPath {
             /**
              * The function that specifies the path to the task file.
              *
@@ -91,7 +86,6 @@ public interface RegistryFileTaskRunRequest {
          *  but also allows for any other optional settings to be specified.
          */
         interface FileTaskRunRequestStepAttachable extends Attachable<RegistryTaskRun.DefinitionStages.RunRequestExecutableWithSourceLocation> {
-
             /**
              * The function that specifies the path to the values file.
              *
@@ -117,7 +111,5 @@ public interface RegistryFileTaskRunRequest {
              */
             FileTaskRunRequestStepAttachable withOverridingValue(String name, OverridingValue overridingValue);
         }
-
-
     }
 }

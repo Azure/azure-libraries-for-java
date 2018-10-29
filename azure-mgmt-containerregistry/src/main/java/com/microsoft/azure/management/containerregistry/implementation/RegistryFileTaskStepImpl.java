@@ -15,6 +15,7 @@ import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.management.containerregistry.OverridingValue;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -26,41 +27,47 @@ class RegistryFileTaskStepImpl
         RegistryFileTaskStep.Update,
         HasInner<FileTaskStep> {
 
-    private FileTaskStep fileTaskStep;
+    private FileTaskStep inner;
     private FileTaskStepUpdateParameters fileTaskStepUpdateParameters;
     private TaskImpl taskImpl;
 
     RegistryFileTaskStepImpl(TaskImpl taskImpl) {
         super(taskImpl.inner().step());
-        this.fileTaskStep = new FileTaskStep();
+        this.inner = new FileTaskStep();
+        if (taskImpl.inner().step() != null &&  !(taskImpl.inner().step() instanceof FileTaskStep)) {
+            throw new IllegalArgumentException("Constructor for RegistryFileTaskStepImpl invoked for class that is not FileTaskStep");
+        }
         this.taskImpl = taskImpl;
         this.fileTaskStepUpdateParameters = new FileTaskStepUpdateParameters();
     }
 
     @Override
     public String taskFilePath() {
-        FileTaskStep fileTaskStep = (FileTaskStep) taskImpl.inner().step();
+        FileTaskStep fileTaskStep = (FileTaskStep) this.taskImpl.inner().step();
         return fileTaskStep.taskFilePath();
     }
 
     @Override
     public String valuesFilePath() {
-        FileTaskStep fileTaskStep = (FileTaskStep) taskImpl.inner().step();
+        FileTaskStep fileTaskStep = (FileTaskStep) this.taskImpl.inner().step();
         return fileTaskStep.valuesFilePath();
     }
 
     @Override
     public List<SetValue> values() {
-        FileTaskStep fileTaskStep = (FileTaskStep) taskImpl.inner().step();
-        return fileTaskStep.values();
+        FileTaskStep fileTaskStep = (FileTaskStep) this.taskImpl.inner().step();
+        if (fileTaskStep.values() == null) {
+            return Collections.unmodifiableList(new ArrayList<>());
+        }
+        return Collections.unmodifiableList(fileTaskStep.values());
     }
 
     @Override
     public RegistryFileTaskStepImpl withTaskPath(String path) {
         if (isInCreateMode()) {
-            fileTaskStep.withTaskFilePath(path);
+            this.inner.withTaskFilePath(path);
         } else {
-            fileTaskStepUpdateParameters.withTaskFilePath(path);
+            this.fileTaskStepUpdateParameters.withTaskFilePath(path);
         }
         return this;
     }
@@ -68,15 +75,18 @@ class RegistryFileTaskStepImpl
     @Override
     public RegistryFileTaskStepImpl withValuesPath(String path) {
         if (isInCreateMode()) {
-            fileTaskStep.withValuesFilePath(path);
+            this.inner.withValuesFilePath(path);
         } else {
-            fileTaskStepUpdateParameters.withValuesFilePath(path);
+            this.fileTaskStepUpdateParameters.withValuesFilePath(path);
         }
         return this;
     }
 
     @Override
     public RegistryFileTaskStepImpl withOverridingValues(Map<String, OverridingValue> overridingValues) {
+        if (overridingValues.size() == 0) {
+            return this;
+        }
         List<SetValue> overridingValuesList = new ArrayList<SetValue>();
         for (Map.Entry<String, OverridingValue> entry : overridingValues.entrySet()) {
             SetValue value = new SetValue();
@@ -87,39 +97,34 @@ class RegistryFileTaskStepImpl
 
         }
         if (isInCreateMode()) {
-            fileTaskStep.withValues(overridingValuesList);
+            this.inner.withValues(overridingValuesList);
         } else {
-            fileTaskStepUpdateParameters.withValues(overridingValuesList);
+            this.fileTaskStepUpdateParameters.withValues(overridingValuesList);
         }
         return this;
     }
 
     @Override
     public RegistryFileTaskStepImpl withOverridingValue(String name, OverridingValue overridingValue) {
-        if (fileTaskStep.values() == null) {
-            fileTaskStep.withValues(new ArrayList<SetValue>());
+        if (this.inner.values() == null) {
+            this.inner.withValues(new ArrayList<SetValue>());
         }
         SetValue value = new SetValue();
         value.withName(name);
         value.withValue(overridingValue.value());
         value.withIsSecret(overridingValue.isSecret());
         if (isInCreateMode()) {
-            fileTaskStep.values().add(value);
+            this.inner.values().add(value);
         } else {
-            fileTaskStepUpdateParameters.values().add(value);
+            this.fileTaskStepUpdateParameters.values().add(value);
         }
         return this;
     }
 
     @Override
     public Task.DefinitionStages.TaskCreatable attach() {
-        this.taskImpl.withFileTaskStepCreateParameters(fileTaskStep);
+        this.taskImpl.withFileTaskStepCreateParameters(inner);
         return this.taskImpl;
-    }
-
-    @Override
-    public FileTaskStep inner() {
-        return fileTaskStep;
     }
 
     @Override
@@ -128,12 +133,15 @@ class RegistryFileTaskStepImpl
         return this.taskImpl;
     }
 
+    @Override
+    public FileTaskStep inner() {
+        return this.inner;
+    }
+
     private boolean isInCreateMode() {
         if (this.taskImpl.inner().id() == null) {
             return true;
         }
         return false;
     }
-
-
 }

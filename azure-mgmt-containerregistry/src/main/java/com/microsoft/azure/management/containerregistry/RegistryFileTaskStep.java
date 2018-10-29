@@ -18,9 +18,8 @@ import java.util.Map;
  * An immutable client-side representation of an Azure RegistryFileTaskStep registry task.
  */
 @Fluent()
-@Beta(Beta.SinceVersion.V1_1_0)
+@Beta
 public interface RegistryFileTaskStep extends RegistryTaskStep {
-
     /**
      * @return the task file path of this file task step
      */
@@ -36,46 +35,40 @@ public interface RegistryFileTaskStep extends RegistryTaskStep {
      */
     List<SetValue> values();
 
-
-
     /**
      * Container interface for all the definitions related to a RegistryFileTaskStep.
      */
     interface Definition extends
             RegistryFileTaskStep.DefinitionStages.Blank,
-            RegistryFileTaskStep.DefinitionStages.FileTaskStep,
+            RegistryFileTaskStep.DefinitionStages.FileTaskPath,
             RegistryFileTaskStep.DefinitionStages.FileTaskStepAttachable {
-
     }
 
     /**
      * Container interface for all the updates related to a RegistryFileTaskStep.
      */
     interface Update extends
-            RegistryFileTaskStep.UpdateStages.FileTaskStep,
+            RegistryFileTaskStep.UpdateStages.FileTaskPath,
             RegistryFileTaskStep.UpdateStages.ValuePath,
             RegistryFileTaskStep.UpdateStages.OverridingValues,
             Settable<Task.Update> {
-
     }
 
     /**
-     * Grouping of registry task definition stages.
+     * Grouping of registry file task definition stages.
      */
     interface DefinitionStages {
 
         /**
          * The first stage of a RegistryFileTaskStep definition.
          */
-        interface Blank extends FileTaskStep {
-
+        interface Blank extends FileTaskPath {
         }
 
         /**
          * The stage of the container registry FileTaskStep definition allowing to specify the task path.
          */
-        interface FileTaskStep {
-
+        interface FileTaskPath {
             /**
              * The function that specifies the path to the task file.
              *
@@ -90,7 +83,6 @@ public interface RegistryFileTaskStep extends RegistryTaskStep {
          *  but also allows for any other optional settings to be specified.
          */
         interface FileTaskStepAttachable extends Attachable<Task.DefinitionStages.TaskCreatable> {
-
             /**
              * The function that specifies the path to the values.
              *
@@ -110,8 +102,8 @@ public interface RegistryFileTaskStep extends RegistryTaskStep {
             /**
              * The function that specifies a single value that will override the corresponding value specified under the function withValuesPath().
              *
-             * @param name the name of the value to be overriden.
-             * @param overridingValue the value of the value to be overriden.
+             * @param name the name of the value to be overridden.
+             * @param overridingValue the value of the value to be overridden.
              * @return the next stage of the container registry FileTaskStep definition.
              */
             FileTaskStepAttachable withOverridingValue(String name, OverridingValue overridingValue);
@@ -119,15 +111,13 @@ public interface RegistryFileTaskStep extends RegistryTaskStep {
     }
 
     /**
-     * Grouping of registry task update stages.
+     * Grouping of registry file task update stages.
      */
     interface UpdateStages {
-
         /**
          * The stage of the container registry FileTaskStep update allowing to specify the task path.
          */
-        interface FileTaskStep {
-
+        interface FileTaskPath {
             /**
              * The function that specifies the path to the task file.
              *
@@ -137,12 +127,10 @@ public interface RegistryFileTaskStep extends RegistryTaskStep {
             Update withTaskPath(String path);
         }
 
-
         /**
          * The stage of the container registry FileTaskStep update allowing to specify the path to the values.
          */
         interface ValuePath {
-
             /**
              * The function that specifies the path to the values.
              *
@@ -150,14 +138,12 @@ public interface RegistryFileTaskStep extends RegistryTaskStep {
              * @return the next stage of the container registry FileTaskStep update.
              */
             Update withValuesPath(String path);
-
         }
 
         /**
          * The stage of the container registry FileTaskStep update allowing to specify the overriding values.
          */
         interface OverridingValues {
-
             /**
              * The function that specifies the values that override the corresponding values specified under the function withValuesPath().
              *
@@ -169,8 +155,8 @@ public interface RegistryFileTaskStep extends RegistryTaskStep {
             /**
              * The function that specifies a single value that will override the corresponding value specified under the function withValuesPath().
              *
-             * @param name the name of the value to be overriden.
-             * @param overridingValue the value of the value to be overriden.
+             * @param name the name of the value to be overridden.
+             * @param overridingValue the value of the value to be overridden.
              * @return the next stage of the container registry FileTaskStep update.
              */
             Update withOverridingValue(String name, OverridingValue overridingValue);

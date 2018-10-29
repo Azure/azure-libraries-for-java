@@ -9,9 +9,9 @@ import com.microsoft.azure.management.containerregistry.FileTaskRunRequest;
 import com.microsoft.azure.management.containerregistry.OverridingValue;
 import com.microsoft.azure.management.containerregistry.PlatformProperties;
 import com.microsoft.azure.management.containerregistry.RegistryFileTaskRunRequest;
-import com.microsoft.azure.management.containerregistry.RegistryTaskRun;
 import com.microsoft.azure.management.containerregistry.SetValue;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
+import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +28,7 @@ class RegistryFileTaskRunRequestImpl implements
 
     @Override
     public int timeout() {
-        return this.inner.timeout();
+        return Utils.toPrimitiveInt(this.inner.timeout());
     }
 
     @Override
@@ -38,7 +38,10 @@ class RegistryFileTaskRunRequestImpl implements
 
     @Override
     public int cpuCount() {
-        return this.inner.agentConfiguration().cpu();
+        if (this.inner.agentConfiguration() == null) {
+            return 0;
+        }
+        return Utils.toPrimitiveInt(this.inner.agentConfiguration().cpu());
     }
 
     @Override
@@ -48,7 +51,7 @@ class RegistryFileTaskRunRequestImpl implements
 
     @Override
     public boolean isArchiveEnabled() {
-        return this.inner.isArchiveEnabled();
+        return Utils.toPrimitiveBoolean(this.inner.isArchiveEnabled());
     }
 
     RegistryFileTaskRunRequestImpl(RegistryTaskRunImpl registryTaskRunImpl) {
@@ -57,24 +60,27 @@ class RegistryFileTaskRunRequestImpl implements
     }
 
     @Override
-    public DefinitionStages.FileTaskRunRequestStep defineFileTaskStep() {
+    public RegistryFileTaskRunRequestImpl defineFileTaskStep() {
         return this;
     }
 
     @Override
-    public DefinitionStages.FileTaskRunRequestStepAttachable withTaskPath(String taskPath) {
+    public RegistryFileTaskRunRequestImpl withTaskPath(String taskPath) {
         this.inner.withTaskFilePath(taskPath);
         return this;
     }
 
     @Override
-    public DefinitionStages.FileTaskRunRequestStepAttachable withValuesPath(String valuesPath) {
+    public RegistryFileTaskRunRequestImpl withValuesPath(String valuesPath) {
         this.inner.withValuesFilePath(valuesPath);
         return this;
     }
 
     @Override
-    public DefinitionStages.FileTaskRunRequestStepAttachable withOverridingValues(Map<String, OverridingValue> overridingValues) {
+    public RegistryFileTaskRunRequestImpl withOverridingValues(Map<String, OverridingValue> overridingValues) {
+        if (overridingValues.size() == 0) {
+            return this;
+        }
         List<SetValue> overridingValuesList = new ArrayList<SetValue>();
         for (Map.Entry<String, OverridingValue> entry : overridingValues.entrySet()) {
             SetValue value = new SetValue();
@@ -89,7 +95,7 @@ class RegistryFileTaskRunRequestImpl implements
     }
 
     @Override
-    public DefinitionStages.FileTaskRunRequestStepAttachable withOverridingValue(String name, OverridingValue overridingValue) {
+    public RegistryFileTaskRunRequestImpl withOverridingValue(String name, OverridingValue overridingValue) {
         if (this.inner.values() == null) {
             this.inner.withValues(new ArrayList<SetValue>());
         }
@@ -102,7 +108,7 @@ class RegistryFileTaskRunRequestImpl implements
     }
 
     @Override
-    public RegistryTaskRun.DefinitionStages.RunRequestExecutableWithSourceLocation attach() {
+    public RegistryTaskRunImpl attach() {
         this.registryTaskRunImpl.withFileTaskRunRequest(this.inner);
         return this.registryTaskRunImpl;
     }
@@ -111,6 +117,4 @@ class RegistryFileTaskRunRequestImpl implements
     public FileTaskRunRequest inner() {
         return this.inner;
     }
-
-
 }

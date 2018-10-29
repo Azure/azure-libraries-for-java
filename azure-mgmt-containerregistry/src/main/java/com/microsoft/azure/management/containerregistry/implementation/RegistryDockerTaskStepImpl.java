@@ -13,7 +13,10 @@ import com.microsoft.azure.management.containerregistry.DockerTaskStep;
 import com.microsoft.azure.management.containerregistry.RegistryDockerTaskStep;
 import com.microsoft.azure.management.containerregistry.Task;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
+import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 class RegistryDockerTaskStepImpl
@@ -24,53 +27,62 @@ class RegistryDockerTaskStepImpl
         RegistryDockerTaskStep.Update,
         HasInner<DockerTaskStep> {
 
-    private DockerTaskStep dockerTaskStep;
+    private DockerTaskStep inner;
     private DockerBuildStepUpdateParameters dockerTaskStepUpdateParameters;
     private TaskImpl taskImpl;
 
     RegistryDockerTaskStepImpl(TaskImpl taskImpl) {
         super(taskImpl.inner().step());
-        this.dockerTaskStep = new DockerTaskStep();
+        this.inner = new DockerTaskStep();
+        if (taskImpl.inner().step() != null && !(taskImpl.inner().step() instanceof DockerTaskStep)) {
+            throw new IllegalArgumentException("Constructor for RegistryDockerTaskStepImpl invoked for class that is not DockerTaskStep");
+        }
         this.taskImpl = taskImpl;
         this.dockerTaskStepUpdateParameters = new DockerBuildStepUpdateParameters();
     }
 
     @Override
     public List<String> imageNames() {
-        DockerTaskStep dockerTaskStep = (DockerTaskStep) taskImpl.inner().step();
-        return dockerTaskStep.imageNames();
+        DockerTaskStep dockerTaskStep = (DockerTaskStep) this.taskImpl.inner().step();
+        if (dockerTaskStep.imageNames() == null) {
+            return Collections.unmodifiableList(new ArrayList<>());
+        }
+        return Collections.unmodifiableList(dockerTaskStep.imageNames());
     }
 
     @Override
-    public Boolean isPushEnabled() {
-        DockerTaskStep dockerTaskStep = (DockerTaskStep) taskImpl.inner().step();
-        return dockerTaskStep.isPushEnabled();
+    public boolean isPushEnabled() {
+        DockerTaskStep dockerTaskStep = (DockerTaskStep) this.taskImpl.inner().step();
+        return Utils.toPrimitiveBoolean(dockerTaskStep.isPushEnabled());
     }
 
     @Override
-    public Boolean noCache() {
-        DockerTaskStep dockerTaskStep = (DockerTaskStep) taskImpl.inner().step();
-        return dockerTaskStep.noCache();
+    public boolean noCache() {
+        DockerTaskStep dockerTaskStep = (DockerTaskStep) this.taskImpl.inner().step();
+        return Utils.toPrimitiveBoolean(dockerTaskStep.noCache());
     }
 
     @Override
     public String dockerFilePath() {
-        DockerTaskStep dockerTaskStep = (DockerTaskStep) taskImpl.inner().step();
+        DockerTaskStep dockerTaskStep = (DockerTaskStep) this.taskImpl.inner().step();
         return dockerTaskStep.dockerFilePath();
     }
 
     @Override
     public List<Argument> arguments() {
-        DockerTaskStep dockerTaskStep = (DockerTaskStep) taskImpl.inner().step();
-        return dockerTaskStep.arguments();
+        DockerTaskStep dockerTaskStep = (DockerTaskStep) this.taskImpl.inner().step();
+        if (dockerTaskStep.arguments() == null) {
+            return Collections.unmodifiableList(new ArrayList<>());
+        }
+        return Collections.unmodifiableList(dockerTaskStep.arguments());
     }
 
     @Override
     public RegistryDockerTaskStepImpl withDockerFilePath(String path) {
         if (isInCreateMode()) {
-            dockerTaskStep.withDockerFilePath(path);
+            this.inner.withDockerFilePath(path);
         } else {
-            dockerTaskStepUpdateParameters.withDockerFilePath(path);
+            this.dockerTaskStepUpdateParameters.withDockerFilePath(path);
         }
         return this;
     }
@@ -78,9 +90,9 @@ class RegistryDockerTaskStepImpl
     @Override
     public RegistryDockerTaskStepImpl withImageNames(List<String> imageNames) {
         if (isInCreateMode()) {
-            dockerTaskStep.withImageNames(imageNames);
+            this.inner.withImageNames(imageNames);
         } else {
-            dockerTaskStepUpdateParameters.withImageNames(imageNames);
+            this.dockerTaskStepUpdateParameters.withImageNames(imageNames);
         }
         return this;
     }
@@ -88,9 +100,9 @@ class RegistryDockerTaskStepImpl
     @Override
     public RegistryDockerTaskStepImpl withPushEnabled() {
         if (isInCreateMode()) {
-            dockerTaskStep.withIsPushEnabled(true);
+            this.inner.withIsPushEnabled(true);
         } else {
-            dockerTaskStepUpdateParameters.withIsPushEnabled(true);
+            this.dockerTaskStepUpdateParameters.withIsPushEnabled(true);
         }
         return this;
     }
@@ -98,9 +110,9 @@ class RegistryDockerTaskStepImpl
     @Override
     public RegistryDockerTaskStepImpl withPushDisabled() {
         if (isInCreateMode()) {
-            dockerTaskStep.withIsPushEnabled(false);
+            this.inner.withIsPushEnabled(false);
         } else {
-            dockerTaskStepUpdateParameters.withIsPushEnabled(false);
+            this.dockerTaskStepUpdateParameters.withIsPushEnabled(false);
         }
         return this;
     }
@@ -108,9 +120,9 @@ class RegistryDockerTaskStepImpl
     @Override
     public RegistryDockerTaskStepImpl withCache() {
         if (isInCreateMode()) {
-            dockerTaskStep.withNoCache(false);
+            this.inner.withNoCache(false);
         } else {
-            dockerTaskStepUpdateParameters.withNoCache(false);
+            this.dockerTaskStepUpdateParameters.withNoCache(false);
         }
         return this;
     }
@@ -118,22 +130,17 @@ class RegistryDockerTaskStepImpl
     @Override
     public RegistryDockerTaskStepImpl withoutCache() {
         if (isInCreateMode()) {
-            dockerTaskStep.withNoCache(true);
+            this.inner.withNoCache(true);
         } else {
-            dockerTaskStepUpdateParameters.withNoCache(true);
+            this.dockerTaskStepUpdateParameters.withNoCache(true);
         }
         return this;
     }
 
     @Override
     public Task.DefinitionStages.TaskCreatable attach() {
-        this.taskImpl.withDockerTaskStepCreateParameters(dockerTaskStep);
+        this.taskImpl.withDockerTaskStepCreateParameters(inner);
         return this.taskImpl;
-    }
-
-    @Override
-    public DockerTaskStep inner() {
-        return dockerTaskStep;
     }
 
     @Override
@@ -142,12 +149,15 @@ class RegistryDockerTaskStepImpl
         return this.taskImpl;
     }
 
+    @Override
+    public DockerTaskStep inner() {
+        return this.inner;
+    }
+
     private boolean isInCreateMode() {
         if (this.taskImpl.inner().id() == null) {
             return true;
         }
         return false;
     }
-
-
 }

@@ -15,9 +15,8 @@ import java.util.Map;
  * An immutable client-side representation of an Azure registry Encoded task run request.
  */
 @Fluent()
-@Beta(Beta.SinceVersion.V1_1_0)
+@Beta
 public interface RegistryEncodedTaskRunRequest {
-
     /**
      * @return the length of the timeout.
      */
@@ -48,34 +47,30 @@ public interface RegistryEncodedTaskRunRequest {
      */
     interface Definition extends
             DefinitionStages.Blank,
-            DefinitionStages.EncodedTaskRunRequestStep,
+            DefinitionStages.EncodedTaskContent,
             DefinitionStages.EncodedTaskRunRequestStepAttachable {
-
     }
 
     /**
-     * Grouping of registry Encoded task run request definition stages.
+     * Grouping of registry encoded task run request definition stages.
      */
     interface DefinitionStages {
-
         /**
          * The first stage of an encoded task run request definition.
          */
         interface Blank {
-
             /**
              * The function that begins the definition of the encoded task step in the task run request.
              *
              * @return the next stage of the container encoded task run request definition.
              */
-            EncodedTaskRunRequestStep defineEncodedTaskStep();
+            EncodedTaskContent defineEncodedTaskStep();
         }
 
         /**
          * The stage of the container encoded task run request definition that specifies the base64 encoded task content.
          */
-        interface EncodedTaskRunRequestStep {
-
+        interface EncodedTaskContent {
             /**
              * The function that specifies the base64 encoded task content.
              *
@@ -90,7 +85,6 @@ public interface RegistryEncodedTaskRunRequest {
          *  but also allows for any other optional settings to be specified.
          */
         interface EncodedTaskRunRequestStepAttachable extends Attachable<RegistryTaskRun.DefinitionStages.RunRequestExecutableWithSourceLocation> {
-
             /**
              * The function that specifies the base64 encoded values content.
              *
@@ -117,5 +111,4 @@ public interface RegistryEncodedTaskRunRequest {
             EncodedTaskRunRequestStepAttachable withOverridingValue(String name, OverridingValue overridingValue);
         }
     }
-
 }

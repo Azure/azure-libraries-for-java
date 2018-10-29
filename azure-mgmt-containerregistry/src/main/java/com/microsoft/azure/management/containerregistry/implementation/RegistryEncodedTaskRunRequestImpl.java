@@ -9,9 +9,9 @@ import com.microsoft.azure.management.containerregistry.EncodedTaskRunRequest;
 import com.microsoft.azure.management.containerregistry.OverridingValue;
 import com.microsoft.azure.management.containerregistry.PlatformProperties;
 import com.microsoft.azure.management.containerregistry.RegistryEncodedTaskRunRequest;
-import com.microsoft.azure.management.containerregistry.RegistryTaskRun;
 import com.microsoft.azure.management.containerregistry.SetValue;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
+import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +28,7 @@ class RegistryEncodedTaskRunRequestImpl implements
 
     @Override
     public int timeout() {
-        return this.inner.timeout();
+        return Utils.toPrimitiveInt(this.inner.timeout());
     }
 
     @Override
@@ -38,7 +38,10 @@ class RegistryEncodedTaskRunRequestImpl implements
 
     @Override
     public int cpuCount() {
-        return this.inner.agentConfiguration().cpu();
+        if (this.inner.agentConfiguration() == null) {
+            return 0;
+        }
+        return Utils.toPrimitiveInt(this.inner.agentConfiguration().cpu());
     }
 
     @Override
@@ -48,7 +51,7 @@ class RegistryEncodedTaskRunRequestImpl implements
 
     @Override
     public boolean isArchiveEnabled() {
-        return this.inner.isArchiveEnabled();
+        return Utils.toPrimitiveBoolean(this.inner.isArchiveEnabled());
     }
 
     RegistryEncodedTaskRunRequestImpl(RegistryTaskRunImpl registryTaskRunImpl) {
@@ -57,24 +60,27 @@ class RegistryEncodedTaskRunRequestImpl implements
     }
 
     @Override
-    public DefinitionStages.EncodedTaskRunRequestStep defineEncodedTaskStep() {
+    public RegistryEncodedTaskRunRequestImpl defineEncodedTaskStep() {
         return this;
     }
 
     @Override
-    public DefinitionStages.EncodedTaskRunRequestStepAttachable withBase64EncodedTaskContent(String encodedTaskContent) {
+    public RegistryEncodedTaskRunRequestImpl withBase64EncodedTaskContent(String encodedTaskContent) {
         this.inner.withEncodedTaskContent(encodedTaskContent);
         return this;
     }
 
     @Override
-    public DefinitionStages.EncodedTaskRunRequestStepAttachable withBase64EncodedValueContent(String encodedValueContent) {
+    public RegistryEncodedTaskRunRequestImpl withBase64EncodedValueContent(String encodedValueContent) {
         this.inner.withEncodedValuesContent(encodedValueContent);
         return this;
     }
 
     @Override
-    public DefinitionStages.EncodedTaskRunRequestStepAttachable withOverridingValues(Map<String, OverridingValue> overridingValues) {
+    public RegistryEncodedTaskRunRequestImpl withOverridingValues(Map<String, OverridingValue> overridingValues) {
+        if (overridingValues.size() == 0) {
+            return this;
+        }
         List<SetValue> overridingValuesList = new ArrayList<SetValue>();
         for (Map.Entry<String, OverridingValue> entry : overridingValues.entrySet()) {
             SetValue value = new SetValue();
@@ -89,7 +95,7 @@ class RegistryEncodedTaskRunRequestImpl implements
     }
 
     @Override
-    public DefinitionStages.EncodedTaskRunRequestStepAttachable withOverridingValue(String name, OverridingValue overridingValue) {
+    public RegistryEncodedTaskRunRequestImpl withOverridingValue(String name, OverridingValue overridingValue) {
         if (this.inner.values() == null) {
             this.inner.withValues(new ArrayList<SetValue>());
         }
@@ -102,7 +108,7 @@ class RegistryEncodedTaskRunRequestImpl implements
     }
 
     @Override
-    public RegistryTaskRun.DefinitionStages.RunRequestExecutableWithSourceLocation attach() {
+    public RegistryTaskRunImpl attach() {
         this.registryTaskRunImpl.withEncodedTaskRunRequest(this.inner);
         return this.registryTaskRunImpl;
     }
@@ -111,5 +117,4 @@ class RegistryEncodedTaskRunRequestImpl implements
     public EncodedTaskRunRequest inner() {
         return this.inner;
     }
-
 }

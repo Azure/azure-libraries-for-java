@@ -35,6 +35,7 @@ import com.microsoft.azure.management.containerregistry.Variant;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
+import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
 import org.joda.time.DateTime;
@@ -45,19 +46,51 @@ import rx.functions.Func1;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 class TaskImpl implements
         Task,
         Task.Definition,
         Task.Update {
 
+    private final TasksInner tasksInner;
+    private final String taskName;
+    private final String key = UUID.randomUUID().toString();
     private String resourceGroupName;
     private String registryName;
-    private String taskName;
     private TaskInner inner;
-    private TasksInner tasksInner;
     private TaskUpdateParameters taskUpdateParameters;
     private RegistryTaskStep registryTaskStep;
+
+    @Override
+    public String id() {
+        return this.inner().id();
+    }
+
+    @Override
+    public String name() {
+        return this.inner().name();
+    }
+
+    @Override
+    public String type() {
+        return this.inner().type();
+    }
+
+    @Override
+    public String regionName() {
+        return this.inner().location();
+    }
+
+    @Override
+    public Region region() {
+        return Region.fromName(this.regionName());
+    }
+
+    @Override
+    public Map<String, String> tags() {
+        return this.inner().getTags();
+    }
 
     @Override
     public String resourceGroupName() {
@@ -65,7 +98,7 @@ class TaskImpl implements
     }
 
     @Override
-    public String parentId() {
+    public String parentRegistryId() {
         return ResourceUtils.parentResourceIdFromResourceId(this.id());
     }
 
@@ -85,23 +118,33 @@ class TaskImpl implements
     }
 
     @Override
+    public TaskInner inner() {
+        return this.inner;
+    }
+
+    @Override
+    public String key() {
+        return this.key;
+    }
+
+    @Override
     public RegistryTaskStep registryTaskStep() {
-        if (registryTaskStep != null) {
-            return registryTaskStep;
+        if (this.registryTaskStep != null) {
+            return this.registryTaskStep;
         }
         if (this.inner.step() instanceof FileTaskStep) {
-            registryTaskStep = new RegistryFileTaskStepImpl(this);
+            this.registryTaskStep = new RegistryFileTaskStepImpl(this);
         } else if (this.inner.step() instanceof EncodedTaskStep) {
-            registryTaskStep = new RegistryEncodedTaskStepImpl(this);
+            this.registryTaskStep = new RegistryEncodedTaskStepImpl(this);
         } else if (this.inner.step() instanceof DockerTaskStep) {
-            registryTaskStep = new RegistryDockerTaskStepImpl(this);
+            this.registryTaskStep = new RegistryDockerTaskStepImpl(this);
         }
-        return registryTaskStep;
+        return this.registryTaskStep;
     }
 
     @Override
     public int timeout() {
-        return this.inner.timeout();
+        return Utils.toPrimitiveInt(this.inner.timeout());
     }
 
     @Override
@@ -111,7 +154,10 @@ class TaskImpl implements
 
     @Override
     public int cpuCount() {
-        return this.inner.agentConfiguration().cpu();
+        if (this.inner.agentConfiguration() == null) {
+            return 0;
+        }
+        return Utils.toPrimitiveInt(this.inner.agentConfiguration().cpu());
     }
 
     @Override
@@ -119,22 +165,21 @@ class TaskImpl implements
         return this.inner.trigger();
     }
 
-    TaskImpl(TasksInner tasksInner, String taskName) {
-        this.tasksInner = tasksInner;
+    TaskImpl(ContainerRegistryManager registryManager, String taskName) {
+        this.tasksInner = registryManager.inner().tasks();
         this.taskName = taskName;
         this.inner = new TaskInner();
         this.taskUpdateParameters = new TaskUpdateParameters();
     }
 
-    TaskImpl(TasksInner tasksInner, TaskInner inner) {
-        this.tasksInner = tasksInner;
+    TaskImpl(ContainerRegistryManager registryManager, TaskInner inner) {
+        this.tasksInner = registryManager.inner().tasks();
         this.taskName = inner.name();
         this.inner = inner;
         this.resourceGroupName = ResourceUtils.groupFromResourceId(this.inner.id());
         this.registryName = ResourceUtils.nameFromResourceId(ResourceUtils.parentResourceIdFromResourceId(this.inner.id()));
         this.taskUpdateParameters = new TaskUpdateParameters();
     }
-
 
     @Override
     public DefinitionStages.Location withExistingRegistry(String resourceGroupName, String registryName) {
@@ -158,10 +203,15 @@ class TaskImpl implements
         return new RegistryDockerTaskStepImpl(this);
     }
 
-
     @Override
     public DefinitionStages.Platform withLocation(String location) {
         this.inner.withLocation(location);
+        return this;
+    }
+
+    @Override
+    public DefinitionStages.Platform withLocation(Region location) {
+        this.inner.withLocation(location.toString());
         return this;
     }
 
@@ -172,11 +222,13 @@ class TaskImpl implements
                 this.inner.withPlatform(new PlatformProperties());
             }
             this.inner.platform().withOs(OS.LINUX);
-            return this;
         } else {
+            if (this.taskUpdateParameters.platform() == null) {
+                this.taskUpdateParameters.withPlatform(new PlatformUpdateParameters());
+            }
             this.taskUpdateParameters.platform().withOs(OS.LINUX);
-            return this;
         }
+        return this;
     }
 
     @Override
@@ -186,11 +238,13 @@ class TaskImpl implements
                 this.inner.withPlatform(new PlatformProperties());
             }
             this.inner.platform().withOs(OS.WINDOWS);
-            return this;
         } else {
+            if (this.taskUpdateParameters.platform() == null) {
+                this.taskUpdateParameters.withPlatform(new PlatformUpdateParameters());
+            }
             this.taskUpdateParameters.platform().withOs(OS.WINDOWS);
-            return this;
         }
+        return this;
     }
 
     @Override
@@ -200,11 +254,13 @@ class TaskImpl implements
                 this.inner.withPlatform(new PlatformProperties());
             }
             this.inner.platform().withOs(OS.LINUX).withArchitecture(architecture);
-            return this;
         } else {
+            if (this.taskUpdateParameters.platform() == null) {
+                this.taskUpdateParameters.withPlatform(new PlatformUpdateParameters());
+            }
             this.taskUpdateParameters.platform().withOs(OS.LINUX).withArchitecture(architecture);
-            return this;
         }
+        return this;
     }
 
     @Override
@@ -214,11 +270,13 @@ class TaskImpl implements
                 this.inner.withPlatform(new PlatformProperties());
             }
             this.inner.platform().withOs(OS.WINDOWS).withArchitecture(architecture);
-            return this;
         } else {
+            if (this.taskUpdateParameters.platform() == null) {
+                this.taskUpdateParameters.withPlatform(new PlatformUpdateParameters());
+            }
             this.taskUpdateParameters.platform().withOs(OS.WINDOWS).withArchitecture(architecture);
-            return this;
         }
+        return this;
     }
 
     @Override
@@ -228,11 +286,13 @@ class TaskImpl implements
                 this.inner.withPlatform(new PlatformProperties());
             }
             this.inner.platform().withOs(OS.LINUX).withArchitecture(architecture).withVariant(variant);
-            return this;
         } else {
+            if (this.taskUpdateParameters.platform() == null) {
+                this.taskUpdateParameters.withPlatform(new PlatformUpdateParameters());
+            }
             this.taskUpdateParameters.platform().withOs(OS.LINUX).withArchitecture(architecture).withVariant(variant);
-            return this;
         }
+        return this;
     }
 
     @Override
@@ -242,11 +302,13 @@ class TaskImpl implements
                 this.inner.withPlatform(new PlatformProperties());
             }
             this.inner.platform().withOs(OS.WINDOWS).withArchitecture(architecture).withVariant(variant);
-            return this;
         } else {
+            if (this.taskUpdateParameters.platform() == null) {
+                this.taskUpdateParameters.withPlatform(new PlatformUpdateParameters());
+            }
             this.taskUpdateParameters.platform().withOs(OS.WINDOWS).withArchitecture(architecture).withVariant(variant);
-            return this;
         }
+        return this;
     }
 
     @Override
@@ -337,37 +399,6 @@ class TaskImpl implements
             this.taskUpdateParameters.withTimeout(timeout);
         }
         return this;
-
-    }
-
-    @Override
-    public String id() {
-        return this.inner().id();
-    }
-
-    @Override
-    public String name() {
-        return this.inner().name();
-    }
-
-    @Override
-    public String type() {
-        return this.inner().type();
-    }
-
-    @Override
-    public String regionName() {
-        return this.inner().location();
-    }
-
-    @Override
-    public Region region() {
-        return Region.fromName(this.regionName());
-    }
-
-    @Override
-    public Map<String, String> tags() {
-        return this.inner().getTags();
     }
 
     @Override
@@ -377,30 +408,24 @@ class TaskImpl implements
 
     @Override
     public ServiceFuture<Task> createAsync(ServiceCallback<Task> callback) {
-        return null;
+        return ServiceFuture.fromBody(createAsync().map(new Func1<Indexable, Task>() {
+            @Override
+            public Task call(Indexable indexable) {
+                return (Task) indexable;
+            }
+        }), callback);
     }
 
     @Override
     public Observable<Indexable> createAsync() {
-        final Task task = this;
-
-        return tasksInner.createAsync(resourceGroupName, registryName, taskName, this.inner).map(new Func1<TaskInner, Indexable>() {
+        final TaskImpl self = this;
+        return this.tasksInner.createAsync(this.resourceGroupName, this.registryName, this.taskName, this.inner).map(new Func1<TaskInner, Indexable>() {
             @Override
             public Indexable call(TaskInner taskInner) {
-                inner = taskInner;
-                return task;
+                self.inner = taskInner;
+                return self;
             }
         });
-    }
-
-    @Override
-    public TaskInner inner() {
-        return this.inner;
-    }
-
-    @Override
-    public String key() {
-        return null;
     }
 
     @Override
@@ -410,12 +435,12 @@ class TaskImpl implements
 
     @Override
     public Observable<Task> refreshAsync() {
-        final Task task = this;
-        return this.tasksInner.getAsync(resourceGroupName, registryName, taskName).map(new Func1<TaskInner, Task>() {
+        final TaskImpl self = this;
+        return this.tasksInner.getAsync(this.resourceGroupName, this.registryName, this.taskName).map(new Func1<TaskInner, Task>() {
             @Override
             public Task call(TaskInner taskInner) {
-                inner = taskInner;
-                return task;
+                self.inner = taskInner;
+                return self;
             }
         });
     }
@@ -432,21 +457,21 @@ class TaskImpl implements
 
     @Override
     public Observable<Task> applyAsync() {
-        final Task task = this;
-        return tasksInner.updateAsync(resourceGroupName, registryName, taskName, this.taskUpdateParameters).map(new Func1<TaskInner, Task>() {
+        final TaskImpl self = this;
+        return this.tasksInner.updateAsync(this.resourceGroupName, this.registryName, this.taskName, this.taskUpdateParameters).map(new Func1<TaskInner, Task>() {
             @Override
             public Task call(TaskInner taskInner) {
-                inner = taskInner;
-                taskUpdateParameters = new TaskUpdateParameters();
-                registryTaskStep = null;
-                return task;
+                self.inner = taskInner;
+                self.taskUpdateParameters = new TaskUpdateParameters();
+                self.registryTaskStep = null;
+                return self;
             }
         });
     }
 
     @Override
     public ServiceFuture<Task> applyAsync(ServiceCallback<Task> callback) {
-        return null;
+        return ServiceFuture.fromBody(applyAsync(), callback);
     }
 
     private boolean isInCreateMode() {
@@ -483,7 +508,7 @@ class TaskImpl implements
     @Override
     public RegistryFileTaskStep.Update updateFileTaskStep() {
         if (!(this.inner.step() instanceof FileTaskStep)) {
-            throw new IllegalArgumentException("Calling updateFileTaskStep on a Task that is not a file task.");
+            throw new UnsupportedOperationException("Calling updateFileTaskStep on a Task that is of type " + this.inner.step().getClass().getName() + ".");
         }
         return new RegistryFileTaskStepImpl(this);
     }
@@ -491,7 +516,7 @@ class TaskImpl implements
     @Override
     public RegistryEncodedTaskStep.Update updateEncodedTaskStep() {
         if (!(this.inner.step() instanceof EncodedTaskStep)) {
-            throw new IllegalArgumentException("Calling updateEncodedTaskStep on a Task that is not an encoded task.");
+            throw new UnsupportedOperationException("Calling updateEncodedTaskStep on a Task that is of type " + this.inner.step().getClass().getName() + ".");
         }
         return new RegistryEncodedTaskStepImpl(this);
     }
@@ -499,7 +524,7 @@ class TaskImpl implements
     @Override
     public RegistryDockerTaskStep.Update updateDockerTaskStep() {
         if (!(this.inner.step() instanceof DockerTaskStep)) {
-            throw new IllegalArgumentException("Calling updateDockerTaskStep on a Task that is not a Docker task.");
+            throw new UnsupportedOperationException("Calling updateDockerTaskStep on a Task that is of type " + this.inner.step().getClass().getName() + ".");
         }
         return new RegistryDockerTaskStepImpl(this);
     }

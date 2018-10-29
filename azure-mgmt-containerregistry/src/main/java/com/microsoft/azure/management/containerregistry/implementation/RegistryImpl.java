@@ -283,7 +283,7 @@ public class RegistryImpl
 
     @Override
     public RegistryTaskRun.DefinitionStages.BlankFromRegistry scheduleRun() {
-        return new RegistryTaskRunImpl(this.manager().inner().registries()).withExistingRegistry(this.resourceGroupName(), this.name());
+        return new RegistryTaskRunImpl(this.manager(), new RunInner()).withExistingRegistry(this.resourceGroupName(), this.name());
     }
 
 //    @Override

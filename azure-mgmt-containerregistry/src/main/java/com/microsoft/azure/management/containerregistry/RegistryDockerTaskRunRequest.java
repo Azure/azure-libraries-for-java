@@ -16,9 +16,8 @@ import java.util.List;
  * An immutable client-side representation of an Azure registry Docker task run request.
  */
 @Fluent()
-@Beta(Beta.SinceVersion.V1_1_0)
+@Beta
 public interface RegistryDockerTaskRunRequest {
-
     /**
      * @return the length of the timeout.
      */
@@ -49,16 +48,14 @@ public interface RegistryDockerTaskRunRequest {
      */
     interface Definition extends
             DefinitionStages.Blank,
-            DefinitionStages.DockerTaskRunRequestStep,
+            DefinitionStages.DockerFilePath,
             DefinitionStages.DockerTaskRunRequestStepAttachable {
-
     }
 
     /**
      * Grouping of registry Docker task run request definition stages.
      */
     interface DefinitionStages {
-
         /**
          * The first stage of a container registry Docker task run request definition.
          */
@@ -68,14 +65,13 @@ public interface RegistryDockerTaskRunRequest {
              *
              * @return the next stage of the container Docker task run request definition.
              */
-            DockerTaskRunRequestStep defineDockerTaskStep();
+            DockerFilePath defineDockerTaskStep();
         }
 
         /**
          * The stage of the container Docker task run request definition that specifies the path to the Docker file.
          */
-        interface DockerTaskRunRequestStep {
-
+        interface DockerFilePath {
             /**
              * The function that specifies the path to the Docker file.
              *
@@ -90,7 +86,6 @@ public interface RegistryDockerTaskRunRequest {
          *  but also allows for any other optional settings to be specified.
          */
         interface DockerTaskRunRequestStepAttachable extends Attachable<RegistryTaskRun.DefinitionStages.RunRequestExecutableWithSourceLocation> {
-
             /**
              * The function that specifies the list of image names.
              *

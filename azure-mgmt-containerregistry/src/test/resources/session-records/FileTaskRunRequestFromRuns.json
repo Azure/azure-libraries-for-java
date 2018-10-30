@@ -1,0 +1,136 @@
+{
+  "networkCallRecords" : [ {
+    "Method" : "PUT",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rgacr89429?api-version=2017-05-10",
+    "Headers" : {
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:ffbf486a22107d1f97bb85c96f5f1055aa63cbc50947322b765dbcaa8644bcd7 Java:10.0.2 (ResourceManagementClient, 2017-05-10)",
+      "Content-Type" : "application/json; charset=utf-8"
+    },
+    "Response" : {
+      "date" : "Tue, 30 Oct 2018 16:44:47 GMT",
+      "content-length" : "264",
+      "expires" : "-1",
+      "x-ms-ratelimit-remaining-subscription-writes" : "1199",
+      "retry-after" : "0",
+      "StatusCode" : "201",
+      "pragma" : "no-cache",
+      "strict-transport-security" : "max-age=31536000; includeSubDomains",
+      "x-ms-correlation-request-id" : "2a609ce9-2159-48ac-b891-4b3e920cf3bb",
+      "x-content-type-options" : "nosniff",
+      "x-ms-routing-request-id" : "WESTUS2:20181030T164447Z:2a609ce9-2159-48ac-b891-4b3e920cf3bb",
+      "content-type" : "application/json; charset=utf-8",
+      "cache-control" : "no-cache",
+      "x-ms-request-id" : "2a609ce9-2159-48ac-b891-4b3e920cf3bb",
+      "Body" : "{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgacr89429\",\"name\":\"rgacr89429\",\"location\":\"westcentralus\",\"tags\":{\"date\":\"2018-10-30T16:44:46.283Z\",\"product\":\"javasdk\",\"cause\":\"automation\"},\"properties\":{\"provisioningState\":\"Succeeded\"}}"
+    }
+  }, {
+    "Method" : "PUT",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgacr89429/providers/Microsoft.ContainerRegistry/registries/acr316116?api-version=2017-10-01",
+    "Headers" : {
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:ffbf486a22107d1f97bb85c96f5f1055aa63cbc50947322b765dbcaa8644bcd7 Java:10.0.2 (ContainerRegistryManagementClient)",
+      "Content-Type" : "application/json; charset=utf-8"
+    },
+    "Response" : {
+      "date" : "Tue, 30 Oct 2018 16:44:48 GMT",
+      "server" : "Microsoft-HTTPAPI/2.0",
+      "content-length" : "508",
+      "expires" : "-1",
+      "transfer-encoding" : "chunked",
+      "vary" : "Accept-Encoding",
+      "x-ms-ratelimit-remaining-subscription-writes" : "1198",
+      "retry-after" : "0",
+      "StatusCode" : "200",
+      "pragma" : "no-cache",
+      "strict-transport-security" : "max-age=31536000; includeSubDomains",
+      "x-ms-correlation-request-id" : "b2188936-c23a-4541-a81b-2d66de110fe7",
+      "x-content-type-options" : "nosniff",
+      "x-ms-routing-request-id" : "WESTUS2:20181030T164449Z:b2188936-c23a-4541-a81b-2d66de110fe7",
+      "content-type" : "application/json; charset=utf-8",
+      "cache-control" : "no-cache",
+      "x-ms-request-id" : "b2188936-c23a-4541-a81b-2d66de110fe7",
+      "Body" : "{\"sku\":{\"name\":\"Premium\",\"tier\":\"Premium\"},\"type\":\"Microsoft.ContainerRegistry/registries\",\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgacr89429/providers/Microsoft.ContainerRegistry/registries/acr316116\",\"name\":\"acr316116\",\"location\":\"westcentralus\",\"tags\":{\"tag1\":\"value1\"},\"properties\":{\"loginServer\":\"acr316116.azurecr.io\",\"creationDate\":\"2018-10-30T16:44:48.2185863Z\",\"provisioningState\":\"Succeeded\",\"adminUserEnabled\":true,\"firewallRulesEnabled\":false,\"firewallRules\":[]}}"
+    }
+  }, {
+    "Method" : "POST",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgacr89429/providers/Microsoft.ContainerRegistry/registries/acr316116/scheduleRun?api-version=2018-09-01",
+    "Headers" : {
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:ffbf486a22107d1f97bb85c96f5f1055aa63cbc50947322b765dbcaa8644bcd7 Java:10.0.2 (ContainerRegistryManagementClient)",
+      "Content-Type" : "application/json; charset=utf-8"
+    },
+    "Response" : {
+      "date" : "Tue, 30 Oct 2018 16:44:49 GMT",
+      "server" : "nginx/1.13.9",
+      "content-length" : "559",
+      "expires" : "-1",
+      "transfer-encoding" : "chunked",
+      "vary" : "Accept-Encoding,Accept-Encoding",
+      "x-ms-ratelimit-remaining-subscription-writes" : "1197",
+      "retry-after" : "0",
+      "StatusCode" : "200",
+      "pragma" : "no-cache",
+      "strict-transport-security" : "max-age=31536000; includeSubDomains",
+      "x-ms-correlation-request-id" : "babb6198-e27e-415d-9ab2-66c011c37309",
+      "x-content-type-options" : "nosniff",
+      "x-ms-routing-request-id" : "WESTUS2:20181030T164449Z:babb6198-e27e-415d-9ab2-66c011c37309",
+      "content-type" : "application/json; charset=utf-8",
+      "cache-control" : "no-cache",
+      "x-ms-request-id" : "93d8b1d9-2e1f-4500-a10c-fe8d1178a8ba",
+      "Body" : "{\"type\":\"Microsoft.ContainerRegistry/registries/runs\",\"properties\":{\"runId\":\"da1\",\"status\":\"Queued\",\"lastUpdatedTime\":\"2018-10-30T16:44:49+00:00\",\"runType\":null,\"createTime\":null,\"startTime\":null,\"finishTime\":null,\"outputImages\":null,\"task\":null,\"imageUpdateTrigger\":null,\"sourceTrigger\":null,\"isArchiveEnabled\":false,\"platform\":null,\"agentConfiguration\":null,\"provisioningState\":\"Succeeded\"},\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgacr89429/providers/Microsoft.ContainerRegistry/registries/acr316116/runs/da1\",\"name\":\"da1\"}"
+    }
+  }, {
+    "Method" : "GET",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgacr89429/providers/Microsoft.ContainerRegistry/registries/acr316116/runs/da1?api-version=2018-09-01",
+    "Headers" : {
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:ffbf486a22107d1f97bb85c96f5f1055aa63cbc50947322b765dbcaa8644bcd7 Java:10.0.2 (ContainerRegistryManagementClient)",
+      "Content-Type" : "application/json; charset=utf-8"
+    },
+    "Response" : {
+      "date" : "Tue, 30 Oct 2018 16:44:49 GMT",
+      "server" : "nginx/1.13.9",
+      "content-length" : "645",
+      "expires" : "-1",
+      "transfer-encoding" : "chunked",
+      "vary" : "Accept-Encoding,Accept-Encoding",
+      "retry-after" : "0",
+      "x-ms-ratelimit-remaining-subscription-reads" : "11999",
+      "StatusCode" : "200",
+      "pragma" : "no-cache",
+      "strict-transport-security" : "max-age=31536000; includeSubDomains",
+      "x-ms-correlation-request-id" : "68a4d69e-8763-452d-9d93-2edd2bfc2cf8",
+      "x-content-type-options" : "nosniff",
+      "x-ms-routing-request-id" : "WESTUS2:20181030T164449Z:68a4d69e-8763-452d-9d93-2edd2bfc2cf8",
+      "content-type" : "application/json; charset=utf-8",
+      "cache-control" : "no-cache",
+      "x-ms-request-id" : "f1ee3ae3-c926-49d7-af66-ae023295a970",
+      "Body" : "{\"type\":\"Microsoft.ContainerRegistry/registries/runs\",\"properties\":{\"runId\":\"da1\",\"status\":\"Queued\",\"lastUpdatedTime\":\"2018-10-30T16:44:49+00:00\",\"runType\":\"QuickRun\",\"createTime\":\"2018-10-30T16:44:49.4309521+00:00\",\"startTime\":null,\"finishTime\":null,\"outputImages\":null,\"task\":null,\"imageUpdateTrigger\":null,\"sourceTrigger\":null,\"isArchiveEnabled\":true,\"platform\":{\"os\":\"Linux\",\"architecture\":null,\"variant\":null},\"agentConfiguration\":{\"cpu\":2},\"provisioningState\":\"Succeeded\"},\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgacr89429/providers/Microsoft.ContainerRegistry/registries/acr316116/runs/da1\",\"name\":\"da1\"}"
+    }
+  }, {
+    "Method" : "GET",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgacr89429/providers/Microsoft.ContainerRegistry/registries/acr316116/runs?api-version=2018-09-01",
+    "Headers" : {
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:ffbf486a22107d1f97bb85c96f5f1055aa63cbc50947322b765dbcaa8644bcd7 Java:10.0.2 (ContainerRegistryManagementClient)",
+      "Content-Type" : "application/json; charset=utf-8"
+    },
+    "Response" : {
+      "date" : "Tue, 30 Oct 2018 16:44:49 GMT",
+      "server" : "nginx/1.13.9",
+      "content-length" : "673",
+      "expires" : "-1",
+      "transfer-encoding" : "chunked",
+      "vary" : "Accept-Encoding,Accept-Encoding",
+      "retry-after" : "0",
+      "x-ms-ratelimit-remaining-subscription-reads" : "11998",
+      "StatusCode" : "200",
+      "pragma" : "no-cache",
+      "strict-transport-security" : "max-age=31536000; includeSubDomains",
+      "x-ms-correlation-request-id" : "f2b264e0-94f7-4343-b084-3c07f9dadb6c",
+      "x-content-type-options" : "nosniff",
+      "x-ms-routing-request-id" : "WESTUS2:20181030T164449Z:f2b264e0-94f7-4343-b084-3c07f9dadb6c",
+      "content-type" : "application/json; charset=utf-8",
+      "cache-control" : "no-cache",
+      "x-ms-request-id" : "65e04904-0d22-48cf-8e67-1d8a7a0e9d1e",
+      "Body" : "{\"value\":[{\"type\":\"Microsoft.ContainerRegistry/registries/runs\",\"properties\":{\"runId\":\"da1\",\"status\":\"Queued\",\"lastUpdatedTime\":\"2018-10-30T16:44:49+00:00\",\"runType\":\"QuickRun\",\"createTime\":\"2018-10-30T16:44:49.4309521+00:00\",\"startTime\":null,\"finishTime\":null,\"outputImages\":null,\"task\":null,\"imageUpdateTrigger\":null,\"sourceTrigger\":null,\"isArchiveEnabled\":true,\"platform\":{\"os\":\"Linux\",\"architecture\":null,\"variant\":null},\"agentConfiguration\":{\"cpu\":2},\"provisioningState\":\"Succeeded\"},\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgacr89429/providers/Microsoft.ContainerRegistry/registries/acr316116/runs/da1\",\"name\":\"da1\"}],\"nextLink\":null}"
+    }
+  } ],
+  "variables" : [ "acr316116", "rgacr89429", "911a0cae-3318-4e17-8ff7-84b3607fd67b", "2dc856a9-7579-46ef-a083-2a856309f823" ]
+}

@@ -1061,13 +1061,13 @@ public class RegistryTaskTests extends RegistryTest {
 
 
     @Test
-    @Ignore("server side issue regarding cancel function")
-    public void CancelRuns() {
+    @Ignore("server side issue regarding delte function")
+    public void CancelAndDeleteRuns() {
         final String acrName = generateRandomResourceName("acr", 10);
         final String rgName = generateRandomResourceName("rgacr", 10);
-        String dockerFilePath = "https://github.com/iscai-msft/docker_task_test/tree/master/samples/java/task/Dockerfile";
-        String imageName = "java-sample:{{.Run.ID}}";
         String taskName = generateRandomResourceName("ft", 10);
+        String dockerFilePath = "Path to your Dockerfile";
+        String imageName = "java-sample:{{.Run.ID}}";
         String githubRepoUrl = "Replace with your github repository url, eg: https://github.com/Azure/acr.git";
         String githubBranch = "Replace with your github repositoty branch, eg: master";
         String githubPAT = "Replace with your github personal access token which should have the scopes: admin:repo_hook and repo";
@@ -1109,17 +1109,55 @@ public class RegistryTaskTests extends RegistryTest {
                 .withTrigger(Arrays.asList(sourceTrigger), baseImageTrigger)
                 .create();
 
-        RegistryTaskRun registryTaskRun = registryManager.registryTaskRuns().scheduleRun()
-                .withExistingRegistry(rgName, acrName)
+        RegistryTaskRun registryTaskRun = registry.scheduleRun()
                 .withTaskRunRequest(taskName)
                 .withArchiveEnabled()
                 .execute();
 
+        boolean stillQueued = true;
+        while(stillQueued) {
+            registryTaskRun.refresh();
+            if (registryTaskRun.status() != RunStatus.QUEUED){
+                stillQueued = false;
+            }
+            if (registryTaskRun.status() == RunStatus.FAILED) {
+                System.out.println(registryManager.registryTaskRuns().getLogSasUrl(rgName, acrName, registryTaskRun.runId()));
+                Assert.fail("Registry task run failed");
+            }
+            SdkContext.sleep(10000);
+        }
 
         Assert.assertTrue(registryManager.registryTaskRuns().listByRegistry(rgName, acrName).size() == 1);
 
-        registryManager.inner().runs().cancel(rgName, acrName, registryTaskRun.inner().runId());
+        //cancelling the run we just created
+        registryManager.inner().runs().cancel(rgName, acrName, registryTaskRun.runId());
 
+        boolean notCanceled = true;
+        while(notCanceled) {
+            registryTaskRun.refresh();
+            if (registryTaskRun.status() == RunStatus.CANCELED){
+                notCanceled = false;
+            }
+            if (registryTaskRun.status() == RunStatus.FAILED) {
+                System.out.println(registryManager.registryTaskRuns().getLogSasUrl(rgName, acrName, registryTaskRun.runId()));
+                Assert.fail("Registry task run failed");
+            }
+            SdkContext.sleep(10000);
+        }
+
+        PagedList<RegistryTaskRun> registryTaskRuns = registryManager.registryTaskRuns().listByRegistry(rgName, acrName);
+
+        for (RegistryTaskRun rtr : registryTaskRuns) {
+            Assert.assertTrue(rtr.status() == RunStatus.CANCELED);
+        }
+
+        //deleting the run we just cancelled
+
+        for (RegistryTaskRun rtr : registryTaskRuns) {
+            registryManager.containerRegistryTasks().deleteByRegistry(rgName, acrName, taskName);
+        }
+
+        registryTaskRuns = registryManager.registryTaskRuns().listByRegistry(rgName, acrName);
         Assert.assertTrue(registryManager.registryTaskRuns().listByRegistry(rgName, acrName).size() == 0);
 
 
@@ -1127,16 +1165,12 @@ public class RegistryTaskTests extends RegistryTest {
     }
 
     @Test
-    @Ignore("Needs personal tokens to run")
     public void GetLogSasUrl() {
         final String acrName = generateRandomResourceName("acr", 10);
         final String rgName = generateRandomResourceName("rgacr", 10);
         String dockerFilePath = "https://github.com/iscai-msft/docker_task_test/tree/master/samples/java/task/Dockerfile";
         String imageName = "java-sample:{{.Run.ID}}";
-        String taskName = generateRandomResourceName("ft", 10);
-        String githubRepoUrl = "Replace with your github repository url, eg: https://github.com/Azure/acr.git";
-        String githubBranch = "Replace with your github repositoty branch, eg: master";
-        String githubPAT = "Replace with your github personal access token which should have the scopes: admin:repo_hook and repo";
+        String sourceLocation = "https://github.com/iscai-msft/docker_task_test.git";
 
         Registry registry = registryManager.containerRegistries().define(acrName)
                 .withRegion(Region.US_WEST_CENTRAL)
@@ -1146,38 +1180,17 @@ public class RegistryTaskTests extends RegistryTest {
                 .withTag("tag1", "value1")
                 .create();
 
-        SourceTrigger sourceTrigger = new SourceTrigger()
-                .withName("SampleSourceTrigger")
-                .withSourceRepository(new SourceProperties()
-                        .withSourceControlType(SourceControlType.GITHUB)
-                        .withBranch(githubBranch)
-                        .withRepositoryUrl(githubRepoUrl)
-                        .withSourceControlAuthProperties(new AuthInfo().withTokenType(TokenType.PAT).withToken(githubPAT)))
-                .withSourceTriggerEvents(Arrays.asList(SourceTriggerEvent.COMMIT, SourceTriggerEvent.PULLREQUEST))
-                .withStatus(TriggerStatus.ENABLED);
-
-        BaseImageTrigger baseImageTrigger = new BaseImageTrigger()
-                .withName("SampleBaseImageTrigger")
-                .withBaseImageTriggerType(BaseImageTriggerType.RUNTIME);
-
-        Task task = registryManager.containerRegistryTasks().define(taskName)
-
-                .withExistingRegistry(rgName, acrName)
-                .withLocation(Region.US_WEST_CENTRAL.name())
-                .withLinux(Architecture.AMD64)
-                .defineDockerTaskStep()
-                .withDockerFilePath(dockerFilePath)
-                    .withImageNames(Arrays.asList(imageName))
-                    .withCache()
-                    .withPushEnabled()
-                    .attach()
-                .withCpuCount(2)
-                .withTrigger(Arrays.asList(sourceTrigger), baseImageTrigger)
-                .create();
-
         RegistryTaskRun registryTaskRun = registryManager.registryTaskRuns().scheduleRun()
                 .withExistingRegistry(rgName, acrName)
-                .withTaskRunRequest(taskName)
+                .withLinux()
+                .withDockerTaskRunRequest()
+                    .defineDockerTaskStep()
+                        .withDockerFilePath(dockerFilePath)
+                        .withImageNames(Arrays.asList(imageName))
+                        .withCache()
+                        .withPushEnabled()
+                        .attach()
+                .withSourceLocation(sourceLocation)
                 .withArchiveEnabled()
                 .execute();
 

@@ -57,7 +57,7 @@ class RegistryEncodedTaskStepImpl
     public List<SetValue> values() {
         EncodedTaskStep encodedTaskStep = (EncodedTaskStep) this.taskImpl.inner().step();
         if (encodedTaskStep.values() == null) {
-            return Collections.unmodifiableList(new ArrayList<>());
+            return Collections.unmodifiableList(new ArrayList<SetValue>());
         }
         return Collections.unmodifiableList(encodedTaskStep.values());
     }

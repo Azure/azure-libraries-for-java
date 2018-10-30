@@ -45,7 +45,7 @@ class RegistryDockerTaskStepImpl
     public List<String> imageNames() {
         DockerTaskStep dockerTaskStep = (DockerTaskStep) this.taskImpl.inner().step();
         if (dockerTaskStep.imageNames() == null) {
-            return Collections.unmodifiableList(new ArrayList<>());
+            return Collections.unmodifiableList(new ArrayList<String>());
         }
         return Collections.unmodifiableList(dockerTaskStep.imageNames());
     }
@@ -72,7 +72,7 @@ class RegistryDockerTaskStepImpl
     public List<Argument> arguments() {
         DockerTaskStep dockerTaskStep = (DockerTaskStep) this.taskImpl.inner().step();
         if (dockerTaskStep.arguments() == null) {
-            return Collections.unmodifiableList(new ArrayList<>());
+            return Collections.unmodifiableList(new ArrayList<Argument>());
         }
         return Collections.unmodifiableList(dockerTaskStep.arguments());
     }

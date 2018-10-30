@@ -57,7 +57,7 @@ class RegistryFileTaskStepImpl
     public List<SetValue> values() {
         FileTaskStep fileTaskStep = (FileTaskStep) this.taskImpl.inner().step();
         if (fileTaskStep.values() == null) {
-            return Collections.unmodifiableList(new ArrayList<>());
+            return Collections.unmodifiableList(new ArrayList<SetValue>());
         }
         return Collections.unmodifiableList(fileTaskStep.values());
     }

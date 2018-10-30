@@ -625,7 +625,6 @@ public class RegistryTaskTests extends RegistryTest {
         registryTaskRun.refresh();
         Assert.assertEquals(registry.resourceGroupName(), registryTaskRun.resourceGroupName());
         Assert.assertEquals(acrName, registryTaskRun.registryName());
-        //commented out because of server side issue
         Assert.assertTrue(registryTaskRun.isArchiveEnabled());
         Assert.assertEquals(OS.WINDOWS,registryTaskRun.platform().os());
 
@@ -1061,12 +1060,12 @@ public class RegistryTaskTests extends RegistryTest {
 
 
     @Test
-    @Ignore("server side issue regarding delte function")
-    public void CancelAndDeleteRuns() {
+    @Ignore("server side issue regarding delete function")
+    public void CancelAndDeleteRunsAndTasks() {
         final String acrName = generateRandomResourceName("acr", 10);
         final String rgName = generateRandomResourceName("rgacr", 10);
         String taskName = generateRandomResourceName("ft", 10);
-        String dockerFilePath = "Path to your Dockerfile";
+        String dockerFilePath = "Relative path to Dockerfile. Path is relative to the Github repo url.";
         String imageName = "java-sample:{{.Run.ID}}";
         String githubRepoUrl = "Replace with your github repository url, eg: https://github.com/Azure/acr.git";
         String githubBranch = "Replace with your github repositoty branch, eg: master";
@@ -1158,7 +1157,7 @@ public class RegistryTaskTests extends RegistryTest {
         }
 
         registryTaskRuns = registryManager.registryTaskRuns().listByRegistry(rgName, acrName);
-        Assert.assertTrue(registryManager.registryTaskRuns().listByRegistry(rgName, acrName).size() == 0);
+        Assert.assertTrue(registryManager.containerRegistryTasks().listByRegistry(rgName, acrName).size() == 0);
 
 
 

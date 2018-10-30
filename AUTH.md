@@ -55,6 +55,63 @@ And you are good to go.
 
 If Azure CLI is authenticated as a user, tokens acquired in Azure CLI expire after 90 days. You will be prompted to re-authenticate. If Azure CLI is authenticated with a service principal, it will never expire until the service principal credential expires.
 
+## Using `MSICredentials` & `AppServiceMSICredentials`
+
+For the MSI enabled Virtual Machine and App Service, Azure creates Service Principal and injects the credentials for the Service Principal into the resource. 
+
+The `MSICredential` & `AppServiceMSICredentails` type retrieves these Azure assigned credentials underneath and use it to authenticate. 
+
+### Using MSI credentials from VirtualMachine
+
+There are two types MSI that can be assigned to a Virtual Machine, [System Assigned MSI and User Assigned MSI](https://docs.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/overview).
+
+```java
+  MSICredentials vmMsiCredentials = new MSICredentials();
+```
+
+In order to retrieve the Azure Assigned credentials, the MSICredential instance requires one of the following:
+
+
+The object id associated with the Managed Service Identity assigned to the Virtual Machine.
+
+```java
+vmMsiCredentials.withObjectId(objectId);
+```
+
+The client (application) Id associated with the Managed Service Identity assigned to the Virtual Machine.
+
+```java
+vmMsiCredentials.withClientId(clientId);
+```
+
+The ARM resource id of the user assigned Managed Service Identity assigned to the Virtual Machine.
+
+```java
+vmMsiCredentials.withIdentityId(IdentityId);
+```
+
+```
+Azure azure = Azure.authenticate(vmMsiCredentials).withSubscription(subscriptionId);
+```
+
+[Sample showcasing assigning system assigned MSI to VM](https://github.com/Azure-Samples/aad-java-manage-resources-from-vm-with-msi)
+
+[Sample showcasing assigning user assigned MSI to VM](https://github.com/Azure-Samples/compute-java-manage-user-assigned-msi-enabled-virtual-machine)
+
+[Using MSICredentials from VM](https://github.com/Azure-Samples/compute-java-manage-vm-from-vm-with-msi-credentials) 
+
+### Using MSI credentials from App Service
+
+```java
+  AppServiceMSICredentials appServiceMsiCredentials = new AppServiceMSICredentials();
+```
+
+```
+Azure azure = Azure.authenticate(appServiceMsiCredentials).withSubscription(subscriptionId);
+```
+
+[Sample showcasing assigning system assigned MSI to a WebApp](https://github.com/Azure-Samples/app-service-java-access-key-vault-by-msi-for-web-apps)
+
 ## Oauth 2 for web apps
 
 For web apps that authenticate users interactively, Azure Active Directory allows Oauth 2 code grant flow. Create an application in Azure Active Directory and assign delegated permissions to the application: https://docs.microsoft.com/en-us/azure/active-directory/develop/active-directory-integrating-applications.

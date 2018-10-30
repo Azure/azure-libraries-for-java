@@ -42,7 +42,6 @@ public class RegistriesImpl
                 RegistriesInner,
                 ContainerRegistryManager>
         implements Registries {
-
     private final StorageManager storageManager;
     protected RegistriesImpl(final ContainerRegistryManager manager,
                              final StorageManager storageManager) {

@@ -5,6 +5,7 @@
  */
 package com.microsoft.azure.management.containerregistry.implementation;
 
+import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.containerregistry.AgentProperties;
 import com.microsoft.azure.management.containerregistry.Architecture;
 import com.microsoft.azure.management.containerregistry.DockerBuildRequest;
@@ -32,7 +33,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-
+@LangDefinition
 class RegistryTaskRunImpl implements
         RegistryTaskRun,
         RegistryTaskRun.Definition {

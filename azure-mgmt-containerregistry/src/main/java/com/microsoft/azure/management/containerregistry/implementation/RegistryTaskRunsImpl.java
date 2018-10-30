@@ -7,6 +7,7 @@ package com.microsoft.azure.management.containerregistry.implementation;
 
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
+import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.containerregistry.RegistryTaskRun;
 import com.microsoft.azure.management.containerregistry.RegistryTaskRuns;
 import com.microsoft.azure.management.resources.fluentcore.utils.PagedListConverter;
@@ -14,6 +15,7 @@ import rx.Completable;
 import rx.Observable;
 import rx.functions.Func1;
 
+@LangDefinition
 class RegistryTaskRunsImpl implements RegistryTaskRuns {
 
     private ContainerRegistryManager registryManager;

@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.management.containerregistry.implementation;
 
+import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.containerregistry.FileTaskStep;
 import com.microsoft.azure.management.containerregistry.FileTaskStepUpdateParameters;
 import com.microsoft.azure.management.containerregistry.RegistryFileTaskStep;
@@ -19,6 +20,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+@LangDefinition
 class RegistryFileTaskStepImpl
         extends RegistryTaskStepImpl
         implements

@@ -5,6 +5,7 @@
  */
 package com.microsoft.azure.management.containerregistry.implementation;
 
+import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.containerregistry.FileTaskRunRequest;
 import com.microsoft.azure.management.containerregistry.OverridingValue;
 import com.microsoft.azure.management.containerregistry.PlatformProperties;
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+@LangDefinition
 class RegistryFileTaskRunRequestImpl implements
         RegistryFileTaskRunRequest,
         RegistryFileTaskRunRequest.Definition,

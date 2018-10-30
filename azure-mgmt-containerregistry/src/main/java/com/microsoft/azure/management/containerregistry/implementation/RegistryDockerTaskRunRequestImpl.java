@@ -5,6 +5,7 @@
  */
 package com.microsoft.azure.management.containerregistry.implementation;
 
+import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.containerregistry.DockerBuildRequest;
 import com.microsoft.azure.management.containerregistry.PlatformProperties;
 import com.microsoft.azure.management.containerregistry.RegistryDockerTaskRunRequest;
@@ -13,6 +14,7 @@ import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
 
 import java.util.List;
 
+@LangDefinition
 class RegistryDockerTaskRunRequestImpl implements
         RegistryDockerTaskRunRequest,
         RegistryDockerTaskRunRequest.Definition,

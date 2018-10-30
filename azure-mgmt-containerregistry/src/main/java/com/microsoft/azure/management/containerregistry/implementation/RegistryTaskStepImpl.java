@@ -6,12 +6,14 @@
 
 package com.microsoft.azure.management.containerregistry.implementation;
 
+import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.containerregistry.BaseImageDependency;
 import com.microsoft.azure.management.containerregistry.RegistryTaskStep;
 import com.microsoft.azure.management.containerregistry.TaskStepProperties;
 
 import java.util.List;
 
+@LangDefinition
 abstract class RegistryTaskStepImpl implements RegistryTaskStep {
     private final TaskStepProperties taskStepProperties;
 

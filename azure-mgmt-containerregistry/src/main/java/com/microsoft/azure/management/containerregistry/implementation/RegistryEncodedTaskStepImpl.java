@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.management.containerregistry.implementation;
 
+import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.containerregistry.EncodedTaskStepUpdateParameters;
 import com.microsoft.azure.management.containerregistry.RegistryEncodedTaskStep;
 import com.microsoft.azure.management.containerregistry.EncodedTaskStep;
@@ -19,6 +20,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+@LangDefinition
 class RegistryEncodedTaskStepImpl
         extends RegistryTaskStepImpl
         implements

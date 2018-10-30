@@ -6,6 +6,8 @@
 package com.microsoft.azure.management.containerregistry;
 
 import com.microsoft.azure.PagedList;
+import com.microsoft.azure.management.apigeneration.Beta;
+import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.containerregistry.implementation.TasksInner;
 import com.microsoft.azure.management.resources.fluentcore.collection.SupportsCreating;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
@@ -16,6 +18,8 @@ import rx.Observable;
 /**
  * Interface to define the Tasks collection.
  */
+@Fluent()
+@Beta
 public interface Tasks extends
         HasInner<TasksInner>,
         SupportsCreating<Task.DefinitionStages.Blank> {

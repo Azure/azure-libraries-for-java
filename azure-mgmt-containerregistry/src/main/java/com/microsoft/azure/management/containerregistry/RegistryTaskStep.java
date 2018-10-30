@@ -6,11 +6,16 @@
 
 package com.microsoft.azure.management.containerregistry;
 
+import com.microsoft.azure.management.apigeneration.Beta;
+import com.microsoft.azure.management.apigeneration.Fluent;
+
 import java.util.List;
 
 /**
  * An immutable client-side representation of an Azure RegistryTaskStep registry task.
  */
+@Fluent()
+@Beta
 public interface RegistryTaskStep {
     /**
      * @return the base image dependencies of this RegistryTaskStep

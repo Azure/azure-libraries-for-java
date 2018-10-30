@@ -7,6 +7,7 @@
  */
 package com.microsoft.azure.management.containerregistry.implementation;
 
+import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.containerregistry.Argument;
 import com.microsoft.azure.management.containerregistry.DockerBuildStepUpdateParameters;
 import com.microsoft.azure.management.containerregistry.DockerTaskStep;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+@LangDefinition
 class RegistryDockerTaskStepImpl
         extends RegistryTaskStepImpl
         implements

@@ -127,6 +127,7 @@ public final class ContainerRegistryManager extends Manager<ContainerRegistryMan
      *
      * @return the tasks of the current instance of ContainerRegistryManager.
      */
+    @Beta
     public Tasks containerRegistryTasks() {
         if (tasks == null) {
             tasks = new TasksImpl(this);
@@ -139,6 +140,7 @@ public final class ContainerRegistryManager extends Manager<ContainerRegistryMan
      *
      * @return the registry task runs of the current instance of ContainerRegistryManager.
      */
+    @Beta
     public RegistryTaskRuns registryTaskRuns() {
         if (registryTaskRuns == null) {
             registryTaskRuns = new RegistryTaskRunsImpl(this);

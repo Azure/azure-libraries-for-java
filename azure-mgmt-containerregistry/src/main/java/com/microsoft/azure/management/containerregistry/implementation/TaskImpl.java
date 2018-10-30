@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.management.containerregistry.implementation;
 
+import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.containerregistry.AgentProperties;
 import com.microsoft.azure.management.containerregistry.Architecture;
 import com.microsoft.azure.management.containerregistry.BaseImageTrigger;
@@ -48,6 +49,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+@LangDefinition
 class TaskImpl implements
         Task,
         Task.Definition,

@@ -193,6 +193,7 @@ public class RegistriesImpl
         return this.getBuildSourceUploadUrlAsync(rgName, acrName).toBlocking().single();
     }
 
+    @Override
     public Observable<SourceUploadDefinition> getBuildSourceUploadUrlAsync(String rgName, String acrName) {
         return this.manager().inner().registries()
                 .getBuildSourceUploadUrlAsync(rgName, acrName)

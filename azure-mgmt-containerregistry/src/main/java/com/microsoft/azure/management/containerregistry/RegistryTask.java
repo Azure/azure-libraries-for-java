@@ -27,11 +27,11 @@ import java.util.List;
  */
 @Fluent()
 @Beta
-public interface Task extends
+public interface RegistryTask extends
         Resource,
         HasInner<TaskInner>,
-        Refreshable<Task>,
-        Updatable<Task.Update> {
+        Refreshable<RegistryTask>,
+        Updatable<RegistryTask.Update> {
 
     /**
      * @return the name of the resource's resource group
@@ -88,11 +88,11 @@ public interface Task extends
      * Container interface for all the definitions related to a registry task.
      */
     interface Definition extends
-    DefinitionStages.Blank,
-    DefinitionStages.Location,
-    DefinitionStages.Platform,
+            DefinitionStages.Blank,
+            DefinitionStages.Location,
+            DefinitionStages.Platform,
             DefinitionStages.TaskStepType,
-    DefinitionStages.TaskCreatable {
+            DefinitionStages.TaskCreatable {
     }
 
     /**
@@ -104,7 +104,7 @@ public interface Task extends
             UpdateStages.AgentConfiguration,
             UpdateStages.Timeout,
             UpdateStages.TaskStepType,
-            Appliable<Task> {
+            Appliable<RegistryTask> {
     }
 
     /**
@@ -297,7 +297,7 @@ public interface Task extends
                 Trigger,
                 AgentConfiguration,
                 Timeout,
-                Creatable<Task> {
+                Creatable<RegistryTask> {
         }
     }
 

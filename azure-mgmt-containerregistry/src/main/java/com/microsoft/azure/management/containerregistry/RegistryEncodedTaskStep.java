@@ -51,7 +51,7 @@ public interface RegistryEncodedTaskStep extends RegistryTaskStep {
             RegistryEncodedTaskStep.UpdateStages.EncodedTaskContent,
             RegistryEncodedTaskStep.UpdateStages.ValuePath,
             RegistryEncodedTaskStep.UpdateStages.OverridingValues,
-            Settable<Task.Update> {
+            Settable<RegistryTask.Update> {
     }
 
     /**
@@ -81,7 +81,7 @@ public interface RegistryEncodedTaskStep extends RegistryTaskStep {
          * The stage of the definition which contains all the minimum required inputs for the resource to be attached,
          *  but also allows for any other optional settings to be specified.
          */
-        interface EncodedTaskStepAttachable extends Attachable<Task.DefinitionStages.TaskCreatable> {
+        interface EncodedTaskStepAttachable extends Attachable<RegistryTask.DefinitionStages.TaskCreatable> {
             /**
              * The function that specifies the base64 encoded value content.
              *

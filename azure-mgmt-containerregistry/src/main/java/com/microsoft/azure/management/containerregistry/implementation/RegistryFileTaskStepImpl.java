@@ -10,8 +10,8 @@ import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.containerregistry.FileTaskStep;
 import com.microsoft.azure.management.containerregistry.FileTaskStepUpdateParameters;
 import com.microsoft.azure.management.containerregistry.RegistryFileTaskStep;
+import com.microsoft.azure.management.containerregistry.RegistryTask;
 import com.microsoft.azure.management.containerregistry.SetValue;
-import com.microsoft.azure.management.containerregistry.Task;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.management.containerregistry.OverridingValue;
 
@@ -31,9 +31,9 @@ class RegistryFileTaskStepImpl
 
     private FileTaskStep inner;
     private FileTaskStepUpdateParameters fileTaskStepUpdateParameters;
-    private TaskImpl taskImpl;
+    private RegistryTaskImpl taskImpl;
 
-    RegistryFileTaskStepImpl(TaskImpl taskImpl) {
+    RegistryFileTaskStepImpl(RegistryTaskImpl taskImpl) {
         super(taskImpl.inner().step());
         this.inner = new FileTaskStep();
         if (taskImpl.inner().step() != null &&  !(taskImpl.inner().step() instanceof FileTaskStep)) {
@@ -124,13 +124,13 @@ class RegistryFileTaskStepImpl
     }
 
     @Override
-    public Task.DefinitionStages.TaskCreatable attach() {
+    public RegistryTask.DefinitionStages.TaskCreatable attach() {
         this.taskImpl.withFileTaskStepCreateParameters(inner);
         return this.taskImpl;
     }
 
     @Override
-    public Task.Update parent() {
+    public RegistryTask.Update parent() {
         this.taskImpl.withFileTaskStepUpdateParameters(fileTaskStepUpdateParameters);
         return this.taskImpl;
     }

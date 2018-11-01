@@ -9,7 +9,7 @@ package com.microsoft.azure.management.containerregistry.implementation;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.containerregistry.Task;
+import com.microsoft.azure.management.containerregistry.RegistryTask;
 import com.microsoft.azure.management.containerregistry.Tasks;
 import com.microsoft.azure.management.resources.fluentcore.utils.PagedListConverter;
 import rx.Completable;
@@ -25,12 +25,12 @@ class TasksImpl implements Tasks {
         this.registryManager = registryManager;
     }
     @Override
-    public Task.DefinitionStages.Blank define(String name) {
-        return new TaskImpl(this.registryManager, name);
+    public RegistryTask.DefinitionStages.Blank define(String name) {
+        return new RegistryTaskImpl(this.registryManager, name);
     }
 
     @Override
-    public Observable<Task> listByRegistryAsync(String resourceGroupName, String registryName) {
+    public Observable<RegistryTask> listByRegistryAsync(String resourceGroupName, String registryName) {
         return this.registryManager.inner().tasks().listAsync(resourceGroupName, registryName)
                 .flatMapIterable(new Func1<Page<TaskInner>, Iterable<TaskInner>>() {
                     @Override
@@ -38,46 +38,46 @@ class TasksImpl implements Tasks {
                         return page.items();
                     }
                 })
-                .map(new Func1<TaskInner, Task>() {
+                .map(new Func1<TaskInner, RegistryTask>() {
                     @Override
-                    public Task call(TaskInner inner) {
+                    public RegistryTask call(TaskInner inner) {
                         return wrapModel(inner);
                     }
                 });
     }
 
     @Override
-    public PagedList<Task> listByRegistry(String resourceGroupName, String registryName) {
+    public PagedList<RegistryTask> listByRegistry(String resourceGroupName, String registryName) {
         final TasksImpl self = this;
-        return (new PagedListConverter<TaskInner, Task>() {
+        return (new PagedListConverter<TaskInner, RegistryTask>() {
             @Override
-            public Observable<Task> typeConvertAsync(final TaskInner inner) {
-                return Observable.<Task>just(wrapModel(inner));
+            public Observable<RegistryTask> typeConvertAsync(final TaskInner inner) {
+                return Observable.<RegistryTask>just(wrapModel(inner));
             }
         }).convert(self.inner().list(resourceGroupName, registryName));
     }
 
     @Override
-    public Observable<Task> getByRegistryAsync(String resourceGroupName, String registryName, String taskName, boolean includeSecrets) {
+    public Observable<RegistryTask> getByRegistryAsync(String resourceGroupName, String registryName, String taskName, boolean includeSecrets) {
         if (includeSecrets) {
-            return this.registryManager.inner().tasks().getDetailsAsync(resourceGroupName, registryName, taskName).map(new Func1<TaskInner, Task>() {
+            return this.registryManager.inner().tasks().getDetailsAsync(resourceGroupName, registryName, taskName).map(new Func1<TaskInner, RegistryTask>() {
                 @Override
-                public Task call(TaskInner taskInner) {
-                    return new TaskImpl(registryManager, taskInner);
+                public RegistryTask call(TaskInner taskInner) {
+                    return new RegistryTaskImpl(registryManager, taskInner);
                 }
             });
         } else {
-            return this.registryManager.inner().tasks().getAsync(resourceGroupName, registryName, taskName).map(new Func1<TaskInner, Task>() {
+            return this.registryManager.inner().tasks().getAsync(resourceGroupName, registryName, taskName).map(new Func1<TaskInner, RegistryTask>() {
                 @Override
-                public Task call(TaskInner taskInner) {
-                    return new TaskImpl(registryManager, taskInner);
+                public RegistryTask call(TaskInner taskInner) {
+                    return new RegistryTaskImpl(registryManager, taskInner);
                 }
             });
         }
     }
 
     @Override
-    public Task getByRegistry(String resourceGroupName, String registryName, String taskName, boolean includeSecrets) {
+    public RegistryTask getByRegistry(String resourceGroupName, String registryName, String taskName, boolean includeSecrets) {
         return this.getByRegistryAsync(resourceGroupName, registryName, taskName, includeSecrets).toBlocking().last();
     }
 
@@ -91,8 +91,8 @@ class TasksImpl implements Tasks {
         this.deleteByRegistryAsync(resourceGroupName, registryName, taskName).await();
     }
 
-    private TaskImpl wrapModel(TaskInner innerModel) {
-        return new TaskImpl(this.registryManager, innerModel);
+    private RegistryTaskImpl wrapModel(TaskInner innerModel) {
+        return new RegistryTaskImpl(this.registryManager, innerModel);
     }
 
     @Override

@@ -116,10 +116,10 @@ public final class ContainerRegistryManager extends Manager<ContainerRegistryMan
      * @return the availability set resource management API entry point
      */
     public Registries containerRegistries() {
-        if (registries == null) {
-            registries = new RegistriesImpl(this, this.storageManager);
+        if (this.registries == null) {
+            this.registries = new RegistriesImpl(this, this.storageManager);
         }
-        return registries;
+        return this.registries;
     }
 
     /**
@@ -129,8 +129,8 @@ public final class ContainerRegistryManager extends Manager<ContainerRegistryMan
      */
     @Beta
     public Tasks containerRegistryTasks() {
-        if (tasks == null) {
-            tasks = new TasksImpl(this);
+        if (this.tasks == null) {
+            this.tasks = new TasksImpl(this);
         }
         return this.tasks;
     }
@@ -142,8 +142,8 @@ public final class ContainerRegistryManager extends Manager<ContainerRegistryMan
      */
     @Beta
     public RegistryTaskRuns registryTaskRuns() {
-        if (registryTaskRuns == null) {
-            registryTaskRuns = new RegistryTaskRunsImpl(this);
+        if (this.registryTaskRuns == null) {
+            this.registryTaskRuns = new RegistryTaskRunsImpl(this);
         }
         return this.registryTaskRuns;
     }

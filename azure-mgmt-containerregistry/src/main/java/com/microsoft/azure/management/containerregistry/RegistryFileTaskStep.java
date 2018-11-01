@@ -51,7 +51,7 @@ public interface RegistryFileTaskStep extends RegistryTaskStep {
             RegistryFileTaskStep.UpdateStages.FileTaskPath,
             RegistryFileTaskStep.UpdateStages.ValuePath,
             RegistryFileTaskStep.UpdateStages.OverridingValues,
-            Settable<Task.Update> {
+            Settable<RegistryTask.Update> {
     }
 
     /**
@@ -82,7 +82,7 @@ public interface RegistryFileTaskStep extends RegistryTaskStep {
          * The stage of the definition which contains all the minimum required inputs for the resource to be attached,
          *  but also allows for any other optional settings to be specified.
          */
-        interface FileTaskStepAttachable extends Attachable<Task.DefinitionStages.TaskCreatable> {
+        interface FileTaskStepAttachable extends Attachable<RegistryTask.DefinitionStages.TaskCreatable> {
             /**
              * The function that specifies the path to the values.
              *

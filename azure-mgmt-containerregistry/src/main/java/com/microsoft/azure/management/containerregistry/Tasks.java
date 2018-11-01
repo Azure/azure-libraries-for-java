@@ -22,7 +22,7 @@ import rx.Observable;
 @Beta
 public interface Tasks extends
         HasInner<TasksInner>,
-        SupportsCreating<Task.DefinitionStages.Blank> {
+        SupportsCreating<RegistryTask.DefinitionStages.Blank> {
     /**
      * Lists the tasks in a registry asynchronously.
      *
@@ -30,7 +30,7 @@ public interface Tasks extends
      * @param registryName the name of the parent registry.
      * @return the tasks with parent registry registry.
      */
-    Observable<Task> listByRegistryAsync(String resourceGroupName, String registryName);
+    Observable<RegistryTask> listByRegistryAsync(String resourceGroupName, String registryName);
 
     /**
      * Lists the tasks in a registry.
@@ -39,7 +39,7 @@ public interface Tasks extends
      * @param registryName the name of the parent registry.
      * @return the tasks with parent registry registry.
      */
-    PagedList<Task> listByRegistry(String resourceGroupName, String registryName);
+    PagedList<RegistryTask> listByRegistry(String resourceGroupName, String registryName);
 
     /**
      * Gets a task in a registry asynchronously.
@@ -50,7 +50,7 @@ public interface Tasks extends
      * @param includeSecrets whether to include secrets or not.
      * @return the task
      */
-    Observable<Task> getByRegistryAsync(String resourceGroupName, String registryName, String taskName, boolean includeSecrets);
+    Observable<RegistryTask> getByRegistryAsync(String resourceGroupName, String registryName, String taskName, boolean includeSecrets);
 
     /**
      * Gets a task in a registry.
@@ -61,7 +61,7 @@ public interface Tasks extends
      * @param includeSecrets whether to include secrets or not.
      * @return the task
      */
-    Task getByRegistry(String resourceGroupName, String registryName, String taskName, boolean includeSecrets);
+    RegistryTask getByRegistry(String resourceGroupName, String registryName, String taskName, boolean includeSecrets);
 
     /**
      * Deletes a task in a registry asynchronously.

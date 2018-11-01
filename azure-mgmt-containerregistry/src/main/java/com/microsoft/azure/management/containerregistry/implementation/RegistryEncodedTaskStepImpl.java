@@ -10,8 +10,8 @@ import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.containerregistry.EncodedTaskStepUpdateParameters;
 import com.microsoft.azure.management.containerregistry.RegistryEncodedTaskStep;
 import com.microsoft.azure.management.containerregistry.EncodedTaskStep;
+import com.microsoft.azure.management.containerregistry.RegistryTask;
 import com.microsoft.azure.management.containerregistry.SetValue;
-import com.microsoft.azure.management.containerregistry.Task;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.management.containerregistry.OverridingValue;
 
@@ -31,9 +31,9 @@ class RegistryEncodedTaskStepImpl
 
     private EncodedTaskStep inner;
     private EncodedTaskStepUpdateParameters encodedTaskStepUpdateParameters;
-    private TaskImpl taskImpl;
+    private RegistryTaskImpl taskImpl;
 
-    RegistryEncodedTaskStepImpl(TaskImpl taskImpl) {
+    RegistryEncodedTaskStepImpl(RegistryTaskImpl taskImpl) {
         super(taskImpl.inner().step());
         this.inner = new EncodedTaskStep();
         if (taskImpl.inner().step() != null && !(taskImpl.inner().step() instanceof EncodedTaskStep)) {
@@ -123,13 +123,13 @@ class RegistryEncodedTaskStepImpl
     }
 
     @Override
-    public Task.DefinitionStages.TaskCreatable attach() {
+    public RegistryTask.DefinitionStages.TaskCreatable attach() {
         this.taskImpl.withEncodedTaskStepCreateParameters(this.inner);
         return this.taskImpl;
     }
 
     @Override
-    public Task.Update parent() {
+    public RegistryTask.Update parent() {
         this.taskImpl.withEncodedTaskStepUpdateParameters(this.encodedTaskStepUpdateParameters);
         return this.taskImpl;
     }

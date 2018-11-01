@@ -7,8 +7,6 @@
 package com.microsoft.azure.management.containerregistry;
 
 import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.containerregistry.implementation.RunInner;
-import com.microsoft.azure.management.containerregistry.implementation.RunsInner;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import org.junit.Assert;
@@ -27,7 +25,7 @@ public class RegistryTaskTests extends RegistryTest {
         String githubRepoUrl = "Replace with your github repository url, eg: https://github.com/Azure/acr.git";
         String githubBranch = "Replace with your github repositoty branch, eg: master";
         String githubPAT = "Replace with your github personal access token which should have the scopes: admin:repo_hook and repo";
-        String taskFilePath = "https://github.com/iscai-msft/file_task_test.git#master:samples/java/task/acb.yaml";
+        String taskFilePath = "https://github.com/iscai-msft/file_task_test.git#master:samples/java/registryTask/acb.yaml";
 
         Registry registry = registryManager.containerRegistries().define(acrName)
                 .withRegion(Region.US_WEST_CENTRAL)
@@ -54,49 +52,49 @@ public class RegistryTaskTests extends RegistryTest {
 
 
         String taskName = generateRandomResourceName("ft", 10);
-        Task task = registryManager.containerRegistryTasks().define(taskName)
+        RegistryTask registryTask = registryManager.containerRegistryTasks().define(taskName)
 
                 .withExistingRegistry(rgName, acrName)
                 .withLocation(Region.US_WEST_CENTRAL.name())
                 .withLinux(Architecture.AMD64)
                 .defineFileTaskStep()
-                    .withTaskPath("https://github.com/iscai-msft/file_task_test.git#master:samples/java/task/acb.yaml")
+                    .withTaskPath("https://github.com/iscai-msft/file_task_test.git#master:samples/java/registryTask/acb.yaml")
                     .attach()
                 .withCpuCount(2)
                 .withTrigger(Arrays.asList(sourceTrigger), baseImageTrigger)
                 .create();
 
-        RegistryFileTaskStep registryFileTaskStep = (RegistryFileTaskStep) task.registryTaskStep();
+        RegistryFileTaskStep registryFileTaskStep = (RegistryFileTaskStep) registryTask.registryTaskStep();
 
-        //Assert the name of the task is correct
-        Assert.assertEquals(taskName, task.name());
+        //Assert the name of the registryTask is correct
+        Assert.assertEquals(taskName, registryTask.name());
 
         //Assert the resource group name is correct
-        Assert.assertEquals(rgName, task.resourceGroupName());
+        Assert.assertEquals(rgName, registryTask.resourceGroupName());
 
         //Assert location is correct
-        Assert.assertEquals(Region.US_WEST_CENTRAL.name(), task.regionName());
+        Assert.assertEquals(Region.US_WEST_CENTRAL.name(), registryTask.regionName());
 
         //Assert OS is correct
-        Assert.assertEquals(OS.LINUX, task.platform().os());
+        Assert.assertEquals(OS.LINUX, registryTask.platform().os());
 
         //Assert architecture is correct
-        Assert.assertEquals(Architecture.AMD64, task.platform().architecture());
+        Assert.assertEquals(Architecture.AMD64, registryTask.platform().architecture());
 
-        //Assert that the task file path is correct
+        //Assert that the registryTask file path is correct
         Assert.assertEquals(taskFilePath, registryFileTaskStep.taskFilePath());
 
         //Assert CPU count is correct
-        Assert.assertEquals(2, task.cpuCount());
+        Assert.assertEquals(2, registryTask.cpuCount());
 
         //Assert the length of the source triggers array list is correct
-        Assert.assertTrue(task.trigger().sourceTriggers().size() == 1);
+        Assert.assertTrue(registryTask.trigger().sourceTriggers().size() == 1);
 
         //Assert source triggers are correct
-        Assert.assertEquals(sourceTrigger.name(), task.trigger().sourceTriggers().get(0).name());
+        Assert.assertEquals(sourceTrigger.name(), registryTask.trigger().sourceTriggers().get(0).name());
 
         //Assert base image trigger is correct
-        Assert.assertEquals(baseImageTrigger.name(), task.trigger().baseImageTrigger().name());
+        Assert.assertEquals(baseImageTrigger.name(), registryTask.trigger().baseImageTrigger().name());
 
 
     }
@@ -109,8 +107,8 @@ public class RegistryTaskTests extends RegistryTest {
         String githubRepoUrl = "Replace with your github repository url, eg: https://github.com/Azure/acr.git";
         String githubBranch = "Replace with your github repositoty branch, eg: master";
         String githubPAT = "Replace with your github personal access token which should have the scopes: admin:repo_hook and repo";
-        String taskFilePath = "https://github.com/iscai-msft/file_task_test.git#master:samples/java/task/acb_update.yaml";
-        String taskFileUpdatePath = "https://github.com/iscai-msft/file_task_test.git#master:samples/java/task/acb_update.yaml";
+        String taskFilePath = "https://github.com/iscai-msft/file_task_test.git#master:samples/java/registryTask/acb_update.yaml";
+        String taskFileUpdatePath = "https://github.com/iscai-msft/file_task_test.git#master:samples/java/registryTask/acb_update.yaml";
 
         Registry registry = registryManager.containerRegistries().define(acrName)
                 .withRegion(Region.US_WEST_CENTRAL)
@@ -136,7 +134,7 @@ public class RegistryTaskTests extends RegistryTest {
 
 
         String taskName = generateRandomResourceName("ft", 10);
-        Task task = registryManager.containerRegistryTasks().define(taskName)
+        RegistryTask registryTask = registryManager.containerRegistryTasks().define(taskName)
 
                 .withExistingRegistry(rgName, acrName)
                 .withLocation(Region.US_WEST_CENTRAL.name())
@@ -148,47 +146,47 @@ public class RegistryTaskTests extends RegistryTest {
                 .withTrigger(Arrays.asList(sourceTrigger), baseImageTrigger)
                 .create();
 
-        task.update()
+        registryTask.update()
                 .updateFileTaskStep()
                     .withTaskPath(taskFileUpdatePath)
                     .parent()
                 .apply();
 
-        RegistryFileTaskStep registryFileTaskStep = (RegistryFileTaskStep) task.registryTaskStep();
+        RegistryFileTaskStep registryFileTaskStep = (RegistryFileTaskStep) registryTask.registryTaskStep();
 
-        //Assert the name of the task is correct
-        Assert.assertEquals(taskName, task.name());
+        //Assert the name of the registryTask is correct
+        Assert.assertEquals(taskName, registryTask.name());
 
         //Assert the resource group name is correct
-        Assert.assertEquals(rgName, task.resourceGroupName());
+        Assert.assertEquals(rgName, registryTask.resourceGroupName());
 
         //Assert location is correct
-        Assert.assertEquals(Region.US_WEST_CENTRAL.name(), task.regionName());
+        Assert.assertEquals(Region.US_WEST_CENTRAL.name(), registryTask.regionName());
 
         //Assert OS is correct
-        Assert.assertEquals(OS.LINUX, task.platform().os());
+        Assert.assertEquals(OS.LINUX, registryTask.platform().os());
 
         //Assert architecture is correct
-        Assert.assertEquals(Architecture.AMD64, task.platform().architecture());
+        Assert.assertEquals(Architecture.AMD64, registryTask.platform().architecture());
 
         //Assert CPU count is correct
-        Assert.assertEquals(2, task.cpuCount());
+        Assert.assertEquals(2, registryTask.cpuCount());
 
         //Assert the length of the source triggers array list is correct
-        Assert.assertTrue(task.trigger().sourceTriggers().size() == 1);
+        Assert.assertTrue(registryTask.trigger().sourceTriggers().size() == 1);
 
         //Assert source triggers are correct
-        Assert.assertEquals(sourceTrigger.name(), task.trigger().sourceTriggers().get(0).name());
+        Assert.assertEquals(sourceTrigger.name(), registryTask.trigger().sourceTriggers().get(0).name());
 
         //Assert base image trigger is correct
-        Assert.assertEquals(baseImageTrigger.name(), task.trigger().baseImageTrigger().name());
+        Assert.assertEquals(baseImageTrigger.name(), registryTask.trigger().baseImageTrigger().name());
 
         //Checking to see whether file path name is updated correctly
         Assert.assertEquals(taskFilePath, registryFileTaskStep.taskFilePath());
 
         boolean errorRaised = false;
         try {
-            task.update()
+            registryTask.update()
                     .updateEncodedTaskStep()
                     .parent()
                     .apply();
@@ -196,7 +194,7 @@ public class RegistryTaskTests extends RegistryTest {
             errorRaised = true;
         }
 
-        //Checking to see whether error is raised if update is called on the incorrect task step type.
+        //Checking to see whether error is raised if update is called on the incorrect registryTask step type.
         Assert.assertTrue(errorRaised);
     }
 
@@ -236,7 +234,7 @@ public class RegistryTaskTests extends RegistryTest {
 
         String taskName = generateRandomResourceName("ft", 10);
 
-        Task task = registryManager.containerRegistryTasks().define(taskName)
+        RegistryTask registryTask = registryManager.containerRegistryTasks().define(taskName)
 
                 .withExistingRegistry(rgName, acrName)
                 .withLocation(Region.US_WEST_CENTRAL.name())
@@ -248,37 +246,37 @@ public class RegistryTaskTests extends RegistryTest {
                 .withTrigger(Arrays.asList(sourceTrigger), baseImageTrigger)
                 .create();
 
-        RegistryEncodedTaskStep registryEncodedTaskStep = (RegistryEncodedTaskStep) task.registryTaskStep();
+        RegistryEncodedTaskStep registryEncodedTaskStep = (RegistryEncodedTaskStep) registryTask.registryTaskStep();
 
-        //Assert the name of the task is correct
-        Assert.assertEquals(taskName, task.name());
+        //Assert the name of the registryTask is correct
+        Assert.assertEquals(taskName, registryTask.name());
 
         //Assert the resource group name is correct
-        Assert.assertEquals(rgName, task.resourceGroupName());
+        Assert.assertEquals(rgName, registryTask.resourceGroupName());
 
         //Assert location is correct
-        Assert.assertEquals(Region.US_WEST_CENTRAL.name(), task.regionName());
+        Assert.assertEquals(Region.US_WEST_CENTRAL.name(), registryTask.regionName());
 
         //Assert OS is correct
-        Assert.assertEquals(OS.LINUX, task.platform().os());
+        Assert.assertEquals(OS.LINUX, registryTask.platform().os());
 
         //Assert architecture is correct
-        Assert.assertEquals(Architecture.AMD64, task.platform().architecture());
+        Assert.assertEquals(Architecture.AMD64, registryTask.platform().architecture());
 
-        //Assert that the task file path is correct
+        //Assert that the registryTask file path is correct
         Assert.assertEquals(encodedTaskContent, registryEncodedTaskStep.encodedTaskContent());
 
         //Assert CPU count is correct
-        Assert.assertEquals(2, task.cpuCount());
+        Assert.assertEquals(2, registryTask.cpuCount());
 
         //Assert the length of the source triggers array list is correct
-        Assert.assertTrue(task.trigger().sourceTriggers().size() == 1);
+        Assert.assertTrue(registryTask.trigger().sourceTriggers().size() == 1);
 
         //Assert source triggers are correct
-        Assert.assertEquals(sourceTrigger.name(), task.trigger().sourceTriggers().get(0).name());
+        Assert.assertEquals(sourceTrigger.name(), registryTask.trigger().sourceTriggers().get(0).name());
 
         //Assert base image trigger is correct
-        Assert.assertEquals(baseImageTrigger.name(), task.trigger().baseImageTrigger().name());
+        Assert.assertEquals(baseImageTrigger.name(), registryTask.trigger().baseImageTrigger().name());
 
     }
 
@@ -320,7 +318,7 @@ public class RegistryTaskTests extends RegistryTest {
 
         String taskName = generateRandomResourceName("ft", 10);
 
-        Task task = registryManager.containerRegistryTasks().define(taskName)
+        RegistryTask registryTask = registryManager.containerRegistryTasks().define(taskName)
 
                 .withExistingRegistry(rgName, acrName)
                 .withLocation(Region.US_WEST_CENTRAL.name())
@@ -333,48 +331,48 @@ public class RegistryTaskTests extends RegistryTest {
                 .create();
 
 
-        task.update()
+        registryTask.update()
                 .updateEncodedTaskStep()
                     .withBase64EncodedTaskContent(encodedTaskContentUpdate)
                     .parent()
                 .withCpuCount(1)
                 .apply();
 
-        RegistryEncodedTaskStep registryEncodedTaskStep = (RegistryEncodedTaskStep) task.registryTaskStep();
+        RegistryEncodedTaskStep registryEncodedTaskStep = (RegistryEncodedTaskStep) registryTask.registryTaskStep();
 
-        //Assert the name of the task is correct
-        Assert.assertEquals(taskName, task.name());
+        //Assert the name of the registryTask is correct
+        Assert.assertEquals(taskName, registryTask.name());
 
         //Assert the resource group name is correct
-        Assert.assertEquals(rgName, task.resourceGroupName());
+        Assert.assertEquals(rgName, registryTask.resourceGroupName());
 
         //Assert location is correct
-        Assert.assertEquals(Region.US_WEST_CENTRAL.name(), task.regionName());
+        Assert.assertEquals(Region.US_WEST_CENTRAL.name(), registryTask.regionName());
 
         //Assert OS is correct
-        Assert.assertEquals(OS.LINUX, task.platform().os());
+        Assert.assertEquals(OS.LINUX, registryTask.platform().os());
 
         //Assert architecture is correct
-        Assert.assertEquals(Architecture.AMD64, task.platform().architecture());
+        Assert.assertEquals(Architecture.AMD64, registryTask.platform().architecture());
 
-        //Assert that the task file path is correct
+        //Assert that the registryTask file path is correct
         Assert.assertEquals(encodedTaskContentUpdate, registryEncodedTaskStep.encodedTaskContent());
 
         //Assert CPU count is correct
-        Assert.assertEquals(1, task.cpuCount());
+        Assert.assertEquals(1, registryTask.cpuCount());
 
         //Assert the length of the source triggers array list is correct
-        Assert.assertTrue(task.trigger().sourceTriggers().size() == 1);
+        Assert.assertTrue(registryTask.trigger().sourceTriggers().size() == 1);
 
         //Assert source triggers are correct
-        Assert.assertEquals(sourceTrigger.name(), task.trigger().sourceTriggers().get(0).name());
+        Assert.assertEquals(sourceTrigger.name(), registryTask.trigger().sourceTriggers().get(0).name());
 
         //Assert base image trigger is correct
-        Assert.assertEquals(baseImageTrigger.name(), task.trigger().baseImageTrigger().name());
+        Assert.assertEquals(baseImageTrigger.name(), registryTask.trigger().baseImageTrigger().name());
 
         boolean errorRaised = false;
         try {
-            task.update()
+            registryTask.update()
                     .updateDockerTaskStep()
                     .parent()
                     .apply();
@@ -382,7 +380,7 @@ public class RegistryTaskTests extends RegistryTest {
             errorRaised = true;
         }
 
-        //Checking to see whether error is raised if update is called on the incorrect task step type.
+        //Checking to see whether error is raised if update is called on the incorrect registryTask step type.
         Assert.assertTrue(errorRaised);
 
     }
@@ -423,7 +421,7 @@ public class RegistryTaskTests extends RegistryTest {
 
 
         String taskName = generateRandomResourceName("ft", 10);
-        Task task = registryManager.containerRegistryTasks().define(taskName)
+        RegistryTask registryTask = registryManager.containerRegistryTasks().define(taskName)
 
                 .withExistingRegistry(rgName, acrName)
                 .withLocation(Region.US_WEST_CENTRAL.name())
@@ -438,24 +436,24 @@ public class RegistryTaskTests extends RegistryTest {
                 .withTrigger(Arrays.asList(sourceTrigger), baseImageTrigger)
                 .create();
 
-        RegistryDockerTaskStep registryDockerTaskStep = (RegistryDockerTaskStep) task.registryTaskStep();
+        RegistryDockerTaskStep registryDockerTaskStep = (RegistryDockerTaskStep) registryTask.registryTaskStep();
 
-        //Assert the name of the task is correct
-        Assert.assertEquals(taskName, task.name());
+        //Assert the name of the registryTask is correct
+        Assert.assertEquals(taskName, registryTask.name());
 
         //Assert the resource group name is correct
-        Assert.assertEquals(rgName, task.resourceGroupName());
+        Assert.assertEquals(rgName, registryTask.resourceGroupName());
 
         //Assert location is correct
-        Assert.assertEquals(Region.US_WEST_CENTRAL.name(), task.regionName());
+        Assert.assertEquals(Region.US_WEST_CENTRAL.name(), registryTask.regionName());
 
         //Assert OS is correct
-        Assert.assertEquals(OS.LINUX, task.platform().os());
+        Assert.assertEquals(OS.LINUX, registryTask.platform().os());
 
         //Assert architecture is correct
-        Assert.assertEquals(Architecture.AMD64, task.platform().architecture());
+        Assert.assertEquals(Architecture.AMD64, registryTask.platform().architecture());
 
-        //Assert that the task file path is correct
+        //Assert that the registryTask file path is correct
         Assert.assertEquals(dockerFilePath, registryDockerTaskStep.dockerFilePath());
 
         //Assert that the image name array is correct
@@ -468,16 +466,16 @@ public class RegistryTaskTests extends RegistryTest {
         Assert.assertTrue(registryDockerTaskStep.isPushEnabled());
 
         //Assert CPU count is correct
-        Assert.assertEquals(2, task.cpuCount());
+        Assert.assertEquals(2, registryTask.cpuCount());
 
         //Assert the length of the source triggers array list is correct
-        Assert.assertTrue(task.trigger().sourceTriggers().size() == 1);
+        Assert.assertTrue(registryTask.trigger().sourceTriggers().size() == 1);
 
         //Assert source triggers are correct
-        Assert.assertEquals(sourceTrigger.name(), task.trigger().sourceTriggers().get(0).name());
+        Assert.assertEquals(sourceTrigger.name(), registryTask.trigger().sourceTriggers().get(0).name());
 
         //Assert base image trigger is correct
-        Assert.assertEquals(baseImageTrigger.name(), task.trigger().baseImageTrigger().name());
+        Assert.assertEquals(baseImageTrigger.name(), registryTask.trigger().baseImageTrigger().name());
 
     }
 
@@ -490,7 +488,7 @@ public class RegistryTaskTests extends RegistryTest {
         String githubBranch = "Replace with your github repositoty branch, eg: master";
         String githubPAT = "Replace with your github personal access token which should have the scopes: admin:repo_hook and repo";
         String dockerFilePath = "Replace with your docker file path relative to githubContext, eg: Dockerfile";
-        String dockerFilePathUpdate = "Replace this with your docker file path that you updated your task to, if you did update your docker file path";
+        String dockerFilePathUpdate = "Replace this with your docker file path that you updated your registryTask to, if you did update your docker file path";
         String imageName = "java-sample:{{.Run.ID}}";
 
         Registry registry = registryManager.containerRegistries().define(acrName)
@@ -518,7 +516,7 @@ public class RegistryTaskTests extends RegistryTest {
 
 
         String taskName = generateRandomResourceName("ft", 10);
-        Task task = registryManager.containerRegistryTasks().define(taskName)
+        RegistryTask registryTask = registryManager.containerRegistryTasks().define(taskName)
 
                 .withExistingRegistry(rgName, acrName)
                 .withLocation(Region.US_WEST_CENTRAL.name())
@@ -533,7 +531,7 @@ public class RegistryTaskTests extends RegistryTest {
                 .withTrigger(Arrays.asList(sourceTrigger), baseImageTrigger)
                 .create();
 
-        task.update()
+        registryTask.update()
                 .updateDockerTaskStep()
                     .withDockerFilePath(dockerFilePathUpdate)
                     .withoutCache()
@@ -542,24 +540,24 @@ public class RegistryTaskTests extends RegistryTest {
                 .withCpuCount(1)
                 .apply();
 
-        RegistryDockerTaskStep registryDockerTaskStep = (RegistryDockerTaskStep) task.registryTaskStep();
+        RegistryDockerTaskStep registryDockerTaskStep = (RegistryDockerTaskStep) registryTask.registryTaskStep();
 
-        //Assert the name of the task is correct
-        Assert.assertEquals(taskName, task.name());
+        //Assert the name of the registryTask is correct
+        Assert.assertEquals(taskName, registryTask.name());
 
         //Assert the resource group name is correct
-        Assert.assertEquals(rgName, task.resourceGroupName());
+        Assert.assertEquals(rgName, registryTask.resourceGroupName());
 
         //Assert location is correct
-        Assert.assertEquals(Region.US_WEST_CENTRAL.name(), task.regionName());
+        Assert.assertEquals(Region.US_WEST_CENTRAL.name(), registryTask.regionName());
 
         //Assert OS is correct
-        Assert.assertEquals(OS.LINUX, task.platform().os());
+        Assert.assertEquals(OS.LINUX, registryTask.platform().os());
 
         //Assert architecture is correct
-        Assert.assertEquals(Architecture.AMD64, task.platform().architecture());
+        Assert.assertEquals(Architecture.AMD64, registryTask.platform().architecture());
 
-        //Assert that the task file path is correct
+        //Assert that the registryTask file path is correct
         Assert.assertEquals(dockerFilePathUpdate, registryDockerTaskStep.dockerFilePath());
 
         //Assert that the image name array is correct
@@ -572,20 +570,20 @@ public class RegistryTaskTests extends RegistryTest {
         Assert.assertTrue(!registryDockerTaskStep.isPushEnabled());
 
         //Assert CPU count is correct
-        Assert.assertEquals(1, task.cpuCount());
+        Assert.assertEquals(1, registryTask.cpuCount());
 
         //Assert the length of the source triggers array list is correct
-        Assert.assertTrue(task.trigger().sourceTriggers().size() == 1);
+        Assert.assertTrue(registryTask.trigger().sourceTriggers().size() == 1);
 
         //Assert source triggers are correct
-        Assert.assertEquals(sourceTrigger.name(), task.trigger().sourceTriggers().get(0).name());
+        Assert.assertEquals(sourceTrigger.name(), registryTask.trigger().sourceTriggers().get(0).name());
 
         //Assert base image trigger is correct
-        Assert.assertEquals(baseImageTrigger.name(), task.trigger().baseImageTrigger().name());
+        Assert.assertEquals(baseImageTrigger.name(), registryTask.trigger().baseImageTrigger().name());
 
         boolean errorRaised = false;
         try {
-            task.update()
+            registryTask.update()
                     .updateFileTaskStep()
                     .parent()
                     .apply();
@@ -593,7 +591,7 @@ public class RegistryTaskTests extends RegistryTest {
             errorRaised = true;
         }
 
-        //Checking to see whether error is raised if update is called on the incorrect task step type.
+        //Checking to see whether error is raised if update is called on the incorrect registryTask step type.
         Assert.assertTrue(errorRaised);
 
     }
@@ -679,6 +677,7 @@ public class RegistryTaskTests extends RegistryTest {
         Assert.assertTrue(registryTaskRunFromList.isArchiveEnabled());
         Assert.assertEquals(OS.LINUX, registryTaskRunFromList.platform().os());
         Assert.assertEquals("Succeeded", registryTaskRunFromList.provisioningState().toString());
+
 
 
     }
@@ -866,7 +865,7 @@ public class RegistryTaskTests extends RegistryTest {
     public void TaskRunRequestFromRegistry() {
         final String acrName = generateRandomResourceName("acr", 10);
         final String rgName = generateRandomResourceName("rgacr", 10);
-        String dockerFilePath = "https://github.com/iscai-msft/docker_task_test/tree/master/samples/java/task/Dockerfile";
+        String dockerFilePath = "https://github.com/iscai-msft/docker_task_test/tree/master/samples/java/registryTask/Dockerfile";
         String imageName = "java-sample:{{.Run.ID}}";
         String taskName = generateRandomResourceName("ft", 10);
         String githubRepoUrl = "Replace with your github repository url, eg: https://github.com/Azure/acr.git";
@@ -895,7 +894,7 @@ public class RegistryTaskTests extends RegistryTest {
                 .withName("SampleBaseImageTrigger")
                 .withBaseImageTriggerType(BaseImageTriggerType.RUNTIME);
 
-        Task task = registryManager.containerRegistryTasks().define(taskName)
+        RegistryTask registryTask = registryManager.containerRegistryTasks().define(taskName)
 
                 .withExistingRegistry(rgName, acrName)
                 .withLocation(Region.US_WEST_CENTRAL.name())
@@ -951,7 +950,7 @@ public class RegistryTaskTests extends RegistryTest {
     public void TaskRunRequestFromRuns() {
         final String acrName = generateRandomResourceName("acr", 10);
         final String rgName = generateRandomResourceName("rgacr", 10);
-        String dockerFilePath = "https://github.com/iscai-msft/docker_task_test/tree/master/samples/java/task/Dockerfile";
+        String dockerFilePath = "https://github.com/iscai-msft/docker_task_test/tree/master/samples/java/registryTask/Dockerfile";
         String imageName = "java-sample:{{.Run.ID}}";
         String taskName = generateRandomResourceName("ft", 10);
         String githubRepoUrl = "Replace with your github repository url, eg: https://github.com/Azure/acr.git";
@@ -980,7 +979,7 @@ public class RegistryTaskTests extends RegistryTest {
                 .withName("SampleBaseImageTrigger")
                 .withBaseImageTriggerType(BaseImageTriggerType.RUNTIME);
 
-        Task task = registryManager.containerRegistryTasks().define(taskName)
+        RegistryTask registryTask = registryManager.containerRegistryTasks().define(taskName)
 
                 .withExistingRegistry(rgName, acrName)
                 .withLocation(Region.US_WEST_CENTRAL.name())
@@ -1093,7 +1092,7 @@ public class RegistryTaskTests extends RegistryTest {
                 .withName("SampleBaseImageTrigger")
                 .withBaseImageTriggerType(BaseImageTriggerType.RUNTIME);
 
-        Task task = registryManager.containerRegistryTasks().define(taskName)
+        RegistryTask registryTask = registryManager.containerRegistryTasks().define(taskName)
 
                 .withExistingRegistry(rgName, acrName)
                 .withLocation(Region.US_WEST_CENTRAL.name())
@@ -1121,7 +1120,7 @@ public class RegistryTaskTests extends RegistryTest {
             }
             if (registryTaskRun.status() == RunStatus.FAILED) {
                 System.out.println(registryManager.registryTaskRuns().getLogSasUrl(rgName, acrName, registryTaskRun.runId()));
-                Assert.fail("Registry task run failed");
+                Assert.fail("Registry registryTask run failed");
             }
             SdkContext.sleep(10000);
         }
@@ -1139,7 +1138,7 @@ public class RegistryTaskTests extends RegistryTest {
             }
             if (registryTaskRun.status() == RunStatus.FAILED) {
                 System.out.println(registryManager.registryTaskRuns().getLogSasUrl(rgName, acrName, registryTaskRun.runId()));
-                Assert.fail("Registry task run failed");
+                Assert.fail("Registry registryTask run failed");
             }
             SdkContext.sleep(10000);
         }

@@ -24,10 +24,10 @@ import com.microsoft.azure.management.containerregistry.ProvisioningState;
 import com.microsoft.azure.management.containerregistry.RegistryDockerTaskStep;
 import com.microsoft.azure.management.containerregistry.RegistryEncodedTaskStep;
 import com.microsoft.azure.management.containerregistry.RegistryFileTaskStep;
+import com.microsoft.azure.management.containerregistry.RegistryTask;
 import com.microsoft.azure.management.containerregistry.RegistryTaskStep;
 import com.microsoft.azure.management.containerregistry.SourceTrigger;
 import com.microsoft.azure.management.containerregistry.SourceTriggerUpdateParameters;
-import com.microsoft.azure.management.containerregistry.Task;
 import com.microsoft.azure.management.containerregistry.TaskStatus;
 import com.microsoft.azure.management.containerregistry.TaskUpdateParameters;
 import com.microsoft.azure.management.containerregistry.TriggerProperties;
@@ -50,10 +50,10 @@ import java.util.Map;
 import java.util.UUID;
 
 @LangDefinition
-class TaskImpl implements
-        Task,
-        Task.Definition,
-        Task.Update {
+class RegistryTaskImpl implements
+        RegistryTask,
+        RegistryTask.Definition,
+        RegistryTask.Update {
 
     private final TasksInner tasksInner;
     private final String taskName;
@@ -167,14 +167,14 @@ class TaskImpl implements
         return this.inner.trigger();
     }
 
-    TaskImpl(ContainerRegistryManager registryManager, String taskName) {
+    RegistryTaskImpl(ContainerRegistryManager registryManager, String taskName) {
         this.tasksInner = registryManager.inner().tasks();
         this.taskName = taskName;
         this.inner = new TaskInner();
         this.taskUpdateParameters = new TaskUpdateParameters();
     }
 
-    TaskImpl(ContainerRegistryManager registryManager, TaskInner inner) {
+    RegistryTaskImpl(ContainerRegistryManager registryManager, TaskInner inner) {
         this.tasksInner = registryManager.inner().tasks();
         this.taskName = inner.name();
         this.inner = inner;
@@ -218,7 +218,7 @@ class TaskImpl implements
     }
 
     @Override
-    public TaskImpl withLinux() {
+    public RegistryTaskImpl withLinux() {
         if (isInCreateMode()) {
             if (this.inner.platform() == null) {
                 this.inner.withPlatform(new PlatformProperties());
@@ -234,7 +234,7 @@ class TaskImpl implements
     }
 
     @Override
-    public TaskImpl withWindows() {
+    public RegistryTaskImpl withWindows() {
         if (isInCreateMode()) {
             if (this.inner.platform() == null) {
                 this.inner.withPlatform(new PlatformProperties());
@@ -250,7 +250,7 @@ class TaskImpl implements
     }
 
     @Override
-    public TaskImpl withLinux(Architecture architecture) {
+    public RegistryTaskImpl withLinux(Architecture architecture) {
         if (isInCreateMode()) {
             if (this.inner.platform() == null) {
                 this.inner.withPlatform(new PlatformProperties());
@@ -266,7 +266,7 @@ class TaskImpl implements
     }
 
     @Override
-    public TaskImpl withWindows(Architecture architecture) {
+    public RegistryTaskImpl withWindows(Architecture architecture) {
         if (isInCreateMode()) {
             if (this.inner.platform() == null) {
                 this.inner.withPlatform(new PlatformProperties());
@@ -282,7 +282,7 @@ class TaskImpl implements
     }
 
     @Override
-    public TaskImpl withLinux(Architecture architecture, Variant variant) {
+    public RegistryTaskImpl withLinux(Architecture architecture, Variant variant) {
         if (isInCreateMode()) {
             if (this.inner.platform() == null) {
                 this.inner.withPlatform(new PlatformProperties());
@@ -298,7 +298,7 @@ class TaskImpl implements
     }
 
     @Override
-    public TaskImpl withWindows(Architecture architecture, Variant variant) {
+    public RegistryTaskImpl withWindows(Architecture architecture, Variant variant) {
         if (isInCreateMode()) {
             if (this.inner.platform() == null) {
                 this.inner.withPlatform(new PlatformProperties());
@@ -314,19 +314,19 @@ class TaskImpl implements
     }
 
     @Override
-    public TaskImpl withPlatform(PlatformProperties platformProperties) {
+    public RegistryTaskImpl withPlatform(PlatformProperties platformProperties) {
         this.inner.withPlatform(platformProperties);
         return this;
     }
 
     @Override
-    public TaskImpl withPlatform(PlatformUpdateParameters platformProperties) {
+    public RegistryTaskImpl withPlatform(PlatformUpdateParameters platformProperties) {
         this.taskUpdateParameters.withPlatform(platformProperties);
         return this;
     }
 
     @Override
-    public TaskImpl withTrigger(List<SourceTrigger> sourceTriggers) {
+    public RegistryTaskImpl withTrigger(List<SourceTrigger> sourceTriggers) {
         if (this.inner.trigger() == null) {
             this.inner.withTrigger(new TriggerProperties());
         }
@@ -335,7 +335,7 @@ class TaskImpl implements
     }
 
     @Override
-    public TaskImpl withTrigger(ArrayList<SourceTriggerUpdateParameters> sourceTriggers) {
+    public RegistryTaskImpl withTrigger(ArrayList<SourceTriggerUpdateParameters> sourceTriggers) {
         TriggerUpdateParameters triggerUpdateParameters = new TriggerUpdateParameters();
         triggerUpdateParameters.withSourceTriggers(sourceTriggers);
         this.taskUpdateParameters.withTrigger(triggerUpdateParameters);
@@ -343,7 +343,7 @@ class TaskImpl implements
     }
 
     @Override
-    public TaskImpl withTrigger(BaseImageTrigger baseImageTrigger) {
+    public RegistryTaskImpl withTrigger(BaseImageTrigger baseImageTrigger) {
         if (this.inner.trigger() == null) {
             this.inner.withTrigger(new TriggerProperties());
         }
@@ -352,7 +352,7 @@ class TaskImpl implements
     }
 
     @Override
-    public TaskImpl withTrigger(BaseImageTriggerUpdateParameters baseImageTrigger) {
+    public RegistryTaskImpl withTrigger(BaseImageTriggerUpdateParameters baseImageTrigger) {
         TriggerUpdateParameters triggerUpdateParameters = new TriggerUpdateParameters();
         triggerUpdateParameters.withBaseImageTrigger(baseImageTrigger);
         this.taskUpdateParameters.withTrigger(triggerUpdateParameters);
@@ -360,7 +360,7 @@ class TaskImpl implements
     }
 
     @Override
-    public TaskImpl withTrigger(List<SourceTrigger> sourceTriggers, BaseImageTrigger baseImageTrigger) {
+    public RegistryTaskImpl withTrigger(List<SourceTrigger> sourceTriggers, BaseImageTrigger baseImageTrigger) {
         if (this.inner.trigger() == null) {
             this.inner.withTrigger(new TriggerProperties());
         }
@@ -369,7 +369,7 @@ class TaskImpl implements
     }
 
     @Override
-    public TaskImpl withTrigger(List<SourceTriggerUpdateParameters> sourceTriggers, BaseImageTriggerUpdateParameters baseImageTrigger) {
+    public RegistryTaskImpl withTrigger(List<SourceTriggerUpdateParameters> sourceTriggers, BaseImageTriggerUpdateParameters baseImageTrigger) {
         TriggerUpdateParameters triggerUpdateParameters = new TriggerUpdateParameters();
         triggerUpdateParameters.withSourceTriggers(sourceTriggers);
         triggerUpdateParameters.withBaseImageTrigger(baseImageTrigger);
@@ -378,7 +378,7 @@ class TaskImpl implements
     }
 
     @Override
-    public TaskImpl withCpuCount(int count) {
+    public RegistryTaskImpl withCpuCount(int count) {
         if (isInCreateMode()) {
             if (this.inner.agentConfiguration() == null) {
                 this.inner.withAgentConfiguration(new AgentProperties());
@@ -394,7 +394,7 @@ class TaskImpl implements
     }
 
     @Override
-    public TaskImpl withTimeout(int timeout) {
+    public RegistryTaskImpl withTimeout(int timeout) {
         if (isInCreateMode()) {
             this.inner.withTimeout(timeout);
         } else {
@@ -404,23 +404,23 @@ class TaskImpl implements
     }
 
     @Override
-    public Task create() {
-        return (Task) createAsync().toBlocking().last();
+    public RegistryTask create() {
+        return (RegistryTask) createAsync().toBlocking().last();
     }
 
     @Override
-    public ServiceFuture<Task> createAsync(ServiceCallback<Task> callback) {
-        return ServiceFuture.fromBody(createAsync().map(new Func1<Indexable, Task>() {
+    public ServiceFuture<RegistryTask> createAsync(ServiceCallback<RegistryTask> callback) {
+        return ServiceFuture.fromBody(createAsync().map(new Func1<Indexable, RegistryTask>() {
             @Override
-            public Task call(Indexable indexable) {
-                return (Task) indexable;
+            public RegistryTask call(Indexable indexable) {
+                return (RegistryTask) indexable;
             }
         }), callback);
     }
 
     @Override
     public Observable<Indexable> createAsync() {
-        final TaskImpl self = this;
+        final RegistryTaskImpl self = this;
         return this.tasksInner.createAsync(this.resourceGroupName, this.registryName, this.taskName, this.inner).map(new Func1<TaskInner, Indexable>() {
             @Override
             public Indexable call(TaskInner taskInner) {
@@ -431,16 +431,16 @@ class TaskImpl implements
     }
 
     @Override
-    public Task refresh() {
+    public RegistryTask refresh() {
         return refreshAsync().toBlocking().last();
     }
 
     @Override
-    public Observable<Task> refreshAsync() {
-        final TaskImpl self = this;
-        return this.tasksInner.getAsync(this.resourceGroupName, this.registryName, this.taskName).map(new Func1<TaskInner, Task>() {
+    public Observable<RegistryTask> refreshAsync() {
+        final RegistryTaskImpl self = this;
+        return this.tasksInner.getAsync(this.resourceGroupName, this.registryName, this.taskName).map(new Func1<TaskInner, RegistryTask>() {
             @Override
-            public Task call(TaskInner taskInner) {
+            public RegistryTask call(TaskInner taskInner) {
                 self.inner = taskInner;
                 return self;
             }
@@ -453,16 +453,16 @@ class TaskImpl implements
     }
 
     @Override
-    public Task apply() {
+    public RegistryTask apply() {
         return applyAsync().toBlocking().last();
     }
 
     @Override
-    public Observable<Task> applyAsync() {
-        final TaskImpl self = this;
-        return this.tasksInner.updateAsync(this.resourceGroupName, this.registryName, this.taskName, this.taskUpdateParameters).map(new Func1<TaskInner, Task>() {
+    public Observable<RegistryTask> applyAsync() {
+        final RegistryTaskImpl self = this;
+        return this.tasksInner.updateAsync(this.resourceGroupName, this.registryName, this.taskName, this.taskUpdateParameters).map(new Func1<TaskInner, RegistryTask>() {
             @Override
-            public Task call(TaskInner taskInner) {
+            public RegistryTask call(TaskInner taskInner) {
                 self.inner = taskInner;
                 self.taskUpdateParameters = new TaskUpdateParameters();
                 self.registryTaskStep = null;
@@ -472,7 +472,7 @@ class TaskImpl implements
     }
 
     @Override
-    public ServiceFuture<Task> applyAsync(ServiceCallback<Task> callback) {
+    public ServiceFuture<RegistryTask> applyAsync(ServiceCallback<RegistryTask> callback) {
         return ServiceFuture.fromBody(applyAsync(), callback);
     }
 
@@ -510,7 +510,7 @@ class TaskImpl implements
     @Override
     public RegistryFileTaskStep.Update updateFileTaskStep() {
         if (!(this.inner.step() instanceof FileTaskStep)) {
-            throw new UnsupportedOperationException("Calling updateFileTaskStep on a Task that is of type " + this.inner.step().getClass().getName() + ".");
+            throw new UnsupportedOperationException("Calling updateFileTaskStep on a RegistryTask that is of type " + this.inner.step().getClass().getName() + ".");
         }
         return new RegistryFileTaskStepImpl(this);
     }
@@ -518,7 +518,7 @@ class TaskImpl implements
     @Override
     public RegistryEncodedTaskStep.Update updateEncodedTaskStep() {
         if (!(this.inner.step() instanceof EncodedTaskStep)) {
-            throw new UnsupportedOperationException("Calling updateEncodedTaskStep on a Task that is of type " + this.inner.step().getClass().getName() + ".");
+            throw new UnsupportedOperationException("Calling updateEncodedTaskStep on a RegistryTask that is of type " + this.inner.step().getClass().getName() + ".");
         }
         return new RegistryEncodedTaskStepImpl(this);
     }
@@ -526,7 +526,7 @@ class TaskImpl implements
     @Override
     public RegistryDockerTaskStep.Update updateDockerTaskStep() {
         if (!(this.inner.step() instanceof DockerTaskStep)) {
-            throw new UnsupportedOperationException("Calling updateDockerTaskStep on a Task that is of type " + this.inner.step().getClass().getName() + ".");
+            throw new UnsupportedOperationException("Calling updateDockerTaskStep on a RegistryTask that is of type " + this.inner.step().getClass().getName() + ".");
         }
         return new RegistryDockerTaskStepImpl(this);
     }

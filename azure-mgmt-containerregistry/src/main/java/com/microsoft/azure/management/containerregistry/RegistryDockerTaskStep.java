@@ -63,7 +63,7 @@ public interface RegistryDockerTaskStep extends
             RegistryDockerTaskStep.UpdateStages.ImageNames,
             RegistryDockerTaskStep.UpdateStages.Push,
             RegistryDockerTaskStep.UpdateStages.Cache,
-            Settable<Task.Update> {
+            Settable<RegistryTask.Update> {
     }
 
     /**
@@ -94,7 +94,7 @@ public interface RegistryDockerTaskStep extends
          * The stage of the definition which contains all the minimum required inputs for the resource to be attached,
          *  but also allows for any other optional settings to be specified.
          */
-        interface DockerTaskStepAttachable extends Attachable<Task.DefinitionStages.TaskCreatable> {
+        interface DockerTaskStepAttachable extends Attachable<RegistryTask.DefinitionStages.TaskCreatable> {
             /**
              * The function that specifies the list of image names.
              *

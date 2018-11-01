@@ -852,7 +852,7 @@ public final class Azure {
     }
 
     /**
-     * @return entry point to managing Container Registry Task Runs.
+     * @return entry point to managing Container Registry RegistryTask Runs.
      */
     @Beta
     public RegistryTaskRuns containerRegistryTaskRuns() {

@@ -12,7 +12,7 @@ import com.microsoft.azure.management.containerregistry.Argument;
 import com.microsoft.azure.management.containerregistry.DockerBuildStepUpdateParameters;
 import com.microsoft.azure.management.containerregistry.DockerTaskStep;
 import com.microsoft.azure.management.containerregistry.RegistryDockerTaskStep;
-import com.microsoft.azure.management.containerregistry.Task;
+import com.microsoft.azure.management.containerregistry.RegistryTask;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
 
@@ -31,9 +31,9 @@ class RegistryDockerTaskStepImpl
 
     private DockerTaskStep inner;
     private DockerBuildStepUpdateParameters dockerTaskStepUpdateParameters;
-    private TaskImpl taskImpl;
+    private RegistryTaskImpl taskImpl;
 
-    RegistryDockerTaskStepImpl(TaskImpl taskImpl) {
+    RegistryDockerTaskStepImpl(RegistryTaskImpl taskImpl) {
         super(taskImpl.inner().step());
         this.inner = new DockerTaskStep();
         if (taskImpl.inner().step() != null && !(taskImpl.inner().step() instanceof DockerTaskStep)) {
@@ -140,13 +140,13 @@ class RegistryDockerTaskStepImpl
     }
 
     @Override
-    public Task.DefinitionStages.TaskCreatable attach() {
+    public RegistryTask.DefinitionStages.TaskCreatable attach() {
         this.taskImpl.withDockerTaskStepCreateParameters(inner);
         return this.taskImpl;
     }
 
     @Override
-    public Task.Update parent() {
+    public RegistryTask.Update parent() {
         this.taskImpl.withDockerTaskStepUpdateParameters(dockerTaskStepUpdateParameters);
         return this.taskImpl;
     }

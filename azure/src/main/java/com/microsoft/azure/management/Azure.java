@@ -40,7 +40,7 @@ import com.microsoft.azure.management.containerinstance.ContainerGroups;
 import com.microsoft.azure.management.containerinstance.implementation.ContainerInstanceManager;
 import com.microsoft.azure.management.containerregistry.Registries;
 import com.microsoft.azure.management.containerregistry.RegistryTaskRuns;
-import com.microsoft.azure.management.containerregistry.Tasks;
+import com.microsoft.azure.management.containerregistry.RegistryTasks;
 import com.microsoft.azure.management.containerregistry.implementation.ContainerRegistryManager;
 import com.microsoft.azure.management.containerservice.ContainerServices;
 import com.microsoft.azure.management.containerservice.KubernetesClusters;
@@ -844,10 +844,10 @@ public final class Azure {
     }
 
     /**
-     * @return entry point to managing Container Registry Tasks.
+     * @return entry point to managing Container Registry RegistryTasks.
      */
     @Beta
-    public Tasks containerRegistryTasks() {
+    public RegistryTasks containerRegistryTasks() {
         return containerRegistryManager.containerRegistryTasks();
     }
 

@@ -10,18 +10,18 @@ import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.containerregistry.RegistryTask;
-import com.microsoft.azure.management.containerregistry.Tasks;
+import com.microsoft.azure.management.containerregistry.RegistryTasks;
 import com.microsoft.azure.management.resources.fluentcore.utils.PagedListConverter;
 import rx.Completable;
 import rx.Observable;
 import rx.functions.Func1;
 
 @LangDefinition
-class TasksImpl implements Tasks {
+class RegistryTasksImpl implements RegistryTasks {
 
     private final ContainerRegistryManager registryManager;
 
-    TasksImpl(ContainerRegistryManager registryManager) {
+    RegistryTasksImpl(ContainerRegistryManager registryManager) {
         this.registryManager = registryManager;
     }
     @Override
@@ -48,7 +48,7 @@ class TasksImpl implements Tasks {
 
     @Override
     public PagedList<RegistryTask> listByRegistry(String resourceGroupName, String registryName) {
-        final TasksImpl self = this;
+        final RegistryTasksImpl self = this;
         return (new PagedListConverter<TaskInner, RegistryTask>() {
             @Override
             public Observable<RegistryTask> typeConvertAsync(final TaskInner inner) {

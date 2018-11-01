@@ -13,7 +13,7 @@ import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
 import com.microsoft.azure.management.containerregistry.Registries;
 import com.microsoft.azure.management.containerregistry.RegistryTaskRuns;
-import com.microsoft.azure.management.containerregistry.Tasks;
+import com.microsoft.azure.management.containerregistry.RegistryTasks;
 import com.microsoft.azure.management.resources.fluentcore.arm.AzureConfigurable;
 import com.microsoft.azure.management.resources.fluentcore.arm.implementation.AzureConfigurableImpl;
 import com.microsoft.azure.management.resources.fluentcore.arm.implementation.Manager;
@@ -31,7 +31,7 @@ public final class ContainerRegistryManager extends Manager<ContainerRegistryMan
     // The service managers
     private RegistriesImpl registries;
     private StorageManager storageManager;
-    private TasksImpl tasks;
+    private RegistryTasksImpl tasks;
     private RegistryTaskRunsImpl registryTaskRuns;
 
     /**
@@ -128,9 +128,9 @@ public final class ContainerRegistryManager extends Manager<ContainerRegistryMan
      * @return the tasks of the current instance of ContainerRegistryManager.
      */
     @Beta
-    public Tasks containerRegistryTasks() {
+    public RegistryTasks containerRegistryTasks() {
         if (this.tasks == null) {
-            this.tasks = new TasksImpl(this);
+            this.tasks = new RegistryTasksImpl(this);
         }
         return this.tasks;
     }

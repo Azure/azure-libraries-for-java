@@ -9,6 +9,10 @@ package com.microsoft.azure.management.monitor;
 import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.compute.VirtualMachine;
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.DurationFieldType;
+import org.joda.time.Period;
+import org.joda.time.PeriodType;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -17,7 +21,7 @@ import java.util.List;
 public class MonitorActivityAndMetricsTests extends MonitorManagementTest {
     @Test
     public void canListEventsAndMetrics() throws Exception {
-        DateTime recordDateTime = DateTime.parse("2018-07-17T00:07:40.350Z");
+        DateTime recordDateTime = DateTime.now(DateTimeZone.UTC).minusDays(40);
         VirtualMachine vm = computeManager.virtualMachines().list().get(0);
 
         // Metric Definition

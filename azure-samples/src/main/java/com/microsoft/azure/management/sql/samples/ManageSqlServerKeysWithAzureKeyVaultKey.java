@@ -82,6 +82,7 @@ public class ManageSqlServerKeysWithAzureKeyVaultKey {
                     .forServicePrincipal(objectId)
                     .allowKeyAllPermissions()
                     .attach()
+                .withSoftDeleteEnabled()
                 .create();
 
             SdkContext.sleep(3 * 60 * 1000);

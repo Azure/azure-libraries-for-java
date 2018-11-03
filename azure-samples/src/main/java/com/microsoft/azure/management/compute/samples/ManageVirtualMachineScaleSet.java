@@ -9,6 +9,7 @@ package com.microsoft.azure.management.compute.samples;
 import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.Azure;
 import com.microsoft.azure.management.compute.CachingTypes;
+import com.microsoft.azure.management.compute.ImageReference;
 import com.microsoft.azure.management.compute.StorageAccountTypes;
 import com.microsoft.azure.management.compute.VirtualMachineScaleSetVM;
 import com.microsoft.azure.management.network.LoadBalancerInboundNatRule;
@@ -51,7 +52,7 @@ public final class ManageVirtualMachineScaleSet {
      * @return true if sample runs successfully
      */
     public static boolean runSample(Azure azure) {
-        final Region region = Region.US_WEST_CENTRAL;
+        final Region region = Region.US_EAST2;
         final String rgName = SdkContext.randomResourceName("rgCOVS", 15);
         final String vnetName = SdkContext.randomResourceName("vnet", 24);
         final String loadBalancerName1 = SdkContext.randomResourceName("intlb" + "-", 18);
@@ -198,6 +199,12 @@ public final class ManageVirtualMachineScaleSet {
 
             Date t1 = new Date();
 
+            ImageReference imageReference = new ImageReference()
+                    .withPublisher("Canonical")
+                    .withOffer("UbuntuServer")
+                    .withSku("18.04-LTS")
+                    .withVersion("latest");
+
             VirtualMachineScaleSet virtualMachineScaleSet = azure.virtualMachineScaleSets().define(vmssName)
                     .withRegion(region)
                     .withExistingResourceGroup(rgName)
@@ -207,7 +214,7 @@ public final class ManageVirtualMachineScaleSet {
                     .withPrimaryInternetFacingLoadBalancerBackends(backendPoolName1, backendPoolName2)
                     .withPrimaryInternetFacingLoadBalancerInboundNatPools(natPool50XXto22, natPool60XXto23)
                     .withoutPrimaryInternalLoadBalancer()
-                    .withPopularLinuxImage(KnownLinuxVirtualMachineImage.UBUNTU_SERVER_16_04_LTS)
+                    .withSpecificLinuxImageVersion(imageReference)
                     .withRootUsername(userName)
                     .withSsh(sshKey)
                     .withNewDataDisk(100)

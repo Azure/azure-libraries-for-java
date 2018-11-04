@@ -147,6 +147,17 @@ class TrafficManagerProfileImpl
     }
 
     @Override
+    public TrafficManagerProfileImpl withMultiValueBasedRouting(long maxResult) {
+        this.inner().withMaxReturn(maxResult);
+        return this.withTrafficRoutingMethod(TrafficRoutingMethod.MULTI_VALUE);
+    }
+
+    @Override
+    public TrafficManagerProfileImpl withSubnetBasedRouting() {
+        return this.withTrafficRoutingMethod(TrafficRoutingMethod.SUBNET);
+    }
+
+    @Override
     public TrafficManagerProfileImpl withTrafficRoutingMethod(TrafficRoutingMethod routingMethod) {
         this.inner().withTrafficRoutingMethod(routingMethod);
         return this;

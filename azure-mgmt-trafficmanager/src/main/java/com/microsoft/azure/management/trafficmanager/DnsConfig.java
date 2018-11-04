@@ -39,7 +39,7 @@ public class DnsConfig {
     private Long ttl;
 
     /**
-     * Get the relativeName value.
+     * Get the relative DNS name provided by this Traffic Manager profile. This value is combined with the DNS domain name used by Azure Traffic Manager to form the fully-qualified domain name (FQDN) of the profile.
      *
      * @return the relativeName value
      */
@@ -48,7 +48,7 @@ public class DnsConfig {
     }
 
     /**
-     * Set the relativeName value.
+     * Set the relative DNS name provided by this Traffic Manager profile. This value is combined with the DNS domain name used by Azure Traffic Manager to form the fully-qualified domain name (FQDN) of the profile.
      *
      * @param relativeName the relativeName value to set
      * @return the DnsConfig object itself.
@@ -59,7 +59,7 @@ public class DnsConfig {
     }
 
     /**
-     * Get the fqdn value.
+     * Get the fully-qualified domain name (FQDN) of the Traffic Manager profile. This is formed from the concatenation of the RelativeName with the DNS domain used by Azure Traffic Manager.
      *
      * @return the fqdn value
      */
@@ -68,7 +68,7 @@ public class DnsConfig {
     }
 
     /**
-     * Get the ttl value.
+     * Get the DNS Time-To-Live (TTL), in seconds. This informs the local DNS resolvers and DNS clients how long to cache DNS responses provided by this Traffic Manager profile.
      *
      * @return the ttl value
      */
@@ -77,7 +77,7 @@ public class DnsConfig {
     }
 
     /**
-     * Set the ttl value.
+     * Set the DNS Time-To-Live (TTL), in seconds. This informs the local DNS resolvers and DNS clients how long to cache DNS responses provided by this Traffic Manager profile.
      *
      * @param ttl the ttl value to set
      * @return the DnsConfig object itself.

@@ -45,8 +45,8 @@ public final class ManageSimpleTrafficManager {
         final String sshKey = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCfSPC2K7LZcFKEO+/t3dzmQYtrJFZNxOsbVgOVKietqHyvmYGHEC0J2wPdAqQ/63g/hhAEFRoyehM+rbeDri4txB3YFfnOK58jqdkyXzupWqXzOrlKY4Wz9SKjjN765+dqUITjKRIaAip1Ri137szRg71WnrmdP3SphTRlCx1Bk2nXqWPsclbRDCiZeF8QOTi4JqbmJyK5+0UqhqYRduun8ylAwKKQJ1NJt85sYIHn9f1Rfr6Tq2zS0wZ7DHbZL+zB5rSlAr8QyUdg/GQD+cmSs6LvPJKL78d6hMGk84ARtFo4A79ovwX/Fj01znDQkU6nJildfkaolH2rWFG/qttD azjava@javalib.com";
         final int vmCountPerRegion = 2;
         Set<Region> regions = new HashSet<>(Arrays.asList(
-                Region.US_EAST,
-                Region.US_WEST
+                Region.US_EAST2,
+                Region.ASIA_SOUTHEAST
         ));
 
         try {
@@ -55,7 +55,7 @@ public final class ManageSimpleTrafficManager {
             //
             ResourceGroup resourceGroup = azure.resourceGroups()
                     .define(rgName)
-                    .withRegion(Region.US_EAST)
+                    .withRegion(Region.US_EAST2)
                     .create();
 
             System.out.println("Created a new resource group - " + resourceGroup.id());

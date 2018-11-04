@@ -8,52 +8,34 @@
 
 package com.microsoft.azure.management.trafficmanager;
 
-import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.Collection;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.microsoft.rest.ExpandableStringEnum;
 
 /**
  * Defines values for EndpointStatus.
  */
-public final class EndpointStatus {
+public final class EndpointStatus extends ExpandableStringEnum<EndpointStatus> {
     /** Static value Enabled for EndpointStatus. */
-    public static final EndpointStatus ENABLED = new EndpointStatus("Enabled");
+    public static final EndpointStatus ENABLED = fromString("Enabled");
 
     /** Static value Disabled for EndpointStatus. */
-    public static final EndpointStatus DISABLED = new EndpointStatus("Disabled");
-
-    private String value;
+    public static final EndpointStatus DISABLED = fromString("Disabled");
 
     /**
-     * Creates a custom value for EndpointStatus.
-     * @param value the custom value
+     * Creates or finds a EndpointStatus from its string representation.
+     * @param name a name to look for
+     * @return the corresponding EndpointStatus
      */
-    public EndpointStatus(String value) {
-        this.value = value;
+    @JsonCreator
+    public static EndpointStatus fromString(String name) {
+        return fromString(name, EndpointStatus.class);
     }
 
-    @JsonValue
-    @Override
-    public String toString() {
-        return value;
-    }
-
-    @Override
-    public int hashCode() {
-        return value.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof EndpointStatus)) {
-            return false;
-        }
-        if (obj == this) {
-            return true;
-        }
-        EndpointStatus rhs = (EndpointStatus) obj;
-        if (value == null) {
-            return rhs.value == null;
-        } else {
-            return value.equals(rhs.value);
-        }
+    /**
+     * @return known EndpointStatus values
+     */
+    public static Collection<EndpointStatus> values() {
+        return values(EndpointStatus.class);
     }
 }

@@ -8,61 +8,43 @@
 
 package com.microsoft.azure.management.trafficmanager;
 
-import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.Collection;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.microsoft.rest.ExpandableStringEnum;
 
 /**
  * Defines values for ProfileMonitorStatus.
  */
-public final class ProfileMonitorStatus {
+public final class ProfileMonitorStatus extends ExpandableStringEnum<ProfileMonitorStatus> {
     /** Static value CheckingEndpoints for ProfileMonitorStatus. */
-    public static final ProfileMonitorStatus CHECKING_ENDPOINTS = new ProfileMonitorStatus("CheckingEndpoints");
+    public static final ProfileMonitorStatus CHECKING_ENDPOINTS = fromString("CheckingEndpoints");
 
     /** Static value Online for ProfileMonitorStatus. */
-    public static final ProfileMonitorStatus ONLINE = new ProfileMonitorStatus("Online");
+    public static final ProfileMonitorStatus ONLINE = fromString("Online");
 
     /** Static value Degraded for ProfileMonitorStatus. */
-    public static final ProfileMonitorStatus DEGRADED = new ProfileMonitorStatus("Degraded");
+    public static final ProfileMonitorStatus DEGRADED = fromString("Degraded");
 
     /** Static value Disabled for ProfileMonitorStatus. */
-    public static final ProfileMonitorStatus DISABLED = new ProfileMonitorStatus("Disabled");
+    public static final ProfileMonitorStatus DISABLED = fromString("Disabled");
 
     /** Static value Inactive for ProfileMonitorStatus. */
-    public static final ProfileMonitorStatus INACTIVE = new ProfileMonitorStatus("Inactive");
-
-    private String value;
+    public static final ProfileMonitorStatus INACTIVE = fromString("Inactive");
 
     /**
-     * Creates a custom value for ProfileMonitorStatus.
-     * @param value the custom value
+     * Creates or finds a ProfileMonitorStatus from its string representation.
+     * @param name a name to look for
+     * @return the corresponding ProfileMonitorStatus
      */
-    public ProfileMonitorStatus(String value) {
-        this.value = value;
+    @JsonCreator
+    public static ProfileMonitorStatus fromString(String name) {
+        return fromString(name, ProfileMonitorStatus.class);
     }
 
-    @JsonValue
-    @Override
-    public String toString() {
-        return value;
-    }
-
-    @Override
-    public int hashCode() {
-        return value.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof ProfileMonitorStatus)) {
-            return false;
-        }
-        if (obj == this) {
-            return true;
-        }
-        ProfileMonitorStatus rhs = (ProfileMonitorStatus) obj;
-        if (value == null) {
-            return rhs.value == null;
-        } else {
-            return value.equals(rhs.value);
-        }
+    /**
+     * @return known ProfileMonitorStatus values
+     */
+    public static Collection<ProfileMonitorStatus> values() {
+        return values(ProfileMonitorStatus.class);
     }
 }

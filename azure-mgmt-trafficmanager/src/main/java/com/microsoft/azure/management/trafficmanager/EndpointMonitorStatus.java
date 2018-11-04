@@ -8,64 +8,46 @@
 
 package com.microsoft.azure.management.trafficmanager;
 
-import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.Collection;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.microsoft.rest.ExpandableStringEnum;
 
 /**
  * Defines values for EndpointMonitorStatus.
  */
-public final class EndpointMonitorStatus {
+public final class EndpointMonitorStatus extends ExpandableStringEnum<EndpointMonitorStatus> {
     /** Static value CheckingEndpoint for EndpointMonitorStatus. */
-    public static final EndpointMonitorStatus CHECKING_ENDPOINT = new EndpointMonitorStatus("CheckingEndpoint");
+    public static final EndpointMonitorStatus CHECKING_ENDPOINT = fromString("CheckingEndpoint");
 
     /** Static value Online for EndpointMonitorStatus. */
-    public static final EndpointMonitorStatus ONLINE = new EndpointMonitorStatus("Online");
+    public static final EndpointMonitorStatus ONLINE = fromString("Online");
 
     /** Static value Degraded for EndpointMonitorStatus. */
-    public static final EndpointMonitorStatus DEGRADED = new EndpointMonitorStatus("Degraded");
+    public static final EndpointMonitorStatus DEGRADED = fromString("Degraded");
 
     /** Static value Disabled for EndpointMonitorStatus. */
-    public static final EndpointMonitorStatus DISABLED = new EndpointMonitorStatus("Disabled");
+    public static final EndpointMonitorStatus DISABLED = fromString("Disabled");
 
     /** Static value Inactive for EndpointMonitorStatus. */
-    public static final EndpointMonitorStatus INACTIVE = new EndpointMonitorStatus("Inactive");
+    public static final EndpointMonitorStatus INACTIVE = fromString("Inactive");
 
     /** Static value Stopped for EndpointMonitorStatus. */
-    public static final EndpointMonitorStatus STOPPED = new EndpointMonitorStatus("Stopped");
-
-    private String value;
+    public static final EndpointMonitorStatus STOPPED = fromString("Stopped");
 
     /**
-     * Creates a custom value for EndpointMonitorStatus.
-     * @param value the custom value
+     * Creates or finds a EndpointMonitorStatus from its string representation.
+     * @param name a name to look for
+     * @return the corresponding EndpointMonitorStatus
      */
-    public EndpointMonitorStatus(String value) {
-        this.value = value;
+    @JsonCreator
+    public static EndpointMonitorStatus fromString(String name) {
+        return fromString(name, EndpointMonitorStatus.class);
     }
 
-    @JsonValue
-    @Override
-    public String toString() {
-        return value;
-    }
-
-    @Override
-    public int hashCode() {
-        return value.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof EndpointMonitorStatus)) {
-            return false;
-        }
-        if (obj == this) {
-            return true;
-        }
-        EndpointMonitorStatus rhs = (EndpointMonitorStatus) obj;
-        if (value == null) {
-            return rhs.value == null;
-        } else {
-            return value.equals(rhs.value);
-        }
+    /**
+     * @return known EndpointMonitorStatus values
+     */
+    public static Collection<EndpointMonitorStatus> values() {
+        return values(EndpointMonitorStatus.class);
     }
 }

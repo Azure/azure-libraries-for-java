@@ -5,6 +5,7 @@
  */
 package com.microsoft.azure.management.trafficmanager;
 
+import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
@@ -157,6 +158,22 @@ public interface TrafficManagerProfile extends
              * @return the next stage of the definition
              */
             WithEndpoint withGeographicBasedRouting();
+
+            /**
+             * Specifies that end user traffic should be routed to the endpoint that return multiple healthy endpoints.
+             *
+             * @param maxReturn the maximum number of result to return
+             * @return the next stage of the definition
+             */
+            WithEndpoint withMultiValueBasedRouting(long maxReturn);
+
+            /**
+             * Specifies that end user traffic should be routed to the endpoint which is decided based on the end-user
+             * ip address.
+             *
+             * @return the next stage of the definition
+             */
+            WithEndpoint withSubnetBasedRouting();
 
             /**
              * Specify the traffic routing method for the profile.
@@ -319,6 +336,24 @@ public interface TrafficManagerProfile extends
              * @return the next stage of the update
              */
             Update withGeographicBasedRouting();
+
+            /**
+             * Specifies that end user traffic should be routed to the endpoint that return multiple healthy endpoints.
+             *
+             * @param maxReturn the maximum number of result to return
+             * @return the next stage of the Update
+             */
+            @Beta
+            Update withMultiValueBasedRouting(long maxReturn);
+
+            /**
+             * Specifies that end user traffic should be routed to the endpoint which is decided based on the end-user
+             * ip address.
+             *
+             * @return the next stage of the update
+             */
+            @Beta
+            Update withSubnetBasedRouting();
 
             /**
              * Specifies the traffic routing method for the profile.

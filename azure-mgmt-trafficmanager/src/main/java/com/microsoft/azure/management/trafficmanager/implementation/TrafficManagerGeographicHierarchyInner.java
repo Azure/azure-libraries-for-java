@@ -11,13 +11,14 @@ package com.microsoft.azure.management.trafficmanager.implementation;
 import com.microsoft.azure.management.trafficmanager.Region;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.ProxyResource;
 
 /**
  * Class representing the Geographic hierarchy used with the Geographic traffic
  * routing method.
  */
 @JsonFlatten
-public class TrafficManagerGeographicHierarchyInner extends ProxyResourceInner {
+public class TrafficManagerGeographicHierarchyInner extends ProxyResource {
     /**
      * The region at the root of the hierarchy from all the regions in the
      * hierarchy can be retrieved.
@@ -26,7 +27,7 @@ public class TrafficManagerGeographicHierarchyInner extends ProxyResourceInner {
     private Region geographicHierarchy;
 
     /**
-     * Get the geographicHierarchy value.
+     * Get the region at the root of the hierarchy from all the regions in the hierarchy can be retrieved.
      *
      * @return the geographicHierarchy value
      */
@@ -35,7 +36,7 @@ public class TrafficManagerGeographicHierarchyInner extends ProxyResourceInner {
     }
 
     /**
-     * Set the geographicHierarchy value.
+     * Set the region at the root of the hierarchy from all the regions in the hierarchy can be retrieved.
      *
      * @param geographicHierarchy the geographicHierarchy value to set
      * @return the TrafficManagerGeographicHierarchyInner object itself.

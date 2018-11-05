@@ -63,8 +63,6 @@ The `MSICredential` & `AppServiceMSICredentails` type retrieves these Azure assi
 
 ### Using MSI credentials from VirtualMachine
 
-There are two types MSI that can be assigned to a Virtual Machine, [System Assigned MSI and User Assigned MSI](https://docs.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/overview).
-
 ```java
   MSICredentials vmMsiCredentials = new MSICredentials();
 ```
@@ -94,12 +92,6 @@ vmMsiCredentials.withIdentityId(IdentityId);
 Azure azure = Azure.authenticate(vmMsiCredentials).withSubscription(subscriptionId);
 ```
 
-[Sample showcasing assigning system assigned MSI to VM](https://github.com/Azure-Samples/aad-java-manage-resources-from-vm-with-msi)
-
-[Sample showcasing assigning user assigned MSI to VM](https://github.com/Azure-Samples/compute-java-manage-user-assigned-msi-enabled-virtual-machine)
-
-[Using MSICredentials from VM](https://github.com/Azure-Samples/compute-java-manage-vm-from-vm-with-msi-credentials) 
-
 ### Using MSI credentials from App Service
 
 ```java
@@ -109,8 +101,6 @@ Azure azure = Azure.authenticate(vmMsiCredentials).withSubscription(subscription
 ```
 Azure azure = Azure.authenticate(appServiceMsiCredentials).withSubscription(subscriptionId);
 ```
-
-[Sample showcasing assigning system assigned MSI to a WebApp](https://github.com/Azure-Samples/app-service-java-access-key-vault-by-msi-for-web-apps)
 
 ## Oauth 2 for web apps
 

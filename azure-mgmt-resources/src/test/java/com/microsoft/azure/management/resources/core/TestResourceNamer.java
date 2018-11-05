@@ -7,6 +7,7 @@
 package com.microsoft.azure.management.resources.core;
 
 import com.microsoft.azure.management.resources.fluentcore.utils.ResourceNamer;
+import org.joda.time.DateTime;
 
 public class TestResourceNamer extends ResourceNamer {
     private final InterceptorManager interceptorManager;
@@ -45,5 +46,17 @@ public class TestResourceNamer extends ResourceNamer {
         interceptorManager.pushVariable(randomName);
 
         return randomName;
+    }
+
+    @Override
+    public DateTime dateTimeNow() {
+        if (interceptorManager.isPlaybackMode()) {
+            return DateTime.parse(interceptorManager.popVariable());
+        }
+        DateTime dateTime = super.dateTimeNow();
+
+        interceptorManager.pushVariable(dateTime.toString());
+
+        return dateTime;
     }
 }

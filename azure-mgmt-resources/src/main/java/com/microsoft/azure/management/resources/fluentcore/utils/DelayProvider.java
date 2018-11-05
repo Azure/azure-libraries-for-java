@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.management.resources.fluentcore.utils;
 
+import org.joda.time.DateTime;
 import rx.Observable;
 import rx.schedulers.Schedulers;
 
@@ -24,6 +25,13 @@ public class DelayProvider {
             Thread.sleep(milliseconds);
         } catch (InterruptedException e) {
         }
+    }
+
+    /**
+     * @return the current time.
+     */
+    public DateTime now() {
+        return DateTime.now();
     }
 
     /**

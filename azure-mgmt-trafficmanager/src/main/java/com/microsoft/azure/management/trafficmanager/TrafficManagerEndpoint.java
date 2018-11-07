@@ -5,6 +5,7 @@
  */
 package com.microsoft.azure.management.trafficmanager;
 
+import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.ExternalChildResource;
@@ -15,6 +16,7 @@ import com.microsoft.azure.management.trafficmanager.implementation.EndpointInne
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -55,6 +57,16 @@ public interface TrafficManagerEndpoint extends
      * @return the geographic location codes indicating the locations to which traffic will be distributed.
      */
     Set<String> geographicLocationCodes();
+
+    /**
+     * @return the list of subnets, IP addresses, and/or address ranges mapped to this endpoint.
+     */
+    Collection<EndpointPropertiesSubnetsItem> subnets();
+
+    /**
+     * @return custom headers associated with the endpoint as key-value pair.
+     */
+    Map<String, String> customHeaders();
 
     /**
      * The entirety of a traffic manager profile endpoint definition as a part of parent definition.
@@ -288,6 +300,72 @@ public interface TrafficManagerEndpoint extends
             WithAttach<ParentT> withTrafficDisabled();
         }
 
+        /**
+         * The stage of the traffic manager endpoint definition allowing to specify subnets.
+         *
+         * @param <ParentT> the return type of {@link WithAttach#attach()}
+         */
+        @Beta
+        interface WithSubnet<ParentT>  {
+            /**
+             * Specifies the subnets for the endpoint in CIDR format (start ip, mask).
+             *
+             * @param subnetStartIp the first ip in the subnet
+             * @param mask the subnet mask
+             * @return the next stage of the definition
+             */
+            @Beta
+            WithAttach<ParentT> withSubnet(String subnetStartIp, int mask);
+
+            /**
+             * Specifies the subnets for the endpoint as ip range.
+             *
+             * @param subnetStartIp the first ip in the subnet
+             * @param subnetEndIp the last ip in the subnet
+             * @return the next stage of the definition
+             */
+            @Beta
+            WithAttach<ParentT> withSubnet(String subnetStartIp, String subnetEndIp);
+
+            /**
+             * Specifies the subnets for this endpoint.
+             * This method replaces current subnets with the provided subnets.
+             *
+             * @param subnets the array of subnet descriptions
+             * @return the next stage of the definition
+             */
+            @Beta
+            WithAttach<ParentT> withSubnets(List<EndpointPropertiesSubnetsItem> subnets);
+        }
+
+        /**
+         * The stage of the traffic manager endpoint definition allowing to specify custom headers.
+         *
+         * @param <ParentT> the return type of {@link WithAttach#attach()}
+         */
+        @Beta
+        interface WithCustomHeader<ParentT> {
+            /**
+             * Add a custom header.
+             *
+             * @param name the header name
+             * @param value the header value
+             * @return the next stage of the definition
+             */
+            @Beta
+            WithAttach<ParentT> withCustomHeader(String name, String value);
+
+            /**
+             * Add a custom header.
+             * This method replaces the current headers with the provided headers.
+             *
+             * @param headerValues the map containing header name and value pair
+             * @return the next stage of the definition
+             */
+            @Beta
+            WithAttach<ParentT> withCustomHeaders(Map<String, String> headerValues);
+        }
+
         /** The final stage of the traffic manager profile endpoint definition.
          * <p>
          * At this stage, any remaining optional settings can be specified, or the traffic manager profile endpoint
@@ -299,7 +377,9 @@ public interface TrafficManagerEndpoint extends
                 DefinitionStages.WithRoutingWeight<ParentT>,
                 DefinitionStages.WithRoutingPriority<ParentT>,
                 DefinitionStages.WithGeographicLocation<ParentT>,
-                DefinitionStages.WithTrafficDisabled<ParentT> {
+                DefinitionStages.WithTrafficDisabled<ParentT>,
+                DefinitionStages.WithSubnet<ParentT>,
+                DefinitionStages.WithCustomHeader<ParentT> {
         }
     }
 
@@ -535,6 +615,68 @@ public interface TrafficManagerEndpoint extends
             WithAttach<ParentT> withTrafficDisabled();
         }
 
+        /**
+         * The stage of the traffic manager endpoint definition allowing to specify subnets.
+         *
+         * @param <ParentT> the return type of {@link WithAttach#attach()}
+         */
+        interface WithSubnet<ParentT>  {
+            /**
+             * Specifies the subnet for the endpoint in CIDR format (start ip, mask).
+             *
+             * @param subnetStartIp the first ip in the subnet
+             * @param mask the subnet scope
+             * @return the next stage of the definition
+             */
+            WithAttach<ParentT> withSubnet(String subnetStartIp, int mask);
+
+            /**
+             * Specifies the subnet for the endpoint as an ip range.
+             *
+             * @param subnetStartIp the first ip in the subnet
+             * @param subnetEndIp the last ip in the subnet
+             * @return the next stage of the definition
+             */
+            WithAttach<ParentT> withSubnet(String subnetStartIp, String subnetEndIp);
+
+            /**
+             * Specifies the usbnets for this endpoint.
+             * This method replaces the current subnets with the provided subnets.
+             *
+             * @param subnets the array of subnets description
+             * @return the next stage of the definition
+             */
+            WithAttach<ParentT> withSubnets(List<EndpointPropertiesSubnetsItem> subnets);
+        }
+
+        /**
+         * The stage of the traffic manager endpoint definition allowing to specify custom headers.
+         *
+         * @param <ParentT> the return type of {@link WithAttach#attach()}
+         */
+        @Beta
+        interface WithCustomHeader<ParentT> {
+            /**
+             * Add a custom header.
+             *
+             * @param name the header name
+             * @param value the header value
+             * @return the next stage of the definition
+             */
+            @Beta
+            WithAttach<ParentT> withCustomHeader(String name, String value);
+
+            /**
+             * Add custom headers.
+             * This method replaces the current headers with the provided headers.
+             *
+             * @param headerValues the map containing header name and value pair
+             * @return the next stage of the definition
+             */
+            @Beta
+            WithAttach<ParentT> withCustomHeaders(Map<String, String> headerValues);
+        }
+
         /** The final stage of the traffic manager profile endpoint definition.
          * <p>
          * At this stage, any remaining optional settings can be specified, or the traffic manager profile endpoint
@@ -546,7 +688,9 @@ public interface TrafficManagerEndpoint extends
                 UpdateDefinitionStages.WithRoutingWeight<ParentT>,
                 UpdateDefinitionStages.WithRoutingPriority<ParentT>,
                 UpdateDefinitionStages.WithGeographicLocation<ParentT>,
-                UpdateDefinitionStages.WithTrafficDisabled<ParentT> {
+                UpdateDefinitionStages.WithTrafficDisabled<ParentT>,
+                UpdateDefinitionStages.WithSubnet<ParentT>,
+                UpdateDefinitionStages.WithCustomHeader<ParentT> {
         }
     }
 
@@ -584,7 +728,9 @@ public interface TrafficManagerEndpoint extends
             UpdateStages.WithRoutingWeight,
             UpdateStages.WithRoutingPriority,
             UpdateStages.WithGeographicLocation,
-            UpdateStages.WithTrafficDisabledOrEnabled {
+            UpdateStages.WithTrafficDisabledOrEnabled,
+            UpdateStages.WithSubnet,
+            UpdateStages.WithCustomHeader {
     }
 
     /**
@@ -754,6 +900,90 @@ public interface TrafficManagerEndpoint extends
              * @return the next stage of the update
              */
             Update withTrafficEnabled();
+        }
+
+        /**
+         * The stage of the traffic manager endpoint update allowing to specify subnets.
+         */
+        interface WithSubnet  {
+            /**
+             * Specifies the subnets for the endpoint in CIDR format (start ip, mask).
+             *
+             * @param subnetStartIp the first ip in the subnet
+             * @param mask the subnet mask
+             * @return the next stage of the update
+             */
+            Update withSubnet(String subnetStartIp, int mask);
+
+            /**
+             * Specifies the subnets for the endpoint as an ip range.
+             *
+             * @param subnetStartIp the first ip in the subnet
+             * @param subnetEndIp the last ip in the subnet
+             * @return the next stage of the update
+             */
+            Update withSubnet(String subnetStartIp, String subnetEndIp);
+
+            /**
+             * Specifies the subnets for this endpoint.
+             *
+             * @param subnets the array of subnet descriptions
+             * @return the next stage of the update
+             */
+            Update withSubnets(List<EndpointPropertiesSubnetsItem> subnets);
+
+            /**
+             * Specifies that the given subnet CIDR (start ip, mask) should be removed.
+             *
+             * @param subnetStartIp the first ip in the subnet
+             * @param scope the subnet scope
+             * @return the next stage of the update
+             */
+            Update withoutSubnet(String subnetStartIp, int scope);
+
+            /**
+             * Specifies that subnet with the given range should be removed.
+             *
+             * @param subnetStartIp the first ip in the subnet
+             * @param subnetEndIp the last ip in the subnet
+             * @return the next stage of the update
+             */
+            Update withoutSubnet(String subnetStartIp, String subnetEndIp);
+        }
+
+        /**
+         * The stage of the traffic manager endpoint update allowing to specify custom headers.
+         */
+        @Beta
+        interface WithCustomHeader {
+            /**
+             * Add a custom header.
+             *
+             * @param name the header name
+             * @param value the header value
+             * @return the next stage of the update
+             */
+            @Beta
+            Update withCustomHeader(String name, String value);
+
+            /**
+             * Add custom headers.
+             * This method replaces the current headers with the provided headers.
+             *
+             * @param headers the map containing header name and value pair
+             * @return the next stage of the update
+             */
+            @Beta
+            Update withCustomHeaders(Map<String, String> headers);
+
+            /**
+             * Removes a custom header.
+             *
+             * @param name the name of the header to remove
+             * @return the next stage of the update
+             */
+            @Beta
+            Update withoutCustomHeader(String name);
         }
     }
 }

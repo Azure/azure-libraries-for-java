@@ -8,6 +8,7 @@ package com.microsoft.azure.management.monitor;
 
 import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.compute.VirtualMachine;
+import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Test;
@@ -17,7 +18,7 @@ import java.util.List;
 public class MonitorActivityAndMetricsTests extends MonitorManagementTest {
     @Test
     public void canListEventsAndMetrics() throws Exception {
-        DateTime recordDateTime = DateTime.parse("2018-07-17T00:07:40.350Z");
+        DateTime recordDateTime = SdkContext.dateTimeNow().minusDays(40);
         VirtualMachine vm = computeManager.virtualMachines().list().get(0);
 
         // Metric Definition
@@ -76,7 +77,7 @@ public class MonitorActivityAndMetricsTests extends MonitorManagementTest {
         Assert.assertNotNull(eventCategories);
         Assert.assertFalse(eventCategories.isEmpty());
 
-        // List Activity logs at tenant level is not allowed for the current tenant 
+        // List Activity logs at tenant level is not allowed for the current tenant
         try {
             monitorManager.activityLogs()
                     .defineQuery()

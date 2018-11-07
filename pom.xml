@@ -6,7 +6,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.microsoft.azure</groupId>
-  <version>1.16.1-SNAPSHOT</version>
+  <version>1.17.1-SNAPSHOT</version>
   <artifactId>azure-parent</artifactId>
   <packaging>pom</packaging>
 
@@ -42,7 +42,7 @@
     </developer>
   </developers>
 
-   <repositories>
+  <repositories>
     <repository>
       <id>ossrh</id>
       <name>Sonatype Snapshots</name>
@@ -54,7 +54,7 @@
       </snapshots>
     </repository>
   </repositories>
- 
+
   <distributionManagement>
     <snapshotRepository>
       <id>ossrh</id>
@@ -95,12 +95,12 @@
       <dependency>
         <groupId>com.microsoft.azure</groupId>
         <artifactId>azure-client-runtime</artifactId>
-        <version>1.6.3-SNAPSHOT</version>
+        <version>1.6.4-SNAPSHOT</version>
       </dependency>
       <dependency>
         <groupId>com.microsoft.azure</groupId>
         <artifactId>azure-client-authentication</artifactId>
-        <version>1.6.3-SNAPSHOT</version>
+        <version>1.6.4-SNAPSHOT</version>
       </dependency>
       <dependency>
         <groupId>com.google.guava</groupId>
@@ -306,9 +306,10 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-plugin</artifactId>
-          <version>2.20</version>
+          <version>2.22.0</version>
           <configuration>
             <reuseForks>false</reuseForks>
+            <useSystemClassLoader>false</useSystemClassLoader>
             <includes>
               <include>**/Test*.java</include>
               <include>**/*Test.java</include>

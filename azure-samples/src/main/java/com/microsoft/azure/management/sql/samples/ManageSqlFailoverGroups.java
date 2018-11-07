@@ -43,6 +43,7 @@ public class ManageSqlFailoverGroups {
         final String sqlPrimaryServerName = Utils.createRandomName("sqlpri");
         final String sqlSecondaryServerName = Utils.createRandomName("sqlsec");
         final String rgName = Utils.createRandomName("rgsql");
+        final String failoverGroupName = Utils.createRandomName("fog");
         final String dbName = "dbSample";
         final String administratorLogin = "sqladmin3423";
         final String administratorPassword = "myS3cureP@ssword";
@@ -84,7 +85,7 @@ public class ManageSqlFailoverGroups {
             // Create a Failover Group from the primary SQL server to the secondary SQL server.
             System.out.println("Creating a Failover Group from the primary SQL server to the secondary SQL server");
 
-            SqlFailoverGroup failoverGroup = sqlPrimaryServer.failoverGroups().define("my-failover-group")
+            SqlFailoverGroup failoverGroup = sqlPrimaryServer.failoverGroups().define(failoverGroupName)
                 .withManualReadWriteEndpointPolicy()
                 .withPartnerServerId(sqlSecondaryServer.id())
                 .withReadOnlyEndpointPolicyDisabled()

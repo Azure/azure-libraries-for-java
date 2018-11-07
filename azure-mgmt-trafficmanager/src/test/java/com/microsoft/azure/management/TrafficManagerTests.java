@@ -10,6 +10,7 @@ import com.microsoft.azure.management.resources.core.TestBase;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.azure.management.resources.implementation.ResourceManager;
+import com.microsoft.azure.management.trafficmanager.EndpointPropertiesSubnetsItem;
 import com.microsoft.azure.management.trafficmanager.GeographicLocation;
 import com.microsoft.azure.management.trafficmanager.TrafficManagerExternalEndpoint;
 import com.microsoft.azure.management.trafficmanager.TrafficManagerProfile;
@@ -117,5 +118,67 @@ public class TrafficManagerTests extends TestBase {
         endpoint = profile.externalEndpoints().get("external-ep-1");
         Assert.assertNotNull(endpoint.geographicLocationCodes());
         Assert.assertEquals(1, endpoint.geographicLocationCodes().size());
+    }
+
+    @Test
+    public void canCreateTrafficManagerWithSubnetRouting() {
+        RG_NAME = generateRandomResourceName("tmergtest", 15);
+        final String tmProfileName = generateRandomResourceName("tmpr", 15);
+        final String tmProfileDnsLabel = SdkContext.randomResourceName("tmdns", 15);
+
+        EndpointPropertiesSubnetsItem subnetCidr = new EndpointPropertiesSubnetsItem();
+        subnetCidr.withFirst("80.83.228.0").withScope(22);
+
+        EndpointPropertiesSubnetsItem subnetRange = new EndpointPropertiesSubnetsItem();
+        subnetRange.withFirst("25.26.27.28").withLast("29.30.31.32");
+
+        TrafficManagerProfile profile = this.trafficManager.profiles().define(tmProfileName)
+                .withNewResourceGroup(RG_NAME, Region.US_EAST)
+                .withLeafDomainLabel(tmProfileDnsLabel)
+                .withTrafficRoutingMethod(TrafficRoutingMethod.SUBNET)
+                .defineExternalTargetEndpoint("external-ep-1")
+                    .toFqdn("www.gitbook.com")
+                    .fromRegion(Region.ASIA_EAST)
+                    .withSubnet(subnetCidr.first(), subnetCidr.scope())
+                    .withSubnet(subnetRange.first(), subnetRange.last())
+                    .attach()
+                .create();
+
+        Assert.assertNotNull(profile.inner());
+        Assert.assertTrue(profile.trafficRoutingMethod().equals(TrafficRoutingMethod.SUBNET));
+        Assert.assertTrue(profile.externalEndpoints().containsKey("external-ep-1"));
+        TrafficManagerExternalEndpoint endpoint = profile.externalEndpoints().get("external-ep-1");
+        Assert.assertTrue(endpoint.subnets().size() == 2);
+        boolean foundCidr = false;
+        boolean foundRange = false;
+        for (EndpointPropertiesSubnetsItem subnet : endpoint.subnets()) {
+            if (subnet.first() != null && subnet.scope() != null) {
+                if (subnet.first().equalsIgnoreCase(subnetCidr.first()) && subnet.scope() == subnetCidr.scope()) {
+                    foundCidr = true;
+                }
+            }
+            if (subnet.first() != null && subnet.last() != null) {
+                if (subnet.first().equalsIgnoreCase(subnetRange.first()) && subnet.last().equalsIgnoreCase(subnetRange.last())) {
+                    foundRange = true;
+                }
+            }
+        }
+
+        Assert.assertTrue(String.format("The subnet %s/%d not found in the endpoint.", subnetCidr.first(), subnetCidr.scope()), foundCidr);
+        Assert.assertTrue(String.format("The subnet range %s-%s not found in the endpoint.", subnetCidr.first(), subnetCidr.last()), foundRange);
+
+        profile = profile.update()
+                .updateExternalTargetEndpoint("external-ep-1")
+                    .withoutSubnet(subnetRange.first(), subnetRange.last())
+                    .parent()
+                .apply();
+
+        endpoint = profile.externalEndpoints().get("external-ep-1");
+        Assert.assertTrue(endpoint.subnets().size() == 1);
+
+        profile = this.trafficManager.profiles().getById(profile.id());
+
+        endpoint = profile.externalEndpoints().get("external-ep-1");
+        Assert.assertTrue(endpoint.subnets().size() == 1);
     }
 }

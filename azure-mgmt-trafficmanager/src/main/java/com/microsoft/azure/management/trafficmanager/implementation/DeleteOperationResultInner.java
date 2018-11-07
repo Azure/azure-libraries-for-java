@@ -21,7 +21,7 @@ public class DeleteOperationResultInner {
     private Boolean operationResult;
 
     /**
-     * Get the operationResult value.
+     * Get the result of the operation or request.
      *
      * @return the operationResult value
      */

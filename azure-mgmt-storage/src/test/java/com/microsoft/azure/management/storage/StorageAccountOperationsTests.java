@@ -11,6 +11,7 @@ import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
 import com.microsoft.rest.RestClient;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import rx.Observable;
 
@@ -122,15 +123,17 @@ public class StorageAccountOperationsTests extends StorageManagementTest {
         Assert.assertNotNull(storageAccount.encryptionKeySource());
         Assert.assertTrue(storageAccount.encryptionKeySource().equals(StorageAccountEncryptionKeySource.MICROSOFT_STORAGE));
 
-        storageAccount = storageAccount.update()
-                .withoutBlobEncryption()
-                .apply();
-        statuses = storageAccount.encryptionStatuses();
-        Assert.assertNotNull(statuses);
-        Assert.assertTrue(statuses.size() > 0);
-        blobServiceEncryptionStatus = statuses.get(StorageService.BLOB);
-        Assert.assertNotNull(blobServiceEncryptionStatus);
-        Assert.assertFalse(blobServiceEncryptionStatus.isEnabled());
+//        Storage no-longer support disabling encryption
+//
+//        storageAccount = storageAccount.update()
+//                .withoutBlobEncryption()
+//                .apply();
+//        statuses = storageAccount.encryptionStatuses();
+//        Assert.assertNotNull(statuses);
+//        Assert.assertTrue(statuses.size() > 0);
+//        blobServiceEncryptionStatus = statuses.get(StorageService.BLOB);
+//        Assert.assertNotNull(blobServiceEncryptionStatus);
+//        Assert.assertFalse(blobServiceEncryptionStatus.isEnabled());
     }
 
     @Test
@@ -156,16 +159,17 @@ public class StorageAccountOperationsTests extends StorageManagementTest {
         Assert.assertNotNull(fileServiceEncryptionStatus);
         Assert.assertTrue(fileServiceEncryptionStatus.isEnabled());
 
-        storageAccount.update()
-                .withoutFileEncryption()
-                .apply();
-
-        statuses = storageAccount.encryptionStatuses();
-
-        Assert.assertTrue(statuses.containsKey(StorageService.FILE));
-        fileServiceEncryptionStatus = statuses.get(StorageService.FILE);
-        Assert.assertNotNull(fileServiceEncryptionStatus);
-        Assert.assertFalse(fileServiceEncryptionStatus.isEnabled());
+// Service no longer support disabling file encryption
+//        storageAccount.update()
+//                .withoutFileEncryption()
+//                .apply();
+//
+//        statuses = storageAccount.encryptionStatuses();
+//
+//        Assert.assertTrue(statuses.containsKey(StorageService.FILE));
+//        fileServiceEncryptionStatus = statuses.get(StorageService.FILE);
+//        Assert.assertNotNull(fileServiceEncryptionStatus);
+//        Assert.assertFalse(fileServiceEncryptionStatus.isEnabled());
 
     }
 }

@@ -114,7 +114,7 @@ class TrafficManagerEndpointsImpl extends
      */
     public TrafficManagerEndpointImpl defineAzureTargetEndpoint(String name) {
         TrafficManagerEndpointImpl endpoint = this.prepareInlineDefine(name);
-        endpoint.inner().withType(EndpointType.AZURE.toString());
+        endpoint.withEndpointType(EndpointType.AZURE);
         return endpoint;
     }
 
@@ -126,7 +126,7 @@ class TrafficManagerEndpointsImpl extends
      */
     public TrafficManagerEndpointImpl defineExteralTargetEndpoint(String name) {
         TrafficManagerEndpointImpl endpoint = this.prepareInlineDefine(name);
-        endpoint.inner().withType(EndpointType.EXTERNAL.toString());
+        endpoint.withEndpointType(EndpointType.EXTERNAL);
         return endpoint;
     }
 
@@ -138,7 +138,7 @@ class TrafficManagerEndpointsImpl extends
      */
     public TrafficManagerEndpointImpl defineNestedProfileTargetEndpoint(String name) {
         TrafficManagerEndpointImpl endpoint = this.prepareInlineDefine(name);
-        endpoint.inner().withType(EndpointType.NESTED_PROFILE.toString());
+        endpoint.withEndpointType(EndpointType.NESTED_PROFILE);
         return endpoint;
     }
 

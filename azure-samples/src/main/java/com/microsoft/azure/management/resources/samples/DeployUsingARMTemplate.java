@@ -44,7 +44,7 @@ public final class DeployUsingARMTemplate {
             System.out.println("Creating a resource group with name: " + rgName);
 
             azure.resourceGroups().define(rgName)
-                    .withRegion(Region.US_WEST)
+                    .withRegion(Region.US_EAST2)
                     .create();
 
             System.out.println("Created a resource group with name: " + rgName);

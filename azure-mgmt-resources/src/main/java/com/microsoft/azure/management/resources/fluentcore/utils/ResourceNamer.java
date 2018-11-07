@@ -6,6 +6,9 @@
 
 package com.microsoft.azure.management.resources.fluentcore.utils;
 
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+
 import java.util.Random;
 import java.util.UUID;
 
@@ -60,6 +63,13 @@ public class ResourceNamer {
      */
     public String randomUuid() {
         return UUID.randomUUID().toString();
+    }
+
+    /**
+     * @return the current time.
+     */
+    public DateTime dateTimeNow() {
+        return DateTime.now(DateTimeZone.UTC);
     }
 
     private String randomString(int length) {

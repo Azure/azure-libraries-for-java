@@ -92,6 +92,7 @@ public interface RegistryTask extends
             DefinitionStages.Location,
             DefinitionStages.Platform,
             DefinitionStages.TaskStepType,
+            DefinitionStages.TriggerTypes,
             DefinitionStages.TaskCreatable {
     }
 
@@ -234,33 +235,34 @@ public interface RegistryTask extends
         }
 
         /**
-         * The stage of the container registry task definition that specifies the trigger for the container registry task.
+         * The stage of the container registry task definition that allows users to define either a source trigger and/or a base image trigger.
          */
-        interface Trigger {
+        interface TriggerTypes {
             /**
-             * The function that specifies a list of source triggers.
+             * The function that begins the definition of a source trigger.
              *
-             * @param sourceTriggers a list of SourceTriggers.
-             * @return the next stage of the container registry task definition.
+             * @return the first stage of the RegistrySourceTrigger definition.
              */
-            TaskCreatable withTrigger(List<SourceTrigger> sourceTriggers);
+            RegistrySourceTrigger.DefinitionStages.Blank defineSourceTrigger();
 
             /**
-             * The function that specifies a BaseImageTrigger.
+             * The function that defines a base image trigger with the two parameters required for base image trigger creation.
              *
-             * @param baseImageTrigger a BaseImageTrigger.
+             * @param baseImageTriggerType the trigger type for the base image. Can be "All", "Runtime", or something else that the user inputs.
+             * @param baseImageTriggerName the name of the base image trigger.
              * @return the next stage of the container registry task definition.
              */
-            TaskCreatable withTrigger(BaseImageTrigger baseImageTrigger);
+            TaskCreatable withBaseImageTrigger(BaseImageTriggerType baseImageTriggerType, String baseImageTriggerName);
 
             /**
-             * The function that specifies both a list of SourceTriggers and a BaseImageTrigger.
+             * The function that defines a base image trigger with all possible parameters for base image trigger creation.
              *
-             * @param sourceTriggers a list of SourceTriggers.
-             * @param baseImageTrigger a BaseImageTrigger.
+             * @param baseImageTriggerType the trigger type for the base image. Can be "All", "Runtime", or something else that the user inputs.
+             * @param baseImageTriggerName the name of the base image trigger.
+             * @param triggerStatus the status for the trigger. Can be enabled, disabled, or something else that the user inputs.
              * @return the next stage of the container registry task definition.
              */
-            TaskCreatable withTrigger(List<SourceTrigger> sourceTriggers, BaseImageTrigger baseImageTrigger);
+            TaskCreatable withBaseImageTrigger(BaseImageTriggerType baseImageTriggerType, String baseImageTriggerName, TriggerStatus triggerStatus);
         }
 
         /**
@@ -294,9 +296,9 @@ public interface RegistryTask extends
          *  but also allows for any other optional settings to be specified.
          */
         interface TaskCreatable extends
-                Trigger,
                 AgentConfiguration,
                 Timeout,
+                TriggerTypes,
                 Creatable<RegistryTask> {
         }
     }

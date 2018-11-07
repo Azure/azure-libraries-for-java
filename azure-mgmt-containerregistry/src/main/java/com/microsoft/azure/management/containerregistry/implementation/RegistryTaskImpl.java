@@ -10,6 +10,7 @@ import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.containerregistry.AgentProperties;
 import com.microsoft.azure.management.containerregistry.Architecture;
 import com.microsoft.azure.management.containerregistry.BaseImageTrigger;
+import com.microsoft.azure.management.containerregistry.BaseImageTriggerType;
 import com.microsoft.azure.management.containerregistry.BaseImageTriggerUpdateParameters;
 import com.microsoft.azure.management.containerregistry.DockerBuildStepUpdateParameters;
 import com.microsoft.azure.management.containerregistry.DockerTaskStep;
@@ -24,6 +25,7 @@ import com.microsoft.azure.management.containerregistry.ProvisioningState;
 import com.microsoft.azure.management.containerregistry.RegistryDockerTaskStep;
 import com.microsoft.azure.management.containerregistry.RegistryEncodedTaskStep;
 import com.microsoft.azure.management.containerregistry.RegistryFileTaskStep;
+import com.microsoft.azure.management.containerregistry.RegistrySourceTrigger;
 import com.microsoft.azure.management.containerregistry.RegistryTask;
 import com.microsoft.azure.management.containerregistry.RegistryTaskStep;
 import com.microsoft.azure.management.containerregistry.SourceTrigger;
@@ -31,6 +33,7 @@ import com.microsoft.azure.management.containerregistry.SourceTriggerUpdateParam
 import com.microsoft.azure.management.containerregistry.TaskStatus;
 import com.microsoft.azure.management.containerregistry.TaskUpdateParameters;
 import com.microsoft.azure.management.containerregistry.TriggerProperties;
+import com.microsoft.azure.management.containerregistry.TriggerStatus;
 import com.microsoft.azure.management.containerregistry.TriggerUpdateParameters;
 import com.microsoft.azure.management.containerregistry.Variant;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
@@ -326,11 +329,36 @@ class RegistryTaskImpl implements
     }
 
     @Override
-    public RegistryTaskImpl withTrigger(List<SourceTrigger> sourceTriggers) {
+    public RegistrySourceTrigger.DefinitionStages.Blank defineSourceTrigger() {
         if (this.inner.trigger() == null) {
             this.inner.withTrigger(new TriggerProperties());
         }
-        this.inner.trigger().withSourceTriggers(sourceTriggers);
+        if (this.inner.trigger().sourceTriggers() == null) {
+            this.inner.trigger().withSourceTriggers(new ArrayList<SourceTrigger>());
+        }
+        return new RegistrySourceTriggerImpl(this);
+    }
+
+    @Override
+    public DefinitionStages.TaskCreatable withBaseImageTrigger(BaseImageTriggerType baseImageTriggerType, String baseImageTriggerName) {
+        if (this.inner.trigger() == null) {
+            this.inner.withTrigger(new TriggerProperties());
+        }
+        this.inner.trigger().withBaseImageTrigger(new BaseImageTrigger()
+                                                    .withBaseImageTriggerType(baseImageTriggerType)
+                                                    .withName(baseImageTriggerName));
+        return this;
+    }
+
+    @Override
+    public DefinitionStages.TaskCreatable withBaseImageTrigger(BaseImageTriggerType baseImageTriggerType, String baseImageTriggerName, TriggerStatus triggerStatus) {
+        if (this.inner.trigger() == null) {
+            this.inner.withTrigger(new TriggerProperties());
+        }
+        this.inner.trigger().withBaseImageTrigger(new BaseImageTrigger()
+                                                    .withBaseImageTriggerType(baseImageTriggerType)
+                                                    .withName(baseImageTriggerName)
+                                                    .withStatus(triggerStatus));
         return this;
     }
 
@@ -343,28 +371,10 @@ class RegistryTaskImpl implements
     }
 
     @Override
-    public RegistryTaskImpl withTrigger(BaseImageTrigger baseImageTrigger) {
-        if (this.inner.trigger() == null) {
-            this.inner.withTrigger(new TriggerProperties());
-        }
-        this.inner.trigger().withBaseImageTrigger(baseImageTrigger);
-        return this;
-    }
-
-    @Override
     public RegistryTaskImpl withTrigger(BaseImageTriggerUpdateParameters baseImageTrigger) {
         TriggerUpdateParameters triggerUpdateParameters = new TriggerUpdateParameters();
         triggerUpdateParameters.withBaseImageTrigger(baseImageTrigger);
         this.taskUpdateParameters.withTrigger(triggerUpdateParameters);
-        return this;
-    }
-
-    @Override
-    public RegistryTaskImpl withTrigger(List<SourceTrigger> sourceTriggers, BaseImageTrigger baseImageTrigger) {
-        if (this.inner.trigger() == null) {
-            this.inner.withTrigger(new TriggerProperties());
-        }
-        this.inner.trigger().withSourceTriggers(sourceTriggers).withBaseImageTrigger(baseImageTrigger);
         return this;
     }
 
@@ -507,6 +517,12 @@ class RegistryTaskImpl implements
         this.taskUpdateParameters.withStep(dockerTaskStepUpdateParameters);
     }
 
+    void withSourceTrigger(SourceTrigger sourceTrigger) {
+        List<SourceTrigger> sourceTriggers = this.inner.trigger().sourceTriggers();
+        sourceTriggers.add(sourceTrigger);
+        this.inner.trigger().withSourceTriggers(sourceTriggers);
+    }
+
     @Override
     public RegistryFileTaskStep.Update updateFileTaskStep() {
         if (!(this.inner.step() instanceof FileTaskStep)) {
@@ -530,4 +546,7 @@ class RegistryTaskImpl implements
         }
         return new RegistryDockerTaskStepImpl(this);
     }
+
+
+
 }

@@ -51,6 +51,7 @@ public final class ManageSqlDatabaseInElasticPool {
         final String elasticPoolName = "myElasticPool";
         final String elasticPool2Name = "secondElasticPool";
         final String administratorLogin = "sqladmin3423";
+        // [SuppressMessage("Microsoft.Security", "CS002:SecretInNextLine", Justification="Serves as an example, not for deployment. Please change when using this in your code.")]
         final String administratorPassword = "myS3cureP@ssword";
         final String database1Name = "myDatabase1";
         final String database2Name = "myDatabase2";

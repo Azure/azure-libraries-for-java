@@ -49,6 +49,7 @@ public final class CreateVirtualMachinesUsingCustomImageOrSpecializedVHD {
         final String rgName = Utils.createRandomName("rgCOMV");
         final String publicIPDnsLabel = Utils.createRandomName("pip");
         final String userName = "tirekicker";
+        // [SuppressMessage("Microsoft.Security", "CS002:SecretInNextLine", Justification="Serves as an example, not for deployment. Please change when using this in your code.")]
         final String password = "12NewPA$$w0rd!";
 
         final String apacheInstallScript = "https://raw.githubusercontent.com/Azure/azure-libraries-for-java/master/azure-samples/src/main/resources/install_apache.sh";

@@ -49,6 +49,7 @@ public class ManageSqlServerKeysWithAzureKeyVaultKey {
         final String vaultName = Utils.createRandomName("sqlkv");
         final String keyName = Utils.createRandomName("sqlkey");
         final String administratorLogin = "sqladmin3423";
+        // [SuppressMessage("Microsoft.Security", "CS002:SecretInNextLine", Justification="Serves as an example, not for deployment. Please change when using this in your code.")]
         final String administratorPassword = "myS3cureP@ssword";
 
         try {

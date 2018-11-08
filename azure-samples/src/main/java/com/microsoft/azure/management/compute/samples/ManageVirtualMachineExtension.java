@@ -46,14 +46,18 @@ public final class ManageVirtualMachineExtension {
         // Linux configurations
         //
         final String firstLinuxUserName = "tirekicker";
+        // [SuppressMessage("Microsoft.Security", "CS002:SecretInNextLine", Justification="Serves as an example, not for deployment. Please change when using this in your code.")]
         final String firstLinuxUserPassword = "12NewPA$$w0rd!";
+        // [SuppressMessage("Microsoft.Security", "CS002:SecretInNextLine", Justification="Serves as an example, not for deployment. Please change when using this in your code.")]
         final String firstLinuxUserNewPassword = "muy!234OR";
 
         final String secondLinuxUserName = "seconduser";
+        // [SuppressMessage("Microsoft.Security", "CS002:SecretInNextLine", Justification="Serves as an example, not for deployment. Please change when using this in your code.")]
         final String secondLinuxUserPassword = "B12a6@12xyz!";
         final String secondLinuxUserExpiration = "2020-12-31";
 
         final String thirdLinuxUserName = "thirduser";
+        // [SuppressMessage("Microsoft.Security", "CS002:SecretInNextLine", Justification="Serves as an example, not for deployment. Please change when using this in your code.")]
         final String thirdLinuxUserPassword = "12xyz!B12a6@";
         final String thirdLinuxUserExpiration = "2020-12-31";
 
@@ -85,13 +89,17 @@ public final class ManageVirtualMachineExtension {
         // Windows configurations
         //
         final String firstWindowsUserName = "tirekicker";
+        // [SuppressMessage("Microsoft.Security", "CS002:SecretInNextLine", Justification="Serves as an example, not for deployment. Please change when using this in your code.")]
         final String firstWindowsUserPassword = "12NewPA$$w0rd!";
+        // [SuppressMessage("Microsoft.Security", "CS002:SecretInNextLine", Justification="Serves as an example, not for deployment. Please change when using this in your code.")]
         final String firstWindowsUserNewPassword = "muy!234OR";
 
         final String secondWindowsUserName = "seconduser";
+        // [SuppressMessage("Microsoft.Security", "CS002:SecretInNextLine", Justification="Serves as an example, not for deployment. Please change when using this in your code.")]
         final String secondWindowsUserPassword = "B12a6@12xyz!";
 
         final String thirdWindowsUserName = "thirduser";
+        // [SuppressMessage("Microsoft.Security", "CS002:SecretInNextLine", Justification="Serves as an example, not for deployment. Please change when using this in your code.")]
         final String thirdWindowsUserPassword = "12xyz!B12a6@";
 
         final String windowsVMAccessExtensionName = "VMAccessAgent";

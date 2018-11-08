@@ -44,6 +44,7 @@ public final class ManageSqlWithRecoveredOrRestoredDatabase {
         final String sqlServerName = Utils.createRandomName("sqlserver");
         final String rgName = Utils.createRandomName("rgsql");
         final String administratorLogin = "sqladmin3423";
+        // [SuppressMessage("Microsoft.Security", "CS002:SecretInNextLine", Justification="Serves as an example, not for deployment. Please change when using this in your code.")]
         final String administratorPassword = "myS3cureP@ssword";
         final String dbToDeleteName = "db-to-delete";
         final String dbToRestoreName = "db-to-restore";

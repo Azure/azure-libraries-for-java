@@ -189,6 +189,7 @@ public class DockerUtils {
         final String dockerVMName = SdkContext.randomResourceName("dockervm", 15);
         final String publicIPDnsLabel = SdkContext.randomResourceName("pip", 10);
         final String vmUserName = "dockerUser";
+        // [SuppressMessage("Microsoft.Security", "CS002:SecretInNextLine", Justification="Serves as an example, not for deployment. Please change when using this in your code.")]
         final String vmPassword = "12NewPA$$w0rd!";
 
         // Could not find a Docker environment; presume that there is no local Docker engine running and

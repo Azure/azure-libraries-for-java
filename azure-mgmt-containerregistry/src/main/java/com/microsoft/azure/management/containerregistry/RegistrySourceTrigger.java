@@ -9,6 +9,7 @@ import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.resources.fluentcore.model.Attachable;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
+import com.microsoft.azure.management.resources.fluentcore.model.Settable;
 
 /**
  * An immutable client-side representation of a Container Registry source trigger.
@@ -31,6 +32,20 @@ public interface RegistrySourceTrigger extends
             RegistrySourceTrigger.DefinitionStages.SourceTriggerAttachable {
 
     }
+
+    /**
+     * Container interface for all of the updates related to a container registry source trigger.
+     */
+    interface Update extends
+            RegistrySourceTrigger.UpdateStages.SourceControlType,
+            RegistrySourceTrigger.UpdateStages.RepositoryUrl,
+            RegistrySourceTrigger.UpdateStages.TriggerEventsDefinition,
+            RegistrySourceTrigger.UpdateStages.RepositoryBranchAndAuth,
+            RegistrySourceTrigger.UpdateStages.TriggerStatusDefinition,
+            Settable<RegistryTask.Update> {
+
+    }
+
 
     /**
      * Grouping of source trigger definition stages.
@@ -73,7 +88,7 @@ public interface RegistrySourceTrigger extends
              * @param sourceControl the source control the user wishes to use.
              * @return the next stage of the container registry source trigger definition.
              */
-            RepositoryUrl withSourceControl(SourceControlType sourceControl);
+            RepositoryUrl withSourceControl(com.microsoft.azure.management.containerregistry.SourceControlType sourceControl);
         }
 
         /**
@@ -189,5 +204,140 @@ public interface RegistrySourceTrigger extends
                 Attachable<RegistryTask.DefinitionStages.TaskCreatable> {
 
         }
+    }
+
+    /**
+     * Grouping of source trigger update stages.
+     */
+    interface UpdateStages {
+        /**
+         * The stage of the container registry source trigger update allowing to specify the type of source control.
+         */
+        interface SourceControlType {
+            /**
+             * The function that specifies Github will be used as the type of source control.
+             *
+             * @return the next stage of the container registry source trigger definition.
+             */
+            Update withGithubAsSourceControl();
+
+            /**
+             * The function that specifies Azure DevOps will be used as the type of source control.
+             *
+             * @return the next stage of the container registry source trigger definition.
+             */
+            Update withAzureDevOpsAsSourceControl();
+
+            /**
+             * The function that allows the user to input their own kind of source control.
+             *
+             * @param sourceControl the source control the user wishes to use.
+             * @return the next stage of the container registry source trigger definition.
+             */
+            Update withSourceControl(com.microsoft.azure.management.containerregistry.SourceControlType sourceControl);
+        }
+
+        /**
+         * The stage of the container registry source trigger update allowing to specify the URL of the source control repository.
+         */
+        interface RepositoryUrl {
+            /**
+             * The function that specifies the URL of the source control repository.
+             *
+             * @param sourceControlRepositoryUrl the URL of the source control repository.
+             * @return the next stage of the container registry source trigger definition.
+             */
+            Update withSourceControlRepositoryUrl(String sourceControlRepositoryUrl);
+        }
+
+        /**
+         * The stage of the container registry source trigger update allowing to specify the type of actions that will trigger a run.
+         */
+        interface TriggerEventsDefinition {
+            /**
+             * The function that specifies a commit action will trigger a run.
+             *
+             * @return the next stage of the container registry source trigger definition.
+             */
+            Update withCommitTriggerEvent();
+
+            /**
+             * The function that specifies a pull action will trigger a run.
+             *
+             * @return the next stage of the container registry source trigger definition.
+             */
+            Update withPullTriggerEvent();
+
+            /**
+             * The function that allows the user to specify an action that will trigger a run when it is executed.
+             *
+             * @param sourceTriggerEvent the action that will trigger a run.
+             * @return the next stage of the container registry source trigger definition.
+             */
+            Update withTriggerEvent(SourceTriggerEvent sourceTriggerEvent);
+        }
+
+        /**
+         * The stage of the container registry source trigger update allowing to specify the branch of the repository and authentication credentials
+         * if needed to interact with the source control repository.
+         */
+        interface RepositoryBranchAndAuth {
+            /**
+             * The function that specifies the branch of the respository to use.
+             *
+             * @param branch the repository branch.
+             * @return the next stage of the container registry source trigger definition.
+             */
+            Update withRepositoryBranch(String branch);
+
+            /**
+             * The function that allows the user to input the type of the token used for authentication and the token itself to authenticate to the source control repository.
+             *
+             * @param tokenType the type of the token used to authenticate to the source control repository.
+             * @param token the token used to authenticate to the source control repository.
+             * @return the next stage of the container registry source trigger definition.
+             */
+            Update withRepositoryAuthentication(TokenType tokenType, String token);
+
+            /**
+             * The function that allows the user to input the type of the token used for authentication and the token itself to authenticate to the source control repository.
+             *
+             * @param tokenType the type of the token used to authenticate to the source control repository.
+             * @param token the token used to authenticate to the source control repository.
+             * @param refreshToken the token that is used to refresh the access token.
+             * @param scope the scope of the access token.
+             * @param expiresIn time in seconds that the token remains valid.
+             * @return the next stage of the container registry source trigger definition.
+             */
+            Update withRepositoryAuthentication(TokenType tokenType, String token, String refreshToken, String scope, int expiresIn);
+        }
+
+        /**
+         * The stage of the container registry source trigger update allowing to specify the status of the trigger.
+         */
+        interface TriggerStatusDefinition {
+            /**
+             * The function that sets the trigger status to be enabled.
+             *
+             * @return the next stage of the container registry source trigger definition.
+             */
+            Update withTriggerStatusEnabled();
+
+            /**
+             * The function that sets the trigger status to be disabled.
+             *
+             * @return the next stage of the container registry source trigger definition.
+             */
+            Update withTriggerStatusDisabled();
+
+            /**
+             * The function that allows the user to input the state of the trigger status.
+             *
+             * @param triggerStatus the user's choice for the trigger status.
+             * @return the next stage of the container registry source trigger definition.
+             */
+            Update withTriggerStatus(TriggerStatus triggerStatus);
+        }
+
     }
 }

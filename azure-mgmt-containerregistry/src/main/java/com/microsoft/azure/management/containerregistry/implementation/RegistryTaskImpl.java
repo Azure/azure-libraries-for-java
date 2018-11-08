@@ -28,8 +28,10 @@ import com.microsoft.azure.management.containerregistry.RegistryFileTaskStep;
 import com.microsoft.azure.management.containerregistry.RegistrySourceTrigger;
 import com.microsoft.azure.management.containerregistry.RegistryTask;
 import com.microsoft.azure.management.containerregistry.RegistryTaskStep;
+import com.microsoft.azure.management.containerregistry.SourceProperties;
 import com.microsoft.azure.management.containerregistry.SourceTrigger;
 import com.microsoft.azure.management.containerregistry.SourceTriggerUpdateParameters;
+import com.microsoft.azure.management.containerregistry.SourceUpdateParameters;
 import com.microsoft.azure.management.containerregistry.TaskStatus;
 import com.microsoft.azure.management.containerregistry.TaskUpdateParameters;
 import com.microsoft.azure.management.containerregistry.TriggerProperties;
@@ -64,7 +66,7 @@ class RegistryTaskImpl implements
     private String resourceGroupName;
     private String registryName;
     private TaskInner inner;
-    private TaskUpdateParameters taskUpdateParameters;
+    TaskUpdateParameters taskUpdateParameters;
     private RegistryTaskStep registryTaskStep;
 
     @Override
@@ -184,6 +186,7 @@ class RegistryTaskImpl implements
         this.resourceGroupName = ResourceUtils.groupFromResourceId(this.inner.id());
         this.registryName = ResourceUtils.nameFromResourceId(ResourceUtils.parentResourceIdFromResourceId(this.inner.id()));
         this.taskUpdateParameters = new TaskUpdateParameters();
+        setTaskUpdateParameterTriggers();
     }
 
     @Override
@@ -340,7 +343,7 @@ class RegistryTaskImpl implements
     }
 
     @Override
-    public DefinitionStages.TaskCreatable withBaseImageTrigger(BaseImageTriggerType baseImageTriggerType, String baseImageTriggerName) {
+    public DefinitionStages.TaskCreatable withBaseImageTrigger(String baseImageTriggerName, BaseImageTriggerType baseImageTriggerType) {
         if (this.inner.trigger() == null) {
             this.inner.withTrigger(new TriggerProperties());
         }
@@ -351,7 +354,7 @@ class RegistryTaskImpl implements
     }
 
     @Override
-    public DefinitionStages.TaskCreatable withBaseImageTrigger(BaseImageTriggerType baseImageTriggerType, String baseImageTriggerName, TriggerStatus triggerStatus) {
+    public DefinitionStages.TaskCreatable withBaseImageTrigger(String baseImageTriggerName, BaseImageTriggerType baseImageTriggerType, TriggerStatus triggerStatus) {
         if (this.inner.trigger() == null) {
             this.inner.withTrigger(new TriggerProperties());
         }
@@ -359,31 +362,6 @@ class RegistryTaskImpl implements
                                                     .withBaseImageTriggerType(baseImageTriggerType)
                                                     .withName(baseImageTriggerName)
                                                     .withStatus(triggerStatus));
-        return this;
-    }
-
-    @Override
-    public RegistryTaskImpl withTrigger(ArrayList<SourceTriggerUpdateParameters> sourceTriggers) {
-        TriggerUpdateParameters triggerUpdateParameters = new TriggerUpdateParameters();
-        triggerUpdateParameters.withSourceTriggers(sourceTriggers);
-        this.taskUpdateParameters.withTrigger(triggerUpdateParameters);
-        return this;
-    }
-
-    @Override
-    public RegistryTaskImpl withTrigger(BaseImageTriggerUpdateParameters baseImageTrigger) {
-        TriggerUpdateParameters triggerUpdateParameters = new TriggerUpdateParameters();
-        triggerUpdateParameters.withBaseImageTrigger(baseImageTrigger);
-        this.taskUpdateParameters.withTrigger(triggerUpdateParameters);
-        return this;
-    }
-
-    @Override
-    public RegistryTaskImpl withTrigger(List<SourceTriggerUpdateParameters> sourceTriggers, BaseImageTriggerUpdateParameters baseImageTrigger) {
-        TriggerUpdateParameters triggerUpdateParameters = new TriggerUpdateParameters();
-        triggerUpdateParameters.withSourceTriggers(sourceTriggers);
-        triggerUpdateParameters.withBaseImageTrigger(baseImageTrigger);
-        this.taskUpdateParameters.withTrigger(triggerUpdateParameters);
         return this;
     }
 
@@ -435,6 +413,8 @@ class RegistryTaskImpl implements
             @Override
             public Indexable call(TaskInner taskInner) {
                 self.inner = taskInner;
+                self.taskUpdateParameters = new TaskUpdateParameters();
+                self.setTaskUpdateParameterTriggers();
                 return self;
             }
         });
@@ -452,9 +432,58 @@ class RegistryTaskImpl implements
             @Override
             public RegistryTask call(TaskInner taskInner) {
                 self.inner = taskInner;
+                self.taskUpdateParameters = new TaskUpdateParameters();
+                self.setTaskUpdateParameterTriggers();
                 return self;
             }
         });
+    }
+
+    @Override
+    public RegistryFileTaskStep.Update updateFileTaskStep() {
+        if (!(this.inner.step() instanceof FileTaskStep)) {
+            throw new UnsupportedOperationException("Calling updateFileTaskStep on a RegistryTask that is of type " + this.inner.step().getClass().getName() + ".");
+        }
+        return new RegistryFileTaskStepImpl(this);
+    }
+
+    @Override
+    public RegistryEncodedTaskStep.Update updateEncodedTaskStep() {
+        if (!(this.inner.step() instanceof EncodedTaskStep)) {
+            throw new UnsupportedOperationException("Calling updateEncodedTaskStep on a RegistryTask that is of type " + this.inner.step().getClass().getName() + ".");
+        }
+        return new RegistryEncodedTaskStepImpl(this);
+    }
+
+    @Override
+    public RegistryDockerTaskStep.Update updateDockerTaskStep() {
+        if (!(this.inner.step() instanceof DockerTaskStep)) {
+            throw new UnsupportedOperationException("Calling updateDockerTaskStep on a RegistryTask that is of type " + this.inner.step().getClass().getName() + ".");
+        }
+        return new RegistryDockerTaskStepImpl(this);
+    }
+
+
+    @Override
+    public RegistrySourceTrigger.Update updateSourceTrigger(String sourceTriggerName) {
+        return new RegistrySourceTriggerImpl(sourceTriggerName, this);
+    }
+
+    @Override
+    public Update updateBaseImageTrigger(String baseImageTriggerName, BaseImageTriggerType baseImageTriggerType) {
+        this.taskUpdateParameters.trigger().withBaseImageTrigger(new BaseImageTriggerUpdateParameters()
+                                                                .withBaseImageTriggerType(baseImageTriggerType)
+                                                                .withName(baseImageTriggerName));
+        return this;
+    }
+
+    @Override
+    public Update updateBaseImageTrigger(String baseImageTriggerName, BaseImageTriggerType baseImageTriggerType, TriggerStatus triggerStatus) {
+        this.taskUpdateParameters.trigger().withBaseImageTrigger(new BaseImageTriggerUpdateParameters()
+                                                                .withBaseImageTriggerType(baseImageTriggerType)
+                                                                .withName(baseImageTriggerName)
+                                                                .withStatus(triggerStatus));
+        return this;
     }
 
     @Override
@@ -476,6 +505,8 @@ class RegistryTaskImpl implements
                 self.inner = taskInner;
                 self.taskUpdateParameters = new TaskUpdateParameters();
                 self.registryTaskStep = null;
+                self.taskUpdateParameters = new TaskUpdateParameters();
+                self.setTaskUpdateParameterTriggers();
                 return self;
             }
         });
@@ -517,36 +548,72 @@ class RegistryTaskImpl implements
         this.taskUpdateParameters.withStep(dockerTaskStepUpdateParameters);
     }
 
-    void withSourceTrigger(SourceTrigger sourceTrigger) {
+    void withSourceTriggerCreateParameters(SourceTrigger sourceTrigger) {
         List<SourceTrigger> sourceTriggers = this.inner.trigger().sourceTriggers();
         sourceTriggers.add(sourceTrigger);
         this.inner.trigger().withSourceTriggers(sourceTriggers);
     }
 
-    @Override
-    public RegistryFileTaskStep.Update updateFileTaskStep() {
-        if (!(this.inner.step() instanceof FileTaskStep)) {
-            throw new UnsupportedOperationException("Calling updateFileTaskStep on a RegistryTask that is of type " + this.inner.step().getClass().getName() + ".");
+    void withSourceTriggerUpdateParameters(SourceTriggerUpdateParameters sourceTriggerUpdateParameters) {
+        List<SourceTriggerUpdateParameters> sourceTriggerUpdateParametersList = this.taskUpdateParameters.trigger().sourceTriggers();
+        for (int i = 0; i < sourceTriggerUpdateParametersList.size(); i++) {
+            if (sourceTriggerUpdateParametersList.get(i).name().equals(sourceTriggerUpdateParameters.name())) {
+                sourceTriggerUpdateParametersList.remove(i);
+                break;
+            }
         }
-        return new RegistryFileTaskStepImpl(this);
+        sourceTriggerUpdateParametersList.add(sourceTriggerUpdateParameters);
+        this.taskUpdateParameters.trigger().withSourceTriggers(sourceTriggerUpdateParametersList);
     }
 
-    @Override
-    public RegistryEncodedTaskStep.Update updateEncodedTaskStep() {
-        if (!(this.inner.step() instanceof EncodedTaskStep)) {
-            throw new UnsupportedOperationException("Calling updateEncodedTaskStep on a RegistryTask that is of type " + this.inner.step().getClass().getName() + ".");
+    void setTaskUpdateParameterTriggers() {
+        if (this.taskUpdateParameters.trigger() == null) {
+            this.taskUpdateParameters.withTrigger(new TriggerUpdateParameters());
         }
-        return new RegistryEncodedTaskStepImpl(this);
+        //Clone the source triggers
+        if (this.inner.trigger() == null) {
+            return;
+        }
+        if (this.inner.trigger().sourceTriggers() != null) {
+            List<SourceTriggerUpdateParameters> sourceTriggerUpdateParameters = new ArrayList<SourceTriggerUpdateParameters>();
+            for (SourceTrigger sourceTrigger : this.inner.trigger().sourceTriggers()) {
+                sourceTriggerUpdateParameters.add(sourceTriggerToSourceTriggerUpdateParameters(sourceTrigger));
+            }
+            this.taskUpdateParameters.trigger().withSourceTriggers(sourceTriggerUpdateParameters);
+        }
+        //Clone the base image trigger
+        if (this.inner.trigger().baseImageTrigger() != null) {
+            this.taskUpdateParameters.trigger().withBaseImageTrigger(setTaskUpdateParameterBaseImageTrigger());
+        }
     }
 
-    @Override
-    public RegistryDockerTaskStep.Update updateDockerTaskStep() {
-        if (!(this.inner.step() instanceof DockerTaskStep)) {
-            throw new UnsupportedOperationException("Calling updateDockerTaskStep on a RegistryTask that is of type " + this.inner.step().getClass().getName() + ".");
-        }
-        return new RegistryDockerTaskStepImpl(this);
+    BaseImageTriggerUpdateParameters setTaskUpdateParameterBaseImageTrigger() {
+        BaseImageTriggerUpdateParameters baseImageTriggerUpdateParameters = new BaseImageTriggerUpdateParameters();
+        baseImageTriggerUpdateParameters.withName(this.inner.trigger().baseImageTrigger().name());
+        baseImageTriggerUpdateParameters.withBaseImageTriggerType(this.inner.trigger().baseImageTrigger().baseImageTriggerType());
+        baseImageTriggerUpdateParameters.withStatus(this.inner.trigger().baseImageTrigger().status());
+        return baseImageTriggerUpdateParameters;
     }
 
+    SourceTriggerUpdateParameters sourceTriggerToSourceTriggerUpdateParameters(SourceTrigger sourceTrigger) {
+        SourceTriggerUpdateParameters sourceTriggerUpdateParameters = new SourceTriggerUpdateParameters();
 
+        sourceTriggerUpdateParameters.withName(sourceTrigger.name());
+        sourceTriggerUpdateParameters.withSourceRepository(sourcePropertiesToSourceUpdateParameters(sourceTrigger.sourceRepository()));
+        sourceTriggerUpdateParameters.withStatus(sourceTrigger.status());
+        sourceTriggerUpdateParameters.withSourceTriggerEvents(sourceTrigger.sourceTriggerEvents());
 
+        return sourceTriggerUpdateParameters;
+    }
+
+    SourceUpdateParameters sourcePropertiesToSourceUpdateParameters(SourceProperties sourceProperties) {
+        SourceUpdateParameters sourceUpdateParameters = new SourceUpdateParameters();
+
+        sourceUpdateParameters.withSourceControlType(sourceProperties.sourceControlType());
+        sourceUpdateParameters.withRepositoryUrl(sourceProperties.repositoryUrl());
+        sourceUpdateParameters.withBranch(sourceProperties.branch());
+        sourceUpdateParameters.withSourceControlAuthProperties(null);
+
+        return sourceUpdateParameters;
+    }
 }

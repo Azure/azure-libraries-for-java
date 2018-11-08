@@ -19,8 +19,6 @@ import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
 import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
 import org.joda.time.DateTime;
 
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * An immutable client-side representation of an Azure registry task.
@@ -101,7 +99,7 @@ public interface RegistryTask extends
      */
     interface Update extends
             UpdateStages.Platform,
-            UpdateStages.Trigger,
+            UpdateStages.TriggerTypes,
             UpdateStages.AgentConfiguration,
             UpdateStages.Timeout,
             UpdateStages.TaskStepType,
@@ -248,21 +246,21 @@ public interface RegistryTask extends
             /**
              * The function that defines a base image trigger with the two parameters required for base image trigger creation.
              *
-             * @param baseImageTriggerType the trigger type for the base image. Can be "All", "Runtime", or something else that the user inputs.
              * @param baseImageTriggerName the name of the base image trigger.
+             * @param baseImageTriggerType the trigger type for the base image. Can be "All", "Runtime", or something else that the user inputs.
              * @return the next stage of the container registry task definition.
              */
-            TaskCreatable withBaseImageTrigger(BaseImageTriggerType baseImageTriggerType, String baseImageTriggerName);
+            TaskCreatable withBaseImageTrigger(String baseImageTriggerName, BaseImageTriggerType baseImageTriggerType);
 
             /**
              * The function that defines a base image trigger with all possible parameters for base image trigger creation.
              *
-             * @param baseImageTriggerType the trigger type for the base image. Can be "All", "Runtime", or something else that the user inputs.
              * @param baseImageTriggerName the name of the base image trigger.
+             * @param baseImageTriggerType the trigger type for the base image. Can be "All", "Runtime", or something else that the user inputs.
              * @param triggerStatus the status for the trigger. Can be enabled, disabled, or something else that the user inputs.
              * @return the next stage of the container registry task definition.
              */
-            TaskCreatable withBaseImageTrigger(BaseImageTriggerType baseImageTriggerType, String baseImageTriggerName, TriggerStatus triggerStatus);
+            TaskCreatable withBaseImageTrigger(String baseImageTriggerName, BaseImageTriggerType baseImageTriggerType, TriggerStatus triggerStatus);
         }
 
         /**
@@ -396,33 +394,34 @@ public interface RegistryTask extends
         }
 
         /**
-         * The stage of the container registry task update that updates the trigger for the container registry task.
+         * The stage of the container registry task update that allows users to update either a source trigger and/or a base image trigger.
          */
-        interface Trigger {
+        interface TriggerTypes {
             /**
-             * The function that updates a list of source triggers.
+             * The function that begins the definition of a source trigger.
              *
-             * @param sourceTriggers an ArrayList of SourceTriggers.
-             * @return the next stage of the container registry task update.
+             * @return the first stage of the RegistrySourceTrigger definition.
              */
-            Update withTrigger(ArrayList<SourceTriggerUpdateParameters> sourceTriggers);
+            RegistrySourceTrigger.Update updateSourceTrigger(String sourceTriggerName);
 
             /**
-             * The function that updates a BaseImageTrigger.
+             * The function that defines a base image trigger with the two parameters required for base image trigger creation.
              *
-             * @param baseImageTrigger a BaseImageTrigger.
-             * @return the next stage of the container registry task update.
+             * @param baseImageTriggerName the name of the base image trigger.
+             * @param baseImageTriggerType the trigger type for the base image. Can be "All", "Runtime", or something else that the user inputs.
+             * @return the next stage of the container registry task definition.
              */
-            Update withTrigger(BaseImageTriggerUpdateParameters baseImageTrigger);
+            Update updateBaseImageTrigger(String baseImageTriggerName, BaseImageTriggerType baseImageTriggerType);
 
             /**
-             * The function that updates both a list of SourceTriggers and a BaseImageTrigger.
+             * The function that defines a base image trigger with all possible parameters for base image trigger creation.
              *
-             * @param sourceTriggers an ArrayList that contains SourceTriggers.
-             * @param baseImageTrigger a BaseImageTrigger.
-             * @return the next stage of the container registry task update.
+             * @param baseImageTriggerName the name of the base image trigger.
+             * @param baseImageTriggerType the trigger type for the base image. Can be "All", "Runtime", or something else that the user inputs.
+             * @param triggerStatus the status for the trigger. Can be enabled, disabled, or something else that the user inputs.
+             * @return the next stage of the container registry task definition.
              */
-            Update withTrigger(List<SourceTriggerUpdateParameters> sourceTriggers, BaseImageTriggerUpdateParameters baseImageTrigger);
+            Update updateBaseImageTrigger(String baseImageTriggerName, BaseImageTriggerType baseImageTriggerType, TriggerStatus triggerStatus);
         }
 
         /**

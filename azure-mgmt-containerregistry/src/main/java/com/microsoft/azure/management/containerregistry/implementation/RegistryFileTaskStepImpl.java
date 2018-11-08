@@ -125,13 +125,13 @@ class RegistryFileTaskStepImpl
 
     @Override
     public RegistryTask.DefinitionStages.TaskCreatable attach() {
-        this.taskImpl.withFileTaskStepCreateParameters(inner);
+        this.taskImpl.withFileTaskStepCreateParameters(this.inner);
         return this.taskImpl;
     }
 
     @Override
     public RegistryTask.Update parent() {
-        this.taskImpl.withFileTaskStepUpdateParameters(fileTaskStepUpdateParameters);
+        this.taskImpl.withFileTaskStepUpdateParameters(this.fileTaskStepUpdateParameters);
         return this.taskImpl;
     }
 

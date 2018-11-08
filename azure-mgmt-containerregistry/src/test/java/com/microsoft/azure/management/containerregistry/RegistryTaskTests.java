@@ -39,7 +39,7 @@ public class RegistryTaskTests extends RegistryTest {
                 .withLocation(Region.US_WEST_CENTRAL.name())
                 .withLinux(Architecture.AMD64)
                 .defineFileTaskStep()
-                    .withTaskPath("https://github.com/iscai-msft/file_task_test.git#master:samples/java/registryTask/acb.yaml")
+                    .withTaskPath(taskFilePath)
                     .attach()
                 .defineSourceTrigger()
                     .withName("SampleSourceTrigger")
@@ -50,7 +50,7 @@ public class RegistryTaskTests extends RegistryTest {
                     .withRepositoryBranch(githubBranch)
                     .withRepositoryAuthentication(TokenType.PAT, githubPAT)
                     .attach()
-                .withBaseImageTrigger(BaseImageTriggerType.RUNTIME, "SampleBaseImageTrigger")
+                .withBaseImageTrigger("SampleBaseImageTrigger", BaseImageTriggerType.RUNTIME)
                 .withCpuCount(2)
                 .create();
 
@@ -126,7 +126,7 @@ public class RegistryTaskTests extends RegistryTest {
                     .withRepositoryBranch(githubBranch)
                     .withRepositoryAuthentication(TokenType.PAT, githubPAT)
                     .attach()
-                .withBaseImageTrigger(BaseImageTriggerType.RUNTIME, "SampleBaseImageTrigger")
+                .withBaseImageTrigger("SampleBaseImageTrigger", BaseImageTriggerType.RUNTIME)
                 .withCpuCount(2)
                 .create();
 
@@ -191,7 +191,7 @@ public class RegistryTaskTests extends RegistryTest {
         String githubRepoUrl = "Replace with your github repository url, eg: https://github.com/Azure/acr.git";
         String githubBranch = "Replace with your github repositoty branch, eg: master";
         String githubPAT = "Replace with your github personal access token which should have the scopes: admin:repo_hook and repo";
-        String encodedTaskContent = "dmVyc2lvbjogMC4wLjEKc3RlcHM6CiAgLSBidWlsZDogLXQge3suUnVuLlJlZ2lzdHJ5fX0vamF2YS1zYW1wbGU6e3suUnVuLklEfX0gLgogICAgd29ya2luZ0RpcmVjdG9yeTogc2FtcGxlcy9qYXZhL3Rhc2sKICAtIHB1c2g6IAogICAgLSB7ey5SdW4uUmVnaXN0cnl9fS9qYXZhLXNhbXBsZTp7ey5SdW4uSUR9fQ==";
+        String encodedTaskContent = "Base64 encoded task content";
 
         Registry registry = registryManager.containerRegistries().define(acrName)
                 .withRegion(Region.US_WEST_CENTRAL)
@@ -220,7 +220,7 @@ public class RegistryTaskTests extends RegistryTest {
                     .withRepositoryBranch(githubBranch)
                     .withRepositoryAuthentication(TokenType.PAT, githubPAT)
                     .attach()
-                .withBaseImageTrigger(BaseImageTriggerType.RUNTIME, "SampleBaseImageTrigger")
+                .withBaseImageTrigger("SampleBaseImageTrigger", BaseImageTriggerType.RUNTIME)
                 .withCpuCount(2)
                 .create();
 
@@ -268,8 +268,8 @@ public class RegistryTaskTests extends RegistryTest {
         String githubRepoUrl = "Replace with your github repository url, eg: https://github.com/Azure/acr.git";
         String githubBranch = "Replace with your github repositoty branch, eg: master";
         String githubPAT = "Replace with your github personal access token which should have the scopes: admin:repo_hook and repo";
-        String encodedTaskContent = "dmVyc2lvbjogMC4wLjEKc3RlcHM6CiAgLSBidWlsZDogLXQge3suUnVuLlJlZ2lzdHJ5fX0vamF2YS1zYW1wbGU6e3suUnVuLklEfX0gLgogICAgd29ya2luZ0RpcmVjdG9yeTogc2FtcGxlcy9qYXZhL3Rhc2sKICAtIHB1c2g6IAogICAgLSB7ey5SdW4uUmVnaXN0cnl9fS9qYXZhLXNhbXBsZTp7ey5SdW4uSUR9fQ==";
-        String encodedTaskContentUpdate = "dmVyc2lvbjogMC4wLjEKc3RlcHM6CiAgLSBidWlsZDogLXQge3suUnVuLlJlZ2lzdHJ5fX0vamF2YS1zYW1wbGU6e3suUnVuLklEfX0gLgogICAgd29ya2luZ0RpcmVjdG9yeTogc2FtcGxlcy9qYXZhL3VwZGF0ZQogIC0gcHVzaDogCiAgICAtIHt7LlJ1bi5SZWdpc3RyeX19L2phdmEtc2FtcGxlOnt7LlJ1bi5JRH19";
+        String encodedTaskContent = "Base64 encoded task content";
+        String encodedTaskContentUpdate = "Base64 encoded task content that we want to update to";
 
         Registry registry = registryManager.containerRegistries().define(acrName)
                 .withRegion(Region.US_WEST_CENTRAL)
@@ -298,7 +298,7 @@ public class RegistryTaskTests extends RegistryTest {
                     .withRepositoryBranch(githubBranch)
                     .withRepositoryAuthentication(TokenType.PAT, githubPAT)
                     .attach()
-                .withBaseImageTrigger(BaseImageTriggerType.RUNTIME, "SampleBaseImageTrigger")
+                .withBaseImageTrigger("SampleBaseImageTrigger", BaseImageTriggerType.RUNTIME)
                 .withCpuCount(2)
                 .create();
 
@@ -400,7 +400,7 @@ public class RegistryTaskTests extends RegistryTest {
                     .withRepositoryBranch(githubBranch)
                     .withRepositoryAuthentication(TokenType.PAT, githubPAT)
                     .attach()
-                .withBaseImageTrigger(BaseImageTriggerType.RUNTIME, "SampleBaseImageTrigger")
+                .withBaseImageTrigger("SampleBaseImageTrigger", BaseImageTriggerType.RUNTIME)
                 .withCpuCount(2)
                 .create();
 
@@ -488,7 +488,7 @@ public class RegistryTaskTests extends RegistryTest {
                     .withRepositoryBranch(githubBranch)
                     .withRepositoryAuthentication(TokenType.PAT, githubPAT)
                     .attach()
-                .withBaseImageTrigger(BaseImageTriggerType.RUNTIME, "SampleBaseImageTrigger")
+                .withBaseImageTrigger("SampleBaseImageTrigger", BaseImageTriggerType.RUNTIME)
                 .withCpuCount(2)
                 .create();
 
@@ -860,7 +860,7 @@ public class RegistryTaskTests extends RegistryTest {
                     .withRepositoryBranch(githubBranch)
                     .withRepositoryAuthentication(TokenType.PAT, githubPAT)
                     .attach()
-                .withBaseImageTrigger(BaseImageTriggerType.RUNTIME, "SampleBaseImageTrigger")
+                .withBaseImageTrigger("SampleBaseImageTrigger", BaseImageTriggerType.RUNTIME)
                 .withCpuCount(2)
                 .create();
 
@@ -941,7 +941,7 @@ public class RegistryTaskTests extends RegistryTest {
                     .withRepositoryBranch(githubBranch)
                     .withRepositoryAuthentication(TokenType.PAT, githubPAT)
                     .attach()
-                .withBaseImageTrigger(BaseImageTriggerType.RUNTIME, "SampleBaseImageTrigger")
+                .withBaseImageTrigger("SampleBaseImageTrigger", BaseImageTriggerType.RUNTIME)
                 .withCpuCount(2)
                 .create();
 
@@ -1050,7 +1050,7 @@ public class RegistryTaskTests extends RegistryTest {
                     .withRepositoryBranch(githubBranch)
                     .withRepositoryAuthentication(TokenType.PAT, githubPAT)
                     .attach()
-                .withBaseImageTrigger(BaseImageTriggerType.RUNTIME, "SampleBaseImageTrigger")
+                .withBaseImageTrigger("SampleBaseImageTrigger", BaseImageTriggerType.RUNTIME)
                 .withCpuCount(2)
                 .create();
 
@@ -1143,6 +1143,118 @@ public class RegistryTaskTests extends RegistryTest {
         Assert.assertNotNull(sasUrl);
         Assert.assertNotEquals("", sasUrl);
 
+    }
+
+    @Test
+    public void UpdateTriggers() {
+        final String acrName = generateRandomResourceName("acr", 10);
+        final String rgName = generateRandomResourceName("rgacr", 10);
+        String githubRepoUrl = "https://github.com/iscai-msft/file_task_test.git";
+        String githubBranch = "master";
+        String githubPAT = "f05180afa771ccfa2ce2c86768e9e0b83e8b6d1d";
+        String taskFilePath = "https://github.com/iscai-msft/file_task_test/tree/master/samples/java/task/acb.yaml";
+        String githubRepoUrlUpdate = "https://github.com/iscai-msft/docker_task_test.git";
+//        String githubRepoUrl = "Replace with your github repository url, eg: https://github.com/Azure/acr.git";
+//        String githubBranch = "Replace with your github repositoty branch, eg: master";
+//        String githubPAT = "Replace with your github personal access token which should have the scopes: admin:repo_hook and repo";
+//        String taskFilePath = "Path to your task file that is relative to the githubRepoUrl";
+//        String githubRepoUrlUpdate = "Replace with your github repository url to update to, eg: https://github.com/Azure/acr.git";
+
+        Registry registry = registryManager.containerRegistries().define(acrName)
+                .withRegion(Region.US_WEST_CENTRAL)
+                .withNewResourceGroup(rgName)
+                .withPremiumSku()
+                .withRegistryNameAsAdminUser()
+                .withTag("tag1", "value1")
+                .create();
+
+        String taskName = generateRandomResourceName("ft", 10);
+        RegistryTask registryTask = registryManager.containerRegistryTasks().define(taskName)
+                .withExistingRegistry(rgName, acrName)
+                .withLocation(Region.US_WEST_CENTRAL.name())
+                .withLinux(Architecture.AMD64)
+                .defineFileTaskStep()
+                    .withTaskPath(taskFilePath)
+                    .attach()
+                .defineSourceTrigger()
+                    .withName("SampleSourceTrigger")
+                    .withGithubAsSourceControl()
+                    .withSourceControlRepositoryUrl(githubRepoUrl)
+                    .withCommitTriggerEvent()
+                    .withPullTriggerEvent()
+                    .withRepositoryBranch(githubBranch)
+                    .withRepositoryAuthentication(TokenType.PAT, githubPAT)
+                    .withTriggerStatusEnabled()
+                    .attach()
+                .withBaseImageTrigger("SampleBaseImageTrigger", BaseImageTriggerType.RUNTIME)
+                .withCpuCount(2)
+                .create();
+
+        //Assert there is the correct number of source triggers
+        Assert.assertTrue(registryTask.trigger().sourceTriggers().size() == 1);
+
+
+        //Assert source control is correct
+        Assert.assertEquals(SourceControlType.GITHUB.toString(), registryTask.trigger().sourceTriggers().get(0).sourceRepository().sourceControlType().toString());
+
+        //Assert source control repository url is correct
+        Assert.assertEquals(githubRepoUrl, registryTask.trigger().sourceTriggers().get(0).sourceRepository().repositoryUrl());
+
+        //Assert source control source trigger event list is of correct size
+        Assert.assertTrue(registryTask.trigger().sourceTriggers().get(0).sourceTriggerEvents().size() == 2);
+
+        //Assert source trigger event list contains commit
+        Assert.assertTrue(registryTask.trigger().sourceTriggers().get(0).sourceTriggerEvents().contains(SourceTriggerEvent.COMMIT));
+
+        //Assert source trigger event list contains pull request
+        Assert.assertTrue(registryTask.trigger().sourceTriggers().get(0).sourceTriggerEvents().contains(SourceTriggerEvent.PULLREQUEST));
+
+        //Assert source control repository branch is correct
+        Assert.assertEquals(githubBranch, registryTask.trigger().sourceTriggers().get(0).sourceRepository().branch());
+
+        //Assert trigger status is correct
+        Assert.assertEquals(TriggerStatus.ENABLED.toString(), registryTask.trigger().sourceTriggers().get(0).status().toString());
+
+        //Assert name of the base image trigger is correct
+        Assert.assertEquals("SampleBaseImageTrigger", registryTask.trigger().baseImageTrigger().name());
+
+        //Assert that the base image trigger type is correct
+        Assert.assertEquals(BaseImageTriggerType.RUNTIME.toString(), registryTask.trigger().baseImageTrigger().baseImageTriggerType().toString());
+
+        registryTask.update()
+                .updateSourceTrigger("SampleSourceTrigger")
+                    .withSourceControlRepositoryUrl(githubRepoUrlUpdate)
+                    .withTriggerStatusDisabled()
+                    .parent()
+                .updateBaseImageTrigger("SampleBaseImageTriggerUpdate", BaseImageTriggerType.ALL)
+                .apply();
+
+        //Assert source triggers are correct
+        Assert.assertEquals("SampleSourceTrigger", registryTask.trigger().sourceTriggers().get(0).name());
+
+        //Assert source control is correct
+        Assert.assertEquals(SourceControlType.GITHUB.toString(), registryTask.trigger().sourceTriggers().get(0).sourceRepository().sourceControlType().toString());
+
+        //Assert source control repository url is correct
+        Assert.assertEquals(githubRepoUrlUpdate, registryTask.trigger().sourceTriggers().get(0).sourceRepository().repositoryUrl());
+
+        //Assert source trigger event list contains commit
+        Assert.assertTrue(registryTask.trigger().sourceTriggers().get(0).sourceTriggerEvents().contains(SourceTriggerEvent.COMMIT));
+
+        //Assert source trigger event list contains pull request
+        Assert.assertTrue(registryTask.trigger().sourceTriggers().get(0).sourceTriggerEvents().contains(SourceTriggerEvent.PULLREQUEST));
+
+        //Assert source control repository branch is correct
+        Assert.assertEquals(githubBranch, registryTask.trigger().sourceTriggers().get(0).sourceRepository().branch());
+
+        //Assert trigger status is correct
+        Assert.assertEquals(TriggerStatus.DISABLED.toString(), registryTask.trigger().sourceTriggers().get(0).status().toString());
+
+        //Assert name of the base image trigger is correct
+        Assert.assertEquals("SampleBaseImageTriggerUpdate", registryTask.trigger().baseImageTrigger().name());
+
+        //Assert that the base image trigger type is correct
+        Assert.assertEquals(BaseImageTriggerType.ALL.toString(), registryTask.trigger().baseImageTrigger().baseImageTriggerType().toString());
     }
 
 

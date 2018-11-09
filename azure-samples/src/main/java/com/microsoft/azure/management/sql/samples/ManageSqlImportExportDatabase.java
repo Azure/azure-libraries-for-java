@@ -45,6 +45,7 @@ public final class ManageSqlImportExportDatabase {
         final String rgName = Utils.createRandomName("rgsql");
         String storageName = SdkContext.randomResourceName(sqlServerName, 23);
         final String administratorLogin = "sqladmin3423";
+        // [SuppressMessage("Microsoft.Security", "CS002:SecretInNextLine", Justification="Serves as an example, not for deployment. Please change when using this in your code.")]
         final String administratorPassword = "myS3cureP@ssword";
         final String dbFromSampleName = "db-from-sample";
         try {

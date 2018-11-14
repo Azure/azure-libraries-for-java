@@ -74,7 +74,7 @@ class ManagementLockImpl
 
     @Override
     public ManagementLockImpl withLockedResourceGroup(String resourceGroupName) {
-        return withLockedResource(this.manager().subscriptionId() + "/resourceGroups/" + resourceGroupName);
+        return withLockedResource("/subscriptions/" + this.manager().subscriptionId() + "/resourceGroups/" + resourceGroupName);
     }
 
     @Override

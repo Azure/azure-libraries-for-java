@@ -1091,7 +1091,7 @@ public class AzureTests extends TestBase {
 
     @Test
     public void testContainerInstance() throws Exception {
-        new TestContainerInstance()
+       new TestContainerInstance()
             .runTest(azure.containerGroups(), azure.resourceGroups());
     }
 

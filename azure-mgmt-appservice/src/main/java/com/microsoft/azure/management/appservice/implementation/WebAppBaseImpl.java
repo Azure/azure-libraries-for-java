@@ -19,12 +19,10 @@ import com.microsoft.azure.management.appservice.ConnStringValueTypePair;
 import com.microsoft.azure.management.appservice.ConnectionString;
 import com.microsoft.azure.management.appservice.ConnectionStringType;
 import com.microsoft.azure.management.appservice.CustomHostNameDnsRecordType;
-import com.microsoft.azure.management.appservice.FileSystemHttpLogsConfig;
 import com.microsoft.azure.management.appservice.FtpsState;
 import com.microsoft.azure.management.appservice.HostNameBinding;
 import com.microsoft.azure.management.appservice.HostNameSslState;
 import com.microsoft.azure.management.appservice.HostNameType;
-import com.microsoft.azure.management.appservice.HttpLogsConfig;
 import com.microsoft.azure.management.appservice.JavaVersion;
 import com.microsoft.azure.management.appservice.MSDeploy;
 import com.microsoft.azure.management.appservice.ManagedPipelineMode;
@@ -113,16 +111,20 @@ abstract class WebAppBaseImpl<
     private MSDeploy msDeploy;
     private WebAppAuthenticationImpl<FluentT, FluentImplT> authentication;
     private boolean authenticationToUpdate;
-    private SiteLogsConfigInner siteLogsConfig;
+    private WebAppDiagnosticLogsImpl<FluentT, FluentImplT> diagnosticLogs;
+    private boolean diagnosticLogsToUpdate;
     private FunctionalTaskItem msiHandler;
     private boolean isInCreateMode;
 
-    WebAppBaseImpl(String name, SiteInner innerObject, SiteConfigResourceInner configObject, AppServiceManager manager) {
+    WebAppBaseImpl(String name, SiteInner innerObject, SiteConfigResourceInner siteConfig, SiteLogsConfigInner logConfig, AppServiceManager manager) {
         super(name, innerObject, manager);
         if (innerObject != null && innerObject.kind() != null) {
             innerObject.withKind(innerObject.kind().replace(";", ","));
         }
-        this.siteConfig = configObject;
+        this.siteConfig = siteConfig;
+        if (logConfig != null) {
+            this.diagnosticLogs = new WebAppDiagnosticLogsImpl<>(logConfig, this);
+        }
         normalizeProperties();
         isInCreateMode = inner() == null || inner().id() == null;
     }
@@ -152,6 +154,7 @@ abstract class WebAppBaseImpl<
         this.sourceControl = null;
         this.sourceControlToDelete = false;
         this.authenticationToUpdate = false;
+        this.diagnosticLogsToUpdate = false;
         this.sslBindingsToCreate = new TreeMap<>();
         this.msiHandler = null;
         if (inner().hostNames() != null) {
@@ -496,6 +499,11 @@ abstract class WebAppBaseImpl<
             return null;
         }
         return inner().identity().principalId();
+    }
+
+    @Override
+    public WebAppDiagnosticLogsImpl<FluentT, FluentImplT> diagnosticLogsConfig() {
+        return diagnosticLogs;
     }
 
     @Override
@@ -952,20 +960,21 @@ abstract class WebAppBaseImpl<
         return updateAuthentication(authentication.inner()).map(new Func1<SiteAuthSettingsInner, Indexable>() {
             @Override
             public Indexable call(SiteAuthSettingsInner siteAuthSettingsInner) {
+                WebAppBaseImpl.this.authentication = new WebAppAuthenticationImpl<>(siteAuthSettingsInner, WebAppBaseImpl.this);
                 return WebAppBaseImpl.this;
             }
         });
     }
 
     Observable<Indexable> submitLogConfiguration() {
-        if (siteLogsConfig == null) {
+        if (!diagnosticLogsToUpdate) {
             return Observable.just((Indexable) this);
         }
-        return updateDiagnosticLogsConfig(siteLogsConfig)
+        return updateDiagnosticLogsConfig(diagnosticLogs.inner())
                 .map(new Func1<SiteLogsConfigInner, Indexable>() {
                     @Override
                     public Indexable call(SiteLogsConfigInner siteLogsConfigInner) {
-                        siteLogsConfig = null;
+                        WebAppBaseImpl.this.diagnosticLogs = new WebAppDiagnosticLogsImpl<>(siteLogsConfigInner, WebAppBaseImpl.this);
                         return WebAppBaseImpl.this;
                     }
                 });
@@ -1371,6 +1380,11 @@ abstract class WebAppBaseImpl<
         authenticationToUpdate = true;
     }
 
+    void withDiagnosticLogs(WebAppDiagnosticLogsImpl<FluentT, FluentImplT> diagnosticLogs) {
+        this.diagnosticLogs = diagnosticLogs;
+        diagnosticLogsToUpdate = true;
+    }
+
     @Override
     @SuppressWarnings("unchecked")
     public Observable<FluentT> refreshAsync() {
@@ -1409,10 +1423,12 @@ abstract class WebAppBaseImpl<
     @Override
     @SuppressWarnings("unchecked")
     public FluentImplT withContainerLoggingEnabled(int quotaInMB, int retentionDays) {
-        siteLogsConfig = new SiteLogsConfigInner()
-                .withHttpLogs(new HttpLogsConfig().withFileSystem(
-                        new FileSystemHttpLogsConfig().withEnabled(true).withRetentionInMb(quotaInMB).withRetentionInDays(retentionDays)));
-        return (FluentImplT) this;
+        return updateDiagnosticLogsConfiguration()
+                .withWebServerLogging()
+                .withWebServerLogsStoredOnFileSystem()
+                .withWebServerFileSystemQuotaInMB(quotaInMB)
+                .withLogRetentionDays(retentionDays)
+                .attach();
     }
 
     @Override
@@ -1423,10 +1439,9 @@ abstract class WebAppBaseImpl<
     @Override
     @SuppressWarnings("unchecked")
     public FluentImplT withContainerLoggingDisabled() {
-        siteLogsConfig = new SiteLogsConfigInner()
-                .withHttpLogs(new HttpLogsConfig().withFileSystem(
-                        new FileSystemHttpLogsConfig().withEnabled(false)));
-        return (FluentImplT) this;
+        return updateDiagnosticLogsConfiguration()
+                .withoutWebServerLogging()
+                .attach();
     }
 
     @Override
@@ -1518,5 +1533,19 @@ abstract class WebAppBaseImpl<
                 resourceId.subscriptionId(),
                 resourceId.resourceGroupName());
 
+    }
+
+    @Override
+    public WebAppDiagnosticLogsImpl<FluentT, FluentImplT> defineDiagnosticLogsConfiguration() {
+        if (diagnosticLogs == null) {
+            return new WebAppDiagnosticLogsImpl<>(new SiteLogsConfigInner(), this);
+        } else {
+            return diagnosticLogs;
+        }
+    }
+
+    @Override
+    public WebAppDiagnosticLogsImpl<FluentT, FluentImplT> updateDiagnosticLogsConfiguration() {
+        return defineDiagnosticLogsConfiguration();
     }
 }

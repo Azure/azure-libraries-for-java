@@ -48,8 +48,8 @@ abstract class DeploymentSlotBaseImpl<
     private final String name;
     WebAppBase configurationSource;
 
-    DeploymentSlotBaseImpl(String name, SiteInner innerObject, SiteConfigResourceInner configObject, final ParentImplT parent) {
-        super(name.replaceAll(".*/", ""), innerObject, configObject, parent.manager());
+    DeploymentSlotBaseImpl(String name, SiteInner innerObject, SiteConfigResourceInner siteConfig, SiteLogsConfigInner logConfig, final ParentImplT parent) {
+        super(name.replaceAll(".*/", ""), innerObject, siteConfig, logConfig, parent.manager());
         this.name = name.replaceAll(".*/", "");
         this.parent = parent;
         inner().withServerFarmId(parent.appServicePlanId());

@@ -44,8 +44,8 @@ class WebAppImpl
     private DeploymentSlots deploymentSlots;
     private KuduClient kuduClient;
 
-    WebAppImpl(String name, SiteInner innerObject, SiteConfigResourceInner configObject, AppServiceManager manager) {
-        super(name, innerObject, configObject, manager);
+    WebAppImpl(String name, SiteInner innerObject, SiteConfigResourceInner siteConfig, SiteLogsConfigInner logConfig, AppServiceManager manager) {
+        super(name, innerObject, siteConfig, logConfig, manager);
         kuduClient = new KuduClient(this);
     }
 

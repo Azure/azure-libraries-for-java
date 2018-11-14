@@ -313,6 +313,11 @@ public interface WebAppBase extends
     String linuxFxVersion();
 
     /**
+     * @return the diagnostic logs configuration
+     */
+    WebAppDiagnosticLogs diagnosticLogsConfig();
+
+    /**
      * @return the mapping from host names and the host name bindings
      */
     @Method
@@ -882,6 +887,8 @@ public interface WebAppBase extends
          */
         @Beta(SinceVersion.V1_5_0)
         interface WithDiagnosticLogging<FluentT> {
+            WebAppDiagnosticLogs.DefinitionStages.Blank<WithCreate<FluentT>> defineDiagnosticLogsConfiguration();
+
             /**
              * Specifies the configuration for container logging for Linux web apps.
              * @param quotaInMB the limit that restricts file system usage by app diagnostics logs. Value can range from 25 MB and 100 MB.
@@ -1410,6 +1417,8 @@ public interface WebAppBase extends
          */
         @Beta(SinceVersion.V1_5_0)
         interface WithDiagnosticLogging<FluentT> {
+            WebAppDiagnosticLogs.UpdateStages.Blank<Update<FluentT>> updateDiagnosticLogsConfiguration();
+
             /**
              * Specifies the configuration for container logging for Linux web apps.
              * @param quotaInMB the limit that restricts file system usage by app diagnostics logs. Value can range from 25 MB and 100 MB.

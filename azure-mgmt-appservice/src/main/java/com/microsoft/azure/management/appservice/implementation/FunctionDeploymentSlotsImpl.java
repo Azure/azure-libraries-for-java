@@ -18,6 +18,7 @@ import com.microsoft.rest.ServiceFuture;
 import rx.Completable;
 import rx.Observable;
 import rx.functions.Func1;
+import rx.functions.Func2;
 
 /**
  * The implementation DeploymentSlots.
@@ -44,14 +45,13 @@ class FunctionDeploymentSlotsImpl
         converter = new PagedListConverter<SiteInner, FunctionDeploymentSlot>() {
             @Override
             public Observable<FunctionDeploymentSlot> typeConvertAsync(final SiteInner siteInner) {
-                return innerCollection.getConfigurationSlotAsync(
-                        siteInner.resourceGroup(),
-                        parent.name(),
-                        siteInner.name().replaceAll(".*/", ""))
-                        .map(new Func1<SiteConfigResourceInner, FunctionDeploymentSlot>() {
+                return Observable.zip(
+                        innerCollection.getConfigurationSlotAsync(siteInner.resourceGroup(), parent.name(), siteInner.name()),
+                        innerCollection.getDiagnosticLogsConfigurationSlotAsync(siteInner.resourceGroup(), parent.name(), siteInner.name()),
+                        new Func2<SiteConfigResourceInner, SiteLogsConfigInner, FunctionDeploymentSlot>() {
                             @Override
-                            public FunctionDeploymentSlot call(SiteConfigResourceInner siteConfigResourceInner) {
-                                return wrapModel(siteInner, siteConfigResourceInner);
+                            public FunctionDeploymentSlot call(SiteConfigResourceInner siteConfigResourceInner, SiteLogsConfigInner logsConfigInner) {
+                                return wrapModel(siteInner, siteConfigResourceInner, logsConfigInner);
                             }
                         });
             }
@@ -60,7 +60,7 @@ class FunctionDeploymentSlotsImpl
 
     @Override
     protected FunctionDeploymentSlotImpl wrapModel(String name) {
-        return new FunctionDeploymentSlotImpl(name, new SiteInner(), null, parent)
+        return new FunctionDeploymentSlotImpl(name, new SiteInner(), null, null, parent)
                 .withRegion(parent.regionName())
                 .withExistingResourceGroup(parent.resourceGroupName());
     }
@@ -70,7 +70,7 @@ class FunctionDeploymentSlotsImpl
         if (inner == null) {
             return null;
         }
-        return wrapModel(inner, null);
+        return wrapModel(inner, null, null);
     }
 
     protected PagedList<FunctionDeploymentSlot> wrapList(PagedList<SiteInner> pagedList) {
@@ -90,11 +90,13 @@ class FunctionDeploymentSlotsImpl
                 if (siteInner == null) {
                     return null;
                 }
-                return innerCollection.getConfigurationSlotAsync(resourceGroup, parentName, name)
-                        .map(new Func1<SiteConfigResourceInner, FunctionDeploymentSlot>() {
+                return Observable.zip(
+                        innerCollection.getConfigurationSlotAsync(resourceGroup, parentName, name),
+                        innerCollection.getDiagnosticLogsConfigurationSlotAsync(resourceGroup, parentName, name),
+                        new Func2<SiteConfigResourceInner, SiteLogsConfigInner, FunctionDeploymentSlot>() {
                             @Override
-                            public FunctionDeploymentSlot call(SiteConfigResourceInner siteConfigInner) {
-                                return wrapModel(siteInner, siteConfigInner);
+                            public FunctionDeploymentSlot call(SiteConfigResourceInner siteConfigResourceInner, SiteLogsConfigInner logsConfigInner) {
+                                return wrapModel(siteInner, siteConfigResourceInner, logsConfigInner);
                             }
                         });
             }
@@ -152,10 +154,10 @@ class FunctionDeploymentSlotsImpl
                 });
     }
 
-    private FunctionDeploymentSlotImpl wrapModel(SiteInner inner, SiteConfigResourceInner configResourceInner) {
+    private FunctionDeploymentSlotImpl wrapModel(SiteInner inner, SiteConfigResourceInner siteConfig, SiteLogsConfigInner logConfig) {
         if (inner == null) {
             return null;
         }
-        return new FunctionDeploymentSlotImpl(inner.name(), inner, configResourceInner, parent);
+        return new FunctionDeploymentSlotImpl(inner.name(), inner, siteConfig, logConfig, parent);
     }
 }

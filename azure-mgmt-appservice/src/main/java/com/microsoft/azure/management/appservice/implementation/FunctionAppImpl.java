@@ -77,8 +77,8 @@ class FunctionAppImpl
     private final KuduClient kuduClient;
     private FunctionDeploymentSlots deploymentSlots;
 
-    FunctionAppImpl(final String name, SiteInner innerObject, SiteConfigResourceInner configObject, AppServiceManager manager) {
-        super(name, innerObject, configObject, manager);
+    FunctionAppImpl(final String name, SiteInner innerObject, SiteConfigResourceInner siteConfig, SiteLogsConfigInner logConfig, AppServiceManager manager) {
+        super(name, innerObject, siteConfig, logConfig, manager);
         functionAppKeyService = manager.restClient().retrofit().create(FunctionAppKeyService.class);
         HttpUrl defaultHostName = HttpUrl.parse(defaultHostName());
         if (defaultHostName == null) {

@@ -56,7 +56,7 @@ public class RuntimeStack {
     public static final RuntimeStack TOMCAT_9_0_JRE8 = new RuntimeStack("TOMCAT", "9.0-jre8");
 
     /** WildFly 14.0-jre image. */
-    public static final RuntimeStack WILDFLY_14_JRE = new RuntimeStack("WILDFLY", "14-jre");
+    public static final RuntimeStack WILDFLY_14_JRE8 = new RuntimeStack("WILDFLY", "14-jre8");
 
     /** The name of the language runtime stack. */
     private String stack;

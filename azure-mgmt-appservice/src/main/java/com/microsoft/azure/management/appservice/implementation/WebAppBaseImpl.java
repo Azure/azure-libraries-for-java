@@ -1108,7 +1108,7 @@ abstract class WebAppBaseImpl<
     }
 
     public FluentImplT withoutJava() {
-        return withJavaVersion(JavaVersion.fromString("")).withWebContainer(null);
+        return withJavaVersion(JavaVersion.fromString("")).withWebContainer(WebContainer.fromString(""));
     }
 
     @SuppressWarnings("unchecked")

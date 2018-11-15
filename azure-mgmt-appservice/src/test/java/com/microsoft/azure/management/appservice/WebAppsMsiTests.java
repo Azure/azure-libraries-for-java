@@ -40,7 +40,7 @@ public class WebAppsMsiTests extends AppServiceTest {
                 .withRegion(Region.US_WEST)
                 .withNewResourceGroup(RG_NAME_1)
                 .withNewWindowsPlan(PricingTier.BASIC_B1)
-                .withRemoteDebuggingEnabled(RemoteVisualStudioVersion.VS2013)
+                .withRemoteDebuggingEnabled(RemoteVisualStudioVersion.VS2015)
                 .withSystemAssignedManagedServiceIdentity()
                 .withSystemAssignedIdentityBasedAccessToCurrentResourceGroup(BuiltInRole.CONTRIBUTOR)
                 .withJavaVersion(JavaVersion.JAVA_8_NEWEST)

@@ -29,7 +29,7 @@ public class DiagnosticLogsTests extends AppServiceTest {
     }
 
     @Test
-    public void canCRUDWebAppWithAuthentication() throws Exception {
+    public void canCRUDWebAppWithDiagnosticLogs() throws Exception {
         // Create with new app service plan
         WebApp webApp1 = appServiceManager.webApps().define(WEBAPP_NAME_1)
                 .withRegion(Region.US_WEST)

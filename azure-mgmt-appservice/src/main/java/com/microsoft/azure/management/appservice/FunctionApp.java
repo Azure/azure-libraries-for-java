@@ -115,20 +115,6 @@ public interface FunctionApp extends
     @Method
     Completable syncTriggersAsync();
 
-    /**
-     * @return a open stream to the application logs
-     */
-    @Beta(SinceVersion.V1_6_0)
-    @Method
-    InputStream streamApplicationLogs();
-
-    /**
-     * @return an Observable streaming application logs
-     */
-    @Beta(SinceVersion.V1_6_0)
-    @Method
-    Observable<String> streamApplicationLogsAsync();
-
     /**************************************************************
      * Fluent interfaces to provision a Function App
      **************************************************************/

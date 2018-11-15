@@ -32,11 +32,9 @@ class FunctionDeploymentSlotImpl
         FunctionDeploymentSlot,
         FunctionDeploymentSlot.Definition,
         FunctionDeploymentSlot.Update {
-    private KuduClient kuduClient;
 
     FunctionDeploymentSlotImpl(String name, SiteInner innerObject, SiteConfigResourceInner siteConfig, SiteLogsConfigInner logConfig, FunctionAppImpl parent) {
         super(name, innerObject, siteConfig, logConfig, parent);
-        kuduClient = new KuduClient(this);
     }
 
     @Override

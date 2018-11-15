@@ -39,18 +39,13 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 import rx.Completable;
 import rx.Observable;
-import rx.Subscription;
 import rx.functions.Action0;
-import rx.functions.Action1;
 import rx.functions.Func1;
-import rx.schedulers.Schedulers;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.PipedInputStream;
-import java.io.PipedOutputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -74,7 +69,6 @@ class FunctionAppImpl
     private StorageAccount currentStorageAccount;
     private final FunctionAppKeyService functionAppKeyService;
     private final FunctionService functionService;
-    private final KuduClient kuduClient;
     private FunctionDeploymentSlots deploymentSlots;
 
     FunctionAppImpl(final String name, SiteInner innerObject, SiteConfigResourceInner siteConfig, SiteLogsConfigInner logConfig, AppServiceManager manager) {
@@ -90,7 +84,6 @@ class FunctionAppImpl
                 .withLogLevel(LogLevel.BODY_AND_HEADERS)
                 .build()
                 .retrofit().create(FunctionService.class);
-        kuduClient = new KuduClient(this);
     }
 
     @Override
@@ -300,50 +293,56 @@ class FunctionAppImpl
     }
 
     @Override
-    public InputStream streamApplicationLogs() {
-        PipedInputStreamWithCallback in = new PipedInputStreamWithCallback();
-        final PipedOutputStream out = new PipedOutputStream();
-        try {
-            in.connect(out);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        final Subscription subscription = streamApplicationLogsAsync()
-                // Do not block current thread
-                .subscribeOn(Schedulers.newThread())
-                .subscribe(new Action1<String>() {
-                    @Override
-                    public void call(String s) {
-                        try {
-                            out.write(s.getBytes());
-                            out.write('\n');
-                            out.flush();
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
-                });
-        in.addCallback(new Action0() {
-            @Override
-            public void call() {
-                subscription.unsubscribe();
-                try {
-                    out.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        return in;
-    }
-
-    @Override
     public Observable<String> streamApplicationLogsAsync() {
         return functionService.ping()
                 .flatMap(new Func1<Void, Observable<String>>() {
                     @Override
                     public Observable<String> call(Void aVoid) {
-                        return kuduClient.streamApplicationLogsAsync();
+                        return FunctionAppImpl.super.streamApplicationLogsAsync();
+                    }
+                });
+    }
+
+    @Override
+    public Observable<String> streamHttpLogsAsync() {
+        return functionService.ping()
+                .flatMap(new Func1<Void, Observable<String>>() {
+                    @Override
+                    public Observable<String> call(Void aVoid) {
+                        return FunctionAppImpl.super.streamHttpLogsAsync();
+                    }
+                });
+    }
+
+    @Override
+    public Observable<String> streamTraceLogsAsync() {
+        return functionService.ping()
+                .flatMap(new Func1<Void, Observable<String>>() {
+                    @Override
+                    public Observable<String> call(Void aVoid) {
+                        return FunctionAppImpl.super.streamTraceLogsAsync();
+                    }
+                });
+    }
+
+    @Override
+    public Observable<String> streamDeploymentLogsAsync() {
+        return functionService.ping()
+                .flatMap(new Func1<Void, Observable<String>>() {
+                    @Override
+                    public Observable<String> call(Void aVoid) {
+                        return FunctionAppImpl.super.streamDeploymentLogsAsync();
+                    }
+                });
+    }
+
+    @Override
+    public Observable<String> streamAllLogsAsync() {
+        return functionService.ping()
+                .flatMap(new Func1<Void, Observable<String>>() {
+                    @Override
+                    public Observable<String> call(Void aVoid) {
+                        return FunctionAppImpl.super.streamAllLogsAsync();
                     }
                 });
     }
@@ -438,20 +437,6 @@ class FunctionAppImpl
                 expire = Long.parseLong(matcher.group(1));
             }
             return token;
-        }
-    }
-
-    private static class PipedInputStreamWithCallback extends PipedInputStream {
-        private Action0 callback;
-
-        private void addCallback(Action0 action) {
-            this.callback = action;
-        }
-
-        @Override
-        public void close() throws IOException {
-            callback.call();
-            super.close();
         }
     }
 }

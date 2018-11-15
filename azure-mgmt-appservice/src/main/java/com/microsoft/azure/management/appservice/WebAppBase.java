@@ -315,6 +315,7 @@ public interface WebAppBase extends
     /**
      * @return the diagnostic logs configuration
      */
+    @Beta(SinceVersion.V1_18_0)
     WebAppDiagnosticLogs diagnosticLogsConfig();
 
     /**
@@ -387,6 +388,76 @@ public interface WebAppBase extends
     @Beta(SinceVersion.V1_5_0)
     @Method
     Observable<byte[]> getContainerLogsZipAsync();
+
+    /**
+     * @return a open stream to the application logs
+     */
+    @Beta(SinceVersion.V1_6_0)
+    @Method
+    InputStream streamApplicationLogs();
+
+    /**
+     * @return a open stream to the HTTP logs
+     */
+    @Beta(SinceVersion.V1_18_0)
+    @Method
+    InputStream streamHttpLogs();
+
+    /**
+     * @return a open stream to the trace logs
+     */
+    @Beta(SinceVersion.V1_18_0)
+    @Method
+    InputStream streamTraceLogs();
+
+    /**
+     * @return a open stream to the deployment logs
+     */
+    @Beta(SinceVersion.V1_18_0)
+    @Method
+    InputStream streamDeploymentLogs();
+
+    /**
+     * @return a open stream to all logs
+     */
+    @Beta(SinceVersion.V1_18_0)
+    @Method
+    InputStream streamAllLogs();
+
+    /**
+     * @return an Observable streaming application logs
+     */
+    @Beta(SinceVersion.V1_6_0)
+    @Method
+    Observable<String> streamApplicationLogsAsync();
+
+    /**
+     * @return an Observable streaming HTTP logs
+     */
+    @Beta(SinceVersion.V1_18_0)
+    @Method
+    Observable<String> streamHttpLogsAsync();
+
+    /**
+     * @return an Observable streaming trace logs
+     */
+    @Beta(SinceVersion.V1_18_0)
+    @Method
+    Observable<String> streamTraceLogsAsync();
+
+    /**
+     * @return an Observable streaming deployment logs
+     */
+    @Beta(SinceVersion.V1_18_0)
+    @Method
+    Observable<String> streamDeploymentLogsAsync();
+
+    /**
+     * @return an Observable streaming all logs
+     */
+    @Beta(SinceVersion.V1_18_0)
+    @Method
+    Observable<String> streamAllLogsAsync();
 
     /**
      * Verifies the ownership of the domain for a certificate order by verifying a hostname
@@ -887,6 +958,11 @@ public interface WebAppBase extends
          */
         @Beta(SinceVersion.V1_5_0)
         interface WithDiagnosticLogging<FluentT> {
+            /**
+             * Specifies the definition of a new diagnostic logs configuration.
+             * @return the first stage of an diagnostic logs definition
+             */
+            @Beta(SinceVersion.V1_18_0)
             WebAppDiagnosticLogs.DefinitionStages.Blank<WithCreate<FluentT>> defineDiagnosticLogsConfiguration();
 
             /**
@@ -1417,6 +1493,11 @@ public interface WebAppBase extends
          */
         @Beta(SinceVersion.V1_5_0)
         interface WithDiagnosticLogging<FluentT> {
+            /**
+             * Specifies the update of an existing diagnostic logs configuration.
+             * @return the first stage of an diagnostic logs update
+             */
+            @Beta(SinceVersion.V1_18_0)
             WebAppDiagnosticLogs.UpdateStages.Blank<Update<FluentT>> updateDiagnosticLogsConfiguration();
 
             /**

@@ -137,6 +137,27 @@ class KeysImpl
     }
 
     @Override
+    public Key getByNameAndVersion(String name, String version) {
+        return wrapModel(inner.getKey(vault.vaultUri(), name, version));
+    }
+
+    @Override
+    public Observable<Key> getByNameAndVersionAsync(final String name, final String version) {
+        return new KeyVaultFutures.ServiceFutureConverter<KeyBundle, Key>() {
+
+            @Override
+            ServiceFuture<KeyBundle> callAsync() {
+                return inner.getKeyAsync(vault.vaultUri(), name, version, null);
+            }
+
+            @Override
+            Key wrapModel(KeyBundle keyBundle) {
+                return KeysImpl.this.wrapModel(keyBundle);
+            }
+        }.toObservable();
+    }
+
+    @Override
     public Key restore(byte[] backup) {
         return wrapModel(vault.client().restoreKey(vault.vaultUri(), backup));
     }
@@ -154,5 +175,26 @@ class KeysImpl
                 return KeysImpl.this.wrapModel(keyBundle);
             }
         }.toObservable();
+    }
+
+    @Override
+    public Observable<Key> getByNameAsync(final String name) {
+        return new KeyVaultFutures.ServiceFutureConverter<KeyBundle, Key>() {
+
+            @Override
+            ServiceFuture<KeyBundle> callAsync() {
+                return inner.getKeyAsync(vault.vaultUri(), name, null);
+            }
+
+            @Override
+            Key wrapModel(KeyBundle keyBundle) {
+                return KeysImpl.this.wrapModel(keyBundle);
+            }
+        }.toObservable();
+    }
+
+    @Override
+    public Key getByName(String name) {
+        return wrapModel(inner.getKey(vault.vaultUri(), name));
     }
 }

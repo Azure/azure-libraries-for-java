@@ -35,7 +35,7 @@ import java.io.File;
  *  - Wait for job to complete
  *  - Get output files
  *
- * Please note: in order to run this sample, please download and unzip sample package from here: https://batchaisamples.blob.core.windows.net/samples/BatchAIQuickStart.zip?st=2017-09-29T18%3A29%3A00Z&amp;se=2099-12-31T08%3A00%3A00Z&amp;sp=rl&amp;sv=2016-05-31&amp;sr=b&amp;sig=hrAZfbZC%2BQ%2FKccFQZ7OC4b%2FXSzCF5Myi4Cj%2BW3sVZDo%3D
+ * Please note: in order to run this sample, please download and unzip sample package from here: https://raw.githubusercontent.com/Azure/azure-libraries-for-java/master/azure-samples/src/main/resources/BatchAIQuickStart.zip
  * Export path to the content to $SAMPLE_DATA_PATH.
  */
 public final class ManageBatchAI {
@@ -56,6 +56,8 @@ public final class ManageBatchAI {
         final String jobShareName = SdkContext.randomResourceName("fs", 20);
         final String clusterName = SdkContext.randomResourceName("cluster", 15);
         final String userName = "tirekicker";
+        // [SuppressMessage("Microsoft.Security", "CS002:SecretInNextLine", Justification="Serves as an example, not for deployment. Please change when using this in your code.")]
+        final String password = "MyPassword";
         final String sharePath = "mnistcntksample";
         try {
             //=============================================================
@@ -111,7 +113,7 @@ public final class ManageBatchAI {
             BatchAICluster cluster = workspace.clusters().define(clusterName)
                     .withVMSize(VirtualMachineSizeTypes.STANDARD_NC6.toString())
                     .withUserName(userName)
-                    .withPassword("MyPassword")
+                    .withPassword(password)
                     .withAutoScale(0, 2)
                     .defineAzureFileShare()
                         .withStorageAccountName(saName)

@@ -132,4 +132,46 @@ class SecretsImpl
             }
         }.toObservable();
     }
+
+    @Override
+    public Observable<Secret> getByNameAsync(final String name) {
+        return new KeyVaultFutures.ServiceFutureConverter<SecretBundle, Secret>() {
+
+            @Override
+            ServiceFuture<SecretBundle> callAsync() {
+                return inner.getSecretAsync(vault.vaultUri(), name, null);
+            }
+
+            @Override
+            Secret wrapModel(SecretBundle o) {
+                return null;
+            }
+        }.toObservable();
+    }
+
+    @Override
+    public Secret getByName(String name) {
+        return wrapModel(inner.getSecret(vault.vaultUri(), name));
+    }
+
+    @Override
+    public Secret getByNameAndVersion(String name, String version) {
+        return wrapModel(inner.getSecret(vault.vaultUri(), name, version));
+    }
+
+    @Override
+    public Observable<Secret> getByNameAndVersionAsync(final String name, final String version) {
+        return new KeyVaultFutures.ServiceFutureConverter<SecretBundle, Secret>() {
+
+            @Override
+            ServiceFuture<SecretBundle> callAsync() {
+                return inner.getSecretAsync(vault.vaultUri(), name, version, null);
+            }
+
+            @Override
+            Secret wrapModel(SecretBundle o) {
+                return null;
+            }
+        }.toObservable();
+    }
 }

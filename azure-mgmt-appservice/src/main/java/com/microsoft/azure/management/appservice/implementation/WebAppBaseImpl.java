@@ -1108,7 +1108,7 @@ abstract class WebAppBaseImpl<
     }
 
     public FluentImplT withoutJava() {
-        return withJavaVersion(JavaVersion.fromString("")).withWebContainer(null);
+        return withJavaVersion(JavaVersion.fromString("")).withWebContainer(WebContainer.fromString(""));
     }
 
     @SuppressWarnings("unchecked")
@@ -1119,6 +1119,9 @@ abstract class WebAppBaseImpl<
         if (webContainer == null) {
             siteConfig.withJavaContainer(null);
             siteConfig.withJavaContainerVersion(null);
+        } else if (webContainer.toString().isEmpty()) {
+            siteConfig.withJavaContainer("");
+            siteConfig.withJavaContainerVersion("");
         } else {
             String[] containerInfo = webContainer.toString().split(" ");
             siteConfig.withJavaContainer(containerInfo[0]);

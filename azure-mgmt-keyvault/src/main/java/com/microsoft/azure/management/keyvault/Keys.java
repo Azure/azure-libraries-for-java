@@ -10,6 +10,7 @@ import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsGettingById;
+import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsGettingByNameAsync;
 import com.microsoft.azure.management.resources.fluentcore.collection.SupportsCreating;
 import com.microsoft.azure.management.resources.fluentcore.collection.SupportsDeletingById;
 import com.microsoft.azure.management.resources.fluentcore.collection.SupportsListing;
@@ -24,7 +25,24 @@ public interface Keys extends
         SupportsCreating<Key.DefinitionStages.Blank>,
         SupportsDeletingById,
         SupportsGettingById<Key>,
+        SupportsGettingByNameAsync<Key>,
         SupportsListing<Key> {
+    /**
+     * Gets a Key Vault key.
+     * @param name the name of the key
+     * @param version the version of the key
+     * @return the key
+     */
+    Key getByNameAndVersion(String name, String version);
+
+    /**
+     * Gets a Key Vault key.
+     * @param name the name of the key
+     * @param version the version of the key
+     * @return the key
+     */
+    Observable<Key> getByNameAndVersionAsync(String name, String version);
+
     /**
      * Restores a backup key into a Key Vault key.
      * @param backup the backup key

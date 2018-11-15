@@ -62,6 +62,7 @@ public class GettingSqlServerMetrics {
         final String epName = "epSample";
         final String rgName = Utils.createRandomName("rgsql");
         final String administratorLogin = "sqladmin3423";
+        // [SuppressMessage("Microsoft.Security", "CS002:SecretInNextLine", Justification="Serves as an example, not for deployment. Please change when using this in your code.")]
         final String administratorPassword = "myS3curePwd";
         DateTime startTime = DateTime.now().toDateTime(DateTimeZone.UTC).minusDays(1);
 

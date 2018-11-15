@@ -47,6 +47,7 @@ public final class ManageSqlDatabase {
         final String sqlServerName = Utils.createRandomName("sqlserver");
         final String rgName = Utils.createRandomName("rgRSDSI");
         final String administratorLogin = "sqladmin3423";
+        // [SuppressMessage("Microsoft.Security", "CS002:SecretInNextLine", Justification="Serves as an example, not for deployment. Please change when using this in your code.")]
         final String administratorPassword = "myS3cureP@ssword";
         final String firewallRuleIPAddress = "10.0.0.1";
         final String firewallRuleStartIPAddress = "10.2.0.1";

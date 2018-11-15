@@ -41,6 +41,7 @@ public final class ManageStorageFromMSIEnabledVirtualMachine {
         final String rgName = Utils.createRandomName("rgCOMV");
         final String pipName = Utils.createRandomName("pip1");
         final String userName = "tirekicker";
+        // [SuppressMessage("Microsoft.Security", "CS002:SecretInNextLine", Justification="Serves as an example, not for deployment. Please change when using this in your code.")]
         final String password = "12NewPA$$w0rd!";
         final Region region = Region.US_WEST_CENTRAL;
 

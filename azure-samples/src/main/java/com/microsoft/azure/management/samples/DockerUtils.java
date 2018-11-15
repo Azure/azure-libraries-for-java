@@ -190,7 +190,7 @@ public class DockerUtils {
         final String publicIPDnsLabel = SdkContext.randomResourceName("pip", 10);
         final String vmUserName = "dockerUser";
         // [SuppressMessage("Microsoft.Security", "CS002:SecretInNextLine", Justification="Serves as an example, not for deployment. Please change when using this in your code.")]
-        final String vmPassword = "12NewPA$$w0rd!";
+        final String vmPassword = "12NewPA!!w0rd!";
 
         // Could not find a Docker environment; presume that there is no local Docker engine running and
         //    attempt to configure a Docker engine running inside a new    Azure virtual machine
@@ -213,6 +213,8 @@ public class DockerUtils {
         Date t2 = new Date();
         System.out.println("Created Azure Virtual Machine: (took " + ((t2.getTime() - t1.getTime()) / 1000) + " seconds) " + dockerVM.id());
 
+        // Wait for a minute for PIP to be available
+        SdkContext.sleep(60 * 1000);
         // Get the IP of the Docker host
         NicIPConfiguration nicIPConfiguration = dockerVM.getPrimaryNetworkInterface().primaryIPConfiguration();
         PublicIPAddress publicIp = nicIPConfiguration.getPublicIPAddress();

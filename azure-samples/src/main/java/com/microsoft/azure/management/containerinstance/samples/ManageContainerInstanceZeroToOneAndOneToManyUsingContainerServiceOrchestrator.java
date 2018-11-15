@@ -83,7 +83,7 @@ public class ManageContainerInstanceZeroToOneAndOneToManyUsingContainerServiceOr
      */
     public static boolean runSample(Azure azure, String clientId, String secret) {
         final String rgName = SdkContext.randomResourceName("rgaci", 15);
-        final Region region = Region.US_WEST;
+        final Region region = Region.US_EAST2;
 
         final String acrName = SdkContext.randomResourceName("acr", 20);
 
@@ -306,7 +306,8 @@ public class ManageContainerInstanceZeroToOneAndOneToManyUsingContainerServiceOr
             Config config = new Config();
             KubernetesClient kubernetesClient = new DefaultKubernetesClient(config);
 
-            SdkContext.sleep(5000);
+            // Wait for 15 minutes for kube endpoint to be available
+            SdkContext.sleep(15 * 60 * 1000);
 
 
             //=============================================================

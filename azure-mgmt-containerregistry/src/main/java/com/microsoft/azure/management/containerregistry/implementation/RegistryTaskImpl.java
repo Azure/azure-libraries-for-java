@@ -50,6 +50,7 @@ import rx.functions.Func1;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -170,6 +171,15 @@ class RegistryTaskImpl implements
     @Override
     public TriggerProperties trigger() {
         return this.inner.trigger();
+    }
+
+    @Override
+    public Map<String, RegistrySourceTrigger> sourceTriggers() {
+        Map<String, RegistrySourceTrigger> sourceTriggerMap = new HashMap<String, RegistrySourceTrigger>();
+        for (SourceTrigger sourceTrigger : this.inner.trigger().sourceTriggers()) {
+            sourceTriggerMap.put(sourceTrigger.name(), new RegistrySourceTriggerImpl(sourceTrigger.name(), this, false));
+        }
+        return sourceTriggerMap;
     }
 
     RegistryTaskImpl(ContainerRegistryManager registryManager, String taskName) {
@@ -332,14 +342,21 @@ class RegistryTaskImpl implements
     }
 
     @Override
-    public RegistrySourceTrigger.DefinitionStages.Blank defineSourceTrigger() {
-        if (this.inner.trigger() == null) {
-            this.inner.withTrigger(new TriggerProperties());
+    public RegistrySourceTriggerImpl defineSourceTrigger(String sourceTriggerName) {
+        if (isInCreateMode()) {
+            if (this.inner.trigger() == null) {
+                this.inner.withTrigger(new TriggerProperties());
+            }
+            if (this.inner.trigger().sourceTriggers() == null) {
+                this.inner.trigger().withSourceTriggers(new ArrayList<SourceTrigger>());
+            }
+            return new RegistrySourceTriggerImpl(sourceTriggerName, this, true);
+        } else {
+            this.taskUpdateParameters = new TaskUpdateParameters();
+            this.setTaskUpdateParameterTriggers();
+            return new RegistrySourceTriggerImpl(sourceTriggerName, this, true);
         }
-        if (this.inner.trigger().sourceTriggers() == null) {
-            this.inner.trigger().withSourceTriggers(new ArrayList<SourceTrigger>());
-        }
-        return new RegistrySourceTriggerImpl(this);
+
     }
 
     @Override
@@ -466,7 +483,7 @@ class RegistryTaskImpl implements
 
     @Override
     public RegistrySourceTrigger.Update updateSourceTrigger(String sourceTriggerName) {
-        return new RegistrySourceTriggerImpl(sourceTriggerName, this);
+        return new RegistrySourceTriggerImpl(sourceTriggerName, this, false);
     }
 
     @Override
@@ -556,12 +573,6 @@ class RegistryTaskImpl implements
 
     void withSourceTriggerUpdateParameters(SourceTriggerUpdateParameters sourceTriggerUpdateParameters) {
         List<SourceTriggerUpdateParameters> sourceTriggerUpdateParametersList = this.taskUpdateParameters.trigger().sourceTriggers();
-        for (int i = 0; i < sourceTriggerUpdateParametersList.size(); i++) {
-            if (sourceTriggerUpdateParametersList.get(i).name().equals(sourceTriggerUpdateParameters.name())) {
-                sourceTriggerUpdateParametersList.remove(i);
-                break;
-            }
-        }
         sourceTriggerUpdateParametersList.add(sourceTriggerUpdateParameters);
         this.taskUpdateParameters.trigger().withSourceTriggers(sourceTriggerUpdateParametersList);
     }
@@ -616,4 +627,5 @@ class RegistryTaskImpl implements
 
         return sourceUpdateParameters;
     }
+
 }

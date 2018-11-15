@@ -15,6 +15,7 @@ import com.microsoft.azure.management.containerregistry.SourceProperties;
 import com.microsoft.azure.management.containerregistry.SourceTrigger;
 import com.microsoft.azure.management.containerregistry.SourceTriggerEvent;
 import com.microsoft.azure.management.containerregistry.SourceTriggerUpdateParameters;
+import com.microsoft.azure.management.containerregistry.SourceUpdateParameters;
 import com.microsoft.azure.management.containerregistry.TokenType;
 import com.microsoft.azure.management.containerregistry.TriggerStatus;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
@@ -27,39 +28,66 @@ class RegistrySourceTriggerImpl implements
         RegistrySourceTrigger,
         RegistrySourceTrigger.Definition,
         RegistrySourceTrigger.Update,
+        RegistrySourceTrigger.UpdateDefinition,
         HasInner<SourceTrigger> {
     private SourceTrigger inner;
     private RegistryTaskImpl registryTaskImpl;
     private SourceTriggerUpdateParameters sourceTriggerUpdateParameters;
 
-    RegistrySourceTriggerImpl(RegistryTaskImpl registryTaskImpl) {
-        this.registryTaskImpl = registryTaskImpl;
-        this.inner = new SourceTrigger();
-        this.inner.withSourceRepository(new SourceProperties());
-    }
-
-    RegistrySourceTriggerImpl(String sourceTriggerName, RegistryTaskImpl registryTaskImpl) {
-        this.registryTaskImpl = registryTaskImpl;
-        this.inner = new SourceTrigger();
-        this.inner.withSourceRepository(new SourceProperties());
-
-        boolean foundSourceTrigger = false;
-        for (SourceTriggerUpdateParameters stup : registryTaskImpl.taskUpdateParameters.trigger().sourceTriggers()) {
-            if (stup.name().equals(sourceTriggerName)) {
-                this.sourceTriggerUpdateParameters = stup;
-                foundSourceTrigger = true;
+    RegistrySourceTriggerImpl(String sourceTriggerName, RegistryTaskImpl registryTaskImpl, boolean creation) {
+        if (creation) {
+            this.registryTaskImpl = registryTaskImpl;
+            if (registryTaskImpl.inner().id() == null) {
+                this.inner = new SourceTrigger();
+                this.inner.withSourceRepository(new SourceProperties());
+                this.inner.withName(sourceTriggerName);
+            } else {
+                this.sourceTriggerUpdateParameters = new SourceTriggerUpdateParameters();
+                this.sourceTriggerUpdateParameters.withSourceRepository(new SourceUpdateParameters());
+                this.sourceTriggerUpdateParameters.withName(sourceTriggerName);
             }
-        }
+        } else {
+            this.registryTaskImpl = registryTaskImpl;
+            this.inner = new SourceTrigger();
+            this.inner.withSourceRepository(new SourceProperties());
 
-        if (!foundSourceTrigger) {
-            throw new IllegalArgumentException("This task does not have a trigger corresponding to the inputted name");
+            boolean foundSourceTrigger = false;
+            for (SourceTriggerUpdateParameters stup : registryTaskImpl.taskUpdateParameters.trigger().sourceTriggers()) {
+                if (stup.name().equals(sourceTriggerName)) {
+                    this.sourceTriggerUpdateParameters = stup;
+                    foundSourceTrigger = true;
+                }
+            }
+
+            if (!foundSourceTrigger) {
+                throw new IllegalArgumentException("The trigger you are trying to update does not exist. If you are trying to define a new trigger while updating a task, please use the defineSourceTrigger function instead.");
+            }
         }
     }
 
     @Override
-    public RegistrySourceTriggerImpl withName(String name) {
-        this.inner.withName(name);
-        return this;
+    public SourceControlType sourceControlType() {
+        return this.inner.sourceRepository().sourceControlType();
+    }
+
+    @Override
+    public String sourceControlRepositoryUrl() {
+        return this.inner.sourceRepository().repositoryUrl();
+    }
+
+    @Override
+    public List<SourceTriggerEvent> sourceTriggerEvents() {
+        return this.inner.sourceTriggerEvents();
+    }
+
+    @Override
+    public String sourceControlBranch() {
+        return this.inner.sourceRepository().branch();
+    }
+
+    @Override
+    public TriggerStatus status() {
+        return this.inner.status();
     }
 
     @Override
@@ -152,44 +180,39 @@ class RegistrySourceTriggerImpl implements
 
     @Override
     public RegistrySourceTriggerImpl withCommitTriggerEvent() {
-        if (this.inner.sourceTriggerEvents() == null) {
-            this.inner.withSourceTriggerEvents(new ArrayList<SourceTriggerEvent>());
-        }
-        List<SourceTriggerEvent> sourceTriggerEvents = this.inner.sourceTriggerEvents();
-        sourceTriggerEvents.add(SourceTriggerEvent.COMMIT);
-        if (isInCreateMode()) {
-            this.inner.withSourceTriggerEvents(sourceTriggerEvents);
-        } else {
-            this.sourceTriggerUpdateParameters.withSourceTriggerEvents(sourceTriggerEvents);
-        }
-        return this;
+        return this.withTriggerEvent(SourceTriggerEvent.COMMIT);
     }
 
     @Override
     public RegistrySourceTriggerImpl withPullTriggerEvent() {
-        if (this.inner.sourceTriggerEvents() == null) {
-            this.inner.withSourceTriggerEvents(new ArrayList<SourceTriggerEvent>());
-        }
-        List<SourceTriggerEvent> sourceTriggerEvents = this.inner.sourceTriggerEvents();
-        sourceTriggerEvents.add(SourceTriggerEvent.PULLREQUEST);
-        if (isInCreateMode()) {
-            this.inner.withSourceTriggerEvents(sourceTriggerEvents);
-        } else {
-            this.sourceTriggerUpdateParameters.withSourceTriggerEvents(sourceTriggerEvents);
-        }
-        return this;
+        return this.withTriggerEvent(SourceTriggerEvent.PULLREQUEST);
     }
 
     @Override
     public RegistrySourceTriggerImpl withTriggerEvent(SourceTriggerEvent sourceTriggerEvent) {
-        if (this.inner.sourceTriggerEvents() == null) {
-            this.inner.withSourceTriggerEvents(new ArrayList<SourceTriggerEvent>());
-        }
-        List<SourceTriggerEvent> sourceTriggerEvents = this.inner.sourceTriggerEvents();
-        sourceTriggerEvents.add(SourceTriggerEvent.fromString(sourceTriggerEvent.toString()));
-        if (isInCreateMode()) {
-            this.inner.withSourceTriggerEvents(sourceTriggerEvents);
+        if (this.inner != null) {
+            if (this.inner.sourceTriggerEvents() == null) {
+                this.inner.withSourceTriggerEvents(new ArrayList<SourceTriggerEvent>());
+            }
+            List<SourceTriggerEvent> sourceTriggerEvents = this.inner.sourceTriggerEvents();
+            if (sourceTriggerEvents.contains(sourceTriggerEvent)) {
+                return this;
+            }
+            sourceTriggerEvents.add(SourceTriggerEvent.fromString(sourceTriggerEvent.toString()));
+            if (isInCreateMode()) {
+                this.inner.withSourceTriggerEvents(sourceTriggerEvents);
+            } else {
+                this.sourceTriggerUpdateParameters.withSourceTriggerEvents(sourceTriggerEvents);
+            }
         } else {
+            if (this.sourceTriggerUpdateParameters.sourceTriggerEvents() == null) {
+                this.sourceTriggerUpdateParameters.withSourceTriggerEvents(new ArrayList<SourceTriggerEvent>());
+            }
+            List<SourceTriggerEvent> sourceTriggerEvents = this.sourceTriggerUpdateParameters.sourceTriggerEvents();
+            if (sourceTriggerEvents.contains(sourceTriggerEvent)) {
+                return this;
+            }
+            sourceTriggerEvents.add(SourceTriggerEvent.fromString(sourceTriggerEvent.toString()));
             this.sourceTriggerUpdateParameters.withSourceTriggerEvents(sourceTriggerEvents);
         }
         return this;
@@ -197,22 +220,12 @@ class RegistrySourceTriggerImpl implements
 
     @Override
     public RegistrySourceTriggerImpl withTriggerStatusEnabled() {
-        if (isInCreateMode()) {
-            this.inner.withStatus(TriggerStatus.ENABLED);
-        } else {
-            this.sourceTriggerUpdateParameters.withStatus(TriggerStatus.ENABLED);
-        }
-        return this;
+        return this.withTriggerStatus(TriggerStatus.ENABLED);
     }
 
     @Override
     public RegistrySourceTriggerImpl withTriggerStatusDisabled() {
-        if (isInCreateMode()) {
-            this.inner.withStatus(TriggerStatus.DISABLED);
-        } else {
-            this.sourceTriggerUpdateParameters.withStatus(TriggerStatus.DISABLED);
-        }
-        return this;
+        return this.withTriggerStatus(TriggerStatus.DISABLED);
     }
 
     @Override
@@ -226,8 +239,12 @@ class RegistrySourceTriggerImpl implements
     }
 
     @Override
-    public RegistryTask.DefinitionStages.TaskCreatable attach() {
-        this.registryTaskImpl.withSourceTriggerCreateParameters(this.inner);
+    public RegistryTaskImpl attach() {
+        if (isInCreateMode()) {
+            this.registryTaskImpl.withSourceTriggerCreateParameters(this.inner);
+        } else {
+            this.registryTaskImpl.withSourceTriggerUpdateParameters(this.sourceTriggerUpdateParameters);
+        }
         return this.registryTaskImpl;
     }
 
@@ -245,7 +262,6 @@ class RegistrySourceTriggerImpl implements
 
     @Override
     public RegistryTask.Update parent() {
-        this.registryTaskImpl.withSourceTriggerUpdateParameters(this.sourceTriggerUpdateParameters);
         return this.registryTaskImpl;
     }
 }

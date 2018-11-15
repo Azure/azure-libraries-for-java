@@ -95,32 +95,20 @@ public interface RegistryDockerTaskRunRequest {
             DockerTaskRunRequestStepAttachable withImageNames(List<String> imageNames);
 
             /**
-             * The function that specifies push is enabled.
+             * The function that specifies push is enabled or not.
              *
+             * @param enabled whether push is enabled.
              * @return the next stage of the container Docker task run request definition.
              */
-            DockerTaskRunRequestStepAttachable withPushEnabled();
+            DockerTaskRunRequestStepAttachable withPushEnabled(boolean enabled);
 
             /**
-             * The function that specifies push is disabled.
+             * The function that specifies a cache will be used or not.
              *
+             * @param enabled whether caching is enabled or not.
              * @return the next stage of the container Docker task run request definition.
              */
-            DockerTaskRunRequestStepAttachable withPushDisabled();
-
-            /**
-             * The function that specifies a cache will be used.
-             *
-             * @return the next stage of the container Docker task run request definition.
-             */
-            DockerTaskRunRequestStepAttachable withCache();
-
-            /**
-             * The function that specifies a cache will not be used.
-             *
-             * @return the next stage of the container Docker task run request definition.
-             */
-            DockerTaskRunRequestStepAttachable withoutCache();
+            DockerTaskRunRequestStepAttachable withCacheEnabled(boolean enabled);
         }
     }
 }

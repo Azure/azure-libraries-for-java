@@ -228,29 +228,15 @@ class RegistryTaskRunImpl implements
     }
 
     @Override
-    public RegistryTaskRunImpl withArchiveEnabled() {
+    public RegistryTaskRunImpl withArchiveEnabled(boolean enabled) {
         if (this.fileTaskRunRequest != null) {
-            this.fileTaskRunRequest.withIsArchiveEnabled(true);
+            this.fileTaskRunRequest.withIsArchiveEnabled(enabled);
         } else if (this.encodedTaskRunRequest != null) {
-            this.encodedTaskRunRequest.withIsArchiveEnabled(true);
+            this.encodedTaskRunRequest.withIsArchiveEnabled(enabled);
         } else if (this.dockerTaskRunRequest != null) {
-            this.dockerTaskRunRequest.withIsArchiveEnabled(true);
+            this.dockerTaskRunRequest.withIsArchiveEnabled(enabled);
         } else if (this.taskRunRequest != null) {
-            this.taskRunRequest.withIsArchiveEnabled(true);
-        }
-        return this;
-    }
-
-    @Override
-    public RegistryTaskRunImpl withArchiveDisabled() {
-        if (this.fileTaskRunRequest != null) {
-            this.fileTaskRunRequest.withIsArchiveEnabled(false);
-        } else if (this.encodedTaskRunRequest != null) {
-            this.encodedTaskRunRequest.withIsArchiveEnabled(false);
-        } else if (this.dockerTaskRunRequest != null) {
-            this.dockerTaskRunRequest.withIsArchiveEnabled(false);
-        } else if (this.taskRunRequest != null) {
-            this.taskRunRequest.withIsArchiveEnabled(false);
+            this.taskRunRequest.withIsArchiveEnabled(enabled);
         }
         return this;
     }

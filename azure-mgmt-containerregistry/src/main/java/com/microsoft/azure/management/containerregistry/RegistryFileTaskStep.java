@@ -82,7 +82,7 @@ public interface RegistryFileTaskStep extends RegistryTaskStep {
          * The stage of the definition which contains all the minimum required inputs for the resource to be attached,
          *  but also allows for any other optional settings to be specified.
          */
-        interface FileTaskStepAttachable extends Attachable<RegistryTask.DefinitionStages.TaskCreatable> {
+        interface FileTaskStepAttachable extends Attachable<RegistryTask.DefinitionStages.SourceTriggerDefinition> {
             /**
              * The function that specifies the path to the values.
              *

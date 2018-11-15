@@ -98,47 +98,29 @@ class RegistryDockerTaskStepImpl
     }
 
     @Override
-    public RegistryDockerTaskStepImpl withPushEnabled() {
+    public RegistryDockerTaskStepImpl withPushEnabled(boolean enabled) {
         if (isInCreateMode()) {
-            this.inner.withIsPushEnabled(true);
+            this.inner.withIsPushEnabled(enabled);
         } else {
-            this.dockerTaskStepUpdateParameters.withIsPushEnabled(true);
+            this.dockerTaskStepUpdateParameters.withIsPushEnabled(enabled);
         }
         return this;
     }
 
+
     @Override
-    public RegistryDockerTaskStepImpl withPushDisabled() {
+    public RegistryDockerTaskStepImpl withCacheEnabled(boolean enabled) {
         if (isInCreateMode()) {
-            this.inner.withIsPushEnabled(false);
+            this.inner.withNoCache(!enabled);
         } else {
-            this.dockerTaskStepUpdateParameters.withIsPushEnabled(false);
+            this.dockerTaskStepUpdateParameters.withNoCache(!enabled);
         }
         return this;
     }
 
-    @Override
-    public RegistryDockerTaskStepImpl withCache() {
-        if (isInCreateMode()) {
-            this.inner.withNoCache(false);
-        } else {
-            this.dockerTaskStepUpdateParameters.withNoCache(false);
-        }
-        return this;
-    }
 
     @Override
-    public RegistryDockerTaskStepImpl withoutCache() {
-        if (isInCreateMode()) {
-            this.inner.withNoCache(true);
-        } else {
-            this.dockerTaskStepUpdateParameters.withNoCache(true);
-        }
-        return this;
-    }
-
-    @Override
-    public RegistryTask.DefinitionStages.TaskCreatable attach() {
+    public RegistryTask.DefinitionStages.SourceTriggerDefinition attach() {
         this.taskImpl.withDockerTaskStepCreateParameters(inner);
         return this.taskImpl;
     }

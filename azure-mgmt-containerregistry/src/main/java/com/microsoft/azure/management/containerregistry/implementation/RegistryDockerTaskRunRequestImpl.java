@@ -74,28 +74,17 @@ class RegistryDockerTaskRunRequestImpl implements
     }
 
     @Override
-    public RegistryDockerTaskRunRequestImpl withPushEnabled() {
-        this.inner.withIsPushEnabled(true);
+    public RegistryDockerTaskRunRequestImpl withPushEnabled(boolean enabled) {
+        this.inner.withIsPushEnabled(enabled);
         return this;
     }
 
     @Override
-    public RegistryDockerTaskRunRequestImpl withPushDisabled() {
-        this.inner.withIsPushEnabled(false);
+    public RegistryDockerTaskRunRequestImpl withCacheEnabled(boolean enabled) {
+        this.inner.withNoCache(enabled);
         return this;
     }
 
-    @Override
-    public RegistryDockerTaskRunRequestImpl withCache() {
-        this.inner.withNoCache(false);
-        return this;
-    }
-
-    @Override
-    public RegistryDockerTaskRunRequestImpl withoutCache() {
-        this.inner.withNoCache(true);
-        return this;
-    }
 
     @Override
     public RegistryTaskRunImpl attach() {

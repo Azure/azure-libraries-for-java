@@ -94,7 +94,7 @@ public interface RegistryDockerTaskStep extends
          * The stage of the definition which contains all the minimum required inputs for the resource to be attached,
          *  but also allows for any other optional settings to be specified.
          */
-        interface DockerTaskStepAttachable extends Attachable<RegistryTask.DefinitionStages.TaskCreatable> {
+        interface DockerTaskStepAttachable extends Attachable<RegistryTask.DefinitionStages.SourceTriggerDefinition> {
             /**
              * The function that specifies the list of image names.
              *
@@ -104,32 +104,21 @@ public interface RegistryDockerTaskStep extends
             DockerTaskStepAttachable withImageNames(List<String> imageNames);
 
             /**
-             * The function that enables push.
+             * The function that enables push depending on user input parameter.
              *
+             * @param enabled whether push will be enabled
              * @return the next step of the container registry DockerTaskStep definition.
              */
-            DockerTaskStepAttachable withPushEnabled();
+            DockerTaskStepAttachable withPushEnabled(boolean enabled);
 
             /**
-             * The function that disables push.
+             * The function that specifies the use of a cache based on user input parameter.
              *
+             * @param enabled whether caching will be enabled.
              * @return the next step of the container registry DockerTaskStep definition.
              */
-            DockerTaskStepAttachable withPushDisabled();
+            DockerTaskStepAttachable withCacheEnabled(boolean enabled);
 
-            /**
-             * The function that specifies the use of a cache.
-             *
-             * @return the next step of the container registry DockerTaskStep definition.
-             */
-            DockerTaskStepAttachable withCache();
-
-            /**
-             * The function that specifies not using a cache.
-             *
-             * @return the next step of the container registry DockerTaskStep definition.
-             */
-            DockerTaskStepAttachable withoutCache();
         }
     }
 
@@ -170,16 +159,10 @@ public interface RegistryDockerTaskStep extends
             /**
              * The function that specifies push is enabled.
              *
+             * @param enabled whether push is enabled.
              * @return the next stage of the container registry DockerTaskStep update.
              */
-            Update withPushEnabled();
-
-            /**
-             * The function that specifies push is disabled.
-             *
-             * @return the next stage of the container registry DockerTaskStep update.
-             */
-            Update withPushDisabled();
+            Update withPushEnabled(boolean enabled);
         }
 
         /**
@@ -189,16 +172,11 @@ public interface RegistryDockerTaskStep extends
             /**
              * The function that specifies the task has a cache.
              *
+             * @param enabled whether caching is enabled.
              * @return the next stage of the container registry DockerTaskStep update.
              */
-            Update withCache();
+            Update withCacheEnabled(boolean enabled);
 
-            /**
-             * The function that specifies the task does not have a cache.
-             *
-             * @return the next stage of the container registry DockerTaskStep update.
-             */
-            Update withoutCache();
         }
     }
 }

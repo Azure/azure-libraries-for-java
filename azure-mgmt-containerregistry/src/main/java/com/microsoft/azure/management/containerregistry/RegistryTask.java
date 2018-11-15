@@ -19,6 +19,8 @@ import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
 import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
 import org.joda.time.DateTime;
 
+import java.util.Map;
+
 
 /**
  * An immutable client-side representation of an Azure registry task.
@@ -83,6 +85,11 @@ public interface RegistryTask extends
     TriggerProperties trigger();
 
     /**
+     * @return the source triggers of the task.
+     */
+    Map<String, RegistrySourceTrigger> sourceTriggers();
+
+    /**
      * Container interface for all the definitions related to a registry task.
      */
     interface Definition extends
@@ -90,6 +97,7 @@ public interface RegistryTask extends
             DefinitionStages.Location,
             DefinitionStages.Platform,
             DefinitionStages.TaskStepType,
+            DefinitionStages.SourceTriggerDefinition,
             DefinitionStages.TriggerTypes,
             DefinitionStages.TaskCreatable {
     }
@@ -233,15 +241,29 @@ public interface RegistryTask extends
         }
 
         /**
+         * The stage of the container registry task definition that allows users to define a source trigger.
+         */
+        interface SourceTriggerDefinition {
+            /**
+             * The function that begins the definition of a source trigger.
+             *
+             * @param sourceTriggerName the name of the source trigger we are defining.
+             * @return the first stage of the RegistrySourceTrigger definition.
+             */
+            RegistrySourceTrigger.DefinitionStages.Blank defineSourceTrigger(String sourceTriggerName);
+        }
+
+        /**
          * The stage of the container registry task definition that allows users to define either a source trigger and/or a base image trigger.
          */
         interface TriggerTypes {
             /**
              * The function that begins the definition of a source trigger.
              *
+             * @param sourceTriggerName the name of the source trigger we are defining.
              * @return the first stage of the RegistrySourceTrigger definition.
              */
-            RegistrySourceTrigger.DefinitionStages.Blank defineSourceTrigger();
+            RegistrySourceTrigger.DefinitionStages.Blank defineSourceTrigger(String sourceTriggerName);
 
             /**
              * The function that defines a base image trigger with the two parameters required for base image trigger creation.
@@ -296,6 +318,7 @@ public interface RegistryTask extends
         interface TaskCreatable extends
                 AgentConfiguration,
                 Timeout,
+                SourceTriggerDefinition,
                 TriggerTypes,
                 Creatable<RegistryTask> {
         }
@@ -400,26 +423,34 @@ public interface RegistryTask extends
             /**
              * The function that begins the definition of a source trigger.
              *
-             * @return the first stage of the RegistrySourceTrigger definition.
+             * @return the next stage of the RegistrySourceTrigger update.
              */
             RegistrySourceTrigger.Update updateSourceTrigger(String sourceTriggerName);
 
             /**
-             * The function that defines a base image trigger with the two parameters required for base image trigger creation.
+             * The function that allows us to define a new source trigger in a registry task update.
+             *
+             * @param sourceTriggerName the name of the new source trigger we are updating.
+             * @return the next stage of the RegistrySourceTrigger update.
+             */
+            RegistrySourceTrigger.UpdateDefinitionStages.Blank defineSourceTrigger(String sourceTriggerName);
+
+            /**
+             * The function that defines a base image trigger with the two parameters required for base image trigger update.
              *
              * @param baseImageTriggerName the name of the base image trigger.
              * @param baseImageTriggerType the trigger type for the base image. Can be "All", "Runtime", or something else that the user inputs.
-             * @return the next stage of the container registry task definition.
+             * @return the next stage of the container registry task update.
              */
             Update updateBaseImageTrigger(String baseImageTriggerName, BaseImageTriggerType baseImageTriggerType);
 
             /**
-             * The function that defines a base image trigger with all possible parameters for base image trigger creation.
+             * The function that defines a base image trigger with all possible parameters for base image trigger update.
              *
              * @param baseImageTriggerName the name of the base image trigger.
              * @param baseImageTriggerType the trigger type for the base image. Can be "All", "Runtime", or something else that the user inputs.
              * @param triggerStatus the status for the trigger. Can be enabled, disabled, or something else that the user inputs.
-             * @return the next stage of the container registry task definition.
+             * @return the next stage of the container registry task update.
              */
             Update updateBaseImageTrigger(String baseImageTriggerName, BaseImageTriggerType baseImageTriggerType, TriggerStatus triggerStatus);
         }

@@ -158,18 +158,13 @@ public interface RegistryTaskRun extends
             RegistryTaskRunRequest withOverridingValue(String name, OverridingValue overridingValue);
 
             /**
-             * The function that specifies archiving will be enabled.
+             * The function that specifies archiving will or will not be enabled.
              *
+             * @param enabled whether archive will be enabled.
              * @return the next stage of the container registry task run definition.
              */
-            RegistryTaskRunRequest withArchiveEnabled();
+            RegistryTaskRunRequest withArchiveEnabled(boolean enabled);
 
-            /**
-             * The function that specifies archiving will be disabled.
-             *
-             * @return the next stage of the container registry task run definition.
-             */
-            RegistryTaskRunRequest withArchiveDisabled();
         }
 
         /**
@@ -277,18 +272,12 @@ public interface RegistryTaskRun extends
          */
         interface Archive {
             /**
-             * The function that specifies archiving is enabled.
+             * The function that specifies archiving is enabled or disabled.
              *
+             * @param enabled whether archiving is enabled or not.
              * @return the next stage of the container registry task run definition.
              */
-            RunRequestExecutable withArchiveEnabled();
-
-            /**
-             * The function that specifies archiving is disabled.
-             *
-             * @return the next stage of the container registry task run definition.
-             */
-            RunRequestExecutable withArchiveDisabled();
+            RunRequestExecutable withArchiveEnabled(boolean enabled);
         }
 
         /**

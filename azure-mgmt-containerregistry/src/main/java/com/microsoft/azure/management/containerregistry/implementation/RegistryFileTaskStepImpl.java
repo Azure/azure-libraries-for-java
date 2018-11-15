@@ -124,7 +124,7 @@ class RegistryFileTaskStepImpl
     }
 
     @Override
-    public RegistryTask.DefinitionStages.TaskCreatable attach() {
+    public RegistryTask.DefinitionStages.SourceTriggerDefinition attach() {
         this.taskImpl.withFileTaskStepCreateParameters(this.inner);
         return this.taskImpl;
     }

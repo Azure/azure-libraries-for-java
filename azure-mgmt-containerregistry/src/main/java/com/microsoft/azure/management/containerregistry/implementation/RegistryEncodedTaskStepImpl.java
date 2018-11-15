@@ -123,7 +123,7 @@ class RegistryEncodedTaskStepImpl
     }
 
     @Override
-    public RegistryTask.DefinitionStages.TaskCreatable attach() {
+    public RegistryTask.DefinitionStages.SourceTriggerDefinition attach() {
         this.taskImpl.withEncodedTaskStepCreateParameters(this.inner);
         return this.taskImpl;
     }

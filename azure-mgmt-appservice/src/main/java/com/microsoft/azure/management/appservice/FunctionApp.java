@@ -7,7 +7,6 @@
 package com.microsoft.azure.management.appservice;
 
 import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.management.resources.ResourceGroup;
@@ -19,7 +18,6 @@ import com.microsoft.azure.management.storage.StorageAccount;
 import rx.Completable;
 import rx.Observable;
 
-import java.io.InputStream;
 import java.util.Map;
 
 /**

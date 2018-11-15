@@ -10,8 +10,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.Azure;
+import com.microsoft.azure.management.resources.Deployment;
 import com.microsoft.azure.management.resources.DeploymentMode;
+import com.microsoft.azure.management.resources.DeploymentOperation;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.rest.LogLevel;
@@ -54,6 +57,8 @@ public final class DeployUsingARMTemplate {
             // Create a deployment for an Azure App Service via an ARM
             // template.
 
+            System.out.println(templateJson);
+            //
             System.out.println("Starting a deployment for an Azure App Service: " + deploymentName);
 
             azure.deployments().define(deploymentName)
@@ -71,6 +76,28 @@ public final class DeployUsingARMTemplate {
             f.printStackTrace();
 
         } finally {
+            try {
+                Deployment deployment = azure.deployments()
+                        .getByResourceGroup(rgName, deploymentName);
+                PagedList<DeploymentOperation> operations = deployment.deploymentOperations()
+                        .list();
+
+                for (DeploymentOperation operation : operations) {
+                    if (operation.targetResource() != null) {
+                        String operationTxt = String.format("id:%s name:%s type: %s provisioning-state:%s code: %s msg: %s",
+                                operation.targetResource().id(),
+                                operation.targetResource().resourceName(),
+                                operation.targetResource().resourceType(),
+                                operation.provisioningState(),
+                                operation.statusCode(),
+                                operation.statusMessage());
+                        System.out.println(operationTxt);
+                    }
+                }
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage());
+            }
+
 
             try {
                 System.out.println("Deleting Resource Group: " + rgName);

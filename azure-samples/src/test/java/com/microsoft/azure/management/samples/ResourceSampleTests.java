@@ -20,6 +20,9 @@ import org.junit.Test;
 public class ResourceSampleTests extends SamplesTestBase {
     @Test
     public void testDeployUsingARMTemplate() {
+        if (isPlaybackMode()) {
+            return;
+        }
         Assert.assertTrue(DeployUsingARMTemplate.runSample(azure));
     }
 

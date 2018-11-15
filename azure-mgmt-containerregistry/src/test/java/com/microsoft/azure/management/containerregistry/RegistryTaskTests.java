@@ -1001,6 +1001,7 @@ public class RegistryTaskTests extends RegistryTest {
 
 
     @Test
+    @Ignore("Needs personal tokens to run.")
     public void CancelAndDeleteRunsAndTasks() {
         final String acrName = generateRandomResourceName("acr", 10);
         final String rgName = generateRandomResourceName("rgacr", 10);

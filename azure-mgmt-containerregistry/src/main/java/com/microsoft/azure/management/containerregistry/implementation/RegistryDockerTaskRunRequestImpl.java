@@ -9,10 +9,8 @@ import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.containerregistry.Argument;
 import com.microsoft.azure.management.containerregistry.DockerBuildRequest;
 import com.microsoft.azure.management.containerregistry.OverridingArgument;
-import com.microsoft.azure.management.containerregistry.OverridingValue;
 import com.microsoft.azure.management.containerregistry.PlatformProperties;
 import com.microsoft.azure.management.containerregistry.RegistryDockerTaskRunRequest;
-import com.microsoft.azure.management.containerregistry.SetValue;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
 

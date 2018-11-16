@@ -11,6 +11,7 @@ import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.resources.fluentcore.model.Attachable;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * An immutable client-side representation of an Azure registry Docker task run request.
@@ -109,6 +110,23 @@ public interface RegistryDockerTaskRunRequest {
              * @return the next stage of the container Docker task run request definition.
              */
             DockerTaskRunRequestStepAttachable withCacheEnabled(boolean enabled);
+
+            /**
+             * The function that specifies the overriding arguments and what they will override.
+             *
+             * @param overridingArguments map with key of the name of the argument to be overridden and value OverridingArgument specifying the content of the overriding argument.
+             * @return the next stage of the container Docker task run request definition.
+             */
+            DockerTaskRunRequestStepAttachable withOverridingArguments(Map<String, OverridingArgument> overridingArguments);
+
+            /**
+             * The function that specifies the overriding argument and what it will override.
+             *
+             * @param name the name of the value to be overridden.
+             * @param overridingArgument the content of the overriding argument.
+             * @return the next stage of the container Docker task run request definition.
+             */
+            DockerTaskRunRequestStepAttachable withOverridingArgument(String name, OverridingArgument overridingArgument);
         }
     }
 }

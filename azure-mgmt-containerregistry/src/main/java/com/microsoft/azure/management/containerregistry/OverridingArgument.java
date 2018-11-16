@@ -8,33 +8,33 @@ package com.microsoft.azure.management.containerregistry;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 
 /**
- * Defines an overriding value that overrides values passed in for RegistryFileTaskStep, RegistryFileTaskRunRequest, RegistryEncodedTaskStep, and RegistryEncodedTaskRunRequest.
+ * Defines an overriding argument that overrides arguments passed in for RegistryDockerTaskStep and RegistryDockerTaskRunRequest.
  */
 @LangDefinition
-public class OverridingValue {
+public class OverridingArgument {
     private final String value;
     private final boolean isSecret;
 
     /**
-     * Constructor that defines an OverridingValue.
+     * Constructor that defines an OverridingArgument.
      *
-     * @param value the value of the overriding value.
-     * @param isSecret whether the overriding value will be secret.
+     * @param value the value of the overriding argument.
+     * @param isSecret whether the overriding argument will be secret.
      */
-    public OverridingValue(String value, boolean isSecret) {
+    public OverridingArgument(String value, boolean isSecret) {
         this.value = value;
         this.isSecret = isSecret;
     }
 
     /**
-     * @return the value of the overriding value.
+     * @return the value of the overriding argument.
      */
     public String value() {
         return this.value;
     }
 
     /**
-     * @return whether the overriding value is secret or not.
+     * @return whether the overriding argument is secret or not.
      */
     public boolean isSecret() {
         return this.isSecret;

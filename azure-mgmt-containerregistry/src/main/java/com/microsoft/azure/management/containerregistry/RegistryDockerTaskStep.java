@@ -12,6 +12,7 @@ import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.management.resources.fluentcore.model.Settable;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * An immutable client-side representation of an Azure RegistryDockerTaskStep registry task.
@@ -63,6 +64,7 @@ public interface RegistryDockerTaskStep extends
             RegistryDockerTaskStep.UpdateStages.ImageNames,
             RegistryDockerTaskStep.UpdateStages.Push,
             RegistryDockerTaskStep.UpdateStages.Cache,
+            RegistryDockerTaskStep.UpdateStages.OverridingArgumentUpdate,
             Settable<RegistryTask.Update> {
     }
 
@@ -118,6 +120,23 @@ public interface RegistryDockerTaskStep extends
              * @return the next step of the container registry DockerTaskStep definition.
              */
             DockerTaskStepAttachable withCacheEnabled(boolean enabled);
+
+            /**
+             * The function that specifies the overriding arguments and what they will override.
+             *
+             * @param overridingArguments map with key of the name of the value to be overridden and value OverridingArgument specifying the content of the overriding argument.
+             * @return the next stage of the container Docker task step definition.
+             */
+            DockerTaskStepAttachable withOverridingArguments(Map<String, OverridingArgument> overridingArguments);
+
+            /**
+             * The function that specifies the overriding argument and what it will override.
+             *
+             * @param name the name of the value to be overridden.
+             * @param overridingArgument the content of the overriding argument.
+             * @return the next stage of the container Docker task step definition.
+             */
+            DockerTaskStepAttachable withOverridingArgument(String name, OverridingArgument overridingArgument);
 
         }
     }
@@ -177,6 +196,28 @@ public interface RegistryDockerTaskStep extends
              */
             Update withCacheEnabled(boolean enabled);
 
+        }
+
+        /**
+         * The stage of the container registry DockerTaskStep update allowing to specify any overriding arguments.
+         */
+        interface OverridingArgumentUpdate {
+            /**
+             * The function that specifies the overriding arguments and what they will override.
+             *
+             * @param overridingArguments map with key of the name of the value to be overridden and value OverridingArgument specifying the content of the overriding argument.
+             * @return the next stage of the container Docker task step update.
+             */
+            Update withOverridingArguments(Map<String, OverridingArgument> overridingArguments);
+
+            /**
+             * The function that specifies the overriding argument and what it will override.
+             *
+             * @param name the name of the value to be overridden.
+             * @param overridingArgument the content of the overriding argument.
+             * @return the next stage of the container Docker task step update.
+             */
+            Update withOverridingArgument(String name, OverridingArgument overridingArgument);
         }
     }
 }

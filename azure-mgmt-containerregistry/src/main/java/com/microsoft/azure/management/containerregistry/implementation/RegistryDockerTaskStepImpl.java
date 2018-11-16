@@ -9,6 +9,7 @@ import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.containerregistry.Argument;
 import com.microsoft.azure.management.containerregistry.DockerBuildStepUpdateParameters;
 import com.microsoft.azure.management.containerregistry.DockerTaskStep;
+import com.microsoft.azure.management.containerregistry.OverridingArgument;
 import com.microsoft.azure.management.containerregistry.RegistryDockerTaskStep;
 import com.microsoft.azure.management.containerregistry.RegistryTask;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
@@ -17,6 +18,7 @@ import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 @LangDefinition
 class RegistryDockerTaskStepImpl
@@ -114,6 +116,44 @@ class RegistryDockerTaskStepImpl
             this.inner.withNoCache(!enabled);
         } else {
             this.dockerTaskStepUpdateParameters.withNoCache(!enabled);
+        }
+        return this;
+    }
+
+    @Override
+    public RegistryDockerTaskStepImpl withOverridingArguments(Map<String, OverridingArgument> overridingArguments) {
+        if (overridingArguments.size() == 0) {
+            return this;
+        }
+        List<Argument> overridingValuesList = new ArrayList<Argument>();
+        for (Map.Entry<String, OverridingArgument> entry : overridingArguments.entrySet()) {
+            Argument value = new Argument();
+            value.withName(entry.getKey());
+            value.withValue(entry.getValue().value());
+            value.withIsSecret(entry.getValue().isSecret());
+            overridingValuesList.add(value);
+        }
+        if (isInCreateMode()) {
+            this.inner.withArguments(overridingValuesList);
+        } else {
+            this.dockerTaskStepUpdateParameters.withArguments(overridingValuesList);
+        }
+        return this;
+    }
+
+    @Override
+    public RegistryDockerTaskStepImpl withOverridingArgument(String name, OverridingArgument overridingArgument) {
+        if (this.inner.arguments() == null) {
+            this.inner.withArguments(new ArrayList<Argument>());
+        }
+        Argument value = new Argument();
+        value.withName(name);
+        value.withValue(overridingArgument.value());
+        value.withIsSecret(overridingArgument.isSecret());
+        if (isInCreateMode()) {
+            this.inner.arguments().add(value);
+        } else {
+            this.dockerTaskStepUpdateParameters.arguments().add(value);
         }
         return this;
     }

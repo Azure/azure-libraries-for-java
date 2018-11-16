@@ -6,13 +6,19 @@
 package com.microsoft.azure.management.containerregistry.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
+import com.microsoft.azure.management.containerregistry.Argument;
 import com.microsoft.azure.management.containerregistry.DockerBuildRequest;
+import com.microsoft.azure.management.containerregistry.OverridingArgument;
+import com.microsoft.azure.management.containerregistry.OverridingValue;
 import com.microsoft.azure.management.containerregistry.PlatformProperties;
 import com.microsoft.azure.management.containerregistry.RegistryDockerTaskRunRequest;
+import com.microsoft.azure.management.containerregistry.SetValue;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @LangDefinition
 class RegistryDockerTaskRunRequestImpl implements
@@ -82,6 +88,36 @@ class RegistryDockerTaskRunRequestImpl implements
     @Override
     public RegistryDockerTaskRunRequestImpl withCacheEnabled(boolean enabled) {
         this.inner.withNoCache(enabled);
+        return this;
+    }
+
+    @Override
+    public RegistryDockerTaskRunRequestImpl withOverridingArguments(Map<String, OverridingArgument> overridingArguments) {
+        if (overridingArguments.size() == 0) {
+            return this;
+        }
+        List<Argument> overridingArgumentsList = new ArrayList<Argument>();
+        for (Map.Entry<String, OverridingArgument> entry : overridingArguments.entrySet()) {
+            Argument argument = new Argument();
+            argument.withName(entry.getKey());
+            argument.withValue(entry.getValue().value());
+            argument.withIsSecret(entry.getValue().isSecret());
+            overridingArgumentsList.add(argument);
+        }
+        this.inner.withArguments(overridingArgumentsList);
+        return this;
+    }
+
+    @Override
+    public DefinitionStages.DockerTaskRunRequestStepAttachable withOverridingArgument(String name, OverridingArgument overridingArgument) {
+        if (this.inner.arguments() == null) {
+            this.inner.withArguments(new ArrayList<Argument>());
+        }
+        Argument argument = new Argument();
+        argument.withName(name);
+        argument.withValue(overridingArgument.value());
+        argument.withIsSecret(overridingArgument.isSecret());
+        this.inner.arguments().add(argument);
         return this;
     }
 

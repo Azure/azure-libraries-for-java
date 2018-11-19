@@ -15,7 +15,7 @@ import com.microsoft.azure.management.resources.fluentcore.model.Attachable;
 import com.microsoft.azure.management.resources.fluentcore.model.Settable;
 
 /**
- * The properties of an encoded task step.
+ * An immutable client-side representation of an Azure RegistryEncodedTaskStep registry task.
  */
 @Fluent()
 @Beta(Beta.SinceVersion.V1_17_0)

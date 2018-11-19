@@ -19,7 +19,7 @@ import java.util.Map;
  * An immutable client-side representation of an Azure RegistryDockerTaskRunRequest registry task run request.
  */
 @Fluent()
-@Beta
+@Beta(Beta.SinceVersion.V1_17_0)
 public interface RegistryTaskRun extends
         HasInner<RunInner>,
         Refreshable<RegistryTaskRun> {

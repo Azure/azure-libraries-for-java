@@ -16,7 +16,7 @@ import java.util.Map;
  * An immutable client-side representation of an Azure registry file task run request.
  */
 @Fluent()
-@Beta
+@Beta(Beta.SinceVersion.V1_17_0)
 public interface RegistryFileTaskRunRequest {
     /**
      * @return the length of the timeout.

@@ -7,17 +7,19 @@
 package com.microsoft.azure.management.containerregistry;
 
 import com.microsoft.azure.management.apigeneration.Beta;
+import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.resources.fluentcore.model.Attachable;
 
 import java.util.List;
 import java.util.Map;
 
+
 /**
  * An immutable client-side representation of an Azure registry Docker task run request.
  */
 @Fluent()
-@Beta
+@Beta(SinceVersion.V1_17_0)
 public interface RegistryDockerTaskRunRequest {
     /**
      * @return the length of the timeout.

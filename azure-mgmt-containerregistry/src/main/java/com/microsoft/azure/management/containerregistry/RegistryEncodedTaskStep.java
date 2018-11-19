@@ -18,7 +18,7 @@ import com.microsoft.azure.management.resources.fluentcore.model.Settable;
  * The properties of an encoded task step.
  */
 @Fluent()
-@Beta
+@Beta(Beta.SinceVersion.V1_17_0)
 public interface RegistryEncodedTaskStep extends RegistryTaskStep {
     /**
      * @return the encoded task content of this encoded task step

@@ -18,7 +18,7 @@ import java.util.Map;
  * An immutable client-side representation of an Azure RegistryFileTaskStep registry task.
  */
 @Fluent()
-@Beta
+@Beta(Beta.SinceVersion.V1_17_0)
 public interface RegistryFileTaskStep extends RegistryTaskStep {
     /**
      * @return the task file path of this file task step

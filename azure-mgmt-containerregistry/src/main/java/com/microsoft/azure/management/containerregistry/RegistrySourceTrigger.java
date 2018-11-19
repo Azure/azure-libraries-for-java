@@ -17,7 +17,7 @@ import java.util.List;
  * An immutable client-side representation of a Container Registry source trigger.
  */
 @Fluent()
-@Beta
+@Beta(Beta.SinceVersion.V1_17_0)
 public interface RegistrySourceTrigger extends
         HasInner<SourceTrigger> {
 

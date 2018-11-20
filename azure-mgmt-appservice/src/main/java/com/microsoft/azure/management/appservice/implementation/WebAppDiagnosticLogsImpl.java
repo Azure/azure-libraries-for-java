@@ -283,7 +283,7 @@ class WebAppDiagnosticLogsImpl<
 
     @Override
     public WebAppDiagnosticLogsImpl<FluentT, FluentImplT> withoutApplicationLogsStoredOnStorageBlob() {
-        if (inner().applicationLogs() != null && inner().applicationLogs().fileSystem() != null) {
+        if (inner().applicationLogs() != null && inner().applicationLogs().azureBlobStorage() != null) {
             inner().applicationLogs().azureBlobStorage().withLevel(LogLevel.OFF);
         }
         return this;

@@ -8,10 +8,9 @@
 
 package com.microsoft.azure.management.graphrbac.implementation;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import org.joda.time.DateTime;
-
 import java.util.Map;
+import org.joda.time.DateTime;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Active Directory Key Credential information.
@@ -66,7 +65,7 @@ public class KeyCredentialInner {
     private byte[] customKeyIdentifier;
 
     /**
-     * Get the additionalProperties value.
+     * Get unmatched properties from the message are deserialized this collection.
      *
      * @return the additionalProperties value
      */
@@ -75,7 +74,7 @@ public class KeyCredentialInner {
     }
 
     /**
-     * Set the additionalProperties value.
+     * Set unmatched properties from the message are deserialized this collection.
      *
      * @param additionalProperties the additionalProperties value to set
      * @return the KeyCredentialInner object itself.
@@ -86,7 +85,7 @@ public class KeyCredentialInner {
     }
 
     /**
-     * Get the startDate value.
+     * Get start date.
      *
      * @return the startDate value
      */
@@ -95,7 +94,7 @@ public class KeyCredentialInner {
     }
 
     /**
-     * Set the startDate value.
+     * Set start date.
      *
      * @param startDate the startDate value to set
      * @return the KeyCredentialInner object itself.
@@ -106,7 +105,7 @@ public class KeyCredentialInner {
     }
 
     /**
-     * Get the endDate value.
+     * Get end date.
      *
      * @return the endDate value
      */
@@ -115,7 +114,7 @@ public class KeyCredentialInner {
     }
 
     /**
-     * Set the endDate value.
+     * Set end date.
      *
      * @param endDate the endDate value to set
      * @return the KeyCredentialInner object itself.
@@ -126,7 +125,7 @@ public class KeyCredentialInner {
     }
 
     /**
-     * Get the value value.
+     * Get key value.
      *
      * @return the value value
      */
@@ -135,7 +134,7 @@ public class KeyCredentialInner {
     }
 
     /**
-     * Set the value value.
+     * Set key value.
      *
      * @param value the value value to set
      * @return the KeyCredentialInner object itself.
@@ -146,7 +145,7 @@ public class KeyCredentialInner {
     }
 
     /**
-     * Get the keyId value.
+     * Get key ID.
      *
      * @return the keyId value
      */
@@ -155,7 +154,7 @@ public class KeyCredentialInner {
     }
 
     /**
-     * Set the keyId value.
+     * Set key ID.
      *
      * @param keyId the keyId value to set
      * @return the KeyCredentialInner object itself.
@@ -166,7 +165,7 @@ public class KeyCredentialInner {
     }
 
     /**
-     * Get the usage value.
+     * Get usage. Acceptable values are 'Verify' and 'Sign'.
      *
      * @return the usage value
      */
@@ -175,7 +174,7 @@ public class KeyCredentialInner {
     }
 
     /**
-     * Set the usage value.
+     * Set usage. Acceptable values are 'Verify' and 'Sign'.
      *
      * @param usage the usage value to set
      * @return the KeyCredentialInner object itself.
@@ -186,7 +185,7 @@ public class KeyCredentialInner {
     }
 
     /**
-     * Get the type value.
+     * Get type. Acceptable values are 'AsymmetricX509Cert' and 'Symmetric'.
      *
      * @return the type value
      */
@@ -195,7 +194,7 @@ public class KeyCredentialInner {
     }
 
     /**
-     * Set the type value.
+     * Set type. Acceptable values are 'AsymmetricX509Cert' and 'Symmetric'.
      *
      * @param type the type value to set
      * @return the KeyCredentialInner object itself.
@@ -206,7 +205,7 @@ public class KeyCredentialInner {
     }
 
     /**
-     * Get the customKeyIdentifier value.
+     * Get custom Key Identifier.
      *
      * @return the customKeyIdentifier value
      */
@@ -215,7 +214,7 @@ public class KeyCredentialInner {
     }
 
     /**
-     * Set the customKeyIdentifier value.
+     * Set custom Key Identifier.
      *
      * @param customKeyIdentifier the customKeyIdentifier value to set
      * @return the KeyCredentialInner object itself.

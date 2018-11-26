@@ -96,7 +96,7 @@ public class UserInner extends DirectoryObjectInner {
     private List<SignInName> signInNames;
 
     /**
-     * Get the immutableId value.
+     * Get this must be specified if you are using a federated domain for the user's userPrincipalName (UPN) property when creating a new user account. It is used to associate an on-premises Active Directory user account with their Azure AD user object.
      *
      * @return the immutableId value
      */
@@ -105,7 +105,7 @@ public class UserInner extends DirectoryObjectInner {
     }
 
     /**
-     * Set the immutableId value.
+     * Set this must be specified if you are using a federated domain for the user's userPrincipalName (UPN) property when creating a new user account. It is used to associate an on-premises Active Directory user account with their Azure AD user object.
      *
      * @param immutableId the immutableId value to set
      * @return the UserInner object itself.
@@ -116,7 +116,7 @@ public class UserInner extends DirectoryObjectInner {
     }
 
     /**
-     * Get the usageLocation value.
+     * Get a two letter country code (ISO standard 3166). Required for users that will be assigned licenses due to legal requirement to check for availability of services in countries. Examples include: "US", "JP", and "GB".
      *
      * @return the usageLocation value
      */
@@ -125,7 +125,7 @@ public class UserInner extends DirectoryObjectInner {
     }
 
     /**
-     * Set the usageLocation value.
+     * Set a two letter country code (ISO standard 3166). Required for users that will be assigned licenses due to legal requirement to check for availability of services in countries. Examples include: "US", "JP", and "GB".
      *
      * @param usageLocation the usageLocation value to set
      * @return the UserInner object itself.
@@ -136,7 +136,7 @@ public class UserInner extends DirectoryObjectInner {
     }
 
     /**
-     * Get the givenName value.
+     * Get the given name for the user.
      *
      * @return the givenName value
      */
@@ -145,7 +145,7 @@ public class UserInner extends DirectoryObjectInner {
     }
 
     /**
-     * Set the givenName value.
+     * Set the given name for the user.
      *
      * @param givenName the givenName value to set
      * @return the UserInner object itself.
@@ -156,7 +156,7 @@ public class UserInner extends DirectoryObjectInner {
     }
 
     /**
-     * Get the surname value.
+     * Get the user's surname (family name or last name).
      *
      * @return the surname value
      */
@@ -165,7 +165,7 @@ public class UserInner extends DirectoryObjectInner {
     }
 
     /**
-     * Set the surname value.
+     * Set the user's surname (family name or last name).
      *
      * @param surname the surname value to set
      * @return the UserInner object itself.
@@ -176,7 +176,7 @@ public class UserInner extends DirectoryObjectInner {
     }
 
     /**
-     * Get the userType value.
+     * Get a string value that can be used to classify user types in your directory, such as 'Member' and 'Guest'. Possible values include: 'Member', 'Guest'.
      *
      * @return the userType value
      */
@@ -185,7 +185,7 @@ public class UserInner extends DirectoryObjectInner {
     }
 
     /**
-     * Set the userType value.
+     * Set a string value that can be used to classify user types in your directory, such as 'Member' and 'Guest'. Possible values include: 'Member', 'Guest'.
      *
      * @param userType the userType value to set
      * @return the UserInner object itself.
@@ -196,7 +196,7 @@ public class UserInner extends DirectoryObjectInner {
     }
 
     /**
-     * Get the accountEnabled value.
+     * Get whether the account is enabled.
      *
      * @return the accountEnabled value
      */
@@ -205,7 +205,7 @@ public class UserInner extends DirectoryObjectInner {
     }
 
     /**
-     * Set the accountEnabled value.
+     * Set whether the account is enabled.
      *
      * @param accountEnabled the accountEnabled value to set
      * @return the UserInner object itself.
@@ -216,7 +216,7 @@ public class UserInner extends DirectoryObjectInner {
     }
 
     /**
-     * Get the displayName value.
+     * Get the display name of the user.
      *
      * @return the displayName value
      */
@@ -225,7 +225,7 @@ public class UserInner extends DirectoryObjectInner {
     }
 
     /**
-     * Set the displayName value.
+     * Set the display name of the user.
      *
      * @param displayName the displayName value to set
      * @return the UserInner object itself.
@@ -236,7 +236,7 @@ public class UserInner extends DirectoryObjectInner {
     }
 
     /**
-     * Get the userPrincipalName value.
+     * Get the principal name of the user.
      *
      * @return the userPrincipalName value
      */
@@ -245,7 +245,7 @@ public class UserInner extends DirectoryObjectInner {
     }
 
     /**
-     * Set the userPrincipalName value.
+     * Set the principal name of the user.
      *
      * @param userPrincipalName the userPrincipalName value to set
      * @return the UserInner object itself.
@@ -256,7 +256,7 @@ public class UserInner extends DirectoryObjectInner {
     }
 
     /**
-     * Get the mailNickname value.
+     * Get the mail alias for the user.
      *
      * @return the mailNickname value
      */
@@ -265,7 +265,7 @@ public class UserInner extends DirectoryObjectInner {
     }
 
     /**
-     * Set the mailNickname value.
+     * Set the mail alias for the user.
      *
      * @param mailNickname the mailNickname value to set
      * @return the UserInner object itself.
@@ -276,7 +276,7 @@ public class UserInner extends DirectoryObjectInner {
     }
 
     /**
-     * Get the mail value.
+     * Get the primary email address of the user.
      *
      * @return the mail value
      */
@@ -285,7 +285,7 @@ public class UserInner extends DirectoryObjectInner {
     }
 
     /**
-     * Set the mail value.
+     * Set the primary email address of the user.
      *
      * @param mail the mail value to set
      * @return the UserInner object itself.
@@ -296,7 +296,7 @@ public class UserInner extends DirectoryObjectInner {
     }
 
     /**
-     * Get the signInNames value.
+     * Get the sign-in names of the user.
      *
      * @return the signInNames value
      */
@@ -305,7 +305,7 @@ public class UserInner extends DirectoryObjectInner {
     }
 
     /**
-     * Set the signInNames value.
+     * Set the sign-in names of the user.
      *
      * @param signInNames the signInNames value to set
      * @return the UserInner object itself.

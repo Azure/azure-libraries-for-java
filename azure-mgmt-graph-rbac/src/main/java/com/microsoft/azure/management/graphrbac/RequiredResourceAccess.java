@@ -43,7 +43,7 @@ public class RequiredResourceAccess {
     private String resourceAppId;
 
     /**
-     * Get the additionalProperties value.
+     * Get unmatched properties from the message are deserialized this collection.
      *
      * @return the additionalProperties value
      */
@@ -52,7 +52,7 @@ public class RequiredResourceAccess {
     }
 
     /**
-     * Set the additionalProperties value.
+     * Set unmatched properties from the message are deserialized this collection.
      *
      * @param additionalProperties the additionalProperties value to set
      * @return the RequiredResourceAccess object itself.
@@ -63,7 +63,7 @@ public class RequiredResourceAccess {
     }
 
     /**
-     * Get the resourceAccess value.
+     * Get the list of OAuth2.0 permission scopes and app roles that the application requires from the specified resource.
      *
      * @return the resourceAccess value
      */
@@ -72,7 +72,7 @@ public class RequiredResourceAccess {
     }
 
     /**
-     * Set the resourceAccess value.
+     * Set the list of OAuth2.0 permission scopes and app roles that the application requires from the specified resource.
      *
      * @param resourceAccess the resourceAccess value to set
      * @return the RequiredResourceAccess object itself.
@@ -83,7 +83,7 @@ public class RequiredResourceAccess {
     }
 
     /**
-     * Get the resourceAppId value.
+     * Get the unique identifier for the resource that the application requires access to. This should be equal to the appId declared on the target resource application.
      *
      * @return the resourceAppId value
      */
@@ -92,7 +92,7 @@ public class RequiredResourceAccess {
     }
 
     /**
-     * Set the resourceAppId value.
+     * Set the unique identifier for the resource that the application requires access to. This should be equal to the appId declared on the target resource application.
      *
      * @param resourceAppId the resourceAppId value to set
      * @return the RequiredResourceAccess object itself.

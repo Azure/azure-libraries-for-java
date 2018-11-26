@@ -34,7 +34,7 @@ public class PasswordProfile {
     private Boolean forceChangePasswordNextLogin;
 
     /**
-     * Get the additionalProperties value.
+     * Get unmatched properties from the message are deserialized this collection.
      *
      * @return the additionalProperties value
      */
@@ -43,7 +43,7 @@ public class PasswordProfile {
     }
 
     /**
-     * Set the additionalProperties value.
+     * Set unmatched properties from the message are deserialized this collection.
      *
      * @param additionalProperties the additionalProperties value to set
      * @return the PasswordProfile object itself.
@@ -54,7 +54,7 @@ public class PasswordProfile {
     }
 
     /**
-     * Get the password value.
+     * Get password.
      *
      * @return the password value
      */
@@ -63,7 +63,7 @@ public class PasswordProfile {
     }
 
     /**
-     * Set the password value.
+     * Set password.
      *
      * @param password the password value to set
      * @return the PasswordProfile object itself.
@@ -74,7 +74,7 @@ public class PasswordProfile {
     }
 
     /**
-     * Get the forceChangePasswordNextLogin value.
+     * Get whether to force a password change on next login.
      *
      * @return the forceChangePasswordNextLogin value
      */
@@ -83,7 +83,7 @@ public class PasswordProfile {
     }
 
     /**
-     * Set the forceChangePasswordNextLogin value.
+     * Set whether to force a password change on next login.
      *
      * @param forceChangePasswordNextLogin the forceChangePasswordNextLogin value to set
      * @return the PasswordProfile object itself.

@@ -15,6 +15,7 @@ import com.google.common.reflect.TypeToken;
 import com.microsoft.azure.AzureServiceFuture;
 import com.microsoft.azure.CloudException;
 import com.microsoft.azure.ListOperationCallback;
+import com.microsoft.azure.management.graphrbac.RoleAssignmentCreateParameters;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
 import com.microsoft.rest.ServiceCallback;
@@ -77,7 +78,7 @@ public class RoleAssignmentsInner implements InnerSupportsDelete<RoleAssignmentI
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.graphrbac.RoleAssignments create" })
         @PUT("{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}")
-        Observable<Response<ResponseBody>> create(@Path(value = "scope", encoded = true) String scope, @Path("roleAssignmentName") String roleAssignmentName, @Body RoleAssignmentCreateParametersInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> create(@Path(value = "scope", encoded = true) String scope, @Path("roleAssignmentName") String roleAssignmentName, @Body RoleAssignmentCreateParameters parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.graphrbac.RoleAssignments get" })
         @GET("{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}")
@@ -89,7 +90,7 @@ public class RoleAssignmentsInner implements InnerSupportsDelete<RoleAssignmentI
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.graphrbac.RoleAssignments createById" })
         @PUT("{roleId}")
-        Observable<Response<ResponseBody>> createById(@Path(value = "roleId", encoded = true) String roleId, @Body RoleAssignmentCreateParametersInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> createById(@Path(value = "roleId", encoded = true) String roleId, @Body RoleAssignmentCreateParameters parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.graphrbac.RoleAssignments getById" })
         @GET("{roleId}")
@@ -244,7 +245,7 @@ public class RoleAssignmentsInner implements InnerSupportsDelete<RoleAssignmentI
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-01-01-preview";
+        final String apiVersion = "2018-09-01-preview";
         final String filter = null;
         return service.listForResource(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, this.client.subscriptionId(), filter, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<RoleAssignmentInner>>>>() {
@@ -388,7 +389,7 @@ public class RoleAssignmentsInner implements InnerSupportsDelete<RoleAssignmentI
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-01-01-preview";
+        final String apiVersion = "2018-09-01-preview";
         return service.listForResource(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, this.client.subscriptionId(), filter, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<RoleAssignmentInner>>>>() {
                 @Override
@@ -501,7 +502,7 @@ public class RoleAssignmentsInner implements InnerSupportsDelete<RoleAssignmentI
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-01-01-preview";
+        final String apiVersion = "2018-09-01-preview";
         final String filter = null;
         return service.listByResourceGroup(resourceGroupName, this.client.subscriptionId(), filter, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<RoleAssignmentInner>>>>() {
@@ -613,7 +614,7 @@ public class RoleAssignmentsInner implements InnerSupportsDelete<RoleAssignmentI
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-01-01-preview";
+        final String apiVersion = "2018-09-01-preview";
         return service.listByResourceGroup(resourceGroupName, this.client.subscriptionId(), filter, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<RoleAssignmentInner>>>>() {
                 @Override
@@ -694,7 +695,7 @@ public class RoleAssignmentsInner implements InnerSupportsDelete<RoleAssignmentI
         if (roleAssignmentName == null) {
             throw new IllegalArgumentException("Parameter roleAssignmentName is required and cannot be null.");
         }
-        final String apiVersion = "2018-01-01-preview";
+        final String apiVersion = "2018-09-01-preview";
         return service.delete(scope, roleAssignmentName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<RoleAssignmentInner>>>() {
                 @Override
@@ -727,7 +728,7 @@ public class RoleAssignmentsInner implements InnerSupportsDelete<RoleAssignmentI
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the RoleAssignmentInner object if successful.
      */
-    public RoleAssignmentInner create(String scope, String roleAssignmentName, RoleAssignmentCreateParametersInner parameters) {
+    public RoleAssignmentInner create(String scope, String roleAssignmentName, RoleAssignmentCreateParameters parameters) {
         return createWithServiceResponseAsync(scope, roleAssignmentName, parameters).toBlocking().single().body();
     }
 
@@ -741,7 +742,7 @@ public class RoleAssignmentsInner implements InnerSupportsDelete<RoleAssignmentI
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<RoleAssignmentInner> createAsync(String scope, String roleAssignmentName, RoleAssignmentCreateParametersInner parameters, final ServiceCallback<RoleAssignmentInner> serviceCallback) {
+    public ServiceFuture<RoleAssignmentInner> createAsync(String scope, String roleAssignmentName, RoleAssignmentCreateParameters parameters, final ServiceCallback<RoleAssignmentInner> serviceCallback) {
         return ServiceFuture.fromResponse(createWithServiceResponseAsync(scope, roleAssignmentName, parameters), serviceCallback);
     }
 
@@ -754,7 +755,7 @@ public class RoleAssignmentsInner implements InnerSupportsDelete<RoleAssignmentI
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the RoleAssignmentInner object
      */
-    public Observable<RoleAssignmentInner> createAsync(String scope, String roleAssignmentName, RoleAssignmentCreateParametersInner parameters) {
+    public Observable<RoleAssignmentInner> createAsync(String scope, String roleAssignmentName, RoleAssignmentCreateParameters parameters) {
         return createWithServiceResponseAsync(scope, roleAssignmentName, parameters).map(new Func1<ServiceResponse<RoleAssignmentInner>, RoleAssignmentInner>() {
             @Override
             public RoleAssignmentInner call(ServiceResponse<RoleAssignmentInner> response) {
@@ -772,7 +773,7 @@ public class RoleAssignmentsInner implements InnerSupportsDelete<RoleAssignmentI
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the RoleAssignmentInner object
      */
-    public Observable<ServiceResponse<RoleAssignmentInner>> createWithServiceResponseAsync(String scope, String roleAssignmentName, RoleAssignmentCreateParametersInner parameters) {
+    public Observable<ServiceResponse<RoleAssignmentInner>> createWithServiceResponseAsync(String scope, String roleAssignmentName, RoleAssignmentCreateParameters parameters) {
         if (scope == null) {
             throw new IllegalArgumentException("Parameter scope is required and cannot be null.");
         }
@@ -783,7 +784,7 @@ public class RoleAssignmentsInner implements InnerSupportsDelete<RoleAssignmentI
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2018-01-01-preview";
+        final String apiVersion = "2018-09-01-preview";
         return service.create(scope, roleAssignmentName, parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<RoleAssignmentInner>>>() {
                 @Override
@@ -864,7 +865,7 @@ public class RoleAssignmentsInner implements InnerSupportsDelete<RoleAssignmentI
         if (roleAssignmentName == null) {
             throw new IllegalArgumentException("Parameter roleAssignmentName is required and cannot be null.");
         }
-        final String apiVersion = "2018-01-01-preview";
+        final String apiVersion = "2018-09-01-preview";
         return service.get(scope, roleAssignmentName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<RoleAssignmentInner>>>() {
                 @Override
@@ -938,7 +939,7 @@ public class RoleAssignmentsInner implements InnerSupportsDelete<RoleAssignmentI
         if (roleId == null) {
             throw new IllegalArgumentException("Parameter roleId is required and cannot be null.");
         }
-        final String apiVersion = "2018-01-01-preview";
+        final String apiVersion = "2018-09-01-preview";
         return service.deleteById(roleId, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<RoleAssignmentInner>>>() {
                 @Override
@@ -970,7 +971,7 @@ public class RoleAssignmentsInner implements InnerSupportsDelete<RoleAssignmentI
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the RoleAssignmentInner object if successful.
      */
-    public RoleAssignmentInner createById(String roleId, RoleAssignmentCreateParametersInner parameters) {
+    public RoleAssignmentInner createById(String roleId, RoleAssignmentCreateParameters parameters) {
         return createByIdWithServiceResponseAsync(roleId, parameters).toBlocking().single().body();
     }
 
@@ -983,7 +984,7 @@ public class RoleAssignmentsInner implements InnerSupportsDelete<RoleAssignmentI
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<RoleAssignmentInner> createByIdAsync(String roleId, RoleAssignmentCreateParametersInner parameters, final ServiceCallback<RoleAssignmentInner> serviceCallback) {
+    public ServiceFuture<RoleAssignmentInner> createByIdAsync(String roleId, RoleAssignmentCreateParameters parameters, final ServiceCallback<RoleAssignmentInner> serviceCallback) {
         return ServiceFuture.fromResponse(createByIdWithServiceResponseAsync(roleId, parameters), serviceCallback);
     }
 
@@ -995,7 +996,7 @@ public class RoleAssignmentsInner implements InnerSupportsDelete<RoleAssignmentI
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the RoleAssignmentInner object
      */
-    public Observable<RoleAssignmentInner> createByIdAsync(String roleId, RoleAssignmentCreateParametersInner parameters) {
+    public Observable<RoleAssignmentInner> createByIdAsync(String roleId, RoleAssignmentCreateParameters parameters) {
         return createByIdWithServiceResponseAsync(roleId, parameters).map(new Func1<ServiceResponse<RoleAssignmentInner>, RoleAssignmentInner>() {
             @Override
             public RoleAssignmentInner call(ServiceResponse<RoleAssignmentInner> response) {
@@ -1012,7 +1013,7 @@ public class RoleAssignmentsInner implements InnerSupportsDelete<RoleAssignmentI
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the RoleAssignmentInner object
      */
-    public Observable<ServiceResponse<RoleAssignmentInner>> createByIdWithServiceResponseAsync(String roleId, RoleAssignmentCreateParametersInner parameters) {
+    public Observable<ServiceResponse<RoleAssignmentInner>> createByIdWithServiceResponseAsync(String roleId, RoleAssignmentCreateParameters parameters) {
         if (roleId == null) {
             throw new IllegalArgumentException("Parameter roleId is required and cannot be null.");
         }
@@ -1020,7 +1021,7 @@ public class RoleAssignmentsInner implements InnerSupportsDelete<RoleAssignmentI
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2018-01-01-preview";
+        final String apiVersion = "2018-09-01-preview";
         return service.createById(roleId, parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<RoleAssignmentInner>>>() {
                 @Override
@@ -1094,7 +1095,7 @@ public class RoleAssignmentsInner implements InnerSupportsDelete<RoleAssignmentI
         if (roleId == null) {
             throw new IllegalArgumentException("Parameter roleId is required and cannot be null.");
         }
-        final String apiVersion = "2018-01-01-preview";
+        final String apiVersion = "2018-09-01-preview";
         return service.getById(roleId, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<RoleAssignmentInner>>>() {
                 @Override
@@ -1199,7 +1200,7 @@ public class RoleAssignmentsInner implements InnerSupportsDelete<RoleAssignmentI
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-01-01-preview";
+        final String apiVersion = "2018-09-01-preview";
         final String filter = null;
         return service.list(this.client.subscriptionId(), filter, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<RoleAssignmentInner>>>>() {
@@ -1303,7 +1304,7 @@ public class RoleAssignmentsInner implements InnerSupportsDelete<RoleAssignmentI
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-01-01-preview";
+        final String apiVersion = "2018-09-01-preview";
         return service.list(this.client.subscriptionId(), filter, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<RoleAssignmentInner>>>>() {
                 @Override
@@ -1413,7 +1414,7 @@ public class RoleAssignmentsInner implements InnerSupportsDelete<RoleAssignmentI
         if (scope == null) {
             throw new IllegalArgumentException("Parameter scope is required and cannot be null.");
         }
-        final String apiVersion = "2018-01-01-preview";
+        final String apiVersion = "2018-09-01-preview";
         final String filter = null;
         return service.listForScope(scope, filter, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<RoleAssignmentInner>>>>() {
@@ -1522,7 +1523,7 @@ public class RoleAssignmentsInner implements InnerSupportsDelete<RoleAssignmentI
         if (scope == null) {
             throw new IllegalArgumentException("Parameter scope is required and cannot be null.");
         }
-        final String apiVersion = "2018-01-01-preview";
+        final String apiVersion = "2018-09-01-preview";
         return service.listForScope(scope, filter, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<RoleAssignmentInner>>>>() {
                 @Override

@@ -29,7 +29,7 @@ public class GraphError {
     private String message;
 
     /**
-     * Get the code value.
+     * Get error code.
      *
      * @return the code value
      */
@@ -38,7 +38,7 @@ public class GraphError {
     }
 
     /**
-     * Set the code value.
+     * Set error code.
      *
      * @param code the code value to set
      * @return the GraphError object itself.
@@ -49,7 +49,7 @@ public class GraphError {
     }
 
     /**
-     * Get the message value.
+     * Get error message value.
      *
      * @return the message value
      */
@@ -58,7 +58,7 @@ public class GraphError {
     }
 
     /**
-     * Set the message value.
+     * Set error message value.
      *
      * @param message the message value to set
      * @return the GraphError object itself.

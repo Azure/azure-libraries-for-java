@@ -23,7 +23,7 @@ public class PasswordCredentialsUpdateParameters {
     private List<PasswordCredentialInner> value;
 
     /**
-     * Get the value value.
+     * Get a collection of PasswordCredentials.
      *
      * @return the value value
      */
@@ -32,7 +32,7 @@ public class PasswordCredentialsUpdateParameters {
     }
 
     /**
-     * Set the value value.
+     * Set a collection of PasswordCredentials.
      *
      * @param value the value value to set
      * @return the PasswordCredentialsUpdateParameters object itself.

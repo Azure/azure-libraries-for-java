@@ -120,7 +120,11 @@ public class DomainsInner {
                 public Observable<ServiceResponse<List<DomainInner>>> call(Response<ResponseBody> response) {
                     try {
                         ServiceResponse<PageImpl1<DomainInner>> result = listDelegate(response);
-                        ServiceResponse<List<DomainInner>> clientResponse = new ServiceResponse<List<DomainInner>>(result.body().items(), result.response());
+                        List<DomainInner> items = null;
+                        if (result.body() != null) {
+                            items = result.body().items();
+                        }
+                        ServiceResponse<List<DomainInner>> clientResponse = new ServiceResponse<List<DomainInner>>(items, result.response());
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -190,7 +194,11 @@ public class DomainsInner {
                 public Observable<ServiceResponse<List<DomainInner>>> call(Response<ResponseBody> response) {
                     try {
                         ServiceResponse<PageImpl1<DomainInner>> result = listDelegate(response);
-                        ServiceResponse<List<DomainInner>> clientResponse = new ServiceResponse<List<DomainInner>>(result.body().items(), result.response());
+                        List<DomainInner> items = null;
+                        if (result.body() != null) {
+                            items = result.body().items();
+                        }
+                        ServiceResponse<List<DomainInner>> clientResponse = new ServiceResponse<List<DomainInner>>(items, result.response());
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);

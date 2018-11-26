@@ -60,7 +60,7 @@ public class UserBase {
     private UserType userType;
 
     /**
-     * Get the additionalProperties value.
+     * Get unmatched properties from the message are deserialized this collection.
      *
      * @return the additionalProperties value
      */
@@ -69,7 +69,7 @@ public class UserBase {
     }
 
     /**
-     * Set the additionalProperties value.
+     * Set unmatched properties from the message are deserialized this collection.
      *
      * @param additionalProperties the additionalProperties value to set
      * @return the UserBase object itself.
@@ -80,7 +80,7 @@ public class UserBase {
     }
 
     /**
-     * Get the immutableId value.
+     * Get this must be specified if you are using a federated domain for the user's userPrincipalName (UPN) property when creating a new user account. It is used to associate an on-premises Active Directory user account with their Azure AD user object.
      *
      * @return the immutableId value
      */
@@ -89,7 +89,7 @@ public class UserBase {
     }
 
     /**
-     * Set the immutableId value.
+     * Set this must be specified if you are using a federated domain for the user's userPrincipalName (UPN) property when creating a new user account. It is used to associate an on-premises Active Directory user account with their Azure AD user object.
      *
      * @param immutableId the immutableId value to set
      * @return the UserBase object itself.
@@ -100,7 +100,7 @@ public class UserBase {
     }
 
     /**
-     * Get the usageLocation value.
+     * Get a two letter country code (ISO standard 3166). Required for users that will be assigned licenses due to legal requirement to check for availability of services in countries. Examples include: "US", "JP", and "GB".
      *
      * @return the usageLocation value
      */
@@ -109,7 +109,7 @@ public class UserBase {
     }
 
     /**
-     * Set the usageLocation value.
+     * Set a two letter country code (ISO standard 3166). Required for users that will be assigned licenses due to legal requirement to check for availability of services in countries. Examples include: "US", "JP", and "GB".
      *
      * @param usageLocation the usageLocation value to set
      * @return the UserBase object itself.
@@ -120,7 +120,7 @@ public class UserBase {
     }
 
     /**
-     * Get the givenName value.
+     * Get the given name for the user.
      *
      * @return the givenName value
      */
@@ -129,7 +129,7 @@ public class UserBase {
     }
 
     /**
-     * Set the givenName value.
+     * Set the given name for the user.
      *
      * @param givenName the givenName value to set
      * @return the UserBase object itself.
@@ -140,7 +140,7 @@ public class UserBase {
     }
 
     /**
-     * Get the surname value.
+     * Get the user's surname (family name or last name).
      *
      * @return the surname value
      */
@@ -149,7 +149,7 @@ public class UserBase {
     }
 
     /**
-     * Set the surname value.
+     * Set the user's surname (family name or last name).
      *
      * @param surname the surname value to set
      * @return the UserBase object itself.
@@ -160,7 +160,7 @@ public class UserBase {
     }
 
     /**
-     * Get the userType value.
+     * Get a string value that can be used to classify user types in your directory, such as 'Member' and 'Guest'. Possible values include: 'Member', 'Guest'.
      *
      * @return the userType value
      */
@@ -169,7 +169,7 @@ public class UserBase {
     }
 
     /**
-     * Set the userType value.
+     * Set a string value that can be used to classify user types in your directory, such as 'Member' and 'Guest'. Possible values include: 'Member', 'Guest'.
      *
      * @param userType the userType value to set
      * @return the UserBase object itself.

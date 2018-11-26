@@ -8,21 +8,14 @@
 
 package com.microsoft.azure.management.graphrbac.implementation;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import org.joda.time.DateTime;
-
 import java.util.Map;
+import org.joda.time.DateTime;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Active Directory Password Credential information.
  */
 public class PasswordCredentialInner {
-    /**
-     * Custom key identifier.
-     */
-    @JsonProperty(value = "customKeyIdentifier")
-    private String customKeyIdentifier;
-
     /**
      * Unmatched properties from the message are deserialized this collection.
      */
@@ -54,27 +47,7 @@ public class PasswordCredentialInner {
     private String value;
 
     /**
-     * Get the customKeyIdentifier value.
-     *
-     * @return the customKeyIdentifier value
-     */
-    public String customKeyIdentifier() {
-        return this.customKeyIdentifier;
-    }
-
-    /**
-     * Set the customKeyIdentifier value.
-     *
-     * @param customKeyIdentifier the customKeyIdentifier value to set
-     * @return the PasswordCredentialInner object itself.
-     */
-    public PasswordCredentialInner withCustomKeyIdentifier(String customKeyIdentifier) {
-        this.customKeyIdentifier = customKeyIdentifier;
-        return this;
-    }
-
-    /**
-     * Get the additionalProperties value.
+     * Get unmatched properties from the message are deserialized this collection.
      *
      * @return the additionalProperties value
      */
@@ -83,7 +56,7 @@ public class PasswordCredentialInner {
     }
 
     /**
-     * Set the additionalProperties value.
+     * Set unmatched properties from the message are deserialized this collection.
      *
      * @param additionalProperties the additionalProperties value to set
      * @return the PasswordCredentialInner object itself.
@@ -94,7 +67,7 @@ public class PasswordCredentialInner {
     }
 
     /**
-     * Get the startDate value.
+     * Get start date.
      *
      * @return the startDate value
      */
@@ -103,7 +76,7 @@ public class PasswordCredentialInner {
     }
 
     /**
-     * Set the startDate value.
+     * Set start date.
      *
      * @param startDate the startDate value to set
      * @return the PasswordCredentialInner object itself.
@@ -114,7 +87,7 @@ public class PasswordCredentialInner {
     }
 
     /**
-     * Get the endDate value.
+     * Get end date.
      *
      * @return the endDate value
      */
@@ -123,7 +96,7 @@ public class PasswordCredentialInner {
     }
 
     /**
-     * Set the endDate value.
+     * Set end date.
      *
      * @param endDate the endDate value to set
      * @return the PasswordCredentialInner object itself.
@@ -134,7 +107,7 @@ public class PasswordCredentialInner {
     }
 
     /**
-     * Get the keyId value.
+     * Get key ID.
      *
      * @return the keyId value
      */
@@ -143,7 +116,7 @@ public class PasswordCredentialInner {
     }
 
     /**
-     * Set the keyId value.
+     * Set key ID.
      *
      * @param keyId the keyId value to set
      * @return the PasswordCredentialInner object itself.
@@ -154,7 +127,7 @@ public class PasswordCredentialInner {
     }
 
     /**
-     * Get the value value.
+     * Get key value.
      *
      * @return the value value
      */
@@ -163,7 +136,7 @@ public class PasswordCredentialInner {
     }
 
     /**
-     * Set the value value.
+     * Set key value.
      *
      * @param value the value value to set
      * @return the PasswordCredentialInner object itself.

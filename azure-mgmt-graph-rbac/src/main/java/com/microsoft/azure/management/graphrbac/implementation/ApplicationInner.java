@@ -9,6 +9,8 @@
 package com.microsoft.azure.management.graphrbac.implementation;
 
 import java.util.List;
+import com.microsoft.azure.management.graphrbac.AppRole;
+import com.microsoft.azure.management.graphrbac.RequiredResourceAccess;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
@@ -24,6 +26,13 @@ public class ApplicationInner extends DirectoryObjectInner {
      */
     @JsonProperty(value = "appId")
     private String appId;
+
+    /**
+     * The collection of application roles that an application may declare.
+     * These roles can be assigned to users, groups or service principals.
+     */
+    @JsonProperty(value = "appRoles")
+    private List<AppRole> appRoles;
 
     /**
      * The application permissions.
@@ -68,7 +77,16 @@ public class ApplicationInner extends DirectoryObjectInner {
     private Boolean oauth2AllowImplicitFlow;
 
     /**
-     * Get the appId value.
+     * Specifies resources that this application requires access to and the set
+     * of OAuth permission scopes and application roles that it needs under
+     * each of those resources. This pre-configuration of required resource
+     * access drives the consent experience.
+     */
+    @JsonProperty(value = "requiredResourceAccess")
+    private List<RequiredResourceAccess> requiredResourceAccess;
+
+    /**
+     * Get the application ID.
      *
      * @return the appId value
      */
@@ -77,7 +95,7 @@ public class ApplicationInner extends DirectoryObjectInner {
     }
 
     /**
-     * Set the appId value.
+     * Set the application ID.
      *
      * @param appId the appId value to set
      * @return the ApplicationInner object itself.
@@ -88,7 +106,27 @@ public class ApplicationInner extends DirectoryObjectInner {
     }
 
     /**
-     * Get the appPermissions value.
+     * Get the collection of application roles that an application may declare. These roles can be assigned to users, groups or service principals.
+     *
+     * @return the appRoles value
+     */
+    public List<AppRole> appRoles() {
+        return this.appRoles;
+    }
+
+    /**
+     * Set the collection of application roles that an application may declare. These roles can be assigned to users, groups or service principals.
+     *
+     * @param appRoles the appRoles value to set
+     * @return the ApplicationInner object itself.
+     */
+    public ApplicationInner withAppRoles(List<AppRole> appRoles) {
+        this.appRoles = appRoles;
+        return this;
+    }
+
+    /**
+     * Get the application permissions.
      *
      * @return the appPermissions value
      */
@@ -97,7 +135,7 @@ public class ApplicationInner extends DirectoryObjectInner {
     }
 
     /**
-     * Set the appPermissions value.
+     * Set the application permissions.
      *
      * @param appPermissions the appPermissions value to set
      * @return the ApplicationInner object itself.
@@ -108,7 +146,7 @@ public class ApplicationInner extends DirectoryObjectInner {
     }
 
     /**
-     * Get the availableToOtherTenants value.
+     * Get whether the application is be available to other tenants.
      *
      * @return the availableToOtherTenants value
      */
@@ -117,7 +155,7 @@ public class ApplicationInner extends DirectoryObjectInner {
     }
 
     /**
-     * Set the availableToOtherTenants value.
+     * Set whether the application is be available to other tenants.
      *
      * @param availableToOtherTenants the availableToOtherTenants value to set
      * @return the ApplicationInner object itself.
@@ -128,7 +166,7 @@ public class ApplicationInner extends DirectoryObjectInner {
     }
 
     /**
-     * Get the displayName value.
+     * Get the display name of the application.
      *
      * @return the displayName value
      */
@@ -137,7 +175,7 @@ public class ApplicationInner extends DirectoryObjectInner {
     }
 
     /**
-     * Set the displayName value.
+     * Set the display name of the application.
      *
      * @param displayName the displayName value to set
      * @return the ApplicationInner object itself.
@@ -148,7 +186,7 @@ public class ApplicationInner extends DirectoryObjectInner {
     }
 
     /**
-     * Get the identifierUris value.
+     * Get a collection of URIs for the application.
      *
      * @return the identifierUris value
      */
@@ -157,7 +195,7 @@ public class ApplicationInner extends DirectoryObjectInner {
     }
 
     /**
-     * Set the identifierUris value.
+     * Set a collection of URIs for the application.
      *
      * @param identifierUris the identifierUris value to set
      * @return the ApplicationInner object itself.
@@ -168,7 +206,7 @@ public class ApplicationInner extends DirectoryObjectInner {
     }
 
     /**
-     * Get the replyUrls value.
+     * Get a collection of reply URLs for the application.
      *
      * @return the replyUrls value
      */
@@ -177,7 +215,7 @@ public class ApplicationInner extends DirectoryObjectInner {
     }
 
     /**
-     * Set the replyUrls value.
+     * Set a collection of reply URLs for the application.
      *
      * @param replyUrls the replyUrls value to set
      * @return the ApplicationInner object itself.
@@ -188,7 +226,7 @@ public class ApplicationInner extends DirectoryObjectInner {
     }
 
     /**
-     * Get the homepage value.
+     * Get the home page of the application.
      *
      * @return the homepage value
      */
@@ -197,7 +235,7 @@ public class ApplicationInner extends DirectoryObjectInner {
     }
 
     /**
-     * Set the homepage value.
+     * Set the home page of the application.
      *
      * @param homepage the homepage value to set
      * @return the ApplicationInner object itself.
@@ -208,7 +246,7 @@ public class ApplicationInner extends DirectoryObjectInner {
     }
 
     /**
-     * Get the oauth2AllowImplicitFlow value.
+     * Get whether to allow implicit grant flow for OAuth2.
      *
      * @return the oauth2AllowImplicitFlow value
      */
@@ -217,13 +255,33 @@ public class ApplicationInner extends DirectoryObjectInner {
     }
 
     /**
-     * Set the oauth2AllowImplicitFlow value.
+     * Set whether to allow implicit grant flow for OAuth2.
      *
      * @param oauth2AllowImplicitFlow the oauth2AllowImplicitFlow value to set
      * @return the ApplicationInner object itself.
      */
     public ApplicationInner withOauth2AllowImplicitFlow(Boolean oauth2AllowImplicitFlow) {
         this.oauth2AllowImplicitFlow = oauth2AllowImplicitFlow;
+        return this;
+    }
+
+    /**
+     * Get specifies resources that this application requires access to and the set of OAuth permission scopes and application roles that it needs under each of those resources. This pre-configuration of required resource access drives the consent experience.
+     *
+     * @return the requiredResourceAccess value
+     */
+    public List<RequiredResourceAccess> requiredResourceAccess() {
+        return this.requiredResourceAccess;
+    }
+
+    /**
+     * Set specifies resources that this application requires access to and the set of OAuth permission scopes and application roles that it needs under each of those resources. This pre-configuration of required resource access drives the consent experience.
+     *
+     * @param requiredResourceAccess the requiredResourceAccess value to set
+     * @return the ApplicationInner object itself.
+     */
+    public ApplicationInner withRequiredResourceAccess(List<RequiredResourceAccess> requiredResourceAccess) {
+        this.requiredResourceAccess = requiredResourceAccess;
         return this;
     }
 

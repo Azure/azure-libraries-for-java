@@ -30,7 +30,7 @@ public class CheckGroupMembershipResultInner {
     private Boolean value;
 
     /**
-     * Get the additionalProperties value.
+     * Get unmatched properties from the message are deserialized this collection.
      *
      * @return the additionalProperties value
      */
@@ -39,7 +39,7 @@ public class CheckGroupMembershipResultInner {
     }
 
     /**
-     * Set the additionalProperties value.
+     * Set unmatched properties from the message are deserialized this collection.
      *
      * @param additionalProperties the additionalProperties value to set
      * @return the CheckGroupMembershipResultInner object itself.
@@ -50,7 +50,7 @@ public class CheckGroupMembershipResultInner {
     }
 
     /**
-     * Get the value value.
+     * Get true if the specified user, group, contact, or service principal has either direct or transitive membership in the specified group; otherwise, false.
      *
      * @return the value value
      */
@@ -59,7 +59,7 @@ public class CheckGroupMembershipResultInner {
     }
 
     /**
-     * Set the value value.
+     * Set true if the specified user, group, contact, or service principal has either direct or transitive membership in the specified group; otherwise, false.
      *
      * @param value the value value to set
      * @return the CheckGroupMembershipResultInner object itself.

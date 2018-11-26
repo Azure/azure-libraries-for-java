@@ -9,6 +9,7 @@
 package com.microsoft.azure.management.graphrbac.implementation;
 
 import java.util.List;
+import com.microsoft.azure.management.graphrbac.AppRole;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
@@ -32,13 +33,20 @@ public class ServicePrincipalInner extends DirectoryObjectInner {
     private String appId;
 
     /**
+     * The collection of application roles that an application may declare.
+     * These roles can be assigned to users, groups or service principals.
+     */
+    @JsonProperty(value = "appRoles")
+    private List<AppRole> appRoles;
+
+    /**
      * A collection of service principal names.
      */
     @JsonProperty(value = "servicePrincipalNames")
     private List<String> servicePrincipalNames;
 
     /**
-     * Get the displayName value.
+     * Get the display name of the service principal.
      *
      * @return the displayName value
      */
@@ -47,7 +55,7 @@ public class ServicePrincipalInner extends DirectoryObjectInner {
     }
 
     /**
-     * Set the displayName value.
+     * Set the display name of the service principal.
      *
      * @param displayName the displayName value to set
      * @return the ServicePrincipalInner object itself.
@@ -58,7 +66,7 @@ public class ServicePrincipalInner extends DirectoryObjectInner {
     }
 
     /**
-     * Get the appId value.
+     * Get the application ID.
      *
      * @return the appId value
      */
@@ -67,7 +75,7 @@ public class ServicePrincipalInner extends DirectoryObjectInner {
     }
 
     /**
-     * Set the appId value.
+     * Set the application ID.
      *
      * @param appId the appId value to set
      * @return the ServicePrincipalInner object itself.
@@ -78,7 +86,27 @@ public class ServicePrincipalInner extends DirectoryObjectInner {
     }
 
     /**
-     * Get the servicePrincipalNames value.
+     * Get the collection of application roles that an application may declare. These roles can be assigned to users, groups or service principals.
+     *
+     * @return the appRoles value
+     */
+    public List<AppRole> appRoles() {
+        return this.appRoles;
+    }
+
+    /**
+     * Set the collection of application roles that an application may declare. These roles can be assigned to users, groups or service principals.
+     *
+     * @param appRoles the appRoles value to set
+     * @return the ServicePrincipalInner object itself.
+     */
+    public ServicePrincipalInner withAppRoles(List<AppRole> appRoles) {
+        this.appRoles = appRoles;
+        return this;
+    }
+
+    /**
+     * Get a collection of service principal names.
      *
      * @return the servicePrincipalNames value
      */
@@ -87,7 +115,7 @@ public class ServicePrincipalInner extends DirectoryObjectInner {
     }
 
     /**
-     * Set the servicePrincipalNames value.
+     * Set a collection of service principal names.
      *
      * @param servicePrincipalNames the servicePrincipalNames value to set
      * @return the ServicePrincipalInner object itself.

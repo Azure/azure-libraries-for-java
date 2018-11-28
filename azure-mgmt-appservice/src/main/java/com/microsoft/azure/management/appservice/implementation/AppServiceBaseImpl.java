@@ -54,7 +54,6 @@ abstract class AppServiceBaseImpl<
 
     AppServiceBaseImpl(String name, SiteInner innerObject, SiteConfigResourceInner siteConfig, SiteLogsConfigInner logConfig, AppServiceManager manager) {
         super(name, innerObject, siteConfig, logConfig, manager);
-        String defaultHostName = defaultHostName().startsWith("http") ? defaultHostName() : "http://" + defaultHostName();
     }
 
     @Override

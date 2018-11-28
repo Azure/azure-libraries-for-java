@@ -7,6 +7,7 @@
 package com.microsoft.azure.management.appservice.implementation;
 
 import com.fasterxml.jackson.core.JsonParseException;
+import com.google.common.base.Joiner;
 import com.google.common.io.ByteStreams;
 import com.microsoft.azure.CloudException;
 import com.microsoft.azure.management.appservice.WebAppBase;
@@ -40,8 +41,16 @@ class KuduClient {
     private KuduService service;
 
     KuduClient(WebAppBase webAppBase) {
+        if (webAppBase.defaultHostName() == null) {
+            throw new UnsupportedOperationException("Cannot initialize kudu client before web app is created");
+        }
+        String host = webAppBase.defaultHostName().toLowerCase()
+                .replace("http://", "")
+                .replace("https://", "");
+        String[] parts = host.split("\\.", 2);
+        host = Joiner.on('.').join(parts[0], "scm", parts[1]);
         service = webAppBase.manager().restClient().newBuilder()
-                .withBaseUrl(String.format("https://%s.scm.azurewebsites.net", webAppBase.name()))
+                .withBaseUrl("https://" + host)
                 .withConnectionTimeout(3, TimeUnit.MINUTES)
                 .withReadTimeout(3, TimeUnit.MINUTES)
                 .build()

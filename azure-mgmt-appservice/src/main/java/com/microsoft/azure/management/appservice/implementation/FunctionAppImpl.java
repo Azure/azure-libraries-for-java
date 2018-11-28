@@ -68,22 +68,35 @@ class FunctionAppImpl
     private StorageAccount storageAccountToSet;
     private StorageAccount currentStorageAccount;
     private final FunctionAppKeyService functionAppKeyService;
-    private final FunctionService functionService;
+    private FunctionService functionService;
     private FunctionDeploymentSlots deploymentSlots;
 
     FunctionAppImpl(final String name, SiteInner innerObject, SiteConfigResourceInner siteConfig, SiteLogsConfigInner logConfig, AppServiceManager manager) {
         super(name, innerObject, siteConfig, logConfig, manager);
         functionAppKeyService = manager.restClient().retrofit().create(FunctionAppKeyService.class);
-        HttpUrl defaultHostName = HttpUrl.parse(defaultHostName());
-        if (defaultHostName == null) {
-            defaultHostName = new HttpUrl.Builder().host(defaultHostName()).scheme("http").build();
+        if (!isInCreateMode()) {
+            initializeFunctionService();
         }
-        functionService = manager.restClient().newBuilder()
-                .withBaseUrl(defaultHostName.toString())
-                .withCredentials(new FunctionCredentials(this))
-                .withLogLevel(LogLevel.BODY_AND_HEADERS)
-                .build()
-                .retrofit().create(FunctionService.class);
+    }
+
+    private void initializeFunctionService() {
+        if (functionService == null) {
+            HttpUrl defaultHostName = HttpUrl.parse(defaultHostName());
+            if (defaultHostName == null) {
+                defaultHostName = new HttpUrl.Builder().host(defaultHostName()).scheme("http").build();
+            }
+            functionService = manager().restClient().newBuilder()
+                    .withBaseUrl(defaultHostName.toString())
+                    .withCredentials(new FunctionCredentials(this))
+                    .withLogLevel(LogLevel.BODY_AND_HEADERS)
+                    .build()
+                    .retrofit().create(FunctionService.class);
+        }
+    }
+
+    @Override
+    public void setInner(SiteInner innerObject) {
+        super.setInner(innerObject);
     }
 
     @Override
@@ -295,6 +308,8 @@ class FunctionAppImpl
     @Override
     public Observable<String> streamApplicationLogsAsync() {
         return functionService.ping()
+                .mergeWith(functionService.getHostStatus())
+                .last()
                 .flatMap(new Func1<Void, Observable<String>>() {
                     @Override
                     public Observable<String> call(Void aVoid) {
@@ -306,6 +321,8 @@ class FunctionAppImpl
     @Override
     public Observable<String> streamHttpLogsAsync() {
         return functionService.ping()
+                .mergeWith(functionService.getHostStatus())
+                .last()
                 .flatMap(new Func1<Void, Observable<String>>() {
                     @Override
                     public Observable<String> call(Void aVoid) {
@@ -317,6 +334,8 @@ class FunctionAppImpl
     @Override
     public Observable<String> streamTraceLogsAsync() {
         return functionService.ping()
+                .mergeWith(functionService.getHostStatus())
+                .last()
                 .flatMap(new Func1<Void, Observable<String>>() {
                     @Override
                     public Observable<String> call(Void aVoid) {
@@ -328,6 +347,8 @@ class FunctionAppImpl
     @Override
     public Observable<String> streamDeploymentLogsAsync() {
         return functionService.ping()
+                .mergeWith(functionService.getHostStatus())
+                .last()
                 .flatMap(new Func1<Void, Observable<String>>() {
                     @Override
                     public Observable<String> call(Void aVoid) {
@@ -339,6 +360,8 @@ class FunctionAppImpl
     @Override
     public Observable<String> streamAllLogsAsync() {
         return functionService.ping()
+                .mergeWith(functionService.getHostStatus())
+                .last()
                 .flatMap(new Func1<Void, Observable<String>>() {
                     @Override
                     public Observable<String> call(Void aVoid) {
@@ -382,6 +405,14 @@ class FunctionAppImpl
         return super.createAsync();
     }
 
+    @Override
+    public Completable afterPostRunAsync(final boolean isGroupFaulted) {
+        if (!isGroupFaulted) {
+            initializeFunctionService();
+        }
+        return super.afterPostRunAsync(isGroupFaulted);
+    }
+
     private interface FunctionAppKeyService {
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.WebApps getMasterKey" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/functions/admin/masterkey")
@@ -408,6 +439,10 @@ class FunctionAppImpl
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.WebApps ping" })
         @POST("admin/host/ping")
         Observable<Void> ping();
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.WebApps getHostStatus" })
+        @GET("admin/host/status")
+        Observable<Void> getHostStatus();
     }
 
     private static class FunctionKeyListResult {

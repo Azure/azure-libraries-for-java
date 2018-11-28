@@ -97,7 +97,7 @@ abstract class WebAppBaseImpl<
             WebAppBase.UpdateStages.WithWebContainer<FluentT> {
 
     SiteConfigResourceInner siteConfig;
-    final KuduClient kuduClient;
+    KuduClient kuduClient;
 
     private Set<String> hostNamesSet;
     private Set<String> enabledHostNamesSet;
@@ -135,11 +135,19 @@ abstract class WebAppBaseImpl<
         }
         normalizeProperties();
         isInCreateMode = inner() == null || inner().id() == null;
-        kuduClient = new KuduClient(this);
+        if (!isInCreateMode) {
+            initializeKuduClient();
+        }
     }
 
     public boolean isInCreateMode() {
         return isInCreateMode;
+    }
+
+    private void initializeKuduClient() {
+        if (kuduClient == null) {
+            kuduClient = new KuduClient(this);
+        }
     }
 
     @Override
@@ -299,7 +307,7 @@ abstract class WebAppBaseImpl<
         if (inner().defaultHostName() != null) {
             return inner().defaultHostName();
         } else {
-            return "http://" + name() + ".azurewebsites.net";
+            throw new UnsupportedOperationException("default host name is not available before web app is created");
         }
     }
 
@@ -784,9 +792,10 @@ abstract class WebAppBaseImpl<
     }
 
     @Override
-    public Completable afterPostRunAsync(boolean succeeded) {
-        if (succeeded) {
+    public Completable afterPostRunAsync(final boolean isGroupFaulted) {
+        if (!isGroupFaulted) {
             isInCreateMode = false;
+            initializeKuduClient();
         }
         return Completable.fromAction(new Action0() {
             @Override

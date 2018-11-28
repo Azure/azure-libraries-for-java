@@ -7,7 +7,10 @@
 package com.microsoft.azure.management.appservice.samples;
 
 import com.microsoft.azure.management.Azure;
-import com.microsoft.azure.management.appservice.FunctionApp;
+import com.microsoft.azure.management.appservice.JavaVersion;
+import com.microsoft.azure.management.appservice.PricingTier;
+import com.microsoft.azure.management.appservice.WebApp;
+import com.microsoft.azure.management.appservice.WebContainer;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.azure.management.samples.Utils;
@@ -27,13 +30,13 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * Azure App Service basic sample for managing function apps.
+ * Azure App Service basic sample for managing web app logs.
  *  - Create a function app under the same new app service plan:
  *    - Deploy to app using FTP
  *    - stream logs synchronously for 30 seconds
  *    - stream logs asynchronously until 3 requests are completed
  */
-public final class ManageFunctionAppLogs {
+public final class ManageWebAppLogs {
 
     private static OkHttpClient httpClient;
 
@@ -51,15 +54,21 @@ public final class ManageFunctionAppLogs {
 
         try {
 
-
             //============================================================
-            // Create a function app with a new app service plan
+            // Create a web app with a new app service plan
 
-            System.out.println("Creating function app " + appName + " in resource group " + rgName + "...");
+            System.out.println("Creating web app " + appName + " in resource group " + rgName + "...");
 
-            FunctionApp app = azure.appServices().functionApps().define(appName)
+            final WebApp app = azure.appServices().webApps().define(appName)
                     .withRegion(Region.US_WEST)
                     .withNewResourceGroup(rgName)
+                    .withNewWindowsPlan(PricingTier.BASIC_B1)
+                    .withJavaVersion(JavaVersion.JAVA_8_NEWEST)
+                    .withWebContainer(WebContainer.TOMCAT_8_0_NEWEST)
+                    .defineDiagnosticLogsConfiguration()
+                        .withWebServerLogging()
+                        .withWebServerLogsStoredOnFileSystem()
+                        .attach()
                     .defineDiagnosticLogsConfiguration()
                         .withApplicationLogging()
                         .withLogLevel(com.microsoft.azure.management.appservice.LogLevel.VERBOSE)
@@ -67,48 +76,44 @@ public final class ManageFunctionAppLogs {
                         .attach()
                     .create();
 
-            System.out.println("Created function app " + app.name());
+            System.out.println("Created web app " + app.name());
             Utils.print(app);
-
-            //============================================================
-            // Deploy to app 1 through FTP
-
-            System.out.println("Deploying a function app to " + appName + " through FTP...");
-
-            Utils.uploadFileToFunctionApp(app.getPublishingProfile(), "host.json", ManageFunctionAppLogs.class.getResourceAsStream("/square-function-app/host.json"));
-            Utils.uploadFileToFunctionApp(app.getPublishingProfile(), "square/function.json", ManageFunctionAppLogs.class.getResourceAsStream("/square-function-app/square/function.json"));
-            Utils.uploadFileToFunctionApp(app.getPublishingProfile(), "square/index.js", ManageFunctionAppLogs.class.getResourceAsStream("/square-function-app/square/index.js"));
-
-            // sync triggers
-            app.syncTriggers();
-
-            System.out.println("Deployment square app to function app " + app.name() + " completed");
-            Utils.print(app);
-
-            // warm up
-            System.out.println("Warming up " + appUrl + "/api/square...");
-            post("http://" + appUrl + "/api/square", "625");
-            SdkContext.sleep(5000);
 
             //============================================================
             // Listen to logs synchronously for 30 seconds
 
-            final InputStream stream = app.streamApplicationLogs();
-            System.out.println("Streaming logs from function app " + appName + "...");
+            final InputStream stream = app.streamAllLogs();
+            System.out.println("Streaming logs from web app " + appName + "...");
             String line = readLine(stream);
             StopWatch stopWatch = new StopWatch();
             stopWatch.start();
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    post("http://" + appUrl + "/api/square", "625");
-                    SdkContext.sleep(10000);
-                    post("http://" + appUrl + "/api/square", "725");
-                    SdkContext.sleep(10000);
-                    post("http://" + appUrl + "/api/square", "825");
+
+                    //============================================================
+                    // Deploy to app 1 through zip deploy
+
+                    System.out.println("Deploying coffeeshop.war to " + appName + " through web deploy...");
+
+                    app.deploy()
+                            .withPackageUri("https://github.com/Azure/azure-libraries-for-java/raw/master/azure-samples/src/main/resources/coffeeshop.zip")
+                            .withExistingDeploymentsDeleted(false)
+                            .execute();
+
+                    System.out.println("Deployments to web app " + app.name() + " completed");
+                    Utils.print(app);
+
+                    // warm up
+                    System.out.println("Warming up " + appUrl + "/coffeeshop...");
+                    curl("http://" + appUrl + "/coffeeshop");
+                    SdkContext.sleep(5000);
+                    System.out.println("CURLing " + appUrl + "/coffeeshop...");
+                    System.out.println(curl("http://" + appUrl + "/coffeeshop"));
                 }
             }).start();
-            while (line != null && stopWatch.getTime() < 90000) {
+            // Watch logs for 2 minutes
+            while (line != null && stopWatch.getTime() < 120000) {
                 System.out.println(line);
                 line = readLine(stream);
             }
@@ -120,18 +125,18 @@ public final class ManageFunctionAppLogs {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    SdkContext.sleep(5000);
+                    SdkContext.sleep(10000);
                     System.out.println("Starting hitting");
-                    post("http://" + appUrl + "/api/square", "625");
-                    SdkContext.sleep(10000);
-                    post("http://" + appUrl + "/api/square", "725");
-                    SdkContext.sleep(10000);
-                    post("http://" + appUrl + "/api/square", "825");
+                    curl("http://" + appUrl + "/coffeeshop");
+                    SdkContext.sleep(15000);
+                    curl("http://" + appUrl + "/coffeeshop");
+                    SdkContext.sleep(20000);
+                    curl("http://" + appUrl + "/coffeeshop");
                 }
             }).start();
 
             final AtomicInteger count = new AtomicInteger(0);
-            app.streamApplicationLogsAsync()
+            app.streamHttpLogsAsync()
                     .subscribe(new Subscriber<String>() {
                         @Override
                         public void onCompleted() {
@@ -146,8 +151,8 @@ public final class ManageFunctionAppLogs {
                         @Override
                         public void onNext(String s) {
                             System.out.println(s);
-                            if (s.contains("Function completed")) {
-                                if (count.incrementAndGet() >= 3) {
+                            if (s.contains("GET /coffeeshop/")) {
+                                if (count.incrementAndGet() >= 5) {
                                     unsubscribe();
                                 }
                             }

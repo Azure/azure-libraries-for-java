@@ -9,6 +9,7 @@ package com.microsoft.azure.management.appservice.implementation;
 import com.google.common.base.Function;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import com.microsoft.azure.AzureEnvironment;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.appservice.AppServiceCertificate;
 import com.microsoft.azure.management.appservice.AppServiceDomain;
@@ -95,6 +96,13 @@ abstract class WebAppBaseImpl<
             WebAppBase.Definition<FluentT>,
             WebAppBase.Update<FluentT>,
             WebAppBase.UpdateStages.WithWebContainer<FluentT> {
+
+    private static final Map<AzureEnvironment, String> DNS_MAP = new HashMap<AzureEnvironment, String>() {{
+        put(AzureEnvironment.AZURE, "azurewebsites.net");
+        put(AzureEnvironment.AZURE_CHINA, "chinacloudsites.cn");
+        put(AzureEnvironment.AZURE_GERMANY, "azurewebsites.de");
+        put(AzureEnvironment.AZURE_US_GOVERNMENT, "azurewebsites.us");
+    }};
 
     SiteConfigResourceInner siteConfig;
     KuduClient kuduClient;
@@ -307,7 +315,13 @@ abstract class WebAppBaseImpl<
         if (inner().defaultHostName() != null) {
             return inner().defaultHostName();
         } else {
-            throw new UnsupportedOperationException("default host name is not available before web app is created");
+            AzureEnvironment environment = Utils.guessAzureEnvironment(manager().restClient());
+            String dns = DNS_MAP.get(environment);
+            String leaf = name();
+            if (this instanceof DeploymentSlotBaseImpl<?, ?, ?, ?, ?>) {
+                leaf = ((DeploymentSlotBaseImpl<?, ?, ?, ?, ?>) this).parent().name() + "-" + leaf;
+            }
+            return leaf + "." + dns;
         }
     }
 

@@ -4,16 +4,16 @@
  * license information.
  */
 
-package com.microsoft.azure.management.sql;
+package com.microsoft.azure.v2.management.sql;
 
 import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasId;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasName;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
-import com.microsoft.azure.management.sql.implementation.ServiceTierAdvisorInner;
-import org.joda.time.DateTime;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.HasId;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.HasName;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.HasResourceGroup;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Refreshable;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
+import com.microsoft.azure.v2.management.sql.implementation.ServiceTierAdvisorInner;
+import java.time.OffsetDateTime;
 
 import java.util.List;
 import java.util.UUID;
@@ -43,12 +43,12 @@ public interface ServiceTierAdvisor extends
     /**
      * @return the observation period start (ISO8601 format)
      */
-    DateTime observationPeriodStart();
+    OffsetDateTime observationPeriodStart();
 
     /**
      * @return the observation period start (ISO8601 format)
      */
-    DateTime observationPeriodEnd();
+    OffsetDateTime observationPeriodEnd();
 
     /**
      * @return the activeTimeRatio for the service tier advisor

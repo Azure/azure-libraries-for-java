@@ -4,26 +4,26 @@
  * license information.
  */
 
-package com.microsoft.azure.management.sql;
+package com.microsoft.azure.v2.management.sql;
 
-import com.microsoft.azure.management.apigeneration.Beta;
+import com.microsoft.rest.v2.annotations.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
-import com.microsoft.azure.management.sql.implementation.ServerUsageInner;
-import org.joda.time.DateTime;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
+import com.microsoft.azure.v2.management.sql.implementation.ServerUsageInner;
+import java.time.OffsetDateTime;
 
 /**
  * An immutable client-side representation of an Azure SQL ServerMetric.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_7_0)
+@Beta(since = "V1_7_0")
 public interface ServerMetric extends
     HasInner<ServerUsageInner> {
 
     /**
      * @return Name of the server usage metric
      */
-    @Beta(Beta.SinceVersion.V1_7_0)
+    @Beta(since = "V1_7_0")
     String name();
 
     /**
@@ -54,5 +54,5 @@ public interface ServerMetric extends
     /**
      * @return the next reset time for the metric (ISO8601 format)
      */
-    DateTime nextResetTime();
+    OffsetDateTime nextResetTime();
 }

@@ -3,25 +3,25 @@
  * Licensed under the MIT License. See License.txt in the project root for
  * license information.
  */
-package com.microsoft.azure.management.sql.implementation;
+package com.microsoft.azure.v2.management.sql.implementation;
 
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.resources.fluentcore.arm.ResourceId;
-import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
-import com.microsoft.azure.management.resources.fluentcore.utils.PagedListConverter;
-import com.microsoft.azure.management.sql.SqlDatabase;
-import com.microsoft.azure.management.sql.SqlSyncFullSchemaProperty;
-import com.microsoft.azure.management.sql.SqlSyncGroup;
-import com.microsoft.azure.management.sql.SqlSyncGroupLogProperty;
-import com.microsoft.azure.management.sql.SqlSyncGroupOperations;
-import com.microsoft.azure.management.sql.SqlSyncMemberOperations;
-import com.microsoft.azure.management.sql.SyncConflictResolutionPolicy;
-import com.microsoft.azure.management.sql.SyncGroupSchema;
-import com.microsoft.azure.management.sql.SyncGroupState;
-import org.joda.time.DateTime;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.ResourceId;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.ResourceUtils;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
+import com.microsoft.azure.v2.management.resources.fluentcore.utils.PagedListConverter;
+import com.microsoft.azure.v2.management.sql.SqlDatabase;
+import com.microsoft.azure.v2.management.sql.SqlSyncFullSchemaProperty;
+import com.microsoft.azure.v2.management.sql.SqlSyncGroup;
+import com.microsoft.azure.v2.management.sql.SqlSyncGroupLogProperty;
+import com.microsoft.azure.v2.management.sql.SqlSyncGroupOperations;
+import com.microsoft.azure.v2.management.sql.SqlSyncMemberOperations;
+import com.microsoft.azure.v2.management.sql.SyncConflictResolutionPolicy;
+import com.microsoft.azure.v2.management.sql.SyncGroupSchema;
+import com.microsoft.azure.v2.management.sql.SyncGroupState;
+import java.time.OffsetDateTime;
 import rx.Completable;
 import rx.Observable;
 import rx.functions.Func1;

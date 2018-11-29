@@ -4,12 +4,12 @@
  * license information.
  */
 
-package com.microsoft.azure.management.sql;
+package com.microsoft.azure.v2.management.sql;
 
-import com.microsoft.azure.management.resources.core.TestBase;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
-import com.microsoft.azure.management.resources.implementation.ResourceManager;
-import com.microsoft.azure.management.sql.implementation.SqlServerManager;
+import com.microsoft.azure.v2.management.resources.core.TestBase;
+import com.microsoft.azure.v2.management.resources.fluentcore.utils.SdkContext;
+import com.microsoft.azure.v2.management.resources.implementation.ResourceManager;
+import com.microsoft.azure.v2.management.sql.implementation.SqlServerManager;
 import com.microsoft.azure.management.storage.implementation.StorageManager;
 import com.microsoft.rest.RestClient;
 

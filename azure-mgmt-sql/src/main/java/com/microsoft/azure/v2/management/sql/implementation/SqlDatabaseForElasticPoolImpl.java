@@ -4,16 +4,16 @@
  * license information.
  */
 
-package com.microsoft.azure.management.sql.implementation;
+package com.microsoft.azure.v2.management.sql.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.sql.CreateMode;
-import com.microsoft.azure.management.sql.RestorePoint;
-import com.microsoft.azure.management.sql.SampleName;
-import com.microsoft.azure.management.sql.SqlDatabase;
-import com.microsoft.azure.management.sql.SqlElasticPoolOperations;
+import com.microsoft.azure.v2.management.sql.CreateMode;
+import com.microsoft.azure.v2.management.sql.RestorePoint;
+import com.microsoft.azure.v2.management.sql.SampleName;
+import com.microsoft.azure.v2.management.sql.SqlDatabase;
+import com.microsoft.azure.v2.management.sql.SqlElasticPoolOperations;
 import com.microsoft.azure.management.storage.StorageAccount;
-import org.joda.time.DateTime;
+import java.time.OffsetDateTime;
 
 import java.util.Objects;
 

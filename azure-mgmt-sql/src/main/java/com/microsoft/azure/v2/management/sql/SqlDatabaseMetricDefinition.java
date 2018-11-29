@@ -3,12 +3,12 @@
  * Licensed under the MIT License. See License.txt in the project root for
  * license information.
  */
-package com.microsoft.azure.management.sql;
+package com.microsoft.azure.v2.management.sql;
 
-import com.microsoft.azure.management.apigeneration.Beta;
+import com.microsoft.rest.v2.annotations.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
-import com.microsoft.azure.management.sql.implementation.MetricDefinitionInner;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
+import com.microsoft.azure.v2.management.sql.implementation.MetricDefinitionInner;
 
 import java.util.List;
 
@@ -16,7 +16,7 @@ import java.util.List;
  * Response containing the Azure SQL Database metric definition.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_7_0)
+@Beta(since = "V1_7_0")
 public interface SqlDatabaseMetricDefinition extends HasInner<MetricDefinitionInner> {
     /**
      * @return the name of the metric

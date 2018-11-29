@@ -4,12 +4,12 @@
  * license information.
  */
 
-package com.microsoft.azure.management.sql;
+package com.microsoft.azure.v2.management.sql;
 
 import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import rx.Completable;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
+import io.reactivex.Completable;
 
 /**
  * An immutable client-side representation of an Azure SQL Warehouse.

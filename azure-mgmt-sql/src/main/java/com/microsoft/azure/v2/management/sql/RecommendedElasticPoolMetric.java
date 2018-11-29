@@ -4,12 +4,12 @@
  * license information.
  */
 
-package com.microsoft.azure.management.sql;
+package com.microsoft.azure.v2.management.sql;
 
 import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
-import com.microsoft.azure.management.sql.implementation.RecommendedElasticPoolMetricInner;
-import org.joda.time.DateTime;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
+import com.microsoft.azure.v2.management.sql.implementation.RecommendedElasticPoolMetricInner;
+import java.time.OffsetDateTime;
 
 
 /**
@@ -21,7 +21,7 @@ public interface RecommendedElasticPoolMetric extends
     /**
      * @return the time of metric (ISO8601 format).
      */
-    DateTime dateTimeProperty();
+    OffsetDateTime dateTimeProperty();
 
     /**
      * @return the DTUs (Database Transaction Units)

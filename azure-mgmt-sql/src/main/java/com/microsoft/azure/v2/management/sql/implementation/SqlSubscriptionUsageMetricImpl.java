@@ -3,11 +3,11 @@
  * Licensed under the MIT License. See License.txt in the project root for
  * license information.
  */
-package com.microsoft.azure.management.sql.implementation;
+package com.microsoft.azure.v2.management.sql.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.RefreshableWrapperImpl;
-import com.microsoft.azure.management.sql.SqlSubscriptionUsageMetric;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.implementation.RefreshableWrapperImpl;
+import com.microsoft.azure.v2.management.sql.SqlSubscriptionUsageMetric;
 import rx.Observable;
 
 import java.util.Objects;

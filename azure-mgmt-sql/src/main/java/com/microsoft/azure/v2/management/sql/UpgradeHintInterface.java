@@ -4,10 +4,10 @@
  * license information.
  */
 
-package com.microsoft.azure.management.sql;
+package com.microsoft.azure.v2.management.sql;
 
 import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
 
 import java.util.UUID;
 

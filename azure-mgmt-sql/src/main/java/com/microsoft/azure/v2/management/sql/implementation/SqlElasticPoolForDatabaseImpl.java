@@ -4,23 +4,23 @@
  * license information.
  */
 
-package com.microsoft.azure.management.sql.implementation;
+package com.microsoft.azure.v2.management.sql.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.sql.ElasticPoolEditions;
-import com.microsoft.azure.management.sql.SqlDatabaseOperations;
-import com.microsoft.azure.management.sql.SqlElasticPool;
-import com.microsoft.azure.management.sql.SqlElasticPoolBasicEDTUs;
-import com.microsoft.azure.management.sql.SqlElasticPoolBasicMaxEDTUs;
-import com.microsoft.azure.management.sql.SqlElasticPoolBasicMinEDTUs;
-import com.microsoft.azure.management.sql.SqlElasticPoolPremiumEDTUs;
-import com.microsoft.azure.management.sql.SqlElasticPoolPremiumMaxEDTUs;
-import com.microsoft.azure.management.sql.SqlElasticPoolPremiumMinEDTUs;
-import com.microsoft.azure.management.sql.SqlElasticPoolPremiumSorage;
-import com.microsoft.azure.management.sql.SqlElasticPoolStandardEDTUs;
-import com.microsoft.azure.management.sql.SqlElasticPoolStandardMaxEDTUs;
-import com.microsoft.azure.management.sql.SqlElasticPoolStandardMinEDTUs;
-import com.microsoft.azure.management.sql.SqlElasticPoolStandardStorage;
+import com.microsoft.azure.v2.management.sql.ElasticPoolEditions;
+import com.microsoft.azure.v2.management.sql.SqlDatabaseOperations;
+import com.microsoft.azure.v2.management.sql.SqlElasticPool;
+import com.microsoft.azure.v2.management.sql.SqlElasticPoolBasicEDTUs;
+import com.microsoft.azure.v2.management.sql.SqlElasticPoolBasicMaxEDTUs;
+import com.microsoft.azure.v2.management.sql.SqlElasticPoolBasicMinEDTUs;
+import com.microsoft.azure.v2.management.sql.SqlElasticPoolPremiumEDTUs;
+import com.microsoft.azure.v2.management.sql.SqlElasticPoolPremiumMaxEDTUs;
+import com.microsoft.azure.v2.management.sql.SqlElasticPoolPremiumMinEDTUs;
+import com.microsoft.azure.v2.management.sql.SqlElasticPoolPremiumSorage;
+import com.microsoft.azure.v2.management.sql.SqlElasticPoolStandardEDTUs;
+import com.microsoft.azure.v2.management.sql.SqlElasticPoolStandardMaxEDTUs;
+import com.microsoft.azure.v2.management.sql.SqlElasticPoolStandardMinEDTUs;
+import com.microsoft.azure.v2.management.sql.SqlElasticPoolStandardStorage;
 
 /**
  * Implementation for SqlElasticPool as inline definition inside a SqlDatabase definition.

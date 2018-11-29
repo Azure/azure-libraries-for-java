@@ -3,29 +3,29 @@
  * Licensed under the MIT License. See License.txt in the project root for
  * license information.
  */
-package com.microsoft.azure.management.sql;
+package com.microsoft.azure.v2.management.sql;
 
-import com.microsoft.azure.management.apigeneration.Beta;
+import com.microsoft.rest.v2.annotations.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.Method;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasId;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasName;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
-import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
-import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
-import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
-import com.microsoft.azure.management.sql.implementation.ServerKeyInner;
-import org.joda.time.DateTime;
-import rx.Completable;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.HasId;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.HasName;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.HasResourceGroup;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Appliable;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Indexable;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Refreshable;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Updatable;
+import com.microsoft.azure.v2.management.sql.implementation.ServerKeyInner;
+import java.time.OffsetDateTime;
+import io.reactivex.Completable;
 
 /**
  * An immutable client-side representation of an Azure SQL Server Key.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_8_0)
+@Beta(since = "V1_8_0")
 public interface SqlServerKey
     extends
         HasId,
@@ -73,7 +73,7 @@ public interface SqlServerKey
     /**
      * @return the server key creation date
      */
-    DateTime creationDate();
+    OffsetDateTime creationDate();
 
     /**
      * Deletes the SQL Server Key.
@@ -105,7 +105,7 @@ public interface SqlServerKey
         /**
          * The SQL Server Key definition to set the thumbprint.
          */
-        @Beta(Beta.SinceVersion.V1_8_0)
+        @Beta(since = "V1_8_0")
         interface WithThumbprint {
             /**
              * Sets the thumbprint of the server key.
@@ -119,7 +119,7 @@ public interface SqlServerKey
         /**
          * The SQL Server Key definition to set the server key creation date.
          */
-        @Beta(Beta.SinceVersion.V1_8_0)
+        @Beta(since = "V1_8_0")
         interface WithCreationDate {
             /**
              * Sets the server key creation date.
@@ -127,7 +127,7 @@ public interface SqlServerKey
              * @param creationDate the server key creation date
              * @return The next stage of the definition.
              */
-            SqlServerKey.Update withCreationDate(DateTime creationDate);
+            SqlServerKey.Update withCreationDate(OffsetDateTime creationDate);
         }
     }
 }

@@ -4,17 +4,17 @@
  * license information.
  */
 
-package com.microsoft.azure.management.sql.implementation;
+package com.microsoft.azure.v2.management.sql.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.RefreshableWrapperImpl;
-import com.microsoft.azure.management.sql.ElasticPoolEditions;
-import com.microsoft.azure.management.sql.RecommendedElasticPool;
-import com.microsoft.azure.management.sql.RecommendedElasticPoolMetric;
-import com.microsoft.azure.management.sql.SqlDatabase;
-import org.joda.time.DateTime;
-import rx.Observable;
-import rx.functions.Func1;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.implementation.RefreshableWrapperImpl;
+import com.microsoft.azure.v2.management.sql.ElasticPoolEditions;
+import com.microsoft.azure.v2.management.sql.RecommendedElasticPool;
+import com.microsoft.azure.v2.management.sql.RecommendedElasticPoolMetric;
+import com.microsoft.azure.v2.management.sql.SqlDatabase;
+import java.time.OffsetDateTime;
+import io.reactivex.Observable;
+import io.reactivex.functions.Function;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -77,12 +77,12 @@ class RecommendedElasticPoolImpl
     }
 
     @Override
-    public DateTime observationPeriodStart() {
+    public OffsetDateTime observationPeriodStart() {
         return this.inner().observationPeriodStart();
     }
 
     @Override
-    public DateTime observationPeriodEnd() {
+    public OffsetDateTime observationPeriodEnd() {
         return this.inner().observationPeriodEnd();
     }
 

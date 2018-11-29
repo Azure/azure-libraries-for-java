@@ -3,16 +3,16 @@
  * Licensed under the MIT License. See License.txt in the project root for
  * license information.
  */
-package com.microsoft.azure.management.sql;
+package com.microsoft.azure.v2.management.sql;
 
-import com.microsoft.azure.management.apigeneration.Beta;
+import com.microsoft.rest.v2.annotations.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 
 /**
  * The maximum allowed storage capacity for a "Basic" edition of an Azure SQL Elastic Pool.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_7_0)
+@Beta(since = "V1_7_0")
 public enum SqlDatabaseBasicStorage {
     /** 100 MB storage capacity available for the database. */
     MAX_100_MB(100),

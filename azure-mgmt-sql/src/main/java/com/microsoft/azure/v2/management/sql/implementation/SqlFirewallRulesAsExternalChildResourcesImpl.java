@@ -3,12 +3,12 @@
  * Licensed under the MIT License. See License.txt in the project root for
  * license information.
  */
-package com.microsoft.azure.management.sql.implementation;
+package com.microsoft.azure.v2.management.sql.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.ExternalChildResourcesNonCachedImpl;
-import com.microsoft.azure.management.sql.SqlFirewallRule;
-import com.microsoft.azure.management.sql.SqlServer;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.collection.implementation.ExternalChildResourcesNonCachedImpl;
+import com.microsoft.azure.v2.management.sql.SqlFirewallRule;
+import com.microsoft.azure.v2.management.sql.SqlServer;
 
 /**
  * Represents a SQL Firewall rules collection associated with an Azure SQL server.

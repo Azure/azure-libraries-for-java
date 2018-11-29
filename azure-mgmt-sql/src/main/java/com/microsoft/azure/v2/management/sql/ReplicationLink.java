@@ -4,21 +4,21 @@
  * license information.
  */
 
-package com.microsoft.azure.management.sql;
+package com.microsoft.azure.v2.management.sql;
 
-import com.microsoft.azure.management.apigeneration.Beta;
+import com.microsoft.rest.v2.annotations.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.Method;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasId;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasName;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
-import com.microsoft.azure.management.sql.implementation.ReplicationLinkInner;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import org.joda.time.DateTime;
-import rx.Completable;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.HasId;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.HasName;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.HasResourceGroup;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Refreshable;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
+import com.microsoft.azure.v2.management.sql.implementation.ReplicationLinkInner;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
+import java.time.OffsetDateTime;
+import io.reactivex.Completable;
 
 
 /**
@@ -70,7 +70,7 @@ public interface ReplicationLink extends
     /**
      * @return start time for the replication link (ISO8601 format)
      */
-    DateTime startTime();
+    OffsetDateTime startTime();
 
     /**
      * @return the percentage of the seeding completed for the replication link
@@ -85,19 +85,19 @@ public interface ReplicationLink extends
     /**
      * @return the location of the server that contains this replication link
      */
-    @Beta(Beta.SinceVersion.V1_7_0)
+    @Beta(since = "V1_7_0")
     String location();
 
     /**
      * @return the legacy value indicating whether termination is allowed (currently always returns true)
      */
-    @Beta(Beta.SinceVersion.V1_7_0)
+    @Beta(since = "V1_7_0")
     boolean isTerminationAllowed();
 
     /**
      * @return the replication mode of this replication link
      */
-    @Beta(Beta.SinceVersion.V1_7_0)
+    @Beta(since = "V1_7_0")
     String replicationMode();
 
     /**

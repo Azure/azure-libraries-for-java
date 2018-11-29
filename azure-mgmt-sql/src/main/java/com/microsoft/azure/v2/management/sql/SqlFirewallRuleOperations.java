@@ -3,18 +3,18 @@
  * Licensed under the MIT License. See License.txt in the project root for
  * license information.
  */
-package com.microsoft.azure.management.sql;
+package com.microsoft.azure.v2.management.sql;
 
-import com.microsoft.azure.management.apigeneration.Beta;
+import com.microsoft.rest.v2.annotations.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.resources.fluentcore.collection.SupportsCreating;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
+import com.microsoft.azure.v2.management.resources.fluentcore.collection.SupportsCreating;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Creatable;
 
 /**
  * A representation of the Azure SQL Firewall rule operations.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_7_0)
+@Beta(since = "V1_7_0")
 public interface SqlFirewallRuleOperations extends
     SupportsCreating<SqlFirewallRuleOperations.DefinitionStages.WithSqlServer>,
     SqlChildrenOperations<SqlFirewallRule> {

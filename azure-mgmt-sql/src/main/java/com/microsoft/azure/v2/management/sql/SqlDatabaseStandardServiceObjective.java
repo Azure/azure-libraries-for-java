@@ -3,11 +3,11 @@
  * Licensed under the MIT License. See License.txt in the project root for
  * license information.
  */
-package com.microsoft.azure.management.sql;
+package com.microsoft.azure.v2.management.sql;
 
-import com.microsoft.azure.management.apigeneration.Beta;
+import com.microsoft.rest.v2.annotations.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.rest.ExpandableStringEnum;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.ExpandableStringEnum;
 
 import java.util.Collection;
 
@@ -15,7 +15,7 @@ import java.util.Collection;
  * The name of the configured Service Level Objective of a "Standard" Azure SQL Database.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_7_0)
+@Beta(since = "V1_7_0")
 public class SqlDatabaseStandardServiceObjective extends ExpandableStringEnum<SqlDatabaseStandardServiceObjective> {
     /** Static value S0 for SqlDatabaseStandardServiceObjective. */
     public static final SqlDatabaseStandardServiceObjective S0 = fromString("S0");

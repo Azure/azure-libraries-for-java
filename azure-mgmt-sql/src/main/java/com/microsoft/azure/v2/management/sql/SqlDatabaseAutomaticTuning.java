@@ -4,15 +4,15 @@
  * license information.
  */
 
-package com.microsoft.azure.management.sql;
+package com.microsoft.azure.v2.management.sql;
 
-import com.microsoft.azure.management.apigeneration.Beta;
+import com.microsoft.rest.v2.annotations.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
-import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
-import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
-import com.microsoft.azure.management.sql.implementation.DatabaseAutomaticTuningInner;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Appliable;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Refreshable;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Updatable;
+import com.microsoft.azure.v2.management.sql.implementation.DatabaseAutomaticTuningInner;
 
 import java.util.Map;
 
@@ -20,7 +20,7 @@ import java.util.Map;
  * An immutable client-side representation of an Azure SQL database automatic tuning object.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_8_0)
+@Beta(since = "V1_8_0")
 public interface SqlDatabaseAutomaticTuning extends
     HasInner<DatabaseAutomaticTuningInner>,
     Refreshable<SqlDatabaseAutomaticTuning>,
@@ -50,7 +50,7 @@ public interface SqlDatabaseAutomaticTuning extends
     /**
      * The template for a SqlDatabaseAutomaticTuning update operation, containing all the settings that can be modified.
      */
-    @Beta(Beta.SinceVersion.V1_8_0)
+    @Beta(since = "V1_8_0")
     interface Update extends
         SqlDatabaseAutomaticTuning.UpdateStages.WithAutomaticTuningMode,
         SqlDatabaseAutomaticTuning.UpdateStages.WithAutomaticTuningOptions,

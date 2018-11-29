@@ -4,12 +4,12 @@
  * license information.
  */
 
-package com.microsoft.azure.management.sql.implementation;
+package com.microsoft.azure.v2.management.sql.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
-import com.microsoft.azure.management.sql.RecommendedElasticPoolMetric;
-import org.joda.time.DateTime;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.implementation.WrapperImpl;
+import com.microsoft.azure.v2.management.sql.RecommendedElasticPoolMetric;
+import java.time.OffsetDateTime;
 
 /**
  * Implementation for RecommendedElasticPoolMetric interface.

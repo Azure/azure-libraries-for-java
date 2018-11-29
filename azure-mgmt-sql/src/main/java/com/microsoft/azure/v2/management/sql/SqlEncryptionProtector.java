@@ -3,26 +3,26 @@
  * Licensed under the MIT License. See License.txt in the project root for
  * license information.
  */
-package com.microsoft.azure.management.sql;
+package com.microsoft.azure.v2.management.sql;
 
-import com.microsoft.azure.management.apigeneration.Beta;
+import com.microsoft.rest.v2.annotations.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.Method;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasId;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
-import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
-import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
-import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
-import com.microsoft.azure.management.sql.implementation.EncryptionProtectorInner;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.HasId;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.HasResourceGroup;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Appliable;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Indexable;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Refreshable;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Updatable;
+import com.microsoft.azure.v2.management.sql.implementation.EncryptionProtectorInner;
 
 /**
  * An immutable client-side representation of an Azure SQL Encryption Protector.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_9_0)
+@Beta(since = "V1_9_0")
 public interface SqlEncryptionProtector
     extends
         HasId,
@@ -87,7 +87,7 @@ public interface SqlEncryptionProtector
         /**
          * The SQL Encryption Protector update definition to set the server key name and type.
          */
-        @Beta(Beta.SinceVersion.V1_9_0)
+        @Beta(since = "V1_9_0")
         interface WithServerKeyNameAndType {
             /**
              * Updates the Encryption Protector to use an AzureKeyVault server key.

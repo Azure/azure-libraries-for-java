@@ -4,18 +4,18 @@
  * license information.
  */
 
-package com.microsoft.azure.management.sql;
+package com.microsoft.azure.v2.management.sql;
 
-import com.microsoft.azure.management.apigeneration.Beta;
+import com.microsoft.rest.v2.annotations.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
-import org.joda.time.DateTime;
+import java.time.OffsetDateTime;
 
 
 /**
  * An immutable client-side representation of an Azure SQL DatabaseMetric.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_7_0)
+@Beta(since = "V1_7_0")
 public interface DatabaseMetric {
 
     /**
@@ -46,6 +46,6 @@ public interface DatabaseMetric {
     /**
      * @return the next reset time for the metric (ISO8601 format)
      */
-    DateTime nextResetTime();
+    OffsetDateTime nextResetTime();
 }
 

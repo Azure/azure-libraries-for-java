@@ -3,13 +3,13 @@
  * Licensed under the MIT License. See License.txt in the project root for
  * license information.
  */
-package com.microsoft.azure.management.sql;
+package com.microsoft.azure.v2.management.sql;
 
-import com.microsoft.azure.management.apigeneration.Beta;
+import com.microsoft.rest.v2.annotations.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
-import com.microsoft.azure.management.sql.implementation.MetricInner;
-import org.joda.time.DateTime;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
+import com.microsoft.azure.v2.management.sql.implementation.MetricInner;
+import java.time.OffsetDateTime;
 
 import java.util.List;
 
@@ -17,7 +17,7 @@ import java.util.List;
  * Response containing the Azure SQL Database metric.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_7_0)
+@Beta(since = "V1_7_0")
 public interface SqlDatabaseMetric extends HasInner<MetricInner> {
 
     /**
@@ -28,12 +28,12 @@ public interface SqlDatabaseMetric extends HasInner<MetricInner> {
     /**
      * @return the start time
      */
-    DateTime startTime();
+    OffsetDateTime startTime();
 
     /**
      * @return the end time
      */
-    DateTime endTime();
+    OffsetDateTime endTime();
 
     /**
      * @return the time grain

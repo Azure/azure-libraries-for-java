@@ -4,12 +4,12 @@
  * license information.
  */
 
-package com.microsoft.azure.management.sql.implementation;
+package com.microsoft.azure.v2.management.sql.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.sql.SqlWarehouse;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
+import com.microsoft.azure.v2.management.sql.SqlWarehouse;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
 import rx.Completable;
 
 /**

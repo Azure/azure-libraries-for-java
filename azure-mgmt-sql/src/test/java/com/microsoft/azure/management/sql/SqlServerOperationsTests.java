@@ -4,15 +4,15 @@
  * license information.
  */
 
-package com.microsoft.azure.management.sql;
+package com.microsoft.azure.v2.management.sql;
 
-import com.microsoft.azure.management.resources.core.TestUtilities;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
-import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
-import com.microsoft.azure.management.sql.implementation.SyncGroupInner;
+import com.microsoft.azure.v2.management.resources.core.TestUtilities;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Creatable;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Indexable;
+import com.microsoft.azure.v2.management.resources.fluentcore.utils.SdkContext;
+import com.microsoft.azure.v2.management.resources.fluentcore.utils.Utils;
+import com.microsoft.azure.v2.management.sql.implementation.SyncGroupInner;
 import com.microsoft.azure.management.storage.StorageAccount;
 import org.junit.Assert;
 import org.junit.Ignore;

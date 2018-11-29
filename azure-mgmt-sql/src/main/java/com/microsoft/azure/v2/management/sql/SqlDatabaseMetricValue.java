@@ -3,18 +3,18 @@
  * Licensed under the MIT License. See License.txt in the project root for
  * license information.
  */
-package com.microsoft.azure.management.sql;
+package com.microsoft.azure.v2.management.sql;
 
-import com.microsoft.azure.management.apigeneration.Beta;
+import com.microsoft.rest.v2.annotations.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
-import org.joda.time.DateTime;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
+import java.time.OffsetDateTime;
 
 /**
  * Response containing the Azure SQL Database metric value.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_7_0)
+@Beta(since = "V1_7_0")
 public interface SqlDatabaseMetricValue extends HasInner<MetricValue> {
     /**
      * @return  the number of values for the metric

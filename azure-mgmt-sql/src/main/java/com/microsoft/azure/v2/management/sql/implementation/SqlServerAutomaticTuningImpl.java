@@ -3,16 +3,16 @@
  * Licensed under the MIT License. See License.txt in the project root for
  * license information.
  */
-package com.microsoft.azure.management.sql.implementation;
+package com.microsoft.azure.v2.management.sql.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.RefreshableWrapperImpl;
-import com.microsoft.azure.management.sql.AutomaticTuningOptionModeDesired;
-import com.microsoft.azure.management.sql.AutomaticTuningServerMode;
-import com.microsoft.azure.management.sql.AutomaticTuningServerOptions;
-import com.microsoft.azure.management.sql.SqlServerAutomaticTuning;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.implementation.RefreshableWrapperImpl;
+import com.microsoft.azure.v2.management.sql.AutomaticTuningOptionModeDesired;
+import com.microsoft.azure.v2.management.sql.AutomaticTuningServerMode;
+import com.microsoft.azure.v2.management.sql.AutomaticTuningServerOptions;
+import com.microsoft.azure.v2.management.sql.SqlServerAutomaticTuning;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
 import rx.Observable;
 import rx.functions.Func1;
 

@@ -3,16 +3,16 @@
  * Licensed under the MIT License. See License.txt in the project root for
  * license information.
  */
-package com.microsoft.azure.management.sql.implementation;
+package com.microsoft.azure.v2.management.sql.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.arm.ResourceId;
-import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
-import com.microsoft.azure.management.sql.ServerKeyType;
-import com.microsoft.azure.management.sql.SqlEncryptionProtector;
-import com.microsoft.azure.management.sql.SqlServer;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.ResourceId;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.ResourceUtils;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
+import com.microsoft.azure.v2.management.sql.ServerKeyType;
+import com.microsoft.azure.v2.management.sql.SqlEncryptionProtector;
+import com.microsoft.azure.v2.management.sql.SqlServer;
 import org.apache.commons.lang3.NotImplementedException;
 import rx.Observable;
 import rx.functions.Func1;

@@ -4,22 +4,23 @@
  * license information.
  */
 
-package com.microsoft.azure.management.sql;
+package com.microsoft.azure.v2.management.sql;
 
-import com.microsoft.azure.management.apigeneration.Beta;
+import com.microsoft.rest.v2.annotations.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.Method;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasId;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasManager;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasName;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
-import com.microsoft.azure.management.sql.implementation.RecommendedElasticPoolInner;
-import com.microsoft.azure.management.sql.implementation.SqlServerManager;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.HasId;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.HasManager;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.HasName;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.HasResourceGroup;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Refreshable;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
+import com.microsoft.azure.v2.management.sql.implementation.RecommendedElasticPoolInner;
+import com.microsoft.azure.v2.management.sql.implementation.SqlServerManager;
 
-import org.joda.time.DateTime;
-import rx.Observable;
+import java.time.OffsetDateTime;
+import io.reactivex.Completable;
+import io.reactivex.Observable;
 
 import java.util.List;
 
@@ -46,7 +47,7 @@ public interface RecommendedElasticPool extends
      * ElasticPoolEditions enumeration contains all the valid editions.
      * Possible values include: 'Basic', 'Standard', 'Premium'.
      */
-    @Beta(Beta.SinceVersion.V1_7_0)
+    @Beta(since = "V1_7_0")
     ElasticPoolEditions databaseEdition();
 
     /**
@@ -72,12 +73,12 @@ public interface RecommendedElasticPool extends
     /**
      * @return the observation period start (ISO8601 format).
      */
-    DateTime observationPeriodStart();
+    OffsetDateTime observationPeriodStart();
 
     /**
      * @return the observation period start (ISO8601 format).
      */
-    DateTime observationPeriodEnd();
+    OffsetDateTime observationPeriodEnd();
 
     /**
      * @return maximum observed DTU.
@@ -106,7 +107,7 @@ public interface RecommendedElasticPool extends
      * @return a representation of the deferred computation of the databases in this recommended elastic pool
      */
     @Method
-    @Beta(Beta.SinceVersion.V1_7_0)
+    @Beta(since = "V1_7_0")
     Observable<SqlDatabase> listDatabasesAsync();
 
     /**
@@ -123,7 +124,7 @@ public interface RecommendedElasticPool extends
      * @param databaseName name of the database to be fetched
      * @return a representation of the deferred computation to get the database in the recommended elastic pool
      */
-    @Beta(Beta.SinceVersion.V1_7_0)
+    @Beta(since = "V1_7_0")
     Observable<SqlDatabase> getDatabaseAsync(String databaseName);
 
     /**

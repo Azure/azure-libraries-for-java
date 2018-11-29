@@ -3,22 +3,22 @@
  * Licensed under the MIT License. See License.txt in the project root for
  * license information.
  */
-package com.microsoft.azure.management.sql.implementation;
+package com.microsoft.azure.v2.management.sql.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.arm.ResourceId;
-import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
-import com.microsoft.azure.management.sql.FailoverGroupReadOnlyEndpoint;
-import com.microsoft.azure.management.sql.FailoverGroupReadWriteEndpoint;
-import com.microsoft.azure.management.sql.FailoverGroupReplicationRole;
-import com.microsoft.azure.management.sql.PartnerInfo;
-import com.microsoft.azure.management.sql.ReadOnlyEndpointFailoverPolicy;
-import com.microsoft.azure.management.sql.ReadWriteEndpointFailoverPolicy;
-import com.microsoft.azure.management.sql.SqlFailoverGroup;
-import com.microsoft.azure.management.sql.SqlFailoverGroupOperations;
-import com.microsoft.azure.management.sql.SqlServer;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.ResourceId;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.ResourceUtils;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
+import com.microsoft.azure.v2.management.sql.FailoverGroupReadOnlyEndpoint;
+import com.microsoft.azure.v2.management.sql.FailoverGroupReadWriteEndpoint;
+import com.microsoft.azure.v2.management.sql.FailoverGroupReplicationRole;
+import com.microsoft.azure.v2.management.sql.PartnerInfo;
+import com.microsoft.azure.v2.management.sql.ReadOnlyEndpointFailoverPolicy;
+import com.microsoft.azure.v2.management.sql.ReadWriteEndpointFailoverPolicy;
+import com.microsoft.azure.v2.management.sql.SqlFailoverGroup;
+import com.microsoft.azure.v2.management.sql.SqlFailoverGroupOperations;
+import com.microsoft.azure.v2.management.sql.SqlServer;
 import rx.Completable;
 import rx.Observable;
 import rx.functions.Func1;

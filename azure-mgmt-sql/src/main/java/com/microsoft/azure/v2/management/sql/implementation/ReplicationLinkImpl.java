@@ -3,18 +3,18 @@
  * Licensed under the MIT License. See License.txt in the project root for
  * license information.
  */
-package com.microsoft.azure.management.sql.implementation;
+package com.microsoft.azure.v2.management.sql.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.resources.fluentcore.arm.ResourceId;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.RefreshableWrapperImpl;
-import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
-import com.microsoft.azure.management.sql.ReplicationLink;
-import com.microsoft.azure.management.sql.ReplicationRole;
-import com.microsoft.azure.management.sql.ReplicationState;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import org.joda.time.DateTime;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.ResourceId;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.implementation.RefreshableWrapperImpl;
+import com.microsoft.azure.v2.management.resources.fluentcore.utils.Utils;
+import com.microsoft.azure.v2.management.sql.ReplicationLink;
+import com.microsoft.azure.v2.management.sql.ReplicationRole;
+import com.microsoft.azure.v2.management.sql.ReplicationState;
+import com.microsoft.rest.v2.ServiceCallback;
+import com.microsoft.rest.v2.ServiceFuture;
+import java.time.OffsetDateTime;
 import rx.Completable;
 import rx.Observable;
 

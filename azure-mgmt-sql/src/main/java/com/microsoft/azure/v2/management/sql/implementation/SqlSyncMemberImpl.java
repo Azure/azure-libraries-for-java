@@ -3,23 +3,23 @@
  * Licensed under the MIT License. See License.txt in the project root for
  * license information.
  */
-package com.microsoft.azure.management.sql.implementation;
+package com.microsoft.azure.v2.management.sql.implementation;
 
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.resources.fluentcore.arm.ResourceId;
-import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
-import com.microsoft.azure.management.resources.fluentcore.utils.PagedListConverter;
-import com.microsoft.azure.management.sql.SqlDatabase;
-import com.microsoft.azure.management.sql.SqlSyncFullSchemaProperty;
-import com.microsoft.azure.management.sql.SqlSyncGroup;
-import com.microsoft.azure.management.sql.SqlSyncMember;
-import com.microsoft.azure.management.sql.SqlSyncMemberOperations;
-import com.microsoft.azure.management.sql.SyncDirection;
-import com.microsoft.azure.management.sql.SyncMemberDbType;
-import com.microsoft.azure.management.sql.SyncMemberState;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.ResourceId;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.ResourceUtils;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
+import com.microsoft.azure.v2.management.resources.fluentcore.utils.PagedListConverter;
+import com.microsoft.azure.v2.management.sql.SqlDatabase;
+import com.microsoft.azure.v2.management.sql.SqlSyncFullSchemaProperty;
+import com.microsoft.azure.v2.management.sql.SqlSyncGroup;
+import com.microsoft.azure.v2.management.sql.SqlSyncMember;
+import com.microsoft.azure.v2.management.sql.SqlSyncMemberOperations;
+import com.microsoft.azure.v2.management.sql.SyncDirection;
+import com.microsoft.azure.v2.management.sql.SyncMemberDbType;
+import com.microsoft.azure.v2.management.sql.SyncMemberState;
 import rx.Completable;
 import rx.Observable;
 import rx.functions.Func1;

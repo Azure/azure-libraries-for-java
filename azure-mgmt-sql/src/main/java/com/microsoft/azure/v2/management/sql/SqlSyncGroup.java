@@ -3,20 +3,20 @@
  * Licensed under the MIT License. See License.txt in the project root for
  * license information.
  */
-package com.microsoft.azure.management.sql;
+package com.microsoft.azure.v2.management.sql;
 
 import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.apigeneration.Beta;
+import com.microsoft.rest.v2.annotations.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.Method;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.ExternalChildResource;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
-import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
-import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
-import com.microsoft.azure.management.sql.implementation.SyncGroupInner;
-import org.joda.time.DateTime;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.ExternalChildResource;
+import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.HasResourceGroup;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Appliable;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Refreshable;
+import com.microsoft.azure.v2.management.resources.fluentcore.model.Updatable;
+import com.microsoft.azure.v2.management.sql.implementation.SyncGroupInner;
+import java.time.OffsetDateTime;
 import rx.Completable;
 import rx.Observable;
 
@@ -24,7 +24,7 @@ import rx.Observable;
  * An immutable client-side representation of an Azure SQL Server Sync Group.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_9_0)
+@Beta(since = "V1_9_0")
 public interface SqlSyncGroup
     extends
     ExternalChildResource<SqlSyncGroup, SqlDatabase>,
@@ -177,7 +177,7 @@ public interface SqlSyncGroup
     /**
      * @return the SQL Sync Member entry point
      */
-    @Beta(Beta.SinceVersion.V1_9_0)
+    @Beta(since = "V1_9_0")
     SqlSyncMemberOperations.SqlSyncMemberActionsDefinition syncMembers();
 
 
@@ -189,7 +189,7 @@ public interface SqlSyncGroup
     /**
      * The template for a SQL Sync Group update operation, containing all the settings that can be modified.
      */
-    @Beta(Beta.SinceVersion.V1_9_0)
+    @Beta(since = "V1_9_0")
     interface Update extends
         SqlSyncGroup.UpdateStages.WithSyncDatabaseId,
         SqlSyncGroup.UpdateStages.WithDatabaseUserName,
@@ -203,12 +203,12 @@ public interface SqlSyncGroup
     /**
      * Grouping of all the SQL Sync Group update stages.
      */
-    @Beta(Beta.SinceVersion.V1_9_0)
+    @Beta(since = "V1_9_0")
     interface UpdateStages {
         /**
          * The SQL Sync Group definition to set the database ID to sync with.
          */
-        @Beta(Beta.SinceVersion.V1_9_0)
+        @Beta(since = "V1_9_0")
         interface WithSyncDatabaseId {
             /**
              * Sets the sync database ID.
@@ -222,7 +222,7 @@ public interface SqlSyncGroup
         /**
          * The SQL Sync Group definition to set the database user name.
          */
-        @Beta(Beta.SinceVersion.V1_9_0)
+        @Beta(since = "V1_9_0")
         interface WithDatabaseUserName {
             /**
              * Sets the database user name.
@@ -236,7 +236,7 @@ public interface SqlSyncGroup
         /**
          * The SQL Sync Group definition to set the database login password.
          */
-        @Beta(Beta.SinceVersion.V1_9_0)
+        @Beta(since = "V1_9_0")
         interface WithDatabasePassword {
             /**
              * Sets the database login password.
@@ -250,7 +250,7 @@ public interface SqlSyncGroup
         /**
          * The SQL Sync Group definition to set the schema.
          */
-        @Beta(Beta.SinceVersion.V1_9_0)
+        @Beta(since = "V1_9_0")
         interface WithSchema {
             /**
              * Sets the schema.
@@ -264,7 +264,7 @@ public interface SqlSyncGroup
         /**
          * The SQL Sync Group definition to set the conflict resolution policy.
          */
-        @Beta(Beta.SinceVersion.V1_9_0)
+        @Beta(since = "V1_9_0")
         interface WithConflictResolutionPolicy {
             /**
              * Sets the conflict resolution policy to "HubWin".
@@ -286,7 +286,7 @@ public interface SqlSyncGroup
         /**
          * The SQL Sync Group definition to set the sync frequency.
          */
-        @Beta(Beta.SinceVersion.V1_9_0)
+        @Beta(since = "V1_9_0")
         interface WithInterval {
             /**
              * Sets the sync frequency.

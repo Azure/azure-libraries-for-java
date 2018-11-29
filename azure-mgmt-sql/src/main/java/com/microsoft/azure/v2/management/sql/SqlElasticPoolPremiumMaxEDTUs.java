@@ -3,16 +3,16 @@
  * Licensed under the MIT License. See License.txt in the project root for
  * license information.
  */
-package com.microsoft.azure.management.sql;
+package com.microsoft.azure.v2.management.sql;
 
-import com.microsoft.azure.management.apigeneration.Beta;
+import com.microsoft.rest.v2.annotations.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 
 /**
  * The maximum limit of the reserved eDTUs value range for a "Premium" edition of an Azure SQL Elastic Pool.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_7_0)
+@Beta(since = "V1_7_0")
 public enum SqlElasticPoolPremiumMaxEDTUs {
     /** Maximum 25 eDTUs available per each database. */
     eDTU_25(25),

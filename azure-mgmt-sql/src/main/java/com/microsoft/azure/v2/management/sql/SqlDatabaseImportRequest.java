@@ -10,8 +10,8 @@ import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.HasParent;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Executable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
-import com.microsoft.azure.v2.management.sql.implementation.ImportExtensionRequestInner;
-import com.microsoft.azure.management.storage.StorageAccount;
+import com.microsoft.azure.v2.management.sql.ImportExtensionRequest;
+import com.microsoft.azure.v2.management.storage.StorageAccount;
 
 /**
  * An immutable client-side representation of an Azure SQL Database import operation request.
@@ -19,7 +19,7 @@ import com.microsoft.azure.management.storage.StorageAccount;
 @Fluent
 @Beta(since = "V1_7_0")
 public interface SqlDatabaseImportRequest extends
-    HasInner<ImportExtensionRequestInner>,
+    HasInner<ImportExtensionRequest>,
     Executable<SqlDatabaseImportExportResponse>,
     HasParent<SqlDatabase> {
 

@@ -9,7 +9,7 @@ import com.microsoft.rest.v2.annotations.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.v2.management.resources.fluentcore.collection.SupportsCreating;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Creatable;
-import rx.Observable;
+import io.reactivex.Observable;
 
 /**
  * A representation of the Azure SQL Sync Member operations.

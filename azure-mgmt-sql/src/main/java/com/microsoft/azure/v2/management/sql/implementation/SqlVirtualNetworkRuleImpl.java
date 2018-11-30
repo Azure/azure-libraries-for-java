@@ -12,9 +12,8 @@ import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.impleme
 import com.microsoft.azure.v2.management.sql.SqlVirtualNetworkRule;
 import com.microsoft.azure.v2.management.sql.SqlVirtualNetworkRuleOperations;
 import com.microsoft.azure.v2.management.sql.SqlServer;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
+import io.reactivex.Completable;
+import io.reactivex.Observable;
 
 import java.util.Objects;
 

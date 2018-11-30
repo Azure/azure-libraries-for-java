@@ -32,9 +32,8 @@ import com.microsoft.azure.v2.management.sql.SqlServerKeyOperations;
 import com.microsoft.azure.v2.management.sql.SqlServerSecurityAlertPolicyOperations;
 import com.microsoft.azure.v2.management.sql.SqlVirtualNetworkRule;
 import com.microsoft.azure.v2.management.sql.SqlVirtualNetworkRuleOperations;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
+import io.reactivex.Completable;
+import io.reactivex.Observable;
 
 import java.util.ArrayList;
 import java.util.Collections;

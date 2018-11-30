@@ -6,17 +6,17 @@
 
 package com.microsoft.azure.v2.management.sql.implementation;
 
-import com.microsoft.azure.AzureEnvironment;
-import com.microsoft.azure.AzureResponseBuilder;
-import com.microsoft.azure.credentials.AzureTokenCredentials;
+import com.microsoft.azure.v2.AzureEnvironment;
+import com.microsoft.azure.v2.credentials.AzureTokenCredentials;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.AzureConfigurable;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.implementation.AzureConfigurableImpl;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.implementation.Manager;
-import com.microsoft.azure.v2.management.resources.fluentcore.utils.ProviderRegistrationInterceptor;
-import com.microsoft.azure.v2.management.resources.fluentcore.utils.ResourceManagerThrottlingInterceptor;
+import com.microsoft.azure.v2.management.resources.fluentcore.utils.ProviderRegistrationPolicyFactory;
+import com.microsoft.azure.v2.management.resources.fluentcore.utils.ResourceManagerThrottlingPolicyFactory;
 import com.microsoft.azure.v2.management.sql.SqlServers;
-import com.microsoft.azure.serializer.AzureJacksonAdapter;
-import com.microsoft.rest.RestClient;
+import com.microsoft.azure.v2.policy.AsyncCredentialsPolicyFactory;
+import com.microsoft.rest.v2.http.HttpPipeline;
+import com.microsoft.rest.v2.http.HttpPipelineBuilder;
 
 /**
  * Entry point to Azure SQLServer resource management.
@@ -26,12 +26,13 @@ public class SqlServerManager extends Manager<SqlServerManager, SqlManagementCli
 
     private final String tenantId;
 
-    protected SqlServerManager(RestClient restClient, String tenantId, String subscriptionId) {
+    protected SqlServerManager(HttpPipeline httpPipeline, String subscriptionId, String domain, AzureEnvironment environment) {
         super(
-                restClient,
+                httpPipeline,
                 subscriptionId,
-                new SqlManagementClientImpl(restClient).withSubscriptionId(subscriptionId));
-        this.tenantId = tenantId;
+                environment,
+                new SqlManagementClientImpl(httpPipeline, environment).withSubscriptionId(subscriptionId));
+        this.tenantId = domain;
     }
 
     /**
@@ -51,26 +52,24 @@ public class SqlServerManager extends Manager<SqlServerManager, SqlManagementCli
      * @return the SqlServer
      */
     public static SqlServerManager authenticate(AzureTokenCredentials credentials, String subscriptionId) {
-        return new SqlServerManager(new RestClient.Builder()
-                .withBaseUrl(credentials.environment(), AzureEnvironment.Endpoint.RESOURCE_MANAGER)
-                .withCredentials(credentials)
-                .withSerializerAdapter(new AzureJacksonAdapter())
-                .withResponseBuilderFactory(new AzureResponseBuilder.Factory())
-                .withInterceptor(new ProviderRegistrationInterceptor(credentials))
-                .withInterceptor(new ResourceManagerThrottlingInterceptor())
-                .build(), credentials.domain(), subscriptionId);
+        return new SqlServerManager(new HttpPipelineBuilder()
+                .withRequestPolicy(new AsyncCredentialsPolicyFactory(credentials))
+                .withRequestPolicy(new ProviderRegistrationPolicyFactory(credentials))
+                .withRequestPolicy(new ResourceManagerThrottlingPolicyFactory())
+                .build(), subscriptionId, credentials.domain(), credentials.environment());
     }
 
     /**
      * Creates an instance of SqlServer that exposes Compute resource management API entry points.
      *
-     * @param restClient the RestClient to be used for API calls.
-     * @param tenantId the tenant UUID
+     * @param httpPipeline the httpPipeline to be used for API calls.
      * @param subscriptionId the subscription
+     * @param domain the domain
+     * @param environment the azure environment hosting the APIs
      * @return the SqlServer
      */
-    public static SqlServerManager authenticate(RestClient restClient, String tenantId, String subscriptionId) {
-        return new SqlServerManager(restClient, tenantId, subscriptionId);
+    public static SqlServerManager authenticate(HttpPipeline httpPipeline, String subscriptionId, String domain, AzureEnvironment environment) {
+        return new SqlServerManager(httpPipeline, subscriptionId, domain, environment);
     }
 
 
@@ -95,7 +94,7 @@ public class SqlServerManager extends Manager<SqlServerManager, SqlManagementCli
     private static final class ConfigurableImpl extends AzureConfigurableImpl<Configurable> implements Configurable {
         @Override
         public SqlServerManager authenticate(AzureTokenCredentials credentials, String subscriptionId) {
-            return SqlServerManager.authenticate(buildRestClient(credentials), credentials.domain(), subscriptionId);
+            return SqlServerManager.authenticate(buildPipeline(credentials), subscriptionId, credentials.domain(), credentials.environment());
         }
     }
 

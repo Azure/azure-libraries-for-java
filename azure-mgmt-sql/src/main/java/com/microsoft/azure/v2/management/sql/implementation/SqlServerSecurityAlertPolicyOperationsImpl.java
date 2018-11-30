@@ -11,8 +11,7 @@ import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.impleme
 import com.microsoft.azure.v2.management.sql.SqlServer;
 import com.microsoft.azure.v2.management.sql.SqlServerSecurityAlertPolicy;
 import com.microsoft.azure.v2.management.sql.SqlServerSecurityAlertPolicyOperations;
-import rx.Observable;
-import rx.functions.Func1;
+import io.reactivex.Observable;
 
 import java.util.Objects;
 

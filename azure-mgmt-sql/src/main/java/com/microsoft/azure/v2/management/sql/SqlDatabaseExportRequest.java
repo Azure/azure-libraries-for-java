@@ -11,8 +11,8 @@ import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.HasPare
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Executable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
-import com.microsoft.azure.v2.management.sql.implementation.ExportRequestInner;
-import com.microsoft.azure.management.storage.StorageAccount;
+import com.microsoft.azure.v2.management.sql.ExportRequest;
+import com.microsoft.azure.v2.management.storage.StorageAccount;
 
 /**
  * An immutable client-side representation of an Azure SQL Database export operation request.
@@ -20,7 +20,7 @@ import com.microsoft.azure.management.storage.StorageAccount;
 @Fluent
 @Beta(since = "V1_7_0")
 public interface SqlDatabaseExportRequest extends
-    HasInner<ExportRequestInner>,
+    HasInner<ExportRequest>,
     Executable<SqlDatabaseImportExportResponse>,
     HasParent<SqlDatabase> {
 

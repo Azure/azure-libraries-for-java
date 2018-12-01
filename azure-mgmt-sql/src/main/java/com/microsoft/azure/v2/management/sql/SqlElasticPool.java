@@ -57,7 +57,7 @@ public interface SqlElasticPool
     /**
      * @return the edition of Azure SQL Elastic Pool
      */
-    ElasticPoolEditions edition();
+    ElasticPoolEdition edition();
 
     /**
      * @return The total shared DTU for the SQL Azure Database Elastic Pool
@@ -291,7 +291,7 @@ public interface SqlElasticPool
              */
             @Deprecated
             @Beta(since = "V1_7_0")
-            SqlElasticPool.DefinitionStages.WithAttach<ParentT> withEdition(ElasticPoolEditions edition);
+            SqlElasticPool.DefinitionStages.WithAttach<ParentT> withEdition(ElasticPoolEdition edition);
 
             /**
              * Sets the basic edition for the SQL Elastic Pool.

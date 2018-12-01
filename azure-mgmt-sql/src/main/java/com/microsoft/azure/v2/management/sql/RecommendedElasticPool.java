@@ -48,7 +48,7 @@ public interface RecommendedElasticPool extends
      * Possible values include: 'Basic', 'Standard', 'Premium'.
      */
     @Beta(since = "V1_7_0")
-    ElasticPoolEditions databaseEdition();
+    ElasticPoolEdition databaseEdition();
 
     /**
      * @return the DTU for the SQL Azure Recommended Elastic Pool.

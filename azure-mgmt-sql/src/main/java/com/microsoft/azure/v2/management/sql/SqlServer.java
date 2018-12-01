@@ -369,7 +369,7 @@ public interface SqlServer extends
              * @return Next stage of the SQL Server definition
              */
             @Deprecated
-            WithCreate withNewElasticPool(String elasticPoolName, ElasticPoolEditions elasticPoolEdition, String... databaseNames);
+            WithCreate withNewElasticPool(String elasticPoolName, ElasticPoolEdition elasticPoolEdition, String... databaseNames);
 
             /**
              * Creates new elastic pool in the SQL Server.
@@ -378,7 +378,7 @@ public interface SqlServer extends
              * @return Next stage of the SQL Server definition
              */
             @Deprecated
-            WithCreate withNewElasticPool(String elasticPoolName, ElasticPoolEditions elasticPoolEdition);
+            WithCreate withNewElasticPool(String elasticPoolName, ElasticPoolEdition elasticPoolEdition);
         }
 
         /**
@@ -551,7 +551,7 @@ public interface SqlServer extends
              */
             @Beta(since = "V1_7_0")
             @Deprecated
-            Update withNewElasticPool(String elasticPoolName, ElasticPoolEditions elasticPoolEdition, String... databaseNames);
+            Update withNewElasticPool(String elasticPoolName, ElasticPoolEdition elasticPoolEdition, String... databaseNames);
 
             /**
              * Create new elastic pool in the SQL Server.
@@ -561,7 +561,7 @@ public interface SqlServer extends
              */
             @Beta(since = "V1_7_0")
             @Deprecated
-            Update withNewElasticPool(String elasticPoolName, ElasticPoolEditions elasticPoolEdition);
+            Update withNewElasticPool(String elasticPoolName, ElasticPoolEdition elasticPoolEdition);
 
             /**
              * Removes elastic pool from the SQL Server.

@@ -7,7 +7,6 @@
 package com.microsoft.azure.v2.management.sql.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.v2.management.sql.ElasticPoolEditions;
 import com.microsoft.azure.v2.management.sql.SqlDatabaseOperations;
 import com.microsoft.azure.v2.management.sql.SqlElasticPool;
 import com.microsoft.azure.v2.management.sql.SqlElasticPoolBasicEDTUs;

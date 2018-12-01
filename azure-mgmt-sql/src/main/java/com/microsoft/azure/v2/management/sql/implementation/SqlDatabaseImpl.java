@@ -17,8 +17,9 @@ import com.microsoft.azure.v2.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Indexable;
 import com.microsoft.azure.v2.management.sql.AuthenticationType;
 import com.microsoft.azure.v2.management.sql.CreateMode;
-import com.microsoft.azure.v2.management.sql.DatabaseEditions;
+import com.microsoft.azure.v2.management.sql.DatabaseEdition;
 import com.microsoft.azure.v2.management.sql.DatabaseMetric;
+import com.microsoft.azure.v2.management.sql.ImportRequest;
 import com.microsoft.azure.v2.management.sql.ReplicationLink;
 import com.microsoft.azure.v2.management.sql.RestorePoint;
 import com.microsoft.azure.v2.management.sql.SampleName;
@@ -44,12 +45,12 @@ import com.microsoft.azure.v2.management.sql.SqlWarehouse;
 import com.microsoft.azure.v2.management.sql.StorageKeyType;
 import com.microsoft.azure.v2.management.sql.TransparentDataEncryption;
 import com.microsoft.azure.v2.management.sql.UpgradeHintInterface;
-import com.microsoft.azure.management.storage.StorageAccount;
-import com.microsoft.azure.management.storage.StorageAccountKey;
+import com.microsoft.azure.v2.management.storage.StorageAccount;
+import com.microsoft.azure.v2.management.storage.StorageAccountKey;
 import java.time.OffsetDateTime;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
+import io.reactivex.Completable;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -88,7 +89,7 @@ class SqlDatabaseImpl
     protected String sqlServerName;
     protected String sqlServerLocation;
     private boolean isPatchUpdate;
-    private ImportRequestInner importRequestInner;
+    private ImportRequest importRequestInner;
 
     private SqlSyncGroupOperationsImpl syncGroups;
 
@@ -179,7 +180,7 @@ class SqlDatabaseImpl
     }
 
     @Override
-    public DateTime creationDate() {
+    public OffsetDateTime creationDate() {
         return this.inner().creationDate();
     }
 
@@ -194,12 +195,12 @@ class SqlDatabaseImpl
     }
 
     @Override
-    public DateTime earliestRestoreDate() {
+    public OffsetDateTime earliestRestoreDate() {
         return this.inner().earliestRestoreDate();
     }
 
     @Override
-    public DatabaseEditions edition() {
+    public DatabaseEdition edition() {
         return this.inner().edition();
     }
 
@@ -240,7 +241,7 @@ class SqlDatabaseImpl
 
     @Override
     public boolean isDataWarehouse() {
-        return this.inner().edition().toString().equalsIgnoreCase(DatabaseEditions.DATA_WAREHOUSE.toString());
+        return this.inner().edition().toString().equalsIgnoreCase(DatabaseEdition.DATA_WAREHOUSE.toString());
     }
 
     @Override
@@ -587,7 +588,7 @@ class SqlDatabaseImpl
     }
 
     @Override
-    protected Observable<DatabaseInner> getInnerAsync() {
+    protected Maybe<DatabaseInner> getInnerAsync() {
         return this.sqlServerManager.inner().databases().getAsync(this.resourceGroupName, this.sqlServerName, this.name());
     }
 
@@ -706,7 +707,7 @@ class SqlDatabaseImpl
     }
 
     @Override
-    public Observable<Void> deleteResourceAsync() {
+    public Completable deleteResourceAsync() {
         return this.sqlServerManager.inner().databases().deleteAsync(this.resourceGroupName, this.sqlServerName, this.name());
     }
 
@@ -808,9 +809,9 @@ class SqlDatabaseImpl
     }
 
     private void initializeImportRequestInner() {
-        this.importRequestInner = new ImportRequestInner();
+        this.importRequestInner = new ImportRequest();
         if (this.elasticPoolName() != null) {
-            this.importRequestInner.withEdition(DatabaseEditions.BASIC);
+            this.importRequestInner.withEdition(DatabaseEdition.BASIC);
             this.importRequestInner.withServiceObjectiveName(ServiceObjectiveName.BASIC);
             this.importRequestInner.withMaxSizeBytes(Long.toString(SqlDatabaseBasicStorage.MAX_2_GB.capacity()));
         } else {
@@ -890,7 +891,7 @@ class SqlDatabaseImpl
     }
 
     @Override
-    public SqlDatabaseImpl fromRestorePoint(RestorePoint restorePoint, DateTime restorePointDateTime) {
+    public SqlDatabaseImpl fromRestorePoint(RestorePoint restorePoint, OffsetDateTime restorePointDateTime) {
         Objects.requireNonNull(restorePoint);
         this.inner().withRestorePointInTime(restorePointDateTime);
         return this.withSourceDatabase(restorePoint.databaseId())
@@ -931,7 +932,7 @@ class SqlDatabaseImpl
     }
 
     @Override
-    public SqlDatabaseImpl withEdition(DatabaseEditions edition) {
+    public SqlDatabaseImpl withEdition(DatabaseEdition edition) {
         this.inner().withElasticPoolName(null);
         this.inner().withRequestedServiceObjectiveId(null);
         this.inner().withEdition(edition);
@@ -946,7 +947,7 @@ class SqlDatabaseImpl
 
     @Override
     public SqlDatabaseImpl withBasicEdition(SqlDatabaseBasicStorage maxStorageCapacity) {
-        this.inner().withEdition(DatabaseEditions.BASIC);
+        this.inner().withEdition(DatabaseEdition.BASIC);
         this.withServiceObjective(ServiceObjectiveName.BASIC);
         this.inner().withMaxSizeBytes(Long.toString(maxStorageCapacity.capacity()));
         return this;
@@ -959,7 +960,7 @@ class SqlDatabaseImpl
 
     @Override
     public SqlDatabaseImpl withStandardEdition(SqlDatabaseStandardServiceObjective serviceObjective, SqlDatabaseStandardStorage maxStorageCapacity) {
-        this.inner().withEdition(DatabaseEditions.STANDARD);
+        this.inner().withEdition(DatabaseEdition.STANDARD);
         this.withServiceObjective(ServiceObjectiveName.fromString(serviceObjective.toString()));
         this.inner().withMaxSizeBytes(Long.toString(maxStorageCapacity.capacity()));
         return this;
@@ -972,7 +973,7 @@ class SqlDatabaseImpl
 
     @Override
     public SqlDatabaseImpl withPremiumEdition(SqlDatabasePremiumServiceObjective serviceObjective, SqlDatabasePremiumStorage maxStorageCapacity) {
-        this.inner().withEdition(DatabaseEditions.PREMIUM);
+        this.inner().withEdition(DatabaseEdition.PREMIUM);
         this.withServiceObjective(ServiceObjectiveName.fromString(serviceObjective.toString()));
         this.inner().withMaxSizeBytes(Long.toString(maxStorageCapacity.capacity()));
         return this;

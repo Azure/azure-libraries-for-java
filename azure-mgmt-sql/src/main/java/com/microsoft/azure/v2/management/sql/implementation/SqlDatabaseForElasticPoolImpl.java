@@ -12,7 +12,7 @@ import com.microsoft.azure.v2.management.sql.RestorePoint;
 import com.microsoft.azure.v2.management.sql.SampleName;
 import com.microsoft.azure.v2.management.sql.SqlDatabase;
 import com.microsoft.azure.v2.management.sql.SqlElasticPoolOperations;
-import com.microsoft.azure.management.storage.StorageAccount;
+import com.microsoft.azure.v2.management.storage.StorageAccount;
 import java.time.OffsetDateTime;
 
 import java.util.Objects;
@@ -124,7 +124,7 @@ public class SqlDatabaseForElasticPoolImpl
     }
 
     @Override
-    public SqlDatabaseForElasticPoolImpl fromRestorePoint(RestorePoint restorePoint, DateTime restorePointDateTime) {
+    public SqlDatabaseForElasticPoolImpl fromRestorePoint(RestorePoint restorePoint, OffsetDateTime restorePointDateTime) {
         this.sqlDatabase.fromRestorePoint(restorePoint, restorePointDateTime);
         return this;
     }

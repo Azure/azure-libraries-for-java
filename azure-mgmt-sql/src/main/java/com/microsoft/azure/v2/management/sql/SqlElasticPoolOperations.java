@@ -71,7 +71,7 @@ public interface SqlElasticPoolOperations extends
              */
             @Deprecated
             @Beta(since = "V1_7_0")
-            SqlElasticPoolOperations.DefinitionStages.WithCreate withEdition(ElasticPoolEditions edition);
+            SqlElasticPoolOperations.DefinitionStages.WithCreate withEdition(ElasticPoolEdition edition);
 
             /**
              * Sets the basic edition for the SQL Elastic Pool.

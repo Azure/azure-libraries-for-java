@@ -10,14 +10,14 @@ import com.microsoft.azure.v2.management.resources.fluentcore.dag.FunctionalTask
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Indexable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.implementation.ExecutableImpl;
 import com.microsoft.azure.v2.management.sql.AuthenticationType;
+import com.microsoft.azure.v2.management.sql.ImportExtensionRequest;
 import com.microsoft.azure.v2.management.sql.SqlDatabaseImportExportResponse;
 import com.microsoft.azure.v2.management.sql.SqlDatabaseImportRequest;
 import com.microsoft.azure.v2.management.sql.SqlDatabase;
 import com.microsoft.azure.v2.management.sql.StorageKeyType;
-import com.microsoft.azure.management.storage.StorageAccount;
-import com.microsoft.azure.management.storage.StorageAccountKey;
-import rx.Observable;
-import rx.functions.Func1;
+import com.microsoft.azure.v2.management.storage.StorageAccount;
+import com.microsoft.azure.v2.management.storage.StorageAccountKey;
+import io.reactivex.Observable;
 
 import java.util.List;
 import java.util.Objects;
@@ -33,12 +33,12 @@ public class SqlDatabaseImportRequestImpl extends ExecutableImpl<SqlDatabaseImpo
 
     private final SqlDatabaseImpl sqlDatabase;
     private final SqlServerManager sqlServerManager;
-    private ImportExtensionRequestInner inner;
+    private ImportExtensionRequest inner;
 
     SqlDatabaseImportRequestImpl(SqlDatabaseImpl sqlDatabase, SqlServerManager sqlServerManager) {
         this.sqlDatabase = sqlDatabase;
         this.sqlServerManager = sqlServerManager;
-        this.inner = new ImportExtensionRequestInner();
+        this.inner = new ImportExtensionRequest();
     }
 
     @Override
@@ -47,7 +47,7 @@ public class SqlDatabaseImportRequestImpl extends ExecutableImpl<SqlDatabaseImpo
     }
 
     @Override
-    public ImportExtensionRequestInner inner() {
+    public ImportExtensionRequest inner() {
         return this.inner;
     }
 
@@ -94,7 +94,7 @@ public class SqlDatabaseImportRequestImpl extends ExecutableImpl<SqlDatabaseImpo
     @Override
     public SqlDatabaseImportRequestImpl importFrom(String storageUri) {
         if (this.inner == null) {
-            this.inner = new ImportExtensionRequestInner();
+            this.inner = new ImportExtensionRequest();
         }
         this.inner.withStorageUri(storageUri);
         return this;
@@ -106,7 +106,7 @@ public class SqlDatabaseImportRequestImpl extends ExecutableImpl<SqlDatabaseImpo
         Objects.requireNonNull(containerName);
         Objects.requireNonNull(fileName);
         if (this.inner == null) {
-            this.inner = new ImportExtensionRequestInner();
+            this.inner = new ImportExtensionRequest();
         }
         final SqlDatabaseImportRequestImpl self = this;
         this.addDependency(new FunctionalTaskItem() {

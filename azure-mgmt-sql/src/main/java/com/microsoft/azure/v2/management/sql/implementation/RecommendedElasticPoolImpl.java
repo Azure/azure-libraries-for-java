@@ -8,13 +8,14 @@ package com.microsoft.azure.v2.management.sql.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.implementation.RefreshableWrapperImpl;
-import com.microsoft.azure.v2.management.sql.ElasticPoolEditions;
+import com.microsoft.azure.v2.management.sql.ElasticPoolEdition;
 import com.microsoft.azure.v2.management.sql.RecommendedElasticPool;
 import com.microsoft.azure.v2.management.sql.RecommendedElasticPoolMetric;
 import com.microsoft.azure.v2.management.sql.SqlDatabase;
 import java.time.OffsetDateTime;
+
+import io.reactivex.Maybe;
 import io.reactivex.Observable;
-import io.reactivex.functions.Function;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -36,7 +37,7 @@ class RecommendedElasticPoolImpl
     }
 
     @Override
-    protected Observable<RecommendedElasticPoolInner> getInnerAsync() {
+    protected Maybe<RecommendedElasticPoolInner> getInnerAsync() {
         return this.manager().inner().recommendedElasticPools().getAsync(
                 this.resourceGroupName(), this.sqlServerName(), this.name());
     }
@@ -52,7 +53,7 @@ class RecommendedElasticPoolImpl
     }
 
     @Override
-    public ElasticPoolEditions databaseEdition() {
+    public ElasticPoolEdition databaseEdition() {
         return this.inner().databaseEdition();
     }
 
@@ -100,7 +101,7 @@ class RecommendedElasticPoolImpl
     public List<SqlDatabase> databases() {
         ArrayList<SqlDatabase> databases = new ArrayList<>();
 
-        for (DatabaseInner databaseInner : this.inner().databases()) {
+        for (DatabaseInner databaseInner : this.inner().databasesProperty()) {
             databases.add(new SqlDatabaseImpl(databaseInner.name(), this.sqlServer, databaseInner, this.manager()));
         }
 

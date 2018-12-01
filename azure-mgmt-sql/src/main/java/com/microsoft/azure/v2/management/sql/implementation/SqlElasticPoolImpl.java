@@ -12,7 +12,7 @@ import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.impleme
 import com.microsoft.azure.v2.management.resources.fluentcore.dag.TaskGroup;
 import com.microsoft.azure.v2.management.sql.ElasticPoolActivity;
 import com.microsoft.azure.v2.management.sql.ElasticPoolDatabaseActivity;
-import com.microsoft.azure.v2.management.sql.ElasticPoolEditions;
+import com.microsoft.azure.v2.management.sql.ElasticPoolEdition;
 import com.microsoft.azure.v2.management.sql.ElasticPoolState;
 import com.microsoft.azure.v2.management.sql.SqlDatabase;
 import com.microsoft.azure.v2.management.sql.SqlDatabaseMetric;
@@ -32,11 +32,11 @@ import com.microsoft.azure.v2.management.sql.SqlElasticPoolStandardMaxEDTUs;
 import com.microsoft.azure.v2.management.sql.SqlElasticPoolStandardMinEDTUs;
 import com.microsoft.azure.v2.management.sql.SqlElasticPoolStandardStorage;
 import com.microsoft.azure.v2.management.sql.SqlServer;
-import java.time.OffsetDateTime;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
+import io.reactivex.Completable;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
 
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -138,7 +138,7 @@ public class SqlElasticPoolImpl
     }
 
     @Override
-    public DateTime creationDate() {
+    public OffsetDateTime creationDate() {
         return this.inner().creationDate();
     }
 
@@ -148,7 +148,7 @@ public class SqlElasticPoolImpl
     }
 
     @Override
-    public ElasticPoolEditions edition() {
+    public ElasticPoolEdition edition() {
         return this.inner().edition();
     }
 
@@ -395,7 +395,7 @@ public class SqlElasticPoolImpl
     }
 
     @Override
-    protected Observable<ElasticPoolInner> getInnerAsync() {
+    protected Maybe<ElasticPoolInner> getInnerAsync() {
         return this.sqlServerManager.inner().elasticPools().getAsync(this.resourceGroupName, this.sqlServerName, this.name());
     }
 
@@ -446,7 +446,7 @@ public class SqlElasticPoolImpl
     }
 
     @Override
-    public Observable<Void> deleteResourceAsync() {
+    public Completable deleteResourceAsync() {
         return this.sqlServerManager.inner().elasticPools().deleteAsync(this.resourceGroupName, this.sqlServerName, this.name());
     }
 
@@ -475,26 +475,26 @@ public class SqlElasticPoolImpl
     }
 
     @Override
-    public SqlElasticPoolImpl withEdition(ElasticPoolEditions edition) {
+    public SqlElasticPoolImpl withEdition(ElasticPoolEdition edition) {
         this.inner().withEdition(edition);
         return this;
     }
 
     @Override
     public SqlElasticPoolImpl withBasicPool() {
-        this.inner().withEdition(ElasticPoolEditions.BASIC);
+        this.inner().withEdition(ElasticPoolEdition.BASIC);
         return this;
     }
 
     @Override
     public SqlElasticPoolImpl withStandardPool() {
-        this.inner().withEdition(ElasticPoolEditions.STANDARD);
+        this.inner().withEdition(ElasticPoolEdition.STANDARD);
         return this;
     }
 
     @Override
     public SqlElasticPoolImpl withPremiumPool() {
-        this.inner().withEdition(ElasticPoolEditions.PREMIUM);
+        this.inner().withEdition(ElasticPoolEdition.PREMIUM);
         return this;
     }
 

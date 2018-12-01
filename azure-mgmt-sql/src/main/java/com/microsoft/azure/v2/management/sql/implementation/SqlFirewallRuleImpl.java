@@ -13,9 +13,9 @@ import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.impleme
 import com.microsoft.azure.v2.management.sql.SqlFirewallRule;
 import com.microsoft.azure.v2.management.sql.SqlFirewallRuleOperations;
 import com.microsoft.azure.v2.management.sql.SqlServer;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
+import io.reactivex.Completable;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
 
 import java.util.Objects;
 
@@ -85,7 +85,7 @@ public class SqlFirewallRuleImpl
     }
 
     @Override
-    protected Observable<FirewallRuleInner> getInnerAsync() {
+    protected Maybe<FirewallRuleInner> getInnerAsync() {
         return this.sqlServerManager.inner().firewallRules().getAsync(this.resourceGroupName, this.sqlServerName, this.name());
     }
 
@@ -175,7 +175,7 @@ public class SqlFirewallRuleImpl
     }
 
     @Override
-    public Observable<Void> deleteResourceAsync() {
+    public Completable deleteResourceAsync() {
         return this.sqlServerManager.inner().firewallRules().deleteAsync(this.resourceGroupName, this.sqlServerName, this.name());
     }
 

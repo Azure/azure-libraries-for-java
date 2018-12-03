@@ -39,7 +39,7 @@ public interface SqlDatabaseMetricValue extends HasInner<MetricValue> {
     /**
      * @return the metric timestamp (ISO-8601 format)
      */
-    DateTime timestamp();
+    OffsetDateTime timestamp();
 
     /**
      * @return the total value of the metric

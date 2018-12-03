@@ -29,5 +29,5 @@ public interface SqlSyncFullSchemaProperty
     /**
      * @return last update time of the database schema.
      */
-    DateTime lastUpdateTime();
+    OffsetDateTime lastUpdateTime();
 }

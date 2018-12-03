@@ -35,7 +35,7 @@ public class SqlSyncFullSchemaPropertyImpl
     }
 
     @Override
-    public DateTime lastUpdateTime() {
+    public OffsetDateTime lastUpdateTime() {
         return this.inner().lastUpdateTime();
     }
 }

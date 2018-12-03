@@ -53,7 +53,7 @@ public class SqlDatabaseUsageMetricImpl
     }
 
     @Override
-    public DateTime nextResetTime() {
+    public OffsetDateTime nextResetTime() {
         return this.inner().nextResetTime();
     }
 }

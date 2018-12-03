@@ -33,7 +33,7 @@ public interface ElasticPoolDatabaseActivity extends
     /**
      * @return the time the operation finished (ISO8601 format)
      */
-    DateTime endTime();
+    OffsetDateTime endTime();
 
     /**
      * @return the error code if available
@@ -93,7 +93,7 @@ public interface ElasticPoolDatabaseActivity extends
     /**
      * @return the time the operation started (ISO8601 format)
      */
-    DateTime startTime();
+    OffsetDateTime startTime();
 
     /**
      * @return the current state of the operation

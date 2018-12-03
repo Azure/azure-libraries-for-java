@@ -49,5 +49,5 @@ public interface SqlDatabaseUsageMetric extends
     /**
      * @return the next reset time for the usage metric (ISO8601 format)
      */
-    DateTime nextResetTime();
+    OffsetDateTime nextResetTime();
 }

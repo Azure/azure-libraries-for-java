@@ -13,8 +13,9 @@ import com.microsoft.azure.v2.management.sql.SecurityAlertPolicyState;
 import com.microsoft.azure.v2.management.sql.SecurityAlertPolicyUseServerDefault;
 import com.microsoft.azure.v2.management.sql.SqlDatabase;
 import com.microsoft.azure.v2.management.sql.SqlDatabaseThreatDetectionPolicy;
-import rx.Observable;
-import rx.functions.Func1;
+import io.reactivex.Completable;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
 
 import java.util.Objects;
 
@@ -110,7 +111,7 @@ public class SqlDatabaseThreatDetectionPolicyImpl extends
     }
 
     @Override
-    protected Observable<DatabaseSecurityAlertPolicyInner> getInnerAsync() {
+    protected Maybe<DatabaseSecurityAlertPolicyInner> getInnerAsync() {
         return this.sqlServerManager.inner().databaseThreatDetectionPolicies()
             .getAsync(this.resourceGroupName, this.sqlServerName, this.parent().name());
     }
@@ -141,7 +142,7 @@ public class SqlDatabaseThreatDetectionPolicyImpl extends
     }
 
     @Override
-    public Observable<Void> deleteResourceAsync() {
+    public Completable deleteResourceAsync() {
         return null;
     }
 

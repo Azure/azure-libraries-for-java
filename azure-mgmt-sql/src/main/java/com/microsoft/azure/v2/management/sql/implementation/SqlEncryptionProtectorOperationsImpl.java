@@ -5,14 +5,13 @@
  */
 package com.microsoft.azure.v2.management.sql.implementation;
 
-import com.microsoft.azure.Page;
+import com.microsoft.azure.v2.Page;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.ResourceUtils;
 import com.microsoft.azure.v2.management.sql.SqlEncryptionProtector;
 import com.microsoft.azure.v2.management.sql.SqlEncryptionProtectorOperations;
 import com.microsoft.azure.v2.management.sql.SqlServer;
-import rx.Observable;
-import rx.functions.Func1;
+import io.reactivex.Observable;
 
 import java.util.ArrayList;
 import java.util.Collections;

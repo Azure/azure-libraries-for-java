@@ -23,7 +23,7 @@ public class SqlSyncGroupLogPropertyImpl
     }
 
     @Override
-    public DateTime timestamp() {
+    public OffsetDateTime timestamp() {
         return this.inner().timestamp();
     }
 

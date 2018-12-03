@@ -19,9 +19,9 @@ import com.microsoft.azure.v2.management.sql.ReadWriteEndpointFailoverPolicy;
 import com.microsoft.azure.v2.management.sql.SqlFailoverGroup;
 import com.microsoft.azure.v2.management.sql.SqlFailoverGroupOperations;
 import com.microsoft.azure.v2.management.sql.SqlServer;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
+import io.reactivex.Completable;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -218,13 +218,13 @@ public class SqlFailoverGroupImpl
     }
 
     @Override
-    public Observable<Void> deleteResourceAsync() {
+    public Completable deleteResourceAsync() {
         return this.sqlServerManager.inner().failoverGroups()
             .deleteAsync(this.resourceGroupName, this.sqlServerName, this.name());
     }
 
     @Override
-    protected Observable<FailoverGroupInner> getInnerAsync() {
+    protected Maybe<FailoverGroupInner> getInnerAsync() {
         return this.sqlServerManager.inner().failoverGroups()
             .getAsync(this.resourceGroupName, this.sqlServerName, this.name());
     }
@@ -319,10 +319,10 @@ public class SqlFailoverGroupImpl
 
     @Override
     public SqlFailoverGroupImpl withDatabaseId(String id) {
-        if (this.inner().databases() == null) {
-            this.inner().withDatabases(new ArrayList<String>());
+        if (this.inner().databasesProperty() == null) {
+            this.inner().withDatabasesProperty(new ArrayList<String>());
         }
-        this.inner().databases().add(id);
+        this.inner().databasesProperty().add(id);
         return this;
     }
 
@@ -333,17 +333,17 @@ public class SqlFailoverGroupImpl
 
     @Override
     public SqlFailoverGroupImpl withDatabaseIds(String... ids) {
-        this.inner().withDatabases(new ArrayList<String>());
+        this.inner().withDatabasesProperty(new ArrayList<String>());
         for (String id : ids) {
-            this.inner().databases().add(id);
+            this.inner().databasesProperty().add(id);
         }
         return this;
     }
 
     @Override
     public SqlFailoverGroupImpl withoutDatabaseId(String id) {
-        if (this.inner().databases() != null) {
-            this.inner().databases().remove(key);
+        if (this.inner().databasesProperty() != null) {
+            this.inner().databasesProperty().remove(key);
         }
         return this;
     }

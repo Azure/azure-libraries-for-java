@@ -5,8 +5,8 @@
  */
 package com.microsoft.azure.v2.management.sql.implementation;
 
-import com.microsoft.azure.Page;
-import com.microsoft.azure.PagedList;
+import com.microsoft.azure.v2.Page;
+import com.microsoft.azure.v2.PagedList;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.ResourceId;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.ResourceUtils;
@@ -20,9 +20,9 @@ import com.microsoft.azure.v2.management.sql.SqlSyncMemberOperations;
 import com.microsoft.azure.v2.management.sql.SyncDirection;
 import com.microsoft.azure.v2.management.sql.SyncMemberDbType;
 import com.microsoft.azure.v2.management.sql.SyncMemberState;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
+import io.reactivex.Completable;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
 
 import java.util.Objects;
 
@@ -198,13 +198,13 @@ public class SqlSyncMemberImpl
     }
 
     @Override
-    public Observable<Void> deleteResourceAsync() {
+    public Completable deleteResourceAsync() {
         return this.sqlServerManager.inner().syncMembers()
             .deleteAsync(this.resourceGroupName, this.sqlServerName, this.sqlDatabaseName, this.sqlSyncGroupName, this.name());
     }
 
     @Override
-    protected Observable<SyncMemberInner> getInnerAsync() {
+    protected Maybe<SyncMemberInner> getInnerAsync() {
         return this.sqlServerManager.inner().syncMembers()
             .getAsync(this.resourceGroupName, this.sqlServerName, this.sqlDatabaseName, this.sqlSyncGroupName, this.name());
     }

@@ -53,7 +53,7 @@ class ServerMetricImpl
     }
 
     @Override
-    public DateTime nextResetTime() {
+    public OffsetDateTime nextResetTime() {
         return this.inner().nextResetTime();
     }
 }

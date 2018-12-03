@@ -42,7 +42,7 @@ public class SqlDatabaseMetricValueImpl extends WrapperImpl<MetricValue>
     }
 
     @Override
-    public DateTime timestamp() {
+    public OffsetDateTime timestamp() {
         return this.inner().timestamp();
     }
 

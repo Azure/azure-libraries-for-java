@@ -9,8 +9,8 @@ import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.ResourceUtils;
 import com.microsoft.azure.v2.management.sql.SqlChildrenOperations;
 import com.microsoft.azure.v2.management.sql.SqlServer;
-import rx.Completable;
-import rx.Observable;
+import io.reactivex.Completable;
+import io.reactivex.Observable;
 
 import java.util.List;
 import java.util.Objects;

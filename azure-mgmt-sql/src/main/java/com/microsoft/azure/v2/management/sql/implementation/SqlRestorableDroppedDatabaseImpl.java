@@ -10,7 +10,7 @@ import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.implementation.RefreshableWrapperImpl;
 import com.microsoft.azure.v2.management.sql.SqlRestorableDroppedDatabase;
 import java.time.OffsetDateTime;
-import rx.Observable;
+import io.reactivex.Observable;
 
 /**
  * Implementation for SQL restorable dropped database interface.
@@ -61,17 +61,17 @@ public class SqlRestorableDroppedDatabaseImpl extends RefreshableWrapperImpl<Res
     }
 
     @Override
-    public DateTime creationDate() {
+    public OffsetDateTime creationDate() {
         return this.inner().creationDate();
     }
 
     @Override
-    public DateTime deletionDate() {
+    public OffsetDateTime deletionDate() {
         return this.inner().deletionDate();
     }
 
     @Override
-    public DateTime earliestRestoreDate() {
+    public OffsetDateTime earliestRestoreDate() {
         return this.inner().earliestRestoreDate();
     }
 

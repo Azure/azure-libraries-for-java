@@ -22,7 +22,7 @@ public interface SqlSyncGroupLogProperty
     /**
      * @return timestamp of the sync group log
      */
-    DateTime timestamp();
+    OffsetDateTime timestamp();
 
     /**
      * @return the type of the sync group log

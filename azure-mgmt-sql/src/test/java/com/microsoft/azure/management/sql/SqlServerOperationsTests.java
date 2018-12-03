@@ -17,7 +17,7 @@ import com.microsoft.azure.management.storage.StorageAccount;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
-import rx.Observable;
+import io.reactivex.Observable;
 
 import java.util.ArrayList;
 import java.util.List;

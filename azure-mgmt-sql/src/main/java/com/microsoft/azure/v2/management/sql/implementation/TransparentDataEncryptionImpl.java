@@ -11,9 +11,9 @@ import com.microsoft.azure.v2.management.resources.fluentcore.arm.ResourceId;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.implementation.RefreshableWrapperImpl;
 import com.microsoft.azure.v2.management.sql.TransparentDataEncryption;
 import com.microsoft.azure.v2.management.sql.TransparentDataEncryptionActivity;
-import com.microsoft.azure.v2.management.sql.TransparentDataEncryptionStates;
-import rx.Observable;
-import rx.functions.Func1;
+import com.microsoft.azure.v2.management.sql.TransparentDataEncryptionStatus;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -65,12 +65,12 @@ class TransparentDataEncryptionImpl
     }
 
     @Override
-    public TransparentDataEncryptionStates status() {
+    public TransparentDataEncryptionStatus status() {
         return this.inner().status();
     }
 
     @Override
-    public TransparentDataEncryption updateStatus(TransparentDataEncryptionStates transparentDataEncryptionState) {
+    public TransparentDataEncryption updateStatus(TransparentDataEncryptionStatus transparentDataEncryptionState) {
         this.inner().withStatus(transparentDataEncryptionState);
         TransparentDataEncryptionInner transparentDataEncryptionInner = this.sqlServerManager.inner().transparentDataEncryptions()
             .createOrUpdate(this.resourceGroupName, this.sqlServerName, this.databaseName(), transparentDataEncryptionState);
@@ -80,7 +80,7 @@ class TransparentDataEncryptionImpl
     }
 
     @Override
-    public Observable<TransparentDataEncryption> updateStatusAsync(TransparentDataEncryptionStates transparentDataEncryptionState) {
+    public Observable<TransparentDataEncryption> updateStatusAsync(TransparentDataEncryptionStatus transparentDataEncryptionState) {
         final TransparentDataEncryptionImpl self = this;
         return this.sqlServerManager.inner().transparentDataEncryptions()
             .createOrUpdateAsync(self.resourceGroupName, self.sqlServerName, self.databaseName(), transparentDataEncryptionState)
@@ -125,7 +125,7 @@ class TransparentDataEncryptionImpl
     }
 
     @Override
-    protected Observable<TransparentDataEncryptionInner> getInnerAsync() {
+    protected Maybe<TransparentDataEncryptionInner> getInnerAsync() {
         return this.sqlServerManager.inner().transparentDataEncryptions().getAsync(this.resourceGroupName, this.sqlServerName, this.databaseName());
     }
 }

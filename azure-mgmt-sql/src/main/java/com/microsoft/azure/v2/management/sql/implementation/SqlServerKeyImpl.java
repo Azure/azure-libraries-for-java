@@ -15,9 +15,9 @@ import com.microsoft.azure.v2.management.sql.SqlServer;
 import com.microsoft.azure.v2.management.sql.SqlServerKey;
 import com.microsoft.azure.v2.management.sql.SqlServerKeyOperations;
 import java.time.OffsetDateTime;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
+import io.reactivex.Completable;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
 
 import java.util.Objects;
 
@@ -155,7 +155,7 @@ public class SqlServerKeyImpl
     }
 
     @Override
-    public SqlServerKeyImpl withCreationDate(DateTime creationDate) {
+    public SqlServerKeyImpl withCreationDate(OffsetDateTime creationDate) {
         this.inner().withCreationDate(creationDate);
         return this;
     }
@@ -180,13 +180,13 @@ public class SqlServerKeyImpl
     }
 
     @Override
-    public Observable<Void> deleteResourceAsync() {
+    public Completable deleteResourceAsync() {
         return this.sqlServerManager.inner().serverKeys()
             .deleteAsync(this.resourceGroupName, this.sqlServerName, this.name());
     }
 
     @Override
-    protected Observable<ServerKeyInner> getInnerAsync() {
+    protected Maybe<ServerKeyInner> getInnerAsync() {
         return this.sqlServerManager.inner().serverKeys()
             .getAsync(this.resourceGroupName, this.sqlServerName, this.name());
     }
@@ -232,7 +232,7 @@ public class SqlServerKeyImpl
     }
 
     @Override
-    public DateTime creationDate() {
+    public OffsetDateTime creationDate() {
         return this.inner().creationDate();
     }
 

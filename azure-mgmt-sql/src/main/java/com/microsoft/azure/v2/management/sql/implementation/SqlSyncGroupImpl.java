@@ -5,8 +5,8 @@
  */
 package com.microsoft.azure.v2.management.sql.implementation;
 
-import com.microsoft.azure.Page;
-import com.microsoft.azure.PagedList;
+import com.microsoft.azure.v2.Page;
+import com.microsoft.azure.v2.PagedList;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.ResourceId;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.ResourceUtils;
@@ -22,9 +22,9 @@ import com.microsoft.azure.v2.management.sql.SyncConflictResolutionPolicy;
 import com.microsoft.azure.v2.management.sql.SyncGroupSchema;
 import com.microsoft.azure.v2.management.sql.SyncGroupState;
 import java.time.OffsetDateTime;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
+import io.reactivex.Completable;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
 
 import java.util.Objects;
 
@@ -138,7 +138,7 @@ public class SqlSyncGroupImpl
     }
 
     @Override
-    public DateTime lastSyncTime() {
+    public OffsetDateTime lastSyncTime() {
         return this.inner().lastSyncTime();
     }
 
@@ -354,13 +354,13 @@ public class SqlSyncGroupImpl
     }
 
     @Override
-    public Observable<Void> deleteResourceAsync() {
+    public Completable deleteResourceAsync() {
         return this.sqlServerManager.inner().syncGroups()
             .deleteAsync(this.resourceGroupName, this.sqlServerName, this.sqlDatabaseName, this.name());
     }
 
     @Override
-    protected Observable<SyncGroupInner> getInnerAsync() {
+    protected Maybe<SyncGroupInner> getInnerAsync() {
         return this.sqlServerManager.inner().syncGroups()
             .getAsync(this.resourceGroupName, this.sqlServerName, this.sqlDatabaseName, this.name());
     }

@@ -32,12 +32,12 @@ public class SqlDatabaseMetricImpl extends WrapperImpl<MetricInner> implements S
     }
 
     @Override
-    public DateTime startTime() {
+    public OffsetDateTime startTime() {
         return this.inner().startTime();
     }
 
     @Override
-    public DateTime endTime() {
+    public OffsetDateTime endTime() {
         return this.inner().endTime();
     }
 

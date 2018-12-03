@@ -10,7 +10,7 @@ import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.v2.management.sql.SqlWarehouse;
 import com.microsoft.rest.v2.ServiceCallback;
 import com.microsoft.rest.v2.ServiceFuture;
-import rx.Completable;
+import io.reactivex.Completable;
 
 /**
  * Implementation for SqlWarehouse and its parent interfaces.

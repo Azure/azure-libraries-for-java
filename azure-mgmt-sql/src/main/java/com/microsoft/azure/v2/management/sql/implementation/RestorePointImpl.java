@@ -10,7 +10,8 @@ import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.ResourceId;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.implementation.WrapperImpl;
 import com.microsoft.azure.v2.management.sql.RestorePoint;
-import com.microsoft.azure.v2.management.sql.RestorePointTypes;
+import com.microsoft.azure.v2.management.sql.RestorePointType;
+
 import java.time.OffsetDateTime;
 
 /**
@@ -62,17 +63,17 @@ class RestorePointImpl
     }
 
     @Override
-    public RestorePointTypes restorePointType() {
+    public RestorePointType restorePointType() {
         return this.inner().restorePointType();
     }
 
     @Override
-    public DateTime restorePointCreationDate() {
+    public OffsetDateTime restorePointCreationDate() {
         return this.inner().restorePointCreationDate();
     }
 
     @Override
-    public DateTime earliestRestoreDate() {
+    public OffsetDateTime earliestRestoreDate() {
         return this.inner().earliestRestoreDate();
     }
 }

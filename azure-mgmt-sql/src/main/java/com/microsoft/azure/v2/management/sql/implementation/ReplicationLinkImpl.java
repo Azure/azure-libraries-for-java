@@ -15,8 +15,8 @@ import com.microsoft.azure.v2.management.sql.ReplicationState;
 import com.microsoft.rest.v2.ServiceCallback;
 import com.microsoft.rest.v2.ServiceFuture;
 import java.time.OffsetDateTime;
-import rx.Completable;
-import rx.Observable;
+import io.reactivex.Completable;
+import io.reactivex.Observable;
 
 /**
  * Implementation for SQL replication link interface.
@@ -84,7 +84,7 @@ class ReplicationLinkImpl
     }
 
     @Override
-    public DateTime startTime() {
+    public OffsetDateTime startTime() {
         return this.inner().startTime();
     }
 

@@ -10,9 +10,8 @@ import com.microsoft.azure.v2.management.resources.fluentcore.arm.ResourceUtils;
 import com.microsoft.azure.v2.management.sql.SqlDatabase;
 import com.microsoft.azure.v2.management.sql.SqlDatabaseOperations;
 import com.microsoft.azure.v2.management.sql.SqlServer;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
+import io.reactivex.Completable;
+import io.reactivex.Observable;
 
 import java.util.ArrayList;
 import java.util.Collections;

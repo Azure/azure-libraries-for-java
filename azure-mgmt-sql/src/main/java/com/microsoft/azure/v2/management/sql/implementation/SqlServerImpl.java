@@ -33,6 +33,7 @@ import com.microsoft.azure.v2.management.sql.SqlServerSecurityAlertPolicyOperati
 import com.microsoft.azure.v2.management.sql.SqlVirtualNetworkRule;
 import com.microsoft.azure.v2.management.sql.SqlVirtualNetworkRuleOperations;
 import io.reactivex.Completable;
+import io.reactivex.Maybe;
 import io.reactivex.Observable;
 
 import java.util.ArrayList;
@@ -86,7 +87,7 @@ public class SqlServerImpl
     }
 
     @Override
-    protected Observable<ServerInner> getInnerAsync() {
+    protected Maybe<ServerInner> getInnerAsync() {
         return this.manager().inner().servers().getByResourceGroupAsync(
                 this.resourceGroupName(), this.name());
     }

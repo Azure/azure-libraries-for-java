@@ -54,6 +54,6 @@ public interface ServerUsage extends
     /**
      * @return the next reset time for the metric (ISO8601 format)
      */
-    DateTime nextResetTime();
+    OffsetDateTime nextResetTime();
 }
 

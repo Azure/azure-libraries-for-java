@@ -43,7 +43,7 @@ class ElasticPoolActivityImpl
     }
 
     @Override
-    public DateTime endTime() {
+    public OffsetDateTime endTime() {
         return this.inner().endTime();
     }
 
@@ -113,7 +113,7 @@ class ElasticPoolActivityImpl
     }
 
     @Override
-    public DateTime startTime() {
+    public OffsetDateTime startTime() {
         return this.inner().startTime();
     }
 

@@ -14,7 +14,7 @@ import com.microsoft.azure.v2.management.sql.ServiceTierAdvisor;
 import com.microsoft.azure.v2.management.sql.SloUsageMetric;
 import com.microsoft.azure.v2.management.sql.SloUsageMetricInterface;
 import java.time.OffsetDateTime;
-import rx.Observable;
+import io.reactivex.Observable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,12 +69,12 @@ class ServiceTierAdvisorImpl
     }
 
     @Override
-    public DateTime observationPeriodStart() {
+    public OffsetDateTime observationPeriodStart() {
         return this.inner().observationPeriodStart();
     }
 
     @Override
-    public DateTime observationPeriodEnd() {
+    public OffsetDateTime observationPeriodEnd() {
         return this.inner().observationPeriodEnd();
     }
 

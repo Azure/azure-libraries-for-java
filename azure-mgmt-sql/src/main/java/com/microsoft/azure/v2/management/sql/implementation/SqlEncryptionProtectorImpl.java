@@ -13,9 +13,10 @@ import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.impleme
 import com.microsoft.azure.v2.management.sql.ServerKeyType;
 import com.microsoft.azure.v2.management.sql.SqlEncryptionProtector;
 import com.microsoft.azure.v2.management.sql.SqlServer;
+import io.reactivex.Completable;
+import io.reactivex.Maybe;
 import org.apache.commons.lang3.NotImplementedException;
-import rx.Observable;
-import rx.functions.Func1;
+import io.reactivex.Observable;
 
 import java.util.Objects;
 
@@ -186,12 +187,12 @@ public class SqlEncryptionProtectorImpl
     }
 
     @Override
-    public Observable<Void> deleteResourceAsync() {
+    public Completable deleteResourceAsync() {
         throw new NotImplementedException("Operation not supported");
     }
 
     @Override
-    protected Observable<EncryptionProtectorInner> getInnerAsync() {
+    protected Maybe<EncryptionProtectorInner> getInnerAsync() {
         return this.sqlServerManager.inner().encryptionProtectors()
             .getAsync(this.resourceGroupName, this.sqlServerName);
     }

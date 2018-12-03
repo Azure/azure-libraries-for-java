@@ -13,8 +13,8 @@ import com.microsoft.azure.v2.management.sql.AutomaticTuningServerOptions;
 import com.microsoft.azure.v2.management.sql.SqlServerAutomaticTuning;
 import com.microsoft.rest.v2.ServiceCallback;
 import com.microsoft.rest.v2.ServiceFuture;
-import rx.Observable;
-import rx.functions.Func1;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -100,7 +100,7 @@ public class SqlServerAutomaticTuningImpl
     }
 
     @Override
-    protected Observable<ServerAutomaticTuningInner> getInnerAsync() {
+    protected Maybe<ServerAutomaticTuningInner> getInnerAsync() {
         return this.sqlServerManager.inner().serverAutomaticTunings()
             .getAsync(this.resourceGroupName, this.sqlServerName);
     }

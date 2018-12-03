@@ -12,9 +12,9 @@ import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.impleme
 import com.microsoft.azure.v2.management.sql.SqlServer;
 import com.microsoft.azure.v2.management.sql.SqlServerDnsAlias;
 import com.microsoft.azure.v2.management.sql.SqlServerDnsAliasOperations;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
+import io.reactivex.Completable;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
 
 import java.util.Objects;
 
@@ -169,13 +169,13 @@ public class SqlServerDnsAliasImpl
     }
 
     @Override
-    public Observable<Void> deleteResourceAsync() {
+    public Completable deleteResourceAsync() {
         return this.sqlServerManager.inner().serverDnsAliases()
             .deleteAsync(this.resourceGroupName, this.sqlServerName, this.name());
     }
 
     @Override
-    protected Observable<ServerDnsAliasInner> getInnerAsync() {
+    protected Maybe<ServerDnsAliasInner> getInnerAsync() {
         return this.sqlServerManager.inner().serverDnsAliases()
             .getAsync(this.resourceGroupName, this.sqlServerName, this.name());
     }

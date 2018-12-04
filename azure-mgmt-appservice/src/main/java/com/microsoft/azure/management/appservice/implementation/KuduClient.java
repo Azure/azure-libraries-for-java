@@ -7,6 +7,7 @@
 package com.microsoft.azure.management.appservice.implementation;
 
 import com.fasterxml.jackson.core.JsonParseException;
+import com.google.common.base.Joiner;
 import com.google.common.io.ByteStreams;
 import com.microsoft.azure.CloudException;
 import com.microsoft.azure.management.appservice.WebAppBase;
@@ -40,10 +41,16 @@ class KuduClient {
     private KuduService service;
 
     KuduClient(WebAppBase webAppBase) {
+        if (webAppBase.defaultHostName() == null) {
+            throw new UnsupportedOperationException("Cannot initialize kudu client before web app is created");
+        }
+        String host = webAppBase.defaultHostName().toLowerCase()
+                .replace("http://", "")
+                .replace("https://", "");
+        String[] parts = host.split("\\.", 2);
+        host = Joiner.on('.').join(parts[0], "scm", parts[1]);
         service = webAppBase.manager().restClient().newBuilder()
-                .withBaseUrl("https://" + webAppBase.defaultHostName().toLowerCase()
-                        .replace("http://", "")
-                        .replace(webAppBase.name().toLowerCase(), webAppBase.name().toLowerCase() + ".scm"))
+                .withBaseUrl("https://" + host)
                 .withConnectionTimeout(3, TimeUnit.MINUTES)
                 .withReadTimeout(3, TimeUnit.MINUTES)
                 .build()
@@ -55,6 +62,26 @@ class KuduClient {
         @GET("api/logstream/application")
         @Streaming
         Observable<ResponseBody> streamApplicationLogs();
+
+        @Headers({ "x-ms-logging-context: com.microsoft.azure.management.appservice.WebApps streamHttpLogs", "x-ms-body-logging: false" })
+        @GET("api/logstream/http")
+        @Streaming
+        Observable<ResponseBody> streamHttpLogs();
+
+        @Headers({ "x-ms-logging-context: com.microsoft.azure.management.appservice.WebApps streamTraceLogs", "x-ms-body-logging: false" })
+        @GET("api/logstream/kudu/trace")
+        @Streaming
+        Observable<ResponseBody> streamTraceLogs();
+
+        @Headers({ "x-ms-logging-context: com.microsoft.azure.management.appservice.WebApps streamDeploymentLogs", "x-ms-body-logging: false" })
+        @GET("api/logstream/kudu/deployment")
+        @Streaming
+        Observable<ResponseBody> streamDeploymentLogs();
+
+        @Headers({ "x-ms-logging-context: com.microsoft.azure.management.appservice.WebApps streamAllLogs", "x-ms-body-logging: false" })
+        @GET("api/logstream")
+        @Streaming
+        Observable<ResponseBody> streamAllLogs();
 
         @Headers({ "Content-Type: application/octet-stream", "x-ms-logging-context: com.microsoft.azure.management.appservice.WebApps warDeploy", "x-ms-body-logging: false" })
         @POST("api/wardeploy")
@@ -73,21 +100,69 @@ class KuduClient {
                     @Override
                     public Observable<String> call(ResponseBody responseBody) {
                         final BufferedSource source = responseBody.source();
-                        return Observable.create(new Action1<Emitter<String>>() {
-                            @Override
-                            public void call(Emitter<String> stringEmitter) {
-                                try {
-                                    while (!source.exhausted()) {
-                                        stringEmitter.onNext(source.readUtf8Line());
-                                    }
-                                    stringEmitter.onCompleted();
-                                } catch (IOException e) {
-                                    stringEmitter.onError(e);
-                                }
-                            }
-                        }, BackpressureMode.BUFFER);
+                        return streamFromBufferedSource(source);
                     }
                 });
+    }
+
+    Observable<String> streamHttpLogsAsync() {
+        return service.streamHttpLogs()
+                .flatMap(new Func1<ResponseBody, Observable<String>>() {
+                    @Override
+                    public Observable<String> call(ResponseBody responseBody) {
+                        final BufferedSource source = responseBody.source();
+                        return streamFromBufferedSource(source);
+                    }
+                });
+    }
+
+    Observable<String> streamTraceLogsAsync() {
+        return service.streamTraceLogs()
+                .flatMap(new Func1<ResponseBody, Observable<String>>() {
+                    @Override
+                    public Observable<String> call(ResponseBody responseBody) {
+                        final BufferedSource source = responseBody.source();
+                        return streamFromBufferedSource(source);
+                    }
+                });
+    }
+
+    Observable<String> streamDeploymentLogsAsync() {
+        return service.streamDeploymentLogs()
+                .flatMap(new Func1<ResponseBody, Observable<String>>() {
+                    @Override
+                    public Observable<String> call(ResponseBody responseBody) {
+                        final BufferedSource source = responseBody.source();
+                        return streamFromBufferedSource(source);
+                    }
+                });
+    }
+
+    Observable<String> streamAllLogsAsync() {
+        return service.streamAllLogs()
+                .flatMap(new Func1<ResponseBody, Observable<String>>() {
+                    @Override
+                    public Observable<String> call(ResponseBody responseBody) {
+                        final BufferedSource source = responseBody.source();
+                        return streamFromBufferedSource(source);
+                    }
+                });
+    }
+
+    private Observable<String> streamFromBufferedSource(final BufferedSource source) {
+        return Observable.create(new Action1<Emitter<String>>() {
+            @Override
+            public void call(Emitter<String> stringEmitter) {
+                try {
+                    while (!source.exhausted()) {
+                        stringEmitter.onNext(source.readUtf8Line());
+                    }
+                    stringEmitter.onCompleted();
+                } catch (IOException e) {
+                    stringEmitter.onError(e);
+                }
+            }
+        }, BackpressureMode.BUFFER);
     }
 
     Completable warDeployAsync(InputStream warFile, String appName) {

@@ -66,7 +66,7 @@ public class AppServiceTest extends TestBase {
 
     @Override
     protected void cleanUpResources() {
-//        resourceManager.resourceGroups().beginDeleteByName(RG_NAME);
+        resourceManager.resourceGroups().beginDeleteByName(RG_NAME);
     }
 
     private void useExistingDomainAndCertificate() {

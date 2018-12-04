@@ -9,6 +9,7 @@ package com.microsoft.azure.management.appservice.implementation;
 import com.google.common.base.Function;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import com.microsoft.azure.AzureEnvironment;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.appservice.AppServiceCertificate;
 import com.microsoft.azure.management.appservice.AppServiceDomain;
@@ -19,12 +20,10 @@ import com.microsoft.azure.management.appservice.ConnStringValueTypePair;
 import com.microsoft.azure.management.appservice.ConnectionString;
 import com.microsoft.azure.management.appservice.ConnectionStringType;
 import com.microsoft.azure.management.appservice.CustomHostNameDnsRecordType;
-import com.microsoft.azure.management.appservice.FileSystemHttpLogsConfig;
 import com.microsoft.azure.management.appservice.FtpsState;
 import com.microsoft.azure.management.appservice.HostNameBinding;
 import com.microsoft.azure.management.appservice.HostNameSslState;
 import com.microsoft.azure.management.appservice.HostNameType;
-import com.microsoft.azure.management.appservice.HttpLogsConfig;
 import com.microsoft.azure.management.appservice.JavaVersion;
 import com.microsoft.azure.management.appservice.MSDeploy;
 import com.microsoft.azure.management.appservice.ManagedPipelineMode;
@@ -56,11 +55,18 @@ import com.microsoft.rest.RestException;
 import org.joda.time.DateTime;
 import rx.Completable;
 import rx.Observable;
+import rx.Subscription;
 import rx.functions.Action0;
+import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.functions.Func2;
 import rx.functions.FuncN;
+import rx.schedulers.Schedulers;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PipedInputStream;
+import java.io.PipedOutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -91,7 +97,15 @@ abstract class WebAppBaseImpl<
             WebAppBase.Update<FluentT>,
             WebAppBase.UpdateStages.WithWebContainer<FluentT> {
 
+    private static final Map<AzureEnvironment, String> DNS_MAP = new HashMap<AzureEnvironment, String>() {{
+        put(AzureEnvironment.AZURE, "azurewebsites.net");
+        put(AzureEnvironment.AZURE_CHINA, "chinacloudsites.cn");
+        put(AzureEnvironment.AZURE_GERMANY, "azurewebsites.de");
+        put(AzureEnvironment.AZURE_US_GOVERNMENT, "azurewebsites.us");
+    }};
+
     SiteConfigResourceInner siteConfig;
+    KuduClient kuduClient;
 
     private Set<String> hostNamesSet;
     private Set<String> enabledHostNamesSet;
@@ -113,22 +127,35 @@ abstract class WebAppBaseImpl<
     private MSDeploy msDeploy;
     private WebAppAuthenticationImpl<FluentT, FluentImplT> authentication;
     private boolean authenticationToUpdate;
-    private SiteLogsConfigInner siteLogsConfig;
+    private WebAppDiagnosticLogsImpl<FluentT, FluentImplT> diagnosticLogs;
+    private boolean diagnosticLogsToUpdate;
     private FunctionalTaskItem msiHandler;
     private boolean isInCreateMode;
 
-    WebAppBaseImpl(String name, SiteInner innerObject, SiteConfigResourceInner configObject, AppServiceManager manager) {
+    WebAppBaseImpl(String name, SiteInner innerObject, SiteConfigResourceInner siteConfig, SiteLogsConfigInner logConfig, AppServiceManager manager) {
         super(name, innerObject, manager);
         if (innerObject != null && innerObject.kind() != null) {
             innerObject.withKind(innerObject.kind().replace(";", ","));
         }
-        this.siteConfig = configObject;
+        this.siteConfig = siteConfig;
+        if (logConfig != null) {
+            this.diagnosticLogs = new WebAppDiagnosticLogsImpl<>(logConfig, this);
+        }
         normalizeProperties();
         isInCreateMode = inner() == null || inner().id() == null;
+        if (!isInCreateMode) {
+            initializeKuduClient();
+        }
     }
 
     public boolean isInCreateMode() {
         return isInCreateMode;
+    }
+
+    private void initializeKuduClient() {
+        if (kuduClient == null) {
+            kuduClient = new KuduClient(this);
+        }
     }
 
     @Override
@@ -152,6 +179,7 @@ abstract class WebAppBaseImpl<
         this.sourceControl = null;
         this.sourceControlToDelete = false;
         this.authenticationToUpdate = false;
+        this.diagnosticLogsToUpdate = false;
         this.sslBindingsToCreate = new TreeMap<>();
         this.msiHandler = null;
         if (inner().hostNames() != null) {
@@ -287,7 +315,13 @@ abstract class WebAppBaseImpl<
         if (inner().defaultHostName() != null) {
             return inner().defaultHostName();
         } else {
-            return "http://" + name() + ".azurewebsites.net";
+            AzureEnvironment environment = Utils.guessAzureEnvironment(manager().restClient());
+            String dns = DNS_MAP.get(environment);
+            String leaf = name();
+            if (this instanceof DeploymentSlotBaseImpl<?, ?, ?, ?, ?>) {
+                leaf = ((DeploymentSlotBaseImpl<?, ?, ?, ?, ?>) this).parent().name() + "-" + leaf;
+            }
+            return leaf + "." + dns;
         }
     }
 
@@ -499,6 +533,98 @@ abstract class WebAppBaseImpl<
     }
 
     @Override
+    public WebAppDiagnosticLogsImpl<FluentT, FluentImplT> diagnosticLogsConfig() {
+        return diagnosticLogs;
+    }
+
+    @Override
+    public InputStream streamApplicationLogs() {
+        return pipeObservableToInputStream(streamApplicationLogsAsync());
+    }
+
+    @Override
+    public Observable<String> streamApplicationLogsAsync() {
+        return kuduClient.streamApplicationLogsAsync();
+    }
+
+    @Override
+    public InputStream streamHttpLogs() {
+        return pipeObservableToInputStream(streamHttpLogsAsync());
+    }
+
+    @Override
+    public Observable<String> streamHttpLogsAsync() {
+        return kuduClient.streamHttpLogsAsync();
+    }
+
+    @Override
+    public InputStream streamTraceLogs() {
+        return pipeObservableToInputStream(streamTraceLogsAsync());
+    }
+
+    @Override
+    public Observable<String> streamTraceLogsAsync() {
+        return kuduClient.streamTraceLogsAsync();
+    }
+
+    @Override
+    public InputStream streamDeploymentLogs() {
+        return pipeObservableToInputStream(streamDeploymentLogsAsync());
+    }
+
+    @Override
+    public Observable<String> streamDeploymentLogsAsync() {
+        return kuduClient.streamDeploymentLogsAsync();
+    }
+
+    @Override
+    public InputStream streamAllLogs() {
+        return pipeObservableToInputStream(streamAllLogsAsync());
+    }
+
+    @Override
+    public Observable<String> streamAllLogsAsync() {
+        return kuduClient.streamAllLogsAsync();
+    }
+
+    private InputStream pipeObservableToInputStream(Observable<String> observable) {
+        PipedInputStreamWithCallback in = new PipedInputStreamWithCallback();
+        final PipedOutputStream out = new PipedOutputStream();
+        try {
+            in.connect(out);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        final Subscription subscription = observable
+                // Do not block current thread
+                .subscribeOn(Schedulers.newThread())
+                .subscribe(new Action1<String>() {
+                    @Override
+                    public void call(String s) {
+                        try {
+                            out.write(s.getBytes());
+                            out.write('\n');
+                            out.flush();
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                });
+        in.addCallback(new Action0() {
+            @Override
+            public void call() {
+                subscription.unsubscribe();
+                try {
+                    out.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        return in;
+    }
+
+    @Override
     public Map<String, AppSetting> getAppSettings() {
         return getAppSettingsAsync().toBlocking().single();
     }
@@ -680,9 +806,10 @@ abstract class WebAppBaseImpl<
     }
 
     @Override
-    public Completable afterPostRunAsync(boolean succeeded) {
-        if (succeeded) {
+    public Completable afterPostRunAsync(final boolean isGroupFaulted) {
+        if (!isGroupFaulted) {
             isInCreateMode = false;
+            initializeKuduClient();
         }
         return Completable.fromAction(new Action0() {
             @Override
@@ -952,20 +1079,21 @@ abstract class WebAppBaseImpl<
         return updateAuthentication(authentication.inner()).map(new Func1<SiteAuthSettingsInner, Indexable>() {
             @Override
             public Indexable call(SiteAuthSettingsInner siteAuthSettingsInner) {
+                WebAppBaseImpl.this.authentication = new WebAppAuthenticationImpl<>(siteAuthSettingsInner, WebAppBaseImpl.this);
                 return WebAppBaseImpl.this;
             }
         });
     }
 
     Observable<Indexable> submitLogConfiguration() {
-        if (siteLogsConfig == null) {
+        if (!diagnosticLogsToUpdate) {
             return Observable.just((Indexable) this);
         }
-        return updateDiagnosticLogsConfig(siteLogsConfig)
+        return updateDiagnosticLogsConfig(diagnosticLogs.inner())
                 .map(new Func1<SiteLogsConfigInner, Indexable>() {
                     @Override
                     public Indexable call(SiteLogsConfigInner siteLogsConfigInner) {
-                        siteLogsConfig = null;
+                        WebAppBaseImpl.this.diagnosticLogs = new WebAppDiagnosticLogsImpl<>(siteLogsConfigInner, WebAppBaseImpl.this);
                         return WebAppBaseImpl.this;
                     }
                 });
@@ -1374,6 +1502,11 @@ abstract class WebAppBaseImpl<
         authenticationToUpdate = true;
     }
 
+    void withDiagnosticLogs(WebAppDiagnosticLogsImpl<FluentT, FluentImplT> diagnosticLogs) {
+        this.diagnosticLogs = diagnosticLogs;
+        diagnosticLogsToUpdate = true;
+    }
+
     @Override
     @SuppressWarnings("unchecked")
     public Observable<FluentT> refreshAsync() {
@@ -1412,10 +1545,12 @@ abstract class WebAppBaseImpl<
     @Override
     @SuppressWarnings("unchecked")
     public FluentImplT withContainerLoggingEnabled(int quotaInMB, int retentionDays) {
-        siteLogsConfig = new SiteLogsConfigInner()
-                .withHttpLogs(new HttpLogsConfig().withFileSystem(
-                        new FileSystemHttpLogsConfig().withEnabled(true).withRetentionInMb(quotaInMB).withRetentionInDays(retentionDays)));
-        return (FluentImplT) this;
+        return updateDiagnosticLogsConfiguration()
+                .withWebServerLogging()
+                .withWebServerLogsStoredOnFileSystem()
+                .withWebServerFileSystemQuotaInMB(quotaInMB)
+                .withLogRetentionDays(retentionDays)
+                .attach();
     }
 
     @Override
@@ -1426,10 +1561,9 @@ abstract class WebAppBaseImpl<
     @Override
     @SuppressWarnings("unchecked")
     public FluentImplT withContainerLoggingDisabled() {
-        siteLogsConfig = new SiteLogsConfigInner()
-                .withHttpLogs(new HttpLogsConfig().withFileSystem(
-                        new FileSystemHttpLogsConfig().withEnabled(false)));
-        return (FluentImplT) this;
+        return updateDiagnosticLogsConfiguration()
+                .withoutWebServerLogging()
+                .attach();
     }
 
     @Override
@@ -1521,5 +1655,33 @@ abstract class WebAppBaseImpl<
                 resourceId.subscriptionId(),
                 resourceId.resourceGroupName());
 
+    }
+
+    @Override
+    public WebAppDiagnosticLogsImpl<FluentT, FluentImplT> defineDiagnosticLogsConfiguration() {
+        if (diagnosticLogs == null) {
+            return new WebAppDiagnosticLogsImpl<>(new SiteLogsConfigInner(), this);
+        } else {
+            return diagnosticLogs;
+        }
+    }
+
+    @Override
+    public WebAppDiagnosticLogsImpl<FluentT, FluentImplT> updateDiagnosticLogsConfiguration() {
+        return defineDiagnosticLogsConfiguration();
+    }
+
+    private static class PipedInputStreamWithCallback extends PipedInputStream {
+        private Action0 callback;
+
+        private void addCallback(Action0 action) {
+            this.callback = action;
+        }
+
+        @Override
+        public void close() throws IOException {
+            callback.call();
+            super.close();
+        }
     }
 }

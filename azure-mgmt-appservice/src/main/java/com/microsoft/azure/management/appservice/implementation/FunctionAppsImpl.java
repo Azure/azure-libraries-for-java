@@ -12,10 +12,10 @@ import com.microsoft.azure.management.appservice.FunctionApp;
 import com.microsoft.azure.management.appservice.FunctionApps;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
 import com.microsoft.azure.management.resources.fluentcore.utils.PagedListConverter;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import rx.Completable;
 import rx.Observable;
 import rx.functions.Func1;
+import rx.functions.Func2;
 
 /**
  * The implementation for WebApps.
@@ -37,12 +37,13 @@ class FunctionAppsImpl
         converter = new PagedListConverter<SiteInner, FunctionApp>() {
             @Override
             public Observable<FunctionApp> typeConvertAsync(final SiteInner siteInner) {
-                return manager.inner().webApps().getConfigurationAsync(siteInner.resourceGroup(), siteInner.name())
-                        .subscribeOn(SdkContext.getRxScheduler())
-                        .map(new Func1<SiteConfigResourceInner, FunctionApp>() {
+                return Observable.zip(
+                        manager().inner().webApps().getConfigurationAsync(siteInner.resourceGroup(), siteInner.name()),
+                        manager().inner().webApps().getDiagnosticLogsConfigurationAsync(siteInner.resourceGroup(), siteInner.name()),
+                        new Func2<SiteConfigResourceInner, SiteLogsConfigInner, FunctionApp>() {
                             @Override
-                            public FunctionApp call(SiteConfigResourceInner siteConfigResourceInner) {
-                                return wrapModel(siteInner, siteConfigResourceInner);
+                            public FunctionApp call(SiteConfigResourceInner siteConfigResourceInner, SiteLogsConfigInner logsConfigInner) {
+                                return wrapModel(siteInner, siteConfigResourceInner, logsConfigInner);
                             }
                         });
             }
@@ -60,7 +61,29 @@ class FunctionAppsImpl
         if (siteInner == null) {
             return null;
         }
-        return wrapModel(siteInner, this.inner().getConfiguration(groupName, name));
+        return wrapModel(siteInner, this.inner().getConfiguration(groupName, name), this.inner().getDiagnosticLogsConfiguration(groupName, name));
+    }
+
+    @Override
+    public Observable<FunctionApp> getByResourceGroupAsync(final String groupName, final String name) {
+        final FunctionAppsImpl self = this;
+        return this.inner().getByResourceGroupAsync(groupName, name).flatMap(new Func1<SiteInner, Observable<FunctionApp>>() {
+            @Override
+            public Observable<FunctionApp> call(final SiteInner siteInner) {
+                if (siteInner == null) {
+                    return null;
+                }
+                return Observable.zip(
+                        self.inner().getConfigurationAsync(groupName, name),
+                        self.inner().getDiagnosticLogsConfigurationAsync(groupName, name),
+                        new Func2<SiteConfigResourceInner, SiteLogsConfigInner, FunctionApp>() {
+                            @Override
+                            public FunctionApp call(SiteConfigResourceInner siteConfigResourceInner, SiteLogsConfigInner logsConfigInner) {
+                                return wrapModel(siteInner, siteConfigResourceInner, logsConfigInner);
+                            }
+                        });
+            }
+        });
     }
 
     @Override
@@ -70,7 +93,7 @@ class FunctionAppsImpl
 
     @Override
     protected FunctionAppImpl wrapModel(String name) {
-        return new FunctionAppImpl(name, new SiteInner().withKind("functionapp"), null, this.manager());
+        return new FunctionAppImpl(name, new SiteInner().withKind("functionapp"), null, null, this.manager());
     }
 
     @Override
@@ -78,14 +101,14 @@ class FunctionAppsImpl
         if (inner == null) {
             return null;
         }
-        return wrapModel(inner, null);
+        return wrapModel(inner, null, null);
     }
 
-    private FunctionAppImpl wrapModel(SiteInner inner, SiteConfigResourceInner configResourceInner) {
+    private FunctionAppImpl wrapModel(SiteInner inner, SiteConfigResourceInner siteConfig, SiteLogsConfigInner logConfig) {
         if (inner == null) {
             return null;
         }
-        return new FunctionAppImpl(inner.name(), inner, configResourceInner, this.manager());
+        return new FunctionAppImpl(inner.name(), inner, siteConfig, logConfig, this.manager());
     }
 
     protected PagedList<FunctionApp> wrapList(PagedList<SiteInner> pagedList) {

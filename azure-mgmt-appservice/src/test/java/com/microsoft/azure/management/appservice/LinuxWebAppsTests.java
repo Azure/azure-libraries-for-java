@@ -8,6 +8,7 @@ package com.microsoft.azure.management.appservice;
 
 import com.google.common.io.ByteStreams;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.rest.RestClient;
 import okhttp3.OkHttpClient;
 import okhttp3.Response;
@@ -105,12 +106,14 @@ public class LinuxWebAppsTests extends AppServiceTest {
         webApp1.update()
                 .withBuiltInImage(RuntimeStack.NODEJS_6_6)
                 .defineSourceControl()
-                    .withPublicGitRepository("https://github.com/jianghaolu/azure-site-test")
+                    .withPublicGitRepository("https://github.com/jianghaolu/azure-site-test.git")
                     .withBranch("master")
                     .attach()
                 .apply();
         Assert.assertNotNull(webApp);
         if (!isPlaybackMode()) {
+            // maybe 2 minutes is enough?
+            SdkContext.sleep(120000);
             Response response = curl("http://" + webApp1.defaultHostName());
             Assert.assertEquals(200, response.code());
             String body = response.body().string();

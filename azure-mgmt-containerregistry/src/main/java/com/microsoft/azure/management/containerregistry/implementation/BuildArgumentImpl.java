@@ -4,58 +4,61 @@
  * license information.
  */
 package com.microsoft.azure.management.containerregistry.implementation;
-
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.containerregistry.Build;
-
-import java.util.ArrayList;
-
+//
+//import com.microsoft.azure.management.apigeneration.LangDefinition;
+//import com.microsoft.azure.management.containerregistry.Build;
+//
+//import java.util.ArrayList;
+//
 /**
  * Implementation for container group's volume definition stages interface.
  */
-@LangDefinition
-public class BuildArgumentImpl
-    implements
-        Build.QueuedQuickBuildDefinitionStages.QueuedQuickBuildArgumentDefinitionStages.BuildArgumentDefinition<Build.QueuedQuickBuildDefinitionStages.WithCreate> {
+public class BuildArgumentImpl {
 
-    private BuildArgumentInner buildArgumentInner;
-    private BuildImpl parent;
-
-    BuildArgumentImpl(BuildImpl parent, String buildArgumentName) {
-        this.parent = parent;
-        this.buildArgumentInner = new BuildArgumentInner().withName(buildArgumentName);
-    }
-
-    @Override
-    public BuildImpl attach() {
-        if (parent.quickBuildRequest().buildArguments() == null) {
-            parent.quickBuildRequest().withBuildArguments(new ArrayList<BuildArgumentInner>());
-        }
-        parent.quickBuildRequest().buildArguments().add(buildArgumentInner);
-        return parent;
-    }
-
-    @Override
-    public BuildArgumentImpl withValue(String value) {
-        this.buildArgumentInner.withValue(value);
-        return this;
-    }
-
-    @Override
-    public BuildArgumentImpl withType(String type) {
-        this.buildArgumentInner.withType(type);
-        return this;
-    }
-
-    @Override
-    public BuildArgumentImpl withSecrecyEnabled() {
-        this.buildArgumentInner.withIsSecret(true);
-        return this;
-    }
-
-    @Override
-    public BuildArgumentImpl withSecrecyDisabled() {
-        this.buildArgumentInner.withIsSecret(false);
-        return this;
-    }
 }
+//@LangDefinition
+//public class BuildArgumentImpl
+//    implements
+//        Build.QueuedQuickBuildDefinitionStages.QueuedQuickBuildArgumentDefinitionStages.BuildArgumentDefinition<Build.QueuedQuickBuildDefinitionStages.WithCreate> {
+//
+//    private BuildArgumentInner buildArgumentInner;
+//    private BuildImpl parent;
+//
+//    BuildArgumentImpl(BuildImpl parent, String buildArgumentName) {
+//        this.parent = parent;
+//        this.buildArgumentInner = new BuildArgumentInner().withName(buildArgumentName);
+//    }
+//
+//    @Override
+//    public BuildImpl attach() {
+//        if (parent.quickBuildRequest().buildArguments() == null) {
+//            parent.quickBuildRequest().withBuildArguments(new ArrayList<BuildArgumentInner>());
+//        }
+//        parent.quickBuildRequest().buildArguments().add(buildArgumentInner);
+//        return parent;
+//    }
+//
+//    @Override
+//    public BuildArgumentImpl withValue(String value) {
+//        this.buildArgumentInner.withValue(value);
+//        return this;
+//    }
+//
+//    @Override
+//    public BuildArgumentImpl withType(String type) {
+//        this.buildArgumentInner.withType(type);
+//        return this;
+//    }
+//
+//    @Override
+//    public BuildArgumentImpl withSecrecyEnabled() {
+//        this.buildArgumentInner.withIsSecret(true);
+//        return this;
+//    }
+//
+//    @Override
+//    public BuildArgumentImpl withSecrecyDisabled() {
+//        this.buildArgumentInner.withIsSecret(false);
+//        return this;
+//    }
+//}

@@ -22,7 +22,7 @@ public class StorageAccountProperties {
     private String id;
 
     /**
-     * Get the id value.
+     * Get the resource ID of the storage account.
      *
      * @return the id value
      */
@@ -31,7 +31,7 @@ public class StorageAccountProperties {
     }
 
     /**
-     * Set the id value.
+     * Set the resource ID of the storage account.
      *
      * @param id the id value to set
      * @return the StorageAccountProperties object itself.

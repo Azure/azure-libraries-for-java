@@ -39,7 +39,7 @@ public class ImageDescriptor {
     private String digest;
 
     /**
-     * Get the registry value.
+     * Get the registry login server.
      *
      * @return the registry value
      */
@@ -48,7 +48,7 @@ public class ImageDescriptor {
     }
 
     /**
-     * Set the registry value.
+     * Set the registry login server.
      *
      * @param registry the registry value to set
      * @return the ImageDescriptor object itself.
@@ -59,7 +59,7 @@ public class ImageDescriptor {
     }
 
     /**
-     * Get the repository value.
+     * Get the repository name.
      *
      * @return the repository value
      */
@@ -68,7 +68,7 @@ public class ImageDescriptor {
     }
 
     /**
-     * Set the repository value.
+     * Set the repository name.
      *
      * @param repository the repository value to set
      * @return the ImageDescriptor object itself.
@@ -79,7 +79,7 @@ public class ImageDescriptor {
     }
 
     /**
-     * Get the tag value.
+     * Get the tag name.
      *
      * @return the tag value
      */
@@ -88,7 +88,7 @@ public class ImageDescriptor {
     }
 
     /**
-     * Set the tag value.
+     * Set the tag name.
      *
      * @param tag the tag value to set
      * @return the ImageDescriptor object itself.
@@ -99,7 +99,7 @@ public class ImageDescriptor {
     }
 
     /**
-     * Get the digest value.
+     * Get the sha256-based digest of the image manifest.
      *
      * @return the digest value
      */
@@ -108,7 +108,7 @@ public class ImageDescriptor {
     }
 
     /**
-     * Set the digest value.
+     * Set the sha256-based digest of the image manifest.
      *
      * @param digest the digest value to set
      * @return the ImageDescriptor object itself.

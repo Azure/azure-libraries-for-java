@@ -15,6 +15,7 @@ import com.microsoft.azure.management.containerregistry.Registries;
 import com.microsoft.azure.management.containerregistry.Registry;
 import com.microsoft.azure.management.containerregistry.RegistryCredentials;
 import com.microsoft.azure.management.containerregistry.RegistryUsage;
+import com.microsoft.azure.management.containerregistry.SourceUploadDefinition;
 import com.microsoft.azure.management.resources.ResourceGroup;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.GroupableResourcesImpl;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupPagedList;
@@ -41,7 +42,6 @@ public class RegistriesImpl
                 RegistriesInner,
                 ContainerRegistryManager>
         implements Registries {
-
     private final StorageManager storageManager;
     protected RegistriesImpl(final ContainerRegistryManager manager,
                              final StorageManager storageManager) {
@@ -185,6 +185,23 @@ public class RegistriesImpl
                 return new CheckNameAvailabilityResultImpl(registryNameStatusInner);
             }
         });
+    }
+
+    @Override
+    public SourceUploadDefinition getBuildSourceUploadUrl(String rgName, String acrName) {
+        return this.getBuildSourceUploadUrlAsync(rgName, acrName).toBlocking().single();
+    }
+
+    @Override
+    public Observable<SourceUploadDefinition> getBuildSourceUploadUrlAsync(String rgName, String acrName) {
+        return this.manager().inner().registries()
+                .getBuildSourceUploadUrlAsync(rgName, acrName)
+                .map(new Func1<SourceUploadDefinitionInner, SourceUploadDefinition>() {
+                    @Override
+                    public SourceUploadDefinition call(SourceUploadDefinitionInner sourceUploadDefinitionInner) {
+                        return new SourceUploadDefinitionImpl(sourceUploadDefinitionInner);
+                    }
+                });
     }
 
     @Override

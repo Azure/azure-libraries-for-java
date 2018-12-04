@@ -28,7 +28,7 @@ public class TrustPolicy {
     private PolicyStatus status;
 
     /**
-     * Get the type value.
+     * Get the type of trust policy. Possible values include: 'Notary'.
      *
      * @return the type value
      */
@@ -37,7 +37,7 @@ public class TrustPolicy {
     }
 
     /**
-     * Set the type value.
+     * Set the type of trust policy. Possible values include: 'Notary'.
      *
      * @param type the type value to set
      * @return the TrustPolicy object itself.
@@ -48,7 +48,7 @@ public class TrustPolicy {
     }
 
     /**
-     * Get the status value.
+     * Get the value that indicates whether the policy is enabled or not. Possible values include: 'enabled', 'disabled'.
      *
      * @return the status value
      */
@@ -57,7 +57,7 @@ public class TrustPolicy {
     }
 
     /**
-     * Set the status value.
+     * Set the value that indicates whether the policy is enabled or not. Possible values include: 'enabled', 'disabled'.
      *
      * @param status the status value to set
      * @return the TrustPolicy object itself.

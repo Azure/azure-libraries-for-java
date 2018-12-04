@@ -52,7 +52,7 @@ public class WebhookInner extends Resource {
     private ProvisioningState provisioningState;
 
     /**
-     * Get the status value.
+     * Get the status of the webhook at the time the operation was called. Possible values include: 'enabled', 'disabled'.
      *
      * @return the status value
      */
@@ -61,7 +61,7 @@ public class WebhookInner extends Resource {
     }
 
     /**
-     * Set the status value.
+     * Set the status of the webhook at the time the operation was called. Possible values include: 'enabled', 'disabled'.
      *
      * @param status the status value to set
      * @return the WebhookInner object itself.
@@ -72,7 +72,7 @@ public class WebhookInner extends Resource {
     }
 
     /**
-     * Get the scope value.
+     * Get the scope of repositories where the event can be triggered. For example, 'foo:*' means events for all tags under repository 'foo'. 'foo:bar' means events for 'foo:bar' only. 'foo' is equivalent to 'foo:latest'. Empty means all events.
      *
      * @return the scope value
      */
@@ -81,7 +81,7 @@ public class WebhookInner extends Resource {
     }
 
     /**
-     * Set the scope value.
+     * Set the scope of repositories where the event can be triggered. For example, 'foo:*' means events for all tags under repository 'foo'. 'foo:bar' means events for 'foo:bar' only. 'foo' is equivalent to 'foo:latest'. Empty means all events.
      *
      * @param scope the scope value to set
      * @return the WebhookInner object itself.
@@ -92,7 +92,7 @@ public class WebhookInner extends Resource {
     }
 
     /**
-     * Get the actions value.
+     * Get the list of actions that trigger the webhook to post notifications.
      *
      * @return the actions value
      */
@@ -101,7 +101,7 @@ public class WebhookInner extends Resource {
     }
 
     /**
-     * Set the actions value.
+     * Set the list of actions that trigger the webhook to post notifications.
      *
      * @param actions the actions value to set
      * @return the WebhookInner object itself.
@@ -112,7 +112,7 @@ public class WebhookInner extends Resource {
     }
 
     /**
-     * Get the provisioningState value.
+     * Get the provisioning state of the webhook at the time the operation was called. Possible values include: 'Creating', 'Updating', 'Deleting', 'Succeeded', 'Failed', 'Canceled'.
      *
      * @return the provisioningState value
      */

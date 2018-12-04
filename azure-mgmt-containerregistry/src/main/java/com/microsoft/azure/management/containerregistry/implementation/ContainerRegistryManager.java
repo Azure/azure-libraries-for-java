@@ -12,6 +12,8 @@ import com.microsoft.azure.credentials.AzureTokenCredentials;
 import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
 import com.microsoft.azure.management.containerregistry.Registries;
+import com.microsoft.azure.management.containerregistry.RegistryTaskRuns;
+import com.microsoft.azure.management.containerregistry.RegistryTasks;
 import com.microsoft.azure.management.resources.fluentcore.arm.AzureConfigurable;
 import com.microsoft.azure.management.resources.fluentcore.arm.implementation.AzureConfigurableImpl;
 import com.microsoft.azure.management.resources.fluentcore.arm.implementation.Manager;
@@ -29,6 +31,8 @@ public final class ContainerRegistryManager extends Manager<ContainerRegistryMan
     // The service managers
     private RegistriesImpl registries;
     private StorageManager storageManager;
+    private RegistryTasksImpl tasks;
+    private RegistryTaskRunsImpl registryTaskRuns;
 
     /**
      * Get a Configurable instance that can be used to create ContainerRegistryManager with optional configuration.
@@ -92,6 +96,12 @@ public final class ContainerRegistryManager extends Manager<ContainerRegistryMan
         }
     }
 
+    /**
+     * Creates a ContainerRegistryManager.
+     *
+     * @param restClient the RestClient used to authenticate through StorageManager.
+     * @param subscriptionId the subscription id used in authentication through StorageManager.
+     */
     private ContainerRegistryManager(RestClient restClient, String subscriptionId) {
         super(
                 restClient,
@@ -106,9 +116,35 @@ public final class ContainerRegistryManager extends Manager<ContainerRegistryMan
      * @return the availability set resource management API entry point
      */
     public Registries containerRegistries() {
-        if (registries == null) {
-            registries = new RegistriesImpl(this, this.storageManager);
+        if (this.registries == null) {
+            this.registries = new RegistriesImpl(this, this.storageManager);
         }
-        return registries;
+        return this.registries;
+    }
+
+    /**
+     * Gets the current instance of ContainerRegistryManager's tasks.
+     *
+     * @return the tasks of the current instance of ContainerRegistryManager.
+     */
+    @Beta
+    public RegistryTasks containerRegistryTasks() {
+        if (this.tasks == null) {
+            this.tasks = new RegistryTasksImpl(this);
+        }
+        return this.tasks;
+    }
+
+    /**
+     * Gets the current instance of ContainerRegistryManager's registry task runs.
+     *
+     * @return the registry task runs of the current instance of ContainerRegistryManager.
+     */
+    @Beta
+    public RegistryTaskRuns registryTaskRuns() {
+        if (this.registryTaskRuns == null) {
+            this.registryTaskRuns = new RegistryTaskRunsImpl(this);
+        }
+        return this.registryTaskRuns;
     }
 }

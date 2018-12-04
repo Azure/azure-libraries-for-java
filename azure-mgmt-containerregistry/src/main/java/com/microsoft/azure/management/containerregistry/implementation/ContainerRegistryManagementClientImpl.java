@@ -51,11 +51,11 @@ public class ContainerRegistryManagementClientImpl extends AzureServiceClient {
         return this;
     }
 
-    /** Gets or sets the preferred language for the response. */
+    /** The preferred language for the response. */
     private String acceptLanguage;
 
     /**
-     * Gets Gets or sets the preferred language for the response.
+     * Gets The preferred language for the response.
      *
      * @return the acceptLanguage value.
      */
@@ -64,7 +64,7 @@ public class ContainerRegistryManagementClientImpl extends AzureServiceClient {
     }
 
     /**
-     * Sets Gets or sets the preferred language for the response.
+     * Sets The preferred language for the response.
      *
      * @param acceptLanguage the acceptLanguage value.
      * @return the service client itself
@@ -74,11 +74,11 @@ public class ContainerRegistryManagementClientImpl extends AzureServiceClient {
         return this;
     }
 
-    /** Gets or sets the retry timeout in seconds for Long Running Operations. Default value is 30. */
+    /** The retry timeout in seconds for Long Running Operations. Default value is 30. */
     private int longRunningOperationRetryTimeout;
 
     /**
-     * Gets Gets or sets the retry timeout in seconds for Long Running Operations. Default value is 30.
+     * Gets The retry timeout in seconds for Long Running Operations. Default value is 30.
      *
      * @return the longRunningOperationRetryTimeout value.
      */
@@ -87,7 +87,7 @@ public class ContainerRegistryManagementClientImpl extends AzureServiceClient {
     }
 
     /**
-     * Sets Gets or sets the retry timeout in seconds for Long Running Operations. Default value is 30.
+     * Sets The retry timeout in seconds for Long Running Operations. Default value is 30.
      *
      * @param longRunningOperationRetryTimeout the longRunningOperationRetryTimeout value.
      * @return the service client itself
@@ -97,11 +97,11 @@ public class ContainerRegistryManagementClientImpl extends AzureServiceClient {
         return this;
     }
 
-    /** When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true. */
+    /** Whether a unique x-ms-client-request-id should be generated. When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true. */
     private boolean generateClientRequestId;
 
     /**
-     * Gets When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true.
+     * Gets Whether a unique x-ms-client-request-id should be generated. When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true.
      *
      * @return the generateClientRequestId value.
      */
@@ -110,7 +110,7 @@ public class ContainerRegistryManagementClientImpl extends AzureServiceClient {
     }
 
     /**
-     * Sets When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true.
+     * Sets Whether a unique x-ms-client-request-id should be generated. When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true.
      *
      * @param generateClientRequestId the generateClientRequestId value.
      * @return the service client itself
@@ -173,42 +173,29 @@ public class ContainerRegistryManagementClientImpl extends AzureServiceClient {
     }
 
     /**
-     * The BuildsInner object to access its operations.
+     * The RunsInner object to access its operations.
      */
-    private BuildsInner builds;
+    private RunsInner runs;
 
     /**
-     * Gets the BuildsInner object to access its operations.
-     * @return the BuildsInner object.
+     * Gets the RunsInner object to access its operations.
+     * @return the RunsInner object.
      */
-    public BuildsInner builds() {
-        return this.builds;
+    public RunsInner runs() {
+        return this.runs;
     }
 
     /**
-     * The BuildStepsInner object to access its operations.
+     * The TasksInner object to access its operations.
      */
-    private BuildStepsInner buildSteps;
+    private TasksInner tasks;
 
     /**
-     * Gets the BuildStepsInner object to access its operations.
-     * @return the BuildStepsInner object.
+     * Gets the TasksInner object to access its operations.
+     * @return the TasksInner object.
      */
-    public BuildStepsInner buildSteps() {
-        return this.buildSteps;
-    }
-
-    /**
-     * The BuildTasksInner object to access its operations.
-     */
-    private BuildTasksInner buildTasks;
-
-    /**
-     * Gets the BuildTasksInner object to access its operations.
-     * @return the BuildTasksInner object.
-     */
-    public BuildTasksInner buildTasks() {
-        return this.buildTasks;
+    public TasksInner tasks() {
+        return this.tasks;
     }
 
     /**
@@ -249,9 +236,8 @@ public class ContainerRegistryManagementClientImpl extends AzureServiceClient {
         this.operations = new OperationsInner(restClient().retrofit(), this);
         this.replications = new ReplicationsInner(restClient().retrofit(), this);
         this.webhooks = new WebhooksInner(restClient().retrofit(), this);
-        this.builds = new BuildsInner(restClient().retrofit(), this);
-        this.buildSteps = new BuildStepsInner(restClient().retrofit(), this);
-        this.buildTasks = new BuildTasksInner(restClient().retrofit(), this);
+        this.runs = new RunsInner(restClient().retrofit(), this);
+        this.tasks = new TasksInner(restClient().retrofit(), this);
         this.azureClient = new AzureClient(this);
     }
 

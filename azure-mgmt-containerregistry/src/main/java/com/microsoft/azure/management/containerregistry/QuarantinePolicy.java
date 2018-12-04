@@ -22,7 +22,7 @@ public class QuarantinePolicy {
     private PolicyStatus status;
 
     /**
-     * Get the status value.
+     * Get the value that indicates whether the policy is enabled or not. Possible values include: 'enabled', 'disabled'.
      *
      * @return the status value
      */
@@ -31,7 +31,7 @@ public class QuarantinePolicy {
     }
 
     /**
-     * Set the status value.
+     * Set the value that indicates whether the policy is enabled or not. Possible values include: 'enabled', 'disabled'.
      *
      * @param status the status value to set
      * @return the QuarantinePolicy object itself.

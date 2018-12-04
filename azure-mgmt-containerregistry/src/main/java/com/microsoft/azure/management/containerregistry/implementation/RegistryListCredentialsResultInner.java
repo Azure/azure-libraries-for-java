@@ -29,7 +29,7 @@ public class RegistryListCredentialsResultInner {
     private List<RegistryPassword> passwords;
 
     /**
-     * Get the username value.
+     * Get the username for a container registry.
      *
      * @return the username value
      */
@@ -38,7 +38,7 @@ public class RegistryListCredentialsResultInner {
     }
 
     /**
-     * Set the username value.
+     * Set the username for a container registry.
      *
      * @param username the username value to set
      * @return the RegistryListCredentialsResultInner object itself.
@@ -49,7 +49,7 @@ public class RegistryListCredentialsResultInner {
     }
 
     /**
-     * Get the passwords value.
+     * Get the list of passwords for a container registry.
      *
      * @return the passwords value
      */
@@ -58,7 +58,7 @@ public class RegistryListCredentialsResultInner {
     }
 
     /**
-     * Set the passwords value.
+     * Set the list of passwords for a container registry.
      *
      * @param passwords the passwords value to set
      * @return the RegistryListCredentialsResultInner object itself.

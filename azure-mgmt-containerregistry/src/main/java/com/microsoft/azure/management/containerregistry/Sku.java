@@ -29,7 +29,7 @@ public class Sku {
     private SkuTier tier;
 
     /**
-     * Get the name value.
+     * Get the SKU name of the container registry. Required for registry creation. Possible values include: 'Classic', 'Basic', 'Standard', 'Premium'.
      *
      * @return the name value
      */
@@ -38,7 +38,7 @@ public class Sku {
     }
 
     /**
-     * Set the name value.
+     * Set the SKU name of the container registry. Required for registry creation. Possible values include: 'Classic', 'Basic', 'Standard', 'Premium'.
      *
      * @param name the name value to set
      * @return the Sku object itself.
@@ -49,7 +49,7 @@ public class Sku {
     }
 
     /**
-     * Get the tier value.
+     * Get the SKU tier based on the SKU name. Possible values include: 'Classic', 'Basic', 'Standard', 'Premium'.
      *
      * @return the tier value
      */

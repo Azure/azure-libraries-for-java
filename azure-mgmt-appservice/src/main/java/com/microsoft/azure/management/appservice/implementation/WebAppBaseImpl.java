@@ -315,7 +315,7 @@ abstract class WebAppBaseImpl<
         if (inner().defaultHostName() != null) {
             return inner().defaultHostName();
         } else {
-            AzureEnvironment environment = Utils.guessAzureEnvironment(manager().restClient());
+            AzureEnvironment environment = Utils.extractAzureEnvironment(manager().restClient());
             String dns = DNS_MAP.get(environment);
             String leaf = name();
             if (this instanceof DeploymentSlotBaseImpl<?, ?, ?, ?, ?>) {

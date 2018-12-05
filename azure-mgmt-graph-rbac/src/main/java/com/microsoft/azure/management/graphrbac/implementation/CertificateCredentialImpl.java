@@ -144,7 +144,7 @@ class CertificateCredentialImpl<T>
             return;
         }
         RestClient restClient = servicePrincipal.manager().roleInner().restClient();
-        AzureEnvironment environment = Utils.guessAzureEnvironment(restClient);
+        AzureEnvironment environment = Utils.extractAzureEnvironment(restClient);
 
         StringBuilder builder = new StringBuilder("{\n");
         builder.append("  ").append(String.format("\"clientId\": \"%s\",", servicePrincipal.applicationId())).append("\n");

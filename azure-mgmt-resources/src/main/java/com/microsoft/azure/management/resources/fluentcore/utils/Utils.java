@@ -209,12 +209,12 @@ public final class Utils {
     }
 
     /**
-     * Try to guess the environment the client is authenticated to based
+     * Try to extract the environment the client is authenticated to based
      * on the information on the rest client.
      * @param restClient the RestClient instance
      * @return the non-null AzureEnvironment
      */
-    public static AzureEnvironment guessAzureEnvironment(RestClient restClient) {
+    public static AzureEnvironment extractAzureEnvironment(RestClient restClient) {
         AzureEnvironment environment = null;
         if (restClient.credentials() instanceof AzureTokenCredentials) {
             environment = ((AzureTokenCredentials) restClient.credentials()).environment();

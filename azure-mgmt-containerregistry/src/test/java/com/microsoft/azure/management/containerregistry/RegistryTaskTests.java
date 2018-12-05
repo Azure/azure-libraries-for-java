@@ -546,6 +546,7 @@ public class RegistryTaskTests extends RegistryTest {
     }
 
     @Test
+    @Ignore("Required to setup a github repo with proper file structure")
     public void FileTaskRunRequestFromRegistry() {
         final String acrName = generateRandomResourceName("acr", 10);
         final String rgName = generateRandomResourceName("rgacr", 10);
@@ -589,6 +590,7 @@ public class RegistryTaskTests extends RegistryTest {
     }
 
     @Test
+    @Ignore("Required to setup a github repo with proper file structure")
     public void FileTaskRunRequestFromRuns() {
         final String acrName = generateRandomResourceName("acr", 10);
         final String rgName = generateRandomResourceName("rgacr", 10);
@@ -633,6 +635,7 @@ public class RegistryTaskTests extends RegistryTest {
     }
 
     @Test
+    @Ignore("Required to setup a github repo with proper file structure")
     public void EncodedTaskRunRequestFromRegistry() {
         final String acrName = generateRandomResourceName("acr", 10);
         final String rgName = generateRandomResourceName("rgacr", 10);
@@ -675,6 +678,7 @@ public class RegistryTaskTests extends RegistryTest {
     }
 
     @Test
+    @Ignore("Required to setup a github repo with proper file structure")
     public void EncodedTaskRunRequestFromRuns() {
         final String acrName = generateRandomResourceName("acr", 10);
         final String rgName = generateRandomResourceName("rgacr", 10);
@@ -717,6 +721,7 @@ public class RegistryTaskTests extends RegistryTest {
     }
 
     @Test
+    @Ignore("Required to setup a github repo with proper file structure")
     public void DockerTaskRunRequestFromRegistry() {
         final String acrName = generateRandomResourceName("acr", 10);
         final String rgName = generateRandomResourceName("rgacr", 10);
@@ -764,6 +769,7 @@ public class RegistryTaskTests extends RegistryTest {
     }
 
     @Test
+    @Ignore("Required to setup a github repo with proper file structure")
     public void DockerTaskRunRequestFromRuns() {
         final String acrName = generateRandomResourceName("acr", 10);
         final String rgName = generateRandomResourceName("rgacr", 10);
@@ -976,6 +982,7 @@ public class RegistryTaskTests extends RegistryTest {
     }
 
     @Test
+    @Ignore("Required to setup a github repo with proper file structure")
     public void GetBuildSourceUploadUrlFromRegistryAndRegistries() {
         final String acrName = generateRandomResourceName("acr", 10);
         final String rgName = generateRandomResourceName("rgacr", 10);
@@ -998,7 +1005,6 @@ public class RegistryTaskTests extends RegistryTest {
         Assert.assertNotNull(buildSourceUploadUrlRegistries.relativePath());
         Assert.assertNotNull(buildSourceUploadUrlRegistries.uploadUrl());
     }
-
 
     @Test
     @Ignore("Needs personal tokens to run.")
@@ -1102,6 +1108,7 @@ public class RegistryTaskTests extends RegistryTest {
     }
 
     @Test
+    @Ignore("Required to setup a github repo with proper file structure")
     public void GetLogSasUrl() {
         final String acrName = generateRandomResourceName("acr", 10);
         final String rgName = generateRandomResourceName("rgacr", 10);

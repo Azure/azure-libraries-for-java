@@ -130,17 +130,8 @@ class RecommendedElasticPoolImpl
             this.sqlServer.resourceGroupName(),
             this.sqlServer.name(),
             this.name())
-            .flatMap(new Func1<List<DatabaseInner>, Observable<DatabaseInner>>() {
-                @Override
-                public Observable<DatabaseInner> call(List<DatabaseInner> databaseInners) {
-                    return Observable.from(databaseInners);
-                }
-            }).map(new Func1<DatabaseInner, SqlDatabase>() {
-                @Override
-                public SqlDatabase call(DatabaseInner databaseInner) {
-                    return new SqlDatabaseImpl(databaseInner.name(), self.sqlServer, databaseInner, self.manager());
-                }
-            });
+                .flatMapObservable(list -> Observable.fromIterable(list))
+                .map(databaseInner -> new SqlDatabaseImpl(databaseInner.name(), self.sqlServer, databaseInner, self.manager()));
     }
 
     @Override
@@ -155,19 +146,14 @@ class RecommendedElasticPoolImpl
     }
 
     @Override
-    public Observable<SqlDatabase> getDatabaseAsync(String databaseName) {
+    public Maybe<SqlDatabase> getDatabaseAsync(String databaseName) {
         final RecommendedElasticPoolImpl self = this;
         return this.sqlServer.manager().inner().databases().getByRecommendedElasticPoolAsync(
                 this.sqlServer.resourceGroupName(),
                 this.sqlServer.name(),
                 this.name(),
                 databaseName)
-            .map(new Func1<DatabaseInner, SqlDatabase>() {
-                @Override
-                public SqlDatabase call(DatabaseInner databaseInner) {
-                    return new SqlDatabaseImpl(databaseInner.name(), self.sqlServer, databaseInner, self.manager());
-                }
-            });
+                .map(databaseInner -> new SqlDatabaseImpl(databaseInner.name(), self.sqlServer, databaseInner, self.manager()));
     }
 
     @Override

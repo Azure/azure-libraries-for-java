@@ -62,13 +62,15 @@ public class SqlSyncMemberOperationsImpl
     @Override
     public Observable<SqlSyncMember> getBySqlServerAsync(final String resourceGroupName, final String sqlServerName, final String databaseName, final String syncGroupName, final String name) {
         return this.sqlServerManager.inner().syncMembers()
-            .getAsync(resourceGroupName, sqlServerName, databaseName, syncGroupName, name)
-            .map(new Func1<SyncMemberInner, SqlSyncMember>() {
-                @Override
-                public SqlSyncMember call(SyncMemberInner syncMemberInner) {
-                    return new SqlSyncMemberImpl(resourceGroupName, sqlServerName, databaseName, syncGroupName, name, syncMemberInner, sqlServerManager);
-                }
-            });
+                .getAsync(resourceGroupName, sqlServerName, databaseName, syncGroupName, name)
+                .map(syncMemberInner -> (SqlSyncMember) new SqlSyncMemberImpl(resourceGroupName,
+                        sqlServerName,
+                        databaseName,
+                        syncGroupName,
+                        name,
+                        syncMemberInner,
+                        sqlServerManager))
+                .toObservable();
     }
 
     @Override
@@ -132,7 +134,7 @@ public class SqlSyncMemberOperationsImpl
             return null;
         }
         return this.sqlServerManager.inner().syncMembers()
-            .deleteAsync(this.sqlSyncGroup.resourceGroupName(), this.sqlSyncGroup.sqlServerName(), this.sqlSyncGroup.sqlDatabaseName(), this.sqlSyncGroup.name(), name).toCompletable();
+            .deleteAsync(this.sqlSyncGroup.resourceGroupName(), this.sqlSyncGroup.sqlServerName(), this.sqlSyncGroup.sqlDatabaseName(), this.sqlSyncGroup.name(), name);
     }
 
     @Override
@@ -156,7 +158,7 @@ public class SqlSyncMemberOperationsImpl
                 resourceId.parent().parent().parent().name(),
                 resourceId.parent().parent().name(),
                 resourceId.parent().name(),
-                resourceId.name()).toCompletable();
+                resourceId.name());
         } catch (NullPointerException e) {
         }
         return null;
@@ -182,19 +184,12 @@ public class SqlSyncMemberOperationsImpl
     public Observable<SqlSyncMember> listAsync() {
         final SqlSyncMemberOperationsImpl self = this;
         return this.sqlServerManager.inner().syncMembers()
-            .listBySyncGroupAsync(this.sqlSyncGroup.resourceGroupName(), this.sqlSyncGroup.sqlServerName(), this.sqlSyncGroup.sqlDatabaseName(), this.sqlSyncGroup.name())
-            .flatMap(new Func1<Page<SyncMemberInner>, Observable<SyncMemberInner>>() {
-                @Override
-                public Observable<SyncMemberInner> call(Page<SyncMemberInner> syncMemberInnerPage) {
-                    return Observable.from(syncMemberInnerPage.items());
-                }
-            })
-            .map(new Func1<SyncMemberInner, SqlSyncMember>() {
-                @Override
-                public SqlSyncMember call(SyncMemberInner syncMemberInner) {
-                    return new SqlSyncMemberImpl(syncMemberInner.name(), self.sqlSyncGroup, syncMemberInner, self.sqlServerManager);
-                }
-            });
+                .listBySyncGroupAsync(this.sqlSyncGroup.resourceGroupName(),
+                        this.sqlSyncGroup.sqlServerName(),
+                        this.sqlSyncGroup.sqlDatabaseName(),
+                        this.sqlSyncGroup.name())
+                .flatMap(syncMemberInnerPage -> Observable.fromIterable(syncMemberInnerPage.items()))
+                .map(syncMemberInner -> new SqlSyncMemberImpl(syncMemberInner.name(), self.sqlSyncGroup, syncMemberInner, self.sqlServerManager));
     }
 
     @Override

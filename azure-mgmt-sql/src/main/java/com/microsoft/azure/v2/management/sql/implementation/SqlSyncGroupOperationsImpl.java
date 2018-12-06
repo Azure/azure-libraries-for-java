@@ -63,12 +63,15 @@ public class SqlSyncGroupOperationsImpl
     public Observable<SqlSyncGroup> getBySqlServerAsync(final String resourceGroupName, final String sqlServerName, final String databaseName, final String name) {
         return this.sqlServerManager.inner().syncGroups()
             .getAsync(resourceGroupName, sqlServerName, databaseName, name)
-            .map(new Func1<SyncGroupInner, SqlSyncGroup>() {
-                @Override
-                public SqlSyncGroup call(SyncGroupInner syncGroupInner) {
-                    return new SqlSyncGroupImpl(resourceGroupName, sqlServerName, databaseName, name, syncGroupInner, sqlServerManager);
-                }
-            });
+                .map(syncGroupInner ->
+                        (SqlSyncGroup) new SqlSyncGroupImpl(
+                                resourceGroupName,
+                                sqlServerName,
+                                databaseName,
+                                name,
+                                syncGroupInner,
+                                sqlServerManager))
+                .toObservable();
     }
 
     @Override
@@ -87,19 +90,9 @@ public class SqlSyncGroupOperationsImpl
     @Override
     public Observable<String> listSyncDatabaseIdsAsync(String locationName) {
         return this.sqlServerManager.inner().syncGroups()
-            .listSyncDatabaseIdsAsync(locationName)
-            .flatMap(new Func1<Page<SyncDatabaseIdPropertiesInner>, Observable<SyncDatabaseIdPropertiesInner>>() {
-                @Override
-                public Observable<SyncDatabaseIdPropertiesInner> call(Page<SyncDatabaseIdPropertiesInner> syncDatabaseIdPropertiesInnerPage) {
-                    return Observable.from(syncDatabaseIdPropertiesInnerPage.items());
-                }
-            })
-            .map(new Func1<SyncDatabaseIdPropertiesInner, String>() {
-                @Override
-                public String call(SyncDatabaseIdPropertiesInner syncDatabaseIdPropertiesInner) {
-                    return syncDatabaseIdPropertiesInner.id();
-                }
-            });
+                .listSyncDatabaseIdsAsync(locationName)
+                .flatMap(syncDatabaseIdPropertiesInnerPage -> Observable.fromIterable(syncDatabaseIdPropertiesInnerPage.items()))
+                .map(syncDatabaseIdPropertiesInner -> syncDatabaseIdPropertiesInner.id());
     }
 
     @Override
@@ -178,7 +171,7 @@ public class SqlSyncGroupOperationsImpl
             return null;
         }
         return this.sqlServerManager.inner().syncGroups()
-            .deleteAsync(this.sqlDatabase.resourceGroupName(), this.sqlDatabase.sqlServerName(), this.sqlDatabase.name(), name).toCompletable();
+            .deleteAsync(this.sqlDatabase.resourceGroupName(), this.sqlDatabase.sqlServerName(), this.sqlDatabase.name(), name);
     }
 
     @Override
@@ -201,7 +194,7 @@ public class SqlSyncGroupOperationsImpl
             return this.sqlServerManager.inner().syncGroups().deleteAsync(resourceId.resourceGroupName(),
                 resourceId.parent().parent().name(),
                 resourceId.parent().name(),
-                resourceId.name()).toCompletable();
+                resourceId.name());
         } catch (NullPointerException e) {
         }
         return null;
@@ -224,20 +217,11 @@ public class SqlSyncGroupOperationsImpl
 
     @Override
     public Observable<SqlSyncGroup> listAsync() {
-        final SqlSyncGroupOperationsImpl self = this;
         return this.sqlServerManager.inner().syncGroups()
-            .listByDatabaseAsync(this.sqlDatabase.resourceGroupName(), this.sqlDatabase.sqlServerName(), this.sqlDatabase.name())
-            .flatMap(new Func1<Page<SyncGroupInner>, Observable<SyncGroupInner>>() {
-                @Override
-                public Observable<SyncGroupInner> call(Page<SyncGroupInner> syncGroupInnerPage) {
-                    return Observable.from(syncGroupInnerPage.items());
-                }
-            })
-            .map(new Func1<SyncGroupInner, SqlSyncGroup>() {
-                @Override
-                public SqlSyncGroup call(SyncGroupInner syncGroupInner) {
-                    return new SqlSyncGroupImpl(syncGroupInner.name(), self.sqlDatabase, syncGroupInner, self.sqlServerManager);
-                }
-            });
+                .listByDatabaseAsync(this.sqlDatabase.resourceGroupName(), this.sqlDatabase.sqlServerName(), this.sqlDatabase.name())
+                .flatMap(syncGroupInnerPage -> Observable.fromIterable(syncGroupInnerPage.items()))
+                .map(syncGroupInner -> new SqlSyncGroupImpl(syncGroupInner.name(),
+                        this.sqlDatabase,
+                        syncGroupInner, this.sqlServerManager));
     }
 }

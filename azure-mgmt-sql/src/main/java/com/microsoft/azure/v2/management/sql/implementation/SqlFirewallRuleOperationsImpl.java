@@ -53,13 +53,9 @@ public class SqlFirewallRuleOperationsImpl
     @Override
     public Observable<SqlFirewallRule> getBySqlServerAsync(final String resourceGroupName, final String sqlServerName, final String name) {
         return this.sqlServerManager.inner().firewallRules()
-            .getAsync(resourceGroupName, sqlServerName, name)
-            .map(new Func1<FirewallRuleInner, SqlFirewallRule>() {
-                @Override
-                public SqlFirewallRule call(FirewallRuleInner inner) {
-                    return new SqlFirewallRuleImpl(resourceGroupName, sqlServerName, inner.name(), inner, sqlServerManager);
-                }
-            });
+                .getAsync(resourceGroupName, sqlServerName, name)
+                .map(inner -> (SqlFirewallRule) new SqlFirewallRuleImpl(resourceGroupName, sqlServerName, inner.name(), inner, sqlServerManager))
+                .toObservable();
     }
 
     @Override
@@ -73,13 +69,9 @@ public class SqlFirewallRuleOperationsImpl
     public Observable<SqlFirewallRule> getBySqlServerAsync(final SqlServer sqlServer, final String name) {
         Objects.requireNonNull(sqlServer);
         return this.sqlServerManager.inner().firewallRules()
-            .getAsync(sqlServer.resourceGroupName(), sqlServer.name(), name)
-            .map(new Func1<FirewallRuleInner, SqlFirewallRule>() {
-                @Override
-                public SqlFirewallRule call(FirewallRuleInner inner) {
-                    return new SqlFirewallRuleImpl(name, (SqlServerImpl) sqlServer, inner, sqlServer.manager());
-                }
-            });
+                .getAsync(sqlServer.resourceGroupName(), sqlServer.name(), name)
+                .map(inner -> (SqlFirewallRule) new SqlFirewallRuleImpl(name, (SqlServerImpl) sqlServer, inner, sqlServer.manager()))
+                .toObservable();
     }
 
     @Override
@@ -121,7 +113,7 @@ public class SqlFirewallRuleOperationsImpl
 
     @Override
     public Completable deleteBySqlServerAsync(String resourceGroupName, String sqlServerName, String name) {
-        return this.sqlServerManager.inner().firewallRules().deleteAsync(resourceGroupName, sqlServerName, name).toCompletable();
+        return this.sqlServerManager.inner().firewallRules().deleteAsync(resourceGroupName, sqlServerName, name);
     }
 
     @Override
@@ -170,18 +162,8 @@ public class SqlFirewallRuleOperationsImpl
     @Override
     public Observable<SqlFirewallRule> listBySqlServerAsync(final String resourceGroupName, final String sqlServerName) {
         return this.sqlServerManager.inner().firewallRules().listByServerAsync(resourceGroupName, sqlServerName)
-            .flatMap(new Func1<List<FirewallRuleInner>, Observable<FirewallRuleInner>>() {
-                @Override
-                public Observable<FirewallRuleInner> call(List<FirewallRuleInner> firewallRuleInners) {
-                    return Observable.from(firewallRuleInners);
-                }
-            })
-            .map(new Func1<FirewallRuleInner, SqlFirewallRule>() {
-                @Override
-                public SqlFirewallRule call(FirewallRuleInner inner) {
-                    return new SqlFirewallRuleImpl(resourceGroupName, sqlServerName, inner.name(), inner, sqlServerManager);
-                }
-            });
+            .flatMapObservable(firewallRuleInners -> Observable.fromIterable(firewallRuleInners))
+            .map(inner -> new SqlFirewallRuleImpl(resourceGroupName, sqlServerName, inner.name(), inner, sqlServerManager));
     }
 
     @Override
@@ -199,18 +181,8 @@ public class SqlFirewallRuleOperationsImpl
         Objects.requireNonNull(sqlServer);
         return sqlServer.manager().inner().firewallRules()
             .listByServerAsync(sqlServer.resourceGroupName(), sqlServer.name())
-            .flatMap(new Func1<List<FirewallRuleInner>, Observable<FirewallRuleInner>>() {
-                @Override
-                public Observable<FirewallRuleInner> call(List<FirewallRuleInner> firewallRuleInners) {
-                    return Observable.from(firewallRuleInners);
-                }
-            })
-            .map(new Func1<FirewallRuleInner, SqlFirewallRule>() {
-                @Override
-                public SqlFirewallRule call(FirewallRuleInner inner) {
-                    return new SqlFirewallRuleImpl(inner.name(), (SqlServerImpl) sqlServer, inner, sqlServer.manager());
-                }
-            });
+            .flatMapObservable(firewallRuleInners -> Observable.fromIterable(firewallRuleInners))
+            .map(inner -> new SqlFirewallRuleImpl(inner.name(), (SqlServerImpl) sqlServer, inner, sqlServer.manager()));
     }
 
     @Override

@@ -50,13 +50,9 @@ public class SqlServerKeyOperationsImpl
     public Observable<SqlServerKey> getBySqlServerAsync(final String resourceGroupName, final String sqlServerName, final String name) {
         final SqlServerKeyOperationsImpl self = this;
         return this.sqlServerManager.inner().serverKeys()
-            .getAsync(resourceGroupName, sqlServerName, name)
-            .map(new Func1<ServerKeyInner, SqlServerKey>() {
-                @Override
-                public SqlServerKey call(ServerKeyInner serverKeyInner) {
-                    return new SqlServerKeyImpl(resourceGroupName, sqlServerName, name, serverKeyInner, self.sqlServerManager);
-                }
-            });
+                .getAsync(resourceGroupName, sqlServerName, name)
+                .map(serverKeyInner -> (SqlServerKey) new SqlServerKeyImpl(resourceGroupName, sqlServerName, name, serverKeyInner, self.sqlServerManager))
+                .toObservable();
     }
 
     @Override
@@ -71,13 +67,9 @@ public class SqlServerKeyOperationsImpl
     public Observable<SqlServerKey> getBySqlServerAsync(final SqlServer sqlServer, final String name) {
         Objects.requireNonNull(sqlServer);
         return sqlServer.manager().inner().serverKeys()
-            .getAsync(sqlServer.resourceGroupName(), sqlServer.name(), name)
-            .map(new Func1<ServerKeyInner, SqlServerKey>() {
-                @Override
-                public SqlServerKey call(ServerKeyInner serverKeyInner) {
-                    return new SqlServerKeyImpl(name, (SqlServerImpl) sqlServer, serverKeyInner, sqlServer.manager());
-                }
-            });
+                .getAsync(sqlServer.resourceGroupName(), sqlServer.name(), name)
+                .map(serverKeyInner -> (SqlServerKey) new SqlServerKeyImpl(name, (SqlServerImpl) sqlServer, serverKeyInner, sqlServer.manager()))
+                .toObservable();
     }
 
     @Override
@@ -87,7 +79,7 @@ public class SqlServerKeyOperationsImpl
 
     @Override
     public Completable deleteBySqlServerAsync(String resourceGroupName, String sqlServerName, String name) {
-        return this.sqlServerManager.inner().serverKeys().deleteAsync(resourceGroupName, sqlServerName, name).toCompletable();
+        return this.sqlServerManager.inner().serverKeys().deleteAsync(resourceGroupName, sqlServerName, name);
     }
 
     @Override
@@ -108,18 +100,8 @@ public class SqlServerKeyOperationsImpl
         final SqlServerKeyOperationsImpl self = this;
         return this.sqlServerManager.inner().serverKeys()
             .listByServerAsync(resourceGroupName, sqlServerName)
-            .flatMap(new Func1<Page<ServerKeyInner>, Observable<ServerKeyInner>>() {
-                @Override
-                public Observable<ServerKeyInner> call(Page<ServerKeyInner> serverKeyInnerPage) {
-                    return Observable.from(serverKeyInnerPage.items());
-                }
-            })
-            .map(new Func1<ServerKeyInner, SqlServerKey>() {
-                @Override
-                public SqlServerKey call(ServerKeyInner serverKeyInner) {
-                    return new SqlServerKeyImpl(resourceGroupName, sqlServerName, serverKeyInner.name(), serverKeyInner, self.sqlServerManager);
-                }
-            });
+            .flatMap(serverKeyInnerPage -> Observable.fromIterable(serverKeyInnerPage.items()))
+            .map(serverKeyInner -> new SqlServerKeyImpl(resourceGroupName, sqlServerName, serverKeyInner.name(), serverKeyInner, self.sqlServerManager));
     }
 
     @Override
@@ -141,18 +123,8 @@ public class SqlServerKeyOperationsImpl
         Objects.requireNonNull(sqlServer);
         return sqlServer.manager().inner().serverKeys()
             .listByServerAsync(sqlServer.resourceGroupName(), sqlServer.name())
-            .flatMap(new Func1<Page<ServerKeyInner>, Observable<ServerKeyInner>>() {
-                @Override
-                public Observable<ServerKeyInner> call(Page<ServerKeyInner> serverKeyInnerPage) {
-                    return Observable.from(serverKeyInnerPage.items());
-                }
-            })
-            .map(new Func1<ServerKeyInner, SqlServerKey>() {
-                @Override
-                public SqlServerKey call(ServerKeyInner serverKeyInner) {
-                    return new SqlServerKeyImpl(serverKeyInner.name(), (SqlServerImpl) sqlServer, serverKeyInner, sqlServer.manager());
-                }
-            });
+            .flatMap(serverKeyInnerPage -> Observable.fromIterable(serverKeyInnerPage.items()))
+            .map(serverKeyInner -> new SqlServerKeyImpl(serverKeyInner.name(), (SqlServerImpl) sqlServer, serverKeyInner, sqlServer.manager()));
     }
 
     @Override

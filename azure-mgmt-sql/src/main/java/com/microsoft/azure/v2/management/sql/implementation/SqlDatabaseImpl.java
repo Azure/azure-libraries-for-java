@@ -89,7 +89,7 @@ class SqlDatabaseImpl
     protected String sqlServerName;
     protected String sqlServerLocation;
     private boolean isPatchUpdate;
-    private ImportRequest importRequestInner;
+    protected ImportRequest importRequestInner;
 
     private SqlSyncGroupOperationsImpl syncGroups;
 
@@ -272,21 +272,10 @@ class SqlDatabaseImpl
 
     @Override
     public Observable<RestorePoint> listRestorePointsAsync() {
-        final SqlDatabaseImpl self = this;
         return this.sqlServerManager.inner()
             .restorePoints().listByDatabaseAsync(this.resourceGroupName, this.sqlServerName, this.name())
-            .flatMap(new Func1<List<RestorePointInner>, Observable<RestorePointInner>>() {
-                @Override
-                public Observable<RestorePointInner> call(List<RestorePointInner> restorePointInners) {
-                    return Observable.from(restorePointInners);
-                }
-            })
-            .map(new Func1<RestorePointInner, RestorePoint>() {
-                @Override
-                public RestorePoint call(RestorePointInner restorePointInner) {
-                    return new RestorePointImpl(self.resourceGroupName, self.sqlServerName, restorePointInner);
-                }
-            });
+                .flatMapObservable(list -> Observable.fromIterable(list))
+                .map(restorePointInner -> new RestorePointImpl(this.resourceGroupName, this.sqlServerName, restorePointInner));
     }
 
     @Override
@@ -304,21 +293,14 @@ class SqlDatabaseImpl
 
     @Override
     public Observable<ReplicationLink> listReplicationLinksAsync() {
-        final SqlDatabaseImpl self = this;
         return this.sqlServerManager.inner()
             .replicationLinks().listByDatabaseAsync(this.resourceGroupName, this.sqlServerName, this.name())
-            .flatMap(new Func1<List<ReplicationLinkInner>, Observable<ReplicationLinkInner>>() {
-                @Override
-                public Observable<ReplicationLinkInner> call(List<ReplicationLinkInner> replicationLinkInners) {
-                    return Observable.from(replicationLinkInners);
-                }
-            })
-            .map(new Func1<ReplicationLinkInner, ReplicationLink>() {
-                @Override
-                public ReplicationLink call(ReplicationLinkInner replicationLinkInner) {
-                    return new ReplicationLinkImpl(self.resourceGroupName, self.sqlServerName, replicationLinkInner, self.sqlServerManager);
-                }
-            });
+                .flatMapObservable(list -> Observable.fromIterable(list))
+                .map(replicationLinkInner -> new ReplicationLinkImpl(
+                        this.resourceGroupName,
+                        this.sqlServerName,
+                        replicationLinkInner,
+                        this.sqlServerManager));
     }
 
     @Override
@@ -390,18 +372,8 @@ class SqlDatabaseImpl
     public Observable<SqlDatabaseUsageMetric> listUsageMetricsAsync() {
         return this.sqlServerManager.inner().databaseUsages()
             .listByDatabaseAsync(this.resourceGroupName, this.sqlServerName, this.name())
-            .flatMap(new Func1<List<DatabaseUsageInner>, Observable<DatabaseUsageInner>>() {
-                @Override
-                public Observable<DatabaseUsageInner> call(List<DatabaseUsageInner> databaseUsageInners) {
-                    return Observable.from(databaseUsageInners);
-                }
-            })
-            .map(new Func1<DatabaseUsageInner, SqlDatabaseUsageMetric>() {
-                @Override
-                public SqlDatabaseUsageMetric call(DatabaseUsageInner databaseUsageInner) {
-                    return new SqlDatabaseUsageMetricImpl(databaseUsageInner);
-                }
-            });
+                .flatMapObservable(list -> Observable.fromIterable(list))
+                .map(databaseUsageInner -> new SqlDatabaseUsageMetricImpl(databaseUsageInner));
     }
 
     @Override
@@ -416,18 +388,13 @@ class SqlDatabaseImpl
 
     @Override
     public Observable<SqlDatabase> renameAsync(final String newDatabaseName) {
-        final SqlDatabaseImpl self = this;
         ResourceId resourceId = ResourceId.fromString(this.id());
         String newId = resourceId.parent().id() + "/databases/" + newDatabaseName;
         return this.sqlServerManager.inner().databases()
-            .renameAsync(this.resourceGroupName, this.sqlServerName, self.name(), newId)
-            .flatMap(new Func1<Void, Observable<SqlDatabase>>() {
-                @Override
-                public Observable<SqlDatabase> call(Void aVoid) {
-                    return self.sqlServerManager.sqlServers().databases()
-                        .getBySqlServerAsync(self.resourceGroupName, self.sqlServerName, newDatabaseName);
-                }
-            });
+                .renameAsync(this.resourceGroupName, this.sqlServerName, this.name(), newId)
+                .doOnComplete(() -> this.sqlServerManager.sqlServers().databases()
+                        .getBySqlServerAsync(this.resourceGroupName, this.sqlServerName, newDatabaseName))
+                .toObservable();
     }
 
     @Override
@@ -453,18 +420,8 @@ class SqlDatabaseImpl
     public Observable<SqlDatabaseMetric> listMetricsAsync(final String filter) {
         return this.sqlServerManager.inner().databases()
             .listMetricsAsync(this.resourceGroupName, this.sqlServerName, this.name(), filter)
-            .flatMap(new Func1<List<MetricInner>, Observable<MetricInner>>() {
-                @Override
-                public Observable<MetricInner> call(List<MetricInner> metricInners) {
-                    return Observable.from(metricInners);
-                }
-            })
-            .map(new Func1<MetricInner, SqlDatabaseMetric>() {
-                @Override
-                public SqlDatabaseMetric call(MetricInner metricInner) {
-                    return new SqlDatabaseMetricImpl(metricInner);
-                }
-            });
+                .flatMapObservable(list -> Observable.fromIterable(list))
+                .map(metricInner -> new SqlDatabaseMetricImpl(metricInner));
     }
 
     @Override
@@ -485,18 +442,8 @@ class SqlDatabaseImpl
     public Observable<SqlDatabaseMetricDefinition> listMetricDefinitionsAsync() {
         return this.sqlServerManager.inner().databases()
             .listMetricDefinitionsAsync(this.resourceGroupName, this.sqlServerName, this.name())
-            .flatMap(new Func1<List<MetricDefinitionInner>, Observable<MetricDefinitionInner>>() {
-                @Override
-                public Observable<MetricDefinitionInner> call(List<MetricDefinitionInner> metricDefinitionInners) {
-                    return Observable.from(metricDefinitionInners);
-                }
-            })
-            .map(new Func1<MetricDefinitionInner, SqlDatabaseMetricDefinition>() {
-                @Override
-                public SqlDatabaseMetricDefinition call(MetricDefinitionInner metricDefinitionInner) {
-                    return new SqlDatabaseMetricDefinitionImpl(metricDefinitionInner);
-                }
-            });
+                .flatMapObservable(list -> Observable.fromIterable(list))
+                .map(metricDefinitionInner -> new SqlDatabaseMetricDefinitionImpl(metricDefinitionInner));
     }
 
     @Override
@@ -508,15 +455,15 @@ class SqlDatabaseImpl
 
     @Override
     public Observable<TransparentDataEncryption> getTransparentDataEncryptionAsync() {
-        final SqlDatabaseImpl self = this;
         return this.sqlServerManager.inner()
             .transparentDataEncryptions().getAsync(this.resourceGroupName, this.sqlServerName, this.name())
-            .map(new Func1<TransparentDataEncryptionInner, TransparentDataEncryption>() {
-                @Override
-                public TransparentDataEncryption call(TransparentDataEncryptionInner transparentDataEncryptionInner) {
-                    return new TransparentDataEncryptionImpl(self.resourceGroupName, self.sqlServerName, transparentDataEncryptionInner, self.sqlServerManager);
-                }
-            });
+            .map(transparentDataEncryptionInner ->
+                    (TransparentDataEncryption) new TransparentDataEncryptionImpl(
+                            this.resourceGroupName,
+                            this.sqlServerName,
+                            transparentDataEncryptionInner,
+                            this.sqlServerManager))
+                .toObservable();
     }
 
     @Override
@@ -538,18 +485,13 @@ class SqlDatabaseImpl
         final SqlDatabaseImpl self = this;
         return this.sqlServerManager.inner()
             .serviceTierAdvisors().listByDatabaseAsync(this.resourceGroupName, this.sqlServerName, this.name())
-            .flatMap(new Func1<List<ServiceTierAdvisorInner>, Observable<ServiceTierAdvisorInner>>() {
-                @Override
-                public Observable<ServiceTierAdvisorInner> call(List<ServiceTierAdvisorInner> serviceTierAdvisorInners) {
-                    return Observable.from(serviceTierAdvisorInners);
-                }
-            })
-            .map(new Func1<ServiceTierAdvisorInner, ServiceTierAdvisor>() {
-                @Override
-                public ServiceTierAdvisor call(ServiceTierAdvisorInner serviceTierAdvisorInner) {
-                    return new ServiceTierAdvisorImpl(self.resourceGroupName, self.sqlServerName, serviceTierAdvisorInner, self.sqlServerManager);
-                }
-            });
+                .flatMapObservable(list -> Observable.fromIterable(list))
+                .map(serviceTierAdvisorInner ->
+                        new ServiceTierAdvisorImpl(
+                                this.resourceGroupName,
+                                this.sqlServerName,
+                                serviceTierAdvisorInner,
+                                this.sqlServerManager));
     }
 
     @Override
@@ -603,16 +545,11 @@ class SqlDatabaseImpl
             final String epName = this.elasticPoolName();
             this.addPostRunDependent(new FunctionalTaskItem() {
                 @Override
-                public Observable<Indexable> call(final Context context) {
+                public Observable<Indexable> apply(final Context context) {
                     self.importRequestInner = null;
                     self.withExistingElasticPool(epName);
                     return self.createResourceAsync()
-                        .flatMap(new Func1<SqlDatabase, Observable<Indexable>>() {
-                            @Override
-                            public Observable<Indexable> call(SqlDatabase sqlDatabase) {
-                                return context.voidObservable();
-                            }
-                        });
+                        .flatMap(sqlDatabase -> context.voidObservable());
                 }
             });
         }
@@ -620,7 +557,6 @@ class SqlDatabaseImpl
 
     @Override
     public Observable<SqlDatabase> createResourceAsync() {
-        final SqlDatabaseImpl self = this;
         this.inner().withLocation(this.sqlServerLocation);
         if (this.importRequestInner != null) {
             this.importRequestInner.withDatabaseName(this.name());
@@ -635,55 +571,47 @@ class SqlDatabaseImpl
             }
 
             return this.sqlServerManager.inner().databases()
-                .importMethodAsync(this.resourceGroupName, this.sqlServerName, this.importRequestInner)
-                .flatMap(new Func1<ImportExportResponseInner, Observable<SqlDatabase>>() {
-                    @Override
-                    public Observable<SqlDatabase> call(ImportExportResponseInner importExportResponseInner) {
-                        if (self.elasticPoolName() != null) {
-                            self.importRequestInner = null;
-                            return self.withExistingElasticPool(self.elasticPoolName()).withPatchUpdate().updateResourceAsync();
+                    .importMethodAsync(this.resourceGroupName, this.sqlServerName, this.importRequestInner)
+                    .flatMapObservable(importExportResponseInner -> {
+                        if (this.elasticPoolName() != null) {
+                            this.importRequestInner = null;
+                            return this.withExistingElasticPool(this.elasticPoolName()).withPatchUpdate().updateResourceAsync();
                         } else {
-                            return self.refreshAsync();
+                            return this.refreshAsync().toObservable();
                         }
-                    }
-                });
+                    });
         } else {
             return this.sqlServerManager.inner().databases()
                 .createOrUpdateAsync(this.resourceGroupName, this.sqlServerName, this.name(), this.inner())
-                .map(new Func1<DatabaseInner, SqlDatabase>() {
-                    @Override
-                    public SqlDatabase call(DatabaseInner inner) {
-                        self.setInner(inner);
-                        return self;
-                    }
-                });
+                .map(dbInner -> {
+                        this.setInner(dbInner);
+                        return (SqlDatabase) this;
+                    })
+                    .toObservable();
         }
     }
 
     @Override
     public Observable<SqlDatabase> updateResourceAsync() {
         if (this.isPatchUpdate) {
-            final SqlDatabaseImpl self = this;
             DatabaseUpdateInner databaseUpdateInner = new DatabaseUpdateInner()
-                .withTags(self.inner().getTags())
-                .withCollation(self.inner().collation())
-                .withSourceDatabaseId(self.inner().sourceDatabaseId())
-                .withCreateMode(self.inner().createMode())
-                .withEdition(self.inner().edition())
+                .withTags(this.inner().getTags())
+                .withCollation(this.inner().collation())
+                .withSourceDatabaseId(this.inner().sourceDatabaseId())
+                .withCreateMode(this.inner().createMode())
+                .withEdition(this.inner().edition())
                 .withRequestedServiceObjectiveName(this.inner().requestedServiceObjectiveName())
                 .withMaxSizeBytes(this.inner().maxSizeBytes())
                 .withElasticPoolName(this.inner().elasticPoolName());
-            databaseUpdateInner.withLocation(self.inner().location());
+            databaseUpdateInner.withLocation(this.inner().location());
             return this.sqlServerManager.inner().databases()
                 .updateAsync(this.resourceGroupName, this.sqlServerName, this.name(), databaseUpdateInner)
-                .map(new Func1<DatabaseInner, SqlDatabase>() {
-                    @Override
-                    public SqlDatabase call(DatabaseInner inner) {
-                        self.setInner(inner);
-                        self.isPatchUpdate = false;
-                        return self;
-                    }
-                });
+                    .map(responseInner -> {
+                        this.setInner(responseInner);
+                        this.isPatchUpdate = false;
+                        return (SqlDatabase) this;
+                    })
+                    .toObservable();
 
         } else {
             return this.createResourceAsync();
@@ -718,7 +646,7 @@ class SqlDatabaseImpl
 
     @Override
     public Completable deleteAsync() {
-        return this.deleteResourceAsync().toCompletable();
+        return this.deleteResourceAsync();
     }
 
     @Override
@@ -833,22 +761,14 @@ class SqlDatabaseImpl
         this.initializeImportRequestInner();
         this.addDependency(new FunctionalTaskItem() {
             @Override
-            public Observable<Indexable> call(final Context context) {
+            public Observable<Indexable> apply(final Context context) {
                 return storageAccount.getKeysAsync()
-                    .flatMap(new Func1<List<StorageAccountKey>, Observable<StorageAccountKey>>() {
-                        @Override
-                        public Observable<StorageAccountKey> call(List<StorageAccountKey> storageAccountKeys) {
-                            return Observable.from(storageAccountKeys).first();
-                        }
-                    })
-                    .flatMap(new Func1<StorageAccountKey, Observable<Indexable>>() {
-                        @Override
-                        public Observable<Indexable> call(StorageAccountKey storageAccountKey) {
+                        .flatMap(storageAccountKeys -> Observable.fromIterable(storageAccountKeys).firstElement())
+                        .flatMapObservable(storageAccountKey -> {
                             self.importRequestInner.withStorageUri(String.format("%s%s/%s", storageAccount.endPoints().primary().blob(), containerName, fileName));
                             self.importRequestInner.withStorageKeyType(StorageKeyType.STORAGE_ACCESS_KEY);
                             self.importRequestInner.withStorageKey(storageAccountKey.value());
                             return context.voidObservable();
-                        }
                     });
             }
         });

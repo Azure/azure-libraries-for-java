@@ -36,7 +36,7 @@ public interface TransparentDataEncryptionActivity extends
     /**
      * @return the status transparent data encryption of the Azure SQL Database
      */
-    TransparentDataEncryptionActivityStates status();
+    TransparentDataEncryptionActivityStatus status();
 
     /**
      * @return the percent complete of the transparent data encryption scan for a

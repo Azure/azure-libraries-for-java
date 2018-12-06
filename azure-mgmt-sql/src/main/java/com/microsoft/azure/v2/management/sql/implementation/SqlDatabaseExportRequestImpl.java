@@ -62,12 +62,8 @@ public class SqlDatabaseExportRequestImpl extends ExecutableImpl<SqlDatabaseImpo
     public Observable<SqlDatabaseImportExportResponse> executeWorkAsync() {
         return this.sqlServerManager.inner().databases()
             .exportAsync(this.sqlDatabase.resourceGroupName, this.sqlDatabase.sqlServerName, this.sqlDatabase.name(), this.inner())
-            .map(new Func1<ImportExportResponseInner, SqlDatabaseImportExportResponse>() {
-                @Override
-                public SqlDatabaseImportExportResponse call(ImportExportResponseInner importExportResponseInner) {
-                    return new SqlDatabaseImportExportResponseImpl(importExportResponseInner);
-                }
-            });
+                .map(importExportResponseInner -> (SqlDatabaseImportExportResponse) new SqlDatabaseImportExportResponseImpl(importExportResponseInner))
+                .toObservable();
     }
 
     @Override
@@ -80,20 +76,12 @@ public class SqlDatabaseExportRequestImpl extends ExecutableImpl<SqlDatabaseImpo
     }
 
     private Observable<Indexable> getOrCreateStorageAccountContainer(final StorageAccount storageAccount, final String containerName, final String fileName, final FunctionalTaskItem.Context context) {
-        final SqlDatabaseExportRequestImpl self = this;
         return storageAccount.getKeysAsync()
-            .flatMap(new Func1<List<StorageAccountKey>, Observable<StorageAccountKey>>() {
-                @Override
-                public Observable<StorageAccountKey> call(List<StorageAccountKey> storageAccountKeys) {
-                    return Observable.from(storageAccountKeys).first();
-                }
-            })
-            .flatMap(new Func1<StorageAccountKey, Observable<Indexable>>() {
-                @Override
-                public Observable<Indexable> call(StorageAccountKey storageAccountKey) {
-                    self.inner.withStorageUri(String.format("%s%s/%s", storageAccount.endPoints().primary().blob(), containerName, fileName));
-                    self.inner.withStorageKeyType(StorageKeyType.STORAGE_ACCESS_KEY);
-                    self.inner.withStorageKey(storageAccountKey.value());
+                .flatMap(storageAccountKeys -> Observable.fromIterable(storageAccountKeys).firstElement())
+                .flatMapObservable(storageAccountKey -> {
+                    this.inner.withStorageUri(String.format("%s%s/%s", storageAccount.endPoints().primary().blob(), containerName, fileName));
+                    this.inner.withStorageKeyType(StorageKeyType.STORAGE_ACCESS_KEY);
+                    this.inner.withStorageKey(storageAccountKey.value());
                     try {
                         CloudStorageAccount cloudStorageAccount =
                             CloudStorageAccount.parse(String.format("DefaultEndpointsProtocol=https;AccountName=%s;AccountKey=%s;EndpointSuffix=core.windows.net", storageAccount.name(), storageAccountKey.value()));
@@ -110,7 +98,6 @@ public class SqlDatabaseExportRequestImpl extends ExecutableImpl<SqlDatabaseImpo
                         throw Exceptions.propagate(keyException);
                     }
                     return context.voidObservable();
-                }
             });
     }
 
@@ -125,7 +112,7 @@ public class SqlDatabaseExportRequestImpl extends ExecutableImpl<SqlDatabaseImpo
         final SqlDatabaseExportRequestImpl self = this;
         this.addDependency(new FunctionalTaskItem() {
             @Override
-            public Observable<Indexable> call(final Context context) {
+            public Observable<Indexable> apply(final Context context) {
                 return getOrCreateStorageAccountContainer(storageAccount, containerName, fileName, context);
             }
         });
@@ -139,15 +126,10 @@ public class SqlDatabaseExportRequestImpl extends ExecutableImpl<SqlDatabaseImpo
         }
         this.addDependency(new FunctionalTaskItem() {
             @Override
-            public Observable<Indexable> call(final Context context) {
+            public Observable<Indexable> apply(final Context context) {
                 return storageAccountCreatable.createAsync()
-                    .last()
-                    .flatMap(new Func1<Indexable, Observable<Indexable>>() {
-                        @Override
-                        public Observable<Indexable> call(final Indexable storageAccount) {
-                            return getOrCreateStorageAccountContainer((StorageAccount) storageAccount, containerName, fileName, context);
-                        }
-                    });
+                    .lastElement()
+                    .flatMapObservable(storageAccount -> getOrCreateStorageAccountContainer((StorageAccount) storageAccount, containerName, fileName, context));
             }
         });
         return this;

@@ -53,13 +53,9 @@ public class SqlServerDnsAliasOperationsImpl
     public Observable<SqlServerDnsAlias> getBySqlServerAsync(final String resourceGroupName, final String sqlServerName, final String name) {
         final SqlServerDnsAliasOperationsImpl self = this;
         return this.sqlServerManager.inner().serverDnsAliases()
-            .getAsync(resourceGroupName, sqlServerName, name)
-            .map(new Func1<ServerDnsAliasInner, SqlServerDnsAlias>() {
-                @Override
-                public SqlServerDnsAlias call(ServerDnsAliasInner serverDnsAliasInner) {
-                    return new SqlServerDnsAliasImpl(resourceGroupName, sqlServerName, name, serverDnsAliasInner, self.sqlServerManager);
-                }
-            });
+                .getAsync(resourceGroupName, sqlServerName, name)
+                .map(serverDnsAliasInner -> (SqlServerDnsAlias) new SqlServerDnsAliasImpl(resourceGroupName, sqlServerName, name, serverDnsAliasInner, self.sqlServerManager))
+                .toObservable();
     }
 
     @Override
@@ -74,13 +70,10 @@ public class SqlServerDnsAliasOperationsImpl
     public Observable<SqlServerDnsAlias> getBySqlServerAsync(final SqlServer sqlServer, final String name) {
         Objects.requireNonNull(sqlServer);
         return sqlServer.manager().inner().serverDnsAliases()
-            .getAsync(sqlServer.resourceGroupName(), sqlServer.name(), name)
-            .map(new Func1<ServerDnsAliasInner, SqlServerDnsAlias>() {
-                @Override
-                public SqlServerDnsAlias call(ServerDnsAliasInner serverDnsAliasInner) {
-                    return new SqlServerDnsAliasImpl(name, (SqlServerImpl) sqlServer, serverDnsAliasInner, sqlServer.manager());
-                }
-            });
+                .getAsync(sqlServer.resourceGroupName(), sqlServer.name(), name)
+                .map(serverDnsAliasInner -> (SqlServerDnsAlias) new SqlServerDnsAliasImpl(name, (SqlServerImpl) sqlServer, serverDnsAliasInner, sqlServer.manager()))
+                .toObservable();
+
     }
 
     @Override
@@ -90,7 +83,7 @@ public class SqlServerDnsAliasOperationsImpl
 
     @Override
     public Completable deleteBySqlServerAsync(String resourceGroupName, String sqlServerName, String name) {
-        return this.sqlServerManager.inner().serverDnsAliases().deleteAsync(resourceGroupName, sqlServerName, name).toCompletable();
+        return this.sqlServerManager.inner().serverDnsAliases().deleteAsync(resourceGroupName, sqlServerName, name);
     }
 
     @Override
@@ -110,19 +103,9 @@ public class SqlServerDnsAliasOperationsImpl
     public Observable<SqlServerDnsAlias> listBySqlServerAsync(final String resourceGroupName, final String sqlServerName) {
         final SqlServerDnsAliasOperationsImpl self = this;
         return this.sqlServerManager.inner().serverDnsAliases()
-            .listByServerAsync(resourceGroupName, sqlServerName)
-            .flatMap(new Func1<Page<ServerDnsAliasInner>, Observable<ServerDnsAliasInner>>() {
-                @Override
-                public Observable<ServerDnsAliasInner> call(Page<ServerDnsAliasInner> serverDnsAliasInnerPage) {
-                    return Observable.from(serverDnsAliasInnerPage.items());
-                }
-            })
-            .map(new Func1<ServerDnsAliasInner, SqlServerDnsAlias>() {
-                @Override
-                public SqlServerDnsAlias call(ServerDnsAliasInner serverDnsAliasInner) {
-                    return new SqlServerDnsAliasImpl(resourceGroupName, sqlServerName, serverDnsAliasInner.name(), serverDnsAliasInner, self.sqlServerManager);
-                }
-            });
+                .listByServerAsync(resourceGroupName, sqlServerName)
+                .flatMap(serverDnsAliasInnerPage -> Observable.fromIterable(serverDnsAliasInnerPage.items()))
+                .map(serverDnsAliasInner -> new SqlServerDnsAliasImpl(resourceGroupName, sqlServerName, serverDnsAliasInner.name(), serverDnsAliasInner, self.sqlServerManager));
     }
 
     @Override
@@ -142,18 +125,8 @@ public class SqlServerDnsAliasOperationsImpl
     public Observable<SqlServerDnsAlias> listBySqlServerAsync(final SqlServer sqlServer) {
         return sqlServer.manager().inner().serverDnsAliases()
             .listByServerAsync(sqlServer.resourceGroupName(), sqlServer.name())
-            .flatMap(new Func1<Page<ServerDnsAliasInner>, Observable<ServerDnsAliasInner>>() {
-                @Override
-                public Observable<ServerDnsAliasInner> call(Page<ServerDnsAliasInner> serverDnsAliasInnerPage) {
-                    return Observable.from(serverDnsAliasInnerPage.items());
-                }
-            })
-            .map(new Func1<ServerDnsAliasInner, SqlServerDnsAlias>() {
-                @Override
-                public SqlServerDnsAlias call(ServerDnsAliasInner serverDnsAliasInner) {
-                    return new SqlServerDnsAliasImpl(serverDnsAliasInner.name(), (SqlServerImpl) sqlServer, serverDnsAliasInner, sqlServer.manager());
-                }
-            });
+            .flatMap(serverDnsAliasInnerPage -> Observable.fromIterable(serverDnsAliasInnerPage.items()))
+            .map(serverDnsAliasInner -> new SqlServerDnsAliasImpl(serverDnsAliasInner.name(), (SqlServerImpl) sqlServer, serverDnsAliasInner, sqlServer.manager()));
     }
 
     @Override
@@ -165,7 +138,7 @@ public class SqlServerDnsAliasOperationsImpl
     @Override
     public Completable acquireAsync(String resourceGroupName, String serverName, String dnsAliasName, String sqlServerId) {
         return this.sqlServerManager.inner().serverDnsAliases()
-            .acquireAsync(resourceGroupName, serverName, dnsAliasName, sqlServerId + DNS_ALIASES + dnsAliasName).toCompletable();
+            .acquireAsync(resourceGroupName, serverName, dnsAliasName, sqlServerId + DNS_ALIASES + dnsAliasName);
     }
 
     @Override
@@ -181,7 +154,7 @@ public class SqlServerDnsAliasOperationsImpl
         Objects.requireNonNull(oldSqlServerId);
         ResourceId resourceId = ResourceId.fromString(oldSqlServerId);
         return this.sqlServerManager.inner().serverDnsAliases()
-            .acquireAsync(resourceId.resourceGroupName(), resourceId.name(), dnsAliasName, newSqlServerId + DNS_ALIASES + dnsAliasName).toCompletable();
+            .acquireAsync(resourceId.resourceGroupName(), resourceId.name(), dnsAliasName, newSqlServerId + DNS_ALIASES + dnsAliasName);
     }
 
     @Override

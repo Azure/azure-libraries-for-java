@@ -166,14 +166,12 @@ public class SqlEncryptionProtectorImpl
     public Observable<SqlEncryptionProtector> createResourceAsync() {
         final SqlEncryptionProtectorImpl self = this;
         return this.sqlServerManager.inner().encryptionProtectors()
-            .createOrUpdateAsync(this.resourceGroupName, this.sqlServerName, this.inner())
-            .map(new Func1<EncryptionProtectorInner, SqlEncryptionProtector>() {
-                @Override
-                public SqlEncryptionProtector call(EncryptionProtectorInner encryptionProtectorInner) {
-                    self.setInner(encryptionProtectorInner);
-                    return self;
-                }
-            });
+                .createOrUpdateAsync(this.resourceGroupName, this.sqlServerName, this.inner())
+                .map(encryptionProtectorInner ->  {
+                        self.setInner(encryptionProtectorInner);
+                        return (SqlEncryptionProtector) self;
+                })
+                .toObservable();
     }
 
     @Override

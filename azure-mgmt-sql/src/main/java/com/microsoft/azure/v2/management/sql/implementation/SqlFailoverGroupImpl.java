@@ -158,7 +158,7 @@ public class SqlFailoverGroupImpl
 
     @Override
     public List<String> databases() {
-        return Collections.unmodifiableList(this.inner().databases() != null ? this.inner().databases() : new ArrayList<String>());
+        return Collections.unmodifiableList(this.inner().databasesProperty() != null ? this.inner().databasesProperty() : new ArrayList<String>());
     }
 
     @Override
@@ -169,7 +169,7 @@ public class SqlFailoverGroupImpl
 
     @Override
     public Completable deleteAsync() {
-        return this.deleteResourceAsync().toCompletable();
+        return this.deleteResourceAsync();
     }
 
     @Override
@@ -202,14 +202,12 @@ public class SqlFailoverGroupImpl
             this.inner().withLocation(this.sqlServerLocation);
         }
         return this.sqlServerManager.inner().failoverGroups()
-            .createOrUpdateAsync(self.resourceGroupName, self.sqlServerName, self.name(), self.inner())
-            .map(new Func1<FailoverGroupInner, SqlFailoverGroup>() {
-                @Override
-                public SqlFailoverGroup call(FailoverGroupInner failoverGroupInner) {
+                .createOrUpdateAsync(self.resourceGroupName, self.sqlServerName, self.name(), self.inner())
+                .map(failoverGroupInner ->  {
                     self.setInner(failoverGroupInner);
-                    return self;
-                }
-            });
+                    return (SqlFailoverGroup) self;
+                })
+                .toObservable();
     }
 
     @Override

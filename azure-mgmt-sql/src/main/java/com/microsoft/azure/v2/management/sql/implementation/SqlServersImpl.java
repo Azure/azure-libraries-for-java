@@ -187,12 +187,8 @@ class SqlServersImpl
     @Override
     public Observable<CheckNameAvailabilityResult> checkNameAvailabilityAsync(String name) {
         return this.inner().checkNameAvailabilityAsync(name)
-            .map(new Func1<CheckNameAvailabilityResponseInner, CheckNameAvailabilityResult>() {
-                @Override
-                public CheckNameAvailabilityResult call(CheckNameAvailabilityResponseInner checkNameAvailabilityResponseInner) {
-                    return new CheckNameAvailabilityResultImpl(checkNameAvailabilityResponseInner);
-                }
-            });
+                .map(checkNameAvailabilityResponseInner -> (CheckNameAvailabilityResult) new CheckNameAvailabilityResultImpl(checkNameAvailabilityResponseInner))
+                .toObservable();
     }
 
     @Override
@@ -205,13 +201,9 @@ class SqlServersImpl
     @Override
     public Observable<RegionCapabilities> getCapabilitiesByRegionAsync(Region region) {
         return this.manager().inner().capabilities()
-            .listByLocationAsync(region.name())
-            .map(new Func1<LocationCapabilitiesInner, RegionCapabilities>() {
-                @Override
-                public RegionCapabilities call(LocationCapabilitiesInner capabilitiesInner) {
-                    return new RegionCapabilitiesImpl(capabilitiesInner);
-                }
-            });
+                .listByLocationAsync(region.name())
+                .map(capabilitiesInner -> (RegionCapabilities) new RegionCapabilitiesImpl(capabilitiesInner))
+                .toObservable();
     }
 
     @Override
@@ -234,17 +226,7 @@ class SqlServersImpl
         final SqlServers self = this;
         return this.manager().inner().subscriptionUsages()
             .listByLocationAsync(region.name())
-            .flatMap(new Func1<Page<SubscriptionUsageInner>, Observable<SubscriptionUsageInner>>() {
-                @Override
-                public Observable<SubscriptionUsageInner> call(Page<SubscriptionUsageInner> subscriptionUsageInnerPage) {
-                    return Observable.from(subscriptionUsageInnerPage.items());
-                }
-            })
-            .map(new Func1<SubscriptionUsageInner, SqlSubscriptionUsageMetric>() {
-                @Override
-                public SqlSubscriptionUsageMetric call(SubscriptionUsageInner subscriptionUsageInner) {
-                    return new SqlSubscriptionUsageMetricImpl(region.name(), subscriptionUsageInner, self.manager());
-                }
-            });
+            .flatMap(subscriptionUsageInnerPage -> Observable.fromIterable(subscriptionUsageInnerPage.items()))
+            .map(subscriptionUsageInner -> new SqlSubscriptionUsageMetricImpl(region.name(), subscriptionUsageInner, self.manager()));
     }
 }

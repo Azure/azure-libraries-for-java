@@ -54,12 +54,8 @@ public class SqlEncryptionProtectorOperationsImpl
         final SqlEncryptionProtectorOperationsImpl self = this;
         return this.sqlServerManager.inner().encryptionProtectors()
             .getAsync(resourceGroupName, sqlServerName)
-            .map(new Func1<EncryptionProtectorInner, SqlEncryptionProtector>() {
-                @Override
-                public SqlEncryptionProtector call(EncryptionProtectorInner encryptionProtectorInner) {
-                    return new SqlEncryptionProtectorImpl(resourceGroupName, sqlServerName, encryptionProtectorInner, self.sqlServerManager);
-                }
-            });
+                .map(encryptionProtectorInner -> (SqlEncryptionProtector) new SqlEncryptionProtectorImpl(resourceGroupName, sqlServerName, encryptionProtectorInner, self.sqlServerManager))
+                .toObservable();
     }
 
     @Override
@@ -74,13 +70,9 @@ public class SqlEncryptionProtectorOperationsImpl
     public Observable<SqlEncryptionProtector> getBySqlServerAsync(final SqlServer sqlServer) {
         Objects.requireNonNull(sqlServer);
         return sqlServer.manager().inner().encryptionProtectors()
-            .getAsync(sqlServer.resourceGroupName(), sqlServer.name())
-            .map(new Func1<EncryptionProtectorInner, SqlEncryptionProtector>() {
-                @Override
-                public SqlEncryptionProtector call(EncryptionProtectorInner encryptionProtectorInner) {
-                    return new SqlEncryptionProtectorImpl((SqlServerImpl) sqlServer, encryptionProtectorInner, sqlServer.manager());
-                }
-            });
+                .getAsync(sqlServer.resourceGroupName(), sqlServer.name())
+                .map(encryptionProtectorInner -> (SqlEncryptionProtector) new SqlEncryptionProtectorImpl((SqlServerImpl) sqlServer, encryptionProtectorInner, sqlServer.manager()))
+                .toObservable();
     }
 
     @Override
@@ -147,18 +139,8 @@ public class SqlEncryptionProtectorOperationsImpl
         final SqlEncryptionProtectorOperationsImpl self = this;
         return this.sqlServerManager.inner().encryptionProtectors()
             .listByServerAsync(resourceGroupName, sqlServerName)
-            .flatMap(new Func1<Page<EncryptionProtectorInner>, Observable<EncryptionProtectorInner>>() {
-                @Override
-                public Observable<EncryptionProtectorInner> call(Page<EncryptionProtectorInner> encryptionProtectorInnerPage) {
-                    return Observable.from(encryptionProtectorInnerPage.items());
-                }
-            })
-            .map(new Func1<EncryptionProtectorInner, SqlEncryptionProtector>() {
-                @Override
-                public SqlEncryptionProtector call(EncryptionProtectorInner encryptionProtectorInner) {
-                    return new SqlEncryptionProtectorImpl(resourceGroupName, sqlServerName, encryptionProtectorInner, self.sqlServerManager);
-                }
-            });
+            .flatMap(encryptionProtectorInnerPage -> Observable.fromIterable(encryptionProtectorInnerPage.items()))
+            .map(encryptionProtectorInner -> new SqlEncryptionProtectorImpl(resourceGroupName, sqlServerName, encryptionProtectorInner, self.sqlServerManager));
     }
 
     @Override
@@ -180,17 +162,7 @@ public class SqlEncryptionProtectorOperationsImpl
         Objects.requireNonNull(sqlServer);
         return sqlServer.manager().inner().encryptionProtectors()
             .listByServerAsync(sqlServer.resourceGroupName(), sqlServer.name())
-            .flatMap(new Func1<Page<EncryptionProtectorInner>, Observable<EncryptionProtectorInner>>() {
-                @Override
-                public Observable<EncryptionProtectorInner> call(Page<EncryptionProtectorInner> encryptionProtectorInnerPage) {
-                    return Observable.from(encryptionProtectorInnerPage.items());
-                }
-            })
-            .map(new Func1<EncryptionProtectorInner, SqlEncryptionProtector>() {
-                @Override
-                public SqlEncryptionProtector call(EncryptionProtectorInner encryptionProtectorInner) {
-                    return new SqlEncryptionProtectorImpl((SqlServerImpl) sqlServer, encryptionProtectorInner, sqlServer.manager());
-                }
-            });
+            .flatMap(encryptionProtectorInnerPage -> Observable.fromIterable(encryptionProtectorInnerPage.items()))
+            .map(encryptionProtectorInner -> new SqlEncryptionProtectorImpl((SqlServerImpl) sqlServer, encryptionProtectorInner, sqlServer.manager()));
     }
 }

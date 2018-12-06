@@ -164,14 +164,12 @@ public class SqlServerKeyImpl
     public Observable<SqlServerKey> createResourceAsync() {
         final SqlServerKeyImpl self = this;
         return this.sqlServerManager.inner().serverKeys()
-            .createOrUpdateAsync(self.resourceGroupName, self.sqlServerName, self.serverKeyName, self.inner())
-            .map(new Func1<ServerKeyInner, SqlServerKey>() {
-                @Override
-                public SqlServerKey call(ServerKeyInner serverKeyInner) {
+                .createOrUpdateAsync(self.resourceGroupName, self.sqlServerName, self.serverKeyName, self.inner())
+                .map(serverKeyInner -> {
                     self.setInner(serverKeyInner);
-                    return self;
-                }
-            });
+                    return (SqlServerKey) self;
+                })
+                .toObservable();
     }
 
     @Override
@@ -244,7 +242,7 @@ public class SqlServerKeyImpl
 
     @Override
     public Completable deleteAsync() {
-        return this.deleteResourceAsync().toCompletable();
+        return this.deleteResourceAsync();
     }
 
     @Override

@@ -50,13 +50,9 @@ public class SqlFailoverGroupOperationsImpl
     public Observable<SqlFailoverGroup> getBySqlServerAsync(final String resourceGroupName, final String sqlServerName, final String name) {
         final SqlFailoverGroupOperationsImpl self = this;
         return this.sqlServerManager.inner().failoverGroups()
-            .getAsync(resourceGroupName, sqlServerName, name)
-            .map(new Func1<FailoverGroupInner, SqlFailoverGroup>() {
-                @Override
-                public SqlFailoverGroup call(FailoverGroupInner failoverGroupInner) {
-                    return new SqlFailoverGroupImpl(name, failoverGroupInner, self.sqlServerManager);
-                }
-            });
+                .getAsync(resourceGroupName, sqlServerName, name)
+                .map(failoverGroupInner -> (SqlFailoverGroup) new SqlFailoverGroupImpl(name, failoverGroupInner, self.sqlServerManager))
+                .toObservable();
     }
 
     @Override
@@ -71,13 +67,9 @@ public class SqlFailoverGroupOperationsImpl
     public Observable<SqlFailoverGroup> getBySqlServerAsync(final SqlServer sqlServer, final String name) {
         Objects.requireNonNull(sqlServer);
         return sqlServer.manager().inner().failoverGroups()
-            .getAsync(sqlServer.resourceGroupName(), sqlServer.name(), name)
-            .map(new Func1<FailoverGroupInner, SqlFailoverGroup>() {
-                @Override
-                public SqlFailoverGroup call(FailoverGroupInner failoverGroupInner) {
-                    return new SqlFailoverGroupImpl(name, (SqlServerImpl) sqlServer, failoverGroupInner, sqlServer.manager());
-                }
-            });
+                .getAsync(sqlServer.resourceGroupName(), sqlServer.name(), name)
+                .map(failoverGroupInner -> (SqlFailoverGroup) new SqlFailoverGroupImpl(name, (SqlServerImpl) sqlServer, failoverGroupInner, sqlServer.manager()))
+                .toObservable();
     }
 
     @Override
@@ -87,7 +79,7 @@ public class SqlFailoverGroupOperationsImpl
 
     @Override
     public Completable deleteBySqlServerAsync(String resourceGroupName, String sqlServerName, String name) {
-        return this.sqlServerManager.inner().failoverGroups().deleteAsync(resourceGroupName, sqlServerName, name).toCompletable();
+        return this.sqlServerManager.inner().failoverGroups().deleteAsync(resourceGroupName, sqlServerName, name);
     }
 
     @Override
@@ -107,19 +99,9 @@ public class SqlFailoverGroupOperationsImpl
     public Observable<SqlFailoverGroup> listBySqlServerAsync(final String resourceGroupName, final String sqlServerName) {
         final SqlFailoverGroupOperationsImpl self = this;
         return this.sqlServerManager.inner().failoverGroups()
-            .listByServerAsync(resourceGroupName, sqlServerName)
-            .flatMap(new Func1<Page<FailoverGroupInner>, Observable<FailoverGroupInner>>() {
-                @Override
-                public Observable<FailoverGroupInner> call(Page<FailoverGroupInner> failoverGroupInnerPage) {
-                    return Observable.from(failoverGroupInnerPage.items());
-                }
-            })
-            .map(new Func1<FailoverGroupInner, SqlFailoverGroup>() {
-                @Override
-                public SqlFailoverGroup call(FailoverGroupInner failoverGroupInner) {
-                    return new SqlFailoverGroupImpl(failoverGroupInner.name(), failoverGroupInner, self.sqlServerManager);
-                }
-            });
+                .listByServerAsync(resourceGroupName, sqlServerName)
+                .flatMap(failoverGroupInnerPage -> Observable.fromIterable(failoverGroupInnerPage.items()))
+                .map(failoverGroupInner -> new SqlFailoverGroupImpl(failoverGroupInner.name(), failoverGroupInner, self.sqlServerManager));
     }
 
     @Override
@@ -139,18 +121,8 @@ public class SqlFailoverGroupOperationsImpl
     public Observable<SqlFailoverGroup> listBySqlServerAsync(final SqlServer sqlServer) {
         return sqlServer.manager().inner().failoverGroups()
             .listByServerAsync(sqlServer.resourceGroupName(), sqlServer.name())
-            .flatMap(new Func1<Page<FailoverGroupInner>, Observable<FailoverGroupInner>>() {
-                @Override
-                public Observable<FailoverGroupInner> call(Page<FailoverGroupInner> failoverGroupInnerPage) {
-                    return Observable.from(failoverGroupInnerPage.items());
-                }
-            })
-            .map(new Func1<FailoverGroupInner, SqlFailoverGroup>() {
-                @Override
-                public SqlFailoverGroup call(FailoverGroupInner failoverGroupInner) {
-                    return new SqlFailoverGroupImpl(failoverGroupInner.name(), (SqlServerImpl) sqlServer, failoverGroupInner, sqlServer.manager());
-                }
-            });
+            .flatMap(failoverGroupInnerPage -> Observable.fromIterable(failoverGroupInnerPage.items()))
+            .map(failoverGroupInner -> new SqlFailoverGroupImpl(failoverGroupInner.name(), (SqlServerImpl) sqlServer, failoverGroupInner, sqlServer.manager()));
     }
 
     @Override
@@ -173,13 +145,9 @@ public class SqlFailoverGroupOperationsImpl
         Objects.requireNonNull(this.sqlServer);
         final SqlFailoverGroupOperationsImpl self = this;
         return sqlServer.manager().inner().failoverGroups()
-            .failoverAsync(sqlServer.resourceGroupName(), sqlServer.name(), failoverGroupName)
-            .map(new Func1<FailoverGroupInner, SqlFailoverGroup>() {
-                @Override
-                public SqlFailoverGroup call(FailoverGroupInner failoverGroupInner) {
-                    return new SqlFailoverGroupImpl(failoverGroupInner.name(), (SqlServerImpl) sqlServer, failoverGroupInner, sqlServer.manager());
-                }
-            });
+                .failoverAsync(sqlServer.resourceGroupName(), sqlServer.name(), failoverGroupName)
+                .map(failoverGroupInner -> (SqlFailoverGroup) new SqlFailoverGroupImpl(failoverGroupInner.name(), (SqlServerImpl) sqlServer, failoverGroupInner, sqlServer.manager()))
+                .toObservable();
     }
 
     @Override
@@ -195,13 +163,9 @@ public class SqlFailoverGroupOperationsImpl
         Objects.requireNonNull(this.sqlServer);
         final SqlFailoverGroupOperationsImpl self = this;
         return sqlServer.manager().inner().failoverGroups()
-            .forceFailoverAllowDataLossAsync(sqlServer.resourceGroupName(), sqlServer.name(), failoverGroupName)
-            .map(new Func1<FailoverGroupInner, SqlFailoverGroup>() {
-                @Override
-                public SqlFailoverGroup call(FailoverGroupInner failoverGroupInner) {
-                    return new SqlFailoverGroupImpl(failoverGroupInner.name(), (SqlServerImpl) sqlServer, failoverGroupInner, sqlServer.manager());
-                }
-            });
+                .forceFailoverAllowDataLossAsync(sqlServer.resourceGroupName(), sqlServer.name(), failoverGroupName)
+                .map(failoverGroupInner -> (SqlFailoverGroup) new SqlFailoverGroupImpl(failoverGroupInner.name(), (SqlServerImpl) sqlServer, failoverGroupInner, sqlServer.manager()))
+                .toObservable();
     }
 
     @Override
@@ -215,13 +179,9 @@ public class SqlFailoverGroupOperationsImpl
     public Observable<SqlFailoverGroup> failoverAsync(final String resourceGroupName, final String serverName, final String failoverGroupName) {
         final SqlFailoverGroupOperationsImpl self = this;
         return this.sqlServerManager.inner().failoverGroups()
-            .failoverAsync(resourceGroupName, serverName, failoverGroupName)
-            .map(new Func1<FailoverGroupInner, SqlFailoverGroup>() {
-                @Override
-                public SqlFailoverGroup call(FailoverGroupInner failoverGroupInner) {
-                    return new SqlFailoverGroupImpl(failoverGroupInner.name(), failoverGroupInner, self.sqlServerManager);
-                }
-            });
+                .failoverAsync(resourceGroupName, serverName, failoverGroupName)
+                .map(failoverGroupInner -> (SqlFailoverGroup) new SqlFailoverGroupImpl(failoverGroupInner.name(), failoverGroupInner, self.sqlServerManager))
+                .toObservable();
     }
 
     @Override
@@ -233,14 +193,9 @@ public class SqlFailoverGroupOperationsImpl
 
     @Override
     public Observable<SqlFailoverGroup> forceFailoverAllowDataLossAsync(final String resourceGroupName, final String serverName, String failoverGroupName) {
-        final SqlFailoverGroupOperationsImpl self = this;
         return this.sqlServerManager.inner().failoverGroups()
-            .forceFailoverAllowDataLossAsync(resourceGroupName, serverName, failoverGroupName)
-            .map(new Func1<FailoverGroupInner, SqlFailoverGroup>() {
-                @Override
-                public SqlFailoverGroup call(FailoverGroupInner failoverGroupInner) {
-                    return new SqlFailoverGroupImpl(failoverGroupInner.name(), failoverGroupInner, self.sqlServerManager);
-                }
-            });
+                .forceFailoverAllowDataLossAsync(resourceGroupName, serverName, failoverGroupName)
+                .map(failoverGroupInner -> (SqlFailoverGroup) new SqlFailoverGroupImpl(failoverGroupInner.name(), failoverGroupInner, this.sqlServerManager))
+                .toObservable();
     }
 }

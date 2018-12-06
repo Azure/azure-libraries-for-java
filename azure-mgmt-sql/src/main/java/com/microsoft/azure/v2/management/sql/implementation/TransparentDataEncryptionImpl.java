@@ -83,14 +83,12 @@ class TransparentDataEncryptionImpl
     public Observable<TransparentDataEncryption> updateStatusAsync(TransparentDataEncryptionStatus transparentDataEncryptionState) {
         final TransparentDataEncryptionImpl self = this;
         return this.sqlServerManager.inner().transparentDataEncryptions()
-            .createOrUpdateAsync(self.resourceGroupName, self.sqlServerName, self.databaseName(), transparentDataEncryptionState)
-            .map(new Func1<TransparentDataEncryptionInner, TransparentDataEncryption>() {
-                @Override
-                public TransparentDataEncryption call(TransparentDataEncryptionInner transparentDataEncryptionInner) {
+                .createOrUpdateAsync(self.resourceGroupName, self.sqlServerName, self.databaseName(), transparentDataEncryptionState)
+                .map(transparentDataEncryptionInner ->  {
                     self.setInner(transparentDataEncryptionInner);
-                    return self;
-                }
-            });
+                    return (TransparentDataEncryption) self;
+                })
+                .toObservable();
     }
 
     @Override
@@ -110,18 +108,8 @@ class TransparentDataEncryptionImpl
     public Observable<TransparentDataEncryptionActivity> listActivitiesAsync() {
         return this.sqlServerManager.inner().transparentDataEncryptionActivities()
             .listByConfigurationAsync(this.resourceGroupName, this.sqlServerName, this.databaseName())
-            .flatMap(new Func1<List<TransparentDataEncryptionActivityInner>, Observable<TransparentDataEncryptionActivityInner>>() {
-                @Override
-                public Observable<TransparentDataEncryptionActivityInner> call(List<TransparentDataEncryptionActivityInner> transparentDataEncryptionActivityInners) {
-                    return Observable.from(transparentDataEncryptionActivityInners);
-                }
-            })
-            .map(new Func1<TransparentDataEncryptionActivityInner, TransparentDataEncryptionActivity>() {
-                @Override
-                public TransparentDataEncryptionActivity call(TransparentDataEncryptionActivityInner transparentDataEncryptionActivityInner) {
-                    return new TransparentDataEncryptionActivityImpl(transparentDataEncryptionActivityInner);
-                }
-            });
+            .flatMapObservable(transparentDataEncryptionActivityInners ->  Observable.fromIterable(transparentDataEncryptionActivityInners))
+            .map(transparentDataEncryptionActivityInner -> new TransparentDataEncryptionActivityImpl(transparentDataEncryptionActivityInner));
     }
 
     @Override

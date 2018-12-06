@@ -10,6 +10,8 @@ import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.implementation.RefreshableWrapperImpl;
 import com.microsoft.azure.v2.management.sql.SqlRestorableDroppedDatabase;
 import java.time.OffsetDateTime;
+
+import io.reactivex.Maybe;
 import io.reactivex.Observable;
 
 /**
@@ -76,7 +78,7 @@ public class SqlRestorableDroppedDatabaseImpl extends RefreshableWrapperImpl<Res
     }
 
     @Override
-    protected Observable<RestorableDroppedDatabaseInner> getInnerAsync() {
+    protected Maybe<RestorableDroppedDatabaseInner> getInnerAsync() {
         return this.sqlServerManager.inner().restorableDroppedDatabases().getAsync(this.resourceGroupName, this.sqlServerName, this.inner().id());
     }
 

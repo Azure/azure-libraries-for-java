@@ -16,6 +16,7 @@ import com.microsoft.rest.v2.ServiceCallback;
 import com.microsoft.rest.v2.ServiceFuture;
 import java.time.OffsetDateTime;
 import io.reactivex.Completable;
+import io.reactivex.Maybe;
 import io.reactivex.Observable;
 
 /**
@@ -40,7 +41,7 @@ class ReplicationLinkImpl
     }
 
     @Override
-    protected Observable<ReplicationLinkInner> getInnerAsync() {
+    protected Maybe<ReplicationLinkInner> getInnerAsync() {
         return this.sqlServerManager.inner().replicationLinks()
             .getAsync(this.resourceGroupName,
                 this.sqlServerName,
@@ -137,7 +138,7 @@ class ReplicationLinkImpl
             .failoverAsync(this.resourceGroupName,
                 this.sqlServerName,
                 this.databaseName(),
-                this.name()).toCompletable();
+                this.name());
     }
 
     @Override
@@ -160,7 +161,7 @@ class ReplicationLinkImpl
             .failoverAllowDataLossAsync(this.resourceGroupName,
                 this.sqlServerName,
                 this.databaseName(),
-                this.name()).toCompletable();
+                this.name());
     }
 
     @Override

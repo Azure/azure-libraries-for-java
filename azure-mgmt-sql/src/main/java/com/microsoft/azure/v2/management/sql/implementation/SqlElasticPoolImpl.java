@@ -209,18 +209,8 @@ public class SqlElasticPoolImpl
     public Observable<ElasticPoolActivity> listActivitiesAsync() {
         return this.sqlServerManager.inner()
             .elasticPoolActivities().listByElasticPoolAsync(this.resourceGroupName, this.sqlServerName, this.name())
-            .flatMap(new Func1<List<ElasticPoolActivityInner>, Observable<ElasticPoolActivityInner>>() {
-                @Override
-                public Observable<ElasticPoolActivityInner> call(List<ElasticPoolActivityInner> elasticPoolActivityInners) {
-                    return Observable.from(elasticPoolActivityInners);
-                }
-            })
-            .map(new Func1<ElasticPoolActivityInner, ElasticPoolActivity>() {
-                @Override
-                public ElasticPoolActivity call(ElasticPoolActivityInner elasticPoolActivityInner) {
-                    return new ElasticPoolActivityImpl(elasticPoolActivityInner);
-                }
-            });
+                .flatMapObservable(list -> Observable.fromIterable(list))
+                .map(elasticPoolActivityInner -> new ElasticPoolActivityImpl(elasticPoolActivityInner));
     }
 
     @Override
@@ -240,17 +230,8 @@ public class SqlElasticPoolImpl
     public Observable<ElasticPoolDatabaseActivity> listDatabaseActivitiesAsync() {
         return this.sqlServerManager.inner()
             .elasticPoolDatabaseActivities().listByElasticPoolAsync(this.resourceGroupName, this.sqlServerName, this.name())
-            .flatMap(new Func1<List<ElasticPoolDatabaseActivityInner>, Observable<ElasticPoolDatabaseActivityInner>>() {
-                @Override
-                public Observable<ElasticPoolDatabaseActivityInner> call(List<ElasticPoolDatabaseActivityInner> elasticPoolDatabaseActivityInners) {
-                    return Observable.from(elasticPoolDatabaseActivityInners);
-                }
-            }).map(new Func1<ElasticPoolDatabaseActivityInner, ElasticPoolDatabaseActivity>() {
-                @Override
-                public ElasticPoolDatabaseActivity call(ElasticPoolDatabaseActivityInner elasticPoolDatabaseActivityInner) {
-                    return new ElasticPoolDatabaseActivityImpl(elasticPoolDatabaseActivityInner);
-                }
-            });
+                .flatMapObservable(list -> Observable.fromIterable(list))
+                .map(elasticPoolDatabaseActivityInner -> new ElasticPoolDatabaseActivityImpl(elasticPoolDatabaseActivityInner));
     }
 
     @Override
@@ -269,17 +250,8 @@ public class SqlElasticPoolImpl
     @Override
     public Observable<SqlDatabaseMetric> listDatabaseMetricsAsync(String filter) {
         return this.sqlServerManager.inner().elasticPools().listMetricsAsync(this.resourceGroupName, this.sqlServerName, this.name(), filter)
-            .flatMap(new Func1<List<MetricInner>, Observable<MetricInner>>() {
-                @Override
-                public Observable<MetricInner> call(List<MetricInner> metricInners) {
-                    return Observable.from(metricInners);
-                }
-            }).map(new Func1<MetricInner, SqlDatabaseMetric>() {
-                @Override
-                public SqlDatabaseMetric call(MetricInner metricInner) {
-                    return new SqlDatabaseMetricImpl(metricInner);
-                }
-            });
+                .flatMapObservable(list -> Observable.fromIterable(list))
+                .map(metricInner -> new SqlDatabaseMetricImpl(metricInner));
     }
 
     @Override
@@ -298,17 +270,8 @@ public class SqlElasticPoolImpl
     @Override
     public Observable<SqlDatabaseMetricDefinition> listDatabaseMetricDefinitionsAsync() {
         return this.sqlServerManager.inner().elasticPools().listMetricDefinitionsAsync(this.resourceGroupName, this.sqlServerName, this.name())
-            .flatMap(new Func1<List<MetricDefinitionInner>, Observable<MetricDefinitionInner>>() {
-                @Override
-                public Observable<MetricDefinitionInner> call(List<MetricDefinitionInner> metricDefinitionInners) {
-                    return Observable.from(metricDefinitionInners);
-                }
-            }).map(new Func1<MetricDefinitionInner, SqlDatabaseMetricDefinition>() {
-                @Override
-                public SqlDatabaseMetricDefinition call(MetricDefinitionInner metricDefinitionInner) {
-                    return new SqlDatabaseMetricDefinitionImpl(metricDefinitionInner);
-                }
-            });
+                .flatMapObservable(list -> Observable.fromIterable(list))
+                .map(metricDefinitionInner -> new SqlDatabaseMetricDefinitionImpl(metricDefinitionInner));
     }
 
     @Override
@@ -326,20 +289,15 @@ public class SqlElasticPoolImpl
 
     @Override
     public Observable<SqlDatabase> listDatabasesAsync() {
-        final SqlElasticPoolImpl self = this;
         return this.sqlServerManager.inner().databases()
-            .listByElasticPoolAsync(self.resourceGroupName, self.sqlServerName, this.name())
-            .flatMap(new Func1<List<DatabaseInner>, Observable<DatabaseInner>>() {
-                @Override
-                public Observable<DatabaseInner> call(List<DatabaseInner> databaseInners) {
-                    return Observable.from(databaseInners);
-                }
-            }).map(new Func1<DatabaseInner, SqlDatabase>() {
-                @Override
-                public SqlDatabase call(DatabaseInner databaseInner) {
-                    return new SqlDatabaseImpl(self.resourceGroupName, self.sqlServerName, self.sqlServerLocation, databaseInner.name(), databaseInner, self.sqlServerManager);
-                }
-            });
+            .listByElasticPoolAsync(this.resourceGroupName, this.sqlServerName, this.name())
+                .flatMapObservable(list -> Observable.fromIterable(list))
+                .map(databaseInner ->
+                        new SqlDatabaseImpl(this.resourceGroupName,
+                                this.sqlServerName,
+                                this.sqlServerLocation,
+                                databaseInner.name(),
+                                databaseInner, this.sqlServerManager));
     }
 
     @Override
@@ -391,7 +349,7 @@ public class SqlElasticPoolImpl
 
     @Override
     public Completable deleteAsync() {
-        return this.deleteResourceAsync().toCompletable();
+        return this.deleteResourceAsync();
     }
 
     @Override
@@ -401,17 +359,14 @@ public class SqlElasticPoolImpl
 
     @Override
     public Observable<SqlElasticPool> createResourceAsync() {
-        final SqlElasticPoolImpl self = this;
         this.inner().withLocation(this.sqlServerLocation);
         return this.sqlServerManager.inner().elasticPools()
             .createOrUpdateAsync(this.resourceGroupName, this.sqlServerName, this.name(), this.inner())
-            .map(new Func1<ElasticPoolInner, SqlElasticPool>() {
-                @Override
-                public SqlElasticPool call(ElasticPoolInner inner) {
-                    self.setInner(inner);
-                    return self;
-                }
-            });
+                .map(responseInner -> {
+                    this.setInner(responseInner);
+                    return (SqlElasticPool) this;
+                })
+                .toObservable();
     }
 
     @Override
@@ -419,13 +374,11 @@ public class SqlElasticPoolImpl
         final SqlElasticPoolImpl self = this;
         return this.sqlServerManager.inner().elasticPools()
             .createOrUpdateAsync(this.resourceGroupName, this.sqlServerName, this.name(), this.inner())
-            .map(new Func1<ElasticPoolInner, SqlElasticPool>() {
-                @Override
-                public SqlElasticPool call(ElasticPoolInner inner) {
-                    self.setInner(inner);
-                    return self;
-                }
-            });
+                .map(responseInner -> {
+                    this.setInner(responseInner);
+                    return (SqlElasticPool) this;
+                })
+                .toObservable();
     }
 
     void addParentDependency(TaskGroup.HasTaskGroup parentDependency) {

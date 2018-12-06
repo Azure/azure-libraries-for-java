@@ -107,26 +107,24 @@ public class SqlServerAutomaticTuningImpl
 
     @Override
     public SqlServerAutomaticTuning apply() {
-        return this.applyAsync().toBlocking().last();
+        return this.applyAsync().blockingLast();
     }
 
     @Override
     public Observable<SqlServerAutomaticTuning> applyAsync() {
         final SqlServerAutomaticTuningImpl self = this;
         return this.sqlServerManager.inner().serverAutomaticTunings()
-            .updateAsync(this.resourceGroupName, this.sqlServerName, this.inner())
-            .map(new Func1<ServerAutomaticTuningInner, SqlServerAutomaticTuning>() {
-                @Override
-                public SqlServerAutomaticTuning call(ServerAutomaticTuningInner serverAutomaticTuningInner) {
-                    self.setInner(serverAutomaticTuningInner);
-                    return self;
-                }
-            });
+                .updateAsync(this.resourceGroupName, this.sqlServerName, this.inner())
+                .map(serverAutomaticTuningInner -> {
+                        self.setInner(serverAutomaticTuningInner);
+                        return (SqlServerAutomaticTuning) self;
+                })
+                .toObservable();
     }
 
     @Override
     public ServiceFuture<SqlServerAutomaticTuning> applyAsync(ServiceCallback<SqlServerAutomaticTuning> callback) {
-        return ServiceFuture.fromBody(applyAsync(), callback);
+        return ServiceFuture.fromBody(applyAsync().lastElement(), callback);
     }
 
     @Override

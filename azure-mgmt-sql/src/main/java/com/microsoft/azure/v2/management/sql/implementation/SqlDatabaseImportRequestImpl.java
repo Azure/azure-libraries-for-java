@@ -53,42 +53,25 @@ public class SqlDatabaseImportRequestImpl extends ExecutableImpl<SqlDatabaseImpo
 
     @Override
     public Observable<SqlDatabaseImportExportResponse> executeWorkAsync() {
-        final SqlDatabaseImportRequestImpl self = this;
         return this.sqlServerManager.inner().databases()
-            .createImportOperationAsync(this.sqlDatabase.resourceGroupName, this.sqlDatabase.sqlServerName, this.sqlDatabase.name(), this.inner())
-            .flatMap(new Func1<ImportExportResponseInner, Observable<SqlDatabaseImportExportResponse>>() {
-                @Override
-                public Observable<SqlDatabaseImportExportResponse> call(final ImportExportResponseInner importExportResponseInner) {
-                    return self.sqlDatabase
-                        .refreshAsync()
-                        .map(new Func1<SqlDatabase, SqlDatabaseImportExportResponse>() {
-                            @Override
-                            public SqlDatabaseImportExportResponse call(SqlDatabase sqlDatabase) {
-                                return new SqlDatabaseImportExportResponseImpl(importExportResponseInner);
-                            }
-                        });
-                }
-            });
+                .createImportOperationAsync(this.sqlDatabase.resourceGroupName, this.sqlDatabase.sqlServerName, this.sqlDatabase.name(), this.inner())
+                .flatMap(importExportResponseInner ->
+                        this.sqlDatabase
+                                .refreshAsync()
+                                .map(sqlDatabase -> (SqlDatabaseImportExportResponse) new SqlDatabaseImportExportResponseImpl(importExportResponseInner)))
+                .toObservable();
     }
 
     private Observable<Indexable> getOrCreateStorageAccountContainer(final StorageAccount storageAccount, final String containerName, final String fileName, final FunctionalTaskItem.Context context) {
         final SqlDatabaseImportRequestImpl self = this;
         return storageAccount.getKeysAsync()
-            .flatMap(new Func1<List<StorageAccountKey>, Observable<StorageAccountKey>>() {
-                @Override
-                public Observable<StorageAccountKey> call(List<StorageAccountKey> storageAccountKeys) {
-                    return Observable.from(storageAccountKeys).first();
-                }
-            })
-            .flatMap(new Func1<StorageAccountKey, Observable<Indexable>>() {
-                @Override
-                public Observable<Indexable> call(StorageAccountKey storageAccountKey) {
+                .flatMap(storageAccountKeys -> Observable.fromIterable(storageAccountKeys).firstElement())
+                .flatMapObservable(storageAccountKey ->  {
                     self.inner.withStorageUri(String.format("%s%s/%s", storageAccount.endPoints().primary().blob(), containerName, fileName));
                     self.inner.withStorageKeyType(StorageKeyType.STORAGE_ACCESS_KEY);
                     self.inner.withStorageKey(storageAccountKey.value());
                     return context.voidObservable();
-                }
-            });
+                });
     }
 
     @Override
@@ -111,7 +94,7 @@ public class SqlDatabaseImportRequestImpl extends ExecutableImpl<SqlDatabaseImpo
         final SqlDatabaseImportRequestImpl self = this;
         this.addDependency(new FunctionalTaskItem() {
             @Override
-            public Observable<Indexable> call(final Context context) {
+            public Observable<Indexable> apply(final Context context) {
                 return getOrCreateStorageAccountContainer(storageAccount, containerName, fileName, context);
             }
         });

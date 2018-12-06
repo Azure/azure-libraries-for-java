@@ -96,13 +96,12 @@ public class SqlServerImpl
     public Observable<SqlServer> createResourceAsync() {
         final SqlServer self = this;
         return this.manager().inner().servers().createOrUpdateAsync(this.resourceGroupName(), this.name(), this.inner())
-            .map(new Func1<ServerInner, SqlServer>() {
-                @Override
-                public SqlServer call(ServerInner serverInner) {
+                
+                .map(serverInner -> {
                     setInner(serverInner);
-                    return self;
-                }
-            });
+                    return (SqlServer) self;
+                })
+				.toObservable();
     }
 
     @Override
@@ -261,18 +260,8 @@ public class SqlServerImpl
         final SqlServerImpl self = this;
         return this.manager().inner()
             .restorableDroppedDatabases().listByServerAsync(this.resourceGroupName(), this.name())
-            .flatMap(new Func1<List<RestorableDroppedDatabaseInner>, Observable<RestorableDroppedDatabaseInner>>() {
-                @Override
-                public Observable<RestorableDroppedDatabaseInner> call(List<RestorableDroppedDatabaseInner> restorableDroppedDatabaseInners) {
-                    return Observable.from(restorableDroppedDatabaseInners);
-                }
-            })
-            .map(new Func1<RestorableDroppedDatabaseInner, SqlRestorableDroppedDatabase>() {
-                @Override
-                public SqlRestorableDroppedDatabase call(RestorableDroppedDatabaseInner restorableDroppedDatabaseInner) {
-                    return new SqlRestorableDroppedDatabaseImpl(self.resourceGroupName(), self.name(), restorableDroppedDatabaseInner, self.manager());
-                }
-            });
+                .flatMapObservable(list -> Observable.fromIterable(list))
+                .map(responseInner -> new SqlRestorableDroppedDatabaseImpl(self.resourceGroupName(), self.name(), responseInner, self.manager()));
     }
 
     @Override
@@ -374,7 +363,7 @@ public class SqlServerImpl
         final SqlServerImpl self = this;
         sqlADAdminCreator = new FunctionalTaskItem() {
             @Override
-            public Observable<Indexable> call(final Context context) {
+            public Observable<Indexable> apply(final Context context) {
                 ServerAzureADAdministratorInner serverAzureADAdministratorInner = new ServerAzureADAdministratorInner()
                     .withLogin(userLogin)
                     .withSid(UUID.fromString(objectId))
@@ -382,12 +371,7 @@ public class SqlServerImpl
 
                 return self.manager().inner().serverAzureADAdministrators()
                     .createOrUpdateAsync(self.resourceGroupName(), self.name(), serverAzureADAdministratorInner)
-                    .flatMap(new Func1<ServerAzureADAdministratorInner, Observable<Indexable>>() {
-                        @Override
-                        public Observable<Indexable> call(ServerAzureADAdministratorInner serverAzureADAdministratorInner) {
-                            return context.voidObservable();
-                        }
-                    });
+                        .flatMapObservable(responseInner -> context.voidObservable());
             }
         };
         return this;

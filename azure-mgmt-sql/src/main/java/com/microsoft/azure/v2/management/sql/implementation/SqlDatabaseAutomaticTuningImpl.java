@@ -111,28 +111,25 @@ public class SqlDatabaseAutomaticTuningImpl
 
     @Override
     public SqlDatabaseAutomaticTuning apply() {
-        return this.applyAsync().toBlocking().last();
+        return this.applyAsync().blockingLast();
     }
 
     @Override
     public Observable<SqlDatabaseAutomaticTuning> applyAsync() {
-        final SqlDatabaseAutomaticTuningImpl self = this;
         this.inner().withOptions(this.automaticTuningOptionsMap);
         return this.sqlServerManager.inner().databaseAutomaticTunings()
-            .updateAsync(this.resourceGroupName, this.sqlServerName, this.sqlDatabaseName, this.inner())
-            .map(new Func1<DatabaseAutomaticTuningInner, SqlDatabaseAutomaticTuning>() {
-                @Override
-                public SqlDatabaseAutomaticTuning call(DatabaseAutomaticTuningInner databaseAutomaticTuningInner) {
-                    self.setInner(databaseAutomaticTuningInner);
-                    self.automaticTuningOptionsMap.clear();
-                    return self;
-                }
-            });
+                .updateAsync(this.resourceGroupName, this.sqlServerName, this.sqlDatabaseName, this.inner())
+                .map(databaseAutomaticTuningInner -> {
+                    this.setInner(databaseAutomaticTuningInner);
+                    this.automaticTuningOptionsMap.clear();
+                    return (SqlDatabaseAutomaticTuning) this;
+                })
+                .toObservable();
     }
 
     @Override
     public ServiceFuture<SqlDatabaseAutomaticTuning> applyAsync(ServiceCallback<SqlDatabaseAutomaticTuning> callback) {
-        return ServiceFuture.fromBody(applyAsync(), callback);
+        return ServiceFuture.fromBody(applyAsync().lastElement(), callback);
     }
 
     @Override

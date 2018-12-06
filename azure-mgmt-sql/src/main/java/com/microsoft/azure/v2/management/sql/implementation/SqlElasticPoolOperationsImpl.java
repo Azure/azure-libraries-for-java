@@ -53,12 +53,8 @@ public class SqlElasticPoolOperationsImpl
     @Override
     public Observable<SqlElasticPool> getBySqlServerAsync(final String resourceGroupName, final String sqlServerName, final String name) {
         return this.manager.inner().elasticPools().getAsync(resourceGroupName, sqlServerName, name)
-            .map(new Func1<ElasticPoolInner, SqlElasticPool>() {
-                @Override
-                public SqlElasticPool call(ElasticPoolInner inner) {
-                    return new SqlElasticPoolImpl(resourceGroupName, sqlServerName, inner.location(), inner.name(), inner, manager);
-                }
-            });
+                .map(inner -> (SqlElasticPool) new SqlElasticPoolImpl(resourceGroupName, sqlServerName, inner.location(), inner.name(), inner, manager))
+                .toObservable();
     }
 
     @Override
@@ -74,12 +70,8 @@ public class SqlElasticPoolOperationsImpl
     public Observable<SqlElasticPool> getBySqlServerAsync(final SqlServer sqlServer, String name) {
         Objects.requireNonNull(sqlServer);
         return sqlServer.manager().inner().elasticPools().getAsync(sqlServer.resourceGroupName(), sqlServer.name(), name)
-            .map(new Func1<ElasticPoolInner, SqlElasticPool>() {
-                @Override
-                public SqlElasticPool call(ElasticPoolInner inner) {
-                    return new SqlElasticPoolImpl(inner.name(), (SqlServerImpl) sqlServer, inner, manager);
-                }
-            });
+                .map(inner -> (SqlElasticPool) new SqlElasticPoolImpl(inner.name(), (SqlServerImpl) sqlServer, inner, manager))
+                .toObservable();
     }
 
     @Override
@@ -136,7 +128,7 @@ public class SqlElasticPoolOperationsImpl
 
     @Override
     public Completable deleteBySqlServerAsync(String resourceGroupName, String sqlServerName, String name) {
-        return this.manager.inner().elasticPools().deleteAsync(resourceGroupName, sqlServerName, name).toCompletable();
+        return this.manager.inner().elasticPools().deleteAsync(resourceGroupName, sqlServerName, name);
     }
 
     @Override
@@ -183,18 +175,8 @@ public class SqlElasticPoolOperationsImpl
     @Override
     public Observable<SqlElasticPool> listBySqlServerAsync(final String resourceGroupName, final String sqlServerName) {
         return this.manager.inner().elasticPools().listByServerAsync(resourceGroupName, sqlServerName)
-            .flatMap(new Func1<List<ElasticPoolInner>, Observable<ElasticPoolInner>>() {
-                @Override
-                public Observable<ElasticPoolInner> call(List<ElasticPoolInner> elasticPoolInners) {
-                    return Observable.from(elasticPoolInners);
-                }
-            })
-            .map(new Func1<ElasticPoolInner, SqlElasticPool>() {
-                @Override
-                public SqlElasticPool call(ElasticPoolInner inner) {
-                    return new SqlElasticPoolImpl(resourceGroupName, sqlServerName, inner.location(), inner.name(), inner, manager);
-                }
-            });
+                .flatMapObservable(elasticPoolInners -> Observable.fromIterable(elasticPoolInners))
+                .map(inner -> new SqlElasticPoolImpl(resourceGroupName, sqlServerName, inner.location(), inner.name(), inner, manager));
     }
 
     @Override
@@ -212,18 +194,8 @@ public class SqlElasticPoolOperationsImpl
     public Observable<SqlElasticPool> listBySqlServerAsync(final SqlServer sqlServer) {
         Objects.requireNonNull(sqlServer);
         return sqlServer.manager().inner().elasticPools().listByServerAsync(sqlServer.resourceGroupName(), sqlServer.name())
-            .flatMap(new Func1<List<ElasticPoolInner>, Observable<ElasticPoolInner>>() {
-                @Override
-                public Observable<ElasticPoolInner> call(List<ElasticPoolInner> elasticPoolInners) {
-                    return Observable.from(elasticPoolInners);
-                }
-            })
-            .map(new Func1<ElasticPoolInner, SqlElasticPool>() {
-                @Override
-                public SqlElasticPool call(ElasticPoolInner inner) {
-                    return new SqlElasticPoolImpl(inner.name(), (SqlServerImpl) sqlServer, inner, manager);
-                }
-            });
+            .flatMapObservable(elasticPoolInners -> Observable.fromIterable(elasticPoolInners))
+            .map(inner -> new SqlElasticPoolImpl(inner.name(), (SqlServerImpl) sqlServer, inner, manager));
     }
 
     @Override

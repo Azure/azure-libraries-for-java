@@ -13,6 +13,7 @@ import com.microsoft.azure.v2.management.sql.SqlVirtualNetworkRule;
 import com.microsoft.azure.v2.management.sql.SqlVirtualNetworkRuleOperations;
 import com.microsoft.azure.v2.management.sql.SqlServer;
 import io.reactivex.Completable;
+import io.reactivex.Maybe;
 import io.reactivex.Observable;
 
 import java.util.Objects;
@@ -84,16 +85,13 @@ public class SqlVirtualNetworkRuleImpl
 
     @Override
     public Observable<SqlVirtualNetworkRule> createResourceAsync() {
-        final SqlVirtualNetworkRuleImpl self = this;
         return this.sqlServerManager.inner().virtualNetworkRules()
             .createOrUpdateAsync(this.resourceGroupName, this.sqlServerName, this.name(), this.inner())
-            .map(new Func1<VirtualNetworkRuleInner, SqlVirtualNetworkRule>() {
-                @Override
-                public SqlVirtualNetworkRule call(VirtualNetworkRuleInner inner) {
-                    self.setInner(inner);
-                    return self;
-                }
-            });
+            .map(responseInner -> {
+                    this.setInner(responseInner);
+                    return (SqlVirtualNetworkRule) this;
+            })
+                .toObservable();
     }
 
     @Override
@@ -102,12 +100,12 @@ public class SqlVirtualNetworkRuleImpl
     }
 
     @Override
-    public Observable<Void> deleteResourceAsync() {
+    public Completable deleteResourceAsync() {
         return this.sqlServerManager.inner().virtualNetworkRules().deleteAsync(this.resourceGroupName, this.sqlServerName, this.name());
     }
 
     @Override
-    protected Observable<VirtualNetworkRuleInner> getInnerAsync() {
+    protected Maybe<VirtualNetworkRuleInner> getInnerAsync() {
         return this.sqlServerManager.inner().virtualNetworkRules().getAsync(this.resourceGroupName, this.sqlServerName, this.name());
     }
 
@@ -150,12 +148,12 @@ public class SqlVirtualNetworkRuleImpl
 
     @Override
     public void delete() {
-        this.deleteResourceAsync().toBlocking().last();
+        this.deleteResourceAsync().blockingGet();
     }
 
     @Override
     public Completable deleteAsync() {
-        return this.deleteResourceAsync().toCompletable();
+        return this.deleteResourceAsync();
     }
 
     @Override

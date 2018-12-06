@@ -10,7 +10,7 @@ import com.microsoft.azure.v2.management.resources.core.TestBase;
 import com.microsoft.azure.v2.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.azure.v2.management.resources.implementation.ResourceManager;
 import com.microsoft.azure.v2.management.sql.implementation.SqlServerManager;
-import com.microsoft.azure.management.storage.implementation.StorageManager;
+import com.microsoft.azure.v2.management.storage.implementation.StorageManager;
 import com.microsoft.rest.RestClient;
 
 import java.net.InetSocketAddress;

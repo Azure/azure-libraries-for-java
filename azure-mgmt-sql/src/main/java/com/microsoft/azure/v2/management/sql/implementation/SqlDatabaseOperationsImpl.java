@@ -53,12 +53,9 @@ public class SqlDatabaseOperationsImpl
     @Override
     public Observable<SqlDatabase> getBySqlServerAsync(final String resourceGroupName, final String sqlServerName, final String name) {
         return this.manager.inner().databases().getAsync(resourceGroupName, sqlServerName, name)
-            .map(new Func1<DatabaseInner, SqlDatabase>() {
-                @Override
-                public SqlDatabase call(DatabaseInner inner) {
-                    return new SqlDatabaseImpl(resourceGroupName, sqlServerName, inner.location(), inner.name(), inner, manager);
-                }
-            });
+                .map(dbInner ->
+                        (SqlDatabase) new SqlDatabaseImpl(resourceGroupName, sqlServerName, dbInner.location(), dbInner.name(), dbInner, manager))
+                .toObservable();
     }
 
     @Override
@@ -74,12 +71,8 @@ public class SqlDatabaseOperationsImpl
     public Observable<SqlDatabase> getBySqlServerAsync(final SqlServer sqlServer, String name) {
         Objects.requireNonNull(sqlServer);
         return sqlServer.manager().inner().databases().getAsync(sqlServer.resourceGroupName(), sqlServer.name(), name)
-            .map(new Func1<DatabaseInner, SqlDatabase>() {
-                @Override
-                public SqlDatabase call(DatabaseInner inner) {
-                    return new SqlDatabaseImpl(inner.name(), (SqlServerImpl) sqlServer, inner, manager);
-                }
-            });
+                .map(dbInner -> (SqlDatabase) new SqlDatabaseImpl(dbInner.name(), (SqlServerImpl) sqlServer, dbInner, manager))
+                .toObservable();
     }
 
     @Override
@@ -121,7 +114,7 @@ public class SqlDatabaseOperationsImpl
 
     @Override
     public Completable deleteBySqlServerAsync(String resourceGroupName, String sqlServerName, String name) {
-        return this.manager.inner().databases().deleteAsync(resourceGroupName, sqlServerName, name).toCompletable();
+        return this.manager.inner().databases().deleteAsync(resourceGroupName, sqlServerName, name);
     }
 
     @Override
@@ -167,18 +160,8 @@ public class SqlDatabaseOperationsImpl
     @Override
     public Observable<SqlDatabase> listBySqlServerAsync(final String resourceGroupName, final String sqlServerName) {
         return this.manager.inner().databases().listByServerAsync(resourceGroupName, sqlServerName)
-            .flatMap(new Func1<List<DatabaseInner>, Observable<DatabaseInner>>() {
-                @Override
-                public Observable<DatabaseInner> call(List<DatabaseInner> databaseInners) {
-                    return Observable.from(databaseInners);
-                }
-            })
-            .map(new Func1<DatabaseInner, SqlDatabase>() {
-                @Override
-                public SqlDatabase call(DatabaseInner inner) {
-                    return new SqlDatabaseImpl(resourceGroupName, sqlServerName, inner.location(), inner.name(), inner, manager);
-                }
-            });
+                .flatMapObservable(list -> Observable.fromIterable(list))
+                .map(dbInner -> new SqlDatabaseImpl(resourceGroupName, sqlServerName, dbInner.location(), dbInner.name(), dbInner, manager));
     }
 
     @Override
@@ -195,18 +178,8 @@ public class SqlDatabaseOperationsImpl
     @Override
     public Observable<SqlDatabase> listBySqlServerAsync(final SqlServer sqlServer) {
         return sqlServer.manager().inner().databases().listByServerAsync(sqlServer.resourceGroupName(), sqlServer.name())
-            .flatMap(new Func1<List<DatabaseInner>, Observable<DatabaseInner>>() {
-                @Override
-                public Observable<DatabaseInner> call(List<DatabaseInner> databaseInners) {
-                    return Observable.from(databaseInners);
-                }
-            })
-            .map(new Func1<DatabaseInner, SqlDatabase>() {
-                @Override
-                public SqlDatabase call(DatabaseInner inner) {
-                    return new SqlDatabaseImpl(inner.name(), (SqlServerImpl) sqlServer, inner, sqlServer.manager());
-                }
-            });
+                .flatMapObservable(list -> Observable.fromIterable(list))
+                .map(inner -> new SqlDatabaseImpl(inner.name(), (SqlServerImpl) sqlServer, inner, sqlServer.manager()));
     }
 
     @Override

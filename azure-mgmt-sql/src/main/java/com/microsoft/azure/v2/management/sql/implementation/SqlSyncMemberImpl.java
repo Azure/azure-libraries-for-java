@@ -182,14 +182,12 @@ public class SqlSyncMemberImpl
     public Observable<SqlSyncMember> createResourceAsync() {
         final SqlSyncMemberImpl self = this;
         return this.sqlServerManager.inner().syncMembers()
-            .createOrUpdateAsync(this.resourceGroupName, this.sqlServerName, this.sqlDatabaseName, this.sqlSyncGroupName, this.name(), this.inner())
-            .map(new Func1<SyncMemberInner, SqlSyncMember>() {
-                @Override
-                public SqlSyncMember call(SyncMemberInner syncMemberInner) {
-                    self.setInner(syncMemberInner);
-                    return self;
-                }
-            });
+                .createOrUpdateAsync(this.resourceGroupName, this.sqlServerName, this.sqlDatabaseName, this.sqlSyncGroupName, this.name(), this.inner())
+                .map(syncMemberInner ->  {
+                        self.setInner(syncMemberInner);
+                        return (SqlSyncMember) self;
+                })
+                .toObservable();
     }
 
     @Override
@@ -217,7 +215,7 @@ public class SqlSyncMemberImpl
 
     @Override
     public Completable deleteAsync() {
-        return this.deleteResourceAsync().toCompletable();
+        return this.deleteResourceAsync();
     }
 
     @Override
@@ -243,18 +241,8 @@ public class SqlSyncMemberImpl
     public Observable<SqlSyncFullSchemaProperty> listMemberSchemasAsync() {
         return this.sqlServerManager.inner().syncMembers()
             .listMemberSchemasAsync(this.resourceGroupName, this.sqlServerName, this.sqlDatabaseName, this.sqlSyncGroupName, this.name())
-            .flatMap(new Func1<Page<SyncFullSchemaPropertiesInner>, Observable<SyncFullSchemaPropertiesInner>>() {
-                @Override
-                public Observable<SyncFullSchemaPropertiesInner> call(Page<SyncFullSchemaPropertiesInner> syncFullSchemaPropertiesInnerPage) {
-                    return Observable.from(syncFullSchemaPropertiesInnerPage.items());
-                }
-            })
-            .map(new Func1<SyncFullSchemaPropertiesInner, SqlSyncFullSchemaProperty>() {
-                @Override
-                public SqlSyncFullSchemaProperty call(SyncFullSchemaPropertiesInner syncFullSchemaPropertiesInner) {
-                    return new SqlSyncFullSchemaPropertyImpl(syncFullSchemaPropertiesInner);
-                }
-            });
+            .flatMap(syncFullSchemaPropertiesInnerPage -> Observable.fromIterable(syncFullSchemaPropertiesInnerPage.items()))
+            .map(syncFullSchemaPropertiesInner -> new SqlSyncFullSchemaPropertyImpl(syncFullSchemaPropertiesInner));
     }
 
     @Override
@@ -266,7 +254,7 @@ public class SqlSyncMemberImpl
     @Override
     public Completable refreshMemberSchemaAsync() {
         return this.sqlServerManager.inner().syncMembers()
-            .refreshMemberSchemaAsync(this.resourceGroupName, this.sqlServerName, this.sqlDatabaseName, this.sqlSyncGroupName, this.name()).toCompletable();
+            .refreshMemberSchemaAsync(this.resourceGroupName, this.sqlServerName, this.sqlDatabaseName, this.sqlSyncGroupName, this.name());
     }
 
     @Override

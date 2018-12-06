@@ -120,14 +120,12 @@ public class SqlDatabaseThreatDetectionPolicyImpl extends
     public Observable<SqlDatabaseThreatDetectionPolicy> createResourceAsync() {
         final SqlDatabaseThreatDetectionPolicyImpl self = this;
         return this.sqlServerManager.inner().databaseThreatDetectionPolicies()
-            .createOrUpdateAsync(this.resourceGroupName, this.sqlServerName, this.parent().name(), this.inner())
-            .map(new Func1<DatabaseSecurityAlertPolicyInner, SqlDatabaseThreatDetectionPolicy>() {
-                @Override
-                public SqlDatabaseThreatDetectionPolicy call(DatabaseSecurityAlertPolicyInner databaseSecurityAlertPolicyInner) {
+                .createOrUpdateAsync(this.resourceGroupName, this.sqlServerName, this.parent().name(), this.inner())
+                .map(databaseSecurityAlertPolicyInner ->  {
                     self.setInner(databaseSecurityAlertPolicyInner);
-                    return self;
-                }
-            });
+                    return (SqlDatabaseThreatDetectionPolicy) self;
+                })
+                .toObservable();
     }
 
     @Override

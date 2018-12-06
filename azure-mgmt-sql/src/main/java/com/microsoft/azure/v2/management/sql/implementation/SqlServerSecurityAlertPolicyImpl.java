@@ -13,6 +13,8 @@ import com.microsoft.azure.v2.management.sql.SecurityAlertPolicyState;
 import com.microsoft.azure.v2.management.sql.SqlServer;
 import com.microsoft.azure.v2.management.sql.SqlServerSecurityAlertPolicy;
 import com.microsoft.azure.v2.management.sql.SqlServerSecurityAlertPolicyOperations;
+import io.reactivex.Completable;
+import io.reactivex.Maybe;
 import io.reactivex.Observable;
 
 import java.util.Arrays;
@@ -183,16 +185,13 @@ public class SqlServerSecurityAlertPolicyImpl
 
     @Override
     public Observable<SqlServerSecurityAlertPolicy> createResourceAsync() {
-        final SqlServerSecurityAlertPolicyImpl self = this;
         return this.sqlServerManager.inner().serverSecurityAlertPolicies()
-            .createOrUpdateAsync(self.resourceGroupName, self.sqlServerName, self.inner())
-            .map(new Func1<ServerSecurityAlertPolicyInner, SqlServerSecurityAlertPolicy>() {
-                @Override
-                public SqlServerSecurityAlertPolicy call(ServerSecurityAlertPolicyInner serverSecurityAlertPolicyInner) {
-                    self.setInner(serverSecurityAlertPolicyInner);
-                    return self;
-                }
-            });
+                .createOrUpdateAsync(this.resourceGroupName, this.sqlServerName, this.inner())
+                .map(serverSecurityAlertPolicyInner -> {
+                    this.setInner(serverSecurityAlertPolicyInner);
+                    return (SqlServerSecurityAlertPolicy) this;
+                })
+                .toObservable();
     }
 
     @Override
@@ -202,14 +201,14 @@ public class SqlServerSecurityAlertPolicyImpl
     }
 
     @Override
-    public Observable<Void> deleteResourceAsync() {
+    public Completable deleteResourceAsync() {
         return null;
     }
 
     @Override
-    protected Observable<ServerSecurityAlertPolicyInner> getInnerAsync() {
+    protected Maybe<ServerSecurityAlertPolicyInner> getInnerAsync() {
         return this.sqlServerManager.inner().serverSecurityAlertPolicies()
-            .getAsync(this.resourceGroupName, this.sqlServerName);
+                .getAsync(this.resourceGroupName, this.sqlServerName);
     }
 
     @Override

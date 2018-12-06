@@ -20,6 +20,7 @@ import com.microsoft.azure.v2.management.sql.implementation.SqlServerManager;
 
 import java.time.OffsetDateTime;
 import io.reactivex.Completable;
+import io.reactivex.Maybe;
 import io.reactivex.Observable;
 
 import java.util.List;
@@ -125,7 +126,7 @@ public interface RecommendedElasticPool extends
      * @return a representation of the deferred computation to get the database in the recommended elastic pool
      */
     @Beta(since = "V1_7_0")
-    Observable<SqlDatabase> getDatabaseAsync(String databaseName);
+    Maybe<SqlDatabase> getDatabaseAsync(String databaseName);
 
     /**
      * Fetches list of metrics information by making call to Azure.

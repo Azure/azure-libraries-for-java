@@ -122,7 +122,7 @@ public class SqlServerDnsAliasImpl
 
     @Override
     public Completable deleteAsync() {
-        return this.deleteResourceAsync().toCompletable();
+        return this.deleteResourceAsync();
     }
 
     @Override
@@ -151,16 +151,13 @@ public class SqlServerDnsAliasImpl
 
     @Override
     public Observable<SqlServerDnsAlias> createResourceAsync() {
-        final SqlServerDnsAliasImpl self = this;
         return this.sqlServerManager.inner().serverDnsAliases()
-            .createOrUpdateAsync(self.resourceGroupName, self.sqlServerName, self.name())
-            .map(new Func1<ServerDnsAliasInner, SqlServerDnsAlias>() {
-                @Override
-                public SqlServerDnsAlias call(ServerDnsAliasInner serverDnsAliasInner) {
-                    self.setInner(serverDnsAliasInner);
-                    return self;
-                }
-            });
+                .createOrUpdateAsync(this.resourceGroupName, this.sqlServerName, this.name())
+                .map(serverDnsAliasInner -> {
+                    this.setInner(serverDnsAliasInner);
+                    return (SqlServerDnsAlias) this;
+                })
+                .toObservable();
     }
 
     @Override

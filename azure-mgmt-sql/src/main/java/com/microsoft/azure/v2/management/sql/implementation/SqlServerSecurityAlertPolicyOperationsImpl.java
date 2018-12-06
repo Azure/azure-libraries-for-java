@@ -71,15 +71,15 @@ public class SqlServerSecurityAlertPolicyOperationsImpl
 
     @Override
     public Observable<SqlServerSecurityAlertPolicy> getBySqlServerAsync(final String resourceGroupName, final String sqlServerName) {
-        final SqlServerSecurityAlertPolicyOperationsImpl self = this;
         return this.sqlServerManager.inner().serverSecurityAlertPolicies()
             .getAsync(resourceGroupName, sqlServerName)
-            .map(new Func1<ServerSecurityAlertPolicyInner, SqlServerSecurityAlertPolicy>() {
-                @Override
-                public SqlServerSecurityAlertPolicy call(ServerSecurityAlertPolicyInner serverSecurityAlertPolicyInner) {
-                    return new SqlServerSecurityAlertPolicyImpl(resourceGroupName, sqlServerName, serverSecurityAlertPolicyInner, self.sqlServerManager);
-                }
-            });
+                .map(serverSecurityAlertPolicyInner ->
+                        (SqlServerSecurityAlertPolicy) new SqlServerSecurityAlertPolicyImpl(
+                            resourceGroupName,
+                            sqlServerName,
+                            serverSecurityAlertPolicyInner,
+                            this.sqlServerManager))
+                .toObservable();
     }
 
     @Override
@@ -95,12 +95,12 @@ public class SqlServerSecurityAlertPolicyOperationsImpl
         Objects.requireNonNull(sqlServer);
         return sqlServer.manager().inner().serverSecurityAlertPolicies()
             .getAsync(sqlServer.resourceGroupName(), sqlServer.name())
-            .map(new Func1<ServerSecurityAlertPolicyInner, SqlServerSecurityAlertPolicy>() {
-                @Override
-                public SqlServerSecurityAlertPolicy call(ServerSecurityAlertPolicyInner serverSecurityAlertPolicyInner) {
-                    return new SqlServerSecurityAlertPolicyImpl((SqlServerImpl) sqlServer, serverSecurityAlertPolicyInner, sqlServer.manager());
-                }
-            });
+                .map(serverSecurityAlertPolicyInner ->
+                    (SqlServerSecurityAlertPolicy) new SqlServerSecurityAlertPolicyImpl(
+                            (SqlServerImpl) sqlServer,
+                            serverSecurityAlertPolicyInner,
+                            sqlServer.manager()))
+                .toObservable();
     }
 
     @Override

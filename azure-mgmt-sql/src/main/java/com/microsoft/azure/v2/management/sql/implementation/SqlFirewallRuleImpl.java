@@ -133,12 +133,12 @@ public class SqlFirewallRuleImpl
 
     @Override
     public void delete() {
-        this.deleteResourceAsync().toBlocking().last();
+        this.deleteResourceAsync().blockingGet();
     }
 
     @Override
     public Completable deleteAsync() {
-        return this.deleteResourceAsync().toCompletable();
+        return this.deleteResourceAsync();
     }
 
     @Override
@@ -151,27 +151,22 @@ public class SqlFirewallRuleImpl
         final SqlFirewallRuleImpl self = this;
         return this.sqlServerManager.inner().firewallRules()
             .createOrUpdateAsync(this.resourceGroupName, this.sqlServerName, this.name(), this.inner())
-            .map(new Func1<FirewallRuleInner, SqlFirewallRule>() {
-                @Override
-                public SqlFirewallRule call(FirewallRuleInner inner) {
-                    self.setInner(inner);
-                    return self;
-                }
-            });
+                .map(responseInner -> {
+                    self.setInner(responseInner);
+                    return (SqlFirewallRule) self;
+                })
+                .toObservable();
     }
 
     @Override
     public Observable<SqlFirewallRule> updateResourceAsync() {
-        final SqlFirewallRuleImpl self = this;
         return this.sqlServerManager.inner().firewallRules()
             .createOrUpdateAsync(this.resourceGroupName, this.sqlServerName, this.name(), this.inner())
-            .map(new Func1<FirewallRuleInner, SqlFirewallRule>() {
-                @Override
-                public SqlFirewallRule call(FirewallRuleInner inner) {
-                    self.setInner(inner);
-                    return self;
-                }
-            });
+            .map(responseInner -> {
+                    this.setInner(responseInner);
+                    return (SqlFirewallRule) this;
+            })
+                .toObservable();
     }
 
     @Override

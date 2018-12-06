@@ -14,6 +14,8 @@ import com.microsoft.azure.v2.management.sql.ServiceTierAdvisor;
 import com.microsoft.azure.v2.management.sql.SloUsageMetric;
 import com.microsoft.azure.v2.management.sql.SloUsageMetricInterface;
 import java.time.OffsetDateTime;
+
+import io.reactivex.Maybe;
 import io.reactivex.Observable;
 
 import java.util.ArrayList;
@@ -181,7 +183,7 @@ class ServiceTierAdvisorImpl
     }
 
     @Override
-    protected Observable<ServiceTierAdvisorInner> getInnerAsync() {
+    protected Maybe<ServiceTierAdvisorInner> getInnerAsync() {
         this.sloUsageMetrics = null;
         this.serviceLevelObjectiveUsageMetrics = null;
 

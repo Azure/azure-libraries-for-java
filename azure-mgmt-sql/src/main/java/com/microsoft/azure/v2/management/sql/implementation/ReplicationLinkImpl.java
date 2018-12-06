@@ -17,7 +17,6 @@ import com.microsoft.rest.v2.ServiceFuture;
 import java.time.OffsetDateTime;
 import io.reactivex.Completable;
 import io.reactivex.Maybe;
-import io.reactivex.Observable;
 
 /**
  * Implementation for SQL replication link interface.

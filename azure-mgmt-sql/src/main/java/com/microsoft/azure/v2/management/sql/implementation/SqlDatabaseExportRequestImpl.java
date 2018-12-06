@@ -17,16 +17,13 @@ import com.microsoft.azure.v2.management.sql.SqlDatabaseExportRequest;
 import com.microsoft.azure.v2.management.sql.SqlDatabaseImportExportResponse;
 import com.microsoft.azure.v2.management.sql.StorageKeyType;
 import com.microsoft.azure.v2.management.storage.StorageAccount;
-import com.microsoft.azure.v2.management.storage.StorageAccountKey;
 import com.microsoft.azure.storage.CloudStorageAccount;
 import com.microsoft.azure.storage.StorageException;
 import com.microsoft.azure.storage.blob.CloudBlobClient;
 import io.reactivex.Observable;
 import io.reactivex.exceptions.Exceptions;
-
 import java.net.URISyntaxException;
 import java.security.InvalidKeyException;
-import java.util.List;
 import java.util.Objects;
 
 /**

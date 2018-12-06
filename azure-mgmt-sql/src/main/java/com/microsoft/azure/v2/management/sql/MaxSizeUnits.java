@@ -40,7 +40,7 @@ public enum MaxSizeUnits {
      */
     private final String value;
 
-    private MaxSizeUnits(String value) {
+    MaxSizeUnits(String value) {
         this.value = value;
     }
 

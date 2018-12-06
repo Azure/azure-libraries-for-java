@@ -30,7 +30,7 @@ public enum BlobAuditingPolicyState {
      */
     private final String value;
 
-    private BlobAuditingPolicyState(String value) {
+    BlobAuditingPolicyState(String value) {
         this.value = value;
     }
 

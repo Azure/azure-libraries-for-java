@@ -35,7 +35,7 @@ public enum AutomaticTuningServerMode {
      */
     private final String value;
 
-    private AutomaticTuningServerMode(String value) {
+    AutomaticTuningServerMode(String value) {
         this.value = value;
     }
 

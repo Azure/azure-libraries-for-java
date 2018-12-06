@@ -16,10 +16,7 @@ import com.microsoft.azure.v2.management.sql.SqlDatabaseImportRequest;
 import com.microsoft.azure.v2.management.sql.SqlDatabase;
 import com.microsoft.azure.v2.management.sql.StorageKeyType;
 import com.microsoft.azure.v2.management.storage.StorageAccount;
-import com.microsoft.azure.v2.management.storage.StorageAccountKey;
 import io.reactivex.Observable;
-
-import java.util.List;
 import java.util.Objects;
 
 /**

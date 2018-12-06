@@ -5,7 +5,6 @@
  */
 package com.microsoft.azure.v2.management.sql.implementation;
 
-import com.microsoft.azure.v2.Page;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.ResourceUtils;
 import com.microsoft.azure.v2.management.sql.SqlEncryptionProtector;

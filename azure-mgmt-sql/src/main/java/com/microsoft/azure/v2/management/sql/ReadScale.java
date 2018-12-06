@@ -30,7 +30,7 @@ public enum ReadScale {
      */
     private final String value;
 
-    private ReadScale(String value) {
+    ReadScale(String value) {
         this.value = value;
     }
 

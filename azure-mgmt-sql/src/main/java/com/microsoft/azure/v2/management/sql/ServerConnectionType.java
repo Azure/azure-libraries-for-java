@@ -35,7 +35,7 @@ public enum ServerConnectionType {
      */
     private final String value;
 
-    private ServerConnectionType(String value) {
+    ServerConnectionType(String value) {
         this.value = value;
     }
 

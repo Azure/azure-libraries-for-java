@@ -30,7 +30,7 @@ public enum SecurityAlertPolicyEmailAccountAdmins {
      */
     private final String value;
 
-    private SecurityAlertPolicyEmailAccountAdmins(String value) {
+    SecurityAlertPolicyEmailAccountAdmins(String value) {
         this.value = value;
     }
 

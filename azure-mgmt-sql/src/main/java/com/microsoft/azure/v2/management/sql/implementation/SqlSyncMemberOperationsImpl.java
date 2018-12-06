@@ -5,7 +5,6 @@
  */
 package com.microsoft.azure.v2.management.sql.implementation;
 
-import com.microsoft.azure.v2.Page;
 import com.microsoft.azure.v2.PagedList;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.v2.management.resources.fluentcore.arm.ResourceId;
@@ -14,7 +13,6 @@ import com.microsoft.azure.v2.management.sql.SqlSyncMember;
 import com.microsoft.azure.v2.management.sql.SqlSyncMemberOperations;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

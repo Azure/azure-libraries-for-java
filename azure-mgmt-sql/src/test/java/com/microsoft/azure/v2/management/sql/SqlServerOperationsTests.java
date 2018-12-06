@@ -12,7 +12,6 @@ import com.microsoft.azure.v2.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Indexable;
 import com.microsoft.azure.v2.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.azure.v2.management.resources.fluentcore.utils.Utils;
-import com.microsoft.azure.v2.management.sql.implementation.SyncGroupInner;
 import com.microsoft.azure.v2.management.storage.StorageAccount;
 import org.junit.Assert;
 import org.junit.Ignore;

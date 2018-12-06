@@ -75,7 +75,7 @@ public enum RecommendedIndexState {
      */
     private final String value;
 
-    private RecommendedIndexState(String value) {
+    RecommendedIndexState(String value) {
         this.value = value;
     }
 

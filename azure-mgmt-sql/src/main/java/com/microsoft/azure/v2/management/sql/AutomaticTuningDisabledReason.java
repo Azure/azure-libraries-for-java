@@ -55,7 +55,7 @@ public enum AutomaticTuningDisabledReason {
      */
     private final String value;
 
-    private AutomaticTuningDisabledReason(String value) {
+    AutomaticTuningDisabledReason(String value) {
         this.value = value;
     }
 

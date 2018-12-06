@@ -35,7 +35,7 @@ public enum AutomaticTuningServerReason {
      */
     private final String value;
 
-    private AutomaticTuningServerReason(String value) {
+    AutomaticTuningServerReason(String value) {
         this.value = value;
     }
 

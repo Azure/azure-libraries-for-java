@@ -30,7 +30,7 @@ public enum GeoBackupPolicyState {
      */
     private final String value;
 
-    private GeoBackupPolicyState(String value) {
+    GeoBackupPolicyState(String value) {
         this.value = value;
     }
 

@@ -94,14 +94,12 @@ public class SqlServerImpl
 
     @Override
     public Observable<SqlServer> createResourceAsync() {
-        final SqlServer self = this;
         return this.manager().inner().servers().createOrUpdateAsync(this.resourceGroupName(), this.name(), this.inner())
-                
                 .map(serverInner -> {
                     setInner(serverInner);
-                    return (SqlServer) self;
+                    return (SqlServer) this;
                 })
-				.toObservable();
+                .toObservable();
     }
 
     @Override

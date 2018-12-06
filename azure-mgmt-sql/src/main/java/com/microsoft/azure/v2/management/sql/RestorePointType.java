@@ -30,7 +30,7 @@ public enum RestorePointType {
      */
     private final String value;
 
-    private RestorePointType(String value) {
+    RestorePointType(String value) {
         this.value = value;
     }
 

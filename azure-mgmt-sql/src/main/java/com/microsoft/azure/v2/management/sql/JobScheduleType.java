@@ -30,7 +30,7 @@ public enum JobScheduleType {
      */
     private final String value;
 
-    private JobScheduleType(String value) {
+    JobScheduleType(String value) {
         this.value = value;
     }
 

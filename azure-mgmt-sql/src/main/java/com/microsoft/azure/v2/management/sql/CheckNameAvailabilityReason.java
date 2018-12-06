@@ -30,7 +30,7 @@ public enum CheckNameAvailabilityReason {
      */
     private final String value;
 
-    private CheckNameAvailabilityReason(String value) {
+    CheckNameAvailabilityReason(String value) {
         this.value = value;
     }
 

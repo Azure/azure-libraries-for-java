@@ -15,7 +15,6 @@ import com.microsoft.azure.v2.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.azure.v2.management.samples.Utils;
 import com.microsoft.rest.v2.policy.HttpLogDetailLevel;
 import com.microsoft.rest.v2.policy.HttpLoggingPolicyFactory;
-import jersey.repackaged.com.google.common.io.ByteStreams;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;

@@ -30,7 +30,7 @@ public enum TransparentDataEncryptionStatus {
      */
     private final String value;
 
-    private TransparentDataEncryptionStatus(String value) {
+    TransparentDataEncryptionStatus(String value) {
         this.value = value;
     }
 

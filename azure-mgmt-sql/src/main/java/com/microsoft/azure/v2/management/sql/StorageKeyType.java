@@ -30,7 +30,7 @@ public enum StorageKeyType {
      */
     private final String value;
 
-    private StorageKeyType(String value) {
+    StorageKeyType(String value) {
         this.value = value;
     }
 

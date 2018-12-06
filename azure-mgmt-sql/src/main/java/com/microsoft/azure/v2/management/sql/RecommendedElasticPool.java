@@ -19,7 +19,6 @@ import com.microsoft.azure.v2.management.sql.implementation.RecommendedElasticPo
 import com.microsoft.azure.v2.management.sql.implementation.SqlServerManager;
 
 import java.time.OffsetDateTime;
-import io.reactivex.Completable;
 import io.reactivex.Maybe;
 import io.reactivex.Observable;
 

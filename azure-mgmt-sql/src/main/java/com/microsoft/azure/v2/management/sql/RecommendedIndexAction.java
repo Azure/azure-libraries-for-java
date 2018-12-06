@@ -35,7 +35,7 @@ public enum RecommendedIndexAction {
      */
     private final String value;
 
-    private RecommendedIndexAction(String value) {
+    RecommendedIndexAction(String value) {
         this.value = value;
     }
 

@@ -25,7 +25,7 @@ public enum PerformanceLevelUnit {
      */
     private final String value;
 
-    private PerformanceLevelUnit(String value) {
+    PerformanceLevelUnit(String value) {
         this.value = value;
     }
 

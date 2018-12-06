@@ -30,7 +30,7 @@ public enum DataMaskingRuleState {
      */
     private final String value;
 
-    private DataMaskingRuleState(String value) {
+    DataMaskingRuleState(String value) {
         this.value = value;
     }
 

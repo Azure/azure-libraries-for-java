@@ -30,7 +30,7 @@ public enum BackupLongTermRetentionPolicyState {
      */
     private final String value;
 
-    private BackupLongTermRetentionPolicyState(String value) {
+    BackupLongTermRetentionPolicyState(String value) {
         this.value = value;
     }
 

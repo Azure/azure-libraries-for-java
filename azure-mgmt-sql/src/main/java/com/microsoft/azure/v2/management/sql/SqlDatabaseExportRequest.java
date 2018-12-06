@@ -11,7 +11,6 @@ import com.microsoft.azure.v2.management.resources.fluentcore.arm.models.HasPare
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.Executable;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.HasInner;
-import com.microsoft.azure.v2.management.sql.ExportRequest;
 import com.microsoft.azure.v2.management.storage.StorageAccount;
 
 /**

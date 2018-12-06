@@ -35,7 +35,7 @@ public enum SecurityAlertPolicyState {
      */
     private final String value;
 
-    private SecurityAlertPolicyState(String value) {
+    SecurityAlertPolicyState(String value) {
         this.value = value;
     }
 

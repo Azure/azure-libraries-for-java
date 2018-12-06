@@ -45,7 +45,7 @@ public enum ReplicationRole {
      */
     private final String value;
 
-    private ReplicationRole(String value) {
+    ReplicationRole(String value) {
         this.value = value;
     }
 

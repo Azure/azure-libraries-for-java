@@ -10,9 +10,7 @@ import com.microsoft.azure.v2.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.implementation.RefreshableWrapperImpl;
 import com.microsoft.azure.v2.management.sql.SqlRestorableDroppedDatabase;
 import java.time.OffsetDateTime;
-
 import io.reactivex.Maybe;
-import io.reactivex.Observable;
 
 /**
  * Implementation for SQL restorable dropped database interface.

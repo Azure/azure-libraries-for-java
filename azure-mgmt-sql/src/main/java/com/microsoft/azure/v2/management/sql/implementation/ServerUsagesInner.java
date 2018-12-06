@@ -23,7 +23,6 @@ import com.microsoft.rest.v2.annotations.UnexpectedResponseExceptionType;
 import io.reactivex.Maybe;
 import io.reactivex.Single;
 import io.reactivex.annotations.NonNull;
-import java.util.ArrayList;
 import java.util.List;
 
 /**

@@ -30,7 +30,7 @@ public enum AutomaticTuningOptionModeActual {
      */
     private final String value;
 
-    private AutomaticTuningOptionModeActual(String value) {
+    AutomaticTuningOptionModeActual(String value) {
         this.value = value;
     }
 

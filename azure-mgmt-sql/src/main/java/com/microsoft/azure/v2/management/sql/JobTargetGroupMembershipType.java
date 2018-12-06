@@ -30,7 +30,7 @@ public enum JobTargetGroupMembershipType {
      */
     private final String value;
 
-    private JobTargetGroupMembershipType(String value) {
+    JobTargetGroupMembershipType(String value) {
         this.value = value;
     }
 

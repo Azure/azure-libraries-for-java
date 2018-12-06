@@ -16,8 +16,6 @@ import com.microsoft.azure.v2.management.sql.SloUsageMetricInterface;
 import java.time.OffsetDateTime;
 
 import io.reactivex.Maybe;
-import io.reactivex.Observable;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;

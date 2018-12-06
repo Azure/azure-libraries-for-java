@@ -30,7 +30,7 @@ public enum SecurityAlertPolicyUseServerDefault {
      */
     private final String value;
 
-    private SecurityAlertPolicyUseServerDefault(String value) {
+    SecurityAlertPolicyUseServerDefault(String value) {
         this.value = value;
     }
 

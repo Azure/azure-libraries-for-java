@@ -50,7 +50,7 @@ public enum DataMaskingFunction {
      */
     private final String value;
 
-    private DataMaskingFunction(String value) {
+    DataMaskingFunction(String value) {
         this.value = value;
     }
 

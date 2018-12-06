@@ -9,8 +9,6 @@ import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.v2.management.resources.fluentcore.model.implementation.RefreshableWrapperImpl;
 import com.microsoft.azure.v2.management.sql.SqlSubscriptionUsageMetric;
 import io.reactivex.Maybe;
-import io.reactivex.Observable;
-
 import java.util.Objects;
 
 /**

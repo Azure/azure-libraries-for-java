@@ -40,7 +40,7 @@ public enum RecommendedIndexType {
      */
     private final String value;
 
-    private RecommendedIndexType(String value) {
+    RecommendedIndexType(String value) {
         this.value = value;
     }
 

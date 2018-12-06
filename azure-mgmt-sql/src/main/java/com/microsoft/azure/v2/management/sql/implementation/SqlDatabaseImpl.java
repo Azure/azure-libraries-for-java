@@ -46,7 +46,6 @@ import com.microsoft.azure.v2.management.sql.StorageKeyType;
 import com.microsoft.azure.v2.management.sql.TransparentDataEncryption;
 import com.microsoft.azure.v2.management.sql.UpgradeHintInterface;
 import com.microsoft.azure.v2.management.storage.StorageAccount;
-import com.microsoft.azure.v2.management.storage.StorageAccountKey;
 import java.time.OffsetDateTime;
 import io.reactivex.Completable;
 import io.reactivex.Maybe;

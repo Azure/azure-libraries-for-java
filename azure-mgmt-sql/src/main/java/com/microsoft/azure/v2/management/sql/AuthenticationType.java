@@ -30,7 +30,7 @@ public enum AuthenticationType {
      */
     private final String value;
 
-    private AuthenticationType(String value) {
+    AuthenticationType(String value) {
         this.value = value;
     }
 

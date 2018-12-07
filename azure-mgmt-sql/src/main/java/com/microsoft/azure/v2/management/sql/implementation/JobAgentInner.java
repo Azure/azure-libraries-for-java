@@ -9,16 +9,16 @@
 package com.microsoft.azure.v2.management.sql.implementation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.v2.Resource;
 import com.microsoft.azure.v2.management.sql.JobAgentState;
 import com.microsoft.azure.v2.management.sql.Sku;
-import com.microsoft.azure.v2.management.sql.TrackedResource;
 import com.microsoft.rest.v2.serializer.JsonFlatten;
 
 /**
  * An Azure SQL job agent.
  */
 @JsonFlatten
-public class JobAgentInner extends TrackedResource {
+public class JobAgentInner extends Resource {
     /**
      * The name and tier of the SKU.
      */

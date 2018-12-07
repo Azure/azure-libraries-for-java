@@ -9,15 +9,15 @@
 package com.microsoft.azure.v2.management.sql.implementation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.v2.Resource;
 import com.microsoft.azure.v2.management.sql.ResourceIdentity;
-import com.microsoft.azure.v2.management.sql.TrackedResource;
 import com.microsoft.rest.v2.serializer.JsonFlatten;
 
 /**
  * An Azure SQL Database server.
  */
 @JsonFlatten
-public class ServerInner extends TrackedResource {
+public class ServerInner extends Resource {
     /**
      * The Azure Active Directory identity of the server.
      */

@@ -8,10 +8,37 @@
 
 package com.microsoft.azure.v2.management.sql;
 
-import com.microsoft.azure.v2.Resource;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * ARM proxy resource.
  */
-public class ProxyResource extends Resource {
+public class ProxyResource {
+    @JsonProperty(
+            access = JsonProperty.Access.WRITE_ONLY
+    )
+    private String id;
+    @JsonProperty(
+            access = JsonProperty.Access.WRITE_ONLY
+    )
+    private String name;
+    @JsonProperty(
+            access = JsonProperty.Access.WRITE_ONLY
+    )
+    private String type;
+
+    public ProxyResource() {
+    }
+
+    public String id() {
+        return this.id;
+    }
+
+    public String name() {
+        return this.name;
+    }
+
+    public String type() {
+        return this.type;
+    }
 }

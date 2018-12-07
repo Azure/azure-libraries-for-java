@@ -9,10 +9,10 @@
 package com.microsoft.azure.v2.management.sql.implementation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.v2.Resource;
 import com.microsoft.azure.v2.management.sql.CatalogCollationType;
 import com.microsoft.azure.v2.management.sql.ManagedDatabaseCreateMode;
 import com.microsoft.azure.v2.management.sql.ManagedDatabaseStatus;
-import com.microsoft.azure.v2.management.sql.TrackedResource;
 import com.microsoft.rest.v2.serializer.JsonFlatten;
 import java.time.OffsetDateTime;
 
@@ -20,7 +20,7 @@ import java.time.OffsetDateTime;
  * A managed database resource.
  */
 @JsonFlatten
-public class ManagedDatabaseInner extends TrackedResource {
+public class ManagedDatabaseInner extends Resource {
     /**
      * Collation of the managed database.
      */

@@ -198,9 +198,6 @@ public class SqlFailoverGroupImpl
     @Override
     public Observable<SqlFailoverGroup> createResourceAsync() {
         final SqlFailoverGroupImpl self = this;
-        if (this.inner().location() == null) {
-            this.inner().withLocation(this.sqlServerLocation);
-        }
         return this.sqlServerManager.inner().failoverGroups()
                 .createOrUpdateAsync(self.resourceGroupName, self.sqlServerName, self.name(), self.inner())
                 .map(failoverGroupInner ->  {
@@ -244,7 +241,7 @@ public class SqlFailoverGroupImpl
 
     @Override
     public Map<String, String> tags() {
-        return this.inner().getTags();
+        return this.inner().tags();
     }
 
     @Override
@@ -255,17 +252,17 @@ public class SqlFailoverGroupImpl
 
     @Override
     public SqlFailoverGroupImpl withTag(String key, String value) {
-        if (this.inner().getTags() == null) {
+        if (this.inner().tags() == null) {
             this.inner().withTags(new HashMap<String, String>());
         }
-        this.inner().getTags().put(key, value);
+        this.inner().tags().put(key, value);
         return this;
     }
 
     @Override
     public SqlFailoverGroupImpl withoutTag(String key) {
-        if (this.inner().getTags() != null) {
-            this.inner().getTags().remove(key);
+        if (this.inner().tags() != null) {
+            this.inner().tags().remove(key);
         }
         return this;
     }

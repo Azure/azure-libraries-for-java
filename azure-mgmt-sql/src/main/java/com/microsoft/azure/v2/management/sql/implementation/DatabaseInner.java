@@ -9,13 +9,13 @@
 package com.microsoft.azure.v2.management.sql.implementation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.v2.Resource;
 import com.microsoft.azure.v2.management.sql.CreateMode;
 import com.microsoft.azure.v2.management.sql.DatabaseEdition;
 import com.microsoft.azure.v2.management.sql.ReadScale;
 import com.microsoft.azure.v2.management.sql.RecommendedIndex;
 import com.microsoft.azure.v2.management.sql.SampleName;
 import com.microsoft.azure.v2.management.sql.ServiceObjectiveName;
-import com.microsoft.azure.v2.management.sql.TrackedResource;
 import com.microsoft.rest.v2.serializer.JsonFlatten;
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -25,7 +25,7 @@ import java.util.UUID;
  * Represents a database.
  */
 @JsonFlatten
-public class DatabaseInner extends TrackedResource {
+public class DatabaseInner extends Resource {
     /**
      * Kind of database.  This is metadata used for the Azure portal
      * experience.

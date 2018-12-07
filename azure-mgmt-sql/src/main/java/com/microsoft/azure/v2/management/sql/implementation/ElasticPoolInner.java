@@ -9,9 +9,9 @@
 package com.microsoft.azure.v2.management.sql.implementation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.v2.Resource;
 import com.microsoft.azure.v2.management.sql.ElasticPoolEdition;
 import com.microsoft.azure.v2.management.sql.ElasticPoolState;
-import com.microsoft.azure.v2.management.sql.TrackedResource;
 import com.microsoft.rest.v2.serializer.JsonFlatten;
 import java.time.OffsetDateTime;
 
@@ -19,7 +19,7 @@ import java.time.OffsetDateTime;
  * Represents a database elastic pool.
  */
 @JsonFlatten
-public class ElasticPoolInner extends TrackedResource {
+public class ElasticPoolInner extends Resource {
     /**
      * The creation date of the elastic pool (ISO8601 format).
      */

@@ -18,7 +18,6 @@ import com.microsoft.rest.v2.policy.HttpLogDetailLevel;
 import com.microsoft.rest.v2.policy.HttpLoggingPolicyFactory;
 
 import java.io.File;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Azure SQL sample for managing SQL Server Security Alert Policy

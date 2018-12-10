@@ -90,7 +90,7 @@ public final class ManageSqlWithRecoveredOrRestoredDatabase {
 
             RestorePoint restorePointInTime = dbToRestore.listRestorePoints().get(0);
             // Restore point might not be ready right away and we will have to wait for it.
-            OffsetDateTime currentTime = OffsetDateTime.of(LocalDateTime.now(),ZoneOffset.UTC);
+            OffsetDateTime currentTime = OffsetDateTime.of(LocalDateTime.now(), ZoneOffset.UTC);
             long waitForRestoreToBeReady = restorePointInTime.earliestRestoreDate().toInstant().toEpochMilli() - currentTime.toInstant().toEpochMilli() + 5 * 60 * 1000;
             if (waitForRestoreToBeReady > 0) {
                 SdkContext.sleep((int) waitForRestoreToBeReady);

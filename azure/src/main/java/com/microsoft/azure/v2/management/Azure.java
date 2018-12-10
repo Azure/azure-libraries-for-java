@@ -71,6 +71,8 @@ import com.microsoft.azure.v2.management.storage.Usages;
 import com.microsoft.azure.v2.management.storage.implementation.StorageManager;
 import com.microsoft.azure.v2.management.trafficmanager.TrafficManagerProfiles;
 import com.microsoft.azure.v2.management.trafficmanager.implementation.TrafficManager;
+import com.microsoft.azure.v2.management.sql.SqlServers;
+import com.microsoft.azure.v2.management.sql.implementation.SqlServerManager;
 import com.microsoft.azure.v2.policy.AsyncCredentialsPolicyFactory;
 import com.microsoft.rest.v2.annotations.Beta;
 import com.microsoft.rest.v2.http.HttpPipeline;
@@ -120,8 +122,6 @@ import java.io.IOException;
 //import com.microsoft.azure.v2.management.search.implementation.SearchServiceManager;
 //import com.microsoft.azure.v2.management.servicebus.ServiceBusNamespaces;
 //import com.microsoft.azure.v2.management.servicebus.implementation.ServiceBusManager;
-//import com.microsoft.azure.v2.management.sql.SqlServers;
-//import com.microsoft.azure.v2.management.sql.implementation.SqlServerManager;
 
 /**
  * The entry point for accessing resource management APIs in Azure.
@@ -138,8 +138,8 @@ public final class Azure {
 //     private final RedisManager redisManager;
 //     private final CdnManager cdnManager;
 //     private final DnsZoneManager dnsZoneManager;
-//     private final AppServiceManager appServiceManager;
-//     private final SqlServerManager sqlServerManager;
+//     private final AppServiceManager `;
+	private final SqlServerManager sqlServerManager;
 //     private final ServiceBusManager serviceBusManager;
 //     private final ContainerInstanceManager containerInstanceManager;
 //     private final ContainerRegistryManager containerRegistryManager;
@@ -417,7 +417,7 @@ public final class Azure {
 //        this.cdnManager = CdnManager.authenticate(httpPipeline, subscriptionId, environment);
 //        this.dnsZoneManager = DnsZoneManager.authenticate(httpPipeline, subscriptionId, environment);
 //        this.appServiceManager = AppServiceManager.authenticate(httpPipeline, subscriptionId, tenantId, environment);
-//        this.sqlServerManager = SqlServerManager.authenticate(httpPipeline, subscriptionId, tenantId, environment);
+        this.sqlServerManager = SqlServerManager.authenticate(httpPipeline, subscriptionId, tenantId, environment);
 //        this.serviceBusManager = ServiceBusManager.authenticate(httpPipeline, subscriptionId, environment);
 //        this.containerInstanceManager = ContainerInstanceManager.authenticate(httpPipeline, subscriptionId, environment);
 //        this.containerRegistryManager = ContainerRegistryManager.authenticate(httpPipeline, subscriptionId, environment);
@@ -784,12 +784,12 @@ public final class Azure {
 //        return appServiceManager;
 //    }
 
-//    /**
-//     * @return entry point to managing Sql server.
-//     */
-//    public SqlServers sqlServers() {
-//        return sqlServerManager.sqlServers();
-//    }
+    /**
+     * @return entry point to managing Sql server.
+     */
+    public SqlServers sqlServers() {
+        return sqlServerManager.sqlServers();
+    }
 
 //    /**
 //     * @return entry point to managing Service Bus.

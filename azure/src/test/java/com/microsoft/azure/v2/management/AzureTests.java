@@ -749,6 +749,9 @@ public class AzureTests extends TestBase {
     }
 
     @Test
+    public void testSqlServer() throws Exception {
+        new TestSql().runTest(azure.sqlServers(), azure.resourceGroups());
+    }
     public void testResourceStreaming() throws Exception {
         new TestResourceStreaming(azure.storageAccounts()).runTest(azure.virtualMachines(), azure.resourceGroups());
     }

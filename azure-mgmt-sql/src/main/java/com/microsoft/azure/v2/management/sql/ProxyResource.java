@@ -27,17 +27,35 @@ public class ProxyResource {
     )
     private String type;
 
+    /**
+     *  Proxy resource constructor.
+     */
     public ProxyResource() {
     }
 
+    /**
+     * Gets current resource Id.
+     *
+     * @return the Id of hte resource.
+     */
     public String id() {
         return this.id;
     }
 
+    /**
+     * Gets current resource name.
+     *
+     * @return the name of the resource.
+     */
     public String name() {
         return this.name;
     }
 
+    /**
+     * Gets current resource type.
+     *
+     * @return the type of the resource.
+     */
     public String type() {
         return this.type;
     }

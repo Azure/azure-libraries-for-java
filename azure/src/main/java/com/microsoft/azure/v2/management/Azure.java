@@ -135,11 +135,12 @@ public final class Azure {
 //     private final BatchManager batchManager;
 //     private final BatchAIManager batchAIManager;
     private final TrafficManager trafficManager;
+    private final SqlServerManager sqlServerManager;
 //     private final RedisManager redisManager;
 //     private final CdnManager cdnManager;
 //     private final DnsZoneManager dnsZoneManager;
 //     private final AppServiceManager `;
-	private final SqlServerManager sqlServerManager;
+
 //     private final ServiceBusManager serviceBusManager;
 //     private final ContainerInstanceManager containerInstanceManager;
 //     private final ContainerRegistryManager containerRegistryManager;

@@ -186,7 +186,6 @@ public class VirtualMachineScaleSetOperationsTests extends ComputeManagementTest
     }
 
     @Test
-    @Ignore("Fails in record mode - needs investigation")
     public void canCreateVirtualMachineScaleSetWithCustomScriptExtension() throws Exception {
         final String vmssName = generateRandomResourceName("vmss", 10);
         final String uname = "jvuser";
@@ -771,7 +770,6 @@ public class VirtualMachineScaleSetOperationsTests extends ComputeManagementTest
     }
 
     @Test
-    @Ignore("Fails in record mode - needs investigation")
     public void canEnableMSIOnVirtualMachineScaleSetWithoutRoleAssignment() throws Exception {
         final String vmss_name = generateRandomResourceName("vmss", 10);
         ResourceGroup resourceGroup = this.resourceManager.resourceGroups()
@@ -837,7 +835,6 @@ public class VirtualMachineScaleSetOperationsTests extends ComputeManagementTest
     }
 
     @Test
-    @Ignore("Fails in record mode - needs investigation")
     public void canEnableMSIOnVirtualMachineScaleSetWithMultipleRoleAssignment() throws Exception {
         final String vmss_name = generateRandomResourceName("vmss", 10);
         ResourceGroup resourceGroup = this.resourceManager.resourceGroups()

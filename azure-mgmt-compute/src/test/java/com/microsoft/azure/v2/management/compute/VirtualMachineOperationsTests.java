@@ -365,7 +365,6 @@ public class VirtualMachineOperationsTests extends ComputeManagementTest {
     }
 
     @Test
-    @Ignore("Fails in record mode - needs investigation")
     public void canRunScriptOnVM() {
         // Create
         VirtualMachine virtualMachine = computeManager.virtualMachines()

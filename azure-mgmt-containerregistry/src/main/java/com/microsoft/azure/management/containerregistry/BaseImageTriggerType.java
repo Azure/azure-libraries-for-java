@@ -22,9 +22,6 @@ public final class BaseImageTriggerType extends ExpandableStringEnum<BaseImageTr
     /** Static value Runtime for BaseImageTriggerType. */
     public static final BaseImageTriggerType RUNTIME = fromString("Runtime");
 
-    /** Static value None for BaseImageTriggerType. */
-    public static final BaseImageTriggerType NONE = fromString("None");
-
     /**
      * Creates or finds a BaseImageTriggerType from its string representation.
      * @param name a name to look for

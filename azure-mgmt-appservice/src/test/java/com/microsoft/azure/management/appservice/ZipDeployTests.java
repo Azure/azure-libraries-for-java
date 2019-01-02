@@ -15,7 +15,6 @@ import org.junit.Test;
 import java.io.File;
 
 public class ZipDeployTests extends AppServiceTest {
-    private static String RG_NAME_3 = "";
     private static String WEBAPP_NAME_4 = "";
 
     public ZipDeployTests() {
@@ -24,7 +23,6 @@ public class ZipDeployTests extends AppServiceTest {
     @Override
     protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {
         WEBAPP_NAME_4 = generateRandomResourceName("java-func-", 20);
-        RG_NAME_3 = generateRandomResourceName("javacsmrg", 20);
 
         super.initializeClients(restClient, defaultSubscription, domain);
     }
@@ -34,7 +32,7 @@ public class ZipDeployTests extends AppServiceTest {
         // Create function app
         FunctionApp functionApp = appServiceManager.functionApps().define(WEBAPP_NAME_4)
                 .withRegion(Region.US_WEST)
-                .withNewResourceGroup(RG_NAME_3)
+                .withNewResourceGroup(RG_NAME)
                 .create();
         Assert.assertNotNull(functionApp);
         SdkContext.sleep(5000);

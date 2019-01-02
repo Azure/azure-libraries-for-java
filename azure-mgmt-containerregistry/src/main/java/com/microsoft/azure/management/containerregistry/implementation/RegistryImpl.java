@@ -8,10 +8,12 @@ package com.microsoft.azure.management.containerregistry.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.containerregistry.AccessKeyType;
-import com.microsoft.azure.management.containerregistry.BuildTaskOperations;
-import com.microsoft.azure.management.containerregistry.QueuedBuildOperations;
+//import com.microsoft.azure.management.containerregistry.BuildTaskOperations;
+//import com.microsoft.azure.management.containerregistry.QueuedBuildOperations;
 import com.microsoft.azure.management.containerregistry.Registry;
 import com.microsoft.azure.management.containerregistry.RegistryCredentials;
+import com.microsoft.azure.management.containerregistry.RegistryTaskRun;
+import com.microsoft.azure.management.containerregistry.RegistryUpdateParameters;
 import com.microsoft.azure.management.containerregistry.RegistryUsage;
 import com.microsoft.azure.management.containerregistry.Sku;
 import com.microsoft.azure.management.containerregistry.SkuName;
@@ -44,13 +46,13 @@ public class RegistryImpl
         Registry.Definition,
         Registry.Update {
 
-    private RegistryUpdateParametersInner updateParameters;
+    private RegistryUpdateParameters updateParameters;
     private final StorageManager storageManager;
     private String storageAccountId;
     private String creatableStorageAccountKey;
     private WebhooksImpl webhooks;
-    private QueuedBuildOperations queuedBuilds;
-    private BuildTaskOperations buildTasks;
+    //private QueuedBuildOperations queuedBuilds;
+    //private BuildTaskOperations buildTasks;
 
     protected RegistryImpl(String name, RegistryInner innerObject, ContainerRegistryManager manager,
                            final StorageManager storageManager) {
@@ -68,7 +70,7 @@ public class RegistryImpl
 
     @Override
     public RegistryImpl update() {
-        updateParameters = new RegistryUpdateParametersInner();
+        updateParameters = new RegistryUpdateParameters();
         return super.update();
     }
 
@@ -280,20 +282,25 @@ public class RegistryImpl
     }
 
     @Override
-    public QueuedBuildOperations queuedBuilds() {
-        if (this.queuedBuilds == null) {
-            this.queuedBuilds = new QueuedBuildOperationsImpl(this);
-        }
-        return this.queuedBuilds;
+    public RegistryTaskRun.DefinitionStages.BlankFromRegistry scheduleRun() {
+        return new RegistryTaskRunImpl(this.manager(), new RunInner()).withExistingRegistry(this.resourceGroupName(), this.name());
     }
 
-    @Override
-    public BuildTaskOperations buildTasks() {
-        if (this.buildTasks == null) {
-            this.buildTasks = new BuildTaskOperationsImpl(this);
-        }
-        return this.buildTasks;
-    }
+//    @Override
+//    public QueuedBuildOperations queuedBuilds() {
+//        if (this.queuedBuilds == null) {
+//            this.queuedBuilds = new QueuedBuildOperationsImpl(this);
+//        }
+//        return this.queuedBuilds;
+//    }
+
+//    @Override
+//    public BuildTaskOperations buildTasks() {
+//        if (this.buildTasks == null) {
+//            this.buildTasks = new BuildTaskOperationsImpl(this);
+//        }
+//        return this.buildTasks;
+//    }
 
     @Override
     public SourceUploadDefinition getBuildSourceUploadUrl() {

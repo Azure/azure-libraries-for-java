@@ -60,6 +60,11 @@ public final class ManageFunctionAppLogs {
             FunctionApp app = azure.appServices().functionApps().define(appName)
                     .withRegion(Region.US_WEST)
                     .withNewResourceGroup(rgName)
+                    .defineDiagnosticLogsConfiguration()
+                        .withApplicationLogging()
+                        .withLogLevel(com.microsoft.azure.management.appservice.LogLevel.VERBOSE)
+                        .withApplicationLogsStoredOnFileSystem()
+                        .attach()
                     .create();
 
             System.out.println("Created function app " + app.name());
@@ -103,7 +108,7 @@ public final class ManageFunctionAppLogs {
                     post("http://" + appUrl + "/api/square", "825");
                 }
             }).start();
-            while (line != null && stopWatch.getTime() < 30000) {
+            while (line != null && stopWatch.getTime() < 90000) {
                 System.out.println(line);
                 line = readLine(stream);
             }

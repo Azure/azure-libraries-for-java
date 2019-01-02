@@ -42,11 +42,9 @@ class WebAppImpl
     private static final String SETTING_REGISTRY_PASSWORD = "DOCKER_REGISTRY_SERVER_PASSWORD";
 
     private DeploymentSlots deploymentSlots;
-    private KuduClient kuduClient;
 
-    WebAppImpl(String name, SiteInner innerObject, SiteConfigResourceInner configObject, AppServiceManager manager) {
-        super(name, innerObject, configObject, manager);
-        kuduClient = new KuduClient(this);
+    WebAppImpl(String name, SiteInner innerObject, SiteConfigResourceInner siteConfig, SiteLogsConfigInner logConfig, AppServiceManager manager) {
+        super(name, innerObject, siteConfig, logConfig, manager);
     }
 
     @Override

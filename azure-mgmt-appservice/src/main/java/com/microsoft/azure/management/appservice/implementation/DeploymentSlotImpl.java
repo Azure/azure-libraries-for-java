@@ -32,11 +32,8 @@ class DeploymentSlotImpl
             DeploymentSlot.Definition,
             DeploymentSlot.Update {
 
-    private KuduClient kuduClient;
-
-    DeploymentSlotImpl(String name, SiteInner innerObject, SiteConfigResourceInner configObject, WebAppImpl parent) {
-        super(name, innerObject, configObject, parent);
-        kuduClient = new KuduClient(this);
+    DeploymentSlotImpl(String name, SiteInner innerObject, SiteConfigResourceInner siteConfig, SiteLogsConfigInner logConfig, WebAppImpl parent) {
+        super(name, innerObject, siteConfig, logConfig, parent);
     }
 
     @Override

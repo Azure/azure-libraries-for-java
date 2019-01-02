@@ -52,9 +52,8 @@ abstract class AppServiceBaseImpl<
     FluentUpdateT>
         extends WebAppBaseImpl<FluentT, FluentImplT> {
 
-    AppServiceBaseImpl(String name, SiteInner innerObject, SiteConfigResourceInner configObject, AppServiceManager manager) {
-        super(name, innerObject, configObject, manager);
-        String defaultHostName = defaultHostName().startsWith("http") ? defaultHostName() : "http://" + defaultHostName();
+    AppServiceBaseImpl(String name, SiteInner innerObject, SiteConfigResourceInner siteConfig, SiteLogsConfigInner logConfig, AppServiceManager manager) {
+        super(name, innerObject, siteConfig, logConfig, manager);
     }
 
     @Override

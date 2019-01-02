@@ -13,6 +13,8 @@ import com.google.common.reflect.TypeToken;
 import com.microsoft.azure.AzureServiceFuture;
 import com.microsoft.azure.CloudException;
 import com.microsoft.azure.ListOperationCallback;
+import com.microsoft.azure.management.containerregistry.WebhookCreateParameters;
+import com.microsoft.azure.management.containerregistry.WebhookUpdateParameters;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
 import com.microsoft.rest.ServiceCallback;
@@ -69,11 +71,11 @@ public class WebhooksInner {
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.containerregistry.Webhooks create" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/webhooks/{webhookName}")
-        Observable<Response<ResponseBody>> create(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("registryName") String registryName, @Path("webhookName") String webhookName, @Query("api-version") String apiVersion, @Body WebhookCreateParametersInner webhookCreateParameters, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> create(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("registryName") String registryName, @Path("webhookName") String webhookName, @Query("api-version") String apiVersion, @Body WebhookCreateParameters webhookCreateParameters, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.containerregistry.Webhooks beginCreate" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/webhooks/{webhookName}")
-        Observable<Response<ResponseBody>> beginCreate(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("registryName") String registryName, @Path("webhookName") String webhookName, @Query("api-version") String apiVersion, @Body WebhookCreateParametersInner webhookCreateParameters, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> beginCreate(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("registryName") String registryName, @Path("webhookName") String webhookName, @Query("api-version") String apiVersion, @Body WebhookCreateParameters webhookCreateParameters, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.containerregistry.Webhooks delete" })
         @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/webhooks/{webhookName}", method = "DELETE", hasBody = true)
@@ -85,11 +87,11 @@ public class WebhooksInner {
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.containerregistry.Webhooks update" })
         @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/webhooks/{webhookName}")
-        Observable<Response<ResponseBody>> update(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("registryName") String registryName, @Path("webhookName") String webhookName, @Query("api-version") String apiVersion, @Body WebhookUpdateParametersInner webhookUpdateParameters, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> update(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("registryName") String registryName, @Path("webhookName") String webhookName, @Query("api-version") String apiVersion, @Body WebhookUpdateParameters webhookUpdateParameters, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.containerregistry.Webhooks beginUpdate" })
         @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/webhooks/{webhookName}")
-        Observable<Response<ResponseBody>> beginUpdate(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("registryName") String registryName, @Path("webhookName") String webhookName, @Query("api-version") String apiVersion, @Body WebhookUpdateParametersInner webhookUpdateParameters, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> beginUpdate(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("registryName") String registryName, @Path("webhookName") String webhookName, @Query("api-version") String apiVersion, @Body WebhookUpdateParameters webhookUpdateParameters, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.containerregistry.Webhooks list" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/webhooks")
@@ -220,7 +222,7 @@ public class WebhooksInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the WebhookInner object if successful.
      */
-    public WebhookInner create(String resourceGroupName, String registryName, String webhookName, WebhookCreateParametersInner webhookCreateParameters) {
+    public WebhookInner create(String resourceGroupName, String registryName, String webhookName, WebhookCreateParameters webhookCreateParameters) {
         return createWithServiceResponseAsync(resourceGroupName, registryName, webhookName, webhookCreateParameters).toBlocking().last().body();
     }
 
@@ -235,7 +237,7 @@ public class WebhooksInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<WebhookInner> createAsync(String resourceGroupName, String registryName, String webhookName, WebhookCreateParametersInner webhookCreateParameters, final ServiceCallback<WebhookInner> serviceCallback) {
+    public ServiceFuture<WebhookInner> createAsync(String resourceGroupName, String registryName, String webhookName, WebhookCreateParameters webhookCreateParameters, final ServiceCallback<WebhookInner> serviceCallback) {
         return ServiceFuture.fromResponse(createWithServiceResponseAsync(resourceGroupName, registryName, webhookName, webhookCreateParameters), serviceCallback);
     }
 
@@ -249,7 +251,7 @@ public class WebhooksInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<WebhookInner> createAsync(String resourceGroupName, String registryName, String webhookName, WebhookCreateParametersInner webhookCreateParameters) {
+    public Observable<WebhookInner> createAsync(String resourceGroupName, String registryName, String webhookName, WebhookCreateParameters webhookCreateParameters) {
         return createWithServiceResponseAsync(resourceGroupName, registryName, webhookName, webhookCreateParameters).map(new Func1<ServiceResponse<WebhookInner>, WebhookInner>() {
             @Override
             public WebhookInner call(ServiceResponse<WebhookInner> response) {
@@ -268,7 +270,7 @@ public class WebhooksInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<ServiceResponse<WebhookInner>> createWithServiceResponseAsync(String resourceGroupName, String registryName, String webhookName, WebhookCreateParametersInner webhookCreateParameters) {
+    public Observable<ServiceResponse<WebhookInner>> createWithServiceResponseAsync(String resourceGroupName, String registryName, String webhookName, WebhookCreateParameters webhookCreateParameters) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
@@ -302,7 +304,7 @@ public class WebhooksInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the WebhookInner object if successful.
      */
-    public WebhookInner beginCreate(String resourceGroupName, String registryName, String webhookName, WebhookCreateParametersInner webhookCreateParameters) {
+    public WebhookInner beginCreate(String resourceGroupName, String registryName, String webhookName, WebhookCreateParameters webhookCreateParameters) {
         return beginCreateWithServiceResponseAsync(resourceGroupName, registryName, webhookName, webhookCreateParameters).toBlocking().single().body();
     }
 
@@ -317,7 +319,7 @@ public class WebhooksInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<WebhookInner> beginCreateAsync(String resourceGroupName, String registryName, String webhookName, WebhookCreateParametersInner webhookCreateParameters, final ServiceCallback<WebhookInner> serviceCallback) {
+    public ServiceFuture<WebhookInner> beginCreateAsync(String resourceGroupName, String registryName, String webhookName, WebhookCreateParameters webhookCreateParameters, final ServiceCallback<WebhookInner> serviceCallback) {
         return ServiceFuture.fromResponse(beginCreateWithServiceResponseAsync(resourceGroupName, registryName, webhookName, webhookCreateParameters), serviceCallback);
     }
 
@@ -331,7 +333,7 @@ public class WebhooksInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the WebhookInner object
      */
-    public Observable<WebhookInner> beginCreateAsync(String resourceGroupName, String registryName, String webhookName, WebhookCreateParametersInner webhookCreateParameters) {
+    public Observable<WebhookInner> beginCreateAsync(String resourceGroupName, String registryName, String webhookName, WebhookCreateParameters webhookCreateParameters) {
         return beginCreateWithServiceResponseAsync(resourceGroupName, registryName, webhookName, webhookCreateParameters).map(new Func1<ServiceResponse<WebhookInner>, WebhookInner>() {
             @Override
             public WebhookInner call(ServiceResponse<WebhookInner> response) {
@@ -350,7 +352,7 @@ public class WebhooksInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the WebhookInner object
      */
-    public Observable<ServiceResponse<WebhookInner>> beginCreateWithServiceResponseAsync(String resourceGroupName, String registryName, String webhookName, WebhookCreateParametersInner webhookCreateParameters) {
+    public Observable<ServiceResponse<WebhookInner>> beginCreateWithServiceResponseAsync(String resourceGroupName, String registryName, String webhookName, WebhookCreateParameters webhookCreateParameters) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
@@ -567,7 +569,7 @@ public class WebhooksInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the WebhookInner object if successful.
      */
-    public WebhookInner update(String resourceGroupName, String registryName, String webhookName, WebhookUpdateParametersInner webhookUpdateParameters) {
+    public WebhookInner update(String resourceGroupName, String registryName, String webhookName, WebhookUpdateParameters webhookUpdateParameters) {
         return updateWithServiceResponseAsync(resourceGroupName, registryName, webhookName, webhookUpdateParameters).toBlocking().last().body();
     }
 
@@ -582,7 +584,7 @@ public class WebhooksInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<WebhookInner> updateAsync(String resourceGroupName, String registryName, String webhookName, WebhookUpdateParametersInner webhookUpdateParameters, final ServiceCallback<WebhookInner> serviceCallback) {
+    public ServiceFuture<WebhookInner> updateAsync(String resourceGroupName, String registryName, String webhookName, WebhookUpdateParameters webhookUpdateParameters, final ServiceCallback<WebhookInner> serviceCallback) {
         return ServiceFuture.fromResponse(updateWithServiceResponseAsync(resourceGroupName, registryName, webhookName, webhookUpdateParameters), serviceCallback);
     }
 
@@ -596,7 +598,7 @@ public class WebhooksInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<WebhookInner> updateAsync(String resourceGroupName, String registryName, String webhookName, WebhookUpdateParametersInner webhookUpdateParameters) {
+    public Observable<WebhookInner> updateAsync(String resourceGroupName, String registryName, String webhookName, WebhookUpdateParameters webhookUpdateParameters) {
         return updateWithServiceResponseAsync(resourceGroupName, registryName, webhookName, webhookUpdateParameters).map(new Func1<ServiceResponse<WebhookInner>, WebhookInner>() {
             @Override
             public WebhookInner call(ServiceResponse<WebhookInner> response) {
@@ -615,7 +617,7 @@ public class WebhooksInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<ServiceResponse<WebhookInner>> updateWithServiceResponseAsync(String resourceGroupName, String registryName, String webhookName, WebhookUpdateParametersInner webhookUpdateParameters) {
+    public Observable<ServiceResponse<WebhookInner>> updateWithServiceResponseAsync(String resourceGroupName, String registryName, String webhookName, WebhookUpdateParameters webhookUpdateParameters) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
@@ -649,7 +651,7 @@ public class WebhooksInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the WebhookInner object if successful.
      */
-    public WebhookInner beginUpdate(String resourceGroupName, String registryName, String webhookName, WebhookUpdateParametersInner webhookUpdateParameters) {
+    public WebhookInner beginUpdate(String resourceGroupName, String registryName, String webhookName, WebhookUpdateParameters webhookUpdateParameters) {
         return beginUpdateWithServiceResponseAsync(resourceGroupName, registryName, webhookName, webhookUpdateParameters).toBlocking().single().body();
     }
 
@@ -664,7 +666,7 @@ public class WebhooksInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<WebhookInner> beginUpdateAsync(String resourceGroupName, String registryName, String webhookName, WebhookUpdateParametersInner webhookUpdateParameters, final ServiceCallback<WebhookInner> serviceCallback) {
+    public ServiceFuture<WebhookInner> beginUpdateAsync(String resourceGroupName, String registryName, String webhookName, WebhookUpdateParameters webhookUpdateParameters, final ServiceCallback<WebhookInner> serviceCallback) {
         return ServiceFuture.fromResponse(beginUpdateWithServiceResponseAsync(resourceGroupName, registryName, webhookName, webhookUpdateParameters), serviceCallback);
     }
 
@@ -678,7 +680,7 @@ public class WebhooksInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the WebhookInner object
      */
-    public Observable<WebhookInner> beginUpdateAsync(String resourceGroupName, String registryName, String webhookName, WebhookUpdateParametersInner webhookUpdateParameters) {
+    public Observable<WebhookInner> beginUpdateAsync(String resourceGroupName, String registryName, String webhookName, WebhookUpdateParameters webhookUpdateParameters) {
         return beginUpdateWithServiceResponseAsync(resourceGroupName, registryName, webhookName, webhookUpdateParameters).map(new Func1<ServiceResponse<WebhookInner>, WebhookInner>() {
             @Override
             public WebhookInner call(ServiceResponse<WebhookInner> response) {
@@ -697,7 +699,7 @@ public class WebhooksInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the WebhookInner object
      */
-    public Observable<ServiceResponse<WebhookInner>> beginUpdateWithServiceResponseAsync(String resourceGroupName, String registryName, String webhookName, WebhookUpdateParametersInner webhookUpdateParameters) {
+    public Observable<ServiceResponse<WebhookInner>> beginUpdateWithServiceResponseAsync(String resourceGroupName, String registryName, String webhookName, WebhookUpdateParameters webhookUpdateParameters) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }

@@ -22,7 +22,7 @@ public class OperationServiceSpecificationDefinition {
     private List<OperationMetricSpecificationDefinition> metricSpecifications;
 
     /**
-     * Get the metricSpecifications value.
+     * Get a list of Azure Monitoring metrics definition.
      *
      * @return the metricSpecifications value
      */
@@ -31,7 +31,7 @@ public class OperationServiceSpecificationDefinition {
     }
 
     /**
-     * Set the metricSpecifications value.
+     * Set a list of Azure Monitoring metrics definition.
      *
      * @param metricSpecifications the metricSpecifications value to set
      * @return the OperationServiceSpecificationDefinition object itself.

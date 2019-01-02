@@ -23,7 +23,7 @@ public class RegistryUsageListResultInner {
     private List<RegistryUsage> value;
 
     /**
-     * Get the value value.
+     * Get the list of container registry quota usages.
      *
      * @return the value value
      */
@@ -32,7 +32,7 @@ public class RegistryUsageListResultInner {
     }
 
     /**
-     * Set the value value.
+     * Set the list of container registry quota usages.
      *
      * @param value the value value to set
      * @return the RegistryUsageListResultInner object itself.

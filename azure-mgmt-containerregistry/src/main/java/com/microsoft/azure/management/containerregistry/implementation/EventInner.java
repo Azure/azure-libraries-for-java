@@ -29,7 +29,7 @@ public class EventInner extends EventInfoInner {
     private EventResponseMessage eventResponseMessage;
 
     /**
-     * Get the eventRequestMessage value.
+     * Get the event request message sent to the service URI.
      *
      * @return the eventRequestMessage value
      */
@@ -38,7 +38,7 @@ public class EventInner extends EventInfoInner {
     }
 
     /**
-     * Set the eventRequestMessage value.
+     * Set the event request message sent to the service URI.
      *
      * @param eventRequestMessage the eventRequestMessage value to set
      * @return the EventInner object itself.
@@ -49,7 +49,7 @@ public class EventInner extends EventInfoInner {
     }
 
     /**
-     * Get the eventResponseMessage value.
+     * Get the event response message received from the service URI.
      *
      * @return the eventResponseMessage value
      */
@@ -58,7 +58,7 @@ public class EventInner extends EventInfoInner {
     }
 
     /**
-     * Set the eventResponseMessage value.
+     * Set the event response message received from the service URI.
      *
      * @param eventResponseMessage the eventResponseMessage value to set
      * @return the EventInner object itself.

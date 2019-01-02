@@ -43,7 +43,7 @@ public class OperationDefinitionInner {
     private OperationServiceSpecificationDefinition serviceSpecification;
 
     /**
-     * Get the origin value.
+     * Get the origin information of the container registry operation.
      *
      * @return the origin value
      */
@@ -52,7 +52,7 @@ public class OperationDefinitionInner {
     }
 
     /**
-     * Set the origin value.
+     * Set the origin information of the container registry operation.
      *
      * @param origin the origin value to set
      * @return the OperationDefinitionInner object itself.
@@ -63,7 +63,7 @@ public class OperationDefinitionInner {
     }
 
     /**
-     * Get the name value.
+     * Get operation name: {provider}/{resource}/{operation}.
      *
      * @return the name value
      */
@@ -72,7 +72,7 @@ public class OperationDefinitionInner {
     }
 
     /**
-     * Set the name value.
+     * Set operation name: {provider}/{resource}/{operation}.
      *
      * @param name the name value to set
      * @return the OperationDefinitionInner object itself.
@@ -83,7 +83,7 @@ public class OperationDefinitionInner {
     }
 
     /**
-     * Get the display value.
+     * Get the display information for the container registry operation.
      *
      * @return the display value
      */
@@ -92,7 +92,7 @@ public class OperationDefinitionInner {
     }
 
     /**
-     * Set the display value.
+     * Set the display information for the container registry operation.
      *
      * @param display the display value to set
      * @return the OperationDefinitionInner object itself.
@@ -103,7 +103,7 @@ public class OperationDefinitionInner {
     }
 
     /**
-     * Get the serviceSpecification value.
+     * Get the definition of Azure Monitoring service.
      *
      * @return the serviceSpecification value
      */
@@ -112,7 +112,7 @@ public class OperationDefinitionInner {
     }
 
     /**
-     * Set the serviceSpecification value.
+     * Set the definition of Azure Monitoring service.
      *
      * @param serviceSpecification the serviceSpecification value to set
      * @return the OperationDefinitionInner object itself.

@@ -35,7 +35,7 @@ public class ImageUpdateTrigger {
     private List<ImageDescriptor> images;
 
     /**
-     * Get the id value.
+     * Get the unique ID of the trigger.
      *
      * @return the id value
      */
@@ -44,7 +44,7 @@ public class ImageUpdateTrigger {
     }
 
     /**
-     * Set the id value.
+     * Set the unique ID of the trigger.
      *
      * @param id the id value to set
      * @return the ImageUpdateTrigger object itself.
@@ -55,7 +55,7 @@ public class ImageUpdateTrigger {
     }
 
     /**
-     * Get the timestamp value.
+     * Get the timestamp when the image update happened.
      *
      * @return the timestamp value
      */
@@ -64,7 +64,7 @@ public class ImageUpdateTrigger {
     }
 
     /**
-     * Set the timestamp value.
+     * Set the timestamp when the image update happened.
      *
      * @param timestamp the timestamp value to set
      * @return the ImageUpdateTrigger object itself.
@@ -75,7 +75,7 @@ public class ImageUpdateTrigger {
     }
 
     /**
-     * Get the images value.
+     * Get the list of image updates that caused the build.
      *
      * @return the images value
      */
@@ -84,7 +84,7 @@ public class ImageUpdateTrigger {
     }
 
     /**
-     * Set the images value.
+     * Set the list of image updates that caused the build.
      *
      * @param images the images value to set
      * @return the ImageUpdateTrigger object itself.

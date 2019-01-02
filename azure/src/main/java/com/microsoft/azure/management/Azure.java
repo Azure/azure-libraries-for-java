@@ -39,6 +39,8 @@ import com.microsoft.azure.management.compute.implementation.ComputeManager;
 import com.microsoft.azure.management.containerinstance.ContainerGroups;
 import com.microsoft.azure.management.containerinstance.implementation.ContainerInstanceManager;
 import com.microsoft.azure.management.containerregistry.Registries;
+import com.microsoft.azure.management.containerregistry.RegistryTaskRuns;
+import com.microsoft.azure.management.containerregistry.RegistryTasks;
 import com.microsoft.azure.management.containerregistry.implementation.ContainerRegistryManager;
 import com.microsoft.azure.management.containerservice.ContainerServices;
 import com.microsoft.azure.management.containerservice.KubernetesClusters;
@@ -839,6 +841,22 @@ public final class Azure {
     @Beta(SinceVersion.V1_1_0)
     public Registries containerRegistries() {
         return containerRegistryManager.containerRegistries();
+    }
+
+    /**
+     * @return entry point to managing Container Registry RegistryTasks.
+     */
+    @Beta
+    public RegistryTasks containerRegistryTasks() {
+        return containerRegistryManager.containerRegistryTasks();
+    }
+
+    /**
+     * @return entry point to managing Container Registry RegistryTask Runs.
+     */
+    @Beta
+    public RegistryTaskRuns containerRegistryTaskRuns() {
+        return containerRegistryManager.registryTaskRuns();
     }
 
     /**

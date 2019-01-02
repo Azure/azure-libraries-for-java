@@ -51,7 +51,7 @@ public class OperationMetricSpecificationDefinition {
     private String internalMetricName;
 
     /**
-     * Get the name value.
+     * Get metric name.
      *
      * @return the name value
      */
@@ -60,7 +60,7 @@ public class OperationMetricSpecificationDefinition {
     }
 
     /**
-     * Set the name value.
+     * Set metric name.
      *
      * @param name the name value to set
      * @return the OperationMetricSpecificationDefinition object itself.
@@ -71,7 +71,7 @@ public class OperationMetricSpecificationDefinition {
     }
 
     /**
-     * Get the displayName value.
+     * Get metric display name.
      *
      * @return the displayName value
      */
@@ -80,7 +80,7 @@ public class OperationMetricSpecificationDefinition {
     }
 
     /**
-     * Set the displayName value.
+     * Set metric display name.
      *
      * @param displayName the displayName value to set
      * @return the OperationMetricSpecificationDefinition object itself.
@@ -91,7 +91,7 @@ public class OperationMetricSpecificationDefinition {
     }
 
     /**
-     * Get the displayDescription value.
+     * Get metric description.
      *
      * @return the displayDescription value
      */
@@ -100,7 +100,7 @@ public class OperationMetricSpecificationDefinition {
     }
 
     /**
-     * Set the displayDescription value.
+     * Set metric description.
      *
      * @param displayDescription the displayDescription value to set
      * @return the OperationMetricSpecificationDefinition object itself.
@@ -111,7 +111,7 @@ public class OperationMetricSpecificationDefinition {
     }
 
     /**
-     * Get the unit value.
+     * Get metric unit.
      *
      * @return the unit value
      */
@@ -120,7 +120,7 @@ public class OperationMetricSpecificationDefinition {
     }
 
     /**
-     * Set the unit value.
+     * Set metric unit.
      *
      * @param unit the unit value to set
      * @return the OperationMetricSpecificationDefinition object itself.
@@ -131,7 +131,7 @@ public class OperationMetricSpecificationDefinition {
     }
 
     /**
-     * Get the aggregationType value.
+     * Get metric aggregation type.
      *
      * @return the aggregationType value
      */
@@ -140,7 +140,7 @@ public class OperationMetricSpecificationDefinition {
     }
 
     /**
-     * Set the aggregationType value.
+     * Set metric aggregation type.
      *
      * @param aggregationType the aggregationType value to set
      * @return the OperationMetricSpecificationDefinition object itself.
@@ -151,7 +151,7 @@ public class OperationMetricSpecificationDefinition {
     }
 
     /**
-     * Get the internalMetricName value.
+     * Get internal metric name.
      *
      * @return the internalMetricName value
      */
@@ -160,7 +160,7 @@ public class OperationMetricSpecificationDefinition {
     }
 
     /**
-     * Set the internalMetricName value.
+     * Set internal metric name.
      *
      * @param internalMetricName the internalMetricName value to set
      * @return the OperationMetricSpecificationDefinition object itself.

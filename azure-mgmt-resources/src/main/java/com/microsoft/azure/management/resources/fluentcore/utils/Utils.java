@@ -7,11 +7,14 @@
 package com.microsoft.azure.management.resources.fluentcore.utils;
 
 import com.google.common.primitives.Ints;
+import com.microsoft.azure.AzureEnvironment;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
+import com.microsoft.azure.credentials.AzureTokenCredentials;
 import com.microsoft.azure.management.resources.fluentcore.arm.ResourceId;
 import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 import com.microsoft.azure.management.resources.implementation.PageImpl;
+import com.microsoft.rest.RestClient;
 import okhttp3.ResponseBody;
 import retrofit2.Retrofit;
 import retrofit2.http.GET;
@@ -203,6 +206,31 @@ public final class Utils {
         if (foundIndex != -1) {
             list.remove(foundIndex);
         }
+    }
+
+    /**
+     * Try to extract the environment the client is authenticated to based
+     * on the information on the rest client.
+     * @param restClient the RestClient instance
+     * @return the non-null AzureEnvironment
+     */
+    public static AzureEnvironment extractAzureEnvironment(RestClient restClient) {
+        AzureEnvironment environment = null;
+        if (restClient.credentials() instanceof AzureTokenCredentials) {
+            environment = ((AzureTokenCredentials) restClient.credentials()).environment();
+        } else {
+            String baseUrl = restClient.retrofit().baseUrl().toString();
+            for (AzureEnvironment env : AzureEnvironment.knownEnvironments()) {
+                if (env.resourceManagerEndpoint().toLowerCase().contains(baseUrl.toLowerCase())) {
+                    environment = env;
+                    break;
+                }
+            }
+            if (environment == null) {
+                throw new IllegalArgumentException("Unknown resource manager endpoint " + baseUrl);
+            }
+        }
+        return environment;
     }
 
     /**

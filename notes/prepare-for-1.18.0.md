@@ -22,14 +22,12 @@ The following methods and/or types have been changed in V1.18 compared to the pr
     <th align=left>Remarks</th>
     <th align=left>Ref</th>
   </tr>
-</table>
-
-# Drop Method Usage or Use Alternate #
-
-<table>
-  <tr>
-    <th>Drop Method</th>
-    <th>Use Alternate</th>
-    <th>Ref</th>
+    <tr>
+    <td align=left>ContainerRegistery</td>
+    <td align=left>QueuedBuildOperations</td>
+    <td align=left>RegistryTaskRuns</td>
+    <td align=left></td>
+    <td align=left><a href="https://github.com/Azure/azure-libraries-for-java/pull/635">PR #635</th>
   </tr>
 </table>
+

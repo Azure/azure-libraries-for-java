@@ -13,7 +13,8 @@ import java.util.Collection;
 /**
  * Defines values for Java versions.
  */
-public final class JavaVersion extends ExpandableStringEnum<JavaVersion> {
+public final class JavaVersion extends RuntimeVersion<JavaVersion> {
+    public static final String ComponentName = "java";
     /** Static value 'Off' for JavaVersion. */
     public static final JavaVersion OFF = fromString("null");
 
@@ -64,5 +65,22 @@ public final class JavaVersion extends ExpandableStringEnum<JavaVersion> {
      */
     public static Collection<JavaVersion> values() {
         return values(JavaVersion.class);
+    }
+
+    @Override
+    public String getRuntimeName() {
+        return ComponentName;
+    }
+
+    @Override
+    protected boolean shouldProcessMinorVersions() {
+        return true;
+    }
+
+    @Override
+    protected void createEnumFromVersionInformation(String name, String displayVersion, String runtimeVersion) {
+        if (ComponentName.equalsIgnoreCase(name)) {
+            fromString(runtimeVersion);
+        }
     }
 }

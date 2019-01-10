@@ -293,6 +293,7 @@ public class ProvidersInner {
     }
 
     private ServiceResponse<PageImpl<ApplicationStackInner>> getAvailableStacksDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+
         return this.client.restClient().responseBuilderFactory().<PageImpl<ApplicationStackInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<ApplicationStackInner>>() { }.getType())
                 .registerError(DefaultErrorResponseException.class)

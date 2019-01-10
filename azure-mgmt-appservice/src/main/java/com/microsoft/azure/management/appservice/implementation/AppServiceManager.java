@@ -10,12 +10,7 @@ import com.microsoft.azure.AzureEnvironment;
 import com.microsoft.azure.AzureResponseBuilder;
 import com.microsoft.azure.credentials.AzureTokenCredentials;
 import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.appservice.AppServiceCertificateOrders;
-import com.microsoft.azure.management.appservice.AppServiceCertificates;
-import com.microsoft.azure.management.appservice.AppServiceDomains;
-import com.microsoft.azure.management.appservice.AppServicePlans;
-import com.microsoft.azure.management.appservice.FunctionApps;
-import com.microsoft.azure.management.appservice.WebApps;
+import com.microsoft.azure.management.appservice.*;
 import com.microsoft.azure.management.graphrbac.implementation.GraphRbacManager;
 import com.microsoft.azure.management.keyvault.implementation.KeyVaultManager;
 import com.microsoft.azure.management.resources.fluentcore.arm.AzureConfigurable;
@@ -26,6 +21,10 @@ import com.microsoft.azure.management.resources.fluentcore.utils.ResourceManager
 import com.microsoft.azure.management.storage.implementation.StorageManager;
 import com.microsoft.azure.serializer.AzureJacksonAdapter;
 import com.microsoft.rest.RestClient;
+
+import java.util.Collection;
+import java.util.Hashtable;
+import java.util.Iterator;
 
 /**
  * Entry point to Azure storage resource management.
@@ -201,5 +200,106 @@ public final class AppServiceManager extends Manager<AppServiceManager, WebSiteM
             functionApps = new FunctionAppsImpl(this);
         }
         return functionApps;
+    }
+
+    /**
+     *
+     * @return Returns the latest Windows runtime stacks
+     */
+    public Runtimes latestRuntimes() {
+        Hashtable<String, RuntimeVersion> variousRuntimes = new Hashtable<>();
+        variousRuntimes.put(JavaVersion.ComponentName.toLowerCase(), JavaVersion.OFF);
+        variousRuntimes.put(NodeVersion.ComponentName.toLowerCase(), NodeVersion.OFF);
+        variousRuntimes.put(WebContainer.ComponentName.toLowerCase(), WebContainer.OFF);
+        variousRuntimes.put(PythonVersion.ComponentName.toLowerCase(), PythonVersion.OFF);
+        variousRuntimes.put(PhpVersion.ComponentName.toLowerCase(), PhpVersion.OFF);
+        variousRuntimes.put(NetFrameworkVersion.ComponentName.toLowerCase(), NetFrameworkVersion.OFF);
+
+        Iterator<ApplicationStackInner> stackIter = this.innerManagementClient.providers().getAvailableStacks("Windows").iterator();
+        while (stackIter.hasNext()) {
+            ApplicationStackInner stack = stackIter.next();
+
+            RuntimeVersion runtime = variousRuntimes.get(stack.name().toLowerCase());
+            if (runtime != null) {
+                runtime.parseApplicationStackInner(stack);
+            } else {
+                //throw new FileNotFoundException("Runtime " + stack.name() + " not supported");
+            }
+        }
+
+        Runtimes runtimes = new Runtimes();
+
+        runtimes.withJavaVersions(JavaVersion.values());
+        runtimes.withNetFrameworkVersions(NetFrameworkVersion.values());
+        runtimes.withPhpVersions(PhpVersion.values());
+        runtimes.withPythonVersions(PythonVersion.values());
+        runtimes.withWebContainers(WebContainer.values());
+        runtimes.withNodeVersions(NodeVersion.values());
+
+        return runtimes;
+    }
+
+    public class Runtimes {
+        private Collection<NetFrameworkVersion> netframeworkVersions;
+        private Collection<PythonVersion> pythonVersions;
+        private Collection<PhpVersion> phpVersions;
+        private Collection<JavaVersion> javaVersions;
+        private Collection<NodeVersion> nodeVersions;
+        private Collection<WebContainer> webContainers;
+
+        public Runtimes() {
+        }
+
+        public Runtimes withNetFrameworkVersions(Collection<NetFrameworkVersion> versions){
+            this.netframeworkVersions = versions;
+            return this;
+        }
+
+        public Runtimes withPythonVersions(Collection<PythonVersion> versions) {
+            this.pythonVersions = versions;
+            return this;
+        }
+
+        public Runtimes withPhpVersions(Collection<PhpVersion> versions) {
+            this.phpVersions = versions;
+            return this;
+        }
+
+        public Runtimes withJavaVersions(Collection<JavaVersion> versions) {
+            this.javaVersions = versions;
+            return this;
+        }
+
+        public Runtimes withWebContainers(Collection<WebContainer> versions) {
+            this.webContainers = versions;
+            return this;
+        }
+
+        public Runtimes withNodeVersions(Collection<NodeVersion> versions) {
+            this.nodeVersions = versions;
+            return this;
+        }
+
+        public Collection<NetFrameworkVersion> NetFrameworkVersions() {
+            return this.netframeworkVersions;
+        }
+
+        public Collection<PythonVersion> PythonVersions() {
+            return this.pythonVersions;
+        }
+
+        public Collection<PhpVersion> PhpVersions() {
+            return this.phpVersions;
+        }
+
+        public Collection<JavaVersion> JavaVersions() {
+            return this.javaVersions;
+        }
+
+        public Collection<WebContainer> Webcontainers() { return this.webContainers; }
+
+        public Collection<NodeVersion> NodeVersins() {
+            return  this.nodeVersions;
+        }
     }
 }

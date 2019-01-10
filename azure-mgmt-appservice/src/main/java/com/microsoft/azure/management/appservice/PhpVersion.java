@@ -13,7 +13,8 @@ import com.microsoft.azure.management.resources.fluentcore.arm.ExpandableStringE
 /**
  * Defines values for PHP version.
  */
-public final class PhpVersion extends ExpandableStringEnum<PhpVersion> {
+public final class PhpVersion extends RuntimeVersion<PhpVersion> {
+    public static final String ComponentName = "php";
     /** Static value 'Off' for PhpVersion. */
     public static final PhpVersion OFF = PhpVersion.fromString("null");
 
@@ -43,5 +44,17 @@ public final class PhpVersion extends ExpandableStringEnum<PhpVersion> {
      */
     public static Collection<PhpVersion> values() {
         return values(PhpVersion.class);
+    }
+
+    @Override
+    public String getRuntimeName() {
+        return ComponentName;
+    }
+
+    @Override
+    protected void createEnumFromVersionInformation(String name, String displayVersion, String runtimeVersion) {
+        if (ComponentName.equalsIgnoreCase(name)) {
+            fromString(runtimeVersion);
+        }
     }
 }

@@ -16,6 +16,84 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * Application stack.
  */
 public class ApplicationStackInner {
+    public static class Properties {
+        /**
+         * Application stack name.
+         */
+        @JsonProperty(value = "name")
+        private String name;
+
+        /**
+         * Application stack display name.
+         */
+        @JsonProperty(value = "display")
+        private String display;
+
+        /**
+         * Application stack dependency.
+         */
+        @JsonProperty(value = "dependency")
+        private String dependency;
+
+        /**
+         * List of major versions available.
+         */
+        @JsonProperty(value = "majorVersions")
+        private List<StackMajorVersion> majorVersions;
+
+        /**
+         * List of frameworks associated with application stack.
+         */
+        @JsonProperty(value = "frameworks")
+        private List<Properties> frameworks;
+
+
+        /**
+         * Get application stack name.
+         *
+         * @return the name value
+         */
+        public String name() {
+            return this.name;
+        }
+
+        /**
+         * Get application stack display name.
+         *
+         * @return the display value
+         */
+        public String display() {
+            return this.display;
+        }
+
+        /**
+         * Get application stack dependency.
+         *
+         * @return the dependency value
+         */
+        public String dependency() {
+            return this.dependency;
+        }
+
+        /**
+         * Get list of major versions available.
+         *
+         * @return the majorVersions value
+         */
+        public List<StackMajorVersion> majorVersions() {
+            return this.majorVersions;
+        }
+
+        /**
+         * Get list of frameworks associated with application stack.
+         *
+         * @return the frameworks value
+         */
+        public List<Properties> frameworks() {
+            return this.frameworks;
+        }
+    }
+
     /**
      * Application stack name.
      */
@@ -45,6 +123,9 @@ public class ApplicationStackInner {
      */
     @JsonProperty(value = "frameworks")
     private List<ApplicationStackInner> frameworks;
+
+    @JsonProperty(value = "properties")
+    private Properties properties;
 
     /**
      * Get application stack name.
@@ -143,6 +224,13 @@ public class ApplicationStackInner {
      */
     public ApplicationStackInner withFrameworks(List<ApplicationStackInner> frameworks) {
         this.frameworks = frameworks;
+        return this;
+    }
+
+    public Properties properties() { return this.properties; }
+
+    public ApplicationStackInner withProperties(Properties properties) {
+        this.properties = properties;
         return this;
     }
 

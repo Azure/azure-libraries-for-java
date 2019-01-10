@@ -13,7 +13,11 @@ import com.microsoft.azure.management.resources.fluentcore.arm.ExpandableStringE
 /**
  * Defines values for .NET framework version.
  */
-public final class NetFrameworkVersion extends ExpandableStringEnum<NetFrameworkVersion> {
+public final class NetFrameworkVersion extends RuntimeVersion<NetFrameworkVersion> {
+    public static final String ComponentName = "aspnet";
+
+    public static final NetFrameworkVersion OFF = NetFrameworkVersion.fromString("null");
+
     /** Static value v3.5 for NetFrameworkVersion. */
     public static final NetFrameworkVersion V3_0 = NetFrameworkVersion.fromString("v3.0");
 
@@ -34,5 +38,17 @@ public final class NetFrameworkVersion extends ExpandableStringEnum<NetFramework
      */
     public static Collection<NetFrameworkVersion> values() {
         return values(NetFrameworkVersion.class);
+    }
+
+    @Override
+    public String getRuntimeName() {
+        return ComponentName;
+    }
+
+    @Override
+    protected void createEnumFromVersionInformation(String name, String displayVersion, String runtimeVersion) {
+        if(ComponentName.equalsIgnoreCase(name)) {
+            fromString(displayVersion);
+        }
     }
 }

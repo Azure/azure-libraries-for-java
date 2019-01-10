@@ -6,20 +6,17 @@
 
 package com.microsoft.azure.management.appservice.implementation;
 
+import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.appservice.AppServicePlan;
-import com.microsoft.azure.management.appservice.DeploymentSlots;
-import com.microsoft.azure.management.appservice.OperatingSystem;
-import com.microsoft.azure.management.appservice.PricingTier;
-import com.microsoft.azure.management.appservice.RuntimeStack;
-import com.microsoft.azure.management.appservice.WebApp;
+import com.microsoft.azure.management.appservice.*;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import rx.Completable;
+import sun.plugin.JavaRunTime;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Hashtable;
+import java.util.Iterator;
 
 /**
  * The implementation for WebApp.

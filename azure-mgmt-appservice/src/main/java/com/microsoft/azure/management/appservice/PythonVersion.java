@@ -13,7 +13,8 @@ import com.microsoft.azure.management.resources.fluentcore.arm.ExpandableStringE
 /**
  * Defines values for Python version.
  */
-public final class PythonVersion extends ExpandableStringEnum<PythonVersion> {
+public final class PythonVersion extends RuntimeVersion<PythonVersion> {
+    public static final String ComponentName = "python";
     /** Static value 'Off' for PythonVersion. */
     public static final PythonVersion OFF = PythonVersion.fromString("null");
 
@@ -37,5 +38,17 @@ public final class PythonVersion extends ExpandableStringEnum<PythonVersion> {
      */
     public static Collection<PythonVersion> values() {
         return values(PythonVersion.class);
+    }
+
+    @Override
+    public String getRuntimeName() {
+        return ComponentName;
+    }
+
+    @Override
+    protected void createEnumFromVersionInformation(String name, String displayVersion, String runtimeVersion) {
+        if (ComponentName.equalsIgnoreCase(name)) {
+            fromString(runtimeVersion);
+        }
     }
 }

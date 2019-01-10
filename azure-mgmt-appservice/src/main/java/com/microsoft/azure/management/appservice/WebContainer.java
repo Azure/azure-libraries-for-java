@@ -13,7 +13,10 @@ import java.util.Collection;
 /**
  * Defines values for Java web container.
  */
-public final class WebContainer extends ExpandableStringEnum<WebContainer> {
+public final class WebContainer extends RuntimeVersion<WebContainer> {
+    public static final String ComponentName = "javaContainers";
+    public static final String SEPERATOR = " ";
+    public static final WebContainer OFF = WebContainer.fromString("null");
     /** Static value tomcat 7.0 newest for WebContainer. */
     public static final WebContainer TOMCAT_7_0_NEWEST = WebContainer.fromString("tomcat 7.0");
 
@@ -66,9 +69,38 @@ public final class WebContainer extends ExpandableStringEnum<WebContainer> {
     }
 
     /**
+     * Finds or creates a Java container version based on the specified name and version.
+     * @param name framework name
+     * @return framework instance version
+     */
+    public static WebContainer fromString(String name, String version) {
+        return fromString(name + SEPERATOR + version, WebContainer.class);
+    }
+
+    /**
      * @return known Web container types
      */
     public static Collection<WebContainer> values() {
         return values(WebContainer.class);
+    }
+
+    @Override
+    public String getRuntimeName() {
+        return this.ComponentName;
+    }
+
+    @Override
+    protected boolean shouldProcessFrameworks() {
+        return true;
+    }
+
+    @Override
+    protected boolean shouldProcessMinorVersions() {
+        return true;
+    }
+
+    @Override
+    protected void createEnumFromVersionInformation(String name, String displayVersion, String runtimeVersion) {
+        fromString(name, runtimeVersion);
     }
 }

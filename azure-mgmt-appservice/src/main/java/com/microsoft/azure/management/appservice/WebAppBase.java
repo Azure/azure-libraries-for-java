@@ -23,6 +23,7 @@ import rx.Observable;
 
 import java.io.File;
 import java.io.InputStream;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -757,6 +758,13 @@ public interface WebAppBase extends
              * @return the next stage of the definition
              */
             WithCreate<FluentT> withPythonVersion(PythonVersion version);
+
+            /**
+             * Specifies the Node version.
+             * @param version the Node version
+             * @return the next stage of the definition
+             */
+            WithCreate<FluentT> withNodeVersion(NodeVersion version);
 
             /**
              * Specifies the platform architecture to use.

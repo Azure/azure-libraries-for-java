@@ -206,7 +206,7 @@ public final class AppServiceManager extends Manager<AppServiceManager, WebSiteM
      *
      * @return Returns the latest Windows runtime stacks
      */
-    public Runtimes latestRuntimes() {
+    public Runtimes latestWindowsRuntimes() {
         Hashtable<String, RuntimeVersion> variousRuntimes = new Hashtable<>();
         variousRuntimes.put(JavaVersion.ComponentName.toLowerCase(), JavaVersion.OFF);
         variousRuntimes.put(NodeVersion.ComponentName.toLowerCase(), NodeVersion.OFF);

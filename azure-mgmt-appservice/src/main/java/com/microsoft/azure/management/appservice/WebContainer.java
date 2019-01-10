@@ -90,6 +90,17 @@ public final class WebContainer extends RuntimeVersion<WebContainer> {
     }
 
     @Override
+    public boolean containsVersion(String version) {
+        for (WebContainer ver : values()) {
+            if (ver.toString().equalsIgnoreCase(version)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    @Override
     protected boolean shouldProcessFrameworks() {
         return true;
     }

@@ -46,6 +46,17 @@ public final class PythonVersion extends RuntimeVersion<PythonVersion> {
     }
 
     @Override
+    public boolean containsVersion(String version) {
+        for (PythonVersion ver : values()) {
+            if (ver.toString().equalsIgnoreCase(version)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    @Override
     protected void createEnumFromVersionInformation(String name, String displayVersion, String runtimeVersion) {
         if (ComponentName.equalsIgnoreCase(name)) {
             fromString(runtimeVersion);

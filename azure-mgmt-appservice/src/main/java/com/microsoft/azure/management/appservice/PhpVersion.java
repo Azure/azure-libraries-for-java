@@ -52,6 +52,17 @@ public final class PhpVersion extends RuntimeVersion<PhpVersion> {
     }
 
     @Override
+    public boolean containsVersion(String version) {
+        for (PhpVersion ver : values()) {
+            if (ver.toString().equalsIgnoreCase(version)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    @Override
     protected void createEnumFromVersionInformation(String name, String displayVersion, String runtimeVersion) {
         if (ComponentName.equalsIgnoreCase(name)) {
             fromString(runtimeVersion);

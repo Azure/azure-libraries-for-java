@@ -73,6 +73,17 @@ public final class JavaVersion extends RuntimeVersion<JavaVersion> {
     }
 
     @Override
+    public boolean containsVersion(String version) {
+        for (JavaVersion ver : values()) {
+            if (ver.toString().equalsIgnoreCase(version)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    @Override
     protected boolean shouldProcessMinorVersions() {
         return true;
     }

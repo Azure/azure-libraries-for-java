@@ -7,11 +7,16 @@
 package com.microsoft.azure.management.appservice;
 
 import com.microsoft.azure.management.appservice.implementation.AppServiceManager;
+import com.microsoft.azure.management.appservice.implementation.ApplicationStackInner;
+import com.microsoft.azure.management.appservice.implementation.ProvidersInner;
+import com.microsoft.azure.management.appservice.implementation.WebSiteManagementClientImpl;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.rest.RestClient;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 public class WebAppsTests extends AppServiceTest {
@@ -30,6 +35,7 @@ public class WebAppsTests extends AppServiceTest {
     private boolean createdWebApp3 = false;
     private boolean createdWebApp4 = false;
     private boolean createdWebApp5 = false;
+    private RestClient restClient = null;
 
     @Override
     protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {
@@ -44,6 +50,7 @@ public class WebAppsTests extends AppServiceTest {
         RG_NAME_4 = generateRandomResourceName("javacsmrg", 20);
         RG_NAME_5 = generateRandomResourceName("javacsmrg", 20);
 
+        this.restClient = restClient;
         super.initializeClients(restClient, defaultSubscription, domain);
     }
 
@@ -153,6 +160,115 @@ public class WebAppsTests extends AppServiceTest {
 
     @Test
     public void canUpdateRuntimes() {
-        AppServiceManager.Runtimes runtimes = appServiceManager.latestRuntimes();
+
+        //Get the runtime data and check that all the altest runtimes do have it
+        ProvidersInner providerInner = new ProvidersInner(restClient.retrofit(), new WebSiteManagementClientImpl(restClient)
+                .withSubscriptionId(appServiceManager.subscriptionId()));
+
+        Iterator<ApplicationStackInner> stackIter = providerInner.getAvailableStacks("Windows").iterator();
+
+        //Get the runtimes from appSvcManager
+        AppServiceManager.Runtimes runtimes = appServiceManager.latestWindowsRuntimes();
+
+        //Check if all the Runtimes returned by the providerInner are present in the runtimes
+        while (stackIter.hasNext()) {
+            ApplicationStackInner stackInfo = stackIter.next();
+
+            String valuesNotFound = null;
+            if (stackInfo.name().equalsIgnoreCase(WebContainer.ComponentName)){
+                valuesNotFound = checkJavaContainerEnumContainsAllValues(stackInfo.properties().frameworks(), runtimes.Webcontainers());
+            } else {
+                valuesNotFound = checkRuntimeContainsValues(stackInfo.name(), stackInfo.properties().majorVersions(), runtimes);
+            }
+
+            Assert.assertNull(valuesNotFound);
+        }
+    }
+
+    private String checkJavaContainerEnumContainsAllValues(List<ApplicationStackInner.Properties> frameworks, Collection<WebContainer> webContainerCollection) {
+        String valuesNotFound = null;
+
+        for(ApplicationStackInner.Properties framerwork : frameworks) {
+            for (StackMajorVersion majorVersion : framerwork.majorVersions()) {
+                String majorVersionString = framerwork.name() + WebContainer.SEPERATOR + majorVersion.runtimeVersion();
+
+                if (!WebContainer.OFF.containsVersion(majorVersionString)) {
+                    valuesNotFound += "\'" + majorVersionString + "\' ";
+                }
+
+                //for webContainers we process the minor versions as well
+                if (majorVersion.minorVersions() != null) {
+                    for (StackMinorVersion minorVersion : majorVersion.minorVersions()) {
+                        String minorVersionString = framerwork.name() + WebContainer.SEPERATOR + minorVersion.runtimeVersion();
+                        if (!WebContainer.OFF.containsVersion(minorVersionString)) {
+                            valuesNotFound += "\'" + minorVersionString + "\' ";
+                        }
+                    }
+                }
+            }
+        }
+
+        return valuesNotFound;
+    }
+
+    private String checkRuntimeContainsValues(String runtimeName, List<StackMajorVersion> majorVersions, AppServiceManager.Runtimes runtimes) {
+        String valuesNotFound = null;
+        boolean checkMinorVersion = false;
+        boolean checkRuntimeVersion = true;
+
+        RuntimeVersion runtimeVersionToUse = null;
+        switch (runtimeName) {
+            case JavaVersion.ComponentName : {
+                runtimeVersionToUse = JavaVersion.OFF;
+                checkMinorVersion = true;
+                break;
+            }
+            case NodeVersion.ComponentName : {
+                runtimeVersionToUse = NodeVersion.OFF;
+                break;
+            }
+            case PhpVersion.ComponentName : {
+                runtimeVersionToUse = PhpVersion.OFF;
+                break;
+            }
+            case PythonVersion.ComponentName : {
+                runtimeVersionToUse = PythonVersion.OFF;
+                break;
+            }
+            case NetFrameworkVersion.ComponentName : {
+                runtimeVersionToUse = NetFrameworkVersion.OFF;
+                checkRuntimeVersion = false;
+                break;
+            }
+            default :
+                //runtime name not found
+                return runtimeName;
+        }
+
+        for (StackMajorVersion majorVersion : majorVersions) {
+            String majorVersionString = majorVersion.runtimeVersion();
+            if (!checkRuntimeVersion) {
+                majorVersionString = majorVersion.displayVersion();
+            }
+
+            if (!runtimeVersionToUse.containsVersion(majorVersionString)) {
+                valuesNotFound += "\'" + majorVersionString + "\' ";
+            }
+
+            if (checkMinorVersion && majorVersion.minorVersions() != null) {
+                for (StackMinorVersion minorVersion : majorVersion.minorVersions()) {
+                    String minorVersionString = minorVersion.runtimeVersion();
+                    if (!checkRuntimeVersion) {
+                        minorVersionString = minorVersion.displayVersion();
+                    }
+
+                    if (!runtimeVersionToUse.containsVersion(minorVersionString)) {
+                        valuesNotFound += "\'" + minorVersionString + "\' ";
+                    }
+                }
+            }
+        }
+
+        return valuesNotFound;
     }
 }

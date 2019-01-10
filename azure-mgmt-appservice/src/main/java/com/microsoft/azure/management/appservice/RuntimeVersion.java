@@ -9,6 +9,8 @@ package com.microsoft.azure.management.appservice;
 import com.microsoft.azure.management.appservice.implementation.ApplicationStackInner;
 import com.microsoft.azure.management.resources.fluentcore.arm.ExpandableStringEnum;
 
+import java.util.Collection;
+
 /**
  * Defines values for Java versions.
  */
@@ -19,6 +21,13 @@ public abstract class RuntimeVersion<T extends RuntimeVersion<T>> extends Expand
      * @return
      */
     public abstract String getRuntimeName();
+
+    /**
+     * Checks if the runtime contains the version provided
+     * @param version the version to check
+     * @return true if the version is present in the enum, false otherwise
+     */
+    public abstract boolean containsVersion(String version);
 
     /**
 

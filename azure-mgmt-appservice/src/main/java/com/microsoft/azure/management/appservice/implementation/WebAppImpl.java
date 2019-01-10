@@ -6,12 +6,10 @@
 
 package com.microsoft.azure.management.appservice.implementation;
 
-import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.appservice.*;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import rx.Completable;
-import sun.plugin.JavaRunTime;
 
 import java.io.*;
 import java.util.ArrayList;

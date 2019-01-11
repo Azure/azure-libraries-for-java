@@ -11,7 +11,10 @@ import com.microsoft.azure.management.appservice.*;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import rx.Completable;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * The implementation for WebApp.

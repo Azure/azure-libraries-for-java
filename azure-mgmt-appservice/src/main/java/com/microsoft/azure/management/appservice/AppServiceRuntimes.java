@@ -19,30 +19,30 @@ public interface AppServiceRuntimes {
     /**
      * @return the netframework versions.
      */
-    Collection<NetFrameworkVersion> NetFrameworkVersions();
+    Collection<NetFrameworkVersion> netFrameworkVersions();
 
     /**
      * @return the python versions.
      */
-    Collection<PythonVersion> PythonVersions();
+    Collection<PythonVersion> pythonVersions();
 
     /**
      * @return the php versions.
      */
-    Collection<PhpVersion> PhpVersions();
+    Collection<PhpVersion> phpVersions();
 
     /**
      * @return the java versions.
      */
-    Collection<JavaVersion> JavaVersions();
+    Collection<JavaVersion> javaVersions();
 
     /**
      * @return The web container versions.
      */
-    Collection<WebContainer> Webcontainers();
+    Collection<WebContainer> webContainers();
 
     /**
      * @return The node versions.
      */
-    Collection<NodeVersion> NodeVersions();
+    Collection<NodeVersion> nodeVersions();
 }

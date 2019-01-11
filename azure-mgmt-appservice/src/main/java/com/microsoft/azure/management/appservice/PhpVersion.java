@@ -13,7 +13,7 @@ import java.util.Collection;
  */
 public final class PhpVersion extends RuntimeVersion<PhpVersion> {
     /**
-     * Name of the component
+     * Name of the component.
      */
     public static final String COMPONENT_NAME = "php";
 

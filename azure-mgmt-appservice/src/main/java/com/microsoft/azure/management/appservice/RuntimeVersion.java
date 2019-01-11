@@ -12,8 +12,9 @@ import com.microsoft.azure.management.resources.fluentcore.arm.ExpandableStringE
 
 /**
  * Defines values for Java versions.
+ * @param <T> The class that extends RuntimeVersion.
  */
-public abstract class RuntimeVersion<T extends RuntimeVersion<T>> extends ExpandableStringEnum<T>{
+public abstract class RuntimeVersion<T extends RuntimeVersion<T>> extends ExpandableStringEnum<T> {
 
     /**
      * @return Rrturns the name of the runtime.
@@ -75,7 +76,7 @@ public abstract class RuntimeVersion<T extends RuntimeVersion<T>> extends Expand
         createEnumFromVersionInformation(name, versionInfo.displayVersion(), versionInfo.runtimeVersion());
 
         if (this.shouldProcessMinorVersions()) {
-            for( StackMinorVersion minorVersionInfo : versionInfo.minorVersions()) {
+            for ( StackMinorVersion minorVersionInfo : versionInfo.minorVersions()) {
                 this.createEnumFromVersionInformation(name, minorVersionInfo.displayVersion(), minorVersionInfo.runtimeVersion());
             }
         }

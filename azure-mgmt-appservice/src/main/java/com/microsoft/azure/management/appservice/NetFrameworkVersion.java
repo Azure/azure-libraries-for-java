@@ -13,10 +13,13 @@ import java.util.Collection;
  */
 public final class NetFrameworkVersion extends RuntimeVersion<NetFrameworkVersion> {
     /**
-     * Name of the component
+     * Name of the component.
      */
     public static final String COMPONENT_NAME = "aspnet";
 
+    /**
+     * Netframework Off setting.
+     */
     public static final NetFrameworkVersion OFF = NetFrameworkVersion.fromString("null");
 
     /** Static value v3.5 for NetFrameworkVersion. */
@@ -42,7 +45,7 @@ public final class NetFrameworkVersion extends RuntimeVersion<NetFrameworkVersio
     }
 
     /**
-     * @return The runtime name
+     * @return The runtime name.
      */
     @Override
     public String getRuntimeName() {
@@ -50,8 +53,8 @@ public final class NetFrameworkVersion extends RuntimeVersion<NetFrameworkVersio
     }
 
     /**
-     * @param version the version to check
-     * @return true if the version present in the enum, false otherwise
+     * @param version the version to check.
+     * @return true if the version present in the enum, false otherwise.
      */
     @Override
     public boolean containsVersion(String version) {
@@ -65,7 +68,8 @@ public final class NetFrameworkVersion extends RuntimeVersion<NetFrameworkVersio
     }
 
     /**
-     * Create the enum fomr the passed in values if it does not already exist
+     * Create the enum fomr the passed in values if it does not already exist.
+     *
      * @param name name of the framweork
      * @param displayVersion display version of the runtime
      * @param runtimeVersion runtime version of the runtime

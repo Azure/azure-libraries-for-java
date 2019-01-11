@@ -263,6 +263,9 @@ public final class AppServiceManager extends Manager<AppServiceManager, WebSiteM
         private Collection<NodeVersion> nodeVersions;
         private Collection<WebContainer> webContainers;
 
+        /**
+         * Basic constructor.
+         */
         public AppServiceRuntimesImpl() {
         }
 
@@ -323,42 +326,42 @@ public final class AppServiceManager extends Manager<AppServiceManager, WebSiteM
         /**
          * @return the netframework versions.
          */
-        public Collection<NetFrameworkVersion> NetFrameworkVersions() {
+        public Collection<NetFrameworkVersion> netFrameworkVersions() {
             return this.netframeworkVersions;
         }
 
         /**
          * @return the python versions.
          */
-        public Collection<PythonVersion> PythonVersions() {
+        public Collection<PythonVersion> pythonVersions() {
             return this.pythonVersions;
         }
 
         /**
          * @return the php versions.
          */
-        public Collection<PhpVersion> PhpVersions() {
+        public Collection<PhpVersion> phpVersions() {
             return this.phpVersions;
         }
 
         /**
          * @return the java versions.
          */
-        public Collection<JavaVersion> JavaVersions() {
+        public Collection<JavaVersion> javaVersions() {
             return this.javaVersions;
         }
 
         /**
          * @return The web container versions.
          */
-        public Collection<WebContainer> Webcontainers() {
+        public Collection<WebContainer> webContainers() {
             return this.webContainers;
         }
 
         /**
          * @return The node versions.
          */
-        public Collection<NodeVersion> NodeVersions() {
+        public Collection<NodeVersion> nodeVersions() {
             return  this.nodeVersions;
         }
     }

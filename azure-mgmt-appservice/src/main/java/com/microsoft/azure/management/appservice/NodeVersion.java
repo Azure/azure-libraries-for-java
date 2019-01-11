@@ -13,7 +13,7 @@ import java.util.Collection;
  */
 public final class NodeVersion extends RuntimeVersion<NodeVersion> {
     /**
-     * Name of the component
+     * Name of the component.
      */
     public static final String COMPONENT_NAME = "node";
     /** Static value 'Off' for NodeVersion. */
@@ -117,7 +117,7 @@ public final class NodeVersion extends RuntimeVersion<NodeVersion> {
      */
     @Override
     protected void createEnumFromVersionInformation(String name, String displayVersion, String runtimeVersion) {
-        if(COMPONENT_NAME.equalsIgnoreCase(name)) {
+        if (COMPONENT_NAME.equalsIgnoreCase(name)) {
             fromString(runtimeVersion);
         }
     }

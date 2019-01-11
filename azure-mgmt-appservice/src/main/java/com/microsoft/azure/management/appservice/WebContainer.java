@@ -20,6 +20,9 @@ public final class WebContainer extends RuntimeVersion<WebContainer> {
      * Seperator used to create the version.
      */
     public static final String SEPERATOR = " ";
+    /**
+     * WebContainer off setting.
+     */
     public static final WebContainer OFF = WebContainer.fromString("null");
     /** Static value tomcat 7.0 newest for WebContainer. */
     public static final WebContainer TOMCAT_7_0_NEWEST = WebContainer.fromString("tomcat 7.0");
@@ -74,7 +77,9 @@ public final class WebContainer extends RuntimeVersion<WebContainer> {
 
     /**
      * Finds or creates a Java container version based on the specified name and version.
+     *
      * @param name framework name
+     * @param version framework version
      * @return framework instance version
      */
     public static WebContainer fromString(String name, String version) {

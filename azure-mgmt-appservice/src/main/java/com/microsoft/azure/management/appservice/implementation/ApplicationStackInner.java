@@ -16,6 +16,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * Application stack.
  */
 public class ApplicationStackInner {
+    /**
+     * Class representing the inner properties of an application stack.
+     */
     public static class Properties {
         /**
          * Application stack name.
@@ -230,7 +233,9 @@ public class ApplicationStackInner {
     /**
      * @return the properties
      */
-    public Properties properties() { return this.properties; }
+    public Properties properties() {
+        return this.properties;
+    }
 
     /**
      * Sets the properties associated with the application stack.

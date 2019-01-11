@@ -6,7 +6,6 @@
 
 package com.microsoft.azure.management.appservice;
 
-import com.microsoft.azure.management.appservice.implementation.AppServiceManager;
 import com.microsoft.azure.management.appservice.implementation.ApplicationStackInner;
 import com.microsoft.azure.management.appservice.implementation.ProvidersInner;
 import com.microsoft.azure.management.appservice.implementation.WebSiteManagementClientImpl;
@@ -176,7 +175,7 @@ public class WebAppsTests extends AppServiceTest {
 
             String valuesNotFound = null;
             if (stackInfo.name().equalsIgnoreCase(WebContainer.COMPONENT_NAME)){
-                valuesNotFound = checkJavaContainerEnumContainsAllValues(stackInfo.properties().frameworks(), runtimes.Webcontainers());
+                valuesNotFound = checkJavaContainerEnumContainsAllValues(stackInfo.properties().frameworks(), runtimes.webContainers());
             } else {
                 valuesNotFound = checkRuntimeContainsValues(stackInfo.name(), stackInfo.properties().majorVersions(), runtimes);
             }

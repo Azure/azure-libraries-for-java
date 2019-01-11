@@ -1278,7 +1278,7 @@ abstract class WebAppBaseImpl<
     private static NameValuePair getExistingAppSetting(String settingName, List<NameValuePair> settings) {
         NameValuePair pair = null;
 
-        for(NameValuePair setting : settings) {
+        for (NameValuePair setting : settings) {
             if (setting.name().equalsIgnoreCase(settingName)) {
                 pair = setting;
                 break;

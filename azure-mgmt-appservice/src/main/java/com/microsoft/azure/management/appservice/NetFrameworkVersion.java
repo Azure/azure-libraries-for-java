@@ -76,7 +76,7 @@ public final class NetFrameworkVersion extends RuntimeVersion<NetFrameworkVersio
      */
     @Override
     protected void createEnumFromVersionInformation(String name, String displayVersion, String runtimeVersion) {
-        if(COMPONENT_NAME.equalsIgnoreCase(name)) {
+        if (COMPONENT_NAME.equalsIgnoreCase(name)) {
             fromString(displayVersion);
         }
     }

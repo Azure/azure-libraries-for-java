@@ -76,7 +76,7 @@ public abstract class RuntimeVersion<T extends RuntimeVersion<T>> extends Expand
         createEnumFromVersionInformation(name, versionInfo.displayVersion(), versionInfo.runtimeVersion());
 
         if (this.shouldProcessMinorVersions()) {
-            for ( StackMinorVersion minorVersionInfo : versionInfo.minorVersions()) {
+            for (StackMinorVersion minorVersionInfo : versionInfo.minorVersions()) {
                 this.createEnumFromVersionInformation(name, minorVersionInfo.displayVersion(), minorVersionInfo.runtimeVersion());
             }
         }

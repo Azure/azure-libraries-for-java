@@ -16,6 +16,9 @@ public final class WebContainer extends RuntimeVersion<WebContainer> {
      * Name of the component.
      */
     public static final String COMPONENT_NAME = "javaContainers";
+    /**
+     * Seperator used to create the version.
+     */
     public static final String SEPERATOR = " ";
     public static final WebContainer OFF = WebContainer.fromString("null");
     /** Static value tomcat 7.0 newest for WebContainer. */

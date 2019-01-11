@@ -12,9 +12,6 @@ import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import rx.Completable;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Hashtable;
-import java.util.Iterator;
 
 /**
  * The implementation for WebApp.

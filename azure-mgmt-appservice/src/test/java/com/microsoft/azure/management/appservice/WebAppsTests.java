@@ -168,14 +168,14 @@ public class WebAppsTests extends AppServiceTest {
         Iterator<ApplicationStackInner> stackIter = providerInner.getAvailableStacks("Windows").iterator();
 
         //Get the runtimes from appSvcManager
-        AppServiceManager.Runtimes runtimes = appServiceManager.latestWindowsRuntimes();
+        AppServiceRuntimes runtimes = appServiceManager.latestWindowsRuntimes();
 
-        //Check if all the Runtimes returned by the providerInner are present in the runtimes
+        //Check if all the AppServiceRuntimesImpl returned by the providerInner are present in the runtimes
         while (stackIter.hasNext()) {
             ApplicationStackInner stackInfo = stackIter.next();
 
             String valuesNotFound = null;
-            if (stackInfo.name().equalsIgnoreCase(WebContainer.ComponentName)){
+            if (stackInfo.name().equalsIgnoreCase(WebContainer.COMPONENT_NAME)){
                 valuesNotFound = checkJavaContainerEnumContainsAllValues(stackInfo.properties().frameworks(), runtimes.Webcontainers());
             } else {
                 valuesNotFound = checkRuntimeContainsValues(stackInfo.name(), stackInfo.properties().majorVersions(), runtimes);
@@ -211,31 +211,31 @@ public class WebAppsTests extends AppServiceTest {
         return valuesNotFound;
     }
 
-    private String checkRuntimeContainsValues(String runtimeName, List<StackMajorVersion> majorVersions, AppServiceManager.Runtimes runtimes) {
+    private String checkRuntimeContainsValues(String runtimeName, List<StackMajorVersion> majorVersions, AppServiceRuntimes runtimes) {
         String valuesNotFound = null;
         boolean checkMinorVersion = false;
         boolean checkRuntimeVersion = true;
 
         RuntimeVersion runtimeVersionToUse = null;
         switch (runtimeName) {
-            case JavaVersion.ComponentName : {
+            case JavaVersion.COMPONENT_NAME: {
                 runtimeVersionToUse = JavaVersion.OFF;
                 checkMinorVersion = true;
                 break;
             }
-            case NodeVersion.ComponentName : {
+            case NodeVersion.COMPONENT_NAME: {
                 runtimeVersionToUse = NodeVersion.OFF;
                 break;
             }
-            case PhpVersion.ComponentName : {
+            case PhpVersion.COMPONENT_NAME: {
                 runtimeVersionToUse = PhpVersion.OFF;
                 break;
             }
-            case PythonVersion.ComponentName : {
+            case PythonVersion.COMPONENT_NAME: {
                 runtimeVersionToUse = PythonVersion.OFF;
                 break;
             }
-            case NetFrameworkVersion.ComponentName : {
+            case NetFrameworkVersion.COMPONENT_NAME: {
                 runtimeVersionToUse = NetFrameworkVersion.OFF;
                 checkRuntimeVersion = false;
                 break;

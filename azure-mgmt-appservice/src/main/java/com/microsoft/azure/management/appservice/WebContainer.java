@@ -6,15 +6,16 @@
 
 package com.microsoft.azure.management.appservice;
 
-import com.microsoft.azure.management.resources.fluentcore.arm.ExpandableStringEnum;
-
 import java.util.Collection;
 
 /**
  * Defines values for Java web container.
  */
 public final class WebContainer extends RuntimeVersion<WebContainer> {
-    public static final String ComponentName = "javaContainers";
+    /**
+     * Name of the component.
+     */
+    public static final String COMPONENT_NAME = "javaContainers";
     public static final String SEPERATOR = " ";
     public static final WebContainer OFF = WebContainer.fromString("null");
     /** Static value tomcat 7.0 newest for WebContainer. */
@@ -84,11 +85,18 @@ public final class WebContainer extends RuntimeVersion<WebContainer> {
         return values(WebContainer.class);
     }
 
+    /**
+     * @return the component name.
+     */
     @Override
     public String getRuntimeName() {
-        return this.ComponentName;
+        return this.COMPONENT_NAME;
     }
 
+    /**
+     * @param version the version to check
+     * @return True if the enum contains the version, false otherwise.
+     */
     @Override
     public boolean containsVersion(String version) {
         for (WebContainer ver : values()) {
@@ -100,16 +108,28 @@ public final class WebContainer extends RuntimeVersion<WebContainer> {
         return false;
     }
 
+    /**
+     * @return true. This runtime processes frameworks.
+     */
     @Override
     protected boolean shouldProcessFrameworks() {
         return true;
     }
 
+    /**
+     * @return true, This runtime processes minor versions.
+     */
     @Override
     protected boolean shouldProcessMinorVersions() {
         return true;
     }
 
+    /**
+     * Create a new version enum from the passed in values if one does not already exist.
+     * @param name name of the framweork
+     * @param displayVersion display version of the runtime
+     * @param runtimeVersion runtime versin of the runtime
+     */
     @Override
     protected void createEnumFromVersionInformation(String name, String displayVersion, String runtimeVersion) {
         fromString(name, runtimeVersion);

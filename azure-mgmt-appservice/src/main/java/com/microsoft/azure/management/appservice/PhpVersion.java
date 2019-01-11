@@ -8,13 +8,15 @@ package com.microsoft.azure.management.appservice;
 
 import java.util.Collection;
 
-import com.microsoft.azure.management.resources.fluentcore.arm.ExpandableStringEnum;
-
 /**
  * Defines values for PHP version.
  */
 public final class PhpVersion extends RuntimeVersion<PhpVersion> {
-    public static final String ComponentName = "php";
+    /**
+     * Name of the component
+     */
+    public static final String COMPONENT_NAME = "php";
+
     /** Static value 'Off' for PhpVersion. */
     public static final PhpVersion OFF = PhpVersion.fromString("null");
 
@@ -48,7 +50,7 @@ public final class PhpVersion extends RuntimeVersion<PhpVersion> {
 
     @Override
     public String getRuntimeName() {
-        return ComponentName;
+        return COMPONENT_NAME;
     }
 
     @Override
@@ -64,7 +66,7 @@ public final class PhpVersion extends RuntimeVersion<PhpVersion> {
 
     @Override
     protected void createEnumFromVersionInformation(String name, String displayVersion, String runtimeVersion) {
-        if (ComponentName.equalsIgnoreCase(name)) {
+        if (COMPONENT_NAME.equalsIgnoreCase(name)) {
             fromString(runtimeVersion);
         }
     }

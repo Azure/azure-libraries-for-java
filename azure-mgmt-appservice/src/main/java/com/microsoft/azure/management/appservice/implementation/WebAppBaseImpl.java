@@ -11,7 +11,41 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.microsoft.azure.AzureEnvironment;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.appservice.*;
+import com.microsoft.azure.management.appservice.AppServiceCertificate;
+import com.microsoft.azure.management.appservice.AppServiceDomain;
+import com.microsoft.azure.management.appservice.AppSetting;
+import com.microsoft.azure.management.appservice.AzureResourceType;
+import com.microsoft.azure.management.appservice.CloningInfo;
+import com.microsoft.azure.management.appservice.ConnStringValueTypePair;
+import com.microsoft.azure.management.appservice.ConnectionString;
+import com.microsoft.azure.management.appservice.ConnectionStringType;
+import com.microsoft.azure.management.appservice.CustomHostNameDnsRecordType;
+import com.microsoft.azure.management.appservice.FtpsState;
+import com.microsoft.azure.management.appservice.HostNameBinding;
+import com.microsoft.azure.management.appservice.HostNameSslState;
+import com.microsoft.azure.management.appservice.HostNameType;
+import com.microsoft.azure.management.appservice.JavaVersion;
+import com.microsoft.azure.management.appservice.MSDeploy;
+import com.microsoft.azure.management.appservice.ManagedPipelineMode;
+import com.microsoft.azure.management.appservice.ManagedServiceIdentity;
+import com.microsoft.azure.management.appservice.ManagedServiceIdentityType;
+import com.microsoft.azure.management.appservice.NameValuePair;
+import com.microsoft.azure.management.appservice.NetFrameworkVersion;
+import com.microsoft.azure.management.appservice.NodeVersion;
+import com.microsoft.azure.management.appservice.OperatingSystem;
+import com.microsoft.azure.management.appservice.PhpVersion;
+import com.microsoft.azure.management.appservice.PlatformArchitecture;
+import com.microsoft.azure.management.appservice.PythonVersion;
+import com.microsoft.azure.management.appservice.RemoteVisualStudioVersion;
+import com.microsoft.azure.management.appservice.ScmType;
+import com.microsoft.azure.management.appservice.SiteAvailabilityState;
+import com.microsoft.azure.management.appservice.SiteConfig;
+import com.microsoft.azure.management.appservice.SslState;
+import com.microsoft.azure.management.appservice.UsageState;
+import com.microsoft.azure.management.appservice.VirtualApplication;
+import com.microsoft.azure.management.appservice.WebAppAuthentication;
+import com.microsoft.azure.management.appservice.WebAppBase;
+import com.microsoft.azure.management.appservice.WebContainer;
 import com.microsoft.azure.management.graphrbac.BuiltInRole;
 import com.microsoft.azure.management.resources.fluentcore.arm.ResourceId;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
@@ -35,7 +69,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
 import java.util.concurrent.Callable;
 
 /**
@@ -1216,11 +1257,10 @@ abstract class WebAppBaseImpl<
         NameValuePair pair = getExistingAppSetting(NODE_VERSION_CONFIG_NAME, appSettings);
         boolean pairCreated = false;
         if (pair == null) {
-            pair = new NameValuePair();
+            pair = new NameValuePair().withName(NODE_VERSION_CONFIG_NAME);
             pairCreated = true;
         }
 
-        pair.withName(NODE_VERSION_CONFIG_NAME);
         pair.withValue(version.toString());
 
         if (pairCreated) {

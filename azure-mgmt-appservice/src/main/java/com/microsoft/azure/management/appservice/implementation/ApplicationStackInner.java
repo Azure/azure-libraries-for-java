@@ -227,8 +227,16 @@ public class ApplicationStackInner {
         return this;
     }
 
+    /**
+     * @return the properties
+     */
     public Properties properties() { return this.properties; }
 
+    /**
+     * Sets the properties associated with the application stack.
+     * @param properties the properties to be set.
+     * @return the ApplicationStackInner object itself.
+     */
     public ApplicationStackInner withProperties(Properties properties) {
         this.properties = properties;
         return this;

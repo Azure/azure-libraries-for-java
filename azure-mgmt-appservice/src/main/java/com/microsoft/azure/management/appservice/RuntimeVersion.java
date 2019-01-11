@@ -9,7 +9,6 @@ package com.microsoft.azure.management.appservice;
 import com.microsoft.azure.management.appservice.implementation.ApplicationStackInner;
 import com.microsoft.azure.management.resources.fluentcore.arm.ExpandableStringEnum;
 
-import java.util.Collection;
 
 /**
  * Defines values for Java versions.
@@ -17,73 +16,75 @@ import java.util.Collection;
 public abstract class RuntimeVersion<T extends RuntimeVersion<T>> extends ExpandableStringEnum<T>{
 
     /**
-     * Rrturns the name of the runtime
-     * @return
+     * @return Rrturns the name of the runtime.
      */
     public abstract String getRuntimeName();
 
     /**
-     * Checks if the runtime contains the version provided
-     * @param version the version to check
-     * @return true if the version is present in the enum, false otherwise
+     * Checks if the runtime contains the version provided.
+     * @param version the version to check.
+     * @return true if the version is present in the enum, false otherwise.
      */
     public abstract boolean containsVersion(String version);
 
     /**
 
-     * @param version runtime version for which we need to create the enum
+     * @param version runtime version for which we need to create the enum.
      */
     /**
-     * Creates an enum for the version of the runtime if one does not already exist
-     * @param name name of the framweork
-     * @param displayVersion display version of the runtime
-     * @param runtimeVersion runtime versin of the runtime
+     * Creates an enum for the version of the runtime if one does not already exist.
+     * @param name name of the framweork.
+     * @param displayVersion display version of the runtime.
+     * @param runtimeVersion runtime versin of the runtime.
      */
     protected abstract void createEnumFromVersionInformation(String name, String displayVersion, String runtimeVersion);
 
     /**
-     * If a subclass is interested in creating enums for the minor versions, then override this
+     * If a subclass is interested in creating enums for the minor versions, then override this.
      * function and return true;
-     * @return should we process the minor versions
+     * @return should we process the minor versions.
      */
     protected boolean shouldProcessMinorVersions() {
         return false;
     }
 
     /**
-     * If a subclass is interested in creating enums for the frameworks, then override this
-     * function and return true;
-     * @return should we process the minor versions
+     * If a subclass is interested in creating enums for the frameworks, then override this function and return true.
+     * @return should we process the minor versions.
      */
     protected boolean shouldProcessFrameworks() {
         return false;
     }
 
     /**
-     * Process the information in the framework information
-     * @param frameworkInfo, the frameework information to process
+     * Process the information in the framework information.
+     * @param frameworkInfo, the frameework information to process.
      */
     protected void processFrameWorkInformation(ApplicationStackInner.Properties frameworkInfo) {
-        for(StackMajorVersion majorVersion : frameworkInfo.majorVersions()) {
+        for (StackMajorVersion majorVersion : frameworkInfo.majorVersions()) {
             this.processRuntimeMajorVersion(frameworkInfo.name(), majorVersion);
         }
     }
 
     /**
-     * Check if we need to create enum(s) for this major version of the runtime
-     * @param name, name of the runtime
-     * @param versionInfo major bversion information
+     * Check if we need to create enum(s) for this major version of the runtime.
+     * @param name, name of the runtime.
+     * @param versionInfo major bversion information.
      */
     protected void processRuntimeMajorVersion(String name, StackMajorVersion versionInfo) {
         createEnumFromVersionInformation(name, versionInfo.displayVersion(), versionInfo.runtimeVersion());
 
         if (this.shouldProcessMinorVersions()) {
-            for(StackMinorVersion minorVersionInfo : versionInfo.minorVersions()) {
+            for( StackMinorVersion minorVersionInfo : versionInfo.minorVersions()) {
                 this.createEnumFromVersionInformation(name, minorVersionInfo.displayVersion(), minorVersionInfo.runtimeVersion());
             }
         }
     }
 
+    /**
+     * Create versions from the p[assed in data.
+     * @param appStack Latest app stack data to be processed.
+     */
     public void parseApplicationStackInner(ApplicationStackInner appStack) {
         if (getRuntimeName().equalsIgnoreCase(appStack.name())) {
             //this is ours... process it

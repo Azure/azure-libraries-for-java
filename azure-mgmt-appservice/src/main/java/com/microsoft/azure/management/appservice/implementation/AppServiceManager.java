@@ -10,7 +10,20 @@ import com.microsoft.azure.AzureEnvironment;
 import com.microsoft.azure.AzureResponseBuilder;
 import com.microsoft.azure.credentials.AzureTokenCredentials;
 import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.appservice.*;
+import com.microsoft.azure.management.appservice.AppServiceCertificateOrders;
+import com.microsoft.azure.management.appservice.AppServiceCertificates;
+import com.microsoft.azure.management.appservice.AppServiceDomains;
+import com.microsoft.azure.management.appservice.AppServicePlans;
+import com.microsoft.azure.management.appservice.AppServiceRuntimes;
+import com.microsoft.azure.management.appservice.FunctionApps;
+import com.microsoft.azure.management.appservice.JavaVersion;
+import com.microsoft.azure.management.appservice.NetFrameworkVersion;
+import com.microsoft.azure.management.appservice.NodeVersion;
+import com.microsoft.azure.management.appservice.PhpVersion;
+import com.microsoft.azure.management.appservice.PythonVersion;
+import com.microsoft.azure.management.appservice.RuntimeVersion;
+import com.microsoft.azure.management.appservice.WebApps;
+import com.microsoft.azure.management.appservice.WebContainer;
 import com.microsoft.azure.management.graphrbac.implementation.GraphRbacManager;
 import com.microsoft.azure.management.keyvault.implementation.KeyVaultManager;
 import com.microsoft.azure.management.resources.fluentcore.arm.AzureConfigurable;
@@ -206,14 +219,14 @@ public final class AppServiceManager extends Manager<AppServiceManager, WebSiteM
      *
      * @return Returns the latest Windows runtime stacks
      */
-    public Runtimes latestWindowsRuntimes() {
+    public AppServiceRuntimes latestWindowsRuntimes() {
         Hashtable<String, RuntimeVersion> variousRuntimes = new Hashtable<>();
-        variousRuntimes.put(JavaVersion.ComponentName.toLowerCase(), JavaVersion.OFF);
-        variousRuntimes.put(NodeVersion.ComponentName.toLowerCase(), NodeVersion.OFF);
-        variousRuntimes.put(WebContainer.ComponentName.toLowerCase(), WebContainer.OFF);
-        variousRuntimes.put(PythonVersion.ComponentName.toLowerCase(), PythonVersion.OFF);
-        variousRuntimes.put(PhpVersion.ComponentName.toLowerCase(), PhpVersion.OFF);
-        variousRuntimes.put(NetFrameworkVersion.ComponentName.toLowerCase(), NetFrameworkVersion.OFF);
+        variousRuntimes.put(JavaVersion.COMPONENT_NAME.toLowerCase(), JavaVersion.OFF);
+        variousRuntimes.put(NodeVersion.COMPONENT_NAME.toLowerCase(), NodeVersion.OFF);
+        variousRuntimes.put(WebContainer.COMPONENT_NAME.toLowerCase(), WebContainer.OFF);
+        variousRuntimes.put(PythonVersion.COMPONENT_NAME.toLowerCase(), PythonVersion.OFF);
+        variousRuntimes.put(PhpVersion.COMPONENT_NAME.toLowerCase(), PhpVersion.OFF);
+        variousRuntimes.put(NetFrameworkVersion.COMPONENT_NAME.toLowerCase(), NetFrameworkVersion.OFF);
 
         Iterator<ApplicationStackInner> stackIter = this.innerManagementClient.providers().getAvailableStacks("Windows").iterator();
         while (stackIter.hasNext()) {
@@ -227,7 +240,7 @@ public final class AppServiceManager extends Manager<AppServiceManager, WebSiteM
             }
         }
 
-        Runtimes runtimes = new Runtimes();
+        AppServiceRuntimesImpl runtimes = new AppServiceRuntimesImpl();
 
         runtimes.withJavaVersions(JavaVersion.values());
         runtimes.withNetFrameworkVersions(NetFrameworkVersion.values());
@@ -239,7 +252,10 @@ public final class AppServiceManager extends Manager<AppServiceManager, WebSiteM
         return runtimes;
     }
 
-    public class Runtimes {
+    /**
+     * The runtimes data to be consumed by the user.
+     */
+    public class AppServiceRuntimesImpl implements AppServiceRuntimes {
         private Collection<NetFrameworkVersion> netframeworkVersions;
         private Collection<PythonVersion> pythonVersions;
         private Collection<PhpVersion> phpVersions;
@@ -247,58 +263,102 @@ public final class AppServiceManager extends Manager<AppServiceManager, WebSiteM
         private Collection<NodeVersion> nodeVersions;
         private Collection<WebContainer> webContainers;
 
-        public Runtimes() {
+        public AppServiceRuntimesImpl() {
         }
 
-        public Runtimes withNetFrameworkVersions(Collection<NetFrameworkVersion> versions){
+        /**
+         * @param versions the NetFramweork versions.
+         * @return AppServiceRuntimesImpl object
+         */
+        public AppServiceRuntimesImpl withNetFrameworkVersions(Collection<NetFrameworkVersion> versions) {
             this.netframeworkVersions = versions;
             return this;
         }
 
-        public Runtimes withPythonVersions(Collection<PythonVersion> versions) {
+        /**
+         * @param versions the Python versions.
+         * @return AppServiceRuntimesImpl object
+         */
+        public AppServiceRuntimesImpl withPythonVersions(Collection<PythonVersion> versions) {
             this.pythonVersions = versions;
             return this;
         }
 
-        public Runtimes withPhpVersions(Collection<PhpVersion> versions) {
+        /**
+         * @param versions the Php Versions.
+         * @return AppServiceRuntimesImpl object.
+         */
+        public AppServiceRuntimesImpl withPhpVersions(Collection<PhpVersion> versions) {
             this.phpVersions = versions;
             return this;
         }
 
-        public Runtimes withJavaVersions(Collection<JavaVersion> versions) {
+        /**
+         * @param versions The Java Versions
+         * @return The runtimes object.
+         */
+        public AppServiceRuntimesImpl withJavaVersions(Collection<JavaVersion> versions) {
             this.javaVersions = versions;
             return this;
         }
 
-        public Runtimes withWebContainers(Collection<WebContainer> versions) {
+        /**
+         * @param versions The WebContainer versions
+         * @return The runtimes object.
+         */
+        public AppServiceRuntimesImpl withWebContainers(Collection<WebContainer> versions) {
             this.webContainers = versions;
             return this;
         }
 
-        public Runtimes withNodeVersions(Collection<NodeVersion> versions) {
+        /**
+         * @param versions the node versions.
+         * @return The runtimes object.
+         */
+        public AppServiceRuntimesImpl withNodeVersions(Collection<NodeVersion> versions) {
             this.nodeVersions = versions;
             return this;
         }
 
+        /**
+         * @return the netframework versions.
+         */
         public Collection<NetFrameworkVersion> NetFrameworkVersions() {
             return this.netframeworkVersions;
         }
 
+        /**
+         * @return the python versions.
+         */
         public Collection<PythonVersion> PythonVersions() {
             return this.pythonVersions;
         }
 
+        /**
+         * @return the php versions.
+         */
         public Collection<PhpVersion> PhpVersions() {
             return this.phpVersions;
         }
 
+        /**
+         * @return the java versions.
+         */
         public Collection<JavaVersion> JavaVersions() {
             return this.javaVersions;
         }
 
-        public Collection<WebContainer> Webcontainers() { return this.webContainers; }
+        /**
+         * @return The web container versions.
+         */
+        public Collection<WebContainer> Webcontainers() {
+            return this.webContainers;
+        }
 
-        public Collection<NodeVersion> NodeVersins() {
+        /**
+         * @return The node versions.
+         */
+        public Collection<NodeVersion> NodeVersions() {
             return  this.nodeVersions;
         }
     }

@@ -6,14 +6,24 @@
 
 package com.microsoft.azure.management.appservice;
 
-import com.microsoft.azure.management.resources.fluentcore.arm.ExpandableStringEnum;
-
 import java.util.Collection;
 
 /**
  * Defines values for Java web container.
  */
-public final class WebContainer extends ExpandableStringEnum<WebContainer> {
+public final class WebContainer extends RuntimeVersion<WebContainer> {
+    /**
+     * Name of the component.
+     */
+    public static final String COMPONENT_NAME = "javaContainers";
+    /**
+     * Seperator used to create the version.
+     */
+    public static final String SEPERATOR = " ";
+    /**
+     * WebContainer off setting.
+     */
+    public static final WebContainer OFF = WebContainer.fromString("null");
     /** Static value tomcat 7.0 newest for WebContainer. */
     public static final WebContainer TOMCAT_7_0_NEWEST = WebContainer.fromString("tomcat 7.0");
 
@@ -66,9 +76,70 @@ public final class WebContainer extends ExpandableStringEnum<WebContainer> {
     }
 
     /**
+     * Finds or creates a Java container version based on the specified name and version.
+     *
+     * @param name framework name
+     * @param version framework version
+     * @return framework instance version
+     */
+    public static WebContainer fromString(String name, String version) {
+        return fromString(name + SEPERATOR + version, WebContainer.class);
+    }
+
+    /**
      * @return known Web container types
      */
     public static Collection<WebContainer> values() {
         return values(WebContainer.class);
+    }
+
+    /**
+     * @return the component name.
+     */
+    @Override
+    public String getRuntimeName() {
+        return this.COMPONENT_NAME;
+    }
+
+    /**
+     * @param version the version to check
+     * @return True if the enum contains the version, false otherwise.
+     */
+    @Override
+    public boolean containsVersion(String version) {
+        for (WebContainer ver : values()) {
+            if (ver.toString().equalsIgnoreCase(version)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * @return true. This runtime processes frameworks.
+     */
+    @Override
+    protected boolean shouldProcessFrameworks() {
+        return true;
+    }
+
+    /**
+     * @return true, This runtime processes minor versions.
+     */
+    @Override
+    protected boolean shouldProcessMinorVersions() {
+        return true;
+    }
+
+    /**
+     * Create a new version enum from the passed in values if one does not already exist.
+     * @param name name of the framweork
+     * @param displayVersion display version of the runtime
+     * @param runtimeVersion runtime versin of the runtime
+     */
+    @Override
+    protected void createEnumFromVersionInformation(String name, String displayVersion, String runtimeVersion) {
+        fromString(name, runtimeVersion);
     }
 }

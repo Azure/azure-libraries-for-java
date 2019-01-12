@@ -6,17 +6,14 @@
 
 package com.microsoft.azure.management.appservice;
 
+import com.microsoft.azure.management.resources.fluentcore.arm.ExpandableStringEnum;
+
 import java.util.Collection;
 
 /**
  * Defines values for Java versions.
  */
-public final class JavaVersion extends RuntimeVersion<JavaVersion> {
-    /**
-     * Name of the component.
-     */
-    public static final String COMPONENT_NAME = "java";
-
+public final class JavaVersion extends ExpandableStringEnum<JavaVersion> {
     /** Static value 'Off' for JavaVersion. */
     public static final JavaVersion OFF = fromString("null");
 
@@ -67,49 +64,5 @@ public final class JavaVersion extends RuntimeVersion<JavaVersion> {
      */
     public static Collection<JavaVersion> values() {
         return values(JavaVersion.class);
-    }
-
-    /**
-     * @return the component name.
-     */
-    @Override
-    public String getRuntimeName() {
-        return COMPONENT_NAME;
-    }
-
-    /**
-     * @param version the version to check.
-     * @return Check if the version is present in the enum.
-     */
-    @Override
-    public boolean containsVersion(String version) {
-        for (JavaVersion ver : values()) {
-            if (ver.toString().equalsIgnoreCase(version)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * @return true. We process minor versions for this runtime.
-     */
-    @Override
-    protected boolean shouldProcessMinorVersions() {
-        return true;
-    }
-
-    /**
-     * Create a version enum from the passed in values if one does not already exist.
-     * @param name name of the framweork
-     * @param displayVersion display version of the runtime
-     * @param runtimeVersion runtime versin of the runtime
-     */
-    @Override
-    protected void createEnumFromVersionInformation(String name, String displayVersion, String runtimeVersion) {
-        if (COMPONENT_NAME.equalsIgnoreCase(name)) {
-            fromString(runtimeVersion);
-        }
     }
 }

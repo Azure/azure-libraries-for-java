@@ -29,9 +29,7 @@ import com.microsoft.azure.management.appservice.MSDeploy;
 import com.microsoft.azure.management.appservice.ManagedPipelineMode;
 import com.microsoft.azure.management.appservice.ManagedServiceIdentity;
 import com.microsoft.azure.management.appservice.ManagedServiceIdentityType;
-import com.microsoft.azure.management.appservice.NameValuePair;
 import com.microsoft.azure.management.appservice.NetFrameworkVersion;
-import com.microsoft.azure.management.appservice.NodeVersion;
 import com.microsoft.azure.management.appservice.OperatingSystem;
 import com.microsoft.azure.management.appservice.PhpVersion;
 import com.microsoft.azure.management.appservice.PlatformArchitecture;
@@ -133,8 +131,6 @@ abstract class WebAppBaseImpl<
     private boolean diagnosticLogsToUpdate;
     private FunctionalTaskItem msiHandler;
     private boolean isInCreateMode;
-
-    public static final String NODE_VERSION_CONFIG_NAME = "WEBSITE_NODE_DEFAULT_VERSION";
 
     WebAppBaseImpl(String name, SiteInner innerObject, SiteConfigResourceInner siteConfig, SiteLogsConfigInner logConfig, AppServiceManager manager) {
         super(name, innerObject, manager);
@@ -1244,50 +1240,6 @@ abstract class WebAppBaseImpl<
     }
 
     @SuppressWarnings("unchecked")
-    public FluentImplT withNodeVersion(NodeVersion version) {
-        if (siteConfig == null) {
-            siteConfig = new SiteConfigResourceInner();
-        }
-
-        List<NameValuePair> appSettings = siteConfig.appSettings();
-        if (appSettings == null) {
-            appSettings = new ArrayList<>();
-        }
-
-        NameValuePair pair = getExistingAppSetting(NODE_VERSION_CONFIG_NAME, appSettings);
-        boolean pairCreated = false;
-        if (pair == null) {
-            pair = new NameValuePair().withName(NODE_VERSION_CONFIG_NAME);
-            pairCreated = true;
-        }
-
-        pair.withValue(version.toString());
-
-        if (pairCreated) {
-            appSettings.add(pair);
-        }
-        siteConfig.withAppSettings(appSettings);
-
-        return (FluentImplT) this;
-    }
-
-    public FluentImplT withoutNodeVersion() {
-        return withNodeVersion(NodeVersion.fromString("")).withWebContainer(WebContainer.fromString(""));
-    }
-
-    private static NameValuePair getExistingAppSetting(String settingName, List<NameValuePair> settings) {
-        NameValuePair pair = null;
-
-        for (NameValuePair setting : settings) {
-            if (setting.name().equalsIgnoreCase(settingName)) {
-                pair = setting;
-                break;
-            }
-        }
-        return pair;
-    }
-
-    @SuppressWarnings("unchecked")
     public FluentImplT withWebContainer(WebContainer webContainer) {
         if (siteConfig == null) {
             siteConfig = new SiteConfigResourceInner();
@@ -1299,7 +1251,7 @@ abstract class WebAppBaseImpl<
             siteConfig.withJavaContainer("");
             siteConfig.withJavaContainerVersion("");
         } else {
-            String[] containerInfo = webContainer.toString().split(WebContainer.SEPERATOR);
+            String[] containerInfo = webContainer.toString().split(" ");
             siteConfig.withJavaContainer(containerInfo[0]);
             siteConfig.withJavaContainerVersion(containerInfo[1]);
         }
@@ -1718,7 +1670,6 @@ abstract class WebAppBaseImpl<
     public WebAppDiagnosticLogsImpl<FluentT, FluentImplT> updateDiagnosticLogsConfiguration() {
         return defineDiagnosticLogsConfiguration();
     }
-
 
     private static class PipedInputStreamWithCallback extends PipedInputStream {
         private Action0 callback;

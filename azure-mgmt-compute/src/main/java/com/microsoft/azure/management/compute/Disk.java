@@ -75,6 +75,12 @@ public interface Disk extends
     Set<AvailabilityZoneId> availabilityZones();
 
     /**
+     * @return the disk encryption settings
+     */
+    @Beta(Beta.SinceVersion.V1_19_0)
+    EncryptionSettings encryptionSettings();
+
+    /**
      * Grants access to the disk.
      *
      * @param accessDurationInSeconds the access duration in seconds

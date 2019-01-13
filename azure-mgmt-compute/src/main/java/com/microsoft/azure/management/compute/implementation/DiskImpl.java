@@ -14,6 +14,7 @@ import com.microsoft.azure.management.compute.DiskCreateOption;
 import com.microsoft.azure.management.compute.CreationSource;
 import com.microsoft.azure.management.compute.DiskSku;
 import com.microsoft.azure.management.compute.DiskSkuTypes;
+import com.microsoft.azure.management.compute.EncryptionSettings;
 import com.microsoft.azure.management.compute.GrantAccessData;
 import com.microsoft.azure.management.compute.OperatingSystemTypes;
 import com.microsoft.azure.management.compute.Snapshot;
@@ -94,6 +95,11 @@ class DiskImpl
             }
         }
         return Collections.unmodifiableSet(zones);
+    }
+
+    @Override
+    public EncryptionSettings encryptionSettings() {
+        return this.inner().encryptionSettings();
     }
 
     @Override

@@ -8,20 +8,12 @@ package com.microsoft.azure.management.appservice;
 
 import java.util.Collection;
 
+import com.microsoft.azure.management.resources.fluentcore.arm.ExpandableStringEnum;
+
 /**
  * Defines values for .NET framework version.
  */
-public final class NetFrameworkVersion extends RuntimeVersion<NetFrameworkVersion> {
-    /**
-     * Name of the component.
-     */
-    public static final String COMPONENT_NAME = "aspnet";
-
-    /**
-     * Netframework Off setting.
-     */
-    public static final NetFrameworkVersion OFF = NetFrameworkVersion.fromString("null");
-
+public final class NetFrameworkVersion extends ExpandableStringEnum<NetFrameworkVersion> {
     /** Static value v3.5 for NetFrameworkVersion. */
     public static final NetFrameworkVersion V3_0 = NetFrameworkVersion.fromString("v3.0");
 
@@ -42,42 +34,5 @@ public final class NetFrameworkVersion extends RuntimeVersion<NetFrameworkVersio
      */
     public static Collection<NetFrameworkVersion> values() {
         return values(NetFrameworkVersion.class);
-    }
-
-    /**
-     * @return The runtime name.
-     */
-    @Override
-    public String getRuntimeName() {
-        return COMPONENT_NAME;
-    }
-
-    /**
-     * @param version the version to check.
-     * @return true if the version present in the enum, false otherwise.
-     */
-    @Override
-    public boolean containsVersion(String version) {
-        for (NetFrameworkVersion ver : values()) {
-            if (ver.toString().equalsIgnoreCase(version)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * Create the enum fomr the passed in values if it does not already exist.
-     *
-     * @param name name of the framweork
-     * @param displayVersion display version of the runtime
-     * @param runtimeVersion runtime version of the runtime
-     */
-    @Override
-    protected void createEnumFromVersionInformation(String name, String displayVersion, String runtimeVersion) {
-        if (COMPONENT_NAME.equalsIgnoreCase(name)) {
-            fromString(displayVersion);
-        }
     }
 }

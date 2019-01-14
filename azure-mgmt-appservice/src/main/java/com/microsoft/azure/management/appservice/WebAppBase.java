@@ -759,13 +759,6 @@ public interface WebAppBase extends
             WithCreate<FluentT> withPythonVersion(PythonVersion version);
 
             /**
-             * Specifies the Node version.
-             * @param version the Node version
-             * @return the next stage of the definition
-             */
-            WithCreate<FluentT> withNodeVersion(NodeVersion version);
-
-            /**
              * Specifies the platform architecture to use.
              * @param platform the platform architecture
              * @return the next stage of the definition

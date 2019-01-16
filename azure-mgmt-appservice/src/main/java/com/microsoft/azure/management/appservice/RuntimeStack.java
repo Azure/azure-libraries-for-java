@@ -20,7 +20,7 @@ public class RuntimeStack extends ExpandableStringEnum<RuntimeStack> {
     /** Seperator used for joining the stack name and version. */
     private static final String SEPERATOR = "|";
 
-    /** Escape char to be appended to the SEPERATOR when using it in split*/
+    /** Escape char to be appended to the SEPERATOR when using it in split. */
     private static final String SEPERATOR_FOR_REGEX = "\\|";
 
     private static Hashtable<String, RuntimeStack> values = new Hashtable<>();
@@ -156,7 +156,7 @@ public class RuntimeStack extends ExpandableStringEnum<RuntimeStack> {
     public static RuntimeStack fromStackNameAndVersionString(String value) {
         RuntimeStack stack = null;
         if (!values.containsKey(value)) {
-            String parts[] = value.split(SEPERATOR_FOR_REGEX);
+            String[] parts = value.split(SEPERATOR_FOR_REGEX);
             if (parts.length == 2) {
                 stack =  new RuntimeStack(parts[0], parts[1]);
             }

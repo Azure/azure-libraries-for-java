@@ -64,7 +64,7 @@ public final class LinuxStackVersion extends RuntimeVersion<LinuxStackVersion> {
     }
 
     /**
-     * This entry point should never be used
+     * This entry point should never be used.
      *
      * @param name name of the framweork
      * @param displayVersion display version of the runtime

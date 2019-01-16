@@ -1,3 +1,9 @@
+/**
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT License. See License.txt in the project root for
+ * license information.
+ */
+
 package com.microsoft.azure.management.appservice.implementation;
 
 import com.microsoft.azure.management.appservice.AppServiceStacks;
@@ -30,7 +36,7 @@ class AppServiceStacksImpl implements AppServiceStacks {
     /**
      * @param appServiceManager The manager
      */
-    public AppServiceStacksImpl(AppServiceManager appServiceManager) {
+    AppServiceStacksImpl(AppServiceManager appServiceManager) {
         this.manager = appServiceManager;
     }
 
@@ -80,7 +86,7 @@ class AppServiceStacksImpl implements AppServiceStacks {
             linuxStacks = new HashSet<>();
         }
 
-        while(stackIter.hasNext()) {
+        while (stackIter.hasNext()) {
             ApplicationStackInner stack = stackIter.next();
 
             for (StackMajorVersion majorVersion : stack.properties().majorVersions()) {

@@ -8,7 +8,6 @@ package com.microsoft.azure.management.appservice;
 
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.resources.fluentcore.arm.ExpandableStringEnum;
-import com.sun.javaws.exceptions.InvalidArgumentException;
 
 import java.security.InvalidParameterException;
 import java.util.Hashtable;

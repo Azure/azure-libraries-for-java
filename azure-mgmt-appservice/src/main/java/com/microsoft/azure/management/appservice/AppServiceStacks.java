@@ -8,7 +8,6 @@ package com.microsoft.azure.management.appservice;
 import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 
-import java.util.Collection;
 import java.util.Set;
 
 /**

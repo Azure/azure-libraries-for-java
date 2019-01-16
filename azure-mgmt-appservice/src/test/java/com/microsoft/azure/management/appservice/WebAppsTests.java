@@ -17,6 +17,7 @@ import org.junit.Test;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 public class WebAppsTests extends AppServiceTest {
     private static String RG_NAME_1 = "";
@@ -158,7 +159,7 @@ public class WebAppsTests extends AppServiceTest {
     }
 
     @Test
-    public void canUpdateRuntimes() {
+    public void canUpdateWindowsRuntimes() {
 
         //Get the runtime data and check that all the altest runtimes do have it
         ProvidersInner providerInner = new ProvidersInner(restClient.retrofit(), new WebSiteManagementClientImpl(restClient)
@@ -167,9 +168,9 @@ public class WebAppsTests extends AppServiceTest {
         Iterator<ApplicationStackInner> stackIter = providerInner.getAvailableStacks("Windows").iterator();
 
         //Get the runtimes from appSvcManager
-        AppServiceRuntimes runtimes = appServiceManager.latestWindowsRuntimes();
+        WindowsAppServiceStacks runtimes = appServiceManager.appServiceStacks().getLatestWindowsStacks();
 
-        //Check if all the AppServiceRuntimesImpl returned by the providerInner are present in the runtimes
+        //Check if all the WindowsAppServiceStacksImpl returned by the providerInner are present in the runtimes
         while (stackIter.hasNext()) {
             ApplicationStackInner stackInfo = stackIter.next();
 
@@ -178,6 +179,30 @@ public class WebAppsTests extends AppServiceTest {
                 valuesNotFound = checkJavaContainerEnumContainsAllValues(stackInfo.properties().frameworks(), runtimes.webContainers());
             } else {
                 valuesNotFound = checkRuntimeContainsValues(stackInfo.name(), stackInfo.properties().majorVersions(), runtimes);
+            }
+
+            Assert.assertNull(valuesNotFound);
+        }
+    }
+
+    @Test
+    public void canUpdateLinuxRuntimes() {
+        //Get the runtime data and check that all the altest runtimes do have it
+        ProvidersInner providerInner = new ProvidersInner(restClient.retrofit(), new WebSiteManagementClientImpl(restClient)
+                .withSubscriptionId(appServiceManager.subscriptionId()));
+
+        Iterator<ApplicationStackInner> stackIter = providerInner.getAvailableStacks("Linux").iterator();
+
+        Set<RuntimeStack> linuxStacks = appServiceManager.appServiceStacks().listLatestLinuxStacks();
+
+        while (stackIter.hasNext()) {
+            ApplicationStackInner stackInfo = stackIter.next();
+
+            String valuesNotFound = null;
+            for (StackMajorVersion majorVersion : stackInfo.properties().majorVersions()) {
+                if (!RuntimeStack.alreadyCreated(majorVersion.runtimeVersion())) {
+                    valuesNotFound += "\'" + majorVersion.runtimeVersion() + "\' ";
+                }
             }
 
             Assert.assertNull(valuesNotFound);
@@ -210,7 +235,7 @@ public class WebAppsTests extends AppServiceTest {
         return valuesNotFound;
     }
 
-    private String checkRuntimeContainsValues(String runtimeName, List<StackMajorVersion> majorVersions, AppServiceRuntimes runtimes) {
+    private String checkRuntimeContainsValues(String runtimeName, List<StackMajorVersion> majorVersions, WindowsAppServiceStacks runtimes) {
         String valuesNotFound = null;
         boolean checkMinorVersion = false;
         boolean checkRuntimeVersion = true;

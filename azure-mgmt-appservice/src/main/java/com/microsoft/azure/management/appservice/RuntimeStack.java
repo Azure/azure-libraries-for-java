@@ -7,12 +7,25 @@
 package com.microsoft.azure.management.appservice;
 
 import com.microsoft.azure.management.apigeneration.Fluent;
+import com.microsoft.azure.management.resources.fluentcore.arm.ExpandableStringEnum;
+import com.sun.javaws.exceptions.InvalidArgumentException;
+
+import java.security.InvalidParameterException;
+import java.util.Hashtable;
 
 /**
  * Defines App service pricing tiers.
  */
 @Fluent(ContainerName = "/Microsoft.Azure.Management.AppService.Fluent")
-public class RuntimeStack {
+public class RuntimeStack extends ExpandableStringEnum<RuntimeStack> {
+    /** Seperator used for joining the stack name and version. */
+    private static final String SEPERATOR = "|";
+
+    /** Escape char to be appended to the SEPERATOR when using it in split*/
+    private static final String SEPERATOR_FOR_REGEX = "\\|";
+
+    private static Hashtable<String, RuntimeStack> values = new Hashtable<>();
+
     /** Ruby 2.3. */
     public static final RuntimeStack RUBY_2_3 = new RuntimeStack("RUBY", "2.3");
 
@@ -114,15 +127,55 @@ public class RuntimeStack {
     /** The version of the runtime. */
     private String version;
 
+    /** The linux version enum corresponding to this value. */
+    private LinuxStackVersion linuxVersionEnum;
+
     /**
      * Creates a custom app service pricing tier.
      * @param stack the name of the language stack
      * @param version the version of the runtime
      */
     public RuntimeStack(String stack, String version) {
-        this.stack = stack;
-        this.version = version;
+        String key = stack + SEPERATOR + version;
+        if (values.containsKey(key)) {
+            //throw an exception here
+            throw new InvalidParameterException("Runtime with passed in stack and version already exists");
+        } else {
+            this.stack = stack;
+            this.version = version;
+            this.linuxVersionEnum = LinuxStackVersion.fromString(key);
+
+            values.put(key, this);
+        }
     }
+
+    /**
+     * Creates a RuntimeStack from the stack and version passed in.
+     * @param value The stack and version in the format "<stack>|<version>"
+     * @return if the value passed in does not exist already and is formatted properly then a new runtimeStack instance, null otherwise.
+     */
+    public static RuntimeStack fromStackNameAndVersionString(String value) {
+        RuntimeStack stack = null;
+        if (!values.containsKey(value)) {
+            String parts[] = value.split(SEPERATOR_FOR_REGEX);
+            if (parts.length == 2) {
+                stack =  new RuntimeStack(parts[0], parts[1]);
+            }
+        } else {
+            stack = values.get(value);
+        }
+
+        return stack;
+    }
+
+    /**
+     * @param value The stack and version in the format "<stack>|<version>."
+     * @return true if a RuntimeStack with the passed in value exists, false otherwise.
+     */
+    public static boolean alreadyCreated(String value) {
+        return values.containsKey(value);
+    }
+
 
     /**
      * @return the name of the language runtime stack
@@ -136,6 +189,13 @@ public class RuntimeStack {
      */
     public String version() {
         return version;
+    }
+
+    /**
+     * @return the linuxVersion enum.
+     */
+    public LinuxStackVersion linuxStackVersion() {
+        return linuxVersionEnum;
     }
 
     @Override

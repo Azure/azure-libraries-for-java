@@ -15,7 +15,7 @@ import java.util.Collection;
  */
 @Fluent(ContainerName = "/Microsoft.Azure.Management.AppService.Fluent")
 @Beta
-public interface AppServiceRuntimes {
+public interface WindowsAppServiceStacks {
     /**
      * @return the netframework versions.
      */

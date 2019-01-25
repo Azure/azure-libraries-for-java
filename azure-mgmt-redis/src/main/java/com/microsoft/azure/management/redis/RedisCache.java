@@ -110,6 +110,20 @@ public interface RedisCache extends
     Map<String, RedisFirewallRule> firewallRules();
 
     /**
+     * @return List of patch schedules for current Redis Cache.
+     */
+    @Beta(Beta.SinceVersion.V1_12_0)
+    List<ScheduleEntry> patchSchedules();
+
+    /**
+     * Reboot specified Redis node(s). This operation requires write permission to the cache resource. There can be potential data loss.
+     *
+     * @param rebootType specifies which Redis node(s) to reboot. Depending on this value data loss is
+     *                   possible. Possible values include: 'PrimaryNode', 'SecondaryNode', 'AllNodes'.
+     */
+    void forceReboot(RebootType rebootType);
+
+    /**
      * @return a Redis Cache's access keys. This operation requires write permission to the Cache resource.
      */
     @Method
@@ -289,6 +303,41 @@ public interface RedisCache extends
               */
              @Beta(Beta.SinceVersion.V1_12_0)
              WithCreate withMinimumTlsVersion(TlsVersion tlsVersion);
+
+             /**
+              * Patch schedule on a Premium Cluster Cache.
+              *
+              * @param dayOfWeek day of week when cache can be patched.
+              * @param startHourUtc start hour after which cache patching can start.
+              * @return the next stage of Redis Cache with Premium SKU definition.
+              */
+             WithCreate withPatchSchedule(DayOfWeek dayOfWeek, int startHourUtc);
+
+             /**
+              * Patch schedule on a Premium Cluster Cache.
+              *
+              * @param dayOfWeek day of week when cache can be patched.
+              * @param startHourUtc start hour after which cache patching can start.
+              * @param maintenanceWindow ISO8601 timespan specifying how much time cache patching can take.
+              * @return the next stage of Redis Cache with Premium SKU definition.
+              */
+             WithCreate withPatchSchedule(DayOfWeek dayOfWeek, int startHourUtc, Period maintenanceWindow);
+
+             /**
+              * Patch schedule on a Premium Cluster Cache.
+              *
+              * @param scheduleEntry Patch schedule entry for Premium Redis Cache.
+              * @return the next stage of Redis Cache with Premium SKU definition.
+              */
+             WithCreate withPatchSchedule(ScheduleEntry scheduleEntry);
+
+             /**
+              * Patch schedule on a Premium Cluster Cache.
+              *
+              * @param scheduleEntry List of patch schedule entries for Premium Redis Cache.
+              * @return the next stage of Redis Cache with Premium SKU definition.
+              */
+             WithCreate withPatchSchedule(List<ScheduleEntry> scheduleEntry);
         }
 
         /**
@@ -303,41 +352,6 @@ public interface RedisCache extends
              * @return the next stage of Redis Cache with Premium SKU definition.
              */
             WithPremiumSkuCreate withShardCount(int shardCount);
-
-            /**
-             * Patch schedule on a Premium Cluster Cache.
-             *
-             * @param dayOfWeek day of week when cache can be patched.
-             * @param startHourUtc start hour after which cache patching can start.
-             * @return the next stage of Redis Cache with Premium SKU definition.
-             */
-            WithPremiumSkuCreate withPatchSchedule(DayOfWeek dayOfWeek, int startHourUtc);
-
-            /**
-             * Patch schedule on a Premium Cluster Cache.
-             *
-             * @param dayOfWeek day of week when cache can be patched.
-             * @param startHourUtc start hour after which cache patching can start.
-             * @param maintenanceWindow ISO8601 timespan specifying how much time cache patching can take.
-             * @return the next stage of Redis Cache with Premium SKU definition.
-             */
-            WithPremiumSkuCreate withPatchSchedule(DayOfWeek dayOfWeek, int startHourUtc, Period maintenanceWindow);
-
-            /**
-             * Patch schedule on a Premium Cluster Cache.
-             *
-             * @param scheduleEntry Patch schedule entry for Premium Redis Cache.
-             * @return the next stage of Redis Cache with Premium SKU definition.
-             */
-            WithPremiumSkuCreate withPatchSchedule(ScheduleEntry scheduleEntry);
-
-            /**
-             * Patch schedule on a Premium Cluster Cache.
-             *
-             * @param scheduleEntry List of patch schedule entries for Premium Redis Cache.
-             * @return the next stage of Redis Cache with Premium SKU definition.
-             */
-            WithPremiumSkuCreate withPatchSchedule(List<ScheduleEntry> scheduleEntry);
 
             /**
              * Assigns the specified subnet to this instance of Redis Cache.

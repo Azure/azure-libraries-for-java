@@ -27,14 +27,6 @@ public interface RedisCachePremium extends RedisCache {
     void forceReboot(RebootType rebootType, int shardId);
 
     /**
-     * Reboot specified Redis node(s). This operation requires write permission to the cache resource. There can be potential data loss.
-     *
-     * @param rebootType specifies which Redis node(s) to reboot. Depending on this value data loss is
-     *                   possible. Possible values include: 'PrimaryNode', 'SecondaryNode', 'AllNodes'.
-     */
-    void forceReboot(RebootType rebootType);
-
-    /**
      * Import data into Redis Cache.
      *
      * @param files      files to import.
@@ -72,12 +64,6 @@ public interface RedisCachePremium extends RedisCache {
      */
     @Method
     List<ScheduleEntry> listPatchSchedules();
-
-    /**
-     * @return List of patch schedules for current Redis Cache.
-     */
-    @Beta(Beta.SinceVersion.V1_12_0)
-    List<ScheduleEntry> patchSchedules();
 
     /**
      * Deletes the patching schedule for Redis Cache.

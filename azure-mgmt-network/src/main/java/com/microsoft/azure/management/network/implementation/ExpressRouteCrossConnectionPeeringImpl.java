@@ -7,10 +7,8 @@ package com.microsoft.azure.management.network.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.network.ExpressRouteCircuitPeeringConfig;
-import com.microsoft.azure.management.network.ExpressRouteCircuitPeeringState;
 import com.microsoft.azure.management.network.ExpressRouteCrossConnection;
 import com.microsoft.azure.management.network.ExpressRouteCrossConnectionPeering;
-import com.microsoft.azure.management.network.ExpressRouteCrossConnectionPeering.DefinitionStages.WithCreate;
 import com.microsoft.azure.management.network.ExpressRoutePeeringState;
 import com.microsoft.azure.management.network.ExpressRoutePeeringType;
 import com.microsoft.azure.management.network.Ipv6ExpressRouteCircuitPeeringConfig;

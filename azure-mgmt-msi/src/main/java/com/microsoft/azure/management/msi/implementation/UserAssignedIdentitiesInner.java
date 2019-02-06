@@ -43,7 +43,7 @@ import rx.Observable;
  * An instance of this class provides access to all the operations defined
  * in UserAssignedIdentities.
  */
-public class UserAssignedIdentitiesInner implements InnerSupportsGet<IdentityInner>, InnerSupportsDelete<IdentityInner>, InnerSupportsListing<IdentityInner> {
+public class UserAssignedIdentitiesInner implements InnerSupportsGet<IdentityInner>, InnerSupportsDelete<Void>, InnerSupportsListing<IdentityInner> {
     /** The Retrofit service to perform REST calls. */
     private UserAssignedIdentitiesService service;
     /** The service client containing this operation class. */
@@ -604,10 +604,9 @@ public class UserAssignedIdentitiesInner implements InnerSupportsGet<IdentityInn
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the IdentityInner object if successful.
      */
-    public IdentityInner delete(String resourceGroupName, String resourceName) {
-        return deleteWithServiceResponseAsync(resourceGroupName, resourceName).toBlocking().single().body();
+    public void delete(String resourceGroupName, String resourceName) {
+        deleteWithServiceResponseAsync(resourceGroupName, resourceName).toBlocking().single().body();
     }
 
     /**
@@ -619,7 +618,7 @@ public class UserAssignedIdentitiesInner implements InnerSupportsGet<IdentityInn
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<IdentityInner> deleteAsync(String resourceGroupName, String resourceName, final ServiceCallback<IdentityInner> serviceCallback) {
+    public ServiceFuture<Void> deleteAsync(String resourceGroupName, String resourceName, final ServiceCallback<Void> serviceCallback) {
         return ServiceFuture.fromResponse(deleteWithServiceResponseAsync(resourceGroupName, resourceName), serviceCallback);
     }
 
@@ -629,12 +628,12 @@ public class UserAssignedIdentitiesInner implements InnerSupportsGet<IdentityInn
      * @param resourceGroupName The name of the Resource Group to which the identity belongs.
      * @param resourceName The name of the identity resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the IdentityInner object
+     * @return the {@link ServiceResponse} object if successful.
      */
-    public Observable<IdentityInner> deleteAsync(String resourceGroupName, String resourceName) {
-        return deleteWithServiceResponseAsync(resourceGroupName, resourceName).map(new Func1<ServiceResponse<IdentityInner>, IdentityInner>() {
+    public Observable<Void> deleteAsync(String resourceGroupName, String resourceName) {
+        return deleteWithServiceResponseAsync(resourceGroupName, resourceName).map(new Func1<ServiceResponse<Void>, Void>() {
             @Override
-            public IdentityInner call(ServiceResponse<IdentityInner> response) {
+            public Void call(ServiceResponse<Void> response) {
                 return response.body();
             }
         });
@@ -646,9 +645,9 @@ public class UserAssignedIdentitiesInner implements InnerSupportsGet<IdentityInn
      * @param resourceGroupName The name of the Resource Group to which the identity belongs.
      * @param resourceName The name of the identity resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the IdentityInner object
+     * @return the {@link ServiceResponse} object if successful.
      */
-    public Observable<ServiceResponse<IdentityInner>> deleteWithServiceResponseAsync(String resourceGroupName, String resourceName) {
+    public Observable<ServiceResponse<Void>> deleteWithServiceResponseAsync(String resourceGroupName, String resourceName) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
@@ -662,11 +661,11 @@ public class UserAssignedIdentitiesInner implements InnerSupportsGet<IdentityInn
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
         return service.delete(this.client.subscriptionId(), resourceGroupName, resourceName, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<IdentityInner>>>() {
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
-                public Observable<ServiceResponse<IdentityInner>> call(Response<ResponseBody> response) {
+                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<IdentityInner> clientResponse = deleteDelegate(response);
+                        ServiceResponse<Void> clientResponse = deleteDelegate(response);
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -675,9 +674,9 @@ public class UserAssignedIdentitiesInner implements InnerSupportsGet<IdentityInn
             });
     }
 
-    private ServiceResponse<IdentityInner> deleteDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<IdentityInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<IdentityInner>() { }.getType())
+    private ServiceResponse<Void> deleteDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<Void>() { }.getType())
                 .register(204, new TypeToken<Void>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
